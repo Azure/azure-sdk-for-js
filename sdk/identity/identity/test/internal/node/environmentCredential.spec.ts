@@ -8,7 +8,7 @@ import { assert } from "chai";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { EnvironmentCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
+import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import { Context } from "mocha";
 
 describe("EnvironmentCredential (internal)", function() {

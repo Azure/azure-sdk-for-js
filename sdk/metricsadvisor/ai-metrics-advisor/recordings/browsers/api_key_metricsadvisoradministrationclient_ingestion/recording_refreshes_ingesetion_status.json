@@ -4,18 +4,18 @@
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query",
    "query": {},
-   "requestBody": "{\"startTime\":\"2020-08-22T00:00:00.000Z\",\"endTime\":\"2020-08-23T00:00:00.000Z\"}",
+   "requestBody": "{\"startTime\":\"2020-10-30T00:00:00.000Z\",\"endTime\":\"2020-11-01T00:00:00.000Z\"}",
    "status": 200,
-   "response": "{\"value\":[{\"timestamp\":\"2020-08-22T00:00:00Z\",\"status\":\"NotStarted\",\"message\":\"Pending Retry. \",\"lastAttemptTime\":\"2021-06-02T06:43:31Z\"}]}",
+   "response": "{\"value\":[{\"timestamp\":\"2020-10-31T00:00:00Z\",\"status\":\"Running\",\"message\":\"\"},{\"timestamp\":\"2020-10-30T00:00:00Z\",\"status\":\"Running\",\"message\":\"\"}]}",
    "responseHeaders": {
-    "apim-request-id": "f4776dc5-2d86-4a15-853e-5703409214f9",
-    "content-length": "139",
+    "apim-request-id": "afc89d26-a90f-4072-a31a-688f5ccd8c60",
+    "content-length": "149",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 17:32:15 GMT",
+    "date": "Tue, 16 Nov 2021 02:00:58 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "268",
-    "x-request-id": "f4776dc5-2d86-4a15-853e-5703409214f9"
+    "x-envoy-upstream-service-time": "280",
+    "x-request-id": "afc89d26-a90f-4072-a31a-688f5ccd8c60"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "2e36aa5063246f2304504cb8d7236b8a"
+ "hash": "0b10ce50869d5977916fc7709b138bb3"
 }

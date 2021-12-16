@@ -8,12 +8,10 @@
 const path = require("path");
 require("dotenv").config();
 
-const { SasTokenPermissionKind } = require("../dist-esm/common/constants");
-const { createAuthorizationSasToken } = require("../dist-esm/utils/SasToken");
+const { CosmosClient, createAuthorizationSasToken, SasTokenPermissionKind } = require("@azure/cosmos");
 const { handleError, finish, logStep } = require("./Shared/handleError");
-const { CosmosClient } = require("../dist-esm/CosmosClient");
-
-const { COSMOS_ENDPOINT: endpoint, COSMOS_KEY: masterKey } = process.env;
+const masterKey = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const sasToken = "your-sas-token";
 
 async function run() {
@@ -32,7 +30,7 @@ async function run() {
     controlPlaneReaderScope: SasTokenPermissionKind.ContainerFullAccess,
     controlPlaneWriterScope: 0,
     dataPlaneReaderScope: SasTokenPermissionKind.ContainerFullAccess,
-    dataPlaneWriterScope: 0
+    dataPlaneWriterScope: 0,
   };
 
   const key = await createAuthorizationSasToken(masterKey, sasTokenProperties);
@@ -41,7 +39,7 @@ async function run() {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
   const client = new CosmosClient({
     endpoint,
-    key: key
+    key: key,
   });
 
   const database = client.database(sasTokenProperties.databaseName);
@@ -51,11 +49,11 @@ async function run() {
     category: "your-category",
     name: "your-name",
     description: "your-description",
-    isComplete: false
+    isComplete: false,
   };
 
   const querySpec = {
-    query: "SELECT * from c"
+    query: "SELECT * from c",
   };
 
   await container.items.create(newItem);
@@ -72,7 +70,7 @@ async function run() {
   logStep("Fetch all databases using existing user token");
   const sasTokenClient = new CosmosClient({
     endpoint,
-    key: sasToken
+    key: sasToken,
   });
 
   logStep("Fetch all databases");

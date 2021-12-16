@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
+// eslint-disable-next-line @typescript-eslint/no-namespace
 declare global {
   // stub these out for the browser
   function btoa(input: string): string;
@@ -39,4 +39,12 @@ export function decodeString(value: string): Uint8Array {
     arr[i] = byteString.charCodeAt(i);
   }
   return arr;
+}
+
+/**
+ * Decodes a base64 string into a string.
+ * @param value - the base64 string to decode
+ */
+export function decodeStringToString(value: string): string {
+  return atob(value);
 }

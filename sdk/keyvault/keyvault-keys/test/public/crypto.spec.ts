@@ -190,6 +190,12 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
 
   describe("RSA-HSM keys", () => {
     beforeEach(async function(this: Context) {
+      if (isLiveMode() && env.KEYVAULT_SKU !== "premium") {
+        // RSA-HSM keys are only available in the premium KeyVault SKU which is not
+        // available in all clouds.
+        this.skip();
+      }
+
       const authentication = await authenticate(this, getServiceVersion());
       client = authentication.client;
       recorder = authentication.recorder;
@@ -205,7 +211,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       if (!this.currentTest?.isPending()) {
         await testClient.flushKey(keyName);
       }
-      await recorder.stop();
+      await recorder?.stop();
     });
 
     it("encrypt & decrypt with an RSA-HSM key and the RSA-OAEP algorithm", async function(this: Context) {

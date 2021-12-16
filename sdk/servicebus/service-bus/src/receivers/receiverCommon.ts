@@ -65,14 +65,14 @@ export async function* getMessageIterator(
  */
 export function wrapProcessErrorHandler(
   handlers: Pick<MessageHandlers, "processError">,
-  logger: ServiceBusLogger = receiverLogger
+  loggerParam: ServiceBusLogger = receiverLogger
 ): MessageHandlers["processError"] {
   return async (args: ProcessErrorArgs) => {
     try {
       args.error = translateServiceBusError(args.error);
       await handlers.processError(args);
     } catch (err) {
-      logger.logError(err, `An error was thrown from the user's processError handler`);
+      loggerParam.logError(err, `An error was thrown from the user's processError handler`);
     }
   };
 }
@@ -280,7 +280,7 @@ export interface RetryForeverArgs<T> {
 }
 
 /**
- * Retry infinitely until success, reporting in between retry<> attempts.
+ * Retry infinitely until success, reporting in between retry attempts.
  *
  * This function will only stop retrying if:
  * - args.retryConfig.operation resolves successfully
@@ -296,6 +296,7 @@ export async function retryForever<T>(
 
   // The retries are broken up into cycles, giving the user some control over how often
   // we actually attempt to retry.
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     ++numRetryCycles;
 
@@ -314,8 +315,8 @@ export async function retryForever<T>(
       // redundant reports of errors while still providing them incremental status on failures.
       try {
         args.onError(err);
-      } catch (err) {
-        logger.error("args.onerror has thrown", err);
+      } catch (error) {
+        logger.error("args.onerror has thrown", error);
       }
 
       args.logger.logError(

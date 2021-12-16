@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+/**
+ * A set of constants used internally when processing requests.
+ */
 export const Constants = {
   /**
    * The core-http version
    */
-  coreHttpVersion: "2.2.2",
+  coreHttpVersion: "2.2.3",
 
   /**
    * Specifies HTTP.

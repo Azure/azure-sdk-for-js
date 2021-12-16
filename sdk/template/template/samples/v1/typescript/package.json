@@ -29,7 +29,7 @@
   "dependencies": {
     "@azure/template": "next",
     "dotenv": "latest",
-    "@azure/identity": "^1.1.0"
+    "@azure/identity": "^2.0.1"
   },
   "devDependencies": {
     "typescript": "~4.1.2",

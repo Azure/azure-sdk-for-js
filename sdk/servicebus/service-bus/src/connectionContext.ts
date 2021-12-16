@@ -114,6 +114,7 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
  * @internal
  * Helper type to get the names of all the functions on an object.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
 /**
  * @internal
@@ -178,7 +179,7 @@ async function callOnDetachedOnSessionReceivers(
   connectionContext: ConnectionContext,
   contextOrConnectionError: Error | ConnectionError | AmqpError | undefined
 ): Promise<void[]> {
-  const getSessionError = (sessionId: string, entityPath: string) => {
+  const getSessionError = (sessionId: string, entityPath: string): ServiceBusError => {
     const sessionInfo =
       `The receiver for session "${sessionId}" in "${entityPath}" has been closed and can no longer be used. ` +
       `Please create a new receiver using the "acceptSession" or "acceptNextSession" method on the ServiceBusClient.`;
@@ -243,6 +244,7 @@ function getNumberOfReceivers(
 /**
  * @internal
  */
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ConnectionContext {
   export function create(
     config: ConnectionConfig,
@@ -575,7 +577,7 @@ export namespace ConnectionContext {
       );
     }
 
-    function addConnectionListeners(connection: Connection) {
+    function addConnectionListeners(connection: Connection): void {
       // Add listeners on the connection object.
       connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
       connection.on(ConnectionEvents.disconnected, disconnected);
@@ -583,7 +585,7 @@ export namespace ConnectionContext {
       connection.on(ConnectionEvents.error, error);
     }
 
-    async function cleanConnectionContext() {
+    async function cleanConnectionContext(): Promise<void> {
       // Remove listeners from the connection object.
       connectionContext.connection.removeListener(
         ConnectionEvents.connectionOpen,
@@ -617,37 +619,19 @@ export namespace ConnectionContext {
     try {
       logger.verbose(`${logPrefix} Permanently closing the amqp connection on the client.`);
 
-      // Close all the senders.
       const senderNames = Object.keys(context.senders);
-      logger.verbose(`${logPrefix} Permanently closing ${senderNames.length} senders.`);
-      for (const senderName of senderNames) {
-        await context.senders[senderName].close();
-      }
-
-      // Close all MessageReceiver instances
       const messageReceiverNames = Object.keys(context.messageReceivers);
-      logger.verbose(`${logPrefix} Permanently closing ${messageReceiverNames.length} receivers.`);
-      for (const receiverName of messageReceiverNames) {
-        await context.messageReceivers[receiverName].close();
-      }
-
-      // Close all MessageSession instances
       const messageSessionNames = Object.keys(context.messageSessions);
-      logger.verbose(
-        `${logPrefix} Permanently closing ${messageSessionNames.length} session receivers.`
-      );
-      for (const messageSessionName of messageSessionNames) {
-        await context.messageSessions[messageSessionName].close();
-      }
-
-      // Close all the ManagementClients.
       const managementClientsEntityPaths = Object.keys(context.managementClients);
       logger.verbose(
-        `${logPrefix} Permanently closing ${managementClientsEntityPaths.length} session receivers.`
+        `${logPrefix} Permanently closing all the senders(${senderNames.length}), MessageReceivers(${messageReceiverNames.length}), MessageSessions(${messageSessionNames.length}), and ManagementClients(${managementClientsEntityPaths.length}).`
       );
-      for (const entityPath of managementClientsEntityPaths) {
-        await context.managementClients[entityPath].close();
-      }
+      await Promise.all([
+        ...senderNames.map((n) => context.senders[n].close()),
+        ...messageReceiverNames.map((n) => context.messageReceivers[n].close()),
+        ...messageSessionNames.map((n) => context.messageSessions[n].close()),
+        ...managementClientsEntityPaths.map((p) => context.managementClients[p].close())
+      ]);
 
       logger.verbose(`${logPrefix} Permanently closing cbsSession`);
       await context.cbsSession.close();

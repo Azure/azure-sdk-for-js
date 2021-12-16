@@ -14,7 +14,7 @@ interface ServiceClientGetOptions {
 export class ServiceClientGetTest extends PerfTest<ServiceClientGetOptions> {
   client: ServiceClient;
   request: PipelineRequest;
-  firstRun: boolean = true;
+  firstRun = true;
 
   public options: PerfOptionDictionary<ServiceClientGetOptions> = {
     "first-run-extra-requests": {
@@ -34,8 +34,8 @@ export class ServiceClientGetTest extends PerfTest<ServiceClientGetOptions> {
   constructor() {
     super();
 
-    const url = this.parsedOptions.url.value as string;
-    const insecure = this.parsedOptions.insecure.value as boolean;
+    const url = this.parsedOptions.url.value;
+    const insecure = this.parsedOptions.insecure.value;
 
     this.client = this.configureClient(new ServiceClient());
     this.request = createPipelineRequest({
@@ -50,18 +50,20 @@ export class ServiceClientGetTest extends PerfTest<ServiceClientGetOptions> {
   }
 
   async run(): Promise<void> {
-    var response;
+    let response;
 
     if (this.firstRun) {
       const extraRequests = this.parsedOptions["first-run-extra-requests"].value as number;
-      for (var i = 0; i < extraRequests; i++) {
+      for (let i = 0; i < extraRequests; i++) {
         response = await this.client.sendRequest(this.request);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         await drainStream(response.readableStreamBody!);
       }
       this.firstRun = false;
     }
 
     response = await this.client.sendRequest(this.request);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await drainStream(response.readableStreamBody!);
   }
 }

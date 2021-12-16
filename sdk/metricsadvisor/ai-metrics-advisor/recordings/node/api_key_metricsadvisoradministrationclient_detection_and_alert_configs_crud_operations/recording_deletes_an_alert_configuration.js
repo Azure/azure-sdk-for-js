@@ -1,45 +1,45 @@
 let nock = require('nock');
 
-module.exports.hash = "92461016236353b27959e8d6297a3efe";
+module.exports.hash = "536383fbbe259a2e561915c459a152c3";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/alert/anomaly/configurations/5130d48a-0b41-4838-b589-d72178f20554')
+  .delete('/metricsadvisor/v1.0/alert/anomaly/configurations/dc77a835-8161-416a-bd73-035d5e49b69d')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  'f2b6f8e7-b9a3-4b89-a9f4-1360dcf4dcaa',
+  '1be9d8d6-4646-4248-b591-8773a9b8bec6',
   'x-envoy-upstream-service-time',
-  '145',
+  '142',
   'apim-request-id',
-  'f2b6f8e7-b9a3-4b89-a9f4-1360dcf4dcaa',
+  '1be9d8d6-4646-4248-b591-8773a9b8bec6',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 17:31:53 GMT'
+  'Tue, 16 Nov 2021 00:32:15 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/alert/anomaly/configurations/5130d48a-0b41-4838-b589-d72178f20554')
-  .reply(404, {"code":"Not Found","message":"Not found this AnomalyAlertingConfiguration. TraceId: 7c4e8a2d-c040-4855-901a-b0a03b45bc80"}, [
+  .get('/metricsadvisor/v1.0/alert/anomaly/configurations/dc77a835-8161-416a-bd73-035d5e49b69d')
+  .reply(404, {"code":"Not Found","message":"Not found this AnomalyAlertingConfiguration. TraceId: 0344fbeb-4ed0-4662-9b09-1673f5e4bd52"}, [
   'Content-Length',
   '123',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '062b2bd1-90f9-43da-b13d-f319c6dab320',
+  '0344fbeb-4ed0-4662-9b09-1673f5e4bd52',
   'x-envoy-upstream-service-time',
-  '69',
+  '85',
   'apim-request-id',
-  '062b2bd1-90f9-43da-b13d-f319c6dab320',
+  '0344fbeb-4ed0-4662-9b09-1673f5e4bd52',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 17:31:53 GMT'
+  'Tue, 16 Nov 2021 00:32:15 GMT'
 ]);

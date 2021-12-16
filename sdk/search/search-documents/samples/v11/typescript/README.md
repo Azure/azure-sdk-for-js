@@ -21,8 +21,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [dataSourceConnectionOperations.ts][datasourceconnectionoperations] | Demonstrates the DataSource Connection Operations.                           |
 | [indexOperations.ts][indexoperations]                               | Demonstrates the Index Operations.                                           |
 | [indexerOperations.ts][indexeroperations]                           | Demonstrates the Indexer Operations.                                         |
-| [interfaces.ts][interfaces]                                         | Defines the Hotel Interface.                                                 |
-| [setup.ts][setup]                                                   | Defines the utility methods.                                                 |
 | [skillSetOperations.ts][skillsetoperations]                         | Demonstrates the Skillset Operations.                                        |
 | [synonymMapOperations.ts][synonymmapoperations]                     | Demonstrates the SynonymMap Operations.                                      |
 
@@ -84,8 +82,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [datasourceconnectionoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/typescript/src/dataSourceConnectionOperations.ts
 [indexoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/typescript/src/indexOperations.ts
 [indexeroperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/typescript/src/indexerOperations.ts
-[interfaces]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/typescript/src/interfaces.ts
-[setup]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/typescript/src/setup.ts
 [skillsetoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/typescript/src/skillSetOperations.ts
 [synonymmapoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/typescript/src/synonymMapOperations.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/search-documents

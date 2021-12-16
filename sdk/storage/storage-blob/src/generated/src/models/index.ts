@@ -231,7 +231,7 @@ export interface BlobFlatListSegment {
 
 /** An Azure Storage blob */
 export interface BlobItemInternal {
-  name: string;
+  name: BlobName;
   deleted: boolean;
   snapshot: string;
   versionId?: string;
@@ -246,6 +246,13 @@ export interface BlobItemInternal {
   objectReplicationMetadata?: { [propertyName: string]: string };
   /** Inactive root blobs which have any versions would have such tag with value true. */
   hasVersionsOnly?: boolean;
+}
+
+export interface BlobName {
+  /** Indicates if the blob name is encoded. */
+  encoded?: boolean;
+  /** The name of the blob. */
+  content?: string;
 }
 
 /** Properties of a blob */
@@ -311,12 +318,13 @@ export interface ListBlobsHierarchySegmentResponse {
 }
 
 export interface BlobHierarchyListSegment {
+  [x: string]: any;
   blobPrefixes?: BlobPrefix[];
   blobItems: BlobItemInternal[];
 }
 
 export interface BlobPrefix {
-  name: string;
+  name: BlobName;
 }
 
 export interface BlockLookupList {
@@ -1521,6 +1529,8 @@ export interface BlobCopyFromURLHeaders {
   contentMD5?: Uint8Array;
   /** This response header is returned so that the client can check for the integrity of the copied content. */
   xMsContentCrc64?: Uint8Array;
+  /** Returns the name of the encryption scope used to encrypt the blob contents and application metadata.  Note that the absence of this header implies use of the default account encryption scope. */
+  encryptionScope?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -2305,7 +2315,7 @@ export interface CpkInfo {
   /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key.  For more information, see Encryption at Rest for Azure Storage Services. */
   encryptionKey?: string;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
-  encryptionKeySha256?: string;
+  encryptionKeySha256?: string;  
   /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is \"AES256\". Must be provided if the x-ms-encryption-key header is provided. */
   encryptionAlgorithm?: EncryptionAlgorithmType;
 }
@@ -2479,7 +2489,7 @@ export const enum KnownStorageErrorCode {
   SequenceNumberConditionNotMet = "SequenceNumberConditionNotMet",
   SequenceNumberIncrementTooLarge = "SequenceNumberIncrementTooLarge",
   SnapshotCountExceeded = "SnapshotCountExceeded",
-  SnaphotOperationRateExceeded = "SnaphotOperationRateExceeded",
+  SnapshotOperationRateExceeded = "SnapshotOperationRateExceeded",
   SnapshotsPresent = "SnapshotsPresent",
   SourceConditionNotMet = "SourceConditionNotMet",
   SystemInUse = "SystemInUse",
@@ -2599,7 +2609,7 @@ export const enum KnownStorageErrorCode {
  * **SequenceNumberConditionNotMet** \
  * **SequenceNumberIncrementTooLarge** \
  * **SnapshotCountExceeded** \
- * **SnaphotOperationRateExceeded** \
+ * **SnapshotOperationRateExceeded** \
  * **SnapshotsPresent** \
  * **SourceConditionNotMet** \
  * **SystemInUse** \
@@ -2618,7 +2628,7 @@ export type StorageErrorCode = string;
 /** Defines values for GeoReplicationStatusType. */
 export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 /** Defines values for ListContainersIncludeType. */
-export type ListContainersIncludeType = "metadata" | "deleted";
+export type ListContainersIncludeType = "metadata" | "deleted" | "system";
 /** Defines values for LeaseStatusType. */
 export type LeaseStatusType = "locked" | "unlocked";
 /** Defines values for LeaseStateType. */
@@ -3735,6 +3745,8 @@ export interface BlobCopyFromURLOptionalParams
   immutabilityPolicyExpiry?: Date;
   /** Specifies the immutability policy mode to set on the blob. */
   immutabilityPolicyMode?: BlobImmutabilityPolicyMode;
+  /** Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services. */
+  encryptionScope?: string;
   /** Optional. Indicates the tier to be set on the blob. */
   tier?: AccessTier;
   /** Optional.  Used to set blob tags in various blob operations. */

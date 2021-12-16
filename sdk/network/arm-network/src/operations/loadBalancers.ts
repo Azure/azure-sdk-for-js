@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LoadBalancers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { NetworkManagementClientContext } from "../networkManagementClientContext";
+import { NetworkManagementClient } from "../networkManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -33,6 +32,9 @@ import {
   LoadBalancersListResponse,
   LoadBalancerVipSwapRequest,
   LoadBalancersSwapPublicIpAddressesOptionalParams,
+  QueryInboundNatRulePortMappingRequest,
+  LoadBalancersListInboundNatRulePortMappingsOptionalParams,
+  LoadBalancersListInboundNatRulePortMappingsResponse,
   LoadBalancersListAllNextResponse,
   LoadBalancersListNextResponse
 } from "../models";
@@ -40,13 +42,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LoadBalancers operations. */
 export class LoadBalancersImpl implements LoadBalancers {
-  private readonly client: NetworkManagementClientContext;
+  private readonly client: NetworkManagementClient;
 
   /**
    * Initialize a new instance of the class LoadBalancers class.
    * @param client Reference to the service client
    */
-  constructor(client: NetworkManagementClientContext) {
+  constructor(client: NetworkManagementClient) {
     this.client = client;
   }
 
@@ -457,6 +459,102 @@ export class LoadBalancersImpl implements LoadBalancers {
   }
 
   /**
+   * List of inbound NAT rule port mappings.
+   * @param groupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param backendPoolName The name of the load balancer backend address pool.
+   * @param parameters Query inbound NAT rule port mapping request.
+   * @param options The options parameters.
+   */
+  async beginListInboundNatRulePortMappings(
+    groupName: string,
+    loadBalancerName: string,
+    backendPoolName: string,
+    parameters: QueryInboundNatRulePortMappingRequest,
+    options?: LoadBalancersListInboundNatRulePortMappingsOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<LoadBalancersListInboundNatRulePortMappingsResponse>,
+      LoadBalancersListInboundNatRulePortMappingsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LoadBalancersListInboundNatRulePortMappingsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { groupName, loadBalancerName, backendPoolName, parameters, options },
+      listInboundNatRulePortMappingsOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+  }
+
+  /**
+   * List of inbound NAT rule port mappings.
+   * @param groupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param backendPoolName The name of the load balancer backend address pool.
+   * @param parameters Query inbound NAT rule port mapping request.
+   * @param options The options parameters.
+   */
+  async beginListInboundNatRulePortMappingsAndWait(
+    groupName: string,
+    loadBalancerName: string,
+    backendPoolName: string,
+    parameters: QueryInboundNatRulePortMappingRequest,
+    options?: LoadBalancersListInboundNatRulePortMappingsOptionalParams
+  ): Promise<LoadBalancersListInboundNatRulePortMappingsResponse> {
+    const poller = await this.beginListInboundNatRulePortMappings(
+      groupName,
+      loadBalancerName,
+      backendPoolName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListAllNext
    * @param nextLink The nextLink from the previous successful call to the ListAll method.
    * @param options The options parameters.
@@ -557,7 +655,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters19,
+  requestBody: Parameters.parameters22,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -644,12 +742,46 @@ const swapPublicIpAddressesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters20,
+  requestBody: Parameters.parameters23,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const listInboundNatRulePortMappingsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendPoolName}/queryInboundNatRulePortMapping",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BackendAddressInboundNatRulePortMappings
+    },
+    201: {
+      bodyMapper: Mappers.BackendAddressInboundNatRulePortMappings
+    },
+    202: {
+      bodyMapper: Mappers.BackendAddressInboundNatRulePortMappings
+    },
+    204: {
+      bodyMapper: Mappers.BackendAddressInboundNatRulePortMappings
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters24,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.loadBalancerName,
+    Parameters.groupName,
+    Parameters.backendPoolName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

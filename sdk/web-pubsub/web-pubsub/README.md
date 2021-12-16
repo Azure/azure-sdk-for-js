@@ -1,36 +1,24 @@
 # Azure Web PubSub service client library for JavaScript
 
-[Azure Web PubSub](https://aka.ms/awps/doc) is a service that enables you to build real-time messaging web applications using WebSockets and the publish-subscribe pattern. Any platform supporting WebSocket APIs can connect to the service easily, e.g. web pages, mobile applications, edge devices, etc. The service manages the WebSocket connections for you and allows up to 100K concurrent connections. It provides powerful APIs for you to manage these clients and deliver real-time messages.
+[Azure Web PubSub service](https://aka.ms/awps/doc) is an Azure-managed service that helps developers easily build web applications with real-time features and publish-subscribe pattern. Any scenario that requires real-time publish-subscribe messaging between server and clients or among clients can use Azure Web PubSub service. Traditional real-time features that often require polling from server or submitting HTTP requests can also use Azure Web PubSub service.
 
-Any scenario that requires real-time publish-subscribe messaging between server and clients or among clients, can use Azure Web PubSub service. Traditional real-time features that often require polling from server or submitting HTTP requests, can also use Azure Web PubSub service.
+You can use this library in your app server side to manage the WebSocket client connections, as shown in below diagram:
 
-We list some examples that are good to use Azure Web PubSub service:
-
-- **High frequency data updates:** gaming, voting, polling, auction.
-- **Live dashboards and monitoring:** company dashboard, financial market data, instant sales update, multi-player game leader board, and IoT monitoring.
-- **Cross-platform live chat:** live chat room, chat bot, on-line customer support, real-time shopping assistant, messenger, in-game chat, and so on.
-- **Real-time location on map:** logistic tracking, delivery status tracking, transportation status updates, GPS apps.
-- **Real-time targeted ads:** personalized real-time push ads and offers, interactive ads.
-- **Collaborative apps:** coauthoring, whiteboard apps and team meeting software.
-- **Push instant notifications:** social network, email, game, travel alert.
-- **Real-time broadcasting:** live audio/video broadcasting, live captioning, translating, events/news broadcasting.
-- **IoT and connected devices:** real-time IoT metrics, remote control, real-time status, and location tracking.
-- **Automation:** real-time trigger from upstream events.
-
-Use the library to:
+![overflow](https://user-images.githubusercontent.com/668244/140014067-25a00959-04dc-47e8-ac25-6957bd0a71ce.png).
 
 - Send messages to hubs and groups.
 - Send messages to particular users and connections.
 - Organize users and connections into groups.
 - Close connections
-- Grant/revoke/check permissions for an existing connection
+- Grant, revoke, and check permissions for an existing connection
 
-Key links:
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub)
-- [Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub)
-- [API reference documentation](https://aka.ms/awps/sdk/js)
-- [Product documentation](https://aka.ms/awps/doc)
-- [Samples][samples_ref]
+Details about the terms used here are described in [Key concepts](#key-concepts) section.
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub) |
+[API reference documentation](https://aka.ms/awps/sdk/js) |
+[Product documentation](https://aka.ms/awps/doc) |
+[Samples][samples_ref]
 
 ## Getting started
 
@@ -66,19 +54,37 @@ const key = new AzureKeyCredential("<Key>");
 const serviceClient = new WebPubSubServiceClient("<Endpoint>", key, "<hubName>");
 ```
 
+Or authenticate the `WebPubSubServiceClient` using [Azure Active Directory][aad_doc]
+
+1. Install the `@azure/identity` dependency
+
+```bash
+npm install @azure/identity
+```
+
+2. Update the source code to use `DefaultAzureCredential`:
+
+```js
+const { WebPubSubServiceClient, AzureKeyCredential } = require("@azure/web-pubsub");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+const key = new DefaultAzureCredential();
+const serviceClient = new WebPubSubServiceClient("<Endpoint>", key, "<hubName>");
+```
+
 ## Key concepts
 
 ### Connection
 
-Connections, represented by a connection id, represent an individual websocket connection to the Web PubSub service. Connection id is always unique.
+A connection, also known as a client or a client connection, represents an individual WebSocket connection connected to the Web PubSub service. When successfully connected, a unique connection ID is assigned to this connection by the Web PubSub service.
 
 ### Hub
 
-Hub is a logical set of connections. All connections to Web PubSub connect to a specific hub. Messages that are broadcast to the hub are dispatched to all connections to that hub. For example, hub can be used for different applications, different applications can share one Azure Web PubSub service by using different hub names.
+A hub is a logical concept for a set of client connections. Usually you use one hub for one purpose, for example, a chat hub, or a notification hub. When a client connection is created, it connects to a hub, and during its lifetime, it belongs to that hub. Different applications can share one Azure Web PubSub service by using different hub names.
 
 ### Group
 
-Group allow broadcast messages to a subset of connections to the hub. You can add and remove users and connections as needed. A client can join multiple groups, and a group can contain multiple clients.
+A group is a subset of connections to the hub. You can add a client connection to a group, or remove the client connection from the group, anytime you want. For example, when a client joins a chat room, or when a client leaves the chat room, this chat room can be considered to be a group. A client can join multiple groups, and a group can contain multiple clients.
 
 ### User
 
@@ -86,37 +92,100 @@ Connections to Web PubSub can belong to one user. A user might have multiple con
 
 ### Message
 
-A message is either a UTF-8 encoded string or raw binary data.
+When the client is connected, it can send messages to the upstream application, or receive messages from the upstream application, through the WebSocket connection.
 
 ## Examples
 
-### Broadcast a JSON message to all users
+### Get the access token for a client to start the WebSocket connection
 
 ```js
 const { WebPubSubServiceClient } = require("@azure/web-pubsub");
 
 const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+
+// Get the access token for the WebSocket client connection to use
+let token = await serviceClient.getClientAccessToken();
+
+// Or get the access token and assign the client a userId
+token = await serviceClient.getClientAccessToken({ userId: "user1" });
+
+// return the token to the WebSocket client
+```
+
+### Broadcast messages to all connections in a hub
+
+```js
+const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+
+const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+
+// Send a JSON message
 await serviceClient.sendToAll({ message: "Hello world!" });
-```
 
-### Broadcast a plain text message to all users
-
-```js
-const { WebPubSubServiceClient } = require("@azure/web-pubsub");
-
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+// Send a plain text message
 await serviceClient.sendToAll("Hi there!", { contentType: "text/plain" });
-```
 
-### Broadcast a binary message to all users
-
-```js
-const { WebPubSubServiceClient } = require("@azure/web-pubsub");
-
-const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
-
+// Send a binary message
 const payload = new Uint8Array(10);
 await serviceClient.sendToAll(payload.buffer);
+```
+
+### Send messages to all connections in a group
+
+```js
+const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+
+const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+
+const groupClient = serviceClient.group("<groupName>");
+
+// Add user to the group
+await groupClient.addUser("user1");
+
+// Send a JSON message
+await groupClient.sendToAll({ message: "Hello world!" });
+
+// Send a plain text message
+await groupClient.sendToAll("Hi there!", { contentType: "text/plain" });
+
+// Send a binary message
+const payload = new Uint8Array(10);
+await groupClient.sendToAll(payload.buffer);
+```
+
+### Send messages to all connections for a user
+
+```js
+const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+
+const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+
+// Send a JSON message
+await serviceClient.sendToUser("user1", { message: "Hello world!" });
+
+// Send a plain text message
+await serviceClient.sendToUser("user1", "Hi there!", { contentType: "text/plain" });
+
+// Send a binary message
+const payload = new Uint8Array(10);
+await serviceClient.sendToUser("user1", payload.buffer);
+```
+
+### Check if the group has any connection
+
+```js
+const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+const WebSocket = require("ws");
+
+const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
+
+const groupClient = serviceClient.group("<groupName>");
+
+// close all the connections in the group
+await groupClient.closeAllConnections({ reason: "<closeReason>" });
+
+// check if the group has any connections
+const hasConnections = await serviceClient.groupExists("<groupName>");
 ```
 
 ### Access the raw HTTP response for an operation
@@ -124,7 +193,7 @@ await serviceClient.sendToAll(payload.buffer);
 ```js
 const { WebPubSubServiceClient } = require("@azure/web-pubsub");
 
-function onResponse(rawResponse: FullOperationResponse): void {
+function onResponse(rawResponse) {
   console.log(rawResponse);
 }
 const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
@@ -145,6 +214,10 @@ export AZURE_LOG_LEVEL=verbose
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
+### Live Trace
+
+Use **Live Trace** from the Web PubSub service portal to view the live traffic.
+
 ## Next steps
 
 Please take a look at the
@@ -161,3 +234,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 [azure_sub]: https://azure.microsoft.com/free/
 [samples_ref]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub/samples
+[aad_doc]: https://aka.ms/awps/aad

@@ -2,7 +2,7 @@
 
 [Azure TextAnalytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes the following main features:
 
-**Note:** This SDK targets Azure Text Analytics service API version 3.2.0-preview.1.
+**Note:** This SDK targets Azure Text Analytics service API version 3.2.0-preview.2.
 
 - Language Detection
 - Sentiment Analysis
@@ -12,6 +12,8 @@
 - Linked Entity Recognition
 - Extractive Summarization
 - Healthcare Analysis
+- Custom Entities Recognition
+- Custom Document Classification
 - Support Multiple Actions Per Document
 
 Use the client library to:
@@ -65,7 +67,7 @@ To create a client object to access the Text Analytics API, you will need the `e
 You can find the endpoint for your text analytics resource either in the [Azure Portal][azure_portal] or by using the [Azure CLI][azure_cli] snippet below:
 
 ```bash
-az cognitiveservices account show --name <your-resource-name> --resource-group <your-resource-group-name> --query "endpoint"
+az cognitiveservices account show --name <your-resource-name> --resource-group <your-resource-group-name> --query "properties.endpoint"
 ```
 
 #### Using an API Key

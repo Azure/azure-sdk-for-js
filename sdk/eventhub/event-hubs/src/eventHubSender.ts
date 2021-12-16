@@ -1,35 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as uuid } from "uuid";
-import { logErrorStackTrace, logger } from "./log";
 import {
   AmqpError,
   AwaitableSender,
   AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
-  message,
-  Message as RheaMessage
+  Message as RheaMessage,
+  message
 } from "rhea-promise";
 import {
-  delay,
   ErrorNameConditionMapper,
   RetryConfig,
   RetryOperationType,
   RetryOptions,
   defaultCancellableLock,
+  delay,
   retry,
   translate
 } from "@azure/core-amqp";
 import { EventData, toRheaMessage } from "./eventData";
+import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
+import { logErrorStackTrace, logger } from "./log";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { ConnectionContext } from "./connectionContext";
-import { LinkEntity } from "./linkEntity";
 import { EventHubProducerOptions } from "./models/private";
+import { LinkEntity } from "./linkEntity";
 import { SendOptions } from "./models/public";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
+import { v4 as uuid } from "uuid";
 
 /**
  * Describes the EventHubSender that will send event data to EventHub.

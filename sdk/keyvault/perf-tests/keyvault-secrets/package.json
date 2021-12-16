@@ -10,9 +10,9 @@
   "dependencies": {
     "@azure/test-utils-perf": "^1.0.0",
     "dotenv": "^8.2.0",
-    "@azure/identity": "2.0.0-beta.5",
+    "@azure/identity": "^2.0.1",
     "uuid": "^8.3.0",
-    "@azure/keyvault-secrets": "4.4.0-beta.2"
+    "@azure/keyvault-secrets": "^4.4.0-beta.2"
   },
   "devDependencies": {
     "@types/node": "^12.0.0",

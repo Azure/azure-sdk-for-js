@@ -1,6 +1,6 @@
 # Release History
 
-## 5.6.1 (Unreleased)
+## 5.7.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,18 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.7.0-beta.1 (2021-11-12)
+
+### Features Added
+
+- Added `EventHubBufferedProducerClient` with functionality to manage batching, concurrency, and sending of events implicitly. This abstracts the complexity away from applications regarding publishing events in an optimal fashion. See issue [#17699](https://github.com/Azure/azure-sdk-for-js/issues/17699) for more details.
+- Added `skipParsingBodyAsJson` optional parameter to `EventHubConsumerClient.subscribe` method. When set to `true` it will disable the client from running `JSON.parse()` on the message body when receiving the message. Not applicable if the message was sent with AMQP body type `value` or `sequence`.
+
+### Other Changes
+
+- Prevent empty spans from being created when tracing is disabled. Fixes issue [#14063](https://github.com/Azure/azure-sdk-for-js/issues/14063)
+- Updated to use the version `1.0.0-preview.13` of the `@azure/core-tracing` dependency.
 
 ## 5.6.0 (2021-07-07)
 

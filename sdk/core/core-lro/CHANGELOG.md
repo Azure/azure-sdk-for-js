@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.2 (Unreleased)
+## 2.2.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.2.2 (2021-12-02)
+
+### Bugs Fixed
+
+- Fix LRO PATCH operations when their results are located in a different URL. [PR #18820](https://github.com/Azure/azure-sdk-for-js/pull/18820)
 
 ## 2.2.1 (2021-09-30)
 

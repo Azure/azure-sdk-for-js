@@ -8,7 +8,7 @@ import {
   PipelineRequestOptions
 } from "@azure/core-rest-pipeline";
 import { ServiceClient } from "@azure/core-client";
-import { recorderHttpPolicy, TestProxyHttpClient } from "../src";
+import { TestProxyHttpClient } from "../src";
 import { expect } from "chai";
 
 type TestMode = "record" | "playback" | "live" | undefined;
@@ -29,7 +29,11 @@ function getTestServerUrl() {
   // - In "record" and "playback" modes, we need to hit the localhost of the host network
   //   from the proxy tool running in the docker container.
   //   `host.docker.internal` alias can be used in the docker container to access host's network(localhost)
-  return !isLiveMode()
+  //
+  // if PROXY_MANUAL_START=true, we start the proxy tool using the dotnet tool instead of the `docker run` command
+  //  - in this case, we don't need to hit the localhost using the alias
+  //  - needed for the CI since we have difficulties with the mac machines
+  return !isLiveMode() && !(env.PROXY_MANUAL_START === "true")
     ? `http://host.docker.internal:8080` // Accessing host's network(localhost) through docker container
     : `http://127.0.0.1:8080`;
 }
@@ -52,7 +56,7 @@ function getTestServerUrl() {
     beforeEach(async function() {
       recorder = new TestProxyHttpClient(this.currentTest);
       client = new ServiceClient({ baseUri: getTestServerUrl() });
-      client.pipeline.addPolicy(recorderHttpPolicy(recorder));
+      recorder.configureClient(client);
     });
 
     afterEach(async () => {
@@ -91,6 +95,24 @@ function getTestServerUrl() {
       await makeRequestAndVerifyResponse(
         { path: `/sample_response`, method: "GET" },
         { val: "abc" }
+      );
+    });
+
+    it("sample_response with random string in path", async () => {
+      await recorder.start({ envSetupForPlayback: {} });
+
+      if (!isPlaybackMode()) {
+        recorder.variables["random-1"] = `random-${Math.ceil(Math.random() * 1000 + 1000)}`;
+        recorder.variables["random-2"] = "known-string";
+      }
+
+      await makeRequestAndVerifyResponse(
+        { path: `/sample_response/${recorder.variables["random-1"]}`, method: "GET" },
+        { val: "I am the answer!" }
+      );
+      await makeRequestAndVerifyResponse(
+        { path: `/sample_response/${recorder.variables["random-2"]}`, method: "GET" },
+        { val: "I am the answer!" }
       );
     });
 
@@ -237,7 +259,7 @@ function getTestServerUrl() {
         );
       });
 
-      it.skip("ContinuationSanitizer", async () => {
+      it("ContinuationSanitizer", async () => {
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
@@ -260,11 +282,6 @@ function getTestServerUrl() {
           undefined
         );
 
-        // Seems to fail with
-        // Unable to find a record for the request GET http://host.docker.internal:8080/sample_response
-        // Header differences:
-        //  <your_uuid> values differ, request <985e1725-6d96-467c-89fc-fe45ef0409e4>, record <7460db09-3140-4f76-b59c-16f23e91bc4c>
-        // TODO: Scott is working on fixing the sanitizer
         await makeRequestAndVerifyResponse(
           {
             path: `/sample_response`,
@@ -367,6 +384,48 @@ function getTestServerUrl() {
     });
 
     // Matchers
+
+    describe("Matchers", () => {
+      it("BodilessMatcher", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.setMatcher("BodilessMatcher");
+
+        // The body shouldn't matter for the match; verify this by using a
+        // different body in playback vs record mode.
+        const body = isPlaybackMode() ? "playback" : "record";
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/sample_response`,
+            body,
+            method: "GET",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+          },
+          { val: "abc" }
+        );
+      });
+
+      it("HeaderlessMatcher", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.setMatcher("HeaderlessMatcher");
+
+        const testHeader = {
+          headerName: `X-Test-Header-${isPlaybackMode() ? "Playback" : "Record"}`,
+          value: isPlaybackMode() ? "playback" : "record"
+        };
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "GET",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }, testHeader]
+          },
+          { val: "abc" }
+        );
+      });
+    });
+
     // Transforms
 
     describe("Other methods", () => {

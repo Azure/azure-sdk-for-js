@@ -18,12 +18,12 @@ import {
   PipelineRun,
   PipelineRunsListNextOptionalParams,
   PipelineRunsListOptionalParams,
+  PipelineRunsListResponse,
   PipelineRunsGetOptionalParams,
   PipelineRunsGetResponse,
   PipelineRunsCreateOptionalParams,
   PipelineRunsCreateResponse,
   PipelineRunsDeleteOptionalParams,
-  PipelineRunsListResponse,
   PipelineRunsListNextResponse
 } from "../models";
 
@@ -97,6 +97,23 @@ export class PipelineRunsImpl implements PipelineRuns {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists all the pipeline runs for the specified container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    registryName: string,
+    options?: PipelineRunsListOptionalParams
+  ): Promise<PipelineRunsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, options },
+      listOperationSpec
+    );
   }
 
   /**
@@ -305,23 +322,6 @@ export class PipelineRunsImpl implements PipelineRuns {
   }
 
   /**
-   * Lists all the pipeline runs for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    registryName: string,
-    options?: PipelineRunsListOptionalParams
-  ): Promise<PipelineRunsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
    * ListNext
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -343,6 +343,25 @@ export class PipelineRunsImpl implements PipelineRuns {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PipelineRunListResult
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns/{pipelineRunName}",
@@ -407,25 +426,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.registryName,
     Parameters.pipelineRunName
   ],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PipelineRunListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {

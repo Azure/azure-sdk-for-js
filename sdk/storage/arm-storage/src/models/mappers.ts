@@ -464,6 +464,12 @@ export const StorageAccountCreateParameters: coreClient.CompositeMapper = {
           className: "Identity"
         }
       },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
       sasPolicy: {
         serializedName: "properties.sasPolicy",
         type: {
@@ -566,6 +572,19 @@ export const StorageAccountCreateParameters: coreClient.CompositeMapper = {
         serializedName: "properties.allowCrossTenantReplication",
         type: {
           name: "Boolean"
+        }
+      },
+      defaultToOAuthAuthentication: {
+        serializedName: "properties.defaultToOAuthAuthentication",
+        type: {
+          name: "Boolean"
+        }
+      },
+      immutableStorageWithVersioning: {
+        serializedName: "properties.immutableStorageWithVersioning",
+        type: {
+          name: "Composite",
+          className: "ImmutableStorageAccount"
         }
       }
     }
@@ -1149,30 +1168,53 @@ export const RoutingPreference: coreClient.CompositeMapper = {
   }
 };
 
-export const Resource: coreClient.CompositeMapper = {
+export const ImmutableStorageAccount: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Resource",
+    className: "ImmutableStorageAccount",
     modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      immutabilityPolicy: {
+        serializedName: "immutabilityPolicy",
+        type: {
+          name: "Composite",
+          className: "AccountImmutabilityPolicyProperties"
+        }
+      }
+    }
+  }
+};
+
+export const AccountImmutabilityPolicyProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccountImmutabilityPolicyProperties",
+    modelProperties: {
+      immutabilityPeriodSinceCreationInDays: {
+        constraints: {
+          InclusiveMaximum: 146000,
+          InclusiveMinimum: 1
+        },
+        serializedName: "immutabilityPeriodSinceCreationInDays",
+        type: {
+          name: "Number"
+        }
+      },
+      state: {
+        serializedName: "state",
         type: {
           name: "String"
         }
       },
-      name: {
-        serializedName: "name",
-        readOnly: true,
+      allowProtectedAppendWrites: {
+        serializedName: "allowProtectedAppendWrites",
         type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
+          name: "Boolean"
         }
       }
     }
@@ -1426,6 +1468,36 @@ export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
   }
 };
 
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const BlobRestoreStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1637,6 +1709,25 @@ export const StorageAccountUpdateParameters: coreClient.CompositeMapper = {
         serializedName: "properties.allowCrossTenantReplication",
         type: {
           name: "Boolean"
+        }
+      },
+      defaultToOAuthAuthentication: {
+        serializedName: "properties.defaultToOAuthAuthentication",
+        type: {
+          name: "Boolean"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      immutableStorageWithVersioning: {
+        serializedName: "properties.immutableStorageWithVersioning",
+        type: {
+          name: "Composite",
+          className: "ImmutableStorageAccount"
         }
       }
     }
@@ -3179,6 +3270,12 @@ export const ImmutabilityPolicyProperties: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      allowProtectedAppendWritesAll: {
+        serializedName: "properties.allowProtectedAppendWritesAll",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -3230,6 +3327,18 @@ export const UpdateHistoryProperty: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      allowProtectedAppendWrites: {
+        serializedName: "allowProtectedAppendWrites",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowProtectedAppendWritesAll: {
+        serializedName: "allowProtectedAppendWritesAll",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -3257,6 +3366,13 @@ export const LegalHoldProperties: coreClient.CompositeMapper = {
               className: "TagProperty"
             }
           }
+        }
+      },
+      protectedAppendWritesHistory: {
+        serializedName: "protectedAppendWritesHistory",
+        type: {
+          name: "Composite",
+          className: "ProtectedAppendWritesHistory"
         }
       }
     }
@@ -3301,6 +3417,28 @@ export const TagProperty: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProtectedAppendWritesHistory: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProtectedAppendWritesHistory",
+    modelProperties: {
+      allowProtectedAppendWritesAll: {
+        serializedName: "allowProtectedAppendWritesAll",
+        type: {
+          name: "Boolean"
+        }
+      },
+      timestamp: {
+        serializedName: "timestamp",
+        readOnly: true,
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -3362,6 +3500,12 @@ export const LegalHold: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      allowProtectedAppendWritesAll: {
+        serializedName: "allowProtectedAppendWritesAll",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -3896,30 +4040,6 @@ export const ListTableResource: coreClient.CompositeMapper = {
   }
 };
 
-export const TrackedResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TrackedResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      location: {
-        serializedName: "location",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PrivateEndpointConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3943,6 +4063,30 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TrackedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrackedResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      location: {
+        serializedName: "location",
+        required: true,
         type: {
           name: "String"
         }
@@ -4622,6 +4766,25 @@ export const StorageAccount: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      defaultToOAuthAuthentication: {
+        serializedName: "properties.defaultToOAuthAuthentication",
+        type: {
+          name: "Boolean"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      immutableStorageWithVersioning: {
+        serializedName: "properties.immutableStorageWithVersioning",
+        type: {
+          name: "Composite",
+          className: "ImmutableStorageAccount"
+        }
       }
     }
   }
@@ -4794,6 +4957,18 @@ export const ListContainerItem: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ImmutableStorageWithVersioning"
         }
+      },
+      enableNfsV3RootSquash: {
+        serializedName: "properties.enableNfsV3RootSquash",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableNfsV3AllSquash: {
+        serializedName: "properties.enableNfsV3AllSquash",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -4921,6 +5096,18 @@ export const BlobContainer: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ImmutableStorageWithVersioning"
         }
+      },
+      enableNfsV3RootSquash: {
+        serializedName: "properties.enableNfsV3RootSquash",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableNfsV3AllSquash: {
+        serializedName: "properties.enableNfsV3AllSquash",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -4947,6 +5134,12 @@ export const ImmutabilityPolicy: coreClient.CompositeMapper = {
       },
       allowProtectedAppendWrites: {
         serializedName: "properties.allowProtectedAppendWrites",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowProtectedAppendWritesAll: {
+        serializedName: "properties.allowProtectedAppendWritesAll",
         type: {
           name: "Boolean"
         }

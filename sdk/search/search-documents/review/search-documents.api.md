@@ -630,22 +630,11 @@ export interface IndexDocumentsResult {
 }
 
 // @public
-export interface IndexerCurrentState {
-    readonly allDocsFinalChangeTrackingState?: string;
-    readonly allDocsInitialChangeTrackingState?: string;
-    readonly mode?: IndexingMode;
-    readonly resetDatasourceDocumentIds?: string[];
-    readonly resetDocsFinalChangeTrackingState?: string;
-    readonly resetDocsInitialChangeTrackingState?: string;
-    readonly resetDocumentKeys?: string[];
-}
-
-// @public
 export type IndexerExecutionEnvironment = string;
 
 // @public
 export interface IndexerExecutionResult {
-    readonly currentState?: IndexerCurrentState;
+    readonly currentState?: IndexerState;
     readonly endTime?: Date;
     readonly errorMessage?: string;
     readonly errors: SearchIndexerError[];
@@ -664,6 +653,17 @@ export type IndexerExecutionStatus = "transientFailure" | "success" | "inProgres
 
 // @public
 export type IndexerExecutionStatusDetail = string;
+
+// @public
+export interface IndexerState {
+    readonly allDocumentsFinalChangeTrackingState?: string;
+    readonly allDocumentsInitialChangeTrackingState?: string;
+    readonly mode?: IndexingMode;
+    readonly resetDatasourceDocumentIds?: string[];
+    readonly resetDocumentKeys?: string[];
+    readonly resetDocumentsFinalChangeTrackingState?: string;
+    readonly resetDocumentsInitialChangeTrackingState?: string;
+}
 
 // @public
 export type IndexerStatus = "unknown" | "error" | "running";
@@ -1164,8 +1164,78 @@ export enum KnownQueryCaptionType {
 
 // @public
 export enum KnownQueryLanguage {
+    ArEg = "ar-eg",
+    ArJo = "ar-jo",
+    ArKw = "ar-kw",
+    ArMa = "ar-ma",
+    ArSa = "ar-sa",
+    BgBg = "bg-bg",
+    BnIn = "bn-in",
+    CaEs = "ca-es",
+    CsCz = "cs-cz",
+    DaDk = "da-dk",
+    DeDe = "de-de",
+    ElGr = "el-gr",
+    EnAu = "en-au",
+    EnCa = "en-ca",
+    EnGb = "en-gb",
+    EnIn = "en-in",
     EnUs = "en-us",
-    None = "none"
+    EsEs = "es-es",
+    EsMx = "es-mx",
+    EtEe = "et-ee",
+    EuEs = "eu-es",
+    FaAe = "fa-ae",
+    FiFi = "fi-fi",
+    FrCa = "fr-ca",
+    FrFr = "fr-fr",
+    GaIe = "ga-ie",
+    GlEs = "gl-es",
+    GuIn = "gu-in",
+    HeIl = "he-il",
+    HiIn = "hi-in",
+    HrBa = "hr-ba",
+    HrHr = "hr-hr",
+    HuHu = "hu-hu",
+    HyAm = "hy-am",
+    IdId = "id-id",
+    IsIs = "is-is",
+    ItIt = "it-it",
+    JaJp = "ja-jp",
+    KnIn = "kn-in",
+    KoKr = "ko-kr",
+    LtLt = "lt-lt",
+    LvLv = "lv-lv",
+    MlIn = "ml-in",
+    MrIn = "mr-in",
+    MsBn = "ms-bn",
+    MsMy = "ms-my",
+    NbNo = "nb-no",
+    NlBe = "nl-be",
+    NlNl = "nl-nl",
+    None = "none",
+    NoNo = "no-no",
+    PaIn = "pa-in",
+    PlPl = "pl-pl",
+    PtBr = "pt-br",
+    PtPt = "pt-pt",
+    RoRo = "ro-ro",
+    RuRu = "ru-ru",
+    SkSk = "sk-sk",
+    SlSl = "sl-sl",
+    SrBa = "sr-ba",
+    SrMe = "sr-me",
+    SrRs = "sr-rs",
+    SvSe = "sv-se",
+    TaIn = "ta-in",
+    TeIn = "te-in",
+    ThTh = "th-th",
+    TrTr = "tr-tr",
+    UkUa = "uk-ua",
+    UrPk = "ur-pk",
+    ViVn = "vi-vn",
+    ZhCn = "zh-cn",
+    ZhTw = "zh-tw"
 }
 
 // @public
@@ -1659,6 +1729,13 @@ export type PIIDetectionSkill = BaseSearchIndexerSkill & {
 export type PIIDetectionSkillMaskingMode = string;
 
 // @public
+export interface PrioritizedFields {
+    prioritizedContentFields?: SemanticField[];
+    prioritizedKeywordsFields?: SemanticField[];
+    titleField?: SemanticField;
+}
+
+// @public
 export type QueryAnswerType = string;
 
 // @public
@@ -1677,7 +1754,7 @@ export type QueryType = "simple" | "full" | "semantic";
 export type RegexFlags = string;
 
 // @public
-export interface ResetDocsOptions extends OperationOptions {
+export interface ResetDocumentsOptions extends OperationOptions {
     datasourceDocumentIds?: string[];
     documentKeys?: string[];
     overwrite?: boolean;
@@ -1687,7 +1764,9 @@ export interface ResetDocsOptions extends OperationOptions {
 export type ResetIndexerOptions = OperationOptions;
 
 // @public
-export type ResetSkillsOptions = OperationOptions;
+export interface ResetSkillsOptions extends OperationOptions {
+    skillNames?: string[];
+}
 
 // @public
 export interface ResourceCounter {
@@ -1721,7 +1800,8 @@ export type ScoringStatistics = "local" | "global";
 // @public
 export class SearchClient<T> implements IndexDocumentsClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential | TokenCredential, options?: SearchClientOptions);
-    readonly apiVersion: string;
+    // @deprecated
+    get apiVersion(): string;
     autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options?: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
     deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -1733,13 +1813,16 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends keyof T>(searchText?: string, options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
+    readonly serviceVersion: string;
     suggest<Fields extends keyof T = never>(searchText: string, suggesterName: string, options?: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
 // @public
 export interface SearchClientOptions extends CommonClientOptions {
+    // @deprecated
     apiVersion?: string;
+    serviceVersion?: string;
 }
 
 // @public
@@ -1781,6 +1864,7 @@ export interface SearchIndex {
     name: string;
     normalizers?: LexicalNormalizer[];
     scoringProfiles?: ScoringProfile[];
+    semanticSettings?: SemanticSettings;
     similarity?: SimilarityAlgorithm;
     suggesters?: SearchSuggester[];
     tokenFilters?: TokenFilter[];
@@ -1862,9 +1946,9 @@ export class SearchIndexerClient {
     listIndexersNames(options?: ListIndexersOptions): Promise<Array<string>>;
     listSkillsets(options?: ListSkillsetsOptions): Promise<Array<SearchIndexerSkillset>>;
     listSkillsetsNames(options?: ListSkillsetsOptions): Promise<Array<string>>;
-    resetDocs(indexerName: string, options?: ResetDocsOptions): Promise<void>;
+    resetDocuments(indexerName: string, options?: ResetDocumentsOptions): Promise<void>;
     resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
-    resetSkills(skillsetName: string, skillNames: string[], options?: ResetSkillsOptions): Promise<void>;
+    resetSkills(skillsetName: string, options?: ResetSkillsOptions): Promise<void>;
     runIndexer(indexerName: string, options?: RunIndexerOptions): Promise<void>;
 }
 
@@ -2082,6 +2166,7 @@ export interface SearchRequest {
     searchMode?: SearchMode;
     searchText?: string;
     select?: string;
+    semanticConfiguration?: string;
     semanticFields?: string;
     sessionId?: string;
     skip?: number;
@@ -2148,6 +2233,23 @@ export interface SearchSuggester {
     name: string;
     searchMode: "analyzingInfixMatching";
     sourceFields: string[];
+}
+
+// @public
+export interface SemanticConfiguration {
+    name: string;
+    prioritizedFields: PrioritizedFields;
+}
+
+// @public
+export interface SemanticField {
+    // (undocumented)
+    name?: string;
+}
+
+// @public
+export interface SemanticSettings {
+    configurations?: SemanticConfiguration[];
 }
 
 // @public

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@azure/identity": "^1.2.0",
+    "@azure/identity": "^2.0.1",
     "@azure/keyvault-secrets": "^4.1.0",
     "@types/node": "^14.14.19",
     "axios": "^0.21.1",

@@ -2,61 +2,61 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 20:33:08 GMT",
+    "date": "Tue, 16 Nov 2021 02:02:24 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11787.14 - SCUS ProdSlices",
-    "x-ms-request-id": "f8b9441f-ce78-4aba-b6ab-be6b425d0200"
+    "x-ms-ests-server": "2.1.12231.7 - NCUS ProdSlices",
+    "x-ms-request-id": "d7184e58-b106-4d55-b394-2226fdaf9a00"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/9d3e0d59-9062-4831-95f1-b79b5c38e87a",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/8bde93da-ea72-4f5e-afeb-ce28b8d59e05",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "5f47ff2a-7798-4c93-8c07-ae2325f35a61",
+    "apim-request-id": "d851deb7-634c-400f-b329-e30299520355",
     "content-length": "0",
-    "date": "Wed, 02 Jun 2021 20:33:08 GMT",
+    "date": "Tue, 16 Nov 2021 02:02:24 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "197",
-    "x-request-id": "5f47ff2a-7798-4c93-8c07-ae2325f35a61"
+    "x-envoy-upstream-service-time": "125",
+    "x-request-id": "d851deb7-634c-400f-b329-e30299520355"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/9d3e0d59-9062-4831-95f1-b79b5c38e87a",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/8bde93da-ea72-4f5e-afeb-ce28b8d59e05",
    "query": {},
    "requestBody": null,
    "status": 404,
    "response": "{\"code\":\"404 NOT_FOUND\",\"message\":\"hookId is invalid.\"}",
    "responseHeaders": {
-    "apim-request-id": "dc84979e-3040-4202-ab99-6927aebad318",
+    "apim-request-id": "dea1b4df-a3b1-46e1-a23f-da2805273d96",
     "content-length": "55",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Jun 2021 20:33:08 GMT",
+    "date": "Tue, 16 Nov 2021 02:02:24 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "76",
-    "x-request-id": "dc84979e-3040-4202-ab99-6927aebad318"
+    "x-envoy-upstream-service-time": "16",
+    "x-request-id": "dea1b4df-a3b1-46e1-a23f-da2805273d96"
    }
   }
  ],
@@ -64,5 +64,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "4b001e1328e4794fd3d15d49a9f94d13"
+ "hash": "3483899d41b55bb23659f31accd68463"
 }

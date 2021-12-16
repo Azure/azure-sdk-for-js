@@ -72,7 +72,7 @@ const packageName = "azsdk-js-app-configuration";
  * User - Agent header. There's a unit test that makes sure it always stays in sync.
  * @internal
  */
-export const packageVersion = "1.3.1";
+export const packageVersion = "1.3.2";
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -162,9 +162,7 @@ export class AppConfigurationClient {
       appConfigEndpoint = connectionStringOrEndpoint;
     } else {
       appConfigOptions = (tokenCredentialOrOptions as InternalAppConfigurationClientOptions) || {};
-
-      const regexMatch = connectionStringOrEndpoint.match(ConnectionStringRegex);
-
+      const regexMatch = connectionStringOrEndpoint?.match(ConnectionStringRegex);
       if (regexMatch) {
         appConfigCredential = new AppConfigCredential(regexMatch[2], regexMatch[3]);
         appConfigEndpoint = regexMatch[1];

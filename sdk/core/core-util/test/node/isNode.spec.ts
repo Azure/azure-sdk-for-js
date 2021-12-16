@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "../../src";
 import { assert } from "chai";
+import { isNode } from "../../src";
 
 describe("isNode (node)", function() {
   it("should return true", async function() {

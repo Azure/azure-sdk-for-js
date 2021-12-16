@@ -19,7 +19,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=12.0.0.
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
 
@@ -67,9 +67,9 @@ npx cross-env WPS_CONNECTION_STRING="<wps connection string>" node dist/broadcas
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[broadcasting]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/typescript/src/broadcasting.ts
-[directmessage]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/typescript/src/directMessage.ts
-[managinggroups]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/typescript/src/managingGroups.ts
+[broadcasting]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub/samples/v1/typescript/src/broadcasting.ts
+[directmessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub/samples/v1/typescript/src/directMessage.ts
+[managinggroups]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub/samples/v1/typescript/src/managingGroups.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/web-pubsub
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub/README.md

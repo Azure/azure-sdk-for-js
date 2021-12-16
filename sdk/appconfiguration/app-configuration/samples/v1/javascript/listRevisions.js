@@ -47,6 +47,41 @@ async function main() {
     console.log(`At ${revision.lastModified}, the value was ${revision.value}`);
   }
 
+  ////////////////////////////////////////////////////////
+  ///////////////  Example for .byPage()  ////////////////
+  ////////////////////////////////////////////////////////
+
+  // If you want to see the pagination
+  // for (let index = 0; index < 135; index++) {
+  //   await client.setConfigurationSetting({ ...originalSetting, value: `new value = ${index}` });
+  //   await new Promise((resolve) => setTimeout(resolve, 1000));
+  // }
+
+  // Passing marker as an argument
+  let iterator = client.listRevisions({ keyFilter: "keyWithRevisions-1626819906487" }).byPage();
+  let response = await iterator.next();
+  if (!response.done) {
+    for (const revision of response.value.items) {
+      console.log(`  Found key: ${revision.key}, ${revision.value} === ${revision.lastModified}`);
+    }
+  }
+  // Gets next marker
+  let marker = response.value.continuationToken;
+  // Passing next marker as continuationToken
+  iterator = client.listRevisions({ keyFilter: "keyWithRevisions-1626819906487" }).byPage({
+    continuationToken: marker
+  });
+  response = await iterator.next();
+  if (response.done) {
+    console.log("List done.");
+  } else {
+    if (response.value.items) {
+      for (const revision of response.value.items) {
+        console.log(`  Found key: ${revision.key}, ${revision.value} === ${revision.lastModified}`);
+      }
+    }
+  }
+
   cleanupSampleValues([originalSetting.key], client);
 }
 

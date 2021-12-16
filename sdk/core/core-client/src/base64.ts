@@ -30,3 +30,12 @@ export function encodeByteArray(value: Uint8Array): string {
 export function decodeString(value: string): Uint8Array {
   return Buffer.from(value, "base64");
 }
+
+/**
+ * Decodes a base64 string into a string.
+ * @param value - the base64 string to decode
+ * @internal
+ */
+export function decodeStringToString(value: string): string {
+  return Buffer.from(value, "base64").toString();
+}

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.1 (Unreleased)
+## 1.3.2 (Unreleased)
 
 ### Features Added
 
@@ -8,10 +8,18 @@
 
 ### Bugs Fixed
 
+### Other Changes
+
+## 1.3.1 (2021-12-14)
+
+### Bugs Fixed
+
 - Using this SDK with the resources from Sovereign clouds (AzureUSGovernment/AzureChinaCloud) would have failed with an authorization error.
   Has been fixed in [#17583](https://github.com/Azure/azure-sdk-for-js/pull/17583)
 
 ### Other Changes
+
+- Throws a better error message if provided invalid connection strings such as `undefined` to the `AppConfigurationClient` constructor. [#18356](https://github.com/Azure/azure-sdk-for-js/pull/18356)
 
 ## 1.3.0 (2021-07-26)
 

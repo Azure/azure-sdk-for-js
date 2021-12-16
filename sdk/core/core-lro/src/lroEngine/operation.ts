@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { PollOperation, PollOperationState } from "../pollOperation";
-import { logger } from "./logger";
 import {
-  PollerConfig,
-  ResumablePollOperationState,
-  LongRunningOperation,
   GetLroStatusFromResponse,
+  LongRunningOperation,
   LroResourceLocationConfig,
-  LroStatus,
   LroResponse,
-  RawResponse
+  LroStatus,
+  PollerConfig,
+  RawResponse,
+  ResumablePollOperationState
 } from "./models";
-import { getPollingUrl } from "./requestUtils";
+import { PollOperation, PollOperationState } from "../pollOperation";
 import { createGetLroStatusFromResponse, createInitializeState, createPoll } from "./stateMachine";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { getPollingUrl } from "./requestUtils";
+import { logger } from "./logger";
 
 export class GenericPollOperation<TResult, TState extends PollOperationState<TResult>>
   implements PollOperation<TState, TResult> {

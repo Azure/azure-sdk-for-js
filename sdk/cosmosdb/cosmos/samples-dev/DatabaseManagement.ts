@@ -10,10 +10,12 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
 
 import { handleError, logStep, logSampleHeader, finish } from "./Shared/handleError";
-import { CosmosClient } from "../dist-esm";
+import { CosmosClient } from "@azure/cosmos";
 import assert from "assert";
 
-const { COSMOS_DATABASE: databaseId, COSMOS_ENDPOINT: endpoint, COSMOS_KEY: key } = process.env;
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 
 logSampleHeader("Database Management");
 
@@ -35,11 +37,12 @@ async function run(): Promise<void> {
   // but you can also grab the whole response object to use
   const databaseResponse = await client.database(databaseId).read();
   const alsoDbDef = databaseResponse.resource;
-  assert.equal(dbDef.id, alsoDbDef.id); // The bodies will also almost be equal, _ts will defer based on the read time
+  assert.equal(dbDef && dbDef.id, alsoDbDef && alsoDbDef.id); // The bodies will also almost be equal, _ts will defer based on the read time
   // This applies for all response types, not just DatabaseResponse.
 
-  console.log("Database with id of " + dbDef.id + "' was found");
-
+  if (dbDef) {
+    console.log(`Database with id of ${dbDef.id}' was found`);
+  }
   logStep("delete database with id '" + databaseId + "'");
   await finish();
 }

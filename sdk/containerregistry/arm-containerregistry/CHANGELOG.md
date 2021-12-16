@@ -1,6 +1,6 @@
 ## Release History
 
-### 9.0.0-beta.2 (Unreleased)
+### 10.0.0-beta.2 (Unreleased)
 
 #### Features Added
 
@@ -10,6 +10,17 @@
 
 #### Other Changes
 
+### 10.0.0-beta.1 (2021-11-03)
+    
+**Features**
+
+  - Added Interface Request_2
+  - Added Type Alias Event_2
+  - Interface ConnectedRegistryUpdateParameters has a new optional parameter notificationsList
+  - Type Alias ConnectedRegistry has a new parameter notificationsList
+  - Enum KnownConnectedRegistryMode has a new value ReadOnly
+  - Enum KnownConnectedRegistryMode has a new value ReadWrite
+    
 ### 9.0.0-beta.1 (2021-10-20)
 
 This is the first preview for the new version of the `@azure/arm-containerregistry` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.

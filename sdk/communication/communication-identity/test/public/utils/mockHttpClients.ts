@@ -53,6 +53,6 @@ export const createUserAndTokenHttpClient: HttpClient = createMockHttpClient<
   }
 });
 
-export const exchangeTeamsUserAadTokenHttpClient: HttpClient = createMockHttpClient<
+export const getTokenForTeamsUserHttpClient: HttpClient = createMockHttpClient<
   CommunicationAccessToken
 >(200, tokenResponse);

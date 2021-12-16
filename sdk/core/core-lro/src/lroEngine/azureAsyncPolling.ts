@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import {
-  failureStates,
-  LroResourceLocationConfig,
   LongRunningOperation,
   LroBody,
+  LroResourceLocationConfig,
   LroResponse,
   LroStatus,
-  successStates,
-  RawResponse
+  RawResponse,
+  failureStates,
+  successStates
 } from "./models";
 import { isUnexpectedPollingResponse } from "./requestUtils";
 

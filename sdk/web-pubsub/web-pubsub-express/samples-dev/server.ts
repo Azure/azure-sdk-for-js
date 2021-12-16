@@ -8,8 +8,7 @@
 import { WebPubSubEventHandler } from "@azure/web-pubsub-express";
 import express from "express";
 
-const handler = new WebPubSubEventHandler("chat", ["https://xxx.webpubsub.azure.com"], {
-  dumpRequest: false,
+const handler = new WebPubSubEventHandler("chat", {
   handleConnect(req, res) {
     console.log(req);
     // You can set the state for the connection, it lasts throughout the lifetime of the connection
@@ -27,7 +26,8 @@ const handler = new WebPubSubEventHandler("chat", ["https://xxx.webpubsub.azure.
     // You can also set the state here
     res.setState("calledTime", calledTime);
     res.success("Hello", "text");
-  }
+  },
+  allowedEndpoints: ["https://xxx.webpubsub.azure.com"]
 });
 
 const app = express();

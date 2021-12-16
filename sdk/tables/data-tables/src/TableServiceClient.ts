@@ -1,42 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GeneratedClient } from "./generated/generatedClient";
-import { Service, Table } from "./generated";
+import "@azure/core-paging";
 import {
-  ListTableItemsOptions,
-  TableServiceClientOptions,
-  TableQueryOptions,
-  TableItem
-} from "./models";
-import {
-  GetStatisticsResponse,
   GetPropertiesResponse,
-  SetPropertiesOptions,
+  GetStatisticsResponse,
   ServiceProperties,
+  SetPropertiesOptions,
   SetPropertiesResponse
 } from "./generatedModels";
-import { getClientParamsFromConnectionString } from "./utils/connectionString";
+import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
 import {
-  isNamedKeyCredential,
+  ListTableItemsOptions,
+  TableItem,
+  TableQueryOptions,
+  TableServiceClientOptions
+} from "./models";
+import {
   NamedKeyCredential,
   SASCredential,
-  isSASCredential,
   TokenCredential,
+  isNamedKeyCredential,
+  isSASCredential,
   isTokenCredential
 } from "@azure/core-auth";
-import "@azure/core-paging";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { logger } from "./logger";
-import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./utils/tracing";
-import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
+import { Service, Table } from "./generated";
 import { parseXML, stringifyXML } from "@azure/core-xml";
-import { ListTableItemsResponse } from "./utils/internalModels";
+import { GeneratedClient } from "./generated/generatedClient";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Pipeline } from "@azure/core-rest-pipeline";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { TableItemResultPage } from "./models";
+import { createSpan } from "./utils/tracing";
+import { getClientParamsFromConnectionString } from "./utils/connectionString";
+import { handleTableAlreadyExists } from "./utils/errorHelpers";
 import { isCredential } from "./utils/isCredential";
+import { logger } from "./logger";
+import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 
 /**
@@ -246,17 +247,9 @@ export class TableServiceClient {
   public async createTable(name: string, options: OperationOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("TableServiceClient-createTable", options);
     try {
-      await this.table.create(
-        { name },
-        { ...updatedOptions, responsePreference: "return-content" }
-      );
+      await this.table.create({ name }, { ...updatedOptions });
     } catch (e) {
-      if (e.statusCode === 409) {
-        logger.info("TableServiceClient-createTable: Table Already Exists");
-      } else {
-        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-        throw e;
-      }
+      handleTableAlreadyExists(e, { ...updatedOptions, span, logger, tableName: name });
     } finally {
       span.end();
     }
@@ -290,7 +283,7 @@ export class TableServiceClient {
   public listTables(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ListTableItemsOptions
-  ): PagedAsyncIterableIterator<TableItem, TableItem[]> {
+  ): PagedAsyncIterableIterator<TableItem, TableItemResultPage> {
     const iter = this.listTablesAll(options);
 
     return {
@@ -301,10 +294,15 @@ export class TableServiceClient {
         return this;
       },
       byPage: (settings) => {
-        const pageOptions = {
+        const pageOptions: InternalListTablesOptions = {
           ...options,
           queryOptions: { top: settings?.maxPageSize }
         };
+
+        if (settings?.continuationToken) {
+          pageOptions.continuationToken = settings.continuationToken;
+        }
+
         return this.listTablesPage(pageOptions);
       }
     };
@@ -314,12 +312,12 @@ export class TableServiceClient {
     options?: InternalListTablesOptions
   ): AsyncIterableIterator<TableItem> {
     const firstPage = await this._listTables(options);
-    const { nextTableName } = firstPage;
+    const { continuationToken } = firstPage;
     yield* firstPage;
-    if (nextTableName) {
+    if (continuationToken) {
       const optionsWithContinuation: InternalListTablesOptions = {
         ...options,
-        nextTableName
+        continuationToken
       };
       for await (const page of this.listTablesPage(optionsWithContinuation)) {
         yield* page;
@@ -329,7 +327,7 @@ export class TableServiceClient {
 
   private async *listTablesPage(
     options: InternalListTablesOptions = {}
-  ): AsyncIterableIterator<TableItem[]> {
+  ): AsyncIterableIterator<TableItemResultPage> {
     const { span, updatedOptions } = createSpan("TableServiceClient-listTablesPage", options);
 
     try {
@@ -337,10 +335,10 @@ export class TableServiceClient {
 
       yield result;
 
-      while (result.nextTableName) {
+      while (result.continuationToken) {
         const optionsWithContinuation: InternalListTablesOptions = {
           ...updatedOptions,
-          nextTableName: result.nextTableName
+          continuationToken: result.continuationToken
         };
         result = await this._listTables(optionsWithContinuation);
         yield result;
@@ -353,11 +351,13 @@ export class TableServiceClient {
     }
   }
 
-  private async _listTables(options?: InternalListTablesOptions): Promise<ListTableItemsResponse> {
-    const { xMsContinuationNextTableName: nextTableName, value = [] } = await this.table.query(
-      options
-    );
-    return Object.assign([...value], { nextTableName });
+  private async _listTables(options: InternalListTablesOptions = {}): Promise<TableItemResultPage> {
+    const { continuationToken: nextTableName, ...listOptions } = options;
+    const { xMsContinuationNextTableName: continuationToken, value = [] } = await this.table.query({
+      ...listOptions,
+      nextTableName
+    });
+    return Object.assign([...value], { continuationToken });
   }
 
   /**
@@ -396,5 +396,5 @@ type InternalListTablesOptions = ListTableItemsOptions & {
   /**
    * A table query continuation token from a previous call.
    */
-  nextTableName?: string;
+  continuationToken?: string;
 };
