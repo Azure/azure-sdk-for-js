@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { WebResourceLike } from "./webResource";
 import { HttpHeadersLike } from "./httpHeaders";
+import { WebResourceLike } from "./webResource";
 
 /**
  * The properties on an HTTP response which will always be present.
@@ -72,8 +72,8 @@ export interface HttpOperationResponse extends HttpResponse {
 
 /**
  * The flattened response to a REST call.
- * Contains the underlying HttpOperationResponse as well as
- * the merged properties of the parsedBody, parsedHeaders, etc.
+ * Contains the underlying {@link HttpOperationResponse} as well as
+ * the merged properties of the `parsedBody`, `parsedHeaders`, etc.
  */
 export interface RestResponse {
   /**
@@ -81,5 +81,8 @@ export interface RestResponse {
    */
   _response: HttpOperationResponse;
 
+  /**
+   * The flattened properties described by the `OperationSpec`, deserialized from headers and the HTTP body.
+   */
   [key: string]: any;
 }

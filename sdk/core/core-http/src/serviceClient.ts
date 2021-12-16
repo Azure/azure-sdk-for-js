@@ -1,45 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { HttpClient } from "./httpClient";
-import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
-import { HttpPipelineLogger } from "./httpPipelineLogger";
-import { logPolicy, LogPolicyOptions } from "./policies/logPolicy";
-import { OperationArguments } from "./operationArguments";
-import {
-  getPathStringFromParameter,
-  getPathStringFromParameterPath,
-  OperationParameter,
-  ParameterPath
-} from "./operationParameter";
-import { getStreamResponseStatusCodes, OperationSpec } from "./operationSpec";
-import {
-  deserializationPolicy,
-  DeserializationContentTypes,
-  DefaultDeserializationOptions
-} from "./policies/deserializationPolicy";
-import { exponentialRetryPolicy, DefaultRetryOptions } from "./policies/exponentialRetryPolicy";
-import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
-import {
-  userAgentPolicy,
-  getDefaultUserAgentHeaderName,
-  getDefaultUserAgentValue
-} from "./policies/userAgentPolicy";
-import { redirectPolicy, DefaultRedirectOptions } from "./policies/redirectPolicy";
-import {
-  RequestPolicy,
-  RequestPolicyFactory,
-  RequestPolicyOptions
-} from "./policies/requestPolicy";
-import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
-import { bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
-import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
-import { QueryCollectionFormat } from "./queryCollectionFormat";
-import { CompositeMapper, DictionaryMapper, Mapper, MapperType, Serializer } from "./serializer";
-import { URLBuilder } from "./url";
 import * as utils from "./util/utils";
-import { stringifyXML } from "./util/xml";
+import { CompositeMapper, DictionaryMapper, Mapper, MapperType, Serializer } from "./serializer";
+import {
+  DefaultDeserializationOptions,
+  DeserializationContentTypes,
+  deserializationPolicy
+} from "./policies/deserializationPolicy";
+import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
+import { DefaultRedirectOptions, redirectPolicy } from "./policies/redirectPolicy";
+import { DefaultRetryOptions, exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
+import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
+import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
+import {
+  OperationParameter,
+  ParameterPath,
+  getPathStringFromParameter,
+  getPathStringFromParameterPath
+} from "./operationParameter";
+import { OperationSpec, getStreamResponseStatusCodes } from "./operationSpec";
 import {
   RequestOptionsBase,
   RequestPrepareOptions,
@@ -47,21 +27,41 @@ import {
   WebResourceLike,
   isWebResourceLike
 } from "./webResource";
-import { OperationResponse } from "./operationResponse";
+import {
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions
+} from "./policies/requestPolicy";
+import { SerializerOptions, XML_ATTRKEY, XML_CHARKEY } from "./util/serializer.common";
 import { ServiceCallback, isNode } from "./util/utils";
-import { proxyPolicy } from "./policies/proxyPolicy";
-import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
-import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
-import { signingPolicy } from "./policies/signingPolicy";
-import { logger } from "./log";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import {
+  getDefaultUserAgentHeaderName,
+  getDefaultUserAgentValue,
+  userAgentPolicy
+} from "./policies/userAgentPolicy";
+import { HttpClient } from "./httpClient";
+import { HttpPipelineLogger } from "./httpPipelineLogger";
 import { InternalPipelineOptions } from "./pipelineOptions";
-import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
-import { tracingPolicy } from "./policies/tracingPolicy";
-import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
-import { ndJsonPolicy } from "./policies/ndJsonPolicy";
-import { XML_ATTRKEY, SerializerOptions, XML_CHARKEY } from "./util/serializer.common";
+import { OperationArguments } from "./operationArguments";
+import { OperationResponse } from "./operationResponse";
+import { QueryCollectionFormat } from "./queryCollectionFormat";
+import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
 import { URL } from "./url";
+import { URLBuilder } from "./url";
+import { bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
+import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
+import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
 import { getCachedDefaultHttpClient } from "./httpClientCache";
+import { logger } from "./log";
+import { ndJsonPolicy } from "./policies/ndJsonPolicy";
+import { proxyPolicy } from "./policies/proxyPolicy";
+import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
+import { signingPolicy } from "./policies/signingPolicy";
+import { stringifyXML } from "./util/xml";
+import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
+import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
+import { tracingPolicy } from "./policies/tracingPolicy";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -88,7 +88,10 @@ export interface ProxySettings {
   password?: string;
 }
 
-export type ProxyOptions = ProxySettings; // Alias ProxySettings as ProxyOptions for future use.
+/**
+ * An alias of {@link ProxySettings} for future use.
+ */
+export type ProxyOptions = ProxySettings;
 
 /**
  * Options to be provided while creating the client.
@@ -750,6 +753,12 @@ function createDefaultRequestPolicyFactories(
   return factories;
 }
 
+/**
+ * Creates an HTTP pipeline based on the given options.
+ * @param pipelineOptions - Defines options that are used to configure policies in the HTTP pipeline for an SDK client.
+ * @param authPolicyFactory - An optional authentication policy factory to use for signing requests.
+ * @returns A set of options that can be passed to create a new {@link ServiceClient}.
+ */
 export function createPipelineFromOptions(
   pipelineOptions: InternalPipelineOptions,
   authPolicyFactory?: RequestPolicyFactory
@@ -975,6 +984,12 @@ function getPropertyFromParameterPath(
   return result;
 }
 
+/**
+ * Parses an {@link HttpOperationResponse} into a normalized HTTP response object ({@link RestResponse}).
+ * @param _response - Wrapper object for http response.
+ * @param responseSpec - Mappers for how to parse the response properties.
+ * @returns - A normalized response object.
+ */
 export function flattenResponse(
   _response: HttpOperationResponse,
   responseSpec: OperationResponse | undefined

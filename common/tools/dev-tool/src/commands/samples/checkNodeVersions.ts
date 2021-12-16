@@ -87,22 +87,22 @@ function buildRunSamplesScript(
   const scriptContent = `#!/bin/sh
 
 function install_dependencies_helper() {
-  local samples_path=\$1;
+  local samples_path=$1;
   cd \${samples_path};
   ${compileCMD(`npm install ${artifactURL}`, printToScreen)}
   ${compileCMD(`npm install`, printToScreen)}
 }
 
 function install_packages() {
-  echo "Using node \$(node -v) to install dependencies";
+  echo "Using node $(node -v) to install dependencies";
   install_dependencies_helper ${samplesDir}/javascript
   install_dependencies_helper ${samplesDir}/typescript;
   cp ${envFilePath} ${samplesDir}/javascript/;
 }
 
 function run_samples() {
-  samples_path=\$1;
-  echo "Using node \$(node -v) to run samples in \${samples_path}";
+  samples_path=$1;
+  echo "Using node $(node -v) to run samples in \${samples_path}";
   cd "\${samples_path}";
   for SAMPLE in *.js; do
     node \${SAMPLE};
@@ -110,7 +110,7 @@ function run_samples() {
 }
 
 function build_typescript() {
-  echo "Using node \$(node -v) to build the typescript samples";
+  echo "Using node $(node -v) to build the typescript samples";
   cd ${samplesDir}/typescript
   ${compileCMD(`npm run build`, printToScreen)}
   cp ${envFilePath} ${samplesDir}/typescript/dist/
@@ -273,7 +273,7 @@ export default leafCommand(commandInfo, async (options) => {
       options["node-versions"]
         ?.split(",")
         .concat(options["node-version"])
-        .filter((ver) => ver !== "" && parseInt(ver) !== NaN)
+        .filter((ver) => ver !== "" && !isNaN(parseInt(ver)))
     )
   ];
   const dockerContextDirectory: string =

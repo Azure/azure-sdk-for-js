@@ -1,6 +1,6 @@
 # Release History
 
-## 12.9.0-beta.2 (Unreleased)
+## 12.9.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,14 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 12.9.0-beta.2 (2021-12-03)
+
+### Features Added
+
+- Added support for service version 2021-02-12
+- Added support for listing system containers with `BlobServiceClient.listContainers()`.
+- Added support for blob names container invalid XML characters.
 
 ## 12.9.0-beta.1 (2021-11-09)
 

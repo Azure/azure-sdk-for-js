@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHttpHeaders, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { buildProcessMultipleRequests, buildResponse } from "./utils";
 
 export function put200Succeeded(request: PipelineRequest): PipelineResponse {
@@ -201,8 +201,37 @@ export function getNonresourceAsync202200(request: PipelineRequest): PipelineRes
   return buildResponse(request, 200, `{ "name": "sku" , "id": "100" }`);
 }
 
+export function patchAsync202200(request: PipelineRequest): PipelineResponse {
+  return buildResponse(
+    request,
+    202,
+    undefined,
+    createHttpHeaders({
+      "Azure-AsyncOperation": `/patchasync/operationresults/123`,
+      Location: `/patchasync/succeeded`
+    })
+  );
+}
+
+export function getPatchAsyncSucceeded(request: PipelineRequest): PipelineResponse {
+  return buildResponse(request, 200, `{ "name": "sku" , "id": "100" }`);
+}
+
 export const putNonresourceAsyncOperationresults123 = buildProcessMultipleRequests(
   (req) => buildResponse(req, 200, `{ "status": "InProgress"}`),
+  (req) => buildResponse(req, 200, `{ "status": "Succeeded"}`)
+);
+
+export const patchAsyncOperationresults123 = buildProcessMultipleRequests(
+  (req) =>
+    buildResponse(
+      req,
+      200,
+      `{ "status": "InProgress"}`,
+      createHttpHeaders({
+        "Azure-AsyncOperation": `/patchasync/operationresults/123`
+      })
+    ),
   (req) => buildResponse(req, 200, `{ "status": "Succeeded"}`)
 );
 

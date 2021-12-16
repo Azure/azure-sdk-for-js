@@ -7,12 +7,13 @@ import {
   createPipelineRequest,
   HttpClient,
   HttpMethods,
+  Pipeline,
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import { isLiveMode, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import {
   ensureExistence,
   getTestMode,
@@ -26,6 +27,7 @@ import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { Sanitizer } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
+import { Matcher, setMatcher } from "./matcher";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -225,6 +227,19 @@ export class TestProxyHttpClient {
   }
 
   /**
+   * Sets the matcher for the current recording to the matcher specified.
+   */
+  async setMatcher(matcher: Matcher): Promise<void> {
+    if (this.mode === "playback") {
+      if (!this.httpClient) {
+        throw new RecorderError("httpClient should be defined in playback mode");
+      }
+
+      await setMatcher(this.url, this.httpClient, matcher, this.recordingId);
+    }
+  }
+
+  /**
    * Adds the recording file and the recording id headers to the requests that are sent to the proxy tool.
    * These are required to appropriately save the recordings in the record mode and picking them up in playback.
    *
@@ -240,6 +255,16 @@ export class TestProxyHttpClient {
       req.headers.set("x-recording-id", this.recordingId);
     }
     return req;
+  }
+
+  /**
+   * For core-v2 - libraries depending on core-rest-pipeline.
+   * This method adds the recording policy to the input client's pipeline.
+   */
+  public configureClient(client: { pipeline: Pipeline }): void {
+    if (!isLiveMode()) {
+      client.pipeline.addPolicy(recorderHttpPolicy(this));
+    }
   }
 }
 

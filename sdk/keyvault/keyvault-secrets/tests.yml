@@ -7,6 +7,11 @@ stages:
       ServiceDirectory: keyvault
       TimeoutInMinutes: 59
       SupportedClouds: 'Public,UsGov,China'
+      AdditionalMatrixConfigs:
+        - Name: Keyvault_live_test_base
+          Path: sdk/keyvault/keyvault-secrets/platform-matrix.json
+          Selection: sparse
+          GenerateVMJobs: true
       EnvVars:
         AZURE_CLIENT_ID: $(KEYVAULT_CLIENT_ID)
         AZURE_TENANT_ID: $(KEYVAULT_TENANT_ID)

@@ -9,6 +9,7 @@ specifiers:
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:./projects/app-configuration.tgz
+  '@rush-temp/arm-analysisservices': file:./projects/arm-analysisservices.tgz
   '@rush-temp/arm-apimanagement': file:./projects/arm-apimanagement.tgz
   '@rush-temp/arm-appplatform': file:./projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:./projects/arm-appservice.tgz
@@ -16,6 +17,7 @@ specifiers:
   '@rush-temp/arm-batch': file:./projects/arm-batch.tgz
   '@rush-temp/arm-botservice': file:./projects/arm-botservice.tgz
   '@rush-temp/arm-cdn': file:./projects/arm-cdn.tgz
+  '@rush-temp/arm-cognitiveservices': file:./projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
   '@rush-temp/arm-consumption': file:./projects/arm-consumption.tgz
   '@rush-temp/arm-containerregistry': file:./projects/arm-containerregistry.tgz
@@ -25,12 +27,14 @@ specifiers:
   '@rush-temp/arm-datafactory': file:./projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
+  '@rush-temp/arm-devtestlabs': file:./projects/arm-devtestlabs.tgz
   '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
   '@rush-temp/arm-extendedlocation': file:./projects/arm-extendedlocation.tgz
   '@rush-temp/arm-features': file:./projects/arm-features.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
   '@rush-temp/arm-links': file:./projects/arm-links.tgz
+  '@rush-temp/arm-loadtestservice': file:./projects/arm-loadtestservice.tgz
   '@rush-temp/arm-locks': file:./projects/arm-locks.tgz
   '@rush-temp/arm-logic': file:./projects/arm-logic.tgz
   '@rush-temp/arm-managedapplications': file:./projects/arm-managedapplications.tgz
@@ -43,18 +47,22 @@ specifiers:
   '@rush-temp/arm-operations': file:./projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:./projects/arm-orbital.tgz
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
+  '@rush-temp/arm-portal': file:./projects/arm-portal.tgz
   '@rush-temp/arm-postgresql': file:./projects/arm-postgresql.tgz
   '@rush-temp/arm-purview': file:./projects/arm-purview.tgz
   '@rush-temp/arm-quota': file:./projects/arm-quota.tgz
   '@rush-temp/arm-recoveryservices': file:./projects/arm-recoveryservices.tgz
   '@rush-temp/arm-rediscache': file:./projects/arm-rediscache.tgz
+  '@rush-temp/arm-relay': file:./projects/arm-relay.tgz
   '@rush-temp/arm-resourcehealth': file:./projects/arm-resourcehealth.tgz
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
+  '@rush-temp/arm-search': file:./projects/arm-search.tgz
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:./projects/arm-servicefabric.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
+  '@rush-temp/arm-sqlvirtualmachine': file:./projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
   '@rush-temp/arm-streamanalytics': file:./projects/arm-streamanalytics.tgz
   '@rush-temp/arm-templatespecs': file:./projects/arm-templatespecs.tgz
@@ -91,7 +99,6 @@ specifiers:
   '@rush-temp/digital-twins-core': file:./projects/digital-twins-core.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:./projects/eslint-plugin-azure-sdk.tgz
   '@rush-temp/event-hubs': file:./projects/event-hubs.tgz
-  '@rush-temp/event-processor-host': file:./projects/event-processor-host.tgz
   '@rush-temp/eventgrid': file:./projects/eventgrid.tgz
   '@rush-temp/eventhubs-checkpointstore-blob': file:./projects/eventhubs-checkpointstore-blob.tgz
   '@rush-temp/eventhubs-checkpointstore-table': file:./projects/eventhubs-checkpointstore-table.tgz
@@ -171,6 +178,7 @@ dependencies:
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:projects/app-configuration.tgz
+  '@rush-temp/arm-analysisservices': file:projects/arm-analysisservices.tgz
   '@rush-temp/arm-apimanagement': file:projects/arm-apimanagement.tgz
   '@rush-temp/arm-appplatform': file:projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:projects/arm-appservice.tgz
@@ -178,6 +186,7 @@ dependencies:
   '@rush-temp/arm-batch': file:projects/arm-batch.tgz
   '@rush-temp/arm-botservice': file:projects/arm-botservice.tgz
   '@rush-temp/arm-cdn': file:projects/arm-cdn.tgz
+  '@rush-temp/arm-cognitiveservices': file:projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-consumption': file:projects/arm-consumption.tgz
   '@rush-temp/arm-containerregistry': file:projects/arm-containerregistry.tgz
@@ -187,12 +196,14 @@ dependencies:
   '@rush-temp/arm-datafactory': file:projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
+  '@rush-temp/arm-devtestlabs': file:projects/arm-devtestlabs.tgz
   '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
   '@rush-temp/arm-extendedlocation': file:projects/arm-extendedlocation.tgz
   '@rush-temp/arm-features': file:projects/arm-features.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
   '@rush-temp/arm-links': file:projects/arm-links.tgz
+  '@rush-temp/arm-loadtestservice': file:projects/arm-loadtestservice.tgz
   '@rush-temp/arm-locks': file:projects/arm-locks.tgz
   '@rush-temp/arm-logic': file:projects/arm-logic.tgz
   '@rush-temp/arm-managedapplications': file:projects/arm-managedapplications.tgz
@@ -205,18 +216,22 @@ dependencies:
   '@rush-temp/arm-operations': file:projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:projects/arm-orbital.tgz
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
+  '@rush-temp/arm-portal': file:projects/arm-portal.tgz
   '@rush-temp/arm-postgresql': file:projects/arm-postgresql.tgz
   '@rush-temp/arm-purview': file:projects/arm-purview.tgz
   '@rush-temp/arm-quota': file:projects/arm-quota.tgz
   '@rush-temp/arm-recoveryservices': file:projects/arm-recoveryservices.tgz
   '@rush-temp/arm-rediscache': file:projects/arm-rediscache.tgz
+  '@rush-temp/arm-relay': file:projects/arm-relay.tgz
   '@rush-temp/arm-resourcehealth': file:projects/arm-resourcehealth.tgz
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
+  '@rush-temp/arm-search': file:projects/arm-search.tgz
   '@rush-temp/arm-security': file:projects/arm-security.tgz
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:projects/arm-servicefabric.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
+  '@rush-temp/arm-sqlvirtualmachine': file:projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
   '@rush-temp/arm-streamanalytics': file:projects/arm-streamanalytics.tgz
   '@rush-temp/arm-templatespecs': file:projects/arm-templatespecs.tgz
@@ -253,7 +268,6 @@ dependencies:
   '@rush-temp/digital-twins-core': file:projects/digital-twins-core.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:projects/eslint-plugin-azure-sdk.tgz
   '@rush-temp/event-hubs': file:projects/event-hubs.tgz
-  '@rush-temp/event-processor-host': file:projects/event-processor-host.tgz
   '@rush-temp/eventgrid': file:projects/eventgrid.tgz
   '@rush-temp/eventhubs-checkpointstore-blob': file:projects/eventhubs-checkpointstore-blob.tgz
   '@rush-temp/eventhubs-checkpointstore-table': file:projects/eventhubs-checkpointstore-table.tgz
@@ -361,6 +375,18 @@ packages:
       - supports-color
     dev: false
 
+  /@azure-rest/core-client/1.0.0-beta.8:
+    resolution: {integrity: sha512-QsKShzttXt6bYxQi5xfSB6B/i0I1qN2uHu78cA39IT6scmVzSq4u5GzzS5XjBR0wthZOu76eOBiyJq4Ldowydw==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.3.2
+      '@azure/core-rest-pipeline': 1.3.2
+      '@azure/core-util': 1.0.0-beta.1
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/abort-controller/1.0.4:
     resolution: {integrity: sha512-lNUmDRVGpanCsiUN3NWxFTdwmdFI53xwhkTFfHDGTYk46ca7Ind3nanJc+U6Zj9Tv+9nTCWRBscWEW1DyKOpTw==}
     engines: {node: '>=8.0.0'}
@@ -411,27 +437,6 @@ packages:
       tslib: 2.3.1
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /@azure/amqp-common/1.0.0-preview.9:
-    resolution: {integrity: sha512-RVG1Ad3Afv9gwFFmpeCXQAm+Sa0L8KEZRJJAAZEGoYDb6EoO1iQDVmoBz720h8mdrGpi0D60xNU/KhriIwuZfQ==}
-    dependencies:
-      '@azure/ms-rest-nodeauth': 0.9.3_debug@3.2.7
-      '@types/async-lock': 1.1.3
-      '@types/is-buffer': 2.0.0
-      async-lock: 1.3.0
-      buffer: 5.7.1
-      debug: 3.2.7
-      events: 3.3.0
-      is-buffer: 2.0.5
-      jssha: 2.4.2
-      process: 0.11.10
-      rhea: 1.0.24
-      rhea-promise: 0.1.15
-      stream-browserify: 2.0.2
-      tslib: 1.14.1
-      url: 0.11.0
-      util: 0.11.1
     dev: false
 
   /@azure/arm-network/26.0.0-beta.1:
@@ -765,20 +770,6 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/event-hubs/2.1.4:
-    resolution: {integrity: sha512-CxaMaEjwtsmIhWtjHyGimKO7RmES0YxPqGQ9+jKqGygNlhG5NYHktDaiQu6w7k3g+I51VaLXtVSt+BVFd6VWfQ==}
-    dependencies:
-      '@azure/amqp-common': 1.0.0-preview.9
-      '@azure/ms-rest-nodeauth': 0.9.3_debug@3.2.7
-      async-lock: 1.3.0
-      debug: 3.2.7
-      is-buffer: 2.0.5
-      jssha: 2.4.2
-      rhea-promise: 0.1.15
-      tslib: 1.14.1
-      uuid: 3.4.0
-    dev: false
-
   /@azure/event-hubs/5.6.0:
     resolution: {integrity: sha512-+JtP2SYqGZelvZ6nnA7T0xxcDjCu3O0K+8A8vEXOJgQPT8+hA11fz61DSpFQJH1KaXffoN5YeXnKSaU4idwiAQ==}
     engines: {node: '>=12.0.0'}
@@ -917,6 +908,19 @@ packages:
       tslib: 2.3.1
     dev: false
 
+  /@azure/keyvault-keys/4.2.0:
+    resolution: {integrity: sha512-8RoXLWoB9xQ/Knf10A/G0XrQPH49CcadN5DY9qtr2UNdGPTJrlxSr8u7+/4MFwEVQI9vtIt/dUjdOT9xoFCWww==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-http': 1.2.6
+      '@azure/core-lro': 1.0.5
+      '@azure/core-paging': 1.2.0
+      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/logger': 1.0.3
+      tslib: 2.3.1
+    dev: false
+
   /@azure/keyvault-keys/4.3.0:
     resolution: {integrity: sha512-OEosl0/rE/mKD5Ji9KaQN7UH+yQnV5MS0MRhGqQIiJrG+qAvAla0MYudJzv3XvBlplpGk0+MVgyL9H3KX/UAwQ==}
     engines: {node: '>=8.0.0'}
@@ -969,40 +973,6 @@ packages:
       tslib: 2.3.1
     dev: false
 
-  /@azure/ms-rest-azure-env/1.1.2:
-    resolution: {integrity: sha512-l7z0DPCi2Hp88w12JhDTtx5d0Y3+vhfE7JKJb9O7sEz71Cwp053N8piTtTnnk/tUor9oZHgEKi/p3tQQmLPjvA==}
-    dev: false
-
-  /@azure/ms-rest-js/1.11.2_debug@3.2.7:
-    resolution: {integrity: sha512-2AyQ1IKmLGKW7DU3/x3TsTBzZLcbC9YRI+yuDPuXAQrv3zar340K9wsxU413kHFIDjkWNCo9T0w5VtwcyWxhbQ==}
-    dependencies:
-      '@azure/core-auth': 1.3.2
-      axios: 0.21.4_debug@3.2.7
-      form-data: 2.5.1
-      tough-cookie: 2.5.0
-      tslib: 1.14.1
-      tunnel: 0.0.6
-      uuid: 3.4.0
-      xml2js: 0.4.23
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
-  /@azure/ms-rest-js/1.11.2_debug@4.3.2:
-    resolution: {integrity: sha512-2AyQ1IKmLGKW7DU3/x3TsTBzZLcbC9YRI+yuDPuXAQrv3zar340K9wsxU413kHFIDjkWNCo9T0w5VtwcyWxhbQ==}
-    dependencies:
-      '@azure/core-auth': 1.3.2
-      axios: 0.21.4_debug@4.3.2
-      form-data: 2.5.1
-      tough-cookie: 2.5.0
-      tslib: 1.14.1
-      tunnel: 0.0.6
-      uuid: 3.4.0
-      xml2js: 0.4.23
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   /@azure/ms-rest-js/2.6.0:
     resolution: {integrity: sha512-4C5FCtvEzWudblB+h92/TYYPiq7tuElX8icVYToxOdggnYqeec4Se14mjse5miInKtZahiFHdl8lZA/jziEc5g==}
     dependencies:
@@ -1017,31 +987,11 @@ packages:
       xml2js: 0.4.23
     dev: false
 
-  /@azure/ms-rest-nodeauth/0.9.3_debug@3.2.7:
-    resolution: {integrity: sha512-aFHRw/IHhg3I9ZJW+Va4L+sCirFHMVIu6B7lFdL5mGLfG3xC5vDIdd957LRXFgy2OiKFRUC0QaKknd0YCsQIqA==}
-    dependencies:
-      '@azure/ms-rest-azure-env': 1.1.2
-      '@azure/ms-rest-js': 1.11.2_debug@3.2.7
-      adal-node: 0.1.28
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
-  /@azure/ms-rest-nodeauth/0.9.3_debug@4.3.2:
-    resolution: {integrity: sha512-aFHRw/IHhg3I9ZJW+Va4L+sCirFHMVIu6B7lFdL5mGLfG3xC5vDIdd957LRXFgy2OiKFRUC0QaKknd0YCsQIqA==}
-    dependencies:
-      '@azure/ms-rest-azure-env': 1.1.2
-      '@azure/ms-rest-js': 1.11.2_debug@4.3.2
-      adal-node: 0.1.28
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   /@azure/msal-browser/2.19.0:
     resolution: {integrity: sha512-nVMMSbFeocGv3SUYGBD+3pkE/pbAciGhER3KCjsBu6Sy9EDaBCiQ418KZfHBcCcrNQgFxf3nleWdeYoYX7281g==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 5.1.0
+      '@azure/msal-common': 5.2.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1055,8 +1005,8 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/msal-common/5.1.0:
-    resolution: {integrity: sha512-4zHZ5Ec7jAgTIWZO3ap1ozgIPGAirF1wL8UhsmPF9QDoZz0cMHdaNmtov5i2+6Xq37YMzhN5s50EFHBuXd7sDQ==}
+  /@azure/msal-common/5.2.0:
+    resolution: {integrity: sha512-oVc4soy5MEZOp9NvCDqBk57mtiUTJXQQ8Z8S/4UiRQP8RG8snuCFQUs9xxdIfvl2FWIvgiBz+SMByyjTaRX42Q==}
     engines: {node: '>=0.8.0'}
     dependencies:
       debug: 4.3.2
@@ -1064,13 +1014,13 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/msal-node-extensions/1.0.0-alpha.9:
-    resolution: {integrity: sha512-p6ulfziYQDbPmFH0LZ7ekvC6WJu4coHTHPtH4iA6wEeMMy6aD8afv4KgXZDm7bX0rXlTIb+1O8hQYOATz4j5vA==}
+  /@azure/msal-node-extensions/1.0.0-alpha.13:
+    resolution: {integrity: sha512-vOxGmRl/GAiSywTz5K67Rj/pZNll9LAIYlet76zBJG/I2m0BCvAHixx1cBMqGTLYKoTrPtJK21HKP0DIS2TetA==}
     engines: {node: '>=10'}
     requiresBuild: true
     dependencies:
-      '@azure/msal-common': 4.5.1
-      bindings: 1.5.0
+      '@azure/msal-common': 5.2.0
+      bindings: github.com/samuelkubai/node-bindings/3a5a099ed0178b65079ce18e11fccc7130e0af1e
       keytar: 7.7.0
       nan: 2.15.0
     transitivePeerDependencies:
@@ -1105,13 +1055,49 @@ packages:
     resolution: {integrity: sha512-ZtVCVzr7V4xEeqICa7E9g6BY3noZv96XG11ENuqEiz/PA1OzPD1/x0QF6BPHVldST8wwoevXxPw+t/h3AFII7w==}
     engines: {node: 10 || 12 || 14 || 16}
     dependencies:
-      '@azure/msal-common': 5.1.0
+      '@azure/msal-common': 5.2.0
       axios: 0.21.4
       jsonwebtoken: 8.5.1
       uuid: 8.3.2
     transitivePeerDependencies:
       - debug
       - supports-color
+    dev: false
+
+  /@azure/msal-node/1.4.0:
+    resolution: {integrity: sha512-Ek6hqOFUi5QEAxZ55awM8y1N+9SzS9Qh8ijF4RDLtFuHzqP7xXmMnVC1lae45FlH55DUOo7dg/smuDJnb4kw6g==}
+    engines: {node: 10 || 12 || 14 || 16}
+    dependencies:
+      '@azure/msal-common': 5.2.0
+      axios: 0.21.4
+      jsonwebtoken: 8.5.1
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+    dev: false
+
+  /@azure/service-bus/7.4.0:
+    resolution: {integrity: sha512-dznAohud/t7qT4KuQ9LsJ7ZKRpecXbunpCJi+kcfqA6aY1ffB2gYXg8odMJoIZPcxLBZiBvJIXp5P9y5IhEMgg==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-amqp': 3.0.0
+      '@azure/core-asynciterator-polyfill': 1.0.0
+      '@azure/core-auth': 1.3.2
+      '@azure/core-http': 2.2.2
+      '@azure/core-paging': 1.2.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.3
+      '@types/is-buffer': 2.0.0
+      '@types/long': 4.0.1
+      buffer: 6.0.3
+      is-buffer: 2.0.5
+      jssha: 3.2.0
+      long: 4.0.0
+      process: 0.11.10
+      rhea-promise: 2.1.0
+      tslib: 2.3.1
     dev: false
 
   /@azure/storage-blob/12.8.0:
@@ -1418,6 +1404,17 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: false
 
+  /@istanbuljs/load-nyc-config/1.1.0:
+    resolution: {integrity: sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ==}
+    engines: {node: '>=8'}
+    dependencies:
+      camelcase: 5.3.1
+      find-up: 4.1.0
+      get-package-type: 0.1.0
+      js-yaml: 3.14.1
+      resolve-from: 5.0.0
+    dev: false
+
   /@istanbuljs/schema/0.1.3:
     resolution: {integrity: sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==}
     engines: {node: '>=8'}
@@ -1429,13 +1426,6 @@ packages:
       '@microsoft/tsdoc': 0.13.2
       '@microsoft/tsdoc-config': 0.15.2
       '@rushstack/node-core-library': 3.43.2
-    dev: false
-
-  /@microsoft/api-extractor-model/7.7.10:
-    resolution: {integrity: sha512-gMFDXwUgoQYz9TgatyNPALDdZN4xBC3Un3fGwlzME+vM13PoJ26pGuqI7kv/OlK9+q2sgrEdxWns8D3UnLf2TA==}
-    dependencies:
-      '@microsoft/tsdoc': 0.12.19
-      '@rushstack/node-core-library': 3.19.6
     dev: false
 
   /@microsoft/api-extractor/7.18.19:
@@ -1456,21 +1446,6 @@ packages:
       typescript: 4.4.4
     dev: false
 
-  /@microsoft/api-extractor/7.7.11:
-    resolution: {integrity: sha512-kd2kakdDoRgI54J5H11a76hyYZBMhtp4piwWAy4bYTwlQT0v/tp+G/UMMgjUL4vKf0kTNhitEUX/0LfQb1AHzQ==}
-    hasBin: true
-    dependencies:
-      '@microsoft/api-extractor-model': 7.7.10
-      '@microsoft/tsdoc': 0.12.19
-      '@rushstack/node-core-library': 3.19.6
-      '@rushstack/ts-command-line': 4.3.13
-      colors: 1.2.5
-      lodash: 4.17.21
-      resolve: 1.8.1
-      source-map: 0.6.1
-      typescript: 3.7.7
-    dev: false
-
   /@microsoft/tsdoc-config/0.15.2:
     resolution: {integrity: sha512-mK19b2wJHSdNf8znXSMYVShAHktVr/ib0Ck2FA3lsVBSEhSI/TfXT7DJQkAYgcztTuwazGcg58ZjYdk0hTCVrA==}
     dependencies:
@@ -1478,10 +1453,6 @@ packages:
       ajv: 6.12.6
       jju: 1.4.0
       resolve: 1.19.0
-    dev: false
-
-  /@microsoft/tsdoc/0.12.19:
-    resolution: {integrity: sha512-IpgPxHrNxZiMNUSXqR1l/gePKPkfAmIKoDRP9hp7OwjU29ZR8WCJsOJ8iBKgw0Qk+pFwR+8Y1cy8ImLY6e9m4A==}
     dev: false
 
   /@microsoft/tsdoc/0.13.2:
@@ -1745,18 +1716,6 @@ packages:
       rollup: 1.32.1
     dev: false
 
-  /@rushstack/node-core-library/3.19.6:
-    resolution: {integrity: sha512-1+FoymIdr9W9k0D8fdZBBPwi5YcMwh/RyESuL5bY29rLICFxSLOPK+ImVZ1OcWj9GEMsvDx5pNpJ311mHQk+MA==}
-    dependencies:
-      '@types/node': 10.17.13
-      colors: 1.2.5
-      fs-extra: 7.0.1
-      jju: 1.4.0
-      semver: 5.3.0
-      timsort: 0.3.0
-      z-schema: 3.18.4
-    dev: false
-
   /@rushstack/node-core-library/3.43.2:
     resolution: {integrity: sha512-b7AEhSf6CvZgvuDcWMFDeKx2mQSn9AVnMQVyxNxFeHCtLz3gJicqCOlw2GOXM8HKh6PInLdil/NVCDcstwSrIw==}
     dependencies:
@@ -1785,14 +1744,6 @@ packages:
       argparse: 1.0.10
       colors: 1.2.5
       string-argv: 0.3.1
-    dev: false
-
-  /@rushstack/ts-command-line/4.3.13:
-    resolution: {integrity: sha512-BUBbjYu67NJGQkpHu8aYm7kDoMFizL1qx78+72XE3mX/vDdXYJzw/FWS7TPcMJmY4kNlYs979v2B0Q0qa2wRiw==}
-    dependencies:
-      '@types/argparse': 1.0.33
-      argparse: 1.0.10
-      colors: 1.2.5
     dev: false
 
   /@sinonjs/commons/1.8.3:
@@ -1838,10 +1789,6 @@ packages:
 
   /@tsconfig/node16/1.0.2:
     resolution: {integrity: sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==}
-    dev: false
-
-  /@types/argparse/1.0.33:
-    resolution: {integrity: sha512-VQgHxyPMTj3hIlq9SY1mctqx+Jj8kpQfoLvDlVSDNOyuYs8JYfkuY3OW/4+dO657yPmNhHpePRx0/Tje5ImNVQ==}
     dev: false
 
   /@types/argparse/1.0.38:
@@ -2038,20 +1985,12 @@ packages:
       form-data: 3.0.1
     dev: false
 
-  /@types/node/10.17.13:
-    resolution: {integrity: sha512-pMCcqU2zT4TjqYFrWtYHKal7Sl30Ims6ulZ4UFXxI4xbtQqK/qqKwkDoBFCfooRqqmRu9vY3xaJRwxSh673aYg==}
-    dev: false
-
   /@types/node/12.20.24:
     resolution: {integrity: sha512-yxDeaQIAJlMav7fH5AQqPH1u8YIuhYJXYBzxaQ4PifsU0GDO38MSdmEDeRlIxrKbC6NbEaaEHDanWb+y30U8SQ==}
     dev: false
 
   /@types/node/12.20.37:
     resolution: {integrity: sha512-i1KGxqcvJaLQali+WuypQnXwcplhtNtjs66eNsZpp2P2FL/trJJxx/VWsM0YCL2iMoIJrbXje48lvIQAQ4p2ZA==}
-    dev: false
-
-  /@types/node/8.10.66:
-    resolution: {integrity: sha512-tktOkFUA4kXx2hhhrB8bIFb5TbwzS4uOhKEmwiD+NoiL0qtP2OQ9mFldbgD4dV1djrlBYP6eBuQZiWjuHUpqFw==}
     dev: false
 
   /@types/prettier/2.0.2:
@@ -2299,21 +2238,6 @@ packages:
     hasBin: true
     dev: false
 
-  /adal-node/0.1.28:
-    resolution: {integrity: sha1-RoxLs+u9lrEnBmn0ucuk4AZepIU=}
-    engines: {node: '>= 0.6.15'}
-    dependencies:
-      '@types/node': 8.10.66
-      async: 3.2.2
-      date-utils: 1.2.21
-      jws: 3.2.2
-      request: 2.88.2
-      underscore: 1.13.1
-      uuid: 3.4.0
-      xmldom: 0.6.0
-      xpath.js: 1.1.0
-    dev: false
-
   /agent-base/6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
     engines: {node: '>= 6.0.0'}
@@ -2321,6 +2245,14 @@ packages:
       debug: 4.3.2
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /aggregate-error/3.1.0:
+    resolution: {integrity: sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==}
+    engines: {node: '>=8'}
+    dependencies:
+      clean-stack: 2.2.0
+      indent-string: 4.0.0
     dev: false
 
   /ajv/6.12.6:
@@ -2398,11 +2330,11 @@ packages:
       picomatch: 2.3.0
     dev: false
 
-  /append-transform/1.0.0:
-    resolution: {integrity: sha512-P009oYkeHyU742iSZJzZZywj4QRJdnTWffaKuJQLablCZ1uz6/cW4yaRgcDaoQ+uwOxxnt0gRUcwfsNP2ri0gw==}
-    engines: {node: '>=4'}
+  /append-transform/2.0.0:
+    resolution: {integrity: sha512-7yeyCEurROLQJFv5Xj4lEGTy0borxepjFv1g22oAdqFu//SrAlDl1O1Nxx15SH1RoliUml6p8dwJW9jvZughhg==}
+    engines: {node: '>=8'}
     dependencies:
-      default-require-extensions: 2.0.0
+      default-require-extensions: 3.0.0
     dev: false
 
   /aproba/1.2.0:
@@ -2468,17 +2400,6 @@ packages:
     resolution: {integrity: sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=}
     dev: false
 
-  /asn1/0.2.6:
-    resolution: {integrity: sha512-ix/FxPn0MDjeyJ7i/yoHGFt/EX6LyNbxSEhPPXODPL+KB0VPk86UYfL0lMdy+KCnv+fmvIzySwaK5COwqVbWTQ==}
-    dependencies:
-      safer-buffer: 2.1.2
-    dev: false
-
-  /assert-plus/1.0.0:
-    resolution: {integrity: sha1-8S4PPF13sLHN2RRpQuTpbB5N1SU=}
-    engines: {node: '>=0.8'}
-    dev: false
-
   /assert/1.5.0:
     resolution: {integrity: sha512-EDsgawzwoun2CZkCgtxJbv392v4nbk9XDD06zI+kQYoBM/3RBWLlEyJARDOmhAAosBjWACEkKL6S+lIZtcAubA==}
     dependencies:
@@ -2502,10 +2423,6 @@ packages:
 
   /async-limiter/1.0.1:
     resolution: {integrity: sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==}
-    dev: false
-
-  /async-lock/1.3.0:
-    resolution: {integrity: sha512-8A7SkiisnEgME2zEedtDYPxUPzdv3x//E7n5IFktPAtMYSEAV7eNJF0rMwrVyUFj6d/8rgajLantbjcNRQYXIg==}
     dev: false
 
   /async/2.6.3:
@@ -2538,26 +2455,10 @@ packages:
     engines: {node: '>=0.11'}
     dev: false
 
-  /aws-sign2/0.7.0:
-    resolution: {integrity: sha1-tG6JCTSpWR8tL2+G1+ap8bP+dqg=}
-    dev: false
-
-  /aws4/1.11.0:
-    resolution: {integrity: sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==}
-    dev: false
-
   /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
       follow-redirects: 1.14.5
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
-  /axios/0.21.4_debug@3.2.7:
-    resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
-    dependencies:
-      follow-redirects: 1.14.5_debug@3.2.7
     transitivePeerDependencies:
       - debug
     dev: false
@@ -2627,23 +2528,6 @@ packages:
       - supports-color
     dev: false
 
-  /azure-storage/2.10.5:
-    resolution: {integrity: sha512-kLCbiW1lvwwJwB/iOX7ic7xw/RIcSReF1sUFetEyFSiE+HDdv/wpSlsQx0F0khkXrPtJmBJRH0y9s/CRuRBWLQ==}
-    engines: {node: '>= 0.8.26'}
-    dependencies:
-      browserify-mime: 1.2.9
-      extend: 3.0.2
-      json-edm-parser: 0.1.2
-      md5.js: 1.3.4
-      readable-stream: 2.0.6
-      request: 2.88.2
-      underscore: 1.13.1
-      uuid: 3.4.0
-      validator: 13.6.0
-      xml2js: 0.2.8
-      xmlbuilder: 9.0.7
-    dev: false
-
   /babel-runtime/6.26.0:
     resolution: {integrity: sha1-llxwWGaOgrVde/4E/yM3vItWR/4=}
     dependencies:
@@ -2675,21 +2559,9 @@ packages:
     engines: {node: ^4.5.0 || >= 5.9}
     dev: false
 
-  /bcrypt-pbkdf/1.0.2:
-    resolution: {integrity: sha1-pDAdOJtqQ/m2f/PKEaP2Y342Dp4=}
-    dependencies:
-      tweetnacl: 0.14.5
-    dev: false
-
   /binary-extensions/2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
     engines: {node: '>=8'}
-    dev: false
-
-  /bindings/1.5.0:
-    resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
-    dependencies:
-      file-uri-to-path: 1.0.0
     dev: false
 
   /bl/4.1.0:
@@ -2732,10 +2604,6 @@ packages:
 
   /browser-stdout/1.3.1:
     resolution: {integrity: sha512-qhAVI1+Av2X7qelOfAIYwXONood6XlZE/fXaBSmW/T5SzLAmCgzi+eiWE7fUvbHaeNBQH13UftjpXxsfLkMpgw==}
-    dev: false
-
-  /browserify-mime/1.2.9:
-    resolution: {integrity: sha1-rrGvKN5sDXpqLOQK22j/GEIq8x8=}
     dev: false
 
   /browserslist/4.17.6:
@@ -2791,14 +2659,14 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
-  /caching-transform/3.0.2:
-    resolution: {integrity: sha512-Mtgcv3lh3U0zRii/6qVgQODdPA4G3zhG+jtbCWj39RXuUFTMzH0vcdMtaJS1jPowd+It2Pqr6y3NJMQqOqCE2w==}
-    engines: {node: '>=6'}
+  /caching-transform/4.0.0:
+    resolution: {integrity: sha512-kpqOvwXnjjN44D89K5ccQC+RUrsy7jB/XLlRrx0D7/2HNcTPqzsb6XgYoErwko6QsV184CA2YgS1fxDiiDZMWA==}
+    engines: {node: '>=8'}
     dependencies:
-      hasha: 3.0.0
-      make-dir: 2.1.0
-      package-hash: 3.0.0
-      write-file-atomic: 2.4.3
+      hasha: 5.2.2
+      make-dir: 3.1.0
+      package-hash: 4.0.0
+      write-file-atomic: 3.0.3
     dev: false
 
   /call-bind/1.0.2:
@@ -2820,10 +2688,6 @@ packages:
 
   /caniuse-lite/1.0.30001279:
     resolution: {integrity: sha512-VfEHpzHEXj6/CxggTwSFoZBBYGQfQv9Cf42KPlO79sWXCD1QNKWKsKzFeWL7QpZHJQYAvocqV6Rty1yJMkqWLQ==}
-    dev: false
-
-  /caseless/0.12.0:
-    resolution: {integrity: sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=}
     dev: false
 
   /chai-as-promised/7.1.1_chai@4.3.4:
@@ -2943,12 +2807,25 @@ packages:
     resolution: {integrity: sha512-5tK7EtrZ0N+OLFMthtqOj4fI2Jeb88C4CAZPu25LDVUgXJ0A3Js4PMGqrn0JU1W0Mh1/Z8wZzYPxqUrXeBboCQ==}
     dev: false
 
+  /clean-stack/2.2.0:
+    resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}
+    engines: {node: '>=6'}
+    dev: false
+
   /cliui/5.0.0:
     resolution: {integrity: sha512-PYeGSEmmHM6zvoef2w8TPzlrnNpXIjTipYK780YswmIP9vjxmd6Y2a3CB2Ks6/AU8NHjZugXvo8w3oWM2qnwXA==}
     dependencies:
       string-width: 3.1.0
       strip-ansi: 5.2.0
       wrap-ansi: 5.1.0
+    dev: false
+
+  /cliui/6.0.0:
+    resolution: {integrity: sha512-t6wbgtoCXvAzst7QgXxJYqPt0usEfbgQdftEPbLL/cvv6HPE5VgvqCuAIDR0NgU52ds6rFwqrgakNLrHEjCbrQ==}
+    dependencies:
+      string-width: 4.2.3
+      strip-ansi: 6.0.1
+      wrap-ansi: 6.2.0
     dev: false
 
   /cliui/7.0.4:
@@ -3102,10 +2979,6 @@ packages:
     requiresBuild: true
     dev: false
 
-  /core-util-is/1.0.2:
-    resolution: {integrity: sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=}
-    dev: false
-
   /core-util-is/1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
     dev: false
@@ -3118,17 +2991,6 @@ packages:
       vary: 1.1.2
     dev: false
 
-  /cp-file/6.2.0:
-    resolution: {integrity: sha512-fmvV4caBnofhPe8kOcitBwSn2f39QLjnAnGq3gO9dfd75mUytzKNZB1hde6QHunW2Rt+OwuBOMc3i1tNElbszA==}
-    engines: {node: '>=6'}
-    dependencies:
-      graceful-fs: 4.2.8
-      make-dir: 2.1.0
-      nested-error-stacks: 2.1.0
-      pify: 4.0.1
-      safe-buffer: 5.2.1
-    dev: false
-
   /create-require/1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
     dev: false
@@ -3139,13 +3001,6 @@ packages:
     hasBin: true
     dependencies:
       cross-spawn: 7.0.3
-    dev: false
-
-  /cross-spawn/4.0.2:
-    resolution: {integrity: sha1-e5JHYhwjrf3ThWAEqCPL45dCTUE=}
-    dependencies:
-      lru-cache: 4.1.5
-      which: 1.3.1
     dev: false
 
   /cross-spawn/6.0.5:
@@ -3180,13 +3035,6 @@ packages:
     resolution: {integrity: sha1-XQKkaFCt8bSjF5RqOSj8y1v9BCU=}
     dev: false
 
-  /dashdash/1.14.1:
-    resolution: {integrity: sha1-hTz6D3y+L+1d4gMmuN1YEDX24vA=}
-    engines: {node: '>=0.10'}
-    dependencies:
-      assert-plus: 1.0.0
-    dev: false
-
   /date-fns/2.25.0:
     resolution: {integrity: sha512-ovYRFnTrbGPD4nqaEqescPEv1mNwvt+UTqI3Ay9SzNtey9NZnYu6E2qCcBBgJ6/2VF1zGGygpyTDITqpQQ5e+w==}
     engines: {node: '>=0.11'}
@@ -3200,11 +3048,6 @@ packages:
   /date-format/3.0.0:
     resolution: {integrity: sha512-eyTcpKOcamdhWJXj56DpQMo1ylSQpcGtGKXcU0Tb97+K56/CF5amAqqqNj0+KvA0iw2ynxtHWFsPDSClCxe48w==}
     engines: {node: '>=4.0'}
-    dev: false
-
-  /date-utils/1.2.21:
-    resolution: {integrity: sha1-YfsWzcEnSzyayq/+n8ad+HIKK2Q=}
-    engines: {node: '>0.4.0'}
     dev: false
 
   /dayjs/1.10.7:
@@ -3307,11 +3150,11 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /default-require-extensions/2.0.0:
-    resolution: {integrity: sha1-9fj7sYp9bVCyH2QfZJ67Uiz+JPc=}
-    engines: {node: '>=4'}
+  /default-require-extensions/3.0.0:
+    resolution: {integrity: sha512-ek6DpXq/SCpvjhpFsLFRVtIxJCRw6fUR42lYMVZuUMK7n8eMz4Uh5clckdBjEpLhn/gEBZo7hDJnJcwdKLKQjg==}
+    engines: {node: '>=8'}
     dependencies:
-      strip-bom: 3.0.0
+      strip-bom: 4.0.0
     dev: false
 
   /define-lazy-prop/2.0.0:
@@ -3427,13 +3270,6 @@ packages:
     dependencies:
       shelljs: 0.8.4
       typescript: 3.9.10
-    dev: false
-
-  /ecc-jsbn/0.1.2:
-    resolution: {integrity: sha1-OoOpBOVDUyh4dMVkt1SThoSamMk=}
-    dependencies:
-      jsbn: 0.1.1
-      safer-buffer: 2.1.2
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -3910,11 +3746,6 @@ packages:
       - supports-color
     dev: false
 
-  /extsprintf/1.3.0:
-    resolution: {integrity: sha1-lpGEQOMEGnpBT4xS48V06zw+HgU=}
-    engines: {'0': node >=0.6.0}
-    dev: false
-
   /fast-deep-equal/3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
     dev: false
@@ -4009,13 +3840,13 @@ packages:
       unpipe: 1.0.0
     dev: false
 
-  /find-cache-dir/2.1.0:
-    resolution: {integrity: sha512-Tq6PixE0w/VMFfCgbONnkiQIVol/JJL7nRMi20fqzA4NRs9AfeqMGeRdPi3wIhYkxjeBaWh2rxwapn5Tu3IqOQ==}
-    engines: {node: '>=6'}
+  /find-cache-dir/3.3.2:
+    resolution: {integrity: sha512-wXZV5emFEjrridIgED11OoUKLxiYjAcqot/NJdAkOhlJ+vGzwhOAfcG5OX1jP+S0PcjEn8bdMJv+g2jwQ3Onig==}
+    engines: {node: '>=8'}
     dependencies:
       commondir: 1.0.1
-      make-dir: 2.1.0
-      pkg-dir: 3.0.0
+      make-dir: 3.1.0
+      pkg-dir: 4.2.0
     dev: false
 
   /find-up/2.1.0:
@@ -4077,18 +3908,6 @@ packages:
         optional: true
     dev: false
 
-  /follow-redirects/1.14.5_debug@3.2.7:
-    resolution: {integrity: sha512-wtphSXy7d4/OR+MvIFbCVBDzZ5520qV8XfPklSN5QtxuMUJZ+b0Wnst1e1lCDocfzuCkHqj8k0FpZqO+UIaKNA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 3.2.7
-    dev: false
-
   /follow-redirects/1.14.5_debug@4.3.2:
     resolution: {integrity: sha512-wtphSXy7d4/OR+MvIFbCVBDzZ5520qV8XfPklSN5QtxuMUJZ+b0Wnst1e1lCDocfzuCkHqj8k0FpZqO+UIaKNA==}
     engines: {node: '>=4.0'}
@@ -4105,24 +3924,12 @@ packages:
     resolution: {integrity: sha1-C+4AUBiusmDQo6865ljdATbsG5k=}
     dev: false
 
-  /foreground-child/1.5.6:
-    resolution: {integrity: sha1-T9ca0t/elnibmApcCilZN8svXOk=}
+  /foreground-child/2.0.0:
+    resolution: {integrity: sha512-dCIq9FpEcyQyXKCkyzmlPTFNgrCzPudOe+mhvJU5zAtlBnGVy2yKxtfsxK2tQBThwq225jcvBjpw1Gr40uzZCA==}
+    engines: {node: '>=8.0.0'}
     dependencies:
-      cross-spawn: 4.0.2
+      cross-spawn: 7.0.3
       signal-exit: 3.0.5
-    dev: false
-
-  /forever-agent/0.6.1:
-    resolution: {integrity: sha1-+8cfDEGt6zf5bFd60e1C2P2sypE=}
-    dev: false
-
-  /form-data/2.3.3:
-    resolution: {integrity: sha512-1lLKB2Mu3aGP1Q/2eCOx0fNbRMe7XdwktwOruhfqqd0rIJWwN4Dh+E3hrPSlDCXnSR7UtZ1N38rVXm+6+MEhJQ==}
-    engines: {node: '>= 0.12'}
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.34
     dev: false
 
   /form-data/2.5.1:
@@ -4160,6 +3967,10 @@ packages:
   /fresh/0.5.2:
     resolution: {integrity: sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /fromentries/1.3.2:
+    resolution: {integrity: sha512-cHEpEQHUg0f8XdtZCc2ZAhrHzKzT0MrFUTcvx+hfxYu7rGMDc5SKoXFh+n4YigxsHXRzc6OrCshdR1bWH6HHyg==}
     dev: false
 
   /fs-constants/1.0.0:
@@ -4252,6 +4063,11 @@ packages:
       has-symbols: 1.0.2
     dev: false
 
+  /get-package-type/0.1.0:
+    resolution: {integrity: sha512-pjzuKtY64GYfWizNAJ0fr9VqttZkNiK2iS430LtIHzjBEr6bX8Am2zm4sW4Ro5wjWW5cAlRL1qAMTcXbjNAO2Q==}
+    engines: {node: '>=8.0.0'}
+    dev: false
+
   /get-stream/5.2.0:
     resolution: {integrity: sha512-nBF+F1rAZVCu/p7rjzgA+Yb4lfYXrpl7a6VmJrU8wF9I1CKvP/QwPNZHnOlwbTkY6dvtFIzFMSyQXbLoTQPRpA==}
     engines: {node: '>=8'}
@@ -4276,12 +4092,6 @@ packages:
     resolution: {integrity: sha512-U56CfOK17OKgTVqozZjUKNdkfEv6jk5WISBJ8SHoagjE6L69zOwl3Z+O8myjY9MEW3i2HPWQBt/LTbCgcC973Q==}
     dependencies:
       async: 3.2.2
-    dev: false
-
-  /getpass/0.1.7:
-    resolution: {integrity: sha1-Xv+OPmhNVprkyysSgmBOi6YhSfo=}
-    dependencies:
-      assert-plus: 1.0.0
     dev: false
 
   /github-from-package/0.0.0:
@@ -4398,20 +4208,6 @@ packages:
       uglify-js: 3.14.3
     dev: false
 
-  /har-schema/2.0.0:
-    resolution: {integrity: sha1-qUwiJOvKwEeCoNkDVSHyRzW37JI=}
-    engines: {node: '>=4'}
-    dev: false
-
-  /har-validator/5.1.5:
-    resolution: {integrity: sha512-nmT2T0lljbxdQZfspsno9hgrG3Uir6Ks5afism62poxqBM6sDnMEuPmzTq8XN0OEwqKLLdh1jQI3qyE66Nzb3w==}
-    engines: {node: '>=6'}
-    deprecated: this library is no longer supported
-    dependencies:
-      ajv: 6.12.6
-      har-schema: 2.0.0
-    dev: false
-
   /has-ansi/2.0.0:
     resolution: {integrity: sha1-NPUEnOHs3ysGSa8+8k5F7TVBbZE=}
     engines: {node: '>=0.10.0'}
@@ -4468,20 +4264,12 @@ packages:
       function-bind: 1.1.1
     dev: false
 
-  /hash-base/3.1.0:
-    resolution: {integrity: sha512-1nmYp/rhMDiE7AYkDw+lLwlAzz0AntGIe51F3RfFfEqyQ3feY2eI/NcwC6umIQVOASPMsWJLJScWKSSvzL9IVA==}
-    engines: {node: '>=4'}
+  /hasha/5.2.2:
+    resolution: {integrity: sha512-Hrp5vIK/xr5SkeN2onO32H0MgNZ0f17HRNH39WfL0SYUNOTZ5Lz1TJ8Pajo/87dYGEFlLMm7mIc/k/s6Bvz9HQ==}
+    engines: {node: '>=8'}
     dependencies:
-      inherits: 2.0.4
-      readable-stream: 3.6.0
-      safe-buffer: 5.2.1
-    dev: false
-
-  /hasha/3.0.0:
-    resolution: {integrity: sha1-UqMvq4Vp1BymmmH/GiFPjrfIvTk=}
-    engines: {node: '>=4'}
-    dependencies:
-      is-stream: 1.1.0
+      is-stream: 2.0.1
+      type-fest: 0.8.1
     dev: false
 
   /he/1.2.0:
@@ -4565,15 +4353,6 @@ packages:
       - debug
     dev: false
 
-  /http-signature/1.2.0:
-    resolution: {integrity: sha1-muzZJRFHcvPZW2WmCruPfBj7rOE=}
-    engines: {node: '>=0.8', npm: '>=1.3.7'}
-    dependencies:
-      assert-plus: 1.0.0
-      jsprim: 1.4.1
-      sshpk: 1.16.1
-    dev: false
-
   /https-proxy-agent/5.0.0:
     resolution: {integrity: sha512-EkYm5BcKUGiduxzSt3Eppko+PiNWNEpa4ySk9vTC6wDsQJW9rHSa+UhGNJoRYp7bz6Ht1eaRIa6QaJqO5rCFbA==}
     engines: {node: '>= 6'}
@@ -4626,6 +4405,11 @@ packages:
   /imurmurhash/0.1.4:
     resolution: {integrity: sha1-khi5srkoojixPcT7a21XbyMUU+o=}
     engines: {node: '>=0.8.19'}
+    dev: false
+
+  /indent-string/4.0.0:
+    resolution: {integrity: sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==}
+    engines: {node: '>=8'}
     dev: false
 
   /inflight/1.0.6:
@@ -4830,11 +4614,6 @@ packages:
     resolution: {integrity: sha512-IU0NmyknYZN0rChcKhRO1X8LYz5Isj/Fsqh8NJOSf+N/hCOTwy29F32Ik7a+QszE63IdvmwdTPDd6cZ5pg4cwA==}
     dev: false
 
-  /is-stream/1.1.0:
-    resolution: {integrity: sha1-EtSj3U5o4Lec6428hBc66A2RykQ=}
-    engines: {node: '>=0.10.0'}
-    dev: false
-
   /is-stream/2.0.1:
     resolution: {integrity: sha512-hFoiJiTl63nn+kstHGBtewWSKnQLpyb155KHheA1l39uvtO9nWIop1p3udqPcUd/xbF1VLMO4n7OI6p7RbngDg==}
     engines: {node: '>=8'}
@@ -4913,40 +4692,16 @@ packages:
     resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
     dev: false
 
-  /isstream/0.1.2:
-    resolution: {integrity: sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=}
-    dev: false
-
-  /istanbul-lib-coverage/2.0.5:
-    resolution: {integrity: sha512-8aXznuEPCJvGnMSRft4udDRDtb1V3pkQkMMI5LI+6HuQz5oQ4J2UFn1H82raA3qJtyOLkkwVqICBQkjnGtn5mA==}
-    engines: {node: '>=6'}
-    dev: false
-
   /istanbul-lib-coverage/3.2.0:
     resolution: {integrity: sha512-eOeJ5BHCmHYvQK7xt9GkdHuzuCGS1Y6g9Gvnx3Ym33fz/HpLRYxiS0wHNr+m/MBC8B647Xt608vCDEvhl9c6Mw==}
     engines: {node: '>=8'}
     dev: false
 
-  /istanbul-lib-hook/2.0.7:
-    resolution: {integrity: sha512-vrRztU9VRRFDyC+aklfLoeXyNdTfga2EI3udDGn4cZ6fpSXpHLV9X6CHvfoMCPtggg8zvDDmC4b9xfu0z6/llA==}
-    engines: {node: '>=6'}
+  /istanbul-lib-hook/3.0.0:
+    resolution: {integrity: sha512-Pt/uge1Q9s+5VAZ+pCo16TYMWPBIl+oaNIjgLQxcX0itS6ueeaA+pEfThZpH8WxhFgCiEb8sAJY6MdUKgiIWaQ==}
+    engines: {node: '>=8'}
     dependencies:
-      append-transform: 1.0.0
-    dev: false
-
-  /istanbul-lib-instrument/3.3.0:
-    resolution: {integrity: sha512-5nnIN4vo5xQZHdXno/YDXJ0G+I3dAm4XgzfSVTPLQpj/zAV2dV6Juy0yaf10/zrJOJeHoN3fraFe+XRq2bFVZA==}
-    engines: {node: '>=6'}
-    dependencies:
-      '@babel/generator': 7.16.0
-      '@babel/parser': 7.16.3
-      '@babel/template': 7.16.0
-      '@babel/traverse': 7.16.3
-      '@babel/types': 7.16.0
-      istanbul-lib-coverage: 2.0.5
-      semver: 6.3.0
-    transitivePeerDependencies:
-      - supports-color
+      append-transform: 2.0.0
     dev: false
 
   /istanbul-lib-instrument/4.0.3:
@@ -4961,13 +4716,17 @@ packages:
       - supports-color
     dev: false
 
-  /istanbul-lib-report/2.0.8:
-    resolution: {integrity: sha512-fHBeG573EIihhAblwgxrSenp0Dby6tJMFR/HvlerBsrCTD5bkUuoNtn3gVh29ZCS824cGGBPn7Sg7cNk+2xUsQ==}
-    engines: {node: '>=6'}
+  /istanbul-lib-processinfo/2.0.2:
+    resolution: {integrity: sha512-kOwpa7z9hme+IBPZMzQ5vdQj8srYgAtaRqeI48NGmAQ+/5yKiHLV0QbYqQpxsdEF0+w14SoB8YbnHKcXE2KnYw==}
+    engines: {node: '>=8'}
     dependencies:
-      istanbul-lib-coverage: 2.0.5
-      make-dir: 2.1.0
-      supports-color: 6.1.0
+      archy: 1.0.0
+      cross-spawn: 7.0.3
+      istanbul-lib-coverage: 3.2.0
+      make-dir: 3.1.0
+      p-map: 3.0.0
+      rimraf: 3.0.2
+      uuid: 3.4.0
     dev: false
 
   /istanbul-lib-report/3.0.0:
@@ -4979,19 +4738,6 @@ packages:
       supports-color: 7.2.0
     dev: false
 
-  /istanbul-lib-source-maps/3.0.6:
-    resolution: {integrity: sha512-R47KzMtDJH6X4/YW9XTx+jrLnZnscW4VpNN+1PViSYTejLVPWv7oov+Duf8YQSPyVRUvueQqz1TcsC6mooZTXw==}
-    engines: {node: '>=6'}
-    dependencies:
-      debug: 4.3.2
-      istanbul-lib-coverage: 2.0.5
-      make-dir: 2.1.0
-      rimraf: 2.7.1
-      source-map: 0.6.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /istanbul-lib-source-maps/4.0.1:
     resolution: {integrity: sha512-n3s8EwkdFIJCG3BPKBYvskgXGoy88ARzvegkitk60NxRdwltLOTaH7CUiMRXvwYorl0Q712iEjcWB+fK/MrWVw==}
     engines: {node: '>=10'}
@@ -5001,13 +4747,6 @@ packages:
       source-map: 0.6.1
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /istanbul-reports/2.2.7:
-    resolution: {integrity: sha512-uu1F/L1o5Y6LzPVSVZXNOoD/KXpJue9aeLRd0sM9uMXfZvzomB0WxVamWb5ue8kA2vVWEmW7EG+A5n3f1kqHKg==}
-    engines: {node: '>=6'}
-    dependencies:
-      html-escaper: 2.0.2
     dev: false
 
   /istanbul-reports/3.0.5:
@@ -5063,20 +4802,10 @@ packages:
     resolution: {integrity: sha512-aBE4n43IPvjaddScbvWRA2YlTzKEynHzu7MqOyTipdHucf/VxS63ViCjxYRg86M8Rxwbt/GfzHl1kKERkt45fQ==}
     dev: false
 
-  /jsbn/0.1.1:
-    resolution: {integrity: sha1-peZUwuWi3rXyAdls77yoDA7y9RM=}
-    dev: false
-
   /jsesc/2.5.2:
     resolution: {integrity: sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==}
     engines: {node: '>=4'}
     hasBin: true
-    dev: false
-
-  /json-edm-parser/0.1.2:
-    resolution: {integrity: sha1-HmCw/vG8CvZ7wNFG393lSGzWFbQ=}
-    dependencies:
-      jsonparse: 1.2.0
     dev: false
 
   /json-parse-better-errors/1.0.2:
@@ -5089,10 +4818,6 @@ packages:
 
   /json-schema-traverse/1.0.0:
     resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
-    dev: false
-
-  /json-schema/0.2.3:
-    resolution: {integrity: sha1-tIDIkuWaLwWVTOcnvT8qTogvnhM=}
     dev: false
 
   /json-schema/0.4.0:
@@ -5128,11 +4853,6 @@ packages:
       graceful-fs: 4.2.8
     dev: false
 
-  /jsonparse/1.2.0:
-    resolution: {integrity: sha1-XAxWhRBxYOcv50ib3eoLRMK8Z70=}
-    engines: {'0': node >= 0.2.0}
-    dev: false
-
   /jsonwebtoken/8.5.1:
     resolution: {integrity: sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w==}
     engines: {node: '>=4', npm: '>=1.4.28'}
@@ -5149,23 +4869,8 @@ packages:
       semver: 5.7.1
     dev: false
 
-  /jsprim/1.4.1:
-    resolution: {integrity: sha1-MT5mvB5cwG5Di8G3SZwuXFastqI=}
-    engines: {'0': node >=0.6.0}
-    dependencies:
-      assert-plus: 1.0.0
-      extsprintf: 1.3.0
-      json-schema: 0.2.3
-      verror: 1.10.0
-    dev: false
-
   /jsrsasign/10.4.1:
     resolution: {integrity: sha512-g2CP2nb8xKdmfZhuHaJEz1zVYTsZc+lUjLFvgbMX35/cUALK0G15sQfCbCpDg/UivkjCNlq0lV6FxCfPhv0shw==}
-    dev: false
-
-  /jssha/2.4.2:
-    resolution: {integrity: sha512-/jsi/9C0S70zfkT/4UlKQa5E1xKurDnXcQizcww9JSR/Fv+uIbWM2btG+bFcL3iNoK9jIGS0ls9HWLr1iw0kFg==}
-    deprecated: jsSHA versions < 3.0.0 will no longer receive feature updates
     dev: false
 
   /jssha/3.2.0:
@@ -5545,13 +5250,6 @@ packages:
     resolution: {integrity: sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==}
     dev: false
 
-  /lru-cache/4.1.5:
-    resolution: {integrity: sha512-sWZlbEP2OsHNkXrMl5GYk/jKk70MBng6UU4YI/qGDYbgf6YbP4EvmqISbXCoJiRKs+1bSpFHVgQxvJ17F2li5g==}
-    dependencies:
-      pseudomap: 1.0.2
-      yallist: 2.1.2
-    dev: false
-
   /lru-cache/6.0.0:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
@@ -5574,14 +5272,6 @@ packages:
     resolution: {integrity: sha512-4CrMT5DOHTDk4HYDlzmwu4FVCcIYI8gauveasrdCu2IKIFOJ3f0v/8MDGJCDL9oD2ppz/Av1b0Nj345H9M+XIA==}
     dependencies:
       sourcemap-codec: 1.4.8
-    dev: false
-
-  /make-dir/2.1.0:
-    resolution: {integrity: sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==}
-    engines: {node: '>=6'}
-    dependencies:
-      pify: 4.0.1
-      semver: 5.7.1
     dev: false
 
   /make-dir/3.1.0:
@@ -5613,13 +5303,6 @@ packages:
       resolve-dir: 1.0.1
     dev: false
 
-  /md5.js/1.3.4:
-    resolution: {integrity: sha1-6b296UogpawYsENA/Fdk1bCdkB0=}
-    dependencies:
-      hash-base: 3.1.0
-      inherits: 2.0.4
-    dev: false
-
   /md5/2.3.0:
     resolution: {integrity: sha512-T1GITYmFaKuO91vxyoQMFETst+O71VUPEU3ze5GNzDm0OWdP8v1ziTaAEPUr/3kLsY3Sftgz242A1SetQiDL7g==}
     dependencies:
@@ -5640,12 +5323,6 @@ packages:
 
   /merge-descriptors/1.0.1:
     resolution: {integrity: sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=}
-    dev: false
-
-  /merge-source-map/1.1.0:
-    resolution: {integrity: sha512-Qkcp7P2ygktpMPh2mCQZaf3jhN6D3Z/qVZHSdWvQ+2Ef5HgRAPBO57A77+ENm0CPx2+1Ce/MYKi3ymqdfuqibw==}
-    dependencies:
-      source-map: 0.6.1
     dev: false
 
   /merge-stream/2.0.0:
@@ -5737,8 +5414,8 @@ packages:
     hasBin: true
     dev: false
 
-  /mocha-junit-reporter/1.23.3_mocha@7.2.0:
-    resolution: {integrity: sha512-ed8LqbRj1RxZfjt/oC9t12sfrWsjZ3gNnbhV1nuj9R/Jb5/P3Xb4duv2eCfCDMYH+fEu0mqca7m4wsiVjsxsvA==}
+  /mocha-junit-reporter/2.0.2_mocha@7.2.0:
+    resolution: {integrity: sha512-vYwWq5hh3v1lG0gdQCBxwNipBfvDiAM1PHroQRNp96+2l72e9wEUTw+mzoK+O0SudgfQ7WvTQZ9Nh3qkAYAjfg==}
     peerDependencies:
       mocha: '>=2.2.5'
     dependencies:
@@ -5746,7 +5423,7 @@ packages:
       md5: 2.3.0
       mkdirp: 0.5.5
       mocha: 7.2.0
-      strip-ansi: 4.0.0
+      strip-ansi: 6.0.1
       xml: 1.0.1
     dev: false
 
@@ -5852,10 +5529,6 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: false
 
-  /nested-error-stacks/2.1.0:
-    resolution: {integrity: sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==}
-    dev: false
-
   /nice-try/1.0.5:
     resolution: {integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==}
     dev: false
@@ -5888,8 +5561,8 @@ packages:
       semver: 5.7.1
     dev: false
 
-  /node-abort-controller/1.2.1:
-    resolution: {integrity: sha512-79PYeJuj6S9+yOHirR0JBLFOgjB6sQCir10uN6xRx25iD+ZD4ULqgRn3MwWBRaQGB0vEgReJzWwJo42T1R6YbQ==}
+  /node-abort-controller/3.0.1:
+    resolution: {integrity: sha512-/ujIVxthRs+7q6hsdjHMaj8hRG9NuWmwrz+JdRwZ14jdFoKSkm+vDsCbF9PLpnSqjaWQJuTmVtcWHNLr+vrOFw==}
     dev: false
 
   /node-addon-api/3.2.1:
@@ -5913,6 +5586,13 @@ packages:
     engines: {node: 4.x || >=6.0.0}
     dependencies:
       whatwg-url: 5.0.0
+    dev: false
+
+  /node-preload/0.2.1:
+    resolution: {integrity: sha512-RM5oyBy45cLEoHqCeh+MNuFAxO0vTFBLskvQbOKnEE7YTTSN4tbN8QWDIPQ6L+WvKsB/qLEGpYe2ZZ9d4W9OIQ==}
+    engines: {node: '>=8'}
+    dependencies:
+      process-on-spawn: 1.0.0
     dev: false
 
   /node-releases/2.0.1:
@@ -5977,42 +5657,40 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /nyc/14.1.1:
-    resolution: {integrity: sha512-OI0vm6ZGUnoGZv/tLdZ2esSVzDwUC88SNs+6JoSOMVxA+gKMB8Tk7jBwgemLx4O40lhhvZCVw1C+OYLOBOPXWw==}
-    engines: {node: '>=6'}
+  /nyc/15.1.0:
+    resolution: {integrity: sha512-jMW04n9SxKdKi1ZMGhvUTHBN0EICCRkHemEoE5jm6mTYcqcdas0ATzgUgejlQUHMvpnOZqGB5Xxsv9KxJW1j8A==}
+    engines: {node: '>=8.9'}
     hasBin: true
     dependencies:
-      archy: 1.0.0
-      caching-transform: 3.0.2
+      '@istanbuljs/load-nyc-config': 1.1.0
+      '@istanbuljs/schema': 0.1.3
+      caching-transform: 4.0.0
       convert-source-map: 1.8.0
-      cp-file: 6.2.0
-      find-cache-dir: 2.1.0
-      find-up: 3.0.0
-      foreground-child: 1.5.6
+      decamelize: 1.2.0
+      find-cache-dir: 3.3.2
+      find-up: 4.1.0
+      foreground-child: 2.0.0
+      get-package-type: 0.1.0
       glob: 7.2.0
-      istanbul-lib-coverage: 2.0.5
-      istanbul-lib-hook: 2.0.7
-      istanbul-lib-instrument: 3.3.0
-      istanbul-lib-report: 2.0.8
-      istanbul-lib-source-maps: 3.0.6
-      istanbul-reports: 2.2.7
-      js-yaml: 3.14.1
-      make-dir: 2.1.0
-      merge-source-map: 1.1.0
-      resolve-from: 4.0.0
-      rimraf: 2.7.1
+      istanbul-lib-coverage: 3.2.0
+      istanbul-lib-hook: 3.0.0
+      istanbul-lib-instrument: 4.0.3
+      istanbul-lib-processinfo: 2.0.2
+      istanbul-lib-report: 3.0.0
+      istanbul-lib-source-maps: 4.0.1
+      istanbul-reports: 3.0.5
+      make-dir: 3.1.0
+      node-preload: 0.2.1
+      p-map: 3.0.0
+      process-on-spawn: 1.0.0
+      resolve-from: 5.0.0
+      rimraf: 3.0.2
       signal-exit: 3.0.5
-      spawn-wrap: 1.4.3
-      test-exclude: 5.2.3
-      uuid: 3.4.0
-      yargs: 13.3.2
-      yargs-parser: 13.1.2
+      spawn-wrap: 2.0.0
+      test-exclude: 6.0.0
+      yargs: 15.4.1
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /oauth-sign/0.9.0:
-    resolution: {integrity: sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==}
     dev: false
 
   /object-assign/4.1.1:
@@ -6116,11 +5794,6 @@ packages:
       word-wrap: 1.2.3
     dev: false
 
-  /os-homedir/1.0.2:
-    resolution: {integrity: sha1-/7xJiDNuDoM94MFox+8VISGqf7M=}
-    engines: {node: '>=0.10.0'}
-    dev: false
-
   /p-limit/1.3.0:
     resolution: {integrity: sha512-vvcXsLAJ9Dr5rQOPk7toZQZJApBl2K4J6dANSsEuh6QI41JYcsS/qhTGa9ErIUUgK3WNQoJYvylxvjqmiqEA9Q==}
     engines: {node: '>=4'}
@@ -6156,6 +5829,13 @@ packages:
       p-limit: 2.3.0
     dev: false
 
+  /p-map/3.0.0:
+    resolution: {integrity: sha512-d3qXVTF/s+W+CdJ5A29wywV2n8CQQYahlgz2bFiA+4eVNJbHJodPZ+/gXwPGh0bOqA+j8S+6+ckmvLGPk1QpxQ==}
+    engines: {node: '>=8'}
+    dependencies:
+      aggregate-error: 3.1.0
+    dev: false
+
   /p-try/1.0.0:
     resolution: {integrity: sha1-y8ec26+P1CKOE/Yh8rGiN8GyB7M=}
     engines: {node: '>=4'}
@@ -6166,12 +5846,12 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /package-hash/3.0.0:
-    resolution: {integrity: sha512-lOtmukMDVvtkL84rJHI7dpTYq+0rli8N2wlnqUcBuDWCfVhRUfOmnR9SsoHFMLpACvEV60dX7rd0rFaYDZI+FA==}
-    engines: {node: '>=6'}
+  /package-hash/4.0.0:
+    resolution: {integrity: sha512-whdkPIooSu/bASggZ96BWVvZTRMOFxnyUG5PnTSGKoJE2gd5mbVNmR2Nj20QFzxYYgAXpoqC+AiXzl+UMRh7zQ==}
+    engines: {node: '>=8'}
     dependencies:
       graceful-fs: 4.2.8
-      hasha: 3.0.0
+      hasha: 5.2.2
       lodash.flattendeep: 4.4.0
       release-zalgo: 1.0.0
     dev: false
@@ -6199,10 +5879,6 @@ packages:
   /parseurl/1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}
     engines: {node: '>= 0.8'}
-    dev: false
-
-  /path-browserify/1.0.1:
-    resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
     dev: false
 
   /path-exists/3.0.0:
@@ -6268,10 +5944,6 @@ packages:
     resolution: {integrity: sha1-elfrVQpng/kRUzH89GY9XI4AelA=}
     dev: false
 
-  /performance-now/2.1.0:
-    resolution: {integrity: sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=}
-    dev: false
-
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
     dev: false
@@ -6292,23 +5964,11 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
-  /pify/4.0.1:
-    resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
-    engines: {node: '>=6'}
-    dev: false
-
   /pkg-dir/2.0.0:
     resolution: {integrity: sha1-9tXREJ4Z1j7fQo4L1X4Sd3YVM0s=}
     engines: {node: '>=4'}
     dependencies:
       find-up: 2.1.0
-    dev: false
-
-  /pkg-dir/3.0.0:
-    resolution: {integrity: sha512-/E57AYkoeQ25qkxMj5PBOVgF8Kiu/h7cYS30Z5+R7WaiCCBfLq58ZI/dSeaEKb9WVJV5n/03QwrN3IeWIFllvw==}
-    engines: {node: '>=6'}
-    dependencies:
-      find-up: 3.0.0
     dev: false
 
   /pkg-dir/4.2.0:
@@ -6370,12 +6030,15 @@ packages:
     resolution: {integrity: sha1-LuTyPCVgkT4IwHzlzN1t498sWvg=}
     dev: false
 
-  /process-nextick-args/1.0.7:
-    resolution: {integrity: sha1-FQ4gt1ZZCtP5EJPyWk8q2L/zC6M=}
-    dev: false
-
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
+    dev: false
+
+  /process-on-spawn/1.0.0:
+    resolution: {integrity: sha512-1WsPDsUSMmZH5LeMLegqkPDrsGgsWwk1Exipy2hvB0o/F0ASzbpIctSCcZIK1ykJvtTJULEH+20WOFjMvGnCTg==}
+    engines: {node: '>=8'}
+    dependencies:
+      fromentries: 1.3.2
     dev: false
 
   /process/0.11.10:
@@ -6414,10 +6077,6 @@ packages:
 
   /proxy-from-env/1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
-    dev: false
-
-  /pseudomap/1.0.2:
-    resolution: {integrity: sha1-8FKijacOYYkX7wqKw0wa5aaChrM=}
     dev: false
 
   /psl/1.8.0:
@@ -6473,11 +6132,6 @@ packages:
     engines: {node: '>=0.6'}
     dependencies:
       side-channel: 1.0.4
-    dev: false
-
-  /qs/6.5.2:
-    resolution: {integrity: sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==}
-    engines: {node: '>=0.6'}
     dev: false
 
   /qs/6.7.0:
@@ -6540,14 +6194,6 @@ packages:
       strip-json-comments: 2.0.1
     dev: false
 
-  /read-pkg-up/4.0.0:
-    resolution: {integrity: sha512-6etQSH7nJGsK0RbG/2TeDzZFa8shjQ1um+SwQQ5cwKy0dhSXdOncEhb1CPpvQG4h7FyOV6EB6YlV0yJvZQNAkA==}
-    engines: {node: '>=6'}
-    dependencies:
-      find-up: 3.0.0
-      read-pkg: 3.0.0
-    dev: false
-
   /read-pkg/3.0.0:
     resolution: {integrity: sha1-nLxoaXj+5l0WwA4rGcI3/Pbjg4k=}
     engines: {node: '>=4'}
@@ -6555,17 +6201,6 @@ packages:
       load-json-file: 4.0.0
       normalize-package-data: 2.5.0
       path-type: 3.0.0
-    dev: false
-
-  /readable-stream/2.0.6:
-    resolution: {integrity: sha1-j5A0HmilPMySh4jaz80Rs265t44=}
-    dependencies:
-      core-util-is: 1.0.3
-      inherits: 2.0.4
-      isarray: 1.0.0
-      process-nextick-args: 1.0.7
-      string_decoder: 0.10.31
-      util-deprecate: 1.0.2
     dev: false
 
   /readable-stream/2.3.7:
@@ -6634,33 +6269,6 @@ packages:
     resolution: {integrity: sha1-wkvOKig62tW8P1jg1IJJuSN52O8=}
     dev: false
 
-  /request/2.88.2:
-    resolution: {integrity: sha512-MsvtOrfG9ZcrOwAW+Qi+F6HbD0CWXEh9ou77uOb7FM2WPhwT7smM833PzanhJLsgXjN89Ir6V2PczXNnMpwKhw==}
-    engines: {node: '>= 6'}
-    deprecated: request has been deprecated, see https://github.com/request/request/issues/3142
-    dependencies:
-      aws-sign2: 0.7.0
-      aws4: 1.11.0
-      caseless: 0.12.0
-      combined-stream: 1.0.8
-      extend: 3.0.2
-      forever-agent: 0.6.1
-      form-data: 2.3.3
-      har-validator: 5.1.5
-      http-signature: 1.2.0
-      is-typedarray: 1.0.0
-      isstream: 0.1.2
-      json-stringify-safe: 5.0.1
-      mime-types: 2.1.34
-      oauth-sign: 0.9.0
-      performance-now: 2.1.0
-      qs: 6.5.2
-      safe-buffer: 5.2.1
-      tough-cookie: 2.5.0
-      tunnel-agent: 0.6.0
-      uuid: 3.4.0
-    dev: false
-
   /require-directory/2.1.1:
     resolution: {integrity: sha1-jGStX9MNqxyXbiNE/+f3kqam30I=}
     engines: {node: '>=0.10.0'}
@@ -6708,6 +6316,11 @@ packages:
     engines: {node: '>=4'}
     dev: false
 
+  /resolve-from/5.0.0:
+    resolution: {integrity: sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==}
+    engines: {node: '>=8'}
+    dev: false
+
   /resolve-url/0.2.1:
     resolution: {integrity: sha1-LGN/53yJOv0qZj/iGqkIAGjiBSo=}
     deprecated: https://github.com/lydell/resolve-url#deprecated
@@ -6733,12 +6346,6 @@ packages:
       path-parse: 1.0.7
     dev: false
 
-  /resolve/1.8.1:
-    resolution: {integrity: sha512-AicPrAC7Qu1JxPCZ9ZgCZlY35QgFnNqc+0LtbRNxnVw4TXvjQ72wnuL9JQcEBgXkI9JM8MsT9kaQoHcpCRJOYA==}
-    dependencies:
-      path-parse: 1.0.7
-    dev: false
-
   /reusify/1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
@@ -6746,14 +6353,6 @@ packages:
 
   /rfdc/1.3.0:
     resolution: {integrity: sha512-V2hovdzFbOi77/WajaSMXk2OLm+xNIeQdMMuB7icj7bk6zi2F8GGAxigcnDFpJHbNyNcgyJDiP+8nOrY5cZGrA==}
-    dev: false
-
-  /rhea-promise/0.1.15:
-    resolution: {integrity: sha512-+6uilZXSJGyiqVeHQI3Krv6NTAd8cWRCY2uyCxmzR4/5IFtBqqFem1HV2OiwSj0Gu7OFChIJDfH2JyjN7J0vRA==}
-    dependencies:
-      debug: 3.2.7
-      rhea: 1.0.24
-      tslib: 1.14.1
     dev: false
 
   /rhea-promise/2.1.0:
@@ -6774,13 +6373,6 @@ packages:
     resolution: {integrity: sha512-v5+FAv279a/khoRQcgJF+05ErEvyQmLmZ4a5s1BT0/Qx/GawD9MrczHRTKQbInZmbfGrdv/k8pYFc5YjUIkGUQ==}
     dependencies:
       debug: 3.2.7
-    dev: false
-
-  /rimraf/2.7.1:
-    resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
-    hasBin: true
-    dependencies:
-      glob: 7.2.0
     dev: false
 
   /rimraf/3.0.2:
@@ -6885,10 +6477,6 @@ packages:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     dev: false
 
-  /sax/0.5.8:
-    resolution: {integrity: sha1-1HLbIo6zMcJQaw6MFVJK25OdEsE=}
-    dev: false
-
   /sax/1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
     dev: false
@@ -6896,11 +6484,6 @@ packages:
   /semaphore/1.1.0:
     resolution: {integrity: sha512-O4OZEaNtkMd/K0i6js9SL+gqy0ZCBMgUvlSqHKi4IBdjhe7wB8pwztUk1BbZ1fmrvpwFrPbHzqd2w5pTcJH6LA==}
     engines: {node: '>=0.8.0'}
-    dev: false
-
-  /semver/5.3.0:
-    resolution: {integrity: sha1-myzl094C0XxgEq0yaqa00M9U+U8=}
-    hasBin: true
     dev: false
 
   /semver/5.7.1:
@@ -7193,15 +6776,16 @@ packages:
     resolution: {integrity: sha1-YvXpRmmBwbeW3Fkpk34RycaSG9A=}
     dev: false
 
-  /spawn-wrap/1.4.3:
-    resolution: {integrity: sha512-IgB8md0QW/+tWqcavuFgKYR/qIRvJkRLPJDFaoXtLLUaVcCDK0+HeFTkmQHj3eprcYhc+gOl0aEA1w7qZlYezw==}
+  /spawn-wrap/2.0.0:
+    resolution: {integrity: sha512-EeajNjfN9zMnULLwhZZQU3GWBoFNkbngTUPfaawT4RkMiviTxcX0qfhVbGey39mfctfDHkWtuecgQ8NJcyQWHg==}
+    engines: {node: '>=8'}
     dependencies:
-      foreground-child: 1.5.6
-      mkdirp: 0.5.5
-      os-homedir: 1.0.2
-      rimraf: 2.7.1
+      foreground-child: 2.0.0
+      is-windows: 1.0.2
+      make-dir: 3.1.0
+      rimraf: 3.0.2
       signal-exit: 3.0.5
-      which: 1.3.1
+      which: 2.0.2
     dev: false
 
   /spdx-correct/3.1.1:
@@ -7230,22 +6814,6 @@ packages:
     resolution: {integrity: sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=}
     dev: false
 
-  /sshpk/1.16.1:
-    resolution: {integrity: sha512-HXXqVUq7+pcKeLqqZj6mHFUMvXtOJt1uoUx09pFW6011inTMxqI8BA8PM95myrIyyKwdnzjdFjLiE6KBPVtJIg==}
-    engines: {node: '>=0.10.0'}
-    hasBin: true
-    dependencies:
-      asn1: 0.2.6
-      assert-plus: 1.0.0
-      bcrypt-pbkdf: 1.0.2
-      dashdash: 1.14.1
-      ecc-jsbn: 0.1.2
-      getpass: 0.1.7
-      jsbn: 0.1.1
-      safer-buffer: 2.1.2
-      tweetnacl: 0.14.5
-    dev: false
-
   /statuses/1.5.0:
     resolution: {integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=}
     engines: {node: '>= 0.6'}
@@ -7254,13 +6822,6 @@ packages:
   /stoppable/1.1.0:
     resolution: {integrity: sha512-KXDYZ9dszj6bzvnEMRYvxgeTHU74QBFL54XKtP3nyMuJ81CFYtABZ3bAzL2EdFUaEwJOBOgENyFj3R7oTzDyyw==}
     engines: {node: '>=4', npm: '>=6'}
-    dev: false
-
-  /stream-browserify/2.0.2:
-    resolution: {integrity: sha512-nX6hmklHs/gr2FuxYDltq8fJA1GDlxKQCz8O/IM4atRqBH8OORmBNgfvW5gG10GT/qQ9u0CzIvr2X5Pkt6ntqg==}
-    dependencies:
-      inherits: 2.0.4
-      readable-stream: 2.3.7
     dev: false
 
   /streamroller/2.2.4:
@@ -7337,10 +6898,6 @@ packages:
       define-properties: 1.1.3
     dev: false
 
-  /string_decoder/0.10.31:
-    resolution: {integrity: sha1-YuIDvEF2bGwoyfyEMB2rHFMQ+pQ=}
-    dev: false
-
   /string_decoder/1.1.1:
     resolution: {integrity: sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==}
     dependencies:
@@ -7384,6 +6941,11 @@ packages:
   /strip-bom/3.0.0:
     resolution: {integrity: sha1-IzTBjpx1n3vdVv3vfprj1YjmjtM=}
     engines: {node: '>=4'}
+    dev: false
+
+  /strip-bom/4.0.0:
+    resolution: {integrity: sha512-3xurFv5tEgii33Zi8Jtp55wEIILR9eh34FAW00PZf+JnSsTmV/ioewSgQl97JHvgjoRGwPShsWm+IdrxB35d0w==}
+    engines: {node: '>=8'}
     dev: false
 
   /strip-final-newline/2.0.0:
@@ -7491,14 +7053,13 @@ packages:
       source-map-support: 0.5.20
     dev: false
 
-  /test-exclude/5.2.3:
-    resolution: {integrity: sha512-M+oxtseCFO3EDtAaGH7iiej3CBkzXqFMbzqYAACdzKui4eZA+pq3tZEwChvOdNfa7xxy8BfbmgJSIr43cC/+2g==}
-    engines: {node: '>=6'}
+  /test-exclude/6.0.0:
+    resolution: {integrity: sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==}
+    engines: {node: '>=8'}
     dependencies:
+      '@istanbuljs/schema': 0.1.3
       glob: 7.2.0
       minimatch: 3.0.4
-      read-pkg-up: 4.0.0
-      require-main-filename: 2.0.0
     dev: false
 
   /text-table/0.2.0:
@@ -7535,14 +7096,6 @@ packages:
   /toidentifier/1.0.0:
     resolution: {integrity: sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==}
     engines: {node: '>=0.6'}
-    dev: false
-
-  /tough-cookie/2.5.0:
-    resolution: {integrity: sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==}
-    engines: {node: '>=0.8'}
-    dependencies:
-      psl: 1.8.0
-      punycode: 2.1.1
     dev: false
 
   /tough-cookie/3.0.1:
@@ -7638,6 +7191,21 @@ packages:
       yn: 3.1.1
     dev: false
 
+  /ts-node/8.10.2_typescript@4.2.4:
+    resolution: {integrity: sha512-ISJJGgkIpDdBhWVu3jufsWpK3Rzo7bdiIXJjQc0ynKxVOVcg2oIrf2H2cejminGrptVc6q6/uynAHNCuWGbpVA==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+    peerDependencies:
+      typescript: '>=2.7'
+    dependencies:
+      arg: 4.1.3
+      diff: 4.0.2
+      make-error: 1.3.6
+      source-map-support: 0.5.20
+      typescript: 4.2.4
+      yn: 3.1.1
+    dev: false
+
   /ts-node/9.1.1_typescript@4.2.4:
     resolution: {integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==}
     engines: {node: '>=10.0.0'}
@@ -7692,10 +7260,6 @@ packages:
     engines: {node: '>=0.6.11 <=0.7.0 || >=0.7.3'}
     dev: false
 
-  /tweetnacl/0.14.5:
-    resolution: {integrity: sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=}
-    dev: false
-
   /type-check/0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
@@ -7713,12 +7277,23 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
+  /type-fest/0.8.1:
+    resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
+    engines: {node: '>=8'}
+    dev: false
+
   /type-is/1.6.18:
     resolution: {integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==}
     engines: {node: '>= 0.6'}
     dependencies:
       media-typer: 0.3.0
       mime-types: 2.1.34
+    dev: false
+
+  /typedarray-to-buffer/3.1.5:
+    resolution: {integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==}
+    dependencies:
+      is-typedarray: 1.0.0
     dev: false
 
   /typedoc-default-themes/0.6.3:
@@ -7845,12 +7420,6 @@ packages:
       inherits: 2.0.1
     dev: false
 
-  /util/0.11.1:
-    resolution: {integrity: sha512-HShAsny+zS2TZfaXxD9tYj4HQGlBezXZMZuM/S5PKLLoZkShZiGk9o5CzukI1LVHZvjdvZ2Sj1aW/Ndn2NB/HQ==}
-    dependencies:
-      inherits: 2.0.3
-    dev: false
-
   /util/0.12.4:
     resolution: {integrity: sha512-bxZ9qtSlGUWSOy9Qa9Xgk11kSslpuZwaxCg4sNIDj6FLucDab2JxnHwyNTCpHMtK1MjoQiWQ6DiUMZYbSrO+Sw==}
     dependencies:
@@ -7889,11 +7458,6 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: false
 
-  /validator/13.6.0:
-    resolution: {integrity: sha512-gVgKbdbHgtxpRyR8K0O6oFZPhhB5tT1jeEHZR0Znr9Svg03U0+r9DXWMrnRAB+HtCStDQKlaIZm42tVsVjqtjg==}
-    engines: {node: '>= 0.10'}
-    dev: false
-
   /validator/8.2.0:
     resolution: {integrity: sha512-Yw5wW34fSv5spzTXNkokD6S6/Oq92d8q/t14TqsS3fAiA1RYnxSFSIZ+CY3n6PGGRCq5HhJTSepQvFUS2QUDxA==}
     engines: {node: '>= 0.10'}
@@ -7909,15 +7473,6 @@ packages:
   /vary/1.1.2:
     resolution: {integrity: sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=}
     engines: {node: '>= 0.8'}
-    dev: false
-
-  /verror/1.10.0:
-    resolution: {integrity: sha1-OhBcoXBTr1XW4nDB+CiGguGNpAA=}
-    engines: {'0': node >=0.6.0}
-    dependencies:
-      assert-plus: 1.0.0
-      core-util-is: 1.0.2
-      extsprintf: 1.3.0
     dev: false
 
   /void-elements/2.0.1:
@@ -8019,6 +7574,15 @@ packages:
       strip-ansi: 5.2.0
     dev: false
 
+  /wrap-ansi/6.2.0:
+    resolution: {integrity: sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==}
+    engines: {node: '>=8'}
+    dependencies:
+      ansi-styles: 4.3.0
+      string-width: 4.2.3
+      strip-ansi: 6.0.1
+    dev: false
+
   /wrap-ansi/7.0.0:
     resolution: {integrity: sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==}
     engines: {node: '>=10'}
@@ -8032,12 +7596,13 @@ packages:
     resolution: {integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=}
     dev: false
 
-  /write-file-atomic/2.4.3:
-    resolution: {integrity: sha512-GaETH5wwsX+GcnzhPgKcKjJ6M2Cq3/iZp1WyY/X1CSqrW+jVNM9Y7D8EC2sM4ZG/V8wZlSniJnCKWPmBYAucRQ==}
+  /write-file-atomic/3.0.3:
+    resolution: {integrity: sha512-AvHcyZ5JnSfq3ioSyjrBkH9yW4m7Ayk8/9My/DD9onKeu/94fwrMocemO2QAJFAlnnDN+ZDS+ZjAR5ua1/PV/Q==}
     dependencies:
-      graceful-fs: 4.2.8
       imurmurhash: 0.1.4
+      is-typedarray: 1.0.0
       signal-exit: 3.0.5
+      typedarray-to-buffer: 3.1.5
     dev: false
 
   /ws/6.2.2:
@@ -8048,19 +7613,6 @@ packages:
 
   /ws/7.4.6:
     resolution: {integrity: sha512-YmhHDO4MzaDLB+M9ym/mDA5z0naX8j7SIlT8f8z+I0VtzsRbekxEutHSme7NPS2qE8StCYQNUnfWdXta/Yu85A==}
-    engines: {node: '>=8.3.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-    dev: false
-
-  /ws/7.5.5:
-    resolution: {integrity: sha512-BAkMFcAzl8as1G/hArkxOxq3G7pjUqQ3gzYbLL0/5zNkph70e+lCoxBGnm6AW1+/aiNeV4fnKqZ8m4GZewmH2w==}
     engines: {node: '>=8.3.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -8096,12 +7648,6 @@ packages:
     resolution: {integrity: sha1-eLpyAgApxbyHuKgaPPzXS0ovweU=}
     dev: false
 
-  /xml2js/0.2.8:
-    resolution: {integrity: sha1-m4FpCTFjH/CdGVdUn69U9PmAs8I=}
-    dependencies:
-      sax: 0.5.8
-    dev: false
-
   /xml2js/0.4.23:
     resolution: {integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==}
     engines: {node: '>=4.0.0'}
@@ -8120,21 +7666,6 @@ packages:
     engines: {node: '>=6.0'}
     dev: false
 
-  /xmlbuilder/9.0.7:
-    resolution: {integrity: sha1-Ey7mPS7FVlxVfiD0wi35rKaGsQ0=}
-    engines: {node: '>=4.0'}
-    dev: false
-
-  /xmldom/0.6.0:
-    resolution: {integrity: sha512-iAcin401y58LckRZ0TkI4k0VSM1Qg0KGSc3i8rU+xrxe19A/BN1zHyVSJY7uoutVlaTSzYyk/v5AmkewAP7jtg==}
-    engines: {node: '>=10.0.0'}
-    dev: false
-
-  /xpath.js/1.1.0:
-    resolution: {integrity: sha512-jg+qkfS4K8E7965sqaUl8mRngXiKb3WZGfONgE18pr03FUQiuSV6G+Ej4tS55B+rIQSFEIw3phdVAQ4pPqNWfQ==}
-    engines: {node: '>=0.4.0'}
-    dev: false
-
   /y18n/4.0.3:
     resolution: {integrity: sha512-JKhqTOwSrqNA1NY5lSztJ1GrBiUodLMmIZuLiDaMRJ+itFd+ABVE8XBjOvIWL+rSqNDC74LCSFmlb/U4UZ4hJQ==}
     dev: false
@@ -8142,10 +7673,6 @@ packages:
   /y18n/5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
     engines: {node: '>=10'}
-    dev: false
-
-  /yallist/2.1.2:
-    resolution: {integrity: sha1-HBH5IY8HYImkfdUS+TxmmaaoHVI=}
     dev: false
 
   /yallist/4.0.0:
@@ -8159,6 +7686,14 @@ packages:
 
   /yargs-parser/13.1.2:
     resolution: {integrity: sha512-3lbsNRf/j+A4QuSZfDRA7HRSfWrzO0YjqTJd5kjAq37Zep1CEgaYmrH9Q3GwPiB9cHyd1Y1UwggGhJGoxipbzg==}
+    dependencies:
+      camelcase: 5.3.1
+      decamelize: 1.2.0
+    dev: false
+
+  /yargs-parser/18.1.3:
+    resolution: {integrity: sha512-o50j0JeToy/4K6OZcaQmW6lyXXKhq7csREXcDwk2omFPJEwUNOVtJKvmDr9EI1fAJZUyZcRF7kxGBWmRXudrCQ==}
+    engines: {node: '>=6'}
     dependencies:
       camelcase: 5.3.1
       decamelize: 1.2.0
@@ -8191,6 +7726,23 @@ packages:
       which-module: 2.0.0
       y18n: 4.0.3
       yargs-parser: 13.1.2
+    dev: false
+
+  /yargs/15.4.1:
+    resolution: {integrity: sha512-aePbxDmcYW++PaqBsJ+HYUFwCdv4LVvdnhBy78E57PIor8/OVvhMrADFFEDh8DHDFRv/O9i3lPhsENjO7QX0+A==}
+    engines: {node: '>=8'}
+    dependencies:
+      cliui: 6.0.0
+      decamelize: 1.2.0
+      find-up: 4.1.0
+      get-caller-file: 2.0.5
+      require-directory: 2.1.1
+      require-main-filename: 2.0.0
+      set-blocking: 2.0.0
+      string-width: 4.2.3
+      which-module: 2.0.0
+      y18n: 4.0.3
+      yargs-parser: 18.1.3
     dev: false
 
   /yargs/16.2.0:
@@ -8230,7 +7782,7 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-ZpsapeQj2laRVoc2MKLBCVl2i9Bpv1TNVKRygDMarl1LQe8GRoFE1NcABgOMkcAWBlvvCKWv5GwbibJmGu5z8Q==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-Pz9dHDwesID9JYL+sxT2K05V0LHvaKNfcZMGV9fNjlag8UmDK9bcWmf0kk4amTD9LKCVXt8WBASZhekbdOmZyg==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
@@ -8254,8 +7806,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -8273,7 +7825,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-qPr2pIawjfoP0CKRVrK2ZFVWgBj3lRKqvhFhLwPrbF3/oGDR9ZzRuJM38uoqwmUAvKVpPGOs2iGIFr/CBOQ0Aw==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-wfoLIhkzYmOSIr8qwrzjpFaWfh1ticnIgGu+QU1LMnEvm0E9tMmodJDnFsfVV09okjX6sgSjpD8LOREGYn1JDg==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -8303,8 +7855,8 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mkdirp: 1.0.4
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -8320,7 +7872,7 @@ packages:
     dev: false
 
   file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-k60gU9MY6seTzTWHkWIZ2sH7xdTTfZMz99y00dJRNs11gu/sfqyn1MgCh3xMSvCB9FkTazsLd6oPGklpNDMpnw==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-cJsU3dbrfsLFtRTnP5QinDTQxTntpwHZqrfBbHQz0zNxdZbuVPFuAv/T7sOD1zov7gU4+btYqjfzdfJjTsxZ9Q==, tarball: file:projects/ai-anomaly-detector.tgz}
     name: '@rush-temp/ai-anomaly-detector'
     version: 0.0.0
     dependencies:
@@ -8352,8 +7904,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -8373,7 +7925,7 @@ packages:
     dev: false
 
   file:projects/ai-document-translator.tgz:
-    resolution: {integrity: sha512-Ao7Iy/q/9+yEE+MDGMd4ErfimxOdWyhNpOpuMr0PHxALksrAyijEUDUnecd27OT6HEuqD2t1mH08QvrzTzyCxg==, tarball: file:projects/ai-document-translator.tgz}
+    resolution: {integrity: sha512-pzYni3C2PkECKsWO3pWvfsL4xrxPSja6+Es3Red7nnwVk+DVVh06G2Bi+Bxyl7EBQ8W2OzIA66XmaF1S23f/7Q==, tarball: file:projects/ai-document-translator.tgz}
     name: '@rush-temp/ai-document-translator'
     version: 0.0.0
     dependencies:
@@ -8401,8 +7953,8 @@ packages:
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -8418,7 +7970,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-IzafuobVnnxfh9fkI7w7mcOcCRNIybcIuP2wRlDrwZN775T2qDtokW4hPk0elqTKcRIDs3tqSMhxw8vLu0Bl6A==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-rlLiR6MAGDb/exWAZaT0KWwFbXLvifMsN6gG4upoGKD/4MdXMjXAA6bmRtNV5UAMnyD2mm4Aq3k0aEsegGE4xw==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -8447,8 +7999,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 2.4.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -8465,7 +8017,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-ujEZR5GmchKrHY2LuPPOGOwiJVYka7fd5+ZBMY3Sgqd/sao2j3XGFK9bzvHYDouOI39Ds8lajpnqwTPTlVKDrA==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-vuQKdCLKImK10mcbCqrZ7i7MUdyqwD7LwNnOyapMm615dneROrkkEfS/PPoSQ2D8jgwA5+v/LENyqNDduJK/AA==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -8495,8 +8047,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -8516,7 +8068,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-xA7ScptuX6JMDoR8WlExRkry+m0r7Mflc+azl9/aXEf/Y+ImDHjAHQ6muUOSyknG8r0pmu6m6JQNgpTc8Wx46g==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-6SMwCKzYKfEYHcok628sCrsTbv0gsowFrg9IeJk09boqwlWQ5GLUGLT3cKchitt3LRwvkNfsUwBw+rX5lgIWNA==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -8547,8 +8099,8 @@ packages:
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -8568,7 +8120,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-sPvElpc5bwIabAIHZpBTOonPqylTX7uXmivK1G6IpNS1aHtZhPJbcKWQ2Q6/1s0lDTOEhKPt5z09czDk4h2FJQ==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-Fu/GsuIzapTHJP8myOe7Vfk+pzemOeeVJSGM9WtMDatmEMr56cVVbVjDz2tDMW8h4XrD43O/Y1v9shgk8zlEhQ==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -8603,9 +8155,9 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nock: 12.0.3
-      nyc: 14.1.1
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -8625,6 +8177,27 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/arm-analysisservices.tgz:
+    resolution: {integrity: sha512-yadXxpeaoCaSs2kXugUgnMRlelZKJFJiXqJaqkgvnUuSGtknGjx7V+gFpHCKo9GtvVzeATtEnmQlYnYoZoAHkg==, tarball: file:projects/arm-analysisservices.tgz}
+    name: '@rush-temp/arm-analysisservices'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
     dev: false
 
   file:projects/arm-apimanagement.tgz:
@@ -8649,11 +8222,11 @@ packages:
     dev: false
 
   file:projects/arm-appplatform.tgz:
-    resolution: {integrity: sha512-T0o1M9Quyi1fBqxV5Ud3sGP3k0IvZiY7FhR+/INeIJTxjuoLm9A4WC0w0O8nfdOFaMpBCHFzs9LAPAqgLPe8zg==, tarball: file:projects/arm-appplatform.tgz}
+    resolution: {integrity: sha512-Pel4tu/SIfuYKVrehY87LfAoYBiwyuraQp2/PdUzhmuX6p0wXK6BUGEjZj7vC2IAAaI4k/Cnh4QLdMLvRdZUuw==, tarball: file:projects/arm-appplatform.tgz}
     name: '@rush-temp/arm-appplatform'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -8661,6 +8234,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -8669,7 +8243,7 @@ packages:
     dev: false
 
   file:projects/arm-appservice.tgz:
-    resolution: {integrity: sha512-aJraI3T9AOAXBy7uKxYZ7jX01W4DOG73u2YEMJ1PdasBSnwJ/SjH9ZI5RT1CbaRqdUAuJsFBhHJdDKc0mXQG2A==, tarball: file:projects/arm-appservice.tgz}
+    resolution: {integrity: sha512-XIoOFmPuJZ6mZqxVNMcVXvYwTzAzdzCMuF1jGGex+3+kC2m1R0Td+YwQw12Xd1qfTrSCRIQXWdqonBi/z/mJow==, tarball: file:projects/arm-appservice.tgz}
     name: '@rush-temp/arm-appservice'
     version: 0.0.0
     dependencies:
@@ -8678,7 +8252,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -8767,13 +8344,12 @@ packages:
       uglify-js: 3.14.3
     dev: false
 
-  file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-S1XrLCLkKlv9rF9JwaiXFfaYHJfui5KxYt14LkOGUZlG4Cpy51S6Cq6FLiycSXbEhuupEfA/zNH6gQ+QdRKwvQ==, tarball: file:projects/arm-compute.tgz}
-    name: '@rush-temp/arm-compute'
+  file:projects/arm-cognitiveservices.tgz:
+    resolution: {integrity: sha512-nhXO2X6wsidbD/bRFm7geAnKOO7NFBrM7vNIOi5uSAzpGPhfWpqBwQBp4QvLeAtBXEnfjWJuRSvQwRa/9bzXWg==, tarball: file:projects/arm-cognitiveservices.tgz}
+    name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
-      '@azure/arm-network': 26.0.0-beta.1
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -8781,13 +8357,34 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.3
-    transitivePeerDependencies:
-      - supports-color
+    dev: false
+
+  file:projects/arm-compute.tgz:
+    resolution: {integrity: sha512-zk0xILY5nmiZpZZiPD05eJEXDKOzYLSQO7j5lE9SFmtEQg7Toc5DfoXXEvpCCOx0AqmCDj9G0V9g3eXUn+d8pg==, tarball: file:projects/arm-compute.tgz}
+    name: '@rush-temp/arm-compute'
+    version: 0.0.0
+    dependencies:
+      '@azure/arm-network': 26.0.0-beta.1
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
     dev: false
 
   file:projects/arm-consumption.tgz:
@@ -8811,7 +8408,7 @@ packages:
     dev: false
 
   file:projects/arm-containerregistry.tgz:
-    resolution: {integrity: sha512-Ll1nwuw78ynR/8a9E3Lct85LuUs7K7/aSfqw8QGLHIx2V0J4sWbVz2+WKyY7JZOXruRBUTyAzzkbgiS5z+4HwA==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-iOcYxbtgUUyIJduY+oKd6dLRCD0nakKGeZGWDfFfIR5ENhKMLTchXaZGBQ2Mxj+Thtm1UIkJZ25NTIe2eW7bpA==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
@@ -8829,17 +8426,14 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.3
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-containerservice.tgz:
-    resolution: {integrity: sha512-dnDtHoSH9nRPyYETislryt3GQWsWDr/WpOaWSVgvDT/KF4XjHU+SA/wEdGAISugXWouXQVry36DqeZtU1Mxt4A==, tarball: file:projects/arm-containerservice.tgz}
+    resolution: {integrity: sha512-G1fpEz1Ehxk5VF9ab3JJ20HwP7a0N2wmNuEOAZsEyNzGd0rz6J0E8OpYaELJWVI+gy8JRb2dCVIYtldL6bORPg==, tarball: file:projects/arm-containerservice.tgz}
     name: '@rush-temp/arm-containerservice'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -8847,6 +8441,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -8855,7 +8450,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-/Mxunt6kKzmvXID5hUcbVK6uAYAVmY32rP8z72NN9dUzMNANZnTW4UYIfpUqhVcmgx1v51XBrrqyFiM4srim7A==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-/WiC1LhbvLepYwJyUjkOh4/+dpPcXSgkElxQzud5RJRW/sj3//z7/K9jDpi01cn4/wcAxjXss3nxSIs99wURbQ==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -8867,6 +8462,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -8875,11 +8471,11 @@ packages:
     dev: false
 
   file:projects/arm-databricks.tgz:
-    resolution: {integrity: sha512-t6otub9/jRDg0NTKRSRC8ADoctIa5M6ME8RnJtFj6A5PU2xjg1kwEVAnEPb+OKhxcR+t1cvQLs9L2gfNKQLeXg==, tarball: file:projects/arm-databricks.tgz}
+    resolution: {integrity: sha512-Ek+SBz9YXzdOeAceFKup6Uq304ojJbWCpkOs1VvlgMHXq8cBvLcY2jVxjiaExq6Y3mnqQxlR3gR2JzKVBdttWA==, tarball: file:projects/arm-databricks.tgz}
     name: '@rush-temp/arm-databricks'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -8956,8 +8552,29 @@ packages:
       uglify-js: 3.14.3
     dev: false
 
+  file:projects/arm-devtestlabs.tgz:
+    resolution: {integrity: sha512-Da7OLti0yE0tUlnxlxMEF2r/WEXJbp1hpjEWjPZuyxtAo1ueSJrJgyDJo82zdyzdrc6C0NbuU/xA0vliNtAp0g==, tarball: file:projects/arm-devtestlabs.tgz}
+    name: '@rush-temp/arm-devtestlabs'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    dev: false
+
   file:projects/arm-eventgrid.tgz:
-    resolution: {integrity: sha512-CKuR5WGJYoH2Q8S6B2mlIXDd0XImLRnugd47NUmrf44UreVTT/rGELZ8DnYXB7jgGjABokmsyMGPfpadCEXAsw==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-26uyTQ6UX9N1i+BWqT3Ga154/45qazjGOcYOuleDzv7+gERljkMNe6dHkAbeLpwr8k/Tt9mdHY/1dLHrcRIa+w==, tarball: file:projects/arm-eventgrid.tgz}
     name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
@@ -8969,6 +8586,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -8977,13 +8595,13 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-xK9uI7V95KRG1FH7/xg4m+hHzZVxWBEm0WYMbkryPs2tMNgJXgZ6a+LrVdOyjShgMfhbe6w7TYHyo9UFDci5hA==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-cWryEMqcziFmqSkDI9ZMhEhjBmX3UEdauByCW1fFHAJ9XGHISFxr8jpJ1hKOj+c6mbp5JBD0UIU2MyceWk/OMg==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
       '@azure/arm-network': 30.0.0-beta.3
       '@azure/arm-storage': 30.0.0-beta.2
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -8991,21 +8609,20 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.3
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   file:projects/arm-extendedlocation.tgz:
-    resolution: {integrity: sha512-yQpzybX1YY1UBHRwPj+yqndMFqdONGLZuF1N3YIUIJlqbUkQKGVEEiVgxN0EmSDO58fHJBMwLMj75CPFG2WmOg==, tarball: file:projects/arm-extendedlocation.tgz}
+    resolution: {integrity: sha512-MfgUQPGg4gQIi4DU9vT6+h3JxtSfeXf5s4+QTNWpfT2UU7zlB5SMUruBh4JiPKOMsUaFcERCw3mJesdDvlMKaQ==, tarball: file:projects/arm-extendedlocation.tgz}
     name: '@rush-temp/arm-extendedlocation'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9021,7 +8638,7 @@ packages:
     dev: false
 
   file:projects/arm-features.tgz:
-    resolution: {integrity: sha512-mCciFjE3JlWC8Z2rx2nj87jDLeSH+37kGZJxt81t4od4QUsCcIJmwmVTt/bbcZSntwu57tCawTyp91nh2FlLEA==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-AwBLfC1qhx4IDWJ2abjAoE8klLea2wxsOl1ZwyW4BTMjEV7iHOzZJvxoSwQowhzuRGRgNwKZ+c9Y/uk6wvHjqA==, tarball: file:projects/arm-features.tgz}
     name: '@rush-temp/arm-features'
     version: 0.0.0
     dependencies:
@@ -9030,7 +8647,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -9059,7 +8679,7 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-zxqOUfFGnAdGAHNsj/VAFy0h9uSgI7VCtBCD/41wYchyF5OckL1/ql6m5Kw/CpdwJxx0vuLiXS7xJtDPehG/3g==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-t3TXBd/Fxm80E+cWuS3tQiUdSUeaEtul7+exkY4rNj9ecjK93FsfYTQ4a5FpR2WcEecOKQYXLYBfz4JgODQlbw==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
@@ -9068,7 +8688,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -9077,8 +8700,29 @@ packages:
       uglify-js: 3.14.3
     dev: false
 
+  file:projects/arm-loadtestservice.tgz:
+    resolution: {integrity: sha512-3l/W5FfyJNffvaFfoxv6k4msHAjJl/50pBxia8D+H4qHrdvV5GnujnpvE/tDv7s+eIfWqgymB1AHpXM79z6z5Q==, tarball: file:projects/arm-loadtestservice.tgz}
+    name: '@rush-temp/arm-loadtestservice'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    dev: false
+
   file:projects/arm-locks.tgz:
-    resolution: {integrity: sha512-Mh2K3/qtCk0subKuIb8mJpqw06b2umM15k5VAv9/FlyGUkg+L+Y4l66LFzZ0jZ7CUZQ7iiCdaAReDHaFFBfKhg==, tarball: file:projects/arm-locks.tgz}
+    resolution: {integrity: sha512-0Qahks7SI2QPbAb0Sz5jVOFBHCj7pVW09BWU6pEbAoco3AVRDysIT3W6GzwfijdoGQsFC9tvDKRx1Od+Qxzobg==, tarball: file:projects/arm-locks.tgz}
     name: '@rush-temp/arm-locks'
     version: 0.0.0
     dependencies:
@@ -9087,7 +8731,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -9097,11 +8744,11 @@ packages:
     dev: false
 
   file:projects/arm-logic.tgz:
-    resolution: {integrity: sha512-uoLg+ypMm6FmdfBx1ou2eGBuYGuIVdGjlNEnXeEBVRenmKcgwmrdb0bSTB6PiVN125U20FgpCb0YJDOgRuF/9w==, tarball: file:projects/arm-logic.tgz}
+    resolution: {integrity: sha512-piiBwzlLftKsuiB60Jb2ez4kgi62zcpQK5lx0BKVMp+66lMn7sn8fKA0itJjOuOn0G2bE5ZLEDTKjTDDKw0Z9w==, tarball: file:projects/arm-logic.tgz}
     name: '@rush-temp/arm-logic'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9117,7 +8764,7 @@ packages:
     dev: false
 
   file:projects/arm-managedapplications.tgz:
-    resolution: {integrity: sha512-S57AX6NhmfsjZR4IQc45ymobG+BiQakRsjxEq0bVZxD5PO1gaU//rpEr3GbVs82i0fUVsTECdOcuDjQilXEifA==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-5kLfrfEy5OIjFS2BfTSnbWRIh5NDMaXjYdA9yWjpD+9Dk2rsI5/ifntBT7zm0klJ9YmrszjI6IjXzZw37FnLzg==, tarball: file:projects/arm-managedapplications.tgz}
     name: '@rush-temp/arm-managedapplications'
     version: 0.0.0
     dependencies:
@@ -9126,7 +8773,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -9157,11 +8807,11 @@ packages:
     dev: false
 
   file:projects/arm-mediaservices.tgz:
-    resolution: {integrity: sha512-yy6cdRD41ndTQfmklhmQgj12Wpv4ZxtoNQl7fWTrbHFE5ggWEjWzYVet4TB5ApbSCaUVcOtPStiIFBmdYUEZrw==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-wt5O7fsBlkomvh57wJRSiBwgIAAmjjLwaX3HhUj2WNHhIjY/M3PQ8n/172v99nzZ2hTxBQPmokO4eyz9sKSqDA==, tarball: file:projects/arm-mediaservices.tgz}
     name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9169,6 +8819,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9177,7 +8828,7 @@ packages:
     dev: false
 
   file:projects/arm-mysql.tgz:
-    resolution: {integrity: sha512-/fpHI15jmOE8UhsjAecKWWSJbElYB2ydLFVQhHINJXr0K643e0iUlQ1DK818XNQ1ZLdg6DHeyhn2ARCd4dl2FA==, tarball: file:projects/arm-mysql.tgz}
+    resolution: {integrity: sha512-G1rIuwXFpp85iI0UUUZLh0SJ4QNNOyYsjqoqiO4wWiVMC20X/3dt6TYMzbvks2tCAZSGpMSDeIFgu59k0+J1Ug==, tarball: file:projects/arm-mysql.tgz}
     name: '@rush-temp/arm-mysql'
     version: 0.0.0
     dependencies:
@@ -9195,17 +8846,14 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.3
-    transitivePeerDependencies:
-      - debug
-      - supports-color
     dev: false
 
   file:projects/arm-network.tgz:
-    resolution: {integrity: sha512-cK7juSMLO5jmagEq+cONLMC69RcJ/WNc759hKH0UdbxPvj9Dd/6w3PfC3YbD2LMpKzU66Tno9iybFKTLsL2frQ==, tarball: file:projects/arm-network.tgz}
+    resolution: {integrity: sha512-J8QVJGGP8gib3NmM31KhY3xrAZVOikN3WQ0ORE5D6pol6+kD9/13usF/G0OEW6xaHZMmCTLTID2q8iBKkffOIw==, tarball: file:projects/arm-network.tgz}
     name: '@rush-temp/arm-network'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9213,6 +8861,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9221,11 +8870,11 @@ packages:
     dev: false
 
   file:projects/arm-notificationhubs.tgz:
-    resolution: {integrity: sha512-WaL7o4K3SAfEvfn6tUdEYKWeNaS37XC5/dkQfcsIjKD5Ou6ZU42jCQVGS9wb+oY5KT2A/RXSJYJpL9KJVRCUiA==, tarball: file:projects/arm-notificationhubs.tgz}
+    resolution: {integrity: sha512-XeSQCDoSrd7toKIReWDHtLyUDC542x5O62Hvo/W/5SP2fHgBFmIN2kRrUDXb6WYnGH7AlpjlaRcNlEhUUqo+7Q==, tarball: file:projects/arm-notificationhubs.tgz}
     name: '@rush-temp/arm-notificationhubs'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9241,11 +8890,11 @@ packages:
     dev: false
 
   file:projects/arm-operationalinsights.tgz:
-    resolution: {integrity: sha512-6bdNT07tb4vKV3cfDCJEf1HLAdjLyomvgTqVgYMU2WpUEh1++rgjFJf7RGDbi/h2kLJ7ERYH5xUZFXcCyFoB/g==, tarball: file:projects/arm-operationalinsights.tgz}
+    resolution: {integrity: sha512-aCOEc9JiPgRSPW5sSz+jEIATAz64iWyKGgCEEIx7/MeTgkvw2BRcfA5Hod2fNS+nOP3KCIeH/Pqbqc+if65uQw==, tarball: file:projects/arm-operationalinsights.tgz}
     name: '@rush-temp/arm-operationalinsights'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9253,6 +8902,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9261,11 +8911,11 @@ packages:
     dev: false
 
   file:projects/arm-operations.tgz:
-    resolution: {integrity: sha512-bfQ2YR9KigdsOYK8YBti2REdvUP+3RlGDkmnlpITR/S4AJdAVHHhruvmikMDSPvi/W5po6xwE2vHKMBQIQKYlQ==, tarball: file:projects/arm-operations.tgz}
+    resolution: {integrity: sha512-gZpdG3G5eQYR4nQ0DjplqqgsGbdxFW6UCw/Ml74G/U3q7Zqv/+jmH+kvIDHZJ3YdwMOTIEAft0OMV+NQ+aAULA==, tarball: file:projects/arm-operations.tgz}
     name: '@rush-temp/arm-operations'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9302,11 +8952,11 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-qV+rEimyGpmAxdLaIKUU1NI1clVddBq6NaE6GbUfg+iXADJpRxGebkSzP6pcH2mWdNZrCBId462AxKzSQvXLEg==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-YceZTHHZ9R04RdMSzFne+FJblJv2Mt7pMcQnvY9Z7GBCo7yLi/5jSmSZTYXB9u7Xx0P6nIG6wy+Ur9JXt3H4Kg==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9314,6 +8964,28 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    dev: false
+
+  file:projects/arm-portal.tgz:
+    resolution: {integrity: sha512-uW56O3SchJbqVBOehKnE9Vg+WlJtDZI/0tLjS6J70AETVrtUoMRmZWdHufMrJffyTiMiJcJ7quvR5PMAXgb8RQ==, tarball: file:projects/arm-portal.tgz}
+    name: '@rush-temp/arm-portal'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9322,11 +8994,11 @@ packages:
     dev: false
 
   file:projects/arm-postgresql.tgz:
-    resolution: {integrity: sha512-TNrzPPYJKsZw7LBRmtUub1nETEBquEs64tsgOpMLat88idB1Bbm7Z6jImYGEm+oMTIsiLWd0ASZAaT3nsKkY3A==, tarball: file:projects/arm-postgresql.tgz}
+    resolution: {integrity: sha512-zSCnZiTUuJ3qyfFeLqzJl5p8diq7IGmXoxGemsFr3ApHDmnkHdxOkA7a0aRLnM/0fxJt9Nlvi0AA6GQgq2NB1w==, tarball: file:projects/arm-postgresql.tgz}
     name: '@rush-temp/arm-postgresql'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9334,6 +9006,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9342,7 +9015,7 @@ packages:
     dev: false
 
   file:projects/arm-purview.tgz:
-    resolution: {integrity: sha512-3yTP1x0NsuoF22Z+MwjuLYQlboJwRDH24Dr7HapItun5Mkbjj4efeEuMJLg7lRT32YVtkIGE5OEQOXEXIMXgRA==, tarball: file:projects/arm-purview.tgz}
+    resolution: {integrity: sha512-Vb376ewu/nl1fRue8La/7duUXrW8YYqLX4vjzc+vmlsQ7eBjCsJsY9J+P+hIPx0VVG2dC0fwUEzvybRf7n8+Sg==, tarball: file:projects/arm-purview.tgz}
     name: '@rush-temp/arm-purview'
     version: 0.0.0
     dependencies:
@@ -9351,7 +9024,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9360,11 +9036,11 @@ packages:
     dev: false
 
   file:projects/arm-quota.tgz:
-    resolution: {integrity: sha512-rtaLIQ4qnFja0VpqLPDIMDCulFopqMqIk5xCJmgbzYnE0abobPMp66qfu1lDK7ns/fEiLM3Ntfr/OtvYZDivBA==, tarball: file:projects/arm-quota.tgz}
+    resolution: {integrity: sha512-RJGVETIX2qgGkOUIUbQYPGibXuG90MlgaNKhIzFC7qrkXt9JXg+xooy69EZ7OeGCOwBu3qpiqRAESPu4jL8qDw==, tarball: file:projects/arm-quota.tgz}
     name: '@rush-temp/arm-quota'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9380,11 +9056,11 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-PP8WcdwDjknzk3qnt5/qCg6HdbMGIqkIGJSp6tn4sdJns5ceLKwshYQ4/SI7omACeOFW+oriuYzjJnst6s15xQ==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-HGrDxGZ5sBGnQ1eYbkkEuuW8m9mUmNHXCeZOje+hDE2MZGfBdhHRCgYoNnadEiiQRjugxn5RMvbB5Mp8GZ/XXA==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9392,6 +9068,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9400,7 +9077,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-tz7W9ElsDyJVOyXZ3bEBZygn9/9Up4+ct470WAprZVgQdS39OI/HVZi4O1fOsLUn8YHYu8B5BHCFELzgqbQB2w==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-aOAyRJHWE7GUOtUWaHTiFCa3SurFmsvsG3u8DDDBAGlXVxSc0OCKPfyr0RkqL8k+N2dsS1s5qVzSWPfKuaP1mA==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -9413,13 +9090,33 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.3
-    transitivePeerDependencies:
-      - supports-color
+    dev: false
+
+  file:projects/arm-relay.tgz:
+    resolution: {integrity: sha512-GTqmfFZ2ToplfgtJe7mDyTK9SRPuo5niMG5PTxOuHnjdqY9KG8+6nKu5rVgFsjIinMD+A/V52b1zHMK5cIjYfQ==, tarball: file:projects/arm-relay.tgz}
+    name: '@rush-temp/arm-relay'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
     dev: false
 
   file:projects/arm-resourcehealth.tgz:
@@ -9463,7 +9160,7 @@ packages:
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-y3NszE6ozZSl0b3T5+1JF45w64NDRTeMC+41eT+EH0e35qU/EvHrpLqqM8lu+nDIOLb6nnEPkTqsh5oDr4OhbA==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-OnGTFVLnbFLJfLHJNm2F4pGCDPdXAzGGfPqxxOHajg3qJUKAv8sKQDRXkHti5NRXqy1Aqb1vIcIG2Hwh8iVkQA==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
@@ -9472,7 +9169,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -9481,12 +9181,12 @@ packages:
       uglify-js: 3.14.3
     dev: false
 
-  file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-H6aa5+i2bHOriVDn+PUCkK+41MEGxvUdTsROIVPid3VHe60jOeVVdyUrfclje0XeFUi5E4aQHZPECNYsz27A7w==, tarball: file:projects/arm-security.tgz}
-    name: '@rush-temp/arm-security'
+  file:projects/arm-search.tgz:
+    resolution: {integrity: sha512-4+mXE+vttvJx6IJk7orgfc07g9HHSnEO3W1jjXslwshUQNBaUj9uvxYsMzD6ldSAXkv1hTEYWD7QLpAZA006GA==, tarball: file:projects/arm-search.tgz}
+    name: '@rush-temp/arm-search'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9494,6 +9194,28 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    dev: false
+
+  file:projects/arm-security.tgz:
+    resolution: {integrity: sha512-F3OhbZcyJmfqpT5xlnBR1/4sgGLw9DlPrDMZ3PmKZOlqG1joUvrcQ57aE+YAmwMR+dr2dFB3Dvyb6pP1dwQp8Q==, tarball: file:projects/arm-security.tgz}
+    name: '@rush-temp/arm-security'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9502,7 +9224,7 @@ packages:
     dev: false
 
   file:projects/arm-servicebus.tgz:
-    resolution: {integrity: sha512-IUTGAWXcntlWJN71Tv3hOp8z6RQtTIn6WfNio1IXRKipZ7MTm3UvLDaZFkYIS8tPqzP6+ErnOt+i/twF6uGHzg==, tarball: file:projects/arm-servicebus.tgz}
+    resolution: {integrity: sha512-wpZLIJN8lPkDfOvX+vdJNe1GmwrqRaNU5eHYWWdAuag36dZYmuRnnnBt7B31oJ8mOwAjIbykSDeOYX+t9ZgghA==, tarball: file:projects/arm-servicebus.tgz}
     name: '@rush-temp/arm-servicebus'
     version: 0.0.0
     dependencies:
@@ -9511,7 +9233,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9542,7 +9267,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-0gHhfD0wWxyOvy8b2PNcSz3ERLTuG/cidoCDVdlMVXIswWY3A9sv9N9rw6C+P1dDPdEnmKoob1ojQiZ4XyvWyw==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-Y9z4v0i1QfZQ5oO9jP3D0fTaQmDlc4a0Ak8h1sR+pBMwngAuIA95jb1LfiK94aZ3LblRjPdMHQFNVCm8eHOUyQ==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -9551,7 +9276,31 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    dev: false
+
+  file:projects/arm-sqlvirtualmachine.tgz:
+    resolution: {integrity: sha512-rtXBOzpwBMONLXoZFAcEF6uZSLYhu20zmUHptexW4oyAoFl+v1747y25PqA+ASaMbfjxblGlpa+Zdnw8bGkRsA==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
+    name: '@rush-temp/arm-sqlvirtualmachine'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9560,7 +9309,7 @@ packages:
     dev: false
 
   file:projects/arm-storage.tgz:
-    resolution: {integrity: sha512-1m+K2hw43LlztosVI/kDOIl0VDd082HKZCs5VzWq64pB6WiMMSonAJVKnHVNEon7U+i6tm1M+CRP34RnFhtj2Q==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-/iwVxiUXGG+lhYjWsTe47cfD/Wd6oe6A8H7/EYU6BN1zvTjLH4Aw7yDnhYJO+qs8QZQmE1j12HY/lhQSTBPBuQ==, tarball: file:projects/arm-storage.tgz}
     name: '@rush-temp/arm-storage'
     version: 0.0.0
     dependencies:
@@ -9569,7 +9318,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -9579,7 +9331,7 @@ packages:
     dev: false
 
   file:projects/arm-streamanalytics.tgz:
-    resolution: {integrity: sha512-MhbiHP5ZomEoVlRa9KOHteLHqPOvxZfszSEZ0JgUowO9APTWrir2HLd1R+bHBpX3myNuOGV0yRtk1x661KVLgg==, tarball: file:projects/arm-streamanalytics.tgz}
+    resolution: {integrity: sha512-2fjxFfFfAfxE5v0wXvUNE5FpL7shgJgqNvzFVbs6GOZFgPIMlhX5rr71h9S38XEUehUVyYtTHKh+Mmxlvx6Uqw==, tarball: file:projects/arm-streamanalytics.tgz}
     name: '@rush-temp/arm-streamanalytics'
     version: 0.0.0
     dependencies:
@@ -9591,6 +9343,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9618,11 +9371,11 @@ packages:
     dev: false
 
   file:projects/arm-videoanalyzer.tgz:
-    resolution: {integrity: sha512-85e/n7OPI5a3aJ4G7QuGI/q0ezQ+2wH6hySHj1oplCEvz6Lfvz2nEwfsQzXPjzxoIjhn/wrd/D0B0ah5M06HwQ==, tarball: file:projects/arm-videoanalyzer.tgz}
+    resolution: {integrity: sha512-2nnpgCmdUCStf3mGHFx1YnHW9idrPuR+sUfREpuMTMRoRNwkoRtzWi7lgmSG85qCJJZ8KO9RXHB/LJlO8n+A4g==, tarball: file:projects/arm-videoanalyzer.tgz}
     name: '@rush-temp/arm-videoanalyzer'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9630,6 +9383,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9657,7 +9411,7 @@ packages:
     dev: false
 
   file:projects/attestation.tgz:
-    resolution: {integrity: sha512-fhpxhAJlDGdkgbuKTKD3lBOBjxxtUfDEjwSwYmgOIv94dgmcSQygugB6dMjZn3l8XwCci0hxorI3BTm4LaNbcA==, tarball: file:projects/attestation.tgz}
+    resolution: {integrity: sha512-nwxtRgmucmaelDhzzaN3dmFp6RowTCopWRD/BHOLQE2+3DOLei6Y66mgP33ImNUI/NX0IIYHYNR0CfwoYXCA4Q==, tarball: file:projects/attestation.tgz}
     name: '@rush-temp/attestation'
     version: 0.0.0
     dependencies:
@@ -9692,8 +9446,8 @@ packages:
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -9714,7 +9468,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-3mBDemL2PvS7+J1J+I6rvF0FDpoN5BKfpISDGwz+7vbCTKOBa1Wrnp6OfdaXyT7clZ0vTdzAxbz0JN/MdWnM7w==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-voGS7JZGncpCrvoZ5DDJksI9N19+lZbHdaPyLLoxAuo203LaKamWP6xk8UhM1ZnrmPxuegCTECmJrsDK/PQZxA==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -9753,8 +9507,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -9776,7 +9530,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-fwGyN4Eqeo8BLJIXXrRwk7ZsugwP93sZTBIMQyVX/Sbd0J6f1FZI0df2R4Nwtmw7OD2SjnngCbwL+uX+X5KfPQ==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-6RlbYrsYgu1mkuGLauson3HrB6S4rnekzHayI4CE4NUE+JwvVxq+eREr4QS8QyxY9meGHUh4RlgrWpi8qge0EA==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -9813,8 +9567,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -9834,7 +9588,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-naYVfcc4DaPxq/vl1CtRPuqrvMDxE3dZSOSPpLgp48ZH6rgGjXp9UY0Jz2DS9/uPr20rFfIyjvprfvbZ5zs+RA==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-Pd6xL9ul+ZmdKz9WDHpulw5Jg2ve/jGDcuw6gUlFoCKqPYxFyl53vhxF2CJbo2ngJu5SH5pzlQRzaWCGXkLCnQ==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -9870,8 +9624,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -9891,7 +9645,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-JXTNG52bxAFRcTo1kAVKSRqvLnZqtkLHJXBXc1VlynQ7zpChO9k/ixq5ys7NiKCxlte8RsMhe9sRM1TRSxCJfw==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-GZrr9iJJAlwg0MNIOAJFLqQ2lrnGvEoKTlTf5ogWH95gadZpSUWc5g6yNuabi2N01F0O8DsV6D4S3AhsTDPOoA==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
@@ -9928,8 +9682,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -9949,7 +9703,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-H8X0AA9SgMlTlvkUReOytTon/R6E1EHAcecVbzLrplFpW3jglss1bC2SymppdT5ruSfGmMT/RGDpxqDvzExkaA==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-hRpMVtGzkAWk1S6z/0JsuEs34ixZNf+dC+0HtgOu22ANfh6oaG7I0twh+Y9Z4477PiArgV8BPbeXjEXe1SMkRA==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -9985,8 +9739,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10006,13 +9760,13 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-imnt2527n581p0dFDDFF7OPOEw5E2SwUpBU2O7fKnkLO2xf3umZ3kpxXNDlIe59pv9X0HK3oR37PaW06i4j8vw==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-2bCKBB9U8DafVseScFiKu7uLJ/6FTKCqL6t+Fx+rHD1PB8HY1Ko8bYM6ElYL7CzPiMVK+ZyP07DJfnRMCxX+ww==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.0-beta.6
-      '@microsoft/api-extractor': 7.7.11
+      '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10043,8 +9797,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10064,7 +9818,7 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-XX2890G/sqzluIVyahS7ajPY4Np66iKjf8U9dXXnAwsHUDiD1xI0r/+QRk6gtaA/+HUHcCU08BI9jUZQmqjVRA==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-KfirQnkgiPw0HeZ+GpMnhT+uihDoL/JLKCAnf78GiwC1L0YrPU34M8t+rF8AQsPX3PbQnXlY0uhRgHWm02DGPA==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
@@ -10098,8 +9852,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10120,11 +9874,11 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-BSQTahEc6DBo5xJrYT5p3jqEK/JXsIkyVuz/oRd+JInXs38HnfE2he/y5OfrkAIHQzSRNaEMQpWoEWw5I3JXCw==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-YEE2AnQj7ZEMZEfdcAs4RIGTz5pZnwbAqI987W3/f8DG4nAzj1U+N5XZ44/ufcryLYegIvqeStDAfiLnu/xgaA==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.0.0-beta.7
+      '@azure-rest/core-client': 1.0.0-beta.8
       '@microsoft/api-extractor': 7.18.19
       '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
@@ -10148,8 +9902,8 @@ packages:
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10165,7 +9919,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-EDOvKO9mjCqSZabcMAsecz9WsPV2//leEAXa3bRom6TxqdHS84tgaWXYQeA9izs+9MFWx9fnzi4sPPuenTQrSA==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-dRsBXthB+2E8lqtimjt0jnZq5kCw3RNdI5Qh8f83crtOs0GEFZrJc9N1PIceNZY0VD6stFOXHYZUWh9oxRf7tA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -10195,8 +9949,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10212,7 +9966,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-lTO3pzPfXSJWZLbjcL4+Aovmcj8qiunMbfRK3r5Gckzfx1xlbR0TPV77GG/IeGZVHRNIVgeXKc1R5JxdIZjeHA==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-a1ZsNVUsAwPYzz5ljUg/WU8DlDXo5xA/D+RiFtqIrmjQDMx/6FWM/exKbFuYVZCzl7+jyU01oT+gCZeSeYc5cg==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -10242,8 +9996,8 @@ packages:
       karma-chrome-launcher: 3.1.0
       karma-mocha: 2.0.1
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 10.4.0
@@ -10261,7 +10015,7 @@ packages:
       typescript: 4.2.4
       url: 0.11.0
       util: 0.12.4
-      ws: 7.5.5
+      ws: 8.2.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -10271,7 +10025,7 @@ packages:
     dev: false
 
   file:projects/core-asynciterator-polyfill.tgz:
-    resolution: {integrity: sha512-NMQzIXmS6Aw+/UpoOPolEKGWu0ak5sbvZn3jGCttx2gFZqO832WYZuAeNlwxEYUepdypxNQRnAR8EAdx7b7iiw==, tarball: file:projects/core-asynciterator-polyfill.tgz}
+    resolution: {integrity: sha512-ugOcJyCydJvJ8cDCJkyx+P3NLINxAf9NluDDWAnvkSOyZG0s4Gc3sV2uSC02/a6WQ+zCNHYS7xtAZkoKa2nkyw==, tarball: file:projects/core-asynciterator-polyfill.tgz}
     name: '@rush-temp/core-asynciterator-polyfill'
     version: 0.0.0
     dependencies:
@@ -10285,7 +10039,7 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-5za6xyOYzRmSo5PeWlUk551FZeM+MkLHFd0l2Oh84pwtIDbMS3gr6txPMJ8k088/Dhvr+HDNTGRhGsGlZqgIig==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-SIDF3Iuh94fud24XM+KZ4RftMa9n7IDMF6xKR6o7B/eMPEY0rO8jFYjjFLzv7PnlTN6anSptLvvd1IRdeT9pQA==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
@@ -10299,7 +10053,7 @@ packages:
       eslint: 7.32.0
       inherits: 2.0.4
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10312,7 +10066,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-QaeQvylrF11K0BFVJrRaCxuiREwZB4Der1ouLAQ+al+jA2T3gue2BqUEOZ7PBOPqBJSnF9G3C22PhD0zrqZwhQ==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-uVzanXfO0nJcmTBk68ViwS9swYWeFtg+61JdTRIOCcLbkhnZ5Ds3mgZWY4XK6pSDy3Eh8LSH1F8k+MhW5VjX/A==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -10339,7 +10093,7 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10359,7 +10113,7 @@ packages:
     dev: false
 
   file:projects/core-client-lro.tgz:
-    resolution: {integrity: sha512-14MiFwnsKK9QvQvw2HCX58K9SBbi1vwuharI1RRrGA/QE5T1vjt003O8xyOE0+VpyFhVxOBcPJAzeve+iaVlag==, tarball: file:projects/core-client-lro.tgz}
+    resolution: {integrity: sha512-qFuHJwbpHzExnH0017of7wnoic3VCt7Lp3IC+d2KieTT1Xyg46IXJO1Eg0NvsBRIi8TOXJpjZUgnmZO3OSrd2g==, tarball: file:projects/core-client-lro.tgz}
     name: '@rush-temp/core-client-lro'
     version: 0.0.0
     dependencies:
@@ -10384,7 +10138,7 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10401,7 +10155,7 @@ packages:
     dev: false
 
   file:projects/core-client-paging.tgz:
-    resolution: {integrity: sha512-6zYQV6oIAFUeOUZCLOQMaaOIrTxq4ZByRSK9v8y0kpJt2ONw9ZsPxeDzDl7F9/sboyw7R5I9nTBYmGHAGBD1gw==, tarball: file:projects/core-client-paging.tgz}
+    resolution: {integrity: sha512-8eWJPETyIKtSKjInSOQEqpozIgN/zGJEAes4SPV0PNTREs/mq+YPrm4AYiz+uUEAfMLAT+QfThzxbBEf1pSA7A==, tarball: file:projects/core-client-paging.tgz}
     name: '@rush-temp/core-client-paging'
     version: 0.0.0
     dependencies:
@@ -10426,7 +10180,7 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10443,7 +10197,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-b55vwGtHq3Db8JgYLspyAdlZJUp1X3ZzFkHELYLsbSIFglv8eYG4WY1SvO/UtZAGIRCZhlZK8NdoxZpjBdQlLQ==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-qkkdeARWgMGK91P1H/41Bc5bCD5uO0ajtHSItATi+/XNWcryPA80GKdQ56pc8aoVb2KQHzEfOoSo1J+U+RIqsA==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -10451,6 +10205,7 @@ packages:
       '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
       '@types/node': 12.20.37
+      '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
@@ -10467,7 +10222,7 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10484,7 +10239,7 @@ packages:
     dev: false
 
   file:projects/core-crypto.tgz:
-    resolution: {integrity: sha512-J2pLnKslszxb3f01A/fO+69mI9MUGiFZIcThEAccAja3ngH+G596d2tDeVVj8dJ3j5fiu+DvrbRwNeUndO6+8w==, tarball: file:projects/core-crypto.tgz}
+    resolution: {integrity: sha512-zyq2h9Zx4Xs29L9wvCPYxwz26gwYf0bXW/lolpY/m/axjnrLv0TFvV0/mNaRcsoA8ss+yPNy26z/yu5+ltkEiA==, tarball: file:projects/core-crypto.tgz}
     name: '@rush-temp/core-crypto'
     version: 0.0.0
     dependencies:
@@ -10512,7 +10267,7 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10529,7 +10284,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-/1F76o1Bjt4fx38H40DKgXtwrNhq+bbaSlFeQS1oMht1Ha4YQjQFS9ANOdWi8Ow7lJPNCZHbYsZLODNg5OMiqA==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-5x7iTuPSBVeBOr1aUg5VwW3rWLgQhSCd441hooOhfIPTwDEUkI3QZ1ElZBB4n/BzZg8U8ShKsqOR0kP0YkXiUQ==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -10566,10 +10321,10 @@ packages:
       karma-rollup-preprocessor: 7.0.7_rollup@1.32.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       node-fetch: 2.6.6
       npm-run-all: 4.1.5
-      nyc: 14.1.1
+      nyc: 15.1.0
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 10.4.0
@@ -10598,7 +10353,7 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-WUSPTclSRJt3FWVbGlOE9zpGuO7v1HqY+s+PpW7zAvB4blKWqK48H/bRG83H/6uNl5zHkHb+zeWj0Gh2BIXQJQ==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-xtkvRAZiOKGysKENLHgNNDzNRG3/2726mCCgvKJgPfNwxL61jF1mpSMn3Y0Y47Vizectl9ZcKgHPE7MZi1aKrw==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
@@ -10622,9 +10377,9 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       npm-run-all: 4.1.5
-      nyc: 14.1.1
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10643,7 +10398,7 @@ packages:
     dev: false
 
   file:projects/core-paging.tgz:
-    resolution: {integrity: sha512-UjHPixglA9K1Yn2RahHbaLPYGstD1B2lvrMTRTgMgwaeFQuzHajn6TQBvO4bs4Yg9Sjl+XwKGFYWP8LEGTba7A==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-hmg/2cphiwgHAmfL5c7E+2uSAKWrINgPbIktroXWn4m1gwRteVtuRtVbJeyhSGvzTJNbOwYUH/rG0nmQB70HIA==, tarball: file:projects/core-paging.tgz}
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
@@ -10666,7 +10421,7 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10681,7 +10436,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-wxzY3+t7F39z7Kq8lUkS6fRk/2LXYGd1tmzyspZHHKrXTwZ5llcznQOiqV9bIJROXpo9/nzBJXS1jOm5S7VI8g==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-jv1/16DuyPYYwN2dsRGIeaCHcXCKoloK6lCHlbTYfs4c/Z2LqJ1y52ObcK0+pIk7x0IPCQAl6rLglmzODi1eTw==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -10713,7 +10468,7 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10732,7 +10487,7 @@ packages:
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-f61XTsl+LjwqPrnFo3B2Y62ZxqWYFKRTNrV/BYqo72zS8RAfNJ/5McNTZf3KF5XMRsmDNlNCerx9M3KHWcQilA==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-f37aZBekWD9n7SDdL7Rm+kM+00iXPTJ6pJeuCpEnh2gE6XmK3vux08SiwICItdahajItFMHCDKHPf4uYHr5nKA==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
@@ -10759,7 +10514,7 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10776,7 +10531,7 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-FNsdK96TLCqM6bDGl1STn9VB1HoJAtmAOPF9/CRLGETEbi/z4JECaCo6bAS8kKXWk7P33UkPLYp8IF8n2bSgdg==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-6gNTshAF42+SarvSkgkM3El6NdLoUag2aKmUQHbqxn2fptcd9FUmFV7t2R2KLbnaxibzBTzDPgHvWcDkird5MA==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
@@ -10802,7 +10557,7 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10819,7 +10574,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-jZ9OmhFtUTs6H+ar4gjE3WwO/OeCG99di7P0AOLV5kQdDREn79Eb+Q8JdoRj1iwxksdiPGX92gzI4dCKXOtECw==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-dZtoaCIB9OoYX1Ulfd64nuZQ12G2goQzyuCfrxeWJbc/ecIHAfZgaJZbbQSSLb50KTmXeIF9ToqoY5qIE76jYw==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -10846,7 +10601,7 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10864,7 +10619,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-MkpEMvRs6PSK3gmrUxl1T4dle8/dMBEwhNUzj+NRmcrDtovKjHRZiH//cXk3Fh3O0xlJe3Du6aTNxtQ1VIYPKg==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-5AyC1YxodBNK0GKENYQCRnPLNLXPjVkHNmrqSZ9tkkAWdVHbK8rlyLC6QF81kaqebqSGZQZ8H0GuScg5dp6hFQ==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -10890,8 +10645,8 @@ packages:
       fast-json-stable-stringify: 2.1.0
       jsbi: 3.2.5
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      node-abort-controller: 1.2.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      node-abort-controller: 3.0.1
       prettier: 1.19.1
       priorityqueuejs: 1.0.0
       requirejs: 2.3.6
@@ -10915,7 +10670,7 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-Ppdprmhfup81eGGELsZLFgqOEzS5NRYc5Vt/AbUXT69+kWAIOP5L2dDH24q66C3PLuYk7N1s5xXGnTqRzLXuSw==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-15oV7/MZhi1cfaumGp/t5wNZmDQdkURPM0DjX7nV5sNY+oELwhEE+r3FzcsQNHPr59wIEinsUGEaUtqZ+vXc7A==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
@@ -10950,8 +10705,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10976,7 +10731,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-kIv+fJbY2f89rQmcriGnUQSMyEfqk0ywz7kxqv71AkbY0EIe02xTQgbUpQkvyM39BLeG4XOM736TsrhK9i9vgw==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-zrispsrfUltzNFv10SXVEhGRL5UrjFgzLXbQ36RscV7kJ4PtDsWQgzLqVeL2gEi5X+Kof8HHdd9a628lswsQPA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -11019,7 +10774,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-JbiaAZTKbpTEXkwM3tXpIGF37Byi68uXKyabs92a93o5jbFaJEnlENvQjQ+xpAQR7kg/Yy1Bt/wOfEj8JopBWQ==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-EmRXFsKEZJNpofnEOpGuVkNnFxj9RfZWOoBLxP97eQfAEKKdyOEJp5PX9J7daCz9SB4sjh+QyRI7ySWSzpov2A==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -11054,8 +10809,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -11077,7 +10832,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-9QeRV6tJaY41UTA9Bf7mXhuazf83pKvMngFDH/rawytjqFGjwSjPt5yTTWyLw6Le3bslteTJ52TlPlq0HSAZNQ==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-VMZ895AjMuHWXPhrhzYKmnX1zhUsCqdRyh86lBlco1vnwBTU2nNrJ0jbVWawWXQGFSGdBYVMzw/nIQVfppKbcg==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -11102,7 +10857,7 @@ packages:
       glob: 7.2.0
       json-schema: 0.4.0
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 1.19.1
       rimraf: 3.0.2
       source-map-support: 0.5.20
@@ -11114,7 +10869,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-u60wc48AXg1Ak1a9ZKCtkoUsltHwtjcDcc+Z0EshNKTBqTHMpLug9YiQQJ0RX9LeYLzI4CTOO0STVvs2Jeoskw==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-QKo+ksa6MGdQm2cw3Rh1iZkW4yCs5227Y7uhLtIpODfLotbCM0Vjo4ecwZickPdmkFLepUzB6woCuJbb7eU9ZQ==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -11164,9 +10919,9 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       moment: 2.29.1
-      nyc: 14.1.1
+      nyc: 15.1.0
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 10.4.0
@@ -11182,62 +10937,7 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
       uuid: 8.3.2
-      ws: 7.5.5
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-    dev: false
-
-  file:projects/event-processor-host.tgz:
-    resolution: {integrity: sha512-1bsUaKknmTfFOC0w6wjYVciwePXLbmv5WQ8+YE0WLn04UW7kZala/RhlIolUx1TlS35vDKb73NHLz87KGe3g9w==, tarball: file:projects/event-processor-host.tgz}
-    name: '@rush-temp/event-processor-host'
-    version: 0.0.0
-    dependencies:
-      '@azure/event-hubs': 2.1.4
-      '@azure/ms-rest-nodeauth': 0.9.3_debug@4.3.2
-      '@microsoft/api-extractor': 7.18.19
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
-      '@types/async-lock': 1.1.3
-      '@types/chai': 4.2.22
-      '@types/chai-as-promised': 7.1.4
-      '@types/chai-string': 1.4.2
-      '@types/debug': 4.1.7
-      '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
-      '@types/uuid': 8.3.1
-      '@types/ws': 7.4.7
-      async-lock: 1.3.0
-      azure-storage: 2.10.5
-      chai: 4.3.4
-      chai-as-promised: 7.1.1_chai@4.3.4
-      chai-string: 1.5.0_chai@4.3.4
-      cross-env: 7.0.3
-      debug: 4.3.2
-      dotenv: 8.6.0
-      eslint: 7.32.0
-      esm: 3.2.25
-      https-proxy-agent: 5.0.0
-      mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
-      path-browserify: 1.0.1
-      prettier: 1.19.1
-      rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
-      tslib: 2.3.1
-      typedoc: 0.15.2
-      typescript: 4.2.4
-      uuid: 8.3.2
-      ws: 7.5.5
+      ws: 8.2.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -11247,11 +10947,12 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-8gU5FFbkNjNAarqfpkhmSf/agfq7aOZLTVsKRv81V7Gan+oKBq76y+uFqN1JXIqJgBo7dFkxqdqL/uDG27rtFQ==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-OyxPQd3x48aJnJKTx1KWVCN5SxkIwpa+LyNvuCj2gpaV/IbovvKxRzIeFLvUKFWZUVL7g6su4u9l+n1/O0pD6w==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/service-bus': 7.4.0
       '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -11283,8 +10984,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -11309,7 +11010,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-zlmANI3IQuRtUDLzP2EGMCG793uIgXFNl9BiChwo8KJKgd5wuAiSdKNI/E59mNCHG8TZM1cuDPHB7GrCASUXKg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-yukKMardh/Y+wmzXQ9Vs9SE8f29QNHZqoRrw2DoyXrSuIQxxTUVls5N4q6MKV+CYsAeiSwJyC2F7MsYIBOgr+w==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -11352,8 +11053,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -11375,7 +11076,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz:
-    resolution: {integrity: sha512-IhmHN33M9hQqwZ716hAQESqAMrKkMV44b/PLCHLKB/HmYodMkI8YHGb9IDcelw6FoAzVarZtyTyfhrvP8sn+MQ==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-zWlHbjrXxodAevHGy9Jf1UAVGlG/3tlPCZz1aGBDk8G/JPO96k1pHWbt7WCWR+LdfHJKBxM7YvIp6zggKW0Oog==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
@@ -11417,8 +11118,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -11440,12 +11141,12 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-bn+kJWfekz/K7QAoZCaYhBkLGk5NJXqJxcc9I3MpirMbvqoe3bImtYW7MvbvXJjBcDEdBKCYZVM0Bjv62Juhmw==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-YGVOgmlyXy5HlF/48obO3C9c5ctpCSWDMZmB0rr/q1a5jqmNpVnXgOwngK3K2Ww/gSs+Cp/gd944Eco/n0o9zw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
-      '@azure/msal-node': 1.3.3
-      '@azure/msal-node-extensions': 1.0.0-alpha.9
+      '@azure/msal-node': 1.4.0
+      '@azure/msal-node-extensions': 1.0.0-alpha.13
       '@microsoft/api-extractor': 7.18.19
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
@@ -11459,7 +11160,7 @@ packages:
       inherits: 2.0.4
       keytar: 7.7.0
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 1.19.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
@@ -11477,7 +11178,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-IvmWVktnEJpap3ZPqEue4f3T806qVYjhfAM+Y6jFdt/rC/SPPO5ST2/kfxNC/Pr/Xz2etkCoWvgEO+4z9X8htQ==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-3qMlK6IcR2gbG34iRH6IPhWVTZBy1yo5QmU6XasR/fywDoegYljotfm1keOWnDZnctUDe6pFo5RIlwkdy2shxA==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -11495,7 +11196,7 @@ packages:
       inherits: 2.0.4
       keytar: 7.7.0
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 1.19.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
@@ -11512,11 +11213,12 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-tnLNHExUXaktmB8u7uICfeRdEwbfP6fhK45SznIaOE3WTKrgBA/zW7TuMiHfBdZ8flymvm8mv6YcVGI0yYdC3g==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-+e0rwDopJHKRfpGgWvUQCY+oKUuu+YrHvBatmjg/BQzIGSS0XxQId5zxlpzn1a9o8q36QjYKlb6h6IYIxKN3Ug==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/keyvault-keys': 4.2.0
       '@azure/msal-browser': 2.19.0
       '@azure/msal-common': 4.5.1
       '@azure/msal-node': 1.3.3
@@ -11545,8 +11247,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       open: 8.4.0
       prettier: 1.19.1
       puppeteer: 10.4.0
@@ -11567,7 +11269,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-6LBsYH/eIaBvoej21Y8fBf3ZTBcjRgs18Ltet8id34p+o9URtBOPBpsgQPidpUhen9aSyY/8yUXIxTPXSkeoxg==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-yKaQRRzbc8nuJGrj8daTEQ3r45c20aXlL1O21pNa+L7foP7ezix+r/qe2NNpYRov+uEZNTRQ9GZ2K48pDXBhXA==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -11593,7 +11295,7 @@ packages:
     dev: false
 
   file:projects/iot-modelsrepository.tgz:
-    resolution: {integrity: sha512-PSSdmkBx4wQnURsHp5Z+BBUnbuDMluUF+vxO/9GzTAhuaqh9vEv+sW5MPfGzOO2vm2z7oa+lxpkR0vZ6aErexA==, tarball: file:projects/iot-modelsrepository.tgz}
+    resolution: {integrity: sha512-Hs+C3CUfDM8OoorHAPy/TXhaf7Nopw54ESJyjRfrJAKP3gRC8rvgM4SY1LUWRIA0oSeIbLsqdRYuOknFRwsX3Q==, tarball: file:projects/iot-modelsrepository.tgz}
     name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
@@ -11626,8 +11328,8 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -11650,7 +11352,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-iVMo9LqkOfoBXihdqtxPmSvoQmPi9zFZ4fFpL0h1M9TpOP08eeRAmA5TFp4Cxcy7qZly3F6IHz8lRe3LNC7usA==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-3sHOsnaop7VF99/TRXOWmeUD4vxl2mNcqic5kWdSJlLMlMYr5J92teb9Ys8A903r2OvKP/AUChwXptnX5D18zg==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -11676,8 +11378,8 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -11696,7 +11398,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-uwcMmHEi/l1kaX+RqQp+sEtSDUIYorlZ/j40KdXYwcys53250GDtEH888EzydWqdN8d6bLHG6bbVKIMPNGhcqg==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-Vpd1EzZWdELDNuDG3uCVURsDOt4sV79XJ0XDXbtz8BHdyrFQf51BFxx7wUPmN3N6JBR7dYcfSs7OBdjMhJuVEA==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -11732,8 +11434,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
@@ -11771,7 +11473,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-lB2NNpBNlKc+zxXdpmP+QVhTk/E5Vpk1Rs4stsDAxfEcyDna4byDIh2ZfRZ+A77UB+Ye7nM7slOs5KK+pPrDzw==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-lrKVoLOE1t9Q/nnxEXeDfW6/4UQ7mHtexpCZKc0Yp20HIHh6xVkiJgy/oSEK/xYR5C7H+vxfuLU9/IRuPIhGSg==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -11810,8 +11512,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
@@ -11834,7 +11536,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-+kqhTFsA8yXm5MOJt/Yb5KW84zhfTGfx5qAOqAqc+SNVBNSCvCom/LeT9xjr26fi8kKQl9Gh6AoU2RcmgHMmuQ==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-iO771VzUu5sXTkcWfwjcxT9wqCo75YMTGqBQiCaifiut6n29ke9ngliOxWus9Qb0dCVdlu9sXCZ1G9bJKmPHZw==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -11869,8 +11571,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
@@ -11893,7 +11595,7 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-wKayf8GP0FcmHSww21Po1LMloUqf6N4xGbzCNFv0MSSKw7u9RaQiap7OajybLqzsyPvAjGb/yLDup+K2w1VdLg==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-ml/KNN7Xbs1YLHJwvpnOWOSQ/97zd8nuEB45LO97xSOAjXLWxNBMSWRuxofplAq5ZQTqaNya1omgJrrd7gJR3Q==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
@@ -11919,8 +11621,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
@@ -11940,7 +11642,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-authentication.tgz:
-    resolution: {integrity: sha512-w2qqeee2O2OvZ9g7vJUYsPsFVIb2Cg0cMMIbdClkyiFSaffz2naAKkmkulR5FDfzoK3Eka/J4sAb5RugzoEQXw==, tarball: file:projects/mixed-reality-authentication.tgz}
+    resolution: {integrity: sha512-sn1l88Lc56CQruQpjJNqYxcWHChfq2qM2hpnJqfFaAVmGHAmPjcG0c3dLDtxRR9mULI7NpABbRL6GoXCdlVPcA==, tarball: file:projects/mixed-reality-authentication.tgz}
     name: '@rush-temp/mixed-reality-authentication'
     version: 0.0.0
     dependencies:
@@ -11970,8 +11672,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -11987,7 +11689,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-nSnJO5YUQrADRM2Don+4TNMIbnZfSBaykUWTF5ZxWsbKcEP+g1nU0uM7tMWhPqZaY1XEdR55XIem4o40PWr8yQ==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-mRLZqZFQnTfvZjaZU7ZXBh82Kx8Nxl9REZudzyIU5MlkXPoYs0iNIndPX6BL7StQ6CGvz2kzwGfSRtxi5UoIsw==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
@@ -12018,8 +11720,8 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12053,7 +11755,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-Ogww3f0xEORxYeBAKIqIP063Ws3EVbbj90CxAYyfPmbhf1nkQHHlnG60s+pxJFqgk6/5Xk0NSOdrCo2/VBT0jA==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-hUGjniOfZdX1DTXlFw/eeSyMLWuV3E/A+21fV6405htKobNDL6r/pa8EnyOKbo7G1yc6/DlmXWb1vWTa5pl9fg==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -12074,7 +11776,7 @@ packages:
       execa: 5.1.1
       mocha: 7.2.0
       nock: 12.0.3
-      nyc: 14.1.1
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12090,7 +11792,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-pwL5Dzlb1MtQ+B/N1Q1QqlPUmUia/4uHSPBUcf94UMSlKkvncoR6N736mZwnTJiDubME/s31IpbREPcaHRZtaQ==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-HX2UiwoQApKmkl6q9RDlQxORcN+jTP5EexaMAzfPUSh+gMOOuTx1hkCFbz50TojEESraHguMG/rpvvM8jWKWOA==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -12125,8 +11827,8 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12390,7 +12092,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-avhQXwbltqT5pi+VKaxXD93vUueYplVEVFqdkoP/5AwtflINKPXdvV17z+T88UolGILztw0rp2eylPU+Ug+Tig==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-6PXCroWdlod0WXXgBFQxJqbvFl5g6rQhpzVViP+tyYi68/SczLCtrSoT3jBfWt749Z0SM3R30CsdvBeLLgwx5A==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -12449,10 +12151,11 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-spRBrMEsacl7wJqZkvLB+qmrs8n5JOqGjO3UNWLBce5R74kW0qyigBcxNXzSNukOMmshoTKvjvQGkmk2EgfJzw==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-b6AGPVr1lihogGBiieVyO3ohpQBiZG6Ch909QgYl7Ysed0tvD+FaPqnIzmn+Tla579Ia7Z+j9Qz1mv/tUFrknw==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
+      '@azure/service-bus': 7.4.0
       '@types/node': 12.20.37
       '@types/uuid': 8.3.1
       dotenv: 8.6.0
@@ -12470,7 +12173,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-ESkni7JKJO+FHnw9fYjQPqpOCUNwHBfwTHURUK6LJT72fP/Qi6GE17OyHclmA3SazVg/p6csIutTzHFzUxBubA==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-MP7VqxpxZ8LIGj5nfzcf0PZHudexBQIWvAWfvaqxzqghKrKjYAfPCuhnu+aJ8Onb/3zh3XTnrZSxEv1IMIOXMA==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -12556,7 +12259,7 @@ packages:
     dev: false
 
   file:projects/purview-account.tgz:
-    resolution: {integrity: sha512-DsmtGHPP2m/VHDzPBKhP4x8cV2IqHX4rt+NpuXsGho6xAZvMgXOm/f9H0NaBlmD4JwalZg4ov9nCTOYQsa126w==, tarball: file:projects/purview-account.tgz}
+    resolution: {integrity: sha512-80S7bWUiimjhZMa44NrrcpAVceEIABUpCWdxgOkRQsMifwiI1PVT2IPTNDzAALJ9LR+BBr2YaEAbBpvceW5tMQ==, tarball: file:projects/purview-account.tgz}
     name: '@rush-temp/purview-account'
     version: 0.0.0
     dependencies:
@@ -12586,8 +12289,8 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mkdirp: 1.0.4
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12603,7 +12306,7 @@ packages:
     dev: false
 
   file:projects/purview-administration.tgz:
-    resolution: {integrity: sha512-G16V2H0DqY47fcQWXiF1HpJJ1eOkXmk+cOoalwMtIHs6zxo56/MOr7X08gHNVRoZ4SIbgG10ntn4/GnpqVaz/w==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-i4bV/YjiM80T2/DKscf7Ok8KVddw8WU+6l4/ruqhcsRD3xBuT/D0spg8/g/xd9k/kTh0JBpl1D20dRKWsfz06Q==, tarball: file:projects/purview-administration.tgz}
     name: '@rush-temp/purview-administration'
     version: 0.0.0
     dependencies:
@@ -12632,8 +12335,8 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mkdirp: 1.0.4
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12649,7 +12352,7 @@ packages:
     dev: false
 
   file:projects/purview-catalog.tgz:
-    resolution: {integrity: sha512-yBlTPEAMxM+fG+UK1m/K8XNuHlygdMBXJjSQb0allbvIR7uO4aCSACwGAMRGHQ3y4iL87+WPsOlzmo6WY45vyA==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-sxVdEDLLpRxKJnnMhOJJpdr6IZYqGE7uoZcR7Tt6t7N/WtHyJVOr/PytwQiQeFCETzuqT8Xik8TW9Eo9A7MB1A==, tarball: file:projects/purview-catalog.tgz}
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
@@ -12678,8 +12381,8 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mkdirp: 1.0.4
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12695,7 +12398,7 @@ packages:
     dev: false
 
   file:projects/purview-scanning.tgz:
-    resolution: {integrity: sha512-5PJCuQN+AoFERH3bMVQZjRGmV/zhPpcILqtMux50bufV4n4pVKMIbfpn1GzOS7aNVXsBMJzgZqqBNfsV2SP8nw==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-ocNGzp8fn3K2gS3Kyg5RCtE4YAtGXZ6qyz61mUXXBs0ktcmKKr2mxIqise4/7aQtawsGXBCTLIhA8/kh3/WHpA==, tarball: file:projects/purview-scanning.tgz}
     name: '@rush-temp/purview-scanning'
     version: 0.0.0
     dependencies:
@@ -12724,8 +12427,8 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mkdirp: 1.0.4
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12741,7 +12444,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-36C2mZUJMdHi31RmxsAYWIPKGx9Qbjx0/jm36UatiDvJIZOvT5D/W+Un3kfIiNIoL910MFW5TyKkipEmvUdMsw==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-aCZcQP0XMMsSqGOihniPOWJ8Hod0UiPUZDHxA4ol4iaBTeRwFMnASXbL2L2bijeWrw410QiBfVlvotZ2ipSzLA==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -12777,8 +12480,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12799,7 +12502,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-35agTFs5ffVjxETd28kTXTFaPA1IKu6rGeGKxb0mBeIN44hPM96P2uLG/+MPGjhvYAtJmVHjB/1sHn2HLE/Kew==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-lCpDUBPIPTqToa1r1xA4pURdkEQ8Q7nMocwZOnLk1+g+sNbo1n3dx/t8eeMfpcY7+RQ1pB5U6ypHotrKI0kXzw==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -12833,8 +12536,8 @@ packages:
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12851,7 +12554,7 @@ packages:
     dev: false
 
   file:projects/schema-registry.tgz:
-    resolution: {integrity: sha512-PZQ+d97+euaD08RBkb1nHFdqEGxA7dl172+qG2nks1pfDhe6itaGZCqXFHVxydy4ipafB35iJtLHtWEXXVP0Rw==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-O28oxHO75o3PHV/SRMXjXOiSmP/qT0RacLYZXcEXlFYW6uF5bqMiDvFgNHA5A68a24goJl6EJzCZvbLUcyBCDw==, tarball: file:projects/schema-registry.tgz}
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
@@ -12880,8 +12583,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12897,7 +12600,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-1vVVrXpDsNF6D0jfxy6e4EIJz1anhCYtCki2uiP6bMX171TGLMFWCNpKk0Xxw2FMeJqAIVt4/UcoOpOy0dby1w==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-ojTJp1YUTBaGGVHEKSbVrXNwr21YCOw8jwMSccBRKH79hKsGM/LyP+HV++BCMoxiFpYBFieeOdr7pSqLdgYo/w==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -12932,8 +12635,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12957,7 +12660,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-O0Fzn9c6IdZdNX8eOqwh+o6KelkxkcBZD9womwBijoPxqd0kAWdtnzV9sq+kbBNDXb7j+WAo3lKOQ6ZyUMuPww==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-C0bmD0b/wKoYFOc3PsbSlHaXbsPpZ7qFkpfHdyTE8mk4N+uaQGhbX5Q+F5eLZj86wo8tkx6gH7FZvrFxmBdQ5A==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -13008,9 +12711,9 @@ packages:
       karma-sourcemap-loader: 0.3.8
       long: 4.0.0
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       moment: 2.29.1
-      nyc: 14.1.1
+      nyc: 15.1.0
       prettier: 1.19.1
       process: 0.11.10
       promise: 8.1.0
@@ -13026,7 +12729,7 @@ packages:
       tslib: 2.3.1
       typedoc: 0.15.2
       typescript: 4.2.4
-      ws: 7.5.5
+      ws: 8.2.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -13036,7 +12739,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-VGsLe3QuXI6wbkiphVieGfv4MUpLKi+iXU2zHDACCIMqqmPlQCOfxFy/dVySDLfBZWFyuW/IXeY2LYSypwBklg==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-H7fVdfsX4+f+ghlsUM1ZDjSIrr+yuAC40QtBfX9pXHsvctJGy0kBp8t7d1UjBYg2/Y29fbkwhsOB+epN4Vr/fQ==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -13073,8 +12776,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
@@ -13100,7 +12803,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-b1nHoHla4RKc9OA/lfyeQEddBfNSxy7HpP1YRZuhQw7QFZysNv9WVjdMywiHMaP+bnGHiaHoCOVBJa/Yk2Ilkg==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-t/0LgH6vCvaj8vte6WlxhxAqlLiMMWpKa9zJ1efWXRMFttdZRbXHA1M8yRwHK4oWI54aKxZ+gEAaqMbueHrV4w==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -13137,9 +12840,9 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       node-fetch: 2.6.6
-      nyc: 14.1.1
+      nyc: 15.1.0
       prettier: 1.19.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
@@ -13164,7 +12867,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-QPJrLbmZqRY28DrDri/iF0R2yFimNq7qH2tQk9WuhztNeudzfxV+shKdIwDBiBRmVNMH3WHLIbQISkpoR1IkAQ==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-Kl6sCQB0y3iOBR0MiSxfOG2FnD0uSAxjPw8+noa1xlStpnUSRYFBVL7a3ppbNIclqtrRERHjydVErEzeO8en6g==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -13201,8 +12904,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
@@ -13227,7 +12930,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-p7dhiAVH8TV/4KJQG/VvNUeQCwanCueE7Jfk2zjWOSAQvxEGuwyXnqbfISaj5D1UuL/UgJ9ue31JJycZYYvRRA==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-T1H/kKW+EuE3ZegkN6tIO7NYLTw6glAOe1adcRdYiR4huPeQ2WOqnOKYcXNuxZV0iyw5geitbm2Qm1iRTVbVow==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -13262,8 +12965,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
@@ -13288,7 +12991,7 @@ packages:
     dev: false
 
   file:projects/storage-internal-avro.tgz:
-    resolution: {integrity: sha512-h4R5NafhZZvBq8OM9gK3/YFjhV7gSzIMWbQMy8FYpF8psshzU9pHkWGwpIEkJuGNiDzAacOdbHub5i0sKRqHdA==, tarball: file:projects/storage-internal-avro.tgz}
+    resolution: {integrity: sha512-iFkLsq0o0zVNgOb57XFhsB2yDBpYnKXVSjd8UimmXHAcCS8KzzYb0Y3TolBQERIAXqzkiIqJ7jGHsFUQSgxJtg==, tarball: file:projects/storage-internal-avro.tgz}
     name: '@rush-temp/storage-internal-avro'
     version: 0.0.0
     dependencies:
@@ -13320,8 +13023,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
@@ -13345,7 +13048,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-g1EWancq1sqsOP/UZLutMo2pqaIe13Wk0LJ996sJSrDpgGt9GFN0iTeM8JXxV48U41Ze/nPVrXy0yWFQjT16wA==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-ikTa4DZ8MAQlls5viDNrYlGXlaaj9D3MnBcull7rjTHbMBj6EEieTKj3pOb2iWr/dXa0uRL9PQd8RCVYB6uRDg==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
@@ -13379,8 +13082,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
@@ -13405,7 +13108,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control-1.tgz:
-    resolution: {integrity: sha512-/vhtVfGenQ2ARYfMoo0n/BUcg8cjL2vRUb1xddiDzU4grQrr9daUlY4m8AUC6khX+Kq4d/qBKLmHwCvv0CbVUg==, tarball: file:projects/synapse-access-control-1.tgz}
+    resolution: {integrity: sha512-ZtZWbYdfH0jPNoBbh9AN3T+CojyCJ+cmlAq6sgQANDIwb0FJUN5h++hpAee8dg3veW7YVBuuCs/GKMXRWvOC5g==, tarball: file:projects/synapse-access-control-1.tgz}
     name: '@rush-temp/synapse-access-control-1'
     version: 0.0.0
     dependencies:
@@ -13436,8 +13139,8 @@ packages:
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -13458,7 +13161,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control.tgz:
-    resolution: {integrity: sha512-avbuGUOSNd1o2Cne9ApTU9TIniJkcaKgkaIU+PMcdofeN1sz3HIKWIJVez6e4atvTISkRLwpcvuzZCIAqF432w==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-vLScf0uBb5vBJpylLlF5kAdViifx3fy1bVPzeK+VtmBOtxJFObL2vfZ5Xk6WemqEW04AbMTNxKSWafVu8h7ShA==, tarball: file:projects/synapse-access-control.tgz}
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
@@ -13491,8 +13194,8 @@ packages:
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -13514,7 +13217,7 @@ packages:
     dev: false
 
   file:projects/synapse-artifacts.tgz:
-    resolution: {integrity: sha512-o+mWtNf+GrUrEXlUnrAxtM4m3PiY1hVmzxhPxP/MMVZMyoiF7BM2DIb1v86+aZPEulODr+WtB2SrkVgFNllFrw==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-rXVjHP6gQAP4mwjPA6wVqoogEt6M6UG0tE6XCApQIrOcY1DhX0mPJCz4FGSwRw/fePtE7tS/3RvIeAkF1U2rXw==, tarball: file:projects/synapse-artifacts.tgz}
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
@@ -13545,8 +13248,8 @@ packages:
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -13567,7 +13270,7 @@ packages:
     dev: false
 
   file:projects/synapse-managed-private-endpoints.tgz:
-    resolution: {integrity: sha512-USO8hE0CzI2ma5geUeXq1mkubxyimm30tBr63uig4HQHQMhK8polvqJZlqTlRjKQDR1gwk752YziM6oYC8VcGQ==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
+    resolution: {integrity: sha512-4jbDOLAhVBT36a908mwm0sb8bOWPuR/vZnb4dQWklgESwHkUq0OAsDBmv/YIW/meUbzllGHuPCYQDPotdiPa0g==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
     name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
@@ -13596,8 +13299,8 @@ packages:
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -13613,7 +13316,7 @@ packages:
     dev: false
 
   file:projects/synapse-monitoring.tgz:
-    resolution: {integrity: sha512-6H+/OE0Cl6lLymcfOL/ZYgOnTlCq4rf28I1TxkPAzc+ar/dk+D3LVpCE0jnk9+w0YYGvjDSl/PzPVQaQ87HCcA==, tarball: file:projects/synapse-monitoring.tgz}
+    resolution: {integrity: sha512-FoF8l3ScgxtmUbJWWdocQYvptdNco4HCi6IR4eJO/38G4YQwXPUJMoEJsUvY3d6EEDTJ39QjoRxBq696AIDI4Q==, tarball: file:projects/synapse-monitoring.tgz}
     name: '@rush-temp/synapse-monitoring'
     version: 0.0.0
     dependencies:
@@ -13634,7 +13337,7 @@ packages:
     dev: false
 
   file:projects/synapse-spark.tgz:
-    resolution: {integrity: sha512-nCxr+kmnz2eg+qvIFTk4d7CSX4V79A3iR5PMq7PXnQ0RN+6r1McGO7j4Gsd+GcGGOv+l0xJDsTUgM10VbdUNgQ==, tarball: file:projects/synapse-spark.tgz}
+    resolution: {integrity: sha512-gMS4beeBfXs/gqkEhB6fl9sdivrz2W6UYO/0acqlJHFIXxgPep+KnHXJBP/Stjau61KD9tCDSvASv1YmkB31EA==, tarball: file:projects/synapse-spark.tgz}
     name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
@@ -13663,8 +13366,8 @@ packages:
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -13680,7 +13383,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-QWjO78lmkZVtS2R7961QlTRm6ktbQeApBVFhE3hCbjyVZ0RDEhWZAQsCeOWNnig7bjKFBw0DH4G5y/x9cKc4GQ==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-kVAZRbshnhOaLSIHmuQWMteXhn9TmqqPc5kZQYK2n00EGVgYE7jGC6MA/5Ipx7HTbR4CYKHrXrAaFLsM4N5rwQ==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -13711,8 +13414,8 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -13729,7 +13432,7 @@ packages:
     dev: false
 
   file:projects/test-recorder-new.tgz:
-    resolution: {integrity: sha512-2ZpucefoPAPvOYedg2rkAYe5kKIpSgxPd+7vTYfkm4oz6bLtxES+fvECqktN+J2Zk8gGmZohSvTSSfV+RBc4zg==, tarball: file:projects/test-recorder-new.tgz}
+    resolution: {integrity: sha512-3vm8AuXUmIG1xAGO7frvsnbqa10IyXlFcvMyNlJATlgfqCPCUcKNB7jaq6KjijaC4K86vVRiBJ4HF1DiJ7C2eA==, tarball: file:projects/test-recorder-new.tgz}
     name: '@rush-temp/test-recorder-new'
     version: 0.0.0
     dependencies:
@@ -13767,11 +13470,11 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       mock-fs: 5.1.2
       mock-require: 3.0.3
       npm-run-all: 4.1.5
-      nyc: 14.1.1
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -13792,7 +13495,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-bm6Rx6QWOzW0aNv8lVTKvBX1QlWE0nuVdIdZWb1wFhtEbDAZksRkWq5xFgnaNDgxpILM/IhZmS5Su68XytwNWg==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-z/9s2WuTY21k9477HxunczqlV10RdF5LRqldQZ7NVU4QXeakJpyGbs55FV5fEABACHIyYzBU3IUvp+uKOxEnLA==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
@@ -13828,13 +13531,13 @@ packages:
       karma-sourcemap-loader: 0.3.8
       md5: 2.3.0
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       mock-fs: 5.1.2
       mock-require: 3.0.3
       nise: 4.1.0
       nock: 12.0.3
       npm-run-all: 4.1.5
-      nyc: 14.1.1
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -13853,7 +13556,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-E9KYwKJArEuue129/vMX8zxp5YuqC6lVkqJMO4iBOmjb9W+JHV4+kzuD7UpFjDpX2+5idKHGRALPWUnAiqOTWA==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-eO/XaNwlnKeTn9jy1A0SpJpAZ8rztxeZU7LKQzOR6rqho1XiZX/N6zsCkAYiOLfvxJnRSqBlDGclKFf6U68xQw==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
@@ -13869,6 +13572,7 @@ packages:
       node-fetch: 2.6.6
       prettier: 1.19.1
       rimraf: 3.0.2
+      ts-node: 8.10.2_typescript@4.2.4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -13912,7 +13616,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-LQ9WLbbCZ1vVpj7fzrWF+ql1zI6qElwBWHHRSBQc3YQHrkQ7TOFBL5ke4iBcbxaJFsrRT55jzIohJJHuo2sGXg==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-lwre9kPplykEX6uth2c80ZfTV7v2yxGia/v1zRmCoRDXxOen7psOaU4nNJfU/xp8cjpUK/GEulNpXMFCnNoJww==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:
@@ -13948,11 +13652,11 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
       mock-fs: 5.1.2
       mock-require: 3.0.3
       npm-run-all: 4.1.5
-      nyc: 14.1.1
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -13971,7 +13675,7 @@ packages:
     dev: false
 
   file:projects/video-analyzer-edge.tgz:
-    resolution: {integrity: sha512-9+t+mAcyAqPYLyp4a41bdqOppIV2die1AY4A2bP/szdpcSfp+AA/ZQc2kyfHWBB5fVXlfHI75WYq687WY8qxcQ==, tarball: file:projects/video-analyzer-edge.tgz}
+    resolution: {integrity: sha512-3K3GXicyBLnLGZS61V0u4pL1Ta9XSm2F2BrflOVAotw7384DUsiOvoIxnMSWMxlzr4QuTbU92MhxDepXTxk6cw==, tarball: file:projects/video-analyzer-edge.tgz}
     name: '@rush-temp/video-analyzer-edge'
     version: 0.0.0
     dependencies:
@@ -14001,8 +13705,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -14018,7 +13722,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-express.tgz:
-    resolution: {integrity: sha512-Lo9UvjD8tDlR/EFi5d4mIezt9UuwSChzouW/PbvTxVr61oCNFPPgR5d/52fLh2lPe0OFtofBV0C/IviZg89weA==, tarball: file:projects/web-pubsub-express.tgz}
+    resolution: {integrity: sha512-YYMkfUGEIJH2SYXzdPQAINA3DmLIrhaMzV+fIRdsXyQHspMst00YZNX0Sy8rVfoYohsCLHkHJ9Qo9ic9nKdmpw==, tarball: file:projects/web-pubsub-express.tgz}
     name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
@@ -14056,8 +13760,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
@@ -14079,7 +13783,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub.tgz:
-    resolution: {integrity: sha512-zs8KnTvkedkBN/kPW9lRT5flCa/Rm7POS1cLkva+idEwoTgeZvny0aHY5cMRRXo0I3j9iLmGg+lo+8vl+Erofw==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-NbfQ8d9+AnqeSBFGlaHcm6U25WRVYNT/N241Gh5wZwwtYsvAD9TXykudLijPd/p9JheRC7DuM94Dv6nadeye2w==, tarball: file:projects/web-pubsub.tgz}
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
@@ -14116,8 +13820,8 @@ packages:
       karma-mocha-reporter: 2.2.5_karma@6.3.8
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
       prettier: 1.19.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
@@ -14137,4 +13841,12 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  github.com/samuelkubai/node-bindings/3a5a099ed0178b65079ce18e11fccc7130e0af1e:
+    resolution: {tarball: https://codeload.github.com/samuelkubai/node-bindings/tar.gz/3a5a099ed0178b65079ce18e11fccc7130e0af1e}
+    name: bindings
+    version: 1.5.0
+    dependencies:
+      file-uri-to-path: 1.0.0
     dev: false

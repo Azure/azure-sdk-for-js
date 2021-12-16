@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as chai from "chai";
+import * as dotenv from "dotenv";
 import {
   Constants,
   MessagingError,
@@ -11,12 +13,11 @@ import {
   retry,
   translate
 } from "../src";
-import * as chai from "chai";
+import { AbortController } from "@azure/abort-controller";
 import debugModule from "debug";
+
 const debug = debugModule("azure:core-amqp:retry-spec");
 const should = chai.should();
-import { AbortController } from "@azure/abort-controller";
-import * as dotenv from "dotenv";
 dotenv.config();
 
 [RetryMode.Exponential, RetryMode.Fixed].forEach((mode) => {

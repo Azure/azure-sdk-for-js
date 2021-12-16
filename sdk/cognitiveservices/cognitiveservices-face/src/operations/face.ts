@@ -222,8 +222,8 @@ export class Face {
    * original detection call.
    * * Optional parameters include faceId, landmarks, and attributes. Attributes include age, gender,
    * headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories, blur,
-   * exposure, noise, and mask. Some of the results returned for specific attributes may not be
-   * highly accurate.
+   * exposure, noise, mask, and qualityForRecognition. Some of the results returned for specific
+   * attributes may not be highly accurate.
    * * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is
    * from 1KB to 6MB.
    * * Up to 100 faces can be returned for an image. Faces are ranked by face rectangle size from
@@ -321,8 +321,8 @@ export class Face {
    * original detection call.
    * * Optional parameters include faceId, landmarks, and attributes. Attributes include age, gender,
    * headPose, smile, facialHair, glasses, emotion, hair, makeup, occlusion, accessories, blur,
-   * exposure, noise, and mask. Some of the results returned for specific attributes may not be
-   * highly accurate.
+   * exposure, noise, mask, and qualityForRecognition. Some of the results returned for specific
+   * attributes may not be highly accurate.
    * * JPEG, PNG, GIF (the first frame), and BMP format are supported. The allowed image file size is
    * from 1KB to 6MB.
    * * Up to 100 faces can be returned for an image. Faces are ranked by face rectangle size from

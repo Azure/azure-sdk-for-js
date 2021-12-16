@@ -14,7 +14,7 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 disable-async-iterators: true
 api-version-parameter: choice
-package-version: 4.4.0-beta.3
+package-version: 4.4.0-beta.4
 ```
 
 ## Customizations for Track 2 Generator

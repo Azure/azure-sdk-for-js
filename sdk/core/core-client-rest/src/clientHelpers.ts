@@ -22,6 +22,7 @@ import { isNode } from "@azure/core-util";
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import { ClientOptions } from "./common";
 import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy";
+import { apiVersionPolicy } from "./apiVersionPolicy";
 
 let cachedHttpClient: HttpClient | undefined;
 
@@ -48,6 +49,8 @@ export function createDefaultPipeline(
   pipeline.addPolicy(exponentialRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
   pipeline.addPolicy(logPolicy(), { afterPhase: "Retry" });
+
+  pipeline.addPolicy(apiVersionPolicy(options));
 
   if (credential) {
     if (isTokenCredential(credential)) {
