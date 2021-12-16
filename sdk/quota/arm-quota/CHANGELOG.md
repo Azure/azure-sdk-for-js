@@ -1,4 +1,16 @@
-## 1.0.0-beta.2 (2021-11-01)
+## Release History
+
+### 1.0.0-beta.3 (Unreleased)
+
+#### Features Added
+
+#### Breaking Changes
+
+#### Bugs Fixed
+
+#### Other Changes
+
+### 1.0.0-beta.2 (2021-11-01)
     
 **Features**
 
@@ -15,6 +27,6 @@
   - Removed operation group Operation
   - Class AzureQuotaExtensionAPI no longer has parameter operation
     
-## 1.0.0-beta.1 (2021-09-28)
+### 1.0.0-beta.1 (2021-09-28)
 
   - Initial Release
