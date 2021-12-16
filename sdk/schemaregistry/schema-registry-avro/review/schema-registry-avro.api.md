@@ -7,12 +7,6 @@
 import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
-export interface AvroSchemaRegistryEncoder {
-    decodeMessageData: (message: MessageWithMetadata, schema?: string) => Promise<unknown>;
-    encodeMessageData: (value: unknown, schema: string) => Promise<MessageWithMetadata>;
-}
-
-// @public
 export interface MessageWithMetadata {
     contentType: string;
     data: Uint8Array;
