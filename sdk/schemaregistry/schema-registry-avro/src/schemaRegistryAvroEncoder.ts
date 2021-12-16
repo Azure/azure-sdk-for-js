@@ -144,7 +144,7 @@ export class SchemaRegistryAvroEncoder {
 
     if (!this.schemaGroup) {
       throw new Error(
-        "Schema group must have been specified in the constructor options when the client was created in order to encodeMessageData."
+        "Schema group must have been specified in the constructor options when the client was created in order to serialize."
       );
     }
 
