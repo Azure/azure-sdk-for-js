@@ -25,7 +25,6 @@ import {
   SearchAddressBatchResult,
   SearchSearchAddressOptionalParams as SearchAddressOptionalParams,
   SearchAddressResult as SearchAddressResultInternal,
-  SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams,
   SearchSearchPointOfInterestOptionalParams as SearchPointOfInterestOptionalParams
 } from "../generated/models";
 import { BoundingBox, LatLon } from "./models";
@@ -34,7 +33,6 @@ import {
   SearchAddressOptions,
   SearchBaseOptions,
   SearchExtraFilterOptions,
-  SearchNearbyPointOfInterestOptions,
   SearchPointOfInterestOptions
 } from "./options";
 import { FuzzySearchRequest, ReverseSearchAddressRequest, SearchAddressRequest } from "./requests";
@@ -120,13 +118,14 @@ export function mapBoundingBoxFromCompassNotation(
   bbox?: BoundingBoxCompassNotation
 ): BoundingBox | undefined {
   if (bbox && bbox.northEast && bbox.southWest) {
-    const topLeftCoords = bbox.northEast.split(",").map((s) => Number(s));
-    const bottomRightCoords = bbox.southWest.split(",").map((s) => Number(s));
-    if (topLeftCoords.length !== 2 || bottomRightCoords.length !== 2) {
-      return toBoundingBox(
-        toLatLon(topLeftCoords[0], topLeftCoords[1]),
-        toLatLon(bottomRightCoords[0], bottomRightCoords[1])
-      );
+    const northAndEast = bbox.northEast.split(",").map((s) => Number(s));
+    const southAndWest = bbox.southWest.split(",").map((s) => Number(s));
+    if (northAndEast.length == 2 || southAndWest.length == 2) {
+      const top = northAndEast[0];
+      const left = southAndWest[1];
+      const bottom = southAndWest[0];
+      const right = northAndEast[1];
+      return toBoundingBox(toLatLon(top, left), toLatLon(bottom, right));
     }
   }
   return undefined;
@@ -205,21 +204,6 @@ export function mapSearchPointOfInterestOptions(
     topLeft: options.boundingBox ? toLatLonString(options.boundingBox.topLeft) : undefined,
     btmRight: options.boundingBox ? toLatLonString(options.boundingBox.bottomRight) : undefined,
     ...mapSearchBaseOptions(options)
-  };
-}
-
-/**
- * @internal
- */
-export function mapSearchNearbyPointOfInterestOptions(
-  options: SearchNearbyPointOfInterestOptions
-): SearchNearbyPointOfInterestOptionalParams {
-  return {
-    countryFilter: options.countryFilter,
-    radiusInMeters: options.radiusInMeters,
-    ...mapSearchBaseOptions(options),
-    ...mapSearchExtraFilterOptions(options),
-    ...extractOperationOptions(options)
   };
 }
 

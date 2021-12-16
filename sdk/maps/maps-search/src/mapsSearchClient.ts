@@ -14,7 +14,6 @@ import {
   mapSearchAddressBatchResult,
   mapSearchAddressOptions,
   mapSearchAddressResult,
-  mapSearchNearbyPointOfInterestOptions,
   mapSearchPointOfInterestOptions
 } from "./models/mappers";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
@@ -29,7 +28,8 @@ import {
   SearchAddressBatchResult,
   SearchSearchAlongRouteOptionalParams as SearchAlongRouteOptionalParams,
   SearchSearchInsideGeometryOptionalParams as SearchInsideGeometryOptionalParams,
-  SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams
+  SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
+  SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams
 } from "./generated/models";
 import {
   GeoJsonFeatureCollection,
@@ -367,7 +367,7 @@ export class MapsSearchClient {
       "MapsSearchClient-searchNearbyPointOfInterest",
       options
     );
-    const internalOptions = mapSearchNearbyPointOfInterestOptions(updatedOptions);
+    const internalOptions: SearchNearbyPointOfInterestOptionalParams = updatedOptions;
     try {
       const result = await this.client.search.searchNearbyPointOfInterest(
         this.defaultFormat,

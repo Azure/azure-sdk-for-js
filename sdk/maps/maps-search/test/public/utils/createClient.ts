@@ -5,7 +5,7 @@ import { ClientSecretCredential, TokenCredential } from "@azure/identity";
 import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { Context } from "mocha";
-import { MapsSearchClient } from "../../../src/searchClient";
+import { MapsSearchClient } from "../../../src/mapsSearchClient";
 import { MapsSearchClientOptions } from "../../../src/models/options";
 
 const replaceableVariables: { [k: string]: string } = {
