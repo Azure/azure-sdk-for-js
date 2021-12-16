@@ -12,4 +12,4 @@
 
 ## 2.0.0 (2021-12-16)
 
-- Initial Release
+- The package of @azure/arm-webpubsub is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
