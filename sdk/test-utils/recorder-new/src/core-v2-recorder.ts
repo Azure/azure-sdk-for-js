@@ -256,7 +256,7 @@ export class TestProxyHttpClient {
    * In record or live mode, the function will store the value provided with the recording
    * as a variable and return that value.
    *
-   * In playback mode, the function will fetch the value from the recorder's variables
+   * In playback mode, the function will fetch the value from the variables stored as part of the recording
    * and return the retrieved variable, throwing an error if it is not found.
    *
    * @param name - the name of the variable to be stored in the recording
