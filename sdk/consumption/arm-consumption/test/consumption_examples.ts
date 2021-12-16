@@ -39,7 +39,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("My test", () => {
+describe("Consumption test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ConsumptionManagementClient;
@@ -76,8 +76,8 @@ describe("My test", () => {
         amount: 100,
         timeGrain: "Monthly",
         timePeriod: {
-            startDate: new Date("2021-11-01T00:00:00Z"),
-            endDate: new Date("2021-11-31T00:00:00Z")
+            startDate: new Date("2021-12-01T00:00:00Z"),
+            endDate: new Date("2021-12-31T00:00:00Z")
         },
         filter: {
             and: [
