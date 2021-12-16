@@ -762,19 +762,15 @@ testWithServiceTypes((serviceVersion) => {
     });
 
     it("should support start after stopping", async function(): Promise<void> {
-      console.log("111111111111111");
       const partitionIds = await producerClient.getPartitionIds();
-      console.log("22222222222222222");
 
       // ensure we have at least 2 partitions
       partitionIds.length.should.gte(2);
-      console.log("3333333333333333");
 
       const {
         subscriptionEventHandler,
         startPosition
       } = await SubscriptionHandlerForTests.startingFromHere(producerClient);
-      console.log("4444444444444");
 
       const processor = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
@@ -786,47 +782,36 @@ testWithServiceTypes((serviceVersion) => {
           startPosition: startPosition
         }
       );
-      console.log("555555555555555");
 
       loggerForTest(`Starting processor for the first time`);
       processor.start();
-      console.log("6666666666666666666");
 
       const expectedMessages = await sendOneMessagePerPartition(partitionIds, producerClient);
-      console.log("77777777777777777777");
       const receivedEvents = await subscriptionEventHandler.waitForEvents(partitionIds);
-      console.log("888888888888888888");
 
       loggerForTest(`Stopping processor for the first time`);
       await processor.stop();
-      console.log("999999999999999");
 
       receivedEvents.should.deep.equal(expectedMessages);
 
       subscriptionEventHandler.hasErrors(partitionIds).should.equal(false);
       subscriptionEventHandler.allShutdown(partitionIds).should.equal(true);
-      console.log("000000000000000000");
 
       // validate correct events captured for each partition
 
       // start it again
       loggerForTest(`Starting processor again`);
       subscriptionEventHandler.clear();
-      console.log("111111111111111111112");
 
       processor.start();
-      console.log("1111111111111111111111113");
 
       await subscriptionEventHandler.waitUntilInitialized(partitionIds);
-      console.log("11111111111111111111111114");
 
       loggerForTest(`Stopping processor again`);
       await processor.stop();
-      console.log("11111111111111111111115");
 
       subscriptionEventHandler.hasErrors(partitionIds).should.equal(false);
       subscriptionEventHandler.allShutdown(partitionIds).should.equal(true);
-      console.log("111111111111111111111116");
     });
 
     describe("Partition processor", function(): void {
