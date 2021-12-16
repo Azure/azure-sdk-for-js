@@ -34,10 +34,7 @@ const ignoreKnownWarnings = (warning) => {
     return;
   }
 
-  if (
-    warning.code === "CIRCULAR_DEPENDENCY" &&
-    warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
-  ) {
+  if (warning.code === "CIRCULAR_DEPENDENCY" && warning.importer.includes("node_modules/chai")) {
     // Chai contains circular references, but they are not fatal and can be ignored.
     return;
   }
@@ -122,7 +119,6 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           chai: ["assert", "expect", "use"],
-          assert: ["ok", "equal", "strictEqual", "deepEqual", "fail", "throws", "notEqual"],
           events: ["EventEmitter"],
           ...openTelemetryCommonJs()
         }

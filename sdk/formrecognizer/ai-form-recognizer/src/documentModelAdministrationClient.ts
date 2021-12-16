@@ -7,12 +7,13 @@ import {
   CopyAuthorization,
   GeneratedClient,
   GetInfoResponse,
+  GetOperationResponse,
   ModelInfo,
   ModelSummary,
   OperationInfo,
 } from "./generated";
+import { accept1 } from "./generated/models/parameters";
 import {
-  parseOperationLocation,
   toTrainingPollOperationState,
   TrainingOperationDefinition,
   TrainingPoller,
@@ -31,7 +32,7 @@ import {
   ListModelsOptions,
   ListOperationsOptions,
 } from "./options";
-import { makeServiceClient } from "./util";
+import { makeServiceClient, Mappers, SERIALIZER } from "./util";
 
 /**
  * A client for interacting with the Form Recognizer service's model management features, such as creating, reading,
@@ -348,14 +349,37 @@ export class DocumentModelAdministrationClient {
     definition: TrainingOperationDefinition
   ): Promise<TrainingPoller> {
     const { resumeFrom } = definition.options;
+
     const toInit =
       resumeFrom === undefined
         ? async () => {
             const { operationLocation } = await definition.start();
 
-            const operationId = parseOperationLocation(operationLocation);
+            if (operationLocation === undefined) {
+              throw new Error(
+                "Unable to start model creation operation: no Operation-Location received."
+              );
+            }
 
-            return this._restClient.getOperation(operationId, definition.options);
+            return this._restClient.sendOperationRequest(
+              {
+                options: definition.options,
+              },
+              {
+                path: operationLocation,
+                httpMethod: "GET",
+                responses: {
+                  200: {
+                    bodyMapper: Mappers.GetOperationResponse,
+                  },
+                  default: {
+                    bodyMapper: Mappers.ErrorResponse,
+                  },
+                },
+                headerParameters: [accept1],
+                serializer: SERIALIZER,
+              }
+            ) as Promise<GetOperationResponse>;
           }
         : () => {
             const { operationId } = JSON.parse(resumeFrom) as { operationId: string };

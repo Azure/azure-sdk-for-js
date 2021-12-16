@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -10,20 +8,28 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 import {
-  RetryData,
-  RetryError,
   DEFAULT_CLIENT_MAX_RETRY_INTERVAL,
   DEFAULT_CLIENT_RETRY_COUNT,
   DEFAULT_CLIENT_RETRY_INTERVAL,
+  RetryData,
+  RetryError,
   isNumber,
-  updateRetryData,
-  shouldRetry
+  shouldRetry,
+  updateRetryData
 } from "../util/exponentialBackoffStrategy";
-import { RestError } from "../restError";
-import { logger } from "../log";
 import { Constants } from "../util/constants";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { RestError } from "../restError";
+import { WebResourceLike } from "../webResource";
 import { delay } from "../util/delay";
+import { logger } from "../log";
 
+/**
+ * Policy that retries the request as many times as configured for as long as the max retry time interval specified, each retry waiting longer to begin than the last time.
+ * @param retryCount - Maximum number of retries.
+ * @param retryInterval - Base time between retries.
+ * @param maxRetryInterval - Maximum time to wait between retries.
+ */
 export function exponentialRetryPolicy(
   retryCount?: number,
   retryInterval?: number,
@@ -46,6 +52,10 @@ export function exponentialRetryPolicy(
  * Describes the Retry Mode type. Currently supporting only Exponential.
  */
 export enum RetryMode {
+  /**
+   * Currently supported retry mode.
+   * Each time a retry happens, it will take exponentially more time than the last time.
+   */
   Exponential
 }
 

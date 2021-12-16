@@ -18,6 +18,12 @@ export const CommunicationRelayConfigurationRequest: coreHttp.CompositeMapper = 
         type: {
           name: "String"
         }
+      },
+      routeType: {
+        serializedName: "routeType",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -71,6 +77,13 @@ export const CommunicationIceServer: coreHttp.CompositeMapper = {
       },
       credential: {
         serializedName: "credential",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      routeType: {
+        serializedName: "routeType",
         required: true,
         type: {
           name: "String"

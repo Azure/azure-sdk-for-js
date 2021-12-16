@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PagedAsyncIterableIterator, PageSettings, PagedResult } from "./models";
+import { PageSettings, PagedAsyncIterableIterator, PagedResult } from "./models";
 
 /**
  * returns an async iterator that iterates over results. It also has a `byPage`

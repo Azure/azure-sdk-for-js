@@ -42,7 +42,8 @@
     "@azure/keyvault-keys": "^4.2.1"
   },
   "devDependencies": {
-    "typescript": "~4.2.0",
+    "@types/uuid": "^8.0.0",
+    "typescript": "~4.4.0",
     "rimraf": "latest"
   }
 }

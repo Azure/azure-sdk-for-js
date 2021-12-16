@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
   AzureKeyCredential,
   AzureNamedKeyCredential,
@@ -10,6 +9,7 @@ import {
   isSASCredential,
   isTokenCredential
 } from "../src/index";
+import { assert } from "chai";
 
 describe("AzureKeyCredential", () => {
   it("credential constructor throws on invalid key", () => {

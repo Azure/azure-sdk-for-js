@@ -2,61 +2,61 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 03 Jun 2021 00:11:24 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:39 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11787.14 - EUS ProdSlices",
-    "x-ms-request-id": "de873ce1-f6bb-4519-91bb-675493070800"
+    "x-ms-ests-server": "2.1.12231.7 - NCUS ProdSlices",
+    "x-ms-request-id": "e6b036ed-4bfd-4d97-8a3b-963f52004400"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/4d3956bf-cd37-41a1-828d-67470eb91c27",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/69756b6a-fb48-4689-ac66-9e4a156753bf",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "cfa67c94-0667-4f73-b4cf-e950dab4a4d8",
+    "apim-request-id": "decc0794-e06b-41bc-8fa3-e4780c70a6f5",
     "content-length": "0",
-    "date": "Thu, 03 Jun 2021 00:11:24 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:40 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "259",
-    "x-request-id": "cfa67c94-0667-4f73-b4cf-e950dab4a4d8"
+    "x-envoy-upstream-service-time": "237",
+    "x-request-id": "decc0794-e06b-41bc-8fa3-e4780c70a6f5"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/4d3956bf-cd37-41a1-828d-67470eb91c27",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/69756b6a-fb48-4689-ac66-9e4a156753bf",
    "query": {},
    "requestBody": null,
    "status": 404,
    "response": "{\"code\":\"404 NOT_FOUND\",\"message\":\"datafeedId is invalid.\"}",
    "responseHeaders": {
-    "apim-request-id": "4fc4fdd6-4ba7-46e1-84c3-e02967af1bd5",
+    "apim-request-id": "d965f976-3904-4446-a10d-f4e87eb69bc5",
     "content-length": "59",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 03 Jun 2021 00:11:24 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:40 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "21",
-    "x-request-id": "4fc4fdd6-4ba7-46e1-84c3-e02967af1bd5"
+    "x-envoy-upstream-service-time": "17",
+    "x-request-id": "d965f976-3904-4446-a10d-f4e87eb69bc5"
    }
   }
  ],
@@ -64,5 +64,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "a7edd50af7233d09d5851825b7ca9e59"
+ "hash": "8257428cae013e5488a86e7d11342dd0"
 }

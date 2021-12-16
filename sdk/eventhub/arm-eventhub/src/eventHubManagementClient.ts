@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
   ClustersImpl,
@@ -16,7 +17,8 @@ import {
   OperationsImpl,
   EventHubsImpl,
   DisasterRecoveryConfigsImpl,
-  ConsumerGroupsImpl
+  ConsumerGroupsImpl,
+  SchemaRegistryImpl
 } from "./operations";
 import {
   Clusters,
@@ -27,12 +29,16 @@ import {
   Operations,
   EventHubs,
   DisasterRecoveryConfigs,
-  ConsumerGroups
+  ConsumerGroups,
+  SchemaRegistry
 } from "./operationsInterfaces";
-import { EventHubManagementClientContext } from "./eventHubManagementClientContext";
 import { EventHubManagementClientOptionalParams } from "./models";
 
-export class EventHubManagementClient extends EventHubManagementClientContext {
+export class EventHubManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  subscriptionId: string;
+  apiVersion: string;
+
   /**
    * Initializes a new instance of the EventHubManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -45,7 +51,46 @@ export class EventHubManagementClient extends EventHubManagementClientContext {
     subscriptionId: string,
     options?: EventHubManagementClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: EventHubManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-eventhub/5.0.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2021-11-01";
     this.clusters = new ClustersImpl(this);
     this.configuration = new ConfigurationImpl(this);
     this.namespaces = new NamespacesImpl(this);
@@ -55,6 +100,7 @@ export class EventHubManagementClient extends EventHubManagementClientContext {
     this.eventHubs = new EventHubsImpl(this);
     this.disasterRecoveryConfigs = new DisasterRecoveryConfigsImpl(this);
     this.consumerGroups = new ConsumerGroupsImpl(this);
+    this.schemaRegistry = new SchemaRegistryImpl(this);
   }
 
   clusters: Clusters;
@@ -66,4 +112,5 @@ export class EventHubManagementClient extends EventHubManagementClientContext {
   eventHubs: EventHubs;
   disasterRecoveryConfigs: DisasterRecoveryConfigs;
   consumerGroups: ConsumerGroups;
+  schemaRegistry: SchemaRegistry;
 }

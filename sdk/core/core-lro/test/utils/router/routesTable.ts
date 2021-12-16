@@ -4,10 +4,10 @@
 import { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import {
   delete204Succeeded,
-  deleteasyncNoheader202204,
-  deleteasyncNoheaderOperationresults123,
   deleteNoHeader,
   deleteNoHeaderOperationResults,
+  deleteasyncNoheader202204,
+  deleteasyncNoheaderOperationresults123,
   errorDelete202RetryInvalidheader,
   errorDelete204nolocation,
   errorDeleteasyncRetryFailedOperationResultsInvalidjsonpolling,
@@ -15,8 +15,8 @@ import {
   errorDeleteasyncRetryInvalidheader,
   errorDeleteasyncRetryInvalidjsonpolling,
   errorDeleteasyncRetryNostatus,
-  errorPost202nolocation,
   errorPost202RetryInvalidheader,
+  errorPost202nolocation,
   errorPostasyncRetryFailedOperationResultsInvalidjsonpolling,
   errorPostasyncRetryFailedOperationResultsNopayload,
   errorPostasyncRetryInvalidheader,
@@ -31,7 +31,6 @@ import {
   errorPutasyncRetryInvalidjsonpolling,
   errorPutasyncRetryNostatus,
   errorPutasyncRetryNostatuspayload,
-  getasyncNoheader201200,
   getDoubleHeadersFinalAzureHeaderGetDefaultAsyncOperationUrl,
   getDoubleHeadersFinalAzureHeaderGetDefaultLocation,
   getListFinalGet,
@@ -41,8 +40,10 @@ import {
   getNonretryerrorPost202retry400,
   getNonretryerrorPut201creating400,
   getNonretryerrorPut201creating400invalidjson,
+  getPatchAsyncSucceeded,
   getPayload200,
   getSubresourceAsync202200,
+  getasyncNoheader201200,
   nonretryerrorDelete202retry400,
   nonretryerrorDelete400,
   nonretryerrorDeleteasyncRetry400,
@@ -56,6 +57,8 @@ import {
   nonretryerrorPut400,
   nonretryerrorPutasyncRetry400,
   nonretryerrorPutasyncRetryFailedOperationResults400,
+  patchAsync202200,
+  patchAsyncOperationresults123,
   postDoubleHeadersFinalAzureHeaderGet,
   postDoubleHeadersFinalAzureHeaderGetAsyncOperationUrl,
   postDoubleHeadersFinalAzureHeaderGetDefault,
@@ -70,8 +73,6 @@ import {
   put201SucceededNoState,
   put202Retry200,
   put202RetryOperationResults200,
-  putasyncNoheader201200,
-  putasyncNoheaderOperationresults123,
   putNoHeader202200,
   putNoHeaderOperationResults,
   putNonresource20200,
@@ -80,8 +81,10 @@ import {
   putNonresourceOperationResults,
   putSubresource202200,
   putSubresourceAsync202200,
+  putSubresourceOperationResults,
   putSubresourceasyncOperationresults123,
-  putSubresourceOperationResults
+  putasyncNoheader201200,
+  putasyncNoheaderOperationresults123
 } from "./routesProcesses";
 
 interface LroRoute {
@@ -178,6 +181,13 @@ export const routes: LroRoute[] = [
     process: putNonresourceAsyncOperationresults123
   },
   { method: "GET", path: "/putnonresourceasync/202/200", process: getNonresourceAsync202200 },
+  { method: "PATCH", path: "/patchasync/202/200", process: patchAsync202200 },
+  {
+    method: "GET",
+    path: "/patchasync/operationresults/123",
+    process: patchAsyncOperationresults123
+  },
+  { method: "GET", path: "/patchasync/succeeded", process: getPatchAsyncSucceeded },
   { method: "PUT", path: "/putasync/noheader/201/200", process: putasyncNoheader201200 },
   { method: "GET", path: "/putasync/noheader/201/200", process: getasyncNoheader201200 },
   {

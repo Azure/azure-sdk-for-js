@@ -36,26 +36,6 @@ export interface CloudErrorBody {
   details?: CloudErrorBody[];
 }
 
-/** Common resource representation. */
-export interface Resource {
-  /** Resource ID. */
-  id?: string;
-  /**
-   * Resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource location. */
-  location?: string;
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-}
-
 /** SKU of an application gateway. */
 export interface ApplicationGatewaySku {
   /** Name of an application gateway SKU. */
@@ -92,6 +72,26 @@ export interface ApplicationGatewayProbeHealthResponseMatch {
   body?: string;
   /** Allowed ranges of healthy status codes. Default range of healthy status codes is 200-399. */
   statusCodes?: string[];
+}
+
+/** Common resource representation. */
+export interface Resource {
+  /** Resource ID. */
+  id?: string;
+  /**
+   * Resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
 }
 
 /** ExtendedLocation complex type. */
@@ -291,6 +291,21 @@ export interface LoadBalancerBackendAddress {
   readonly networkInterfaceIPConfiguration?: SubResource;
   /** Reference to the frontend ip address configuration defined in regional loadbalancer. */
   loadBalancerFrontendIPConfiguration?: SubResource;
+  /**
+   * Collection of inbound NAT rule port mappings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inboundNatRulesPortMapping?: NatRulePortMapping[];
+}
+
+/** Individual port mappings for inbound NAT rule created for backend pool. */
+export interface NatRulePortMapping {
+  /** Name of inbound NAT rule. */
+  inboundNatRuleName?: string;
+  /** Frontend port. */
+  frontendPort?: number;
+  /** Backend port. */
+  backendPort?: number;
 }
 
 /** PrivateLinkConnection properties for the network interface. */
@@ -1649,6 +1664,105 @@ export interface FirewallPolicyRuleCollectionGroupListResult {
   nextLink?: string;
 }
 
+/** Will describe the query to run against the IDPS signatures DB */
+export interface IdpsQueryObject {
+  /** Contain all filters names and values */
+  filters?: FilterItems[];
+  /** Search term in all columns */
+  search?: string;
+  /** Column to sort response by */
+  orderBy?: OrderBy;
+  /** The number of the results to return in each page */
+  resultsPerPage?: number;
+  /** The number of records matching the filter to skip */
+  skip?: number;
+}
+
+/** Will contain the filter name and values to operate on */
+export interface FilterItems {
+  /** The name of the field we would like to filter */
+  field?: string;
+  /** List of values to filter the current field by */
+  values?: string[];
+}
+
+/** Describes a column to sort */
+export interface OrderBy {
+  /** Describes the actual column name to sort by */
+  field?: string;
+  /** Describes if results should be in ascending/descending order */
+  order?: OrderByOrder;
+}
+
+/** Query result */
+export interface QueryResults {
+  /** Number of total records matching the query. */
+  matchingRecordsCount?: number;
+  /** Array containing the results of the query */
+  signatures?: SingleQueryResult[];
+}
+
+export interface SingleQueryResult {
+  /** The ID of the signature */
+  signatureId?: number;
+  /** The current mode enforced, 0 - Disabled, 1 - Alert, 2 -Deny */
+  mode?: Enum69;
+  /** Describes the severity of signature: 1 - Low, 2 - Medium, 3 - High */
+  severity?: Enum70;
+  /** Describes in which direction signature is being enforced: 0 - Inbound, 1 - OutBound, 2 - Bidirectional */
+  direction?: Enum71;
+  /** Describes the groups the signature belongs to */
+  group?: string;
+  /** Describes what is the signature enforces */
+  description?: string;
+  /** Describes the protocol the signatures is being enforced in */
+  protocol?: string;
+  /** Describes the list of source ports related to this signature */
+  sourcePorts?: string[];
+  /** Describes the list of destination ports related to this signature */
+  destinationPorts?: string[];
+  /** Describes the last updated time of the signature (provided from 3rd party vendor) */
+  lastUpdated?: string;
+  /** Describes if this override is inherited from base policy or not */
+  inheritedFromParentPolicy?: boolean;
+}
+
+/** Contains all specific policy signatures overrides for the IDPS */
+export interface SignaturesOverrides {
+  /** Contains the name of the resource (default) */
+  name?: string;
+  /** Will contain the resource id of the signature override resource */
+  id?: string;
+  /** Will contain the type of the resource: Microsoft.Network/firewallPolicies/intrusionDetectionSignaturesOverrides */
+  type?: string;
+  /** Will contain the properties of the resource (the actual signature overrides) */
+  properties?: SignaturesOverridesProperties;
+}
+
+/** Will contain the properties of the resource (the actual signature overrides) */
+export interface SignaturesOverridesProperties {
+  /** Dictionary of <string> */
+  signatures?: { [propertyName: string]: string };
+}
+
+/** Describes the filter values possibles for a given column */
+export interface SignatureOverridesFilterValuesQuery {
+  /** Describes the name of the column which values will be returned */
+  filterName?: string;
+}
+
+/** Describes the list of all possible values for a specific filter value */
+export interface SignatureOverridesFilterValuesResponse {
+  /** Describes the possible values */
+  filterValues?: string[];
+}
+
+/** Describes an object containing an array with a single item */
+export interface SignaturesOverridesList {
+  /** Describes a list consisting exactly one item describing the policy's signature override status */
+  value?: SignaturesOverrides[];
+}
+
 /** Response for the ListIpAllocations API service call. */
 export interface IpAllocationListResult {
   /** A list of IpAllocation resources. */
@@ -1708,7 +1822,7 @@ export interface LoadBalancerFrontendIPConfigurationListResult {
 
 /** Response for ListInboundNatRule API service call. */
 export interface InboundNatRuleListResult {
-  /** A list of inbound nat rules in a load balancer. */
+  /** A list of inbound NAT rules in a load balancer. */
   value?: InboundNatRule[];
   /**
    * The URL to get the next set of results.
@@ -1762,6 +1876,44 @@ export interface LoadBalancerVipSwapRequestFrontendIPConfiguration {
   id?: string;
   /** A reference to public IP address resource. */
   publicIPAddress?: SubResource;
+}
+
+/** The request for a QueryInboundNatRulePortMapping API. Either IpConfiguration or IpAddress should be set */
+export interface QueryInboundNatRulePortMappingRequest {
+  /** NetworkInterfaceIPConfiguration set in load balancer backend address. */
+  ipConfiguration?: SubResource;
+  /** IP address set in load balancer backend address. */
+  ipAddress?: string;
+}
+
+/** The response for a QueryInboundNatRulePortMapping API. */
+export interface BackendAddressInboundNatRulePortMappings {
+  /** Collection of inbound NAT rule port mappings. */
+  inboundNatRulePortMappings?: InboundNatRulePortMapping[];
+}
+
+/** Individual port mappings for inbound NAT rule created for backend pool. */
+export interface InboundNatRulePortMapping {
+  /**
+   * Name of inbound NAT rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inboundNatRuleName?: string;
+  /**
+   * The reference to the transport protocol used by the inbound NAT rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly protocol?: TransportProtocol;
+  /**
+   * Frontend port.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly frontendPort?: number;
+  /**
+   * Backend port.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backendPort?: number;
 }
 
 /** Response for ListNatGateways API service call. */
@@ -3615,6 +3767,14 @@ export interface VirtualNetworkBgpCommunities {
   readonly regionalCommunity?: string;
 }
 
+/** Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet. */
+export interface VirtualNetworkEncryption {
+  /** Indicates if encryption is enabled on the virtual network. */
+  enabled: boolean;
+  /** If the encrypted VNet allows VM that does not support encryption */
+  enforcement?: VirtualNetworkEncryptionEnforcement;
+}
+
 /** Response for the ListVirtualNetworks API service call. */
 export interface VirtualNetworkListResult {
   /** A list of VirtualNetwork resources in a resource group. */
@@ -3852,6 +4012,8 @@ export interface IPConfigurationBgpPeeringAddress {
 export interface VpnNatRuleMapping {
   /** Address space for Vpn NatRule mapping. */
   addressSpace?: string;
+  /** Port range for Vpn NatRule mapping. */
+  portRange?: string;
 }
 
 /** Response for the ListVirtualNetworkGateways API service call. */
@@ -4701,6 +4863,24 @@ export interface EffectiveRoutesParameters {
   virtualWanResourceType?: string;
 }
 
+/** The routing policy object used in a RoutingIntent resource. */
+export interface RoutingPolicy {
+  /** The unique name for the routing policy. */
+  name: string;
+  /** List of all destinations which this routing policy is applicable to (for example: Internet, PrivateTraffic). */
+  destinations: string[];
+  /** The next hop resource id on which this routing policy is applicable to. */
+  nextHop: string;
+}
+
+/** List of the routing intent result and a URL nextLink to get the next set of results. */
+export interface ListRoutingIntentResult {
+  /** List of RoutingIntent resource. */
+  value?: RoutingIntent[];
+  /** URL to get the next set of operation list results if there are any. */
+  nextLink?: string;
+}
+
 /** Result of the request to list WebApplicationFirewallPolicies. It contains a list of WebApplicationFirewallPolicy objects and a URL link to get the next set of results. */
 export interface WebApplicationFirewallPolicyListResult {
   /**
@@ -4786,6 +4966,32 @@ export interface OwaspCrsExclusionEntry {
   selectorMatchOperator: OwaspCrsExclusionEntrySelectorMatchOperator;
   /** When matchVariable is a collection, operator used to specify which elements in the collection this exclusion applies to. */
   selector: string;
+  /** The managed rule sets that are associated with the exclusion. */
+  exclusionManagedRuleSets?: ExclusionManagedRuleSet[];
+}
+
+/** Defines a managed rule set for Exclusions. */
+export interface ExclusionManagedRuleSet {
+  /** Defines the rule set type to use. */
+  ruleSetType: string;
+  /** Defines the version of the rule set to use. */
+  ruleSetVersion: string;
+  /** Defines the rule groups to apply to the rule set. */
+  ruleGroups?: ExclusionManagedRuleGroup[];
+}
+
+/** Defines a managed rule group to use for exclusion. */
+export interface ExclusionManagedRuleGroup {
+  /** The managed rule group for exclusion. */
+  ruleGroupName: string;
+  /** List of rules that will be excluded. If none specified, all rules in the group will be excluded. */
+  rules?: ExclusionManagedRule[];
+}
+
+/** Defines a managed rule to use for exclusion. */
+export interface ExclusionManagedRule {
+  /** Identifier for the managed rule. */
+  ruleId: string;
 }
 
 /** Defines a managed rule set. */
@@ -4880,1923 +5086,6 @@ export interface VirtualHubEffectiveRoute {
   /** The origin of this route. */
   routeOrigin?: string;
 }
-
-/** An application security group in a resource group. */
-export type ApplicationSecurityGroup = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the application security group resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** Private endpoint resource. */
-export type PrivateEndpoint = Resource & {
-  /** The extended location of the load balancer. */
-  extendedLocation?: ExtendedLocation;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The ID of the subnet from which the private IP will be allocated. */
-  subnet?: Subnet;
-  /**
-   * An array of references to the network interfaces created for this private endpoint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkInterfaces?: NetworkInterface[];
-  /**
-   * The provisioning state of the private endpoint resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** A grouping of information about the connection to the remote resource. */
-  privateLinkServiceConnections?: PrivateLinkServiceConnection[];
-  /** A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource. */
-  manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
-  /** An array of custom dns configurations. */
-  customDnsConfigs?: CustomDnsConfigPropertiesFormat[];
-  /** Application security groups in which the private endpoint IP configuration is included. */
-  applicationSecurityGroups?: ApplicationSecurityGroup[];
-  /** A list of IP configurations of the private endpoint. This will be used to map to the First Party Service's endpoints. */
-  ipConfigurations?: PrivateEndpointIPConfiguration[];
-  /** The custom name of the network interface attached to the private endpoint. */
-  customNetworkInterfaceName?: string;
-};
-
-/** Private link service resource. */
-export type PrivateLinkService = Resource & {
-  /** The extended location of the load balancer. */
-  extendedLocation?: ExtendedLocation;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** An array of references to the load balancer IP configurations. */
-  loadBalancerFrontendIpConfigurations?: FrontendIPConfiguration[];
-  /** An array of private link service IP configurations. */
-  ipConfigurations?: PrivateLinkServiceIpConfiguration[];
-  /**
-   * An array of references to the network interfaces created for this private link service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkInterfaces?: NetworkInterface[];
-  /**
-   * The provisioning state of the private link service resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * An array of list about connections to the private endpoint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** The visibility list of the private link service. */
-  visibility?: PrivateLinkServicePropertiesVisibility;
-  /** The auto-approval list of the private link service. */
-  autoApproval?: PrivateLinkServicePropertiesAutoApproval;
-  /** The list of Fqdn. */
-  fqdns?: string[];
-  /**
-   * The alias of the private link service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly alias?: string;
-  /** Whether the private link service is enabled for proxy protocol or not. */
-  enableProxyProtocol?: boolean;
-};
-
-/** A network interface in a resource group. */
-export type NetworkInterface = Resource & {
-  /** The extended location of the network interface. */
-  extendedLocation?: ExtendedLocation;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * The reference to a virtual machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly virtualMachine?: SubResource;
-  /** The reference to the NetworkSecurityGroup resource. */
-  networkSecurityGroup?: NetworkSecurityGroup;
-  /**
-   * A reference to the private endpoint to which the network interface is linked.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpoint?: PrivateEndpoint;
-  /** A list of IPConfigurations of the network interface. */
-  ipConfigurations?: NetworkInterfaceIPConfiguration[];
-  /**
-   * A list of TapConfigurations of the network interface.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tapConfigurations?: NetworkInterfaceTapConfiguration[];
-  /** The DNS settings in network interface. */
-  dnsSettings?: NetworkInterfaceDnsSettings;
-  /**
-   * The MAC address of the network interface.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly macAddress?: string;
-  /**
-   * Whether this is a primary network interface on a virtual machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly primary?: boolean;
-  /** If the network interface is accelerated networking enabled. */
-  enableAcceleratedNetworking?: boolean;
-  /** Indicates whether IP forwarding is enabled on this network interface. */
-  enableIPForwarding?: boolean;
-  /**
-   * A list of references to linked BareMetal resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostedWorkloads?: string[];
-  /**
-   * A reference to the dscp configuration to which the network interface is linked.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dscpConfiguration?: SubResource;
-  /**
-   * The resource GUID property of the network interface resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the network interface resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** WorkloadType of the NetworkInterface for BareMetal resources */
-  workloadType?: string;
-  /** Type of Network Interface resource. */
-  nicType?: NetworkInterfaceNicType;
-  /** Privatelinkservice of the network interface resource. */
-  privateLinkService?: PrivateLinkService;
-  /** Migration phase of Network Interface resource. */
-  migrationPhase?: NetworkInterfaceMigrationPhase;
-};
-
-/** A flow log resource. */
-export type FlowLog = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** ID of network security group to which flow log will be applied. */
-  targetResourceId?: string;
-  /**
-   * Guid of network security group to which flow log will be applied.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetResourceGuid?: string;
-  /** ID of the storage account which is used to store the flow log. */
-  storageId?: string;
-  /** Flag to enable/disable flow logging. */
-  enabled?: boolean;
-  /** Parameters that define the retention policy for flow log. */
-  retentionPolicy?: RetentionPolicyParameters;
-  /** Parameters that define the flow log format. */
-  format?: FlowLogFormatParameters;
-  /** Parameters that define the configuration of traffic analytics. */
-  flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
-  /**
-   * The provisioning state of the flow log.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** NetworkSecurityGroup resource. */
-export type NetworkSecurityGroup = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** A collection of security rules of the network security group. */
-  securityRules?: SecurityRule[];
-  /**
-   * The default security rules of network security group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly defaultSecurityRules?: SecurityRule[];
-  /**
-   * A collection of references to network interfaces.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkInterfaces?: NetworkInterface[];
-  /**
-   * A collection of references to subnets.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subnets?: Subnet[];
-  /**
-   * A collection of references to flow log resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly flowLogs?: FlowLog[];
-  /**
-   * The resource GUID property of the network security group resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the network security group resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** Route table resource. */
-export type RouteTable = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Collection of routes contained within a route table. */
-  routes?: Route[];
-  /**
-   * A collection of references to subnets.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subnets?: Subnet[];
-  /** Whether to disable the routes learned by BGP on that route table. True means disable. */
-  disableBgpRoutePropagation?: boolean;
-  /**
-   * The provisioning state of the route table resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The resource GUID property of the route table.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-};
-
-/** Service End point policy resource. */
-export type ServiceEndpointPolicy = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * Kind of service endpoint policy. This is metadata used for the Azure portal experience.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly kind?: string;
-  /** A collection of service endpoint policy definitions of the service endpoint policy. */
-  serviceEndpointPolicyDefinitions?: ServiceEndpointPolicyDefinition[];
-  /**
-   * A collection of references to subnets.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subnets?: Subnet[];
-  /**
-   * The resource GUID property of the service endpoint policy resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the service endpoint policy resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The alias indicating if the policy belongs to a service */
-  serviceAlias?: string;
-  /** A collection of contextual service endpoint policy. */
-  contextualServiceEndpointPolicies?: string[];
-};
-
-/** Nat Gateway resource. */
-export type NatGateway = Resource & {
-  /** The nat gateway SKU. */
-  sku?: NatGatewaySku;
-  /** A list of availability zones denoting the zone in which Nat Gateway should be deployed. */
-  zones?: string[];
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The idle timeout of the nat gateway. */
-  idleTimeoutInMinutes?: number;
-  /** An array of public ip addresses associated with the nat gateway resource. */
-  publicIpAddresses?: SubResource[];
-  /** An array of public ip prefixes associated with the nat gateway resource. */
-  publicIpPrefixes?: SubResource[];
-  /**
-   * An array of references to the subnets using this nat gateway resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subnets?: SubResource[];
-  /**
-   * The resource GUID property of the NAT gateway resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the NAT gateway resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** Public IP address resource. */
-export type PublicIPAddress = Resource & {
-  /** The extended location of the public ip address. */
-  extendedLocation?: ExtendedLocation;
-  /** The public IP address SKU. */
-  sku?: PublicIPAddressSku;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** A list of availability zones denoting the IP allocated for the resource needs to come from. */
-  zones?: string[];
-  /** The public IP address allocation method. */
-  publicIPAllocationMethod?: IPAllocationMethod;
-  /** The public IP address version. */
-  publicIPAddressVersion?: IPVersion;
-  /**
-   * The IP configuration associated with the public IP address.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipConfiguration?: IPConfiguration;
-  /** The FQDN of the DNS record associated with the public IP address. */
-  dnsSettings?: PublicIPAddressDnsSettings;
-  /** The DDoS protection custom policy associated with the public IP address. */
-  ddosSettings?: DdosSettings;
-  /** The list of tags associated with the public IP address. */
-  ipTags?: IpTag[];
-  /** The IP address associated with the public IP address resource. */
-  ipAddress?: string;
-  /** The Public IP Prefix this Public IP Address should be allocated from. */
-  publicIPPrefix?: SubResource;
-  /** The idle timeout of the public IP address. */
-  idleTimeoutInMinutes?: number;
-  /**
-   * The resource GUID property of the public IP address resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the public IP address resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The service public IP address of the public IP address resource. */
-  servicePublicIPAddress?: PublicIPAddress;
-  /** The NatGateway for the Public IP address. */
-  natGateway?: NatGateway;
-  /** Migration phase of Public IP Address. */
-  migrationPhase?: PublicIPAddressMigrationPhase;
-  /** The linked public IP address of the public IP address resource. */
-  linkedPublicIPAddress?: PublicIPAddress;
-  /** Specify what happens to the public IP address when the VM using it is deleted */
-  deleteOption?: DeleteOptions;
-};
-
-/** Virtual Network Tap resource. */
-export type VirtualNetworkTap = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * Specifies the list of resource IDs for the network interface IP configuration that needs to be tapped.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly networkInterfaceTapConfigurations?: NetworkInterfaceTapConfiguration[];
-  /**
-   * The resource GUID property of the virtual network tap resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the virtual network tap resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The reference to the private IP Address of the collector nic that will receive the tap. */
-  destinationNetworkInterfaceIPConfiguration?: NetworkInterfaceIPConfiguration;
-  /** The reference to the private IP address on the internal Load Balancer that will receive the tap. */
-  destinationLoadBalancerFrontEndIPConfiguration?: FrontendIPConfiguration;
-  /** The VXLAN destination port that will receive the tapped traffic. */
-  destinationPort?: number;
-};
-
-/** Application gateway resource. */
-export type ApplicationGateway = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: string[];
-  /** The identity of the application gateway, if configured. */
-  identity?: ManagedServiceIdentity;
-  /** SKU of the application gateway resource. */
-  sku?: ApplicationGatewaySku;
-  /** SSL policy of the application gateway resource. */
-  sslPolicy?: ApplicationGatewaySslPolicy;
-  /**
-   * Operational state of the application gateway resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationalState?: ApplicationGatewayOperationalState;
-  /** Subnets of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  gatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
-  /** Authentication certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  authenticationCertificates?: ApplicationGatewayAuthenticationCertificate[];
-  /** Trusted Root certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  trustedRootCertificates?: ApplicationGatewayTrustedRootCertificate[];
-  /** Trusted client certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  trustedClientCertificates?: ApplicationGatewayTrustedClientCertificate[];
-  /** SSL certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  sslCertificates?: ApplicationGatewaySslCertificate[];
-  /** Frontend IP addresses of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  frontendIPConfigurations?: ApplicationGatewayFrontendIPConfiguration[];
-  /** Frontend ports of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  frontendPorts?: ApplicationGatewayFrontendPort[];
-  /** Probes of the application gateway resource. */
-  probes?: ApplicationGatewayProbe[];
-  /** Backend address pool of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  backendAddressPools?: ApplicationGatewayBackendAddressPool[];
-  /** Backend http settings of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  backendHttpSettingsCollection?: ApplicationGatewayBackendHttpSettings[];
-  /** Http listeners of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  httpListeners?: ApplicationGatewayHttpListener[];
-  /** SSL profiles of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  sslProfiles?: ApplicationGatewaySslProfile[];
-  /** URL path map of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  urlPathMaps?: ApplicationGatewayUrlPathMap[];
-  /** Request routing rules of the application gateway resource. */
-  requestRoutingRules?: ApplicationGatewayRequestRoutingRule[];
-  /** Rewrite rules for the application gateway resource. */
-  rewriteRuleSets?: ApplicationGatewayRewriteRuleSet[];
-  /** Redirect configurations of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
-  redirectConfigurations?: ApplicationGatewayRedirectConfiguration[];
-  /** Web application firewall configuration. */
-  webApplicationFirewallConfiguration?: ApplicationGatewayWebApplicationFirewallConfiguration;
-  /** Reference to the FirewallPolicy resource. */
-  firewallPolicy?: SubResource;
-  /** Whether HTTP2 is enabled on the application gateway resource. */
-  enableHttp2?: boolean;
-  /** Whether FIPS is enabled on the application gateway resource. */
-  enableFips?: boolean;
-  /** Autoscale Configuration. */
-  autoscaleConfiguration?: ApplicationGatewayAutoscaleConfiguration;
-  /** PrivateLink configurations on application gateway. */
-  privateLinkConfigurations?: ApplicationGatewayPrivateLinkConfiguration[];
-  /**
-   * Private Endpoint connections on application gateway.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: ApplicationGatewayPrivateEndpointConnection[];
-  /**
-   * The resource GUID property of the application gateway resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the application gateway resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Custom error configurations of the application gateway resource. */
-  customErrorConfigurations?: ApplicationGatewayCustomError[];
-  /** If true, associates a firewall policy with an application gateway regardless whether the policy differs from the WAF Config. */
-  forceFirewallPolicyAssociation?: boolean;
-  /** Load distribution policies of the application gateway resource. */
-  loadDistributionPolicies?: ApplicationGatewayLoadDistributionPolicy[];
-  /** Global Configuration. */
-  globalConfiguration?: ApplicationGatewayGlobalConfiguration;
-};
-
-/** A web application firewall rule set. */
-export type ApplicationGatewayFirewallRuleSet = Resource & {
-  /**
-   * The provisioning state of the web application firewall rule set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The type of the web application firewall rule set. */
-  ruleSetType?: string;
-  /** The version of the web application firewall rule set type. */
-  ruleSetVersion?: string;
-  /** The rule groups of the web application firewall rule set. */
-  ruleGroups?: ApplicationGatewayFirewallRuleGroup[];
-};
-
-/** Response for ApplicationGatewayAvailableSslOptions API service call. */
-export type ApplicationGatewayAvailableSslOptions = Resource & {
-  /** List of available Ssl predefined policy. */
-  predefinedPolicies?: SubResource[];
-  /** Name of the Ssl predefined policy applied by default to application gateway. */
-  defaultPolicy?: ApplicationGatewaySslPolicyName;
-  /** List of available Ssl cipher suites. */
-  availableCipherSuites?: ApplicationGatewaySslCipherSuite[];
-  /** List of available Ssl protocols. */
-  availableProtocols?: ApplicationGatewaySslProtocol[];
-};
-
-/** Azure Firewall resource. */
-export type AzureFirewall = Resource & {
-  /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: string[];
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Collection of application rule collections used by Azure Firewall. */
-  applicationRuleCollections?: AzureFirewallApplicationRuleCollection[];
-  /** Collection of NAT rule collections used by Azure Firewall. */
-  natRuleCollections?: AzureFirewallNatRuleCollection[];
-  /** Collection of network rule collections used by Azure Firewall. */
-  networkRuleCollections?: AzureFirewallNetworkRuleCollection[];
-  /** IP configuration of the Azure Firewall resource. */
-  ipConfigurations?: AzureFirewallIPConfiguration[];
-  /** IP configuration of the Azure Firewall used for management traffic. */
-  managementIpConfiguration?: AzureFirewallIPConfiguration;
-  /**
-   * The provisioning state of the Azure firewall resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The operation mode for Threat Intelligence. */
-  threatIntelMode?: AzureFirewallThreatIntelMode;
-  /** The virtualHub to which the firewall belongs. */
-  virtualHub?: SubResource;
-  /** The firewallPolicy associated with this azure firewall. */
-  firewallPolicy?: SubResource;
-  /** IP addresses associated with AzureFirewall. */
-  hubIPAddresses?: HubIPAddresses;
-  /**
-   * IpGroups associated with AzureFirewall.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipGroups?: AzureFirewallIpGroups[];
-  /** The Azure Firewall Resource SKU. */
-  sku?: AzureFirewallSku;
-  /** The additional properties used to further config this azure firewall. */
-  additionalProperties?: { [propertyName: string]: string };
-};
-
-/** Azure Firewall FQDN Tag Resource. */
-export type AzureFirewallFqdnTag = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * The provisioning state of the Azure firewall FQDN tag resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The name of this FQDN Tag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fqdnTagName?: string;
-};
-
-/** Bastion Host resource. */
-export type BastionHost = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The sku of this Bastion Host. */
-  sku?: Sku;
-  /** IP configuration of the Bastion Host resource. */
-  ipConfigurations?: BastionHostIPConfiguration[];
-  /** FQDN for the endpoint on which bastion host is accessible. */
-  dnsName?: string;
-  /**
-   * The provisioning state of the bastion host resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The scale units for the Bastion Host resource. */
-  scaleUnits?: number;
-  /** Enable/Disable Copy/Paste feature of the Bastion Host resource. */
-  disableCopyPaste?: boolean;
-  /** Enable/Disable File Copy feature of the Bastion Host resource. */
-  enableFileCopy?: boolean;
-  /** Enable/Disable IP Connect feature of the Bastion Host resource. */
-  enableIpConnect?: boolean;
-  /** Enable/Disable Shareable Link of the Bastion Host resource. */
-  enableShareableLink?: boolean;
-  /** Enable/Disable Tunneling feature of the Bastion Host resource. */
-  enableTunneling?: boolean;
-};
-
-/** Describes a Virtual Machine. */
-export type Vm = Resource & {};
-
-/** Custom IP prefix resource. */
-export type CustomIpPrefix = Resource & {
-  /** The extended location of the custom IP prefix. */
-  extendedLocation?: ExtendedLocation;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** A list of availability zones denoting the IP allocated for the resource needs to come from. */
-  zones?: string[];
-  /** The prefix range in CIDR notation. Should include the start address and the prefix length. */
-  cidr?: string;
-  /** Signed message for WAN validation. */
-  signedMessage?: string;
-  /** Authorization message for WAN validation. */
-  authorizationMessage?: string;
-  /** The Parent CustomIpPrefix for IPv6 /64 CustomIpPrefix. */
-  customIpPrefixParent?: CustomIpPrefix;
-  /**
-   * The list of all Children for IPv6 /48 CustomIpPrefix.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly childCustomIpPrefixes?: CustomIpPrefix[];
-  /** The commissioned state of the Custom IP Prefix. */
-  commissionedState?: CommissionedState;
-  /**
-   * The list of all referenced PublicIpPrefixes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicIpPrefixes?: SubResource[];
-  /**
-   * The resource GUID property of the custom IP prefix resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The reason why resource is in failed state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failedReason?: string;
-  /**
-   * The provisioning state of the custom IP prefix resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** A DDoS custom policy in a resource group. */
-export type DdosCustomPolicy = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * The resource GUID property of the DDoS custom policy resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the DDoS custom policy resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The list of public IPs associated with the DDoS custom policy resource. This list is read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicIPAddresses?: SubResource[];
-  /** The protocol-specific DDoS policy customization parameters. */
-  protocolCustomSettings?: ProtocolCustomSettingsFormat[];
-};
-
-/** Differentiated Services Code Point configuration for any given network interface */
-export type DscpConfiguration = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** List of markings to be used in the configuration. */
-  markings?: number[];
-  /** Source IP ranges. */
-  sourceIpRanges?: QosIpRange[];
-  /** Destination IP ranges. */
-  destinationIpRanges?: QosIpRange[];
-  /** Sources port ranges. */
-  sourcePortRanges?: QosPortRange[];
-  /** Destination port ranges. */
-  destinationPortRanges?: QosPortRange[];
-  /** RNM supported protocol types. */
-  protocol?: ProtocolType;
-  /** QoS object definitions */
-  qosDefinitionCollection?: QosDefinition[];
-  /**
-   * Qos Collection ID generated by RNM.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly qosCollectionId?: string;
-  /**
-   * Associated Network Interfaces to the DSCP Configuration.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly associatedNetworkInterfaces?: NetworkInterface[];
-  /**
-   * The resource GUID property of the DSCP Configuration resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the DSCP Configuration resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** ExpressRouteCircuit resource. */
-export type ExpressRouteCircuit = Resource & {
-  /** The SKU. */
-  sku?: ExpressRouteCircuitSku;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Allow classic operations. */
-  allowClassicOperations?: boolean;
-  /** The CircuitProvisioningState state of the resource. */
-  circuitProvisioningState?: string;
-  /** The ServiceProviderProvisioningState state of the resource. */
-  serviceProviderProvisioningState?: ServiceProviderProvisioningState;
-  /** The list of authorizations. */
-  authorizations?: ExpressRouteCircuitAuthorization[];
-  /** The list of peerings. */
-  peerings?: ExpressRouteCircuitPeering[];
-  /** The ServiceKey. */
-  serviceKey?: string;
-  /** The ServiceProviderNotes. */
-  serviceProviderNotes?: string;
-  /** The ServiceProviderProperties. */
-  serviceProviderProperties?: ExpressRouteCircuitServiceProviderProperties;
-  /** The reference to the ExpressRoutePort resource when the circuit is provisioned on an ExpressRoutePort resource. */
-  expressRoutePort?: SubResource;
-  /** The bandwidth of the circuit when the circuit is provisioned on an ExpressRoutePort resource. */
-  bandwidthInGbps?: number;
-  /**
-   * The identifier of the circuit traffic. Outer tag for QinQ encapsulation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly stag?: number;
-  /**
-   * The provisioning state of the express route circuit resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The GatewayManager Etag. */
-  gatewayManagerEtag?: string;
-  /** Flag denoting global reach status. */
-  globalReachEnabled?: boolean;
-};
-
-/** A ExpressRouteResourceProvider object. */
-export type ExpressRouteServiceProvider = Resource & {
-  /** A list of peering locations. */
-  peeringLocations?: string[];
-  /** A list of bandwidths offered. */
-  bandwidthsOffered?: ExpressRouteServiceProviderBandwidthsOffered[];
-  /**
-   * The provisioning state of the express route service provider resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** ExpressRouteCrossConnection resource. */
-export type ExpressRouteCrossConnection = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * The name of the primary port.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly primaryAzurePort?: string;
-  /**
-   * The name of the secondary port.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly secondaryAzurePort?: string;
-  /**
-   * The identifier of the circuit traffic.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sTag?: number;
-  /**
-   * The peering location of the ExpressRoute circuit.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly peeringLocation?: string;
-  /**
-   * The circuit bandwidth In Mbps.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly bandwidthInMbps?: number;
-  /** The ExpressRouteCircuit. */
-  expressRouteCircuit?: ExpressRouteCircuitReference;
-  /** The provisioning state of the circuit in the connectivity provider system. */
-  serviceProviderProvisioningState?: ServiceProviderProvisioningState;
-  /** Additional read only notes set by the connectivity provider. */
-  serviceProviderNotes?: string;
-  /**
-   * The provisioning state of the express route cross connection resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The list of peerings. */
-  peerings?: ExpressRouteCrossConnectionPeering[];
-};
-
-/** Definition of the ExpressRoutePorts peering location resource. */
-export type ExpressRoutePortsLocation = Resource & {
-  /**
-   * Address of peering location.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly address?: string;
-  /**
-   * Contact details of peering locations.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly contact?: string;
-  /** The inventory of available ExpressRoutePort bandwidths. */
-  availableBandwidths?: ExpressRoutePortsLocationBandwidths[];
-  /**
-   * The provisioning state of the express route port location resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** ExpressRoutePort resource definition. */
-export type ExpressRoutePort = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The identity of ExpressRoutePort, if configured. */
-  identity?: ManagedServiceIdentity;
-  /** The name of the peering location that the ExpressRoutePort is mapped to physically. */
-  peeringLocation?: string;
-  /** Bandwidth of procured ports in Gbps. */
-  bandwidthInGbps?: number;
-  /**
-   * Aggregate Gbps of associated circuit bandwidths.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisionedBandwidthInGbps?: number;
-  /**
-   * Maximum transmission unit of the physical port pair(s).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly mtu?: string;
-  /** Encapsulation method on physical ports. */
-  encapsulation?: ExpressRoutePortsEncapsulation;
-  /**
-   * Ether type of the physical port.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etherType?: string;
-  /**
-   * Date of the physical port allocation to be used in Letter of Authorization.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly allocationDate?: string;
-  /** The set of physical links of the ExpressRoutePort resource. */
-  links?: ExpressRouteLink[];
-  /**
-   * Reference the ExpressRoute circuit(s) that are provisioned on this ExpressRoutePort resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly circuits?: SubResource[];
-  /**
-   * The provisioning state of the express route port resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The resource GUID property of the express route port resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-};
-
-/** FirewallPolicy Resource. */
-export type FirewallPolicy = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The identity of the firewall policy. */
-  identity?: ManagedServiceIdentity;
-  /**
-   * List of references to FirewallPolicyRuleCollectionGroups.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ruleCollectionGroups?: SubResource[];
-  /**
-   * The provisioning state of the firewall policy resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The parent firewall policy from which rules are inherited. */
-  basePolicy?: SubResource;
-  /**
-   * List of references to Azure Firewalls that this Firewall Policy is associated with.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly firewalls?: SubResource[];
-  /**
-   * List of references to Child Firewall Policies.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly childPolicies?: SubResource[];
-  /** The operation mode for Threat Intelligence. */
-  threatIntelMode?: AzureFirewallThreatIntelMode;
-  /** ThreatIntel Whitelist for Firewall Policy. */
-  threatIntelWhitelist?: FirewallPolicyThreatIntelWhitelist;
-  /** Insights on Firewall Policy. */
-  insights?: FirewallPolicyInsights;
-  /** The private IP addresses/IP ranges to which traffic will not be SNAT. */
-  snat?: FirewallPolicySnat;
-  /** SQL Settings definition. */
-  sql?: FirewallPolicySQL;
-  /** DNS Proxy Settings definition. */
-  dnsSettings?: DnsSettings;
-  /** Explicit Proxy Settings definition. */
-  explicitProxySettings?: ExplicitProxySettings;
-  /** The configuration for Intrusion detection. */
-  intrusionDetection?: FirewallPolicyIntrusionDetection;
-  /** TLS Configuration definition. */
-  transportSecurity?: FirewallPolicyTransportSecurity;
-  /** The Firewall Policy SKU. */
-  sku?: FirewallPolicySku;
-};
-
-/** IpAllocation resource. */
-export type IpAllocation = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * The Subnet that using the prefix of this IpAllocation resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subnet?: SubResource;
-  /**
-   * The VirtualNetwork that using the prefix of this IpAllocation resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly virtualNetwork?: SubResource;
-  /** The type for the IpAllocation. */
-  typePropertiesType?: IpAllocationType;
-  /** The address prefix for the IpAllocation. */
-  prefix?: string;
-  /** The address prefix length for the IpAllocation. */
-  prefixLength?: number;
-  /** The address prefix Type for the IpAllocation. */
-  prefixType?: IPVersion;
-  /** The IPAM allocation ID. */
-  ipamAllocationId?: string;
-  /** IpAllocation tags. */
-  allocationTags?: { [propertyName: string]: string };
-};
-
-/** The IpGroups resource information. */
-export type IpGroup = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * The provisioning state of the IpGroups resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** IpAddresses/IpAddressPrefixes in the IpGroups resource. */
-  ipAddresses?: string[];
-  /**
-   * List of references to Firewall resources that this IpGroups is associated with.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly firewalls?: SubResource[];
-  /**
-   * List of references to Firewall Policies resources that this IpGroups is associated with.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly firewallPolicies?: SubResource[];
-};
-
-/** LoadBalancer resource. */
-export type LoadBalancer = Resource & {
-  /** The extended location of the load balancer. */
-  extendedLocation?: ExtendedLocation;
-  /** The load balancer SKU. */
-  sku?: LoadBalancerSku;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Object representing the frontend IPs to be used for the load balancer. */
-  frontendIPConfigurations?: FrontendIPConfiguration[];
-  /** Collection of backend address pools used by a load balancer. */
-  backendAddressPools?: BackendAddressPool[];
-  /** Object collection representing the load balancing rules Gets the provisioning. */
-  loadBalancingRules?: LoadBalancingRule[];
-  /** Collection of probe objects used in the load balancer. */
-  probes?: Probe[];
-  /** Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. */
-  inboundNatRules?: InboundNatRule[];
-  /** Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound Nat rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. */
-  inboundNatPools?: InboundNatPool[];
-  /** The outbound rules. */
-  outboundRules?: OutboundRule[];
-  /**
-   * The resource GUID property of the load balancer resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the load balancer resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** Network profile resource. */
-export type NetworkProfile = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * List of child container network interfaces.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly containerNetworkInterfaces?: ContainerNetworkInterface[];
-  /** List of chid container network interface configurations. */
-  containerNetworkInterfaceConfigurations?: ContainerNetworkInterfaceConfiguration[];
-  /**
-   * The resource GUID property of the network profile resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the network profile resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** NetworkVirtualAppliance Resource. */
-export type NetworkVirtualAppliance = Resource & {
-  /** The service principal that has read access to cloud-init and config blob. */
-  identity?: ManagedServiceIdentity;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Network Virtual Appliance SKU. */
-  nvaSku?: VirtualApplianceSkuProperties;
-  /**
-   * Address Prefix.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly addressPrefix?: string;
-  /** BootStrapConfigurationBlobs storage URLs. */
-  bootStrapConfigurationBlobs?: string[];
-  /** The Virtual Hub where Network Virtual Appliance is being deployed. */
-  virtualHub?: SubResource;
-  /** CloudInitConfigurationBlob storage URLs. */
-  cloudInitConfigurationBlobs?: string[];
-  /** CloudInitConfiguration string in plain text. */
-  cloudInitConfiguration?: string;
-  /** VirtualAppliance ASN. */
-  virtualApplianceAsn?: number;
-  /** Public key for SSH login. */
-  sshPublicKey?: string;
-  /**
-   * List of Virtual Appliance Network Interfaces.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly virtualApplianceNics?: VirtualApplianceNicProperties[];
-  /**
-   * List of references to VirtualApplianceSite.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly virtualApplianceSites?: SubResource[];
-  /**
-   * List of references to InboundSecurityRules.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inboundSecurityRules?: SubResource[];
-  /**
-   * The provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** Definition of the NetworkVirtualApplianceSkus resource. */
-export type NetworkVirtualApplianceSku = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * Network Virtual Appliance Sku vendor.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vendor?: string;
-  /**
-   * Available Network Virtual Appliance versions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availableVersions?: string[];
-  /** The list of scale units available. */
-  availableScaleUnits?: NetworkVirtualApplianceSkuInstances[];
-};
-
-/** Network watcher in a resource group. */
-export type NetworkWatcher = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * The provisioning state of the network watcher resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** Public IP prefix resource. */
-export type PublicIPPrefix = Resource & {
-  /** The extended location of the public ip address. */
-  extendedLocation?: ExtendedLocation;
-  /** The public IP prefix SKU. */
-  sku?: PublicIPPrefixSku;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** A list of availability zones denoting the IP allocated for the resource needs to come from. */
-  zones?: string[];
-  /** The public IP address version. */
-  publicIPAddressVersion?: IPVersion;
-  /** The list of tags associated with the public IP prefix. */
-  ipTags?: IpTag[];
-  /** The Length of the Public IP Prefix. */
-  prefixLength?: number;
-  /**
-   * The allocated Prefix.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipPrefix?: string;
-  /**
-   * The list of all referenced PublicIPAddresses.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicIPAddresses?: ReferencedPublicIpAddress[];
-  /**
-   * The reference to load balancer frontend IP configuration associated with the public IP prefix.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly loadBalancerFrontendIpConfiguration?: SubResource;
-  /** The customIpPrefix that this prefix is associated with. */
-  customIPPrefix?: SubResource;
-  /**
-   * The resource GUID property of the public IP prefix resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the public IP prefix resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** NatGateway of Public IP Prefix. */
-  natGateway?: NatGateway;
-};
-
-/** Route Filter Resource. */
-export type RouteFilter = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Collection of RouteFilterRules contained within a route filter. */
-  rules?: RouteFilterRule[];
-  /**
-   * A collection of references to express route circuit peerings.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly peerings?: ExpressRouteCircuitPeering[];
-  /**
-   * A collection of references to express route circuit ipv6 peerings.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipv6Peerings?: ExpressRouteCircuitPeering[];
-  /**
-   * The provisioning state of the route filter resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** Security Partner Provider resource. */
-export type SecurityPartnerProvider = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * The provisioning state of the Security Partner Provider resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The security provider name. */
-  securityProviderName?: SecurityProviderName;
-  /**
-   * The connection status with the Security Partner Provider.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly connectionStatus?: SecurityPartnerProviderConnectionStatus;
-  /** The virtualHub to which the Security Partner Provider belongs. */
-  virtualHub?: SubResource;
-};
-
-/** Service Community Properties. */
-export type BgpServiceCommunity = Resource & {
-  /** The name of the bgp community. e.g. Skype. */
-  serviceName?: string;
-  /** A list of bgp communities. */
-  bgpCommunities?: BGPCommunity[];
-};
-
-/** Virtual Network resource. */
-export type VirtualNetwork = Resource & {
-  /** The extended location of the virtual network. */
-  extendedLocation?: ExtendedLocation;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The AddressSpace that contains an array of IP address ranges that can be used by subnets. */
-  addressSpace?: AddressSpace;
-  /** The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network. */
-  dhcpOptions?: DhcpOptions;
-  /** The FlowTimeout value (in minutes) for the Virtual Network */
-  flowTimeoutInMinutes?: number;
-  /** A list of subnets in a Virtual Network. */
-  subnets?: Subnet[];
-  /** A list of peerings in a Virtual Network. */
-  virtualNetworkPeerings?: VirtualNetworkPeering[];
-  /**
-   * The resourceGuid property of the Virtual Network resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the virtual network resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource. */
-  enableDdosProtection?: boolean;
-  /** Indicates if VM protection is enabled for all the subnets in the virtual network. */
-  enableVmProtection?: boolean;
-  /** The DDoS protection plan associated with the virtual network. */
-  ddosProtectionPlan?: SubResource;
-  /** Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET. */
-  bgpCommunities?: VirtualNetworkBgpCommunities;
-  /** Array of IpAllocation which reference this VNET. */
-  ipAllocations?: SubResource[];
-};
-
-/** Network Intent Policy resource. */
-export type NetworkIntentPolicy = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-};
-
-/** A common class for general resource information. */
-export type VirtualNetworkGateway = Resource & {
-  /** The extended location of type local virtual network gateway. */
-  extendedLocation?: ExtendedLocation;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** IP configurations for virtual network gateway. */
-  ipConfigurations?: VirtualNetworkGatewayIPConfiguration[];
-  /** The type of this virtual network gateway. */
-  gatewayType?: VirtualNetworkGatewayType;
-  /** The type of this virtual network gateway. */
-  vpnType?: VpnType;
-  /** The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN. */
-  vpnGatewayGeneration?: VpnGatewayGeneration;
-  /** Whether BGP is enabled for this virtual network gateway or not. */
-  enableBgp?: boolean;
-  /** Whether private IP needs to be enabled on this gateway for connections or not. */
-  enablePrivateIpAddress?: boolean;
-  /** ActiveActive flag. */
-  active?: boolean;
-  /** The reference to the LocalNetworkGateway resource which represents local network site having default routes. Assign Null value in case of removing existing default site setting. */
-  gatewayDefaultSite?: SubResource;
-  /** The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway. */
-  sku?: VirtualNetworkGatewaySku;
-  /** The reference to the VpnClientConfiguration resource which represents the P2S VpnClient configurations. */
-  vpnClientConfiguration?: VpnClientConfiguration;
-  /** Virtual network gateway's BGP speaker settings. */
-  bgpSettings?: BgpSettings;
-  /** The reference to the address space resource which represents the custom routes address space specified by the customer for virtual network gateway and VpnClient. */
-  customRoutes?: AddressSpace;
-  /**
-   * The resource GUID property of the virtual network gateway resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the virtual network gateway resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Whether dns forwarding is enabled or not. */
-  enableDnsForwarding?: boolean;
-  /**
-   * The IP address allocated by the gateway to which dns requests can be sent.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inboundDnsForwardingEndpoint?: string;
-  /** Customer vnet resource id. VirtualNetworkGateway of type local gateway is associated with the customer vnet. */
-  vNetExtendedLocationResourceId?: string;
-  /** NatRules for virtual network gateway. */
-  natRules?: VirtualNetworkGatewayNatRule[];
-  /** EnableBgpRouteTranslationForNat flag. */
-  enableBgpRouteTranslationForNat?: boolean;
-};
-
-/** A common class for general resource information. */
-export type VirtualNetworkGatewayConnectionListEntity = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The authorizationKey. */
-  authorizationKey?: string;
-  /** The reference to virtual network gateway resource. */
-  virtualNetworkGateway1: VirtualNetworkConnectionGatewayReference;
-  /** The reference to virtual network gateway resource. */
-  virtualNetworkGateway2?: VirtualNetworkConnectionGatewayReference;
-  /** The reference to local network gateway resource. */
-  localNetworkGateway2?: VirtualNetworkConnectionGatewayReference;
-  /** Gateway connection type. */
-  connectionType: VirtualNetworkGatewayConnectionType;
-  /** Connection protocol used for this connection. */
-  connectionProtocol?: VirtualNetworkGatewayConnectionProtocol;
-  /** The routing weight. */
-  routingWeight?: number;
-  /** The connection mode for this connection. */
-  connectionMode?: VirtualNetworkGatewayConnectionMode;
-  /** The IPSec shared key. */
-  sharedKey?: string;
-  /**
-   * Virtual Network Gateway connection status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly connectionStatus?: VirtualNetworkGatewayConnectionStatus;
-  /**
-   * Collection of all tunnels' connection health status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tunnelConnectionStatus?: TunnelConnectionHealth[];
-  /**
-   * The egress bytes transferred in this connection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly egressBytesTransferred?: number;
-  /**
-   * The ingress bytes transferred in this connection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ingressBytesTransferred?: number;
-  /** The reference to peerings resource. */
-  peer?: SubResource;
-  /** EnableBgp flag. */
-  enableBgp?: boolean;
-  /** Enable policy-based traffic selectors. */
-  usePolicyBasedTrafficSelectors?: boolean;
-  /** The IPSec Policies to be considered by this connection. */
-  ipsecPolicies?: IpsecPolicy[];
-  /** The Traffic Selector Policies to be considered by this connection. */
-  trafficSelectorPolicies?: TrafficSelectorPolicy[];
-  /**
-   * The resource GUID property of the virtual network gateway connection resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the virtual network gateway connection resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Bypass ExpressRoute Gateway for data forwarding. */
-  expressRouteGatewayBypass?: boolean;
-};
-
-/** A common class for general resource information. */
-export type LocalNetworkGateway = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Local network site address space. */
-  localNetworkAddressSpace?: AddressSpace;
-  /** IP address of local network gateway. */
-  gatewayIpAddress?: string;
-  /** FQDN of local network gateway. */
-  fqdn?: string;
-  /** Local network gateway's BGP speaker settings. */
-  bgpSettings?: BgpSettings;
-  /**
-   * The resource GUID property of the local network gateway resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the local network gateway resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** A common class for general resource information. */
-export type VirtualNetworkGatewayConnection = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The authorizationKey. */
-  authorizationKey?: string;
-  /** The reference to virtual network gateway resource. */
-  virtualNetworkGateway1: VirtualNetworkGateway;
-  /** The reference to virtual network gateway resource. */
-  virtualNetworkGateway2?: VirtualNetworkGateway;
-  /** The reference to local network gateway resource. */
-  localNetworkGateway2?: LocalNetworkGateway;
-  /** List of ingress NatRules. */
-  ingressNatRules?: SubResource[];
-  /** List of egress NatRules. */
-  egressNatRules?: SubResource[];
-  /** Gateway connection type. */
-  connectionType: VirtualNetworkGatewayConnectionType;
-  /** Connection protocol used for this connection. */
-  connectionProtocol?: VirtualNetworkGatewayConnectionProtocol;
-  /** The routing weight. */
-  routingWeight?: number;
-  /** The dead peer detection timeout of this connection in seconds. */
-  dpdTimeoutSeconds?: number;
-  /** The connection mode for this connection. */
-  connectionMode?: VirtualNetworkGatewayConnectionMode;
-  /** The IPSec shared key. */
-  sharedKey?: string;
-  /**
-   * Virtual Network Gateway connection status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly connectionStatus?: VirtualNetworkGatewayConnectionStatus;
-  /**
-   * Collection of all tunnels' connection health status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tunnelConnectionStatus?: TunnelConnectionHealth[];
-  /**
-   * The egress bytes transferred in this connection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly egressBytesTransferred?: number;
-  /**
-   * The ingress bytes transferred in this connection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ingressBytesTransferred?: number;
-  /** The reference to peerings resource. */
-  peer?: SubResource;
-  /** EnableBgp flag. */
-  enableBgp?: boolean;
-  /** Use private local Azure IP for the connection. */
-  useLocalAzureIpAddress?: boolean;
-  /** Enable policy-based traffic selectors. */
-  usePolicyBasedTrafficSelectors?: boolean;
-  /** The IPSec Policies to be considered by this connection. */
-  ipsecPolicies?: IpsecPolicy[];
-  /** The Traffic Selector Policies to be considered by this connection. */
-  trafficSelectorPolicies?: TrafficSelectorPolicy[];
-  /**
-   * The resource GUID property of the virtual network gateway connection resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceGuid?: string;
-  /**
-   * The provisioning state of the virtual network gateway connection resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Bypass ExpressRoute Gateway for data forwarding. */
-  expressRouteGatewayBypass?: boolean;
-};
-
-/** VirtualRouter Resource. */
-export type VirtualRouter = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** VirtualRouter ASN. */
-  virtualRouterAsn?: number;
-  /** VirtualRouter IPs. */
-  virtualRouterIps?: string[];
-  /** The Subnet on which VirtualRouter is hosted. */
-  hostedSubnet?: SubResource;
-  /** The Gateway on which VirtualRouter is hosted. */
-  hostedGateway?: SubResource;
-  /**
-   * List of references to VirtualRouterPeerings.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly peerings?: SubResource[];
-  /**
-   * The provisioning state of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
-/** VirtualWAN Resource. */
-export type VirtualWAN = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Vpn encryption to be disabled or not. */
-  disableVpnEncryption?: boolean;
-  /**
-   * List of VirtualHubs in the VirtualWAN.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly virtualHubs?: SubResource[];
-  /**
-   * List of VpnSites in the VirtualWAN.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vpnSites?: SubResource[];
-  /** True if branch to branch traffic is allowed. */
-  allowBranchToBranchTraffic?: boolean;
-  /** True if Vnet to Vnet traffic is allowed. */
-  allowVnetToVnetTraffic?: boolean;
-  /**
-   * The office local breakout category.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly office365LocalBreakoutCategory?: OfficeTrafficCategory;
-  /**
-   * The provisioning state of the virtual WAN resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The type of the VirtualWAN. */
-  typePropertiesType?: string;
-};
-
-/** VpnSite Resource. */
-export type VpnSite = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The VirtualWAN to which the vpnSite belongs. */
-  virtualWan?: SubResource;
-  /** The device properties. */
-  deviceProperties?: DeviceProperties;
-  /** The ip-address for the vpn-site. */
-  ipAddress?: string;
-  /** The key for vpn-site that can be used for connections. */
-  siteKey?: string;
-  /** The AddressSpace that contains an array of IP address ranges. */
-  addressSpace?: AddressSpace;
-  /** The set of bgp properties. */
-  bgpProperties?: BgpSettings;
-  /**
-   * The provisioning state of the VPN site resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** IsSecuritySite flag. */
-  isSecuritySite?: boolean;
-  /** List of all vpn site links. */
-  vpnSiteLinks?: VpnSiteLink[];
-  /** Office365 Policy. */
-  o365Policy?: O365PolicyProperties;
-};
-
-/** P2SVpnGateway Resource. */
-export type P2SVpnGateway = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The VirtualHub to which the gateway belongs. */
-  virtualHub?: SubResource;
-  /** List of all p2s connection configurations of the gateway. */
-  p2SConnectionConfigurations?: P2SConnectionConfiguration[];
-  /**
-   * The provisioning state of the P2S VPN gateway resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The scale unit for this p2s vpn gateway. */
-  vpnGatewayScaleUnit?: number;
-  /** The VpnServerConfiguration to which the p2sVpnGateway is attached to. */
-  vpnServerConfiguration?: SubResource;
-  /**
-   * All P2S VPN clients' connection health status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vpnClientConnectionHealth?: VpnClientConnectionHealth;
-  /** List of all customer specified DNS servers IP addresses. */
-  customDnsServers?: string[];
-  /** Enable Routing Preference property for the Public IP Interface of the P2SVpnGateway. */
-  isRoutingPreferenceInternet?: boolean;
-};
-
-/** VpnServerConfiguration Resource. */
-export type VpnServerConfiguration = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The name of the VpnServerConfiguration that is unique within a resource group. */
-  namePropertiesName?: string;
-  /** VPN protocols for the VpnServerConfiguration. */
-  vpnProtocols?: VpnGatewayTunnelingProtocol[];
-  /** VPN authentication types for the VpnServerConfiguration. */
-  vpnAuthenticationTypes?: VpnAuthenticationType[];
-  /** VPN client root certificate of VpnServerConfiguration. */
-  vpnClientRootCertificates?: VpnServerConfigVpnClientRootCertificate[];
-  /** VPN client revoked certificate of VpnServerConfiguration. */
-  vpnClientRevokedCertificates?: VpnServerConfigVpnClientRevokedCertificate[];
-  /** Radius Server root certificate of VpnServerConfiguration. */
-  radiusServerRootCertificates?: VpnServerConfigRadiusServerRootCertificate[];
-  /** Radius client root certificate of VpnServerConfiguration. */
-  radiusClientRootCertificates?: VpnServerConfigRadiusClientRootCertificate[];
-  /** VpnClientIpsecPolicies for VpnServerConfiguration. */
-  vpnClientIpsecPolicies?: IpsecPolicy[];
-  /** The radius server address property of the VpnServerConfiguration resource for point to site client connection. */
-  radiusServerAddress?: string;
-  /** The radius secret property of the VpnServerConfiguration resource for point to site client connection. */
-  radiusServerSecret?: string;
-  /** Multiple Radius Server configuration for VpnServerConfiguration. */
-  radiusServers?: RadiusServer[];
-  /** The set of aad vpn authentication parameters. */
-  aadAuthenticationParameters?: AadAuthenticationParameters;
-  /**
-   * The provisioning state of the VpnServerConfiguration resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * List of references to P2SVpnGateways.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly p2SVpnGateways?: P2SVpnGateway[];
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etagPropertiesEtag?: string;
-};
-
-/** VirtualHub Resource. */
-export type VirtualHub = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * Kind of service virtual hub. This is metadata used for the Azure portal experience for Route Server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly kind?: string;
-  /** The VirtualWAN to which the VirtualHub belongs. */
-  virtualWan?: SubResource;
-  /** The VpnGateway associated with this VirtualHub. */
-  vpnGateway?: SubResource;
-  /** The P2SVpnGateway associated with this VirtualHub. */
-  p2SVpnGateway?: SubResource;
-  /** The expressRouteGateway associated with this VirtualHub. */
-  expressRouteGateway?: SubResource;
-  /** The azureFirewall associated with this VirtualHub. */
-  azureFirewall?: SubResource;
-  /** The securityPartnerProvider associated with this VirtualHub. */
-  securityPartnerProvider?: SubResource;
-  /** Address-prefix for this VirtualHub. */
-  addressPrefix?: string;
-  /** The routeTable associated with this virtual hub. */
-  routeTable?: VirtualHubRouteTable;
-  /**
-   * The provisioning state of the virtual hub resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The Security Provider name. */
-  securityProviderName?: string;
-  /** List of all virtual hub route table v2s associated with this VirtualHub. */
-  virtualHubRouteTableV2S?: VirtualHubRouteTableV2[];
-  /** The sku of this VirtualHub. */
-  sku?: string;
-  /**
-   * The routing state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly routingState?: RoutingState;
-  /**
-   * List of references to Bgp Connections.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly bgpConnections?: SubResource[];
-  /**
-   * List of references to IpConfigurations.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipConfigurations?: SubResource[];
-  /** VirtualRouter ASN. */
-  virtualRouterAsn?: number;
-  /** VirtualRouter IPs. */
-  virtualRouterIps?: string[];
-  /** Flag to control transit for VirtualRouter hub. */
-  allowBranchToBranchTraffic?: boolean;
-  /** The preferred gateway to route on-prem traffic */
-  preferredRoutingGateway?: PreferredRoutingGateway;
-};
-
-/** VpnGateway Resource. */
-export type VpnGateway = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The VirtualHub to which the gateway belongs. */
-  virtualHub?: SubResource;
-  /** List of all vpn connections to the gateway. */
-  connections?: VpnConnection[];
-  /** Local network gateway's BGP speaker settings. */
-  bgpSettings?: BgpSettings;
-  /**
-   * The provisioning state of the VPN gateway resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The scale unit for this vpn gateway. */
-  vpnGatewayScaleUnit?: number;
-  /**
-   * List of all IPs configured on the gateway.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipConfigurations?: VpnGatewayIpConfiguration[];
-  /** Enable BGP routes translation for NAT on this VpnGateway. */
-  enableBgpRouteTranslationForNat?: boolean;
-  /** Enable Routing Preference property for the Public IP Interface of the VpnGateway. */
-  isRoutingPreferenceInternet?: boolean;
-  /** List of all the nat Rules associated with the gateway. */
-  natRules?: VpnGatewayNatRule[];
-};
-
-/** ExpressRoute gateway resource. */
-export type ExpressRouteGateway = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Configuration for auto scaling. */
-  autoScaleConfiguration?: ExpressRouteGatewayPropertiesAutoScaleConfiguration;
-  /**
-   * List of ExpressRoute connections to the ExpressRoute gateway.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expressRouteConnections?: ExpressRouteConnection[];
-  /**
-   * The provisioning state of the express route gateway resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The Virtual Hub where the ExpressRoute gateway is or will be deployed. */
-  virtualHub?: VirtualHubId;
-};
-
-/** Defines web application firewall policy. */
-export type WebApplicationFirewallPolicy = Resource & {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** The PolicySettings for policy. */
-  policySettings?: PolicySettings;
-  /** The custom rules inside the policy. */
-  customRules?: WebApplicationFirewallCustomRule[];
-  /**
-   * A collection of references to application gateways.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly applicationGateways?: ApplicationGateway[];
-  /**
-   * The provisioning state of the web application firewall policy resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Resource status of the policy.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceState?: WebApplicationFirewallPolicyResourceState;
-  /** Describes the managedRules structure. */
-  managedRules?: ManagedRulesDefinition;
-  /**
-   * A collection of references to application gateway http listeners.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly httpListeners?: SubResource[];
-  /**
-   * A collection of references to application gateway path rules.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly pathBasedRules?: SubResource[];
-};
 
 /** IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed. */
 export type ApplicationGatewayIPConfiguration = SubResource & {
@@ -7538,6 +5827,11 @@ export type BackendAddressPool = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly outboundRules?: SubResource[];
+  /**
+   * An array of references to inbound NAT rules that use this backend address pool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inboundNatRules?: SubResource[];
   /**
    * The provisioning state of the backend address pool resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -8860,6 +7154,11 @@ export type VirtualNetworkPeering = SubResource & {
   remoteVirtualNetworkAddressSpace?: AddressSpace;
   /** The reference to the remote virtual network's Bgp Communities. */
   remoteBgpCommunities?: VirtualNetworkBgpCommunities;
+  /**
+   * The reference to the remote virtual network's encryption
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly remoteVirtualNetworkEncryption?: VirtualNetworkEncryption;
   /** The status of the virtual network peering. */
   peeringState?: VirtualNetworkPeeringState;
   /** The peering sync status of the virtual network peering. */
@@ -9383,6 +7682,29 @@ export type HubRouteTable = SubResource & {
   readonly provisioningState?: ProvisioningState;
 };
 
+/** The routing intent child resource of a Virtual hub. */
+export type RoutingIntent = SubResource & {
+  /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
+  name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** List of routing policies. */
+  routingPolicies?: RoutingPolicy[];
+  /**
+   * The provisioning state of the RoutingIntent resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
 /** Route Filter Rule Resource. */
 export type PatchRouteFilterRule = SubResource & {
   /**
@@ -9444,6 +7766,1932 @@ export type PatchRouteFilter = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+};
+
+/** An application security group in a resource group. */
+export type ApplicationSecurityGroup = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the application security group resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Private endpoint resource. */
+export type PrivateEndpoint = Resource & {
+  /** The extended location of the load balancer. */
+  extendedLocation?: ExtendedLocation;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The ID of the subnet from which the private IP will be allocated. */
+  subnet?: Subnet;
+  /**
+   * An array of references to the network interfaces created for this private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkInterfaces?: NetworkInterface[];
+  /**
+   * The provisioning state of the private endpoint resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** A grouping of information about the connection to the remote resource. */
+  privateLinkServiceConnections?: PrivateLinkServiceConnection[];
+  /** A grouping of information about the connection to the remote resource. Used when the network admin does not have access to approve connections to the remote resource. */
+  manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
+  /** An array of custom dns configurations. */
+  customDnsConfigs?: CustomDnsConfigPropertiesFormat[];
+  /** Application security groups in which the private endpoint IP configuration is included. */
+  applicationSecurityGroups?: ApplicationSecurityGroup[];
+  /** A list of IP configurations of the private endpoint. This will be used to map to the First Party Service's endpoints. */
+  ipConfigurations?: PrivateEndpointIPConfiguration[];
+  /** The custom name of the network interface attached to the private endpoint. */
+  customNetworkInterfaceName?: string;
+};
+
+/** Private link service resource. */
+export type PrivateLinkService = Resource & {
+  /** The extended location of the load balancer. */
+  extendedLocation?: ExtendedLocation;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** An array of references to the load balancer IP configurations. */
+  loadBalancerFrontendIpConfigurations?: FrontendIPConfiguration[];
+  /** An array of private link service IP configurations. */
+  ipConfigurations?: PrivateLinkServiceIpConfiguration[];
+  /**
+   * An array of references to the network interfaces created for this private link service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkInterfaces?: NetworkInterface[];
+  /**
+   * The provisioning state of the private link service resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * An array of list about connections to the private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** The visibility list of the private link service. */
+  visibility?: PrivateLinkServicePropertiesVisibility;
+  /** The auto-approval list of the private link service. */
+  autoApproval?: PrivateLinkServicePropertiesAutoApproval;
+  /** The list of Fqdn. */
+  fqdns?: string[];
+  /**
+   * The alias of the private link service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly alias?: string;
+  /** Whether the private link service is enabled for proxy protocol or not. */
+  enableProxyProtocol?: boolean;
+};
+
+/** A network interface in a resource group. */
+export type NetworkInterface = Resource & {
+  /** The extended location of the network interface. */
+  extendedLocation?: ExtendedLocation;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * The reference to a virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachine?: SubResource;
+  /** The reference to the NetworkSecurityGroup resource. */
+  networkSecurityGroup?: NetworkSecurityGroup;
+  /**
+   * A reference to the private endpoint to which the network interface is linked.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpoint?: PrivateEndpoint;
+  /** A list of IPConfigurations of the network interface. */
+  ipConfigurations?: NetworkInterfaceIPConfiguration[];
+  /**
+   * A list of TapConfigurations of the network interface.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tapConfigurations?: NetworkInterfaceTapConfiguration[];
+  /** The DNS settings in network interface. */
+  dnsSettings?: NetworkInterfaceDnsSettings;
+  /**
+   * The MAC address of the network interface.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly macAddress?: string;
+  /**
+   * Whether this is a primary network interface on a virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primary?: boolean;
+  /**
+   * Whether the virtual machine this nic is attached to supports encryption.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vnetEncryptionSupported?: boolean;
+  /** If the network interface is accelerated networking enabled. */
+  enableAcceleratedNetworking?: boolean;
+  /** Indicates whether IP forwarding is enabled on this network interface. */
+  enableIPForwarding?: boolean;
+  /**
+   * A list of references to linked BareMetal resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostedWorkloads?: string[];
+  /**
+   * A reference to the dscp configuration to which the network interface is linked.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dscpConfiguration?: SubResource;
+  /**
+   * The resource GUID property of the network interface resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the network interface resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** WorkloadType of the NetworkInterface for BareMetal resources */
+  workloadType?: string;
+  /** Type of Network Interface resource. */
+  nicType?: NetworkInterfaceNicType;
+  /** Privatelinkservice of the network interface resource. */
+  privateLinkService?: PrivateLinkService;
+  /** Migration phase of Network Interface resource. */
+  migrationPhase?: NetworkInterfaceMigrationPhase;
+};
+
+/** A flow log resource. */
+export type FlowLog = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** ID of network security group to which flow log will be applied. */
+  targetResourceId?: string;
+  /**
+   * Guid of network security group to which flow log will be applied.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetResourceGuid?: string;
+  /** ID of the storage account which is used to store the flow log. */
+  storageId?: string;
+  /** Flag to enable/disable flow logging. */
+  enabled?: boolean;
+  /** Parameters that define the retention policy for flow log. */
+  retentionPolicy?: RetentionPolicyParameters;
+  /** Parameters that define the flow log format. */
+  format?: FlowLogFormatParameters;
+  /** Parameters that define the configuration of traffic analytics. */
+  flowAnalyticsConfiguration?: TrafficAnalyticsProperties;
+  /**
+   * The provisioning state of the flow log.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** NetworkSecurityGroup resource. */
+export type NetworkSecurityGroup = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** A collection of security rules of the network security group. */
+  securityRules?: SecurityRule[];
+  /**
+   * The default security rules of network security group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultSecurityRules?: SecurityRule[];
+  /**
+   * A collection of references to network interfaces.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkInterfaces?: NetworkInterface[];
+  /**
+   * A collection of references to subnets.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subnets?: Subnet[];
+  /**
+   * A collection of references to flow log resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly flowLogs?: FlowLog[];
+  /**
+   * The resource GUID property of the network security group resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the network security group resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Route table resource. */
+export type RouteTable = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Collection of routes contained within a route table. */
+  routes?: Route[];
+  /**
+   * A collection of references to subnets.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subnets?: Subnet[];
+  /** Whether to disable the routes learned by BGP on that route table. True means disable. */
+  disableBgpRoutePropagation?: boolean;
+  /**
+   * The provisioning state of the route table resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The resource GUID property of the route table.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+};
+
+/** Service End point policy resource. */
+export type ServiceEndpointPolicy = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * Kind of service endpoint policy. This is metadata used for the Azure portal experience.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kind?: string;
+  /** A collection of service endpoint policy definitions of the service endpoint policy. */
+  serviceEndpointPolicyDefinitions?: ServiceEndpointPolicyDefinition[];
+  /**
+   * A collection of references to subnets.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subnets?: Subnet[];
+  /**
+   * The resource GUID property of the service endpoint policy resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the service endpoint policy resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The alias indicating if the policy belongs to a service */
+  serviceAlias?: string;
+  /** A collection of contextual service endpoint policy. */
+  contextualServiceEndpointPolicies?: string[];
+};
+
+/** Nat Gateway resource. */
+export type NatGateway = Resource & {
+  /** The nat gateway SKU. */
+  sku?: NatGatewaySku;
+  /** A list of availability zones denoting the zone in which Nat Gateway should be deployed. */
+  zones?: string[];
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The idle timeout of the nat gateway. */
+  idleTimeoutInMinutes?: number;
+  /** An array of public ip addresses associated with the nat gateway resource. */
+  publicIpAddresses?: SubResource[];
+  /** An array of public ip prefixes associated with the nat gateway resource. */
+  publicIpPrefixes?: SubResource[];
+  /**
+   * An array of references to the subnets using this nat gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subnets?: SubResource[];
+  /**
+   * The resource GUID property of the NAT gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the NAT gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Public IP address resource. */
+export type PublicIPAddress = Resource & {
+  /** The extended location of the public ip address. */
+  extendedLocation?: ExtendedLocation;
+  /** The public IP address SKU. */
+  sku?: PublicIPAddressSku;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** A list of availability zones denoting the IP allocated for the resource needs to come from. */
+  zones?: string[];
+  /** The public IP address allocation method. */
+  publicIPAllocationMethod?: IPAllocationMethod;
+  /** The public IP address version. */
+  publicIPAddressVersion?: IPVersion;
+  /**
+   * The IP configuration associated with the public IP address.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipConfiguration?: IPConfiguration;
+  /** The FQDN of the DNS record associated with the public IP address. */
+  dnsSettings?: PublicIPAddressDnsSettings;
+  /** The DDoS protection custom policy associated with the public IP address. */
+  ddosSettings?: DdosSettings;
+  /** The list of tags associated with the public IP address. */
+  ipTags?: IpTag[];
+  /** The IP address associated with the public IP address resource. */
+  ipAddress?: string;
+  /** The Public IP Prefix this Public IP Address should be allocated from. */
+  publicIPPrefix?: SubResource;
+  /** The idle timeout of the public IP address. */
+  idleTimeoutInMinutes?: number;
+  /**
+   * The resource GUID property of the public IP address resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the public IP address resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The service public IP address of the public IP address resource. */
+  servicePublicIPAddress?: PublicIPAddress;
+  /** The NatGateway for the Public IP address. */
+  natGateway?: NatGateway;
+  /** Migration phase of Public IP Address. */
+  migrationPhase?: PublicIPAddressMigrationPhase;
+  /** The linked public IP address of the public IP address resource. */
+  linkedPublicIPAddress?: PublicIPAddress;
+  /** Specify what happens to the public IP address when the VM using it is deleted */
+  deleteOption?: DeleteOptions;
+};
+
+/** Virtual Network Tap resource. */
+export type VirtualNetworkTap = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * Specifies the list of resource IDs for the network interface IP configuration that needs to be tapped.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkInterfaceTapConfigurations?: NetworkInterfaceTapConfiguration[];
+  /**
+   * The resource GUID property of the virtual network tap resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the virtual network tap resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The reference to the private IP Address of the collector nic that will receive the tap. */
+  destinationNetworkInterfaceIPConfiguration?: NetworkInterfaceIPConfiguration;
+  /** The reference to the private IP address on the internal Load Balancer that will receive the tap. */
+  destinationLoadBalancerFrontEndIPConfiguration?: FrontendIPConfiguration;
+  /** The VXLAN destination port that will receive the tapped traffic. */
+  destinationPort?: number;
+};
+
+/** Application gateway resource. */
+export type ApplicationGateway = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** A list of availability zones denoting where the resource needs to come from. */
+  zones?: string[];
+  /** The identity of the application gateway, if configured. */
+  identity?: ManagedServiceIdentity;
+  /** SKU of the application gateway resource. */
+  sku?: ApplicationGatewaySku;
+  /** SSL policy of the application gateway resource. */
+  sslPolicy?: ApplicationGatewaySslPolicy;
+  /**
+   * Operational state of the application gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationalState?: ApplicationGatewayOperationalState;
+  /** Subnets of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  gatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
+  /** Authentication certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  authenticationCertificates?: ApplicationGatewayAuthenticationCertificate[];
+  /** Trusted Root certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  trustedRootCertificates?: ApplicationGatewayTrustedRootCertificate[];
+  /** Trusted client certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  trustedClientCertificates?: ApplicationGatewayTrustedClientCertificate[];
+  /** SSL certificates of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  sslCertificates?: ApplicationGatewaySslCertificate[];
+  /** Frontend IP addresses of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  frontendIPConfigurations?: ApplicationGatewayFrontendIPConfiguration[];
+  /** Frontend ports of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  frontendPorts?: ApplicationGatewayFrontendPort[];
+  /** Probes of the application gateway resource. */
+  probes?: ApplicationGatewayProbe[];
+  /** Backend address pool of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  backendAddressPools?: ApplicationGatewayBackendAddressPool[];
+  /** Backend http settings of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  backendHttpSettingsCollection?: ApplicationGatewayBackendHttpSettings[];
+  /** Http listeners of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  httpListeners?: ApplicationGatewayHttpListener[];
+  /** SSL profiles of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  sslProfiles?: ApplicationGatewaySslProfile[];
+  /** URL path map of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  urlPathMaps?: ApplicationGatewayUrlPathMap[];
+  /** Request routing rules of the application gateway resource. */
+  requestRoutingRules?: ApplicationGatewayRequestRoutingRule[];
+  /** Rewrite rules for the application gateway resource. */
+  rewriteRuleSets?: ApplicationGatewayRewriteRuleSet[];
+  /** Redirect configurations of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits). */
+  redirectConfigurations?: ApplicationGatewayRedirectConfiguration[];
+  /** Web application firewall configuration. */
+  webApplicationFirewallConfiguration?: ApplicationGatewayWebApplicationFirewallConfiguration;
+  /** Reference to the FirewallPolicy resource. */
+  firewallPolicy?: SubResource;
+  /** Whether HTTP2 is enabled on the application gateway resource. */
+  enableHttp2?: boolean;
+  /** Whether FIPS is enabled on the application gateway resource. */
+  enableFips?: boolean;
+  /** Autoscale Configuration. */
+  autoscaleConfiguration?: ApplicationGatewayAutoscaleConfiguration;
+  /** PrivateLink configurations on application gateway. */
+  privateLinkConfigurations?: ApplicationGatewayPrivateLinkConfiguration[];
+  /**
+   * Private Endpoint connections on application gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: ApplicationGatewayPrivateEndpointConnection[];
+  /**
+   * The resource GUID property of the application gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the application gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Custom error configurations of the application gateway resource. */
+  customErrorConfigurations?: ApplicationGatewayCustomError[];
+  /** If true, associates a firewall policy with an application gateway regardless whether the policy differs from the WAF Config. */
+  forceFirewallPolicyAssociation?: boolean;
+  /** Load distribution policies of the application gateway resource. */
+  loadDistributionPolicies?: ApplicationGatewayLoadDistributionPolicy[];
+  /** Global Configuration. */
+  globalConfiguration?: ApplicationGatewayGlobalConfiguration;
+};
+
+/** A web application firewall rule set. */
+export type ApplicationGatewayFirewallRuleSet = Resource & {
+  /**
+   * The provisioning state of the web application firewall rule set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The type of the web application firewall rule set. */
+  ruleSetType?: string;
+  /** The version of the web application firewall rule set type. */
+  ruleSetVersion?: string;
+  /** The rule groups of the web application firewall rule set. */
+  ruleGroups?: ApplicationGatewayFirewallRuleGroup[];
+};
+
+/** Response for ApplicationGatewayAvailableSslOptions API service call. */
+export type ApplicationGatewayAvailableSslOptions = Resource & {
+  /** List of available Ssl predefined policy. */
+  predefinedPolicies?: SubResource[];
+  /** Name of the Ssl predefined policy applied by default to application gateway. */
+  defaultPolicy?: ApplicationGatewaySslPolicyName;
+  /** List of available Ssl cipher suites. */
+  availableCipherSuites?: ApplicationGatewaySslCipherSuite[];
+  /** List of available Ssl protocols. */
+  availableProtocols?: ApplicationGatewaySslProtocol[];
+};
+
+/** Azure Firewall resource. */
+export type AzureFirewall = Resource & {
+  /** A list of availability zones denoting where the resource needs to come from. */
+  zones?: string[];
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Collection of application rule collections used by Azure Firewall. */
+  applicationRuleCollections?: AzureFirewallApplicationRuleCollection[];
+  /** Collection of NAT rule collections used by Azure Firewall. */
+  natRuleCollections?: AzureFirewallNatRuleCollection[];
+  /** Collection of network rule collections used by Azure Firewall. */
+  networkRuleCollections?: AzureFirewallNetworkRuleCollection[];
+  /** IP configuration of the Azure Firewall resource. */
+  ipConfigurations?: AzureFirewallIPConfiguration[];
+  /** IP configuration of the Azure Firewall used for management traffic. */
+  managementIpConfiguration?: AzureFirewallIPConfiguration;
+  /**
+   * The provisioning state of the Azure firewall resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The operation mode for Threat Intelligence. */
+  threatIntelMode?: AzureFirewallThreatIntelMode;
+  /** The virtualHub to which the firewall belongs. */
+  virtualHub?: SubResource;
+  /** The firewallPolicy associated with this azure firewall. */
+  firewallPolicy?: SubResource;
+  /** IP addresses associated with AzureFirewall. */
+  hubIPAddresses?: HubIPAddresses;
+  /**
+   * IpGroups associated with AzureFirewall.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipGroups?: AzureFirewallIpGroups[];
+  /** The Azure Firewall Resource SKU. */
+  sku?: AzureFirewallSku;
+  /** The additional properties used to further config this azure firewall. */
+  additionalProperties?: { [propertyName: string]: string };
+};
+
+/** Azure Firewall FQDN Tag Resource. */
+export type AzureFirewallFqdnTag = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * The provisioning state of the Azure firewall FQDN tag resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The name of this FQDN Tag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdnTagName?: string;
+};
+
+/** Bastion Host resource. */
+export type BastionHost = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The sku of this Bastion Host. */
+  sku?: Sku;
+  /** IP configuration of the Bastion Host resource. */
+  ipConfigurations?: BastionHostIPConfiguration[];
+  /** FQDN for the endpoint on which bastion host is accessible. */
+  dnsName?: string;
+  /**
+   * The provisioning state of the bastion host resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The scale units for the Bastion Host resource. */
+  scaleUnits?: number;
+  /** Enable/Disable Copy/Paste feature of the Bastion Host resource. */
+  disableCopyPaste?: boolean;
+  /** Enable/Disable File Copy feature of the Bastion Host resource. */
+  enableFileCopy?: boolean;
+  /** Enable/Disable IP Connect feature of the Bastion Host resource. */
+  enableIpConnect?: boolean;
+  /** Enable/Disable Shareable Link of the Bastion Host resource. */
+  enableShareableLink?: boolean;
+  /** Enable/Disable Tunneling feature of the Bastion Host resource. */
+  enableTunneling?: boolean;
+};
+
+/** Describes a Virtual Machine. */
+export type Vm = Resource & {};
+
+/** Custom IP prefix resource. */
+export type CustomIpPrefix = Resource & {
+  /** The extended location of the custom IP prefix. */
+  extendedLocation?: ExtendedLocation;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** A list of availability zones denoting the IP allocated for the resource needs to come from. */
+  zones?: string[];
+  /** The prefix range in CIDR notation. Should include the start address and the prefix length. */
+  cidr?: string;
+  /** Signed message for WAN validation. */
+  signedMessage?: string;
+  /** Authorization message for WAN validation. */
+  authorizationMessage?: string;
+  /** The Parent CustomIpPrefix for IPv6 /64 CustomIpPrefix. */
+  customIpPrefixParent?: SubResource;
+  /**
+   * The list of all Children for IPv6 /48 CustomIpPrefix.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly childCustomIpPrefixes?: SubResource[];
+  /** The commissioned state of the Custom IP Prefix. */
+  commissionedState?: CommissionedState;
+  /**
+   * The list of all referenced PublicIpPrefixes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicIpPrefixes?: SubResource[];
+  /**
+   * The resource GUID property of the custom IP prefix resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The reason why resource is in failed state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedReason?: string;
+  /**
+   * The provisioning state of the custom IP prefix resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** A DDoS custom policy in a resource group. */
+export type DdosCustomPolicy = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * The resource GUID property of the DDoS custom policy resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the DDoS custom policy resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The list of public IPs associated with the DDoS custom policy resource. This list is read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicIPAddresses?: SubResource[];
+  /** The protocol-specific DDoS policy customization parameters. */
+  protocolCustomSettings?: ProtocolCustomSettingsFormat[];
+};
+
+/** Differentiated Services Code Point configuration for any given network interface */
+export type DscpConfiguration = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** List of markings to be used in the configuration. */
+  markings?: number[];
+  /** Source IP ranges. */
+  sourceIpRanges?: QosIpRange[];
+  /** Destination IP ranges. */
+  destinationIpRanges?: QosIpRange[];
+  /** Sources port ranges. */
+  sourcePortRanges?: QosPortRange[];
+  /** Destination port ranges. */
+  destinationPortRanges?: QosPortRange[];
+  /** RNM supported protocol types. */
+  protocol?: ProtocolType;
+  /** QoS object definitions */
+  qosDefinitionCollection?: QosDefinition[];
+  /**
+   * Qos Collection ID generated by RNM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly qosCollectionId?: string;
+  /**
+   * Associated Network Interfaces to the DSCP Configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly associatedNetworkInterfaces?: NetworkInterface[];
+  /**
+   * The resource GUID property of the DSCP Configuration resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the DSCP Configuration resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** ExpressRouteCircuit resource. */
+export type ExpressRouteCircuit = Resource & {
+  /** The SKU. */
+  sku?: ExpressRouteCircuitSku;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Allow classic operations. */
+  allowClassicOperations?: boolean;
+  /** The CircuitProvisioningState state of the resource. */
+  circuitProvisioningState?: string;
+  /** The ServiceProviderProvisioningState state of the resource. */
+  serviceProviderProvisioningState?: ServiceProviderProvisioningState;
+  /** The list of authorizations. */
+  authorizations?: ExpressRouteCircuitAuthorization[];
+  /** The list of peerings. */
+  peerings?: ExpressRouteCircuitPeering[];
+  /** The ServiceKey. */
+  serviceKey?: string;
+  /** The ServiceProviderNotes. */
+  serviceProviderNotes?: string;
+  /** The ServiceProviderProperties. */
+  serviceProviderProperties?: ExpressRouteCircuitServiceProviderProperties;
+  /** The reference to the ExpressRoutePort resource when the circuit is provisioned on an ExpressRoutePort resource. */
+  expressRoutePort?: SubResource;
+  /** The bandwidth of the circuit when the circuit is provisioned on an ExpressRoutePort resource. */
+  bandwidthInGbps?: number;
+  /**
+   * The identifier of the circuit traffic. Outer tag for QinQ encapsulation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly stag?: number;
+  /**
+   * The provisioning state of the express route circuit resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The GatewayManager Etag. */
+  gatewayManagerEtag?: string;
+  /** Flag denoting global reach status. */
+  globalReachEnabled?: boolean;
+};
+
+/** A ExpressRouteResourceProvider object. */
+export type ExpressRouteServiceProvider = Resource & {
+  /** A list of peering locations. */
+  peeringLocations?: string[];
+  /** A list of bandwidths offered. */
+  bandwidthsOffered?: ExpressRouteServiceProviderBandwidthsOffered[];
+  /**
+   * The provisioning state of the express route service provider resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** ExpressRouteCrossConnection resource. */
+export type ExpressRouteCrossConnection = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * The name of the primary port.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryAzurePort?: string;
+  /**
+   * The name of the secondary port.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondaryAzurePort?: string;
+  /**
+   * The identifier of the circuit traffic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sTag?: number;
+  /**
+   * The peering location of the ExpressRoute circuit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly peeringLocation?: string;
+  /**
+   * The circuit bandwidth In Mbps.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly bandwidthInMbps?: number;
+  /** The ExpressRouteCircuit. */
+  expressRouteCircuit?: ExpressRouteCircuitReference;
+  /** The provisioning state of the circuit in the connectivity provider system. */
+  serviceProviderProvisioningState?: ServiceProviderProvisioningState;
+  /** Additional read only notes set by the connectivity provider. */
+  serviceProviderNotes?: string;
+  /**
+   * The provisioning state of the express route cross connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The list of peerings. */
+  peerings?: ExpressRouteCrossConnectionPeering[];
+};
+
+/** Definition of the ExpressRoutePorts peering location resource. */
+export type ExpressRoutePortsLocation = Resource & {
+  /**
+   * Address of peering location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly address?: string;
+  /**
+   * Contact details of peering locations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly contact?: string;
+  /** The inventory of available ExpressRoutePort bandwidths. */
+  availableBandwidths?: ExpressRoutePortsLocationBandwidths[];
+  /**
+   * The provisioning state of the express route port location resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** ExpressRoutePort resource definition. */
+export type ExpressRoutePort = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The identity of ExpressRoutePort, if configured. */
+  identity?: ManagedServiceIdentity;
+  /** The name of the peering location that the ExpressRoutePort is mapped to physically. */
+  peeringLocation?: string;
+  /** Bandwidth of procured ports in Gbps. */
+  bandwidthInGbps?: number;
+  /**
+   * Aggregate Gbps of associated circuit bandwidths.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisionedBandwidthInGbps?: number;
+  /**
+   * Maximum transmission unit of the physical port pair(s).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mtu?: string;
+  /** Encapsulation method on physical ports. */
+  encapsulation?: ExpressRoutePortsEncapsulation;
+  /**
+   * Ether type of the physical port.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etherType?: string;
+  /**
+   * Date of the physical port allocation to be used in Letter of Authorization.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allocationDate?: string;
+  /** The set of physical links of the ExpressRoutePort resource. */
+  links?: ExpressRouteLink[];
+  /**
+   * Reference the ExpressRoute circuit(s) that are provisioned on this ExpressRoutePort resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly circuits?: SubResource[];
+  /**
+   * The provisioning state of the express route port resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The resource GUID property of the express route port resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+};
+
+/** FirewallPolicy Resource. */
+export type FirewallPolicy = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The identity of the firewall policy. */
+  identity?: ManagedServiceIdentity;
+  /**
+   * List of references to FirewallPolicyRuleCollectionGroups.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ruleCollectionGroups?: SubResource[];
+  /**
+   * The provisioning state of the firewall policy resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The parent firewall policy from which rules are inherited. */
+  basePolicy?: SubResource;
+  /**
+   * List of references to Azure Firewalls that this Firewall Policy is associated with.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firewalls?: SubResource[];
+  /**
+   * List of references to Child Firewall Policies.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly childPolicies?: SubResource[];
+  /** The operation mode for Threat Intelligence. */
+  threatIntelMode?: AzureFirewallThreatIntelMode;
+  /** ThreatIntel Whitelist for Firewall Policy. */
+  threatIntelWhitelist?: FirewallPolicyThreatIntelWhitelist;
+  /** Insights on Firewall Policy. */
+  insights?: FirewallPolicyInsights;
+  /** The private IP addresses/IP ranges to which traffic will not be SNAT. */
+  snat?: FirewallPolicySnat;
+  /** SQL Settings definition. */
+  sql?: FirewallPolicySQL;
+  /** DNS Proxy Settings definition. */
+  dnsSettings?: DnsSettings;
+  /** Explicit Proxy Settings definition. */
+  explicitProxySettings?: ExplicitProxySettings;
+  /** The configuration for Intrusion detection. */
+  intrusionDetection?: FirewallPolicyIntrusionDetection;
+  /** TLS Configuration definition. */
+  transportSecurity?: FirewallPolicyTransportSecurity;
+  /** The Firewall Policy SKU. */
+  sku?: FirewallPolicySku;
+};
+
+/** IpAllocation resource. */
+export type IpAllocation = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * The Subnet that using the prefix of this IpAllocation resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subnet?: SubResource;
+  /**
+   * The VirtualNetwork that using the prefix of this IpAllocation resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualNetwork?: SubResource;
+  /** The type for the IpAllocation. */
+  typePropertiesType?: IpAllocationType;
+  /** The address prefix for the IpAllocation. */
+  prefix?: string;
+  /** The address prefix length for the IpAllocation. */
+  prefixLength?: number;
+  /** The address prefix Type for the IpAllocation. */
+  prefixType?: IPVersion;
+  /** The IPAM allocation ID. */
+  ipamAllocationId?: string;
+  /** IpAllocation tags. */
+  allocationTags?: { [propertyName: string]: string };
+};
+
+/** The IpGroups resource information. */
+export type IpGroup = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * The provisioning state of the IpGroups resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** IpAddresses/IpAddressPrefixes in the IpGroups resource. */
+  ipAddresses?: string[];
+  /**
+   * List of references to Firewall resources that this IpGroups is associated with.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firewalls?: SubResource[];
+  /**
+   * List of references to Firewall Policies resources that this IpGroups is associated with.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firewallPolicies?: SubResource[];
+};
+
+/** LoadBalancer resource. */
+export type LoadBalancer = Resource & {
+  /** The extended location of the load balancer. */
+  extendedLocation?: ExtendedLocation;
+  /** The load balancer SKU. */
+  sku?: LoadBalancerSku;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Object representing the frontend IPs to be used for the load balancer. */
+  frontendIPConfigurations?: FrontendIPConfiguration[];
+  /** Collection of backend address pools used by a load balancer. */
+  backendAddressPools?: BackendAddressPool[];
+  /** Object collection representing the load balancing rules Gets the provisioning. */
+  loadBalancingRules?: LoadBalancingRule[];
+  /** Collection of probe objects used in the load balancer. */
+  probes?: Probe[];
+  /** Collection of inbound NAT Rules used by a load balancer. Defining inbound NAT rules on your load balancer is mutually exclusive with defining an inbound NAT pool. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an Inbound NAT pool. They have to reference individual inbound NAT rules. */
+  inboundNatRules?: InboundNatRule[];
+  /** Defines an external port range for inbound NAT to a single backend port on NICs associated with a load balancer. Inbound NAT rules are created automatically for each NIC associated with the Load Balancer using an external port from this range. Defining an Inbound NAT pool on your Load Balancer is mutually exclusive with defining inbound NAT rules. Inbound NAT pools are referenced from virtual machine scale sets. NICs that are associated with individual virtual machines cannot reference an inbound NAT pool. They have to reference individual inbound NAT rules. */
+  inboundNatPools?: InboundNatPool[];
+  /** The outbound rules. */
+  outboundRules?: OutboundRule[];
+  /**
+   * The resource GUID property of the load balancer resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the load balancer resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Network profile resource. */
+export type NetworkProfile = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * List of child container network interfaces.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly containerNetworkInterfaces?: ContainerNetworkInterface[];
+  /** List of chid container network interface configurations. */
+  containerNetworkInterfaceConfigurations?: ContainerNetworkInterfaceConfiguration[];
+  /**
+   * The resource GUID property of the network profile resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the network profile resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** NetworkVirtualAppliance Resource. */
+export type NetworkVirtualAppliance = Resource & {
+  /** The service principal that has read access to cloud-init and config blob. */
+  identity?: ManagedServiceIdentity;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Network Virtual Appliance SKU. */
+  nvaSku?: VirtualApplianceSkuProperties;
+  /**
+   * Address Prefix.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly addressPrefix?: string;
+  /** BootStrapConfigurationBlobs storage URLs. */
+  bootStrapConfigurationBlobs?: string[];
+  /** The Virtual Hub where Network Virtual Appliance is being deployed. */
+  virtualHub?: SubResource;
+  /** CloudInitConfigurationBlob storage URLs. */
+  cloudInitConfigurationBlobs?: string[];
+  /** CloudInitConfiguration string in plain text. */
+  cloudInitConfiguration?: string;
+  /** VirtualAppliance ASN. */
+  virtualApplianceAsn?: number;
+  /** Public key for SSH login. */
+  sshPublicKey?: string;
+  /**
+   * List of Virtual Appliance Network Interfaces.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualApplianceNics?: VirtualApplianceNicProperties[];
+  /**
+   * List of references to VirtualApplianceSite.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualApplianceSites?: SubResource[];
+  /**
+   * List of references to InboundSecurityRules.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inboundSecurityRules?: SubResource[];
+  /**
+   * The provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Definition of the NetworkVirtualApplianceSkus resource. */
+export type NetworkVirtualApplianceSku = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * Network Virtual Appliance Sku vendor.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vendor?: string;
+  /**
+   * Available Network Virtual Appliance versions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availableVersions?: string[];
+  /** The list of scale units available. */
+  availableScaleUnits?: NetworkVirtualApplianceSkuInstances[];
+};
+
+/** Network watcher in a resource group. */
+export type NetworkWatcher = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * The provisioning state of the network watcher resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Public IP prefix resource. */
+export type PublicIPPrefix = Resource & {
+  /** The extended location of the public ip address. */
+  extendedLocation?: ExtendedLocation;
+  /** The public IP prefix SKU. */
+  sku?: PublicIPPrefixSku;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** A list of availability zones denoting the IP allocated for the resource needs to come from. */
+  zones?: string[];
+  /** The public IP address version. */
+  publicIPAddressVersion?: IPVersion;
+  /** The list of tags associated with the public IP prefix. */
+  ipTags?: IpTag[];
+  /** The Length of the Public IP Prefix. */
+  prefixLength?: number;
+  /**
+   * The allocated Prefix.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipPrefix?: string;
+  /**
+   * The list of all referenced PublicIPAddresses.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicIPAddresses?: ReferencedPublicIpAddress[];
+  /**
+   * The reference to load balancer frontend IP configuration associated with the public IP prefix.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly loadBalancerFrontendIpConfiguration?: SubResource;
+  /** The customIpPrefix that this prefix is associated with. */
+  customIPPrefix?: SubResource;
+  /**
+   * The resource GUID property of the public IP prefix resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the public IP prefix resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** NatGateway of Public IP Prefix. */
+  natGateway?: NatGateway;
+};
+
+/** Route Filter Resource. */
+export type RouteFilter = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Collection of RouteFilterRules contained within a route filter. */
+  rules?: RouteFilterRule[];
+  /**
+   * A collection of references to express route circuit peerings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly peerings?: ExpressRouteCircuitPeering[];
+  /**
+   * A collection of references to express route circuit ipv6 peerings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipv6Peerings?: ExpressRouteCircuitPeering[];
+  /**
+   * The provisioning state of the route filter resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** Security Partner Provider resource. */
+export type SecurityPartnerProvider = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * The provisioning state of the Security Partner Provider resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The security provider name. */
+  securityProviderName?: SecurityProviderName;
+  /**
+   * The connection status with the Security Partner Provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionStatus?: SecurityPartnerProviderConnectionStatus;
+  /** The virtualHub to which the Security Partner Provider belongs. */
+  virtualHub?: SubResource;
+};
+
+/** Service Community Properties. */
+export type BgpServiceCommunity = Resource & {
+  /** The name of the bgp community. e.g. Skype. */
+  serviceName?: string;
+  /** A list of bgp communities. */
+  bgpCommunities?: BGPCommunity[];
+};
+
+/** Virtual Network resource. */
+export type VirtualNetwork = Resource & {
+  /** The extended location of the virtual network. */
+  extendedLocation?: ExtendedLocation;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The AddressSpace that contains an array of IP address ranges that can be used by subnets. */
+  addressSpace?: AddressSpace;
+  /** The dhcpOptions that contains an array of DNS servers available to VMs deployed in the virtual network. */
+  dhcpOptions?: DhcpOptions;
+  /** The FlowTimeout value (in minutes) for the Virtual Network */
+  flowTimeoutInMinutes?: number;
+  /** A list of subnets in a Virtual Network. */
+  subnets?: Subnet[];
+  /** A list of peerings in a Virtual Network. */
+  virtualNetworkPeerings?: VirtualNetworkPeering[];
+  /**
+   * The resourceGuid property of the Virtual Network resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the virtual network resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource. */
+  enableDdosProtection?: boolean;
+  /** Indicates if VM protection is enabled for all the subnets in the virtual network. */
+  enableVmProtection?: boolean;
+  /** The DDoS protection plan associated with the virtual network. */
+  ddosProtectionPlan?: SubResource;
+  /** Bgp Communities sent over ExpressRoute with each route corresponding to a prefix in this VNET. */
+  bgpCommunities?: VirtualNetworkBgpCommunities;
+  /** Indicates if encryption is enabled on virtual network and if VM without encryption is allowed in encrypted VNet. */
+  encryption?: VirtualNetworkEncryption;
+  /** Array of IpAllocation which reference this VNET. */
+  ipAllocations?: SubResource[];
+};
+
+/** Network Intent Policy resource. */
+export type NetworkIntentPolicy = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+};
+
+/** A common class for general resource information. */
+export type VirtualNetworkGateway = Resource & {
+  /** The extended location of type local virtual network gateway. */
+  extendedLocation?: ExtendedLocation;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** IP configurations for virtual network gateway. */
+  ipConfigurations?: VirtualNetworkGatewayIPConfiguration[];
+  /** The type of this virtual network gateway. */
+  gatewayType?: VirtualNetworkGatewayType;
+  /** The type of this virtual network gateway. */
+  vpnType?: VpnType;
+  /** The generation for this VirtualNetworkGateway. Must be None if gatewayType is not VPN. */
+  vpnGatewayGeneration?: VpnGatewayGeneration;
+  /** Whether BGP is enabled for this virtual network gateway or not. */
+  enableBgp?: boolean;
+  /** Whether private IP needs to be enabled on this gateway for connections or not. */
+  enablePrivateIpAddress?: boolean;
+  /** ActiveActive flag. */
+  active?: boolean;
+  /** disableIPSecReplayProtection flag. */
+  disableIPSecReplayProtection?: boolean;
+  /** The reference to the LocalNetworkGateway resource which represents local network site having default routes. Assign Null value in case of removing existing default site setting. */
+  gatewayDefaultSite?: SubResource;
+  /** The reference to the VirtualNetworkGatewaySku resource which represents the SKU selected for Virtual network gateway. */
+  sku?: VirtualNetworkGatewaySku;
+  /** The reference to the VpnClientConfiguration resource which represents the P2S VpnClient configurations. */
+  vpnClientConfiguration?: VpnClientConfiguration;
+  /** Virtual network gateway's BGP speaker settings. */
+  bgpSettings?: BgpSettings;
+  /** The reference to the address space resource which represents the custom routes address space specified by the customer for virtual network gateway and VpnClient. */
+  customRoutes?: AddressSpace;
+  /**
+   * The resource GUID property of the virtual network gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the virtual network gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Whether dns forwarding is enabled or not. */
+  enableDnsForwarding?: boolean;
+  /**
+   * The IP address allocated by the gateway to which dns requests can be sent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inboundDnsForwardingEndpoint?: string;
+  /** Customer vnet resource id. VirtualNetworkGateway of type local gateway is associated with the customer vnet. */
+  vNetExtendedLocationResourceId?: string;
+  /** NatRules for virtual network gateway. */
+  natRules?: VirtualNetworkGatewayNatRule[];
+  /** EnableBgpRouteTranslationForNat flag. */
+  enableBgpRouteTranslationForNat?: boolean;
+};
+
+/** A common class for general resource information. */
+export type VirtualNetworkGatewayConnectionListEntity = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The authorizationKey. */
+  authorizationKey?: string;
+  /** The reference to virtual network gateway resource. */
+  virtualNetworkGateway1: VirtualNetworkConnectionGatewayReference;
+  /** The reference to virtual network gateway resource. */
+  virtualNetworkGateway2?: VirtualNetworkConnectionGatewayReference;
+  /** The reference to local network gateway resource. */
+  localNetworkGateway2?: VirtualNetworkConnectionGatewayReference;
+  /** Gateway connection type. */
+  connectionType: VirtualNetworkGatewayConnectionType;
+  /** Connection protocol used for this connection. */
+  connectionProtocol?: VirtualNetworkGatewayConnectionProtocol;
+  /** The routing weight. */
+  routingWeight?: number;
+  /** The connection mode for this connection. */
+  connectionMode?: VirtualNetworkGatewayConnectionMode;
+  /** The IPSec shared key. */
+  sharedKey?: string;
+  /**
+   * Virtual Network Gateway connection status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionStatus?: VirtualNetworkGatewayConnectionStatus;
+  /**
+   * Collection of all tunnels' connection health status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tunnelConnectionStatus?: TunnelConnectionHealth[];
+  /**
+   * The egress bytes transferred in this connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly egressBytesTransferred?: number;
+  /**
+   * The ingress bytes transferred in this connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ingressBytesTransferred?: number;
+  /** The reference to peerings resource. */
+  peer?: SubResource;
+  /** EnableBgp flag. */
+  enableBgp?: boolean;
+  /** Enable policy-based traffic selectors. */
+  usePolicyBasedTrafficSelectors?: boolean;
+  /** The IPSec Policies to be considered by this connection. */
+  ipsecPolicies?: IpsecPolicy[];
+  /** The Traffic Selector Policies to be considered by this connection. */
+  trafficSelectorPolicies?: TrafficSelectorPolicy[];
+  /**
+   * The resource GUID property of the virtual network gateway connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the virtual network gateway connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Bypass ExpressRoute Gateway for data forwarding. */
+  expressRouteGatewayBypass?: boolean;
+};
+
+/** A common class for general resource information. */
+export type LocalNetworkGateway = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Local network site address space. */
+  localNetworkAddressSpace?: AddressSpace;
+  /** IP address of local network gateway. */
+  gatewayIpAddress?: string;
+  /** FQDN of local network gateway. */
+  fqdn?: string;
+  /** Local network gateway's BGP speaker settings. */
+  bgpSettings?: BgpSettings;
+  /**
+   * The resource GUID property of the local network gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the local network gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** A common class for general resource information. */
+export type VirtualNetworkGatewayConnection = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The authorizationKey. */
+  authorizationKey?: string;
+  /** The reference to virtual network gateway resource. */
+  virtualNetworkGateway1: VirtualNetworkGateway;
+  /** The reference to virtual network gateway resource. */
+  virtualNetworkGateway2?: VirtualNetworkGateway;
+  /** The reference to local network gateway resource. */
+  localNetworkGateway2?: LocalNetworkGateway;
+  /** List of ingress NatRules. */
+  ingressNatRules?: SubResource[];
+  /** List of egress NatRules. */
+  egressNatRules?: SubResource[];
+  /** Gateway connection type. */
+  connectionType: VirtualNetworkGatewayConnectionType;
+  /** Connection protocol used for this connection. */
+  connectionProtocol?: VirtualNetworkGatewayConnectionProtocol;
+  /** The routing weight. */
+  routingWeight?: number;
+  /** The dead peer detection timeout of this connection in seconds. */
+  dpdTimeoutSeconds?: number;
+  /** The connection mode for this connection. */
+  connectionMode?: VirtualNetworkGatewayConnectionMode;
+  /** The IPSec shared key. */
+  sharedKey?: string;
+  /**
+   * Virtual Network Gateway connection status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionStatus?: VirtualNetworkGatewayConnectionStatus;
+  /**
+   * Collection of all tunnels' connection health status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tunnelConnectionStatus?: TunnelConnectionHealth[];
+  /**
+   * The egress bytes transferred in this connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly egressBytesTransferred?: number;
+  /**
+   * The ingress bytes transferred in this connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ingressBytesTransferred?: number;
+  /** The reference to peerings resource. */
+  peer?: SubResource;
+  /** EnableBgp flag. */
+  enableBgp?: boolean;
+  /** Use private local Azure IP for the connection. */
+  useLocalAzureIpAddress?: boolean;
+  /** Enable policy-based traffic selectors. */
+  usePolicyBasedTrafficSelectors?: boolean;
+  /** The IPSec Policies to be considered by this connection. */
+  ipsecPolicies?: IpsecPolicy[];
+  /** The Traffic Selector Policies to be considered by this connection. */
+  trafficSelectorPolicies?: TrafficSelectorPolicy[];
+  /**
+   * The resource GUID property of the virtual network gateway connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGuid?: string;
+  /**
+   * The provisioning state of the virtual network gateway connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Bypass ExpressRoute Gateway for data forwarding. */
+  expressRouteGatewayBypass?: boolean;
+};
+
+/** VirtualRouter Resource. */
+export type VirtualRouter = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** VirtualRouter ASN. */
+  virtualRouterAsn?: number;
+  /** VirtualRouter IPs. */
+  virtualRouterIps?: string[];
+  /** The Subnet on which VirtualRouter is hosted. */
+  hostedSubnet?: SubResource;
+  /** The Gateway on which VirtualRouter is hosted. */
+  hostedGateway?: SubResource;
+  /**
+   * List of references to VirtualRouterPeerings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly peerings?: SubResource[];
+  /**
+   * The provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+};
+
+/** VirtualWAN Resource. */
+export type VirtualWAN = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Vpn encryption to be disabled or not. */
+  disableVpnEncryption?: boolean;
+  /**
+   * List of VirtualHubs in the VirtualWAN.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualHubs?: SubResource[];
+  /**
+   * List of VpnSites in the VirtualWAN.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vpnSites?: SubResource[];
+  /** True if branch to branch traffic is allowed. */
+  allowBranchToBranchTraffic?: boolean;
+  /** True if Vnet to Vnet traffic is allowed. */
+  allowVnetToVnetTraffic?: boolean;
+  /**
+   * The office local breakout category.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly office365LocalBreakoutCategory?: OfficeTrafficCategory;
+  /**
+   * The provisioning state of the virtual WAN resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The type of the VirtualWAN. */
+  typePropertiesType?: string;
+};
+
+/** VpnSite Resource. */
+export type VpnSite = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The VirtualWAN to which the vpnSite belongs. */
+  virtualWan?: SubResource;
+  /** The device properties. */
+  deviceProperties?: DeviceProperties;
+  /** The ip-address for the vpn-site. */
+  ipAddress?: string;
+  /** The key for vpn-site that can be used for connections. */
+  siteKey?: string;
+  /** The AddressSpace that contains an array of IP address ranges. */
+  addressSpace?: AddressSpace;
+  /** The set of bgp properties. */
+  bgpProperties?: BgpSettings;
+  /**
+   * The provisioning state of the VPN site resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** IsSecuritySite flag. */
+  isSecuritySite?: boolean;
+  /** List of all vpn site links. */
+  vpnSiteLinks?: VpnSiteLink[];
+  /** Office365 Policy. */
+  o365Policy?: O365PolicyProperties;
+};
+
+/** P2SVpnGateway Resource. */
+export type P2SVpnGateway = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The VirtualHub to which the gateway belongs. */
+  virtualHub?: SubResource;
+  /** List of all p2s connection configurations of the gateway. */
+  p2SConnectionConfigurations?: P2SConnectionConfiguration[];
+  /**
+   * The provisioning state of the P2S VPN gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The scale unit for this p2s vpn gateway. */
+  vpnGatewayScaleUnit?: number;
+  /** The VpnServerConfiguration to which the p2sVpnGateway is attached to. */
+  vpnServerConfiguration?: SubResource;
+  /**
+   * All P2S VPN clients' connection health status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vpnClientConnectionHealth?: VpnClientConnectionHealth;
+  /** List of all customer specified DNS servers IP addresses. */
+  customDnsServers?: string[];
+  /** Enable Routing Preference property for the Public IP Interface of the P2SVpnGateway. */
+  isRoutingPreferenceInternet?: boolean;
+};
+
+/** VpnServerConfiguration Resource. */
+export type VpnServerConfiguration = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The name of the VpnServerConfiguration that is unique within a resource group. */
+  namePropertiesName?: string;
+  /** VPN protocols for the VpnServerConfiguration. */
+  vpnProtocols?: VpnGatewayTunnelingProtocol[];
+  /** VPN authentication types for the VpnServerConfiguration. */
+  vpnAuthenticationTypes?: VpnAuthenticationType[];
+  /** VPN client root certificate of VpnServerConfiguration. */
+  vpnClientRootCertificates?: VpnServerConfigVpnClientRootCertificate[];
+  /** VPN client revoked certificate of VpnServerConfiguration. */
+  vpnClientRevokedCertificates?: VpnServerConfigVpnClientRevokedCertificate[];
+  /** Radius Server root certificate of VpnServerConfiguration. */
+  radiusServerRootCertificates?: VpnServerConfigRadiusServerRootCertificate[];
+  /** Radius client root certificate of VpnServerConfiguration. */
+  radiusClientRootCertificates?: VpnServerConfigRadiusClientRootCertificate[];
+  /** VpnClientIpsecPolicies for VpnServerConfiguration. */
+  vpnClientIpsecPolicies?: IpsecPolicy[];
+  /** The radius server address property of the VpnServerConfiguration resource for point to site client connection. */
+  radiusServerAddress?: string;
+  /** The radius secret property of the VpnServerConfiguration resource for point to site client connection. */
+  radiusServerSecret?: string;
+  /** Multiple Radius Server configuration for VpnServerConfiguration. */
+  radiusServers?: RadiusServer[];
+  /** The set of aad vpn authentication parameters. */
+  aadAuthenticationParameters?: AadAuthenticationParameters;
+  /**
+   * The provisioning state of the VpnServerConfiguration resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * List of references to P2SVpnGateways.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly p2SVpnGateways?: P2SVpnGateway[];
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etagPropertiesEtag?: string;
+};
+
+/** VirtualHub Resource. */
+export type VirtualHub = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * Kind of service virtual hub. This is metadata used for the Azure portal experience for Route Server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kind?: string;
+  /** The VirtualWAN to which the VirtualHub belongs. */
+  virtualWan?: SubResource;
+  /** The VpnGateway associated with this VirtualHub. */
+  vpnGateway?: SubResource;
+  /** The P2SVpnGateway associated with this VirtualHub. */
+  p2SVpnGateway?: SubResource;
+  /** The expressRouteGateway associated with this VirtualHub. */
+  expressRouteGateway?: SubResource;
+  /** The azureFirewall associated with this VirtualHub. */
+  azureFirewall?: SubResource;
+  /** The securityPartnerProvider associated with this VirtualHub. */
+  securityPartnerProvider?: SubResource;
+  /** Address-prefix for this VirtualHub. */
+  addressPrefix?: string;
+  /** The routeTable associated with this virtual hub. */
+  routeTable?: VirtualHubRouteTable;
+  /**
+   * The provisioning state of the virtual hub resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The Security Provider name. */
+  securityProviderName?: string;
+  /** List of all virtual hub route table v2s associated with this VirtualHub. */
+  virtualHubRouteTableV2S?: VirtualHubRouteTableV2[];
+  /** The sku of this VirtualHub. */
+  sku?: string;
+  /**
+   * The routing state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly routingState?: RoutingState;
+  /**
+   * List of references to Bgp Connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly bgpConnections?: SubResource[];
+  /**
+   * List of references to IpConfigurations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipConfigurations?: SubResource[];
+  /** VirtualRouter ASN. */
+  virtualRouterAsn?: number;
+  /** VirtualRouter IPs. */
+  virtualRouterIps?: string[];
+  /** Flag to control transit for VirtualRouter hub. */
+  allowBranchToBranchTraffic?: boolean;
+  /** The preferred gateway to route on-prem traffic */
+  preferredRoutingGateway?: PreferredRoutingGateway;
+};
+
+/** VpnGateway Resource. */
+export type VpnGateway = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The VirtualHub to which the gateway belongs. */
+  virtualHub?: SubResource;
+  /** List of all vpn connections to the gateway. */
+  connections?: VpnConnection[];
+  /** Local network gateway's BGP speaker settings. */
+  bgpSettings?: BgpSettings;
+  /**
+   * The provisioning state of the VPN gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The scale unit for this vpn gateway. */
+  vpnGatewayScaleUnit?: number;
+  /**
+   * List of all IPs configured on the gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipConfigurations?: VpnGatewayIpConfiguration[];
+  /** Enable BGP routes translation for NAT on this VpnGateway. */
+  enableBgpRouteTranslationForNat?: boolean;
+  /** Enable Routing Preference property for the Public IP Interface of the VpnGateway. */
+  isRoutingPreferenceInternet?: boolean;
+  /** List of all the nat Rules associated with the gateway. */
+  natRules?: VpnGatewayNatRule[];
+};
+
+/** ExpressRoute gateway resource. */
+export type ExpressRouteGateway = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Configuration for auto scaling. */
+  autoScaleConfiguration?: ExpressRouteGatewayPropertiesAutoScaleConfiguration;
+  /**
+   * List of ExpressRoute connections to the ExpressRoute gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expressRouteConnections?: ExpressRouteConnection[];
+  /**
+   * The provisioning state of the express route gateway resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The Virtual Hub where the ExpressRoute gateway is or will be deployed. */
+  virtualHub?: VirtualHubId;
+};
+
+/** Defines web application firewall policy. */
+export type WebApplicationFirewallPolicy = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The PolicySettings for policy. */
+  policySettings?: PolicySettings;
+  /** The custom rules inside the policy. */
+  customRules?: WebApplicationFirewallCustomRule[];
+  /**
+   * A collection of references to application gateways.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applicationGateways?: ApplicationGateway[];
+  /**
+   * The provisioning state of the web application firewall policy resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Resource status of the policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceState?: WebApplicationFirewallPolicyResourceState;
+  /** Describes the managedRules structure. */
+  managedRules?: ManagedRulesDefinition;
+  /**
+   * A collection of references to application gateway http listeners.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly httpListeners?: SubResource[];
+  /**
+   * A collection of references to application gateway path rules.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pathBasedRules?: SubResource[];
 };
 
 /** The visibility list of the private link service. */
@@ -10386,7 +10634,8 @@ export type AzureFirewallSkuName = string;
 /** Known values of {@link AzureFirewallSkuTier} that the service accepts. */
 export enum KnownAzureFirewallSkuTier {
   Standard = "Standard",
-  Premium = "Premium"
+  Premium = "Premium",
+  Basic = "Basic"
 }
 
 /**
@@ -10395,7 +10644,8 @@ export enum KnownAzureFirewallSkuTier {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Standard** \
- * **Premium**
+ * **Premium** \
+ * **Basic**
  */
 export type AzureFirewallSkuTier = string;
 
@@ -10808,7 +11058,8 @@ export type FirewallPolicyIntrusionDetectionProtocol = string;
 /** Known values of {@link FirewallPolicySkuTier} that the service accepts. */
 export enum KnownFirewallPolicySkuTier {
   Standard = "Standard",
-  Premium = "Premium"
+  Premium = "Premium",
+  Basic = "Basic"
 }
 
 /**
@@ -10817,7 +11068,8 @@ export enum KnownFirewallPolicySkuTier {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Standard** \
- * **Premium**
+ * **Premium** \
+ * **Basic**
  */
 export type FirewallPolicySkuTier = string;
 
@@ -10836,6 +11088,76 @@ export enum KnownFirewallPolicyRuleCollectionType {
  * **FirewallPolicyFilterRuleCollection**
  */
 export type FirewallPolicyRuleCollectionType = string;
+
+/** Known values of {@link OrderByOrder} that the service accepts. */
+export enum KnownOrderByOrder {
+  Ascending = "Ascending",
+  Descending = "Descending"
+}
+
+/**
+ * Defines values for OrderByOrder. \
+ * {@link KnownOrderByOrder} can be used interchangeably with OrderByOrder,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Ascending** \
+ * **Descending**
+ */
+export type OrderByOrder = string;
+
+/** Known values of {@link Enum69} that the service accepts. */
+export enum KnownEnum69 {
+  Zero = 0,
+  One = 1,
+  Two = 2
+}
+
+/**
+ * Defines values for Enum69. \
+ * {@link KnownEnum69} can be used interchangeably with Enum69,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **0** \
+ * **1** \
+ * **2**
+ */
+export type Enum69 = number;
+
+/** Known values of {@link Enum70} that the service accepts. */
+export enum KnownEnum70 {
+  One = 1,
+  Two = 2,
+  Three = 3
+}
+
+/**
+ * Defines values for Enum70. \
+ * {@link KnownEnum70} can be used interchangeably with Enum70,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **1** \
+ * **2** \
+ * **3**
+ */
+export type Enum70 = number;
+
+/** Known values of {@link Enum71} that the service accepts. */
+export enum KnownEnum71 {
+  Zero = 0,
+  One = 1,
+  Two = 2
+}
+
+/**
+ * Defines values for Enum71. \
+ * {@link KnownEnum71} can be used interchangeably with Enum71,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **0** \
+ * **1** \
+ * **2**
+ */
+export type Enum71 = number;
 
 /** Known values of {@link IpAllocationType} that the service accepts. */
 export enum KnownIpAllocationType {
@@ -11618,6 +11940,22 @@ export enum KnownUsageUnit {
  * **Count**
  */
 export type UsageUnit = string;
+
+/** Known values of {@link VirtualNetworkEncryptionEnforcement} that the service accepts. */
+export enum KnownVirtualNetworkEncryptionEnforcement {
+  DropUnencrypted = "DropUnencrypted",
+  AllowUnencrypted = "AllowUnencrypted"
+}
+
+/**
+ * Defines values for VirtualNetworkEncryptionEnforcement. \
+ * {@link KnownVirtualNetworkEncryptionEnforcement} can be used interchangeably with VirtualNetworkEncryptionEnforcement,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DropUnencrypted** \
+ * **AllowUnencrypted**
+ */
+export type VirtualNetworkEncryptionEnforcement = string;
 
 /** Known values of {@link VirtualNetworkPeeringState} that the service accepts. */
 export enum KnownVirtualNetworkPeeringState {
@@ -12501,7 +12839,13 @@ export type WebApplicationFirewallPolicyResourceState = string;
 export enum KnownOwaspCrsExclusionEntryMatchVariable {
   RequestHeaderNames = "RequestHeaderNames",
   RequestCookieNames = "RequestCookieNames",
-  RequestArgNames = "RequestArgNames"
+  RequestArgNames = "RequestArgNames",
+  RequestHeaderKeys = "RequestHeaderKeys",
+  RequestHeaderValues = "RequestHeaderValues",
+  RequestCookieKeys = "RequestCookieKeys",
+  RequestCookieValues = "RequestCookieValues",
+  RequestArgKeys = "RequestArgKeys",
+  RequestArgValues = "RequestArgValues"
 }
 
 /**
@@ -12511,7 +12855,13 @@ export enum KnownOwaspCrsExclusionEntryMatchVariable {
  * ### Known values supported by the service
  * **RequestHeaderNames** \
  * **RequestCookieNames** \
- * **RequestArgNames**
+ * **RequestArgNames** \
+ * **RequestHeaderKeys** \
+ * **RequestHeaderValues** \
+ * **RequestCookieKeys** \
+ * **RequestCookieValues** \
+ * **RequestArgKeys** \
+ * **RequestArgValues**
  */
 export type OwaspCrsExclusionEntryMatchVariable = string;
 
@@ -13223,7 +13573,7 @@ export interface BastionHostsListByResourceGroupNextOptionalParams
 export type BastionHostsListByResourceGroupNextResponse = BastionHostListResult;
 
 /** Optional parameters. */
-export interface NetworkManagementClientPutBastionShareableLinkOptionalParams
+export interface PutBastionShareableLinkOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -13232,10 +13582,10 @@ export interface NetworkManagementClientPutBastionShareableLinkOptionalParams
 }
 
 /** Contains response data for the putBastionShareableLink operation. */
-export type NetworkManagementClientPutBastionShareableLinkResponse = BastionShareableLinkListResult;
+export type PutBastionShareableLinkResponse = BastionShareableLinkListResult;
 
 /** Optional parameters. */
-export interface NetworkManagementClientDeleteBastionShareableLinkOptionalParams
+export interface DeleteBastionShareableLinkOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -13244,14 +13594,14 @@ export interface NetworkManagementClientDeleteBastionShareableLinkOptionalParams
 }
 
 /** Optional parameters. */
-export interface NetworkManagementClientGetBastionShareableLinkOptionalParams
+export interface GetBastionShareableLinkOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBastionShareableLink operation. */
-export type NetworkManagementClientGetBastionShareableLinkResponse = BastionShareableLinkListResult;
+export type GetBastionShareableLinkResponse = BastionShareableLinkListResult;
 
 /** Optional parameters. */
-export interface NetworkManagementClientGetActiveSessionsOptionalParams
+export interface GetActiveSessionsOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -13260,31 +13610,31 @@ export interface NetworkManagementClientGetActiveSessionsOptionalParams
 }
 
 /** Contains response data for the getActiveSessions operation. */
-export type NetworkManagementClientGetActiveSessionsResponse = BastionActiveSessionListResult;
+export type GetActiveSessionsResponse = BastionActiveSessionListResult;
 
 /** Optional parameters. */
-export interface NetworkManagementClientDisconnectActiveSessionsOptionalParams
+export interface DisconnectActiveSessionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the disconnectActiveSessions operation. */
-export type NetworkManagementClientDisconnectActiveSessionsResponse = BastionSessionDeleteResult;
+export type DisconnectActiveSessionsResponse = BastionSessionDeleteResult;
 
 /** Optional parameters. */
-export interface NetworkManagementClientCheckDnsNameAvailabilityOptionalParams
+export interface CheckDnsNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkDnsNameAvailability operation. */
-export type NetworkManagementClientCheckDnsNameAvailabilityResponse = DnsNameAvailabilityResult;
+export type CheckDnsNameAvailabilityResponse = DnsNameAvailabilityResult;
 
 /** Optional parameters. */
-export interface NetworkManagementClientSupportedSecurityProvidersOptionalParams
+export interface SupportedSecurityProvidersOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the supportedSecurityProviders operation. */
-export type NetworkManagementClientSupportedSecurityProvidersResponse = VirtualWanSecurityProviders;
+export type SupportedSecurityProvidersResponse = VirtualWanSecurityProviders;
 
 /** Optional parameters. */
-export interface NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams
+export interface GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -13293,35 +13643,35 @@ export interface NetworkManagementClientGeneratevirtualwanvpnserverconfiguration
 }
 
 /** Contains response data for the generatevirtualwanvpnserverconfigurationvpnprofile operation. */
-export type NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileResponse = VpnProfileResponse;
+export type GeneratevirtualwanvpnserverconfigurationvpnprofileResponse = VpnProfileResponse;
 
 /** Optional parameters. */
-export interface NetworkManagementClientPutBastionShareableLinkNextOptionalParams
+export interface PutBastionShareableLinkNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the putBastionShareableLinkNext operation. */
-export type NetworkManagementClientPutBastionShareableLinkNextResponse = BastionShareableLinkListResult;
+export type PutBastionShareableLinkNextResponse = BastionShareableLinkListResult;
 
 /** Optional parameters. */
-export interface NetworkManagementClientGetBastionShareableLinkNextOptionalParams
+export interface GetBastionShareableLinkNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBastionShareableLinkNext operation. */
-export type NetworkManagementClientGetBastionShareableLinkNextResponse = BastionShareableLinkListResult;
+export type GetBastionShareableLinkNextResponse = BastionShareableLinkListResult;
 
 /** Optional parameters. */
-export interface NetworkManagementClientGetActiveSessionsNextOptionalParams
+export interface GetActiveSessionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getActiveSessionsNext operation. */
-export type NetworkManagementClientGetActiveSessionsNextResponse = BastionActiveSessionListResult;
+export type GetActiveSessionsNextResponse = BastionActiveSessionListResult;
 
 /** Optional parameters. */
-export interface NetworkManagementClientDisconnectActiveSessionsNextOptionalParams
+export interface DisconnectActiveSessionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the disconnectActiveSessionsNext operation. */
-export type NetworkManagementClientDisconnectActiveSessionsNextResponse = BastionSessionDeleteResult;
+export type DisconnectActiveSessionsNextResponse = BastionSessionDeleteResult;
 
 /** Optional parameters. */
 export interface NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams
@@ -13826,7 +14176,7 @@ export interface DdosProtectionPlansListByResourceGroupNextOptionalParams
 export type DdosProtectionPlansListByResourceGroupNextResponse = DdosProtectionPlanListResult;
 
 /** Optional parameters. */
-export interface DscpConfigurationOperationsCreateOrUpdateOptionalParams
+export interface DscpConfigurationCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -13835,10 +14185,10 @@ export interface DscpConfigurationOperationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type DscpConfigurationOperationsCreateOrUpdateResponse = DscpConfiguration;
+export type DscpConfigurationCreateOrUpdateResponse = DscpConfiguration;
 
 /** Optional parameters. */
-export interface DscpConfigurationOperationsDeleteOptionalParams
+export interface DscpConfigurationDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -13847,39 +14197,39 @@ export interface DscpConfigurationOperationsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface DscpConfigurationOperationsGetOptionalParams
+export interface DscpConfigurationGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type DscpConfigurationOperationsGetResponse = DscpConfiguration;
+export type DscpConfigurationGetResponse = DscpConfiguration;
 
 /** Optional parameters. */
-export interface DscpConfigurationOperationsListOptionalParams
+export interface DscpConfigurationListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DscpConfigurationOperationsListResponse = DscpConfigurationListResult;
+export type DscpConfigurationListResponse = DscpConfigurationListResult;
 
 /** Optional parameters. */
-export interface DscpConfigurationOperationsListAllOptionalParams
+export interface DscpConfigurationListAllOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAll operation. */
-export type DscpConfigurationOperationsListAllResponse = DscpConfigurationListResult;
+export type DscpConfigurationListAllResponse = DscpConfigurationListResult;
 
 /** Optional parameters. */
-export interface DscpConfigurationOperationsListNextOptionalParams
+export interface DscpConfigurationListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DscpConfigurationOperationsListNextResponse = DscpConfigurationListResult;
+export type DscpConfigurationListNextResponse = DscpConfigurationListResult;
 
 /** Optional parameters. */
-export interface DscpConfigurationOperationsListAllNextOptionalParams
+export interface DscpConfigurationListAllNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
-export type DscpConfigurationOperationsListAllNextResponse = DscpConfigurationListResult;
+export type DscpConfigurationListAllNextResponse = DscpConfigurationListResult;
 
 /** Optional parameters. */
 export interface AvailableEndpointServicesListOptionalParams
@@ -14515,6 +14865,48 @@ export interface FirewallPolicyRuleCollectionGroupsListNextOptionalParams
 export type FirewallPolicyRuleCollectionGroupsListNextResponse = FirewallPolicyRuleCollectionGroupListResult;
 
 /** Optional parameters. */
+export interface FirewallPolicyIdpsSignaturesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type FirewallPolicyIdpsSignaturesListResponse = QueryResults;
+
+/** Optional parameters. */
+export interface FirewallPolicyIdpsSignaturesOverridesPatchOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the patch operation. */
+export type FirewallPolicyIdpsSignaturesOverridesPatchResponse = SignaturesOverrides;
+
+/** Optional parameters. */
+export interface FirewallPolicyIdpsSignaturesOverridesPutOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the put operation. */
+export type FirewallPolicyIdpsSignaturesOverridesPutResponse = SignaturesOverrides;
+
+/** Optional parameters. */
+export interface FirewallPolicyIdpsSignaturesOverridesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FirewallPolicyIdpsSignaturesOverridesGetResponse = SignaturesOverrides;
+
+/** Optional parameters. */
+export interface FirewallPolicyIdpsSignaturesOverridesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type FirewallPolicyIdpsSignaturesOverridesListResponse = SignaturesOverridesList;
+
+/** Optional parameters. */
+export interface FirewallPolicyIdpsSignaturesFilterValuesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type FirewallPolicyIdpsSignaturesFilterValuesListResponse = SignatureOverridesFilterValuesResponse;
+
+/** Optional parameters. */
 export interface IpAllocationsDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -14705,6 +15097,18 @@ export interface LoadBalancersSwapPublicIpAddressesOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface LoadBalancersListInboundNatRulePortMappingsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the listInboundNatRulePortMappings operation. */
+export type LoadBalancersListInboundNatRulePortMappingsResponse = BackendAddressInboundNatRulePortMappings;
 
 /** Optional parameters. */
 export interface LoadBalancersListAllNextOptionalParams
@@ -15368,7 +15772,7 @@ export interface VirtualApplianceSkusListNextOptionalParams
 export type VirtualApplianceSkusListNextResponse = NetworkVirtualApplianceSkuListResult;
 
 /** Optional parameters. */
-export interface InboundSecurityRuleOperationsCreateOrUpdateOptionalParams
+export interface InboundSecurityRuleCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -15377,7 +15781,7 @@ export interface InboundSecurityRuleOperationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type InboundSecurityRuleOperationsCreateOrUpdateResponse = InboundSecurityRule;
+export type InboundSecurityRuleCreateOrUpdateResponse = InboundSecurityRule;
 
 /** Optional parameters. */
 export interface NetworkWatchersCreateOrUpdateOptionalParams
@@ -16508,7 +16912,7 @@ export interface ServiceTagsListOptionalParams
 export type ServiceTagsListResponse = ServiceTagsListResult;
 
 /** Optional parameters. */
-export interface ServiceTagInformationOperationsListOptionalParams
+export interface ServiceTagInformationListOptionalParams
   extends coreClient.OperationOptions {
   /** Do not return address prefixes for the tag(s). */
   noAddressPrefixes?: boolean;
@@ -16517,10 +16921,10 @@ export interface ServiceTagInformationOperationsListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type ServiceTagInformationOperationsListResponse = ServiceTagInformationListResult;
+export type ServiceTagInformationListResponse = ServiceTagInformationListResult;
 
 /** Optional parameters. */
-export interface ServiceTagInformationOperationsListNextOptionalParams
+export interface ServiceTagInformationListNextOptionalParams
   extends coreClient.OperationOptions {
   /** Do not return address prefixes for the tag(s). */
   noAddressPrefixes?: boolean;
@@ -16529,7 +16933,7 @@ export interface ServiceTagInformationOperationsListNextOptionalParams
 }
 
 /** Contains response data for the listNext operation. */
-export type ServiceTagInformationOperationsListNextResponse = ServiceTagInformationListResult;
+export type ServiceTagInformationListNextResponse = ServiceTagInformationListResult;
 
 /** Optional parameters. */
 export interface UsagesListOptionalParams extends coreClient.OperationOptions {}
@@ -18447,6 +18851,48 @@ export interface HubRouteTablesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type HubRouteTablesListNextResponse = ListHubRouteTablesResult;
+
+/** Optional parameters. */
+export interface RoutingIntentCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RoutingIntentCreateOrUpdateResponse = RoutingIntent;
+
+/** Optional parameters. */
+export interface RoutingIntentGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RoutingIntentGetResponse = RoutingIntent;
+
+/** Optional parameters. */
+export interface RoutingIntentDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RoutingIntentListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type RoutingIntentListResponse = ListRoutingIntentResult;
+
+/** Optional parameters. */
+export interface RoutingIntentListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RoutingIntentListNextResponse = ListRoutingIntentResult;
 
 /** Optional parameters. */
 export interface WebApplicationFirewallPoliciesListOptionalParams

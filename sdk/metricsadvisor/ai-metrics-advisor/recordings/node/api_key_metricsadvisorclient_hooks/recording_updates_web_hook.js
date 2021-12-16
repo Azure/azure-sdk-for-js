@@ -1,47 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "4538131073c0be8d2c3b7d9323573a49";
+module.exports.hash = "05858e63ce7f83f298e3aadaccd98c0a";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/hooks/800bcc70-1f2b-4ca9-937c-d19453993b74', {"hookType":"Webhook","hookParameter":{"endpoint":"https://mawebhook.azurewebsites.net/api/HttpTrigger","username":"user1","password":"SecretPlaceholder"}})
-  .reply(200, {"hookId":"800bcc70-1f2b-4ca9-937c-d19453993b74","hookName":"js-test-webHook-162266592635409328","hookType":"Webhook","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"endpoint":"https://mawebhook.azurewebsites.net/api/HttpTrigger","username":"user1","password":"SecretPlaceholder","headers":{},"certificateKey":"","certificatePassword":""}}, [
+  .patch('/metricsadvisor/v1.0/hooks/e86dd6fb-ec6a-4b29-98f5-172a91f3db69', {"hookType":"Webhook","hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"SecretPlaceholder"}})
+  .reply(200, {"hookId":"e86dd6fb-ec6a-4b29-98f5-172a91f3db69","hookName":"js-test-webHook-163702282957004992","hookType":"Webhook","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"SecretPlaceholder"}}, [
   'Content-Length',
-  '380',
+  '305',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'e623a6ef-953b-46e9-956a-e6cbabc31850',
+  'fcdf04bf-7390-4209-80ce-6d46452b3dcb',
   'x-envoy-upstream-service-time',
-  '958',
+  '601',
   'apim-request-id',
-  'e623a6ef-953b-46e9-956a-e6cbabc31850',
+  'fcdf04bf-7390-4209-80ce-6d46452b3dcb',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Jun 2021 20:32:16 GMT'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/hooks/800bcc70-1f2b-4ca9-937c-d19453993b74')
-  .reply(200, {"hookId":"800bcc70-1f2b-4ca9-937c-d19453993b74","hookName":"js-test-webHook-162266592635409328","hookType":"Webhook","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"endpoint":"https://mawebhook.azurewebsites.net/api/HttpTrigger","username":"user1","password":"SecretPlaceholder","headers":{},"certificateKey":"","certificatePassword":""}}, [
-  'Content-Length',
-  '380',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-request-id',
-  '5ddd4b89-4939-434f-9e1e-b26a7a85ed48',
-  'x-envoy-upstream-service-time',
-  '5208',
-  'apim-request-id',
-  '5ddd4b89-4939-434f-9e1e-b26a7a85ed48',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Wed, 02 Jun 2021 20:32:21 GMT'
+  'Tue, 16 Nov 2021 00:33:52 GMT'
 ]);

@@ -19,7 +19,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=12.0.0.
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 You need [an Azure subscription][freesub] to run these sample programs.
 
@@ -55,9 +55,9 @@ npx cross-env WPS_CONNECTION_STRING="<wps connection string>" node broadcasting.
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[broadcasting]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/javascript/broadcasting.js
-[directmessage]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/javascript/directMessage.js
-[managinggroups]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/javascript/managingGroups.js
+[broadcasting]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub/samples/v1/javascript/broadcasting.js
+[directmessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub/samples/v1/javascript/directMessage.js
+[managinggroups]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub/samples/v1/javascript/managingGroups.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/web-pubsub
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub/README.md

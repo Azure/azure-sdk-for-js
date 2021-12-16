@@ -1,14 +1,26 @@
 # Release History
 
-## 1.3.2 (Unreleased)
+## 1.4.0 (Unreleased)
 
 ### Features Added
+
+- The `bearerTokenAuthenticationPolicy` now accepts a logger.
+- Changed behavior when sending HTTP headers to preserve the original casing of header names. Iterating over `HttpHeaders` now keeps the original name casing. There is also a new `preserveCase` option for `HttpHeaders.toJSON()`. See [PR #18517](https://github.com/Azure/azure-sdk-for-js/pull/18517)
+- The count for how many retries in the `throttlingRetryPolicy` policy can now be configured.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
+- Form data of `application/x-www-form-urlencoded` are now sent properly.
+
 ### Other Changes
+
+## 1.3.2 (2021-11-04)
+
+### Other Changes
+
+- Allow specifying any status response to get a raw stream as response content. [#18492](https://github.com/Azure/azure-sdk-for-js/pull/18492)
 
 ## 1.3.1 (2021-09-30)
 

@@ -382,7 +382,7 @@ export interface IndexerExecutionResult {
    * All of the state that defines and dictates the indexer's current execution.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly currentState?: IndexerCurrentState;
+  readonly currentState?: IndexerState;
   /**
    * The error message indicating the top-level error, if any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -431,7 +431,7 @@ export interface IndexerExecutionResult {
 }
 
 /** Represents all of the state that defines and dictates the indexer's current execution. */
-export interface IndexerCurrentState {
+export interface IndexerState {
   /**
    * The mode the indexer is running in.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -441,22 +441,22 @@ export interface IndexerCurrentState {
    * Change tracking state used when indexing starts on all documents in the datasource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly allDocsInitialChangeTrackingState?: string;
+  readonly allDocumentsInitialChangeTrackingState?: string;
   /**
    * Change tracking state value when indexing finishes on all documents in the datasource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly allDocsFinalChangeTrackingState?: string;
+  readonly allDocumentsFinalChangeTrackingState?: string;
   /**
    * Change tracking state used when indexing starts on select, reset documents in the datasource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resetDocsInitialChangeTrackingState?: string;
+  readonly resetDocumentsInitialChangeTrackingState?: string;
   /**
    * Change tracking state value when indexing finishes on select, reset documents in the datasource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resetDocsFinalChangeTrackingState?: string;
+  readonly resetDocumentsFinalChangeTrackingState?: string;
   /**
    * The list of document keys that have been reset. The document key is the document's unique identifier for the data in the search index. The indexer will prioritize selectively re-ingesting these keys.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -729,6 +729,8 @@ export interface SearchIndex {
   encryptionKey?: SearchResourceEncryptionKey;
   /** The type of similarity algorithm to be used when scoring and ranking the documents matching a search query. The similarity algorithm can only be defined at index creation time and cannot be modified on existing indexes. If null, the ClassicSimilarity algorithm is used. */
   similarity?: SimilarityUnion;
+  /** Defines parameters for a search index that influence semantic capabilities. */
+  semanticSettings?: SemanticSettings;
   /** The ETag of the index. */
   etag?: string;
 }
@@ -902,6 +904,35 @@ export interface Similarity {
   odatatype:
     | "#Microsoft.Azure.Search.ClassicSimilarity"
     | "#Microsoft.Azure.Search.BM25Similarity";
+}
+
+/** Defines parameters for a search index that influence semantic capabilities. */
+export interface SemanticSettings {
+  /** The semantic configurations for the index. */
+  configurations?: SemanticConfiguration[];
+}
+
+/** Defines a specific configuration to be used in the context of semantic capabilities. */
+export interface SemanticConfiguration {
+  /** The name of the semantic configuration. */
+  name: string;
+  /** Describes the title, content, and keyword fields to be used for semantic ranking, captions, highlights, and answers. At least one of the three sub properties (titleField, prioritizedKeywordsFields and prioritizedContentFields) need to be set. */
+  prioritizedFields: PrioritizedFields;
+}
+
+/** Describes the title, content, and keywords fields to be used for semantic ranking, captions, highlights, and answers. */
+export interface PrioritizedFields {
+  /** Defines the title field to be used for semantic ranking, captions, highlights, and answers. If you don't have a title field in your index, leave this blank. */
+  titleField?: SemanticField;
+  /** Defines the content fields to be used for semantic ranking, captions, highlights, and answers. For the best result, the selected fields should contain text in natural language form. The order of the fields in the array represents their priority. Fields with lower priority may get truncated if the content is long. */
+  prioritizedContentFields?: SemanticField[];
+  /** Defines the keyword fields to be used for semantic ranking, captions, highlights, and answers. For the best result, the selected fields should contain a list of keywords. The order of the fields in the array represents their priority. Fields with lower priority may get truncated if the content is long. */
+  prioritizedKeywordsFields?: SemanticField[];
+}
+
+/** A field that is used as part of the semantic configuration. */
+export interface SemanticField {
+  name?: string;
 }
 
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */

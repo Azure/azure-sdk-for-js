@@ -1,16 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceClientCredentials } from "../credentials/serviceClientCredentials";
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
-  RequestPolicyFactory,
   RequestPolicy,
+  RequestPolicyFactory,
   RequestPolicyOptions
 } from "./requestPolicy";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { ServiceClientCredentials } from "../credentials/serviceClientCredentials";
+import { WebResourceLike } from "../webResource";
 
+/**
+ * Creates a policy that signs outgoing requests by calling to the provided `authenticationProvider`'s `signRequest` method.
+ * @param authenticationProvider - The authentication provider.
+ * @returns An instance of the {@link SigningPolicy}.
+ */
 export function signingPolicy(
   authenticationProvider: ServiceClientCredentials
 ): RequestPolicyFactory {
@@ -21,6 +26,9 @@ export function signingPolicy(
   };
 }
 
+/**
+ * A policy that signs outgoing requests by calling to the provided `authenticationProvider`'s `signRequest` method.
+ */
 export class SigningPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,

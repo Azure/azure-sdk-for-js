@@ -8,7 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "./lroImpl";
@@ -44,6 +43,9 @@ import {
   ExpressRouteLinksImpl,
   FirewallPoliciesImpl,
   FirewallPolicyRuleCollectionGroupsImpl,
+  FirewallPolicyIdpsSignaturesImpl,
+  FirewallPolicyIdpsSignaturesOverridesImpl,
+  FirewallPolicyIdpsSignaturesFilterValuesImpl,
   IpAllocationsImpl,
   IpGroupsImpl,
   LoadBalancersImpl,
@@ -120,6 +122,7 @@ import {
   VirtualHubBgpConnectionsImpl,
   VirtualHubIpConfigurationImpl,
   HubRouteTablesImpl,
+  RoutingIntentOperationsImpl,
   WebApplicationFirewallPoliciesImpl
 } from "./operations";
 import {
@@ -154,6 +157,9 @@ import {
   ExpressRouteLinks,
   FirewallPolicies,
   FirewallPolicyRuleCollectionGroups,
+  FirewallPolicyIdpsSignatures,
+  FirewallPolicyIdpsSignaturesOverrides,
+  FirewallPolicyIdpsSignaturesFilterValues,
   IpAllocations,
   IpGroups,
   LoadBalancers,
@@ -230,46 +236,49 @@ import {
   VirtualHubBgpConnections,
   VirtualHubIpConfiguration,
   HubRouteTables,
+  RoutingIntentOperations,
   WebApplicationFirewallPolicies
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { NetworkManagementClientContext } from "./networkManagementClientContext";
 import {
   NetworkManagementClientOptionalParams,
   BastionShareableLink,
   BastionShareableLinkListRequest,
-  NetworkManagementClientPutBastionShareableLinkNextOptionalParams,
-  NetworkManagementClientPutBastionShareableLinkOptionalParams,
-  NetworkManagementClientGetBastionShareableLinkNextOptionalParams,
-  NetworkManagementClientGetBastionShareableLinkOptionalParams,
+  PutBastionShareableLinkNextOptionalParams,
+  PutBastionShareableLinkOptionalParams,
+  GetBastionShareableLinkNextOptionalParams,
+  GetBastionShareableLinkOptionalParams,
   BastionActiveSession,
-  NetworkManagementClientGetActiveSessionsNextOptionalParams,
-  NetworkManagementClientGetActiveSessionsOptionalParams,
+  GetActiveSessionsNextOptionalParams,
+  GetActiveSessionsOptionalParams,
   BastionSessionState,
   SessionIds,
-  NetworkManagementClientDisconnectActiveSessionsNextOptionalParams,
-  NetworkManagementClientDisconnectActiveSessionsOptionalParams,
-  NetworkManagementClientPutBastionShareableLinkResponse,
-  NetworkManagementClientDeleteBastionShareableLinkOptionalParams,
-  NetworkManagementClientGetBastionShareableLinkResponse,
-  NetworkManagementClientGetActiveSessionsResponse,
-  NetworkManagementClientDisconnectActiveSessionsResponse,
-  NetworkManagementClientCheckDnsNameAvailabilityOptionalParams,
-  NetworkManagementClientCheckDnsNameAvailabilityResponse,
-  NetworkManagementClientSupportedSecurityProvidersOptionalParams,
-  NetworkManagementClientSupportedSecurityProvidersResponse,
+  DisconnectActiveSessionsNextOptionalParams,
+  DisconnectActiveSessionsOptionalParams,
+  PutBastionShareableLinkResponse,
+  DeleteBastionShareableLinkOptionalParams,
+  GetBastionShareableLinkResponse,
+  GetActiveSessionsResponse,
+  DisconnectActiveSessionsResponse,
+  CheckDnsNameAvailabilityOptionalParams,
+  CheckDnsNameAvailabilityResponse,
+  SupportedSecurityProvidersOptionalParams,
+  SupportedSecurityProvidersResponse,
   VirtualWanVpnProfileParameters,
-  NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams,
-  NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileResponse,
-  NetworkManagementClientPutBastionShareableLinkNextResponse,
-  NetworkManagementClientGetBastionShareableLinkNextResponse,
-  NetworkManagementClientGetActiveSessionsNextResponse,
-  NetworkManagementClientDisconnectActiveSessionsNextResponse
+  GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams,
+  GeneratevirtualwanvpnserverconfigurationvpnprofileResponse,
+  PutBastionShareableLinkNextResponse,
+  GetBastionShareableLinkNextResponse,
+  GetActiveSessionsNextResponse,
+  DisconnectActiveSessionsNextResponse
 } from "./models";
 
 /// <reference lib="esnext.asynciterable" />
-export class NetworkManagementClient extends NetworkManagementClientContext {
+export class NetworkManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the NetworkManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -282,7 +291,45 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     subscriptionId: string,
     options?: NetworkManagementClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: NetworkManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-network/26.0.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
     this.applicationGateways = new ApplicationGatewaysImpl(this);
     this.applicationGatewayPrivateLinkResources = new ApplicationGatewayPrivateLinkResourcesImpl(
       this
@@ -336,6 +383,15 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     this.expressRouteLinks = new ExpressRouteLinksImpl(this);
     this.firewallPolicies = new FirewallPoliciesImpl(this);
     this.firewallPolicyRuleCollectionGroups = new FirewallPolicyRuleCollectionGroupsImpl(
+      this
+    );
+    this.firewallPolicyIdpsSignatures = new FirewallPolicyIdpsSignaturesImpl(
+      this
+    );
+    this.firewallPolicyIdpsSignaturesOverrides = new FirewallPolicyIdpsSignaturesOverridesImpl(
+      this
+    );
+    this.firewallPolicyIdpsSignaturesFilterValues = new FirewallPolicyIdpsSignaturesFilterValuesImpl(
       this
     );
     this.ipAllocations = new IpAllocationsImpl(this);
@@ -444,6 +500,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     this.virtualHubBgpConnections = new VirtualHubBgpConnectionsImpl(this);
     this.virtualHubIpConfiguration = new VirtualHubIpConfigurationImpl(this);
     this.hubRouteTables = new HubRouteTablesImpl(this);
+    this.routingIntentOperations = new RoutingIntentOperationsImpl(this);
     this.webApplicationFirewallPolicies = new WebApplicationFirewallPoliciesImpl(
       this
     );
@@ -460,7 +517,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     bslRequest: BastionShareableLinkListRequest,
-    options?: NetworkManagementClientPutBastionShareableLinkOptionalParams
+    options?: PutBastionShareableLinkOptionalParams
   ): PagedAsyncIterableIterator<BastionShareableLink> {
     const iter = this.putBastionShareableLinkPagingAll(
       resourceGroupName,
@@ -490,7 +547,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     bslRequest: BastionShareableLinkListRequest,
-    options?: NetworkManagementClientPutBastionShareableLinkOptionalParams
+    options?: PutBastionShareableLinkOptionalParams
   ): AsyncIterableIterator<BastionShareableLink[]> {
     const poller = await this._putBastionShareableLink(
       resourceGroupName,
@@ -518,7 +575,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     bslRequest: BastionShareableLinkListRequest,
-    options?: NetworkManagementClientPutBastionShareableLinkOptionalParams
+    options?: PutBastionShareableLinkOptionalParams
   ): AsyncIterableIterator<BastionShareableLink> {
     for await (const page of this.putBastionShareableLinkPagingPage(
       resourceGroupName,
@@ -541,7 +598,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     bslRequest: BastionShareableLinkListRequest,
-    options?: NetworkManagementClientGetBastionShareableLinkOptionalParams
+    options?: GetBastionShareableLinkOptionalParams
   ): PagedAsyncIterableIterator<BastionShareableLink> {
     const iter = this.getBastionShareableLinkPagingAll(
       resourceGroupName,
@@ -571,7 +628,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     bslRequest: BastionShareableLinkListRequest,
-    options?: NetworkManagementClientGetBastionShareableLinkOptionalParams
+    options?: GetBastionShareableLinkOptionalParams
   ): AsyncIterableIterator<BastionShareableLink[]> {
     let result = await this._getBastionShareableLink(
       resourceGroupName,
@@ -598,7 +655,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     bslRequest: BastionShareableLinkListRequest,
-    options?: NetworkManagementClientGetBastionShareableLinkOptionalParams
+    options?: GetBastionShareableLinkOptionalParams
   ): AsyncIterableIterator<BastionShareableLink> {
     for await (const page of this.getBastionShareableLinkPagingPage(
       resourceGroupName,
@@ -619,7 +676,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
   public beginListActiveSessionsAndWait(
     resourceGroupName: string,
     bastionHostName: string,
-    options?: NetworkManagementClientGetActiveSessionsOptionalParams
+    options?: GetActiveSessionsOptionalParams
   ): PagedAsyncIterableIterator<BastionActiveSession> {
     const iter = this.getActiveSessionsPagingAll(
       resourceGroupName,
@@ -646,7 +703,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
   private async *getActiveSessionsPagingPage(
     resourceGroupName: string,
     bastionHostName: string,
-    options?: NetworkManagementClientGetActiveSessionsOptionalParams
+    options?: GetActiveSessionsOptionalParams
   ): AsyncIterableIterator<BastionActiveSession[]> {
     const poller = await this._getActiveSessions(
       resourceGroupName,
@@ -671,7 +728,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
   private async *getActiveSessionsPagingAll(
     resourceGroupName: string,
     bastionHostName: string,
-    options?: NetworkManagementClientGetActiveSessionsOptionalParams
+    options?: GetActiveSessionsOptionalParams
   ): AsyncIterableIterator<BastionActiveSession> {
     for await (const page of this.getActiveSessionsPagingPage(
       resourceGroupName,
@@ -693,7 +750,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     sessionIds: SessionIds,
-    options?: NetworkManagementClientDisconnectActiveSessionsOptionalParams
+    options?: DisconnectActiveSessionsOptionalParams
   ): PagedAsyncIterableIterator<BastionSessionState> {
     const iter = this.disconnectActiveSessionsPagingAll(
       resourceGroupName,
@@ -723,7 +780,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     sessionIds: SessionIds,
-    options?: NetworkManagementClientDisconnectActiveSessionsOptionalParams
+    options?: DisconnectActiveSessionsOptionalParams
   ): AsyncIterableIterator<BastionSessionState[]> {
     let result = await this._disconnectActiveSessions(
       resourceGroupName,
@@ -750,7 +807,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     sessionIds: SessionIds,
-    options?: NetworkManagementClientDisconnectActiveSessionsOptionalParams
+    options?: DisconnectActiveSessionsOptionalParams
   ): AsyncIterableIterator<BastionSessionState> {
     for await (const page of this.disconnectActiveSessionsPagingPage(
       resourceGroupName,
@@ -773,19 +830,17 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     bslRequest: BastionShareableLinkListRequest,
-    options?: NetworkManagementClientPutBastionShareableLinkOptionalParams
+    options?: PutBastionShareableLinkOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<
-        NetworkManagementClientPutBastionShareableLinkResponse
-      >,
-      NetworkManagementClientPutBastionShareableLinkResponse
+      PollOperationState<PutBastionShareableLinkResponse>,
+      PutBastionShareableLinkResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<NetworkManagementClientPutBastionShareableLinkResponse> => {
+    ): Promise<PutBastionShareableLinkResponse> => {
       return this.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -844,7 +899,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     bslRequest: BastionShareableLinkListRequest,
-    options?: NetworkManagementClientDeleteBastionShareableLinkOptionalParams
+    options?: DeleteBastionShareableLinkOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -908,7 +963,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     bslRequest: BastionShareableLinkListRequest,
-    options?: NetworkManagementClientDeleteBastionShareableLinkOptionalParams
+    options?: DeleteBastionShareableLinkOptionalParams
   ): Promise<void> {
     const poller = await this.beginDeleteBastionShareableLink(
       resourceGroupName,
@@ -930,8 +985,8 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     bslRequest: BastionShareableLinkListRequest,
-    options?: NetworkManagementClientGetBastionShareableLinkOptionalParams
-  ): Promise<NetworkManagementClientGetBastionShareableLinkResponse> {
+    options?: GetBastionShareableLinkOptionalParams
+  ): Promise<GetBastionShareableLinkResponse> {
     return this.sendOperationRequest(
       { resourceGroupName, bastionHostName, bslRequest, options },
       getBastionShareableLinkOperationSpec
@@ -947,17 +1002,17 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
   private async _getActiveSessions(
     resourceGroupName: string,
     bastionHostName: string,
-    options?: NetworkManagementClientGetActiveSessionsOptionalParams
+    options?: GetActiveSessionsOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<NetworkManagementClientGetActiveSessionsResponse>,
-      NetworkManagementClientGetActiveSessionsResponse
+      PollOperationState<GetActiveSessionsResponse>,
+      GetActiveSessionsResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<NetworkManagementClientGetActiveSessionsResponse> => {
+    ): Promise<GetActiveSessionsResponse> => {
       return this.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -1016,8 +1071,8 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     sessionIds: SessionIds,
-    options?: NetworkManagementClientDisconnectActiveSessionsOptionalParams
-  ): Promise<NetworkManagementClientDisconnectActiveSessionsResponse> {
+    options?: DisconnectActiveSessionsOptionalParams
+  ): Promise<DisconnectActiveSessionsResponse> {
     return this.sendOperationRequest(
       { resourceGroupName, bastionHostName, sessionIds, options },
       disconnectActiveSessionsOperationSpec
@@ -1034,8 +1089,8 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
   checkDnsNameAvailability(
     location: string,
     domainNameLabel: string,
-    options?: NetworkManagementClientCheckDnsNameAvailabilityOptionalParams
-  ): Promise<NetworkManagementClientCheckDnsNameAvailabilityResponse> {
+    options?: CheckDnsNameAvailabilityOptionalParams
+  ): Promise<CheckDnsNameAvailabilityResponse> {
     return this.sendOperationRequest(
       { location, domainNameLabel, options },
       checkDnsNameAvailabilityOperationSpec
@@ -1051,8 +1106,8 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
   supportedSecurityProviders(
     resourceGroupName: string,
     virtualWANName: string,
-    options?: NetworkManagementClientSupportedSecurityProvidersOptionalParams
-  ): Promise<NetworkManagementClientSupportedSecurityProvidersResponse> {
+    options?: SupportedSecurityProvidersOptionalParams
+  ): Promise<SupportedSecurityProvidersResponse> {
     return this.sendOperationRequest(
       { resourceGroupName, virtualWANName, options },
       supportedSecurityProvidersOperationSpec
@@ -1072,19 +1127,19 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     virtualWANName: string,
     vpnClientParams: VirtualWanVpnProfileParameters,
-    options?: NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams
+    options?: GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams
   ): Promise<
     PollerLike<
       PollOperationState<
-        NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileResponse
+        GeneratevirtualwanvpnserverconfigurationvpnprofileResponse
       >,
-      NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileResponse
+      GeneratevirtualwanvpnserverconfigurationvpnprofileResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileResponse> => {
+    ): Promise<GeneratevirtualwanvpnserverconfigurationvpnprofileResponse> => {
       return this.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -1145,10 +1200,8 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     virtualWANName: string,
     vpnClientParams: VirtualWanVpnProfileParameters,
-    options?: NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams
-  ): Promise<
-    NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileResponse
-  > {
+    options?: GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams
+  ): Promise<GeneratevirtualwanvpnserverconfigurationvpnprofileResponse> {
     const poller = await this.beginGeneratevirtualwanvpnserverconfigurationvpnprofile(
       resourceGroupName,
       virtualWANName,
@@ -1172,8 +1225,8 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     bastionHostName: string,
     bslRequest: BastionShareableLinkListRequest,
     nextLink: string,
-    options?: NetworkManagementClientPutBastionShareableLinkNextOptionalParams
-  ): Promise<NetworkManagementClientPutBastionShareableLinkNextResponse> {
+    options?: PutBastionShareableLinkNextOptionalParams
+  ): Promise<PutBastionShareableLinkNextResponse> {
     return this.sendOperationRequest(
       { resourceGroupName, bastionHostName, bslRequest, nextLink, options },
       putBastionShareableLinkNextOperationSpec
@@ -1194,8 +1247,8 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     bastionHostName: string,
     bslRequest: BastionShareableLinkListRequest,
     nextLink: string,
-    options?: NetworkManagementClientGetBastionShareableLinkNextOptionalParams
-  ): Promise<NetworkManagementClientGetBastionShareableLinkNextResponse> {
+    options?: GetBastionShareableLinkNextOptionalParams
+  ): Promise<GetBastionShareableLinkNextResponse> {
     return this.sendOperationRequest(
       { resourceGroupName, bastionHostName, bslRequest, nextLink, options },
       getBastionShareableLinkNextOperationSpec
@@ -1213,8 +1266,8 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     resourceGroupName: string,
     bastionHostName: string,
     nextLink: string,
-    options?: NetworkManagementClientGetActiveSessionsNextOptionalParams
-  ): Promise<NetworkManagementClientGetActiveSessionsNextResponse> {
+    options?: GetActiveSessionsNextOptionalParams
+  ): Promise<GetActiveSessionsNextResponse> {
     return this.sendOperationRequest(
       { resourceGroupName, bastionHostName, nextLink, options },
       getActiveSessionsNextOperationSpec
@@ -1235,8 +1288,8 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     bastionHostName: string,
     sessionIds: SessionIds,
     nextLink: string,
-    options?: NetworkManagementClientDisconnectActiveSessionsNextOptionalParams
-  ): Promise<NetworkManagementClientDisconnectActiveSessionsNextResponse> {
+    options?: DisconnectActiveSessionsNextOptionalParams
+  ): Promise<DisconnectActiveSessionsNextResponse> {
     return this.sendOperationRequest(
       { resourceGroupName, bastionHostName, sessionIds, nextLink, options },
       disconnectActiveSessionsNextOperationSpec
@@ -1274,6 +1327,9 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
   expressRouteLinks: ExpressRouteLinks;
   firewallPolicies: FirewallPolicies;
   firewallPolicyRuleCollectionGroups: FirewallPolicyRuleCollectionGroups;
+  firewallPolicyIdpsSignatures: FirewallPolicyIdpsSignatures;
+  firewallPolicyIdpsSignaturesOverrides: FirewallPolicyIdpsSignaturesOverrides;
+  firewallPolicyIdpsSignaturesFilterValues: FirewallPolicyIdpsSignaturesFilterValues;
   ipAllocations: IpAllocations;
   ipGroups: IpGroups;
   loadBalancers: LoadBalancers;
@@ -1350,6 +1406,7 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
   virtualHubBgpConnections: VirtualHubBgpConnections;
   virtualHubIpConfiguration: VirtualHubIpConfiguration;
   hubRouteTables: HubRouteTables;
+  routingIntentOperations: RoutingIntentOperations;
   webApplicationFirewallPolicies: WebApplicationFirewallPolicies;
 }
 // Operation Specifications

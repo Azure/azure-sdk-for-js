@@ -164,15 +164,18 @@ import {
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { ApiManagementClientContext } from "./apiManagementClientContext";
 import {
   ApiManagementClientOptionalParams,
   ConnectivityCheckRequest,
-  ApiManagementClientPerformConnectivityCheckAsyncOptionalParams,
-  ApiManagementClientPerformConnectivityCheckAsyncResponse
+  PerformConnectivityCheckAsyncOptionalParams,
+  PerformConnectivityCheckAsyncResponse
 } from "./models";
 
-export class ApiManagementClient extends ApiManagementClientContext {
+export class ApiManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  apiVersion: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the ApiManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -185,7 +188,46 @@ export class ApiManagementClient extends ApiManagementClientContext {
     subscriptionId: string,
     options?: ApiManagementClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: ApiManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-apimanagement/8.0.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2021-08-01";
     this.api = new ApiImpl(this);
     this.apiRevision = new ApiRevisionImpl(this);
     this.apiRelease = new ApiReleaseImpl(this);
@@ -282,19 +324,17 @@ export class ApiManagementClient extends ApiManagementClientContext {
     resourceGroupName: string,
     serviceName: string,
     connectivityCheckRequestParams: ConnectivityCheckRequest,
-    options?: ApiManagementClientPerformConnectivityCheckAsyncOptionalParams
+    options?: PerformConnectivityCheckAsyncOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<
-        ApiManagementClientPerformConnectivityCheckAsyncResponse
-      >,
-      ApiManagementClientPerformConnectivityCheckAsyncResponse
+      PollOperationState<PerformConnectivityCheckAsyncResponse>,
+      PerformConnectivityCheckAsyncResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ApiManagementClientPerformConnectivityCheckAsyncResponse> => {
+    ): Promise<PerformConnectivityCheckAsyncResponse> => {
       return this.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -359,8 +399,8 @@ export class ApiManagementClient extends ApiManagementClientContext {
     resourceGroupName: string,
     serviceName: string,
     connectivityCheckRequestParams: ConnectivityCheckRequest,
-    options?: ApiManagementClientPerformConnectivityCheckAsyncOptionalParams
-  ): Promise<ApiManagementClientPerformConnectivityCheckAsyncResponse> {
+    options?: PerformConnectivityCheckAsyncOptionalParams
+  ): Promise<PerformConnectivityCheckAsyncResponse> {
     const poller = await this.beginPerformConnectivityCheckAsync(
       resourceGroupName,
       serviceName,

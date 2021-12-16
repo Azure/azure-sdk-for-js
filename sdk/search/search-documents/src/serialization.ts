@@ -36,7 +36,7 @@ function walk(start: unknown, mapper: (val: any) => any): any {
 
     if (typeof current.value === "object" && current.value !== null) {
       if (seenMarker.has(current.value)) {
-        throw new Error("Cannot map a recusive structure.");
+        continue;
       } else {
         seenMarker.set(current.value, true);
       }

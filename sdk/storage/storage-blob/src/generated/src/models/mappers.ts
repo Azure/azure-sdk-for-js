@@ -977,10 +977,10 @@ export const BlobItemInternal: coreHttp.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "Name",
-        required: true,
         xmlName: "Name",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "BlobName"
         }
       },
       deleted: {
@@ -1050,6 +1050,31 @@ export const BlobItemInternal: coreHttp.CompositeMapper = {
         xmlName: "HasVersionsOnly",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const BlobName: coreHttp.CompositeMapper = {
+  serializedName: "BlobName",
+  type: {
+    name: "Composite",
+    className: "BlobName",
+    modelProperties: {
+      encoded: {
+        serializedName: "Encoded",
+        xmlName: "Encoded",
+        xmlIsAttribute: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      content: {
+        serializedName: "content",
+        xmlName: "content",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1502,10 +1527,10 @@ export const BlobPrefix: coreHttp.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "Name",
-        required: true,
         xmlName: "Name",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "BlobName"
         }
       }
     }
@@ -5732,6 +5757,13 @@ export const BlobCopyFromURLHeaders: coreHttp.CompositeMapper = {
         xmlName: "x-ms-content-crc64",
         type: {
           name: "ByteArray"
+        }
+      },
+      encryptionScope: {
+        serializedName: "x-ms-encryption-scope",
+        xmlName: "x-ms-encryption-scope",
+        type: {
+          name: "String"
         }
       },
       errorCode: {

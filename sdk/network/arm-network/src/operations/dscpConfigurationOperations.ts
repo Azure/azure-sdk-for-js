@@ -6,43 +6,42 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DscpConfigurationOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { NetworkManagementClientContext } from "../networkManagementClientContext";
+import { NetworkManagementClient } from "../networkManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   DscpConfiguration,
-  DscpConfigurationOperationsListNextOptionalParams,
-  DscpConfigurationOperationsListOptionalParams,
-  DscpConfigurationOperationsListAllNextOptionalParams,
-  DscpConfigurationOperationsListAllOptionalParams,
-  DscpConfigurationOperationsCreateOrUpdateOptionalParams,
-  DscpConfigurationOperationsCreateOrUpdateResponse,
-  DscpConfigurationOperationsDeleteOptionalParams,
-  DscpConfigurationOperationsGetOptionalParams,
-  DscpConfigurationOperationsGetResponse,
-  DscpConfigurationOperationsListResponse,
-  DscpConfigurationOperationsListAllResponse,
-  DscpConfigurationOperationsListNextResponse,
-  DscpConfigurationOperationsListAllNextResponse
+  DscpConfigurationListNextOptionalParams,
+  DscpConfigurationListOptionalParams,
+  DscpConfigurationListAllNextOptionalParams,
+  DscpConfigurationListAllOptionalParams,
+  DscpConfigurationCreateOrUpdateOptionalParams,
+  DscpConfigurationCreateOrUpdateResponse,
+  DscpConfigurationDeleteOptionalParams,
+  DscpConfigurationGetOptionalParams,
+  DscpConfigurationGetResponse,
+  DscpConfigurationListResponse,
+  DscpConfigurationListAllResponse,
+  DscpConfigurationListNextResponse,
+  DscpConfigurationListAllNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DscpConfigurationOperations operations. */
 export class DscpConfigurationOperationsImpl
   implements DscpConfigurationOperations {
-  private readonly client: NetworkManagementClientContext;
+  private readonly client: NetworkManagementClient;
 
   /**
    * Initialize a new instance of the class DscpConfigurationOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: NetworkManagementClientContext) {
+  constructor(client: NetworkManagementClient) {
     this.client = client;
   }
 
@@ -53,7 +52,7 @@ export class DscpConfigurationOperationsImpl
    */
   public list(
     resourceGroupName: string,
-    options?: DscpConfigurationOperationsListOptionalParams
+    options?: DscpConfigurationListOptionalParams
   ): PagedAsyncIterableIterator<DscpConfiguration> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -71,7 +70,7 @@ export class DscpConfigurationOperationsImpl
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: DscpConfigurationOperationsListOptionalParams
+    options?: DscpConfigurationListOptionalParams
   ): AsyncIterableIterator<DscpConfiguration[]> {
     let result = await this._list(resourceGroupName, options);
     yield result.value || [];
@@ -89,7 +88,7 @@ export class DscpConfigurationOperationsImpl
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: DscpConfigurationOperationsListOptionalParams
+    options?: DscpConfigurationListOptionalParams
   ): AsyncIterableIterator<DscpConfiguration> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -101,7 +100,7 @@ export class DscpConfigurationOperationsImpl
    * @param options The options parameters.
    */
   public listAll(
-    options?: DscpConfigurationOperationsListAllOptionalParams
+    options?: DscpConfigurationListAllOptionalParams
   ): PagedAsyncIterableIterator<DscpConfiguration> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -118,7 +117,7 @@ export class DscpConfigurationOperationsImpl
   }
 
   private async *listAllPagingPage(
-    options?: DscpConfigurationOperationsListAllOptionalParams
+    options?: DscpConfigurationListAllOptionalParams
   ): AsyncIterableIterator<DscpConfiguration[]> {
     let result = await this._listAll(options);
     yield result.value || [];
@@ -131,7 +130,7 @@ export class DscpConfigurationOperationsImpl
   }
 
   private async *listAllPagingAll(
-    options?: DscpConfigurationOperationsListAllOptionalParams
+    options?: DscpConfigurationListAllOptionalParams
   ): AsyncIterableIterator<DscpConfiguration> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -149,17 +148,17 @@ export class DscpConfigurationOperationsImpl
     resourceGroupName: string,
     dscpConfigurationName: string,
     parameters: DscpConfiguration,
-    options?: DscpConfigurationOperationsCreateOrUpdateOptionalParams
+    options?: DscpConfigurationCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<DscpConfigurationOperationsCreateOrUpdateResponse>,
-      DscpConfigurationOperationsCreateOrUpdateResponse
+      PollOperationState<DscpConfigurationCreateOrUpdateResponse>,
+      DscpConfigurationCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<DscpConfigurationOperationsCreateOrUpdateResponse> => {
+    ): Promise<DscpConfigurationCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -218,8 +217,8 @@ export class DscpConfigurationOperationsImpl
     resourceGroupName: string,
     dscpConfigurationName: string,
     parameters: DscpConfiguration,
-    options?: DscpConfigurationOperationsCreateOrUpdateOptionalParams
-  ): Promise<DscpConfigurationOperationsCreateOrUpdateResponse> {
+    options?: DscpConfigurationCreateOrUpdateOptionalParams
+  ): Promise<DscpConfigurationCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       dscpConfigurationName,
@@ -238,7 +237,7 @@ export class DscpConfigurationOperationsImpl
   async beginDelete(
     resourceGroupName: string,
     dscpConfigurationName: string,
-    options?: DscpConfigurationOperationsDeleteOptionalParams
+    options?: DscpConfigurationDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -300,7 +299,7 @@ export class DscpConfigurationOperationsImpl
   async beginDeleteAndWait(
     resourceGroupName: string,
     dscpConfigurationName: string,
-    options?: DscpConfigurationOperationsDeleteOptionalParams
+    options?: DscpConfigurationDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -319,8 +318,8 @@ export class DscpConfigurationOperationsImpl
   get(
     resourceGroupName: string,
     dscpConfigurationName: string,
-    options?: DscpConfigurationOperationsGetOptionalParams
-  ): Promise<DscpConfigurationOperationsGetResponse> {
+    options?: DscpConfigurationGetOptionalParams
+  ): Promise<DscpConfigurationGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dscpConfigurationName, options },
       getOperationSpec
@@ -334,8 +333,8 @@ export class DscpConfigurationOperationsImpl
    */
   private _list(
     resourceGroupName: string,
-    options?: DscpConfigurationOperationsListOptionalParams
-  ): Promise<DscpConfigurationOperationsListResponse> {
+    options?: DscpConfigurationListOptionalParams
+  ): Promise<DscpConfigurationListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listOperationSpec
@@ -347,8 +346,8 @@ export class DscpConfigurationOperationsImpl
    * @param options The options parameters.
    */
   private _listAll(
-    options?: DscpConfigurationOperationsListAllOptionalParams
-  ): Promise<DscpConfigurationOperationsListAllResponse> {
+    options?: DscpConfigurationListAllOptionalParams
+  ): Promise<DscpConfigurationListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
 
@@ -361,8 +360,8 @@ export class DscpConfigurationOperationsImpl
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: DscpConfigurationOperationsListNextOptionalParams
-  ): Promise<DscpConfigurationOperationsListNextResponse> {
+    options?: DscpConfigurationListNextOptionalParams
+  ): Promise<DscpConfigurationListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listNextOperationSpec
@@ -376,8 +375,8 @@ export class DscpConfigurationOperationsImpl
    */
   private _listAllNext(
     nextLink: string,
-    options?: DscpConfigurationOperationsListAllNextOptionalParams
-  ): Promise<DscpConfigurationOperationsListAllNextResponse> {
+    options?: DscpConfigurationListAllNextOptionalParams
+  ): Promise<DscpConfigurationListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listAllNextOperationSpec

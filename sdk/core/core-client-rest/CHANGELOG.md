@@ -1,5 +1,24 @@
 # Release History
 
+## 1.0.0-beta.9 (Unreleased)
+
+### Features Added
+
+- Handle Binary and FormData content. [#18753](https://github.com/Azure/azure-sdk-for-js/pull/18753)
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.8 (2021-11-04)
+
+### Other Changes
+
+- Add options skipUrlEncoding to support skip path parameter encoding. [#18381](https://github.com/Azure/azure-sdk-for-js/pull/18381)
+- Adding more robust handling of request and response body. [#18478](https://github.com/Azure/azure-sdk-for-js/pull/18478)
+
 ## 1.0.0-beta.7 (2021-09-02)
 
 ### Other Changes

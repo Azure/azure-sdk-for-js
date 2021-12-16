@@ -8,6 +8,7 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
+import { AzureLogger } from '@azure/logger';
 import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
@@ -33,6 +34,7 @@ export interface Agent {
 // @public
 export interface AuthorizeRequestOnChallengeOptions {
     getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+    logger?: AzureLogger;
     request: PipelineRequest;
     response: PipelineResponse;
     scopes: string[];
@@ -41,6 +43,7 @@ export interface AuthorizeRequestOnChallengeOptions {
 // @public
 export interface AuthorizeRequestOptions {
     getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+    logger?: AzureLogger;
     request: PipelineRequest;
     scopes: string[];
 }
@@ -55,6 +58,7 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 export interface BearerTokenAuthenticationPolicyOptions {
     challengeCallbacks?: ChallengeCallbacks;
     credential?: TokenCredential;
+    logger?: AzureLogger;
     scopes: string | string[];
 }
 
@@ -126,7 +130,9 @@ export interface HttpHeaders extends Iterable<[string, string]> {
     get(name: string): string | undefined;
     has(name: string): boolean;
     set(name: string, value: string | number | boolean): void;
-    toJSON(): RawHttpHeaders;
+    toJSON(options?: {
+        preserveCase?: boolean;
+    }): RawHttpHeaders;
 }
 
 // @public
@@ -172,7 +178,7 @@ export interface Pipeline {
 export interface PipelineOptions {
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
-    retryOptions?: ExponentialRetryPolicyOptions;
+    retryOptions?: PipelineRetryOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 
@@ -234,6 +240,13 @@ export interface PipelineResponse {
     readableStreamBody?: NodeJS.ReadableStream;
     request: PipelineRequest;
     status: number;
+}
+
+// @public
+export interface PipelineRetryOptions {
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+    retryDelayInMs?: number;
 }
 
 // @public
@@ -317,10 +330,15 @@ export interface SystemErrorRetryPolicyOptions {
 }
 
 // @public
-export function throttlingRetryPolicy(): PipelinePolicy;
+export function throttlingRetryPolicy(options?: ThrottlingRetryPolicyOptions): PipelinePolicy;
 
 // @public
 export const throttlingRetryPolicyName = "throttlingRetryPolicy";
+
+// @public
+export interface ThrottlingRetryPolicyOptions {
+    maxRetries?: number;
+}
 
 // @public
 export function tracingPolicy(options?: TracingPolicyOptions): PipelinePolicy;

@@ -9,9 +9,10 @@ const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
 const express = require("express");
 
 const handler = new WebPubSubEventHandler("chat", {
-  path: "/api/webpubsub",
   handleConnect(req, res) {
     console.log(req);
+    // You can set the state for the connection, it lasts throughout the lifetime of the connection
+    res.setState("calledTime", 1);
     res.success();
     // or fail
     // res.fail(401);
@@ -20,9 +21,13 @@ const handler = new WebPubSubEventHandler("chat", {
     console.log(connectedRequest);
   },
   handleUserEvent(req, res) {
-    console.log(req);
+    var calledTime = req.context.states.calledTime++;
+    console.log(calledTime);
+    // You can also set the state here
+    res.setState("calledTime", calledTime);
     res.success("Hello", "text");
-  }
+  },
+  allowedEndpoints: ["https://xxx.webpubsub.azure.com"]
 });
 
 const app = express();
