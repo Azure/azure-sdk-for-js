@@ -18,6 +18,8 @@ const f = require("./hasNamedDefaultExport").default;
 const base = require("./defaultExportsNamedClass");
 const Anonymous = require("./defaultExportsClass").default;
 
+require("./hasSideEffects");
+
 async function main() {
   const waitTime = process.env.WAIT_TIME || "5000";
   const delayMs = parseInt(waitTime);
