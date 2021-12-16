@@ -2,6 +2,10 @@
 
 This document outlines key differences between the legacy recorder and the new Unified Recorder client.
 
+## Prerequisites
+
+* [Docker] is required, as the [test proxy server] is run in a container during testing.
+
 ## Installing the Unified Recorder
 
 The first step is to install the unified recorder client library in your package by running
@@ -157,4 +161,5 @@ const { relativeRecordingsPath } = require("@azure-tools/test-recorder-new");
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 ```
 
+[docker]: https://docker.com/
 [test proxy server]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy
