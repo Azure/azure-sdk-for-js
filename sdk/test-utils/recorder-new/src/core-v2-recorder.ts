@@ -44,25 +44,7 @@ export class TestProxyHttpClient {
   public httpClient: HttpClient | undefined = undefined;
   private sessionFile: string | undefined = undefined;
   private sanitizer: Sanitizer | undefined;
-
-  /**
-   * Add the dynamically created variables here in the record mode, so that the recorder registers them as part of the recording.
-   * Using this "variables" in playback mode would give the key-value pairs that are stored in record mode.
-   *
-   * Example:
-   *  ```ts
-   *       if (!isPlaybackMode()) {
-   *           recorder.variables["random-1"] = `random-${Math.ceil(Math.random() * 1000 + 1000)}`;
-   *       }
-   *  ```
-   * Use this `recorder.variables["random-1"]` whereever you'd like to use in your test.
-   *      (This would work in all three modes - record/playback/live just by adding the if-block above)
-   *
-   * Internals(How does it work?):
-   *  - recorder.stop() call sends the variables to the proxy-tool (in record mode)
-   *  - recorder.start() call loads those variables given by the proxy tool (in playback mode)
-   */
-  public variables: Record<string, string>;
+  private variables: Record<string, string>;
 
   constructor(private testContext?: Test | undefined) {
     this.mode = getTestMode();
@@ -265,6 +247,63 @@ export class TestProxyHttpClient {
     if (!isLiveMode()) {
       client.pipeline.addPolicy(recorderHttpPolicy(this));
     }
+  }
+
+  /**
+   * Register a variable to be stored with the recording. The behavior of this function
+   * depends on whether the recorder is in record/live mode or in playback mode.
+   *
+   * In record or live mode, the function will store the value provided with the recording
+   * as a variable and return that value.
+   *
+   * In playback mode, the function will fetch the value from the variables stored as part of the recording
+   * and return the retrieved variable, throwing an error if it is not found.
+   *
+   * @param name - the name of the variable to be stored in the recording
+   * @param value - the value of the variable. In record mode, this value will be stored
+   *                with the recording; in playback mode, this parameter is ignored.
+   * @returns in record and live mode, `value` without modification.
+   *          In playback mode, the variable's value from the recording.
+   */
+  variable(name: string, value: string): string;
+
+  /**
+   * Convenience overload in case you want to reference the same variable multiple times in a test without
+   * declaring a variable of your own, or if you know you're in playback mode and don't want to specify an
+   * initial value. Throws an error in record and live mode if a call to variable(name, value) has not been
+   * made previously.
+   *
+   * @param name - the name of the variable stored in the recording
+   * @returns the value of the variable -- in record and live mode, the value set
+   *          in a previous call to variable(name, value). In playback mode, the variable's
+   *          value from the recording.
+   */
+  variable(name: string): string;
+
+  variable(name: string, value: string | undefined = undefined): string {
+    if (isPlaybackMode()) {
+      const recordedValue = this.variables[name];
+
+      if (recordedValue === undefined) {
+        throw new RecorderError(
+          `Tried to access a variable in playback that was not set in recording: ${name}`
+        );
+      }
+
+      return recordedValue;
+    }
+
+    if (!this.variables[name]) {
+      if (value === undefined) {
+        throw new RecorderError(
+          `Tried to access uninitialized variable: ${name}. You must initialize it with a value before using it.`
+        );
+      }
+
+      this.variables[name] = value;
+    }
+
+    return this.variables[name];
   }
 }
 
