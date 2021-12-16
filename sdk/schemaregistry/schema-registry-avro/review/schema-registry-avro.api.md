@@ -4,18 +4,12 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
 export interface AvroSchemaRegistryEncoder {
-    decodeBody: (message: MessageWithMetadata, schema?: string) => Promise<unknown>;
-    encodeBody: (value: unknown, schema: string) => Promise<MessageWithMetadata>;
-}
-
-// @public
-export interface EventData extends MessageWithMetadata {
+    decodeMessageData: (message: MessageWithMetadata, schema?: string) => Promise<unknown>;
+    encodeMessageData: (value: unknown, schema: string) => Promise<MessageWithMetadata>;
 }
 
 // @public
@@ -25,30 +19,16 @@ export interface MessageWithMetadata {
 }
 
 // @public
-export interface ReadOnlyMessageWithMetadata {
-    readonly contentType: string;
-    readonly data: Uint8Array;
+export class SchemaRegistryAvroEncoder {
+    constructor(client: SchemaRegistry, options?: SchemaRegistryAvroEncoderOptions);
+    decodeMessageData(message: MessageWithMetadata, readerSchema?: string): Promise<unknown>;
+    encodeMessageData(value: unknown, schema: string): Promise<MessageWithMetadata>;
 }
 
 // @public
-export class SchemaRegistryAvroSerializer {
-    constructor(client: SchemaRegistry, options?: SchemaRegistryAvroSerializerOptions);
-    deserialize(input: Buffer | Blob | Uint8Array): Promise<unknown>;
-    serialize(value: unknown, schema: string): Promise<Uint8Array>;
-}
-
-// @public
-export interface SchemaRegistryAvroSerializerOptions {
+export interface SchemaRegistryAvroEncoderOptions {
     autoRegisterSchemas?: boolean;
     groupName?: string;
-}
-
-// @public
-export interface ServiceBusMessage extends MessageWithMetadata {
-}
-
-// @public
-export interface ServiceBusReceivedMessage extends ReadOnlyMessageWithMetadata {
 }
 
 // (No @packageDocumentation comment for this package)

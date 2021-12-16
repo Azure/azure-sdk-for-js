@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of SchemaRegistryAvroSerializer to serialize and deserialize using schema from Schema Registry.
+ * @summary Demonstrates the use of SchemaRegistryAvroEncoder to create messages with avro-serialized payload using schema from Schema Registry.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
-import { SchemaRegistryAvroSerializer } from "@azure/schema-registry-avro";
+import { SchemaRegistryAvroEncoder } from "@azure/schema-registry-avro";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -60,16 +60,16 @@ export async function main() {
   await client.registerSchema(schemaDescription);
 
   // Create a new serializer backed by the client
-  const serializer = new SchemaRegistryAvroSerializer(client, { groupName });
+  const serializer = new SchemaRegistryAvroEncoder(client, { groupName });
 
   // serialize an object that matches the schema
   const value: User = { firstName: "Jane", lastName: "Doe" };
-  const buffer = await serializer.serialize(value, schema);
+  const buffer = await serializer.encodeMessageData(value, schema);
   console.log("Serialized:");
   console.log(buffer);
 
   // deserialize the result back to an object
-  const deserializedValue = (await serializer.deserialize(buffer)) as User;
+  const deserializedValue = (await serializer.decodeMessageData(buffer)) as User;
   console.log("Deserialized:");
   console.log(`${deserializedValue.firstName} ${deserializedValue.lastName}`);
 }

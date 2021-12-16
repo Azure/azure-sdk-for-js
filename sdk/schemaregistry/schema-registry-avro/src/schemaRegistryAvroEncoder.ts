@@ -3,37 +3,7 @@
 
 import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import * as avro from "avsc";
-import { toUint8Array } from "./utils/buffer";
-
-// REVIEW: This should go in to a shared doc somewhere that all of the different
-//         language serializer's docs can reference.
-//
-// Wire format
-// -----------
-//
-// This is a standard meant to be reused across schema registry serializers for
-// different format. We only have an avro serializer at this point so picking
-// apart this format is inlined here, but handling could be extracted and shared
-// between serializers of different formats in the future.
-//
-// - [4 bytes: Format Indicator]
-//      - Currently always zero to indicate format below.
-//
-// - [32 bytes: Schema ID]
-//      - UTF-8 hexadecimal representation of GUID.
-//      - 32 hex digits, no hyphens.
-//      - Same format and byte order as string from Schema Registry service.
-//
-// - [Remaining bytes: Avro payload (in general, format-specific payload)]
-//     - Avro Binary Encoding
-//     - NOT Avro Object Container File, which includes the schema and defeats
-//       the purpose of this serializer to move the schema out of the message
-//       payload and into the schema registry.
-//
-const FORMAT_INDICATOR = 0;
-const SCHEMA_ID_OFFSET = 4;
-const SCHEMA_ID_LENGTH = 32;
-const PAYLOAD_OFFSET = 36;
+import { MessageWithMetadata } from "./models";
 
 interface CacheEntry {
   /** Schema ID */
@@ -46,9 +16,9 @@ interface CacheEntry {
 /**
  * Options for Schema
  */
-export interface SchemaRegistryAvroSerializerOptions {
+export interface SchemaRegistryAvroEncoderOptions {
   /**
-   * When true, register new schemas passed to serialize. Otherwise, and by
+   * When true, register new schemas passed to encodeMessageData. Otherwise, and by
    * default, fail if schema has not already been registered.
    *
    * Automatic schema registration is NOT recommended for production scenarios.
@@ -56,23 +26,25 @@ export interface SchemaRegistryAvroSerializerOptions {
   autoRegisterSchemas?: boolean;
   /**
    * The group name to be used when registering/looking up a schema. Must be specified
-   * if you will be calling `serialize`.
+   * if you will be calling `encodeMessageData`.
    */
   groupName?: string;
 }
 
+const avroMimeType = "avro/binary";
+
 /**
- * Avro serializer that obtains schemas from a schema registry and does not
+ * Avro encoder that obtains schemas from a schema registry and does not
  * pack schemas into its payloads.
  */
-export class SchemaRegistryAvroSerializer {
+export class SchemaRegistryAvroEncoder {
   /**
-   * Creates a new serializer.
+   * Creates a new encoder.
    *
    * @param client - Schema Registry where schemas are registered and obtained.
    *                 Usually this is a SchemaRegistryClient instance.
    */
-  constructor(client: SchemaRegistry, options?: SchemaRegistryAvroSerializerOptions) {
+  constructor(client: SchemaRegistry, options?: SchemaRegistryAvroEncoderOptions) {
     this.registry = client;
     this.schemaGroup = options?.groupName;
     this.autoRegisterSchemas = options?.autoRegisterSchemas ?? false;
@@ -89,68 +61,50 @@ export class SchemaRegistryAvroSerializer {
   //   were no blockers in our dependencies. I also wanted to get feedback on
   //   what the API shape should be before diving into that.
   //
-  // - This type should ultimately be able to implement a core ObjectSerializer
-  //   interface. Do we know what that would look like? Maybe it takes `any` as
-  //   the format-specific schema/type info? Or does it always take a
-  //   format-specific schema string?
-  //
-  //   The C#/Java approach of passing Type and assuming every serializer can
+  //   The C#/Java approach of passing Type and assuming every encoder can
   //   get its schema by reflecting on the type does not work for JavaScript. We
   //   need to support arbitrary objects that match a schema.
-  //
-  //   Maybe each format expects a different property on this arg so that you
-  //   could at least pass enough info for multiple formats, and then your call
-  //   to ObjectSerializer is at least not tied to a single format?
   //
   // - Should we wrap all errors thrown by avsc to avoid having our exception //
   //   contract being tied to its implementation details?
   /**
-   * Serializes a value into a buffer.
+   * encodes the value parameter according to the input schema and creates a message
+   * with the encoded data.
    *
-   * @param value - The value to serialize.
+   * @param value - The value to encodeMessageData.
    * @param schema - The Avro schema to use.
-   * @returns A new buffer with the serialized value
+   * @returns A new message with the serialized value
    */
-  async serialize(value: unknown, schema: string): Promise<Uint8Array> {
+  async encodeMessageData(value: unknown, schema: string): Promise<MessageWithMetadata> {
     const entry = await this.getSchemaByDefinition(schema);
     const payload = entry.type.toBuffer(value);
-    const buffer = Buffer.alloc(PAYLOAD_OFFSET + payload.length);
-
-    buffer.writeUInt32BE(FORMAT_INDICATOR, 0);
-    buffer.write(entry.id, SCHEMA_ID_OFFSET, SCHEMA_ID_LENGTH, "utf-8");
-    payload.copy(buffer, PAYLOAD_OFFSET);
-    return new Uint8Array(
-      buffer.buffer,
-      buffer.byteOffset,
-      buffer.byteLength / Uint8Array.BYTES_PER_ELEMENT
-    );
+    return {
+      data: new Uint8Array(
+        payload.buffer,
+        payload.byteOffset,
+        payload.byteLength / Uint8Array.BYTES_PER_ELEMENT
+      ),
+      contentType: `${avroMimeType}+${entry.id}`
+    };
   }
 
-  // REVIEW: signature. See serialize and s/serialize into/deserialize from/.
+  // REVIEW: signature. See encodeMessageData and s/encodeMessageData into/decodeMessageData from/.
   /**
-   * Deserializes a value from a buffer.
+   * decodes the payload of the message based on its content type if no schema was
+   * provided
    *
-   * @param buffer - The buffer with the serialized value.
-   * @returns The deserialized value.
+   * @param buffer - The buffer with the encodeMessageDatad value.
+   * @returns The decoded value.
    */
-  async deserialize(input: Buffer | Blob | Uint8Array): Promise<unknown> {
-    const arr8 = await toUint8Array(input);
-    const buffer = Buffer.isBuffer(arr8) ? arr8 : Buffer.from(arr8);
-    if (buffer.length < PAYLOAD_OFFSET) {
-      throw new RangeError("Buffer is too small to have the correct format.");
+  async decodeMessageData(message: MessageWithMetadata, readerSchema?: string): Promise<unknown> {
+    const buffer = Buffer.from(message.data);
+    if (readerSchema) {
+      return this.getAvroTypeForSchema(readerSchema).fromBuffer(buffer);
+    } else {
+      const schemaId = getSchemaId(message.contentType);
+      const schema = await this.getSchema(schemaId);
+      return schema.type.fromBuffer(buffer);
     }
-
-    const format = buffer.readUInt32BE(0);
-    if (format !== FORMAT_INDICATOR) {
-      throw new TypeError(`Buffer has unknown format indicator: 0x${format.toString(16)}.`);
-    }
-
-    const schemaIdBuffer = buffer.slice(SCHEMA_ID_OFFSET, PAYLOAD_OFFSET);
-    const schemaId = schemaIdBuffer.toString("utf-8");
-    const schema = await this.getSchema(schemaId);
-    const payloadBuffer = buffer.slice(PAYLOAD_OFFSET);
-
-    return schema.type.fromBuffer(payloadBuffer);
   }
 
   private readonly cacheBySchemaDefinition = new Map<string, CacheEntry>();
@@ -190,7 +144,7 @@ export class SchemaRegistryAvroSerializer {
 
     if (!this.schemaGroup) {
       throw new Error(
-        "Schema group must have been specified in the constructor options when the client was created in order to serialize."
+        "Schema group must have been specified in the constructor options when the client was created in order to encodeMessageData."
       );
     }
 
@@ -231,4 +185,17 @@ export class SchemaRegistryAvroSerializer {
   private getAvroTypeForSchema(schema: string): avro.Type {
     return avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true });
   }
+}
+
+function getSchemaId(contentType: string): string {
+  const contentTypeParts = contentType.split("+");
+  if (contentTypeParts.length !== 2) {
+    throw new Error("Content type was not in the expected format of MIME type + schema ID");
+  }
+  if (contentTypeParts[0] !== avroMimeType) {
+    throw new Error(
+      `Received content of type ${contentTypeParts[0]} but an avro encoder may only be used on content that is of '${avroMimeType}' type`
+    );
+  }
+  return contentTypeParts[1];
 }
