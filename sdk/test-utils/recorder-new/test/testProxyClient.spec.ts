@@ -12,14 +12,24 @@ import { expect } from "chai";
 import { TestProxyHttpClient } from "../src";
 import { RecorderError, RecordingStateManager } from "../src/utils/utils";
 
+const testRedirectedRequest = (
+  client: TestProxyHttpClient,
+  makeRequest: () => PipelineRequest,
+  expectedModification: (req: PipelineRequest) => PipelineRequest
+) => {
+  const redirectedRequest = makeRequest();
+  client.redirectRequest(redirectedRequest);
+  expect(redirectedRequest).to.deep.equal(expectedModification(makeRequest()));
+};
+
 describe("TestProxyClient functions", () => {
   let client: TestProxyHttpClient;
   let clientHttpClient: HttpClient;
-  let testContext: Mocha.Test;
+  let testContext: Mocha.Test | undefined;
   beforeEach(function() {
     client = new TestProxyHttpClient(this.currentTest);
     clientHttpClient = client.httpClient as HttpClient;
-    testContext = this.currentTest!;
+    testContext = this.currentTest;
   });
 
   afterEach(() => {
@@ -39,17 +49,25 @@ describe("TestProxyClient functions", () => {
   describe("redirectRequest method", () => {
     it("request unchanged if not playback or record modes", function() {
       env.TEST_MODE = "live";
-      expect(client.redirectRequest(initialRequest)).to.deep.equal(initialRequest);
+      testRedirectedRequest(
+        client,
+        () => initialRequest,
+        (req) => req
+      );
     });
 
     ["record", "playback"].forEach((testMode) => {
       it(`${testMode} mode: ` + "request unchanged if `x-recording-id` in headers", function() {
         env.TEST_MODE = testMode;
-        const request: PipelineRequest = {
-          ...initialRequest,
-          headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
-        };
-        expect(client.redirectRequest(request)).to.deep.equal(request);
+
+        testRedirectedRequest(
+          client,
+          () => ({
+            ...initialRequest,
+            headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
+          }),
+          (req) => req
+        );
       });
 
       it(
@@ -57,20 +75,30 @@ describe("TestProxyClient functions", () => {
         function() {
           env.TEST_MODE = testMode;
           client = new TestProxyHttpClient(testContext);
-          const request: PipelineRequest = {
-            ...initialRequest,
-            headers: createHttpHeaders({})
-          };
           client.recordingId = "dummy-recording-id";
-          expect(client.redirectRequest(request)).to.deep.equal({
-            ...request,
-            url: "http://localhost:5000/dummy_path?sas=sas",
-            headers: createHttpHeaders({
-              "x-recording-upstream-base-uri": initialRequest.url,
-              "x-recording-id": client.recordingId,
-              "x-recording-mode": env.TEST_MODE
-            })
-          });
+
+          testRedirectedRequest(
+            client,
+            () => ({
+              ...initialRequest,
+              headers: createHttpHeaders({})
+            }),
+            (req) => {
+              if (!client.recordingId) {
+                throw new Error("client.recordingId should be defined");
+              }
+
+              return {
+                ...req,
+                url: "http://localhost:5000/dummy_path?sas=sas",
+                headers: createHttpHeaders({
+                  "x-recording-upstream-base-uri": initialRequest.url,
+                  "x-recording-id": client.recordingId,
+                  "x-recording-mode": env.TEST_MODE
+                })
+              };
+            }
+          );
         }
       );
     });
