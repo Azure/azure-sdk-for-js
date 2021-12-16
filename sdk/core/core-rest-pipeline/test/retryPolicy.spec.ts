@@ -433,17 +433,14 @@ describe("retryPolicy", function() {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 
-    const clock = sinon.useFakeTimers();
+    abortController.abort();
 
     let catchCalled = false;
     const promise = policy.sendRequest(request, next);
-    promise.catch((e) => {
+    await promise.catch((e) => {
       catchCalled = true;
-      assert.strictEqual(e, testError);
+      assert.strictEqual(e.name, "AbortError");
     });
-
-    abortController.abort();
-    await clock.runAllAsync();
 
     // should be one more than the default retry count
     assert.strictEqual(next.callCount, 1);
