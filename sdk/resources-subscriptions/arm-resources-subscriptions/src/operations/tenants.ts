@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Tenants } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SubscriptionClientContext } from "../subscriptionClientContext";
+import { SubscriptionClient } from "../subscriptionClient";
 import {
   TenantIdDescription,
   TenantsListNextOptionalParams,
@@ -24,13 +23,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Tenants operations. */
 export class TenantsImpl implements Tenants {
-  private readonly client: SubscriptionClientContext;
+  private readonly client: SubscriptionClient;
 
   /**
    * Initialize a new instance of the class Tenants class.
    * @param client Reference to the service client
    */
-  constructor(client: SubscriptionClientContext) {
+  constructor(client: SubscriptionClient) {
     this.client = client;
   }
 
