@@ -1027,7 +1027,7 @@ packages:
       '@babel/helper-compilation-targets': 7.16.3_@babel+core@7.16.5
       '@babel/helper-module-transforms': 7.16.5
       '@babel/helpers': 7.16.5
-      '@babel/parser': 7.16.5
+      '@babel/parser': 7.16.6
       '@babel/template': 7.16.0
       '@babel/traverse': 7.16.5
       '@babel/types': 7.16.0
@@ -1160,8 +1160,8 @@ packages:
       js-tokens: 4.0.0
     dev: false
 
-  /@babel/parser/7.16.5:
-    resolution: {integrity: sha512-+Ce7T5iPNWzfu9C1aB5tN3Lyafs5xb3Ic7vBWyZL2KXT3QSdD1dD3CvgOzPmQKoNNRt6uauc0XwNJTQtXC2/Mw==}
+  /@babel/parser/7.16.6:
+    resolution: {integrity: sha512-Gr86ujcNuPDnNOY8mi383Hvi8IYrJVJYuf3XcuBM/Dgd+bINn/7tHqsj+tKkoreMbmGsFLsltI/JJd8fOFWGDQ==}
     engines: {node: '>=6.0.0'}
     hasBin: true
     dev: false
@@ -1178,7 +1178,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': 7.16.0
-      '@babel/parser': 7.16.5
+      '@babel/parser': 7.16.6
       '@babel/types': 7.16.0
     dev: false
 
@@ -1192,7 +1192,7 @@ packages:
       '@babel/helper-function-name': 7.16.0
       '@babel/helper-hoist-variables': 7.16.0
       '@babel/helper-split-export-declaration': 7.16.0
-      '@babel/parser': 7.16.5
+      '@babel/parser': 7.16.6
       '@babel/types': 7.16.0
       debug: 4.3.3
       globals: 11.12.0
@@ -1845,6 +1845,10 @@ packages:
     resolution: {integrity: sha512-i1KGxqcvJaLQali+WuypQnXwcplhtNtjs66eNsZpp2P2FL/trJJxx/VWsM0YCL2iMoIJrbXje48lvIQAQ4p2ZA==}
     dev: false
 
+  /@types/node/16.11.13:
+    resolution: {integrity: sha512-eUXZzHLHoZqj1frtUetNkUetYoJ6X55UmrVnFD4DMhVeAmwLjniZhtBmsRiemQh4uq4G3vUra/Ws/hs9vEvL3Q==}
+    dev: false
+
   /@types/prettier/2.0.2:
     resolution: {integrity: sha512-IkVfat549ggtkZUthUzEX49562eGikhSYeVGX97SkMFn+sTZrgRewXjQ4tPKFPCykZHkX1Zfd9OoELGqKU2jJA==}
     dev: false
@@ -1864,7 +1868,7 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 16.11.13
     dev: false
 
   /@types/semaphore/1.1.1:
@@ -3610,7 +3614,7 @@ packages:
     engines: {node: '>= 10.17.0'}
     hasBin: true
     dependencies:
-      debug: 4.3.3
+      debug: 4.3.1
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -6310,7 +6314,7 @@ packages:
     hasBin: true
     dependencies:
       '@types/estree': 0.0.50
-      '@types/node': 12.20.37
+      '@types/node': 16.11.13
       acorn: 7.4.1
     dev: false
 
@@ -8826,7 +8830,7 @@ packages:
     dev: false
 
   file:projects/arm-postgresql.tgz:
-    resolution: {integrity: sha512-6Q3ZBc6Sax4GFoLiiVyGs0g1pLyv2VU35AC1wTjcYkc6G2m53nCubCtEDkh6QgGl6X+llsIEr71KK9PZNC3Gow==, tarball: file:projects/arm-postgresql.tgz}
+    resolution: {integrity: sha512-zSCnZiTUuJ3qyfFeLqzJl5p8diq7IGmXoxGemsFr3ApHDmnkHdxOkA7a0aRLnM/0fxJt9Nlvi0AA6GQgq2NB1w==, tarball: file:projects/arm-postgresql.tgz}
     name: '@rush-temp/arm-postgresql'
     version: 0.0.0
     dependencies:
@@ -8838,6 +8842,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -8846,7 +8851,7 @@ packages:
     dev: false
 
   file:projects/arm-purview.tgz:
-    resolution: {integrity: sha512-3yTP1x0NsuoF22Z+MwjuLYQlboJwRDH24Dr7HapItun5Mkbjj4efeEuMJLg7lRT32YVtkIGE5OEQOXEXIMXgRA==, tarball: file:projects/arm-purview.tgz}
+    resolution: {integrity: sha512-Vb376ewu/nl1fRue8La/7duUXrW8YYqLX4vjzc+vmlsQ7eBjCsJsY9J+P+hIPx0VVG2dC0fwUEzvybRf7n8+Sg==, tarball: file:projects/arm-purview.tgz}
     name: '@rush-temp/arm-purview'
     version: 0.0.0
     dependencies:
@@ -8855,7 +8860,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9029,7 +9037,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-bgaJINuiFpBkVPyJPozqWwkUI710zyhqGyubymaep78wZS/ncMV19d6ZoY7xCIqdl6hok9Al0QK0JuV28GUKPw==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-F3OhbZcyJmfqpT5xlnBR1/4sgGLw9DlPrDMZ3PmKZOlqG1joUvrcQ57aE+YAmwMR+dr2dFB3Dvyb6pP1dwQp8Q==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -9041,6 +9049,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9049,7 +9058,7 @@ packages:
     dev: false
 
   file:projects/arm-servicebus.tgz:
-    resolution: {integrity: sha512-IUTGAWXcntlWJN71Tv3hOp8z6RQtTIn6WfNio1IXRKipZ7MTm3UvLDaZFkYIS8tPqzP6+ErnOt+i/twF6uGHzg==, tarball: file:projects/arm-servicebus.tgz}
+    resolution: {integrity: sha512-wpZLIJN8lPkDfOvX+vdJNe1GmwrqRaNU5eHYWWdAuag36dZYmuRnnnBt7B31oJ8mOwAjIbykSDeOYX+t9ZgghA==, tarball: file:projects/arm-servicebus.tgz}
     name: '@rush-temp/arm-servicebus'
     version: 0.0.0
     dependencies:
@@ -9058,7 +9067,10 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -9194,7 +9206,7 @@ packages:
     dev: false
 
   file:projects/arm-videoanalyzer.tgz:
-    resolution: {integrity: sha512-7H6zqgC1aDFFNu38qU/P4Y62dxsKyOrG39RS2WFCbc/2OUlHCI93RCOWpKs/9KrgUhQAWhuIhtM+hLTjzNtktg==, tarball: file:projects/arm-videoanalyzer.tgz}
+    resolution: {integrity: sha512-2nnpgCmdUCStf3mGHFx1YnHW9idrPuR+sUfREpuMTMRoRNwkoRtzWi7lgmSG85qCJJZ8KO9RXHB/LJlO8n+A4g==, tarball: file:projects/arm-videoanalyzer.tgz}
     name: '@rush-temp/arm-videoanalyzer'
     version: 0.0.0
     dependencies:
@@ -9206,6 +9218,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -10080,7 +10093,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-btRmqx8rkmrCnbnvDVcCqF5P137pYWkjVS8+zelkOsxanSxGy4F+fhxslCIH4jXa+t80++3tgM8M1ZRh8HRSZw==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-5x7iTuPSBVeBOr1aUg5VwW3rWLgQhSCd441hooOhfIPTwDEUkI3QZ1ElZBB4n/BzZg8U8ShKsqOR0kP0YkXiUQ==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -11883,7 +11896,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-ESkni7JKJO+FHnw9fYjQPqpOCUNwHBfwTHURUK6LJT72fP/Qi6GE17OyHclmA3SazVg/p6csIutTzHFzUxBubA==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-MP7VqxpxZ8LIGj5nfzcf0PZHudexBQIWvAWfvaqxzqghKrKjYAfPCuhnu+aJ8Onb/3zh3XTnrZSxEv1IMIOXMA==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -12475,7 +12488,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-PM5JsRsOurjqQKZe5NTvF6xysIekH7CzMo/CqIeB+8Ox1kFDolUX5WC2O1iazreqj70Yk1Q8ThNCdcncqLa9mA==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-t/0LgH6vCvaj8vte6WlxhxAqlLiMMWpKa9zJ1efWXRMFttdZRbXHA1M8yRwHK4oWI54aKxZ+gEAaqMbueHrV4w==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -12488,7 +12501,6 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.37
-      '@types/node-fetch': 2.5.12
       assert: 1.5.0
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -12513,7 +12525,6 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      node-fetch: 2.6.6
       nyc: 15.1.0
       prettier: 1.19.1
       puppeteer: 10.4.0
@@ -13217,7 +13228,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-LOwl++qbf54ApKHuW/fcoKzgrh/cY8jU2MAZgJ1+P1lHpW3+ooFv8kxqUm2dqcit3JzVALtEdycBtaXGER/bXw==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-eO/XaNwlnKeTn9jy1A0SpJpAZ8rztxeZU7LKQzOR6rqho1XiZX/N6zsCkAYiOLfvxJnRSqBlDGclKFf6U68xQw==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
