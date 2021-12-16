@@ -9,9 +9,7 @@
 ### Features Added
 
 - Updated to @azure/communication-signaling@1.0.0-beta.12.
-- Added two new APIs:
-  - on(event: "realTimeNotificationConnected", listener: () => void): void;
-  - on(event: "realTimeNotificationDisconnected", listener: () => void): void;
+- Added two new events realTimeNotificationConnected and realTimeNotificationDisconnected that allow the developer to know when the connection to the call server is active
 
 ## 1.1.1 (2021-10-19)
 
