@@ -418,10 +418,7 @@ describe("retryPolicy", function() {
         {
           name: "testRetryStrategy",
           logger: strategyLogger.logger,
-          retry({ responseError }) {
-            if (responseError?.code !== "ENOENT") {
-              return { skipStrategy: true };
-            }
+          retry() {
             return {
               retryAfterInMs: 100
             };
