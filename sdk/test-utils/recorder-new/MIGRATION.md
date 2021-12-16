@@ -31,7 +31,7 @@ Update your test scripts based on the following examples:
 
 ## Initializing the recorder
 
-The approach taken to initialize the recorder depends on whether the SDK being tested uses Core v1 (`core-http`) or Core v2 (`core-rest-pipeline`). If your SDK is on Core v2, read on. If you're still on Core v1, jump to the section on Core v1 below.
+The approach taken to initialize the recorder depends on whether the SDK being tested uses Core v1 ([`core-http`]) or Core v2 ([`core-rest-pipeline`]). If your SDK is on Core v2, read on. If you're still on Core v1, [jump to the section on Core v1 below](#for-core-v1-sdks).
 
 ### For Core v2 SDKs
 
@@ -162,4 +162,6 @@ process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 ```
 
 [docker]: https://docker.com/
+[`core-rest-pipeline`]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-rest-pipeline
+[`core-http`]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-http
 [test proxy server]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy
