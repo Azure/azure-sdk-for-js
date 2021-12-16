@@ -22,6 +22,8 @@
 
 ### Other Changes
 
+- Pipelines created with `createPipelineFromOptions` now retry up to a maximum of 3 times. To change this behavior, specify a `maxRetries` parameter in the `retryOptions` property on the optional parameters passed to `createPipelineFromOptions`.
+
 ## 1.3.2 (2021-11-04)
 
 ### Other Changes
