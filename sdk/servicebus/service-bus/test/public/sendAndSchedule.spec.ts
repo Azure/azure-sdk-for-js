@@ -61,23 +61,19 @@ describe("Sender Tests", () => {
       : TestMessage.getSample();
     await sender.sendMessages(testMessage);
     const msgs = await receiver.receiveMessages(1);
+    const receivedMessage = msgs[0];
     // remove message first in case any assertion fails to ensure we don't have lingering message
-    await receiver.completeMessage(msgs[0]);
-
+    await receiver.completeMessage(receivedMessage);
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
-    should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
-    should.equal(msgs[0].messageId, testMessage.messageId);
-    // the message could be in "scheduled" state because we set `scheduledEnqueueTimeUtc` property
-    should.equal(
-      msgs[0].state === "active" || msgs[0].state === "scheduled",
-      true,
-      `actual message state: ${msgs[0].state}`
-    );
+    should.equal(receivedMessage.deliveryCount, 0, "DeliveryCount is different than expected");
+    should.equal(receivedMessage.messageId, testMessage.messageId);
+    // the message could be in "active" or "scheduled" state because we set `scheduledEnqueueTimeUtc` property
+    (receivedMessage.state === "active" || receivedMessage.state === "scheduled").should.be.true;
 
     TestMessage.checkMessageContents(
       testMessage,
-      msgs[0],
+      receivedMessage,
       entityName.usesSessions,
       entityName.isPartitioned
     );
@@ -108,7 +104,7 @@ describe("Sender Tests", () => {
     const msgs = await receiver.receiveMessages(1);
     // remove message first in case any assertion fails to ensure we don't have lingering message
     await receiver.completeMessage(msgs[0]);
-    should.equal(msgs[0].state === "active", true, `actual message state: ${msgs[0].state}`);
+    msgs[0].state.should.equal("active");
   });
 
   async function testSimpleSendArray(): Promise<void> {
