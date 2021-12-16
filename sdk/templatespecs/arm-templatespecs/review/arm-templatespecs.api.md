@@ -95,16 +95,7 @@ export interface TemplateSpecs {
 }
 
 // @public (undocumented)
-export class TemplateSpecsClient extends TemplateSpecsClientContext {
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: TemplateSpecsClientOptionalParams);
-    // (undocumented)
-    templateSpecs: TemplateSpecs;
-    // (undocumented)
-    templateSpecVersions: TemplateSpecVersions;
-}
-
-// @public (undocumented)
-export class TemplateSpecsClientContext extends coreClient.ServiceClient {
+export class TemplateSpecsClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: TemplateSpecsClientOptionalParams);
@@ -112,6 +103,10 @@ export class TemplateSpecsClientContext extends coreClient.ServiceClient {
     apiVersion: string;
     // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    templateSpecs: TemplateSpecs;
+    // (undocumented)
+    templateSpecVersions: TemplateSpecVersions;
 }
 
 // @public
@@ -279,7 +274,6 @@ export type TemplateSpecVersionUpdateModel = AzureResourceBase & {
         [propertyName: string]: string;
     };
 };
-
 
 // (No @packageDocumentation comment for this package)
 

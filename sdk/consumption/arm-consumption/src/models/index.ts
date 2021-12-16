@@ -8,6 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type LegacyReservationRecommendationPropertiesUnion =
+  | LegacyReservationRecommendationProperties
+  | LegacySingleScopeReservationRecommendationProperties
+  | LegacySharedScopeReservationRecommendationProperties;
 export type UsageDetailUnion =
   | UsageDetail
   | LegacyUsageDetail
@@ -120,27 +124,6 @@ export interface BudgetsListResult {
   readonly nextLink?: string;
 }
 
-/** The Resource model definition. */
-export interface ProxyResource {
-  /**
-   * Resource Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
-  eTag?: string;
-}
-
 /** The start and end date for a budget. */
 export interface BudgetTimePeriod {
   /** The start date for the budget. */
@@ -225,6 +208,27 @@ export interface ForecastSpend {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly unit?: string;
+}
+
+/** The Resource model definition. */
+export interface ProxyResource {
+  /**
+   * Resource Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not. */
+  eTag?: string;
 }
 
 /** The tag resource. */
@@ -795,6 +799,82 @@ export interface MeterDetailsResponse {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly serviceFamily?: string;
+}
+
+/** The properties of the reservation recommendation. */
+export interface LegacyReservationRecommendationProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  scope: "Single" | "Shared";
+  /**
+   * The number of days of usage to look back for recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lookBackPeriod?: string;
+  /**
+   * The instance Flexibility Ratio.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceFlexibilityRatio?: number;
+  /**
+   * The instance Flexibility Group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceFlexibilityGroup?: string;
+  /**
+   * The normalized Size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly normalizedSize?: string;
+  /**
+   * The recommended Quantity Normalized.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendedQuantityNormalized?: number;
+  /**
+   * The meter id (GUID)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly meterId?: string;
+  /**
+   * The azure resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**
+   * RI recommendations in one or three year terms.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly term?: string;
+  /**
+   * The total amount of cost without reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly costWithNoReservedInstances?: number;
+  /**
+   * Recommended quality for reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendedQuantity?: number;
+  /**
+   * The total amount of cost with reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalCostWithReservedInstances?: number;
+  /**
+   * Total estimated savings with reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly netSavings?: number;
+  /**
+   * The usage date for looking back.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firstUsageDate?: Date;
+  /**
+   * List of sku properties
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuProperties?: SkuProperty[];
 }
 
 /** The Sku property */
@@ -1807,6 +1887,23 @@ export type AmountWithExchangeRate = Amount & {
   readonly exchangeRateMonth?: number;
 };
 
+/** The properties of the legacy reservation recommendation for single scope. */
+export type LegacySingleScopeReservationRecommendationProperties = LegacyReservationRecommendationProperties & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  scope: "Single";
+  /**
+   * Subscription id associated with single scoped recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+};
+
+/** The properties of the legacy reservation recommendation for shared scope. */
+export type LegacySharedScopeReservationRecommendationProperties = LegacyReservationRecommendationProperties & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  scope: "Shared";
+};
+
 /** Legacy usage detail. */
 export type LegacyUsageDetail = UsageDetail & {
   /**
@@ -2462,11 +2559,8 @@ export type LegacyReservationRecommendation = ReservationRecommendation & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly firstUsageDate?: Date;
-  /**
-   * Shared or single recommendation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly scope?: string;
+  /** Shared or single recommendation. */
+  scope: string;
   /**
    * List of sku properties
    * NOTE: This property will not be serialized. It can only be populated by the server.
