@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import { testWithServiceTypes } from "./utils/testWithServiceTypes";
-import { createMockServer } from "./utils/mockService";
 import {
-  EventHubBufferedProducerClient,
   EventData,
+  EventHubBufferedProducerClient,
   OnSendEventsErrorContext,
   OnSendEventsSuccessContext
 } from "../../src/index";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import chai from "chai";
+import { createMockServer } from "./utils/mockService";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
 
 const assert = chai.assert;
 

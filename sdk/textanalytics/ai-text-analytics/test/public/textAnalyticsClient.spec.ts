@@ -926,6 +926,12 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
       });
 
+      /**
+       * The service's rate limit is sometimes reached for the beginAnalyzeActions tests
+       * because of the many requests the tests send. It appears that the number of
+       * max retries should be big enough to get around this issue. 10 seems to work
+       * fine for now.
+       */
       describe("#analyze", function() {
         it("single custom entity recognition action", async function() {
           const docs = [

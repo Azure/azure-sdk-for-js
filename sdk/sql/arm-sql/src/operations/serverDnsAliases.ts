@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ServerDnsAliases } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SqlManagementClientContext } from "../sqlManagementClientContext";
+import { SqlManagementClient } from "../sqlManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -34,13 +33,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServerDnsAliases operations. */
 export class ServerDnsAliasesImpl implements ServerDnsAliases {
-  private readonly client: SqlManagementClientContext;
+  private readonly client: SqlManagementClient;
 
   /**
    * Initialize a new instance of the class ServerDnsAliases class.
    * @param client Reference to the service client
    */
-  constructor(client: SqlManagementClientContext) {
+  constructor(client: SqlManagementClient) {
     this.client = client;
   }
 
@@ -558,7 +557,7 @@ const acquireOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters68,
+  requestBody: Parameters.parameters62,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,

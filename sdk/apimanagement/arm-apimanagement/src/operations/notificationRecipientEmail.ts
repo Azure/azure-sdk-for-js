@@ -10,7 +10,7 @@ import { NotificationRecipientEmail } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ApiManagementClientContext } from "../apiManagementClientContext";
+import { ApiManagementClient } from "../apiManagementClient";
 import {
   NotificationName,
   NotificationRecipientEmailListByNotificationOptionalParams,
@@ -25,13 +25,13 @@ import {
 /** Class containing NotificationRecipientEmail operations. */
 export class NotificationRecipientEmailImpl
   implements NotificationRecipientEmail {
-  private readonly client: ApiManagementClientContext;
+  private readonly client: ApiManagementClient;
 
   /**
    * Initialize a new instance of the class NotificationRecipientEmail class.
    * @param client Reference to the service client
    */
-  constructor(client: ApiManagementClientContext) {
+  constructor(client: ApiManagementClient) {
     this.client = client;
   }
 

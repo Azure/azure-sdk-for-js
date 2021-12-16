@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CheckpointStore, PartitionOwnership, Checkpoint } from "../../../src";
+import { Checkpoint, CheckpointStore, PartitionOwnership } from "../../../src";
 import { generate_uuid } from "rhea-promise";
 
 /**

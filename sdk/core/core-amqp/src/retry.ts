@@ -3,11 +3,11 @@
 /* eslint-disable eqeqeq */
 
 import { MessagingError, translate } from "./errors";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { Constants } from "./util/constants";
+import { checkNetworkConnection } from "./util/checkNetworkConnection";
 import { delay } from "./util/utils";
 import { logger } from "./log";
-import { Constants } from "./util/constants";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { checkNetworkConnection } from "./util/checkNetworkConnection";
 
 /**
  * Determines whether the object is a Delivery object.

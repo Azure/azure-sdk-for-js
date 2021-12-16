@@ -6,13 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Provider,
-  ProvidersListNextOptionalParams,
   ProvidersListOptionalParams,
-  ProvidersListAtTenantScopeNextOptionalParams,
   ProvidersListAtTenantScopeOptionalParams,
   ProvidersUnregisterOptionalParams,
   ProvidersUnregisterResponse,
@@ -43,24 +40,6 @@ export interface Providers {
    */
   listAtTenantScope(
     options?: ProvidersListAtTenantScopeOptionalParams
-  ): PagedAsyncIterableIterator<Provider>;
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  listNext(
-    nextLink: string,
-    options?: ProvidersListNextOptionalParams
-  ): PagedAsyncIterableIterator<Provider>;
-  /**
-   * ListAtTenantScopeNext
-   * @param nextLink The nextLink from the previous successful call to the ListAtTenantScope method.
-   * @param options The options parameters.
-   */
-  listAtTenantScopeNext(
-    nextLink: string,
-    options?: ProvidersListAtTenantScopeNextOptionalParams
   ): PagedAsyncIterableIterator<Provider>;
   /**
    * Unregisters a subscription from a resource provider.

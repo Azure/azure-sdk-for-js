@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import * as os from "os";
-import { TelemetryInfo } from "./userAgentPolicy";
 import { Constants } from "../util/constants";
+import { TelemetryInfo } from "./userAgentPolicy";
 
 export function getDefaultUserAgentKey(): string {
   return Constants.HeaderConstants.USER_AGENT;

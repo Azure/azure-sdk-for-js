@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { CheckpointStore, SubscriptionEventHandlers } from "../../src";
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { EventHubConsumerClient, isCheckpointStore } from "../../src/eventHubConsumerClient";
-import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore";
 import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor";
 import { SinonStubbedInstance, createStubInstance } from "sinon";
-import { ConnectionContext } from "../../src/connectionContext";
 import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
+import { ConnectionContext } from "../../src/connectionContext";
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
+import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore";
 import chai from "chai";
-import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { createMockServer } from "../public/utils/mockService";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 
 const should = chai.should();
 

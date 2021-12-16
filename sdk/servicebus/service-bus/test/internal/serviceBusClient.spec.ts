@@ -407,6 +407,7 @@ describe("ServiceBusClient live tests", () => {
             should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
             should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
             should.equal(msgs.length, 1, "Unexpected number of messages");
+            should.equal(msgs[0].state, "active");
           } finally {
             await sbClient.close();
           }

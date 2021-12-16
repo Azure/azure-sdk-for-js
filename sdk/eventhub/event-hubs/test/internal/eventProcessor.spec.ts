@@ -1,45 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:partitionPump");
+import { AbortError, AbortSignal } from "@azure/abort-controller";
 import {
   CheckpointStore,
   CloseReason,
   EventData,
+  EventHubConsumerClient,
+  EventHubProducerClient,
   PartitionOwnership,
   ReceivedEventData,
   SubscriptionEventHandlers,
   earliestEventPosition,
-  latestEventPosition,
-  EventHubConsumerClient,
-  EventHubProducerClient
+  latestEventPosition
 } from "../../src";
-import { EnvVarKeys, getEnvVars, loopUntil } from "../public/utils/testUtils";
 import { Dictionary, generate_uuid } from "rhea-promise";
+import { EnvVarKeys, getEnvVars, loopUntil } from "../public/utils/testUtils";
 import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor";
-import { Checkpoint } from "../../src/partitionProcessor";
-import { delay } from "@azure/core-amqp";
-import { PartitionContext } from "../../src/eventHubConsumerClientModels";
-import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore";
-import { loggerForTest } from "../public/utils/logHelpers";
 import {
   SubscriptionHandlerForTests,
   sendOneMessagePerPartition
 } from "../public/utils/subscriptionHandlerForTests";
-import { AbortError, AbortSignal } from "@azure/abort-controller";
-import { FakeSubscriptionEventHandlers } from "../public/utils/fakeSubscriptionEventHandlers";
-import { isLatestPosition } from "../../src/eventPosition";
 import { AbortController } from "@azure/abort-controller";
-import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy";
 import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
+import { Checkpoint } from "../../src/partitionProcessor";
+import { FakeSubscriptionEventHandlers } from "../public/utils/fakeSubscriptionEventHandlers";
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore";
+import { PartitionContext } from "../../src/eventHubConsumerClientModels";
+import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "../public/utils/mockService";
+import debugModule from "debug";
+import { delay } from "@azure/core-amqp";
+import { isLatestPosition } from "../../src/eventPosition";
+import { loggerForTest } from "../public/utils/logHelpers";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
+const debug = debugModule("azure:event-hubs:partitionPump");
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
