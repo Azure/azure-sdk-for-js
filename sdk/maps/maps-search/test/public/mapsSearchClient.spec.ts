@@ -4,7 +4,7 @@
 import { AuthMethod, createClient, createRecorder } from "./utils/createClient";
 import { Context, Suite } from "mocha";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { MapsSearchClient } from "src/searchClient";
+import { MapsSearchClient } from "src/mapsSearchClient";
 import { assert, use as chaiUse } from "chai";
 import { matrix } from "@azure/test-utils";
 import chaiPromises from "chai-as-promised";
