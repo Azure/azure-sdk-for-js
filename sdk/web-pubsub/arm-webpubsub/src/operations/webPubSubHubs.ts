@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { WebPubSubPrivateEndpointConnections } from "../operationsInterfaces";
+import { WebPubSubHubs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,26 +15,25 @@ import { WebPubSubManagementClient } from "../webPubSubManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  PrivateEndpointConnection,
-  WebPubSubPrivateEndpointConnectionsListNextOptionalParams,
-  WebPubSubPrivateEndpointConnectionsListOptionalParams,
-  WebPubSubPrivateEndpointConnectionsListResponse,
-  WebPubSubPrivateEndpointConnectionsGetOptionalParams,
-  WebPubSubPrivateEndpointConnectionsGetResponse,
-  WebPubSubPrivateEndpointConnectionsUpdateOptionalParams,
-  WebPubSubPrivateEndpointConnectionsUpdateResponse,
-  WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
-  WebPubSubPrivateEndpointConnectionsListNextResponse
+  WebPubSubHub,
+  WebPubSubHubsListNextOptionalParams,
+  WebPubSubHubsListOptionalParams,
+  WebPubSubHubsListResponse,
+  WebPubSubHubsGetOptionalParams,
+  WebPubSubHubsGetResponse,
+  WebPubSubHubsCreateOrUpdateOptionalParams,
+  WebPubSubHubsCreateOrUpdateResponse,
+  WebPubSubHubsDeleteOptionalParams,
+  WebPubSubHubsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing WebPubSubPrivateEndpointConnections operations. */
-export class WebPubSubPrivateEndpointConnectionsImpl
-  implements WebPubSubPrivateEndpointConnections {
+/** Class containing WebPubSubHubs operations. */
+export class WebPubSubHubsImpl implements WebPubSubHubs {
   private readonly client: WebPubSubManagementClient;
 
   /**
-   * Initialize a new instance of the class WebPubSubPrivateEndpointConnections class.
+   * Initialize a new instance of the class WebPubSubHubs class.
    * @param client Reference to the service client
    */
   constructor(client: WebPubSubManagementClient) {
@@ -42,7 +41,7 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   }
 
   /**
-   * List private endpoint connections
+   * List hub settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
@@ -51,8 +50,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
+    options?: WebPubSubHubsListOptionalParams
+  ): PagedAsyncIterableIterator<WebPubSubHub> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
@@ -70,8 +69,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
+    options?: WebPubSubHubsListOptionalParams
+  ): AsyncIterableIterator<WebPubSubHub[]> {
     let result = await this._list(resourceGroupName, resourceName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -90,8 +89,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
+    options?: WebPubSubHubsListOptionalParams
+  ): AsyncIterableIterator<WebPubSubHub> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
@@ -102,7 +101,7 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   }
 
   /**
-   * List private endpoint connections
+   * List hub settings.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
@@ -111,8 +110,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams
-  ): Promise<WebPubSubPrivateEndpointConnectionsListResponse> {
+    options?: WebPubSubHubsListOptionalParams
+  ): Promise<WebPubSubHubsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
       listOperationSpec
@@ -120,71 +119,135 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   }
 
   /**
-   * Get the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Get a hub setting.
+   * @param hubName The hub name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   get(
-    privateEndpointConnectionName: string,
+    hubName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsGetOptionalParams
-  ): Promise<WebPubSubPrivateEndpointConnectionsGetResponse> {
+    options?: WebPubSubHubsGetOptionalParams
+  ): Promise<WebPubSubHubsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        privateEndpointConnectionName,
-        resourceGroupName,
-        resourceName,
-        options
-      },
+      { hubName, resourceGroupName, resourceName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Update the state of specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Create or update a hub setting.
+   * @param hubName The hub name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
-   * @param parameters The resource of private endpoint and its properties
+   * @param parameters The resource of WebPubSubHub and its properties
    * @param options The options parameters.
    */
-  update(
-    privateEndpointConnectionName: string,
+  async beginCreateOrUpdate(
+    hubName: string,
     resourceGroupName: string,
     resourceName: string,
-    parameters: PrivateEndpointConnection,
-    options?: WebPubSubPrivateEndpointConnectionsUpdateOptionalParams
-  ): Promise<WebPubSubPrivateEndpointConnectionsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        privateEndpointConnectionName,
-        resourceGroupName,
-        resourceName,
-        parameters,
-        options
-      },
-      updateOperationSpec
+    parameters: WebPubSubHub,
+    options?: WebPubSubHubsCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<WebPubSubHubsCreateOrUpdateResponse>,
+      WebPubSubHubsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<WebPubSubHubsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { hubName, resourceGroupName, resourceName, parameters, options },
+      createOrUpdateOperationSpec
     );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
-   * Delete the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Create or update a hub setting.
+   * @param hubName The hub name.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the resource.
+   * @param parameters The resource of WebPubSubHub and its properties
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    hubName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    parameters: WebPubSubHub,
+    options?: WebPubSubHubsCreateOrUpdateOptionalParams
+  ): Promise<WebPubSubHubsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      hubName,
+      resourceGroupName,
+      resourceName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Delete a hub setting.
+   * @param hubName The hub name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   async beginDelete(
-    privateEndpointConnectionName: string,
+    hubName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
+    options?: WebPubSubHubsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -227,12 +290,7 @@ export class WebPubSubPrivateEndpointConnectionsImpl
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        privateEndpointConnectionName,
-        resourceGroupName,
-        resourceName,
-        options
-      },
+      { hubName, resourceGroupName, resourceName, options },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -242,21 +300,21 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   }
 
   /**
-   * Delete the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Delete a hub setting.
+   * @param hubName The hub name.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
-    privateEndpointConnectionName: string,
+    hubName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
+    options?: WebPubSubHubsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
-      privateEndpointConnectionName,
+      hubName,
       resourceGroupName,
       resourceName,
       options
@@ -276,8 +334,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: WebPubSubPrivateEndpointConnectionsListNextOptionalParams
-  ): Promise<WebPubSubPrivateEndpointConnectionsListNextResponse> {
+    options?: WebPubSubHubsListNextOptionalParams
+  ): Promise<WebPubSubHubsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
       listNextOperationSpec
@@ -289,11 +347,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/hubs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionList
+      bodyMapper: Mappers.WebPubSubHubList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -311,11 +369,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/hubs/{hubName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.WebPubSubHub
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -327,31 +385,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.hubName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/hubs/{hubName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.WebPubSubHub
+    },
+    201: {
+      bodyMapper: Mappers.WebPubSubHub
+    },
+    202: {
+      bodyMapper: Mappers.WebPubSubHub
+    },
+    204: {
+      bodyMapper: Mappers.WebPubSubHub
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.hubName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -359,7 +426,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/hubs/{hubName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -376,7 +443,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.hubName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -386,7 +453,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionList
+      bodyMapper: Mappers.WebPubSubHubList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
