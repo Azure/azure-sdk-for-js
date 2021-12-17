@@ -5,7 +5,7 @@ module.exports.hash = "d775b4b529b46a7c162abc14ac2974b9";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/hooks')
+  .get('//metricsadvisor/v1.0/hooks')
   .query(true)
   .reply(200, {"value":[{"hookId":"103a479c-ca6d-400e-a7f8-a9a868361b47","hookName":"js-test-emailHook-163615467799506131","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test@example.com"]}},{"hookId":"57721e92-20ac-49c3-a3bc-567794d173b5","hookName":"js-test-emailHook-163615469910009534","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test@example.com"]}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$maxpagesize=2&$skip=2"}, [
   'Content-Length',
@@ -13,17 +13,17 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'bbf79546-9abf-49cb-a1e0-6a36a825862d',
+  '3795830d-01dd-434b-b34b-0e1fdf37d4ef',
   'x-envoy-upstream-service-time',
-  '110',
+  '126',
   'apim-request-id',
-  'bbf79546-9abf-49cb-a1e0-6a36a825862d',
+  '3795830d-01dd-434b-b34b-0e1fdf37d4ef',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 16 Nov 2021 00:33:52 GMT'
+  'Fri, 17 Dec 2021 23:27:00 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
@@ -35,15 +35,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '58870ac9-3db5-4bdb-848b-971e7d5e2ffa',
+  '23f31a56-9491-4851-8d09-348f061119dd',
   'x-envoy-upstream-service-time',
-  '103',
+  '128',
   'apim-request-id',
-  '58870ac9-3db5-4bdb-848b-971e7d5e2ffa',
+  '23f31a56-9491-4851-8d09-348f061119dd',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 16 Nov 2021 00:33:52 GMT'
+  'Fri, 17 Dec 2021 23:27:00 GMT'
 ]);
