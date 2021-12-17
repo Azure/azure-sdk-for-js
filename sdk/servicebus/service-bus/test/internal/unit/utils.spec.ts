@@ -331,6 +331,7 @@ describe("utils", () => {
       const flags = "00";
       const receivedMessage: ServiceBusReceivedMessage = {
         body: "This is a test.",
+        state: "active",
         enqueuedTimeUtc: new Date(),
         applicationProperties: {
           [TRACEPARENT_PROPERTY]: `00-${traceId}-${spanId}-${flags}`
@@ -356,6 +357,7 @@ describe("utils", () => {
       const flags = "00";
       const receivedMessage: ServiceBusReceivedMessage = {
         body: "This is a test.",
+        state: "active",
         enqueuedTimeUtc: new Date(),
         applicationProperties: {
           [TRACEPARENT_PROPERTY]: `99-${traceId}-${spanId}-${flags}`
@@ -374,6 +376,7 @@ describe("utils", () => {
     it("should return undefined when ServiceBusMessage is not instrumented", function() {
       const receivedMessage: ServiceBusReceivedMessage = {
         body: "This is a test.",
+        state: "active",
         enqueuedTimeUtc: new Date(),
         _rawAmqpMessage: { body: "This is a test." }
       };

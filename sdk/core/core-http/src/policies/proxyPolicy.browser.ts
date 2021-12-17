@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ProxySettings } from "../serviceClient";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -9,6 +8,7 @@ import {
   RequestPolicyOptions
 } from "./requestPolicy";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import { ProxySettings } from "../serviceClient";
 import { WebResourceLike } from "../webResource";
 
 const proxyNotSupportedInBrowser = new Error("ProxyPolicy is not supported in browser environment");

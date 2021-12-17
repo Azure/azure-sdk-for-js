@@ -10,7 +10,7 @@ import { Services } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ServiceFabricManagementClientContext } from "../serviceFabricManagementClientContext";
+import { ServiceFabricManagementClient } from "../serviceFabricManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -29,13 +29,13 @@ import {
 
 /** Class containing Services operations. */
 export class ServicesImpl implements Services {
-  private readonly client: ServiceFabricManagementClientContext;
+  private readonly client: ServiceFabricManagementClient;
 
   /**
    * Initialize a new instance of the class Services class.
    * @param client Reference to the service client
    */
-  constructor(client: ServiceFabricManagementClientContext) {
+  constructor(client: ServiceFabricManagementClient) {
     this.client = client;
   }
 
