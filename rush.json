@@ -1157,6 +1157,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-iothub",
+      "projectFolder": "sdk/iothub/arm-iothub",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-msi",
       "projectFolder": "sdk/msi/arm-msi",
       "versionPolicyName": "management"
