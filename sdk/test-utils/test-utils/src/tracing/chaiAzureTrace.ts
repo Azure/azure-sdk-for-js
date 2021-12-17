@@ -8,13 +8,12 @@ import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
 
 function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils): void {
   // expect(() => {}).to.supportsTracing() syntax
-  chai.Assertion.addMethod("supportsTracing", function<T>(
+  chai.Assertion.addMethod("supportTracing", function<T>(
     this: Chai.AssertionStatic,
     expectedSpanNames: string[],
-    options?: T,
-    thisArg?: ThisParameterType<typeof this._obj>
+    options?: T
   ) {
-    return supportsTracing(this._obj, expectedSpanNames, options, thisArg);
+    return supportsTracing(this._obj, expectedSpanNames, options, this._obj);
   });
   // assert.supportsTracing(() => {}) syntax
   chai.assert.supportsTracing = supportsTracing;
@@ -118,15 +117,8 @@ function getSpanGraph(traceId: string, instrumenter: MockInstrumenter): SpanGrap
 declare global {
   export namespace Chai {
     interface Assertion {
-      supportsTracing<T>(
-        this: any,
-        expectedSpanNames: string[],
-        options?: T,
-        thisArg?: ThisParameterType<typeof this._obj>
-      ): Promise<void>;
+      supportTracing<T>(expectedSpanNames: string[], options?: T): Promise<void>;
     }
-    //Options extends { tracingOptions?: OperationTracingOptions },
-    // Callback extends (options: Options) => unknown
     interface Assert {
       supportsTracing<
         Options extends { tracingOptions?: OperationTracingOptions },

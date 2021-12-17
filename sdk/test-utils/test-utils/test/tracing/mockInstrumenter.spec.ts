@@ -99,9 +99,7 @@ describe("Test supportsTracing plugin functionality", function() {
   });
 
   it("supportsTracing with expect", function() {
-    expect((options: any) => client.method(options)).to.supportsTracing([
-      "MockClientToTest.method"
-    ]);
+    expect((options: any) => client.method(options)).to.supportTracing(["MockClientToTest.method"]);
   });
 });
 
