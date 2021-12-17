@@ -64,7 +64,10 @@ export {
   throttlingRetryPolicyName,
   ThrottlingRetryPolicyOptions
 } from "./policies/throttlingRetryPolicy";
+export { retryPolicy, RetryPolicyOptions } from "./policies/retryPolicy";
+export { RetryStrategy, RetryInformation, RetryModifiers } from "./retryStrategies/retryStrategy";
 export { tracingPolicy, tracingPolicyName, TracingPolicyOptions } from "./policies/tracingPolicy";
+export { defaultRetryPolicy, DefaultRetryPolicyOptions } from "./policies/defaultRetryPolicy";
 export {
   userAgentPolicy,
   userAgentPolicyName,
