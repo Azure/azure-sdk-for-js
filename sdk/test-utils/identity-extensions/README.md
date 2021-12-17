@@ -20,9 +20,8 @@ In playback mode
 
 In record/live modes
 
-- returns the `ClientSecretCredential` (expects AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET in your environment or in the .env file)
+- returns a `ClientSecretCredential` from `@azure/identity` (expects AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET in your environment or in the .env file)
 - AAD traffic won't be recorded if this credential is used.
-- `ClientSecretCredential` is coming from `@azure/identity`
 
 ## Next steps
 
