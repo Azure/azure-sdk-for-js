@@ -6,15 +6,15 @@ import {
   SpanStatus,
   TracingSpanOptions,
   TracingSpanKind,
-  TracingContext,
-  TracingSpanContext
+  TracingSpanContext,
+  TracingContext
 } from "@azure/core-tracing";
-import { spanKey } from "./testInstrumenter";
+import { spanKey } from "./mockContext";
 
 /**
  * Represents an implementation of a mock tracing span {@link TracingSpan} used for tests
  */
-export class TestTracingSpan implements TracingSpan {
+export class MockTracingSpan implements TracingSpan {
   /**
    * Name of the current span
    */
@@ -68,8 +68,8 @@ export class TestTracingSpan implements TracingSpan {
     return true;
   }
 
-  parentSpan(): TestTracingSpan | undefined {
-    return this.tracingContext?.getValue(spanKey) as TestTracingSpan;
+  parentSpan(): MockTracingSpan | undefined {
+    return this.tracingContext?.getValue(spanKey) as MockTracingSpan;
   }
 
   private _spanContext: TracingSpanContext;

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { createTracingClient, TracingClient, useInstrumenter } from "@azure/core-tracing";
-import { TestTracingSpan, TestInstrumenter } from "../../src";
+import { MockTracingSpan, MockInstrumenter } from "../../src";
 import chai, { assert, expect } from "chai";
 import { chaiAzureTrace } from "../../src/tracing/chaiAzureTrace";
 import { MockContext } from "../../src/tracing/mockContext";
@@ -10,17 +10,17 @@ import { OperationTracingOptions } from "@azure/core-tracing";
 chai.use(chaiAzureTrace);
 
 describe("TestInstrumenter", function() {
-  let instrumenter: TestInstrumenter;
+  let instrumenter: MockInstrumenter;
 
   beforeEach(function() {
-    instrumenter = new TestInstrumenter();
+    instrumenter = new MockInstrumenter();
   });
 
   describe("#startSpan", function() {
     it("starts a span and adds to startedSpans array", function() {
       const { span } = instrumenter.startSpan("testSpan");
       assert.equal(instrumenter.startedSpans.length, 1);
-      assert.equal(instrumenter.startedSpans[0], span as TestTracingSpan);
+      assert.equal(instrumenter.startedSpans[0], span as MockTracingSpan);
       assert.equal(instrumenter.startedSpans[0].name, "testSpan");
     });
 
@@ -72,11 +72,11 @@ describe("TestInstrumenter", function() {
 });
 
 describe("TestInstrumenter with MockClient", function() {
-  let instrumenter: TestInstrumenter;
+  let instrumenter: MockInstrumenter;
   let client: MockClientToTest;
 
   beforeEach(function() {
-    instrumenter = new TestInstrumenter();
+    instrumenter = new MockInstrumenter();
     useInstrumenter(instrumenter);
     client = new MockClientToTest();
   });

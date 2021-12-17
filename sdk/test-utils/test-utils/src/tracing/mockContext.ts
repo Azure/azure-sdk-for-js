@@ -40,3 +40,5 @@ export class MockContext implements TracingContext {
     return newContext;
   }
 }
+
+export const spanKey = Symbol.for("span");

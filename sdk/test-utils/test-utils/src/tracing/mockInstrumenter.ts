@@ -8,15 +8,13 @@ import {
   TracingSpan,
   TracingSpanContext
 } from "@azure/core-tracing";
-import { MockContext } from "./mockContext";
-import { TestTracingSpan } from "./testTracingSpan";
-
-export const spanKey = Symbol.for("span");
+import { MockContext, spanKey } from "./mockContext";
+import { MockTracingSpan } from "./mockTracingSpan";
 
 /**
  * Represents an implementation of {@link Instrumenter} interface that keeps track of the tracing contexts and spans
  */
-export class TestInstrumenter implements Instrumenter {
+export class MockInstrumenter implements Instrumenter {
   /**
    * Stack of immutable contexts, each of which is a bag of tracing values for the current operation
    */
@@ -24,7 +22,7 @@ export class TestInstrumenter implements Instrumenter {
   /**
    * List of started spans
    */
-  public startedSpans: TestTracingSpan[] = [];
+  public startedSpans: MockTracingSpan[] = [];
 
   private traceIdCounter = 0;
   private getNextTraceId(): string {
@@ -43,7 +41,7 @@ export class TestInstrumenter implements Instrumenter {
     spanOptions?: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
     const tracingContext = spanOptions?.tracingContext || this.currentContext();
-    const parentSpan = tracingContext.getValue(spanKey) as TestTracingSpan;
+    const parentSpan = tracingContext.getValue(spanKey) as TracingSpan | undefined;
     let traceId;
     if (parentSpan) {
       traceId = parentSpan.spanContext.traceId;
@@ -56,7 +54,7 @@ export class TestInstrumenter implements Instrumenter {
       traceId: traceId,
       traceFlags: 0
     };
-    const span = new TestTracingSpan(name, spanContext, tracingContext, spanOptions);
+    const span = new MockTracingSpan(name, spanContext, tracingContext, spanOptions);
     let context: TracingContext = new MockContext(tracingContext);
     context = context.setValue(spanKey, span);
 

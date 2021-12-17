@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TestTracingSpan } from "../../src";
+import { MockTracingSpan } from "../../src";
 import { assert } from "chai";
 
 describe("TestTracingSpan", function() {
-  let subject: TestTracingSpan;
+  let subject: MockTracingSpan;
+
   beforeEach(() => {
-    subject = new TestTracingSpan("test", {
+    subject = new MockTracingSpan("test", {
       spanId: "spanId",
       traceId: "traceId",
       traceFlags: 0

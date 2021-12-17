@@ -3,7 +3,7 @@
 
 import { OperationTracingOptions, useInstrumenter } from "@azure/core-tracing";
 import { assert } from "chai";
-import { TestInstrumenter } from "./testInstrumenter";
+import { MockInstrumenter } from "./mockInstrumenter";
 import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
 
 function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils): void {
@@ -20,7 +20,7 @@ function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils): void {
   chai.assert.supportsTracing = supportsTracing;
 }
 
-const instrumenter = new TestInstrumenter();
+const instrumenter = new MockInstrumenter();
 /**
  * The supports Tracing function does the verification of whether the core-tracing is supported correctly with the client method
  * This function verifies the root span, if all the correct spans are called as expected and if they are closed.
@@ -79,7 +79,7 @@ async function supportsTracing<
  * parent Span in a tree-like structure
  * @param traceId - The traceId to return the graph for
  */
-function getSpanGraph(traceId: string, instrumenter: TestInstrumenter): SpanGraph {
+function getSpanGraph(traceId: string, instrumenter: MockInstrumenter): SpanGraph {
   const traceSpans = instrumenter.startedSpans.filter((span) => {
     return span.spanContext.traceId === traceId;
   });
