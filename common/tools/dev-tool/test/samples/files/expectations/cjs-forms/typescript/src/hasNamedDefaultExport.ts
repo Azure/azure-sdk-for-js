@@ -3,6 +3,9 @@
 
 import { delay } from "./delay";
 
+/**
+ * This function is named, so it should be exported by name and not by value.
+ */
 export default async function named(value: string, waitForMilliseconds: number) {
   await delay(waitForMilliseconds);
   console.log(value);

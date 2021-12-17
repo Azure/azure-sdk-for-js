@@ -3,12 +3,12 @@
 
 import nodeBuiltins from "builtin-modules";
 import fs from "fs-extra";
-import { EOL } from "os";
 import path from "path";
-import { cwd } from "process";
 import * as ts from "typescript";
 import { convert } from "../../commands/samples/tsToJs";
 import { createPrinter } from "../printer";
+import { createAccumulator } from "../typescript/accumulator";
+import { createDiagnosticEmitter } from "../typescript/diagnostic";
 import { AzSdkMetaTags, AZSDK_META_TAG_PREFIX, ModuleInfo, VALID_AZSDK_META_TAGS } from "./info";
 import { testSyntax } from "./syntax";
 import { toCommonJs } from "./transforms";
@@ -20,104 +20,88 @@ export async function processSources(
   sources: string[],
   fail: (...values: unknown[]) => never
 ): Promise<ModuleInfo[]> {
-  const diagnosticHost = {
-    getNewLine: () => EOL,
-    getCanonicalFileName: (name: string) => name,
-    getCurrentDirectory: () => cwd(),
-  };
-
+  // Project-scoped information (shared between all source files)
   let hadUnsupportedSyntax = false;
-
-  const emitError = (
-    message: string,
-    node: ts.Node,
-    sourceFile: ts.SourceFile,
-    suggest?: string
-  ) => {
-    const [start, end] = [node.getStart(sourceFile), node.getEnd()];
-    const diagnostic: ts.Diagnostic = {
-      category: ts.DiagnosticCategory.Error,
-      // I am intentionally lying to the compiler here to bypass the error code
-      code: "-AZURE" as never,
-      file: sourceFile,
-      start,
-      length: end - start,
-      messageText: message,
-    };
-    if (suggest) {
-      diagnostic.relatedInformation = [
-        {
-          category: ts.DiagnosticCategory.Message,
-          code: 0,
-          messageText: "Suggestion: " + suggest,
-          file: undefined,
-          start: undefined,
-          length: undefined,
-        },
-      ];
-    }
-    console.error(ts.formatDiagnosticsWithColorAndContext([diagnostic], diagnosticHost));
-  };
-
   const importedRelativeModules = new Set<string>();
 
   const jobs = sources.map(async (source) => {
     const sourceText = (await fs.readFile(source)).toString("utf8");
 
+    // File-scoped information
     let summary: string | undefined = undefined;
-
-    const importedModules: string[] = [];
-    const usedEnvironmentVariables: string[] = [];
     const azSdkTags: AzSdkMetaTags = {};
-
     const relativeSourcePath = path.relative(sourceDirectory, source);
+
+    // This object is used to gather information about the nodes.
+    // See: util/typescript/accumulator.ts
+    const accumulator = createAccumulator({
+      importedModules: {
+        predicate: isImportOrStaticRequire,
+        select: (node: ts.ImportDeclaration | ts.CallExpression) => {
+          if (ts.isImportDeclaration(node)) {
+            return (node.moduleSpecifier as ts.StringLiteral).text;
+          } else {
+            return (node.arguments[0] as ts.StringLiteralLike).text;
+          }
+        },
+      },
+      usedEnvironmentVariables: {
+        predicate: isProcessEnvAccess,
+        select: (node: ts.PropertyAccessExpression | ts.ElementAccessExpression) => {
+          if (ts.isPropertyAccessExpression(node)) {
+            return node.name.text;
+          } else {
+            return (node.argumentExpression as ts.StringLiteralLike).text;
+          }
+        },
+      },
+      exports: {
+        predicate: ({ modifiers }) =>
+          (modifiers?.some(({ kind }) => kind === ts.SyntaxKind.ExportKeyword) &&
+            !modifiers.some(({ kind }) => kind === ts.SyntaxKind.DefaultKeyword)) ??
+          false,
+        select: (node: ts.FunctionDeclaration | ts.ClassDeclaration | ts.VariableStatement) => {
+          if (ts.isVariableStatement(node)) {
+            return node.declarationList.declarations
+              .filter((decl) => ts.isIdentifier(decl.name))
+              .map((decl) => (decl.name as ts.Identifier).text);
+          } else {
+            return node.name?.text;
+          }
+        },
+      },
+    });
 
     const sourceProcessor: ts.TransformerFactory<ts.SourceFile> =
       (context) => (sourceFile: ts.SourceFile) => {
-        const exports = sourceFile.statements
-          .filter(
-            ({ modifiers }) =>
-              modifiers?.some(({ kind }) => kind === ts.SyntaxKind.ExportKeyword) &&
-              !modifiers.some(({ kind }) => kind === ts.SyntaxKind.DefaultKeyword)
-          )
-          .flatMap(
-            (node) =>
-              // TypeScript sees `async` and generator functions as ordinary function declarations at this point
-              (node as ts.FunctionDeclaration | ts.ClassDeclaration).name?.getText(sourceFile) ??
-              ((node as any).declarationList as ts.VariableDeclarationList)?.declarations.map(
-                (decl: ts.VariableDeclaration) => decl.name.getText(sourceFile)
-              )
-          );
+        const emitError = createDiagnosticEmitter(sourceFile);
 
         const visitor: ts.Visitor = (node: ts.Node) => {
           const syntaxSupportError = testSyntax(node);
           if (syntaxSupportError) {
             hadUnsupportedSyntax = true;
-            emitError(syntaxSupportError.message, node, sourceFile, syntaxSupportError.suggest);
+            emitError(syntaxSupportError.message, node, syntaxSupportError.suggest);
+
+            // We won't check the children of erroneous nodes. It can get confusing quickly to do so.
+            return undefined;
           }
 
-          addImportedModules(node, importedModules);
-
-          addUsedEnvironmentVariables(node, sourceFile, usedEnvironmentVariables);
+          accumulator.addNode(node);
 
           const tags = ts.getJSDocTags(node);
 
-          // Look for the @summary jsdoc tag block as well
+          // Process azsdk tags. This function returns the summary tag if it was found and also inserts @azsdk-<name>
+          // tags into the azSdkTags object.
           summary ??= extractAzSdkTags(tags, relativeSourcePath, node, sourceFile, azSdkTags);
 
           return ts.visitEachChild(node, visitor, context);
         };
 
-        const visited = ts.visitNode(sourceFile, visitor);
-
-        // We will only process exports for modules that appear to be util modules
-        if (summary === undefined || azSdkTags.util) {
-          return addCommonJsExports(context, visited, exports);
-        }
-
-        return visited;
+        return addCommonJsExports(context, ts.visitNode(sourceFile, visitor), accumulator.exports);
       };
 
+    // Where the work happens. This runs the conversion step from the ts-to-js command with the visitor we've defined
+    // above and the CommonJS transforms (see transforms.ts).
     const jsModuleText = convert(sourceText, {
       fileName: source,
       transformers: {
@@ -126,9 +110,13 @@ export async function processSources(
       },
     });
 
-    for (const relativeModule of importedModules
+    // Check the imports for any relative module imports (these could be util files), and compute a relative path to the
+    // module from the source directory
+    for (const relativeModule of accumulator.importedModules
       .filter(isRelativePath)
-      .map((modulePath) => path.relative(path.dirname(relativeSourcePath), modulePath))) {
+      .map((modulePath) =>
+        path.normalize(path.join(path.dirname(relativeSourcePath), modulePath))
+      )) {
       importedRelativeModules.add(relativeModule);
     }
 
@@ -138,8 +126,8 @@ export async function processSources(
       text: sourceText,
       jsModuleText,
       summary,
-      importedModules: importedModules.filter(isDependency),
-      usedEnvironmentVariables,
+      importedModules: accumulator.importedModules.filter(isDependency),
+      usedEnvironmentVariables: accumulator.usedEnvironmentVariables,
       azSdkTags,
     };
   });
@@ -170,8 +158,18 @@ export async function processSources(
   });
 }
 
+function isImportOrStaticRequire(node: ts.Node): node is ts.ImportDeclaration | ts.CallExpression {
+  return (
+    ts.isImportDeclaration(node) ||
+    (ts.isCallExpression(node) &&
+      ((ts.isIdentifier(node.expression) && node.expression.text === "require") ||
+        node.expression.kind === ts.SyntaxKind.ImportKeyword) &&
+      ts.isStringLiteralLike(node.arguments[0]))
+  );
+}
+
 /**
- * Detects usage of environment variables and adds them to an array.
+ * Detects usage of environment variables.
  *
  * This can _only_ work with property access expressions where the left hand side is a node that has the exact text
  *
@@ -183,53 +181,19 @@ export async function processSources(
  * - `process.env.NAME`
  * - `process.env["NAME"]`
  *
- * @param node - the node to analyze for used environment variables
- * @param sourceFile - the source file
- * @param usedEnvironmentVariables - an array to add the environment variable names to
+ * @param node - the node to test
+ * @param sourceFile - the source file where the node appears
+ * @returns true if the node appears to be a process.env access.
  */
-function addUsedEnvironmentVariables(
+function isProcessEnvAccess(
   node: ts.Node,
-  sourceFile: ts.SourceFile,
-  usedEnvironmentVariables: string[]
-) {
-  if (
-    ts.isPropertyAccessExpression(node) ||
-    (ts.isElementAccessExpression(node) && ts.isStringLiteral(node.argumentExpression))
-  ) {
-    // Magic that finds out what environment variables you're using in the sources.
-    if (node.expression.getText(sourceFile) === "process.env") {
-      const value: string = ts.isElementAccessExpression(node)
-        ? (node.argumentExpression as ts.StringLiteral).text
-        : node.name.text;
-
-      usedEnvironmentVariables.push(value);
-    }
-  }
-}
-
-/**
- * Accumulates the names of imported modules.
- *
- * @param node - the node to analyze for imports
- * @param importedModules - a list of modules to add the imports to
- */
-function addImportedModules(node: ts.Node, importedModules: string[]) {
-  if (ts.isImportDeclaration(node)) {
-    importedModules.push((node.moduleSpecifier as ts.StringLiteral).text);
-  } else if (ts.isCallExpression(node)) {
-    const {
-      expression,
-      arguments: [firstArgument],
-    } = node;
-    if (
-      (ts.isIdentifier(expression) && expression.text === "require") ||
-      expression.kind === ts.SyntaxKind.ImportKeyword
-    ) {
-      if (ts.isStringLiteralLike(firstArgument)) {
-        importedModules.push(firstArgument.text);
-      }
-    }
-  }
+  sourceFile?: ts.SourceFile
+): node is ts.PropertyAccessExpression | ts.ElementAccessExpression {
+  return (
+    (ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node)) &&
+    // This is cheating a bit, but it will work and doesn't require us to test the node any deeper
+    node.expression.getText(sourceFile) === "process.env"
+  );
 }
 
 /**
@@ -437,6 +401,5 @@ function isDependency(moduleSpecifier: string): boolean {
   return !isRelativePath(moduleSpecifier);
 }
 
-// This seems like a reasonable test for "is a relative path" as long as
-// absolute path imports are forbidden.
+// This seems like a reasonable test for "is a relative path"
 const isRelativePath = (path: string) => /^\.\.?[\/\\]/.test(path);

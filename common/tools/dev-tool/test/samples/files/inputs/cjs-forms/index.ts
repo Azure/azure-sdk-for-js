@@ -7,7 +7,7 @@
 
 import a, {
   // This comment is only here to make sure it still appears in the output
-  b
+  b,
 } from "./hasDefaultExport";
 
 import * as c from "./hasDefaultExport";
@@ -19,7 +19,7 @@ import Anonymous from "./defaultExportsClass";
 
 import "./hasSideEffects";
 
-export async function main() {
+async function main() {
   const waitTime = process.env.WAIT_TIME || "5000";
   const delayMs = parseInt(waitTime);
 

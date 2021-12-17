@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as ts from "typescript";
+import ts from "typescript";
 
 /**
  * A TypeScript API transformer that replaces imports with CommonJS `require` calls.
