@@ -162,6 +162,7 @@ specifiers:
   '@rush-temp/synapse-monitoring': file:./projects/synapse-monitoring.tgz
   '@rush-temp/synapse-spark': file:./projects/synapse-spark.tgz
   '@rush-temp/template': file:./projects/template.tgz
+  '@rush-temp/test-credential': file:./projects/test-credential.tgz
   '@rush-temp/test-recorder': file:./projects/test-recorder.tgz
   '@rush-temp/test-recorder-new': file:./projects/test-recorder-new.tgz
   '@rush-temp/test-utils': file:./projects/test-utils.tgz
@@ -333,6 +334,7 @@ dependencies:
   '@rush-temp/synapse-monitoring': file:projects/synapse-monitoring.tgz
   '@rush-temp/synapse-spark': file:projects/synapse-spark.tgz
   '@rush-temp/template': file:projects/template.tgz
+  '@rush-temp/test-credential': file:projects/test-credential.tgz
   '@rush-temp/test-recorder': file:projects/test-recorder.tgz
   '@rush-temp/test-recorder-new': file:projects/test-recorder-new.tgz
   '@rush-temp/test-utils': file:projects/test-utils.tgz
@@ -462,6 +464,21 @@ packages:
     resolution: {integrity: sha512-+wjvjsWQ4CNsA96jvQxbWkRQrkbPqf7rHUuV9O3aj5wD2ECkDVvhvy8TjRE2UWuEPJoFkJkKrpaAwx2xNIZJBg==}
     engines: {node: '>=12.0.0'}
     deprecated: it's deprecated
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.3.2
+      '@azure/core-lro': 2.2.1
+      '@azure/core-paging': 1.2.0
+      '@azure/core-rest-pipeline': 1.3.2
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/arm-storage/17.0.0-beta.1:
+    resolution: {integrity: sha512-wLDQSo1XZZtPuh9T8OO4CmicnyJoEADuKnNQ9JCAe1KnAqckBiidJ+KmGAxQhg2NFQvtCUj8Xnhe7/MZWthjWA==}
+    engines: {node: '>=12.0.0'}
     dependencies:
       '@azure/abort-controller': 1.0.4
       '@azure/core-auth': 1.3.2
@@ -8301,6 +8318,7 @@ packages:
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
+      '@azure/arm-storage': 17.0.0-beta.1
       '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -13519,6 +13537,24 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/test-credential.tgz:
+    resolution: {integrity: sha512-8m+/96tIbosDc/j30zMuSCakBuFiD9IM/TQ/+Z2uOeTUROiN2OXiJEfsjwPeKa3ujlHlzcpqJT/YH6y1yYY06g==, tarball: file:projects/test-credential.tgz}
+    name: '@rush-temp/test-credential'
+    version: 0.0.0
+    dependencies:
+      '@types/chai': 4.2.22
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.37
+      eslint: 7.32.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      sinon: 9.2.4
+      typescript: 4.2.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/test-recorder-new.tgz:
     resolution: {integrity: sha512-3vm8AuXUmIG1xAGO7frvsnbqa10IyXlFcvMyNlJATlgfqCPCUcKNB7jaq6KjijaC4K86vVRiBJ4HF1DiJ7C2eA==, tarball: file:projects/test-recorder-new.tgz}
     name: '@rush-temp/test-recorder-new'
@@ -13704,7 +13740,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-lwre9kPplykEX6uth2c80ZfTV7v2yxGia/v1zRmCoRDXxOen7psOaU4nNJfU/xp8cjpUK/GEulNpXMFCnNoJww==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-OZ560z1sPAZVa6eoSCBtMH/RRLwRtJ9PuJhFRcQv8ldBSPsFFhLgbX2S/04kqc0ShVtDJT7IQ9so01cZvyKMRg==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:

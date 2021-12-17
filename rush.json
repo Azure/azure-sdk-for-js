@@ -717,6 +717,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure-tools/test-credential",
+      "projectFolder": "sdk/test-utils/test-credential",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/test-utils-perf",
       "projectFolder": "sdk/test-utils/perf",
       "versionPolicyName": "utility"
