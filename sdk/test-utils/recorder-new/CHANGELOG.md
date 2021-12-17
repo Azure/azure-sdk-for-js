@@ -11,6 +11,7 @@
   - Design Changes
     - With `RecorderClientCoreV1`, instead of passing the whole client as the `httpClient` for core-v1 sdks, users are now expected to pass `recorder.httpClientCoreV1`(where `recorder` is an instantiation of `RecorderClientCoreV1`).
     - (Internal) Abstracted the redirect/modify request logic into a new `RecorderReqeustModifier` class.
+- Moving `NoOpCredential` to the new `@azure-tools/test-credential` package.
 
 ## 2021-12-15
 
