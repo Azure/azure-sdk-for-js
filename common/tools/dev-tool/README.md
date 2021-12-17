@@ -35,7 +35,6 @@ It provides a place to centralize scripts, resources, and processes for developm
 
     - Example usage
 
-
       ```bash
       dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.spec.ts'
       ```
