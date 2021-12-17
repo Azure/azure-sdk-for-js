@@ -80,7 +80,9 @@ describe("Apimanagement test", () => {
         },
         publisherEmail: "foo@contoso.com",
         publisherName: "foo"  
-    },testPollingOptions);
+    }, {
+      updateIntervalInMs: isPlaybackMode() ? 0 : 10 * 60 * 1000, // this takes > 30 minutes so polling every 10 minutes
+    });
     assert.equal(res.name,serviceName);
   }).timeout(3600000);
 
