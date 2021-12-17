@@ -8,8 +8,7 @@ import {
   TracingContext,
   TracingSpanOptions,
   TracingSpanContext,
-  TracingClientOptions,
-  Instrumenter
+  TracingClientOptions
 } from "./interfaces";
 import { getInstrumenter } from "./instrumenter";
 import { knownContextKeys } from "./tracingContext";
@@ -34,7 +33,7 @@ export class TracingClientImpl implements TracingClient {
     tracingContext: TracingContext;
     updatedOptions: Options;
   } {
-    const startSpanResult = this.getInstrumenter().startSpan(name, {
+    const startSpanResult = getInstrumenter().startSpan(name, {
       ...spanOptions,
       packageName: this._packageName,
       packageVersion: this._packageVersion,
@@ -100,7 +99,7 @@ export class TracingClientImpl implements TracingClient {
     callbackThis?: ThisParameterType<Callback>,
     ...callbackArgs: CallbackArgs
   ): ReturnType<Callback> {
-    return this.getInstrumenter().withContext(context, callback, callbackThis, ...callbackArgs);
+    return getInstrumenter().withContext(context, callback, callbackThis, ...callbackArgs);
   }
   /**
    * Parses a traceparent header value into a span identifier.
@@ -109,7 +108,7 @@ export class TracingClientImpl implements TracingClient {
    * @returns An implementation-specific identifier for the span.
    */
   parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined {
-    return this.getInstrumenter().parseTraceparentHeader(traceparentHeader);
+    return getInstrumenter().parseTraceparentHeader(traceparentHeader);
   }
 
   /**
@@ -119,15 +118,7 @@ export class TracingClientImpl implements TracingClient {
    * @returns The set of headers to add to a request.
    */
   createRequestHeaders(spanContext: TracingSpanContext): Record<string, string> {
-    return this.getInstrumenter().createRequestHeaders(spanContext);
-  }
-
-  private _instrumenter?: Instrumenter;
-  private getInstrumenter(): Instrumenter {
-    if (!this._instrumenter) {
-      this._instrumenter = getInstrumenter();
-    }
-    return this._instrumenter;
+    return getInstrumenter().createRequestHeaders(spanContext);
   }
 }
 

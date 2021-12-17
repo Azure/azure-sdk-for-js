@@ -3,7 +3,6 @@
 
 import { RestError } from "@azure/core-rest-pipeline";
 import { FullOperationResponse, OperationOptions, OperationSpec } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { logger } from "./logger";
 import {
   ErrorResponse,
@@ -13,8 +12,8 @@ import {
   TextAnalyticsError
 } from "./generated";
 import { TextAnalyticsAction } from "./textAnalyticsAction";
-import { createSpan } from "./tracing";
 import { LroResponse } from "@azure/core-lro";
+import { tracingClient } from "./tracing";
 
 interface IdObject {
   id: string;
@@ -258,11 +257,7 @@ export async function sendGetRequest<TOptions extends OperationOptions>(
   options: TOptions,
   path: string
 ): Promise<LroResponse<unknown>> {
-  const { span, updatedOptions: finalOptions } = createSpan(
-    `TextAnalyticsClient-${spanStr}`,
-    options
-  );
-  try {
+  return tracingClient.withSpan(`TextAnalyticsClient.${spanStr}`, options, async (finalOptions) => {
     const { flatResponse, rawResponse } = await getRawResponse(
       (paramOptions) =>
         client.sendOperationRequest(
@@ -279,13 +274,5 @@ export async function sendGetRequest<TOptions extends OperationOptions>(
       flatResponse: flatResponse,
       rawResponse
     };
-  } catch (e) {
-    span.setStatus({
-      code: SpanStatusCode.ERROR,
-      message: e.message
-    });
-    throw e;
-  } finally {
-    span.end();
-  }
+  });
 }

@@ -45,13 +45,11 @@ import {
   RecognizeLinkedEntitiesResultArray,
   makeRecognizeLinkedEntitiesResultArray
 } from "./recognizeLinkedEntitiesResultArray";
-import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import {
   addParamsToTask,
-  compose,
   compileError,
+  compose,
   setCategoriesFilter,
   setOpinionMining,
   setOrderBy,
@@ -85,6 +83,7 @@ import {
   updateAnalyzeState
 } from "./analyzeLro";
 import { PagedAnalyzeActionsResult } from "./analyzeActionsResult";
+import { tracingClient } from "./tracing";
 
 export {
   BeginAnalyzeActionsOptions,
@@ -555,29 +554,20 @@ export class TextAnalyticsClient {
       realOptions = (countryHintOrOptions as DetectLanguageOptions) || {};
     }
 
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "TextAnalyticsClient-detectLanguages",
-      makeGeneratedDetectLanguageOptions(realOptions)
+    return tracingClient.withSpan(
+      "TextAnalyticsClient.detectLanguages",
+      makeGeneratedDetectLanguageOptions(realOptions),
+      async (finalOptions) => {
+        const result = await this.client.languages(
+          {
+            documents: realInputs
+          },
+          finalOptions
+        );
+
+        return makeDetectLanguageResultArray(realInputs, result);
+      }
     );
-
-    try {
-      const result = await this.client.languages(
-        {
-          documents: realInputs
-        },
-        finalOptions
-      );
-
-      return makeDetectLanguageResultArray(realInputs, result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -640,38 +630,24 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as RecognizeCategorizedEntitiesOptions) || {};
     }
 
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "TextAnalyticsClient-recognizeEntities",
-      makeGeneratedRecognizeCategorizedEntitiesOptions(realOptions)
+    return tracingClient.withSpan(
+      "TextAnalyticsClient.recognizeEntities",
+      makeGeneratedRecognizeCategorizedEntitiesOptions(realOptions),
+      async (finalOptions) => {
+        try {
+          const result = await this.client.entitiesRecognitionGeneral(
+            {
+              documents: realInputs
+            },
+            finalOptions
+          );
+
+          return makeRecognizeCategorizedEntitiesResultArray(realInputs, result);
+        } catch (e) {
+          throw compileError(e);
+        }
+      }
     );
-
-    try {
-      const result = await this.client.entitiesRecognitionGeneral(
-        {
-          documents: realInputs
-        },
-        finalOptions
-      );
-
-      return makeRecognizeCategorizedEntitiesResultArray(realInputs, result);
-    } catch (e) {
-      /**
-       * This special logic handles REST exception with code
-       * InvalidDocumentBatch and is needed to maintain backward compatability
-       * with sdk v5.0.0 and earlier. In general, REST exceptions are thrown as
-       * is and include both outer and inner exception codes. However, the
-       * earlier versions were throwing an exception that included the inner
-       * code only.
-       */
-      const backwardCompatibleException = compileError(e);
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: backwardCompatibleException.message
-      });
-      throw backwardCompatibleException;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -729,29 +705,20 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as AnalyzeSentimentOptions) || {};
     }
 
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "TextAnalyticsClient-analyzeSentiment",
-      makeGeneratedAnalyzeSentimentOptions(realOptions)
+    return tracingClient.withSpan(
+      "TextAnalyticsClient.analyzeSentiment",
+      makeGeneratedAnalyzeSentimentOptions(realOptions),
+      async (finalOptions) => {
+        const result = await this.client.sentiment(
+          {
+            documents: realInputs
+          },
+          finalOptions
+        );
+
+        return makeAnalyzeSentimentResultArray(realInputs, result);
+      }
     );
-
-    try {
-      const result = await this.client.sentiment(
-        {
-          documents: realInputs
-        },
-        finalOptions
-      );
-
-      return makeAnalyzeSentimentResultArray(realInputs, result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -805,29 +772,20 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as ExtractKeyPhrasesOptions) || {};
     }
 
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "TextAnalyticsClient-extractKeyPhrases",
-      makeGeneratedExtractKeyPhrasesOptions(realOptions)
+    return tracingClient.withSpan(
+      "TextAnalyticsClient.extractKeyPhrases",
+      makeGeneratedExtractKeyPhrasesOptions(realOptions),
+      async (finalOptions) => {
+        const result = await this.client.keyPhrases(
+          {
+            documents: realInputs
+          },
+          finalOptions
+        );
+
+        return makeExtractKeyPhrasesResultArray(realInputs, result);
+      }
     );
-
-    try {
-      const result = await this.client.keyPhrases(
-        {
-          documents: realInputs
-        },
-        finalOptions
-      );
-
-      return makeExtractKeyPhrasesResultArray(realInputs, result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -881,29 +839,20 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as RecognizePiiEntitiesOptions) || {};
     }
 
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "TextAnalyticsClient-recognizePiiEntities",
-      makeGeneratedRecognizePiiEntitiesOptions(realOptions)
+    return tracingClient.withSpan(
+      "TextAnalyticsClient.recognizePiiEntities",
+      makeGeneratedRecognizePiiEntitiesOptions(realOptions),
+      async (finalOptions) => {
+        const result = await this.client.entitiesRecognitionPii(
+          {
+            documents: realInputs
+          },
+          finalOptions
+        );
+
+        return makeRecognizePiiEntitiesResultArray(realInputs, result);
+      }
     );
-
-    try {
-      const result = await this.client.entitiesRecognitionPii(
-        {
-          documents: realInputs
-        },
-        finalOptions
-      );
-
-      return makeRecognizePiiEntitiesResultArray(realInputs, result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -959,29 +908,20 @@ export class TextAnalyticsClient {
       realOptions = (languageOrOptions as RecognizeLinkedEntitiesOptions) || {};
     }
 
-    const { span, updatedOptions: finalOptions } = createSpan(
-      "TextAnalyticsClient-recognizeLinkedEntities",
-      makeGeneratedRecognizeLinkingEntitiesOptions(realOptions)
+    return tracingClient.withSpan(
+      "TextAnalyticsClient.recognizeLinkedEntities",
+      makeGeneratedRecognizeLinkingEntitiesOptions(realOptions),
+      async (finalOptions) => {
+        const result = await this.client.entitiesLinking(
+          {
+            documents: realInputs
+          },
+          finalOptions
+        );
+
+        return makeRecognizeLinkedEntitiesResultArray(realInputs, result);
+      }
     );
-
-    try {
-      const result = await this.client.entitiesLinking(
-        {
-          documents: realInputs
-        },
-        finalOptions
-      );
-
-      return makeRecognizeLinkedEntitiesResultArray(realInputs, result);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**

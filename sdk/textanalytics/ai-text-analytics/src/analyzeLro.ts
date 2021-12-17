@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { LongRunningOperation, LroResponse, PollerLike, RawResponse } from "@azure/core-lro";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
 import {
   GeneratedClient,
@@ -11,7 +10,6 @@ import {
   JobManifestTasks,
   TextDocumentInput
 } from "./generated";
-import { createSpan } from "./tracing";
 import { compileError, getRawResponse, sendGetRequest } from "./util";
 import * as Mappers from "./generated/models/mappers";
 import {
@@ -29,6 +27,7 @@ import {
   createAnalyzeActionsResult,
   PagedAnalyzeActionsResult
 } from "./analyzeActionsResult";
+import { tracingClient } from "./tracing";
 
 /**
  * Options for the begin analyze actions operation.
@@ -128,37 +127,33 @@ export class AnalyzeLro implements LongRunningOperation<PagedAnalyzeActionsResul
     private tasks: JobManifestTasks
   ) {}
   async sendInitialRequest(): Promise<LroResponse<PagedAnalyzeActionsResult>> {
-    const { span, updatedOptions: finalOptions } = createSpan("TextAnalyticsClient-beginAnalyze", {
-      ...this.baseOptions,
-      ...this.initOptions
-    });
-    try {
-      const { flatResponse, rawResponse } = await getRawResponse(
-        (paramOptions) =>
-          this.client.analyze({
-            body: {
-              analysisInput: { documents: this.documents },
-              tasks: this.tasks,
-              displayName: this.initOptions.displayName
-            },
-            ...paramOptions
-          }),
-        finalOptions
-      );
-      return {
-        flatResponse: flatResponse as PagedAnalyzeActionsResult,
-        rawResponse
-      };
-    } catch (e) {
-      const exception = compileError(e);
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: exception.message
-      });
-      throw exception;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "TextAnalyticsClient.beginAnalyze",
+      { ...this.baseOptions, ...this.initOptions },
+      async (finalOptions) => {
+        try {
+          const { flatResponse, rawResponse } = await getRawResponse(
+            (paramOptions) =>
+              this.client.analyze({
+                body: {
+                  analysisInput: { documents: this.documents },
+                  tasks: this.tasks,
+                  displayName: this.initOptions.displayName
+                },
+                ...paramOptions
+              }),
+            finalOptions
+          );
+          return {
+            flatResponse: flatResponse as PagedAnalyzeActionsResult,
+            rawResponse
+          };
+        } catch (e) {
+          const exception = compileError(e);
+          throw exception;
+        }
+      }
+    );
   }
   async sendPollRequest(path: string): Promise<LroResponse<PagedAnalyzeActionsResult>> {
     return sendGetRequest(

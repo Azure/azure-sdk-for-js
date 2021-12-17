@@ -3,10 +3,12 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { assert, use as chaiUse } from "chai";
+import chai, { assert } from "chai";
 import { Suite, Context } from "mocha";
+import { chaiAzureTrace } from "@azure/test-utils";
 import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
+chai.use(chaiPromises);
+chai.use(chaiAzureTrace);
 
 import { matrix } from "@azure/test-utils";
 import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
@@ -185,12 +187,20 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               language: "en"
             }
           ];
-          const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
-            includeOpinionMining: true
-          });
-          assert.equal(results.length, 1);
-          assertAllSuccess(results);
-          const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
+          let results: AnalyzeSentimentResultArray | undefined = undefined;
+          await assert.supportsTracing(
+            async (updatedOptions) => {
+              results = await client.analyzeSentiment(documents, {
+                ...updatedOptions,
+                includeOpinionMining: true
+              });
+            },
+            ["TextAnalyticsClient.analyzeSentiment"]
+          );
+          assert.isDefined(results);
+          assert.equal(results!.length, 1);
+          assertAllSuccess(results!);
+          const documentSentiment: AnalyzeSentimentSuccessResult = results![0] as AnalyzeSentimentSuccessResult;
           documentSentiment.sentences.map((sentence) =>
             sentence.opinions?.map((opinion) => {
               const Target = opinion.target;
