@@ -23,7 +23,7 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `run` (execute a sample or all samples within a directory)
   - `check-node-versions` (execute samples with different node versions, typically in preparation for release)
 - `test-proxy`
-  - `start` (starts the test-proxy tool(expects that docker is available in your environment))
+  - `start` (start the test-proxy tool. This requires docker.)
   - `wait-for-proxy-endpoint` (waits until the proxy endpoint is ready or aborts in 120 seconds, whichever happens first)
 - `run`
 
