@@ -164,10 +164,15 @@ export async function assertThrowsRestError(
     assert.fail(`${message}: No error thrown`);
   } catch (err) {
     if (!(err instanceof RestError)) {
+      console.log(`why isn't err a RestError`);
+      console.dir(err);
+    }
+    if (!(err instanceof Error)) {
       throw new Error("Error is not recognized");
     }
     if (err.name === "RestError") {
-      assert.equal(expectedStatusCode, err.statusCode, message);
+      const restError = err as RestError;
+      assert.equal(expectedStatusCode, restError.statusCode, message);
       return err;
     }
 
