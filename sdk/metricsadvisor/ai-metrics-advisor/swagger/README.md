@@ -17,6 +17,8 @@ source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/08f5e391f2153a99580b458cc71ef88e45dd0531/specification/cognitiveservices/data-plane/MetricsAdvisor/preview/v1.0/MetricsAdvisor.json
 add-credentials: false
 override-client-name: GeneratedClient
+use-extension:
+  "@autorest/typescript": "6.0.0-beta.15"
 disable-async-iterators: true
 hide-clients: true
 package-version: 1.0.1
