@@ -35,7 +35,7 @@ export class TestProxyHttpClientCoreV1 implements HttpClient {
       !isLiveMode() &&
       ensureExistence(
         this.client.requestModifier,
-        "this.requestModifier",
+        "this.client.requestModifier",
         env.TEST_MODE || "undefined"
       )
     ) {
