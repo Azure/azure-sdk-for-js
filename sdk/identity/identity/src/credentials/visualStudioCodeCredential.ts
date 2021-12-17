@@ -233,14 +233,14 @@ export class VisualStudioCodeCredential implements TokenCredential {
         return tokenResponse.accessToken;
       } else {
         const error = new CredentialUnavailableError(
-          "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently? To troubleshoot, visit https://aka.ms/azsdk/js/identity/visualstudiocodecredential/troubleshoot."
+          "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently? To troubleshoot, visit https://aka.ms/azsdk/js/identity/vscodecredential/troubleshoot."
         );
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }
     } else {
       const error = new CredentialUnavailableError(
-        "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension? To troubleshoot, visit https://aka.ms/azsdk/js/identity/visualstudiocodecredential/troubleshoot."
+        "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension? To troubleshoot, visit https://aka.ms/azsdk/js/identity/vscodecredential/troubleshoot."
       );
       logger.getToken.info(formatError(scopes, error));
       throw error;

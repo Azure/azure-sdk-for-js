@@ -1568,10 +1568,14 @@ export type DatabricksSparkPythonActivity = ExecutionActivity & {
 };
 
 // @public (undocumented)
-export class DataFactoryManagementClient extends DataFactoryManagementClientContext {
+export class DataFactoryManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DataFactoryManagementClientOptionalParams);
     // (undocumented)
     activityRuns: ActivityRuns;
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     dataFlowDebugSession: DataFlowDebugSession;
     // (undocumented)
@@ -1607,20 +1611,11 @@ export class DataFactoryManagementClient extends DataFactoryManagementClientCont
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     triggerRuns: TriggerRuns;
     // (undocumented)
     triggers: Triggers;
-}
-
-// @public (undocumented)
-export class DataFactoryManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DataFactoryManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public
