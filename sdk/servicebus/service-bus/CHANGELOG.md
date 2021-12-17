@@ -11,7 +11,7 @@
 
 ### Bugs Fixed
 
-- Fixes an issue where receiver keeps trying to re-connect when subscribing to non-existent subscription.
+- Fixes an issue where user error handler is not called when subscribing to a non-existent subscription. [PR #19189](https://github.com/Azure/azure-sdk-for-js/pull/19189)
 
 ### Other Changes
 

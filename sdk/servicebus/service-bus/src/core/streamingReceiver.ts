@@ -156,23 +156,7 @@ export class StreamingReceiver extends MessageReceiver {
 
       this._lockRenewer?.stopAll(this);
 
-      let retryable: boolean = true;
-      if (receiverError) {
-        const sbError = translateServiceBusError(receiverError) as MessagingError;
-        retryable = sbError.retryable;
-        if (!retryable) {
-          logger.verbose(
-            `${this.logPrefix} non-recoverable error. Hence not calling detached from the _onAmqpClose() handler.`
-          );
-          this._messageHandlers().processError({
-            error: sbError,
-            errorSource: "receive",
-            entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
-          });
-        }
-      }
-      if (receiver && !receiver.isItselfClosed() && retryable) {
+      if (receiver && !receiver.isItselfClosed()) {
         await this.onDetached(receiverError);
       } else {
         logger.verbose(
@@ -219,6 +203,17 @@ export class StreamingReceiver extends MessageReceiver {
           sbError,
           `${this.logPrefix} 'receiver_error' event occurred. The associated error is`
         );
+        if (
+          sbError?.code &&
+          ["MessagingEntityDisabled", "MessagingEntityNotFound"].includes(sbError.code)
+        ) {
+          this._messageHandlers().processError({
+            error: sbError,
+            errorSource: "receive",
+            entityPath: this.entityPath,
+            fullyQualifiedNamespace: this._context.config.host
+          });
+        }
       }
     };
 
@@ -446,6 +441,7 @@ export class StreamingReceiver extends MessageReceiver {
     });
 
     try {
+      this._receiverHelper.resume();
       return await this._subscribeImpl("subscribe");
     } catch (err) {
       // callers aren't going to be in a good position to forward this error properly
@@ -540,10 +536,6 @@ export class StreamingReceiver extends MessageReceiver {
    */
   private async _subscribeImpl(caller: "detach" | "subscribe"): Promise<void> {
     try {
-      // this allows external callers (ie: ServiceBusReceiver) to prevent concurrent `subscribe` calls
-      // by not starting new receiving options while this one has started.
-      this._receiverHelper.resume();
-
       // we don't expect to ever get an error from retryForever but bugs
       // do happen.
       return await this._retryForeverFn({
