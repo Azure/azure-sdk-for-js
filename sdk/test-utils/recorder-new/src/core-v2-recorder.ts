@@ -29,7 +29,6 @@ import { handleEnvSetup } from "./utils/envSetupForPlayback";
 import { Matcher, setMatcher } from "./matcher";
 import { RecorderRequestModifier } from "./recorderRequestModifier";
 
-
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
  * eventually save them in record mode and playing them back in playback mode.
@@ -42,7 +41,7 @@ export class RecorderClient {
   public recordingId?: string;
   public mode: string;
   private stateManager = new RecordingStateManager();
-  public httpClient: HttpClient | undefined = undefined;
+  private httpClient: HttpClient | undefined = undefined;
   private sessionFile: string | undefined = undefined;
   private sanitizer: Sanitizer | undefined;
   private variables: Record<string, string>;

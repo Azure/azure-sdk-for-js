@@ -29,7 +29,7 @@ describe("TestProxyClient functions", () => {
   let testContext: Mocha.Test | undefined;
   beforeEach(function() {
     client = new RecorderClient(this.currentTest);
-    clientHttpClient = client.httpClient as HttpClient;
+    clientHttpClient = client["httpClient"] as HttpClient;
     testContext = this.currentTest;
   });
 
