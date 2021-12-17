@@ -257,10 +257,10 @@ export interface RecorderStartOptions {
  *
  * Returns true if the param exists.
  */
-export function ensureExistence<T>(thing: T | undefined, label: string, mode: string): thing is T {
+export function ensureExistence<T>(thing: T | undefined, label: string): thing is T {
   if (!thing) {
     throw new RecorderError(
-      `Something went wrong, ${label} should not have been undefined in ${mode} mode.`
+      `Something went wrong, ${label} should not have been undefined in "${getTestMode()}" mode.`
     );
   }
   return true; // Since we would throw error if undefined
@@ -276,4 +276,10 @@ export function getTestMode(): string {
     return "playback";
   }
   return env.TEST_MODE;
+}
+
+/** Make a lazy value that can be deferred and only computed once. */
+export const once = <T>(make: () => T): () => T =>{
+  let value;
+  return () => value ??= make();
 }
