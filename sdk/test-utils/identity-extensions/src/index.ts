@@ -3,7 +3,7 @@
 
 import { ClientSecretCredential } from "@azure/identity";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { NoOpCredential } from "@azure-tools/test-recorder-new";
+import { NoOpCredential } from "./noOpCredential";
 
 /**
  * ## Credential to be used in the tests.
@@ -24,3 +24,5 @@ export function getTestCredential() {
         env["AZURE_CLIENT_SECRET"]
       );
 }
+
+export { NoOpCredential };
