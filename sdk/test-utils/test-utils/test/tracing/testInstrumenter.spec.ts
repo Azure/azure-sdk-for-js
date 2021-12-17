@@ -106,11 +106,7 @@ export class MockClientToTest {
       packageVersion: "foobar"
     });
   }
-  // const myOperationResult = await withSpan("myClassName.myOperationName", (updatedOptions) => myOperation(updatedOptions), options);
   async mockSetMethod(record: any, options?: any) {
-    // TODO: how to pass in span options or tracing options??
-    // TODO: isn't the 2nd argument supposed to be the options for the callback??
-
     return this.tracingClient.withSpan(
       "MockClientToTest.mockSetMethod",
       options,
