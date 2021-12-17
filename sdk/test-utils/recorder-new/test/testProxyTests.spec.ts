@@ -8,7 +8,7 @@ import {
   PipelineRequestOptions
 } from "@azure/core-rest-pipeline";
 import { ServiceClient } from "@azure/core-client";
-import { TestProxyHttpClient } from "../src";
+import { RecorderClient } from "../src";
 import { expect } from "chai";
 
 type TestMode = "record" | "playback" | "live" | undefined;
@@ -43,7 +43,7 @@ function getTestServerUrl() {
 // - proxy-tool (to save/mock the responses)
 (["record", "playback", "live"] as TestMode[]).forEach((mode) => {
   describe(`proxy tool`, () => {
-    let recorder: TestProxyHttpClient;
+    let recorder: RecorderClient;
     let client: ServiceClient;
 
     const basePipelineReqOptions: Partial<PipelineRequestOptions> =
@@ -54,7 +54,7 @@ function getTestServerUrl() {
     });
 
     beforeEach(async function() {
-      recorder = new TestProxyHttpClient(this.currentTest);
+      recorder = new RecorderClient(this.currentTest);
       client = new ServiceClient({ baseUri: getTestServerUrl() });
       recorder.configureClient(client);
     });

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { WebResourceLike } from "@azure/core-http";
 import {
   createDefaultHttpClient,
   createPipelineRequest,
@@ -28,6 +27,8 @@ import { paths } from "./utils/paths";
 import { Sanitizer } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
 import { Matcher, setMatcher } from "./matcher";
+import { RecorderRequestModifier } from "./recorderRequestModifier";
+
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -36,7 +37,7 @@ import { Matcher, setMatcher } from "./matcher";
  * This client is meant for the core-v2 SDKs(depending on core-rest-pipeline) and
  * is supposed to be passed as an argument to the recorderHttpPolicy.
  */
-export class TestProxyHttpClient {
+export class RecorderClient {
   private url = "http://localhost:5000";
   public recordingId?: string;
   public mode: string;
@@ -45,6 +46,7 @@ export class TestProxyHttpClient {
   private sessionFile: string | undefined = undefined;
   private sanitizer: Sanitizer | undefined;
   private variables: Record<string, string>;
+  public requestModifier: RecorderRequestModifier | undefined;
 
   constructor(private testContext?: Test | undefined) {
     this.mode = getTestMode();
@@ -58,45 +60,13 @@ export class TestProxyHttpClient {
         );
       }
       this.sanitizer = new Sanitizer(this.mode, this.url, this.httpClient);
+      this.requestModifier = new RecorderRequestModifier(this.mode, this.url);
     }
     this.variables = {};
   }
 
-  /**
-   * For core-v1 (core-http)
-   */
-  redirectRequest(request: WebResourceLike): void;
-
-  /**
-   * For core-v2 (core-rest-pipeline)
-   */
-  redirectRequest(request: PipelineRequest): void;
-
-  /**
-   * redirectRequest updates the request in record and playback modes to hit the proxy-tool with appropriate headers.
-   * Works for both core-v1 and core-v2
-   */
-  redirectRequest(request: WebResourceLike | PipelineRequest): void {
-    if (isPlaybackMode() || isRecordMode()) {
-      if (!request.headers.get("x-recording-id")) {
-        if (this.recordingId === undefined) {
-          throw new RecorderError("Recording ID must be defined to redirect a request");
-        }
-
-        request.headers.set("x-recording-id", this.recordingId);
-        request.headers.set("x-recording-mode", this.mode);
-
-        const upstreamUrl = new URL(request.url);
-        const redirectedUrl = new URL(request.url);
-        const providedUrl = new URL(this.url);
-
-        redirectedUrl.host = providedUrl.host;
-        redirectedUrl.port = providedUrl.port;
-        redirectedUrl.protocol = providedUrl.protocol;
-        request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
-        request.url = redirectedUrl.toString();
-      }
-    }
+  getRecordingId() {
+    return this.recordingId;
   }
 
   /**
@@ -116,11 +86,12 @@ export class TestProxyHttpClient {
    * recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.
    */
   async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
-    if (isPlaybackMode() || isRecordMode()) {
-      if (this.recordingId) {
-        this.redirectRequest(request);
-        request.allowInsecureConnection = true;
+    // If check needed because we only modify requests in record/playback modes.
+    if (!isLiveMode() && ensureExistence(this.requestModifier, "this.requestModifier", this.mode)) {
+      if (!this.recordingId) {
+        throw new RecorderError("Something went wrong - recordingId should have been defined");
       }
+      return this.requestModifier.modifyRequest(request, this.recordingId);
     }
     return request;
   }
@@ -316,7 +287,7 @@ export class TestProxyHttpClient {
  * @export
  * @param {TestProxyHttpClient} testProxyHttpClient
  */
-export function recorderHttpPolicy(testProxyHttpClient: TestProxyHttpClient): PipelinePolicy {
+export function recorderHttpPolicy(testProxyHttpClient: RecorderClient): PipelinePolicy {
   return {
     name: "recording policy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
