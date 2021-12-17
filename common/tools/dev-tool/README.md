@@ -24,7 +24,7 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `check-node-versions` (execute samples with different node versions, typically in preparation for release)
 - `test-proxy`
   - `start` (starts the test-proxy tool(expects that docker is available in your environment))
-  - `wait-for-proxy-endpoint` (waits until the proxy endpoint is active or aborts in 120 seconds, whichever happens first)
+  - `wait-for-proxy-endpoint` (waits until the proxy endpoint is ready or aborts in 120 seconds, whichever happens first)
 - `run`
 
   - `test:node-ts-input` (runs the node tests with TS input files with the default mocha configs, and concurrently runs the proxy tool in record/playback modes if it is not already active)
