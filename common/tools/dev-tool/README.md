@@ -35,7 +35,9 @@ It provides a place to centralize scripts, resources, and processes for developm
 
     Usage
 
-    > `dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.spec.ts'`
+    ```bash
+    dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.spec.ts'
+    ```
 
   - `test:node-js-input` (runs the node tests with JS input files with the default mocha configs, and concurrently runs the proxy tool in record/playback modes if it is not already active)
 
