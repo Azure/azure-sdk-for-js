@@ -33,6 +33,7 @@ import {
   DefaultHttpClient,
   HttpClient as HttpClientCoreV1,
   HttpOperationResponse,
+  RequestPolicy,
   WebResourceLike
 } from "@azure/core-http";
 
@@ -40,8 +41,12 @@ import {
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
  * eventually save them in record mode and playing them back in playback mode.
  *
- * This client is meant for the core-v2 SDKs(depending on core-rest-pipeline) and
- * is supposed to be passed as an argument to the recorderHttpPolicy.
+ * For Core V2 SDKs,
+ * - Use the `configureClient` method to add recorder policy on your client.
+ * For core-v1 SDKs,
+ * - Use the `configureClientOptionsCoreV1` method to modify the httpClient on your client options
+ *
+ * Other than configuring your clients, use `start`, `stop`, `addSanitizers` methods to use the recorder.
  */
 export class RecorderClient {
   private url = "http://localhost:5000";
@@ -72,7 +77,7 @@ export class RecorderClient {
     this.variables = {};
   }
 
-  createHttpClientCoreV1() {
+  private createHttpClientCoreV1(): RequestPolicy {
     const client = new DefaultHttpClient();
     return {
       sendRequest: (request: WebResourceLike): Promise<HttpOperationResponse> => {
@@ -244,11 +249,27 @@ export class RecorderClient {
   /**
    * For core-v2 - libraries depending on core-rest-pipeline.
    * This method adds the recording policy to the input client's pipeline.
+   *
+   * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
    */
   public configureClient(client: { pipeline: Pipeline }): void {
     if (!isLiveMode()) {
       client.pipeline.addPolicy(recorderHttpPolicy(this));
     }
+  }
+
+  /**
+   * For core-v1 - libraries depending on core-http.
+   * This method adds the custom httpClient to the client options.
+   *
+   * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
+   */
+  public configureClientOptionsCoreV1<
+    T extends {
+      httpClient?: HttpClientCoreV1;
+    }
+  >(options: T): T {
+    return { ...options, httpClient: this.httpClientCoreV1 };
   }
 
   /**
