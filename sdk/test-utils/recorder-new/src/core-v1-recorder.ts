@@ -12,7 +12,7 @@ import { RecorderRequestModifier } from "./recorderRequestModifier";
 
 /**
  * This client modifies the sendRequest to redirect the requests to the proxy tool instead of directly going to the service.
- * This client is supposed to be passed as the httpClient for the tests in the SDKs based based on core-http.
+ * This client is supposed to be passed as the httpClient for the SDKs based on core-http.
  *
  * @export
  * @class TestProxyHttpClientCoreV1
