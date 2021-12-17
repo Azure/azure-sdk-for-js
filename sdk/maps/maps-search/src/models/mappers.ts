@@ -35,7 +35,13 @@ import {
   SearchExtraFilterOptions,
   SearchPointOfInterestOptions
 } from "./options";
-import { FuzzySearchRequest, ReverseSearchAddressRequest, SearchAddressRequest } from "./requests";
+import {
+  FuzzySearchRequest,
+  FuzzySearchRequestOptions,
+  ReverseSearchAddressRequest,
+  SearchAddressRequest,
+  SearchAddressRequestOptions
+} from "./requests";
 import { OperationOptions } from "@azure/core-client";
 
 /* LatLon / BoundingBox mappers */
@@ -424,7 +430,7 @@ const clientToServiceNames: Readonly<Record<string, string>> = {
   radiusInMeters: "radius",
   localizedMapView: "view",
   top: "limit",
-  skip: "offset",
+  skip: "ofs",
   includeSpeedLimit: "returnSpeedLimit",
   numberParam: "number",
   includeRoadUse: "returnRoadUse",
@@ -447,20 +453,24 @@ const clientToServiceNamesArray: Readonly<Record<string, string>> = {
  * @internal
  */
 function createPartialQueryStringFromOptions(
-  options: FuzzySearchOptions | SearchAddressOptions
+  options: FuzzySearchRequestOptions | SearchAddressRequestOptions
 ): string {
   let partialQuery = "";
   for (const [k, v] of Object.entries(options)) {
     // Skip if no value
-    if (!v) continue;
+    if (typeof v === "undefined" || v === null) continue;
     // Check name mappings: primitive values
     if (k in clientToServiceNames) {
       partialQuery += `&${clientToServiceNames[k]}=${v}`;
       // Check name mappings: Array values
     } else if (k in clientToServiceNamesArray) {
       if (Array.isArray(v) && v.length > 0) {
-        partialQuery += `&${clientToServiceNames[k]}=${v.join(",")}`;
+        partialQuery += `&${clientToServiceNamesArray[k]}=${v.join(",")}`;
       }
+    } else if (k === "coordinates") {
+      partialQuery += `&lat=${v.latitude}&lon=${v.longitude}`;
+    } else if (k === "boundingBox") {
+      partialQuery += `&topLeft=${v.topLeft.latitude},${v.topLeft.longitude}&btmRight=${v.bottomRight.latitude},${v.bottomRight.longitude}`;
     } else {
       partialQuery += `&${k}=${v}`;
     }
