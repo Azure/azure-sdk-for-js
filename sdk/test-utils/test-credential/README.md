@@ -12,6 +12,13 @@ Add this library as a dev dependency in your project.
 
 ## Key concepts
 
+### Usage
+```ts
+import { createTestCredential } from "@azure-tools/test-credential";
+
+const credential = createTestCredential();
+```
+
 This library provides the credential to be used in the tests
 
 In playback mode
