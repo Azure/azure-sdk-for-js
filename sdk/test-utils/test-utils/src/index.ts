@@ -12,10 +12,10 @@ export {
 export { matrix } from "./matrix";
 export { isNode, isNode8 } from "./utils";
 
-export * from "./tracing/testInstrumenter";
-export * from "./tracing/testTracingSpan";
+export * from "./tracing/mockInstrumenter";
+export * from "./tracing/mockTracingSpan";
 export { TestSpan } from "./tracing/testSpan";
 export * from "./tracing/testTracer";
 export * from "./tracing/testTracerProvider";
 export * from "./tracing/spanGraphModel";
-export { chaiAzureTrace } from "./tracing/azureTracing";
+export { chaiAzureTrace } from "./tracing/chaiAzureTrace";

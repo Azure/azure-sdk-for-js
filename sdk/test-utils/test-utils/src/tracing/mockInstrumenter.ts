@@ -8,21 +8,21 @@ import {
   TracingSpan,
   TracingSpanContext
 } from "@azure/core-tracing";
-import { MockContext } from "./mockContext";
-import { TestTracingSpan } from "./testTracingSpan";
+import { MockContext, spanKey } from "./mockContext";
+import { MockTracingSpan } from "./mockTracingSpan";
 
 /**
  * Represents an implementation of {@link Instrumenter} interface that keeps track of the tracing contexts and spans
  */
-export class TestInstrumenter implements Instrumenter {
+export class MockInstrumenter implements Instrumenter {
   /**
-   * List of immutable contexts, each of which is a bag of tracing values for the current operation
+   * Stack of immutable contexts, each of which is a bag of tracing values for the current operation
    */
-  public contexts: TracingContext[] = [new MockContext()];
+  public contextStack: TracingContext[] = [new MockContext()];
   /**
    * List of started spans
    */
-  public startedSpans: TestTracingSpan[] = [];
+  public startedSpans: MockTracingSpan[] = [];
 
   private traceIdCounter = 0;
   private getNextTraceId(): string {
@@ -41,20 +41,22 @@ export class TestInstrumenter implements Instrumenter {
     spanOptions?: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
     const tracingContext = spanOptions?.tracingContext || this.currentContext();
-    const parentSpan = tracingContext.getValue(Symbol.for("span")) as TestTracingSpan;
+    const parentSpan = tracingContext.getValue(spanKey) as TracingSpan | undefined;
     let traceId;
     if (parentSpan) {
       traceId = parentSpan.spanContext.traceId;
     } else {
       traceId = this.getNextTraceId();
     }
-    const span = new TestTracingSpan(name, tracingContext, spanOptions, {
+
+    const spanContext = {
       spanId: this.getNextSpanId(),
       traceId: traceId,
       traceFlags: 0
-    });
+    };
+    const span = new MockTracingSpan(name, spanContext, tracingContext, spanOptions);
     let context: TracingContext = new MockContext(tracingContext);
-    context = context.setValue(Symbol.for("span"), span);
+    context = context.setValue(spanKey, span);
 
     this.startedSpans.push(span);
     return { span, tracingContext: context };
@@ -69,9 +71,9 @@ export class TestInstrumenter implements Instrumenter {
     callbackThis?: ThisParameterType<Callback>,
     ...callbackArgs: CallbackArgs
   ): ReturnType<Callback> {
-    this.contexts.push(context);
+    this.contextStack.push(context);
     return Promise.resolve(callback.call(callbackThis, ...callbackArgs)).finally(() => {
-      this.contexts.pop();
+      this.contextStack.pop();
     }) as ReturnType<Callback>;
   }
 
@@ -83,7 +85,22 @@ export class TestInstrumenter implements Instrumenter {
     return {};
   }
 
+  /**
+   * Gets the currently active context.
+   *
+   * @returns The current context.
+   */
   currentContext() {
-    return this.contexts[this.contexts.length - 1];
+    return this.contextStack[this.contextStack.length - 1];
+  }
+
+  /**
+   * Resets the state of the instrumenter to a clean slate.
+   */
+  reset() {
+    this.contextStack = [new MockContext()];
+    this.startedSpans = [];
+    this.traceIdCounter = 0;
+    this.spanIdCounter = 0;
   }
 }

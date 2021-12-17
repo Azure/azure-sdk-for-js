@@ -2,24 +2,28 @@
 // Licensed under the MIT license.
 
 import { createTracingClient, TracingClient, useInstrumenter } from "@azure/core-tracing";
-import { TestTracingSpan, TestInstrumenter } from "../../src";
+import { MockTracingSpan, MockInstrumenter } from "../../src";
 import chai, { assert, expect } from "chai";
-import { chaiAzureTrace } from "../../src/tracing/azureTracing";
+import { chaiAzureTrace } from "../../src/tracing/chaiAzureTrace";
 import { MockContext } from "../../src/tracing/mockContext";
+import { OperationTracingOptions } from "@azure/core-tracing";
 chai.use(chaiAzureTrace);
 
 describe("TestInstrumenter", function() {
-  let instrumenter: TestInstrumenter;
+  let instrumenter: MockInstrumenter;
+
   beforeEach(function() {
-    instrumenter = new TestInstrumenter();
+    instrumenter = new MockInstrumenter();
   });
+
   describe("#startSpan", function() {
     it("starts a span and adds to startedSpans array", function() {
       const { span } = instrumenter.startSpan("testSpan");
       assert.equal(instrumenter.startedSpans.length, 1);
-      assert.equal(instrumenter.startedSpans[0], span as TestTracingSpan);
+      assert.equal(instrumenter.startedSpans[0], span as MockTracingSpan);
       assert.equal(instrumenter.startedSpans[0].name, "testSpan");
     });
+
     it("returns a new context with existing attributes", function() {
       const existingContext = new MockContext().setValue(Symbol.for("foo"), "bar");
 
@@ -31,6 +35,7 @@ describe("TestInstrumenter", function() {
       assert.equal(newContext.getValue(Symbol.for("foo")), "bar");
     });
   });
+
   describe("#withContext", function() {
     it("sets the active context in synchronous functions", async function() {
       const { tracingContext } = instrumenter.startSpan("contextTest");
@@ -43,6 +48,7 @@ describe("TestInstrumenter", function() {
       assert.equal(result, 42);
       assert.notEqual(instrumenter.currentContext(), tracingContext);
     });
+
     it("sets the active context during async functions", async function() {
       const { tracingContext } = instrumenter.startSpan("contextTest");
       const result = await instrumenter.withContext(tracingContext, async function() {
@@ -53,6 +59,7 @@ describe("TestInstrumenter", function() {
       assert.equal(result, 42);
       assert.notEqual(instrumenter.currentContext(), tracingContext);
     });
+
     it("resets the previous context after the function returns", async function() {
       const existingContext = instrumenter.currentContext();
       const { tracingContext } = instrumenter.startSpan("test");
@@ -65,17 +72,19 @@ describe("TestInstrumenter", function() {
 });
 
 describe("TestInstrumenter with MockClient", function() {
-  let instrumenter: TestInstrumenter;
+  let instrumenter: MockInstrumenter;
   let client: MockClientToTest;
+
   beforeEach(function() {
-    instrumenter = new TestInstrumenter();
+    instrumenter = new MockInstrumenter();
     useInstrumenter(instrumenter);
     client = new MockClientToTest();
   });
+
   it("starts a span and adds to startedSpans array", async function() {
-    await client.mockSetMethod({ key: "value" });
+    await client.method();
     assert.equal(instrumenter.startedSpans.length, 1);
-    assert.equal(instrumenter.startedSpans[0].name, "MockClientToTest.mockSetMethod");
+    assert.equal(instrumenter.startedSpans[0].name, "MockClientToTest.method");
   });
 });
 
@@ -84,16 +93,22 @@ describe("Test supportsTracing plugin functionality", function() {
   beforeEach(function() {
     client = new MockClientToTest();
   });
-  it("supportsTracing with the setMethod", function() {
-    assert.supportsTracing((options) => client.mockSetMethod({ key: "value" }, options), [
-      "MockClientToTest.mockSetMethod"
-    ]);
-    expect((options: any) => client.mockSetMethod({ key: "value" }, options)).to.supportsTracing([
-      "MockClientToTest.mockSetMethod"
+
+  it("supportsTracing with assert", async function() {
+    await assert.supportsTracing((options) => client.method(options), ["MockClientToTest.method"]);
+  });
+
+  it("supportsTracing with expect", async function() {
+    await expect((options: any) => client.method(options)).to.supportTracing([
+      "MockClientToTest.method"
     ]);
   });
 });
-// or something that has upgraded to core-tracing preview.14
+
+/**
+ * Represent a convenience client that has enabled tracing on a single method.
+ * Used for testing assertions.
+ */
 export class MockClientToTest {
   public record: Record<string, string>;
   tracingClient: TracingClient;
@@ -106,20 +121,10 @@ export class MockClientToTest {
       packageVersion: "foobar"
     });
   }
-  async mockSetMethod(record: any, options?: any) {
-    return this.tracingClient.withSpan(
-      "MockClientToTest.mockSetMethod",
-      options,
-      (updatedOptions, span) => {
-        console.log("---Inside Callback of With span----");
-        console.log(JSON.stringify(updatedOptions.tracingOptions.tracingContext, null, 2));
-        console.log(span);
-        console.log("---Exiting Callback of With Span ---");
-        this.record = record;
-      },
-      {
-        spanKind: "consumer"
-      }
-    );
+
+  async method<Options extends { tracingOptions?: OperationTracingOptions }>(options?: Options) {
+    return this.tracingClient.withSpan("MockClientToTest.method", options || {}, () => 42, {
+      spanKind: "consumer"
+    });
   }
 }

@@ -3,23 +3,40 @@
 
 import { OperationTracingOptions, useInstrumenter } from "@azure/core-tracing";
 import { assert } from "chai";
-import { TestInstrumenter } from "./testInstrumenter";
+import { MockInstrumenter } from "./mockInstrumenter";
 import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
-// this is the plugin used in the test file
-function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils): void {
+
+/**
+ * Augments Chai with support for Azure Tracing functionality
+ *
+ * Sample usage:
+ *
+ * ```ts
+ * import chai from "chai";
+ * import { chaiAzureTracing } from "@azure/test-utils";
+ * chai.use(chaiAzureTracing);
+ *
+ * it("supportsTracing", async () => {
+ *   await assert.supportsTracing((updatedOptions) => myClient.doSomething(updatedOptions), ["myClient.doSomething"]);
+ * });
+ * ```
+ * @param chai - The Chai instance
+ */
+function chaiAzureTrace(chai: Chai.ChaiStatic): void {
   // expect(() => {}).to.supportsTracing() syntax
-  chai.Assertion.addMethod("supportsTracing", function<T>(
+  chai.Assertion.addMethod("supportTracing", function<T>(
     this: Chai.AssertionStatic,
     expectedSpanNames: string[],
-    options?: T,
-    thisArg?: ThisParameterType<typeof this._obj>
+    options?: T
   ) {
-    return supportsTracing(this._obj, expectedSpanNames, options, thisArg);
+    return assert.supportsTracing(this._obj, expectedSpanNames, options, this._obj);
   });
+
   // assert.supportsTracing(() => {}) syntax
   chai.assert.supportsTracing = supportsTracing;
 }
 
+const instrumenter = new MockInstrumenter();
 /**
  * The supports Tracing function does the verification of whether the core-tracing is supported correctly with the client method
  * This function verifies the root span, if all the correct spans are called as expected and if they are closed.
@@ -30,15 +47,15 @@ function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils): void {
  */
 async function supportsTracing<
   Options extends { tracingOptions?: OperationTracingOptions },
-  Callback extends (options: Options) => unknown
+  Callback extends (options: Options) => Promise<unknown>
 >(
   callback: Callback,
   expectedSpanNames: string[],
   options?: Options,
   thisArg?: ThisParameterType<Callback>
 ) {
-  const instrumenter = new TestInstrumenter();
   useInstrumenter(instrumenter);
+  instrumenter.reset();
   const startSpanOptions = {
     packageName: "test",
     ...options
@@ -52,6 +69,7 @@ async function supportsTracing<
     }
   } as Options;
   await callback.call(thisArg, newOptions);
+  rootSpan.end();
   const spanGraph = getSpanGraph(rootSpan.spanContext.traceId, instrumenter);
   assert.equal(spanGraph.roots.length, 1, "There should be just one root span");
   assert.equal(spanGraph.roots[0].name, "root");
@@ -77,7 +95,7 @@ async function supportsTracing<
  * parent Span in a tree-like structure
  * @param traceId - The traceId to return the graph for
  */
-function getSpanGraph(traceId: string, instrumenter: TestInstrumenter): SpanGraph {
+function getSpanGraph(traceId: string, instrumenter: MockInstrumenter): SpanGraph {
   const traceSpans = instrumenter.startedSpans.filter((span) => {
     return span.spanContext.traceId === traceId;
   });
@@ -116,19 +134,12 @@ function getSpanGraph(traceId: string, instrumenter: TestInstrumenter): SpanGrap
 declare global {
   export namespace Chai {
     interface Assertion {
-      supportsTracing<T>(
-        this: any,
-        expectedSpanNames: string[],
-        options?: T,
-        thisArg?: ThisParameterType<typeof this._obj>
-      ): Promise<void>;
+      supportTracing<T>(expectedSpanNames: string[], options?: T): Promise<void>;
     }
-    //Options extends { tracingOptions?: OperationTracingOptions },
-    // Callback extends (options: Options) => unknown
     interface Assert {
       supportsTracing<
         Options extends { tracingOptions?: OperationTracingOptions },
-        Callback extends (options: Options) => unknown
+        Callback extends (options: Options) => Promise<unknown>
       >(
         callback: Callback,
         expectedSpanNames: string[],

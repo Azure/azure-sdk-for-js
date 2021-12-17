@@ -29,12 +29,16 @@ export class MockContext implements TracingContext {
     newContext.contextMap.set(key, value);
     return newContext;
   }
+
   getValue(key: symbol): unknown {
     return this.contextMap.get(key);
   }
+
   deleteValue(key: symbol): TracingContext {
     const newContext = new MockContext(this);
     newContext.contextMap.delete(key);
     return newContext;
   }
 }
+
+export const spanKey = Symbol.for("span");
