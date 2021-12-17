@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./systemAssignedIdentities";
-export * from "./operations";
-export * from "./userAssignedIdentities";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { ManagedServiceIdentityClient } from "./managedServiceIdentityClient";
+export * from "./operationsInterfaces";
