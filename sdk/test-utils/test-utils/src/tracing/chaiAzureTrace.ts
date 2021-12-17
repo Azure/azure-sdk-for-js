@@ -6,15 +6,32 @@ import { assert } from "chai";
 import { MockInstrumenter } from "./mockInstrumenter";
 import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
 
-function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils): void {
+/**
+ * Augments Chai with support for Azure Tracing functionality
+ *
+ * Sample usage:
+ *
+ * ```ts
+ * import chai from "chai";
+ * import { chaiAzureTracing } from "@azure/test-utils";
+ * chai.use(chaiAzureTracing);
+ *
+ * it("supportsTracing", async () => {
+ *   await assert.supportsTracing((updatedOptions) => myClient.doSomething(updatedOptions), ["myClient.doSomething"]);
+ * });
+ * ```
+ * @param chai - The Chai instance
+ */
+function chaiAzureTrace(chai: Chai.ChaiStatic): void {
   // expect(() => {}).to.supportsTracing() syntax
   chai.Assertion.addMethod("supportTracing", function<T>(
     this: Chai.AssertionStatic,
     expectedSpanNames: string[],
     options?: T
   ) {
-    return supportsTracing(this._obj, expectedSpanNames, options, this._obj);
+    return assert.supportsTracing(this._obj, expectedSpanNames, options, this._obj);
   });
+
   // assert.supportsTracing(() => {}) syntax
   chai.assert.supportsTracing = supportsTracing;
 }
@@ -30,7 +47,7 @@ const instrumenter = new MockInstrumenter();
  */
 async function supportsTracing<
   Options extends { tracingOptions?: OperationTracingOptions },
-  Callback extends (options: Options) => unknown
+  Callback extends (options: Options) => Promise<unknown>
 >(
   callback: Callback,
   expectedSpanNames: string[],
@@ -122,7 +139,7 @@ declare global {
     interface Assert {
       supportsTracing<
         Options extends { tracingOptions?: OperationTracingOptions },
-        Callback extends (options: Options) => unknown
+        Callback extends (options: Options) => Promise<unknown>
       >(
         callback: Callback,
         expectedSpanNames: string[],

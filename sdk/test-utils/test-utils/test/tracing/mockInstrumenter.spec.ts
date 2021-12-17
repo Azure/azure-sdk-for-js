@@ -94,12 +94,14 @@ describe("Test supportsTracing plugin functionality", function() {
     client = new MockClientToTest();
   });
 
-  it("supportsTracing with assert", function() {
-    assert.supportsTracing((options) => client.method(options), ["MockClientToTest.method"]);
+  it("supportsTracing with assert", async function() {
+    await assert.supportsTracing((options) => client.method(options), ["MockClientToTest.method"]);
   });
 
-  it("supportsTracing with expect", function() {
-    expect((options: any) => client.method(options)).to.supportTracing(["MockClientToTest.method"]);
+  it("supportsTracing with expect", async function() {
+    await expect((options: any) => client.method(options)).to.supportTracing([
+      "MockClientToTest.method"
+    ]);
   });
 });
 
