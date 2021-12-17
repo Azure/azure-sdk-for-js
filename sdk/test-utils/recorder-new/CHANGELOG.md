@@ -11,7 +11,7 @@
   - Design Changes
     - With `RecorderClientCoreV1`, instead of passing the whole client as the `httpClient` for core-v1 sdks, users are now expected to pass `recorder.httpClientCoreV1`(where `recorder` is an instantiation of `RecorderClientCoreV1`).
     - (Internal) Abstracted the redirect/modify request logic into a new `RecorderReqeustModifier` class.
-
+   [#19446](https://github.com/Azure/azure-sdk-for-js/pull/19446) 
 ## 2021-12-15
 
 - Change the API for using variables. Variables can now be accessed using the syntax:
