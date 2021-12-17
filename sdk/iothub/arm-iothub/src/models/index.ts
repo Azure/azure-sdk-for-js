@@ -134,12 +134,8 @@ export interface IotHubProperties {
   cloudToDevice?: CloudToDeviceProperties;
   /** IoT hub comments. */
   comments?: string;
-  /** The device streams properties of iothub. */
-  deviceStreams?: IotHubPropertiesDeviceStreams;
   /** The capabilities and features enabled for the IoT hub. */
   features?: Capabilities;
-  /** The encryption properties for the IoT hub. */
-  encryption?: EncryptionPropertiesDescription;
   /**
    * Primary and secondary location for iot hub
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -468,28 +464,6 @@ export interface FeedbackProperties {
   maxDeliveryCount?: number;
 }
 
-/** The device streams properties of iothub. */
-export interface IotHubPropertiesDeviceStreams {
-  /** List of Device Streams Endpoints. */
-  streamingEndpoints?: string[];
-}
-
-/** The encryption properties for the IoT hub. */
-export interface EncryptionPropertiesDescription {
-  /** The source of the key. */
-  keySource?: string;
-  /** The properties of the KeyVault key. */
-  keyVaultProperties?: KeyVaultKeyProperties[];
-}
-
-/** The properties of the KeyVault key. */
-export interface KeyVaultKeyProperties {
-  /** The identifier of the key. */
-  keyIdentifier?: string;
-  /** Managed identity properties of KeyVault Key. */
-  identity?: ManagedIdentity;
-}
-
 /** Public representation of one of the locations where a resource is provisioned. */
 export interface IotHubLocationDescription {
   /** The name of the Azure region */
@@ -522,7 +496,7 @@ export interface ArmIdentity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-  /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
+  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
   type?: ResourceIdentityType;
   /** Dictionary of <ArmUserIdentity> */
   userAssignedIdentities?: { [propertyName: string]: ArmUserIdentity };
@@ -1312,9 +1286,7 @@ export enum KnownRoutingSource {
   TwinChangeEvents = "TwinChangeEvents",
   DeviceLifecycleEvents = "DeviceLifecycleEvents",
   DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
-  DigitalTwinChangeEvents = "DigitalTwinChangeEvents",
-  DeviceConnectionStateEvents = "DeviceConnectionStateEvents",
-  MqttBrokerMessages = "MqttBrokerMessages"
+  DeviceConnectionStateEvents = "DeviceConnectionStateEvents"
 }
 
 /**
@@ -1327,9 +1299,7 @@ export enum KnownRoutingSource {
  * **TwinChangeEvents** \
  * **DeviceLifecycleEvents** \
  * **DeviceJobLifecycleEvents** \
- * **DigitalTwinChangeEvents** \
- * **DeviceConnectionStateEvents** \
- * **MqttBrokerMessages**
+ * **DeviceConnectionStateEvents**
  */
 export type RoutingSource = string;
 
