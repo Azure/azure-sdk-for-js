@@ -48,8 +48,3 @@ export async function runTestsWithProxyTool(
   }
   return true;
 }
-
-export function concatArguments(args?: string[]): string | undefined {
-  // ["a", "b", "c"] => "a b c"
-  return args?.reduce((final, currentArg) => (final += " " + currentArg));
-}

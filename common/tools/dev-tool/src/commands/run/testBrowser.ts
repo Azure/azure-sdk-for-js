@@ -2,7 +2,7 @@
 // Licensed under the MIT license
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { concatArguments, runTestsWithProxyTool } from "../../util/testUtils";
+import { runTestsWithProxyTool } from "../../util/testUtils";
 
 export const commandInfo = makeCommandInfo(
   "test:browser",
@@ -10,7 +10,7 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async (options) => {
-  const karmaArgs = options["--"]?.length ? concatArguments(options["--"]) : "--single-run";
+  const karmaArgs = options["--"]?.join(" ") ?? "--single-run";
   return runTestsWithProxyTool({
     command: `karma start ${karmaArgs}`,
     name: "browser-tests"
