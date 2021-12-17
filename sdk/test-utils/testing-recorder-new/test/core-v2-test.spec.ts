@@ -3,7 +3,7 @@
 
 import { env } from "@azure-tools/test-recorder";
 import { TableEntity, TableClient } from "@azure/data-tables";
-import { TestProxyHttpClient, RecorderStartOptions } from "@azure-tools/test-recorder-new";
+import { RecorderClient, RecorderStartOptions } from "@azure-tools/test-recorder-new";
 import { createSimpleEntity } from "./utils/utils";
 import { SanitizerOptions } from "@azure-tools/test-recorder-new";
 
@@ -28,10 +28,10 @@ const recorderOptions: RecorderStartOptions = {
 };
 
 describe("Core V2 tests", () => {
-  let recorder: TestProxyHttpClient;
+  let recorder: RecorderClient;
 
   beforeEach(async function() {
-    recorder = new TestProxyHttpClient(this.currentTest);
+    recorder = new RecorderClient(this.currentTest);
     await recorder.start(recorderOptions);
   });
 

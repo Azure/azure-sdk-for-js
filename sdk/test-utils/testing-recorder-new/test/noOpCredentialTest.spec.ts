@@ -4,7 +4,7 @@
 import {
   RecorderStartOptions,
   NoOpCredential,
-  TestProxyHttpClient
+  RecorderClient
 } from "@azure-tools/test-recorder-new";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { TokenCredential } from "@azure/core-auth";
@@ -29,11 +29,11 @@ const recorderStartOptions: RecorderStartOptions = {
 };
 
 describe(`NoOp credential with Tables`, () => {
-  let recorder: TestProxyHttpClient;
+  let recorder: RecorderClient;
   let credential: TokenCredential;
 
   beforeEach(async function() {
-    recorder = new TestProxyHttpClient(this.currentTest);
+    recorder = new RecorderClient(this.currentTest);
     await recorder.start(recorderStartOptions);
     credential = isPlaybackMode()
       ? new NoOpCredential()

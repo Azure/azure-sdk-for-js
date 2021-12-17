@@ -3,7 +3,7 @@
 
 import { env } from "@azure-tools/test-recorder";
 import { QueueServiceClient } from "@azure/storage-queue";
-import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
+import { RecorderClientCoreV1 } from "@azure-tools/test-recorder-new";
 import { RecorderStartOptions } from "@azure-tools/test-recorder-new";
 
 const fakeSASUrl =
@@ -31,10 +31,10 @@ const getSanitizerOptions = () => {
 };
 
 describe("Core V1 tests", () => {
-  let recorder: TestProxyHttpClientCoreV1;
+  let recorder: RecorderClientCoreV1;
 
   beforeEach(async function() {
-    recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+    recorder = new RecorderClientCoreV1(this.currentTest);
 
     await recorder.start(recorderOptions);
     await recorder.addSanitizers(getSanitizerOptions());
@@ -45,7 +45,9 @@ describe("Core V1 tests", () => {
   });
 
   it("storage-queue create queue", async function() {
-    const client = new QueueServiceClient(env.STORAGE_SAS_URL, undefined, { httpClient: recorder });
+    const client = new QueueServiceClient(env.STORAGE_SAS_URL, undefined, {
+      httpClient: recorder.httpClientCoreV1
+    });
     await client.createQueue(
       recorder.variable("queue-name", `queue-${Math.ceil(Math.random() * 1000 + 1000)}`)
     );
