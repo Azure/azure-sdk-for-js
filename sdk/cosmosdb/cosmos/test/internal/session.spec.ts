@@ -8,9 +8,8 @@ import { OperationType, ResourceType } from "../../src/common";
 import { ConsistencyLevel } from "../../src";
 import { CosmosClient } from "../../src";
 import { SessionContainer } from "../../src/session/sessionContainer";
-import { endpoint } from "../public/common/_testConfig";
-import { masterKey } from "../public/common/_fakeTestSecrets";
-import { addEntropy, getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers";
+import { endpoint, masterKey } from "../public/common/_testConfig";
+import { getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers";
 import { RequestContext } from "../../src";
 import { Response } from "../../src/request/Response";
 
@@ -70,8 +69,7 @@ describe("New session token", function() {
   });
 });
 
-// For some reason this test does not pass against the emulator. Skipping it for now
-describe.skip("Session Token", function(this: Suite) {
+describe("Session Token", function(this: Suite) {
   beforeEach(async function() {
     await removeAllDatabases();
   });
@@ -98,33 +96,28 @@ describe.skip("Session Token", function(this: Suite) {
             if (context.headers["x-ms-session-token"]) {
               context.headers["x-ms-session-token"] = "0:0#900000#3=8600000#10=-1";
             }
-            const response = await next(context);
-            return response;
+            return next(context);
           }
         }
       ]
     });
 
-    const dbId = addEntropy("sessionTestDB");
-    const containerId = addEntropy("sessionTestContainer");
-
     // Create Database and Container
     const { database } = await clientA.databases.createIfNotExists({
-      id: dbId
+      id: "sessionTest"
     });
     const { container } = await database.containers.createIfNotExists({
-      id: containerId
+      id: "sessionTest"
     });
 
     // Create items using both clients so they each establish a session with the backend
-    const container2 = clientB.database(dbId).container(containerId);
+    const container2 = await clientB.database("sessionTest").container("sessionTest");
     await Promise.all([createItem(container), createItem(container2)]);
 
     // Create an item using client
     const id = await createItem(container);
     const { resource, statusCode } = await container2.item(id).read();
-    console.log(statusCode, resource);
-    assert.ok(resource);
+    assert(resource);
     assert.strictEqual(statusCode, 200);
   });
 });

@@ -113,8 +113,8 @@
 # PRLabel: %Search
 /sdk/search/ @xirzec @sarangan12
 
-/sdk/applicationinsights/applicationinsights-query/ @divyajay @alongafni
-/sdk/operationalinsights/loganalytics/ @divyajay @alongafni
+/sdk/applicationinsights/applicationinsights-query/ @omziv @anatse @raronen @ischrei @danhadari @azmonapplicationinsights
+/sdk/operationalinsights/loganalytics/ @omziv @anatse @raronen @ischrei @danhadari @azmonapplicationinsights
 
 /sdk/cognitiveservices/cognitiveservices-qnamaker-runtime/ @bingisbestest @nerajput1607
 /sdk/cognitiveservices/cognitiveservices-qnamaker/ @bingisbestest @nerajput1607
