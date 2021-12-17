@@ -717,8 +717,8 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure-tools/identity-extensions",
-      "projectFolder": "sdk/test-utils/identity-extensions",
+      "packageName": "@azure-tools/test-credential",
+      "projectFolder": "sdk/test-utils/test-credential",
       "versionPolicyName": "utility"
     },
     {
