@@ -63,7 +63,7 @@ export class RecorderClientCoreV1 extends RecorderClient {
     super(testContext);
     this.httpClientCoreV1 = new TestProxyHttpClientCoreV1({
       requestModifier: this.requestModifier,
-      getRecordingId: this.getRecordingId
+      getRecordingId: () => this.getRecordingId()
     });
   }
 }
