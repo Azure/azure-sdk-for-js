@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { SecurityCenter } from "./securityCenter";
-export { SecurityCenterContext } from "./securityCenterContext";
 export * from "./operationsInterfaces";

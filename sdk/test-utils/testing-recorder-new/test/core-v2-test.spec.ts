@@ -1,17 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { TableEntity, TableClient } from "@azure/data-tables";
-import {
-  TestProxyHttpClient,
-  recorderHttpPolicy,
-  RecorderStartOptions
-} from "@azure-tools/test-recorder-new";
-import { config } from "dotenv";
+import { TestProxyHttpClient, RecorderStartOptions } from "@azure-tools/test-recorder-new";
 import { createSimpleEntity } from "./utils/utils";
 import { SanitizerOptions } from "@azure-tools/test-recorder-new";
-config();
 
 const fakeConnString =
   "TableEndpoint=https://fakeaccountname.table.core.windows.net/;SharedAccessSignature=st=2021-08-03T08:52:15Z&spr=https&sig=fakesigval";
@@ -46,14 +40,11 @@ describe("Core V2 tests", () => {
   });
 
   it("data-tables create entity", async function() {
-    if (!isPlaybackMode()) {
-      recorder.variables["table-name"] = `table${Math.ceil(Math.random() * 1000 + 1000)}`;
-    }
     const client = TableClient.fromConnectionString(
       env.TABLES_SAS_CONNECTION_STRING,
-      recorder.variables["table-name"]
+      recorder.variable("table-name", `table${Math.ceil(Math.random() * 1000 + 1000)}`)
     );
-    client.pipeline.addPolicy(recorderHttpPolicy(recorder));
+    recorder.configureClient(client);
     await client.createTable();
     const simpleEntity: TableEntity = createSimpleEntity();
     await client.createEntity(simpleEntity);

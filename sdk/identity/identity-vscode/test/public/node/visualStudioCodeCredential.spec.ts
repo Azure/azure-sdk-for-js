@@ -4,12 +4,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-require-imports */
 
-import assert from "assert";
-import sinon from "sinon";
-
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
 import { VisualStudioCodeCredential } from "@azure/identity";
+import assert from "assert";
 import { isRecordMode } from "@azure-tools/test-recorder";
+import sinon from "sinon";
 
 const mockedResponse = [
   {

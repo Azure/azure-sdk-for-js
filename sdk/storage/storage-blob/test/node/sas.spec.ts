@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import {
   AccountSASPermissions,
@@ -21,7 +21,8 @@ import {
   Tags,
   SASProtocol,
   UserDelegationKey,
-  BlobBatch
+  BlobBatch,
+  BlobImmutabilityPolicyMode
 } from "../../src";
 import {
   getBSU,
@@ -2787,7 +2788,10 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     });
 
     assert.ok(result.immutabilityPolicyExpiry);
-    assert.equal(result.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      result.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
 
     const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
     assert.ok(setLegalHoldResult.legalHold);
@@ -2795,7 +2799,10 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     const propertiesResult = await blobClient.getProperties();
 
     assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
-    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      propertiesResult.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
     assert.ok(propertiesResult.legalHold);
   });
 
@@ -2828,7 +2835,10 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     });
 
     assert.ok(result.immutabilityPolicyExpiry);
-    assert.equal(result.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      result.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
 
     const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
     assert.ok(setLegalHoldResult.legalHold);
@@ -2836,7 +2846,10 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     const propertiesResult = await blobClient.getProperties();
 
     assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
-    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      propertiesResult.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
     assert.ok(propertiesResult.legalHold);
   });
 
@@ -2867,7 +2880,10 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     });
 
     assert.ok(result.immutabilityPolicyExpiry);
-    assert.equal(result.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      result.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
 
     const setLegalHoldResult = await sasBlobClient.setLegalHold(true);
     assert.ok(setLegalHoldResult.legalHold);
@@ -2875,7 +2891,10 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     const propertiesResult = await blobClient.getProperties();
 
     assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
-    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      propertiesResult.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
     assert.ok(propertiesResult.legalHold);
   });
 });

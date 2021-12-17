@@ -10,7 +10,7 @@ import { RecoveryServices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { RecoveryServicesClientContext } from "../recoveryServicesClientContext";
+import { RecoveryServicesClient } from "../recoveryServicesClient";
 import {
   CheckNameAvailabilityParameters,
   RecoveryServicesCheckNameAvailabilityOptionalParams,
@@ -19,13 +19,13 @@ import {
 
 /** Class containing RecoveryServices operations. */
 export class RecoveryServicesImpl implements RecoveryServices {
-  private readonly client: RecoveryServicesClientContext;
+  private readonly client: RecoveryServicesClient;
 
   /**
    * Initialize a new instance of the class RecoveryServices class.
    * @param client Reference to the service client
    */
-  constructor(client: RecoveryServicesClientContext) {
+  constructor(client: RecoveryServicesClient) {
     this.client = client;
   }
 

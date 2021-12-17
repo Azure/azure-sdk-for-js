@@ -25,7 +25,7 @@ export interface AccessKeys {
 export type AccessRights = string;
 
 // @public
-export type ArmDisasterRecovery = Resource & {
+export type ArmDisasterRecovery = ProxyResource & {
     readonly systemData?: SystemData;
     readonly provisioningState?: ProvisioningStateDR;
     partnerNamespace?: string;
@@ -41,7 +41,7 @@ export interface ArmDisasterRecoveryListResult {
 }
 
 // @public
-export type AuthorizationRule = Resource & {
+export type AuthorizationRule = ProxyResource & {
     readonly systemData?: SystemData;
     rights?: AccessRights[];
 };
@@ -231,7 +231,7 @@ export interface ConnectionState {
 }
 
 // @public
-export type ConsumerGroup = Resource & {
+export type ConsumerGroup = ProxyResource & {
     readonly systemData?: SystemData;
     readonly createdAt?: Date;
     readonly updatedAt?: Date;
@@ -298,6 +298,9 @@ export type DefaultAction = string;
 export interface Destination {
     archiveNameFormat?: string;
     blobContainer?: string;
+    dataLakeAccountName?: string;
+    dataLakeFolderPath?: string;
+    dataLakeSubscriptionId?: string;
     name?: string;
     storageAccountResourceId?: string;
 }
@@ -410,6 +413,7 @@ export type EHNamespace = TrackedResource & {
     encryption?: Encryption;
     privateEndpointConnections?: PrivateEndpointConnection[];
     disableLocalAuth?: boolean;
+    alternateName?: string;
 };
 
 // @public
@@ -445,13 +449,27 @@ export type EndPointProvisioningState = string;
 export type EntityStatus = "Active" | "Disabled" | "Restoring" | "SendDisabled" | "ReceiveDisabled" | "Creating" | "Deleting" | "Renaming" | "Unknown";
 
 // @public
-export interface ErrorResponse {
-    code?: string;
-    message?: string;
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
 }
 
 // @public
-export type Eventhub = Resource & {
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export type Eventhub = ProxyResource & {
     readonly systemData?: SystemData;
     readonly partitionIds?: string[];
     readonly createdAt?: Date;
@@ -469,8 +487,12 @@ export interface EventHubListResult {
 }
 
 // @public (undocumented)
-export class EventHubManagementClient extends EventHubManagementClientContext {
+export class EventHubManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: EventHubManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     clusters: Clusters;
     // (undocumented)
@@ -489,15 +511,8 @@ export class EventHubManagementClient extends EventHubManagementClientContext {
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
-}
-
-// @public (undocumented)
-export class EventHubManagementClientContext extends coreClient.ServiceClient {
     // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: EventHubManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
+    schemaRegistry: SchemaRegistry;
     // (undocumented)
     subscriptionId: string;
 }
@@ -616,7 +631,8 @@ export interface Identity {
 }
 
 // @public
-export type KeyType = "PrimaryKey" | "SecondaryKey";
+type KeyType_2 = string;
+export { KeyType_2 as KeyType }
 
 // @public
 export interface KeyVaultProperties {
@@ -680,6 +696,14 @@ export enum KnownEndPointProvisioningState {
 }
 
 // @public
+export enum KnownKeyType {
+    // (undocumented)
+    PrimaryKey = "PrimaryKey",
+    // (undocumented)
+    SecondaryKey = "SecondaryKey"
+}
+
+// @public
 export enum KnownNetworkRuleIPAction {
     // (undocumented)
     Allow = "Allow"
@@ -703,6 +727,24 @@ export enum KnownPublicNetworkAccessFlag {
     Disabled = "Disabled",
     // (undocumented)
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownSchemaCompatibility {
+    // (undocumented)
+    Backward = "Backward",
+    // (undocumented)
+    Forward = "Forward",
+    // (undocumented)
+    None = "None"
+}
+
+// @public
+export enum KnownSchemaType {
+    // (undocumented)
+    Avro = "Avro",
+    // (undocumented)
+    Unknown = "Unknown"
 }
 
 // @public
@@ -745,6 +787,7 @@ export interface Namespaces {
     listAuthorizationRules(resourceGroupName: string, namespaceName: string, options?: NamespacesListAuthorizationRulesOptionalParams): PagedAsyncIterableIterator<AuthorizationRule>;
     listByResourceGroup(resourceGroupName: string, options?: NamespacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<EHNamespace>;
     listKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, options?: NamespacesListKeysOptionalParams): Promise<NamespacesListKeysResponse>;
+    listNetworkRuleSet(resourceGroupName: string, namespaceName: string, options?: NamespacesListNetworkRuleSetOptionalParams): Promise<NamespacesListNetworkRuleSetResponse>;
     regenerateKeys(resourceGroupName: string, namespaceName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: NamespacesRegenerateKeysOptionalParams): Promise<NamespacesRegenerateKeysResponse>;
     update(resourceGroupName: string, namespaceName: string, parameters: EHNamespace, options?: NamespacesUpdateOptionalParams): Promise<NamespacesUpdateResponse>;
 }
@@ -846,6 +889,13 @@ export interface NamespacesListKeysOptionalParams extends coreClient.OperationOp
 export type NamespacesListKeysResponse = AccessKeys;
 
 // @public
+export interface NamespacesListNetworkRuleSetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespacesListNetworkRuleSetResponse = NetworkRuleSetListResult;
+
+// @public
 export interface NamespacesListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -877,7 +927,7 @@ export type NamespacesUpdateResponse = EHNamespace;
 export type NetworkRuleIPAction = string;
 
 // @public
-export type NetworkRuleSet = Resource & {
+export type NetworkRuleSet = ProxyResource & {
     readonly systemData?: SystemData;
     trustedServiceAccessEnabled?: boolean;
     defaultAction?: DefaultAction;
@@ -885,6 +935,12 @@ export type NetworkRuleSet = Resource & {
     ipRules?: NWRuleSetIpRules[];
     publicNetworkAccess?: PublicNetworkAccessFlag;
 };
+
+// @public
+export interface NetworkRuleSetListResult {
+    nextLink?: string;
+    value?: NetworkRuleSet[];
+}
 
 // @public
 export interface NWRuleSetIpRules {
@@ -901,11 +957,15 @@ export interface NWRuleSetVirtualNetworkRules {
 // @public
 export interface Operation {
     display?: OperationDisplay;
+    isDataAction?: boolean;
     readonly name?: string;
+    origin?: string;
+    properties?: Record<string, unknown>;
 }
 
 // @public
 export interface OperationDisplay {
+    readonly description?: string;
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
@@ -942,7 +1002,7 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export type PrivateEndpointConnection = ProxyResource & {
     readonly systemData?: SystemData;
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: ConnectionState;
@@ -1033,12 +1093,20 @@ export interface PrivateLinkResourcesListResult {
 export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
 
 // @public
+export interface ProxyResource {
+    readonly id?: string;
+    readonly location?: string;
+    readonly name?: string;
+    readonly type?: string;
+}
+
+// @public
 export type PublicNetworkAccessFlag = string;
 
 // @public
 export interface RegenerateAccessKeyParameters {
     key?: string;
-    keyType: KeyType;
+    keyType: KeyType_2;
 }
 
 // @public
@@ -1050,6 +1118,78 @@ export interface Resource {
 
 // @public
 export type RoleDisasterRecovery = "Primary" | "PrimaryNotReplicating" | "Secondary";
+
+// @public
+export type SchemaCompatibility = string;
+
+// @public
+export type SchemaGroup = ProxyResource & {
+    readonly systemData?: SystemData;
+    readonly updatedAtUtc?: Date;
+    readonly createdAtUtc?: Date;
+    readonly eTag?: string;
+    groupProperties?: {
+        [propertyName: string]: string;
+    };
+    schemaCompatibility?: SchemaCompatibility;
+    schemaType?: SchemaType;
+};
+
+// @public
+export interface SchemaGroupListResult {
+    nextLink?: string;
+    value?: SchemaGroup[];
+}
+
+// @public
+export interface SchemaRegistry {
+    // (undocumented)
+    createOrUpdate(resourceGroupName: string, namespaceName: string, schemaGroupName: string, parameters: SchemaGroup, options?: SchemaRegistryCreateOrUpdateOptionalParams): Promise<SchemaRegistryCreateOrUpdateResponse>;
+    // (undocumented)
+    delete(resourceGroupName: string, namespaceName: string, schemaGroupName: string, options?: SchemaRegistryDeleteOptionalParams): Promise<void>;
+    // (undocumented)
+    get(resourceGroupName: string, namespaceName: string, schemaGroupName: string, options?: SchemaRegistryGetOptionalParams): Promise<SchemaRegistryGetResponse>;
+    listByNamespace(resourceGroupName: string, namespaceName: string, options?: SchemaRegistryListByNamespaceOptionalParams): PagedAsyncIterableIterator<SchemaGroup>;
+}
+
+// @public
+export interface SchemaRegistryCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SchemaRegistryCreateOrUpdateResponse = SchemaGroup;
+
+// @public
+export interface SchemaRegistryDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SchemaRegistryGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SchemaRegistryGetResponse = SchemaGroup;
+
+// @public
+export interface SchemaRegistryListByNamespaceNextOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export type SchemaRegistryListByNamespaceNextResponse = SchemaGroupListResult;
+
+// @public
+export interface SchemaRegistryListByNamespaceOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export type SchemaRegistryListByNamespaceResponse = SchemaGroupListResult;
+
+// @public
+export type SchemaType = string;
 
 // @public
 export interface Sku {
@@ -1100,7 +1240,6 @@ export interface UserAssignedIdentity {
 export interface UserAssignedIdentityProperties {
     userAssignedIdentity?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

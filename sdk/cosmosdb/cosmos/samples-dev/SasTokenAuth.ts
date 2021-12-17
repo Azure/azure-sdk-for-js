@@ -23,7 +23,7 @@ const sasToken = "your-sas-token";
 async function run() {
   logStep("Create a SasToken object");
 
-  const sasTokenProperties = <SasTokenProperties>{
+  const sasTokenProperties = {
     user: "your-user",
     userTag: "your-userTag",
     databaseName: "your-databaseName",
@@ -37,7 +37,7 @@ async function run() {
     controlPlaneWriterScope: 0,
     dataPlaneReaderScope: SasTokenPermissionKind.ContainerFullAccess,
     dataPlaneWriterScope: 0
-  };
+  } as SasTokenProperties;
 
   const key = await createAuthorizationSasToken(masterKey, sasTokenProperties);
 

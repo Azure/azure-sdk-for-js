@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { HttpHeaders } from "../src/httpHeaders";
+import { assert } from "chai";
 
 describe("HttpHeaders", () => {
   it("clone() should keep the original header names", () => {

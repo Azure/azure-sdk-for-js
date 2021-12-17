@@ -4,11 +4,11 @@
 import {
   BaseRequestPolicy,
   RequestPolicy,
-  RequestPolicyOptions,
-  RequestPolicyFactory
+  RequestPolicyFactory,
+  RequestPolicyOptions
 } from "./requestPolicy";
-import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResourceLike } from "../webResource";
 
 /**
  * Options for how HTTP connections should be maintained for future

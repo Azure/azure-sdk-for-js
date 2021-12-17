@@ -1,7 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logErrorStackTrace, logger } from "./log";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import {
+  Constants,
+  MessagingError,
+  RetryConfig,
+  RetryOperationType,
+  StandardAbortMessage,
+  delay,
+  retry,
+  translate
+} from "@azure/core-amqp";
 import {
   EventContext,
   OnAmqpEvent,
@@ -9,22 +19,12 @@ import {
   ReceiverOptions as RheaReceiverOptions,
   types
 } from "rhea-promise";
-import {
-  Constants,
-  MessagingError,
-  delay,
-  translate,
-  RetryConfig,
-  RetryOperationType,
-  retry,
-  StandardAbortMessage
-} from "@azure/core-amqp";
 import { EventDataInternal, ReceivedEventData, fromRheaMessage } from "./eventData";
-import { EventHubConsumerOptions } from "./models/private";
-import { ConnectionContext } from "./connectionContext";
-import { LinkEntity } from "./linkEntity";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { logErrorStackTrace, logger } from "./log";
+import { ConnectionContext } from "./connectionContext";
+import { EventHubConsumerOptions } from "./models/private";
+import { LinkEntity } from "./linkEntity";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 
 /**

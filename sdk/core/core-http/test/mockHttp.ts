@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import xhrMock, { proxy } from "xhr-mock";
-import { isNode, HttpMethods } from "../src/coreHttp";
+import { HttpMethods, isNode } from "../src/coreHttp";
 import fetchMock, * as fetch from "fetch-mock";
+import xhrMock, { proxy } from "xhr-mock";
 import { Readable } from "stream";
 import node_fetch from "node-fetch";
 

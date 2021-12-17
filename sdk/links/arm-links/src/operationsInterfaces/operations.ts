@@ -6,13 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  Operation,
-  OperationsListNextOptionalParams,
-  OperationsListOptionalParams
-} from "../models";
+import { Operation, OperationsListOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Operations. */
@@ -23,14 +18,5 @@ export interface Operations {
    */
   list(
     options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation>;
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  listNext(
-    nextLink: string,
-    options?: OperationsListNextOptionalParams
   ): PagedAsyncIterableIterator<Operation>;
 }

@@ -11,7 +11,7 @@ import { Namespaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { EventHubManagementClientContext } from "../eventHubManagementClientContext";
+import { EventHubManagementClient } from "../eventHubManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -37,6 +37,8 @@ import {
   NamespacesCreateOrUpdateNetworkRuleSetResponse,
   NamespacesGetNetworkRuleSetOptionalParams,
   NamespacesGetNetworkRuleSetResponse,
+  NamespacesListNetworkRuleSetOptionalParams,
+  NamespacesListNetworkRuleSetResponse,
   NamespacesListAuthorizationRulesResponse,
   NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
   NamespacesCreateOrUpdateAuthorizationRuleResponse,
@@ -59,13 +61,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Namespaces operations. */
 export class NamespacesImpl implements Namespaces {
-  private readonly client: EventHubManagementClientContext;
+  private readonly client: EventHubManagementClient;
 
   /**
    * Initialize a new instance of the class Namespaces class.
    * @param client Reference to the service client
    */
-  constructor(client: EventHubManagementClientContext) {
+  constructor(client: EventHubManagementClient) {
     this.client = client;
   }
 
@@ -508,6 +510,23 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
+   * Gets NetworkRuleSet for a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param options The options parameters.
+   */
+  listNetworkRuleSet(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: NamespacesListNetworkRuleSetOptionalParams
+  ): Promise<NamespacesListNetworkRuleSetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, options },
+      listNetworkRuleSetOperationSpec
+    );
+  }
+
+  /**
    * Gets a list of authorization rules for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -879,6 +898,28 @@ const getNetworkRuleSetOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.NetworkRuleSet
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNetworkRuleSetOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkRuleSetListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

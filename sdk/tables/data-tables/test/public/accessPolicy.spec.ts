@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableClient } from "../../src";
-import { Context } from "mocha";
 import { Recorder, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import { createTableClient, recordedEnvironmentSetup } from "./utils/recordedClient";
-import { isNode } from "@azure/test-utils";
+import { Context } from "mocha";
+import { TableClient } from "../../src";
 import { assert } from "chai";
+import { isNode } from "@azure/test-utils";
 
 describe(`Access Policy operations`, () => {
   let client: TableClient;

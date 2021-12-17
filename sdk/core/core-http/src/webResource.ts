@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Context, SpanOptions } from "@azure/core-tracing";
 import { HttpHeaders, HttpHeadersLike, isHttpHeadersLike } from "./httpHeaders";
-import { OperationSpec } from "./operationSpec";
 import { Mapper, Serializer } from "./serializer";
-import { generateUuid } from "./util/utils";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { OperationResponse } from "./operationResponse";
+import { OperationSpec } from "./operationSpec";
 import { ProxySettings } from "./serviceClient";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanOptions, Context } from "@azure/core-tracing";
 import { SerializerOptions } from "./util/serializer.common";
+import { generateUuid } from "./util/utils";
 
 /**
  * List of supported HTTP methods.

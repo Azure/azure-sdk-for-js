@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { SDK_VERSION } from "../../src/constants";
 import { packageVersion } from "../../src/generated/keyVaultClientContext";
 import { isNode } from "@azure/core-util";
@@ -23,7 +23,7 @@ describe("Key Vault Admin's user agent (only in Node, because of fs)", function(
     let version: string;
     try {
       const fileContents = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "../package.json"), { encoding: "utf-8" })
+        fs.readFileSync(path.join(__dirname, "../../package.json"), { encoding: "utf-8" })
       );
       version = fileContents.version;
     } catch {

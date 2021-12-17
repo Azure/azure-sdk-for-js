@@ -488,7 +488,9 @@ export interface PerformanceTierServiceLevelObjectives {
 }
 
 // @public (undocumented)
-export class PostgreSQLManagementClient extends PostgreSQLManagementClientContext {
+export class PostgreSQLManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PostgreSQLManagementClientOptionalParams);
     // (undocumented)
     checkNameAvailability: CheckNameAvailability;
@@ -525,16 +527,9 @@ export class PostgreSQLManagementClient extends PostgreSQLManagementClientContex
     // (undocumented)
     serverSecurityAlertPolicies: ServerSecurityAlertPolicies;
     // (undocumented)
-    virtualNetworkRules: VirtualNetworkRules;
-}
-
-// @public (undocumented)
-export class PostgreSQLManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PostgreSQLManagementClientOptionalParams);
-    // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    virtualNetworkRules: VirtualNetworkRules;
 }
 
 // @public
@@ -1222,7 +1217,6 @@ export type VirtualNetworkRulesListByServerResponse = VirtualNetworkRuleListResu
 
 // @public
 export type VirtualNetworkRuleState = string;
-
 
 // (No @packageDocumentation comment for this package)
 

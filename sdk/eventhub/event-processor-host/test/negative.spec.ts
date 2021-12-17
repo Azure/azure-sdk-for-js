@@ -51,7 +51,7 @@ describe("negative", function(): void {
         }
       );
       const onMessage: OnReceivedMessage = (context: PartitionContext, data: EventData) => {
-        debug(">>> [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
+        debug("Test logs: [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
       };
       const onError: OnReceivedError = (err) => {
         debug("An error occurred while receiving the message: %O", err);
@@ -59,7 +59,7 @@ describe("negative", function(): void {
       };
       await host.start(onMessage, onError);
       try {
-        debug(">>> [%s] Trying to start second time.", hostName);
+        debug("Test logs: [%s] Trying to start second time.", hostName);
         await host.start(onMessage, onError);
         throw new Error("The second call to start() should have failed.");
       } catch (err) {
@@ -90,7 +90,7 @@ describe("negative", function(): void {
       }
     );
     const onMessage: OnReceivedMessage = (context: PartitionContext, data: EventData) => {
-      debug(">>> [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
+      debug("Test logs: [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
     };
     const onError: OnReceivedError = (err) => {
       debug("An error occurred while receiving the message: %O", err);
@@ -102,7 +102,7 @@ describe("negative", function(): void {
         return Promise.reject(new Error("This statement should not have executed."));
       })
       .catch((err) => {
-        debug(">>>>>>> %s", err.action);
+        debug("Err action: %s", err.action);
         err.action.should.equal("Getting PartitionIds");
         done();
       });
@@ -120,7 +120,7 @@ describe("negative", function(): void {
       }
     );
     const onMessage: OnReceivedMessage = (context: PartitionContext, data: EventData) => {
-      debug(">>> [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
+      debug("Test logs: [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
     };
     const onError: OnReceivedError = (err) => {
       debug("An error occurred while receiving the message: %O", err);
@@ -132,7 +132,7 @@ describe("negative", function(): void {
         return Promise.reject(new Error("This statement should not have executed."));
       })
       .catch((err) => {
-        debug(">>>>>>> %s", err.action);
+        debug("Err action: %s", err.action);
         err.action.should.equal("Getting PartitionIds");
         done();
       });

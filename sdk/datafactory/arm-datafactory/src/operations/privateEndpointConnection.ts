@@ -10,7 +10,7 @@ import { PrivateEndpointConnection } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { DataFactoryManagementClientContext } from "../dataFactoryManagementClientContext";
+import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
 import {
   PrivateLinkConnectionApprovalRequestResource,
   PrivateEndpointConnectionCreateOrUpdateOptionalParams,
@@ -23,13 +23,13 @@ import {
 /** Class containing PrivateEndpointConnection operations. */
 export class PrivateEndpointConnectionImpl
   implements PrivateEndpointConnection {
-  private readonly client: DataFactoryManagementClientContext;
+  private readonly client: DataFactoryManagementClient;
 
   /**
    * Initialize a new instance of the class PrivateEndpointConnection class.
    * @param client Reference to the service client
    */
-  constructor(client: DataFactoryManagementClientContext) {
+  constructor(client: DataFactoryManagementClient) {
     this.client = client;
   }
 
