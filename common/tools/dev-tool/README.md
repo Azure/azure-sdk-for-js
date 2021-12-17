@@ -29,30 +29,35 @@ It provides a place to centralize scripts, resources, and processes for developm
 
   - `test:node-ts-input` (runs the node tests with TS input files with the default mocha configs, and concurrently runs the proxy tool in record/playback modes if it is not already active)
 
-    Mocha settings added by default
+    - Mocha settings added by default
 
-    > `-r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`
+      > `-r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`
 
-    Usage
+    - Example usage
 
-    ```bash
-    dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.spec.ts'
-    ```
 
+      ```bash
+      dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.spec.ts'
+      ```
   - `test:node-js-input` (runs the node tests with JS input files with the default mocha configs, and concurrently runs the proxy tool in record/playback modes if it is not already active)
 
-    Mocha settings added by default
+    - Mocha settings added by default
 
-    > `-r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`
-    > (Also, calls mocha with `nyc` for code coverage)
+      > `-r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`
 
-    Example usage
+    - Also, calls mocha with `nyc` for code coverage
 
-    > `dev-tool run test:node-js-input -- --timeout 5000000 "dist-esm/test/{,!(browser)/**/}/*.spec.js"`
+    - Example usage
+
+      ```bash
+      dev-tool run test:node-js-input -- --timeout 5000000 "dist-esm/test/{,!(browser)/**/}/*.spec.js"
+      ```
 
   - `test:browser` (runs the browser tests using karma, and concurrently runs the proxy tool in record/playback modes if it is not already active)
-    Example usage
-    > `dev-tool run test:browser`
+    - Example usage
+      ```bash
+      dev-tool run test:browser
+      ```
 
 The `dev-tool about` command will print some information about how to use the command. All commands additionally accept the `--help` argument, which will print information about the usage of that specific command. For example, to show help information for the `resolve` command above, issue the command `dev-tool package resolve --help`.
 
