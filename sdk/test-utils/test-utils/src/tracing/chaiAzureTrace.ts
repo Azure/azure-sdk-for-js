@@ -13,8 +13,8 @@ import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
  *
  * ```ts
  * import chai from "chai";
- * import { chaiAzureTracing } from "@azure/test-utils";
- * chai.use(chaiAzureTracing);
+ * import { chaiAzureTrace } from "@azure/test-utils";
+ * chai.use(chaiAzureTrace);
  *
  * it("supportsTracing", async () => {
  *   await assert.supportsTracing((updatedOptions) => myClient.doSomething(updatedOptions), ["myClient.doSomething"]);
