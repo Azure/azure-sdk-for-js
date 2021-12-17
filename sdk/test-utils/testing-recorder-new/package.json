@@ -61,6 +61,7 @@
     "@azure/identity": "^2.0.1",
     "@azure-tools/test-recorder": "^1.0.0",
     "@azure-tools/test-recorder-new": "^1.0.0",
+    "@azure-tools/identity-extensions": "^1.0.0",
     "@azure/core-auth": "^1.3.2",
     "@azure/storage-queue": "^12.6.0",
     "@azure/dev-tool": "^1.0.0",

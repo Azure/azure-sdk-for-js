@@ -722,6 +722,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure-tools/identity-extensions",
+      "projectFolder": "sdk/test-utils/identity-extensions",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/test-utils-perf",
       "projectFolder": "sdk/test-utils/perf",
       "versionPolicyName": "utility"
