@@ -3,7 +3,7 @@
 
 import { RecorderStartOptions, TestProxyHttpClient } from "@azure-tools/test-recorder-new";
 import { env } from "@azure-tools/test-recorder";
-import { getTestCredential } from "@azure-tools/identity-extensions";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { TokenCredential } from "@azure/core-auth";
 import { TableServiceClient } from "@azure/data-tables";
 
@@ -31,7 +31,7 @@ describe(`NoOp credential with Tables`, () => {
   beforeEach(async function() {
     recorder = new TestProxyHttpClient(this.currentTest);
     await recorder.start(recorderStartOptions);
-    credential = getTestCredential();
+    credential = createTestCredential();
   });
 
   afterEach(async function() {

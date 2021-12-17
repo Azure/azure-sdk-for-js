@@ -104,7 +104,6 @@ specifiers:
   '@rush-temp/eventhubs-checkpointstore-table': file:./projects/eventhubs-checkpointstore-table.tgz
   '@rush-temp/identity': file:./projects/identity.tgz
   '@rush-temp/identity-cache-persistence': file:./projects/identity-cache-persistence.tgz
-  '@rush-temp/identity-extensions': file:./projects/identity-extensions.tgz
   '@rush-temp/identity-vscode': file:./projects/identity-vscode.tgz
   '@rush-temp/iot-device-update': file:./projects/iot-device-update.tgz
   '@rush-temp/iot-modelsrepository': file:./projects/iot-modelsrepository.tgz
@@ -161,6 +160,7 @@ specifiers:
   '@rush-temp/synapse-monitoring': file:./projects/synapse-monitoring.tgz
   '@rush-temp/synapse-spark': file:./projects/synapse-spark.tgz
   '@rush-temp/template': file:./projects/template.tgz
+  '@rush-temp/test-credential': file:./projects/test-credential.tgz
   '@rush-temp/test-recorder': file:./projects/test-recorder.tgz
   '@rush-temp/test-recorder-new': file:./projects/test-recorder-new.tgz
   '@rush-temp/test-utils': file:./projects/test-utils.tgz
@@ -274,7 +274,6 @@ dependencies:
   '@rush-temp/eventhubs-checkpointstore-table': file:projects/eventhubs-checkpointstore-table.tgz
   '@rush-temp/identity': file:projects/identity.tgz
   '@rush-temp/identity-cache-persistence': file:projects/identity-cache-persistence.tgz
-  '@rush-temp/identity-extensions': file:projects/identity-extensions.tgz
   '@rush-temp/identity-vscode': file:projects/identity-vscode.tgz
   '@rush-temp/iot-device-update': file:projects/iot-device-update.tgz
   '@rush-temp/iot-modelsrepository': file:projects/iot-modelsrepository.tgz
@@ -331,6 +330,7 @@ dependencies:
   '@rush-temp/synapse-monitoring': file:projects/synapse-monitoring.tgz
   '@rush-temp/synapse-spark': file:projects/synapse-spark.tgz
   '@rush-temp/template': file:projects/template.tgz
+  '@rush-temp/test-credential': file:projects/test-credential.tgz
   '@rush-temp/test-recorder': file:projects/test-recorder.tgz
   '@rush-temp/test-recorder-new': file:projects/test-recorder-new.tgz
   '@rush-temp/test-utils': file:projects/test-utils.tgz
@@ -1008,7 +1008,7 @@ packages:
     resolution: {integrity: sha512-nVMMSbFeocGv3SUYGBD+3pkE/pbAciGhER3KCjsBu6Sy9EDaBCiQ418KZfHBcCcrNQgFxf3nleWdeYoYX7281g==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 5.1.0
+      '@azure/msal-common': 5.2.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -11215,24 +11215,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/identity-extensions.tgz:
-    resolution: {integrity: sha512-BJuxR0WQofA9k2/MDaKnrpdTSLneyRK5ssSI9ZRr9pLzAVEjKOQ13y5Lr/pGUPUyP907hZk20jN+qne0U9ymew==, tarball: file:projects/identity-extensions.tgz}
-    name: '@rush-temp/identity-extensions'
-    version: 0.0.0
-    dependencies:
-      '@types/chai': 4.2.22
-      '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
-      eslint: 7.32.0
-      prettier: 1.19.1
-      rimraf: 3.0.2
-      rollup: 1.32.1
-      sinon: 9.2.4
-      typescript: 4.2.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   file:projects/identity-vscode.tgz:
     resolution: {integrity: sha512-3qMlK6IcR2gbG34iRH6IPhWVTZBy1yo5QmU6XasR/fywDoegYljotfm1keOWnDZnctUDe6pFo5RIlwkdy2shxA==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
@@ -11277,7 +11259,7 @@ packages:
       '@azure/keyvault-keys': 4.2.0
       '@azure/msal-browser': 2.19.0
       '@azure/msal-common': 4.5.1
-      '@azure/msal-node': 1.3.3
+      '@azure/msal-node': 1.4.0
       '@microsoft/api-extractor': 7.18.19
       '@types/chai': 4.2.22
       '@types/jws': 3.2.4
@@ -13490,6 +13472,24 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/test-credential.tgz:
+    resolution: {integrity: sha512-8m+/96tIbosDc/j30zMuSCakBuFiD9IM/TQ/+Z2uOeTUROiN2OXiJEfsjwPeKa3ujlHlzcpqJT/YH6y1yYY06g==, tarball: file:projects/test-credential.tgz}
+    name: '@rush-temp/test-credential'
+    version: 0.0.0
+    dependencies:
+      '@types/chai': 4.2.22
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.37
+      eslint: 7.32.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      sinon: 9.2.4
+      typescript: 4.2.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/test-recorder-new.tgz:
     resolution: {integrity: sha512-3vm8AuXUmIG1xAGO7frvsnbqa10IyXlFcvMyNlJATlgfqCPCUcKNB7jaq6KjijaC4K86vVRiBJ4HF1DiJ7C2eA==, tarball: file:projects/test-recorder-new.tgz}
     name: '@rush-temp/test-recorder-new'
@@ -13675,7 +13675,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-n2ywwrHAFe4mQHnlHSosQehOBVglJUoVfZU2xMA5JFhvkkDLt7CYu2ptIOTuswwdt4JZifiqeWwNFqo227VKtQ==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-OZ560z1sPAZVa6eoSCBtMH/RRLwRtJ9PuJhFRcQv8ldBSPsFFhLgbX2S/04kqc0ShVtDJT7IQ9so01cZvyKMRg==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:
