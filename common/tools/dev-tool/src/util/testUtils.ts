@@ -22,7 +22,9 @@ async function shouldRunProxyTool(): Promise<boolean> {
   }
 }
 
-export async function runTestsWithProxyTool(testCommandObj: concurrently.CommandObj): Promise<boolean> {
+export async function runTestsWithProxyTool(
+  testCommandObj: concurrently.CommandObj
+): Promise<boolean> {
   if (
     await shouldRunProxyTool() // Boolean to figure out if we need to run just the mocha command or the test-proxy too
   ) {
@@ -45,4 +47,9 @@ export async function runTestsWithProxyTool(testCommandObj: concurrently.Command
     await concurrently([testCommandObj]);
   }
   return true;
+}
+
+export function concatArguments(args?: string[]): string | undefined {
+  // ["a", "b", "c"] => "a b c"
+  return args?.reduce((final, currentArg) => (final += " " + currentArg));
 }
