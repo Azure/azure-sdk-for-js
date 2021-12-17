@@ -1,6 +1,6 @@
-# Azure @azure-tools/identity-extensions client library for JavaScript
+# Azure Tools - Test Credential
 
-This library provides the credential for testing.
+This library provides a `TokenCredential` implementation for testing Azure SDK packages.
 
 ## Getting started
 
@@ -16,14 +16,12 @@ This library provides the credential to be used in the tests
 
 In playback mode
 
-- returns the `NoOpCredential` (helps bypass the AAD traffic)
-- `NoOpCredential` is defined in `@azure-tools/test-recorder-new`
+- returns a `NoOpCredential` (does not make a request to AAD and produces a fake access_token)
 
 In record/live modes
 
-- returns the `ClientSecretCredential` (expects AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET in your environment or in the .env file)
+- returns a `ClientSecretCredential` from `@azure/identity` (expects AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET in your environment or in the .env file)
 - AAD traffic won't be recorded if this credential is used.
-- `ClientSecretCredential` is coming from `@azure/identity`
 
 ## Next steps
 
