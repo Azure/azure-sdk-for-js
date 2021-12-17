@@ -1009,6 +1009,15 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/msal-common/5.1.0:
+    resolution: {integrity: sha512-4zHZ5Ec7jAgTIWZO3ap1ozgIPGAirF1wL8UhsmPF9QDoZz0cMHdaNmtov5i2+6Xq37YMzhN5s50EFHBuXd7sDQ==}
+    engines: {node: '>=0.8.0'}
+    dependencies:
+      debug: 4.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/msal-common/5.2.0:
     resolution: {integrity: sha512-oVc4soy5MEZOp9NvCDqBk57mtiUTJXQQ8Z8S/4UiRQP8RG8snuCFQUs9xxdIfvl2FWIvgiBz+SMByyjTaRX42Q==}
     engines: {node: '>=0.8.0'}
@@ -1059,7 +1068,7 @@ packages:
     resolution: {integrity: sha512-ZtVCVzr7V4xEeqICa7E9g6BY3noZv96XG11ENuqEiz/PA1OzPD1/x0QF6BPHVldST8wwoevXxPw+t/h3AFII7w==}
     engines: {node: 10 || 12 || 14 || 16}
     dependencies:
-      '@azure/msal-common': 5.2.0
+      '@azure/msal-common': 5.1.0
       axios: 0.21.4
       jsonwebtoken: 8.5.1
       uuid: 8.3.2
@@ -1572,6 +1581,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -9362,7 +9372,7 @@ packages:
     dev: false
 
   file:projects/arm-storage.tgz:
-    resolution: {integrity: sha512-/iwVxiUXGG+lhYjWsTe47cfD/Wd6oe6A8H7/EYU6BN1zvTjLH4Aw7yDnhYJO+qs8QZQmE1j12HY/lhQSTBPBuQ==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-gOlTporPWRuODrPIhc0BJpxLuJRYjPGdz7BRKtmJMs780nc2WoV7rETGIEGrRsd/ztxhbjovu8Ng0o2gF8hEIA==, tarball: file:projects/arm-storage.tgz}
     name: '@rush-temp/arm-storage'
     version: 0.0.0
     dependencies:
@@ -9371,6 +9381,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@types/chai': 4.2.22
+      chai: 4.3.4
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10181,9 +10193,11 @@ packages:
       '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
       '@types/node': 12.20.37
+      '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
+      form-data: 4.0.0
       inherits: 2.0.4
       karma: 6.3.8
       karma-chrome-launcher: 3.1.0
@@ -12328,10 +12342,12 @@ packages:
       '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
       '@types/node': 12.20.37
+      '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
+      form-data: 4.0.0
       karma: 6.3.8
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
@@ -12353,6 +12369,7 @@ packages:
       prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
+      sinon: 9.2.4
       source-map-support: 0.5.20
       tslib: 2.3.1
       typedoc: 0.15.2
@@ -12798,7 +12815,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-H7fVdfsX4+f+ghlsUM1ZDjSIrr+yuAC40QtBfX9pXHsvctJGy0kBp8t7d1UjBYg2/Y29fbkwhsOB+epN4Vr/fQ==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-I4kLW5r+wcs2IKR0dyXYdQKzalFrSlA6L4qDHP/ffsUdQyfTDfwMhfwiWUvGQIYBlNdsg7FOR/qTmgIUZxcZlg==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -12809,10 +12826,12 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
       '@types/node': 12.20.37
       '@types/sinon': 9.0.11
       assert: 1.5.0
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.4.0
@@ -12862,7 +12881,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-t/0LgH6vCvaj8vte6WlxhxAqlLiMMWpKa9zJ1efWXRMFttdZRbXHA1M8yRwHK4oWI54aKxZ+gEAaqMbueHrV4w==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-5UfbOh31nTYp3wOg7AmDqDljuJt1ooUr+zCaC6geOqPWg0TqzVdYgNvlXOOk28xnC6b4mJzFzgsgjfTw77L5dA==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -12873,10 +12892,12 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
       '@types/node': 12.20.37
       '@types/node-fetch': 2.5.12
       assert: 1.5.0
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.4.0
@@ -12926,7 +12947,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-Kl6sCQB0y3iOBR0MiSxfOG2FnD0uSAxjPw8+noa1xlStpnUSRYFBVL7a3ppbNIclqtrRERHjydVErEzeO8en6g==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-MVLVxCOaEDhZ//i29xDfbS1jB7yLTEeq/ZYQWkj8fh49gAF5J9BVZIQddT5n0QrWxDw8VSSLIzxMSlSC7ceqTg==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -12937,9 +12958,11 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
       '@types/node': 12.20.37
       assert: 1.5.0
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.4.0
@@ -12989,7 +13012,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-T1H/kKW+EuE3ZegkN6tIO7NYLTw6glAOe1adcRdYiR4huPeQ2WOqnOKYcXNuxZV0iyw5geitbm2Qm1iRTVbVow==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-SblMPkv9eJDAJ1NWGMQKonrfINStCdZ6A8PSjdJQ06G0M7ZQaBQ3QoQIIPV7fwro80vSd2izrdLkfha8ClrvPw==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -12999,9 +13022,11 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
       '@types/node': 12.20.37
       assert: 1.5.0
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.4.0
@@ -13050,7 +13075,7 @@ packages:
     dev: false
 
   file:projects/storage-internal-avro.tgz:
-    resolution: {integrity: sha512-iFkLsq0o0zVNgOb57XFhsB2yDBpYnKXVSjd8UimmXHAcCS8KzzYb0Y3TolBQERIAXqzkiIqJ7jGHsFUQSgxJtg==, tarball: file:projects/storage-internal-avro.tgz}
+    resolution: {integrity: sha512-jzeW6J58W+ii99DjDrdS86cdLMmTGlr39rCY/A6p5i0HmD65714e/luX6Xz+/Mi0xjTseCq0VbpLzD6s60zwyA==, tarball: file:projects/storage-internal-avro.tgz}
     name: '@rush-temp/storage-internal-avro'
     version: 0.0.0
     dependencies:
@@ -13059,9 +13084,11 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
       '@types/node': 12.20.37
       assert: 1.5.0
+      chai: 4.3.4
       dotenv: 8.6.0
       downlevel-dts: 0.4.0
       es6-promise: 4.2.8
@@ -13107,7 +13134,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-ikTa4DZ8MAQlls5viDNrYlGXlaaj9D3MnBcull7rjTHbMBj6EEieTKj3pOb2iWr/dXa0uRL9PQd8RCVYB6uRDg==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-Bdupb8wOZUw74W+HM0SqSX47+YDZy5dddqfpbUKD+7hdI0ueK1tUl4hnolm6fdI3x05ZNiHFG0wqgeZQHyOAWA==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
@@ -13117,9 +13144,11 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/chai': 4.2.22
       '@types/mocha': 7.0.2
       '@types/node': 12.20.37
       assert: 1.5.0
+      chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.4.0
