@@ -8475,7 +8475,7 @@ packages:
     dev: false
 
   file:projects/arm-databricks.tgz:
-    resolution: {integrity: sha512-Ek+SBz9YXzdOeAceFKup6Uq304ojJbWCpkOs1VvlgMHXq8cBvLcY2jVxjiaExq6Y3mnqQxlR3gR2JzKVBdttWA==, tarball: file:projects/arm-databricks.tgz}
+    resolution: {integrity: sha512-YF8do+oy/XQztCzwKGbJJBIhGm+qDA1Cgk7NPYGNqMPGx5KagAFO85KNfRLAzUm4AMAAy7nZ7guBbr52xWRFrw==, tarball: file:projects/arm-databricks.tgz}
     name: '@rush-temp/arm-databricks'
     version: 0.0.0
     dependencies:
@@ -8487,6 +8487,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
