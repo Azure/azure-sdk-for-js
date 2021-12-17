@@ -9,6 +9,7 @@ import {
   TracingContext,
   TracingSpanContext
 } from "@azure/core-tracing";
+import { spanKey } from "./testInstrumenter";
 
 /**
  * Represents an implementation of a mock tracing span {@link TracingSpan} used for tests
@@ -21,34 +22,31 @@ export class TestTracingSpan implements TracingSpan {
   /**
    * Kind of the current span {@link TracingSpanKind}
    */
-  spanKind: TracingSpanKind | undefined;
+  spanKind?: TracingSpanKind;
   /**
    * Existing or parent tracing context
    */
-  tracingContext: TracingContext | undefined;
-  /**
-   * A unique, serializable identifier for a span {@link TracingSpanContext}
-   */
-  private _spanContext: TracingSpanContext;
+  tracingContext?: TracingContext;
 
   /**
    *
    * @param name - Name of the current span
+   * @param spanContext - A unique, serializable identifier for a span {@link TracingSpanContext}
    * @param tracingContext - Existing or parent tracing context
    * @param spanOptions - Options to configure the newly created span {@link TracingSpanOptions}
-   * @param spanContext - A unique, serializable identifier for a span {@link TracingSpanContext}
    */
   constructor(
     name: string,
+    spanContext: TracingSpanContext,
     tracingContext?: TracingContext,
-    spanOptions?: TracingSpanOptions,
-    spanContext?: TracingSpanContext
+    spanOptions?: TracingSpanOptions
   ) {
     this.name = name;
     this.spanKind = spanOptions?.spanKind;
     this.tracingContext = tracingContext;
-    this._spanContext = spanContext!;
+    this._spanContext = spanContext;
   }
+
   spanStatus?: SpanStatus;
   attributes: Record<string, unknown> = {};
   endCalled = false;
@@ -71,8 +69,10 @@ export class TestTracingSpan implements TracingSpan {
   }
 
   parentSpan(): TestTracingSpan | undefined {
-    return this.tracingContext?.getValue(Symbol.for("span")) as TestTracingSpan;
+    return this.tracingContext?.getValue(spanKey) as TestTracingSpan;
   }
+
+  private _spanContext: TracingSpanContext;
   get spanContext() {
     return this._spanContext;
   }

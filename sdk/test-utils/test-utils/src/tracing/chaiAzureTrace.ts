@@ -5,7 +5,7 @@ import { OperationTracingOptions, useInstrumenter } from "@azure/core-tracing";
 import { assert } from "chai";
 import { TestInstrumenter } from "./testInstrumenter";
 import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
-// this is the plugin used in the test file
+
 function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils): void {
   // expect(() => {}).to.supportsTracing() syntax
   chai.Assertion.addMethod("supportsTracing", function<T>(
@@ -20,6 +20,7 @@ function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils): void {
   chai.assert.supportsTracing = supportsTracing;
 }
 
+const instrumenter = new TestInstrumenter();
 /**
  * The supports Tracing function does the verification of whether the core-tracing is supported correctly with the client method
  * This function verifies the root span, if all the correct spans are called as expected and if they are closed.
@@ -37,8 +38,8 @@ async function supportsTracing<
   options?: Options,
   thisArg?: ThisParameterType<Callback>
 ) {
-  const instrumenter = new TestInstrumenter();
   useInstrumenter(instrumenter);
+  instrumenter.reset();
   const startSpanOptions = {
     packageName: "test",
     ...options
@@ -52,6 +53,7 @@ async function supportsTracing<
     }
   } as Options;
   await callback.call(thisArg, newOptions);
+  rootSpan.end();
   const spanGraph = getSpanGraph(rootSpan.spanContext.traceId, instrumenter);
   assert.equal(spanGraph.roots.length, 1, "There should be just one root span");
   assert.equal(spanGraph.roots[0].name, "root");
