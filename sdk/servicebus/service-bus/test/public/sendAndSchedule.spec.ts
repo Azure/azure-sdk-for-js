@@ -68,9 +68,6 @@ describe("Sender Tests", () => {
     should.equal(msgs.length, 1, "Unexpected number of messages");
     should.equal(receivedMessage.deliveryCount, 0, "DeliveryCount is different than expected");
     should.equal(receivedMessage.messageId, testMessage.messageId);
-    // the message could be in "active" or "scheduled" state because we set `scheduledEnqueueTimeUtc` property
-    // eslint-disable-next-line no-unused-expressions
-    (receivedMessage.state === "active" || receivedMessage.state === "scheduled").should.be.true;
 
     TestMessage.checkMessageContents(
       testMessage,
