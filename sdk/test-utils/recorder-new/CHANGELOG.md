@@ -5,12 +5,16 @@
 ## 2021-12-17
 
 - Refactoring the test proxy http clients for better clarity for the end users
+
   - Client Renames
     - `TestProxyHttpClient` -> `RecorderClient`
     - `TestProxyHttpClientCoreV1` -> `RecorderClientCoreV1`
   - Design Changes
     - With `RecorderClientCoreV1`, instead of passing the whole client as the `httpClient` for core-v1 sdks, users are now expected to pass `recorder.httpClientCoreV1`(where `recorder` is an instantiation of `RecorderClientCoreV1`).
     - (Internal) Abstracted the redirect/modify request logic into a new `RecorderReqeustModifier` class.
+
+  [#19446](https://github.com/Azure/azure-sdk-for-js/pull/19446)
+
 - Moving `NoOpCredential` to the new `@azure-tools/test-credential` package.
 
 ## 2021-12-15
