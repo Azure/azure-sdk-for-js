@@ -88,14 +88,6 @@ export function browserConfig(test = false) {
       }
 
       if (
-        warning.code === "CIRCULAR_DEPENDENCY" &&
-        warning.importer.indexOf(path.normalize("node_modules/chai/lib")) >= 0
-      ) {
-        // chai contains circular references but it doesn't cause issues.
-        return;
-      }
-
-      if (
         warning.code === "CIRCULAR_DEPENDENCY" ||
         warning.code === "UNRESOLVED_IMPORT"
         // Unresolved imports in the browser may break apps with frameworks such as angular.

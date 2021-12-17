@@ -18,4 +18,3 @@ export { TestSpan } from "./tracing/testSpan";
 export * from "./tracing/testTracer";
 export * from "./tracing/testTracerProvider";
 export * from "./tracing/spanGraphModel";
-export { chaiAzureTrace } from "./tracing/chaiAzureTrace";
