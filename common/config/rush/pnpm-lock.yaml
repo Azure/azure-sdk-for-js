@@ -8746,7 +8746,7 @@ packages:
     dev: false
 
   file:projects/arm-logic.tgz:
-    resolution: {integrity: sha512-piiBwzlLftKsuiB60Jb2ez4kgi62zcpQK5lx0BKVMp+66lMn7sn8fKA0itJjOuOn0G2bE5ZLEDTKjTDDKw0Z9w==, tarball: file:projects/arm-logic.tgz}
+    resolution: {integrity: sha512-3bo1wJB2/V9hWFMSjerYrfmosq0ChE0OI0Qwf8GO4oEpST2vW6y+AOJbOY7+QPvy7DR3eFLtrh4IWwsc1Fj/+g==, tarball: file:projects/arm-logic.tgz}
     name: '@rush-temp/arm-logic'
     version: 0.0.0
     dependencies:
@@ -8758,6 +8758,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
