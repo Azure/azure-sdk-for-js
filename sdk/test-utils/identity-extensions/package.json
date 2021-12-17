@@ -2,7 +2,7 @@
   "name": "@azure-tools/identity-extensions",
   "version": "1.0.0",
   "sdk-type": "utility",
-  "description": "Test utilities library for the Azure SDK for JavaScript and TypeScript",
+  "description": "Test utilities library that provides the test credential",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
