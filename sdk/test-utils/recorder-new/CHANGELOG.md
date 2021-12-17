@@ -4,7 +4,7 @@
 
 ## 2021-12-17
 
-- Moving `NoOpCredential` to the new `@azure-tools/identity-extensions` package.
+- Moving `NoOpCredential` to the new `@azure-tools/test-credential` package.
 
 ## 2021-12-15
 
