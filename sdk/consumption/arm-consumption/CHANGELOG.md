@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 9.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 9.0.0 (2021-12-16)
 
 The package of @azure/arm-consumption is using our next generation design principles since version 9.0.0, which contains breaking changes.
