@@ -16,8 +16,7 @@ This library provides the credential to be used in the tests
 
 In playback mode
 
-- returns the `NoOpCredential` (helps bypass the AAD traffic)
-- `NoOpCredential` is defined in `@azure-tools/test-recorder-new`
+- returns a `NoOpCredential` (does not make a request to AAD and produces a fake access_token)
 
 In record/live modes
 
