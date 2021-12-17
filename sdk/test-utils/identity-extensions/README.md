@@ -1,6 +1,6 @@
 # Azure Tools - Test Credential
 
-This library provides the credential for testing.
+This library provides a `TokenCredential` implementation for testing Azure SDK packages.
 
 ## Getting started
 
