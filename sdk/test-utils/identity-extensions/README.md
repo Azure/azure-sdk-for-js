@@ -1,4 +1,4 @@
-# Azure @azure-tools/identity-extensions client library for JavaScript
+# Azure Tools - Test Credential
 
 This library provides the credential for testing.
 
