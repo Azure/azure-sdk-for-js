@@ -80,6 +80,14 @@ export function nodeConfig(test = false) {
         return;
       }
 
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai/lib")) >= 0
+      ) {
+        // chai contains circular references but it doesn't cause issues.
+        return;
+      }
+
       if (warning.code === "CIRCULAR_DEPENDENCY") {
         throw new Error(warning.message);
       }
@@ -179,6 +187,14 @@ export function browserConfig(test = false) {
         warning.importer.indexOf(path.normalize("node_modules/@opentelemetry/api")) >= 0
       ) {
         // opentelemetry contains circular references but it doesn't cause issues.
+        return;
+      }
+
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai/lib")) >= 0
+      ) {
+        // chai contains circular references but it doesn't cause issues.
         return;
       }
 
