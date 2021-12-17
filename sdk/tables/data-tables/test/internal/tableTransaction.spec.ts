@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { parseTransactionResponse } from "../../src/TableTransaction";
 import {
   PipelineResponse,
   createHttpHeaders,
   createPipelineRequest
 } from "@azure/core-rest-pipeline";
+import { assert } from "chai";
+import { parseTransactionResponse } from "../../src/TableTransaction";
 
 describe("TableTransaction", () => {
   describe("parseTransactionResponse", () => {

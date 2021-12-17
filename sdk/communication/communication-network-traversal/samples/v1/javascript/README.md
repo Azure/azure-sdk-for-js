@@ -12,13 +12,14 @@ urlFragment: communication-network-traversal-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Services - Network Traversal in some common scenarios.
 
-| **File Name**                                     | **Description**                 |
-| ------------------------------------------------- | ------------------------------- |
-| [getRelayConfiguration.js][getrelayconfiguration] | Issue a new Relay configuration |
+| **File Name**                                                                   | **Description**                                           |
+| ------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| [getRelayConfigurationWithIdentity.js][getrelayconfigurationwithidentity]       | Issue a new Relay configuration providing a user identity |
+| [getRelayConfigurationWithoutIdentity.js][getrelayconfigurationwithoutidentity] | Issue a new Relay configuration without user identity     |
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=12.0.0.
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
@@ -43,20 +44,22 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node getRelayConfiguration.js
+node getRelayConfigurationWithIdentity.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node getRelayConfiguration.js
+npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node getRelayConfigurationWithIdentity.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getrelayconfiguration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-network-traversal/samples/v1/javascript/getRelayConfiguration.js
+[getrelayconfigurationwithidentity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-network-traversal/samples/v1/javascript/getRelayConfigurationWithIdentity.js
+[getrelayconfigurationwithoutidentity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-network-traversal/samples/v1/javascript/getRelayConfigurationWithoutIdentity.js
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-network-traversal
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-network-traversal/README.md

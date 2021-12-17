@@ -11,11 +11,6 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type AggregateFunctionProperties = FunctionProperties & {
-    type: "Aggregate";
-};
-
-// @public
 export type AuthenticationMode = string;
 
 // @public
@@ -49,85 +44,37 @@ export type AzureDataLakeStoreOutputDataSourceProperties = OAuthBasedDataSourceP
 };
 
 // @public
-export type AzureFunctionOutputDataSource = OutputDataSource & {
-    type: "Microsoft.AzureFunction";
-    functionAppName?: string;
-    functionName?: string;
-    apiKey?: string;
-    maxBatchSize?: number;
-    maxBatchCount?: number;
-};
-
-// @public
-export type AzureMachineLearningServiceFunctionBinding = FunctionBinding & {
-    type: "Microsoft.MachineLearningServices";
-    endpoint?: string;
-    apiKey?: string;
-    inputs?: AzureMachineLearningServiceInputColumn[];
-    outputs?: AzureMachineLearningServiceOutputColumn[];
-    batchSize?: number;
-    numberOfParallelRequests?: number;
-};
-
-// @public
-export type AzureMachineLearningServiceFunctionRetrieveDefaultDefinitionParameters = FunctionRetrieveDefaultDefinitionParameters & {
-    bindingType: "Microsoft.MachineLearningServices";
-    executeEndpoint?: string;
-    udfType?: "Scalar";
-};
-
-// @public
-export interface AzureMachineLearningServiceInputColumn {
-    dataType?: string;
-    mapTo?: number;
-    name?: string;
-}
-
-// @public
-export interface AzureMachineLearningServiceInputs {
-    columnNames?: AzureMachineLearningServiceInputColumn[];
-    name?: string;
-}
-
-// @public
-export interface AzureMachineLearningServiceOutputColumn {
-    dataType?: string;
-    mapTo?: number;
-    name?: string;
-}
-
-// @public
-export type AzureMachineLearningStudioFunctionBinding = FunctionBinding & {
+export type AzureMachineLearningWebServiceFunctionBinding = FunctionBinding & {
     type: "Microsoft.MachineLearning/WebService";
     endpoint?: string;
     apiKey?: string;
-    inputs?: AzureMachineLearningStudioInputs;
-    outputs?: AzureMachineLearningStudioOutputColumn[];
+    inputs?: AzureMachineLearningWebServiceInputs;
+    outputs?: AzureMachineLearningWebServiceOutputColumn[];
     batchSize?: number;
 };
 
 // @public
-export type AzureMachineLearningStudioFunctionRetrieveDefaultDefinitionParameters = FunctionRetrieveDefaultDefinitionParameters & {
+export type AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters = FunctionRetrieveDefaultDefinitionParameters & {
     bindingType: "Microsoft.MachineLearning/WebService";
     executeEndpoint?: string;
     udfType?: "Scalar";
 };
 
 // @public
-export interface AzureMachineLearningStudioInputColumn {
+export interface AzureMachineLearningWebServiceInputColumn {
     dataType?: string;
     mapTo?: number;
     name?: string;
 }
 
 // @public
-export interface AzureMachineLearningStudioInputs {
-    columnNames?: AzureMachineLearningStudioInputColumn[];
+export interface AzureMachineLearningWebServiceInputs {
+    columnNames?: AzureMachineLearningWebServiceInputColumn[];
     name?: string;
 }
 
 // @public
-export interface AzureMachineLearningStudioOutputColumn {
+export interface AzureMachineLearningWebServiceOutputColumn {
     dataType?: string;
     name?: string;
 }
@@ -163,21 +110,16 @@ export type AzureSqlDatabaseOutputDataSourceProperties = AzureSqlDatabaseDataSou
 // @public
 export type AzureSqlReferenceInputDataSource = ReferenceInputDataSource & {
     type: "Microsoft.Sql/Server/Database";
-    properties?: AzureSqlReferenceInputDataSourceProperties;
-};
-
-// @public
-export interface AzureSqlReferenceInputDataSourceProperties {
-    database?: string;
-    deltaSnapshotQuery?: string;
-    fullSnapshotQuery?: string;
-    password?: string;
-    refreshRate?: string;
-    refreshType?: string;
     server?: string;
-    table?: string;
+    database?: string;
     user?: string;
-}
+    password?: string;
+    table?: string;
+    refreshType?: RefreshType;
+    refreshRate?: string;
+    fullSnapshotQuery?: string;
+    deltaSnapshotQuery?: string;
+};
 
 // @public
 export interface AzureSynapseDataSourceProperties {
@@ -271,7 +213,11 @@ export type BlobStreamInputDataSourceProperties = BlobDataSourceProperties & {
 export type Cluster = TrackedResource & {
     sku?: ClusterSku;
     readonly etag?: string;
-    properties?: ClusterProperties;
+    readonly createdDate?: Date;
+    readonly clusterId?: string;
+    readonly provisioningState?: ClusterProvisioningState;
+    readonly capacityAllocated?: number;
+    readonly capacityAssigned?: number;
 };
 
 // @public
@@ -296,15 +242,6 @@ export interface ClusterJobListResult {
 export interface ClusterListResult {
     readonly nextLink?: string;
     readonly value?: Cluster[];
-}
-
-// @public
-export interface ClusterProperties {
-    readonly capacityAllocated?: number;
-    readonly capacityAssigned?: number;
-    readonly clusterId?: string;
-    readonly createdDate?: Date;
-    readonly provisioningState?: ClusterProvisioningState;
 }
 
 // @public
@@ -413,51 +350,21 @@ export type ClustersUpdateResponse = Cluster;
 export type CompatibilityLevel = string;
 
 // @public
-export interface CompileQuery {
-    compatibilityLevel?: CompatibilityLevel;
-    functions?: QueryFunction[];
-    inputs?: QueryInput[];
-    jobType: JobType;
-    query: string;
+export interface Compression {
+    type: CompressionType;
 }
 
 // @public
-export interface Compression {
-    // (undocumented)
-    type: string;
-}
+export type CompressionType = string;
 
 // @public
 export type ContentStoragePolicy = string;
-
-// @public
-export type CSharpFunctionBinding = FunctionBinding & {
-    type: "Microsoft.StreamAnalytics/CLRUdf";
-    script?: string;
-    dllPath?: string;
-    class?: string;
-    method?: string;
-};
-
-// @public
-export type CSharpFunctionRetrieveDefaultDefinitionParameters = FunctionRetrieveDefaultDefinitionParameters & {
-    bindingType: "Microsoft.StreamAnalytics/CLRUdf";
-    script?: string;
-    udfType?: "Scalar";
-};
 
 // @public
 export type CsvSerialization = Serialization & {
     type: "Csv";
     fieldDelimiter?: string;
     encoding?: Encoding;
-};
-
-// @public
-export type CustomClrSerialization = Serialization & {
-    type: "CustomClr";
-    serializationDllPath?: string;
-    serializationClassName?: string;
 };
 
 // @public
@@ -487,14 +394,6 @@ export type DocumentDbOutputDataSource = OutputDataSource & {
 export type Encoding = string;
 
 // @public
-export interface ErrorAutoGenerated {
-    code?: string;
-    details?: ErrorDetails[];
-    message?: string;
-    target?: string;
-}
-
-// @public
 export interface ErrorDetails {
     code?: string;
     message?: string;
@@ -502,8 +401,16 @@ export interface ErrorDetails {
 }
 
 // @public
+export interface ErrorError {
+    code?: string;
+    details?: ErrorDetails[];
+    message?: string;
+    target?: string;
+}
+
+// @public
 export interface ErrorModel {
-    error?: ErrorAutoGenerated;
+    error?: ErrorError;
 }
 
 // @public
@@ -581,22 +488,12 @@ export type EventSerializationType = string;
 export type EventsOutOfOrderPolicy = string;
 
 // @public
-interface External_2 {
-    // (undocumented)
-    container?: string;
-    // (undocumented)
-    path?: string;
-    storageAccount?: StorageAccount;
-}
-export { External_2 as External }
-
-// @public
 export interface FunctionBinding {
-    type: "Microsoft.MachineLearning/WebService" | "Microsoft.StreamAnalytics/JavascriptUdf" | "Microsoft.StreamAnalytics/CLRUdf" | "Microsoft.MachineLearningServices";
+    type: "Microsoft.MachineLearning/WebService" | "Microsoft.StreamAnalytics/JavascriptUdf";
 }
 
 // @public (undocumented)
-export type FunctionBindingUnion = FunctionBinding | AzureMachineLearningStudioFunctionBinding | JavaScriptFunctionBinding | CSharpFunctionBinding | AzureMachineLearningServiceFunctionBinding;
+export type FunctionBindingUnion = FunctionBinding | AzureMachineLearningWebServiceFunctionBinding | JavaScriptFunctionBinding;
 
 // @public
 export interface FunctionInput {
@@ -622,24 +519,20 @@ export interface FunctionOutput {
 
 // @public
 export interface FunctionProperties {
-    binding?: FunctionBindingUnion;
     readonly etag?: string;
-    // (undocumented)
-    inputs?: FunctionInput[];
-    output?: FunctionOutput;
-    type: "Scalar" | "Aggregate";
+    type: "Scalar";
 }
 
 // @public (undocumented)
-export type FunctionPropertiesUnion = FunctionProperties | ScalarFunctionProperties | AggregateFunctionProperties;
+export type FunctionPropertiesUnion = FunctionProperties | ScalarFunctionProperties;
 
 // @public
 export interface FunctionRetrieveDefaultDefinitionParameters {
-    bindingType: "Microsoft.MachineLearning/WebService" | "Microsoft.MachineLearningServices" | "Microsoft.StreamAnalytics/JavascriptUdf" | "Microsoft.StreamAnalytics/CLRUdf";
+    bindingType: "Microsoft.MachineLearning/WebService" | "Microsoft.StreamAnalytics/JavascriptUdf";
 }
 
 // @public (undocumented)
-export type FunctionRetrieveDefaultDefinitionParametersUnion = FunctionRetrieveDefaultDefinitionParameters | AzureMachineLearningStudioFunctionRetrieveDefaultDefinitionParameters | AzureMachineLearningServiceFunctionRetrieveDefaultDefinitionParameters | JavaScriptFunctionRetrieveDefaultDefinitionParameters | CSharpFunctionRetrieveDefaultDefinitionParameters;
+export type FunctionRetrieveDefaultDefinitionParametersUnion = FunctionRetrieveDefaultDefinitionParameters | AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters | JavaScriptFunctionRetrieveDefaultDefinitionParameters;
 
 // @public
 export interface Functions {
@@ -732,11 +625,8 @@ export type FunctionsUpdateResponse = FunctionsUpdateHeaders & FunctionModel;
 
 // @public
 export interface Identity {
-    // (undocumented)
     principalId?: string;
-    // (undocumented)
     tenantId?: string;
-    // (undocumented)
     type?: string;
 }
 
@@ -914,7 +804,19 @@ export enum KnownClusterSkuName {
 // @public
 export enum KnownCompatibilityLevel {
     // (undocumented)
-    One0 = "1.0"
+    One0 = "1.0",
+    // (undocumented)
+    One2 = "1.2"
+}
+
+// @public
+export enum KnownCompressionType {
+    // (undocumented)
+    Deflate = "Deflate",
+    // (undocumented)
+    GZip = "GZip",
+    // (undocumented)
+    None = "None"
 }
 
 // @public
@@ -937,8 +839,6 @@ export enum KnownEventSerializationType {
     Avro = "Avro",
     // (undocumented)
     Csv = "Csv",
-    // (undocumented)
-    CustomClr = "CustomClr",
     // (undocumented)
     Json = "Json",
     // (undocumented)
@@ -1002,32 +902,19 @@ export enum KnownOutputStartMode {
 }
 
 // @public
-export enum KnownQueryTestingResultStatus {
-    CompilerError = "CompilerError",
-    RuntimeError = "RuntimeError",
-    Started = "Started",
-    Success = "Success",
-    Timeout = "Timeout",
-    UnknownError = "UnknownError"
+export enum KnownRefreshType {
+    // (undocumented)
+    RefreshPeriodicallyWithDelta = "RefreshPeriodicallyWithDelta",
+    // (undocumented)
+    RefreshPeriodicallyWithFull = "RefreshPeriodicallyWithFull",
+    // (undocumented)
+    Static = "Static"
 }
 
 // @public
-export enum KnownSampleInputResultStatus {
-    ErrorConnectingToInput = "ErrorConnectingToInput",
-    NoEventsFoundInRange = "NoEventsFoundInRange",
-    ReadAllEventsInRange = "ReadAllEventsInRange"
-}
-
-// @public
-export enum KnownStreamingJobSkuName {
+export enum KnownSkuName {
     // (undocumented)
     Standard = "Standard"
-}
-
-// @public
-export enum KnownTestDatasourceResultStatus {
-    TestFailed = "TestFailed",
-    TestSucceeded = "TestSucceeded"
 }
 
 // @public
@@ -1040,6 +927,7 @@ export interface OAuthBasedDataSourceProperties {
 // @public
 export interface Operation {
     readonly display?: OperationDisplay;
+    isDataAction?: boolean;
     readonly name?: string;
 }
 
@@ -1088,11 +976,11 @@ export type Output = SubResource & {
 
 // @public
 export interface OutputDataSource {
-    type: "Raw" | "Microsoft.Storage/Blob" | "Microsoft.Storage/Table" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Sql/Server/Database" | "Microsoft.Sql/Server/DataWarehouse" | "Microsoft.Storage/DocumentDB" | "Microsoft.AzureFunction" | "Microsoft.ServiceBus/Queue" | "Microsoft.ServiceBus/Topic" | "PowerBI" | "Microsoft.DataLake/Accounts";
+    type: "Microsoft.Storage/Blob" | "Microsoft.Storage/Table" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Sql/Server/Database" | "Microsoft.Sql/Server/DataWarehouse" | "Microsoft.Storage/DocumentDB" | "Microsoft.ServiceBus/Queue" | "Microsoft.ServiceBus/Topic" | "PowerBI" | "Microsoft.DataLake/Accounts";
 }
 
 // @public (undocumented)
-export type OutputDataSourceUnion = OutputDataSource | RawOutputDatasource | BlobOutputDataSource | AzureTableOutputDataSource | EventHubOutputDataSource | EventHubV2OutputDataSource | AzureSqlDatabaseOutputDataSource | AzureSynapseOutputDataSource | DocumentDbOutputDataSource | AzureFunctionOutputDataSource | ServiceBusQueueOutputDataSource | ServiceBusTopicOutputDataSource | PowerBIOutputDataSource | AzureDataLakeStoreOutputDataSource;
+export type OutputDataSourceUnion = OutputDataSource | BlobOutputDataSource | AzureTableOutputDataSource | EventHubOutputDataSource | EventHubV2OutputDataSource | AzureSqlDatabaseOutputDataSource | AzureSynapseOutputDataSource | DocumentDbOutputDataSource | ServiceBusQueueOutputDataSource | ServiceBusTopicOutputDataSource | PowerBIOutputDataSource | AzureDataLakeStoreOutputDataSource;
 
 // @public
 export type OutputErrorPolicy = string;
@@ -1216,20 +1104,15 @@ export type PowerBIOutputDataSourceProperties = OAuthBasedDataSourceProperties &
 
 // @public
 export type PrivateEndpoint = ProxyResource & {
-    properties?: PrivateEndpointProperties;
     readonly etag?: string;
+    readonly createdDate?: string;
+    manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
 };
 
 // @public
 export interface PrivateEndpointListResult {
     readonly nextLink?: string;
     readonly value?: PrivateEndpoint[];
-}
-
-// @public
-export interface PrivateEndpointProperties {
-    readonly createdDate?: string;
-    manualPrivateLinkServiceConnections?: PrivateLinkServiceConnection[];
 }
 
 // @public
@@ -1289,88 +1172,28 @@ export interface PrivateLinkServiceConnection {
     groupIds?: string[];
     privateLinkServiceConnectionState?: PrivateLinkConnectionState;
     privateLinkServiceId?: string;
-    requestMessage?: string;
+    readonly requestMessage?: string;
 }
 
 // @public
 export type ProxyResource = Resource & {};
 
 // @public
-export interface QueryCompilationError {
-    readonly endColumn?: number;
-    readonly endLine?: number;
-    readonly isGlobal?: boolean;
-    readonly message?: string;
-    readonly startColumn?: number;
-    readonly startLine?: number;
-}
-
-// @public
-export interface QueryCompilationResult {
-    readonly errors?: QueryCompilationError[];
-    readonly functions?: string[];
-    readonly inputs?: string[];
-    readonly outputs?: string[];
-    readonly warnings?: string[];
-}
-
-// @public
-export interface QueryFunction {
-    bindingType: string;
-    inputs: FunctionInput[];
-    name: string;
-    output: FunctionOutput;
-    type: string;
-}
-
-// @public
-export interface QueryInput {
-    name: string;
-    type: string;
-}
-
-// @public
-export type QueryTestingResult = ErrorModel & {
-    readonly status?: QueryTestingResultStatus;
-    readonly outputUri?: string;
-};
-
-// @public
-export type QueryTestingResultStatus = string;
-
-// @public
-export type RawOutputDatasource = OutputDataSource & {
-    type: "Raw";
-    payloadUri?: string;
-};
-
-// @public
-export type RawReferenceInputDataSource = ReferenceInputDataSource & {
-    type: "Raw";
-    payload?: string;
-    payloadUri?: string;
-};
-
-// @public
-export type RawStreamInputDataSource = StreamInputDataSource & {
-    type: "Raw";
-    payload?: string;
-    payloadUri?: string;
-};
-
-// @public
 export interface ReferenceInputDataSource {
-    type: "Microsoft.Storage/Blob" | "Raw" | "Microsoft.Sql/Server/Database";
+    type: "Microsoft.Storage/Blob" | "Microsoft.Sql/Server/Database";
 }
 
 // @public (undocumented)
-export type ReferenceInputDataSourceUnion = ReferenceInputDataSource | BlobReferenceInputDataSource | RawReferenceInputDataSource | AzureSqlReferenceInputDataSource;
+export type ReferenceInputDataSourceUnion = ReferenceInputDataSource | BlobReferenceInputDataSource | AzureSqlReferenceInputDataSource;
 
 // @public
 export type ReferenceInputProperties = InputProperties & {
     type: "Reference";
     datasource?: ReferenceInputDataSourceUnion;
 };
+
+// @public
+export type RefreshType = string;
 
 // @public
 export interface Resource {
@@ -1386,36 +1209,25 @@ export interface ResourceTestStatus {
 }
 
 // @public
-export interface SampleInput {
-    compatibilityLevel?: string;
-    dataLocale?: string;
-    eventsUri?: string;
-    input?: Input;
-}
-
-// @public
-export type SampleInputResult = ErrorModel & {
-    readonly status?: SampleInputResultStatus;
-    readonly diagnostics?: string[];
-    readonly eventsDownloadUrl?: string;
-    readonly lastArrivalTime?: string;
-};
-
-// @public
-export type SampleInputResultStatus = string;
-
-// @public
 export type ScalarFunctionProperties = FunctionProperties & {
     type: "Scalar";
+    inputs?: FunctionInput[];
+    output?: FunctionOutput;
+    binding?: FunctionBindingUnion;
 };
+
+// @public
+export interface ScaleStreamingJobParameters {
+    streamingUnits?: number;
+}
 
 // @public
 export interface Serialization {
-    type: "Parquet" | "CustomClr" | "Csv" | "Json" | "Avro";
+    type: "Parquet" | "Csv" | "Json" | "Avro";
 }
 
 // @public (undocumented)
-export type SerializationUnion = Serialization | ParquetSerialization | CustomClrSerialization | CsvSerialization | JsonSerialization | AvroSerialization;
+export type SerializationUnion = Serialization | ParquetSerialization | CsvSerialization | JsonSerialization | AvroSerialization;
 
 // @public
 export interface ServiceBusDataSourceProperties {
@@ -1434,18 +1246,14 @@ export type ServiceBusQueueOutputDataSource = OutputDataSource & {
     authenticationMode?: AuthenticationMode;
     queueName?: string;
     propertyColumns?: string[];
-    systemPropertyColumns?: {
-        [propertyName: string]: string;
-    };
+    systemPropertyColumns?: Record<string, unknown>;
 };
 
 // @public
 export type ServiceBusQueueOutputDataSourceProperties = ServiceBusDataSourceProperties & {
     queueName?: string;
     propertyColumns?: string[];
-    systemPropertyColumns?: {
-        [propertyName: string]: string;
-    };
+    systemPropertyColumns?: Record<string, unknown>;
 };
 
 // @public
@@ -1472,6 +1280,14 @@ export type ServiceBusTopicOutputDataSourceProperties = ServiceBusDataSourceProp
 };
 
 // @public
+export interface Sku {
+    name?: SkuName;
+}
+
+// @public
+export type SkuName = string;
+
+// @public
 export interface StartStreamingJobParameters {
     outputStartMode?: OutputStartMode;
     outputStartTime?: Date;
@@ -1484,8 +1300,12 @@ export interface StorageAccount {
 }
 
 // @public (undocumented)
-export class StreamAnalyticsManagementClient extends StreamAnalyticsManagementClientContext {
+export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: StreamAnalyticsManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     clusters: Clusters;
     // (undocumented)
@@ -1501,30 +1321,24 @@ export class StreamAnalyticsManagementClient extends StreamAnalyticsManagementCl
     // (undocumented)
     streamingJobs: StreamingJobs;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     subscriptions: Subscriptions;
     // (undocumented)
     transformations: Transformations;
 }
 
-// @public (undocumented)
-export class StreamAnalyticsManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: StreamAnalyticsManagementClientOptionalParams);
-    // (undocumented)
-    subscriptionId: string;
-}
-
 // @public
 export interface StreamAnalyticsManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
+    apiVersion?: string;
     endpoint?: string;
 }
 
 // @public
 export type StreamingJob = TrackedResource & {
     identity?: Identity;
-    sku?: StreamingJobSku;
+    sku?: Sku;
     readonly jobId?: string;
     readonly provisioningState?: string;
     readonly jobState?: string;
@@ -1546,7 +1360,6 @@ export type StreamingJob = TrackedResource & {
     readonly etag?: string;
     jobStorageAccount?: JobStorageAccount;
     contentStoragePolicy?: ContentStoragePolicy;
-    externals?: External_2;
     cluster?: ClusterInfo;
 };
 
@@ -1562,6 +1375,8 @@ export interface StreamingJobs {
     beginCreateOrReplaceAndWait(resourceGroupName: string, jobName: string, streamingJob: StreamingJob, options?: StreamingJobsCreateOrReplaceOptionalParams): Promise<StreamingJobsCreateOrReplaceResponse>;
     beginDelete(resourceGroupName: string, jobName: string, options?: StreamingJobsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, jobName: string, options?: StreamingJobsDeleteOptionalParams): Promise<void>;
+    beginScale(resourceGroupName: string, jobName: string, options?: StreamingJobsScaleOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginScaleAndWait(resourceGroupName: string, jobName: string, options?: StreamingJobsScaleOptionalParams): Promise<void>;
     beginStart(resourceGroupName: string, jobName: string, options?: StreamingJobsStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, jobName: string, options?: StreamingJobsStartOptionalParams): Promise<void>;
     beginStop(resourceGroupName: string, jobName: string, options?: StreamingJobsStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -1608,14 +1423,6 @@ export interface StreamingJobsGetOptionalParams extends coreClient.OperationOpti
 export type StreamingJobsGetResponse = StreamingJobsGetHeaders & StreamingJob;
 
 // @public
-export interface StreamingJobSku {
-    name?: StreamingJobSkuName;
-}
-
-// @public
-export type StreamingJobSkuName = string;
-
-// @public
 export interface StreamingJobsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
     expand?: string;
 }
@@ -1648,6 +1455,13 @@ export interface StreamingJobsListOptionalParams extends coreClient.OperationOpt
 export type StreamingJobsListResponse = StreamingJobListResult;
 
 // @public
+export interface StreamingJobsScaleOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    scaleJobParameters?: ScaleStreamingJobParameters;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface StreamingJobsStartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     startJobParameters?: StartStreamingJobParameters;
@@ -1675,11 +1489,11 @@ export type StreamingJobsUpdateResponse = StreamingJobsUpdateHeaders & Streaming
 
 // @public
 export interface StreamInputDataSource {
-    type: "Microsoft.Storage/Blob" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Devices/IotHubs" | "Raw";
+    type: "Microsoft.Storage/Blob" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Devices/IotHubs";
 }
 
 // @public (undocumented)
-export type StreamInputDataSourceUnion = StreamInputDataSource | BlobStreamInputDataSource | EventHubStreamInputDataSource | EventHubV2StreamInputDataSource | IoTHubStreamInputDataSource | RawStreamInputDataSource;
+export type StreamInputDataSourceUnion = StreamInputDataSource | BlobStreamInputDataSource | EventHubStreamInputDataSource | EventHubV2StreamInputDataSource | IoTHubStreamInputDataSource;
 
 // @public
 export type StreamInputProperties = InputProperties & {
@@ -1707,24 +1521,8 @@ export interface SubscriptionQuotasListResult {
 
 // @public
 export interface Subscriptions {
-    beginSampleInput(location: string, sampleInput: SampleInput, options?: SubscriptionsSampleInputOptionalParams): Promise<PollerLike<PollOperationState<SubscriptionsSampleInputResponse>, SubscriptionsSampleInputResponse>>;
-    beginSampleInputAndWait(location: string, sampleInput: SampleInput, options?: SubscriptionsSampleInputOptionalParams): Promise<SubscriptionsSampleInputResponse>;
-    beginTestInput(location: string, testInput: TestInput, options?: SubscriptionsTestInputOptionalParams): Promise<PollerLike<PollOperationState<SubscriptionsTestInputResponse>, SubscriptionsTestInputResponse>>;
-    beginTestInputAndWait(location: string, testInput: TestInput, options?: SubscriptionsTestInputOptionalParams): Promise<SubscriptionsTestInputResponse>;
-    beginTestOutput(location: string, testOutput: TestOutput, options?: SubscriptionsTestOutputOptionalParams): Promise<PollerLike<PollOperationState<SubscriptionsTestOutputResponse>, SubscriptionsTestOutputResponse>>;
-    beginTestOutputAndWait(location: string, testOutput: TestOutput, options?: SubscriptionsTestOutputOptionalParams): Promise<SubscriptionsTestOutputResponse>;
-    beginTestQuery(location: string, testQuery: TestQuery, options?: SubscriptionsTestQueryOptionalParams): Promise<PollerLike<PollOperationState<SubscriptionsTestQueryResponse>, SubscriptionsTestQueryResponse>>;
-    beginTestQueryAndWait(location: string, testQuery: TestQuery, options?: SubscriptionsTestQueryOptionalParams): Promise<SubscriptionsTestQueryResponse>;
-    compileQuery(location: string, compileQuery: CompileQuery, options?: SubscriptionsCompileQueryOptionalParams): Promise<SubscriptionsCompileQueryResponse>;
     listQuotas(location: string, options?: SubscriptionsListQuotasOptionalParams): Promise<SubscriptionsListQuotasResponse>;
 }
-
-// @public
-export interface SubscriptionsCompileQueryOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionsCompileQueryResponse = QueryCompilationResult;
 
 // @public
 export interface SubscriptionsListQuotasOptionalParams extends coreClient.OperationOptions {
@@ -1732,72 +1530,6 @@ export interface SubscriptionsListQuotasOptionalParams extends coreClient.Operat
 
 // @public
 export type SubscriptionsListQuotasResponse = SubscriptionQuotasListResult;
-
-// @public
-export interface SubscriptionsSampleInputOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SubscriptionsSampleInputResponse = SampleInputResult;
-
-// @public
-export interface SubscriptionsTestInputOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SubscriptionsTestInputResponse = TestDatasourceResult;
-
-// @public
-export interface SubscriptionsTestOutputOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SubscriptionsTestOutputResponse = TestDatasourceResult;
-
-// @public
-export interface SubscriptionsTestQueryOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SubscriptionsTestQueryResponse = QueryTestingResult;
-
-// @public
-export type TestDatasourceResult = ErrorModel & {
-    readonly status?: TestDatasourceResultStatus;
-};
-
-// @public
-export type TestDatasourceResultStatus = string;
-
-// @public
-export interface TestInput {
-    input: Input;
-}
-
-// @public
-export interface TestOutput {
-    output: Output;
-}
-
-// @public
-export interface TestQuery {
-    diagnostics?: TestQueryDiagnostics;
-    streamingJob: StreamingJob;
-}
-
-// @public
-export interface TestQueryDiagnostics {
-    path?: string;
-    writeUri: string;
-}
 
 // @public
 export type TrackedResource = Resource & {
@@ -1810,6 +1542,7 @@ export type TrackedResource = Resource & {
 // @public
 export type Transformation = SubResource & {
     streamingUnits?: number;
+    validStreamingUnits?: number[];
     query?: string;
     readonly etag?: string;
 };

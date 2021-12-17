@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as openTelemetry from "@opentelemetry/api";
 import * as coreAuth from "@azure/core-auth";
 import * as coreTracing from "../src/interfaces";
+import * as openTelemetry from "@opentelemetry/api";
+import { TestTracer } from "./util/testTracer";
 import { assert } from "chai";
 import { getTracer } from "../src/interfaces";
-import { TestTracer } from "./util/testTracer";
 
 type coreAuthTracingOptions = Required<coreAuth.GetTokenOptions>["tracingOptions"];
 

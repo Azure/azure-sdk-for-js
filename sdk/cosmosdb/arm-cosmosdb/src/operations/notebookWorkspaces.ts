@@ -11,7 +11,7 @@ import { NotebookWorkspaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { CosmosDBManagementClientContext } from "../cosmosDBManagementClientContext";
+import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -34,13 +34,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NotebookWorkspaces operations. */
 export class NotebookWorkspacesImpl implements NotebookWorkspaces {
-  private readonly client: CosmosDBManagementClientContext;
+  private readonly client: CosmosDBManagementClient;
 
   /**
    * Initialize a new instance of the class NotebookWorkspaces class.
    * @param client Reference to the service client
    */
-  constructor(client: CosmosDBManagementClientContext) {
+  constructor(client: CosmosDBManagementClient) {
     this.client = client;
   }
 

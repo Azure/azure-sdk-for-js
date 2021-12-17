@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { Context } from "mocha";
 import { AzureKeyCredential, MixedRealityStsClient } from "../src";
-import { createTokenCredentialFromMRKeyCredential } from "./utils/tokenCredentialHelper";
-import { Recorder } from "@azure-tools/test-recorder";
 import { createClient, createRecorder } from "./utils/recordedClient";
+import { Context } from "mocha";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
+import { createTokenCredentialFromMRKeyCredential } from "./utils/tokenCredentialHelper";
 
 describe("MixedRealityStsClient", () => {
   const accountDomain = "mixedreality.azure.com";

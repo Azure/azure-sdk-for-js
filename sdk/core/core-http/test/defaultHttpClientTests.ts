@@ -3,17 +3,16 @@
 
 /* eslint-disable no-unused-expressions */
 
-import { assert, AssertionError } from "chai";
-import { Context } from "mocha";
-import * as sinon from "sinon";
-import { AbortController } from "@azure/abort-controller";
 import "chai/register-should";
-
+import * as sinon from "sinon";
+import { AssertionError, assert } from "chai";
+import { HttpMockFacade, getHttpMock } from "./mockHttp";
+import { TransferProgressEvent, WebResource } from "../src/webResource";
+import { AbortController } from "@azure/abort-controller";
+import { CommonResponse } from "../src/nodeFetchHttpClient";
+import { Context } from "mocha";
 import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { RestError } from "../src/restError";
-import { WebResource, TransferProgressEvent } from "../src/webResource";
-import { getHttpMock, HttpMockFacade } from "./mockHttp";
-import { CommonResponse } from "../src/nodeFetchHttpClient";
 
 describe("defaultHttpClient", function() {
   function sleep(ms: number): Promise<void> {

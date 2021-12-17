@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse, RequestOptionsBase } from "@azure/core-http";
+import { PollOperation, PollOperationState } from "../../src";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { PollOperationState, PollOperation } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
 import { TestWebResource } from "./testWebResource";
 

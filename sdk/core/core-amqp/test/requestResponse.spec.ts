@@ -1,26 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { Connection, EventContext, Message as RheaMessage, generate_uuid } from "rhea-promise";
 import {
+  Constants,
   ErrorNameConditionMapper,
   RequestResponseLink,
   RetryConfig,
   RetryOperationType,
-  retry,
-  Constants,
-  StandardAbortMessage
+  StandardAbortMessage,
+  retry
 } from "../src";
-import { Connection, EventContext, generate_uuid, Message as RheaMessage } from "rhea-promise";
-import { stub, fake, SinonSpy } from "sinon";
-import EventEmitter from "events";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import {
   DeferredPromiseWithCallback,
   getCodeDescriptionAndError,
   onMessageReceived
 } from "../src/requestResponseLink";
+import { SinonSpy, fake, stub } from "sinon";
+import EventEmitter from "events";
+import { assert } from "chai";
 import { createConnectionStub } from "./utils/createConnectionStub";
+
 interface Window {}
 declare let self: Window & typeof globalThis;
 

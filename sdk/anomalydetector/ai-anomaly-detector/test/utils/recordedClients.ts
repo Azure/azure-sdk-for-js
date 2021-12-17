@@ -3,14 +3,11 @@
 
 import { Context } from "mocha";
 
-import * as dotenv from "dotenv";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
 import { ClientSecretCredential } from "@azure/identity";
 import { AnomalyDetectorClient } from "../../src/AnomalyDetectorClient";
 import { AzureKeyCredential } from "@azure/core-auth";
-
-dotenv.config();
 
 export interface RecordedRecognizerClient {
   client: AnomalyDetectorClient;

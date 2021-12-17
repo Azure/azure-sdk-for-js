@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { WebResourceLike } from "./webResource";
 import { HttpHeadersLike } from "./httpHeaders";
+import { WebResourceLike } from "./webResource";
 
 /**
  * The properties on an HTTP response which will always be present.
