@@ -27,7 +27,7 @@
   "dependencies": {
     "@azure/service-bus": "latest",
     "dotenv": "latest",
-    "ws": "^7.1.1",
+    "ws": "^8.2.0",
     "https-proxy-agent": "^5.0.0",
     "@azure/identity": "^2.0.1",
     "@azure/abort-controller": "^1.0.0"

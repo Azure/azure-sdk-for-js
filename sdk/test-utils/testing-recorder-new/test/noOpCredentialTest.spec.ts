@@ -4,7 +4,6 @@
 import {
   RecorderStartOptions,
   NoOpCredential,
-  recorderHttpPolicy,
   TestProxyHttpClient
 } from "@azure-tools/test-recorder-new";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
@@ -50,12 +49,12 @@ describe(`NoOp credential with Tables`, () => {
   });
 
   it("should create new table, then delete", async () => {
-    if (!isPlaybackMode()) {
-      recorder.variables["table-name"] = `table${Math.ceil(Math.random() * 1000 + 1000)}`;
-    }
-    const tableName = recorder.variables["table-name"];
+    const tableName = recorder.variable(
+      "table-name",
+      `table${Math.ceil(Math.random() * 1000 + 1000)}`
+    );
     const client = new TableServiceClient(env.TABLES_URL, credential);
-    client.pipeline.addPolicy(recorderHttpPolicy(recorder));
+    recorder.configureClient(client);
     await client.createTable(tableName);
     await client.deleteTable(tableName);
   });

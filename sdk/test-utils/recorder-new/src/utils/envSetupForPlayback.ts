@@ -19,7 +19,7 @@ import { Sanitizer } from "../sanitizer";
 export async function handleEnvSetup(
   envSetupForPlayback: Record<string, string>,
   sanitizer: Sanitizer
-) {
+): Promise<void> {
   if (envSetupForPlayback) {
     if (isPlaybackMode()) {
       // Loads the "fake" environment variables in `process.env` or `window.__env__` based on the runtime

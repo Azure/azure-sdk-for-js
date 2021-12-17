@@ -6,26 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  IpFilterRule,
-  NamespacesListIpFilterRulesOptionalParams,
   SBNamespace,
   NamespacesListOptionalParams,
   NamespacesListByResourceGroupOptionalParams,
-  VirtualNetworkRule,
-  NamespacesListVirtualNetworkRulesOptionalParams,
-  SBAuthorizationRule,
-  NamespacesListAuthorizationRulesOptionalParams,
   NetworkRuleSet,
   NamespacesListNetworkRuleSetsOptionalParams,
-  NamespacesCreateOrUpdateIpFilterRuleOptionalParams,
-  NamespacesCreateOrUpdateIpFilterRuleResponse,
-  NamespacesDeleteIpFilterRuleOptionalParams,
-  NamespacesGetIpFilterRuleOptionalParams,
-  NamespacesGetIpFilterRuleResponse,
+  SBAuthorizationRule,
+  NamespacesListAuthorizationRulesOptionalParams,
   NamespacesCreateOrUpdateOptionalParams,
   NamespacesCreateOrUpdateResponse,
   NamespacesDeleteOptionalParams,
@@ -34,11 +24,10 @@ import {
   SBNamespaceUpdateParameters,
   NamespacesUpdateOptionalParams,
   NamespacesUpdateResponse,
-  NamespacesCreateOrUpdateVirtualNetworkRuleOptionalParams,
-  NamespacesCreateOrUpdateVirtualNetworkRuleResponse,
-  NamespacesDeleteVirtualNetworkRuleOptionalParams,
-  NamespacesGetVirtualNetworkRuleOptionalParams,
-  NamespacesGetVirtualNetworkRuleResponse,
+  NamespacesCreateOrUpdateNetworkRuleSetOptionalParams,
+  NamespacesCreateOrUpdateNetworkRuleSetResponse,
+  NamespacesGetNetworkRuleSetOptionalParams,
+  NamespacesGetNetworkRuleSetResponse,
   NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
   NamespacesCreateOrUpdateAuthorizationRuleResponse,
   NamespacesDeleteAuthorizationRuleOptionalParams,
@@ -51,29 +40,12 @@ import {
   NamespacesRegenerateKeysResponse,
   CheckNameAvailability,
   NamespacesCheckNameAvailabilityOptionalParams,
-  NamespacesCheckNameAvailabilityResponse,
-  NamespacesCreateOrUpdateNetworkRuleSetOptionalParams,
-  NamespacesCreateOrUpdateNetworkRuleSetResponse,
-  NamespacesGetNetworkRuleSetOptionalParams,
-  NamespacesGetNetworkRuleSetResponse,
-  SBNamespaceMigrate,
-  NamespacesMigrateOptionalParams
+  NamespacesCheckNameAvailabilityResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Namespaces. */
 export interface Namespaces {
-  /**
-   * Gets a list of IP Filter rules for a Namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param options The options parameters.
-   */
-  listIpFilterRules(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListIpFilterRulesOptionalParams
-  ): PagedAsyncIterableIterator<IpFilterRule>;
   /**
    * Gets all the available namespaces within the subscription, irrespective of the resource groups.
    * @param options The options parameters.
@@ -91,28 +63,6 @@ export interface Namespaces {
     options?: NamespacesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<SBNamespace>;
   /**
-   * Gets a list of VirtualNetwork rules for a Namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param options The options parameters.
-   */
-  listVirtualNetworkRules(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListVirtualNetworkRulesOptionalParams
-  ): PagedAsyncIterableIterator<VirtualNetworkRule>;
-  /**
-   * Gets the authorization rules for a namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param options The options parameters.
-   */
-  listAuthorizationRules(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListAuthorizationRulesOptionalParams
-  ): PagedAsyncIterableIterator<SBAuthorizationRule>;
-  /**
    * Gets list of NetworkRuleSet for a Namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -124,46 +74,16 @@ export interface Namespaces {
     options?: NamespacesListNetworkRuleSetsOptionalParams
   ): PagedAsyncIterableIterator<NetworkRuleSet>;
   /**
-   * Creates or updates an IpFilterRule for a Namespace.
+   * Gets the authorization rules for a namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param ipFilterRuleName The IP Filter Rule name.
-   * @param parameters The Namespace IpFilterRule.
    * @param options The options parameters.
    */
-  createOrUpdateIpFilterRule(
+  listAuthorizationRules(
     resourceGroupName: string,
     namespaceName: string,
-    ipFilterRuleName: string,
-    parameters: IpFilterRule,
-    options?: NamespacesCreateOrUpdateIpFilterRuleOptionalParams
-  ): Promise<NamespacesCreateOrUpdateIpFilterRuleResponse>;
-  /**
-   * Deletes an IpFilterRule for a Namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param ipFilterRuleName The IP Filter Rule name.
-   * @param options The options parameters.
-   */
-  deleteIpFilterRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    ipFilterRuleName: string,
-    options?: NamespacesDeleteIpFilterRuleOptionalParams
-  ): Promise<void>;
-  /**
-   * Gets an IpFilterRule for a Namespace by rule name.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param ipFilterRuleName The IP Filter Rule name.
-   * @param options The options parameters.
-   */
-  getIpFilterRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    ipFilterRuleName: string,
-    options?: NamespacesGetIpFilterRuleOptionalParams
-  ): Promise<NamespacesGetIpFilterRuleResponse>;
+    options?: NamespacesListAuthorizationRulesOptionalParams
+  ): PagedAsyncIterableIterator<SBAuthorizationRule>;
   /**
    * Creates or updates a service namespace. Once created, this namespace's resource manifest is
    * immutable. This operation is idempotent.
@@ -247,46 +167,29 @@ export interface Namespaces {
     options?: NamespacesUpdateOptionalParams
   ): Promise<NamespacesUpdateResponse>;
   /**
-   * Creates or updates an VirtualNetworkRule for a Namespace.
+   * Create or update NetworkRuleSet for a Namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param virtualNetworkRuleName The Virtual Network Rule name.
-   * @param parameters The Namespace VirtualNetworkRule.
+   * @param parameters The Namespace IpFilterRule.
    * @param options The options parameters.
    */
-  createOrUpdateVirtualNetworkRule(
+  createOrUpdateNetworkRuleSet(
     resourceGroupName: string,
     namespaceName: string,
-    virtualNetworkRuleName: string,
-    parameters: VirtualNetworkRule,
-    options?: NamespacesCreateOrUpdateVirtualNetworkRuleOptionalParams
-  ): Promise<NamespacesCreateOrUpdateVirtualNetworkRuleResponse>;
+    parameters: NetworkRuleSet,
+    options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams
+  ): Promise<NamespacesCreateOrUpdateNetworkRuleSetResponse>;
   /**
-   * Deletes an VirtualNetworkRule for a Namespace.
+   * Gets NetworkRuleSet for a Namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
-   * @param virtualNetworkRuleName The Virtual Network Rule name.
    * @param options The options parameters.
    */
-  deleteVirtualNetworkRule(
+  getNetworkRuleSet(
     resourceGroupName: string,
     namespaceName: string,
-    virtualNetworkRuleName: string,
-    options?: NamespacesDeleteVirtualNetworkRuleOptionalParams
-  ): Promise<void>;
-  /**
-   * Gets an VirtualNetworkRule for a Namespace by rule name.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param virtualNetworkRuleName The Virtual Network Rule name.
-   * @param options The options parameters.
-   */
-  getVirtualNetworkRule(
-    resourceGroupName: string,
-    namespaceName: string,
-    virtualNetworkRuleName: string,
-    options?: NamespacesGetVirtualNetworkRuleOptionalParams
-  ): Promise<NamespacesGetVirtualNetworkRuleResponse>;
+    options?: NamespacesGetNetworkRuleSetOptionalParams
+  ): Promise<NamespacesGetNetworkRuleSetResponse>;
   /**
    * Creates or updates an authorization rule for a namespace.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -365,41 +268,4 @@ export interface Namespaces {
     parameters: CheckNameAvailability,
     options?: NamespacesCheckNameAvailabilityOptionalParams
   ): Promise<NamespacesCheckNameAvailabilityResponse>;
-  /**
-   * Create or update NetworkRuleSet for a Namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param parameters The Namespace IpFilterRule.
-   * @param options The options parameters.
-   */
-  createOrUpdateNetworkRuleSet(
-    resourceGroupName: string,
-    namespaceName: string,
-    parameters: NetworkRuleSet,
-    options?: NamespacesCreateOrUpdateNetworkRuleSetOptionalParams
-  ): Promise<NamespacesCreateOrUpdateNetworkRuleSetResponse>;
-  /**
-   * Gets NetworkRuleSet for a Namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param options The options parameters.
-   */
-  getNetworkRuleSet(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesGetNetworkRuleSetOptionalParams
-  ): Promise<NamespacesGetNetworkRuleSetResponse>;
-  /**
-   * This operation Migrate the given namespace to provided name type
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param parameters Parameters supplied to migrate namespace type.
-   * @param options The options parameters.
-   */
-  migrate(
-    resourceGroupName: string,
-    namespaceName: string,
-    parameters: SBNamespaceMigrate,
-    options?: NamespacesMigrateOptionalParams
-  ): Promise<void>;
 }

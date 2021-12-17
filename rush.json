@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -554,11 +554,6 @@
     {
       "packageName": "@azure/eventhubs-checkpointstore-table",
       "projectFolder": "sdk/eventhub/eventhubs-checkpointstore-table",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/event-processor-host",
-      "projectFolder": "sdk/eventhub/event-processor-host",
       "versionPolicyName": "client"
     },
     {

@@ -15,6 +15,7 @@ import {
   NameAvailabilityParameters as NameAvailabilityParametersMapper,
   WebPubSubResource as WebPubSubResourceMapper,
   RegenerateKeyParameters as RegenerateKeyParametersMapper,
+  WebPubSubHub as WebPubSubHubMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   SharedPrivateLinkResource as SharedPrivateLinkResourceMapper
 } from "../models/mappers";
@@ -46,7 +47,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01-preview",
+    defaultValue: "2021-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -138,6 +139,22 @@ export const parameters2: OperationParameter = {
   mapper: RegenerateKeyParametersMapper
 };
 
+export const hubName: OperationURLParameter = {
+  parameterPath: "hubName",
+  mapper: {
+    serializedName: "hubName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: WebPubSubHubMapper
+};
+
 export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
@@ -149,7 +166,7 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   }
 };
 
-export const parameters3: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper
 };
@@ -165,7 +182,7 @@ export const sharedPrivateLinkResourceName: OperationURLParameter = {
   }
 };
 
-export const parameters4: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: SharedPrivateLinkResourceMapper
 };

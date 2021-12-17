@@ -1110,6 +1110,27 @@ export const OperationDisplay: coreClient.CompositeMapper = {
   }
 };
 
+export const TablesListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TablesListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Table"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ClusterListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1856,6 +1877,46 @@ export const SavedSearch: coreClient.CompositeMapper = {
               className: "Tag"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const Table: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Table",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      retentionInDays: {
+        constraints: {
+          InclusiveMaximum: 730,
+          InclusiveMinimum: 7
+        },
+        serializedName: "properties.retentionInDays",
+        type: {
+          name: "Number"
+        }
+      },
+      isTroubleshootingAllowed: {
+        serializedName: "properties.isTroubleshootingAllowed",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      isTroubleshootEnabled: {
+        serializedName: "properties.isTroubleshootEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      lastTroubleshootDate: {
+        serializedName: "properties.lastTroubleshootDate",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }

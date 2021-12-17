@@ -15,7 +15,8 @@ export {
   RawHttpHeaders,
   RawHttpHeadersInput,
   TransferProgressEvent,
-  RequestBodyType
+  RequestBodyType,
+  PipelineRetryOptions
 } from "./interfaces";
 export {
   AddPolicyOptions as AddPipelineOptions,
@@ -58,8 +59,15 @@ export {
   SystemErrorRetryPolicyOptions,
   systemErrorRetryPolicyName
 } from "./policies/systemErrorRetryPolicy";
-export { throttlingRetryPolicy, throttlingRetryPolicyName } from "./policies/throttlingRetryPolicy";
+export {
+  throttlingRetryPolicy,
+  throttlingRetryPolicyName,
+  ThrottlingRetryPolicyOptions
+} from "./policies/throttlingRetryPolicy";
+export { retryPolicy, RetryPolicyOptions } from "./policies/retryPolicy";
+export { RetryStrategy, RetryInformation, RetryModifiers } from "./retryStrategies/retryStrategy";
 export { tracingPolicy, tracingPolicyName, TracingPolicyOptions } from "./policies/tracingPolicy";
+export { defaultRetryPolicy, DefaultRetryPolicyOptions } from "./policies/defaultRetryPolicy";
 export {
   userAgentPolicy,
   userAgentPolicyName,

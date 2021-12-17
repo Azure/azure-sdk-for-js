@@ -15,9 +15,10 @@ import {
   record,
   Recorder
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
+import { assert } from "chai";
 
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { RestError } from "@azure/core-http";
 
 let connectionStringNotPresentWarning = false;
 let tokenCredentialsNotPresentWarning = false;
@@ -144,7 +145,7 @@ export function assertEqualSettings(
   actual = actual.map((setting) => {
     return {
       key: setting.key,
-      label: setting.label,
+      label: setting.label || undefined,
       value: setting.value,
       isReadOnly: setting.isReadOnly
     };
@@ -162,6 +163,9 @@ export async function assertThrowsRestError(
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (err) {
+    if (!(err instanceof RestError)) {
+      throw new Error("Error is not recognized");
+    }
     if (err.name === "RestError") {
       assert.equal(expectedStatusCode, err.statusCode, message);
       return err;
@@ -181,6 +185,9 @@ export async function assertThrowsAbortError(
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (e) {
+    if (!(e instanceof Error)) {
+      throw new Error("Error is not recognized");
+    }
     if (isPlaybackMode() && (e.name === "FetchError" || e.name === "AbortError")) {
       return e;
     } else {
