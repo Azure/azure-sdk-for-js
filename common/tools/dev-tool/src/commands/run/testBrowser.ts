@@ -10,7 +10,7 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async (options) => {
-  const karmaArgs = options["--"]?.join(" ") ?? "--single-run";
+  const karmaArgs = options["--"]?.length ? options["--"]?.join(" ") : "--single-run";
   return runTestsWithProxyTool({
     command: `karma start ${karmaArgs}`,
     name: "browser-tests"
