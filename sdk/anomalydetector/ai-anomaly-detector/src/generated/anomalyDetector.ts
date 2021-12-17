@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SpanStatusCode } from "@azure/core-tracing";
+import * as coreTracing from "@azure/core-tracing";
 import { createSpan } from "./tracing";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -20,23 +20,34 @@ import {
   AnomalyDetectorListMultivariateModelNextOptionalParams,
   AnomalyDetectorListMultivariateModelOptionalParams,
   DetectRequest,
+  AnomalyDetectorDetectEntireSeriesOptionalParams,
   AnomalyDetectorDetectEntireSeriesResponse,
+  AnomalyDetectorDetectLastPointOptionalParams,
   AnomalyDetectorDetectLastPointResponse,
   DetectChangePointRequest,
+  AnomalyDetectorDetectChangePointOptionalParams,
   AnomalyDetectorDetectChangePointResponse,
   ModelInfo,
+  AnomalyDetectorTrainMultivariateModelOptionalParams,
   AnomalyDetectorTrainMultivariateModelResponse,
-  AnomalyDetectorGetMultivariateModelResponse,
-  DetectionRequest,
-  AnomalyDetectorDetectAnomalyResponse,
-  AnomalyDetectorGetDetectionResultResponse,
-  AnomalyDetectorExportModelResponse,
   AnomalyDetectorListMultivariateModelResponse,
+  AnomalyDetectorGetMultivariateModelOptionalParams,
+  AnomalyDetectorGetMultivariateModelResponse,
+  AnomalyDetectorDeleteMultivariateModelOptionalParams,
+  DetectionRequest,
+  AnomalyDetectorDetectAnomalyOptionalParams,
+  AnomalyDetectorDetectAnomalyResponse,
+  AnomalyDetectorGetDetectionResultOptionalParams,
+  AnomalyDetectorGetDetectionResultResponse,
+  AnomalyDetectorExportModelOptionalParams,
+  AnomalyDetectorExportModelResponse,
+  LastDetectionRequest,
+  AnomalyDetectorLastDetectAnomalyOptionalParams,
+  AnomalyDetectorLastDetectAnomalyResponse,
   AnomalyDetectorListMultivariateModelNextResponse
 } from "./models";
 
 /// <reference lib="esnext.asynciterable" />
-/** @hidden */
 export class AnomalyDetector extends AnomalyDetectorContext {
   /**
    * Initializes a new instance of the AnomalyDetector class.
@@ -76,7 +87,10 @@ export class AnomalyDetector extends AnomalyDetectorContext {
     yield result.models || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listMultivariateModelNext(continuationToken, options);
+      result = await this._listMultivariateModelNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.models || [];
     }
@@ -100,15 +114,15 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async detectEntireSeries(
     body: DetectRequest,
-    options?: coreHttp.OperationOptions
+    options?: AnomalyDetectorDetectEntireSeriesOptionalParams
   ): Promise<AnomalyDetectorDetectEntireSeriesResponse> {
-    const { span, updatedOptions } = createSpan(
+    const { span } = createSpan(
       "AnomalyDetector-detectEntireSeries",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     try {
       const result = await this.sendOperationRequest(
@@ -118,7 +132,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
       return result as AnomalyDetectorDetectEntireSeriesResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -137,12 +151,15 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async detectLastPoint(
     body: DetectRequest,
-    options?: coreHttp.OperationOptions
+    options?: AnomalyDetectorDetectLastPointOptionalParams
   ): Promise<AnomalyDetectorDetectLastPointResponse> {
-    const { span, updatedOptions } = createSpan("AnomalyDetector-detectLastPoint", options || {});
+    const { span } = createSpan(
+      "AnomalyDetector-detectLastPoint",
+      options || {}
+    );
     const operationArguments: coreHttp.OperationArguments = {
       body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     try {
       const result = await this.sendOperationRequest(
@@ -152,7 +169,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
       return result as AnomalyDetectorDetectLastPointResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -169,12 +186,15 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async detectChangePoint(
     body: DetectChangePointRequest,
-    options?: coreHttp.OperationOptions
+    options?: AnomalyDetectorDetectChangePointOptionalParams
   ): Promise<AnomalyDetectorDetectChangePointResponse> {
-    const { span, updatedOptions } = createSpan("AnomalyDetector-detectChangePoint", options || {});
+    const { span } = createSpan(
+      "AnomalyDetector-detectChangePoint",
+      options || {}
+    );
     const operationArguments: coreHttp.OperationArguments = {
       body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     try {
       const result = await this.sendOperationRequest(
@@ -184,7 +204,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
       return result as AnomalyDetectorDetectChangePointResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -198,20 +218,20 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    * to indicate an externally accessible Azure storage Uri (preferably a Shared Access Signature Uri).
    * All time-series used in generate the model must be zipped into one single file. Each time-series
    * will be in a single CSV file in which the first column is timestamp and the second column is value.
-   * @param modelRequest Training request
+   * @param body Training request
    * @param options The options parameters.
    */
   async trainMultivariateModel(
-    modelRequest: ModelInfo,
-    options?: coreHttp.OperationOptions
+    body: ModelInfo,
+    options?: AnomalyDetectorTrainMultivariateModelOptionalParams
   ): Promise<AnomalyDetectorTrainMultivariateModelResponse> {
-    const { span, updatedOptions } = createSpan(
+    const { span } = createSpan(
       "AnomalyDetector-trainMultivariateModel",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
-      modelRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+      body,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     try {
       const result = await this.sendOperationRequest(
@@ -221,7 +241,38 @@ export class AnomalyDetector extends AnomalyDetectorContext {
       return result as AnomalyDetectorTrainMultivariateModelResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * List models of a subscription
+   * @param options The options parameters.
+   */
+  private async _listMultivariateModel(
+    options?: AnomalyDetectorListMultivariateModelOptionalParams
+  ): Promise<AnomalyDetectorListMultivariateModelResponse> {
+    const { span } = createSpan(
+      "AnomalyDetector-_listMultivariateModel",
+      options || {}
+    );
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        listMultivariateModelOperationSpec
+      );
+      return result as AnomalyDetectorListMultivariateModelResponse;
+    } catch (error) {
+      span.setStatus({
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -238,15 +289,15 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async getMultivariateModel(
     modelId: string,
-    options?: coreHttp.OperationOptions
+    options?: AnomalyDetectorGetMultivariateModelOptionalParams
   ): Promise<AnomalyDetectorGetMultivariateModelResponse> {
-    const { span, updatedOptions } = createSpan(
+    const { span } = createSpan(
       "AnomalyDetector-getMultivariateModel",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       modelId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     try {
       const result = await this.sendOperationRequest(
@@ -256,7 +307,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
       return result as AnomalyDetectorGetMultivariateModelResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -272,15 +323,15 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async deleteMultivariateModel(
     modelId: string,
-    options?: coreHttp.OperationOptions
+    options?: AnomalyDetectorDeleteMultivariateModelOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
+    const { span } = createSpan(
       "AnomalyDetector-deleteMultivariateModel",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       modelId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     try {
       const result = await this.sendOperationRequest(
@@ -290,7 +341,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
       return result as coreHttp.RestResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -307,19 +358,19 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    * time-series used in generate the model must be zipped into one single file. Each time-series will be
    * as follows: the first column is timestamp and the second column is value.
    * @param modelId Model identifier.
-   * @param detectionRequest Detect anomaly request
+   * @param body Detect anomaly request
    * @param options The options parameters.
    */
   async detectAnomaly(
     modelId: string,
-    detectionRequest: DetectionRequest,
-    options?: coreHttp.OperationOptions
+    body: DetectionRequest,
+    options?: AnomalyDetectorDetectAnomalyOptionalParams
   ): Promise<AnomalyDetectorDetectAnomalyResponse> {
-    const { span, updatedOptions } = createSpan("AnomalyDetector-detectAnomaly", options || {});
+    const { span } = createSpan("AnomalyDetector-detectAnomaly", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       modelId,
-      detectionRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+      body,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     try {
       const result = await this.sendOperationRequest(
@@ -329,7 +380,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
       return result as AnomalyDetectorDetectAnomalyResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -345,15 +396,15 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async getDetectionResult(
     resultId: string,
-    options?: coreHttp.OperationOptions
+    options?: AnomalyDetectorGetDetectionResultOptionalParams
   ): Promise<AnomalyDetectorGetDetectionResultResponse> {
-    const { span, updatedOptions } = createSpan(
+    const { span } = createSpan(
       "AnomalyDetector-getDetectionResult",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       resultId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     try {
       const result = await this.sendOperationRequest(
@@ -363,7 +414,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
       return result as AnomalyDetectorGetDetectionResultResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -379,19 +430,22 @@ export class AnomalyDetector extends AnomalyDetectorContext {
    */
   async exportModel(
     modelId: string,
-    options?: coreHttp.OperationOptions
+    options?: AnomalyDetectorExportModelOptionalParams
   ): Promise<AnomalyDetectorExportModelResponse> {
-    const { span, updatedOptions } = createSpan("AnomalyDetector-exportModel", options || {});
+    const { span } = createSpan("AnomalyDetector-exportModel", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       modelId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     try {
-      const result = await this.sendOperationRequest(operationArguments, exportModelOperationSpec);
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        exportModelOperationSpec
+      );
       return result as AnomalyDetectorExportModelResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -401,28 +455,34 @@ export class AnomalyDetector extends AnomalyDetectorContext {
   }
 
   /**
-   * List models of a subscription
+   * Synchronized API for anomaly detection.
+   * @param modelId Model identifier.
+   * @param body Request for last detection.
    * @param options The options parameters.
    */
-  private async _listMultivariateModel(
-    options?: AnomalyDetectorListMultivariateModelOptionalParams
-  ): Promise<AnomalyDetectorListMultivariateModelResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AnomalyDetector-_listMultivariateModel",
+  async lastDetectAnomaly(
+    modelId: string,
+    body: LastDetectionRequest,
+    options?: AnomalyDetectorLastDetectAnomalyOptionalParams
+  ): Promise<AnomalyDetectorLastDetectAnomalyResponse> {
+    const { span } = createSpan(
+      "AnomalyDetector-lastDetectAnomaly",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+      modelId,
+      body,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     try {
       const result = await this.sendOperationRequest(
         operationArguments,
-        listMultivariateModelOperationSpec
+        lastDetectAnomalyOperationSpec
       );
-      return result as AnomalyDetectorListMultivariateModelResponse;
+      return result as AnomalyDetectorLastDetectAnomalyResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -440,13 +500,13 @@ export class AnomalyDetector extends AnomalyDetectorContext {
     nextLink: string,
     options?: AnomalyDetectorListMultivariateModelNextOptionalParams
   ): Promise<AnomalyDetectorListMultivariateModelNextResponse> {
-    const { span, updatedOptions } = createSpan(
+    const { span } = createSpan(
       "AnomalyDetector-_listMultivariateModelNext",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     try {
       const result = await this.sendOperationRequest(
@@ -456,7 +516,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
       return result as AnomalyDetectorListMultivariateModelNextResponse;
     } catch (error) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
+        code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
       });
       throw error;
@@ -476,11 +536,12 @@ const detectEntireSeriesOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.DetectEntireResponse
     },
     default: {
-      bodyMapper: Mappers.AnomalyDetectorError
+      bodyMapper: Mappers.AnomalyDetectorError,
+      headersMapper: Mappers.AnomalyDetectorDetectEntireSeriesExceptionHeaders
     }
   },
   requestBody: Parameters.body,
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -493,11 +554,12 @@ const detectLastPointOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.DetectLastPointResponse
     },
     default: {
-      bodyMapper: Mappers.AnomalyDetectorError
+      bodyMapper: Mappers.AnomalyDetectorError,
+      headersMapper: Mappers.AnomalyDetectorDetectLastPointExceptionHeaders
     }
   },
   requestBody: Parameters.body,
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -510,11 +572,12 @@ const detectChangePointOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.DetectChangePointResponse
     },
     default: {
-      bodyMapper: Mappers.AnomalyDetectorError
+      bodyMapper: Mappers.AnomalyDetectorError,
+      headersMapper: Mappers.AnomalyDetectorDetectChangePointExceptionHeaders
     }
   },
   requestBody: Parameters.body1,
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -527,13 +590,33 @@ const trainMultivariateModelOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.AnomalyDetectorTrainMultivariateModelHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper:
+        Mappers.AnomalyDetectorTrainMultivariateModelExceptionHeaders
     }
   },
-  requestBody: Parameters.modelRequest,
-  urlParameters: [Parameters.endpoint],
+  requestBody: Parameters.body2,
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
+  serializer
+};
+const listMultivariateModelOperationSpec: coreHttp.OperationSpec = {
+  path: "/multivariate/models",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ModelList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper:
+        Mappers.AnomalyDetectorListMultivariateModelExceptionHeaders
+    }
+  },
+  queryParameters: [Parameters.skip, Parameters.top],
+  urlParameters: [Parameters.endpoint, Parameters.apiVersion],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getMultivariateModelOperationSpec: coreHttp.OperationSpec = {
@@ -544,10 +627,15 @@ const getMultivariateModelOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.Model
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.AnomalyDetectorGetMultivariateModelExceptionHeaders
     }
   },
-  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.apiVersion,
+    Parameters.modelId
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -557,10 +645,16 @@ const deleteMultivariateModelOperationSpec: coreHttp.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper:
+        Mappers.AnomalyDetectorDeleteMultivariateModelExceptionHeaders
     }
   },
-  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.apiVersion,
+    Parameters.modelId
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -572,11 +666,16 @@ const detectAnomalyOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.AnomalyDetectorDetectAnomalyHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.AnomalyDetectorDetectAnomalyExceptionHeaders
     }
   },
-  requestBody: Parameters.detectionRequest,
-  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  requestBody: Parameters.body3,
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.apiVersion,
+    Parameters.modelId
+  ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
@@ -589,10 +688,15 @@ const getDetectionResultOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.DetectionResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.AnomalyDetectorGetDetectionResultExceptionHeaders
     }
   },
-  urlParameters: [Parameters.endpoint, Parameters.resultId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.apiVersion,
+    Parameters.resultId
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -601,32 +705,41 @@ const exportModelOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Stream" },
-        serializedName: "parsedResponse"
-      },
-      headersMapper: Mappers.AnomalyDetectorExportModelHeaders
+      bodyMapper: { type: { name: "Stream" }, serializedName: "parsedResponse" }
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.AnomalyDetectorExportModelExceptionHeaders
+    }
   },
-  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.apiVersion,
+    Parameters.modelId
+  ],
   headerParameters: [Parameters.accept1],
   serializer
 };
-const listMultivariateModelOperationSpec: coreHttp.OperationSpec = {
-  path: "/multivariate/models",
-  httpMethod: "GET",
+const lastDetectAnomalyOperationSpec: coreHttp.OperationSpec = {
+  path: "/multivariate/models/{modelId}/last/detect",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ModelList
+      bodyMapper: Mappers.LastDetectionResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.AnomalyDetectorLastDetectAnomalyExceptionHeaders
     }
   },
-  queryParameters: [Parameters.skip, Parameters.top],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
+  requestBody: Parameters.body4,
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.apiVersion,
+    Parameters.modelId
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
   serializer
 };
 const listMultivariateModelNextOperationSpec: coreHttp.OperationSpec = {
@@ -637,11 +750,17 @@ const listMultivariateModelNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ModelList
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper:
+        Mappers.AnomalyDetectorListMultivariateModelNextExceptionHeaders
     }
   },
   queryParameters: [Parameters.skip, Parameters.top],
-  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.apiVersion,
+    Parameters.nextLink
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };

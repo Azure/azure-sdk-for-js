@@ -23,24 +23,19 @@ export interface AlignPolicy {
 }
 
 // @public (undocumented)
-export interface AnomalyContributor {
-    contributionScore?: number;
-    variable?: string;
-}
-
-// @public (undocumented)
 export class AnomalyDetector extends AnomalyDetectorContext {
     constructor(endpoint: string, options?: AnomalyDetectorOptionalParams);
-    deleteMultivariateModel(modelId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-    detectAnomaly(modelId: string, detectionRequest: DetectionRequest, options?: coreHttp.OperationOptions): Promise<AnomalyDetectorDetectAnomalyResponse>;
-    detectChangePoint(body: DetectChangePointRequest, options?: coreHttp.OperationOptions): Promise<AnomalyDetectorDetectChangePointResponse>;
-    detectEntireSeries(body: DetectRequest, options?: coreHttp.OperationOptions): Promise<AnomalyDetectorDetectEntireSeriesResponse>;
-    detectLastPoint(body: DetectRequest, options?: coreHttp.OperationOptions): Promise<AnomalyDetectorDetectLastPointResponse>;
-    exportModel(modelId: string, options?: coreHttp.OperationOptions): Promise<AnomalyDetectorExportModelResponse>;
-    getDetectionResult(resultId: string, options?: coreHttp.OperationOptions): Promise<AnomalyDetectorGetDetectionResultResponse>;
-    getMultivariateModel(modelId: string, options?: coreHttp.OperationOptions): Promise<AnomalyDetectorGetMultivariateModelResponse>;
+    deleteMultivariateModel(modelId: string, options?: AnomalyDetectorDeleteMultivariateModelOptionalParams): Promise<coreHttp.RestResponse>;
+    detectAnomaly(modelId: string, body: DetectionRequest, options?: AnomalyDetectorDetectAnomalyOptionalParams): Promise<AnomalyDetectorDetectAnomalyResponse>;
+    detectChangePoint(body: DetectChangePointRequest, options?: AnomalyDetectorDetectChangePointOptionalParams): Promise<AnomalyDetectorDetectChangePointResponse>;
+    detectEntireSeries(body: DetectRequest, options?: AnomalyDetectorDetectEntireSeriesOptionalParams): Promise<AnomalyDetectorDetectEntireSeriesResponse>;
+    detectLastPoint(body: DetectRequest, options?: AnomalyDetectorDetectLastPointOptionalParams): Promise<AnomalyDetectorDetectLastPointResponse>;
+    exportModel(modelId: string, options?: AnomalyDetectorExportModelOptionalParams): Promise<AnomalyDetectorExportModelResponse>;
+    getDetectionResult(resultId: string, options?: AnomalyDetectorGetDetectionResultOptionalParams): Promise<AnomalyDetectorGetDetectionResultResponse>;
+    getMultivariateModel(modelId: string, options?: AnomalyDetectorGetMultivariateModelOptionalParams): Promise<AnomalyDetectorGetMultivariateModelResponse>;
+    lastDetectAnomaly(modelId: string, body: LastDetectionRequest, options?: AnomalyDetectorLastDetectAnomalyOptionalParams): Promise<AnomalyDetectorLastDetectAnomalyResponse>;
     listMultivariateModel(options?: AnomalyDetectorListMultivariateModelOptionalParams): PagedAsyncIterableIterator<AnomalyDetectorClientModelSnapshot>;
-    trainMultivariateModel(modelRequest: AnomalyDetectorClientModelInfo, options?: coreHttp.OperationOptions): Promise<AnomalyDetectorTrainMultivariateModelResponse>;
+    trainMultivariateModel(body: AnomalyDetectorClientModelInfo, options?: AnomalyDetectorTrainMultivariateModelOptionalParams): Promise<AnomalyDetectorTrainMultivariateModelResponse>;
 }
 
 // @public
@@ -64,6 +59,7 @@ export interface AnomalyDetectorClientModel {
 
 // @public
 export interface AnomalyDetectorClientModelInfo {
+    // (undocumented)
     alignPolicy?: AlignPolicy;
     readonly diagnosticsInfo?: DiagnosticsInfo;
     displayName?: string;
@@ -116,7 +112,6 @@ export interface AnomalyDetectorClientOptions extends PipelineOptions {
 export interface AnomalyDetectorClientVariableState {
     effectiveCount?: number;
     endTime?: Date;
-    errors?: AnomalyDetectorClientErrorResponse[];
     filledNARatio?: number;
     startTime?: Date;
     variable?: string;
@@ -126,12 +121,32 @@ export interface AnomalyDetectorClientVariableState {
 export class AnomalyDetectorContext extends coreHttp.ServiceClient {
     constructor(endpoint: string, options?: AnomalyDetectorOptionalParams);
     // (undocumented)
+    apiVersion: string;
+    // (undocumented)
     endpoint: string;
+}
+
+// @public
+export interface AnomalyDetectorDeleteMultivariateModelExceptionHeaders {
+    xMsErrorCode?: string;
+}
+
+// @public
+export interface AnomalyDetectorDeleteMultivariateModelOptionalParams extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface AnomalyDetectorDetectAnomalyExceptionHeaders {
+    xMsErrorCode?: string;
 }
 
 // @public
 export interface AnomalyDetectorDetectAnomalyHeaders {
     location?: string;
+}
+
+// @public
+export interface AnomalyDetectorDetectAnomalyOptionalParams extends coreHttp.OperationOptions {
 }
 
 // @public
@@ -142,12 +157,30 @@ export type AnomalyDetectorDetectAnomalyResponse = AnomalyDetectorDetectAnomalyH
 };
 
 // @public
+export interface AnomalyDetectorDetectChangePointExceptionHeaders {
+    xMsErrorCode?: string;
+}
+
+// @public
+export interface AnomalyDetectorDetectChangePointOptionalParams extends coreHttp.OperationOptions {
+}
+
+// @public
 export type AnomalyDetectorDetectChangePointResponse = DetectChangePointResponse & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: DetectChangePointResponse;
     };
 };
+
+// @public
+export interface AnomalyDetectorDetectEntireSeriesExceptionHeaders {
+    xMsErrorCode?: string;
+}
+
+// @public
+export interface AnomalyDetectorDetectEntireSeriesOptionalParams extends coreHttp.OperationOptions {
+}
 
 // @public
 export type AnomalyDetectorDetectEntireSeriesResponse = DetectEntireResponse & {
@@ -158,6 +191,15 @@ export type AnomalyDetectorDetectEntireSeriesResponse = DetectEntireResponse & {
 };
 
 // @public
+export interface AnomalyDetectorDetectLastPointExceptionHeaders {
+    xMsErrorCode?: string;
+}
+
+// @public
+export interface AnomalyDetectorDetectLastPointOptionalParams extends coreHttp.OperationOptions {
+}
+
+// @public
 export type AnomalyDetectorDetectLastPointResponse = DetectLastPointResponse & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
@@ -166,18 +208,29 @@ export type AnomalyDetectorDetectLastPointResponse = DetectLastPointResponse & {
 };
 
 // @public
-export interface AnomalyDetectorExportModelHeaders {
-    contentType?: string;
+export interface AnomalyDetectorExportModelExceptionHeaders {
+    xMsErrorCode?: string;
 }
 
 // @public
-export type AnomalyDetectorExportModelResponse = AnomalyDetectorExportModelHeaders & {
+export interface AnomalyDetectorExportModelOptionalParams extends coreHttp.OperationOptions {
+}
+
+// @public
+export type AnomalyDetectorExportModelResponse = {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: AnomalyDetectorExportModelHeaders;
-    };
+    _response: coreHttp.HttpResponse;
 };
+
+// @public
+export interface AnomalyDetectorGetDetectionResultExceptionHeaders {
+    xMsErrorCode?: string;
+}
+
+// @public
+export interface AnomalyDetectorGetDetectionResultOptionalParams extends coreHttp.OperationOptions {
+}
 
 // @public
 export type AnomalyDetectorGetDetectionResultResponse = DetectionResult & {
@@ -188,12 +241,48 @@ export type AnomalyDetectorGetDetectionResultResponse = DetectionResult & {
 };
 
 // @public
+export interface AnomalyDetectorGetMultivariateModelExceptionHeaders {
+    xMsErrorCode?: string;
+}
+
+// @public
+export interface AnomalyDetectorGetMultivariateModelOptionalParams extends coreHttp.OperationOptions {
+}
+
+// @public
 export type AnomalyDetectorGetMultivariateModelResponse = AnomalyDetectorClientModel & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: AnomalyDetectorClientModel;
     };
 };
+
+// @public
+export interface AnomalyDetectorLastDetectAnomalyExceptionHeaders {
+    xMsErrorCode?: string;
+}
+
+// @public
+export interface AnomalyDetectorLastDetectAnomalyOptionalParams extends coreHttp.OperationOptions {
+}
+
+// @public
+export type AnomalyDetectorLastDetectAnomalyResponse = LastDetectionResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: LastDetectionResult;
+    };
+};
+
+// @public
+export interface AnomalyDetectorListMultivariateModelExceptionHeaders {
+    xMsErrorCode?: string;
+}
+
+// @public
+export interface AnomalyDetectorListMultivariateModelNextExceptionHeaders {
+    xMsErrorCode?: string;
+}
 
 // @public
 export interface AnomalyDetectorListMultivariateModelNextOptionalParams extends coreHttp.OperationOptions {
@@ -225,7 +314,13 @@ export type AnomalyDetectorListMultivariateModelResponse = AnomalyDetectorClient
 
 // @public
 export interface AnomalyDetectorOptionalParams extends coreHttp.ServiceClientOptions {
+    apiVersion?: string;
     endpoint?: string;
+}
+
+// @public
+export interface AnomalyDetectorTrainMultivariateModelExceptionHeaders {
+    xMsErrorCode?: string;
 }
 
 // @public
@@ -234,11 +329,25 @@ export interface AnomalyDetectorTrainMultivariateModelHeaders {
 }
 
 // @public
+export interface AnomalyDetectorTrainMultivariateModelOptionalParams extends coreHttp.OperationOptions {
+}
+
+// @public
 export type AnomalyDetectorTrainMultivariateModelResponse = AnomalyDetectorTrainMultivariateModelHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: AnomalyDetectorTrainMultivariateModelHeaders;
     };
 };
+
+// @public (undocumented)
+export interface AnomalyInterpretation {
+    // (undocumented)
+    contributionScore?: number;
+    // (undocumented)
+    correlationChanges?: CorrelationChanges;
+    // (undocumented)
+    variable?: string;
+}
 
 // @public (undocumented)
 export interface AnomalyState {
@@ -250,13 +359,20 @@ export interface AnomalyState {
 
 // @public (undocumented)
 export interface AnomalyValue {
-    contributors?: AnomalyContributor[];
+    // (undocumented)
+    interpretation?: AnomalyInterpretation[];
     isAnomaly: boolean;
-    score?: number;
+    score: number;
     severity: number;
 }
 
 // @public (undocumented)
+export interface CorrelationChanges {
+    changedValues?: number[];
+    changedVariables?: string[];
+}
+
+// @public
 export interface DetectChangePointRequest {
     customInterval?: number;
     granularity: TimeGranularity;
@@ -266,14 +382,14 @@ export interface DetectChangePointRequest {
     threshold?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface DetectChangePointResponse {
     confidenceScores?: number[];
     isChangePoint?: boolean[];
     readonly period?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface DetectEntireResponse {
     expectedValues: number[];
     isAnomaly: boolean[];
@@ -281,6 +397,7 @@ export interface DetectEntireResponse {
     isPositiveAnomaly: boolean[];
     lowerMargins: number[];
     period: number;
+    severity?: number[];
     upperMargins: number[];
 }
 
@@ -296,6 +413,7 @@ export interface DetectionResult {
     // (undocumented)
     resultId: string;
     results: AnomalyState[];
+    // (undocumented)
     summary: DetectionResultSummary;
 }
 
@@ -311,7 +429,7 @@ export interface DetectionResultSummary {
 // @public
 export type DetectionStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
 
-// @public (undocumented)
+// @public
 export interface DetectLastPointResponse {
     expectedValue: number;
     isAnomaly: boolean;
@@ -319,14 +437,17 @@ export interface DetectLastPointResponse {
     isPositiveAnomaly: boolean;
     lowerMargin: number;
     period: number;
+    severity?: number;
     suggestedWindow: number;
     upperMargin: number;
 }
 
-// @public (undocumented)
+// @public
 export interface DetectRequest {
     customInterval?: number;
     granularity?: TimeGranularity;
+    imputeFixedValue?: number;
+    imputeMode?: ImputeMode;
     maxAnomalyRatio?: number;
     period?: number;
     sensitivity?: number;
@@ -342,7 +463,42 @@ export interface DiagnosticsInfo {
 }
 
 // @public
-export type FillNAMethod = "Previous" | "Subsequent" | "Linear" | "Zero" | "Pad" | "NotFill";
+export type FillNAMethod = string;
+
+// @public
+export type ImputeMode = string;
+
+// @public
+export const enum KnownFillNAMethod {
+    // (undocumented)
+    Fixed = "Fixed",
+    // (undocumented)
+    Linear = "Linear",
+    // (undocumented)
+    NotFill = "NotFill",
+    // (undocumented)
+    Previous = "Previous",
+    // (undocumented)
+    Subsequent = "Subsequent",
+    // (undocumented)
+    Zero = "Zero"
+}
+
+// @public
+export const enum KnownImputeMode {
+    // (undocumented)
+    Auto = "auto",
+    // (undocumented)
+    Fixed = "fixed",
+    // (undocumented)
+    Linear = "linear",
+    // (undocumented)
+    NotFill = "notFill",
+    // (undocumented)
+    Previous = "previous",
+    // (undocumented)
+    Zero = "zero"
+}
 
 // @public (undocumented)
 export enum KnownTimeGranularity {
@@ -357,13 +513,34 @@ export enum KnownTimeGranularity {
     yearly = "yearly"
 }
 
+// @public (undocumented)
+export interface LastDetectionRequest {
+    detectingPoints: number;
+    variables: VariableValues[];
+}
+
+// @public (undocumented)
+export interface LastDetectionResult {
+    // (undocumented)
+    results?: AnomalyState[];
+    // (undocumented)
+    variableStates?: AnomalyDetectorClientVariableState[];
+}
+
 // @public
 export type TimeGranularity = "yearly" | "monthly" | "weekly" | "daily" | "hourly" | "minutely" | "secondly" | "microsecond" | "none";
 
-// @public (undocumented)
+// @public
 export interface TimeSeriesPoint {
     timestamp?: Date;
     value: number;
+}
+
+// @public (undocumented)
+export interface VariableValues {
+    name: string;
+    timestamps: string[];
+    values: number[];
 }
 
 // (No @packageDocumentation comment for this package)
