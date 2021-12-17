@@ -7,16 +7,16 @@
 ```yaml $(purview-account) == true
 title: PurviewAccount
 description: Purview Account Client
-output-folder: ../src/account
-source-code-folder-path: ./
+output-folder: ../src
+source-code-folder-path: ./account
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/purview/data-plane/Azure.Analytics.Purview.Account/preview/2019-11-01-preview/account.json
 ```
 
 ```yaml $(purview-metadata) == true
 title: PurviewMetadataPolicies
 description: Purview Metadata Policies Client
-output-folder: ../src/metadataPolicies
-source-code-folder-path: ./
+output-folder: ../src
+source-code-folder-path: ./metadataPolicies
 input-file:  https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/purview/data-plane/Azure.Analytics.Purview.MetadataPolicies/preview/2021-07-01-preview/purviewMetadataPolicy.json
 ```
 
