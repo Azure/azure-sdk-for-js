@@ -8,11 +8,20 @@ import {
   TracingSpan,
   TracingSpanContext
 } from "@azure/core-tracing";
-import { ContextImpl } from "./contextImpl";
+import { MockContext } from "./mockContext";
 import { TestTracingSpan } from "./testTracingSpan";
 
+/**
+ * Represents an implementation of {@link Instrumenter} interface that keeps track of the tracing contexts and spans
+ */
 export class TestInstrumenter implements Instrumenter {
-  public contexts: TracingContext[] = [new ContextImpl()];
+  /**
+   * List of immutable contexts, each of which is a bag of tracing values for the current operation
+   */
+  public contexts: TracingContext[] = [new MockContext()];
+  /**
+   * List of started spans
+   */
   public startedSpans: TestTracingSpan[] = [];
 
   private traceIdCounter = 0;
@@ -26,6 +35,7 @@ export class TestInstrumenter implements Instrumenter {
     this.spanIdCounter++;
     return this.spanIdCounter.toString().padStart(16, "0");
   }
+
   startSpan(
     name: string,
     spanOptions?: InstrumenterSpanOptions
@@ -43,12 +53,13 @@ export class TestInstrumenter implements Instrumenter {
       traceId: traceId,
       traceFlags: 0
     });
-    let context: TracingContext = new ContextImpl(tracingContext);
+    let context: TracingContext = new MockContext(tracingContext);
     context = context.setValue(Symbol.for("span"), span);
 
     this.startedSpans.push(span);
     return { span, tracingContext: context };
   }
+
   withContext<
     CallbackArgs extends unknown[],
     Callback extends (...args: CallbackArgs) => ReturnType<Callback>
@@ -63,12 +74,15 @@ export class TestInstrumenter implements Instrumenter {
       this.contexts.pop();
     }) as ReturnType<Callback>;
   }
+
   parseTraceparentHeader(_traceparentHeader: string): TracingSpanContext | undefined {
     return;
   }
+
   createRequestHeaders(_spanContext: TracingSpanContext): Record<string, string> {
     return {};
   }
+
   currentContext() {
     return this.contexts[this.contexts.length - 1];
   }

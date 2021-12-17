@@ -10,13 +10,34 @@ import {
   TracingSpanContext
 } from "@azure/core-tracing";
 
+/**
+ * Represents an implementation of a mock tracing span {@link TracingSpan} used for tests
+ */
 export class TestTracingSpan implements TracingSpan {
+  /**
+   * Name of the current span
+   */
   name: string;
+  /**
+   * Kind of the current span {@link TracingSpanKind}
+   */
   spanKind: TracingSpanKind | undefined;
-  /** Parent tracing context or existing */
+  /**
+   * Existing or parent tracing context
+   */
   tracingContext: TracingContext | undefined;
+  /**
+   * A unique, serializable identifier for a span {@link TracingSpanContext}
+   */
   private _spanContext: TracingSpanContext;
 
+  /**
+   *
+   * @param name - Name of the current span
+   * @param tracingContext - Existing or parent tracing context
+   * @param spanOptions - Options to configure the newly created span {@link TracingSpanOptions}
+   * @param spanContext - A unique, serializable identifier for a span {@link TracingSpanContext}
+   */
   constructor(
     name: string,
     tracingContext?: TracingContext,
@@ -27,8 +48,6 @@ export class TestTracingSpan implements TracingSpan {
     this.spanKind = spanOptions?.spanKind;
     this.tracingContext = tracingContext;
     this._spanContext = spanContext!;
-    console.log("---Inside TestTracingSpan constructor----");
-    console.log(this.tracingContext, this.name);
   }
   spanStatus?: SpanStatus;
   attributes: Record<string, unknown> = {};
@@ -46,7 +65,7 @@ export class TestTracingSpan implements TracingSpan {
   recordException(exception: string | Error): void {
     this.exception = exception;
   }
-  // TODO: should we rename this?
+
   isRecording(): boolean {
     return true;
   }

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { OperationTracingOptions, useInstrumenter } from "@azure/core-tracing";
 import { assert } from "chai";
 import { TestInstrumenter } from "./testInstrumenter";
@@ -5,10 +8,11 @@ import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
 // this is the plugin used in the test file
 function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils): void {
   // expect(() => {}).to.supportsTracing() syntax
-  chai.Assertion.addMethod("supportsTracing", function(
+  chai.Assertion.addMethod("supportsTracing", function<T>(
+    this: Chai.AssertionStatic,
     expectedSpanNames: string[],
-    options?: any,
-    thisArg?: any
+    options?: T,
+    thisArg?: ThisParameterType<typeof this._obj>
   ) {
     return supportsTracing(this._obj, expectedSpanNames, options, thisArg);
   });
@@ -16,7 +20,14 @@ function chaiAzureTrace(chai: Chai.ChaiStatic, _utils: Chai.ChaiUtils): void {
   chai.assert.supportsTracing = supportsTracing;
 }
 
-// Implementation for supportsTracing Plugin
+/**
+ * The supports Tracing function does the verification of whether the core-tracing is supported correctly with the client method
+ * This function verifies the root span, if all the correct spans are called as expected and if they are closed.
+ * @param callback - Callback function of the client that should be invoked
+ * @param expectedSpanNames - List of span names that are expected to be generated
+ * @param options - Options for either Core HTTP operations or custom options for the callback
+ * @param thisArg - optional this parameter for the callback
+ */
 async function supportsTracing<
   Options extends { tracingOptions?: OperationTracingOptions },
   Callback extends (options: Options) => unknown
@@ -41,12 +52,7 @@ async function supportsTracing<
     }
   } as Options;
   await callback.call(thisArg, newOptions);
-  console.log(callback.name);
-  // TODO: this expectation should be: assert only 1 _root_ span
-  console.log(instrumenter.startedSpans);
   const spanGraph = getSpanGraph(rootSpan.spanContext.traceId, instrumenter);
-  console.log("----SPAN GRAPH----");
-  console.log(JSON.stringify(spanGraph, null, 2));
   assert.equal(spanGraph.roots.length, 1, "There should be just one root span");
   assert.equal(spanGraph.roots[0].name, "root");
   assert.strictEqual(
@@ -57,7 +63,13 @@ async function supportsTracing<
 
   const directChildren = spanGraph.roots[0].children.map((child) => child.name);
   assert.sameMembers(Array.from(new Set(directChildren)), expectedSpanNames);
-  // TODO:  All spans are closed??
+  rootSpan.end();
+  const openSpans = instrumenter.startedSpans.filter((s) => !s.endCalled);
+  assert.equal(
+    openSpans.length,
+    0,
+    `All spans should have been closed, but found ${openSpans.map((s) => s.name)} open spans.`
+  );
 }
 
 /**
@@ -69,8 +81,6 @@ function getSpanGraph(traceId: string, instrumenter: TestInstrumenter): SpanGrap
   const traceSpans = instrumenter.startedSpans.filter((span) => {
     return span.spanContext.traceId === traceId;
   });
-  console.log("---Trace Spans with same trace id");
-  console.log(JSON.stringify(traceSpans, null, 2));
 
   const roots: SpanGraphNode[] = [];
   const nodeMap: Map<string, SpanGraphNode> = new Map<string, SpanGraphNode>();
@@ -106,7 +116,12 @@ function getSpanGraph(traceId: string, instrumenter: TestInstrumenter): SpanGrap
 declare global {
   export namespace Chai {
     interface Assertion {
-      supportsTracing(expectedSpanNames: string[], options?: any, thisArg?: any): Promise<void>;
+      supportsTracing<T>(
+        this: any,
+        expectedSpanNames: string[],
+        options?: T,
+        thisArg?: ThisParameterType<typeof this._obj>
+      ): Promise<void>;
     }
     //Options extends { tracingOptions?: OperationTracingOptions },
     // Callback extends (options: Options) => unknown
