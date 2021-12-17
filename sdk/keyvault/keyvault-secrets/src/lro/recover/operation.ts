@@ -15,13 +15,8 @@ import {
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getSecretFromSecretBundle } from "../../transformations";
 import { OperationOptions } from "@azure/core-http";
-
-import { createTraceFunction } from "../../../../keyvault-common/src";
-
-/**
- * @internal
- */
-const withTrace = createTraceFunction("Azure.KeyVault.Secrets.RecoverDeletedSecretPoller");
+import { createTracingClient, TracingClient } from "@azure/core-tracing";
+import { SDK_VERSION } from "../../constants";
 
 /**
  * An interface representing the state of a delete secret's poll operation
@@ -36,6 +31,7 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
   RecoverDeletedSecretPollOperationState,
   SecretProperties
 > {
+  private tracingClient: TracingClient;
   constructor(
     public state: RecoverDeletedSecretPollOperationState,
     private vaultUrl: string,
@@ -43,14 +39,19 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
     private options: OperationOptions = {}
   ) {
     super(state, { cancelMessage: "Canceling the recovery of a deleted secret is not supported." });
+    this.tracingClient = createTracingClient({
+      namespace: "Microsoft.KeyVault",
+      packageName: "@azure/keyvault-secrets",
+      packageVersion: SDK_VERSION
+    });
   }
 
   /**
    * The getSecret method returns the specified secret along with its properties.
    * This operation requires the secrets/get permission.
    */
-  private getSecret(name: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
-    return withTrace("getSecret", options, async (updatedOptions) => {
+  private async getSecret(name: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
+    return this.tracingClient.withSpan("getSecret", options, async (updatedOptions) => {
       const response = await this.client.getSecret(
         this.vaultUrl,
         name,
@@ -65,11 +66,11 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
    * The recoverDeletedSecret method recovers the specified deleted secret along with its properties.
    * This operation requires the secrets/recover permission.
    */
-  private recoverDeletedSecret(
+  private async recoverDeletedSecret(
     name: string,
     options: GetSecretOptions = {}
   ): Promise<DeletedSecret> {
-    return withTrace("recoverDeletedSecret", options, async (updatedOptions) => {
+    return this.tracingClient.withSpan("recoverDeletedSecret", options, async (updatedOptions) => {
       const response = await this.client.recoverDeletedSecret(this.vaultUrl, name, updatedOptions);
       return getSecretFromSecretBundle(response);
     });
