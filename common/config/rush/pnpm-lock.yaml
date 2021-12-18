@@ -537,8 +537,8 @@ packages:
       tslib: 2.3.1
     dev: false
 
-  /@azure/communication-signaling/1.0.0-beta.11:
-    resolution: {integrity: sha512-+erzTnfEB0xymIHPJm6WXrYaWB/GvK6bMm8V3Kl4STcpY2qAO102DM6wEHsn7qtjbfwLp1+mC8ka8CoglWcugQ==}
+  /@azure/communication-signaling/1.0.0-beta.12:
+    resolution: {integrity: sha512-TyVz8K/gVeubjCjHPCHUT8CoPraWP0cOG1w0URLAmfXrA7uq7yDSjUOPmCpJngzh9RutWBGYic0KIPmg/RH+OQ==}
     engines: {node: '>=8.0.0'}
     dependencies:
       '@azure/core-http': 2.2.2
@@ -9557,12 +9557,12 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-voGS7JZGncpCrvoZ5DDJksI9N19+lZbHdaPyLLoxAuo203LaKamWP6xk8UhM1ZnrmPxuegCTECmJrsDK/PQZxA==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-i8O1vcHtskUYNKJMOuDG3fcrguOLC9wUvbwApeUhcACs2kJVWyPq+/KknHxy5ziBfOBST0lE0wKlhhQI+cpKqg==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
       '@azure/communication-identity': 1.0.0
-      '@azure/communication-signaling': 1.0.0-beta.11
+      '@azure/communication-signaling': 1.0.0-beta.12
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.18.19
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -11443,7 +11443,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-3sHOsnaop7VF99/TRXOWmeUD4vxl2mNcqic5kWdSJlLMlMYr5J92teb9Ys8A903r2OvKP/AUChwXptnX5D18zg==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-2DO+4Eg75yZ9tIJl/4WBkk2D3b2qrpuIHJPJQ3aYFrn06gRCiyLtD9wLWLuJZM597/U8Mz2AFKEP4oa9pqNirQ==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -11489,7 +11489,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-Vpd1EzZWdELDNuDG3uCVURsDOt4sV79XJ0XDXbtz8BHdyrFQf51BFxx7wUPmN3N6JBR7dYcfSs7OBdjMhJuVEA==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-fRnN3uH8Yw60ALFxjYvrSEOP3EP4X8CbT8X+qRVLE3GcnhbytoIza5Hu2TuJq31N4j7R4AbcOqCtC9nmtihedQ==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -11627,7 +11627,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-iO771VzUu5sXTkcWfwjcxT9wqCo75YMTGqBQiCaifiut6n29ke9ngliOxWus9Qb0dCVdlu9sXCZ1G9bJKmPHZw==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-nMU8vzQWo39Cm5rehMDTpOUcvvh8U4C8TfFVkKhd5em7YFcC9vw3LzmUz6DmawAE34IFxUvCR/UMBqPOBYhcDQ==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -13538,7 +13538,7 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-8m+/96tIbosDc/j30zMuSCakBuFiD9IM/TQ/+Z2uOeTUROiN2OXiJEfsjwPeKa3ujlHlzcpqJT/YH6y1yYY06g==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-dIUQJVvw4Gnx1Osn8Vj7n6nqoGnnQ8KV+b6fkYsdyovvWHNiNFhWK/OQ266RL82kLTxYavEKp6QXQQciJ1XnZA==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
