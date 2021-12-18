@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env } from "@azure-tools/test-recorder";
 import { QueueServiceClient } from "@azure/storage-queue";
-import { RecorderClient } from "@azure-tools/test-recorder-new";
-import { RecorderStartOptions } from "@azure-tools/test-recorder-new";
+import { RecorderClient, RecorderStartOptions, env } from "@azure-tools/test-recorder-new";
 
 const fakeSASUrl =
   "https://account_name.queue.core.windows.net/?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2026-07-10T07:00:24Z&st=2021-07-09T23:00:24Z&spr=https&sig=fake_sig";
@@ -16,6 +14,9 @@ const recorderOptions: RecorderStartOptions = {
 };
 
 const getSanitizerOptions = () => {
+  if (!env.STORAGE_SAS_URL) {
+    throw new Error("STORAGE_SAS_URL is not defined in the environment");
+  }
   return {
     generalRegexSanitizers: [
       {
@@ -46,7 +47,7 @@ describe("Core V1 tests", () => {
 
   it("storage-queue create queue", async function() {
     const client = new QueueServiceClient(
-      env.STORAGE_SAS_URL,
+      env.STORAGE_SAS_URL || "undefined",
       undefined,
       recorder.configureClientOptionsCoreV1({})
     );

@@ -294,3 +294,19 @@ export function isLiveMode() {
 export function isPlaybackMode() {
   return !isRecordMode() && !isLiveMode();
 }
+
+/**
+ * Loads the environment variables in both node and browser modes corresponding to the key-value pairs provided.
+ *
+ * Example-
+ *
+ * Suppose `variables` is { ACCOUNT_NAME: "my_account_name", ACCOUNT_KEY: "fake_secret" },
+ * `setEnvironmentVariables` loads the ACCOUNT_NAME and ACCOUNT_KEY in the environment accordingly.
+ * @export
+ * @param {{ [key: string]: string }} variables
+ */
+export function setEnvironmentVariables(env: Record<string,string>, variables: { [key: string]: string }) {
+  Object.keys(variables).map((key) => {
+    env[key] = variables[key];
+  });
+}

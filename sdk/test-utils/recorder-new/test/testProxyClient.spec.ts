@@ -7,9 +7,8 @@ import {
   PipelineRequest,
   PipelineResponse
 } from "@azure/core-rest-pipeline";
-import { env } from "@azure-tools/test-recorder";
 import { expect } from "chai";
-import { RecorderClient } from "../src";
+import { env, RecorderClient } from "../src";
 import { RecorderError, RecordingStateManager } from "../src/utils/utils";
 
 const testRedirectedRequest = (
@@ -18,7 +17,7 @@ const testRedirectedRequest = (
   expectedModification: (req: PipelineRequest) => PipelineRequest
 ) => {
   const redirectedRequest = makeRequest();
-  client.redirectRequest(redirectedRequest);
+  client["redirectRequest"](redirectedRequest);
   expect(redirectedRequest).to.deep.equal(expectedModification(makeRequest()));
 };
 
@@ -33,7 +32,7 @@ describe("TestProxyClient functions", () => {
   });
 
   afterEach(() => {
-    env.TEST_MODE = undefined;
+    env.TEST_MODE = "undefined";
   });
 
   const initialRequest: PipelineRequest = {
@@ -245,7 +244,7 @@ describe("TestProxyClient functions", () => {
   describe("modifyRequest method", () => {
     it("request unchanged if not playback or record modes", async function() {
       env.TEST_MODE = "live";
-      expect(await client.modifyRequest(initialRequest)).to.deep.equal(initialRequest);
+      expect(await client["modifyRequest"](initialRequest)).to.deep.equal(initialRequest);
     });
 
     ["record", "playback"].forEach((testMode) => {
@@ -258,7 +257,7 @@ describe("TestProxyClient functions", () => {
             headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
           };
           client.recordingId = "dummy-recording-id";
-          expect(await client.modifyRequest(request)).to.deep.equal(request);
+          expect(await client["modifyRequest"](request)).to.deep.equal(request);
         }
       );
 
@@ -272,7 +271,7 @@ describe("TestProxyClient functions", () => {
             headers: createHttpHeaders({})
           };
           client.recordingId = "dummy-recording-id";
-          expect(await client.modifyRequest(request)).to.deep.equal({
+          expect(await client["modifyRequest"](request)).to.deep.equal({
             ...request,
             url: "http://localhost:5000/dummy_path?sas=sas",
             headers: createHttpHeaders({

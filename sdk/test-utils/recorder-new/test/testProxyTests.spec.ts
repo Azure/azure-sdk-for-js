@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createPipelineRequest,
   HttpMethods,
   PipelineRequestOptions
 } from "@azure/core-rest-pipeline";
 import { ServiceClient } from "@azure/core-client";
-import { RecorderClient } from "../src";
+import { env, isLiveMode, isPlaybackMode, RecorderClient } from "../src";
 import { expect } from "chai";
 
-type TestMode = "record" | "playback" | "live" | undefined;
+type TestMode = "record" | "playback" | "live" | "undefined";
 
 const setTestMode = (mode: TestMode): TestMode => {
   env.TEST_MODE = mode;

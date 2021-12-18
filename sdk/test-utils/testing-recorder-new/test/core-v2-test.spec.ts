@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env } from "@azure-tools/test-recorder";
 import { TableEntity, TableClient } from "@azure/data-tables";
-import { RecorderClient, RecorderStartOptions } from "@azure-tools/test-recorder-new";
+import { RecorderClient, RecorderStartOptions, env } from "@azure-tools/test-recorder-new";
 import { createSimpleEntity } from "./utils/utils";
 import { SanitizerOptions } from "@azure-tools/test-recorder-new";
 
@@ -12,7 +11,7 @@ const fakeConnString =
 const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
-      actualConnString: env.TABLES_SAS_CONNECTION_STRING,
+      actualConnString: env.TABLES_SAS_CONNECTION_STRING || "undefined",
       fakeConnString
     }
   ],
@@ -41,7 +40,7 @@ describe("Core V2 tests", () => {
 
   it("data-tables create entity", async function() {
     const client = TableClient.fromConnectionString(
-      env.TABLES_SAS_CONNECTION_STRING,
+      env.TABLES_SAS_CONNECTION_STRING || "undefined",
       recorder.variable("table-name", `table${Math.ceil(Math.random() * 1000 + 1000)}`)
     );
     recorder.configureClient(client);
