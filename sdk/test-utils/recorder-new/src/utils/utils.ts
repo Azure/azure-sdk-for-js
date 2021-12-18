@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { env } from "./env";
 /**
  * A custom error type for failed pipeline requests.
@@ -282,4 +281,16 @@ export function getTestMode(): "record" | "playback" | "live" {
 export const once = <T>(make: () => T): () => T => {
   let value;
   return () => value ??= make();
+}
+
+export function isRecordMode() {
+  return env.TEST_MODE === "record"
+}
+
+export function isLiveMode() {
+  return env.TEST_MODE === "live";
+}
+
+export function isPlaybackMode() {
+  return !isRecordMode() && !isLiveMode();
 }

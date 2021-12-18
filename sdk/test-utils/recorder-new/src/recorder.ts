@@ -12,10 +12,12 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { isLiveMode, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import {
   ensureExistence,
   getTestMode,
+  isLiveMode,
+  isPlaybackMode,
+  isRecordMode,
   once,
   RecorderError,
   RecorderStartOptions,
