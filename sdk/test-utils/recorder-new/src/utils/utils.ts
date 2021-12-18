@@ -278,13 +278,13 @@ export function getTestMode(): "record" | "playback" | "live" {
 }
 
 /** Make a lazy value that can be deferred and only computed once. */
-export const once = <T>(make: () => T): () => T => {
-  let value;
-  return () => value ??= make();
-}
+export const once = <T>(make: () => T): (() => T) => {
+  let value: T;
+  return () => (value = value ?? make());
+};
 
 export function isRecordMode() {
-  return env.TEST_MODE === "record"
+  return env.TEST_MODE === "record";
 }
 
 export function isLiveMode() {
@@ -305,7 +305,10 @@ export function isPlaybackMode() {
  * @export
  * @param {{ [key: string]: string }} variables
  */
-export function setEnvironmentVariables(env: Record<string,string>, variables: { [key: string]: string }) {
+export function setEnvironmentVariables(
+  env: Record<string, string>,
+  variables: { [key: string]: string }
+) {
   Object.keys(variables).map((key) => {
     env[key] = variables[key];
   });
