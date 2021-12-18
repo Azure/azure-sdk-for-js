@@ -3,6 +3,7 @@ import { createPipelineRequest, HttpMethods } from "@azure/core-rest-pipeline";
 import { getRealAndFakePairs } from "./utils/connectionStringHelpers";
 import { paths } from "./utils/paths";
 import {
+  getTestMode,
   ProxyToolSanitizers,
   RecorderError,
   sanitizerKeywordMapping,
@@ -13,7 +14,7 @@ import {
  * Sanitizer class to handle communication with the proxy-tool relating to the sanitizers adding/resetting, etc.
  */
 export class Sanitizer {
-  constructor(private mode: string, private url: string, private httpClient: HttpClient) {}
+  constructor(private url: string, private httpClient: HttpClient) {}
   private recordingId: string | undefined;
 
   setRecordingId(recordingId: string): void {
@@ -31,7 +32,7 @@ export class Sanitizer {
       const req = this._createRecordingRequest(infoUri, "GET");
       if (!this.httpClient) {
         throw new RecorderError(
-          `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${this.mode} mode.`
+          `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${getTestMode()} mode.`
         );
       }
       const rsp = await this.httpClient.sendRequest({
@@ -172,7 +173,7 @@ export class Sanitizer {
       req.body = options.body;
       if (!this.httpClient) {
         throw new RecorderError(
-          `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${this.mode} mode.`
+          `Something went wrong, RecorderClient.httpClient should not have been undefined in ${getTestMode()} mode.`
         );
       }
       const rsp = await this.httpClient.sendRequest({

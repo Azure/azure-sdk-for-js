@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-
+import { isPlaybackMode } from "@azure-tools/test-recorder";
+import { env } from "./env";
 /**
  * A custom error type for failed pipeline requests.
  */
@@ -271,15 +271,15 @@ export function ensureExistence<T>(thing: T | undefined, label: string): thing i
  *
  * If TEST_MODE is not defined, defaults to playback.
  */
-export function getTestMode(): string {
+export function getTestMode(): "record" | "playback" | "live" {
   if (isPlaybackMode()) {
     return "playback";
   }
-  return env.TEST_MODE;
+  return env.TEST_MODE as "record" | "live";
 }
 
 /** Make a lazy value that can be deferred and only computed once. */
-export const once = <T>(make: () => T): () => T =>{
+export const once = <T>(make: () => T): () => T => {
   let value;
   return () => value ??= make();
 }

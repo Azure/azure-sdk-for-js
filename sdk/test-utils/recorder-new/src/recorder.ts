@@ -28,7 +28,6 @@ import { paths } from "./utils/paths";
 import { Sanitizer } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
 import { Matcher, setMatcher } from "./matcher";
-import { RecorderRequestModifier } from "./recorderRequestModifier";
 import {
   DefaultHttpClient,
   HttpClient as HttpClientCoreV1,
@@ -51,17 +50,13 @@ import {
 export class RecorderClient {
   private url = "http://localhost:5000";
   public recordingId?: string;
-  public mode: string;
   private stateManager = new RecordingStateManager();
   private httpClient: HttpClient | undefined = undefined;
   private sessionFile: string | undefined = undefined;
   private sanitizer: Sanitizer | undefined;
   private variables: Record<string, string>;
-  private requestModifier: RecorderRequestModifier | undefined;
-  private _httpClientCoreV1: () => HttpClientCoreV1 = once(() => this.createHttpClientCoreV1());
 
   constructor(private testContext?: Test | undefined) {
-    this.mode = getTestMode();
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
         this.sessionFile = sessionFilePath(this.testContext);
@@ -71,35 +66,9 @@ export class RecorderClient {
           "Unable to determine the recording file path, testContext provided is not defined."
         );
       }
-      this.sanitizer = new Sanitizer(this.mode, this.url, this.httpClient);
-      this.requestModifier = new RecorderRequestModifier(this.mode, this.url);
+      this.sanitizer = new Sanitizer(this.url, this.httpClient);
     }
     this.variables = {};
-  }
-
-  private createHttpClientCoreV1(): RequestPolicy {
-    const client = new DefaultHttpClient();
-    return {
-      sendRequest: (request: WebResourceLike): Promise<HttpOperationResponse> => {
-        // If check needed because we only modify requests in record/playback modes.
-        if (!isLiveMode() && ensureExistence(this.requestModifier, "recorder.requestModifier")) {
-          const recordingId = this.recordingId;
-          if (!recordingId) {
-            throw new RecorderError("Something went wrong - recordingId should have been defined");
-          }
-          this.requestModifier.redirectRequest(request, recordingId);
-        }
-        return client.sendRequest(request);
-      }
-    };
-  }
-
-  /**
-   * This client modifies the sendRequest to redirect the requests to the proxy tool instead of directly going to the service.
-   * This client is supposed to be passed as the httpClient for the SDKs based on core-http(Core V1).
-   */
-  get httpClientCoreV1(): HttpClientCoreV1 {
-    return this._httpClientCoreV1();
   }
 
   /**
@@ -116,30 +85,47 @@ export class RecorderClient {
   }
 
   /**
-   * recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.
+   * For core-v1 (core-http)
    */
-  async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
-    // If check needed because we only modify requests in record/playback modes.
-    if (!isLiveMode() && ensureExistence(this.requestModifier, "this.requestModifier")) {
-      if (!this.recordingId) {
-        throw new RecorderError("Something went wrong - recordingId should have been defined");
+  redirectRequest(request: WebResourceLike): void;
+
+  /**
+   * For core-v2 (core-rest-pipeline)
+   */
+  redirectRequest(request: PipelineRequest): void;
+
+  /**
+   * redirectRequest updates the request in record and playback modes to hit the proxy-tool with appropriate headers.
+   * Works for both core-v1 and core-v2
+   */
+  redirectRequest(request: WebResourceLike | PipelineRequest): void {
+    if (!isLiveMode() && !request.headers.get("x-recording-id")) {
+      if (this.recordingId === undefined) {
+        throw new RecorderError("Recording ID must be defined to redirect a request");
       }
-      return this.requestModifier.modifyRequest(request, this.recordingId);
+
+      request.headers.set("x-recording-id", this.recordingId);
+      request.headers.set("x-recording-mode", getTestMode());
+
+      const upstreamUrl = new URL(request.url);
+      const redirectedUrl = new URL(request.url);
+      const providedUrl = new URL(this.url);
+
+      redirectedUrl.host = providedUrl.host;
+      redirectedUrl.port = providedUrl.port;
+      redirectedUrl.protocol = providedUrl.protocol;
+      request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
+      request.url = redirectedUrl.toString();
     }
-    return request;
   }
 
   /**
    * recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.
    */
-  redirectRequest(request: PipelineRequest): PipelineRequest {
-    // If check needed because we only modify requests in record/playback modes.
-    if (!isLiveMode() && ensureExistence(this.requestModifier, "recorder.requestModifier")) {
-      const recordingId = this.recordingId;
-      if (!recordingId) {
-        throw new RecorderError("Something went wrong - recordingId should have been defined");
-      }
-      this.requestModifier.redirectRequest(request, recordingId);
+  async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
+    if (!isLiveMode()) {
+      this.redirectRequest(request);
+      request.allowInsecureConnection = true;
     }
     return request;
   }
@@ -234,7 +220,7 @@ export class RecorderClient {
    * Sets the matcher for the current recording to the matcher specified.
    */
   async setMatcher(matcher: Matcher): Promise<void> {
-    if (this.mode === "playback") {
+    if (getTestMode() === "playback") {
       if (!this.httpClient) {
         throw new RecorderError("httpClient should be defined in playback mode");
       }
@@ -284,7 +270,7 @@ export class RecorderClient {
       httpClient?: HttpClientCoreV1;
     }
   >(options: T): T {
-    return { ...options, httpClient: this.httpClientCoreV1 };
+    return { ...options, httpClient: once(() => createHttpClientCoreV1(this)) };
   }
 
   /**
@@ -351,12 +337,22 @@ export class RecorderClient {
  * @export
  * @param {TestProxyHttpClient} testProxyHttpClient
  */
-export function recorderHttpPolicy(testProxyHttpClient: RecorderClient): PipelinePolicy {
+function recorderHttpPolicy(testProxyHttpClient: RecorderClient): PipelinePolicy {
   return {
     name: "recording policy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       await testProxyHttpClient.modifyRequest(request);
       return next(request);
+    }
+  };
+}
+
+function createHttpClientCoreV1(testProxyHttpClient: RecorderClient): RequestPolicy {
+  const client = new DefaultHttpClient();
+  return {
+    sendRequest: (request: WebResourceLike): Promise<HttpOperationResponse> => {
+      testProxyHttpClient.redirectRequest(request);
+      return client.sendRequest(request);
     }
   };
 }
