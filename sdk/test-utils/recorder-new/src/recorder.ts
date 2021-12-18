@@ -114,12 +114,10 @@ export class RecorderClient {
   /**
    * recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.
    */
-  private async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
-    if (!isLiveMode()) {
-      this.redirectRequest(request);
-      request.allowInsecureConnection = true;
-    }
-    return request;
+  private async modifyRequest(request: PipelineRequest): Promise<void> {
+    if (isLiveMode()) return;
+    this.redirectRequest(request);
+    request.allowInsecureConnection = true;
   }
 
   /**
