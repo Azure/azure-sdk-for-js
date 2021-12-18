@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of SchemaRegistryAvroEncoder to create messages with avro-serialized payload using schema from Schema Registry.
+ * @summary Demonstrates the use of SchemaRegistryAvroEncoder to create messages with avro-encoded payload using schema from Schema Registry.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -55,23 +55,23 @@ export async function main() {
   const client = new SchemaRegistryClient(endpoint, new DefaultAzureCredential());
 
   // Register the schema. This would generally have been done somewhere else.
-  // You can also skip this step and let serialize automatically register schemas
-  // using autoRegisterSchemas=true, but that is NOT recommended in production.
+  // You can also skip this step and let `encodeMessageData` automatically register
+  // schemas using autoRegisterSchemas=true, but that is NOT recommended in production.
   await client.registerSchema(schemaDescription);
 
-  // Create a new serializer backed by the client
-  const serializer = new SchemaRegistryAvroEncoder(client, { groupName });
+  // Create a new encoder backed by the client
+  const encoder = new SchemaRegistryAvroEncoder(client, { groupName });
 
-  // serialize an object that matches the schema
+  // encode an object that matches the schema and put it in a message
   const value: User = { firstName: "Jane", lastName: "Doe" };
-  const buffer = await serializer.encodeMessageData(value, schema);
-  console.log("Serialized:");
-  console.log(buffer);
+  const message = await encoder.encodeMessageData(value, schema);
+  console.log("Created message:");
+  console.log(JSON.stringify(message));
 
-  // deserialize the result back to an object
-  const deserializedValue = (await serializer.decodeMessageData(buffer)) as User;
-  console.log("Deserialized:");
-  console.log(`${deserializedValue.firstName} ${deserializedValue.lastName}`);
+  // decode the message back to an object
+  const decodedObject = (await encoder.decodeMessageData(message)) as User;
+  console.log("Decoded object:");
+  console.log(JSON.stringify(decodedObject));
 }
 
 main().catch((err) => {

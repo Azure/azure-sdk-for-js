@@ -6,7 +6,7 @@ import { SchemaRegistryAvroEncoder } from "../../src/schemaRegistryAvroEncoder";
 import { testGroup, testSchema, testSchemaObject } from "./dummies";
 import { createTestRegistry } from "./mockedRegistryClient";
 
-export async function createTestSerializer(
+export async function createTestEncoder(
   autoRegisterSchemas = true,
   registry = createTestRegistry()
 ): Promise<SchemaRegistryAvroEncoder> {

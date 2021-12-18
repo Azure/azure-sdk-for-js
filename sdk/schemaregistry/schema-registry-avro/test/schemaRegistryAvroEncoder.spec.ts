@@ -5,15 +5,15 @@ import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 import { testAvroType, testGroup, testSchema, testSchemaIds, testValue } from "./utils/dummies";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
-import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer";
+import { createTestEncoder, registerTestSchema } from "./utils/mockedEncoder";
 
 chaiUse(chaiPromises);
 
-describe("SchemaRegistryAvroSerializer", function() {
+describe("SchemaRegistryAvroEncoder", function() {
   it("rejects invalid format", async () => {
-    const serializer = await createTestSerializer();
+    const encoder = await createTestEncoder();
     await assert.isRejected(
-      serializer.decodeMessageData({
+      encoder.decodeMessageData({
         data: Buffer.alloc(1),
         contentType: "application/json+1234"
       }),
@@ -22,14 +22,14 @@ describe("SchemaRegistryAvroSerializer", function() {
   });
 
   it("rejects schema with no name", async () => {
-    const serializer = await createTestSerializer();
+    const encoder = await createTestEncoder();
     const schema = JSON.stringify({ type: "record", fields: [] });
-    await assert.isRejected(serializer.encodeMessageData({}, schema), /name/);
+    await assert.isRejected(encoder.encodeMessageData({}, schema), /name/);
   });
 
   it("rejects a schema with different format", async () => {
     const registry = createTestRegistry(true); // true means never live, we can't register non-avro schema in live service
-    const serializer = await createTestSerializer(false, registry);
+    const encoder = await createTestEncoder(false, registry);
     const schema = await registry.registerSchema({
       name: "_",
       definition: "_",
@@ -38,7 +38,7 @@ describe("SchemaRegistryAvroSerializer", function() {
     });
 
     await assert.isRejected(
-      serializer.decodeMessageData({
+      encoder.decodeMessageData({
         data: Buffer.alloc(1),
         contentType: `avro/binary+${schema.id}`
       }),
@@ -46,22 +46,22 @@ describe("SchemaRegistryAvroSerializer", function() {
     );
   });
 
-  it("rejects serialization when schema is not found", async () => {
-    const serializer = await createTestSerializer(false);
+  it("rejects encoding when schema is not found", async () => {
+    const encoder = await createTestEncoder(false);
     const schema = JSON.stringify({
       type: "record",
       name: "NeverRegistered",
       namespace: "my.example",
       fields: [{ name: "count", type: "int" }]
     });
-    await assert.isRejected(serializer.encodeMessageData({ count: 42 }, schema), /not found/);
+    await assert.isRejected(encoder.encodeMessageData({ count: 42 }, schema), /not found/);
   });
 
-  it("rejects deserialization when schema is not found", async () => {
-    const serializer = await createTestSerializer(false);
+  it("rejects decoding when schema is not found", async () => {
+    const encoder = await createTestEncoder(false);
     const payload = testAvroType.toBuffer(testValue);
     await assert.isRejected(
-      serializer.decodeMessageData({
+      encoder.decodeMessageData({
         data: payload,
         contentType: `avro/binary+${testSchemaIds[1]}`
       }),
@@ -69,24 +69,24 @@ describe("SchemaRegistryAvroSerializer", function() {
     );
   });
 
-  it("serializes to the expected format", async () => {
+  it("encodes to the expected format", async () => {
     const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
-    const serializer = await createTestSerializer(false, registry);
-    const message = await serializer.encodeMessageData(testValue, testSchema);
+    const encoder = await createTestEncoder(false, registry);
+    const message = await encoder.encodeMessageData(testValue, testSchema);
     assert.isUndefined((message.data as Buffer).readBigInt64BE);
     const buffer = Buffer.from(message.data);
     assert.strictEqual(`avro/binary+${schemaId}`, message.contentType);
     assert.deepStrictEqual(testAvroType.fromBuffer(buffer), testValue);
   });
 
-  it("deserializes from the expected format", async () => {
+  it("decodes from the expected format", async () => {
     const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
-    const serializer = await createTestSerializer(false, registry);
+    const encoder = await createTestEncoder(false, registry);
     const payload = testAvroType.toBuffer(testValue);
     assert.deepStrictEqual(
-      await serializer.decodeMessageData({
+      await encoder.decodeMessageData({
         data: payload,
         contentType: `avro/binary+${schemaId}`
       }),
@@ -94,26 +94,26 @@ describe("SchemaRegistryAvroSerializer", function() {
     );
   });
 
-  it("serializes and deserializes in round trip", async () => {
-    let serializer = await createTestSerializer();
-    let message = await serializer.encodeMessageData(testValue, testSchema);
-    assert.deepStrictEqual(await serializer.decodeMessageData(message), testValue);
+  it("encodes and decodes in round trip", async () => {
+    let encoder = await createTestEncoder();
+    let message = await encoder.encodeMessageData(testValue, testSchema);
+    assert.deepStrictEqual(await encoder.decodeMessageData(message), testValue);
 
-    // again for cache hit coverage on serialize
-    message = await serializer.encodeMessageData(testValue, testSchema);
-    assert.deepStrictEqual(await serializer.decodeMessageData(message), testValue);
+    // again for cache hit coverage on encodeMessageData
+    message = await encoder.encodeMessageData(testValue, testSchema);
+    assert.deepStrictEqual(await encoder.decodeMessageData(message), testValue);
 
-    // throw away serializer for cache miss coverage on deserialize
-    serializer = await createTestSerializer(false);
-    assert.deepStrictEqual(await serializer.decodeMessageData(message), testValue);
+    // throw away encoder for cache miss coverage on decodeMessageData
+    encoder = await createTestEncoder(false);
+    assert.deepStrictEqual(await encoder.decodeMessageData(message), testValue);
 
-    // throw away serializer again and cover getSchemaProperties instead of registerSchema
-    serializer = await createTestSerializer(false);
-    assert.deepStrictEqual(await serializer.encodeMessageData(testValue, testSchema), message);
+    // throw away encoder again and cover getSchemaProperties instead of registerSchema
+    encoder = await createTestEncoder(false);
+    assert.deepStrictEqual(await encoder.encodeMessageData(testValue, testSchema), message);
   });
 
   it("works with trivial example in README", async () => {
-    const serializer = await createTestSerializer();
+    const encoder = await createTestEncoder();
 
     // Example Avro schema
     const schema = JSON.stringify({
@@ -126,12 +126,12 @@ describe("SchemaRegistryAvroSerializer", function() {
     // Example value that matches the Avro schema above
     const value = { score: 42 };
 
-    // Serialize value to buffer
-    const message = await serializer.encodeMessageData(value, schema);
+    // encode value to a message
+    const message = await encoder.encodeMessageData(value, schema);
 
-    // Deserialize buffer to value
-    const deserializedValue = await serializer.decodeMessageData(message);
+    // Decode message to value
+    const decodedValue = await encoder.decodeMessageData(message);
 
-    assert.deepStrictEqual(deserializedValue, value);
+    assert.deepStrictEqual(decodedValue, value);
   });
 });

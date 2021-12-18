@@ -56,15 +56,6 @@ export class SchemaRegistryAvroEncoder {
 
   // REVIEW: signature.
   //
-  // - Better to serialize into a stream? I aborted that for now as I wanted to
-  //   do the simplest thing that could possibly work first to make sure there
-  //   were no blockers in our dependencies. I also wanted to get feedback on
-  //   what the API shape should be before diving into that.
-  //
-  //   The C#/Java approach of passing Type and assuming every encoder can
-  //   get its schema by reflecting on the type does not work for JavaScript. We
-  //   need to support arbitrary objects that match a schema.
-  //
   // - Should we wrap all errors thrown by avsc to avoid having our exception //
   //   contract being tied to its implementation details?
   /**
@@ -73,7 +64,7 @@ export class SchemaRegistryAvroEncoder {
    *
    * @param value - The value to encodeMessageData.
    * @param schema - The Avro schema to use.
-   * @returns A new message with the serialized value
+   * @returns A new message with the encoded value
    */
   async encodeMessageData(value: unknown, schema: string): Promise<MessageWithMetadata> {
     const entry = await this.getSchemaByDefinition(schema);
@@ -144,7 +135,7 @@ export class SchemaRegistryAvroEncoder {
 
     if (!this.schemaGroup) {
       throw new Error(
-        "Schema group must have been specified in the constructor options when the client was created in order to serialize."
+        "Schema group must have been specified in the constructor options when the client was created in order to encode."
       );
     }
 
