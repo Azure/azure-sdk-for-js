@@ -9,7 +9,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { expect } from "chai";
 import { env, Recorder } from "../src";
-import { RecorderError, RecordingStateManager } from "../src/utils/utils";
+import { isLiveMode, RecorderError, RecordingStateManager } from "../src/utils/utils";
 
 const testRedirectedRequest = (
   client: Recorder,
@@ -94,7 +94,8 @@ describe("TestProxyClient functions", () => {
                   "x-recording-upstream-base-uri": initialRequest.url,
                   "x-recording-id": client.recordingId,
                   "x-recording-mode": env.TEST_MODE
-                })
+                }),
+                allowInsecureConnection: !isLiveMode()
               };
             }
           );
