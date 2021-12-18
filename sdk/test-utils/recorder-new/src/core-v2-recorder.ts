@@ -130,6 +130,21 @@ export class RecorderClient {
   }
 
   /**
+   * recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.
+   */
+  redirectRequest(request: PipelineRequest): PipelineRequest {
+    // If check needed because we only modify requests in record/playback modes.
+    if (!isLiveMode() && ensureExistence(this.requestModifier, "recorder.requestModifier")) {
+      const recordingId = this.recordingId;
+      if (!recordingId) {
+        throw new RecorderError("Something went wrong - recordingId should have been defined");
+      }
+      this.requestModifier.redirectRequest(request, recordingId);
+    }
+    return request;
+  }
+
+  /**
    * Call this method to ping the proxy-tool with a start request
    * signalling to start recording in the record mode
    * or to start playing back in the playback mode.

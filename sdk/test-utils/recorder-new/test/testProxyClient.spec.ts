@@ -15,11 +15,10 @@ import { RecorderError, RecordingStateManager } from "../src/utils/utils";
 const testRedirectedRequest = (
   client: RecorderClient,
   makeRequest: () => PipelineRequest,
-  recordingId: string | undefined,
   expectedModification: (req: PipelineRequest) => PipelineRequest
 ) => {
   const redirectedRequest = makeRequest();
-  client.requestModifier?.redirectRequest(redirectedRequest, recordingId);
+  client.redirectRequest(redirectedRequest);
   expect(redirectedRequest).to.deep.equal(expectedModification(makeRequest()));
 };
 
@@ -53,7 +52,6 @@ describe("TestProxyClient functions", () => {
       testRedirectedRequest(
         client,
         () => initialRequest,
-        undefined,
         (req) => req
       );
     });
@@ -68,7 +66,6 @@ describe("TestProxyClient functions", () => {
             ...initialRequest,
             headers: createHttpHeaders({ "x-recording-id": recordingId })
           }),
-          recordingId,
           (req) => req
         );
       });
@@ -86,7 +83,6 @@ describe("TestProxyClient functions", () => {
               ...initialRequest,
               headers: createHttpHeaders({})
             }),
-            client.recordingId,
             (req) => {
               if (!client.recordingId) {
                 throw new Error("client.recordingId should be defined");
