@@ -270,7 +270,9 @@ export class RecorderClient {
       httpClient?: HttpClientCoreV1;
     }
   >(options: T): T {
-    return { ...options, httpClient: once(() => createHttpClientCoreV1(this)) };
+    return !isLiveMode()
+      ? { ...options, httpClient: once(() => createHttpClientCoreV1(this)) }
+      : options;
   }
 
   /**
