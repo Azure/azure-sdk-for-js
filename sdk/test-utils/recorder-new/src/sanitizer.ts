@@ -23,8 +23,6 @@ export class Sanitizer {
 
   /**
    * Returns the html document of all the available transforms in the proxy-tool
-   *
-   * @returns
    */
   async transformsInfo(): Promise<string | null | undefined> {
     if (this.recordingId) {
@@ -156,7 +154,6 @@ export class Sanitizer {
 
   /**
    * Atomic method to add a simple sanitizer.
-   * @param options
    */
   private async addSanitizer(options: {
     sanitizer: ProxyToolSanitizers;
@@ -191,8 +188,6 @@ export class Sanitizer {
   /**
    * Adds the recording id headers to the requests that are sent to the proxy tool.
    * These are required to appropriately save the recordings in the record mode and picking them up in playback.
-   *
-   * @param {string} url
    */
   private _createRecordingRequest(url: string, method: HttpMethods = "POST") {
     const req = createPipelineRequest({ url: url, method });

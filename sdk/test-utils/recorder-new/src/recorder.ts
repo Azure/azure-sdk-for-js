@@ -76,7 +76,6 @@ export class RecorderClient {
    * addSanitizers adds the sanitizers for the current recording which will be applied on it before being saved.
    *
    * Takes SanitizerOptions as the input, passes on to the proxy-tool.
-   * @param {SanitizerOptions} options
    */
   async addSanitizers(options: SanitizerOptions): Promise<void> {
     // If check needed because we only sanitize when the recording is being generated, and we need a recording to apply the sanitizers on.
@@ -131,8 +130,6 @@ export class RecorderClient {
    * Includes
    * - envSetupForPlayback - The key-value pairs will be used as the environment variables in playback mode. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values.
    * - sanitizerOptions - Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided.
-   *
-   * @param {RecorderStartOptions} options
    */
   async start(options: RecorderStartOptions): Promise<void> {
     if (isLiveMode()) return;
@@ -220,9 +217,6 @@ export class RecorderClient {
   /**
    * Adds the recording file and the recording id headers to the requests that are sent to the proxy tool.
    * These are required to appropriately save the recordings in the record mode and picking them up in playback.
-   *
-   * @private
-   * @param {string} url
    */
   private _createRecordingRequest(url: string, method: HttpMethods = "POST") {
     const req = createPipelineRequest({ url, method });
