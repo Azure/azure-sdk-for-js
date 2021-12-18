@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of SchemaRegistryAvroEncoder to create messages with avro-serialized payload using schema from Schema Registry and send them to an Event Hub using the EventHub Producer Client.
+ * @summary Demonstrates the use of SchemaRegistryAvroEncoder to create messages with avro-encoded payload using schema from Schema Registry and send them to an Event Hub using the EventHub Producer Client.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -66,8 +66,8 @@ export async function main() {
   // schemas using autoRegisterSchemas=true, but that is NOT recommended in production.
   await schemaRegistryClient.registerSchema(schemaDescription);
 
-  // Create a new serializer backed by the client
-  const serializer = new SchemaRegistryAvroEncoder(schemaRegistryClient, {
+  // Create a new encoder backed by the client
+  const encoder = new SchemaRegistryAvroEncoder(schemaRegistryClient, {
     groupName: schemaGroupName
   });
 
@@ -76,9 +76,9 @@ export async function main() {
     eventHubName
   );
 
-  // serialize an object that matches the schema
+  // encode an object that matches the schema
   const value: User = { firstName: "Joe", lastName: "Doe" };
-  const message = await serializer.encodeMessageData(value, schema);
+  const message = await encoder.encodeMessageData(value, schema);
   console.log("Created message:");
   console.log(message);
 

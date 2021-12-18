@@ -57,8 +57,8 @@ export async function main() {
   // schemas using autoRegisterSchemas=true, but that is NOT recommended in production.
   await schemaRegistryClient.registerSchema(schemaDescription);
 
-  // Create a new serializer backed by the client
-  const serializer = new SchemaRegistryAvroEncoder(schemaRegistryClient, { groupName });
+  // Create a new encoder backed by the client
+  const encoder = new SchemaRegistryAvroEncoder(schemaRegistryClient, { groupName });
 
   const eventHubConsumerClient = new EventHubConsumerClient(
     consumerGroup,
@@ -85,7 +85,7 @@ export async function main() {
           if (event.contentType !== undefined && event.body) {
             const contentTypeParts = event.contentType.split("+");
             if (contentTypeParts[0] === "avro/binary") {
-              const decodedEvent = await serializer.decodeMessageData({
+              const decodedEvent = await encoder.decodeMessageData({
                 contentType: event.contentType,
                 data: Uint8Array.from(Object.values(event.body))
               });
