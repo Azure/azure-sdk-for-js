@@ -69,9 +69,9 @@ export async function main() {
   console.log(JSON.stringify(message));
 
   // decode the message back to an object
-  const decodedObject = (await encoder.decodeMessageData(message)) as User;
+  const decodedObject = await encoder.decodeMessageData(message);
   console.log("Decoded object:");
-  console.log(JSON.stringify(decodedObject));
+  console.log(JSON.stringify(decodedObject as User));
 }
 
 main().catch((err) => {
