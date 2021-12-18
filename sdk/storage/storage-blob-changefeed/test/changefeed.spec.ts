@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import * as fs from "fs";
 import * as path from "path";
 import * as sinon from "sinon";
@@ -10,6 +10,7 @@ import { SegmentFactory } from "../src/SegmentFactory";
 import { Segment } from "../src/Segment";
 import { ChangeFeedFactory } from "../src/ChangeFeedFactory";
 import { getHost } from "../src/utils/utils.common";
+import { BlobChangeFeedEvent } from "../src";
 
 describe("Change Feed", async () => {
   const manifestFilePath = path.join("test", "resources", "ChangeFeedManifest.json");
@@ -149,7 +150,7 @@ describe("Change Feed", async () => {
     assert.ok(changeFeed.hasNext());
 
     const event = await changeFeed.getChange();
-    assert.equal(event, 0);
+    assert.equal(event, (0 as unknown) as BlobChangeFeedEvent | undefined);
 
     // advance to next non-empty segment
     for (let i = 0; i < 2; i++) {
@@ -158,14 +159,14 @@ describe("Change Feed", async () => {
     }
     assert.ok(changeFeed.hasNext());
     const event2 = await changeFeed.getChange();
-    assert.equal(event2, 2);
+    assert.equal(event2, (2 as unknown) as BlobChangeFeedEvent | undefined);
 
     // advanced to next year
     segmentStubs[2].hasNext.returns(false);
     segmentStubs[2].getChange.resolves(undefined);
     assert.ok(changeFeed.hasNext());
     const event3 = await changeFeed.getChange();
-    assert.equal(event3, 3);
+    assert.equal(event3, (3 as unknown) as BlobChangeFeedEvent | undefined);
 
     // stop when segment time is no less than lastConsumable
     segmentStubs[3].hasNext.returns(false);
@@ -190,7 +191,7 @@ describe("Change Feed", async () => {
     });
     assert.ok(changeFeed2.hasNext());
     const event = await changeFeed2.getChange();
-    assert.equal(event, 1);
+    assert.equal(event, (1 as unknown) as BlobChangeFeedEvent | undefined);
 
     segmentStubs[1].hasNext.returns(false);
     segmentStubs[1].getChange.resolves(undefined);
@@ -225,7 +226,7 @@ describe("Change Feed", async () => {
     const changeFeed2 = await changeFeedFactory.create(serviceClientStub as any, continuation);
     assert.ok(changeFeed2.hasNext());
     const event = await changeFeed.getChange();
-    assert.equal(event, 3);
+    assert.equal(event, (3 as unknown) as BlobChangeFeedEvent | undefined);
 
     // lastConsumable changed
     blobClientStub.download.callsFake(() => {
@@ -238,6 +239,6 @@ describe("Change Feed", async () => {
     const changeFeed3 = await changeFeedFactory.create(serviceClientStub as any, continuation);
     assert.ok(changeFeed3.hasNext());
     const event2 = await changeFeed3.getChange();
-    assert.equal(event2, 4);
+    assert.equal(event2, (4 as unknown) as BlobChangeFeedEvent | undefined);
   });
 });

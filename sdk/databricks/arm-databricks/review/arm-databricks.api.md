@@ -16,8 +16,12 @@ export interface AddressSpace {
 }
 
 // @public (undocumented)
-export class AzureDatabricksManagementClient extends AzureDatabricksManagementClientContext {
+export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureDatabricksManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -27,20 +31,11 @@ export class AzureDatabricksManagementClient extends AzureDatabricksManagementCl
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     vNetPeering: VNetPeering;
     // (undocumented)
     workspaces: Workspaces;
-}
-
-// @public (undocumented)
-export class AzureDatabricksManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureDatabricksManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public
@@ -735,7 +730,6 @@ export interface WorkspaceUpdate {
         [propertyName: string]: string;
     };
 }
-
 
 // (No @packageDocumentation comment for this package)
 

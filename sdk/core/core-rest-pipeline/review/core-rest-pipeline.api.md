@@ -90,6 +90,13 @@ export function decompressResponsePolicy(): PipelinePolicy;
 export const decompressResponsePolicyName = "decompressResponsePolicy";
 
 // @public
+export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
+
+// @public
+export interface DefaultRetryPolicyOptions extends PipelineRetryOptions {
+}
+
+// @public
 export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
 
 // @public
@@ -305,6 +312,37 @@ export interface RestErrorOptions {
     request?: PipelineRequest;
     response?: PipelineResponse;
     statusCode?: number;
+}
+
+// @public
+export interface RetryInformation {
+    response?: PipelineResponse;
+    responseError?: RestError;
+    retryCount: number;
+}
+
+// @public
+export interface RetryModifiers {
+    errorToThrow?: RestError;
+    redirectTo?: string;
+    retryAfterInMs?: number;
+    skipStrategy?: boolean;
+}
+
+// @public
+export function retryPolicy(strategies: RetryStrategy[], options?: RetryPolicyOptions): PipelinePolicy;
+
+// @public
+export interface RetryPolicyOptions {
+    logger?: AzureLogger;
+    maxRetries?: number;
+}
+
+// @public
+export interface RetryStrategy {
+    logger?: AzureLogger;
+    name: string;
+    retry(state: RetryInformation): RetryModifiers;
 }
 
 // @public

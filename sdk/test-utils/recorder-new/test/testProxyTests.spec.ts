@@ -8,7 +8,7 @@ import {
   PipelineRequestOptions
 } from "@azure/core-rest-pipeline";
 import { ServiceClient } from "@azure/core-client";
-import { recorderHttpPolicy, TestProxyHttpClient } from "../src";
+import { TestProxyHttpClient } from "../src";
 import { expect } from "chai";
 
 type TestMode = "record" | "playback" | "live" | undefined;
@@ -56,7 +56,7 @@ function getTestServerUrl() {
     beforeEach(async function() {
       recorder = new TestProxyHttpClient(this.currentTest);
       client = new ServiceClient({ baseUri: getTestServerUrl() });
-      client.pipeline.addPolicy(recorderHttpPolicy(recorder));
+      recorder.configureClient(client);
     });
 
     afterEach(async () => {
@@ -84,7 +84,11 @@ function getTestServerUrl() {
       });
       const response = await client.sendRequest(req);
       if (expectedResponse) {
-        expect(JSON.parse(response.bodyAsText!)).to.deep.equal(expectedResponse);
+        if (!response.bodyAsText) {
+          throw new Error("Expected response.bodyAsText to be defined");
+        }
+
+        expect(JSON.parse(response.bodyAsText)).to.deep.equal(expectedResponse);
       }
       // Add code to also check expected headers
       return response;
@@ -101,17 +105,21 @@ function getTestServerUrl() {
     it("sample_response with random string in path", async () => {
       await recorder.start({ envSetupForPlayback: {} });
 
-      if (!isPlaybackMode()) {
-        recorder.variables["random-1"] = `random-${Math.ceil(Math.random() * 1000 + 1000)}`;
-        recorder.variables["random-2"] = "known-string";
-      }
-
       await makeRequestAndVerifyResponse(
-        { path: `/sample_response/${recorder.variables["random-1"]}`, method: "GET" },
+        {
+          path: `/sample_response/${recorder.variable(
+            "random-1",
+            `random-${Math.ceil(Math.random() * 1000 + 1000)}`
+          )}`,
+          method: "GET"
+        },
         { val: "I am the answer!" }
       );
       await makeRequestAndVerifyResponse(
-        { path: `/sample_response/${recorder.variables["random-2"]}`, method: "GET" },
+        {
+          path: `/sample_response/${recorder.variable("random-2", "known-string")}`,
+          method: "GET"
+        },
         { val: "I am the answer!" }
       );
     });
@@ -432,7 +440,12 @@ function getTestServerUrl() {
       it("transformsInfo()", async () => {
         if (!isLiveMode()) {
           await recorder.start({ envSetupForPlayback: {} });
-          await recorder["sanitizer"]!.transformsInfo();
+
+          if (!recorder["sanitizer"]) {
+            throw new Error("expected recorder.sanitizer to be defined at this point");
+          }
+
+          await recorder["sanitizer"].transformsInfo();
         }
       });
     });

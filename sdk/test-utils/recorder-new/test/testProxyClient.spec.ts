@@ -12,14 +12,24 @@ import { expect } from "chai";
 import { TestProxyHttpClient } from "../src";
 import { RecorderError, RecordingStateManager } from "../src/utils/utils";
 
+const testRedirectedRequest = (
+  client: TestProxyHttpClient,
+  makeRequest: () => PipelineRequest,
+  expectedModification: (req: PipelineRequest) => PipelineRequest
+) => {
+  const redirectedRequest = makeRequest();
+  client.redirectRequest(redirectedRequest);
+  expect(redirectedRequest).to.deep.equal(expectedModification(makeRequest()));
+};
+
 describe("TestProxyClient functions", () => {
   let client: TestProxyHttpClient;
   let clientHttpClient: HttpClient;
-  let testContext: Mocha.Test;
+  let testContext: Mocha.Test | undefined;
   beforeEach(function() {
     client = new TestProxyHttpClient(this.currentTest);
     clientHttpClient = client.httpClient as HttpClient;
-    testContext = this.currentTest!;
+    testContext = this.currentTest;
   });
 
   afterEach(() => {
@@ -39,17 +49,25 @@ describe("TestProxyClient functions", () => {
   describe("redirectRequest method", () => {
     it("request unchanged if not playback or record modes", function() {
       env.TEST_MODE = "live";
-      expect(client.redirectRequest(initialRequest)).to.deep.equal(initialRequest);
+      testRedirectedRequest(
+        client,
+        () => initialRequest,
+        (req) => req
+      );
     });
 
     ["record", "playback"].forEach((testMode) => {
       it(`${testMode} mode: ` + "request unchanged if `x-recording-id` in headers", function() {
         env.TEST_MODE = testMode;
-        const request: PipelineRequest = {
-          ...initialRequest,
-          headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
-        };
-        expect(client.redirectRequest(request)).to.deep.equal(request);
+
+        testRedirectedRequest(
+          client,
+          () => ({
+            ...initialRequest,
+            headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
+          }),
+          (req) => req
+        );
       });
 
       it(
@@ -57,20 +75,30 @@ describe("TestProxyClient functions", () => {
         function() {
           env.TEST_MODE = testMode;
           client = new TestProxyHttpClient(testContext);
-          const request: PipelineRequest = {
-            ...initialRequest,
-            headers: createHttpHeaders({})
-          };
           client.recordingId = "dummy-recording-id";
-          expect(client.redirectRequest(request)).to.deep.equal({
-            ...request,
-            url: "http://localhost:5000/dummy_path?sas=sas",
-            headers: createHttpHeaders({
-              "x-recording-upstream-base-uri": initialRequest.url,
-              "x-recording-id": client.recordingId,
-              "x-recording-mode": env.TEST_MODE
-            })
-          });
+
+          testRedirectedRequest(
+            client,
+            () => ({
+              ...initialRequest,
+              headers: createHttpHeaders({})
+            }),
+            (req) => {
+              if (!client.recordingId) {
+                throw new Error("client.recordingId should be defined");
+              }
+
+              return {
+                ...req,
+                url: "http://localhost:5000/dummy_path?sas=sas",
+                headers: createHttpHeaders({
+                  "x-recording-upstream-base-uri": initialRequest.url,
+                  "x-recording-id": client.recordingId,
+                  "x-recording-mode": env.TEST_MODE
+                })
+              };
+            }
+          );
         }
       );
     });
@@ -253,6 +281,40 @@ describe("TestProxyClient functions", () => {
             })
           });
         }
+      );
+    });
+  });
+
+  describe("variable method", () => {
+    it("throws an error in record mode if a variable is accessed without giving it a value", () => {
+      env.TEST_MODE = "record";
+      expect(() => client.variable("nonExistentVariable")).to.throw(
+        "Tried to access uninitialized variable: nonExistentVariable. You must initialize it with a value before using it."
+      );
+    });
+
+    it("sets the variable correctly in record mode", () => {
+      env.TEST_MODE = "record";
+      client.variable("var1", "value");
+      expect(client["variables"]["var1"]).to.equal("value");
+    });
+
+    it("allows for the shorthand syntax to be used in record mode after a variable is initialized", () => {
+      env.TEST_MODE = "record";
+      client.variable("var1", "value");
+      expect(client.variable("var1")).to.equal("value");
+    });
+
+    it("recalls the variable in playback mode", () => {
+      env.TEST_MODE = "playback";
+      client["variables"]["var1"] = "realValue";
+      expect(client.variable("var1", "ignored")).to.equal("realValue");
+    });
+
+    it("throws an error if a variable does not exist in playback mode", () => {
+      env.TEST_MODE = "playback";
+      expect(() => client.variable("var1", "ignored")).to.throw(
+        "Tried to access a variable in playback that was not set in recording: var1"
       );
     });
   });

@@ -11,7 +11,7 @@ import { PrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureDatabricksManagementClientContext } from "../azureDatabricksManagementClientContext";
+import { AzureDatabricksManagementClient } from "../azureDatabricksManagementClient";
 import {
   GroupIdInformation,
   PrivateLinkResourcesListNextOptionalParams,
@@ -25,13 +25,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateLinkResources operations. */
 export class PrivateLinkResourcesImpl implements PrivateLinkResources {
-  private readonly client: AzureDatabricksManagementClientContext;
+  private readonly client: AzureDatabricksManagementClient;
 
   /**
    * Initialize a new instance of the class PrivateLinkResources class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureDatabricksManagementClientContext) {
+  constructor(client: AzureDatabricksManagementClient) {
     this.client = client;
   }
 

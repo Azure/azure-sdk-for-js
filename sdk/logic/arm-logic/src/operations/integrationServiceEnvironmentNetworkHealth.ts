@@ -10,7 +10,7 @@ import { IntegrationServiceEnvironmentNetworkHealth } from "../operationsInterfa
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { LogicManagementClientContext } from "../logicManagementClientContext";
+import { LogicManagementClient } from "../logicManagementClient";
 import {
   IntegrationServiceEnvironmentNetworkHealthGetOptionalParams,
   IntegrationServiceEnvironmentNetworkHealthGetResponse
@@ -19,13 +19,13 @@ import {
 /** Class containing IntegrationServiceEnvironmentNetworkHealth operations. */
 export class IntegrationServiceEnvironmentNetworkHealthImpl
   implements IntegrationServiceEnvironmentNetworkHealth {
-  private readonly client: LogicManagementClientContext;
+  private readonly client: LogicManagementClient;
 
   /**
    * Initialize a new instance of the class IntegrationServiceEnvironmentNetworkHealth class.
    * @param client Reference to the service client
    */
-  constructor(client: LogicManagementClientContext) {
+  constructor(client: LogicManagementClient) {
     this.client = client;
   }
 

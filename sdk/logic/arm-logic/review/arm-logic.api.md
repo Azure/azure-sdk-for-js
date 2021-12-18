@@ -2295,8 +2295,12 @@ export interface ListKeyVaultKeysDefinition {
 }
 
 // @public (undocumented)
-export class LogicManagementClient extends LogicManagementClientContext {
+export class LogicManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: LogicManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     integrationAccountAgreements: IntegrationAccountAgreements;
     // (undocumented)
@@ -2328,6 +2332,8 @@ export class LogicManagementClient extends LogicManagementClientContext {
     // (undocumented)
     operations: Operations;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     workflowRunActionRepetitions: WorkflowRunActionRepetitions;
     // (undocumented)
     workflowRunActionRepetitionsRequestHistories: WorkflowRunActionRepetitionsRequestHistories;
@@ -2351,17 +2357,6 @@ export class LogicManagementClient extends LogicManagementClientContext {
     workflowVersions: WorkflowVersions;
     // (undocumented)
     workflowVersionTriggers: WorkflowVersionTriggers;
-}
-
-// @public (undocumented)
-export class LogicManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: LogicManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public

@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  RecorderStartOptions,
-  NoOpCredential,
-  recorderHttpPolicy,
-  TestProxyHttpClient
-} from "@azure-tools/test-recorder-new";
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { RecorderStartOptions, TestProxyHttpClient } from "@azure-tools/test-recorder-new";
+import { env } from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { TokenCredential } from "@azure/core-auth";
-import { ClientSecretCredential } from "@azure/identity";
 import { TableServiceClient } from "@azure/data-tables";
 
 const recorderStartOptions: RecorderStartOptions = {
@@ -36,13 +31,7 @@ describe(`NoOp credential with Tables`, () => {
   beforeEach(async function() {
     recorder = new TestProxyHttpClient(this.currentTest);
     await recorder.start(recorderStartOptions);
-    credential = isPlaybackMode()
-      ? new NoOpCredential()
-      : new ClientSecretCredential(
-          env["AZURE_TENANT_ID"],
-          env["AZURE_CLIENT_ID"],
-          env["AZURE_CLIENT_SECRET"]
-        );
+    credential = createTestCredential();
   });
 
   afterEach(async function() {
@@ -50,12 +39,12 @@ describe(`NoOp credential with Tables`, () => {
   });
 
   it("should create new table, then delete", async () => {
-    if (!isPlaybackMode()) {
-      recorder.variables["table-name"] = `table${Math.ceil(Math.random() * 1000 + 1000)}`;
-    }
-    const tableName = recorder.variables["table-name"];
+    const tableName = recorder.variable(
+      "table-name",
+      `table${Math.ceil(Math.random() * 1000 + 1000)}`
+    );
     const client = new TableServiceClient(env.TABLES_URL, credential);
-    client.pipeline.addPolicy(recorderHttpPolicy(recorder));
+    recorder.configureClient(client);
     await client.createTable(tableName);
     await client.deleteTable(tableName);
   });

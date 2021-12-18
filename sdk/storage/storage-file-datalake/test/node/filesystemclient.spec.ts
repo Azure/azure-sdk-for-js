@@ -3,7 +3,7 @@
 
 import { TokenCredential } from "@azure/core-http";
 import { record, Recorder } from "@azure-tools/test-recorder";
-import * as assert from "assert";
+import { assert } from "chai";
 import { Context } from "mocha";
 
 import {
