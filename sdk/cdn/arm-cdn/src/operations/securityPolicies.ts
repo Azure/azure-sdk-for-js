@@ -46,7 +46,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Lists security policies associated with the profile
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param options The options parameters.
    */
   public listByProfile(
@@ -117,7 +118,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Lists security policies associated with the profile
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param options The options parameters.
    */
   private _listByProfile(
@@ -134,7 +136,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Gets an existing security policy within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param options The options parameters.
    */
@@ -153,7 +156,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Creates a new security policy within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param securityPolicy The security policy properties.
    * @param options The options parameters.
@@ -230,7 +234,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Creates a new security policy within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param securityPolicy The security policy properties.
    * @param options The options parameters.
@@ -253,9 +258,10 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   }
 
   /**
-   * Updates an existing Secret within a profile.
+   * Updates an existing security policy within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param securityPolicyProperties Security policy update properties
    * @param options The options parameters.
@@ -330,9 +336,10 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   }
 
   /**
-   * Updates an existing Secret within a profile.
+   * Updates an existing security policy within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param securityPolicyProperties Security policy update properties
    * @param options The options parameters.
@@ -357,8 +364,9 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Deletes an existing security policy within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
-   * @param securityPolicyName Name of the Secret under the profile.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
+   * @param securityPolicyName Name of the security policy under the profile.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -421,8 +429,9 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Deletes an existing security policy within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
-   * @param securityPolicyName Name of the Secret under the profile.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
+   * @param securityPolicyName Name of the security policy under the profile.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -443,7 +452,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * ListByProfileNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByProfile method.
    * @param options The options parameters.
    */
@@ -477,9 +487,9 @@ const listByProfileOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -499,9 +509,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.securityPolicyName
   ],
   headerParameters: [Parameters.accept],
@@ -532,9 +542,9 @@ const createOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.securityPolicyName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -566,9 +576,9 @@ const patchOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.securityPolicyName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -591,9 +601,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.securityPolicyName
   ],
   headerParameters: [Parameters.accept],
@@ -613,9 +623,9 @@ const listByProfileNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

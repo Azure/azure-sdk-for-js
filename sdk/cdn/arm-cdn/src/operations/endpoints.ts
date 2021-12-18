@@ -1017,9 +1017,9 @@ const listByProfileOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1039,9 +1039,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -1068,13 +1068,13 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.endpoint,
+  requestBody: Parameters.endpoint1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1102,13 +1102,13 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.endpointUpdateProperties,
+  requestBody: Parameters.endpointUpdateProperties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1131,9 +1131,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -1163,9 +1163,9 @@ const startOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -1195,9 +1195,9 @@ const stopOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -1220,9 +1220,9 @@ const purgeContentOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1246,9 +1246,9 @@ const loadContentOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1271,9 +1271,9 @@ const validateCustomDomainOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1295,9 +1295,9 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -1317,9 +1317,9 @@ const listByProfileNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
@@ -1339,9 +1339,9 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.endpointName
   ],

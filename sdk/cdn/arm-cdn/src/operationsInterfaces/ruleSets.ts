@@ -26,7 +26,8 @@ export interface RuleSets {
   /**
    * Lists existing AzureFrontDoor rule sets within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param options The options parameters.
    */
   listByProfile(
@@ -37,7 +38,8 @@ export interface RuleSets {
   /**
    * Checks the quota and actual usage of endpoints under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -51,7 +53,8 @@ export interface RuleSets {
    * Gets an existing AzureFrontDoor rule set with the specified rule set name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -64,29 +67,12 @@ export interface RuleSets {
   /**
    * Creates a new rule set within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile which is unique globally
    * @param options The options parameters.
    */
-  beginCreate(
-    resourceGroupName: string,
-    profileName: string,
-    ruleSetName: string,
-    options?: RuleSetsCreateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<RuleSetsCreateResponse>,
-      RuleSetsCreateResponse
-    >
-  >;
-  /**
-   * Creates a new rule set within the specified profile.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
-   * @param ruleSetName Name of the rule set under the profile which is unique globally
-   * @param options The options parameters.
-   */
-  beginCreateAndWait(
+  create(
     resourceGroupName: string,
     profileName: string,
     ruleSetName: string,
@@ -96,7 +82,8 @@ export interface RuleSets {
    * Deletes an existing AzureFrontDoor rule set with the specified rule set name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -110,7 +97,8 @@ export interface RuleSets {
    * Deletes an existing AzureFrontDoor rule set with the specified rule set name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile which is unique globally.
    * @param options The options parameters.
    */

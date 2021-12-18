@@ -500,9 +500,9 @@ const listByEndpointOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -523,9 +523,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName,
     Parameters.originName
   ],
@@ -553,13 +553,13 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.origin,
+  requestBody: Parameters.origin1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName,
     Parameters.originName
   ],
@@ -588,13 +588,13 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.originUpdateProperties,
+  requestBody: Parameters.originUpdateProperties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName,
     Parameters.originName
   ],
@@ -618,9 +618,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName,
     Parameters.originName
   ],
@@ -641,9 +641,9 @@ const listByEndpointNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.endpointName
   ],

@@ -46,7 +46,8 @@ export class RoutesImpl implements Routes {
   /**
    * Lists all of the existing origins within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -126,7 +127,8 @@ export class RoutesImpl implements Routes {
   /**
    * Lists all of the existing origins within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -146,7 +148,8 @@ export class RoutesImpl implements Routes {
    * Gets an existing route with the specified route name under the specified subscription, resource
    * group, profile, and AzureFrontDoor endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param routeName Name of the routing rule.
    * @param options The options parameters.
@@ -168,7 +171,8 @@ export class RoutesImpl implements Routes {
    * Creates a new route with the specified route name under the specified subscription, resource group,
    * profile, and AzureFrontDoor endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param routeName Name of the routing rule.
    * @param route Route properties
@@ -246,7 +250,8 @@ export class RoutesImpl implements Routes {
    * Creates a new route with the specified route name under the specified subscription, resource group,
    * profile, and AzureFrontDoor endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param routeName Name of the routing rule.
    * @param route Route properties
@@ -275,7 +280,8 @@ export class RoutesImpl implements Routes {
    * Updates an existing route with the specified route name under the specified subscription, resource
    * group, profile, and AzureFrontDoor endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param routeName Name of the routing rule.
    * @param routeUpdateProperties Route update properties
@@ -353,7 +359,8 @@ export class RoutesImpl implements Routes {
    * Updates an existing route with the specified route name under the specified subscription, resource
    * group, profile, and AzureFrontDoor endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param routeName Name of the routing rule.
    * @param routeUpdateProperties Route update properties
@@ -382,7 +389,8 @@ export class RoutesImpl implements Routes {
    * Deletes an existing route with the specified route name under the specified subscription, resource
    * group, profile, and AzureFrontDoor endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param routeName Name of the routing rule.
    * @param options The options parameters.
@@ -449,7 +457,8 @@ export class RoutesImpl implements Routes {
    * Deletes an existing route with the specified route name under the specified subscription, resource
    * group, profile, and AzureFrontDoor endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param routeName Name of the routing rule.
    * @param options The options parameters.
@@ -474,7 +483,8 @@ export class RoutesImpl implements Routes {
   /**
    * ListByEndpointNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param nextLink The nextLink from the previous successful call to the ListByEndpoint method.
    * @param options The options parameters.
@@ -510,9 +520,9 @@ const listByEndpointOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -533,9 +543,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName,
     Parameters.routeName
   ],
@@ -567,9 +577,9 @@ const createOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName,
     Parameters.routeName
   ],
@@ -602,9 +612,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName,
     Parameters.routeName
   ],
@@ -628,9 +638,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.endpointName,
     Parameters.routeName
   ],
@@ -651,9 +661,9 @@ const listByEndpointNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.endpointName
   ],

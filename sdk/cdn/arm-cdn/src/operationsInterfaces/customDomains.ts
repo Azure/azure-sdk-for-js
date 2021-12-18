@@ -18,7 +18,9 @@ import {
   CustomDomainsCreateResponse,
   CustomDomainsDeleteOptionalParams,
   CustomDomainsDisableCustomHttpsOptionalParams,
-  CustomDomainsEnableCustomHttpsOptionalParams
+  CustomDomainsDisableCustomHttpsResponse,
+  CustomDomainsEnableCustomHttpsOptionalParams,
+  CustomDomainsEnableCustomHttpsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -129,28 +131,13 @@ export interface CustomDomains {
    * @param customDomainName Name of the custom domain within an endpoint.
    * @param options The options parameters.
    */
-  beginDisableCustomHttps(
+  disableCustomHttps(
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
     customDomainName: string,
     options?: CustomDomainsDisableCustomHttpsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Disable https delivery of the custom domain.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
-   * @param endpointName Name of the endpoint under the profile which is unique globally.
-   * @param customDomainName Name of the custom domain within an endpoint.
-   * @param options The options parameters.
-   */
-  beginDisableCustomHttpsAndWait(
-    resourceGroupName: string,
-    profileName: string,
-    endpointName: string,
-    customDomainName: string,
-    options?: CustomDomainsDisableCustomHttpsOptionalParams
-  ): Promise<void>;
+  ): Promise<CustomDomainsDisableCustomHttpsResponse>;
   /**
    * Enable https delivery of the custom domain.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -159,26 +146,11 @@ export interface CustomDomains {
    * @param customDomainName Name of the custom domain within an endpoint.
    * @param options The options parameters.
    */
-  beginEnableCustomHttps(
+  enableCustomHttps(
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
     customDomainName: string,
     options?: CustomDomainsEnableCustomHttpsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Enable https delivery of the custom domain.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
-   * @param endpointName Name of the endpoint under the profile which is unique globally.
-   * @param customDomainName Name of the custom domain within an endpoint.
-   * @param options The options parameters.
-   */
-  beginEnableCustomHttpsAndWait(
-    resourceGroupName: string,
-    profileName: string,
-    endpointName: string,
-    customDomainName: string,
-    options?: CustomDomainsEnableCustomHttpsOptionalParams
-  ): Promise<void>;
+  ): Promise<CustomDomainsEnableCustomHttpsResponse>;
 }
