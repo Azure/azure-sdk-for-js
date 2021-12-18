@@ -29,3 +29,38 @@ jobs:
       PRTitle: "Automatic rush update --full"
       PRBody: "This is an automatic PR generated weekly with changes from running the command rush update --full"
       PushArgs: "-f"
+
+
+- job: 'CheckDependency'
+  displayName: 'Check Package Dependency'
+  variables:
+  - template: /eng/pipelines/templates/variables/globals.yml
+
+  pool:
+    name: azsdk-pool-mms-ubuntu-2004-general
+    vmImage: MMSUbuntu20.04
+
+  steps:
+  - template: /eng/pipelines/templates/steps/common.yml
+  - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
+
+  - script: |
+      node common/scripts/install-run-rush.js install
+      node common/scripts/install-run-rush.js unlink
+      git clean -xdf
+    displayName: "Rush Unlink"
+
+  - task: PowerShell@2
+    displayName: 'Check Dependency Warnings and File GitHub Issues'
+    inputs:
+      targetType: filePath
+      filePath: $(Build.SourcesDirectory)/eng/scripts/check-external-dependency.ps1
+      arguments: >
+        -RepoName azure-sdk-for-js
+        -RepoOwner azure
+        -AuthToken "$(azuresdk-github-pat)"
+      pwsh: true
+
+  - script: |
+      git reset --hard
+    displayName: "Reset Changes"

@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { StreamAnalyticsManagementClient } from "./streamAnalyticsManagementClient";
-export { StreamAnalyticsManagementClientContext } from "./streamAnalyticsManagementClientContext";
 export * from "./operationsInterfaces";

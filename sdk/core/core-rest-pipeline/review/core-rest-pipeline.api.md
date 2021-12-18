@@ -90,6 +90,13 @@ export function decompressResponsePolicy(): PipelinePolicy;
 export const decompressResponsePolicyName = "decompressResponsePolicy";
 
 // @public
+export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
+
+// @public
+export interface DefaultRetryPolicyOptions extends PipelineRetryOptions {
+}
+
+// @public
 export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
 
 // @public
@@ -178,7 +185,7 @@ export interface Pipeline {
 export interface PipelineOptions {
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
-    retryOptions?: ExponentialRetryPolicyOptions;
+    retryOptions?: PipelineRetryOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 
@@ -243,6 +250,13 @@ export interface PipelineResponse {
 }
 
 // @public
+export interface PipelineRetryOptions {
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+    retryDelayInMs?: number;
+}
+
+// @public
 export function proxyPolicy(proxySettings?: ProxySettings | undefined, options?: {
     customNoProxyList?: string[];
 }): PipelinePolicy;
@@ -301,6 +315,37 @@ export interface RestErrorOptions {
 }
 
 // @public
+export interface RetryInformation {
+    response?: PipelineResponse;
+    responseError?: RestError;
+    retryCount: number;
+}
+
+// @public
+export interface RetryModifiers {
+    errorToThrow?: RestError;
+    redirectTo?: string;
+    retryAfterInMs?: number;
+    skipStrategy?: boolean;
+}
+
+// @public
+export function retryPolicy(strategies: RetryStrategy[], options?: RetryPolicyOptions): PipelinePolicy;
+
+// @public
+export interface RetryPolicyOptions {
+    logger?: AzureLogger;
+    maxRetries?: number;
+}
+
+// @public
+export interface RetryStrategy {
+    logger?: AzureLogger;
+    name: string;
+    retry(state: RetryInformation): RetryModifiers;
+}
+
+// @public
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
 // @public
@@ -323,10 +368,15 @@ export interface SystemErrorRetryPolicyOptions {
 }
 
 // @public
-export function throttlingRetryPolicy(): PipelinePolicy;
+export function throttlingRetryPolicy(options?: ThrottlingRetryPolicyOptions): PipelinePolicy;
 
 // @public
 export const throttlingRetryPolicyName = "throttlingRetryPolicy";
+
+// @public
+export interface ThrottlingRetryPolicyOptions {
+    maxRetries?: number;
+}
 
 // @public
 export function tracingPolicy(options?: TracingPolicyOptions): PipelinePolicy;

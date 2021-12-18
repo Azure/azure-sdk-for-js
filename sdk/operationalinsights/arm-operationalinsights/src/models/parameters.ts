@@ -19,6 +19,7 @@ import {
   StorageInsight as StorageInsightMapper,
   SavedSearch as SavedSearchMapper,
   WorkspacePurgeBody as WorkspacePurgeBodyMapper,
+  Table as TableMapper,
   Cluster as ClusterMapper,
   ClusterPatch as ClusterPatchMapper,
   Workspace as WorkspaceMapper,
@@ -350,6 +351,22 @@ export const apiVersion2: OperationQueryParameter = {
 
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
+  mapper: TableMapper
+};
+
+export const tableName: OperationURLParameter = {
+  parameterPath: "tableName",
+  mapper: {
+    serializedName: "tableName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
   mapper: ClusterMapper
 };
 
@@ -380,12 +397,12 @@ export const clusterName1: OperationURLParameter = {
   }
 };
 
-export const parameters7: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: ClusterPatchMapper
 };
 
-export const parameters8: OperationParameter = {
+export const parameters9: OperationParameter = {
   parameterPath: "parameters",
   mapper: WorkspaceMapper
 };
@@ -400,7 +417,7 @@ export const force: OperationQueryParameter = {
   }
 };
 
-export const parameters9: OperationParameter = {
+export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: WorkspacePatchMapper
 };

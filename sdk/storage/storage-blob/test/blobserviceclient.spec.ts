@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import * as dotenv from "dotenv";
 import { BlobServiceClient } from "../src";
@@ -493,13 +493,13 @@ describe("BlobServiceClient", () => {
     const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
     const response = await serviceURLWithToken!.getUserDelegationKey(now, tmr);
-    assert.notDeepStrictEqual(response.value, undefined);
-    assert.notDeepStrictEqual(response.signedVersion, undefined);
-    assert.notDeepStrictEqual(response.signedTenantId, undefined);
-    assert.notDeepStrictEqual(response.signedStartsOn, undefined);
-    assert.notDeepStrictEqual(response.signedService, undefined);
-    assert.notDeepStrictEqual(response.signedObjectId, undefined);
-    assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
+    assert.notDeepEqual(response.value, undefined);
+    assert.notDeepEqual(response.signedVersion, undefined);
+    assert.notDeepEqual(response.signedTenantId, undefined);
+    assert.notDeepEqual(response.signedStartsOn, undefined);
+    assert.notDeepEqual(response.signedService, undefined);
+    assert.notDeepEqual(response.signedObjectId, undefined);
+    assert.notDeepEqual(response.signedExpiresOn, undefined);
   });
 
   it("Find blob by tags should work", async function() {

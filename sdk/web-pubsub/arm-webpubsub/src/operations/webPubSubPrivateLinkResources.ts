@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { WebPubSubPrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { WebPubSubManagementClientContext } from "../webPubSubManagementClientContext";
+import { WebPubSubManagementClient } from "../webPubSubManagementClient";
 import {
   PrivateLinkResource,
   WebPubSubPrivateLinkResourcesListNextOptionalParams,
@@ -22,16 +21,16 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a WebPubSubPrivateLinkResources. */
+/** Class containing WebPubSubPrivateLinkResources operations. */
 export class WebPubSubPrivateLinkResourcesImpl
   implements WebPubSubPrivateLinkResources {
-  private readonly client: WebPubSubManagementClientContext;
+  private readonly client: WebPubSubManagementClient;
 
   /**
    * Initialize a new instance of the class WebPubSubPrivateLinkResources class.
    * @param client Reference to the service client
    */
-  constructor(client: WebPubSubManagementClientContext) {
+  constructor(client: WebPubSubManagementClient) {
     this.client = client;
   }
 

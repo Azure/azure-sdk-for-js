@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import { AbortController } from "@azure/abort-controller";
 import {
@@ -216,7 +216,7 @@ describe("Highlevel", () => {
       uint8Array[i] = i;
     }
 
-    const blob = new Blob([arrayBuf]);
+    const blob = new Blob([arrayBuf], { type: "application/octet-stream" });
     await blockBlobClient.uploadData(blob);
     const downloadedBlob = await (await blockBlobClient.download()).blobBody;
     assert.deepStrictEqual(downloadedBlob, blob);
@@ -228,11 +228,17 @@ describe("Highlevel", () => {
     const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
     await blockBlobClient.uploadData(uint8ArrayPartial);
     const downloadedBlob2 = await (await blockBlobClient.download()).blobBody!;
-    assert.deepStrictEqual(downloadedBlob2, new Blob([uint8ArrayPartial]));
+    assert.deepStrictEqual(
+      downloadedBlob2,
+      new Blob([uint8ArrayPartial], { type: "application/octet-stream" })
+    );
 
     const uint16Array = new Uint16Array(arrayBuf, 4, 2);
     await blockBlobClient.uploadData(uint16Array);
     const downloadedBlob3 = await (await blockBlobClient.download()).blobBody!;
-    assert.deepStrictEqual(downloadedBlob3, new Blob([uint16Array]));
+    assert.deepStrictEqual(
+      downloadedBlob3,
+      new Blob([uint16Array], { type: "application/octet-stream" })
+    );
   });
 });

@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 
 import { parseSyncToken, SyncTokens } from "../../src/internal/synctokenpolicy";
-import * as assert from "assert";
+import { assert } from "chai";
 import { AppConfigurationClient } from "../../src";
 import nock from "nock";
 import {

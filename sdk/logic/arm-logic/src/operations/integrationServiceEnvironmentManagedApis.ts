@@ -11,7 +11,7 @@ import { IntegrationServiceEnvironmentManagedApis } from "../operationsInterface
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { LogicManagementClientContext } from "../logicManagementClientContext";
+import { LogicManagementClient } from "../logicManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -31,13 +31,13 @@ import {
 /** Class containing IntegrationServiceEnvironmentManagedApis operations. */
 export class IntegrationServiceEnvironmentManagedApisImpl
   implements IntegrationServiceEnvironmentManagedApis {
-  private readonly client: LogicManagementClientContext;
+  private readonly client: LogicManagementClient;
 
   /**
    * Initialize a new instance of the class IntegrationServiceEnvironmentManagedApis class.
    * @param client Reference to the service client
    */
-  constructor(client: LogicManagementClientContext) {
+  constructor(client: LogicManagementClient) {
     this.client = client;
   }
 

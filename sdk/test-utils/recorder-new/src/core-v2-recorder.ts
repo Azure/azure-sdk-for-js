@@ -7,12 +7,13 @@ import {
   createPipelineRequest,
   HttpClient,
   HttpMethods,
+  Pipeline,
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import { isLiveMode, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import {
   ensureExistence,
   getTestMode,
@@ -26,6 +27,7 @@ import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { Sanitizer } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
+import { Matcher, setMatcher } from "./matcher";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -42,25 +44,7 @@ export class TestProxyHttpClient {
   public httpClient: HttpClient | undefined = undefined;
   private sessionFile: string | undefined = undefined;
   private sanitizer: Sanitizer | undefined;
-
-  /**
-   * Add the dynamically created variables here in the record mode, so that the recorder registers them as part of the recording.
-   * Using this "variables" in playback mode would give the key-value pairs that are stored in record mode.
-   *
-   * Example:
-   *  ```ts
-   *       if (!isPlaybackMode()) {
-   *           recorder.variables["random-1"] = `random-${Math.ceil(Math.random() * 1000 + 1000)}`;
-   *       }
-   *  ```
-   * Use this `recorder.variables["random-1"]` whereever you'd like to use in your test.
-   *      (This would work in all three modes - record/playback/live just by adding the if-block above)
-   *
-   * Internals(How does it work?):
-   *  - recorder.stop() call sends the variables to the proxy-tool (in record mode)
-   *  - recorder.start() call loads those variables given by the proxy tool (in playback mode)
-   */
-  public variables: Record<string, string>;
+  private variables: Record<string, string>;
 
   constructor(private testContext?: Test | undefined) {
     this.mode = getTestMode();
@@ -81,21 +65,25 @@ export class TestProxyHttpClient {
   /**
    * For core-v1 (core-http)
    */
-  redirectRequest(request: WebResourceLike): WebResourceLike;
+  redirectRequest(request: WebResourceLike): void;
 
   /**
    * For core-v2 (core-rest-pipeline)
    */
-  redirectRequest(request: PipelineRequest): PipelineRequest;
+  redirectRequest(request: PipelineRequest): void;
 
   /**
    * redirectRequest updates the request in record and playback modes to hit the proxy-tool with appropriate headers.
    * Works for both core-v1 and core-v2
    */
-  redirectRequest(request: WebResourceLike | PipelineRequest) {
+  redirectRequest(request: WebResourceLike | PipelineRequest): void {
     if (isPlaybackMode() || isRecordMode()) {
       if (!request.headers.get("x-recording-id")) {
-        request.headers.set("x-recording-id", this.recordingId!);
+        if (this.recordingId === undefined) {
+          throw new RecorderError("Recording ID must be defined to redirect a request");
+        }
+
+        request.headers.set("x-recording-id", this.recordingId);
         request.headers.set("x-recording-mode", this.mode);
 
         const upstreamUrl = new URL(request.url);
@@ -109,7 +97,6 @@ export class TestProxyHttpClient {
         request.url = redirectedUrl.toString();
       }
     }
-    return request;
   }
 
   /**
@@ -131,7 +118,7 @@ export class TestProxyHttpClient {
   async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
     if (isPlaybackMode() || isRecordMode()) {
       if (this.recordingId) {
-        request = this.redirectRequest(request);
+        this.redirectRequest(request);
         request.allowInsecureConnection = true;
       }
     }
@@ -225,6 +212,19 @@ export class TestProxyHttpClient {
   }
 
   /**
+   * Sets the matcher for the current recording to the matcher specified.
+   */
+  async setMatcher(matcher: Matcher): Promise<void> {
+    if (this.mode === "playback") {
+      if (!this.httpClient) {
+        throw new RecorderError("httpClient should be defined in playback mode");
+      }
+
+      await setMatcher(this.url, this.httpClient, matcher, this.recordingId);
+    }
+  }
+
+  /**
    * Adds the recording file and the recording id headers to the requests that are sent to the proxy tool.
    * These are required to appropriately save the recordings in the record mode and picking them up in playback.
    *
@@ -240,6 +240,73 @@ export class TestProxyHttpClient {
       req.headers.set("x-recording-id", this.recordingId);
     }
     return req;
+  }
+
+  /**
+   * For core-v2 - libraries depending on core-rest-pipeline.
+   * This method adds the recording policy to the input client's pipeline.
+   */
+  public configureClient(client: { pipeline: Pipeline }): void {
+    if (!isLiveMode()) {
+      client.pipeline.addPolicy(recorderHttpPolicy(this));
+    }
+  }
+
+  /**
+   * Register a variable to be stored with the recording. The behavior of this function
+   * depends on whether the recorder is in record/live mode or in playback mode.
+   *
+   * In record or live mode, the function will store the value provided with the recording
+   * as a variable and return that value.
+   *
+   * In playback mode, the function will fetch the value from the variables stored as part of the recording
+   * and return the retrieved variable, throwing an error if it is not found.
+   *
+   * @param name - the name of the variable to be stored in the recording
+   * @param value - the value of the variable. In record mode, this value will be stored
+   *                with the recording; in playback mode, this parameter is ignored.
+   * @returns in record and live mode, `value` without modification.
+   *          In playback mode, the variable's value from the recording.
+   */
+  variable(name: string, value: string): string;
+
+  /**
+   * Convenience overload in case you want to reference the same variable multiple times in a test without
+   * declaring a variable of your own, or if you know you're in playback mode and don't want to specify an
+   * initial value. Throws an error in record and live mode if a call to variable(name, value) has not been
+   * made previously.
+   *
+   * @param name - the name of the variable stored in the recording
+   * @returns the value of the variable -- in record and live mode, the value set
+   *          in a previous call to variable(name, value). In playback mode, the variable's
+   *          value from the recording.
+   */
+  variable(name: string): string;
+
+  variable(name: string, value: string | undefined = undefined): string {
+    if (isPlaybackMode()) {
+      const recordedValue = this.variables[name];
+
+      if (recordedValue === undefined) {
+        throw new RecorderError(
+          `Tried to access a variable in playback that was not set in recording: ${name}`
+        );
+      }
+
+      return recordedValue;
+    }
+
+    if (!this.variables[name]) {
+      if (value === undefined) {
+        throw new RecorderError(
+          `Tried to access uninitialized variable: ${name}. You must initialize it with a value before using it.`
+        );
+      }
+
+      this.variables[name] = value;
+    }
+
+    return this.variables[name];
   }
 }
 
