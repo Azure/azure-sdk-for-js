@@ -51,3 +51,4 @@ export {
   parseEventHubConnectionString,
   EventHubConnectionStringProperties
 } from "./util/connectionStringUtils";
+export { MessageWithMetadata } from "./messageWithMetadata";

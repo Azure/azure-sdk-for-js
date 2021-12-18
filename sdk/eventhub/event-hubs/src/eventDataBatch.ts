@@ -11,6 +11,7 @@ import { OperationTracingOptions } from "@azure/core-tracing";
 import { convertTryAddOptionsForCompatibility } from "./diagnostics/tracing";
 import { instrumentEventData } from "./diagnostics/instrumentEventData";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
+import { MessageWithMetadata, toEventData } from "./messageWithMetadata";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -109,7 +110,10 @@ export interface EventDataBatch {
    * @param eventData -  An individual event data object or AmqpAnnotatedMessage.
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
-  tryAdd(eventData: EventData | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
+  tryAdd(
+    eventData: EventData | AmqpAnnotatedMessage | MessageWithMetadata,
+    options?: TryAddOptions
+  ): boolean;
 
   /**
    * The AMQP message containing encoded events that were added to the batch.
@@ -284,13 +288,16 @@ export class EventDataBatchImpl implements EventDataBatch {
    * @param eventData -  An individual event data object.
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
-  public tryAdd(eventData: EventData | AmqpAnnotatedMessage, options: TryAddOptions = {}): boolean {
+  public tryAdd(
+    eventData: EventData | AmqpAnnotatedMessage | MessageWithMetadata,
+    options: TryAddOptions = {}
+  ): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "tryAdd", "eventData", eventData);
     options = convertTryAddOptionsForCompatibility(options);
 
     const { entityPath, host } = this._context.config;
     const { event: instrumentedEvent, spanContext } = instrumentEventData(
-      eventData,
+      toEventData(eventData),
       options,
       entityPath,
       host

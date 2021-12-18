@@ -14,6 +14,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { AwaitableQueue } from "./impl/awaitableQueue";
 import { getPromiseParts } from "./util/getPromiseParts";
 import { logger } from "./log";
+import { MessageWithMetadata } from "./messageWithMetadata";
 
 export interface BatchingPartitionChannelProps {
   loopAbortSignal: AbortSignalLike;
@@ -37,8 +38,10 @@ export interface BatchingPartitionChannelProps {
  * @internal
  */
 export class BatchingPartitionChannel {
-  private _eventQueue = new AwaitableQueue<EventData | AmqpAnnotatedMessage>();
-  private _batchedEvents: Array<EventData | AmqpAnnotatedMessage> = [];
+  private _eventQueue = new AwaitableQueue<
+    EventData | AmqpAnnotatedMessage | MessageWithMetadata
+  >();
+  private _batchedEvents: Array<EventData | AmqpAnnotatedMessage | MessageWithMetadata> = [];
   private _bufferCount: number = 0;
   private _readyQueue: Array<{
     resolve: (value: void) => void;
@@ -82,7 +85,7 @@ export class BatchingPartitionChannel {
     return this._bufferCount;
   }
 
-  async enqueueEvent(event: EventData | AmqpAnnotatedMessage): Promise<void> {
+  async enqueueEvent(event: EventData | AmqpAnnotatedMessage | MessageWithMetadata): Promise<void> {
     await this._ready();
     this._eventQueue.push(event);
     this._bufferCount++;
@@ -158,7 +161,7 @@ export class BatchingPartitionChannel {
     // from the queue, but has not yet been added to a batch.
     // This prevents losing an event if a `sendBatch` or `createBatch` call fails
     // before the event is added to a batch.
-    let eventToAddToBatch: EventData | AmqpAnnotatedMessage | undefined;
+    let eventToAddToBatch: EventData | AmqpAnnotatedMessage | MessageWithMetadata | undefined;
     while (!this._loopAbortSignal.aborted) {
       try {
         if (!isDefined(batch)) {
@@ -292,7 +295,7 @@ export class BatchingPartitionChannel {
    * Calls the user-provided `onSendEventsErrorHandler` with an error and the events
    * that were not successfully sent.
    */
-  private _reportFailure(err: any, event?: EventData | AmqpAnnotatedMessage) {
+  private _reportFailure(err: any, event?: EventData | AmqpAnnotatedMessage | MessageWithMetadata) {
     this._bufferCount = this._bufferCount - (event ? 1 : this._batchedEvents.length);
     this._updateFlushState();
     this._onSendEventsErrorHandler({

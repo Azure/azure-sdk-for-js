@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for sending messages of type `MessageWithMetadata` that can be created by Schema Registry encoders.
+
 ### Breaking Changes
 
 ### Bugs Fixed

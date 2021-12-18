@@ -23,6 +23,7 @@ import { EventHubSender } from "./eventHubSender";
 import { OperationOptions } from "./util/operationOptions";
 import { createEventHubSpan } from "./diagnostics/tracing";
 import { instrumentEventData } from "./diagnostics/instrumentEventData";
+import { MessageWithMetadata, toEventData } from "./messageWithMetadata";
 
 /**
  * The `EventHubProducerClient` class is used to send events to an Event Hub.
@@ -226,7 +227,7 @@ export class EventHubProducerClient {
    * await client.sendBatch(messages);
    * ```
    *
-   * @param batch - An array of {@link EventData} or `AmqpAnnotatedMessage`.
+   * @param batch - An array of {@link EventData}, `AmqpAnnotatedMessage`, or {@link MessageWithMetadata}.
    * @param options - A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
    * - `abortSignal`  : A signal the request to cancel the send operation.
@@ -239,7 +240,7 @@ export class EventHubProducerClient {
    * @throws Error if the underlying connection or sender has been closed.
    */
   async sendBatch(
-    batch: EventData[] | AmqpAnnotatedMessage[],
+    batch: EventData[] | AmqpAnnotatedMessage[] | MessageWithMetadata[],
     options?: SendBatchOptions
   ): Promise<void>;
   /**
@@ -274,7 +275,7 @@ export class EventHubProducerClient {
    */
   async sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>; // eslint-disable-line @azure/azure-sdk/ts-naming-options
   async sendBatch(
-    batch: EventDataBatch | EventData[],
+    batch: EventDataBatch | EventData[] | MessageWithMetadata[],
     options: SendBatchOptions | OperationOptions = {}
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
@@ -312,6 +313,8 @@ export class EventHubProducerClient {
       const expectedOptions = options as SendBatchOptions;
       partitionId = expectedOptions.partitionId;
       partitionKey = expectedOptions.partitionKey;
+
+      batch = batch.map(toEventData);
 
       for (let i = 0; i < batch.length; i++) {
         batch[i] = instrumentEventData(

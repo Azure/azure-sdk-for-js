@@ -92,7 +92,7 @@ export interface EventDataBatch {
     // @internal
     readonly partitionKey?: string;
     readonly sizeInBytes: number;
-    tryAdd(eventData: EventData | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
+    tryAdd(eventData: EventData | AmqpAnnotatedMessage | MessageWithMetadata, options?: TryAddOptions): boolean;
 }
 
 // @public
@@ -101,8 +101,8 @@ export class EventHubBufferedProducerClient {
     constructor(connectionString: string, eventHubName: string, options: EventHubBufferedProducerClientOptions);
     constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential | NamedKeyCredential | SASCredential, options: EventHubBufferedProducerClientOptions);
     close(options?: BufferedCloseOptions): Promise<void>;
-    enqueueEvent(event: EventData | AmqpAnnotatedMessage, options?: EnqueueEventOptions): Promise<number>;
-    enqueueEvents(events: EventData[] | AmqpAnnotatedMessage[], options?: EnqueueEventOptions): Promise<number>;
+    enqueueEvent(event: EventData | AmqpAnnotatedMessage | MessageWithMetadata, options?: EnqueueEventOptions): Promise<number>;
+    enqueueEvents(events: EventData[] | AmqpAnnotatedMessage[] | MessageWithMetadata[], options?: EnqueueEventOptions): Promise<number>;
     get eventHubName(): string;
     flush(options?: BufferedFlushOptions): Promise<void>;
     get fullyQualifiedNamespace(): string;
@@ -173,7 +173,7 @@ export class EventHubProducerClient {
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    sendBatch(batch: EventData[] | AmqpAnnotatedMessage[], options?: SendBatchOptions): Promise<void>;
+    sendBatch(batch: EventData[] | AmqpAnnotatedMessage[] | MessageWithMetadata[], options?: SendBatchOptions): Promise<void>;
     sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
 }
 
@@ -225,18 +225,24 @@ export interface LoadBalancingOptions {
 // @public
 export const logger: AzureLogger;
 
+// @public
+export interface MessageWithMetadata {
+    contentType: string;
+    data: Uint8Array;
+}
+
 export { MessagingError }
 
 // @public
 export interface OnSendEventsErrorContext {
     error: Error;
-    events: Array<EventData | AmqpAnnotatedMessage>;
+    events: Array<EventData | AmqpAnnotatedMessage | MessageWithMetadata>;
     partitionId: string;
 }
 
 // @public
 export interface OnSendEventsSuccessContext {
-    events: Array<EventData | AmqpAnnotatedMessage>;
+    events: Array<EventData | AmqpAnnotatedMessage | MessageWithMetadata>;
     partitionId: string;
 }
 

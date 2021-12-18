@@ -16,6 +16,7 @@ import { AbortController } from "@azure/abort-controller";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { BatchingPartitionChannel } from "./batchingPartitionChannel";
 import { PartitionAssigner } from "./impl/partitionAssigner";
+import { MessageWithMetadata } from "./messageWithMetadata";
 
 /**
  * Contains the events that were successfully sent to the Event Hub,
@@ -27,9 +28,9 @@ export interface OnSendEventsSuccessContext {
    */
   partitionId: string;
   /**
-   * The array of {@link EventData} and/or `AmqpAnnotatedMessage` that were successfully sent to the Event Hub.
+   * The array of {@link EventData}, `AmqpAnnotatedMessage`, and/or {@link MessageWithMetadata} that were successfully sent to the Event Hub.
    */
-  events: Array<EventData | AmqpAnnotatedMessage>;
+  events: Array<EventData | AmqpAnnotatedMessage | MessageWithMetadata>;
 }
 
 /**
@@ -42,9 +43,9 @@ export interface OnSendEventsErrorContext {
    */
   partitionId: string;
   /**
-   * The array of {@link EventData} and/or `AmqpAnnotatedMessage` that were not successfully sent to the Event Hub.
+   * The array of {@link EventData}, `AmqpAnnotatedMessage`, and/or {@link MessageWithMetadata}  that were not successfully sent to the Event Hub.
    */
-  events: Array<EventData | AmqpAnnotatedMessage>;
+  events: Array<EventData | AmqpAnnotatedMessage | MessageWithMetadata>;
   /**
    * The error that occurred when sending the associated events to the Event Hub.
    */
@@ -305,7 +306,7 @@ export class EventHubBufferedProducerClient {
    * but it may not have been published yet.
    * Publishing will take place at a nondeterministic point in the future as the buffer is processed.
    *
-   * @param events - An {@link EventData} or `AmqpAnnotatedMessage`.
+   * @param events - An {@link EventData}, `AmqpAnnotatedMessage`, or {@link MessageWithMetadata}.
    * @param options - A set of options that can be specified to influence the way in which
    * the event is sent to the associated Event Hub.
    * - `abortSignal`  : A signal used to cancel the enqueueEvent operation.
@@ -314,7 +315,7 @@ export class EventHubBufferedProducerClient {
    * @returns The total number of events that are currently buffered and waiting to be published, across all partitions.
    */
   async enqueueEvent(
-    event: EventData | AmqpAnnotatedMessage,
+    event: EventData | AmqpAnnotatedMessage | MessageWithMetadata,
     options: EnqueueEventOptions = {}
   ): Promise<number> {
     if (this._isClosed) {
@@ -350,7 +351,7 @@ export class EventHubBufferedProducerClient {
    * but it may not have been published yet.
    * Publishing will take place at a nondeterministic point in the future as the buffer is processed.
    *
-   * @param events - An array of {@link EventData} or `AmqpAnnotatedMessage`.
+   * @param events - An array of {@link EventData}, `AmqpAnnotatedMessage`, or {@link MessageWithMetadata}.
    * @param options - A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
    * - `abortSignal`  : A signal used to cancel the enqueueEvents operation.
@@ -359,7 +360,7 @@ export class EventHubBufferedProducerClient {
    * @returns The total number of events that are currently buffered and waiting to be published, across all partitions.
    */
   async enqueueEvents(
-    events: EventData[] | AmqpAnnotatedMessage[],
+    events: EventData[] | AmqpAnnotatedMessage[] | MessageWithMetadata[],
     options: EnqueueEventOptions = {}
   ): Promise<number> {
     for (const event of events) {
