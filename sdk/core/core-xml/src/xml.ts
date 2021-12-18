@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 
 import { j2xParser, parse, validate } from "fast-xml-parser";
-import { XML_ATTRKEY, XML_CHARKEY } from "./xml.common";
-
-import { XmlOptions } from "./xml.common";
+import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./xml.common";
 
 function getCommonOptions(options: XmlOptions) {
   return {
