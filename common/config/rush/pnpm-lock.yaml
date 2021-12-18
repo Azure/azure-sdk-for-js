@@ -3800,6 +3800,13 @@ packages:
     resolution: {integrity: sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=}
     dev: false
 
+  /fast-xml-parser/3.21.1:
+    resolution: {integrity: sha512-FTFVjYoBOZTJekiUsawGsSYV9QL0A+zDYCRj7y34IO6Jg+2IMYEtQa+bbictpdpV8dHxXywqU7C0gRDEOFtBFg==}
+    hasBin: true
+    dependencies:
+      strnum: 1.0.5
+    dev: false
+
   /fastq/1.13.0:
     resolution: {integrity: sha512-YpkpUnK8od0o1hmeSc7UUs/eB/vIPWJYjKck2QKIzAf71Vm1AAQ3EbuZB3g2JIy+pg+ERD0vqI79KyZiB2e2Nw==}
     dependencies:
@@ -6992,6 +6999,10 @@ packages:
   /strip-json-comments/3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
+    dev: false
+
+  /strnum/1.0.5:
+    resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
     dev: false
 
   /supports-color/2.0.0:
@@ -10665,7 +10676,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-dZtoaCIB9OoYX1Ulfd64nuZQ12G2goQzyuCfrxeWJbc/ecIHAfZgaJZbbQSSLb50KTmXeIF9ToqoY5qIE76jYw==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-K/I4vS3EMvNx8GtHp2NPBPWlkfphc4v8ridV6etgkYMTtVls7KBMUquqrfZaurtP5K10H8LRJ8oazt28jrWQmA==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -10679,6 +10690,7 @@ packages:
       cross-env: 7.0.3
       downlevel-dts: 0.4.0
       eslint: 7.32.0
+      fast-xml-parser: 3.21.1
       inherits: 2.0.4
       karma: 6.3.8
       karma-chrome-launcher: 3.1.0
@@ -11443,7 +11455,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-3sHOsnaop7VF99/TRXOWmeUD4vxl2mNcqic5kWdSJlLMlMYr5J92teb9Ys8A903r2OvKP/AUChwXptnX5D18zg==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-2DO+4Eg75yZ9tIJl/4WBkk2D3b2qrpuIHJPJQ3aYFrn06gRCiyLtD9wLWLuJZM597/U8Mz2AFKEP4oa9pqNirQ==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -11489,7 +11501,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-Vpd1EzZWdELDNuDG3uCVURsDOt4sV79XJ0XDXbtz8BHdyrFQf51BFxx7wUPmN3N6JBR7dYcfSs7OBdjMhJuVEA==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-fRnN3uH8Yw60ALFxjYvrSEOP3EP4X8CbT8X+qRVLE3GcnhbytoIza5Hu2TuJq31N4j7R4AbcOqCtC9nmtihedQ==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -11627,7 +11639,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-iO771VzUu5sXTkcWfwjcxT9wqCo75YMTGqBQiCaifiut6n29ke9ngliOxWus9Qb0dCVdlu9sXCZ1G9bJKmPHZw==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-nMU8vzQWo39Cm5rehMDTpOUcvvh8U4C8TfFVkKhd5em7YFcC9vw3LzmUz6DmawAE34IFxUvCR/UMBqPOBYhcDQ==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -13538,7 +13550,7 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-8m+/96tIbosDc/j30zMuSCakBuFiD9IM/TQ/+Z2uOeTUROiN2OXiJEfsjwPeKa3ujlHlzcpqJT/YH6y1yYY06g==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-dIUQJVvw4Gnx1Osn8Vj7n6nqoGnnQ8KV+b6fkYsdyovvWHNiNFhWK/OQ266RL82kLTxYavEKp6QXQQciJ1XnZA==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
