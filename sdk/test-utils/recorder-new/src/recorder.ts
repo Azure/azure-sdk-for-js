@@ -52,9 +52,9 @@ export class RecorderClient {
   private url = "http://localhost:5000";
   public recordingId?: string;
   private stateManager = new RecordingStateManager();
-  private httpClient: HttpClient | undefined = undefined;
-  private sessionFile: string | undefined = undefined;
-  private sanitizer: Sanitizer | undefined;
+  private httpClient?: HttpClient = undefined;
+  private sessionFile?: string = undefined;
+  private sanitizer?: Sanitizer;
   private variables: Record<string, string>;
 
   constructor(private testContext?: Test | undefined) {
