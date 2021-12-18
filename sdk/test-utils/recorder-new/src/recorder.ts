@@ -34,6 +34,7 @@ import {
   DefaultHttpClient,
   HttpClient as HttpClientCoreV1,
   HttpOperationResponse,
+  WebResource,
   WebResourceLike
 } from "@azure/core-http";
 
@@ -88,10 +89,10 @@ export class Recorder {
    * redirectRequest updates the request in record and playback modes to hit the proxy-tool with appropriate headers.
    * Works for both core-v1 and core-v2
    *
-   * - WebResourceLike -> core-v1
-   * - PipelineRequest -> core-v2
+   * - WebResource -> core-v1
+   * - PipelineRequest -> core-v2 (recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.)
    */
-  private redirectRequest(request: WebResourceLike | PipelineRequest): void {
+  private redirectRequest(request: WebResource | PipelineRequest): void {
     if (!isLiveMode() && !request.headers.get("x-recording-id")) {
       if (this.recordingId === undefined) {
         throw new RecorderError("Recording ID must be defined to redirect a request");
@@ -109,16 +110,12 @@ export class Recorder {
       redirectedUrl.protocol = providedUrl.protocol;
       request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
       request.url = redirectedUrl.toString();
-    }
-  }
 
-  /**
-   * recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.
-   */
-  private async modifyRequest(request: PipelineRequest): Promise<void> {
-    if (isLiveMode()) return;
-    this.redirectRequest(request);
-    request.allowInsecureConnection = true;
+      if (!(request instanceof WebResource)) {
+        // for core-v2
+        request.allowInsecureConnection = true;
+      }
+    }
   }
 
   /**
@@ -265,7 +262,7 @@ export class Recorder {
         request: PipelineRequest,
         next: SendRequest
       ): Promise<PipelineResponse> => {
-        await this.modifyRequest(request);
+        this.redirectRequest(request);
         return next(request);
       }
     };

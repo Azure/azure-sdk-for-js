@@ -241,50 +241,6 @@ describe("TestProxyClient functions", () => {
     });
   });
 
-  describe("modifyRequest method", () => {
-    it("request unchanged if not playback or record modes", async function() {
-      env.TEST_MODE = "live";
-      expect(await client["modifyRequest"](initialRequest)).to.deep.equal(initialRequest);
-    });
-
-    ["record", "playback"].forEach((testMode) => {
-      it(
-        `${testMode} mode: ` + "request unchanged if `x-recording-id` in headers",
-        async function() {
-          env.TEST_MODE = testMode;
-          const request: PipelineRequest = {
-            ...initialRequest,
-            headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
-          };
-          client.recordingId = "dummy-recording-id";
-          expect(await client["modifyRequest"](request)).to.deep.equal(request);
-        }
-      );
-
-      it(
-        `${testMode} mode: ` + "url and headers get updated if no `x-recording-id` in headers",
-        async function() {
-          env.TEST_MODE = testMode;
-          client = new Recorder(testContext);
-          const request: PipelineRequest = {
-            ...initialRequest,
-            headers: createHttpHeaders({})
-          };
-          client.recordingId = "dummy-recording-id";
-          expect(await client["modifyRequest"](request)).to.deep.equal({
-            ...request,
-            url: "http://localhost:5000/dummy_path?sas=sas",
-            headers: createHttpHeaders({
-              "x-recording-upstream-base-uri": initialRequest.url,
-              "x-recording-id": client.recordingId,
-              "x-recording-mode": env.TEST_MODE
-            })
-          });
-        }
-      );
-    });
-  });
-
   describe("variable method", () => {
     it("throws an error in record mode if a variable is accessed without giving it a value", () => {
       env.TEST_MODE = "record";
