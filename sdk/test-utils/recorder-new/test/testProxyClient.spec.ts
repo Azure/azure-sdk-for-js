@@ -8,11 +8,11 @@ import {
   PipelineResponse
 } from "@azure/core-rest-pipeline";
 import { expect } from "chai";
-import { env, RecorderClient } from "../src";
+import { env, Recorder } from "../src";
 import { RecorderError, RecordingStateManager } from "../src/utils/utils";
 
 const testRedirectedRequest = (
-  client: RecorderClient,
+  client: Recorder,
   makeRequest: () => PipelineRequest,
   expectedModification: (req: PipelineRequest) => PipelineRequest
 ) => {
@@ -22,11 +22,11 @@ const testRedirectedRequest = (
 };
 
 describe("TestProxyClient functions", () => {
-  let client: RecorderClient;
+  let client: Recorder;
   let clientHttpClient: HttpClient;
   let testContext: Mocha.Test | undefined;
   beforeEach(function() {
-    client = new RecorderClient(this.currentTest);
+    client = new Recorder(this.currentTest);
     clientHttpClient = client["httpClient"] as HttpClient;
     testContext = this.currentTest;
   });
@@ -73,7 +73,7 @@ describe("TestProxyClient functions", () => {
         `${testMode} mode: ` + "url and headers get updated if no `x-recording-id` in headers",
         function() {
           env.TEST_MODE = testMode;
-          client = new RecorderClient(testContext);
+          client = new Recorder(testContext);
           client.recordingId = "dummy-recording-id";
 
           testRedirectedRequest(
@@ -265,7 +265,7 @@ describe("TestProxyClient functions", () => {
         `${testMode} mode: ` + "url and headers get updated if no `x-recording-id` in headers",
         async function() {
           env.TEST_MODE = testMode;
-          client = new RecorderClient(testContext);
+          client = new Recorder(testContext);
           const request: PipelineRequest = {
             ...initialRequest,
             headers: createHttpHeaders({})

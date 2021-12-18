@@ -6,11 +6,10 @@
 
 - Refactoring the test proxy http clients for better clarity for the end users [#19446](https://github.com/Azure/azure-sdk-for-js/pull/19446)
 
-  - Client Renames
-    - `TestProxyHttpClient`s -> `RecorderClient`
+  - Client rename `TestProxyHttpClient` -> `Recorder`
   - Design Changes
-    - Removing the separate `RecorderClientCoreV1`
-      - Instead of passing the whole client as the `httpClient` for core-v1 sdks, users are now expected to call `recorder.createHttpClientCoreV1` on the client options while passing to the respective client(where `recorder` is an instantiation of `RecorderClient`). This modifies the httpClient in the options to allow redirecting the requests to the test-proxy tool.
+    - Removing the separate `TestProxyHttpClientCoreV1`
+      - Instead of passing the whole client as the `httpClient` for core-v1 sdks, users are now expected to call `recorder.configureClientOptionsCoreV1` on the client options while passing to the respective client(where `recorder` is an instantiation of `RecorderClient`). This modifies the httpClient in the options to allow redirecting the requests to the test-proxy tool.
     - Duplicated helpers from old recorder to not depend on old recorder package.. with an intention to replace the recorder package as 2.0 and not merge since the old recorder is published already
     - Makes the following members of `RecorderClient` private - `httpClient` - `redirectRequest` - `modifyRequest` - `recorderHttpPolicy` - `createHttpClientCoreV1`
 

@@ -48,7 +48,7 @@ import {
  *
  * Other than configuring your clients, use `start`, `stop`, `addSanitizers` methods to use the recorder.
  */
-export class RecorderClient {
+export class Recorder {
   private url = "http://localhost:5000";
   public recordingId?: string;
   private stateManager = new RecordingStateManager();

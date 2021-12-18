@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RecorderStartOptions, RecorderClient, env } from "@azure-tools/test-recorder-new";
+import { RecorderStartOptions, Recorder, env } from "@azure-tools/test-recorder-new";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { TokenCredential } from "@azure/core-auth";
 import { TableServiceClient } from "@azure/data-tables";
@@ -24,11 +24,11 @@ const recorderStartOptions: RecorderStartOptions = {
 };
 
 describe(`NoOp credential with Tables`, () => {
-  let recorder: RecorderClient;
+  let recorder: Recorder;
   let credential: TokenCredential;
 
   beforeEach(async function() {
-    recorder = new RecorderClient(this.currentTest);
+    recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
     credential = createTestCredential();
   });

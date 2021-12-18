@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TableEntity, TableClient } from "@azure/data-tables";
-import { RecorderClient, RecorderStartOptions, env } from "@azure-tools/test-recorder-new";
+import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder-new";
 import { createSimpleEntity } from "./utils/utils";
 import { SanitizerOptions } from "@azure-tools/test-recorder-new";
 
@@ -27,10 +27,10 @@ const recorderOptions: RecorderStartOptions = {
 };
 
 describe("Core V2 tests", () => {
-  let recorder: RecorderClient;
+  let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = new RecorderClient(this.currentTest);
+    recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
   });
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { QueueServiceClient } from "@azure/storage-queue";
-import { RecorderClient, RecorderStartOptions, env } from "@azure-tools/test-recorder-new";
+import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder-new";
 
 const fakeSASUrl =
   "https://account_name.queue.core.windows.net/?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2026-07-10T07:00:24Z&st=2021-07-09T23:00:24Z&spr=https&sig=fake_sig";
@@ -32,10 +32,10 @@ const getSanitizerOptions = () => {
 };
 
 describe("Core V1 tests", () => {
-  let recorder: RecorderClient;
+  let recorder: Recorder;
 
   beforeEach(async function() {
-    recorder = new RecorderClient(this.currentTest);
+    recorder = new Recorder(this.currentTest);
 
     await recorder.start(recorderOptions);
     await recorder.addSanitizers(getSanitizerOptions());

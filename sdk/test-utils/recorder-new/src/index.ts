@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { RecorderClient } from "./recorder";
+export { Recorder } from "./recorder";
 export { relativeRecordingsPath } from "./utils/relativePathCalculator";
 export {
   SanitizerOptions,
