@@ -3,6 +3,7 @@
 
 import { QueueServiceClient } from "@azure/storage-queue";
 import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder-new";
+import { getEnvironmentVariable } from "./utils/utils";
 
 const fakeSASUrl =
   "https://account_name.queue.core.windows.net/?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2026-07-10T07:00:24Z&st=2021-07-09T23:00:24Z&spr=https&sig=fake_sig";
@@ -47,7 +48,7 @@ describe("Core V1 tests", () => {
 
   it("storage-queue create queue", async function() {
     const client = new QueueServiceClient(
-      env.STORAGE_SAS_URL || "undefined",
+      getEnvironmentVariable("STORAGE_SAS_URL"),
       undefined,
       recorder.configureClientOptionsCoreV1({})
     );

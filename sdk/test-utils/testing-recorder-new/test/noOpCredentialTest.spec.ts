@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RecorderStartOptions, Recorder, env } from "@azure-tools/test-recorder-new";
+import { RecorderStartOptions, Recorder } from "@azure-tools/test-recorder-new";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { TokenCredential } from "@azure/core-auth";
 import { TableServiceClient } from "@azure/data-tables";
+import { getEnvironmentVariable } from "./utils/utils";
 
 const recorderStartOptions: RecorderStartOptions = {
   envSetupForPlayback: {
@@ -16,7 +17,7 @@ const recorderStartOptions: RecorderStartOptions = {
   sanitizerOptions: {
     bodyRegexSanitizers: [
       {
-        regex: encodeURIComponent(env.TABLES_URL || "undefined"),
+        regex: encodeURIComponent(getEnvironmentVariable("TABLES_URL")),
         value: encodeURIComponent(`https://fakeaccount.table.core.windows.net`)
       }
     ]
@@ -42,7 +43,7 @@ describe(`NoOp credential with Tables`, () => {
       "table-name",
       `table${Math.ceil(Math.random() * 1000 + 1000)}`
     );
-    const client = new TableServiceClient(env.TABLES_URL || "undefined", credential);
+    const client = new TableServiceClient(getEnvironmentVariable("TABLES_URL"), credential);
     recorder.configureClient(client);
     await client.createTable(tableName);
     await client.deleteTable(tableName);

@@ -3,7 +3,7 @@
 
 import { TableEntity, TableClient } from "@azure/data-tables";
 import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder-new";
-import { createSimpleEntity } from "./utils/utils";
+import { createSimpleEntity, getEnvironmentVariable } from "./utils/utils";
 import { SanitizerOptions } from "@azure-tools/test-recorder-new";
 
 const fakeConnString =
@@ -40,7 +40,7 @@ describe("Core V2 tests", () => {
 
   it("data-tables create entity", async function() {
     const client = TableClient.fromConnectionString(
-      env.TABLES_SAS_CONNECTION_STRING || "undefined",
+      getEnvironmentVariable("TABLES_SAS_CONNECTION_STRING"),
       recorder.variable("table-name", `table${Math.ceil(Math.random() * 1000 + 1000)}`)
     );
     recorder.configureClient(client);

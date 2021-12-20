@@ -30,7 +30,7 @@ export class Sanitizer {
       const req = this._createRecordingRequest(infoUri, "GET");
       if (!this.httpClient) {
         throw new RecorderError(
-          `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${getTestMode()} mode.`
+          `Something went wrong, Sanitizer.httpClient should not have been undefined in ${getTestMode()} mode.`
         );
       }
       const rsp = await this.httpClient.sendRequest({

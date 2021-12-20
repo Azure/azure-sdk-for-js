@@ -202,7 +202,7 @@ export class Recorder {
    * Sets the matcher for the current recording to the matcher specified.
    */
   async setMatcher(matcher: Matcher): Promise<void> {
-    if (getTestMode() === "playback") {
+    if (isPlaybackMode()) {
       if (!this.httpClient) {
         throw new RecorderError("httpClient should be defined in playback mode");
       }
