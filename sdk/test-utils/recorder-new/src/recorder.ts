@@ -74,18 +74,6 @@ export class Recorder {
   }
 
   /**
-   * addSanitizers adds the sanitizers for the current recording which will be applied on it before being saved.
-   *
-   * Takes SanitizerOptions as the input, passes on to the proxy-tool.
-   */
-  async addSanitizers(options: SanitizerOptions): Promise<void> {
-    // If check needed because we only sanitize when the recording is being generated, and we need a recording to apply the sanitizers on.
-    if (isRecordMode() && ensureExistence(this.sanitizer, "this.sanitizer")) {
-      return this.sanitizer.addSanitizers(options);
-    }
-  }
-
-  /**
    * redirectRequest updates the request in record and playback modes to hit the proxy-tool with appropriate headers.
    * Works for both core-v1 and core-v2
    *
@@ -115,6 +103,18 @@ export class Recorder {
         // for core-v2
         request.allowInsecureConnection = true;
       }
+    }
+  }
+
+  /**
+   * addSanitizers adds the sanitizers for the current recording which will be applied on it before being saved.
+   *
+   * Takes SanitizerOptions as the input, passes on to the proxy-tool.
+   */
+  async addSanitizers(options: SanitizerOptions): Promise<void> {
+    // If check needed because we only sanitize when the recording is being generated, and we need a recording to apply the sanitizers on.
+    if (isRecordMode() && ensureExistence(this.sanitizer, "this.sanitizer")) {
+      return this.sanitizer.addSanitizers(options);
     }
   }
 
