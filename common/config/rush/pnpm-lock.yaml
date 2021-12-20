@@ -475,8 +475,8 @@ packages:
       tslib: 2.3.1
     dev: false
 
-  /@azure/communication-signaling/1.0.0-beta.11:
-    resolution: {integrity: sha512-+erzTnfEB0xymIHPJm6WXrYaWB/GvK6bMm8V3Kl4STcpY2qAO102DM6wEHsn7qtjbfwLp1+mC8ka8CoglWcugQ==}
+  /@azure/communication-signaling/1.0.0-beta.12:
+    resolution: {integrity: sha512-TyVz8K/gVeubjCjHPCHUT8CoPraWP0cOG1w0URLAmfXrA7uq7yDSjUOPmCpJngzh9RutWBGYic0KIPmg/RH+OQ==}
     engines: {node: '>=8.0.0'}
     dependencies:
       '@azure/core-http': 2.2.2
@@ -9231,12 +9231,12 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-voGS7JZGncpCrvoZ5DDJksI9N19+lZbHdaPyLLoxAuo203LaKamWP6xk8UhM1ZnrmPxuegCTECmJrsDK/PQZxA==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-i8O1vcHtskUYNKJMOuDG3fcrguOLC9wUvbwApeUhcACs2kJVWyPq+/KknHxy5ziBfOBST0lE0wKlhhQI+cpKqg==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
       '@azure/communication-identity': 1.0.0
-      '@azure/communication-signaling': 1.0.0-beta.11
+      '@azure/communication-signaling': 1.0.0-beta.12
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
