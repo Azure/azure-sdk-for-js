@@ -89,7 +89,7 @@ export const sanitizerKeywordMapping: Record<
 /**
  * This sanitizer offers a general regex replace across request/response Body, Headers, and URI. For the body, this means regex applying to the raw JSON.
  */
-interface RegexSanitizer {
+export interface RegexSanitizer {
   /**
    * The substitution value.
    */
@@ -306,7 +306,7 @@ export function isPlaybackMode() {
  * @param {{ [key: string]: string }} variables
  */
 export function setEnvironmentVariables(
-  env: Record<string, string>,
+  env: Record<string, string | undefined>,
   variables: { [key: string]: string }
 ) {
   Object.keys(variables).map((key) => {
