@@ -4,7 +4,7 @@
 import * as ts from "typescript";
 import { createPrinter } from "../printer";
 
-const log = createPrinter("samples:processor");
+const log = createPrinter("samples:syntax");
 
 /**
  * Tests for syntax compatibility.
@@ -75,7 +75,7 @@ const SYNTAX_VIABILITY_TESTS = {
       node.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.StaticKeyword),
     // #foo (Node 14+)
     PrivateIdentifier: ts.isPrivateIdentifier,
-    // static { ... } () (Node 17+)
+    // static { ... } (Node 17+)
     StaticInitializer: ts.isClassStaticBlockDeclaration,
   },
 } as const;
