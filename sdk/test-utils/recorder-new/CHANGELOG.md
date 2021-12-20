@@ -2,6 +2,10 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2021-12-17
+
+- Moving `NoOpCredential` to the new `@azure-tools/test-credential` package.
+
 ## 2021-12-15
 
 - Change the API for using variables. Variables can now be accessed using the syntax:

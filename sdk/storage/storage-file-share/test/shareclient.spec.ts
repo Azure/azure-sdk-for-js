@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import * as dotenv from "dotenv";
 import { getBSU, getSASConnectionStringFromEnvironment, recorderEnvSetup } from "./utils";
 import { ShareClient, ShareServiceClient } from "../src";
@@ -125,7 +125,7 @@ describe("ShareClient", () => {
     assert.deepStrictEqual(snapshotProperties.metadata, metadata);
 
     const originProperties = await shareClient.getProperties();
-    assert.notDeepStrictEqual(originProperties.metadata, metadata);
+    assert.notDeepEqual(originProperties.metadata, metadata);
 
     await snapshotShareClient.delete({});
   });

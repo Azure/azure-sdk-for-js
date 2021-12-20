@@ -1,14 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  RecorderStartOptions,
-  NoOpCredential,
-  TestProxyHttpClient
-} from "@azure-tools/test-recorder-new";
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { RecorderStartOptions, TestProxyHttpClient } from "@azure-tools/test-recorder-new";
+import { env } from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { TokenCredential } from "@azure/core-auth";
-import { ClientSecretCredential } from "@azure/identity";
 import { TableServiceClient } from "@azure/data-tables";
 
 const recorderStartOptions: RecorderStartOptions = {
@@ -35,13 +31,7 @@ describe(`NoOp credential with Tables`, () => {
   beforeEach(async function() {
     recorder = new TestProxyHttpClient(this.currentTest);
     await recorder.start(recorderStartOptions);
-    credential = isPlaybackMode()
-      ? new NoOpCredential()
-      : new ClientSecretCredential(
-          env["AZURE_TENANT_ID"],
-          env["AZURE_CLIENT_ID"],
-          env["AZURE_CLIENT_SECRET"]
-        );
+    credential = createTestCredential();
   });
 
   afterEach(async function() {

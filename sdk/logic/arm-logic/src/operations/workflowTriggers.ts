@@ -11,7 +11,7 @@ import { WorkflowTriggers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { LogicManagementClientContext } from "../logicManagementClientContext";
+import { LogicManagementClient } from "../logicManagementClient";
 import {
   WorkflowTrigger,
   WorkflowTriggersListNextOptionalParams,
@@ -33,13 +33,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkflowTriggers operations. */
 export class WorkflowTriggersImpl implements WorkflowTriggers {
-  private readonly client: LogicManagementClientContext;
+  private readonly client: LogicManagementClient;
 
   /**
    * Initialize a new instance of the class WorkflowTriggers class.
    * @param client Reference to the service client
    */
-  constructor(client: LogicManagementClientContext) {
+  constructor(client: LogicManagementClient) {
     this.client = client;
   }
 
