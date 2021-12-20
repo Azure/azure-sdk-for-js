@@ -83,7 +83,7 @@ This will allow requests to be intercepted and redirected to the proxy tool.
 
 ## Starting and stopping the recorder
 
-The recorder must now be started and stopped explicitly. At the beginning of your test, start the recorder as follows:
+The way that the recorder is started and stopped has changed slightly. At the beginning of your test, start the recorder as follows:
 
 ```ts
 await recorder.start({
