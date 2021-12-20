@@ -120,6 +120,20 @@ Under the hood, this is powered by the Unified Recorder's sanitizer functionalit
 
 **⚠️Important:** To access environment variables, you must use the `env` export made available from the **new** recorder. This ensures that environment variables are sourced from the correct location (using `process.env` and `dotenv` in Node, and using `window.__env__` via Mocha in the browser), and also means that the environment variables set in `envSetupForPlayback` are used in playback mode.
 
+## Recorder variables
+
+If you want to compute a value at record time and re-use it during playback, the Unified Recorder's variable functionality is for you. This API lets you declare variables which are stored with the recording at record time. During playback, instead of computing the variable afresh, the value will be retrieved from the recording. A use case of this might be to set a value randomly during record time that needs to be the same during playback.
+
+Here is an example:
+
+```ts
+const queueName = recorder.variable("queueName", "queue-${Math.floor(Math.random * 1000)}");
+// Assume that we have a client that has a createQueue method.
+client.createQueue(queueName);
+```
+
+In this example, the name of the queue used in the recording is randomized. However, in playback, instead of using the value passed into `recorder.variable`, the value will be retrieved from the recording file. This means that the name of the queue will be consistent between recording and playback.
+
 ## Customizations on recordings
 
 A powerful feature of the legacy recorder was its `customizationsOnRecordings` option, which allowed for arbitrary replacements to be made to recordings. The new recorder's analog to this is the sanitizer functionality.
