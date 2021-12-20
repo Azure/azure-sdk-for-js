@@ -170,7 +170,7 @@ export class Sanitizer {
       req.body = options.body;
       if (!this.httpClient) {
         throw new RecorderError(
-          `Something went wrong, RecorderClient.httpClient should not have been undefined in ${getTestMode()} mode.`
+          `Something went wrong, Recorder.httpClient should not have been undefined in ${getTestMode()} mode.`
         );
       }
       const rsp = await this.httpClient.sendRequest({
