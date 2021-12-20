@@ -10,7 +10,7 @@ import { ServiceClient } from "@azure/core-client";
 import { env, isLiveMode, isPlaybackMode, Recorder } from "../src";
 import { expect } from "chai";
 
-type TestMode = "record" | "playback" | "live" | "undefined";
+type TestMode = "record" | "playback" | "live" | undefined;
 
 const setTestMode = (mode: TestMode): TestMode => {
   env.TEST_MODE = mode;
