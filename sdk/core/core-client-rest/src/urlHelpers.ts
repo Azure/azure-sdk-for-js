@@ -24,6 +24,22 @@ export function buildRequestUrl(
     return path;
   }
 
+  if (options.pathParameters) {
+    const pathParams = options.pathParameters;
+    for (const key of Object.keys(pathParams)) {
+      const param = pathParams[key] as any;
+      if (param === undefined || param === null) {
+        continue;
+      }
+      if (!param.toString || typeof param.toString !== "function") {
+        throw new Error(`Query parameters must be able to be represented as string, ${key} can't`);
+      }
+      const value = param.toISOString !== undefined ? param.toISOString() : param.toString();
+      const pattern = new RegExp(`{${key}}`);
+      baseUrl = baseUrl.replace(pattern, value);
+    }
+  }
+
   for (const pathParam of pathParameters) {
     let value = pathParam;
     if (!options.skipUrlEncoding) {

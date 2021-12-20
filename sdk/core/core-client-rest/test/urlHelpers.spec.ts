@@ -74,4 +74,13 @@ describe("urlHelpers", () => {
     });
     assert.equal(result, `https://example.org/foo%bar`);
   });
+
+  it('should handle custom base url', () => {
+    const result = buildRequestUrl("https://{accountName}.org", '/foo', [], {
+      pathParameters: {
+        accountName: "example"
+      }
+    });
+    assert.equal(result, `https://example.org/foo`);
+  })
 });
