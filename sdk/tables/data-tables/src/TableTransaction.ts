@@ -22,9 +22,9 @@ import {
 import {
   OperationOptions,
   ServiceClient,
-  ServiceClientOptions,
   serializationPolicy,
-  serializationPolicyName
+  serializationPolicyName,
+  ServiceClientOptions
 } from "@azure/core-client";
 import {
   Pipeline,
@@ -32,8 +32,7 @@ import {
   PipelineResponse,
   RestError,
   createHttpHeaders,
-  createPipelineRequest,
-  createDefaultHttpClient
+  createPipelineRequest
 } from "@azure/core-rest-pipeline";
 import {
   getInitialTransactionBody,
@@ -45,7 +44,6 @@ import {
   transactionRequestAssemblePolicy,
   transactionRequestAssemblePolicyName
 } from "./TablePolicies";
-import { STORAGE_SCOPE } from "./utils/constants";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TableClientLike } from "./utils/internalModels";
 import { TableServiceErrorOdataError } from "./generated";
@@ -55,6 +53,7 @@ import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 import { signURLWithSAS } from "./tablesSASTokenPolicy";
+import { STORAGE_SCOPE } from "./utils/constants";
 
 /**
  * Helper to build a list of transaction actions
@@ -280,7 +279,7 @@ export class InternalTableTransaction {
       this.resetableState.changesetId
     );
 
-    const options: ServiceClientOptions = {};
+    const options: ServiceClientOptions = this.clientOptions;
 
     if (isTokenCredential(this.credential)) {
       options.credentialScopes = STORAGE_SCOPE;
@@ -312,8 +311,7 @@ export class InternalTableTransaction {
     }
 
     try {
-      const httpClient = this.clientOptions.httpClient ?? createDefaultHttpClient();
-      const rawTransactionResponse = await client.pipeline.sendRequest(httpClient, request);
+      const rawTransactionResponse = await client.sendRequest(request);
       return parseTransactionResponse(rawTransactionResponse);
     } catch (error) {
       span.setStatus({
