@@ -73,5 +73,28 @@ describe("Command Framework", () => {
       );
       assert.equal(opts.simpleArg, "test");
     });
+
+    it("nested", async () => {
+      const nestedOptions = {
+        name: "nested",
+        description: "",
+        options: { internal: { kind: "boolean", description: "" } },
+      } as const;
+      const command = subCommand(
+        { name: "top-level", description: "" },
+        {
+          nested: () =>
+            Promise.resolve({
+              default: leafCommand(nestedOptions, (options) => {
+                assert.deepStrictEqual(options["--"], ["test1", "test2"]);
+                return Promise.resolve(true);
+              }),
+              commandInfo: nestedOptions,
+            }),
+        }
+      );
+
+      assert.isTrue(await command("nested", "--internal", "--", "test1", "test2"));
+    });
   });
 });
