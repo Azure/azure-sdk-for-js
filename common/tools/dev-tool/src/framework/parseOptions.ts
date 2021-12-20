@@ -104,8 +104,8 @@ export function parseOptions<Opts extends CommandOptions>(
           options[key].default !== undefined ? { ...o, [key]: options[key].default } : o,
         {}
       ),
-      help: false
-    }
+      help: false,
+    },
   });
 
   parseDebug("Parsed args:", JSON.stringify(argMap));

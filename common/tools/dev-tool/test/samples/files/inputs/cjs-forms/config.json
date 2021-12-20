@@ -1,0 +1,10 @@
+{
+  "skipFolder": false,
+  "disableDocsMs": true,
+  "productName": "CommonJS",
+  "productSlugs": [],
+  "apiRefLink": "https://docs.microsoft.com/",
+  "requiredResources": {
+    "test": "https://contoso.com"
+  }
+}
