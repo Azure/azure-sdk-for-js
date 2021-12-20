@@ -95,7 +95,7 @@ export function importDeclarationToCommonJs(
   // however, if both a default or namespace import and a set of named bindings were given, then there will be _two_
   // items, and it will be something like:
   //
-  // const a = require("foo"), { b } = a;
+  // const a = require("foo").default, { b } = require("foo");
   const declarationList = [
     factory.createVariableDeclaration(
       primaryBinding,
