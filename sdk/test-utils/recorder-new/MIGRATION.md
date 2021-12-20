@@ -1,6 +1,6 @@
 # Migration Guide
 
-This document outlines key differences between the legacy recorder and the new Unified Recorder client.
+This document outlines key differences between the legacy recorder and the new Unified Recorder client. The Unified Recorder replaces the existing `nock`-based recorder with a solution that uses the language-agnostic [test proxy server]. 
 
 ## Prerequisites
 
@@ -159,6 +159,37 @@ When running browser tests, the recorder relies on an environment variable to de
 const { relativeRecordingsPath } = require("@azure-tools/test-recorder-new");
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+```
+
+And then, again in `karma.conf.js`, add the variable to the list of environment variables:
+
+```ts
+module.exports = function(config) {
+  config.set({
+    /* ... */
+
+    envPreprocessor: [
+      /* ... */,
+      "RECORDINGS_RELATIVE_PATH" // Add this!
+    ],
+
+    /* ... */
+  });
+};
+```
+
+The following configuration options in `karma.config.js` should be **removed**:
+
+```ts
+browserConsoleLogOptions: {
+  terminal: !isRecordMode(),
+}
+
+/* ... */
+
+jsonToFileReporter: {
+  filter: jsonRecordingFilterFunction,  outputPath: ".",
+}
 ```
 
 [docker]: https://docker.com/
