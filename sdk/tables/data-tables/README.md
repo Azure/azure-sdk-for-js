@@ -123,6 +123,24 @@ const { TableServiceClient, AzureNamedKeyCredential } = require("@azure/data-tab
 
 The `TableServiceClient` requires a URL to the table service and an access credential. It also optionally accepts some settings in the `options` parameter.
 
+#### `TableServiceClient` with AzureNamedKeyCredential
+
+You can instantiate a `TableServiceClient` with a `AzureNamedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
+[ONLY AVAILABLE IN NODE.JS RUNTIME]
+
+```javascript
+const { TableServiceClient, AzureNamedKeyCredential } = require("@azure/data-tables");
+
+const account = "<account>";
+const accountKey = "<accountkey>";
+
+const credential = new AzureNamedKeyCredential(account, accountKey);
+const serviceClient = new TableServiceClient(
+  `https://${account}.table.core.windows.net`,
+  credential
+);
+```
+
 #### `TableServiceClient` with TokenCredential (AAD)
 
 Azure Tables provides integration with Azure Active Directory (Azure AD) for identity-based authentication of requests
@@ -220,7 +238,7 @@ const serviceClient = new TableServiceClient(
 
 async function main() {
   const tableName = `newtable`;
-  // If the table 'newTable' already exists, createTable doesn' throw
+  // If the table 'newTable' already exists, createTable doesn't throw
   await serviceClient.createTable(tableName);
 }
 
@@ -323,6 +341,36 @@ const clientWithSAS = new TableClient(
   `https://${account}.table.core.windows.net`,
   tableName,
   new AzureSASCredential(sas)
+);
+```
+
+#### `TableClient` with TokenCredential (AAD)
+
+Azure Tables provides integration with Azure Active Directory (Azure AD) for identity-based authentication of requests
+to the Table service when targeting a Storage endpoint. With Azure AD, you can use role-based access control (RBAC) to
+grant access to your Azure Table resources to users, groups, or applications.
+
+To access a table resource with a `TokenCredential`, the authenticated identity should have either the "Storage Table Data Contributor" or "Storage Table Data Reader" role.
+
+With the `@azure/identity` package, you can seamlessly authorize requests in both development and production environments.
+To learn more about Azure AD integration in Azure Storage, see the [Azure.Identity README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md)
+
+```javascript
+const { TableClient } = require("@azure/data-tables");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+// DefaultAzureCredential expects the following three environment variables:
+// - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
+// - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
+// - AZURE_CLIENT_SECRET: The client secret for the registered application
+const credential = new DefaultAzureCredential();
+const account = "<account name>";
+const tableName = "<tableName>";
+
+const clientWithAAD = new TableClient(
+  `https://${account}.table.core.windows.net`,
+  tableName,
+  credential
 );
 ```
 
