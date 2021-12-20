@@ -6,7 +6,6 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { ChatEventId } from '@azure/communication-signaling';
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
 import { ChatMessageEditedEvent } from '@azure/communication-signaling';
 import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
@@ -84,7 +83,8 @@ export interface ChatError {
     readonly target?: string;
 }
 
-export { ChatEventId }
+// @public (undocumented)
+export type ChatEventId = "chatMessageReceived" | "chatMessageEdited" | "chatMessageDeleted" | "typingIndicatorReceived" | "readReceiptReceived" | "chatThreadCreated" | "chatThreadDeleted" | "chatThreadPropertiesUpdated" | "participantsAdded" | "participantsRemoved" | "realTimeNotificationConnected" | "realTimeNotificationDisconnected";
 
 // @public
 export interface ChatMessage {
