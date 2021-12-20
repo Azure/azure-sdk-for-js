@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { QueueServiceClient } from "@azure/storage-queue";
-import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder-new";
+import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder-new";
 import { getEnvironmentVariable } from "./utils/utils";
 
 const fakeSASUrl =
@@ -15,17 +15,16 @@ const recorderOptions: RecorderStartOptions = {
 };
 
 const getSanitizerOptions = () => {
-  if (!env.STORAGE_SAS_URL) {
-    throw new Error("STORAGE_SAS_URL is not defined in the environment");
-  }
   return {
     generalRegexSanitizers: [
       {
-        regex: env.STORAGE_SAS_URL.split("/")[2],
+        regex: getEnvironmentVariable("STORAGE_SAS_URL").split("/")[2],
         value: fakeSASUrl.split("/")[2]
       },
       {
-        regex: env.STORAGE_SAS_URL.split("/")[3].split("?")[1],
+        regex: getEnvironmentVariable("STORAGE_SAS_URL")
+          .split("/")[3]
+          .split("?")[1],
         value: fakeSASUrl.split("/")[3].split("?")[1]
       }
     ]

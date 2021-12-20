@@ -32,7 +32,7 @@ describe("TestProxyClient functions", () => {
   });
 
   afterEach(() => {
-    env.TEST_MODE = "undefined";
+    env.TEST_MODE = undefined;
   });
 
   const initialRequest: PipelineRequest = {
@@ -58,12 +58,11 @@ describe("TestProxyClient functions", () => {
     ["record", "playback"].forEach((testMode) => {
       it(`${testMode} mode: ` + "request unchanged if `x-recording-id` in headers", function() {
         env.TEST_MODE = testMode;
-        const recordingId = "dummy-recording-id";
         testRedirectedRequest(
           client,
           () => ({
             ...initialRequest,
-            headers: createHttpHeaders({ "x-recording-id": recordingId })
+            headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
           }),
           (req) => req
         );
