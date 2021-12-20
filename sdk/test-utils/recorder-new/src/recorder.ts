@@ -53,8 +53,8 @@ export class Recorder {
   private url = "http://localhost:5000";
   public recordingId?: string;
   private stateManager = new RecordingStateManager();
-  private httpClient?: HttpClient = undefined;
-  private sessionFile?: string = undefined;
+  private httpClient?: HttpClient;
+  private sessionFile?: string;
   private sanitizer?: Sanitizer;
   private variables: Record<string, string>;
 

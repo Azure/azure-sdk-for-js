@@ -311,7 +311,7 @@ export function setEnvironmentVariables(
   env: Record<string, string | undefined>,
   variables: { [key: string]: string }
 ) {
-  Object.keys(variables).map((key) => {
+  Object.keys(variables).forEach((key) => {
     env[key] = variables[key];
   });
 }
