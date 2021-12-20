@@ -15,26 +15,23 @@ describe("Should not retry forever", () => {
     if (!nock.isActive()) {
       nock.activate();
     }
-    nock("https://myappconfig.azconfig.io:443")
-      .persist(persistence)
-      .put(/.*/g)
-      .reply(
-        429,
-        {
-          type: "https://azconfig.io/errors/too-many-requests",
-          title: "Resource utilization has surpassed the assigned quota",
-          policy: "Total Requests",
-          status: 429
-        },
-        ["retry-after-ms", retryAfterMs]
-      );
+    nock("https://myappconfig.azconfig.io:443").persist(persistence).put(/.*/g).reply(
+      429,
+      {
+        type: "https://azconfig.io/errors/too-many-requests",
+        title: "Resource utilization has surpassed the assigned quota",
+        policy: "Total Requests",
+        status: 429,
+      },
+      ["retry-after-ms", retryAfterMs]
+    );
   }
 
   beforeEach(() => {
     client = new AppConfigurationClient(connectionString);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     nock.restore();
     nock.cleanAll();
     nock.enableNetConnect();
@@ -52,10 +49,10 @@ describe("Should not retry forever", () => {
           client.addConfigurationSetting(
             {
               key: key + "-" + index,
-              value: "added"
+              value: "added",
             },
             {
-              abortSignal: AbortController.timeout(1000)
+              abortSignal: AbortController.timeout(1000),
             }
           )
         );
@@ -84,7 +81,7 @@ describe("Should not retry forever", () => {
     try {
       await client.addConfigurationSetting({
         key: key,
-        value: "added"
+        value: "added",
       });
     } catch (error) {
       errorWasThrown = true;
