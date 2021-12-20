@@ -9,7 +9,7 @@ config();
 export const commandInfo = makeCommandInfo(
   "test-proxy",
   "stops the test proxy that was started with test-proxy start, if it was running",
-  {}
+  {},
 );
 
 export default leafCommand(commandInfo, async () => {
