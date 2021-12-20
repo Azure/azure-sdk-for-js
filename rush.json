@@ -1170,6 +1170,11 @@
       "packageName": "@azure/arm-msi",
       "projectFolder": "sdk/msi/arm-msi",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-azurearcdata",
+      "projectFolder": "sdk/azurearcdata/arm-azurearcdata",
+      "versionPolicyName": "management"
     }
   ]
 }
