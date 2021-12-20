@@ -38,7 +38,8 @@ export async function makeRequestAndVerifyResponse(
     headers?: { headerName: string; value: string }[];
     method: HttpMethods;
   },
-  expectedResponse: { [key: string]: unknown } | undefined
+  expectedResponse: { [key: string]: unknown } | undefined,
+  expectedHeaders?: { [key: string]: string }
 ) {
   const req = createPipelineRequest({
     url: request.url ?? getTestServerUrl() + request.path,
@@ -57,6 +58,12 @@ export async function makeRequestAndVerifyResponse(
 
     expect(JSON.parse(response.bodyAsText)).to.deep.equal(expectedResponse);
   }
-  // Add code to also check expected headers
+
+  if(expectedHeaders) {
+    for(const [headerName, headerValue] of Object.entries(expectedHeaders)) {
+      expect(response.headers.get(headerName)).to.equal(headerValue);
+    }
+  }
+
   return response;
 }

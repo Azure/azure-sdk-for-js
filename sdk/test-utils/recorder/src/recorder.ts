@@ -37,6 +37,7 @@ import {
   WebResource,
   WebResourceLike,
 } from "@azure/core-http";
+import { addTransform, Transform } from "./transform";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -115,6 +116,15 @@ export class Recorder {
     // If check needed because we only sanitize when the recording is being generated, and we need a recording to apply the sanitizers on.
     if (isRecordMode() && ensureExistence(this.sanitizer, "this.sanitizer")) {
       return this.sanitizer.addSanitizers(options);
+    }
+  }
+
+  async addTransform(transform: Transform): Promise<void> {
+    if(isPlaybackMode() 
+      && ensureExistence(this.httpClient, "this.httpClient")
+      && ensureExistence(this.recordingId, "this.recordingId")) {
+
+      await addTransform(this.url, this.httpClient, transform, this.recordingId);
     }
   }
 
