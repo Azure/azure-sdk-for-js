@@ -61,6 +61,7 @@ specifiers:
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-search': file:./projects/arm-search.tgz
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
+  '@rush-temp/arm-securityinsight': file:./projects/arm-securityinsight.tgz
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:./projects/arm-servicefabric.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
@@ -233,6 +234,7 @@ dependencies:
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-search': file:projects/arm-search.tgz
   '@rush-temp/arm-security': file:projects/arm-security.tgz
+  '@rush-temp/arm-securityinsight': file:projects/arm-securityinsight.tgz
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:projects/arm-servicefabric.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
@@ -1598,7 +1600,6 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
-    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -9297,6 +9298,27 @@ packages:
   file:projects/arm-security.tgz:
     resolution: {integrity: sha512-F3OhbZcyJmfqpT5xlnBR1/4sgGLw9DlPrDMZ3PmKZOlqG1joUvrcQ57aE+YAmwMR+dr2dFB3Dvyb6pP1dwQp8Q==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    dev: false
+
+  file:projects/arm-securityinsight.tgz:
+    resolution: {integrity: sha512-Yk8uUi8Y78MVcVggV+gpkpL3YaH7aVmsp8zMsOYKq/OhPb4Z5srZxTY5zJFMVcK1oc6khCkBImD9Ejlw6ZWn0g==, tarball: file:projects/arm-securityinsight.tgz}
+    name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.19
