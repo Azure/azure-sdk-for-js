@@ -402,4 +402,4 @@ function isDependency(moduleSpecifier: string): boolean {
 }
 
 // This seems like a reasonable test for "is a relative path"
-const isRelativePath = (path: string) => /^\.\.?[\/\\]/.test(path);
+const isRelativePath = (path: string) => /^\.\.?[/\\]/.test(path);

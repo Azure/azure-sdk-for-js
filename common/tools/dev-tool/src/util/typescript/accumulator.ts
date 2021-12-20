@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import ts from "typescript";
 
 /**
@@ -58,7 +61,7 @@ type AccumulatorResult<Result> = Result & {
 type SpecToResult<Spec extends AccumulatorSpecTemplate> = {
   [Field in Exclude<keyof Spec, "addNode">]: Exclude<
     ReturnType<Spec[Field]["select"]>,
-    any[] | undefined
+    unknown[] | undefined
   >[];
 };
 

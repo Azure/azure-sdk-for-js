@@ -13,7 +13,7 @@ const ARG_SCRIPT = "process.stdout.write(JSON.stringify(process.argv.slice(1)))"
 // Normally this is handled by makeCommandInfo. This is _only_ for the sake of making an ergonomic type assertion
 // below.
 const strict = <Opts extends CommandOptions>(options: Opts): StrictAllowMultiple<Opts> =>
-  options as any;
+  options as StrictAllowMultiple<Opts>;
 
 /**
  * Uses the platform shell to split a string as arguments.

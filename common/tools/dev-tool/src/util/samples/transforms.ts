@@ -143,7 +143,7 @@ function importClauseToBinding(clause: ts.ImportClause, factory: ts.NodeFactory)
     // import name from "foo";
     return clause.name;
   } else {
-    const bindings = clause.namedBindings!;
+    const bindings = clause.namedBindings as ts.NamedImportBindings;
 
     if (ts.isNamespaceImport(bindings)) {
       return bindings.name;

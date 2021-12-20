@@ -4,7 +4,7 @@
 export default class Base {
   constructor(public message: string) {}
 
-  say() {
+  say(): void {
     console.log(this.message);
   }
 }

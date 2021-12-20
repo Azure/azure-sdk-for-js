@@ -3,7 +3,7 @@
 
 import { updateBackend } from "../src/util/printer";
 
-export function silenceLogger() {
+export function silenceLogger(): void {
   updateBackend({
     error: () => {
       /* do nothing */
