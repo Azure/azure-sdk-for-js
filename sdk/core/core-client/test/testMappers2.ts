@@ -417,7 +417,7 @@ export const JobInputs: CompositeMapper = {
   }
 };
 
-export let discriminators = {
+export const discriminators = {
   JobInput: JobInput,
   JobOutput: JobOutput,
   "JobOutput.#Microsoft.Media.JobOutputAsset": JobOutputAsset,

@@ -830,7 +830,7 @@ describe("Serializer", function() {
   });
 
   it("should correctly serialize polymorphic children of a sequence of polymorphic elements", function() {
-    let bumperJobInputAsset = {
+    const bumperJobInputAsset = {
       odataType: "#Microsoft.Media.JobInputAsset",
       assetName: "input2",
       start: {
@@ -840,7 +840,7 @@ describe("Serializer", function() {
       label: "bumper"
     };
 
-    let mainJobInputAsset = {
+    const mainJobInputAsset = {
       odataType: "#Microsoft.Media.JobInputAsset",
       assetName: "input",
       start: {
