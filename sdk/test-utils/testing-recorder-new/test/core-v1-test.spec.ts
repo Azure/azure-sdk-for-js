@@ -3,7 +3,7 @@
 
 import { QueueServiceClient } from "@azure/storage-queue";
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder-new";
-import { getEnvironmentVariable } from "./utils/utils";
+import { assertEnvironmentVariable } from "./utils/utils";
 
 const fakeSASUrl =
   "https://account_name.queue.core.windows.net/?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2026-07-10T07:00:24Z&st=2021-07-09T23:00:24Z&spr=https&sig=fake_sig";
@@ -18,11 +18,11 @@ const getSanitizerOptions = () => {
   return {
     generalRegexSanitizers: [
       {
-        regex: getEnvironmentVariable("STORAGE_SAS_URL").split("/")[2],
+        regex: assertEnvironmentVariable("STORAGE_SAS_URL").split("/")[2],
         value: fakeSASUrl.split("/")[2]
       },
       {
-        regex: getEnvironmentVariable("STORAGE_SAS_URL")
+        regex: assertEnvironmentVariable("STORAGE_SAS_URL")
           .split("/")[3]
           .split("?")[1],
         value: fakeSASUrl.split("/")[3].split("?")[1]
@@ -47,7 +47,7 @@ describe("Core V1 tests", () => {
 
   it("storage-queue create queue", async function() {
     const client = new QueueServiceClient(
-      getEnvironmentVariable("STORAGE_SAS_URL"),
+      assertEnvironmentVariable("STORAGE_SAS_URL"),
       undefined,
       recorder.configureClientOptionsCoreV1({})
     );

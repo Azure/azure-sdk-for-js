@@ -265,12 +265,14 @@ export function ensureExistence<T>(thing: T | undefined, label: string): thing i
   return true; // Since we would throw error if undefined
 }
 
+export type TestMode = "record" | "playback" | "live";
+
 /**
  * Returns the test mode.
  *
  * If TEST_MODE is not defined, defaults to playback.
  */
-export function getTestMode(): "record" | "playback" | "live" {
+export function getTestMode(): TestMode {
   if (isPlaybackMode()) {
     return "playback";
   }

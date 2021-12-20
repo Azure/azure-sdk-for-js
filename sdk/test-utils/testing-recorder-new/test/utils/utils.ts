@@ -20,7 +20,7 @@ export function createSimpleEntity(): TableEntity {
   };
 }
 
-export function getEnvironmentVariable(variable: string): string {
+export function assertEnvironmentVariable(variable: string): string {
   const value = env[variable];
   if (!value) {
     throw new Error(`${variable} is not defined in your environment`);
