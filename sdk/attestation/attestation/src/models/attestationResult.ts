@@ -390,6 +390,6 @@ export function _attestationResultFromGenerated(
     mrSigner: generated.mrSigner,
     svn: generated.svn,
     enclaveHeldData: generated.enclaveHeldData,
-    sgxCollateral: generated.sgxCollateral
+    sgxCollateral: generated.sgxCollateral,
   });
 }

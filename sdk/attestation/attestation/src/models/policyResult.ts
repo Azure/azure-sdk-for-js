@@ -55,6 +55,6 @@ export function _policyResultFromGenerated(rawJson: unknown): PolicyResult {
     policy: policyResult.policy,
     policySigner: policyResult.policySigner
       ? _attestationSignerFromGenerated(policyResult.policySigner)
-      : undefined
+      : undefined,
   };
 }

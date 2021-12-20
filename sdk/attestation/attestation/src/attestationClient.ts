@@ -9,7 +9,7 @@ import {
   GeneratedAttestationResult,
   InitTimeData,
   KnownDataType,
-  RuntimeData
+  RuntimeData,
 } from "./generated/models";
 
 import { logger } from "./logger";
@@ -208,9 +208,9 @@ export class AttestationClient {
         credential: credential,
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: ["x-ms-request-id", "x-ms-maa-service-version"]
-        }
-      }
+          allowedHeaderNames: ["x-ms-request-id", "x-ms-maa-service-version"],
+        },
+      },
     };
 
     this._client = new GeneratedClient(endpoint, internalPipelineOptions);
@@ -249,7 +249,8 @@ export class AttestationClient {
       const initTimeData: InitTimeData | undefined = initData
         ? {
             data: initData,
-            dataType: options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
+            dataType:
+              options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
           }
         : undefined;
 
@@ -258,7 +259,7 @@ export class AttestationClient {
       const runTimeData: RuntimeData | undefined = runData
         ? {
             data: runData,
-            dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
+            dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
           }
         : undefined;
 
@@ -267,7 +268,7 @@ export class AttestationClient {
           report: await Uint8ArrayFromInput(report),
           initTimeData: initTimeData,
           runtimeData: runTimeData,
-          draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined
+          draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined,
         },
         updatedOptions
       );
@@ -285,7 +286,7 @@ export class AttestationClient {
         token.getBody(),
         {
           GeneratedAttestationResult: Mappers.GeneratedAttestationResult,
-          JsonWebKey: Mappers.JsonWebKey
+          JsonWebKey: Mappers.JsonWebKey,
         },
         "GeneratedAttestationResult"
       ) as GeneratedAttestationResult;
@@ -330,7 +331,8 @@ export class AttestationClient {
       const initTimeData: InitTimeData | undefined = initData
         ? {
             data: initData,
-            dataType: options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
+            dataType:
+              options.initTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
           }
         : undefined;
 
@@ -338,7 +340,7 @@ export class AttestationClient {
       const runTimeData: RuntimeData | undefined = runData
         ? {
             data: runData,
-            dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary
+            dataType: options.runTimeJson !== undefined ? KnownDataType.Json : KnownDataType.Binary,
           }
         : undefined;
 
@@ -347,7 +349,7 @@ export class AttestationClient {
           quote: await Uint8ArrayFromInput(quote),
           initTimeData: initTimeData,
           runtimeData: runTimeData,
-          draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined
+          draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined,
         },
         updatedOptions
       );
@@ -365,7 +367,7 @@ export class AttestationClient {
         token.getBody(),
         {
           GeneratedAttestationResult: Mappers.GeneratedAttestationResult,
-          JsonWebKey: Mappers.JsonWebKey
+          JsonWebKey: Mappers.JsonWebKey,
         },
         "GeneratedAttestationResult"
       ) as GeneratedAttestationResult;
