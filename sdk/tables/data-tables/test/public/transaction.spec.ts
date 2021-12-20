@@ -13,6 +13,7 @@ import { Context } from "mocha";
 import { Uuid } from "../../src/utils/uuid";
 import { assert } from "chai";
 import { isNode } from "@azure/test-utils";
+import { createHttpHeaders, HttpClient } from "@azure/core-rest-pipeline";
 
 // SASConnectionString and SASToken are supported in both node and browser
 const authModes: CreateClientMode[] = ["TokenCredential", "SASConnectionString"];
@@ -80,6 +81,23 @@ authModes.forEach((authMode) => {
       assert.lengthOf(result.subResponses, 2);
       assert.equal(result.getResponseForEntity("1")?.status, 204);
       assert.equal(result.getResponseForEntity("2")?.status, 204);
+    });
+
+    it("should honor the custom httpClient passed to the TableClient", async () => {
+      let isProxy = false;
+      const proxyHttpClient: HttpClient = {
+        sendRequest: async (request) => {
+          isProxy = true;
+          return { status: 200, headers: createHttpHeaders(), request };
+        }
+      };
+      client = new TableClient("https://example.org", tableName, { httpClient: proxyHttpClient });
+      const transaction = new TableTransaction();
+      transaction.createEntity({ partitionKey: "helper", rowKey: "1", value: "t1" });
+      transaction.createEntity({ partitionKey: "helper", rowKey: "2", value: "t2" });
+
+      await client.submitTransaction(transaction.actions);
+      assert.isTrue(isProxy);
     });
 
     it("should send a set of create batch operations", async () => {

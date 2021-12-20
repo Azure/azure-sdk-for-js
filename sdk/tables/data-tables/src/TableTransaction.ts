@@ -8,7 +8,8 @@ import {
   TableTransactionResponse,
   TransactionAction,
   UpdateMode,
-  UpdateTableEntityOptions
+  UpdateTableEntityOptions,
+  TableServiceClientOptions
 } from "./models";
 import {
   NamedKeyCredential,
@@ -31,7 +32,8 @@ import {
   PipelineResponse,
   RestError,
   createHttpHeaders,
-  createPipelineRequest
+  createPipelineRequest,
+  createDefaultHttpClient
 } from "@azure/core-rest-pipeline";
 import {
   getInitialTransactionBody,
@@ -130,6 +132,7 @@ export class InternalTableTransaction {
     bodyParts: string[];
     partitionKey: string;
   };
+  private clientOptions: TableServiceClientOptions;
   private interceptClient: TableClientLike;
   private credential?: NamedKeyCredential | SASCredential | TokenCredential;
   private allowInsecureConnection: boolean;
@@ -144,10 +147,12 @@ export class InternalTableTransaction {
     partitionKey: string,
     transactionId: string,
     changesetId: string,
+    clientOptions: TableServiceClientOptions,
     interceptClient: TableClientLike,
     credential?: NamedKeyCredential | SASCredential | TokenCredential,
     allowInsecureConnection: boolean = false
   ) {
+    this.clientOptions = clientOptions;
     this.credential = credential;
     this.url = url;
     this.interceptClient = interceptClient;
@@ -283,6 +288,7 @@ export class InternalTableTransaction {
     }
 
     const client = new ServiceClient(options);
+
     const headers = getTransactionHeaders(this.resetableState.transactionId);
 
     const { span, updatedOptions } = createSpan(
@@ -306,7 +312,8 @@ export class InternalTableTransaction {
     }
 
     try {
-      const rawTransactionResponse = await client.sendRequest(request);
+      const httpClient = this.clientOptions.httpClient ?? createDefaultHttpClient();
+      const rawTransactionResponse = await client.pipeline.sendRequest(httpClient, request);
       return parseTransactionResponse(rawTransactionResponse);
     } catch (error) {
       span.setStatus({
