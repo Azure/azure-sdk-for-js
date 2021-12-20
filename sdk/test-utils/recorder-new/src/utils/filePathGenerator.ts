@@ -16,7 +16,7 @@ export function formatPath(path: string): string {
 /**
  * Generates a file path with the following structure:
  *
- *     `{node|browsers}/<describe-block-title>/recording_<test-title>.{js|json}`
+ *     `{node|browsers}/<describe-block-title>/recording_<test-title>.json`
  *
  * @param platform A string, either "node" or "browsers".
  * @param testSuiteTitle The title of the test suite.
@@ -25,12 +25,8 @@ export function formatPath(path: string): string {
 export function generateTestRecordingFilePath(
   platform: "node" | "browsers",
   testSuiteTitle: string,
-  testTitle: string,
-  extension?: "js" | "json"
+  testTitle: string
 ): string {
   // File Extension
-  // nock recordings for node tests - .js extension
-  // recordings are saved in json format for browser tests - .json extension
-  const ext = extension ?? (platform === "node" ? "js" : "json");
-  return `${platform}/${formatPath(testSuiteTitle)}/recording_${formatPath(testTitle)}.${ext}`;
+  return `${platform}/${formatPath(testSuiteTitle)}/recording_${formatPath(testTitle)}.json`;
 }

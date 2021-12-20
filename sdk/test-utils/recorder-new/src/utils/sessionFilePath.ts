@@ -28,7 +28,6 @@ export function recordingFilePath(testContext: Mocha.Test): string {
   return generateTestRecordingFilePath(
     isNode ? "node" : "browsers",
     testContext.parent.fullTitle(),
-    testContext.title,
-    "json"
+    testContext.title
   );
 }
