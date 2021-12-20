@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.0.2 (2021-12-20)
 
 Fixed double replacements in case the source value and the replacement happened to remain the same after encoding.
 
