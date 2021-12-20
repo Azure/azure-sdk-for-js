@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import {
   getBSU,
@@ -449,7 +449,7 @@ describe("PageBlobClient Node.js only", () => {
     const pResp = await pageBlobClient.getProperties({
       customerProvidedKey: Test_CPK_INFO
     });
-    assert.equal(pResp.contentLength, "2048");
+    assert.equal(pResp.contentLength, 2048);
   });
 
   describe("conditional tags", () => {

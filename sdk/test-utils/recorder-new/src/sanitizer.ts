@@ -16,7 +16,7 @@ export class Sanitizer {
   constructor(private mode: string, private url: string, private httpClient: HttpClient) {}
   private recordingId: string | undefined;
 
-  setRecordingId(recordingId: string) {
+  setRecordingId(recordingId: string): void {
     this.recordingId = recordingId;
   }
 

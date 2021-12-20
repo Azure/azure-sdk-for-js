@@ -6,7 +6,7 @@ import { isNode, URLBuilder, delay } from "@azure/core-http";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { setSpan, context } from "@azure/core-tracing";
-import * as assert from "assert";
+import { assert } from "chai";
 import * as dotenv from "dotenv";
 
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";

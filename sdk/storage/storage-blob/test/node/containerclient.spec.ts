@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
 import { PublicAccessType } from "../../src";

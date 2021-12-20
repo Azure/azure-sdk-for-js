@@ -41,7 +41,7 @@ describe("systemErrorRetryPolicy", function() {
     // allow the delay to occur
     const time = await clock.nextAsync();
     // should be at least the standard delay
-    assert.isAtLeast(time, 1000);
+    assert.isAtLeast(time, 500);
     assert.isTrue(next.calledTwice);
 
     const result = await promise;
