@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { MySQLManagementClient } from "./mySQLManagementClient";
-export { MySQLManagementClientContext } from "./mySQLManagementClientContext";
 export * from "./operationsInterfaces";
