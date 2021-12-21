@@ -358,7 +358,7 @@ describe("Model unit tests", () => {
         startTime: new Date("2007-11-13T08:00:00"),
         endTime: new Date("2007-11-16T08:00:00")
       });
-      assert.deepEqual(res1, "2007-11-13T08:00:00.000Z/2007-11-16T08:00:00.000Z");
+      assert.equal(res1, "2007-11-13T08:00:00.000Z/2007-11-16T08:00:00.000Z");
 
       const res2 = convertTimespanToInterval({
         startTime: new Date("2007-03-01T13:00:00Z"),
