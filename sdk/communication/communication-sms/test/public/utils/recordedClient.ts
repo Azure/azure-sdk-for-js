@@ -7,7 +7,7 @@ import {
   HttpClient,
   HttpOperationResponse,
   isNode,
-  WebResourceLike
+  WebResourceLike,
 } from "@azure/core-http";
 import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
@@ -20,7 +20,7 @@ export const recorderConfiguration: RecorderEnvironmentSetup = {
     AZURE_CLIENT_ID: "SomeClientId",
     AZURE_CLIENT_SECRET: "azure_client_secret",
     AZURE_TENANT_ID: "SomeTenantId",
-    COMMUNICATION_SKIP_INT_SMS_TEST: "false"
+    COMMUNICATION_SKIP_INT_SMS_TEST: "false",
   },
   customizationsOnRecordings: [
     (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
@@ -35,9 +35,9 @@ export const recorderConfiguration: RecorderEnvironmentSetup = {
       recording.replace(
         /"repeatabilityFirstSent"\s?:\s?"[^"]*"/g,
         `"repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"`
-      )
+      ),
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 function createCredential(): TokenCredential {
@@ -45,7 +45,7 @@ function createCredential(): TokenCredential {
     return {
       getToken: async (_scopes) => {
         return { token: "testToken", expiresOnTimestamp: 11111 };
-      }
+      },
     };
   } else {
     if (isNode) {
@@ -63,7 +63,7 @@ function createCredential(): TokenCredential {
 export function createSmsClient(): SmsClient {
   // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
   return new SmsClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
-    httpClient: createTestHttpClient()
+    httpClient: createTestHttpClient(),
   } as SmsClientOptions);
 }
 
@@ -72,7 +72,7 @@ export function createSmsClientWithToken(): SmsClient {
   const credential: TokenCredential = createCredential();
   // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
   return new SmsClient(endpoint, credential, {
-    httpClient: createTestHttpClient()
+    httpClient: createTestHttpClient(),
   } as SmsClientOptions);
 }
 
@@ -80,7 +80,7 @@ function createTestHttpClient(): HttpClient {
   const customHttpClient = new DefaultHttpClient();
 
   const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function(
+  customHttpClient.sendRequest = async function (
     httpRequest: WebResourceLike
   ): Promise<HttpOperationResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);

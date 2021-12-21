@@ -17,7 +17,7 @@ import { Uuid } from "../../src/utils/uuid";
 import {
   createSmsClient,
   createSmsClientWithToken,
-  recorderConfiguration
+  recorderConfiguration,
 } from "../public/utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "../public/suites/smsClient.send";
@@ -26,11 +26,11 @@ if (isNode) {
   dotenv.config();
 }
 
-matrix([[true, false]], async function(useAad) {
+matrix([[true, false]], async function (useAad) {
   describe(`SmsClient [Playback/Record]${useAad ? " [AAD]" : ""}`, async () => {
     let recorder: Recorder;
 
-    beforeEach(async function(this: Context) {
+    beforeEach(async function (this: Context) {
       recorder = record(this, recorderConfiguration);
 
       if (isLiveMode()) {
@@ -47,7 +47,7 @@ matrix([[true, false]], async function(useAad) {
       }
     });
 
-    afterEach(async function(this: Context) {
+    afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }

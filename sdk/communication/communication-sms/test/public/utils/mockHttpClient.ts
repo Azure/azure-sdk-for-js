@@ -19,10 +19,10 @@ export class MockHttpClient implements HttpClient {
             httpStatusCode: 202,
             errorMessage: null,
             repeatabilityResult: "accepted",
-            successful: true
-          }
-        ]
-      }
+            successful: true,
+          },
+        ],
+      },
     };
   }
 }

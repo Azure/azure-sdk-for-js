@@ -51,9 +51,9 @@ export async function main() {
     from: process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>",
     to: process.env.TO_PHONE_NUMBERS?.split(",") || [process.env.AZURE_PHONE_NUMBER!] || [
         "<to-phone-number-1>",
-        "<to-phone-number-2>"
+        "<to-phone-number-2>",
       ],
-    message: "Hello World via SMS!"
+    message: "Hello World via SMS!",
   };
 
   // send sms with request

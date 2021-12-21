@@ -22,7 +22,7 @@ describe("[mocked] SmsClient", async () => {
   const testSendRequest: SmsSendRequest = {
     from: TEST_NUMBER,
     to: [TEST_NUMBER],
-    message: "message"
+    message: "message",
   };
 
   describe("when instantiating SMS client", () => {
@@ -38,7 +38,7 @@ describe("[mocked] SmsClient", async () => {
       const fakeToken: TokenCredential = {
         getToken: async (_scopes) => {
           return { token: "testToken", expiresOnTimestamp: 11111 };
-        }
+        },
       };
       new SmsClient(baseUri, fakeToken);
     });
@@ -51,7 +51,7 @@ describe("[mocked] SmsClient", async () => {
       sinon.useFakeTimers();
       // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
       smsClient = new SmsClient(connectionString, {
-        httpClient: mockHttpClient
+        httpClient: mockHttpClient,
       } as SmsClientOptions);
     });
 

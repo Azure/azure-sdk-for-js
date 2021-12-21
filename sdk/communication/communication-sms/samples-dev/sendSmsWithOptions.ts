@@ -28,9 +28,9 @@ export async function main() {
     from: process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>",
     to: process.env.TO_PHONE_NUMBERS?.split(",") || [process.env.AZURE_PHONE_NUMBER!] || [
         "<to-phone-number-1>",
-        "<to-phone-number-2>"
+        "<to-phone-number-2>",
       ],
-    message: "Hello World via SMS!"
+    message: "Hello World via SMS!",
   };
 
   // construct send options
@@ -38,7 +38,7 @@ export async function main() {
     //delivery reports are delivered via EventGrid
     enableDeliveryReport: true,
     //tags are applied to the delivery report
-    tag: "marketing"
+    tag: "marketing",
   };
 
   // send sms with request and options
