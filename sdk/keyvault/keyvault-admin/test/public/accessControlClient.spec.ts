@@ -12,8 +12,8 @@ import {
   KeyVaultRoleDefinition,
   KnownKeyVaultDataAction
 } from "../../src";
-import { authenticate } from "./utils/authentication";
-import { supportsTracing } from "./utils/supportsTracing";
+import { authenticate } from "../utils/authentication";
+import { supportsTracing } from "../utils/supportsTracing";
 
 describe("KeyVaultAccessControlClient", () => {
   let client: KeyVaultAccessControlClient;

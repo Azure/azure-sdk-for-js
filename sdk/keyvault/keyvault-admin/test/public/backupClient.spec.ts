@@ -7,9 +7,9 @@ chai.use(chaiAsPromised);
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 
 import { KeyVaultBackupClient } from "../../src";
-import { authenticate } from "./utils/authentication";
-import { testPollerProperties } from "./utils/recorder";
-import { getSasToken } from "./utils/common";
+import { authenticate } from "../utils/authentication";
+import { testPollerProperties } from "../utils/recorder";
+import { getSasToken } from "../utils/common";
 import { delay } from "@azure/core-util";
 import { assert } from "chai";
 import { KeyClient } from "@azure/keyvault-keys";

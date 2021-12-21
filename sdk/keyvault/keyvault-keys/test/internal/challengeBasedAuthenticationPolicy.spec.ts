@@ -13,9 +13,9 @@ import {
   challengeBasedAuthenticationPolicy
 } from "../../../keyvault-common/src";
 import { KeyClient } from "../../src";
-import { authenticate } from "../public/utils/testAuthentication";
-import TestClient from "../public/utils/testClient";
-import { getServiceVersion } from "../public/utils/utils.common";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
+import { getServiceVersion } from "../utils/utils.common";
 import { HttpHeaders, isNode, WebResource } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 import sinon from "sinon";

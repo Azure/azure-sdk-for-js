@@ -22,13 +22,13 @@ import {
   getServiceVersion,
   isPublicCloud,
   onVersions
-} from "./utils/utils.common";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+} from "../utils/utils.common";
+import { testPollerProperties } from "../utils/recorderUtils";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
-import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
+import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 
 describe("Keys client - create, read, update and delete operations", () => {
   const keyPrefix = `CRUD${env.KEY_NAME || "KeyName"}`;
@@ -543,7 +543,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     }
   });
 
-  onVersions({ minVer: "7.3-preview" }).describe.only("releaseKey", () => {
+  onVersions({ minVer: "7.3-preview" }).describe("releaseKey", () => {
     let attestation: string;
     let encodedReleasePolicy: Uint8Array;
 
