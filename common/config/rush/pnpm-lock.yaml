@@ -10858,7 +10858,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-YGVOgmlyXy5HlF/48obO3C9c5ctpCSWDMZmB0rr/q1a5jqmNpVnXgOwngK3K2Ww/gSs+Cp/gd944Eco/n0o9zw==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-eWuDuu/VqbRkGOvNALANhFYOCo97TQURSEMXvaIQvDz0Wvsqolskgb5ZS/Hqx6bYHNZBjHYJmVAkBUA9BLLIvw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -10877,7 +10877,7 @@ packages:
       keytar: 7.7.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10893,7 +10893,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-3qMlK6IcR2gbG34iRH6IPhWVTZBy1yo5QmU6XasR/fywDoegYljotfm1keOWnDZnctUDe6pFo5RIlwkdy2shxA==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-sYyTuKwqVBiBWa6tC9drBQ17qHgH18UM+Qopub/wWSWR9U/+yugSN05PjD05JkbW4SRs1oFSHei1kx+fKaZl7A==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -10911,7 +10911,7 @@ packages:
       keytar: 7.7.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -10926,7 +10926,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-+e0rwDopJHKRfpGgWvUQCY+oKUuu+YrHvBatmjg/BQzIGSS0XxQId5zxlpzn1a9o8q36QjYKlb6h6IYIxKN3Ug==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-SK/VeSO2B/mKnApYK1xH4jNXvjgi8T0tolsudmTngUVQvas7ynurfxO/7MZwzxiL3ZnztPZZg3RNrv8mPbmphg==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -10962,7 +10962,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
       open: 8.4.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -11705,7 +11705,7 @@ packages:
     dev: false
 
   file:projects/perf-identity.tgz:
-    resolution: {integrity: sha512-+TzLPzctMFjD//ZUKtAVNm19LxoszSzNd/r6j3MGPJN9Wzm88Ie2VGM9A0bCf7ngVPBFJQhR1geQ2w3N45proQ==, tarball: file:projects/perf-identity.tgz}
+    resolution: {integrity: sha512-YaxULro3cvYHXSbWEXuo/PFnOnZy+kZ35+hVV7vuxpa/Zrt6ZzGxpGn5ya5ekl+eeCtnSkU3aOadJ4O7iy2yUA==, tarball: file:projects/perf-identity.tgz}
     name: '@rush-temp/perf-identity'
     version: 0.0.0
     dependencies:
@@ -11713,7 +11713,7 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1

@@ -9,7 +9,7 @@ import { AzurePowerShellCredential } from "../../../src";
 import {
   formatCommand,
   powerShellErrors,
-  powerShellPublicErrorMessages
+  powerShellPublicErrorMessages,
 } from "../../../src/credentials/azurePowerShellCredential";
 import { processUtils } from "../../../src/util/processUtils";
 
@@ -24,21 +24,21 @@ function resetCommandStack(): void {
   }
 }
 
-describe("AzurePowerShellCredential", function() {
+describe("AzurePowerShellCredential", function () {
   const scope = "https://vault.azure.net/.default";
 
   afterEach(() => {
     resetCommandStack();
   });
 
-  it("command stack is configured correctly by platform", function() {
+  it("command stack is configured correctly by platform", function () {
     assert.deepStrictEqual(
       commandStack,
       process.platform === "win32" ? ["pwsh.exe", "powershell.exe"] : ["pwsh"]
     );
   });
 
-  it("throws an expected error if the user hasn't logged in through PowerShell", async function() {
+  it("throws an expected error if the user hasn't logged in through PowerShell", async function () {
     const sandbox = Sinon.createSandbox();
 
     const stub = sandbox.stub(processUtils, "execFile");
@@ -61,7 +61,7 @@ describe("AzurePowerShellCredential", function() {
     sandbox.restore();
   });
 
-  it("throws an expected error if the user hasn't installed the Az.Account module", async function() {
+  it("throws an expected error if the user hasn't installed the Az.Account module", async function () {
     const sandbox = Sinon.createSandbox();
 
     const stub = sandbox.stub(processUtils, "execFile");
@@ -84,7 +84,7 @@ describe("AzurePowerShellCredential", function() {
     sandbox.restore();
   });
 
-  it("throws an expected error if PowerShell isn't installed", async function() {
+  it("throws an expected error if PowerShell isn't installed", async function () {
     const sandbox = Sinon.createSandbox();
 
     const stub = sandbox.stub(processUtils, "execFile");
@@ -114,7 +114,7 @@ describe("AzurePowerShellCredential", function() {
     sandbox.restore();
   });
 
-  it("throws an expected error if PowerShell returns something that isn't valid JSON", async function() {
+  it("throws an expected error if PowerShell returns something that isn't valid JSON", async function () {
     const sandbox = Sinon.createSandbox();
 
     const stub = sandbox.stub(processUtils, "execFile");
@@ -143,7 +143,7 @@ describe("AzurePowerShellCredential", function() {
   });
 
   if (process.platform === "win32") {
-    it("throws an expected error if PowerShell returns something that isn't valid JSON (Windows PowerShell fallback)", async function() {
+    it("throws an expected error if PowerShell returns something that isn't valid JSON (Windows PowerShell fallback)", async function () {
       const sandbox = Sinon.createSandbox();
 
       const stub = sandbox.stub(processUtils, "execFile");
@@ -173,14 +173,14 @@ describe("AzurePowerShellCredential", function() {
     });
   }
 
-  it("authenticates", async function() {
+  it("authenticates", async function () {
     const sandbox = Sinon.createSandbox();
 
     const tokenResponse = {
       Token: "token",
       ExpiresOn: "2021-04-21T20:52:16+00:00",
       TenantId: "tenant-id",
-      Type: "Bearer"
+      Type: "Bearer",
     };
 
     const stub = sandbox.stub(processUtils, "execFile");
@@ -200,7 +200,7 @@ describe("AzurePowerShellCredential", function() {
   /**
    * I'm leaving this test only to make it easier to do manual tests.
    */
-  it.skip("authenticates without mocks", async function() {
+  it.skip("authenticates without mocks", async function () {
     const credential = new AzurePowerShellCredential();
     const token = await credential.getToken(scope);
     assert.ok(token?.token);

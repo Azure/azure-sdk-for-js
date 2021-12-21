@@ -49,7 +49,7 @@ export class ClientSecretCredential implements TokenCredential {
       clientId,
       tenantId,
       clientSecret,
-      tokenCredentialOptions: options
+      tokenCredentialOptions: options,
     });
   }
 

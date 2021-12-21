@@ -13,12 +13,12 @@ import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import { Context } from "mocha";
 
-describe("ClientSecretCredential (internal)", function() {
+describe("ClientSecretCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -30,13 +30,13 @@ describe("ClientSecretCredential (internal)", function() {
       "acquireTokenByClientCredential"
     );
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const scope = "https://vault.azure.net/.default";
 
-  it("Should throw if the parameteres are not correctly specified", async function() {
+  it("Should throw if the parameteres are not correctly specified", async function () {
     const errors: Error[] = [];
     try {
       new ClientSecretCredential(undefined as any, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET);
@@ -67,7 +67,7 @@ describe("ClientSecretCredential (internal)", function() {
     });
   });
 
-  it("Authenticates silently after the initial request", async function() {
+  it("Authenticates silently after the initial request", async function () {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -86,7 +86,7 @@ describe("ClientSecretCredential (internal)", function() {
   });
 
   // TODO: Enable again once we're ready to release this feature.
-  it.skip("supports specifying the regional authority", async function() {
+  it.skip("supports specifying the regional authority", async function () {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -100,7 +100,7 @@ describe("ClientSecretCredential (internal)", function() {
     // We'll abort since we only want to ensure the parameters are sent appropriately.
     const controller = new AbortController();
     const getTokenPromise = credential.getToken(scope, {
-      abortSignal: controller.signal
+      abortSignal: controller.signal,
     });
     await delay(5);
     controller.abort();

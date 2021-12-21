@@ -2,7 +2,7 @@ import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 
-const httpTrigger: AzureFunction = async function(
+const httpTrigger: AzureFunction = async function (
   context: Context,
   req: HttpRequest
 ): Promise<void> {
@@ -19,12 +19,12 @@ const httpTrigger: AzureFunction = async function(
     await client.setSecret("secret-name-system", "secret-value-system");
     context.res = {
       // status: 200, /* Defaults to 200 */
-      body: "Successfully authenticated with keyvault"
+      body: "Successfully authenticated with keyvault",
     };
   } catch (error) {
     context.res = {
       status: 500,
-      body: error.message
+      body: error.message,
     };
   }
 };

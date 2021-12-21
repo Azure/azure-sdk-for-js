@@ -107,14 +107,14 @@ export class ManagedIdentityCredential implements TokenCredential {
         {
           identityClient: this.identityClient,
           scopes,
-          clientId
+          clientId,
         },
         updatedOptions
       );
     } catch (err) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: err.message
+        message: err.message,
       });
       throw err;
     } finally {
@@ -195,7 +195,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: err.message
+        message: err.message,
       });
 
       // If either the network is unreachable,
@@ -239,7 +239,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // Any other error should break the chain.
       throw new AuthenticationError(err.statusCode, {
         error: `${ManagedIdentityCredential.name} authentication failed.`,
-        error_description: err.message
+        error_description: err.message,
       });
     } finally {
       // Finally is always called, both if we return and if we throw in the above try/catch.

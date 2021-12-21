@@ -9,7 +9,7 @@ import { isNode } from "@azure/core-util";
 import {
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequest
+  PipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "../errors";
@@ -92,9 +92,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       requestContentType: "application/json; charset=utf-8",
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      baseUri
+      baseUri,
     });
 
     this.authorityHost = baseUri;
@@ -124,9 +124,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       const token = {
         accessToken: {
           token: parsedBody.access_token,
-          expiresOnTimestamp: expiresOnParser(parsedBody)
+          expiresOnTimestamp: expiresOnParser(parsedBody),
         },
-        refreshToken: parsedBody.refresh_token
+        refreshToken: parsedBody.refresh_token,
       };
 
       logger.info(
@@ -164,7 +164,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       grant_type: "refresh_token",
       client_id: clientId,
       refresh_token: refreshToken,
-      scope: scopes
+      scope: scopes,
     };
 
     if (clientSecret !== undefined) {
@@ -182,9 +182,9 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         abortSignal: options && options.abortSignal,
         headers: createHttpHeaders({
           Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "application/x-www-form-urlencoded",
         }),
-        tracingOptions: updatedOptions?.tracingOptions
+        tracingOptions: updatedOptions?.tracingOptions,
       });
 
       const response = await this.sendTokenRequest(request, expiresOnParser);
@@ -201,7 +201,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         logger.info(`IdentityClient: interaction required for client ID: ${clientId}`);
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: err.message
+          message: err.message,
         });
 
         return null;
@@ -211,7 +211,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         );
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: err.message
+          message: err.message,
         });
         throw err;
       }
@@ -243,7 +243,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     const controllers = [
       ...(this.abortControllers.get(key) || []),
       // MSAL passes no correlation ID to the get requests...
-      ...(this.abortControllers.get(noCorrelationId) || [])
+      ...(this.abortControllers.get(noCorrelationId) || []),
     ];
     if (!controllers.length) {
       return;
@@ -273,14 +273,14 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       method: "GET",
       body: options?.body,
       headers: createHttpHeaders(options?.headers),
-      abortSignal: this.generateAbortSignal(noCorrelationId)
+      abortSignal: this.generateAbortSignal(noCorrelationId),
     });
 
     const response = await this.sendRequest(request);
     return {
       body: response.bodyAsText ? JSON.parse(response.bodyAsText) : undefined,
       headers: response.headers.toJSON(),
-      status: response.status
+      status: response.status,
     };
   }
 
@@ -294,14 +294,14 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       body: options?.body,
       headers: createHttpHeaders(options?.headers),
       // MSAL doesn't send the correlation ID on the get requests.
-      abortSignal: this.generateAbortSignal(this.getCorrelationId(options))
+      abortSignal: this.generateAbortSignal(this.getCorrelationId(options)),
     });
 
     const response = await this.sendRequest(request);
     return {
       body: response.bodyAsText ? JSON.parse(response.bodyAsText) : undefined,
       headers: response.headers.toJSON(),
-      status: response.status
+      status: response.status,
     };
   }
 }

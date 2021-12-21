@@ -12,7 +12,7 @@ import { ConfidentialClientApplication } from "@azure/msal-node";
 
 import {
   ClientCertificateCredential,
-  TokenCachePersistenceOptions
+  TokenCachePersistenceOptions,
 } from "../../../../identity/src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
 import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
@@ -21,12 +21,12 @@ import { createPersistence } from "./setup.spec";
 
 const ASSET_PATH = "assets";
 
-describe("ClientCertificateCredential (internal)", function(this: Mocha.Suite) {
+describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function(this: Mocha.Context) {
+  beforeEach(function (this: Mocha.Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -38,7 +38,7 @@ describe("ClientCertificateCredential (internal)", function(this: Mocha.Suite) {
       "acquireTokenByClientCredential"
     );
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
@@ -47,7 +47,7 @@ describe("ClientCertificateCredential (internal)", function(this: Mocha.Suite) {
     process.env.AZURE_CLIENT_CERTIFICATE_PATH ?? path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://graph.microsoft.com/.default";
 
-  it("Accepts tokenCachePersistenceOptions", async function(this: Mocha.Context) {
+  it("Accepts tokenCachePersistenceOptions", async function (this: Mocha.Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -62,7 +62,7 @@ describe("ClientCertificateCredential (internal)", function(this: Mocha.Suite) {
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-      unsafeAllowUnencryptedStorage: true
+      unsafeAllowUnencryptedStorage: true,
     };
 
     // Emptying the token cache before we start.
@@ -82,7 +82,7 @@ describe("ClientCertificateCredential (internal)", function(this: Mocha.Suite) {
     assert.ok(parsedResult.AccessToken);
   });
 
-  it("Authenticates silently with tokenCachePersistenceOptions", async function(this: Mocha.Context) {
+  it("Authenticates silently with tokenCachePersistenceOptions", async function (this: Mocha.Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -97,7 +97,7 @@ describe("ClientCertificateCredential (internal)", function(this: Mocha.Suite) {
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-      unsafeAllowUnencryptedStorage: true
+      unsafeAllowUnencryptedStorage: true,
     };
 
     // Emptying the token cache before we start.

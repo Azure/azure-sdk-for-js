@@ -50,8 +50,8 @@ export function defaultBrowserMsalConfig(
       // If the users picked redirect as their login style,
       // but they didn't provide a redirectUri,
       // we can try to use the current page we're in as a default value.
-      redirectUri: options.redirectUri || self.location.origin
-    }
+      redirectUri: options.redirectUri || self.location.origin,
+    },
   };
 }
 
@@ -90,7 +90,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     if (options.authenticationRecord) {
       this.account = {
         ...options.authenticationRecord,
-        tenantId: this.tenantId
+        tenantId: this.tenantId,
       };
     }
   }
@@ -162,7 +162,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
           scopes,
           getTokenOptions: options,
           message:
-            "Automatic authentication has been disabled. You may call the authentication() method."
+            "Automatic authentication has been disabled. You may call the authentication() method.",
         });
       }
       this.logger.info(

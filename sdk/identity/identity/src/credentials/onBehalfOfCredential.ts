@@ -10,7 +10,7 @@ import { MsalFlow } from "../msal/flows";
 import {
   OnBehalfOfCredentialCertificateOptions,
   OnBehalfOfCredentialOptions,
-  OnBehalfOfCredentialSecretOptions
+  OnBehalfOfCredentialSecretOptions,
 } from "./onBehalfOfCredentialOptions";
 
 const credentialName = "OnBehalfOfCredential";
@@ -55,7 +55,7 @@ export class OnBehalfOfCredential implements TokenCredential {
     this.msalFlow = new MsalOnBehalfOf({
       ...this.options,
       logger,
-      tokenCredentialOptions: this.options
+      tokenCredentialOptions: this.options,
     });
   }
 

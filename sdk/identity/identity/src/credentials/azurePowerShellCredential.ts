@@ -53,7 +53,7 @@ async function runCommands(commands: string[][]): Promise<string[]> {
 export const powerShellErrors = {
   login: "Run Connect-AzAccount to login",
   installed:
-    "The specified module 'Az.Accounts' with version '2.2.0' was not loaded because no valid module file was found in any module directory"
+    "The specified module 'Az.Accounts' with version '2.2.0' was not loaded because no valid module file was found in any module directory",
 };
 
 /**
@@ -64,7 +64,7 @@ export const powerShellPublicErrorMessages = {
   login:
     "Please run 'Connect-AzAccount' from PowerShell to authenticate before using this credential.",
   installed: `The 'Az.Account' module >= 2.2.0 is not installed. Install the Azure Az PowerShell module with: "Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force".`,
-  troubleshoot: `To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`
+  troubleshoot: `To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`,
 };
 
 // PowerShell Azure User not logged in error check.
@@ -134,13 +134,13 @@ export class AzurePowerShellCredential implements TokenCredential {
         [
           powerShellCommand,
           "-Command",
-          "Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru"
+          "Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru",
         ],
         [
           powerShellCommand,
           "-Command",
-          `Get-AzAccessToken ${tenantSection} -ResourceUrl "${resource}" | ConvertTo-Json`
-        ]
+          `Get-AzAccessToken ${tenantSection} -ResourceUrl "${resource}" | ConvertTo-Json`,
+        ],
       ]);
 
       const result = results[1];
@@ -181,7 +181,7 @@ export class AzurePowerShellCredential implements TokenCredential {
         logger.getToken.info(formatSuccess(scopes));
         return {
           token: response.Token,
-          expiresOnTimestamp: new Date(response.ExpiresOn).getTime()
+          expiresOnTimestamp: new Date(response.ExpiresOn).getTime(),
         };
       } catch (err) {
         if (isNotInstalledError(err)) {

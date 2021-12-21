@@ -110,5 +110,5 @@ export enum RegionalAuthority {
   /** Uses the {@link RegionalAuthority} for the Azure 'usdodeast' region. */
   GovernmentUSDodEast = "usdodeast",
   /** Uses the {@link RegionalAuthority} for the Azure 'usdodcentral' region. */
-  GovernmentUSDodCentral = "usdodcentral"
+  GovernmentUSDodCentral = "usdodcentral",
 }

@@ -17,7 +17,7 @@ export {
   CredentialUnavailableError,
   CredentialUnavailableErrorName,
   AuthenticationRequiredError,
-  AuthenticationRequiredErrorOptions
+  AuthenticationRequiredErrorOptions,
 } from "./errors";
 
 export { AuthenticationRecord } from "./msal/types";
@@ -32,17 +32,17 @@ export { InteractiveCredentialOptions } from "./credentials/interactiveCredentia
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
 export {
   DefaultAzureCredential,
-  DefaultAzureCredentialOptions
+  DefaultAzureCredentialOptions,
 } from "./credentials/defaultAzureCredential";
 export {
   EnvironmentCredential,
-  EnvironmentCredentialOptions
+  EnvironmentCredentialOptions,
 } from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientSecretCredentialOptions } from "./credentials/clientSecretCredentialOptions";
 export {
   ClientCertificateCredential,
-  ClientCertificateCredentialPEMConfiguration
+  ClientCertificateCredentialPEMConfiguration,
 } from "./credentials/clientCertificateCredential";
 export { ClientCertificateCredentialOptions } from "./credentials/clientCertificateCredentialOptions";
 export { CredentialPersistenceOptions } from "./credentials/credentialPersistenceOptions";
@@ -52,13 +52,13 @@ export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCr
 export {
   InteractiveBrowserCredentialNodeOptions,
   InteractiveBrowserCredentialInBrowserOptions,
-  BrowserLoginStyle
+  BrowserLoginStyle,
 } from "./credentials/interactiveBrowserCredentialOptions";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
 export { DeviceCodeCredential } from "./credentials/deviceCodeCredential";
 export {
   DeviceCodePromptCallback,
-  DeviceCodeInfo
+  DeviceCodeInfo,
 } from "./credentials/deviceCodeCredentialOptions";
 export { DeviceCodeCredentialOptions } from "./credentials/deviceCodeCredentialOptions";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
@@ -69,14 +69,14 @@ export { AzurePowerShellCredentialOptions } from "./credentials/azurePowerShellC
 
 export {
   VisualStudioCodeCredential,
-  VisualStudioCodeCredentialOptions
+  VisualStudioCodeCredentialOptions,
 } from "./credentials/visualStudioCodeCredential";
 
 export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 export {
   OnBehalfOfCredentialOptions,
   OnBehalfOfCredentialSecretOptions,
-  OnBehalfOfCredentialCertificateOptions
+  OnBehalfOfCredentialCertificateOptions,
 } from "./credentials/onBehalfOfCredentialOptions";
 
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";

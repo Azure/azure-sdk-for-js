@@ -16,12 +16,12 @@ import { Context } from "mocha";
 
 const ASSET_PATH = "assets";
 
-describe("ClientCertificateCredential (internal)", function() {
+describe("ClientCertificateCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -33,25 +33,25 @@ describe("ClientCertificateCredential (internal)", function() {
       "acquireTokenByClientCredential"
     );
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const certificatePath = path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://vault.azure.net/.default";
 
-  it("Should throw if the parameteres are not correctly specified", async function() {
+  it("Should throw if the parameteres are not correctly specified", async function () {
     let errors: Error[] = [];
     try {
       new ClientCertificateCredential(undefined as any, env.AZURE_CLIENT_ID, {
-        certificatePath: env.AZURE_CLIENT_CERTIFICATE_PATH
+        certificatePath: env.AZURE_CLIENT_CERTIFICATE_PATH,
       });
     } catch (e) {
       errors.push(e);
     }
     try {
       new ClientCertificateCredential(env.AZURE_TENANT_ID, undefined as any, {
-        certificatePath: env.AZURE_CLIENT_CERTIFICATE_PATH
+        certificatePath: env.AZURE_CLIENT_CERTIFICATE_PATH,
       });
     } catch (e) {
       errors.push(e);
@@ -95,7 +95,7 @@ describe("ClientCertificateCredential (internal)", function() {
       // If both values are provided. Relevant for JavaScript.
       new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, {
         certificatePath: "some/path",
-        certificate: "certificate-value"
+        certificate: "certificate-value",
       } as any);
     } catch (e) {
       error = e;
@@ -107,10 +107,10 @@ describe("ClientCertificateCredential (internal)", function() {
     );
   });
 
-  it("throws when given a file that doesn't contain a PEM-formatted certificate", async function(this: Context) {
+  it("throws when given a file that doesn't contain a PEM-formatted certificate", async function (this: Context) {
     const fullPath = path.resolve(__dirname, "../src/index.ts");
     const credential = new ClientCertificateCredential("tenant", "client", {
-      certificatePath: fullPath
+      certificatePath: fullPath,
     });
 
     let error: Error | undefined;
@@ -124,9 +124,9 @@ describe("ClientCertificateCredential (internal)", function() {
     assert.deepEqual(error?.message, `ENOENT: no such file or directory, open '${fullPath}'`);
   });
 
-  it("throws when given a certificate that isn't PEM-formatted", async function(this: Context) {
+  it("throws when given a certificate that isn't PEM-formatted", async function (this: Context) {
     const credential = new ClientCertificateCredential("tenant", "client", {
-      certificate: "not-pem-formatted"
+      certificate: "not-pem-formatted",
     });
 
     let error: Error | undefined;
@@ -143,7 +143,7 @@ describe("ClientCertificateCredential (internal)", function() {
     );
   });
 
-  it("Authenticates silently after the initial request", async function(this: Context) {
+  it("Authenticates silently after the initial request", async function (this: Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -152,7 +152,7 @@ describe("ClientCertificateCredential (internal)", function() {
     }
 
     const credential = new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, {
-      certificatePath
+      certificatePath,
     });
 
     await credential.getToken(scope);
@@ -169,7 +169,7 @@ describe("ClientCertificateCredential (internal)", function() {
   });
 
   // TODO: Enable again once we're ready to release this feature.
-  it.skip("supports specifying the regional authority", async function() {
+  it.skip("supports specifying the regional authority", async function () {
     const credential = new ClientCertificateCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -183,7 +183,7 @@ describe("ClientCertificateCredential (internal)", function() {
     // We'll abort since we only want to ensure the parameters are sent apporpriately.
     const controller = new AbortController();
     const getTokenPromise = credential.getToken(scope, {
-      abortSignal: controller.signal
+      abortSignal: controller.signal,
     });
     await delay(5);
     controller.abort();

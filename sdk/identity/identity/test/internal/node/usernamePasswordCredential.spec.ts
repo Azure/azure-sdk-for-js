@@ -12,12 +12,12 @@ import { UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 
-describe("UsernamePasswordCredential (internal)", function() {
+describe("UsernamePasswordCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -30,13 +30,13 @@ describe("UsernamePasswordCredential (internal)", function() {
     );
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const scope = "https://vault.azure.net/.default";
 
-  it("Should throw if the parameteres are not correctly specified", async function() {
+  it("Should throw if the parameteres are not correctly specified", async function () {
     const errors: Error[] = [];
     try {
       new UsernamePasswordCredential(
@@ -98,7 +98,7 @@ describe("UsernamePasswordCredential (internal)", function() {
     });
   });
 
-  it("Authenticates silently after the initial request", async function(this: Context) {
+  it("Authenticates silently after the initial request", async function (this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
