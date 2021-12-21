@@ -2,7 +2,9 @@
 
 ## 1.0.2 (#Unreleased)
 
+- Fixed double replacements in case the source value and the replacement happened to remain the same after encoding.
 - Adds a default customization on the recordings to manipulate the `retry-after` header to have "0" value so that playback tests run faster.
+  [#19501](https://github.com/Azure/azure-sdk-for-js/pull/19501)
 
 ## 1.0.1 (2021-09-01)
 
