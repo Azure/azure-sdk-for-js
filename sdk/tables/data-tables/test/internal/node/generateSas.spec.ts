@@ -14,7 +14,7 @@ describe("SAS generation", function() {
 
     afterEach(() => {
       if (clock) {
-        clock.reset();
+        clock.restore();
       }
     });
 
@@ -92,7 +92,7 @@ describe("SAS generation", function() {
 
     afterEach(() => {
       if (clock) {
-        clock.reset();
+        clock.restore();
       }
     });
 

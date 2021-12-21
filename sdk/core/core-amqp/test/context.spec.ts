@@ -6,8 +6,8 @@ const should = chai.should();
 import { CbsClient, ConnectionConfig, ConnectionContextBase } from "../src";
 import { Connection } from "rhea-promise";
 
-describe("ConnectionContextBase", function() {
-  it("should be created with required parameters", function(done) {
+describe("ConnectionContextBase", function () {
+  it("should be created with required parameters", function (done) {
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
@@ -17,8 +17,8 @@ describe("ConnectionContextBase", function() {
       connectionProperties: {
         product: "MSJSClient",
         userAgent: "/js-amqp-client",
-        version: "1.0.0"
-      }
+        version: "1.0.0",
+      },
     });
     should.exist(context.config);
     should.exist(context.connection);
@@ -34,7 +34,7 @@ describe("ConnectionContextBase", function() {
     done();
   });
 
-  it("should set host and hostname to the same value by default", function() {
+  it("should set host and hostname to the same value by default", function () {
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
@@ -44,8 +44,8 @@ describe("ConnectionContextBase", function() {
       connectionProperties: {
         product: "MSJSClient",
         userAgent: "/js-amqp-client",
-        version: "1.0.0"
-      }
+        version: "1.0.0",
+      },
     });
     should.exist(context.config);
     should.exist(context.connection);
@@ -62,7 +62,7 @@ describe("ConnectionContextBase", function() {
     context.cbsSession.should.instanceOf(CbsClient);
   });
 
-  it("should allow setting host and hostname to different values", function() {
+  it("should allow setting host and hostname to different values", function () {
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
@@ -73,8 +73,8 @@ describe("ConnectionContextBase", function() {
       connectionProperties: {
         product: "MSJSClient",
         userAgent: "/js-amqp-client",
-        version: "1.0.0"
-      }
+        version: "1.0.0",
+      },
     });
     should.exist(context.config);
     should.exist(context.connection);
@@ -91,7 +91,7 @@ describe("ConnectionContextBase", function() {
     context.cbsSession.should.instanceOf(CbsClient);
   });
 
-  it("should allow specifying a port", function() {
+  it("should allow specifying a port", function () {
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
@@ -102,8 +102,8 @@ describe("ConnectionContextBase", function() {
       connectionProperties: {
         product: "MSJSClient",
         userAgent: "/js-amqp-client",
-        version: "1.0.0"
-      }
+        version: "1.0.0",
+      },
     });
     should.exist(context.config);
     should.exist(context.connection);
@@ -119,7 +119,7 @@ describe("ConnectionContextBase", function() {
     context.cbsSession.should.instanceOf(CbsClient);
   });
 
-  it("should have a default port (5671)", function() {
+  it("should have a default port (5671)", function () {
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
@@ -129,8 +129,8 @@ describe("ConnectionContextBase", function() {
       connectionProperties: {
         product: "MSJSClient",
         userAgent: "/js-amqp-client",
-        version: "1.0.0"
-      }
+        version: "1.0.0",
+      },
     });
     should.exist(context.config);
     should.exist(context.connection);
@@ -146,7 +146,7 @@ describe("ConnectionContextBase", function() {
     context.cbsSession.should.instanceOf(CbsClient);
   });
 
-  it("should allow setting host and hostname to different values when using websockets", function() {
+  it("should allow setting host and hostname to different values when using websockets", function () {
     const websockets: any = () => {
       /** Empty function on purpose for the sake of mocking */
     };
@@ -162,8 +162,8 @@ describe("ConnectionContextBase", function() {
       connectionProperties: {
         product: "MSJSClient",
         userAgent: "/js-amqp-client",
-        version: "1.0.0"
-      }
+        version: "1.0.0",
+      },
     });
     should.exist(context.config);
     should.exist(context.connection);
@@ -181,7 +181,7 @@ describe("ConnectionContextBase", function() {
     context.cbsSession.should.instanceOf(CbsClient);
   });
 
-  it("should have a default port when using websockets (443)", function() {
+  it("should have a default port when using websockets (443)", function () {
     const websockets: any = () => {
       /** Empty function on purpose for the sake of mocking */
     };
@@ -195,8 +195,8 @@ describe("ConnectionContextBase", function() {
       connectionProperties: {
         product: "MSJSClient",
         userAgent: "/js-amqp-client",
-        version: "1.0.0"
-      }
+        version: "1.0.0",
+      },
     });
     should.exist(context.config);
     should.exist(context.connection);
@@ -214,7 +214,7 @@ describe("ConnectionContextBase", function() {
     context.cbsSession.should.instanceOf(CbsClient);
   });
 
-  it("should allow specifying a port when using websockets", function() {
+  it("should allow specifying a port when using websockets", function () {
     const websockets: any = () => {
       /** Empty function on purpose for the sake of mocking */
     };
@@ -229,8 +229,8 @@ describe("ConnectionContextBase", function() {
       connectionProperties: {
         product: "MSJSClient",
         userAgent: "/js-amqp-client",
-        version: "1.0.0"
-      }
+        version: "1.0.0",
+      },
     });
     should.exist(context.config);
     should.exist(context.connection);
@@ -249,7 +249,7 @@ describe("ConnectionContextBase", function() {
     context.cbsSession.should.instanceOf(CbsClient);
   });
 
-  it("Throws error if user-agent string length is greater than 512 characters", function(done) {
+  it("Throws error if user-agent string length is greater than 512 characters", function (done) {
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
@@ -263,16 +263,16 @@ describe("ConnectionContextBase", function() {
         connectionProperties: {
           product: "MSJSClient",
           userAgent: userAgentString,
-          version: "1.0.0"
-        }
+          version: "1.0.0",
+        },
       });
     }, /user-agent string cannot be more than 512 characters/);
 
     done();
   });
 
-  describe("#refreshConnection", function() {
-    it("should update fields on the context", function() {
+  describe("#refreshConnection", function () {
+    it("should update fields on the context", function () {
       const connectionString =
         "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
       const path = "mypath";
@@ -282,8 +282,8 @@ describe("ConnectionContextBase", function() {
         connectionProperties: {
           product: "MSJSClient",
           userAgent: "/js-amqp-client",
-          version: "1.0.0"
-        }
+          version: "1.0.0",
+        },
       });
       // hold onto the refreshable values of the context
       // so we can be sure they change after the refresh call.
@@ -294,7 +294,7 @@ describe("ConnectionContextBase", function() {
         connectionLock: context.connectionLock,
         negotiateClaimLock: context.negotiateClaimLock,
         // change the value so refresh changes it back
-        wasConnectionCloseCalled: !context.wasConnectionCloseCalled
+        wasConnectionCloseCalled: !context.wasConnectionCloseCalled,
       };
       should.exist(context.config);
       should.exist(context.connection);

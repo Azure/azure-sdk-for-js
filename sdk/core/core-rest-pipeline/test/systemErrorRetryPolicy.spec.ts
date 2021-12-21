@@ -9,23 +9,23 @@ import {
   PipelineResponse,
   createHttpHeaders,
   systemErrorRetryPolicy,
-  RestError
+  RestError,
 } from "../src";
 
-describe("systemErrorRetryPolicy", function() {
-  afterEach(function() {
+describe("systemErrorRetryPolicy", function () {
+  afterEach(function () {
     sinon.restore();
   });
 
   it("It should retry after a system error", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const systemError = new RestError("Test Error!", { code: "ENOENT" });
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
 
     const policy = systemErrorRetryPolicy();
@@ -41,7 +41,7 @@ describe("systemErrorRetryPolicy", function() {
     // allow the delay to occur
     const time = await clock.nextAsync();
     // should be at least the standard delay
-    assert.isAtLeast(time, 1000);
+    assert.isAtLeast(time, 500);
     assert.isTrue(next.calledTwice);
 
     const result = await promise;
@@ -51,7 +51,7 @@ describe("systemErrorRetryPolicy", function() {
 
   it("It should give up after the limit is reached", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const systemError = new RestError("Test Error!", { code: "ENOENT" });
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { TableEntity } from "@azure/data-tables";
+import { env } from "@azure-tools/test-recorder-new";
 
 const stringValue = "This is a string";
 
@@ -17,4 +18,12 @@ export function createSimpleEntity(): TableEntity {
     stringTypeProperty6: stringValue,
     stringTypeProperty7: stringValue
   };
+}
+
+export function assertEnvironmentVariable(variable: string): string {
+  const value = env[variable];
+  if (!value) {
+    throw new Error(`${variable} is not defined in your environment`);
+  }
+  return value;
 }

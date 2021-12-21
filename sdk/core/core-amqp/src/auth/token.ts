@@ -12,5 +12,5 @@ export enum TokenType {
   /**
    * The sas token type. Used with SharedKeyCredential.
    */
-  CbsTokenTypeSas = "servicebus.windows.net:sastoken"
+  CbsTokenTypeSas = "servicebus.windows.net:sastoken",
 }

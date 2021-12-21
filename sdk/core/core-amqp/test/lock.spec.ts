@@ -10,10 +10,10 @@ import { settleAllTasks } from "./utils/utils";
 
 const should = chai.should();
 
-describe("CancellableAsyncLock", function() {
+describe("CancellableAsyncLock", function () {
   const TEST_FAILURE = "Test failure";
 
-  describe(".acquire", function() {
+  describe(".acquire", function () {
     let lock: CancellableAsyncLock;
     beforeEach("create lock", () => {
       lock = new CancellableAsyncLockImpl();
@@ -27,7 +27,7 @@ describe("CancellableAsyncLock", function() {
         tasks.push(
           lock.acquire("lock", async () => val, {
             timeoutInMs: undefined,
-            abortSignal: undefined
+            abortSignal: undefined,
           })
         );
       }
@@ -126,7 +126,7 @@ describe("CancellableAsyncLock", function() {
             return 3;
           },
           { timeoutInMs: undefined, abortSignal: undefined }
-        )
+        ),
       ];
 
       const results: number[] = [];
@@ -192,7 +192,7 @@ describe("CancellableAsyncLock", function() {
             return 4;
           },
           { timeoutInMs: 0, abortSignal: undefined }
-        )
+        ),
       ];
 
       const results = await settleAllTasks(tasks);
@@ -254,7 +254,7 @@ describe("CancellableAsyncLock", function() {
             return 4;
           },
           { abortSignal, timeoutInMs: undefined }
-        )
+        ),
       ];
 
       const results: any[] = [];
@@ -339,7 +339,7 @@ describe("CancellableAsyncLock", function() {
             return 4;
           },
           { abortSignal, timeoutInMs: undefined }
-        )
+        ),
       ];
 
       const results: any[] = [];

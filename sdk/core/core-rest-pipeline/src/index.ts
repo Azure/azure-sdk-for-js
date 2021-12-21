@@ -16,19 +16,19 @@ export {
   RawHttpHeadersInput,
   TransferProgressEvent,
   RequestBodyType,
-  PipelineRetryOptions
+  PipelineRetryOptions,
 } from "./interfaces";
 export {
   AddPolicyOptions as AddPipelineOptions,
   PipelinePhase,
   PipelinePolicy,
   Pipeline,
-  createEmptyPipeline
+  createEmptyPipeline,
 } from "./pipeline";
 export {
   createPipelineFromOptions,
   InternalPipelineOptions,
-  PipelineOptions
+  PipelineOptions,
 } from "./createPipelineFromOptions";
 export { createDefaultHttpClient } from "./defaultHttpClient";
 export { createHttpHeaders } from "./httpHeaders";
@@ -36,39 +36,42 @@ export { createPipelineRequest, PipelineRequestOptions } from "./pipelineRequest
 export { RestError, RestErrorOptions } from "./restError";
 export {
   decompressResponsePolicy,
-  decompressResponsePolicyName
+  decompressResponsePolicyName,
 } from "./policies/decompressResponsePolicy";
 export {
   exponentialRetryPolicy,
   ExponentialRetryPolicyOptions,
-  exponentialRetryPolicyName
+  exponentialRetryPolicyName,
 } from "./policies/exponentialRetryPolicy";
 export {
   setClientRequestIdPolicy,
-  setClientRequestIdPolicyName
+  setClientRequestIdPolicyName,
 } from "./policies/setClientRequestIdPolicy";
 export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy";
 export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy";
 export {
   redirectPolicy,
   redirectPolicyName,
-  RedirectPolicyOptions
+  RedirectPolicyOptions,
 } from "./policies/redirectPolicy";
 export {
   systemErrorRetryPolicy,
   SystemErrorRetryPolicyOptions,
-  systemErrorRetryPolicyName
+  systemErrorRetryPolicyName,
 } from "./policies/systemErrorRetryPolicy";
 export {
   throttlingRetryPolicy,
   throttlingRetryPolicyName,
-  ThrottlingRetryPolicyOptions
+  ThrottlingRetryPolicyOptions,
 } from "./policies/throttlingRetryPolicy";
+export { retryPolicy, RetryPolicyOptions } from "./policies/retryPolicy";
+export { RetryStrategy, RetryInformation, RetryModifiers } from "./retryStrategies/retryStrategy";
 export { tracingPolicy, tracingPolicyName, TracingPolicyOptions } from "./policies/tracingPolicy";
+export { defaultRetryPolicy, DefaultRetryPolicyOptions } from "./policies/defaultRetryPolicy";
 export {
   userAgentPolicy,
   userAgentPolicyName,
-  UserAgentPolicyOptions
+  UserAgentPolicyOptions,
 } from "./policies/userAgentPolicy";
 export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy";
 export {
@@ -77,6 +80,6 @@ export {
   bearerTokenAuthenticationPolicyName,
   ChallengeCallbacks,
   AuthorizeRequestOptions,
-  AuthorizeRequestOnChallengeOptions
+  AuthorizeRequestOnChallengeOptions,
 } from "./policies/bearerTokenAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";

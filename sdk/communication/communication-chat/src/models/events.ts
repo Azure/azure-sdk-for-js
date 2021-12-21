@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  ChatEventId,
   ChatMessageReceivedEvent,
   ChatMessageEditedEvent,
   ChatMessageDeletedEvent,
@@ -14,6 +13,20 @@ import {
   ParticipantsAddedEvent,
   ParticipantsRemovedEvent
 } from "@azure/communication-signaling";
+
+type ChatEventId =
+  | "chatMessageReceived"
+  | "chatMessageEdited"
+  | "chatMessageDeleted"
+  | "typingIndicatorReceived"
+  | "readReceiptReceived"
+  | "chatThreadCreated"
+  | "chatThreadDeleted"
+  | "chatThreadPropertiesUpdated"
+  | "participantsAdded"
+  | "participantsRemoved"
+  | "realTimeNotificationConnected"
+  | "realTimeNotificationDisconnected";
 
 export {
   ChatEventId,

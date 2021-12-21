@@ -10,7 +10,7 @@ import { OperationStatuses } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { VideoAnalyzerContext } from "../videoAnalyzerContext";
+import { VideoAnalyzerManagementClient } from "../videoAnalyzerManagementClient";
 import {
   OperationStatusesGetOptionalParams,
   OperationStatusesGetResponse
@@ -18,13 +18,13 @@ import {
 
 /** Class containing OperationStatuses operations. */
 export class OperationStatusesImpl implements OperationStatuses {
-  private readonly client: VideoAnalyzerContext;
+  private readonly client: VideoAnalyzerManagementClient;
 
   /**
    * Initialize a new instance of the class OperationStatuses class.
    * @param client Reference to the service client
    */
-  constructor(client: VideoAnalyzerContext) {
+  constructor(client: VideoAnalyzerManagementClient) {
     this.client = client;
   }
 

@@ -3,6 +3,7 @@ import { createPipelineRequest, HttpMethods } from "@azure/core-rest-pipeline";
 import { getRealAndFakePairs } from "./utils/connectionStringHelpers";
 import { paths } from "./utils/paths";
 import {
+  getTestMode,
   ProxyToolSanitizers,
   RecorderError,
   sanitizerKeywordMapping,
@@ -13,17 +14,15 @@ import {
  * Sanitizer class to handle communication with the proxy-tool relating to the sanitizers adding/resetting, etc.
  */
 export class Sanitizer {
-  constructor(private mode: string, private url: string, private httpClient: HttpClient) {}
+  constructor(private url: string, private httpClient: HttpClient) {}
   private recordingId: string | undefined;
 
-  setRecordingId(recordingId: string) {
+  setRecordingId(recordingId: string): void {
     this.recordingId = recordingId;
   }
 
   /**
    * Returns the html document of all the available transforms in the proxy-tool
-   *
-   * @returns
    */
   async transformsInfo(): Promise<string | null | undefined> {
     if (this.recordingId) {
@@ -31,7 +30,7 @@ export class Sanitizer {
       const req = this._createRecordingRequest(infoUri, "GET");
       if (!this.httpClient) {
         throw new RecorderError(
-          `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${this.mode} mode.`
+          `Something went wrong, Sanitizer.httpClient should not have been undefined in ${getTestMode()} mode.`
         );
       }
       const rsp = await this.httpClient.sendRequest({
@@ -155,7 +154,6 @@ export class Sanitizer {
 
   /**
    * Atomic method to add a simple sanitizer.
-   * @param options
    */
   private async addSanitizer(options: {
     sanitizer: ProxyToolSanitizers;
@@ -172,7 +170,7 @@ export class Sanitizer {
       req.body = options.body;
       if (!this.httpClient) {
         throw new RecorderError(
-          `Something went wrong, TestProxyHttpClient.httpClient should not have been undefined in ${this.mode} mode.`
+          `Something went wrong, Recorder.httpClient should not have been undefined in ${getTestMode()} mode.`
         );
       }
       const rsp = await this.httpClient.sendRequest({
@@ -190,8 +188,6 @@ export class Sanitizer {
   /**
    * Adds the recording id headers to the requests that are sent to the proxy tool.
    * These are required to appropriately save the recordings in the record mode and picking them up in playback.
-   *
-   * @param {string} url
    */
   private _createRecordingRequest(url: string, method: HttpMethods = "POST") {
     const req = createPipelineRequest({ url: url, method });

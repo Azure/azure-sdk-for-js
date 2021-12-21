@@ -114,7 +114,7 @@ export const ConnectionConfig = {
       endpoint: parsedCS.Endpoint,
       host: parsedCS && parsedCS.Endpoint ? (parsedCS.Endpoint.match(".*://([^/]*)") || [])[1] : "",
       sharedAccessKeyName: parsedCS.SharedAccessKeyName,
-      sharedAccessKey: parsedCS.SharedAccessKey
+      sharedAccessKey: parsedCS.SharedAccessKey,
     };
 
     if (path || parsedCS.EntityPath) {
@@ -163,7 +163,7 @@ export const ConnectionConfig = {
       }
       config.sharedAccessKey = String(config.sharedAccessKey);
     }
-  }
+  },
 };
 
 /**

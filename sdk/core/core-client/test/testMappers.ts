@@ -16,195 +16,195 @@ const QueueDescription: CompositeMapper = {
         xmlName: "LockDuration",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "TimeSpan"
-        }
+          name: "TimeSpan",
+        },
       },
       maxSizeInMegabytes: {
         serializedName: "maxSizeInMegabytes",
         xmlName: "MaxSizeInMegabytes",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       requiresDuplicateDetection: {
         serializedName: "requiresDuplicateDetection",
         xmlName: "RequiresDuplicateDetection",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       requiresSession: {
         serializedName: "requiresSession",
         xmlName: "RequiresSession",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       defaultMessageTimeToLive: {
         serializedName: "defaultMessageTimeToLive",
         xmlName: "DefaultMessageTimeToLive",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "TimeSpan"
-        }
+          name: "TimeSpan",
+        },
       },
       deadLetteringOnMessageExpiration: {
         serializedName: "deadLetteringOnMessageExpiration",
         xmlName: "DeadLetteringOnMessageExpiration",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       duplicateDetectionHistoryTimeWindow: {
         serializedName: "duplicateDetectionHistoryTimeWindow",
         xmlName: "DuplicateDetectionHistoryTimeWindow",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "TimeSpan"
-        }
+          name: "TimeSpan",
+        },
       },
       maxDeliveryCount: {
         serializedName: "maxDeliveryCount",
         xmlName: "MaxDeliveryCount",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       enableBatchedOperations: {
         serializedName: "enableBatchedOperations",
         xmlName: "EnableBatchedOperations",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       sizeInBytes: {
         serializedName: "sizeInBytes",
         xmlName: "SizeInBytes",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       messageCount: {
         serializedName: "messageCount",
         xmlName: "MessageCount",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       isAnonymousAccessible: {
         serializedName: "isAnonymousAccessible",
         xmlName: "IsAnonymousAccessible",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       status: {
         serializedName: "status",
         xmlName: "Status",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       forwardTo: {
         serializedName: "forwardTo",
         xmlName: "ForwardTo",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       userMetadata: {
         serializedName: "userMetadata",
         xmlName: "UserMetadata",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdAt: {
         serializedName: "createdAt",
         xmlName: "CreatedAt",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       updatedAt: {
         serializedName: "updatedAt",
         xmlName: "UpdatedAt",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       accessedAt: {
         serializedName: "accessedAt",
         xmlName: "AccessedAt",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       supportOrdering: {
         serializedName: "supportOrdering",
         xmlName: "SupportOrdering",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       autoDeleteOnIdle: {
         serializedName: "autoDeleteOnIdle",
         xmlName: "AutoDeleteOnIdle",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "TimeSpan"
-        }
+          name: "TimeSpan",
+        },
       },
       enablePartitioning: {
         serializedName: "enablePartitioning",
         xmlName: "EnablePartitioning",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       entityAvailabilityStatus: {
         serializedName: "entityAvailabilityStatus",
         xmlName: "EntityAvailabilityStatus",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       enableExpress: {
         serializedName: "enableExpress",
         xmlName: "EnableExpress",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       forwardDeadLetteredMessagesTo: {
         serializedName: "forwardDeadLetteredMessagesTo",
         xmlName: "ForwardDeadLetteredMessagesTo",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 const CreateQueueBodyContent: CompositeMapper = {
@@ -220,19 +220,19 @@ const CreateQueueBodyContent: CompositeMapper = {
         xmlName: "type",
         xmlIsAttribute: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       queueDescription: {
         serializedName: "queueDescription",
         xmlName: "QueueDescription",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          ...QueueDescription.type
-        }
-      }
-    }
-  }
+          ...QueueDescription.type,
+        },
+      },
+    },
+  },
 };
 
 const CreateQueueBody: CompositeMapper = {
@@ -248,19 +248,19 @@ const CreateQueueBody: CompositeMapper = {
         xmlName: "updated",
         xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       content: {
         serializedName: "content",
         xmlName: "content",
         xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
-          ...CreateQueueBodyContent.type
-        }
-      }
-    }
-  }
+          ...CreateQueueBodyContent.type,
+        },
+      },
+    },
+  },
 };
 
 const internalMappers: any = {};
@@ -275,32 +275,32 @@ internalMappers.SimpleProduct = {
         constraints: {},
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       maxProductDisplayName: {
         serializedName: "details.max_product_display_name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       capacity: {
         defaultValue: "Large",
         isConstant: true,
         serializedName: "details.max_product_capacity",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 internalMappers.SimpleProductConstFirst = {
@@ -313,32 +313,32 @@ internalMappers.SimpleProductConstFirst = {
         constraints: {},
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       capacity: {
         defaultValue: "Large",
         isConstant: true,
         serializedName: "details.max_product_capacity",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       maxProductDisplayName: {
         serializedName: "details.max_product_display_name",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 internalMappers.Cat = {
@@ -352,29 +352,29 @@ internalMappers.Cat = {
         required: false,
         serializedName: "id",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         required: false,
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       pettype: {
         required: true,
         serializedName: "pet\\.type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       color: {
         required: false,
         serializedName: "color",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       hates: {
         required: false,
@@ -386,13 +386,13 @@ internalMappers.Cat = {
             serializedName: "DogElementType",
             type: {
               name: "Composite",
-              className: "Dog"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "Dog",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 internalMappers.Dog = {
   required: false,
@@ -405,32 +405,32 @@ internalMappers.Dog = {
         required: false,
         serializedName: "id",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         required: false,
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       pettype: {
         required: true,
         serializedName: "pet\\.type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       food: {
         required: false,
         serializedName: "food",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 internalMappers.Fish = {
   required: false,
@@ -439,7 +439,7 @@ internalMappers.Fish = {
     name: "Composite",
     polymorphicDiscriminator: {
       serializedName: "fish.type",
-      clientName: "fishtype"
+      clientName: "fishtype",
     },
     uberParent: "Fish",
     className: "Fish",
@@ -448,15 +448,15 @@ internalMappers.Fish = {
         required: false,
         serializedName: "species",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       length: {
         required: true,
         serializedName: "length",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       siblings: {
         required: false,
@@ -470,23 +470,23 @@ internalMappers.Fish = {
               name: "Composite",
               polymorphicDiscriminator: {
                 serializedName: "fish.type",
-                clientName: "fishtype"
+                clientName: "fishtype",
               },
               uberParent: "Fish",
-              className: "Fish"
-            }
-          }
-        }
+              className: "Fish",
+            },
+          },
+        },
       },
       fishtype: {
         required: true,
         serializedName: "fish\\.type",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 internalMappers.Invoice = {
   required: false,
@@ -499,15 +499,15 @@ internalMappers.Invoice = {
         serializedName: "invoiceId",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       invDate: {
         serializedName: "invDate",
         required: false,
         type: {
-          name: "Date"
-        }
+          name: "Date",
+        },
       },
       invProducts: {
         serializedName: "invProducts",
@@ -520,15 +520,15 @@ internalMappers.Invoice = {
               value: {
                 type: {
                   name: "Composite",
-                  className: "Product"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+                  className: "Product",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
 internalMappers.Pet = {
   required: false,
@@ -542,25 +542,25 @@ internalMappers.Pet = {
         required: false,
         serializedName: "id",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         required: false,
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       pettype: {
         required: true,
         serializedName: "pet\\.type",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 internalMappers.PetAP = {
   required: false,
@@ -569,8 +569,8 @@ internalMappers.PetAP = {
     name: "Composite",
     additionalProperties: {
       type: {
-        name: "String"
-      }
+        name: "String",
+      },
     },
     className: "PetAP",
     modelProperties: {
@@ -578,15 +578,15 @@ internalMappers.PetAP = {
         required: true,
         serializedName: "id",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         required: false,
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       eyeColor: {
         required: true,
@@ -594,31 +594,31 @@ internalMappers.PetAP = {
         isConstant: true,
         defaultValue: "brown",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       favoriteFood: {
         required: false,
         serializedName: "favoriteFood",
         defaultValue: "bones",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       status: {
         required: false,
         readOnly: true,
         serializedName: "status",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       odatalocation: {
         required: true,
         serializedName: "@odata\\.location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       additionalProperties1: {
         required: false,
@@ -629,13 +629,13 @@ internalMappers.PetAP = {
             required: false,
             serializedName: "NumberElementType",
             type: {
-              name: "Number"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "Number",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 internalMappers.PetGallery = {
   required: false,
@@ -648,15 +648,15 @@ internalMappers.PetGallery = {
         required: false,
         serializedName: "id",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         required: false,
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       pets: {
         required: false,
@@ -670,13 +670,13 @@ internalMappers.PetGallery = {
               name: "Composite",
               polymorphicDiscriminator: "pet.type",
               uberParent: "Pet",
-              className: "Pet"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "Pet",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 internalMappers.Product = {
   required: false,
@@ -690,28 +690,28 @@ internalMappers.Product = {
         constraints: {},
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
+          name: "String",
         },
         constraints: {
           MaxLength: 256,
           MinLength: 1,
-          Pattern: /^[A-Za-z0-9-._]+$/
-        }
+          Pattern: /^[A-Za-z0-9-._]+$/,
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         required: false,
         type: {
           name: "Enum",
-          allowedValues: ["Creating", "Failed", "Succeeded"]
-        }
+          allowedValues: ["Creating", "Failed", "Succeeded"],
+        },
       },
       tags: {
         serializedName: "tags",
@@ -720,25 +720,25 @@ internalMappers.Product = {
           name: "Dictionary",
           value: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       dispatchTime: {
         serializedName: "dispatchTime",
         required: false,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       invoiceInfo: {
         serializedName: "invoiceInfo",
         required: false,
         type: {
           name: "Composite",
-          className: "Invoice"
-        }
+          className: "Invoice",
+        },
       },
       subProducts: {
         serializedName: "subProducts",
@@ -748,13 +748,13 @@ internalMappers.Product = {
           element: {
             type: {
               name: "Composite",
-              className: "SubProduct"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SubProduct",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 internalMappers.ProductListResult = {
   required: false,
@@ -771,13 +771,13 @@ internalMappers.ProductListResult = {
           element: {
             type: {
               name: "Composite",
-              className: "Product"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "Product",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 internalMappers.ProductListResultNextLink = {
   required: false,
@@ -794,20 +794,20 @@ internalMappers.ProductListResultNextLink = {
           element: {
             type: {
               name: "Composite",
-              className: "Product"
-            }
-          }
-        }
+              className: "Product",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         required: false,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 internalMappers.ProductListResultNextLinkFirst = {
   required: false,
@@ -820,8 +820,8 @@ internalMappers.ProductListResultNextLinkFirst = {
         serializedName: "nextLink",
         required: false,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "",
@@ -831,13 +831,13 @@ internalMappers.ProductListResultNextLinkFirst = {
           element: {
             type: {
               name: "Composite",
-              className: "Product"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "Product",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 internalMappers.SawShark = {
   required: false,
@@ -846,7 +846,7 @@ internalMappers.SawShark = {
     name: "Composite",
     polymorphicDiscriminator: {
       serializedName: "fish.type",
-      clientName: "fishtype"
+      clientName: "fishtype",
     },
     uberParent: "Fish",
     className: "Sawshark",
@@ -855,15 +855,15 @@ internalMappers.SawShark = {
         required: false,
         serializedName: "species",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       length: {
         required: true,
         serializedName: "length",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       siblings: {
         required: false,
@@ -877,44 +877,44 @@ internalMappers.SawShark = {
               name: "Composite",
               polymorphicDiscriminator: {
                 serializedName: "fish.type",
-                clientName: "fishtype"
+                clientName: "fishtype",
               },
               uberParent: "Fish",
-              className: "Fish"
-            }
-          }
-        }
+              className: "Fish",
+            },
+          },
+        },
       },
       fishtype: {
         required: true,
         serializedName: "fish\\.type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       age: {
         required: false,
         serializedName: "age",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       birthday: {
         required: true,
         serializedName: "birthday",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       picture: {
         required: false,
         serializedName: "picture",
         type: {
-          name: "ByteArray"
-        }
-      }
-    }
-  }
+          name: "ByteArray",
+        },
+      },
+    },
+  },
 };
 internalMappers.Shark = {
   required: false,
@@ -923,7 +923,7 @@ internalMappers.Shark = {
     name: "Composite",
     polymorphicDiscriminator: {
       serializedName: "fish.type",
-      clientName: "fishtype"
+      clientName: "fishtype",
     },
     uberParent: "Fish",
     className: "Shark",
@@ -932,15 +932,15 @@ internalMappers.Shark = {
         required: false,
         serializedName: "species",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       length: {
         required: true,
         serializedName: "length",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       siblings: {
         required: false,
@@ -954,37 +954,37 @@ internalMappers.Shark = {
               name: "Composite",
               polymorphicDiscriminator: {
                 serializedName: "fish.type",
-                clientName: "fishtype"
+                clientName: "fishtype",
               },
               uberParent: "Fish",
-              className: "Fish"
-            }
-          }
-        }
+              className: "Fish",
+            },
+          },
+        },
       },
       fishtype: {
         required: true,
         serializedName: "fish\\.type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       age: {
         required: false,
         serializedName: "age",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       birthday: {
         required: true,
         serializedName: "birthday",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 internalMappers.SubProduct = {
   required: false,
@@ -997,41 +997,41 @@ internalMappers.SubProduct = {
         serializedName: "subId",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       subName: {
         serializedName: "subName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "provisioningState",
         required: false,
         type: {
           name: "Enum",
-          allowedValues: ["Creating", "Failed", "Succeeded"]
-        }
+          allowedValues: ["Creating", "Failed", "Succeeded"],
+        },
       },
       makeTime: {
         serializedName: "makeTime",
         required: false,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       invoiceInfo: {
         serializedName: "invoiceInfo",
         required: false,
         type: {
           name: "Composite",
-          className: "Invoice"
-        }
-      }
-    }
-  }
+          className: "Invoice",
+        },
+      },
+    },
+  },
 };
 
 internalMappers.discriminators = {
@@ -1040,12 +1040,12 @@ internalMappers.discriminators = {
   "Fish.sawshark": internalMappers.SawShark,
   Pet: internalMappers.Pet,
   "Pet.Cat": internalMappers.Cat,
-  "Pet.Dog": internalMappers.Dog
+  "Pet.Dog": internalMappers.Dog,
 };
 
 internalMappers.requestBody1 = {
   parameterPath: "requestBody",
-  mapper: CreateQueueBody
+  mapper: CreateQueueBody,
 };
 
 internalMappers.TelemetryItem = {
@@ -1057,61 +1057,61 @@ internalMappers.TelemetryItem = {
         defaultValue: 1,
         serializedName: "ver",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       time: {
         serializedName: "time",
         required: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       sampleRate: {
         defaultValue: 100,
         serializedName: "sampleRate",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       sequence: {
         constraints: {
-          MaxLength: 64
+          MaxLength: 64,
         },
         serializedName: "seq",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       instrumentationKey: {
         serializedName: "iKey",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       data: {
         serializedName: "data",
         type: {
           name: "Composite",
-          className: "MonitorBase"
-        }
-      }
-    }
-  }
+          className: "MonitorBase",
+        },
+      },
+    },
+  },
 };
 
 internalMappers.MonitorBase = {
@@ -1122,18 +1122,18 @@ internalMappers.MonitorBase = {
       baseType: {
         serializedName: "baseType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       baseData: {
         serializedName: "baseData",
         type: {
           name: "Composite",
-          className: "MonitorDomain"
-        }
-      }
-    }
-  }
+          className: "MonitorDomain",
+        },
+      },
+    },
+  },
 };
 
 internalMappers.MonitorDomain = {
@@ -1145,11 +1145,11 @@ internalMappers.MonitorDomain = {
       test: {
         serializedName: "test",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 internalMappers.body = {
@@ -1159,9 +1159,9 @@ internalMappers.body = {
     required: true,
     type: {
       name: "Sequence",
-      element: { type: { name: "Composite", className: "TelemetryItem" } }
-    }
-  }
+      element: { type: { name: "Composite", className: "TelemetryItem" } },
+    },
+  },
 };
 
 export const Mappers = internalMappers;
