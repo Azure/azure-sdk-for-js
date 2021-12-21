@@ -13,7 +13,7 @@ import { SpanContext } from "@azure/core-tracing";
 import { createMessageSpan } from "./tracing";
 
 /**
- * @hidden
+ * @internal
  */
 export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
 

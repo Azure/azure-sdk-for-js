@@ -39,7 +39,7 @@ export function throttlingRetryPolicy(options: ThrottlingRetryPolicyOptions = {}
   return {
     name: throttlingRetryPolicyName,
     sendRequest: retryPolicy([throttlingRetryStrategy()], {
-      maxRetries: options.maxRetries ?? DEFAULT_CLIENT_MAX_RETRY_COUNT
-    }).sendRequest
+      maxRetries: options.maxRetries ?? DEFAULT_CLIENT_MAX_RETRY_COUNT,
+    }).sendRequest,
   };
 }

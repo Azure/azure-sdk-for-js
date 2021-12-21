@@ -18,20 +18,20 @@ class AMQPError {
   }
 }
 
-describe("Errors", function() {
-  describe("translate", function() {
-    it("Does not touch errors that are neither AmqpError nor SystemError", function() {
+describe("Errors", function () {
+  describe("translate", function () {
+    it("Does not touch errors that are neither AmqpError nor SystemError", function () {
       const testError = new Error("Test error");
       const translatedError = Errors.translate(testError);
       translatedError.should.deep.equal(testError);
     });
 
-    it("Wraps non-object inputs in errors", function() {
+    it("Wraps non-object inputs in errors", function () {
       const cases = [
         { input: "test", outputErrorMessage: "test" },
         { input: 1234, outputErrorMessage: "1234" },
         { input: null, outputErrorMessage: "Unknown error encountered." },
-        { input: undefined, outputErrorMessage: "Unknown error encountered." }
+        { input: undefined, outputErrorMessage: "Unknown error encountered." },
       ];
 
       for (let i = 0; i < cases.length; i++) {
@@ -46,19 +46,19 @@ describe("Errors", function() {
       }
     });
 
-    it("Does not touch TypeError", function() {
+    it("Does not touch TypeError", function () {
       const testError = new TypeError("This is a wrong type!!");
       const translatedError = Errors.translate(testError);
       translatedError.should.deep.equal(testError);
     });
 
-    it("Does not touch RangeError", function() {
+    it("Does not touch RangeError", function () {
       const testError = new RangeError("Out of range!!");
       const translatedError = Errors.translate(testError);
       translatedError.should.deep.equal(testError);
     });
 
-    it("Sets retryable to true, if input is custom error and name is OperationTimeoutError", function() {
+    it("Sets retryable to true, if input is custom error and name is OperationTimeoutError", function () {
       const err = new Error("error message");
       err.name = "OperationTimeoutError";
       const translatedError = Errors.translate(err) as Errors.MessagingError;
@@ -69,7 +69,7 @@ describe("Errors", function() {
       translatedError.retryable.should.equal(true);
     });
 
-    it("Sets retryable to true, if input is custom error and name is InsufficientCreditError", function() {
+    it("Sets retryable to true, if input is custom error and name is InsufficientCreditError", function () {
       const err = new Error("error message");
       err.name = "InsufficientCreditError";
       const translatedError = Errors.translate(err) as Errors.MessagingError;
@@ -80,7 +80,7 @@ describe("Errors", function() {
       translatedError.retryable.should.equal(true);
     });
 
-    it("Does not sets retryable to true, if input is custom error and name is SendOperationFailedError", function() {
+    it("Does not sets retryable to true, if input is custom error and name is SendOperationFailedError", function () {
       const err = new Error("error message");
       err.name = "SendOperationFailedError";
       const translatedError = Errors.translate(err) as Errors.MessagingError;
@@ -91,7 +91,7 @@ describe("Errors", function() {
       translatedError.retryable.should.equal(false);
     });
 
-    it("Does not set retryable, if input is the custom AbortError", function() {
+    it("Does not set retryable, if input is the custom AbortError", function () {
       const err = new AbortError("error message");
       const translatedError = Errors.translate(err);
       should.equal(translatedError.name === "AbortError", true);
@@ -104,21 +104,21 @@ describe("Errors", function() {
       {
         from: "amqp:not-found",
         to: "ServiceCommunicationError",
-        message: "some message"
+        message: "some message",
       },
       {
         from: "com.microsoft:server-busy",
         to: "ServerBusyError",
-        message: "some message"
+        message: "some message",
       },
       {
         from: "com.microsoft:argument-out-of-range",
         to: "ArgumentOutOfRangeError",
-        message: "some message"
+        message: "some message",
       },
-      { from: "<unknown>", to: "MessagingError", message: "some message" }
-    ].forEach(function(mapping) {
-      it("translates " + mapping.from + " into " + mapping.to, function() {
+      { from: "<unknown>", to: "MessagingError", message: "some message" },
+    ].forEach(function (mapping) {
+      it("translates " + mapping.from + " into " + mapping.to, function () {
         const err: any = new AMQPError(mapping.from, mapping.message);
         const translatedError = Errors.translate(err) as Errors.MessagingError;
         // <unknown> won't have a code since it has no matching condition
@@ -144,36 +144,36 @@ describe("Errors", function() {
         code: "ECONNRESET",
         errno: "ECONNRESET",
         syscall: "read",
-        message: "code: ECONNRESET, errno: ECONNRESET, syscall: read"
+        message: "code: ECONNRESET, errno: ECONNRESET, syscall: read",
       },
       {
         code: "ECONNREFUSED",
         errno: "ECONNREFUSED",
         syscall: "read",
-        message: "code: ECONNREFUSED, errno: ECONNREFUSED, syscall: read"
+        message: "code: ECONNREFUSED, errno: ECONNREFUSED, syscall: read",
       },
       {
         code: "EBUSY",
         errno: "EBUSY",
         syscall: "read",
-        message: "code: EBUSY, errno: EBUSY, syscall: read"
+        message: "code: EBUSY, errno: EBUSY, syscall: read",
       },
       {
         code: "ENOTFOUND",
         errno: "ENOTFOUND",
         syscall: "read",
-        message: "code: ENOTFOUND, errno: ENOTFOUND, syscall: read"
+        message: "code: ENOTFOUND, errno: ENOTFOUND, syscall: read",
       },
       {
         code: "ESOMETHINGRANDOM",
         errno: "ESOMETHINGRANDOM",
         syscall: "read",
-        message: "code: ESOMETHINGRANDOM, errno: ESOMETHINGRANDOM, syscall: read"
-      }
-    ].forEach(function(mapping) {
+        message: "code: ESOMETHINGRANDOM, errno: ESOMETHINGRANDOM, syscall: read",
+      },
+    ].forEach(function (mapping) {
       it(
         "SystemError from node.js  with code: '" + mapping.code + "' to a MessagingError",
-        function() {
+        function () {
           const translatedError = Errors.translate(mapping as any) as Errors.MessagingError;
           translatedError.name.should.equal("MessagingError");
           translatedError.code!.should.equal(mapping.code);

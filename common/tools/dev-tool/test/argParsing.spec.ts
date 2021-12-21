@@ -13,7 +13,7 @@ const ARG_SCRIPT = "process.stdout.write(JSON.stringify(process.argv.slice(1)))"
 // Normally this is handled by makeCommandInfo. This is _only_ for the sake of making an ergonomic type assertion
 // below.
 const strict = <Opts extends CommandOptions>(options: Opts): StrictAllowMultiple<Opts> =>
-  options as any;
+  options as StrictAllowMultiple<Opts>;
 
 /**
  * Uses the platform shell to split a string as arguments.
@@ -25,7 +25,7 @@ function shellSplit(args: string): Promise<string[]> {
   return new Promise((resolve, reject) => {
     const command = `node -e "${ARG_SCRIPT}" -- ${args}`;
     const child = spawn(command, {
-      shell: true
+      shell: true,
     });
 
     let output = "";
@@ -48,7 +48,7 @@ function shellSplit(args: string): Promise<string[]> {
   });
 }
 
-describe("argument parsing", async function() {
+describe("argument parsing", async function () {
   before(silenceLogger);
 
   it("simple option", async () => {
@@ -57,8 +57,8 @@ describe("argument parsing", async function() {
       strict({
         test: {
           kind: "string",
-          description: ""
-        }
+          description: "",
+        },
       })
     );
 
@@ -69,15 +69,15 @@ describe("argument parsing", async function() {
   });
 
   // Option parsing should end at the first unrecognized option
-  it("positional args", async function() {
+  it("positional args", async function () {
     const parsed = parseOptions(
       await shellSplit("--test unknown --after=10"),
       strict({
         test: {
           kind: "boolean",
           description: "",
-          default: false
-        }
+          default: false,
+        },
       })
     );
 
@@ -88,14 +88,14 @@ describe("argument parsing", async function() {
     assert.deepStrictEqual(parsed.args, ["unknown", "--after=10"]);
   });
 
-  it("extra args", async function() {
+  it("extra args", async function () {
     const parsed = parseOptions(
       await shellSplit('--test unknown --after=10 -- "these are" extra args "--whatever"'),
       strict({
         test: {
           description: "",
-          kind: "boolean"
-        }
+          kind: "boolean",
+        },
       })
     );
 
@@ -104,7 +104,7 @@ describe("argument parsing", async function() {
     assert.deepStrictEqual(parsed["--"], ["these are", "extra", "args", "--whatever"]);
   });
 
-  it("type checking", async function() {
+  it("type checking", async function () {
     const opts = await shellSplit('--test="foo" --test="bar"');
 
     // This should throw because multiple entries are not allowed.
@@ -113,8 +113,8 @@ describe("argument parsing", async function() {
         test: {
           kind: "string",
           allowMultiple: false,
-          description: ""
-        }
+          description: "",
+        },
       });
     });
   });

@@ -4,7 +4,7 @@
 import fs from "fs-extra";
 import path from "path";
 import { createPrinter } from "./printer";
-import { shouldSkip } from "./sampleConfiguration";
+import { shouldSkip } from "./samples/configuration";
 
 const { debug, info: logInfo } = createPrinter("find-matching-files");
 
@@ -43,7 +43,7 @@ export interface FindOptions {
 
 const defaultFindOptions: FindOptions = {
   ignore: [],
-  skips: []
+  skips: [],
 };
 
 /**
@@ -70,7 +70,7 @@ export async function* findMatchingFiles(
         dir,
         fullPath,
         name: file,
-        stat: await fs.stat(fullPath)
+        stat: await fs.stat(fullPath),
       });
     }
   }

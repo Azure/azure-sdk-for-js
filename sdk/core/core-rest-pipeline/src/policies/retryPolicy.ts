@@ -91,7 +91,7 @@ export function retryPolicy(
           const modifiers = strategy.retry({
             retryCount,
             response,
-            responseError
+            responseError,
           });
 
           if (modifiers.skipStrategy) {
@@ -135,6 +135,6 @@ export function retryPolicy(
         // we're still in the retry loop, so a new request will be sent
         // until `maxRetries` is reached.
       }
-    }
+    },
   };
 }

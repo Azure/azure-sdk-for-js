@@ -5,14 +5,14 @@ import { assert } from "chai";
 import * as sinon from "sinon";
 import { createPipelineRequest, SendRequest, RestError, defaultRetryPolicy } from "../src";
 
-describe("defaultRetryPolicy", function() {
-  afterEach(function() {
+describe("defaultRetryPolicy", function () {
+  afterEach(function () {
     sinon.restore();
   });
 
   it("It should throw immediately if the response or error doesn't match anything we were expecting", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const testError = new RestError("Test Error!", { code: "UNEXPECTED" });
 
@@ -36,7 +36,7 @@ describe("defaultRetryPolicy", function() {
 
   it("It should give up after the default maxRetries is reached", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
 

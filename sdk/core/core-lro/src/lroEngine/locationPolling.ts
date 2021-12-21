@@ -13,6 +13,6 @@ export function processLocationPollingOperationResult<TResult>(
 ): LroStatus<TResult> {
   return {
     ...response,
-    done: isLocationPollingDone(response.rawResponse)
+    done: isLocationPollingDone(response.rawResponse),
   };
 }

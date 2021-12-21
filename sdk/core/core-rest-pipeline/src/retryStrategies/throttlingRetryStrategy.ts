@@ -49,8 +49,8 @@ export function throttlingRetryStrategy(): RetryStrategy {
         return { skipStrategy: true };
       }
       return {
-        retryAfterInMs: parseRetryAfterHeader(response!.headers.get("Retry-After")!)
+        retryAfterInMs: parseRetryAfterHeader(response!.headers.get("Retry-After")!),
       };
-    }
+    },
   };
 }

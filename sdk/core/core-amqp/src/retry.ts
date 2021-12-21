@@ -32,7 +32,7 @@ function isDelivery(obj: any): boolean {
  */
 export enum RetryMode {
   Exponential,
-  Fixed
+  Fixed,
 }
 
 /**
@@ -47,7 +47,7 @@ export enum RetryOperationType {
   sendMessage = "sendMessage",
   receiveMessage = "receiveMessage",
   session = "session",
-  messageSettlement = "settlement"
+  messageSettlement = "settlement",
 }
 
 /**

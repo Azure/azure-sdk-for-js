@@ -5,7 +5,7 @@ import {
   LongRunningOperation,
   LroEngineOptions,
   PollerConfig,
-  ResumablePollOperationState
+  ResumablePollOperationState,
 } from "./models";
 import { GenericPollOperation } from "./operation";
 import { PollOperationState } from "../pollOperation";

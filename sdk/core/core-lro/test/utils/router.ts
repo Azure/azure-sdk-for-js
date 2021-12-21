@@ -7,13 +7,13 @@ import {
   PipelineRequest,
   PipelineResponse,
   RestError,
-  createHttpHeaders
+  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 import {
   LroBody,
   LroResourceLocationConfig,
   LroResponse,
-  RawResponse
+  RawResponse,
 } from "../../src/lroEngine/models";
 import { LroEngine, PollOperationState, PollerLike } from "../../src";
 import { routes, routesTable } from "./router/routesTable";
@@ -46,9 +46,9 @@ const lroClient: HttpClient = {
       return response;
     }
     throw new RestError(`Route for ${reqMethod} request to ${reqPath} was not found`, {
-      statusCode: 404
+      statusCode: 404,
     });
-  }
+  },
 };
 
 export type Response = LroBody & { statusCode: number };
@@ -64,8 +64,8 @@ async function runRouter(request: PipelineRequest): Promise<LroResponse<Response
     rawResponse: {
       headers: headers,
       statusCode: response.status,
-      body: parsedBody
-    }
+      body: parsedBody,
+    },
   };
 }
 
@@ -82,13 +82,13 @@ export function mockedPoller<TState>(
     headers: createHttpHeaders(),
     requestId: "",
     timeout: 0,
-    withCredentials: false
+    withCredentials: false,
   });
   return new LroEngine<Response, TState>(lro, {
     intervalInMs: 0,
     lroResourceLocationConfig: lroResourceLocationConfig,
     processResult: processResult,
-    updateState: updateState
+    updateState: updateState,
   });
 }
 

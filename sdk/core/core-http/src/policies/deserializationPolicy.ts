@@ -5,7 +5,7 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import { SerializerOptions, XML_CHARKEY } from "../util/serializer.common";
 import { HttpOperationResponse } from "../httpOperationResponse";
@@ -61,7 +61,7 @@ export function deserializationPolicy(
         deserializationContentTypes,
         parsingOptions
       );
-    }
+    },
   };
 }
 
@@ -71,8 +71,8 @@ export const defaultXmlContentTypes = ["application/xml", "application/atom+xml"
 export const DefaultDeserializationOptions: DeserializationOptions = {
   expectedContentTypes: {
     json: defaultJsonContentTypes,
-    xml: defaultXmlContentTypes
-  }
+    xml: defaultXmlContentTypes,
+  },
 };
 
 /**
@@ -102,7 +102,7 @@ export class DeserializationPolicy extends BaseRequestPolicy {
   public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     return this._nextPolicy.sendRequest(request).then((response: HttpOperationResponse) =>
       deserializeResponseBody(this.jsonContentTypes, this.xmlContentTypes, response, {
-        xmlCharKey: this.xmlCharKey
+        xmlCharKey: this.xmlCharKey,
       })
     );
   }
@@ -161,7 +161,7 @@ export function deserializeResponseBody(
   const updatedOptions: Required<SerializerOptions> = {
     rootName: options.rootName ?? "",
     includeRoot: options.includeRoot ?? false,
-    xmlCharKey: options.xmlCharKey ?? XML_CHARKEY
+    xmlCharKey: options.xmlCharKey ?? XML_CHARKEY,
   };
   return parse(jsonContentTypes, xmlContentTypes, response, updatedOptions).then(
     (parsedResponse) => {

@@ -5,6 +5,11 @@ import fs from "fs-extra";
 import os from "os";
 import path from "path";
 
+import { createPrinter } from "./printer";
+import * as git from "./git";
+
+const { debug } = createPrinter("fileTree");
+
 /**
  * Provides a way to instantiate a file within a base path.
  *
@@ -21,6 +26,34 @@ export type FileTreeFactory = (basePath: string) => Promise<void>;
 
 function isAsyncIterable<T>(it: Iterable<T> | AsyncIterable<T>): it is AsyncIterable<T> {
   return (it as AsyncIterable<unknown>)[Symbol.asyncIterator] !== undefined;
+}
+
+/**
+ * Removes a path before passing it to a child worker.
+ *
+ * This will fail if `git` believes the path is dirty.
+ *
+ * @param worker - the child factory to call after ensuring the dir is safe.
+ */
+export function safeClean(worker: FileTreeFactory): FileTreeFactory {
+  return async (basePath) => {
+    // If the path exists, then we will check it for a git diff before deleting it.
+    if (await fs.pathExists(basePath)) {
+      debug(basePath, "exists, checking it for safety.");
+
+      if (await git.hasDiff(basePath)) {
+        throw new Error(
+          `the directory ${basePath} exists and is dirty (according to \`git\`); commit or stash your changes first`
+        );
+      }
+
+      debug(basePath, "is clean, removing it");
+
+      await fs.remove(basePath);
+    }
+
+    return worker(basePath);
+  };
 }
 
 /**
@@ -45,19 +78,21 @@ export function temp(worker: FileTreeFactory): FileTreeFactory {
  *
  * @param name - the name of the directory to create
  * @param contents - an Iterable or AsyncIterable of child factories to
- * instantiate within the directory
+ * instantiate within the directory, or a file tree to execute in the path
  * @returns - a factory for the directory
  */
 export function dir(
   name: string,
-  contents: Iterable<FileTreeFactory> | AsyncIterable<FileTreeFactory>
+  contents: FileTreeFactory | Iterable<FileTreeFactory> | AsyncIterable<FileTreeFactory>
 ): FileTreeFactory {
   return async (basePath) => {
     // Create the directory for this model
     const selfPath = path.join(basePath, name);
     await fs.ensureDir(selfPath);
 
-    if (isAsyncIterable(contents)) {
+    if (typeof contents === "function") {
+      await contents(selfPath);
+    } else if (isAsyncIterable(contents)) {
       for await (const model of contents) {
         await model(selfPath);
       }
@@ -67,6 +102,16 @@ export function dir(
       }
     }
   };
+}
+
+/**
+ * Pass a file tree factory through to another lazy factory. This gives a user the opportunity to observe the path name.
+ *
+ * @param thunk - a function that will yield a file tree factory given a path
+ * @returns a file tree factory that will first evaluate the thunk and then run it
+ */
+export function lazy(thunk: (name: string) => FileTreeFactory): FileTreeFactory {
+  return (name) => thunk(name)(name);
 }
 
 /**
