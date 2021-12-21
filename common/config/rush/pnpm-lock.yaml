@@ -7572,7 +7572,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-16s3ce6B0SK1LtQPkEnwkWxiRKiUKi/3jEahmF5rvNRf/ZeHB9v7iJzHI+GgPws68wF4JahsBGmS5h8rOx0+Qg==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-6HLJpG4IU5XCZfGM8/Nd5l+W4XzXV0a0UVKBLnTCw8VJEbDUCL9/8VAqd52uJiFzmOjVfR2ZmohSCysETn9UXA==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -9837,7 +9837,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-HQP7SoLf0pni8/IgjJzzP4e5Ii22LBrHWxaO2VOgSkA7IQsWu02zX8CrDm593Mjq5ty3J2pN4EqBxQtbmzclQA==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-heeH50UBp+30j0SbQ3afdU42l3Eh1jl4jKcR3LLzU5ihYbjApQVWrgVMlXM8pKzvEyrzWc+EPE02H0kQm2l8mA==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -10378,7 +10378,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-5AyC1YxodBNK0GKENYQCRnPLNLXPjVkHNmrqSZ9tkkAWdVHbK8rlyLC6QF81kaqebqSGZQZ8H0GuScg5dp6hFQ==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-k9RoXYEXCwMLbjVP0T/JrKR1aTq/yrhCkrKI6GxAGOWGOsch5+3W0F61A10Fi185kvrxdFi3w7DLKQw4WPqlRA==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -10405,7 +10405,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       node-abort-controller: 3.0.1
-      prettier: 1.19.1
+      prettier: 2.5.1
       priorityqueuejs: 1.0.0
       requirejs: 2.3.6
       rimraf: 3.0.2
