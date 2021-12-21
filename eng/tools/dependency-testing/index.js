@@ -45,35 +45,39 @@ let crossSpawn = require("cross-spawn");
 /**
  * This function outputs the complete local path to the test or test/public folder for devops jobs
  * @param {*} projectFolderPath - the project folder path as mentioned in rush.json
- * @param {*} sourceDir - this is the complete local path to the source repo 
+ * @param {*} sourceDir - this is the complete local path to the source repo
  * @param {*} testFolder - this is the test folder path from the package which is either test or test/public
  */
 function outputTestPath(projectFolderPath, sourceDir, testFolder) {
   const projectPath = path.join(sourceDir, projectFolderPath);
   const testPath = path.join(projectPath, testFolder);
-  console.log(`##vso[task.setvariable variable=PackageTestPath]${testPath}`)
-  console.log(`Emitted variable "PackageTestPath" with content: ${testPath}`)
+  console.log(`##vso[task.setvariable variable=PackageTestPath]${testPath}`);
+  console.log(`Emitted variable "PackageTestPath" with content: ${testPath}`);
 }
 /**
- * This function uses the package's timeout in it's package.json for 
- * the integration-test:node command for the min-max tests. 
- * This function basically does a string search for "timeout" in the package's package.json 
+ * This function uses the package's timeout in it's package.json for
+ * the integration-test:node command for the min-max tests.
+ * This function basically does a string search for "timeout" in the package's package.json
  * and replaces the command for timeout in new package.json in the test or test/public folder.
  * @param testPackageJson - the package.json that will be created in the test folder
  * @param packageJsonContents - the package's package.json contents
  */
-async function usePackageTestTimeout(testPackageJson, packageJsonContents){
-  if(packageJsonContents.scripts["integration-test:node"]){
-    let replaceWithTimeout = packageJsonContents.scripts["integration-test:node"].match(/--timeout [0-9]+/);
-    if(replaceWithTimeout !== null){
-      testPackageJson.scripts["integration-test:node"] = testPackageJson.scripts["integration-test:node"].replace(/--timeout [0-9]+/g, replaceWithTimeout);
+async function usePackageTestTimeout(testPackageJson, packageJsonContents) {
+  if (packageJsonContents.scripts["integration-test:node"]) {
+    let replaceWithTimeout = packageJsonContents.scripts["integration-test:node"].match(
+      /--timeout [0-9]+/
+    );
+    if (replaceWithTimeout !== null) {
+      testPackageJson.scripts["integration-test:node"] = testPackageJson.scripts[
+        "integration-test:node"
+      ].replace(/--timeout [0-9]+/g, replaceWithTimeout);
     }
   }
 }
 
 /**
- * This inserts the package.json from the templates into the test folder. 
- * It computes the different versions of the dependencies/ dev-dep in this package.json 
+ * This inserts the package.json from the templates into the test folder.
+ * It computes the different versions of the dependencies/ dev-dep in this package.json
  * depending on the type of version testing being done.
  * @param {*} repoRoot  - root of the repository given as input
  * @param {*} packageJsonContents - the package's package.json contents
@@ -81,43 +85,64 @@ async function usePackageTestTimeout(testPackageJson, packageJsonContents){
  * @param {*} targetPackageName - name of the package for which the min/max testing is being run
  * @param {*} versionType - min or max or same
  * @param {*} testFolder - this is the test folder path from the package which is either test or test/public
- * @returns 
+ * @returns
  */
-async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePath, targetPackageName, versionType, testFolder) {
+async function insertPackageJson(
+  repoRoot,
+  packageJsonContents,
+  targetPackagePath,
+  targetPackageName,
+  versionType,
+  testFolder
+) {
   const testPath = path.join(targetPackagePath, testFolder);
   let templateJson = await packageUtils.readFileJson("./templates/package.json");
   let testPackageJson = templateJson;
-  if(packageJsonContents.name.startsWith("@azure/")){
+  if (packageJsonContents.name.startsWith("@azure/")) {
     testPackageJson.name = packageJsonContents.name.replace("@azure/", "azure-") + "-test";
-  }
-  else if(packageJsonContents.name.startsWith("@azure-rest/")){
-    testPackageJson.name = packageJsonContents.name.replace("@azure-rest/", "azure-rest-") + "-test";
+  } else if (packageJsonContents.name.startsWith("@azure-rest/")) {
+    testPackageJson.name =
+      packageJsonContents.name.replace("@azure-rest/", "azure-rest-") + "-test";
   }
   await usePackageTestTimeout(testPackageJson, packageJsonContents);
   testPackageJson.devDependencies = {};
   depList = {};
   let allowedVersionList = {};
-  depList[targetPackageName] = packageJsonContents.version;//works
+  depList[targetPackageName] = packageJsonContents.version; //works
   allowedVersionList[targetPackageName] = depList[targetPackageName];
   for (const package of Object.keys(packageJsonContents.dependencies)) {
     depList[package] = packageJsonContents.dependencies[package];
-      depList[package] = await findAppropriateVersion(package, packageJsonContents.dependencies[package], repoRoot, versionType);
-      if (packageJsonContents.dependencies[package] !== depList[package]) {
-        console.log(package);
-        allowedVersionList[package] = depList[package];
-        console.log(allowedVersionList[package]);
-      }
+    depList[package] = await findAppropriateVersion(
+      package,
+      packageJsonContents.dependencies[package],
+      repoRoot,
+      versionType
+    );
+    if (packageJsonContents.dependencies[package] !== depList[package]) {
+      console.log(package);
+      allowedVersionList[package] = depList[package];
+      console.log(allowedVersionList[package]);
+    }
   }
   testPackageJson.dependencies = depList;
 
   for (const package of Object.keys(packageJsonContents.devDependencies)) {
     testPackageJson.devDependencies[package] = packageJsonContents.devDependencies[package];
     if (package.startsWith("@azure/") || package.startsWith("@azure-rest/")) {
-      console.log("packagejson version before func call = " + packageJsonContents.devDependencies[package]);
+      console.log(
+        "packagejson version before func call = " + packageJsonContents.devDependencies[package]
+      );
       let packageVersion = packageJsonContents.devDependencies[package];
-      testPackageJson.devDependencies[package] = await findAppropriateVersion(package, packageVersion, repoRoot, versionType);
+      testPackageJson.devDependencies[package] = await findAppropriateVersion(
+        package,
+        packageVersion,
+        repoRoot,
+        versionType
+      );
       console.log("packagejson version = " + packageJsonContents.devDependencies[package]);
-      if (packageJsonContents.devDependencies[package] !== testPackageJson.devDependencies[package]) {
+      if (
+        packageJsonContents.devDependencies[package] !== testPackageJson.devDependencies[package]
+      ) {
         console.log(package);
         allowedVersionList[package] = testPackageJson.devDependencies[package];
         console.log(allowedVersionList[package]);
@@ -139,7 +164,7 @@ async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePat
  */
 async function isPackageAUtility(package, repoRoot) {
   let thisPackage = await getPackageFromRush(repoRoot, package);
-  if(thisPackage){
+  if (thisPackage) {
     if (thisPackage.versionPolicyName === "utility") {
       console.log(thisPackage.packageName + " utility");
       return true;
@@ -149,13 +174,13 @@ async function isPackageAUtility(package, repoRoot) {
 }
 
 /**
- * This is the main heart of the min-max testing. 
+ * This is the main heart of the min-max testing.
  * Decides the appropriate versions to be pinned of the dependencies or dev-dep in the package.json
  * @param {*} package - the package which is a depenency or dev-dependency of the targetPackage. We want to decide what version this package should be pinned to.
  * @param {*} packageJsonDepVersion - the dependency version range of the {package} in the targetPackage's package.json
  * @param {*} repoRoot - root of the repository given as input
  * @param {*} versionType - min or max or same
- * @returns 
+ * @returns
  */
 async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, versionType) {
   console.log("checking " + package + " = " + packageJsonDepVersion);
@@ -167,33 +192,39 @@ async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, 
   if (allNPMVersions) {
     console.log(versionType);
     if (versionType === "min") {
-      let minVersion = await semver.minSatisfying(JSON.parse(allNPMVersions), packageJsonDepVersion);
+      let minVersion = await semver.minSatisfying(
+        JSON.parse(allNPMVersions),
+        packageJsonDepVersion
+      );
       if (minVersion) {
         return minVersion;
-      }
-      else {
+      } else {
         //issue a warning
-        console.warn(`No matching semver min version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`);
+        console.warn(
+          `No matching semver min version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`
+        );
         let version = await getPackageVersion(repoRoot, package);
         console.log(version);
         return version;
       }
-    }
-    else if (versionType === "max") {
+    } else if (versionType === "max") {
       console.log("calling semver max satisfying");
-      let maxVersion = await semver.maxSatisfying(JSON.parse(allNPMVersions), packageJsonDepVersion);
+      let maxVersion = await semver.maxSatisfying(
+        JSON.parse(allNPMVersions),
+        packageJsonDepVersion
+      );
       if (maxVersion) {
         return maxVersion;
-      }
-      else {
+      } else {
         //issue a warning
-        console.warn(`No matching semver max version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`);
+        console.warn(
+          `No matching semver max version found on npm for package ${package} with version ${packageJsonDepVersion}. Replacing with local version`
+        );
         let version = await getPackageVersion(repoRoot, package);
         console.log(version);
         return version;
       }
-    }
-    else if (versionType === "same") {
+    } else if (versionType === "same") {
       return packageJsonDepVersion;
     }
   }
@@ -221,14 +252,13 @@ function fromDir(startPath, filter, resList) {
     let stat = fs.lstatSync(filename);
     if (stat.isDirectory()) {
       resList = fromDir(filename, filter, resList); //recurse
-    }
-    else if (filename.indexOf(filter) >= 0) {
-      console.log('-- found: ', filename);
+    } else if (filename.indexOf(filter) >= 0) {
+      console.log("-- found: ", filename);
       resList.push(filename);
-    };
-  };
+    }
+  }
   return resList;
-};
+}
 
 async function insertMochaReporter(targetPackagePath, repoRoot, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
@@ -249,7 +279,10 @@ async function insertTsConfigJson(targetPackagePath, testFolder) {
 async function readAndReplaceSourceReferences(filePath, packageName) {
   let fileContent = await packageUtils.readFile(filePath);
   console.log("Reading filePath = " + filePath);
-  testAssetsContent = fileContent.replace('path.resolve(path.join(process.cwd(), "assets"','path.resolve(path.join(process.cwd(),"..","..", "assets"');
+  testAssetsContent = fileContent.replace(
+    'path.resolve(path.join(process.cwd(), "assets"',
+    'path.resolve(path.join(process.cwd(),"..","..", "assets"'
+  );
   // Regex for internal references = /* ["']+[../]*src[/][a-z]+["'] */
   let internalrefs = testAssetsContent.match(/[\"\']+[..//]*src[//][a-zA-Z]+[\"\']+/g);
   let writeContent = "";
@@ -257,9 +290,8 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
     console.log("internal refs = ");
     console.log(internalrefs);
     console.log("This file has internal references will be replaced by empty content");
-  }
-  else {
-    let replaceText = "\"" + packageName + "\"";
+  } else {
+    let replaceText = '"' + packageName + '"';
     //Regex for public api references to be replaced by package name
     writeContent = testAssetsContent.replace(/[\"\']+[..//]*src[//]*[\"\']+/g, replaceText);
   }
@@ -269,7 +301,7 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
 async function replaceSourceReferences(targetPackagePath, packageName, testFolder) {
   const testPath = path.join(targetPackagePath, testFolder);
   let resList = [];
-  resList = fromDir(testPath, '.ts', resList);
+  resList = fromDir(testPath, ".ts", resList);
   console.dir(resList);
   let resPromises = [];
   for (let eachFile of resList) {
@@ -280,18 +312,14 @@ async function replaceSourceReferences(targetPackagePath, packageName, testFolde
 
 async function getVersions(packageName) {
   const promise = new Promise(async (res, rej) => {
-    let npmProcess = crossSpawn('npm', ['view', packageName, 'versions', '--json'], { stdout: 'inherit' });
+    let npmProcess = crossSpawn("npm", ["view", packageName, "versions", "--json"], {
+      stdout: "inherit"
+    });
     let stdOut = "";
     let stdErr = "";
-    npmProcess.stdout.on(
-      "data",
-      data => (stdOut = stdOut + data.toString())
-    );
-    npmProcess.stderr.on(
-      "data",
-      data => (stdErr = stdErr + data.toString())
-    );
-    npmProcess.on("close", code => {
+    npmProcess.stdout.on("data", (data) => (stdOut = stdOut + data.toString()));
+    npmProcess.stderr.on("data", (data) => (stdErr = stdErr + data.toString()));
+    npmProcess.on("close", (code) => {
       console.log("`npm view " + packageName + " versions` process exit code:" + code);
       if (code !== 0) {
         rej("Process exits with code " + code);
@@ -307,10 +335,9 @@ async function getVersions(packageName) {
       return false;
     }
     if (res["stdOut"]) {
-      return (res["stdOut"]);
+      return res["stdOut"];
     }
-  }
-  catch (ex) {
+  } catch (ex) {
     console.error("Error:", ex);
   }
 }
@@ -323,9 +350,9 @@ async function updateRushConfig(repoRoot, targetPackage, testFolder) {
   let testPackageJson = await packageUtils.readFileJson(testPackageJsonPath);
   let testProjectFolder = targetPackage.projectFolder + "/" + testFolder;
   const testPackageEntry = {
-    "packageName": testPackageJson.name,
-    "projectFolder": testProjectFolder,
-    "versionPolicyName": "client"
+    packageName: testPackageJson.name,
+    projectFolder: testProjectFolder,
+    versionPolicyName: "client"
   };
   rushSpec.projects.push(testPackageEntry);
   rushSpec.projectFolderMaxDepth = 5;
@@ -343,15 +370,19 @@ async function updateCommonVersions(repoRoot, allowedVersionList) {
     console.log(allowedVersionList[package]);
     if (allowedVersionList[package] && !allowedAlternativeVersions[package]) {
       allowedAlternativeVersions[package] = [allowedVersionList[package]];
-    }
-    else if (allowedVersionList[package] && !allowedAlternativeVersions[package].includes(allowedVersionList[package])) {
+    } else if (
+      allowedVersionList[package] &&
+      !allowedAlternativeVersions[package].includes(allowedVersionList[package])
+    ) {
       allowedAlternativeVersions[package].push(allowedVersionList[package]);
     }
   }
   console.dir(allowedAlternativeVersions);
   let newConfig = commonVersionsConfig;
   newConfig["allowedAlternativeVersions"] = allowedAlternativeVersions;
-  const commonVersionsPath = path.resolve(path.join(repoRoot, "/common/config/rush/common-versions.json"));
+  const commonVersionsPath = path.resolve(
+    path.join(repoRoot, "/common/config/rush/common-versions.json")
+  );
   console.log(newConfig);
   await packageUtils.writePackageJson(commonVersionsPath, newConfig);
 }
@@ -359,7 +390,7 @@ async function updateCommonVersions(repoRoot, allowedVersionList) {
 async function getPackageFromRush(repoRoot, packageName) {
   const rushSpec = await packageUtils.getRushSpec(repoRoot);
   const targetPackage = rushSpec.projects.find(
-    packageSpec => packageSpec.packageName == packageName
+    (packageSpec) => packageSpec.packageName == packageName
   );
   return targetPackage;
 }
@@ -381,10 +412,15 @@ async function main(argv) {
 
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 
-  const packageJsonContents = await packageUtils.readFileJson(
-    packageJsonLocation
+  const packageJsonContents = await packageUtils.readFileJson(packageJsonLocation);
+  const allowedVersionList = await insertPackageJson(
+    repoRoot,
+    packageJsonContents,
+    targetPackagePath,
+    targetPackage.packageName,
+    versionType,
+    testFolder
   );
-  const allowedVersionList = await insertPackageJson(repoRoot, packageJsonContents, targetPackagePath, targetPackage.packageName, versionType, testFolder);
   await insertTsConfigJson(targetPackagePath, testFolder);
   if (dryRun) {
     console.log("Dry run only, no changes");
