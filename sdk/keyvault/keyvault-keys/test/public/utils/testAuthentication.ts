@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ClientSecretCredential } from "@azure/identity";
-import { KeyClient } from "../../src";
+import { KeyClient } from "../../../src";
 import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";

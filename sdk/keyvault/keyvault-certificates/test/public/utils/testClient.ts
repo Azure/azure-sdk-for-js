@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CertificateClient, KeyVaultCertificate } from "../../src";
+import { CertificateClient, KeyVaultCertificate } from "../../../src";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { RestoreCertificateBackupPoller } from "./lro/restore/poller";
 import { BeginRestoreCertificateBackupOptions } from "./lro/restore/operation";

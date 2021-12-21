@@ -18,7 +18,7 @@ import {
 } from "../../src";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { JsonWebKey } from "../../src";
-import { stringToUint8Array } from "../utils/crypto";
+import { stringToUint8Array } from "../public/utils/crypto";
 import { CryptographyProvider } from "../../src/cryptography/models";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
 

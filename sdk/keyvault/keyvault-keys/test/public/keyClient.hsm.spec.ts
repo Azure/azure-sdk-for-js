@@ -5,12 +5,12 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { KeyClient } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { authenticate } from "./utils/testAuthentication";
+import TestClient from "./utils/testClient";
 import { CreateOctKeyOptions, KnownKeyExportEncryptionAlgorithm } from "../../src/keysModels";
-import { getServiceVersion, onVersions } from "../utils/utils.common";
+import { getServiceVersion, onVersions } from "./utils/utils.common";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
-import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
+import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
 
 onVersions({ minVer: "7.2" }).describe(

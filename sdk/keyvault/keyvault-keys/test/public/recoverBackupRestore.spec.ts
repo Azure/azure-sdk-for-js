@@ -5,11 +5,11 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { isNode } from "@azure/core-http";
 import { KeyClient } from "../../src";
-import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
-import { testPollerProperties } from "../utils/recorderUtils";
+import { assertThrowsAbortError, getServiceVersion } from "./utils/utils.common";
+import { testPollerProperties } from "./utils/recorderUtils";
 import { env, Recorder, isRecordMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { authenticate } from "./utils/testAuthentication";
+import TestClient from "./utils/testClient";
 
 describe("Keys client - restore keys and recover backups", () => {
   const keyPrefix = `backupRestore${env.KEY_NAME || "KeyName"}`;
