@@ -8,7 +8,7 @@ import {
   HttpMethods,
   HttpHeaders,
   FormDataMap,
-  ProxySettings
+  ProxySettings,
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { AbortSignalLike } from "@azure/abort-controller";

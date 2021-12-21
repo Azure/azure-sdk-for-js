@@ -38,7 +38,7 @@ export function redirectPolicy(options: RedirectPolicyOptions = {}): PipelinePol
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const response = await next(request);
       return handleRedirect(next, response, maxRetries);
-    }
+    },
   };
 }
 

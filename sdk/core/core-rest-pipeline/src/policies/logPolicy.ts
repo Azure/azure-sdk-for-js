@@ -46,7 +46,7 @@ export function logPolicy(options: LogPolicyOptions = {}): PipelinePolicy {
   const logger = options.logger ?? coreLogger.info;
   const sanitizer = new Sanitizer({
     additionalAllowedHeaderNames: options.additionalAllowedHeaderNames,
-    additionalAllowedQueryParameters: options.additionalAllowedQueryParameters
+    additionalAllowedQueryParameters: options.additionalAllowedQueryParameters,
   });
   return {
     name: logPolicyName,
@@ -63,6 +63,6 @@ export function logPolicy(options: LogPolicyOptions = {}): PipelinePolicy {
       logger(`Headers: ${sanitizer.sanitize(response.headers)}`);
 
       return response;
-    }
+    },
   };
 }
