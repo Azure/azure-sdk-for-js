@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed the `timeInterval` field of `MetricsQueryResult`object to correctly return all the fields of `QueryTimeInterval` object. The internal conversion had a bug where it was only returning the `startTime`.
+- Fixed the `timeInterval` field of `MetricsQueryResult` object to correctly return all the fields of `QueryTimeInterval`.
 
 ### Other Changes
 
