@@ -11,7 +11,7 @@ import {
   SpanStatus,
   SpanStatusCode,
   TimeInput,
-  Tracer
+  Tracer,
 } from "../../src/interfaces";
 
 /**
@@ -79,7 +79,7 @@ export class TestSpan implements Span {
     this.parentSpanId = parentSpanId;
     this.attributes = options?.attributes || {};
     this.status = {
-      code: SpanStatusCode.OK
+      code: SpanStatusCode.OK,
     };
     this.endCalled = false;
     this._context = context;

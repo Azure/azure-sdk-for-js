@@ -8,11 +8,11 @@ import { assert } from "chai";
 import { createConnectionStub } from "./utils/createConnectionStub";
 import { stub } from "sinon";
 
-describe("CbsClient", function() {
+describe("CbsClient", function () {
   const TEST_FAILURE = "Test failure";
 
-  describe("init", function() {
-    it("honors already aborted abortSignal", async function() {
+  describe("init", function () {
+    it("honors already aborted abortSignal", async function () {
       const cbsClient = new CbsClient(new Connection(), "lock");
 
       // Create an abort signal that is already aborted.
@@ -28,7 +28,7 @@ describe("CbsClient", function() {
       }
     });
 
-    it("honors abortSignal inside locking code", async function() {
+    it("honors abortSignal inside locking code", async function () {
       const lock = "lock";
       const cbsClient = new CbsClient(new Connection(), "lock");
 
@@ -59,7 +59,7 @@ describe("CbsClient", function() {
       }
     });
 
-    it("honors abortSignal", async function() {
+    it("honors abortSignal", async function () {
       const connectionStub = new Connection();
       // Stub 'open' because creating a real connection will fail.
       stub(connectionStub, "open").resolves({} as any);
@@ -80,8 +80,8 @@ describe("CbsClient", function() {
     });
   });
 
-  describe("negotiateClaim", function() {
-    it("throws an error if the cbs link doesn't exist.", async function() {
+  describe("negotiateClaim", function () {
+    it("throws an error if the cbs link doesn't exist.", async function () {
       const connectionStub = createConnectionStub();
       const cbsClient = new CbsClient(connectionStub, "lock");
 
@@ -96,8 +96,8 @@ describe("CbsClient", function() {
       }
     });
 
-    describe("cancellation", function() {
-      it("honors already aborted abortSignal", async function() {
+    describe("cancellation", function () {
+      it("honors already aborted abortSignal", async function () {
         const connectionStub = createConnectionStub();
         const cbsClient = new CbsClient(connectionStub, "lock");
 
@@ -109,7 +109,7 @@ describe("CbsClient", function() {
         try {
           // Pass the already aborted abortSignal to make sure negotiateClaim will exit quickly.
           await cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas, {
-            abortSignal: signal
+            abortSignal: signal,
           });
           throw new Error(TEST_FAILURE);
         } catch (err) {
@@ -117,7 +117,7 @@ describe("CbsClient", function() {
         }
       });
 
-      it("honors abortSignal", async function() {
+      it("honors abortSignal", async function () {
         const connectionStub = createConnectionStub();
         const cbsClient = new CbsClient(connectionStub, "lock");
 
@@ -131,7 +131,7 @@ describe("CbsClient", function() {
 
         try {
           await cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas, {
-            abortSignal: signal
+            abortSignal: signal,
           });
           throw new Error(TEST_FAILURE);
         } catch (err) {

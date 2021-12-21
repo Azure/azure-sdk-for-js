@@ -5,7 +5,7 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
@@ -18,7 +18,7 @@ export function disableResponseDecompressionPolicy(): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new DisableResponseDecompressionPolicy(nextPolicy, options);
-    }
+    },
   };
 }
 

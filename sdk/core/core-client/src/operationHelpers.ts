@@ -8,7 +8,7 @@ import {
   CompositeMapper,
   ParameterPath,
   OperationRequestInfo,
-  OperationRequest
+  OperationRequest,
 } from "./interfaces";
 
 /**
@@ -64,7 +64,7 @@ export function getOperationArgumentValueFromParameter(
         operationArguments,
         {
           parameterPath: propertyPath,
-          mapper: propertyMapper
+          mapper: propertyMapper,
         },
         fallbackObject
       );

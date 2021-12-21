@@ -9,7 +9,7 @@ import {
   LroResponse,
   LroStatus,
   PollerConfig,
-  ResumablePollOperationState
+  ResumablePollOperationState,
 } from "./models";
 import { getPollingUrl, inferLroMode, isUnexpectedInitialResponse } from "./requestUtils";
 import { isBodyPollingDone, processBodyPollingOperationResult } from "./bodyPolling";

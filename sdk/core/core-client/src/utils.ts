@@ -29,7 +29,8 @@ export function isPrimitiveBody(value: unknown, mapperTypeName?: string): value 
   );
 }
 
-const validateISODuration = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
+const validateISODuration =
+  /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
 
 /**
  * Returns true if the given string is in ISO 8601 format.
@@ -40,7 +41,8 @@ export function isDuration(value: string): boolean {
   return validateISODuration.test(value);
 }
 
-const validUuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/i;
+const validUuidRegex =
+  /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/i;
 
 /**
  * Returns true if the provided uuid is valid.
@@ -91,7 +93,7 @@ function handleNullableResponseAndWrappableBody(
 ): unknown | null {
   const combinedHeadersAndBody = {
     ...responseObject.headers,
-    ...responseObject.body
+    ...responseObject.body,
   };
   if (
     responseObject.hasNullableType &&
@@ -102,7 +104,7 @@ function handleNullableResponseAndWrappableBody(
     return responseObject.shouldWrapBody
       ? {
           ...responseObject.headers,
-          body: responseObject.body
+          body: responseObject.body,
         }
       : combinedHeadersAndBody;
   }
@@ -127,7 +129,7 @@ export function flattenResponse(
   if (fullResponse.request.method === "HEAD") {
     return {
       ...parsedHeaders,
-      body: fullResponse.parsedBody
+      body: fullResponse.parsedBody,
     };
   }
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
@@ -139,7 +141,7 @@ export function flattenResponse(
     return {
       ...parsedHeaders,
       blobBody: fullResponse.blobBody,
-      readableStreamBody: fullResponse.readableStreamBody
+      readableStreamBody: fullResponse.readableStreamBody,
     };
   }
 
@@ -152,7 +154,7 @@ export function flattenResponse(
   );
   if (expectedBodyTypeName === "Sequence" || isPageableResponse) {
     const arrayResponse: { [key: string]: unknown } =
-      fullResponse.parsedBody ?? (([] as unknown) as { [key: string]: unknown });
+      fullResponse.parsedBody ?? ([] as unknown as { [key: string]: unknown });
 
     for (const key of Object.keys(modelProperties)) {
       if (modelProperties[key].serializedName) {
@@ -177,6 +179,6 @@ export function flattenResponse(
     body: fullResponse.parsedBody,
     headers: parsedHeaders,
     hasNullableType: isNullable,
-    shouldWrapBody: isPrimitiveBody(fullResponse.parsedBody, expectedBodyTypeName)
+    shouldWrapBody: isPrimitiveBody(fullResponse.parsedBody, expectedBodyTypeName),
   });
 }

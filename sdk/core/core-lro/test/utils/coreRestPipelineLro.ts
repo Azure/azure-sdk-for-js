@@ -21,7 +21,7 @@ export class CoreRestPipelineLro<T> implements LongRunningOperation<T> {
     return this.sendOperationFn({
       ...this.req,
       method: "GET",
-      url
+      url,
     });
   }
 }

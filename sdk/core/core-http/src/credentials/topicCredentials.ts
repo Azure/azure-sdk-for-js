@@ -18,8 +18,8 @@ export class TopicCredentials extends ApiKeyCredentials {
     }
     const options: ApiKeyCredentialOptions = {
       inHeader: {
-        "aeg-sas-key": topicKey
-      }
+        "aeg-sas-key": topicKey,
+      },
     };
     super(options);
   }
