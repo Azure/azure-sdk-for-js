@@ -28,8 +28,7 @@ import {
   Durations,
   ListMetricDefinitionsOptions,
   MetricsQueryOptions,
-  MetricsQueryResult,
-  QueryTimeInterval
+  MetricsQueryResult
 } from "../../../src";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { convertIntervalToTimeIntervalObject } from "../../../src/timespanConversion";
@@ -330,9 +329,7 @@ describe("Model unit tests", () => {
     });
 
     it("convertIntervalToTimeIntervalObject", () => {
-      const res1: QueryTimeInterval = convertIntervalToTimeIntervalObject(
-        "2007-11-13T00:00/2007-11-16T00:00"
-      );
+      const res1 = convertIntervalToTimeIntervalObject("2007-11-13T00:00/2007-11-16T00:00");
       assert.deepEqual(res1, {
         startTime: new Date("2007-11-13T00:00"),
         endTime: new Date("2007-11-16T00:00")
