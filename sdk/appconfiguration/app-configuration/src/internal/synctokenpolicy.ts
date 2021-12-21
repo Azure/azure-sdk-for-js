@@ -7,7 +7,7 @@ import {
   BaseRequestPolicy,
   WebResource,
   HttpOperationResponse,
-  RequestPolicyFactory
+  RequestPolicyFactory,
 } from "@azure/core-http";
 
 /**
@@ -26,7 +26,7 @@ export function syncTokenPolicy(syncTokens: SyncTokens): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new SyncTokenPolicy(nextPolicy, options, syncTokens);
-    }
+    },
   };
 }
 
@@ -156,6 +156,6 @@ export function parseSyncToken(syncToken: string): SyncToken {
   return {
     id: matches[1],
     value: matches[2],
-    sequenceNumber
+    sequenceNumber,
   };
 }

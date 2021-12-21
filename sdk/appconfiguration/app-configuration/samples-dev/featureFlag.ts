@@ -11,7 +11,7 @@ import {
   ConfigurationSetting,
   featureFlagContentType,
   FeatureFlagValue,
-  parseFeatureFlag
+  parseFeatureFlag,
 } from "@azure/app-configuration";
 
 // Load the .env file if it exists
@@ -45,20 +45,20 @@ export async function main() {
               Audience: {
                 Groups: [{ Name: "contoso.com", RolloutPercentage: 50 }], // The feature flag is enabled for 50% of other users in the contoso.com group, because contoso.com is listed in the Groups section with a Percentage of 50.
                 Users: ["test@contoso.com"], // The feature flag is always enabled for user test@contoso.com, because test@contoso.com is listed in the Users section.
-                DefaultRolloutPercentage: 0 // The feature is always disabled for all other users, because the Default percentage is set to 0.
-              }
+                DefaultRolloutPercentage: 0, // The feature is always disabled for all other users, because the Default percentage is set to 0.
+              },
               // You can create additional users with @contoso.com email addresses to see the behavior of the group settings. 50% of these users will see the Beta item. The other 50% won't see the Beta item.
-            }
-          }
+            },
+          },
           // {
           //   // Percentage filter - activates a feature based on a percentage, to enable the feature flag for 50% of requests
           //   name: "Microsoft.Percentage",
           //   parameters: { Value: 50 }
           // },
           // { name: "FilterX" }, // Custom filter
-        ]
-      }
-    }
+        ],
+      },
+    },
   };
 
   // Set the following environment variable or edit the value on the following line.
@@ -72,7 +72,7 @@ export async function main() {
 
   console.log(`Get the added configurationSetting with key: ${originalFeatureFlag.key}`);
   const getResponse = await appConfigClient.getConfigurationSetting({
-    key: originalFeatureFlag.key
+    key: originalFeatureFlag.key,
   });
 
   // You can use the `isFeatureFlag` global method to check if the content type is featureFlagContentType ("application/vnd.microsoft.appconfig.ff+json;charset=utf-8")
@@ -92,9 +92,8 @@ export async function main() {
       case "Microsoft.Targeting":
         // Adds a new user to the group
         if (isTargetingClientFilter(clientFilter)) {
-          clientFilter.parameters.Audience.Users = clientFilter.parameters.Audience.Users.concat(
-            "test2@contoso.com"
-          );
+          clientFilter.parameters.Audience.Users =
+            clientFilter.parameters.Audience.Users.concat("test2@contoso.com");
         }
         break;
       // case "Microsoft.TimeWindow":
@@ -119,7 +118,7 @@ export async function main() {
   // Get the config setting again
   console.log(`Get the updated config setting with key: ${newFeatureFlag.key}`);
   const getResponseAfterUpdate = await appConfigClient.getConfigurationSetting({
-    key: newFeatureFlag.key
+    key: newFeatureFlag.key,
   });
 
   // You can use the `isFeatureFlag` global method to check if the content type is featureFlagContentType ("application/vnd.microsoft.appconfig.ff+json;charset=utf-8")
@@ -139,7 +138,7 @@ export async function main() {
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
   const settingsIterator = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of settingsIterator) {
@@ -150,9 +149,7 @@ async function cleanupSampleValues(keys: string[], client: AppConfigurationClien
 /**
  * typeguard - for targeting client filter
  */
-function isTargetingClientFilter(
-  clientFilter: any
-): clientFilter is {
+function isTargetingClientFilter(clientFilter: any): clientFilter is {
   parameters: {
     Audience: {
       Groups: Array<{ Name: string; RolloutPercentage: number }>;

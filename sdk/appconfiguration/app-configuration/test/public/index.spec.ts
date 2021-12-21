@@ -9,7 +9,7 @@ import {
   assertEqualSettings,
   assertThrowsRestError,
   assertThrowsAbortError,
-  startRecorder
+  startRecorder,
 } from "./utils/testHelpers";
 import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
 import { Recorder, delay, isLiveMode } from "@azure-tools/test-recorder";
@@ -19,12 +19,12 @@ describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = startRecorder(this);
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     await recorder.stop();
   });
 
@@ -37,7 +37,7 @@ describe("AppConfigurationClient", () => {
       await compare({
         key,
         value: "added",
-        label: undefined
+        label: undefined,
       });
 
       await client.deleteConfigurationSetting({ key });
@@ -48,7 +48,7 @@ describe("AppConfigurationClient", () => {
       await compare({
         key,
         value: "set",
-        label: undefined
+        label: undefined,
       });
 
       // and now acts as a wholesale update
@@ -57,7 +57,7 @@ describe("AppConfigurationClient", () => {
       await compare({
         key,
         value: "set a second time",
-        label: undefined
+        label: undefined,
       });
 
       await client.deleteConfigurationSetting({ key });
@@ -81,7 +81,7 @@ describe("AppConfigurationClient", () => {
       const key = recorder.getUniqueName("addConfigSample");
       const result = await client.setConfigurationSetting({
         key,
-        value: "MyValue"
+        value: "MyValue",
       });
 
       assert.equal(key, result.key);
@@ -151,8 +151,8 @@ describe("AppConfigurationClient", () => {
           { key, label, value },
           {
             requestOptions: {
-              timeout: 1
-            }
+              timeout: 1,
+            },
           }
         );
       });
@@ -217,7 +217,7 @@ describe("AppConfigurationClient", () => {
       await client.deleteConfigurationSetting(
         {
           key,
-          label
+          label,
         },
         { onlyIfUnchanged: true }
       );
@@ -290,7 +290,7 @@ describe("AppConfigurationClient", () => {
       // delete configuration
       await assertThrowsAbortError(async () => {
         await client.deleteConfigurationSetting(result, {
-          requestOptions: { timeout: 1 }
+          requestOptions: { timeout: 1 },
         });
       });
     });
@@ -303,7 +303,7 @@ describe("AppConfigurationClient", () => {
       const value = "foo";
       const tags = {
         bar: "baz",
-        car: "caz"
+        car: "caz",
       };
       const contentType = "application/json";
 
@@ -402,7 +402,7 @@ describe("AppConfigurationClient", () => {
       const value = "foo";
       const tags = {
         bar: "baz",
-        car: "caz"
+        car: "caz",
       };
       const contentType = "application/json";
       await client.addConfigurationSetting({ key, label, value, contentType, tags });
@@ -416,19 +416,19 @@ describe("AppConfigurationClient", () => {
 
       const initialSetting = await client.setConfigurationSetting({
         key,
-        value: "value1"
+        value: "value1",
       });
 
       await delay(1000);
       await client.setConfigurationSetting({
         key,
-        value: "value2"
+        value: "value2",
       });
 
       const settingAtPointInTime = await client.getConfigurationSetting(
         { key },
         {
-          acceptDateTime: initialSetting.lastModified
+          acceptDateTime: initialSetting.lastModified,
         }
       );
 
@@ -440,14 +440,14 @@ describe("AppConfigurationClient", () => {
         key: recorder.getUniqueName("getConfigTest"),
         value: "value that will not be retrieved",
         contentType: "a content type",
-        label: "a label"
+        label: "a label",
       };
 
       await client.addConfigurationSetting(settingToAdd);
       await client.setReadOnly(settingToAdd, true);
 
       const retrievedSetting = await client.getConfigurationSetting(settingToAdd, {
-        fields: ["isReadOnly", "contentType", "lastModified", "label"]
+        fields: ["isReadOnly", "contentType", "lastModified", "label"],
       });
 
       assert.isOk(retrievedSetting.lastModified);
@@ -461,7 +461,7 @@ describe("AppConfigurationClient", () => {
           label: retrievedSetting.label,
           tags: retrievedSetting.tags,
           statusCode: retrievedSetting.statusCode,
-          isReadOnly: retrievedSetting.isReadOnly
+          isReadOnly: retrievedSetting.isReadOnly,
         },
         {
           contentType: "a content type",
@@ -476,7 +476,7 @@ describe("AppConfigurationClient", () => {
           key: undefined,
           value: undefined,
           etag: undefined,
-          tags: undefined
+          tags: undefined,
         }
       );
     });
@@ -495,7 +495,7 @@ describe("AppConfigurationClient", () => {
       key: "",
       label: "",
       value: "[A] production value",
-      contentType: "a content type"
+      contentType: "a content type",
     };
 
     const keys: {
@@ -503,7 +503,7 @@ describe("AppConfigurationClient", () => {
       listConfigSettingB: string;
     } = {
       listConfigSettingA: "",
-      listConfigSettingB: ""
+      listConfigSettingB: "",
     };
 
     beforeEach(async () => {
@@ -520,17 +520,17 @@ describe("AppConfigurationClient", () => {
 
       listConfigSettingA = await client.addConfigurationSetting({
         key: keys.listConfigSettingA,
-        value: "[A] value"
+        value: "[A] value",
       });
 
       await client.addConfigurationSetting({
         key: keys.listConfigSettingB,
         label: uniqueLabel,
-        value: "[B] production value"
+        value: "[B] production value",
       });
       await client.addConfigurationSetting({
         key: keys.listConfigSettingB,
-        value: "[B] value"
+        value: "[B] value",
       });
     });
 
@@ -558,14 +558,14 @@ describe("AppConfigurationClient", () => {
             key: keys.listConfigSettingA,
             value: "[A] production value",
             label: uniqueLabel,
-            isReadOnly: true
+            isReadOnly: true,
           },
           {
             key: keys.listConfigSettingB,
             value: "[B] production value",
             label: uniqueLabel,
-            isReadOnly: false
-          }
+            isReadOnly: false,
+          },
         ],
         byLabelSettings
       );
@@ -574,7 +574,7 @@ describe("AppConfigurationClient", () => {
     it("label wildcards", async () => {
       // query with a direct label match
       const byLabelIterator = client.listConfigurationSettings({
-        labelFilter: uniqueLabel.substring(0, uniqueLabel.length - 1) + "*"
+        labelFilter: uniqueLabel.substring(0, uniqueLabel.length - 1) + "*",
       });
       const byLabelSettings = await toSortedArray(byLabelIterator);
 
@@ -584,14 +584,14 @@ describe("AppConfigurationClient", () => {
             key: keys.listConfigSettingA,
             value: "[A] production value",
             label: uniqueLabel,
-            isReadOnly: true
+            isReadOnly: true,
           },
           {
             key: keys.listConfigSettingB,
             value: "[B] production value",
             label: uniqueLabel,
-            isReadOnly: false
-          }
+            isReadOnly: false,
+          },
         ],
         byLabelSettings
       );
@@ -599,7 +599,7 @@ describe("AppConfigurationClient", () => {
 
     it("exact match on key", async () => {
       const byKeyIterator = client.listConfigurationSettings({
-        keyFilter: keys.listConfigSettingA
+        keyFilter: keys.listConfigSettingA,
       });
       const byKeySettings = await toSortedArray(byKeyIterator);
 
@@ -609,14 +609,14 @@ describe("AppConfigurationClient", () => {
             key: keys.listConfigSettingA,
             value: "[A] production value",
             label: uniqueLabel,
-            isReadOnly: true
+            isReadOnly: true,
           },
           {
             key: keys.listConfigSettingA,
             value: "[A] value",
             label: undefined,
-            isReadOnly: false
-          }
+            isReadOnly: false,
+          },
         ],
         byKeySettings
       );
@@ -626,7 +626,7 @@ describe("AppConfigurationClient", () => {
       // query with a key wildcard
       const keyFilter = keys.listConfigSettingA;
       const byKeyIterator = client.listConfigurationSettings({
-        keyFilter: keyFilter.substring(0, keyFilter.length - 1) + "*"
+        keyFilter: keyFilter.substring(0, keyFilter.length - 1) + "*",
       });
       const byKeySettings = await toSortedArray(byKeyIterator);
 
@@ -636,14 +636,14 @@ describe("AppConfigurationClient", () => {
             key: keys.listConfigSettingA,
             value: "[A] production value",
             label: uniqueLabel,
-            isReadOnly: true
+            isReadOnly: true,
           },
           {
             key: keys.listConfigSettingA,
             value: "[A] value",
             label: undefined,
-            isReadOnly: false
-          }
+            isReadOnly: false,
+          },
         ],
         byKeySettings
       );
@@ -653,7 +653,7 @@ describe("AppConfigurationClient", () => {
       let byKeyIterator = client.listConfigurationSettings({
         keyFilter: productionASettingId.key,
         labelFilter: productionASettingId.label,
-        fields: ["isReadOnly", "contentType", "lastModified", "label"]
+        fields: ["isReadOnly", "contentType", "lastModified", "label"],
       });
       const [retrievedSetting, ...otherValues] = await toSortedArray(byKeyIterator);
 
@@ -668,7 +668,7 @@ describe("AppConfigurationClient", () => {
           etag: retrievedSetting.etag,
           label: retrievedSetting.label,
           tags: retrievedSetting.tags,
-          isReadOnly: retrievedSetting.isReadOnly
+          isReadOnly: retrievedSetting.isReadOnly,
         },
         {
           contentType: "a content type",
@@ -680,14 +680,14 @@ describe("AppConfigurationClient", () => {
           key: undefined,
           value: undefined,
           etag: undefined,
-          tags: undefined
+          tags: undefined,
         }
       );
 
       // only fill in the 'readOnly' field (which is really the locked field in the REST model)
       byKeyIterator = client.listConfigurationSettings({
         keyFilter: keys.listConfigSettingA,
-        fields: ["key", "label", "value"]
+        fields: ["key", "label", "value"],
       });
       const settings = await toSortedArray(byKeyIterator);
 
@@ -704,7 +704,7 @@ describe("AppConfigurationClient", () => {
     it("by date", async () => {
       const byKeyIterator = client.listConfigurationSettings({
         keyFilter: "listConfigSetting*",
-        acceptDateTime: listConfigSettingA.lastModified
+        acceptDateTime: listConfigSettingA.lastModified,
       });
 
       const settings = await toSortedArray(byKeyIterator);
@@ -723,7 +723,7 @@ describe("AppConfigurationClient", () => {
       assert.ok(foundMyExactSettingToo);
     });
 
-    it("list with multiple pages", async function() {
+    it("list with multiple pages", async function () {
       // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
       // To avoid hitting the service with too many requests, skipping the test in live.
       // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
@@ -744,7 +744,7 @@ describe("AppConfigurationClient", () => {
           client.addConfigurationSetting({
             key,
             value: `the value for ${i}`,
-            label: i.toString()
+            label: i.toString(),
           })
         );
 
@@ -757,7 +757,7 @@ describe("AppConfigurationClient", () => {
       await Promise.all(addSettingPromises);
 
       const listResult = client.listConfigurationSettings({
-        keyFilter: key
+        keyFilter: key,
       });
 
       const sortedResults = await toSortedArray(listResult);
@@ -779,7 +779,7 @@ describe("AppConfigurationClient", () => {
     it("accepts operation options", async () => {
       await assertThrowsAbortError(async () => {
         const settingsIterator = client.listConfigurationSettings({
-          requestOptions: { timeout: 1 }
+          requestOptions: { timeout: 1 },
         });
         await settingsIterator.next();
       });
@@ -801,7 +801,7 @@ describe("AppConfigurationClient", () => {
       originalSetting = await client.addConfigurationSetting({
         key,
         label: labelA,
-        value: "fooA1"
+        value: "fooA1",
       });
       await delay(1000);
       await client.setConfigurationSetting({ key, label: labelA, value: "fooA2" });
@@ -817,7 +817,7 @@ describe("AppConfigurationClient", () => {
       assertEqualSettings(
         [
           { key, label: labelA, value: "fooA1", isReadOnly: false },
-          { key, label: labelA, value: "fooA2", isReadOnly: false }
+          { key, label: labelA, value: "fooA2", isReadOnly: false },
         ],
         revisions
       );
@@ -825,14 +825,14 @@ describe("AppConfigurationClient", () => {
 
     it("label wildcards", async () => {
       const revisionsWithLabelIterator = client.listRevisions({
-        labelFilter: labelA.substring(0, labelA.length - 1) + "*"
+        labelFilter: labelA.substring(0, labelA.length - 1) + "*",
       });
       const revisions = await toSortedArray(revisionsWithLabelIterator);
 
       assertEqualSettings(
         [
           { key, label: labelA, value: "fooA1", isReadOnly: false },
-          { key, label: labelA, value: "fooA2", isReadOnly: false }
+          { key, label: labelA, value: "fooA2", isReadOnly: false },
         ],
         revisions
       );
@@ -847,7 +847,7 @@ describe("AppConfigurationClient", () => {
           { key, label: labelA, value: "fooA1", isReadOnly: false },
           { key, label: labelA, value: "fooA2", isReadOnly: false },
           { key, label: labelB, value: "fooB1", isReadOnly: false },
-          { key, label: labelB, value: "fooB2", isReadOnly: false }
+          { key, label: labelB, value: "fooB2", isReadOnly: false },
         ],
         revisions
       );
@@ -855,7 +855,7 @@ describe("AppConfigurationClient", () => {
 
     it("key wildcards", async () => {
       const revisionsWithKeyIterator = client.listRevisions({
-        keyFilter: key.substring(0, key.length - 1) + "*"
+        keyFilter: key.substring(0, key.length - 1) + "*",
       });
       const revisions = await toSortedArray(revisionsWithKeyIterator);
 
@@ -864,7 +864,7 @@ describe("AppConfigurationClient", () => {
           { key, label: labelA, value: "fooA1", isReadOnly: false },
           { key, label: labelA, value: "fooA2", isReadOnly: false },
           { key, label: labelB, value: "fooB1", isReadOnly: false },
-          { key, label: labelB, value: "fooB2", isReadOnly: false }
+          { key, label: labelB, value: "fooB2", isReadOnly: false },
         ],
         revisions
       );
@@ -880,7 +880,7 @@ describe("AppConfigurationClient", () => {
     it("by date", async () => {
       const byKeyIterator = client.listRevisions({
         keyFilter: key,
-        acceptDateTime: originalSetting.lastModified
+        acceptDateTime: originalSetting.lastModified,
       });
 
       const settings = await toSortedArray(byKeyIterator);
@@ -890,13 +890,13 @@ describe("AppConfigurationClient", () => {
           key: originalSetting.key,
           label: originalSetting.label,
           value: originalSetting.value,
-          isReadOnly: originalSetting.isReadOnly
+          isReadOnly: originalSetting.isReadOnly,
         },
         {
           key: settings[0].key,
           label: settings[0].label,
           value: settings[0].value,
-          isReadOnly: settings[0].isReadOnly
+          isReadOnly: settings[0].isReadOnly,
         }
       );
     });
@@ -909,7 +909,7 @@ describe("AppConfigurationClient", () => {
       const contentType = "application/json";
       const tags = {
         bar: "baz",
-        car: "caz"
+        car: "caz",
       };
 
       // create configuration
@@ -918,7 +918,7 @@ describe("AppConfigurationClient", () => {
         label,
         value: "foo",
         contentType,
-        tags
+        tags,
       });
 
       assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
@@ -1000,7 +1000,7 @@ describe("AppConfigurationClient", () => {
       const contentType = "application/json";
       const tags = {
         bar: "baz",
-        car: "caz"
+        car: "caz",
       };
 
       // create configuration
@@ -1009,7 +1009,7 @@ describe("AppConfigurationClient", () => {
         label,
         value: "foo",
         contentType,
-        tags
+        tags,
       });
 
       assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
@@ -1049,7 +1049,7 @@ describe("AppConfigurationClient", () => {
           key,
           label,
           value: "foo2",
-          etag: result.etag
+          etag: result.etag,
         },
         { onlyIfUnchanged: true }
       );
@@ -1141,8 +1141,8 @@ describe("AppConfigurationClient", () => {
           { key, label, value: value },
           {
             requestOptions: {
-              timeout: 1
-            }
+              timeout: 1,
+            },
           }
         );
       });
