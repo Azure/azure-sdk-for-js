@@ -18,7 +18,7 @@ import {
 import { AzureKeyCredential } from "@azure/core-auth";
 
 import * as fs from "fs";
-import parse from "csv-parse/lib/sync";
+import { parse } from "csv-parse/lib/sync";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
