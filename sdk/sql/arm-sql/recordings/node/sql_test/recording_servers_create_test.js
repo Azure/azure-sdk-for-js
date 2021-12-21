@@ -111,7 +111,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .put('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers/myserverppp', {"location":"eastus","properties":{"administratorLogin":"dummylogin","administratorLoginPassword":"Un53cuRE!","version":"12.0"}})
+  .put('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers/myserverppp', {"location":"eastus","properties":{"administratorLogin":"dummylogin","administratorLoginPassword":"p@55wOrd","version":"12.0"}})
   .query(true)
   .reply(202, {"operation":"UpsertLogicalServer","startTime":"2021-11-30T08:36:28.613Z"}, [
   'Cache-Control',
