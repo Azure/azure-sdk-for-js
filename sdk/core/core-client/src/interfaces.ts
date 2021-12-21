@@ -9,7 +9,7 @@ import {
   TransferProgressEvent,
   PipelineRequest,
   PipelineOptions,
-  HttpClient
+  HttpClient,
 } from "@azure/core-rest-pipeline";
 
 /**

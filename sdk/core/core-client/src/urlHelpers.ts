@@ -9,7 +9,7 @@ const CollectionFormatToDelimiterMap: { [key in QueryCollectionFormat]: string }
   SSV: " ",
   Multi: "Multi",
   TSV: "\t",
-  Pipes: "|"
+  Pipes: "|",
 };
 
 export function getRequestUrl(
@@ -211,7 +211,7 @@ function calculateQueryParameters(
   }
   return {
     queryParams: result,
-    sequenceParams
+    sequenceParams,
   };
 }
 
