@@ -8,15 +8,15 @@ import { WebResource } from "../src/webResource";
 import { assert } from "chai";
 import { inspect } from "util";
 
-describe("RestError", function() {
-  it("serializes properly in node", function() {
+describe("RestError", function () {
+  it("serializes properly in node", function () {
     const request: WebResource = new WebResource("bing.com", "GET", undefined, undefined, {
-      "X-Api-Auth": "SUPER SECRET"
+      "X-Api-Auth": "SUPER SECRET",
     });
     const response: HttpOperationResponse = {
       headers: new HttpHeaders({ "X-Magic-Token": "SUPER DUPER SECRET" }),
       request,
-      status: 42
+      status: 42,
     };
     const error = new RestError("Error!", "LIFE", response.status, request, response);
     const result = inspect(error, false, 8);

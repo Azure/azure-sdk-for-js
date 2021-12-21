@@ -10,7 +10,7 @@ import {
   Message as RheaMessage,
   SenderEvents,
   SenderOptions,
-  generate_uuid
+  generate_uuid,
 } from "rhea-promise";
 import { StandardAbortMessage, translate } from "./errors";
 import { logErrorStackTrace, logger } from "./log";
@@ -99,7 +99,7 @@ export class CbsClient {
       if (!this.isOpen()) {
         const rxOpt: ReceiverOptions = {
           source: {
-            address: this.endpoint
+            address: this.endpoint,
           },
           name: this.replyTo,
           onSessionError: (context: EventContext) => {
@@ -110,7 +110,7 @@ export class CbsClient {
               id,
               ehError
             );
-          }
+          },
         };
         const srOpt: SenderOptions = { target: { address: this.endpoint } };
         logger.verbose(
@@ -223,13 +223,13 @@ export class CbsClient {
         application_properties: {
           operation: Constants.operationPutToken,
           name: audience,
-          type: tokenType
-        }
+          type: tokenType,
+        },
       };
       const responseMessage = await this._cbsSenderReceiverLink.sendRequest(request, {
         abortSignal,
         timeoutInMs,
-        requestName: "negotiateClaim"
+        requestName: "negotiateClaim",
       });
       logger.verbose("[%s] The CBS response is: %O", this.connection.id, responseMessage);
       return this._fromRheaMessageResponse(responseMessage);
@@ -258,8 +258,9 @@ export class CbsClient {
         logger.verbose("[%s] Successfully closed the cbs session.", this.connection.id);
       }
     } catch (err) {
-      const msg = `An error occurred while closing the cbs link: ${err.stack ||
-        JSON.stringify(err)}.`;
+      const msg = `An error occurred while closing the cbs link: ${
+        err.stack || JSON.stringify(err)
+      }.`;
       logger.verbose("[%s] %s", this.connection.id, msg);
       throw new Error(msg);
     }
@@ -278,8 +279,9 @@ export class CbsClient {
         logger.verbose("[%s] Successfully removed the cbs session.", this.connection.id);
       }
     } catch (err) {
-      const msg = `An error occurred while removing the cbs link: ${err.stack ||
-        JSON.stringify(err)}.`;
+      const msg = `An error occurred while removing the cbs link: ${
+        err.stack || JSON.stringify(err)
+      }.`;
       logger.verbose("[%s] %s", this.connection.id, msg);
       throw new Error(msg);
     }
@@ -299,7 +301,7 @@ export class CbsClient {
       statusCode: msg.application_properties ? msg.application_properties["status-code"] : "",
       statusDescription: msg.application_properties
         ? msg.application_properties["status-description"]
-        : ""
+        : "",
     };
     logger.verbose("[%s] The deserialized CBS response is: %o", this.connection.id, cbsResponse);
     return cbsResponse;

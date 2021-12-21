@@ -17,13 +17,13 @@ export class TestNonCancellablePoller extends Poller<TestOperationState, string>
     onProgress?: (state: TestOperationState) => void
   ) {
     let state: TestOperationState = {
-      client
+      client,
     };
 
     if (baseOperation) {
       state = {
         ...JSON.parse(baseOperation).state,
-        ...state
+        ...state,
       };
     }
 
@@ -31,7 +31,7 @@ export class TestNonCancellablePoller extends Poller<TestOperationState, string>
       ...state,
       client,
       requestOptions,
-      unsupportedCancel: true
+      unsupportedCancel: true,
     });
 
     super(operation);

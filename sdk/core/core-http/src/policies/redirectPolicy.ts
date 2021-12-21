@@ -5,7 +5,7 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { URLBuilder } from "../url";
@@ -34,7 +34,7 @@ export interface RedirectOptions {
 
 export const DefaultRedirectOptions: RedirectOptions = {
   handleRedirects: true,
-  maxRetries: 20
+  maxRetries: 20,
 };
 
 /**
@@ -46,7 +46,7 @@ export function redirectPolicy(maximumRetries = 20): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new RedirectPolicy(nextPolicy, options, maximumRetries);
-    }
+    },
   };
 }
 

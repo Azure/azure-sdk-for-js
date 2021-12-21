@@ -12,7 +12,7 @@ export {
   HttpMethods,
   ParameterValue,
   RequestOptionsBase,
-  TransferProgressEvent
+  TransferProgressEvent,
 } from "./webResource";
 export { CommonResponse, CommonRequestInit, CommonRequestInfo } from "./nodeFetchHttpClient";
 export { DefaultHttpClient } from "./defaultHttpClient";
@@ -26,13 +26,13 @@ export { OperationArguments } from "./operationArguments";
 export {
   OperationOptions,
   OperationRequestOptions,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
 } from "./operationOptions";
 export {
   OperationParameter,
   OperationQueryParameter,
   OperationURLParameter,
-  ParameterPath
+  ParameterPath,
 } from "./operationParameter";
 export { OperationResponse } from "./operationResponse";
 export { OperationSpec } from "./operationSpec";
@@ -42,7 +42,7 @@ export {
   flattenResponse,
   createPipelineFromOptions,
   ProxySettings,
-  ProxyOptions
+  ProxyOptions,
 } from "./serviceClient";
 export { PipelineOptions, InternalPipelineOptions } from "./pipelineOptions";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
@@ -54,7 +54,7 @@ export {
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
-  RequestPolicyOptionsLike
+  RequestPolicyOptionsLike,
 } from "./policies/requestPolicy";
 export { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
 export { exponentialRetryPolicy, RetryOptions, RetryMode } from "./policies/exponentialRetryPolicy";
@@ -69,13 +69,13 @@ export {
   userAgentPolicy,
   getDefaultUserAgentValue,
   UserAgentOptions,
-  TelemetryInfo
+  TelemetryInfo,
 } from "./policies/userAgentPolicy";
 export {
   deserializationPolicy,
   DeserializationOptions,
   deserializeResponseBody,
-  DeserializationContentTypes
+  DeserializationContentTypes,
 } from "./policies/deserializationPolicy";
 export { tracingPolicy, TracingPolicyOptions } from "./policies/tracingPolicy";
 export {
@@ -95,7 +95,7 @@ export {
   PolymorphicDiscriminator,
   Serializer,
   UrlParameterValue,
-  serializeObject
+  serializeObject,
 } from "./serializer";
 export {
   stripRequest,
@@ -109,7 +109,7 @@ export {
   isValidUuid,
   applyMixins,
   isNode,
-  isDuration
+  isDuration,
 } from "./util/utils";
 export { URLBuilder, URLQuery } from "./url";
 export { AbortSignalLike } from "@azure/abort-controller";

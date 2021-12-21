@@ -38,7 +38,7 @@ export function nodeConfig(test = false) {
     "timers",
     "string_decoder",
     "zlib",
-    "dns"
+    "dns",
   ];
 
   const baseConfig = {
@@ -52,12 +52,12 @@ export function nodeConfig(test = false) {
         delimiters: ["", ""],
         // replace dynamic checks with if (true) since this is for node only.
         // Allows rollup's dead code elimination to be more aggressive.
-        "if (isNode)": "if (true)"
+        "if (isNode)": "if (true)",
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs(),
-      json()
-    ]
+      json(),
+    ],
   };
 
   if (test) {
@@ -89,7 +89,7 @@ export function browserConfig(test = false) {
       file: "dist-browser/index.js",
       format: "umd",
       name: "Azure.AMQPCommon",
-      sourcemap: true
+      sourcemap: true,
     },
     preserveSymlinks: false,
     plugins: [
@@ -100,7 +100,7 @@ export function browserConfig(test = false) {
         // replace dynamic checks with if (false) since this is for
         // browser only. Rollup's dead code elimination will remove
         // any code guarded by if (isNode) { ... }
-        "if (isNode)": "if (false)"
+        "if (isNode)": "if (false)",
       }),
 
       // dotenv doesn't work in the browser, so replace it with a no-op function
@@ -109,19 +109,19 @@ export function browserConfig(test = false) {
       shim({
         dotenv: `export function config() { }`,
         os: `export default { }`,
-        path: `export default { }`
+        path: `export default { }`,
       }),
 
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false
+        preferBuiltins: false,
       }),
 
       cjs({
         namedExports: {
           chai: ["should", "assert"],
-          assert: ["equal", "deepEqual", "notEqual"]
-        }
+          assert: ["equal", "deepEqual", "notEqual"],
+        },
       }),
 
       // rhea and rhea-promise use the Buffer global which requires
@@ -129,12 +129,12 @@ export function browserConfig(test = false) {
       inject({
         modules: {
           Buffer: ["buffer", "Buffer"],
-          process: "process"
-        }
+          process: "process",
+        },
       }),
 
-      json()
-    ]
+      json(),
+    ],
   };
 
   if (test) {

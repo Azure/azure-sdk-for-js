@@ -62,7 +62,7 @@ describe("traceParentHeader", () => {
       const spanContext: SpanContext = {
         spanId: "2222222222222222",
         traceId: "11111111111111111111111111111111",
-        traceFlags: TraceFlags.SAMPLED
+        traceFlags: TraceFlags.SAMPLED,
       };
 
       const traceParentHeader = getTraceParentHeader(spanContext);
@@ -78,7 +78,7 @@ describe("traceParentHeader", () => {
       const spanContext: SpanContext = {
         spanId: "2222222222222222",
         traceId: "11111111111111111111111111111111",
-        traceFlags: TraceFlags.NONE
+        traceFlags: TraceFlags.NONE,
       };
 
       const traceParentHeader = getTraceParentHeader(spanContext);
@@ -94,7 +94,7 @@ describe("traceParentHeader", () => {
       it("when traceId is not defined", () => {
         const spanContext: any = {
           spanId: "2222222222222222",
-          traceFlags: TraceFlags.SAMPLED
+          traceFlags: TraceFlags.SAMPLED,
         };
 
         const traceParentHeader = getTraceParentHeader(spanContext);
@@ -109,7 +109,7 @@ describe("traceParentHeader", () => {
       it("when spanId is not defined", () => {
         const spanContext: any = {
           traceId: "11111111111111111111111111111111",
-          traceFlags: TraceFlags.SAMPLED
+          traceFlags: TraceFlags.SAMPLED,
         };
 
         const traceParentHeader = getTraceParentHeader(spanContext);
