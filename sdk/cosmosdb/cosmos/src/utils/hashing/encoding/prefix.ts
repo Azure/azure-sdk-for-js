@@ -23,5 +23,5 @@ export const BytePrefix = {
   Binary: "12",
   Guid: "13",
   Float: "14",
-  Infinity: "FF"
+  Infinity: "FF",
 };
