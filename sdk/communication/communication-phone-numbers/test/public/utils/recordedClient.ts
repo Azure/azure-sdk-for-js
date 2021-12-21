@@ -9,7 +9,7 @@ import {
   Recorder,
   record,
   RecorderEnvironmentSetup,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import {
   DefaultHttpClient,
@@ -17,7 +17,7 @@ import {
   HttpOperationResponse,
   isNode,
   TokenCredential,
-  WebResourceLike
+  WebResourceLike,
 } from "@azure/core-http";
 import { PhoneNumbersClient, PhoneNumbersClientOptions } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
@@ -40,7 +40,7 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "SomeTenantId",
   AZURE_PHONE_NUMBER: "+14155550100",
-  COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false"
+  COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false",
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -49,9 +49,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string => recording.replace(/(https:\/\/)([^/'",}]*)/, "$1endpoint"),
     (recording: string): string => recording.replace(/\d{1}\d{3}\d{3}\d{4}/g, "14155550100"),
     (recording: string): string =>
-      recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized")
+      recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized"),
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export function createRecordedClient(context: Context): RecordedClient<PhoneNumbersClient> {
@@ -60,9 +60,9 @@ export function createRecordedClient(context: Context): RecordedClient<PhoneNumb
   // casting is a workaround to enable min-max testing
   return {
     client: new PhoneNumbersClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
-      httpClient: createTestHttpClient()
+      httpClient: createTestHttpClient(),
     } as PhoneNumbersClientOptions),
-    recorder
+    recorder,
   };
 }
 
@@ -70,7 +70,7 @@ export function createMockToken(): TokenCredential {
   return {
     getToken: async (_scopes) => {
       return { token: "testToken", expiresOnTimestamp: 11111 };
-    }
+    },
   };
 }
 
@@ -79,17 +79,18 @@ export function createRecordedClientWithToken(
 ): RecordedClient<PhoneNumbersClient> | undefined {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
-  const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING)
-    .endpoint;
+  const endpoint = parseConnectionString(
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING
+  ).endpoint;
   if (isPlaybackMode()) {
     credential = createMockToken();
 
     // casting is a workaround to enable min-max testing
     return {
       client: new PhoneNumbersClient(endpoint, credential, {
-        httpClient: createTestHttpClient()
+        httpClient: createTestHttpClient(),
       } as PhoneNumbersClientOptions),
-      recorder
+      recorder,
     };
   }
 
@@ -106,21 +107,21 @@ export function createRecordedClientWithToken(
   // casting is a workaround to enable min-max testing
   return {
     client: new PhoneNumbersClient(endpoint, credential, {
-      httpClient: createTestHttpClient()
+      httpClient: createTestHttpClient(),
     } as PhoneNumbersClientOptions),
-    recorder
+    recorder,
   };
 }
 
 export const testPollerOptions = {
-  pollInterval: isPlaybackMode() ? 0 : undefined
+  pollInterval: isPlaybackMode() ? 0 : undefined,
 };
 
 function createTestHttpClient(): HttpClient {
   const customHttpClient = new DefaultHttpClient();
 
   const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function(
+  customHttpClient.sendRequest = async function (
     httpRequest: WebResourceLike
   ): Promise<HttpOperationResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
