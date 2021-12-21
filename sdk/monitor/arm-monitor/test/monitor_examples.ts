@@ -185,6 +185,9 @@ describe("Monitor test", () => {
   });
 
   it("diagnosticSettings create test", async function() {
+    if(isPlaybackMode()) { 
+      this.skip(); 
+    }
     const res = await client.diagnosticSettings.createOrUpdate(workflowsId,diagnosticName,{
         storageAccountId: storageId,
         workspaceId: workspaceId,
@@ -219,6 +222,9 @@ describe("Monitor test", () => {
   });
 
   it("logProfiles create test", async function() {
+    if(isPlaybackMode()) { 
+      this.skip(); 
+    }
     //delete sample logfile
     const resArray = new Array();
     for await (let item of client.logProfiles.list()){
