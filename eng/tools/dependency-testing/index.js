@@ -51,7 +51,7 @@ function outputTestPath(projectFolderPath, sourceDir, testFolder) {
 
 async function updateScripts(testPackageJson, packageJsonContents){
   if(packageJsonContents.scripts["integration-test:node"]){
-    var matchIndex = packageJsonContents.scripts["integration-test:node"].match(/--timeout /);
+    var matchIndex = packageJsonContents.scripts["integration-test:node"].match(/--timeout [0-9]+/);
     if(matchIndex !== null){
       testPackageJson.scripts["integration-test:node"] = packageJsonContents.scripts["integration-test:node"];
     }
@@ -109,21 +109,22 @@ async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePat
 }
 
 
-async function isPackageAUtility(thisPackage) {
-  if (thisPackage.versionPolicyName === "utility") {
-    console.log(thisPackage.packageName + " utility");
-    return true;
+async function isPackageAUtility(package, repoRoot) {
+  var thisPackage = await getPackageFromRush(repoRoot, package);
+  if(thisPackage){
+    if (thisPackage.versionPolicyName === "utility") {
+      console.log(thisPackage.packageName + " utility");
+      return true;
+    }
   }
   return false;
 }
 
 async function findAppropriateVersion(package, packageJsonDepVersion, repoRoot, versionType) {
   console.log("checking " + package + " = " + packageJsonDepVersion);
-  var findThisPackage = getPackageFromRush(repoRoot, package)
-  if(findThisPackage){
-   if(isPackageAUtility(findThisPackage)){
+  var isUtility = await isPackageAUtility(package, repoRoot);
+  if (isUtility) {
     return packageJsonDepVersion;
-   }
   }
   var allNPMVersions = await getVersions(package);
   if (allNPMVersions) {
@@ -293,8 +294,6 @@ async function updateRushConfig(repoRoot, targetPackage, testFolder) {
   rushSpec.projectFolderMaxDepth = 5;
   const rushPath = path.resolve(path.join(repoRoot, "rush.json"));
   await packageUtils.writePackageJson(rushPath, rushSpec);
-  console.log("rush spec -");
-  console.log(rushSpec);
 }
 
 async function updateCommonVersions(repoRoot, allowedVersionList) {
