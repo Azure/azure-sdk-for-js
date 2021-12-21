@@ -6,7 +6,7 @@ import {
   NamedKeyCredential,
   SASCredential,
   isNamedKeyCredential,
-  isSASCredential
+  isSASCredential,
 } from "@azure/core-auth";
 import { isObjectWithProperties } from "../util/typeGuards";
 import jssha from "jssha";
@@ -93,7 +93,7 @@ export class SasTokenProviderImpl implements SasTokenProvider {
     } else {
       return {
         token: this._credential.signature,
-        expiresOnTimestamp: 0
+        expiresOnTimestamp: 0,
       };
     }
   }
@@ -118,6 +118,6 @@ function createToken(keyName: string, key: string, expiry: number, audience: str
   const sig = encodeURIComponent(shaObj.getHMAC("B64"));
   return {
     token: `SharedAccessSignature sr=${audience}&sig=${sig}&se=${expiry}&skn=${keyName}`,
-    expiresOnTimestamp: expiry
+    expiresOnTimestamp: expiry,
   };
 }
