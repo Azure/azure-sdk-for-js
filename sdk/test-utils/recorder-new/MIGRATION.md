@@ -1,10 +1,10 @@
 # Migration Guide
 
-This document outlines key differences between the legacy recorder and the new Unified Recorder client. The Unified Recorder replaces the existing `nock`-based recorder with a solution that uses the language-agnostic [test proxy server]. 
+This document outlines key differences between the legacy recorder and the new Unified Recorder client. The Unified Recorder replaces the existing `nock`-based recorder with a solution that uses the language-agnostic [test proxy server].
 
 ## Prerequisites
 
-* [Docker] is required, as the [test proxy server] is run in a container during testing.
+- [Docker] is required, as the [test proxy server] is run in a container during testing.
 
 ## Installing the Unified Recorder
 
@@ -15,8 +15,6 @@ $ rush add --dev -p @azure-tools/test-recorder-new
 ```
 
 You will use this library to control the recorder from your tests. The API is somewhat similar to the legacy recorder, albeit with some important differences. These will be discussed below.
-
-**⚠️ Important:** Do not uninstall the old recorder (`@azure-tools/test-recorder`) just yet! At this time, there are still utilities from the legacy recorder package that have not been migrated to the new package.
 
 ## Changes to NPM scripts
 
@@ -38,14 +36,14 @@ The approach taken to initialize the recorder depends on whether the SDK being t
 The recorder is implemented as a custom policy which should be attached to your client's pipeline. Firstly, initialize the recorder:
 
 ```ts
-let recorder: TestProxyHttpClient;
+let recorder: Recorder;
 
 /*
  * Note the use of function() instead of the arrow syntax. We need access to `this` so we
  * can pass test information from Mocha to the recorder.
  */
 beforeEach(function(this: Context) {
-  recorder = new TestProxyHttpClient(this.currentTest);
+  recorder = new Recorder(this.currentTest);
 });
 ```
 
@@ -62,21 +60,24 @@ recorder.configureClient(client);
 The recorder library provides a custom `HttpClient` that is then passed to the SDK. This client needs to be initialized as follows:
 
 ```ts
-let recorder: TestProxyHttpClientCoreV1;
+let recorder: Recorder;
 
 /*
  * Note the use of function() instead of the arrow syntax. We need access to `this` so we
  * can pass test information from Mocha to the recorder.
  */
 beforeEach(function(this: Context) {
-  recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+  recorder = new Recorder(this.currentTest);
 });
 ```
 
 When initialising your client in your test, you should pass in the recorder as follows:
 
 ```ts
-const client = new MyServiceClient(/* ... insert options here ... */, { httpClient: recorder });
+const client = new MyServiceClient(
+  /* ... insert options here ... */,
+  recorder.configureClientOptionsCoreV1({ /* any additional options to pass through */ }),
+);
 ```
 
 This will allow requests to be intercepted and redirected to the proxy tool.
@@ -155,12 +156,12 @@ Other sanitizers for more complex use cases are also available.
 
 ## AAD and the new `NoOpCredential`
 
-The new recorder does not record AAD traffic at present. As such, tests with clients using AAD should make use of the new `NoOpCredential` provided by the recorder library when in playback mode. For example:
+The new recorder does not record AAD traffic at present. As such, tests with clients using AAD should make use of the new `NoOpCredential` provided by the `@azure-tools/test-credential` when in playback mode. The `createTestCredential` helper also exported by the `test-credential` package will handle switching between NoOpCredential in playback and ClientSecretCredential when recording for you:
 
 ```ts
-const credential = isPlaybackMode()
-  ? new NoOpCredential();
-  : new ClientSecretCredential(/* ... */);
+const credential = createTestCredential();
+
+// You may now pass the created credential to your client.
 ```
 
 Since AAD traffic is not recorded by the new recorder, there is no longer a need to remove AAD credentials from the recording using a sanitizer.
@@ -183,9 +184,9 @@ module.exports = function(config) {
     /* ... */
 
     envPreprocessor: [
-      /* ... */,
-      "RECORDINGS_RELATIVE_PATH" // Add this!
-    ],
+      ,
+      /* ... */ "RECORDINGS_RELATIVE_PATH" // Add this!
+    ]
 
     /* ... */
   });
