@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* 
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary authenticate with the storage service using a connection string
+ * @azsdk-weight 20
+ */
 
-const { BlobServiceClient } = require("@azure/storage-blob");
+import { BlobServiceClient } from "@azure/storage-blob";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 async function main() {
   // Create Blob Service Client from Account connection string or SAS connection string
@@ -36,6 +38,7 @@ async function main() {
   console.log("deleted container");
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* 
-  You can create your own policy and inject it into the default pipeline, or create your own Pipeline.
-  A request policy is a filter triggered before and after a HTTP request. With a filter, we can tweak HTTP requests and responses. 
-  For example, add a customized header, update URL or create logs. A HTTP pipeline is a group of policy factories.
-
-  Here we provide a sample to demonstrate how to customize the x-ms-client-request-id header for all outgoing HTTP requests.
-  This sample is just to demo the feature. Feel free to move the classes into one file in your code.
-
-  Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * You can create your own policy and inject it into the default pipeline, or create your own Pipeline.
+ * A request policy is a filter triggered before and after a HTTP request. With a filter, we can tweak HTTP requests and responses.
+ * For example, add a customized header, update URL or create logs. A HTTP pipeline is a group of policy factories.
+ *
+ * Here we provide a sample to demonstrate how to customize the x-ms-client-request-id header for all outgoing HTTP requests.
+ * This sample is just to demo the feature. Feel free to move the classes into one file in your code.
+ *
+ * @summary customize request headers such as `X-Ms-Client-Request-Id` using an HTTP policy
+ * @azsdk-weight 90
+ **/
 
 import {
   newPipeline,
@@ -67,9 +68,9 @@ class RequestIDPolicy extends BaseRequestPolicy {
 }
 
 // Main function
-export async function main() {
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountSas = process.env.ACCOUNT_SAS || "";
+async function main() {
+  const account = process.env.ACCOUNT_NAME || "<account name>";
+  const accountSas = process.env.ACCOUNT_SAS || "<account SAS>";
 
   // Create a default pipeline with newPipeline
   const pipeline = newPipeline(new AnonymousCredential());
@@ -81,17 +82,24 @@ export async function main() {
     `https://${account}.blob.core.windows.net${accountSas}`,
     pipeline
   );
-  const response = (
-    await blobServiceClient
-      .listContainers()
-      .byPage()
-      .next()
-  ).value;
+
+  const result = await blobServiceClient
+    .listContainers()
+    .byPage()
+    .next();
+
+  if (result.done) {
+    throw new Error("Expected at least one page of containers.");
+  }
+
+  // Extract the raw response from the result.
+  const { _response } = result.value;
 
   // Check customized client request ID
-  console.log(response._response.request.headers.get("x-ms-client-request-id"));
+  console.log(_response.request.headers.get("x-ms-client-request-id"));
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

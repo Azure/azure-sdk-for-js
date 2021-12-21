@@ -1,14 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter connection string of your storage account name in main()
-*/
+/**
+ * @summary demonstrates various error scenarios and their response data
+ * @azsdk-weight 50
+ */
 
-const { BlobServiceClient } = require("@azure/storage-blob");
+import { BlobServiceClient } from "@azure/storage-blob";
+
+import { streamToBuffer } from "./utils/stream";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 async function main() {
   // Create Blob Service Client from Account connection string or SAS connection string
@@ -91,7 +95,7 @@ async function main() {
     const downloadBlockBlobResponse = await blockBlobClient.download();
     console.log(
       `Downloaded blob content - ${(
-        await streamToBuffer(downloadBlockBlobResponse.readableStreamBody)
+        await streamToBuffer(downloadBlockBlobResponse.readableStreamBody!)
       ).toString()},`
     );
     console.log(
@@ -137,20 +141,7 @@ async function main() {
   }
 }
 
-// A helper method used to read a Node.js readable stream into a Buffer
-async function streamToBuffer(readableStream) {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    readableStream.on("data", (data) => {
-      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-    });
-    readableStream.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-    readableStream.on("error", reject);
-  });
-}
-
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary list blobs in a container, showing options for paging, resuming paging, etc.
+ * @azsdk-weight 30
+ */
 
 import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 
@@ -11,7 +12,7 @@ import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export async function main() {
+async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -126,6 +127,7 @@ export async function main() {
   console.log("deleted container");
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

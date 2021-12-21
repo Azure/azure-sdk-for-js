@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary list blobs by hierarchy, using separators in the blob names, using options for paging, resuming paging, etc.
+ * @azsdk-weight 30
+ */
 
 import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 
@@ -11,7 +12,7 @@ import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export async function main() {
+async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -33,40 +34,20 @@ export async function main() {
   // create some blobs with delimiters in names
   const content = "hello";
   const contentByteLength = Buffer.byteLength(content);
-  let blobName = "a1";
-  let blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  let uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
-  console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
-  blobName = "a2";
-  blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
-  console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
-
-  blobName = "prefix1/b1";
-  blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
-  console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
-
-  blobName = "prefix1/b2";
-  blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
-  console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
-
-  blobName = "prefix2/sub1/c";
-  blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
-  console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
-
-  blobName = "prefix2/sub1/d";
-  blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
-  console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
-
-  blobName = "prefix2/sub1/e";
-  blockBlobClient = containerClient.getBlockBlobClient(blobName);
-  uploadBlobResponse = await blockBlobClient.upload(content, contentByteLength);
-  console.log(`Uploaded block blob ${blobName} successfully`, uploadBlobResponse.requestId);
+  for (const blobName of [
+    "a1",
+    "a2",
+    "prefix1/b1",
+    "prefix1/b2",
+    "prefix2/sub1/c",
+    "prefix2/sub1/d",
+    "prefix2/sub1/e"
+  ]) {
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    const { requestId } = await blockBlobClient.upload(content, contentByteLength);
+    console.log(`Uploaded block blob "${blobName}" successfully (ID: ${requestId})`);
+  }
 
   // 1. List blobs by hierarchy
   console.log("Listing blobs by hierarchy");
@@ -134,9 +115,10 @@ export async function main() {
   }
 
   await containerClient.delete();
-  console.log("deleted container");
+  console.log("Deleted container:", containerClient.containerName);
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

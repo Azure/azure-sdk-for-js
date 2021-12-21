@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
-  If you use BlobClient.download() to download an append blob which is being actively appended,
-  you may get a 412 HTTP error, just like this issue: https://github.com/Azure/azure-storage-js/issues/51
-
-  Recommend solution is to snapshot the append blob, and read from the snapshot blob.
-
-  Reason
-  - blobClient.download() will try to download a blob with a HTTP Get request into a stream.
-  - When a stream unexpectedly ends because of an unreliable network, retry will resume the stream read
-    from that broken point with a new HTTP Get request.
-  - The second HTTP request will use conditional header `IfMatch` with the blob's `ETag`
-    returned in first request to make sure the blob doesn't change when the 2nd retry happens.
-    Otherwise, a 412 conditional header doesn't match error will be returned.
-  - This strict strategy is used to avoid data integrity issues, such as the blob maybe totally over written by someone others.
-    However, this strategy seems avoiding reading from reading a constantly updated log file when a retry happens.
-
-
-  Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * If you use BlobClient.download() to download an append-blob which is being actively appended, you may get an HTTP 412
+ * (Precondition Failed) error (see the following issue: https://github.com/Azure/azure-storage-js/issues/51)
+ *
+ * The recommended solution is to snapshot the append blob and read from the snapshot blob.
+ *
+ * This issue occurs because:
+ * - blobClient.download() will try to download a blob with a HTTP Get request into a stream.
+ * - When a stream unexpectedly ends because of an unreliable network, the pipeline's retry policy will resume the
+ *   stream from that broken point with a new HTTP Get request.
+ * - The second HTTP request will use a conditional header `IfMatch` with the blob's `ETag` from the first request to
+ *   make sure the blob hasn't changed between the first and second attempts. Otherwise, an HTTP 412 error will be
+ *   returned indicating that the `ETag` has changed.
+ * - This strict strategy is used to avoid data integrity issues (instead of attempting to continue reading the new
+ *   data). For example, the blob may have been totally overwritten by someone else.
+ *
+ * @summary create and read from a blob snapshot
+ * @azsdk-weight 40
+ */
 
 import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 
@@ -27,10 +27,10 @@ import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export async function main() {
+async function main() {
   // Enter your storage account name and shared key
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
+  const account = process.env.ACCOUNT_NAME || "<account name>";
+  const accountKey = process.env.ACCOUNT_KEY || "<account key>";
 
   // Use StorageSharedKeyCredential with storage account and account key
   // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
@@ -68,7 +68,7 @@ export async function main() {
     "Downloaded blob content",
     (await streamToBuffer(response.readableStreamBody!)).toString()
   );
-  
+
   // Delete container
   await containerClient.delete();
 
@@ -89,6 +89,7 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Bu
   });
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

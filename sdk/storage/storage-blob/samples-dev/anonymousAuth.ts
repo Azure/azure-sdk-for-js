@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* 
- Setup: Enter your storage account name and SAS in main()
-*/
+/**
+ * @summary authenticate anonymously using a SAS-encoded URL
+ * @azsdk-weight 15
+ */
 
 import { BlobServiceClient, AnonymousCredential } from "@azure/storage-blob";
 
@@ -11,19 +12,16 @@ import { BlobServiceClient, AnonymousCredential } from "@azure/storage-blob";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export async function main() {
+async function main() {
   // Enter your storage account name and SAS
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountSas = process.env.ACCOUNT_SAS || "";
-
-  // Use AnonymousCredential when url already includes a SAS signature
-  const anonymousCredential = new AnonymousCredential();
+  const account = process.env.ACCOUNT_NAME || "<account name>";
+  const accountSas = process.env.ACCOUNT_SAS || "<account SAS>";
 
   // List containers
   const blobServiceClient = new BlobServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.blob.core.windows.net${accountSas}`,
-    anonymousCredential
+    new AnonymousCredential()
   );
 
   let i = 1;
@@ -36,14 +34,15 @@ export async function main() {
   const containerClient = blobServiceClient.getContainerClient(containerName);
 
   const createContainerResponse = await containerClient.create();
-  console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
+  console.log(`Created container ${containerName} successfully`, createContainerResponse.requestId);
 
   // Delete container
   await containerClient.delete();
 
-  console.log("deleted container");
+  console.log("Deleted container:", containerClient.containerName);
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

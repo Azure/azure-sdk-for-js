@@ -1,28 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name, SAS and a path pointing to local file in main()
-*/
+/**
+ * @summary demonstrates some advanced HTTP pipeline and request options for several methods
+ * @azsdk-weight 100
+ */
 
-const fs = require("fs");
+import * as fs from "fs";
 
-const { AbortController } = require("@azure/abort-controller");
-const { AnonymousCredential, BlobServiceClient, newPipeline } = require("@azure/storage-blob");
+import { AbortController } from "@azure/abort-controller";
+import { AnonymousCredential, BlobServiceClient, newPipeline } from "@azure/storage-blob";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 // Enabling logging may help uncover useful information about failures.
 // In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
 // Alternatively, logging can be enabled at runtime by calling `setLogLevel("info");`
 // `setLogLevel` can be imported from the `@azure/logger` package
-const { setLogLevel } = require("@azure/logger");
+import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 
 async function main() {
   // Fill in following settings before running this sample
-  const account = process.env.ACCOUNT_NAME || "";
+  const account = process.env.ACCOUNT_NAME || "<account name>";
   const accountSas = process.env.ACCOUNT_SAS || "";
   const localFilePath = "README.md";
 
@@ -48,7 +50,7 @@ async function main() {
     await containerClient.create();
   } catch (err) {
     console.log(
-      `Creating a container fails, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `Creating a container failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
   }
 
@@ -64,7 +66,7 @@ async function main() {
       concurrency: 20, // 20 concurrency
       onProgress: (ev) => console.log(ev)
     });
-    console.log("uploadFile succeeds");
+    console.log("Successfully uploaded file:", blockBlobClient.name);
   } catch (err) {
     console.log(
       `uploadFile failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
@@ -86,7 +88,7 @@ async function main() {
   }
 
   // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with BlockBlobClient.uploadData()
-  // Uncomment following code in browsers because document.getElementById() is only available in browsers
+  // Uncomment following code in browsers because document is only available in browsers
   /*
   const browserFile = document.getElementById("fileinput").files[0];
   await blockBlobClient.uploadData(browserFile, {
@@ -130,9 +132,10 @@ async function main() {
 
   // Delete container
   await containerClient.delete();
-  console.log("deleted container");
+  console.log("Deleted container:", containerClient.containerName);
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });
