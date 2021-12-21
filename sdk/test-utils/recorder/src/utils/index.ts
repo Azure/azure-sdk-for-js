@@ -469,6 +469,20 @@ export function handleSingleQuotesInUrlPath(fixture: string): string {
   return updatedFixture;
 }
 
+export function setDefaultRetryAfterIntervalInNockFixture(fixture: string) {
+  if (isBrowser()) {
+    throw new Error(
+      `"setDefaultRetryAfterIntervalInNockFixture" method is not meant to be used in the browsers`
+    );
+  }
+  const matches = fixture.match(/'Retry-After',\n\s\s'([0-9]*)',\n/);
+  console.log(matches)
+  if(matches){
+    console.log(fixture.replace(matches[0], `'Retry-After',\n  '0',\n`))
+  }
+  return fixture;
+}
+
 /**
  * Meant for node recordings only!
  *
