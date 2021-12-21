@@ -28,6 +28,6 @@ export const createPersistence: typeof import("../../../src/provider").createPer
   return create(...args);
 };
 
-before(function() {
+before(function () {
   useIdentityPlugin(require("../../../src").cachePersistencePlugin);
 });

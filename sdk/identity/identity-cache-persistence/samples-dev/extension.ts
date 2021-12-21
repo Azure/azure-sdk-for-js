@@ -28,8 +28,8 @@ async function main() {
     // This property must be provided, with `enabled` set to true to enable
     // persistent token caching.
     tokenCachePersistenceOptions: {
-      enabled: true
-    }
+      enabled: true,
+    },
   });
 
   // This is the scope we will use to get a token from the AAD token endpoint.
