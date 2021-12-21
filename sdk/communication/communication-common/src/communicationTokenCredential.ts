@@ -6,7 +6,7 @@ import { parseToken } from "./tokenParser";
 import { StaticTokenCredential } from "./staticTokenCredential";
 import {
   AutoRefreshTokenCredential,
-  CommunicationTokenRefreshOptions
+  CommunicationTokenRefreshOptions,
 } from "./autoRefreshTokenCredential";
 
 export type TokenCredential = Pick<AzureCommunicationTokenCredential, "getToken" | "dispose">;

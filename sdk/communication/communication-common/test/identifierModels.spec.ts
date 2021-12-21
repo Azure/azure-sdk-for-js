@@ -8,7 +8,7 @@ import {
   getIdentifierKind,
   PhoneNumberIdentifier,
   isUnknownIdentifier,
-  isMicrosoftTeamsUserIdentifier
+  isMicrosoftTeamsUserIdentifier,
 } from "../src";
 
 describe("Identifier models", () => {

@@ -12,6 +12,6 @@ export const parseToken = (token: string): AccessToken => {
   const { exp } = jwtDecode<JwtToken>(token);
   return {
     token,
-    expiresOnTimestamp: exp * 1000
+    expiresOnTimestamp: exp * 1000,
   };
 };
