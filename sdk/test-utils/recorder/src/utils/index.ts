@@ -469,6 +469,11 @@ export function handleSingleQuotesInUrlPath(fixture: string): string {
   return updatedFixture;
 }
 
+/**
+ * Meant for node recordings only!
+ * 
+ * Manipulate the `retry-after` header to have "0" value so that playback tests run faster.
+ */
 export function setDefaultRetryAfterIntervalInNockFixture(fixture: string) {
   if (isBrowser()) {
     throw new Error(
