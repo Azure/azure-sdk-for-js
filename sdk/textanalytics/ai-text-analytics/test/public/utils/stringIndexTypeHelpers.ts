@@ -24,7 +24,7 @@ export async function checkOffsetAndLength(
   callback?: (doc: string, entity: Entity, offset: number, length: number) => unknown
 ): Promise<unknown> {
   const [result] = await client.recognizePiiEntities([{ id: "0", text: doc, language: "en" }], {
-    stringIndexType: stringIndexType
+    stringIndexType: stringIndexType,
   });
   if (!result.error) {
     const entity = result.entities[0];

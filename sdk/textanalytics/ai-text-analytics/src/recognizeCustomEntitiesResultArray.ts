@@ -4,12 +4,12 @@
 import {
   TextDocumentBatchStatistics,
   TextDocumentInput,
-  CustomEntitiesResult
+  CustomEntitiesResult,
 } from "./generated/models";
 import {
   RecognizeCustomEntitiesResult,
   makeRecognizeCustomEntitiesResult,
-  makeRecognizeCustomEntitiesErrorResult
+  makeRecognizeCustomEntitiesErrorResult,
 } from "./recognizeCustomEntitiesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 

@@ -13,7 +13,7 @@ export const MetricsAdvisorLoggingAllowedHeaderNames = [
   "Operation-Location",
   "Strict-Transport-Security",
   "X-Content-Type-Options",
-  "x-envoy-upstream-service-time"
+  "x-envoy-upstream-service-time",
 ];
 
 export const MetricsAdvisorLoggingAllowedQueryParameters = [
@@ -24,5 +24,5 @@ export const MetricsAdvisorLoggingAllowedQueryParameters = [
   "granularityName",
   "status",
   "creator",
-  "hookName"
+  "hookName",
 ];

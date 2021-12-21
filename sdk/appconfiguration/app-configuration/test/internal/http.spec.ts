@@ -11,26 +11,26 @@ import nock from "nock";
 import {
   getUserAgentPrefix,
   InternalAppConfigurationClientOptions,
-  packageVersion
+  packageVersion,
 } from "../../src/appConfigurationClient";
 import {
   createAppConfigurationClientForTests,
   assertThrowsRestError,
-  startRecorder
+  startRecorder,
 } from "../public/utils/testHelpers";
 
 import * as chai from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
-describe("http request related tests", function() {
+describe("http request related tests", function () {
   describe("unit tests", () => {
     describe("parseSyncToken", () => {
       it("can parse various sync tokens", () => {
         assert.deepEqual(parseSyncToken("theid=thevalue;sn=1"), {
           id: "theid",
           value: "thevalue",
-          sequenceNumber: 1
+          sequenceNumber: 1,
         });
       });
 
@@ -111,12 +111,12 @@ describe("http request related tests", function() {
     let client: AppConfigurationClient;
     let recorder: Recorder;
 
-    beforeEach(function(this: Context) {
+    beforeEach(function (this: Context) {
       recorder = startRecorder(this);
       client = createAppConfigurationClientForTests() || this.skip();
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await recorder.stop();
     });
 
@@ -124,9 +124,9 @@ describe("http request related tests", function() {
       const iterator = client.listConfigurationSettings({
         requestOptions: {
           customHeaders: {
-            "x-ms-client-request-id": "this is my custom client request id"
-          }
-        }
+            "x-ms-client-request-id": "this is my custom client request id",
+          },
+        },
       });
 
       await iterator.next();
@@ -147,7 +147,7 @@ describe("http request related tests", function() {
     let syncTokens: SyncTokens;
     let scope: nock.Scope;
 
-    beforeEach(function(this: Context) {
+    beforeEach(function (this: Context) {
       if (nock == null || nock.recorder == null) {
         this.skip();
         return;
@@ -157,7 +157,7 @@ describe("http request related tests", function() {
 
       client =
         createAppConfigurationClientForTests<InternalAppConfigurationClientOptions>({
-          syncTokens: syncTokens
+          syncTokens: syncTokens,
         }) || this.skip();
 
       nock.recorder.clear();
@@ -169,7 +169,7 @@ describe("http request related tests", function() {
       scope = nock(/.*/);
     });
 
-    afterEach(function(this: Context) {
+    afterEach(function (this: Context) {
       if (nock == null || nock.recorder == null) {
         return;
       }
@@ -182,13 +182,13 @@ describe("http request related tests", function() {
       nock.cleanAll();
     });
 
-    it("policy is setup properly to send sync tokens", async function() {
+    it("policy is setup properly to send sync tokens", async function () {
       syncTokens.addSyncTokenFromHeaderValue(`hello=world;sn=1`);
 
       const policyScope = nock(/.*/, {
         reqheaders: {
-          "sync-token": "hello=world"
-        }
+          "sync-token": "hello=world",
+        },
       })
         .get(/.*/)
         .reply(418);
@@ -196,7 +196,7 @@ describe("http request related tests", function() {
       await assertThrowsRestError(
         async () =>
           client.getConfigurationSetting({
-            key: "doesntmatter"
+            key: "doesntmatter",
           }),
         418
       );
@@ -208,7 +208,7 @@ describe("http request related tests", function() {
       scope.put(/.*/).reply(200, "", { "sync-token": "addConfigurationSetting=value;sn=1" });
 
       await client.addConfigurationSetting({
-        key: "doesntmatter"
+        key: "doesntmatter",
       });
 
       assert.equal(syncTokens.getSyncTokenHeaderValue(), "addConfigurationSetting=value");
@@ -218,7 +218,7 @@ describe("http request related tests", function() {
       scope.get(/.*/).reply(200, "", { "sync-token": "getConfigurationSetting=value;sn=1" });
 
       await client.getConfigurationSetting({
-        key: "doesntmatter"
+        key: "doesntmatter",
       });
 
       assert.equal(syncTokens.getSyncTokenHeaderValue(), "getConfigurationSetting=value");
@@ -228,7 +228,7 @@ describe("http request related tests", function() {
       scope.put(/.*/).reply(200, "", { "sync-token": "setConfigurationSetting=value;sn=1" });
 
       await client.setConfigurationSetting({
-        key: "doesntmatter"
+        key: "doesntmatter",
       });
 
       assert.equal(syncTokens.getSyncTokenHeaderValue(), "setConfigurationSetting=value");
@@ -238,7 +238,7 @@ describe("http request related tests", function() {
       scope.delete(/.*/).reply(200, "", { "sync-token": "deleteConfigurationSetting=value;sn=1" });
 
       await client.deleteConfigurationSetting({
-        key: "doesntmatter"
+        key: "doesntmatter",
       });
 
       assert.equal(syncTokens.getSyncTokenHeaderValue(), "deleteConfigurationSetting=value");
@@ -248,7 +248,7 @@ describe("http request related tests", function() {
       scope.get(/.*/).reply(200, "", { "sync-token": "listConfigurationSetting=value;sn=1" });
 
       const iterator = client.listConfigurationSettings({
-        keyFilter: "doesntmatter"
+        keyFilter: "doesntmatter",
       });
 
       await iterator.next();
@@ -259,7 +259,7 @@ describe("http request related tests", function() {
       scope.get(/.*/).reply(200, "", { "sync-token": "listRevisions=value;sn=1" });
 
       const iterator = client.listRevisions({
-        keyFilter: "doesntmatter"
+        keyFilter: "doesntmatter",
       });
 
       await iterator.next();
@@ -273,7 +273,7 @@ describe("http request related tests", function() {
 
       await client.setReadOnly(
         {
-          key: "doesntmatter"
+          key: "doesntmatter",
         },
         true
       );
@@ -284,7 +284,7 @@ describe("http request related tests", function() {
 
       await client.setReadOnly(
         {
-          key: "doesntmatter"
+          key: "doesntmatter",
         },
         false
       );
@@ -331,8 +331,5 @@ function splitAndSort(syncTokens: string | undefined): string {
     throw new Error("Undefined can't be split and sorted");
   }
 
-  return syncTokens
-    .split(",")
-    .sort()
-    .join(",");
+  return syncTokens.split(",").sort().join(",");
 }

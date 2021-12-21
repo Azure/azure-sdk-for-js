@@ -11,7 +11,7 @@ import {
   SecretReferenceValue,
   secretReferenceContentType,
   ConfigurationSetting,
-  parseSecretReference
+  parseSecretReference,
 } from "@azure/app-configuration";
 import { parseKeyVaultSecretIdentifier, SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,7 +35,7 @@ export async function main() {
   const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "";
   const appConfigClient = new AppConfigurationClient(connectionString);
   const getResponse = await appConfigClient.getConfigurationSetting({
-    key
+    key,
   });
   // You can use the `isSecretReference` global method to check if the content type is secretReferenceContentType ("application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8")
 
@@ -110,7 +110,7 @@ async function createConfigSetting(key: string, secretId: string) {
     key,
     value: { secretId },
     isReadOnly: false,
-    contentType: secretReferenceContentType
+    contentType: secretReferenceContentType,
   };
 
   await cleanupSampleValues([key], appConfigClient);
@@ -123,7 +123,7 @@ async function createConfigSetting(key: string, secretId: string) {
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
   const settingsIterator = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of settingsIterator) {

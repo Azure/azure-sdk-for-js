@@ -12,7 +12,7 @@ dotenv.config();
 
 import {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient
+  MetricsAdvisorAdministrationClient,
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {

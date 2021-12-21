@@ -15,7 +15,7 @@ import {
   MetricsAdvisorAdministrationClient,
   DataSourceCredentialEntityUnion,
   DataSourceCredentialPatch,
-  DataSourceSqlConnectionString
+  DataSourceSqlConnectionString,
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -79,7 +79,7 @@ async function createDataSourceCredential(
     name: "Sql-server-cred",
     description: "an example sql server credential",
     type: "AzureSQLConnectionString",
-    connectionString: "connection-string"
+    connectionString: "connection-string",
   };
   const result = await client.createDataSourceCredential(datasourceCredential);
   console.dir(result);
@@ -106,7 +106,7 @@ async function updateDataSourceCredential(
     name: "update-credential-name",
     description: "updated-description",
     type: "AzureSQLConnectionString",
-    connectionString: "connection-string"
+    connectionString: "connection-string",
   } as DataSourceCredentialPatch;
 
   try {
