@@ -58,7 +58,7 @@ The Azure Maps resource client id can be found in the Authentication sections in
 ```javascript
 const { MapsSearchClient } = require("@azure/maps-search");
 const { DefaultAzureCredential } = require("@azure/identity");
-const client = new MapsSearchClient(new DefaultAzureCredential(), "<maps-client-id>");
+const client = new MapsSearchClient(new DefaultAzureCredential(), "<maps-account-client-id>");
 ```
 
 #### Using a Subscription Key Credential
@@ -96,7 +96,7 @@ You can use an authenticated client to convert an address into latitude and long
 
 ```javascript
 const credential = new DefaultAzureCredential();
-const client = new MapsSearchClient(credential, "<maps-client-id>");
+const client = new MapsSearchClient(credential, "<maps-account-client-id>");
 const searchResult = await client.searchAddress("400 Broad, Seattle");
 ```
 
@@ -106,7 +106,7 @@ You can use Fuzzy Search to search an address or a point of interest (POI). The 
 
 ```javascript
 const credential = new DefaultAzureCredential();
-const client = new MapsSearchClient(credential, "<maps-client-id>");
+const client = new MapsSearchClient(credential, "<maps-account-client-id>");
 const fuzzySearchResult = await client.fuzzySearch("pizza", "fr");
 ```
 
@@ -117,7 +117,7 @@ This is often used for applications that consume GPS feeds and want to discover 
 
 ```javascript
 const credential = new DefaultAzureCredential();
-const client = new MapsSearchClient(credential, "<maps-client-id>");
+const client = new MapsSearchClient(credential, "<maps-account-client-id>");
 const coordinate: LatLon = {
   latitude: 47.59118,
   longitude: -122.3327
@@ -131,7 +131,7 @@ Translate coordinate location into a human understandable cross street by using 
 
 ```javascript
 const credential = new DefaultAzureCredential();
-const client = new MapsSearchClient(credential, "<maps-client-id>");
+const client = new MapsSearchClient(credential, "<maps-account-client-id>");
 const coordinate: LatLon = {
   latitude: 47.59118,
   longitude: -122.3327

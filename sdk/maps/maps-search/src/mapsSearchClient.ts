@@ -120,10 +120,14 @@ export class MapsSearchClient {
    * Creates an instance of MapsSearchClient.
    *
    * @param credential - An TokenCredential instance used to authenticate requests to the service
-   * @param clientId - The Azure Maps client id of a specific map resource
+   * @param mapsAccountClientId - The Azure Maps client id of a specific map resource
    * @param options - Options used to configure the Search Client
    */
-  constructor(credential: TokenCredential, clientId: string, options?: MapsSearchClientOptions);
+  constructor(
+    credential: TokenCredential,
+    mapsAccountClientId: string,
+    options?: MapsSearchClientOptions
+  );
   constructor(
     credential: TokenCredential | AzureKeyCredential,
     clientIdOrOptions?: string | MapsSearchClientOptions,
