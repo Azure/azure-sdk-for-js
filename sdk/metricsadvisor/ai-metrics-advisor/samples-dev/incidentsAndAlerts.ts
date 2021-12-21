@@ -81,7 +81,7 @@ async function listIncidentsForDetectionConfig(
     new Date("10/22/2020"),
     new Date("10/24/2020"),
     {
-      seriesGroupKeys: [{ city: "Manila", category: "Shoes Handbags & Sunglasses" }]
+      seriesGroupKeys: [{ city: "Manila", category: "Shoes Handbags & Sunglasses" }],
     }
   );
   for await (const incident of listIterator) {
@@ -130,7 +130,7 @@ async function listAnomaliesForDetectionConfig(
     new Date("10/22/2020"),
     new Date("10/24/2020"),
     {
-      severityFilter: { min: "Medium", max: "High" }
+      severityFilter: { min: "Medium", max: "High" },
     }
   );
   console.log("  using for-await-of syntax");
@@ -152,7 +152,7 @@ async function listAnomaliesForDetectionConfig(
       new Date("10/22/2020"),
       new Date("10/24/2020"),
       {
-        severityFilter: { min: "Medium", max: "High" }
+        severityFilter: { min: "Medium", max: "High" },
       }
     )
     .byPage({ maxPageSize: 20 });

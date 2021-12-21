@@ -6,7 +6,7 @@ import {
   InternalPipelineOptions,
   ServiceClientOptions,
   bearerTokenAuthenticationPolicy,
-  isTokenCredential
+  isTokenCredential,
 } from "@azure/core-http";
 
 import { TokenCredential } from "@azure/core-auth";
@@ -15,13 +15,13 @@ import {
   LIB_INFO,
   DEFAULT_COGNITIVE_SCOPE,
   MetricsAdvisorLoggingAllowedHeaderNames,
-  MetricsAdvisorLoggingAllowedQueryParameters
+  MetricsAdvisorLoggingAllowedQueryParameters,
 } from "./constants";
 import { logger } from "./logger";
 import { MetricsAdvisorClientOptions } from "./metricsAdvisorClient";
 import {
   createMetricsAdvisorKeyCredentialPolicy,
-  MetricsAdvisorKeyCredential
+  MetricsAdvisorKeyCredential,
 } from "./metricsAdvisorKeyCredentialPolicy";
 
 export function createClientPipeline(
@@ -49,9 +49,9 @@ export function createClientPipeline(
       loggingOptions: {
         logger: logger.info,
         allowedHeaderNames: MetricsAdvisorLoggingAllowedHeaderNames,
-        allowedQueryParameters: MetricsAdvisorLoggingAllowedQueryParameters
-      }
-    }
+        allowedQueryParameters: MetricsAdvisorLoggingAllowedQueryParameters,
+      },
+    },
   };
   return createPipelineFromOptions(internalPipelineOptions, authPolicy);
 }

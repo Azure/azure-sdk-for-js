@@ -20,7 +20,7 @@ import {
   WebNotificationHook,
   DataFeedDescriptor,
   AnomalyAlertConfiguration,
-  AnomalyDetectionConfiguration
+  AnomalyDetectionConfiguration,
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -63,7 +63,7 @@ export async function main() {
     console.log(`Webhook hook created: ${hook.id!}`);
 
     const alertConfig = await configureAlertConfiguration(adminClient, detectionConfig.id!, [
-      hook.id!
+      hook.id!,
     ]);
     console.log(`Alert configuration created: ${alertConfig.id!}`);
 
@@ -99,47 +99,47 @@ async function createDataFeed(
       dataSourceType: "SqlServer",
       connectionString: sqlServerConnectionString,
       query: sqlServerQuery,
-      authenticationType: "Basic"
+      authenticationType: "Basic",
     },
     granularity: {
-      granularityType: "Daily"
+      granularityType: "Daily",
     },
     schema: {
       metrics: [
         {
           name: "revenue",
           displayName: "revenue",
-          description: "Metric1 description"
+          description: "Metric1 description",
         },
         {
           name: "cost",
           displayName: "cost",
-          description: "Metric2 description"
-        }
+          description: "Metric2 description",
+        },
       ],
       dimensions: [
         { name: "city", displayName: "city display" },
-        { name: "category", displayName: "category display" }
+        { name: "category", displayName: "category display" },
       ],
-      timestampColumn: undefined
+      timestampColumn: undefined,
     },
     ingestionSettings: {
       ingestionStartTime: new Date(Date.UTC(2020, 5, 1)),
       ingestionStartOffsetInSeconds: 0,
       dataSourceRequestConcurrency: -1,
       ingestionRetryDelayInSeconds: -1,
-      stopRetryAfterInSeconds: -1
+      stopRetryAfterInSeconds: -1,
     },
     rollupSettings: {
       rollupType: "AutoRollup",
       rollupMethod: "Sum",
-      rollupIdentificationValue: "__SUM__"
+      rollupIdentificationValue: "__SUM__",
     },
     missingDataPointFillSettings: {
-      fillType: "SmartFilling"
+      fillType: "SmartFilling",
     },
     accessMode: "Private",
-    admins: ["xyz@microsoft.com"]
+    admins: ["xyz@microsoft.com"],
   };
   const result = await adminClient.createDataFeed(dataFeed);
 
@@ -174,11 +174,11 @@ async function configureAnomalyDetectionConfiguration(
         anomalyDetectorDirection: "Both",
         suppressCondition: {
           minNumber: 1,
-          minRatio: 1
-        }
-      }
+          minRatio: 1,
+        },
+      },
     },
-    description: "Detection configuration description"
+    description: "Detection configuration description",
   };
   return await adminClient.createDetectionConfig(anomalyConfig);
 }
@@ -192,10 +192,10 @@ async function createWebhookHook(adminClient: MetricsAdvisorAdministrationClient
     hookParameter: {
       endpoint: "https://httpbin.org/post",
       username: "user",
-      password: "pass"
+      password: "pass",
       // certificateKey: "k",
       // certificatePassword: "kp"
-    }
+    },
   };
 
   return await adminClient.createHook(hook);
@@ -214,23 +214,23 @@ async function configureAlertConfiguration(
       {
         detectionConfigurationId: detectionConfigId,
         alertScope: {
-          scopeType: "All"
+          scopeType: "All",
         },
         alertConditions: {
           severityCondition: {
             minAlertSeverity: "Medium",
-            maxAlertSeverity: "High"
-          }
+            maxAlertSeverity: "High",
+          },
         },
         snoozeCondition: {
           autoSnooze: 0,
           snoozeScope: "Metric",
-          onlyForSuccessive: true
-        }
-      }
+          onlyForSuccessive: true,
+        },
+      },
     ],
     hookIds,
-    description: "Alerting config description"
+    description: "Alerting config description",
   };
   return await adminClient.createAlertConfig(anomalyAlert);
 }
