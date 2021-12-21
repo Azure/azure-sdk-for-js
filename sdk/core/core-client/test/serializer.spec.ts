@@ -829,15 +829,15 @@ describe("Serializer", function () {
     });
   });
 
-  it("should correctly serialize polymorphic children of a sequence of polymorphic elements", function() {
+  it("should correctly serialize polymorphic children of a sequence of polymorphic elements", function () {
     const bumperJobInputAsset = {
       odataType: "#Microsoft.Media.JobInputAsset",
       assetName: "input2",
       start: {
         odataType: "#Microsoft.Media.AbsoluteClipTime",
-        time: "PT0S"
+        time: "PT0S",
       },
-      label: "bumper"
+      label: "bumper",
     };
 
     const mainJobInputAsset = {
@@ -845,24 +845,24 @@ describe("Serializer", function () {
       assetName: "input",
       start: {
         odataType: "#Microsoft.Media.AbsoluteClipTime",
-        time: "PT0S"
+        time: "PT0S",
       },
-      label: "main"
+      label: "main",
     };
 
     const input = {
       odataType: "#Microsoft.Media.JobInputSequence",
-      inputs: [bumperJobInputAsset, mainJobInputAsset]
+      inputs: [bumperJobInputAsset, mainJobInputAsset],
     };
     const outputs = [
       {
         odataType: "#Microsoft.Media.JobOutputAsset",
-        assetName: "outputAssetName"
-      }
+        assetName: "outputAssetName",
+      },
     ];
     const requestBody = {
       input,
-      outputs
+      outputs,
     };
 
     const MediaSerializer = createSerializer(MediaMappers);
@@ -878,29 +878,29 @@ describe("Serializer", function () {
               "@odata.type": "#Microsoft.Media.JobInputAsset",
               start: {
                 "@odata.type": "#Microsoft.Media.AbsoluteClipTime",
-                time: "PT0S"
+                time: "PT0S",
               },
               label: "bumper",
-              assetName: "input2"
+              assetName: "input2",
             },
             {
               "@odata.type": "#Microsoft.Media.JobInputAsset",
               start: {
                 "@odata.type": "#Microsoft.Media.AbsoluteClipTime",
-                time: "PT0S"
+                time: "PT0S",
               },
               label: "main",
-              assetName: "input"
-            }
-          ]
+              assetName: "input",
+            },
+          ],
         },
         outputs: [
           {
             "@odata.type": "#Microsoft.Media.JobOutputAsset",
-            assetName: "outputAssetName"
-          }
-        ]
-      }
+            assetName: "outputAssetName",
+          },
+        ],
+      },
     });
   });
 
@@ -1867,7 +1867,7 @@ describe("Serializer", function () {
       });
     });
 
-    it("should correctly deserialize polymorphic children of a sequence of polymorphic elements", function() {
+    it("should correctly deserialize polymorphic children of a sequence of polymorphic elements", function () {
       const serializedPayload = {
         properties: {
           input: {
@@ -1877,29 +1877,29 @@ describe("Serializer", function () {
                 "@odata.type": "#Microsoft.Media.JobInputAsset",
                 start: {
                   "@odata.type": "#Microsoft.Media.AbsoluteClipTime",
-                  time: "PT0S"
+                  time: "PT0S",
                 },
                 label: "bumper",
-                assetName: "input2"
+                assetName: "input2",
               },
               {
                 "@odata.type": "#Microsoft.Media.JobInputAsset",
                 start: {
                   "@odata.type": "#Microsoft.Media.AbsoluteClipTime",
-                  time: "PT0S"
+                  time: "PT0S",
                 },
                 label: "main",
-                assetName: "input"
-              }
-            ]
+                assetName: "input",
+              },
+            ],
           },
           outputs: [
             {
               "@odata.type": "#Microsoft.Media.JobOutputAsset",
-              assetName: "outputAssetName"
-            }
-          ]
-        }
+              assetName: "outputAssetName",
+            },
+          ],
+        },
       };
 
       const MediaSerializer = createSerializer(MediaMappers);
@@ -1917,28 +1917,28 @@ describe("Serializer", function () {
               odataType: "#Microsoft.Media.JobInputAsset",
               start: {
                 odataType: "#Microsoft.Media.AbsoluteClipTime",
-                time: "PT0S"
+                time: "PT0S",
               },
               label: "bumper",
-              assetName: "input2"
+              assetName: "input2",
             },
             {
               odataType: "#Microsoft.Media.JobInputAsset",
               start: {
                 odataType: "#Microsoft.Media.AbsoluteClipTime",
-                time: "PT0S"
+                time: "PT0S",
               },
               label: "main",
-              assetName: "input"
-            }
-          ]
+              assetName: "input",
+            },
+          ],
         },
         outputs: [
           {
             odataType: "#Microsoft.Media.JobOutputAsset",
-            assetName: "outputAssetName"
-          }
-        ]
+            assetName: "outputAssetName",
+          },
+        ],
       });
     });
   });

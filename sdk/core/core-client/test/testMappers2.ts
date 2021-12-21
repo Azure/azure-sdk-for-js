@@ -10,68 +10,68 @@ export const JobOutput: CompositeMapper = {
     uberParent: "JobOutput",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odataType"
+      clientName: "odataType",
     },
     modelProperties: {
       odataType: {
         serializedName: "@odata\\.type",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "JobError"
-        }
+          className: "JobError",
+        },
       },
       presetOverride: {
         serializedName: "presetOverride",
         type: {
           name: "Composite",
-          className: "Preset"
-        }
+          className: "Preset",
+        },
       },
       state: {
         serializedName: "state",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       progress: {
         serializedName: "progress",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       label: {
         serializedName: "label",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       startTime: {
         serializedName: "startTime",
         readOnly: true,
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       endTime: {
         serializedName: "endTime",
         readOnly: true,
         nullable: true,
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const JobOutputAsset: CompositeMapper = {
@@ -87,11 +87,11 @@ export const JobOutputAsset: CompositeMapper = {
         serializedName: "assetName",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ClipTime: CompositeMapper = {
@@ -101,18 +101,18 @@ export const ClipTime: CompositeMapper = {
     uberParent: "ClipTime",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odataType"
+      clientName: "odataType",
     },
     modelProperties: {
       odataType: {
         serializedName: "@odata\\.type",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const AbsoluteClipTime: CompositeMapper = {
@@ -128,11 +128,11 @@ export const AbsoluteClipTime: CompositeMapper = {
         serializedName: "time",
         required: true,
         type: {
-          name: "TimeSpan"
-        }
-      }
-    }
-  }
+          name: "TimeSpan",
+        },
+      },
+    },
+  },
 };
 
 export const Resource: CompositeMapper = {
@@ -144,25 +144,25 @@ export const Resource: CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProxyResource: CompositeMapper = {
@@ -170,9 +170,9 @@ export const ProxyResource: CompositeMapper = {
     name: "Composite",
     className: "ProxyResource",
     modelProperties: {
-      ...Resource.type.modelProperties
-    }
-  }
+      ...Resource.type.modelProperties,
+    },
+  },
 };
 
 export const Job: CompositeMapper = {
@@ -185,42 +185,42 @@ export const Job: CompositeMapper = {
         serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "SystemData"
-        }
+          className: "SystemData",
+        },
       },
       created: {
         serializedName: "properties.created",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       state: {
         serializedName: "properties.state",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "properties.description",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       input: {
         serializedName: "properties.input",
         type: {
           name: "Composite",
-          className: "JobInput"
-        }
+          className: "JobInput",
+        },
       },
       lastModified: {
         serializedName: "properties.lastModified",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       outputs: {
         serializedName: "properties.outputs",
@@ -229,42 +229,42 @@ export const Job: CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "JobOutput"
-            }
-          }
-        }
+              className: "JobOutput",
+            },
+          },
+        },
       },
       priority: {
         serializedName: "properties.priority",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       correlationData: {
         serializedName: "properties.correlationData",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       startTime: {
         serializedName: "properties.startTime",
         readOnly: true,
         nullable: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       endTime: {
         serializedName: "properties.endTime",
         readOnly: true,
         nullable: true,
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const JobInput: CompositeMapper = {
@@ -274,18 +274,18 @@ export const JobInput: CompositeMapper = {
     uberParent: "JobInput",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odataType"
+      clientName: "odataType",
     },
     modelProperties: {
       odataType: {
         serializedName: "@odata\\.type",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const JobInputClip: CompositeMapper = {
@@ -296,7 +296,7 @@ export const JobInputClip: CompositeMapper = {
     uberParent: "JobInput",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
-      clientName: "odataType"
+      clientName: "odataType",
     },
     modelProperties: {
       ...JobInput.type.modelProperties,
@@ -306,30 +306,30 @@ export const JobInputClip: CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       start: {
         serializedName: "start",
         type: {
           name: "Composite",
-          className: "ClipTime"
-        }
+          className: "ClipTime",
+        },
       },
       end: {
         serializedName: "end",
         type: {
           name: "Composite",
-          className: "ClipTime"
-        }
+          className: "ClipTime",
+        },
       },
       label: {
         serializedName: "label",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       inputDefinitions: {
         serializedName: "inputDefinitions",
@@ -338,13 +338,13 @@ export const JobInputClip: CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "InputDefinition"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "InputDefinition",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const JobInputAsset: CompositeMapper = {
@@ -360,11 +360,11 @@ export const JobInputAsset: CompositeMapper = {
         serializedName: "assetName",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const JobInputSequence: CompositeMapper = {
@@ -383,13 +383,13 @@ export const JobInputSequence: CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "JobInputClip"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "JobInputClip",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const JobInputs: CompositeMapper = {
@@ -408,13 +408,13 @@ export const JobInputs: CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "JobInput"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "JobInput",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const discriminators = {
@@ -426,5 +426,5 @@ export const discriminators = {
   "JobInput.#Microsoft.Media.JobInputClip": JobInputClip,
   "JobInput.#Microsoft.Media.JobInputs": JobInputs,
   "JobInput.#Microsoft.Media.JobInputSequence": JobInputSequence,
-  "JobInput.#Microsoft.Media.JobInputAsset": JobInputAsset
+  "JobInput.#Microsoft.Media.JobInputAsset": JobInputAsset,
 };
