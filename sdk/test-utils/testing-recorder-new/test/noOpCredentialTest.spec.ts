@@ -1,27 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RecorderStartOptions, Recorder } from "@azure-tools/test-recorder-new";
+import { RecorderStartOptions, Recorder, isRecordMode } from "@azure-tools/test-recorder-new";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { TokenCredential } from "@azure/core-auth";
 import { TableServiceClient } from "@azure/data-tables";
 import { assertEnvironmentVariable } from "./utils/utils";
 
-const recorderStartOptions: RecorderStartOptions = {
-  envSetupForPlayback: {
-    TABLES_URL: "https://fakeaccount.table.core.windows.net",
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "azuretenantid"
-  },
-  sanitizerOptions: {
-    bodyRegexSanitizers: [
-      {
-        regex: encodeURIComponent(assertEnvironmentVariable("TABLES_URL")),
-        value: encodeURIComponent(`https://fakeaccount.table.core.windows.net`)
-      }
-    ]
-  }
+const getRecorderStartOptions = (): RecorderStartOptions => {
+  return {
+    envSetupForPlayback: {
+      TABLES_URL: "https://fakeaccount.table.core.windows.net",
+      AZURE_CLIENT_ID: "azure_client_id",
+      AZURE_CLIENT_SECRET: "azure_client_secret",
+      AZURE_TENANT_ID: "azuretenantid"
+    },
+    sanitizerOptions: isRecordMode()
+      ? {
+          bodyRegexSanitizers: [
+            {
+              regex: encodeURIComponent(assertEnvironmentVariable("TABLES_URL")),
+              value: encodeURIComponent(`https://fakeaccount.table.core.windows.net`)
+            }
+          ]
+        }
+      : {}
+  };
 };
 
 describe(`NoOp credential with Tables`, () => {
@@ -30,7 +34,7 @@ describe(`NoOp credential with Tables`, () => {
 
   beforeEach(async function() {
     recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderStartOptions);
+    await recorder.start(getRecorderStartOptions());
     credential = createTestCredential();
   });
 
