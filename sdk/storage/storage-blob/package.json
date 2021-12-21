@@ -20,11 +20,11 @@
     "os": false,
     "process": false
   },
-  "types": "./typings/latest/storage-blob.d.ts",
+  "types": "./types/latest/storage-blob.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "./typings/3.1/storage-blob.d.ts"
+        "./types/3.1/storage-blob.d.ts"
       ]
     }
   },
@@ -36,17 +36,17 @@
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:samples": "cross-env ONLY_NODE=true npm run build && npm run build:prep-samples",
+    "build:samples": "echo Obsolete",
     "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
-    "build:types": "downlevel-dts typings/latest typings/3.1",
+    "build:types": "downlevel-dts types/latest types/3.1",
     "build": "npm run clean && tsc -p . && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* typings temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "clean:samples": "rimraf samples/javascript/node_modules samples/typescript/node_modules samples/typescript/dist samples/typescript/package-lock.json samples/javascript/package-lock.json",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/src/",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  \"dist-esm/storage-blob/test/*.spec.js\" \"dist-esm/storage-blob/test/node/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -68,8 +68,8 @@
     "dist-esm/storage-blob/src/",
     "dist-esm/storage-internal-avro/src/",
     "dist-esm/storage-common/src/",
-    "typings/latest/storage-blob.d.ts",
-    "typings/3.1/storage-blob.d.ts",
+    "types/latest/storage-blob.d.ts",
+    "types/3.1/storage-blob.d.ts",
     "README.md",
     "LICENSE"
   ],
