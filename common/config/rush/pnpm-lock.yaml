@@ -7571,7 +7571,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-wfoLIhkzYmOSIr8qwrzjpFaWfh1ticnIgGu+QU1LMnEvm0E9tMmodJDnFsfVV09okjX6sgSjpD8LOREGYn1JDg==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-16s3ce6B0SK1LtQPkEnwkWxiRKiUKi/3jEahmF5rvNRf/ZeHB9v7iJzHI+GgPws68wF4JahsBGmS5h8rOx0+Qg==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -7603,7 +7603,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.2.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       source-map-support: 0.5.21
