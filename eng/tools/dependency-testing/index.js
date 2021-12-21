@@ -164,11 +164,9 @@ async function insertPackageJson(
  */
 async function isPackageAUtility(package, repoRoot) {
   let thisPackage = await getPackageFromRush(repoRoot, package);
-  if (thisPackage) {
-    if (thisPackage.versionPolicyName === "utility") {
-      console.log(thisPackage.packageName + " utility");
-      return true;
-    }
+  if (thisPackage && thisPackage.versionPolicyName === "utility") {
+    console.log(thisPackage.packageName + " utility");
+    return true;
   }
   return false;
 }
