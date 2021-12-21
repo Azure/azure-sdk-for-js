@@ -51,9 +51,9 @@ function outputTestPath(projectFolderPath, sourceDir, testFolder) {
 
 async function updateScripts(testPackageJson, packageJsonContents){
   if(packageJsonContents.scripts["integration-test:node"]){
-    var matchIndex = packageJsonContents.scripts["integration-test:node"].match(/--timeout [0-9]+/);
-    if(matchIndex !== null){
-      testPackageJson.scripts["integration-test:node"] = packageJsonContents.scripts["integration-test:node"];
+    var replaceWithTimeout = packageJsonContents.scripts["integration-test:node"].match(/--timeout [0-9]+/);
+    if(replaceWithTimeout !== null){
+      testPackageJson.scripts["integration-test:node"] = testPackageJson.scripts["integration-test:node"].replace(/--timeout [0-9]+/g, replaceWithTimeout);
     }
   }
 }
