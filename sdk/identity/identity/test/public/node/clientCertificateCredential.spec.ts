@@ -14,19 +14,19 @@ import { readFileSync } from "fs";
 
 const ASSET_PATH = "assets";
 
-describe("ClientCertificateCredential", function() {
+describe("ClientCertificateCredential", function () {
   let cleanup: MsalTestCleanup;
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     cleanup = msalNodeTestSetup(this).cleanup;
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const certificatePath = path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates", async function(this: Context) {
+  it("authenticates", async function (this: Context) {
     if (isLiveMode()) {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
@@ -43,14 +43,14 @@ describe("ClientCertificateCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with a PEM certificate string directly", async function(this: Context) {
+  it("authenticates with a PEM certificate string directly", async function (this: Context) {
     if (isLiveMode()) {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
     }
 
     const credential = new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, {
-      certificate: readFileSync(certificatePath, { encoding: "utf-8" })
+      certificate: readFileSync(certificatePath, { encoding: "utf-8" }),
     });
 
     const token = await credential.getToken(scope);
@@ -58,7 +58,7 @@ describe("ClientCertificateCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with sendCertificateChain", async function(this: Context) {
+  it("authenticates with sendCertificateChain", async function (this: Context) {
     if (isLiveMode()) {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
@@ -82,14 +82,14 @@ describe("ClientCertificateCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("allows cancelling the authentication", async function() {
+  it("allows cancelling the authentication", async function () {
     const credential = new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, {
-      certificatePath
+      certificatePath,
     });
 
     const controller = new AbortController();
     const getTokenPromise = credential.getToken(scope, {
-      abortSignal: controller.signal
+      abortSignal: controller.signal,
     });
 
     await delay(5);
@@ -105,7 +105,7 @@ describe("ClientCertificateCredential", function() {
     assert.ok(error?.message.includes("could not resolve endpoints"));
   });
 
-  it("supports tracing", async function(this: Context) {
+  it("supports tracing", async function (this: Context) {
     if (isLiveMode()) {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
@@ -125,15 +125,15 @@ describe("ClientCertificateCredential", function() {
         );
 
         await credential.getToken(scope, {
-          tracingOptions
+          tracingOptions,
         });
       },
       children: [
         {
           name: "ClientCertificateCredential.getToken",
-          children: []
-        }
-      ]
+          children: [],
+        },
+      ],
     });
   });
 });

@@ -1,17 +1,8 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist-esm"
   },
-  "include": [
-    "./**/*.ts",
-    "../utils/**/*.ts"
-  ],
-  "exclude": [
-    "*.json",
-    "**/node_modules/",
-    "../node_modules",
-    "../typings",
-    "**/browser"
-  ]
+  "include": ["./**/*.ts", "../utils/**/*.ts"],
+  "exclude": ["*.json", "**/node_modules/", "../node_modules", "../typings", "**/browser"]
 }

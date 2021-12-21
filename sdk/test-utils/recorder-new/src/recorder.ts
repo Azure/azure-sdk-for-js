@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { WebResourceLike } from "@azure/core-http";
 import {
   createDefaultHttpClient,
   createPipelineRequest,
@@ -13,10 +12,13 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { isLiveMode, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import {
   ensureExistence,
   getTestMode,
+  isLiveMode,
+  isPlaybackMode,
+  isRecordMode,
+  once,
   RecorderError,
   RecorderStartOptions,
   RecordingStateManager
@@ -28,26 +30,35 @@ import { paths } from "./utils/paths";
 import { Sanitizer } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
 import { Matcher, setMatcher } from "./matcher";
+import {
+  DefaultHttpClient,
+  HttpClient as HttpClientCoreV1,
+  HttpOperationResponse,
+  WebResource,
+  WebResourceLike
+} from "@azure/core-http";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
  * eventually save them in record mode and playing them back in playback mode.
  *
- * This client is meant for the core-v2 SDKs(depending on core-rest-pipeline) and
- * is supposed to be passed as an argument to the recorderHttpPolicy.
+ * For Core V2 SDKs,
+ * - Use the `configureClient` method to add recorder policy on your client.
+ * For core-v1 SDKs,
+ * - Use the `configureClientOptionsCoreV1` method to modify the httpClient on your client options
+ *
+ * Other than configuring your clients, use `start`, `stop`, `addSanitizers` methods to use the recorder.
  */
-export class TestProxyHttpClient {
+export class Recorder {
   private url = "http://localhost:5000";
   public recordingId?: string;
-  public mode: string;
   private stateManager = new RecordingStateManager();
-  public httpClient: HttpClient | undefined = undefined;
-  private sessionFile: string | undefined = undefined;
-  private sanitizer: Sanitizer | undefined;
+  private httpClient?: HttpClient;
+  private sessionFile?: string;
+  private sanitizer?: Sanitizer;
   private variables: Record<string, string>;
 
   constructor(private testContext?: Test | undefined) {
-    this.mode = getTestMode();
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
         this.sessionFile = sessionFilePath(this.testContext);
@@ -57,44 +68,40 @@ export class TestProxyHttpClient {
           "Unable to determine the recording file path, testContext provided is not defined."
         );
       }
-      this.sanitizer = new Sanitizer(this.mode, this.url, this.httpClient);
+      this.sanitizer = new Sanitizer(this.url, this.httpClient);
     }
     this.variables = {};
   }
 
   /**
-   * For core-v1 (core-http)
-   */
-  redirectRequest(request: WebResourceLike): void;
-
-  /**
-   * For core-v2 (core-rest-pipeline)
-   */
-  redirectRequest(request: PipelineRequest): void;
-
-  /**
    * redirectRequest updates the request in record and playback modes to hit the proxy-tool with appropriate headers.
    * Works for both core-v1 and core-v2
+   *
+   * - WebResource -> core-v1
+   * - PipelineRequest -> core-v2 (recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.)
    */
-  redirectRequest(request: WebResourceLike | PipelineRequest): void {
-    if (isPlaybackMode() || isRecordMode()) {
-      if (!request.headers.get("x-recording-id")) {
-        if (this.recordingId === undefined) {
-          throw new RecorderError("Recording ID must be defined to redirect a request");
-        }
+  private redirectRequest(request: WebResource | PipelineRequest): void {
+    if (!isLiveMode() && !request.headers.get("x-recording-id")) {
+      if (this.recordingId === undefined) {
+        throw new RecorderError("Recording ID must be defined to redirect a request");
+      }
 
-        request.headers.set("x-recording-id", this.recordingId);
-        request.headers.set("x-recording-mode", this.mode);
+      request.headers.set("x-recording-id", this.recordingId);
+      request.headers.set("x-recording-mode", getTestMode());
 
-        const upstreamUrl = new URL(request.url);
-        const redirectedUrl = new URL(request.url);
-        const providedUrl = new URL(this.url);
+      const upstreamUrl = new URL(request.url);
+      const redirectedUrl = new URL(request.url);
+      const providedUrl = new URL(this.url);
 
-        redirectedUrl.host = providedUrl.host;
-        redirectedUrl.port = providedUrl.port;
-        redirectedUrl.protocol = providedUrl.protocol;
-        request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
-        request.url = redirectedUrl.toString();
+      redirectedUrl.host = providedUrl.host;
+      redirectedUrl.port = providedUrl.port;
+      redirectedUrl.protocol = providedUrl.protocol;
+      request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
+      request.url = redirectedUrl.toString();
+
+      if (!(request instanceof WebResource)) {
+        // for core-v2
+        request.allowInsecureConnection = true;
       }
     }
   }
@@ -103,26 +110,12 @@ export class TestProxyHttpClient {
    * addSanitizers adds the sanitizers for the current recording which will be applied on it before being saved.
    *
    * Takes SanitizerOptions as the input, passes on to the proxy-tool.
-   * @param {SanitizerOptions} options
    */
   async addSanitizers(options: SanitizerOptions): Promise<void> {
     // If check needed because we only sanitize when the recording is being generated, and we need a recording to apply the sanitizers on.
-    if (isRecordMode() && ensureExistence(this.sanitizer, "this.sanitizer", this.mode)) {
+    if (isRecordMode() && ensureExistence(this.sanitizer, "this.sanitizer")) {
       return this.sanitizer.addSanitizers(options);
     }
-  }
-
-  /**
-   * recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.
-   */
-  async modifyRequest(request: PipelineRequest): Promise<PipelineRequest> {
-    if (isPlaybackMode() || isRecordMode()) {
-      if (this.recordingId) {
-        this.redirectRequest(request);
-        request.allowInsecureConnection = true;
-      }
-    }
-    return request;
   }
 
   /**
@@ -134,46 +127,43 @@ export class TestProxyHttpClient {
    * Includes
    * - envSetupForPlayback - The key-value pairs will be used as the environment variables in playback mode. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values.
    * - sanitizerOptions - Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided.
-   *
-   * @param {RecorderStartOptions} options
    */
   async start(options: RecorderStartOptions): Promise<void> {
-    if (isPlaybackMode() || isRecordMode()) {
-      this.stateManager.state = "started";
-      if (this.recordingId === undefined) {
-        const startUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${
-          paths.start
-        }`;
-        const req = this._createRecordingRequest(startUri);
+    if (isLiveMode()) return;
+    this.stateManager.state = "started";
+    if (this.recordingId === undefined) {
+      const startUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${
+        paths.start
+      }`;
+      const req = this._createRecordingRequest(startUri);
 
-        if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient", this.mode)) {
-          const rsp = await this.httpClient.sendRequest({
-            ...req,
-            allowInsecureConnection: true
-          });
-          if (rsp.status !== 200) {
-            throw new RecorderError("Start request failed.");
-          }
-          const id = rsp.headers.get("x-recording-id");
-          if (!id) {
-            throw new RecorderError("No recording ID returned for a successful start request.");
-          }
-          this.recordingId = id;
-          if (isPlaybackMode()) {
-            this.variables = rsp.bodyAsText ? JSON.parse(rsp.bodyAsText) : {};
-          }
-          if (ensureExistence(this.sanitizer, "TestProxyHttpClient.sanitizer", this.mode)) {
-            // Setting the recordingId in the sanitizer,
-            // the sanitizers added will take the recording id and only be part of the current test
-            this.sanitizer.setRecordingId(this.recordingId);
-            await handleEnvSetup(options.envSetupForPlayback, this.sanitizer);
-          }
-          // Sanitizers to be added only in record mode
-          if (isRecordMode() && options.sanitizerOptions) {
-            // Makes a call to the proxy-tool to add the sanitizers for the current recording id
-            // Recordings of the current test will be influenced by the sanitizers that are being added here
-            await this.addSanitizers(options.sanitizerOptions);
-          }
+      if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
+        const rsp = await this.httpClient.sendRequest({
+          ...req,
+          allowInsecureConnection: true
+        });
+        if (rsp.status !== 200) {
+          throw new RecorderError("Start request failed.");
+        }
+        const id = rsp.headers.get("x-recording-id");
+        if (!id) {
+          throw new RecorderError("No recording ID returned for a successful start request.");
+        }
+        this.recordingId = id;
+        if (isPlaybackMode()) {
+          this.variables = rsp.bodyAsText ? JSON.parse(rsp.bodyAsText) : {};
+        }
+        if (ensureExistence(this.sanitizer, "TestProxyHttpClient.sanitizer")) {
+          // Setting the recordingId in the sanitizer,
+          // the sanitizers added will take the recording id and only be part of the current test
+          this.sanitizer.setRecordingId(this.recordingId);
+          await handleEnvSetup(options.envSetupForPlayback, this.sanitizer);
+        }
+        // Sanitizers to be added only in record mode
+        if (isRecordMode() && options.sanitizerOptions) {
+          // Makes a call to the proxy-tool to add the sanitizers for the current recording id
+          // Recordings of the current test will be influenced by the sanitizers that are being added here
+          await this.addSanitizers(options.sanitizerOptions);
         }
       }
     }
@@ -183,31 +173,28 @@ export class TestProxyHttpClient {
    * Call this method to ping the proxy-tool with a stop request, this helps saving the recording in record mode.
    */
   async stop(): Promise<void> {
-    if (isPlaybackMode() || isRecordMode()) {
-      this.stateManager.state = "stopped";
-      if (this.recordingId !== undefined) {
-        const stopUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${
-          paths.stop
-        }`;
-        const req = this._createRecordingRequest(stopUri);
-        req.headers.set("x-recording-save", "true");
+    if (isLiveMode()) return;
+    this.stateManager.state = "stopped";
+    if (this.recordingId !== undefined) {
+      const stopUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${paths.stop}`;
+      const req = this._createRecordingRequest(stopUri);
+      req.headers.set("x-recording-save", "true");
 
-        if (isRecordMode()) {
-          req.headers.set("Content-Type", "application/json");
-          req.body = JSON.stringify(this.variables);
-        }
-        if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient", this.mode)) {
-          const rsp = await this.httpClient.sendRequest({
-            ...req,
-            allowInsecureConnection: true
-          });
-          if (rsp.status !== 200) {
-            throw new RecorderError("Stop request failed.");
-          }
-        }
-      } else {
-        throw new RecorderError("Bad state, recordingId is not defined when called stop.");
+      if (isRecordMode()) {
+        req.headers.set("Content-Type", "application/json");
+        req.body = JSON.stringify(this.variables);
       }
+      if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
+        const rsp = await this.httpClient.sendRequest({
+          ...req,
+          allowInsecureConnection: true
+        });
+        if (rsp.status !== 200) {
+          throw new RecorderError("Stop request failed.");
+        }
+      }
+    } else {
+      throw new RecorderError("Bad state, recordingId is not defined when called stop.");
     }
   }
 
@@ -215,7 +202,7 @@ export class TestProxyHttpClient {
    * Sets the matcher for the current recording to the matcher specified.
    */
   async setMatcher(matcher: Matcher): Promise<void> {
-    if (this.mode === "playback") {
+    if (isPlaybackMode()) {
       if (!this.httpClient) {
         throw new RecorderError("httpClient should be defined in playback mode");
       }
@@ -227,13 +214,10 @@ export class TestProxyHttpClient {
   /**
    * Adds the recording file and the recording id headers to the requests that are sent to the proxy tool.
    * These are required to appropriately save the recordings in the record mode and picking them up in playback.
-   *
-   * @private
-   * @param {string} url
    */
   private _createRecordingRequest(url: string, method: HttpMethods = "POST") {
     const req = createPipelineRequest({ url, method });
-    if (ensureExistence(this.sessionFile, "sessionFile", this.mode)) {
+    if (ensureExistence(this.sessionFile, "sessionFile")) {
       req.headers.set("x-recording-file", this.sessionFile);
     }
     if (this.recordingId !== undefined) {
@@ -245,11 +229,57 @@ export class TestProxyHttpClient {
   /**
    * For core-v2 - libraries depending on core-rest-pipeline.
    * This method adds the recording policy to the input client's pipeline.
+   *
+   * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
    */
   public configureClient(client: { pipeline: Pipeline }): void {
-    if (!isLiveMode()) {
-      client.pipeline.addPolicy(recorderHttpPolicy(this));
+    if (isLiveMode()) return;
+    client.pipeline.addPolicy(this.recorderHttpPolicy());
+  }
+
+  /**
+   * For core-v1 - libraries depending on core-http.
+   * This method adds the custom httpClient to the client options.
+   *
+   * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
+   */
+  public configureClientOptionsCoreV1<
+    T extends {
+      httpClient?: HttpClientCoreV1;
     }
+  >(options: T): T {
+    if (isLiveMode()) return options;
+    return { ...options, httpClient: once(() => this.createHttpClientCoreV1())() };
+  }
+
+  /**
+   * recorderHttpPolicy that can be added as a pipeline policy for any of the core-v2 SDKs(SDKs depending on core-rest-pipeline)
+   */
+  private recorderHttpPolicy(): PipelinePolicy {
+    return {
+      name: "recording policy",
+      sendRequest: async (
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> => {
+        this.redirectRequest(request);
+        return next(request);
+      }
+    };
+  }
+
+  /**
+   * Creates a client that supports redirecting the requests to the proxy-tool.
+   * Needed for the core-v1 SDKs(SDKs depending on core-http)
+   */
+  private createHttpClientCoreV1(): HttpClientCoreV1 {
+    const client = new DefaultHttpClient();
+    return {
+      sendRequest: async (request: WebResourceLike): Promise<HttpOperationResponse> => {
+        this.redirectRequest(request);
+        return client.sendRequest(request);
+      }
+    };
   }
 
   /**
@@ -308,20 +338,4 @@ export class TestProxyHttpClient {
 
     return this.variables[name];
   }
-}
-
-/**
- * recorderHttpPolicy that can be added as a pipeline policy for any of the core-v2 SDKs(SDKs depending on core-rest-pipeline)
- *
- * @export
- * @param {TestProxyHttpClient} testProxyHttpClient
- */
-export function recorderHttpPolicy(testProxyHttpClient: TestProxyHttpClient): PipelinePolicy {
-  return {
-    name: "recording policy",
-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      await testProxyHttpClient.modifyRequest(request);
-      return next(request);
-    }
-  };
 }

@@ -19,6 +19,10 @@ import Anonymous from "./defaultExportsClass";
 
 import "./hasSideEffects";
 
+// Test builtins
+import * as path_1 from "path";
+import path_2 from "path";
+
 async function main() {
   const waitTime = process.env.WAIT_TIME || "5000";
   const delayMs = parseInt(waitTime);
@@ -36,6 +40,9 @@ async function main() {
 
   const object2 = new base.default(base.default.name);
   object2.say();
+
+  console.log("The path separator is:", path_1.sep);
+  console.log("And by a default import, it is also:", path_2.sep);
 }
 
 main().catch((error) => {

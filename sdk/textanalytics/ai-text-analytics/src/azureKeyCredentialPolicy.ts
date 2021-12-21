@@ -6,7 +6,7 @@ import {
   PipelineResponse,
   PipelineRequest,
   SendRequest,
-  PipelinePolicy
+  PipelinePolicy,
 } from "@azure/core-rest-pipeline";
 
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
@@ -27,6 +27,6 @@ export function textAnalyticsAzureKeyCredentialPolicy(credential: KeyCredential)
     sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       request.headers.set(API_KEY_HEADER_NAME, credential.key);
       return next(request);
-    }
+    },
   };
 }
