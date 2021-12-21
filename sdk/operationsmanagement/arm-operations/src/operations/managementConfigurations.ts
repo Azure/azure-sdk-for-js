@@ -10,7 +10,7 @@ import { ManagementConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { OperationsManagementClientContext } from "../operationsManagementClientContext";
+import { OperationsManagementClient } from "../operationsManagementClient";
 import {
   ManagementConfigurationsListBySubscriptionOptionalParams,
   ManagementConfigurationsListBySubscriptionResponse,
@@ -24,13 +24,13 @@ import {
 
 /** Class containing ManagementConfigurations operations. */
 export class ManagementConfigurationsImpl implements ManagementConfigurations {
-  private readonly client: OperationsManagementClientContext;
+  private readonly client: OperationsManagementClient;
 
   /**
    * Initialize a new instance of the class ManagementConfigurations class.
    * @param client Reference to the service client
    */
-  constructor(client: OperationsManagementClientContext) {
+  constructor(client: OperationsManagementClient) {
     this.client = client;
   }
 
