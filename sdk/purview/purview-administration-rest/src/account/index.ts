@@ -8,5 +8,5 @@ import * as Models from "./models";
 import * as OutputModels from "./outputModels";
 import * as PaginateHelper from "./paginateHelper";
 
-export { PurviewAccountClient } from "./purviewAccount";
+export { PurviewAccount as PurviewAccountClient } from "./purviewAccount";
 export { Parameters, Responses, Client, Models, OutputModels, PaginateHelper };

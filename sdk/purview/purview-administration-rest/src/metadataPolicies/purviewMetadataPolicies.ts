@@ -5,7 +5,7 @@ import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 import { PurviewMetadataPoliciesRestClient } from "./clientDefinitions";
 
-export function PurviewMetadataPoliciesClient(
+export function PurviewMetadataPolicies(
   Endpoint: string,
   credentials: TokenCredential,
   options: ClientOptions = {}
