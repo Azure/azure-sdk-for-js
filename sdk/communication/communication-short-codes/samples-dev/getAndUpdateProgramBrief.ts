@@ -7,7 +7,7 @@
 
 import {
   ShortCodesClient,
-  ShortCodesUpsertUSProgramBriefOptionalParams
+  ShortCodesUpsertUSProgramBriefOptionalParams,
 } from "@azure-tools/communication-short-codes";
 
 // Load the .env file if it exists
@@ -38,9 +38,9 @@ export async function main() {
       id: programBriefId,
       programDetails: {
         privacyPolicyUrl: "https://contoso.com/updated-privacy",
-        termsOfServiceUrl: "https://contoso.com/updated-terms-of-service"
-      }
-    }
+        termsOfServiceUrl: "https://contoso.com/updated-terms-of-service",
+      },
+    },
   };
   var upsertResponse = await client.upsertUSProgramBrief(programBriefId, updateRequest);
   if (upsertResponse._response.status == 200) {

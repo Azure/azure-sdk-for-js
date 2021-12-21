@@ -53,5 +53,5 @@ export {
   MessageContentCategory,
   MessageExampleSequence,
   MessageExample,
-  MessageDirection
+  MessageDirection,
 } from "./generated/src/models/";
