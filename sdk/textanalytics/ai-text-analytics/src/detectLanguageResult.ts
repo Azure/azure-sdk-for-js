@@ -5,7 +5,7 @@ import {
   makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalyticsErrorResult
+  makeTextAnalyticsErrorResult,
 } from "./textAnalyticsResult";
 import { DetectedLanguage, TextAnalyticsError, DocumentLanguage } from "./generated/models";
 
@@ -37,7 +37,7 @@ export function makeDetectLanguageResult(response: DocumentLanguage): DetectLang
   const { id, warnings, statistics, detectedLanguage } = response;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    primaryLanguage: detectedLanguage
+    primaryLanguage: detectedLanguage,
   };
 }
 

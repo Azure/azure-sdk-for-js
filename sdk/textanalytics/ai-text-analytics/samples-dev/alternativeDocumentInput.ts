@@ -15,7 +15,7 @@ import {
   TextAnalyticsClient,
   AzureKeyCredential,
   DetectLanguageInput,
-  TextDocumentInput
+  TextDocumentInput,
 } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
@@ -40,8 +40,8 @@ const detectLanguageInputs: DetectLanguageInput[] = [
   {
     id: "3",
     countryHint: "fr",
-    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre."
-  }
+    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre.",
+  },
 ];
 
 /**
@@ -58,8 +58,8 @@ const textDocumentInputs: TextDocumentInput[] = [
   {
     id: "3",
     language: "fr",
-    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre."
-  }
+    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre.",
+  },
 ];
 
 export async function main() {

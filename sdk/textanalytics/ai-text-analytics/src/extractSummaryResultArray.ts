@@ -4,12 +4,12 @@
 import {
   TextDocumentBatchStatistics,
   TextDocumentInput,
-  ExtractiveSummarizationResult
+  ExtractiveSummarizationResult,
 } from "./generated/models";
 import {
   ExtractSummaryResult,
   makeExtractSummaryResult,
-  makeExtractSummaryErrorResult
+  makeExtractSummaryErrorResult,
 } from "./extractSummaryResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 

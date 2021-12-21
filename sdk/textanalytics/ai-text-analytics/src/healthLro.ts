@@ -9,13 +9,13 @@ import {
   AnalyzeHealthcareEntitiesResultArray,
   makeHealthcareEntitiesErrorResult,
   makeHealthcareEntitiesResult,
-  PagedAnalyzeHealthcareEntitiesResult
+  PagedAnalyzeHealthcareEntitiesResult,
 } from "./analyzeHealthcareEntitiesResult";
 import {
   GeneratedClient,
   GeneratedClientHealthStatusOptionalParams,
   GeneratedClientHealthStatusResponse,
-  TextDocumentInput
+  TextDocumentInput,
 } from "./generated";
 import { createSpan } from "./tracing";
 import {
@@ -23,7 +23,7 @@ import {
   getRawResponse,
   compileError,
   sendGetRequest,
-  StringIndexType
+  StringIndexType,
 } from "./util";
 import * as Mappers from "./generated/models/mappers";
 import {
@@ -32,7 +32,7 @@ import {
   endpoint,
   includeStatistics,
   skip,
-  top
+  top,
 } from "./generated/models/parameters";
 import { processAndCombineSuccessfulAndErroneousDocuments } from "./textAnalyticsResult";
 import { getPagedAsyncIterator, PagedResult } from "@azure/core-paging";
@@ -79,16 +79,16 @@ const healthStatusOperationSpec: OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.HealthcareJobState
+      bodyMapper: Mappers.HealthcareJobState,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [includeStatistics, top, skip],
   urlParameters: [endpoint, apiVersion],
   headerParameters: [accept],
-  serializer
+  serializer,
 };
 
 /**
@@ -116,7 +116,7 @@ export class HealthLro implements LongRunningOperation<PagedAnalyzeHealthcareEnt
       "TextAnalyticsClient-beginAnalyzeHealthcare",
       {
         ...this.baseOptions,
-        ...addStrEncodingParam(this.initOptions)
+        ...addStrEncodingParam(this.initOptions),
       }
     );
     try {
@@ -126,13 +126,13 @@ export class HealthLro implements LongRunningOperation<PagedAnalyzeHealthcareEnt
       );
       return {
         flatResponse: flatResponse as PagedAnalyzeHealthcareEntitiesResult,
-        rawResponse
+        rawResponse,
       };
     } catch (e) {
       const exception = compileError(e);
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: exception.message
+        message: exception.message,
       });
       throw exception;
     } finally {
@@ -214,12 +214,12 @@ export function processHealthResult(
               makeHealthcareEntitiesResult,
               makeHealthcareEntitiesErrorResult
             ),
-            nextPageLink: flatResponse.nextLink
+            nextPageLink: flatResponse.nextLink,
           };
         } else {
           throw new Error("Healthcare action has succeeded but there are no results!");
         }
-      }
+      },
     };
     const pagedIterator = getPagedAsyncIterator<
       AnalyzeHealthcareEntitiesResult,
@@ -227,7 +227,7 @@ export function processHealthResult(
     >(pagedResult);
     return Object.assign(pagedIterator, {
       statistics: (result as any).results.statistics,
-      modelVersion: (result as any).results.modelVersion!
+      modelVersion: (result as any).results.modelVersion!,
     });
   };
 }

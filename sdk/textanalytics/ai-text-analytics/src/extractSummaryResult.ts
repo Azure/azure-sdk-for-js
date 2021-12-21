@@ -5,12 +5,12 @@ import {
   makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalyticsErrorResult
+  makeTextAnalyticsErrorResult,
 } from "./textAnalyticsResult";
 import {
   TextAnalyticsError,
   ExtractedDocumentSummary,
-  ExtractedSummarySentence as GeneratedSummarySentences
+  ExtractedSummarySentence as GeneratedSummarySentences,
 } from "./generated/models";
 
 /**
@@ -58,8 +58,8 @@ export function makeExtractSummaryResult(
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     sentences: sentences.map((sentence: GeneratedSummarySentences) => ({
-      ...sentence
-    }))
+      ...sentence,
+    })),
   };
 }
 

@@ -5,7 +5,7 @@ import {
   makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalyticsErrorResult
+  makeTextAnalyticsErrorResult,
 } from "./textAnalyticsResult";
 import {
   TextAnalyticsError,
@@ -18,7 +18,7 @@ import {
   TargetRelation,
   SentenceAssessment,
   TokenSentimentValue as SentenceTargetSentiment,
-  TargetConfidenceScoreLabel
+  TargetConfidenceScoreLabel,
 } from "./generated/models";
 import { AssessmentIndex, parseAssessmentIndex } from "./util";
 
@@ -152,13 +152,13 @@ export function makeAnalyzeSentimentResult(
     confidenceScores,
     sentenceSentiments: sentences,
     warnings,
-    statistics
+    statistics,
   } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     sentiment,
     confidenceScores,
-    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(sentence, result))
+    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(sentence, result)),
   };
 }
 
@@ -199,14 +199,14 @@ function convertGeneratedSentenceSentiment(
               sentiment: target.sentiment,
               text: target.text,
               offset: target.offset,
-              length: target.length
+              length: target.length,
             },
             assessments: target.relations
               .filter((relation) => relation.relationType === "assessment")
-              .map((relation) => convertTargetRelationToAssessmentSentiment(relation, result))
+              .map((relation) => convertTargetRelationToAssessmentSentiment(relation, result)),
           })
         )
-      : []
+      : [],
   };
 }
 

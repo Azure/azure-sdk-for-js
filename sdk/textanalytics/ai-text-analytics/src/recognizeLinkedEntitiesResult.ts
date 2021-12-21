@@ -5,7 +5,7 @@ import {
   makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalyticsErrorResult
+  makeTextAnalyticsErrorResult,
 } from "./textAnalyticsResult";
 import { TextAnalyticsError, LinkedEntity, DocumentLinkedEntities } from "./generated/models";
 
@@ -41,7 +41,7 @@ export function makeRecognizeLinkedEntitiesResult(
   const { statistics, id, warnings, entities } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    entities
+    entities,
   };
 }
 
