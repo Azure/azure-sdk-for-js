@@ -14,7 +14,7 @@ The first step is to install the unified recorder client library in your package
 $ rush add --dev -p @azure-tools/test-recorder-new
 ```
 
-You will use this library to control the recorder from your tests. The API is somewhat similar to the legacy recorder, albeit with some important differences. These will be discussed below.
+You will use this library to control the recorder from your tests. The API is similar to the legacy recorder. Differences will be discussed below.
 
 ## Changes to NPM scripts
 
