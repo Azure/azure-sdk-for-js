@@ -4,7 +4,7 @@
 import { isNode } from "@azure/core-http";
 import {
   CommunicationUserIdentifier,
-  isCommunicationUserIdentifier
+  isCommunicationUserIdentifier,
 } from "@azure/communication-common";
 import { assert } from "chai";
 import sinon from "sinon";

@@ -9,7 +9,7 @@ import {
   Recorder,
   record,
   RecorderEnvironmentSetup,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import {
   DefaultHttpClient,
@@ -17,7 +17,7 @@ import {
   HttpOperationResponse,
   isNode,
   TokenCredential,
-  WebResourceLike
+  WebResourceLike,
 } from "@azure/core-http";
 import { CommunicationIdentityClient, CommunicationIdentityClientOptions } from "../../../src";
 import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
@@ -45,7 +45,7 @@ const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_M365_AAD_TENANT: "00000000-0000-0000-0000-000000000000",
   COMMUNICATION_M365_SCOPE: "M365Scope",
   COMMUNICATION_EXPIRED_TEAMS_TOKEN: "ExpiredToken",
-  SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST: "false"
+  SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST: "false",
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -70,9 +70,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
       recording.replace(
         /[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi,
         "00000000-0000-0000-0000-000000000000"
-      )
+      ),
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export function createRecordedCommunicationIdentityClient(
@@ -83,9 +83,9 @@ export function createRecordedCommunicationIdentityClient(
   // casting is a workaround to enable min-max testing
   return {
     client: new CommunicationIdentityClient(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING, {
-      httpClient: createTestHttpClient()
+      httpClient: createTestHttpClient(),
     } as CommunicationIdentityClientOptions),
-    recorder
+    recorder,
   };
 }
 
@@ -94,21 +94,22 @@ export function createRecordedCommunicationIdentityClientWithToken(
 ): RecordedClient<CommunicationIdentityClient> {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
-  const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING)
-    .endpoint;
+  const endpoint = parseConnectionString(
+    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING
+  ).endpoint;
   if (isPlaybackMode()) {
     credential = {
       getToken: async (_scopes) => {
         return { token: "testToken", expiresOnTimestamp: 11111 };
-      }
+      },
     };
 
     // casting is a workaround to enable min-max testing
     return {
       client: new CommunicationIdentityClient(endpoint, credential, {
-        httpClient: createTestHttpClient()
+        httpClient: createTestHttpClient(),
       } as CommunicationIdentityClientOptions),
-      recorder
+      recorder,
     };
   }
 
@@ -125,9 +126,9 @@ export function createRecordedCommunicationIdentityClientWithToken(
   // casting is a workaround to enable min-max testing
   return {
     client: new CommunicationIdentityClient(endpoint, credential, {
-      httpClient: createTestHttpClient()
+      httpClient: createTestHttpClient(),
     } as CommunicationIdentityClientOptions),
-    recorder
+    recorder,
   };
 }
 
@@ -135,7 +136,7 @@ function createTestHttpClient(): HttpClient {
   const customHttpClient = new DefaultHttpClient();
 
   const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function(
+  customHttpClient.sendRequest = async function (
     httpRequest: WebResourceLike
   ): Promise<HttpOperationResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);

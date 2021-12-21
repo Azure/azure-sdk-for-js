@@ -15,9 +15,9 @@ export const createMockHttpClient = <T = Record<string, unknown>>(
         status,
         headers: new HttpHeaders(),
         request: httpRequest,
-        parsedBody
+        parsedBody,
       };
-    }
+    },
   };
 };
 
@@ -28,7 +28,7 @@ export const base202HttpClient: HttpClient = createMockHttpClient(202);
 const tokenResponse = {
   id: "identity",
   token: "token",
-  expiresOn: new Date("2011/11/30")
+  expiresOn: new Date("2011/11/30"),
 };
 
 export const getTokenHttpClient: HttpClient = createMockHttpClient<CommunicationAccessToken>(
@@ -37,22 +37,19 @@ export const getTokenHttpClient: HttpClient = createMockHttpClient<Communication
 );
 export const revokeTokensHttpClient: HttpClient = createMockHttpClient(204);
 
-export const createUserHttpClient: HttpClient = createMockHttpClient<
-  CommunicationIdentityAccessTokenResult
->(201, {
-  identity: { id: "identity" }
-});
+export const createUserHttpClient: HttpClient =
+  createMockHttpClient<CommunicationIdentityAccessTokenResult>(201, {
+    identity: { id: "identity" },
+  });
 
-export const createUserAndTokenHttpClient: HttpClient = createMockHttpClient<
-  CommunicationIdentityAccessTokenResult
->(201, {
-  identity: { id: "identity" },
-  accessToken: {
-    token: "token",
-    expiresOn: new Date("2011/11/30")
-  }
-});
+export const createUserAndTokenHttpClient: HttpClient =
+  createMockHttpClient<CommunicationIdentityAccessTokenResult>(201, {
+    identity: { id: "identity" },
+    accessToken: {
+      token: "token",
+      expiresOn: new Date("2011/11/30"),
+    },
+  });
 
-export const getTokenForTeamsUserHttpClient: HttpClient = createMockHttpClient<
-  CommunicationAccessToken
->(200, tokenResponse);
+export const getTokenForTeamsUserHttpClient: HttpClient =
+  createMockHttpClient<CommunicationAccessToken>(200, tokenResponse);
