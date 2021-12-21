@@ -688,7 +688,7 @@ describe("NodeJS utils", () => {
 ]);`
       },
     ].forEach((test) => {
-      it.only(test.name, () => {
+      it(test.name, () => {
         chai.assert.equal(
           setDefaultRetryAfterIntervalInNockFixture(test.input),
           test.output,
