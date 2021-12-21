@@ -19,17 +19,17 @@ export async function handleEnvSetup(
   if (envSetupForPlayback) {
     if (isPlaybackMode()) {
       // Loads the "fake" environment variables in `process.env` or `window.__env__` based on the runtime
-      setEnvironmentVariables(env, envSetupForPlayback);
+      setEnvironmentVariables(envSetupForPlayback);
     } else if (isRecordMode()) {
       // If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
 
       const generalRegexSanitizers: RegexSanitizer[] = [];
-      Object.keys(envSetupForPlayback).forEach((key) => {
+      for (const [key, value] of Object.entries(envSetupForPlayback)) {
         const envKey = env[key];
         if (envKey) {
-          generalRegexSanitizers.push({ regex: envKey, value: envSetupForPlayback[key] });
+          generalRegexSanitizers.push({ regex: envKey, value });
         }
-      });
+      }
       await sanitizer.addSanitizers({
         generalRegexSanitizers
       });

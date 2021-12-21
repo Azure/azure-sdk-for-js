@@ -304,14 +304,9 @@ export function isPlaybackMode() {
  *
  * Suppose `variables` is { ACCOUNT_NAME: "my_account_name", ACCOUNT_KEY: "fake_secret" },
  * `setEnvironmentVariables` loads the ACCOUNT_NAME and ACCOUNT_KEY in the environment accordingly.
- * @export
- * @param {{ [key: string]: string }} variables
  */
-export function setEnvironmentVariables(
-  env: Record<string, string | undefined>,
-  variables: { [key: string]: string }
-) {
-  Object.keys(variables).forEach((key) => {
-    env[key] = variables[key];
-  });
+export function setEnvironmentVariables(variables: { [key: string]: string }) {
+  for (const [key, value] of Object.entries(variables)) {
+    env[key] = value;
+  }
 }
