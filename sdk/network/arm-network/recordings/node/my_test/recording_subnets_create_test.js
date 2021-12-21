@@ -125,7 +125,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '3',
+  '0',
   'x-ms-request-id',
   'e6d3890f-57bb-4edf-877c-a627aa039681',
   'Azure-AsyncOperation',

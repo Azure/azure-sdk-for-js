@@ -127,7 +127,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Location',
   'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NotificationHubs/namespaces/mynamespacexxx?api-version=2017-04-01',
   'Retry-After',
-  '10',
+  '0',
   'x-ms-ratelimit-remaining-subscription-writes',
   '1199',
   'Strict-Transport-Security',

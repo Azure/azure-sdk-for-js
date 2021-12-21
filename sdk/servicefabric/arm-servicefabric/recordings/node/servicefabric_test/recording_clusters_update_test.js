@@ -127,7 +127,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Location',
   'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceFabric/locations/eastus/operationResults/08a5d559-a2ad-406c-84ae-beb13860559a?api-version=2021-06-01',
   'Retry-After',
-  '60',
+  '0',
   'Azure-AsyncOperation',
   'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.ServiceFabric/locations/eastus/operations/08a5d559-a2ad-406c-84ae-beb13860559a?api-version=2021-06-01',
   'Strict-Transport-Security',

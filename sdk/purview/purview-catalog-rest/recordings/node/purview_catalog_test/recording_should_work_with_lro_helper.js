@@ -131,7 +131,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Location',
   'https://endpoint/catalog/api/glossary/terms/import/bbc3185a-05c1-420d-ad7d-e21b6fd154fb',
   'Retry-After',
-  '5',
+  '0',
   'Access-Control-Allow-Headers',
   'authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts',
   'Access-Control-Allow-Methods',

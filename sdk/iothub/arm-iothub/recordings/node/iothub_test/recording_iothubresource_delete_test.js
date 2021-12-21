@@ -127,7 +127,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Location',
   'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Devices/locations/eastus/operationResults/aWQ9b3NfaWhfNmQ0ZjY4NzItMzQwZC00NmZiLWIyZjEtNzkzY2MxOWNlZmM0O3JlZ2lvbj1lYXN0dXM=?api-version=2021-07-01&operationSource=other',
   'Retry-After',
-  '15',
+  '0',
   'Azure-AsyncOperation',
   'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Devices/locations/eastus/operationResults/aWQ9b3NfaWhfNmQ0ZjY4NzItMzQwZC00NmZiLWIyZjEtNzkzY2MxOWNlZmM0O3JlZ2lvbj1lYXN0dXM=?api-version=2021-07-01&operationSource=other&asyncinfo',
   'Server',

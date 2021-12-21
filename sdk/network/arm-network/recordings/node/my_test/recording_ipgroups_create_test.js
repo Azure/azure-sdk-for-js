@@ -125,7 +125,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'x-ms-request-id',
   'b50749d9-f763-4f0e-932c-e0b4727d44a5',
   'x-ms-correlation-request-id',
