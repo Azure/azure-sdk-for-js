@@ -5,7 +5,6 @@
  * @summary Uses AAD credentials to authenticate with the CosmosClient.
  */
 
-const path = require("path");
 require("dotenv").config();
 
 const { UsernamePasswordCredential } = require("@azure/identity");
