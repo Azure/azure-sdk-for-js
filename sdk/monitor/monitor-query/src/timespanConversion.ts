@@ -24,12 +24,12 @@ export function convertTimespanToInterval(timespan: QueryTimeInterval): string {
 export function convertIntervalToTimeIntervalObject(timespan: string): QueryTimeInterval {
   if (timespan.includes("/")) {
     const intervalUnits: string[] = timespan.split("/");
-    if (Date.parse(intervalUnits[0]) && Date.parse(intervalUnits[2])) {
-      return { startTime: new Date(intervalUnits[0]), endTime: new Date(intervalUnits[2]) };
-    } else if (Date.parse(intervalUnits[0]) && !Date.parse(intervalUnits[2])) {
-      return { startTime: new Date(intervalUnits[0]), duration: intervalUnits[2] };
-    } else if (!Date.parse(intervalUnits[0]) && Date.parse(intervalUnits[2])) {
-      return { duration: intervalUnits[0], endTime: new Date(intervalUnits[2]) };
+    if (Date.parse(intervalUnits[0]) && Date.parse(intervalUnits[1])) {
+      return { startTime: new Date(intervalUnits[0]), endTime: new Date(intervalUnits[1]) };
+    } else if (Date.parse(intervalUnits[0]) && !Date.parse(intervalUnits[1])) {
+      return { startTime: new Date(intervalUnits[0]), duration: intervalUnits[1] };
+    } else if (!Date.parse(intervalUnits[0]) && Date.parse(intervalUnits[1])) {
+      return { duration: intervalUnits[0], endTime: new Date(intervalUnits[1]) };
     } else {
       return { duration: timespan };
     }
