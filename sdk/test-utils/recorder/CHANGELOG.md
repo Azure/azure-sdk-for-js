@@ -1,12 +1,9 @@
 # Release History
 
-## 1.0.2 (2021-12-20)
-
-Fixed double replacements in case the source value and the replacement happened to remain the same after encoding.
-
 ## 1.0.1 (2021-09-01)
 
-Fix types in the published package.
+- Fix types in the published package.
+- Adds a default customization on the recordings to manipulate the `retry-after` header to have "0" value so that playback tests run faster.
 
 ## 1.0.0 (2021-08-30)
 
