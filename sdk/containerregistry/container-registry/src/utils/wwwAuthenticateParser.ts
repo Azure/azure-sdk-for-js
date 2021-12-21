@@ -43,7 +43,7 @@ export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenti
   const parsed = keyValues.reduce<ParsedWWWAuthenticate>(
     (result, [key, value]: string[]) => ({
       ...result,
-      [key]: value.slice(1, -1)
+      [key]: value.slice(1, -1),
     }),
     {}
   );

@@ -5,7 +5,7 @@ import { AzureAuthorityHosts, ClientSecretCredential } from "@azure/identity";
 import {
   env,
   RecorderEnvironmentSetup,
-  pluginForClientSecretCredentialTests
+  pluginForClientSecretCredentialTests,
 } from "@azure-tools/test-recorder";
 import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
 
@@ -20,7 +20,7 @@ const replaceableVariables: Record<string, string> = {
   CONTAINERREGISTRY_CLIENT_SECRET: "azure_client_secret",
   SUBSCRIPTION_ID: "subscription_id",
   RESOURCE_GROUP: "resource_group_id",
-  REGISTRY: "myregistry"
+  REGISTRY: "myregistry",
 };
 
 const expiryReplacement = "eyJleHAiOjg2NDAwMDAwMDAwMDB9"; //  base64 encoding of '{"exp":8640000000000}' ;
@@ -50,11 +50,11 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
       recording.replace(
         /refresh_token=([^&]+?)(&|")/,
         `refresh_token=sanitized.${expiryReplacement}.sanitized$2`
-      )
+      ),
   ],
   onLoadCallbackForPlayback: () => {
     pluginForClientSecretCredentialTests(env.CONTAINERREGISTRY_TENANT_ID);
-  }
+  },
 };
 
 function getAuthority(endpoint: string): AzureAuthorityHosts | undefined {
@@ -94,7 +94,7 @@ export function createRegistryClient(
   const tokenCredentialOptions = authorityHost ? { authorityHost } : undefined;
   const clientOptions = {
     audience,
-    serviceVersion: serviceVersion as ContainerRegistryServiceVersions
+    serviceVersion: serviceVersion as ContainerRegistryServiceVersions,
   };
 
   if (options.anonymous) {
