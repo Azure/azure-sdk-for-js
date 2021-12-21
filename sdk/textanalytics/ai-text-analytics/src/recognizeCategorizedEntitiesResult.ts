@@ -5,7 +5,7 @@ import {
   makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalyticsErrorResult
+  makeTextAnalyticsErrorResult,
 } from "./textAnalyticsResult";
 import { Entity, TextAnalyticsError, DocumentEntities } from "./generated/models";
 
@@ -47,7 +47,7 @@ export function makeRecognizeCategorizedEntitiesResult(
   const { entities, statistics, warnings, id } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    entities
+    entities,
   };
 }
 

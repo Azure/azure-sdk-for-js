@@ -22,7 +22,7 @@ describe("AnalyzeActionsResult.parseActionError", () => {
       code: "",
       message: "",
       type: "RecognizeCategorizedEntities",
-      index: 2
+      index: 2,
     });
   });
 

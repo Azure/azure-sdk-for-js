@@ -4,40 +4,40 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AnalyzeSentimentResultArray,
-  makeAnalyzeSentimentResultArray
+  makeAnalyzeSentimentResultArray,
 } from "./analyzeSentimentResultArray";
 import {
   MultiCategoryClassifyResultArray,
-  makeMultiCategoryClassifyResultArray
+  makeMultiCategoryClassifyResultArray,
 } from "./multiCategoryClassifyResultArray";
 import {
   SingleCategoryClassifyResultArray,
-  makeSingleCategoryClassifyResultArray
+  makeSingleCategoryClassifyResultArray,
 } from "./singleCategoryClassifyResultArray";
 import {
   ExtractKeyPhrasesResultArray,
-  makeExtractKeyPhrasesResultArray
+  makeExtractKeyPhrasesResultArray,
 } from "./extractKeyPhrasesResultArray";
 import {
   ExtractSummaryResultArray,
-  makeExtractSummaryResultArray
+  makeExtractSummaryResultArray,
 } from "./extractSummaryResultArray";
 import { AnalyzeJobState as GeneratedResponse, TextDocumentInput } from "./generated/models";
 import {
   makeRecognizeCategorizedEntitiesResultArray,
-  RecognizeCategorizedEntitiesResultArray
+  RecognizeCategorizedEntitiesResultArray,
 } from "./recognizeCategorizedEntitiesResultArray";
 import {
   makeRecognizeCustomEntitiesResultArray,
-  RecognizeCustomEntitiesResultArray
+  RecognizeCustomEntitiesResultArray,
 } from "./recognizeCustomEntitiesResultArray";
 import {
   makeRecognizeLinkedEntitiesResultArray,
-  RecognizeLinkedEntitiesResultArray
+  RecognizeLinkedEntitiesResultArray,
 } from "./recognizeLinkedEntitiesResultArray";
 import {
   makeRecognizePiiEntitiesResultArray,
-  RecognizePiiEntitiesResultArray
+  RecognizePiiEntitiesResultArray,
 } from "./recognizePiiEntitiesResultArray";
 import { ErrorCode, intoTextAnalyticsError, TextAnalyticsError } from "./textAnalyticsResult";
 
@@ -441,7 +441,7 @@ export function parseActionError(erredActions: TextAnalyticsError): TextAnalytic
         code: erredActions.code,
         message: erredActions.message,
         index: parseInt(result[2]),
-        type: convertTaskTypeToActionType(result[1])
+        type: convertTaskTypeToActionType(result[1]),
       };
     } else {
       throw new Error(`Pointer "${erredActions.target}" is not a valid action pointer`);
@@ -529,7 +529,7 @@ function createErredAction(
   return {
     error: intoTextAnalyticsError(error),
     failedOn: lastUpdateDateTime,
-    actionName: taskName
+    actionName: taskName,
   };
 }
 
@@ -573,13 +573,13 @@ function makeActionResult<TTaskResult, TActionResult>(
         {
           results: recognizeEntitiesResults,
           completedOn: lastUpdateDateTime,
-          actionName: taskName
-        }
+          actionName: taskName,
+        },
       ];
     } else {
       return [
         ...actions,
-        createErredAction(erredActions[errorIndex++], lastUpdateDateTime, taskName)
+        createErredAction(erredActions[errorIndex++], lastUpdateDateTime, taskName),
       ];
     }
   }
@@ -672,6 +672,6 @@ export function createAnalyzeActionsResult(
       makeMultiCategoryClassifyResultArray,
       response.tasks.customMultiClassificationTasks ?? [],
       multiCategoryClassifyActionErrors
-    )
+    ),
   };
 }

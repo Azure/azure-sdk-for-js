@@ -4,12 +4,12 @@
 import {
   TextDocumentBatchStatistics,
   TextDocumentInput,
-  CustomSingleClassificationResult
+  CustomSingleClassificationResult,
 } from "./generated/models";
 import {
   SingleCategoryClassifyResult,
   makeSingleCategoryClassifyResult,
-  makeSingleCategoryClassifyErrorResult
+  makeSingleCategoryClassifyErrorResult,
 } from "./singleCategoryClassifyResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 

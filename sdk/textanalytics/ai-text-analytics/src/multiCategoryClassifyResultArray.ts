@@ -4,12 +4,12 @@
 import {
   TextDocumentBatchStatistics,
   TextDocumentInput,
-  CustomMultiClassificationResult
+  CustomMultiClassificationResult,
 } from "./generated/models";
 import {
   MultiCategoryClassifyResult,
   makeMultiCategoryClassifyResult,
-  makeMultiCategoryClassifyErrorResult
+  makeMultiCategoryClassifyErrorResult,
 } from "./multiCategoryClassifyResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomProjectInfo } from "./textAnalyticsResult";
 

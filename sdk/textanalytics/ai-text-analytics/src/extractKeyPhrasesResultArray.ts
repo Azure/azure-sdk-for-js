@@ -4,12 +4,12 @@
 import {
   TextDocumentBatchStatistics,
   TextDocumentInput,
-  KeyPhraseResult
+  KeyPhraseResult,
 } from "./generated/models";
 import {
   ExtractKeyPhrasesResult,
   makeExtractKeyPhrasesResult,
-  makeExtractKeyPhrasesErrorResult
+  makeExtractKeyPhrasesErrorResult,
 } from "./extractKeyPhrasesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 

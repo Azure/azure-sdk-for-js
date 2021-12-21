@@ -11,7 +11,7 @@ import {
   SeverityCondition,
   AlertSnoozeCondition as MetricAnomalyAlertSnoozeCondition,
   IngestionStatusType,
-  EntityStatus as DataFeedDetailStatus
+  EntityStatus as DataFeedDetailStatus,
 } from "./generated/models";
 
 export {
@@ -23,7 +23,7 @@ export {
   SuppressCondition,
   EmailHookParameter,
   WebhookHookParameter,
-  DataFeedDetailStatus
+  DataFeedDetailStatus,
 };
 
 // not used directly here but needed by public API surface.
@@ -36,7 +36,7 @@ export {
   SnoozeScope,
   AnomalyDetectorDirection,
   FeedbackType,
-  FeedbackQueryTimeMode
+  FeedbackQueryTimeMode,
 } from "./generated/models";
 
 /**

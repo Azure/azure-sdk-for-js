@@ -5,7 +5,7 @@ import { TextDocumentBatchStatistics, LanguageResult, TextDocumentInput } from "
 import {
   DetectLanguageResult,
   makeDetectLanguageResult,
-  makeDetectLanguageErrorResult
+  makeDetectLanguageErrorResult,
 } from "./detectLanguageResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 

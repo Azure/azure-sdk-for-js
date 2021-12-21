@@ -12,13 +12,13 @@ import {
   HealthcareAssertion,
   RelationType,
   HealthcareRelationEntity,
-  HealthcareEntityCategory
+  HealthcareEntityCategory,
 } from "./generated/models";
 import {
   makeTextAnalyticsErrorResult,
   makeTextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  TextAnalyticsSuccessResult
+  TextAnalyticsSuccessResult,
 } from "./textAnalyticsResult";
 import { parseHealthcareEntityIndex } from "./util";
 
@@ -192,17 +192,8 @@ export interface PagedAnalyzeHealthcareEntitiesResult
 function makeHealthcareEntitiesWithoutNeighbors(
   entity: GeneratedHealthcareEntity
 ): HealthcareEntity {
-  const {
-    category,
-    confidenceScore,
-    assertion,
-    offset,
-    text,
-    links,
-    subcategory,
-    length,
-    name
-  } = entity;
+  const { category, confidenceScore, assertion, offset, text, links, subcategory, length, name } =
+    entity;
   return {
     category,
     confidenceScore,
@@ -214,7 +205,7 @@ function makeHealthcareEntitiesWithoutNeighbors(
     subCategory: subcategory,
     dataSources:
       links?.map(({ dataSource, id }): EntityDataSource => ({ name: dataSource, entityId: id })) ??
-      []
+      [],
   };
 }
 
@@ -231,9 +222,9 @@ function makeHealthcareRelations(
       roles: relation.entities.map(
         (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
           entity: entities[parseHealthcareEntityIndex(role.ref)],
-          name: role.role
+          name: role.role,
         })
-      )
+      ),
     })
   );
 }
@@ -251,7 +242,7 @@ export function makeHealthcareEntitiesResult(
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     entities: newEntities,
-    entityRelations: makeHealthcareRelations(newEntities, relations)
+    entityRelations: makeHealthcareRelations(newEntities, relations),
   };
 }
 

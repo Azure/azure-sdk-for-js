@@ -5,12 +5,12 @@ import {
   makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalyticsErrorResult
+  makeTextAnalyticsErrorResult,
 } from "./textAnalyticsResult";
 import {
   TextAnalyticsError,
   ClassificationResult,
-  SingleClassificationDocument
+  SingleClassificationDocument,
 } from "./generated/models";
 
 /**
@@ -50,7 +50,7 @@ export function makeSingleCategoryClassifyResult(
   const { id, warnings, statistics, classification } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    classification
+    classification,
   };
 }
 

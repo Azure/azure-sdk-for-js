@@ -7705,7 +7705,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-rlLiR6MAGDb/exWAZaT0KWwFbXLvifMsN6gG4upoGKD/4MdXMjXAA6bmRtNV5UAMnyD2mm4Aq3k0aEsegGE4xw==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-DjMBkNtgOru8QhzYFXwGpURCa6pwmwnzy9YFQwGch4HOSzkN9Svw8shUPDeAXyv9H/ubT6y9vlkFZpK0V4owIw==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -7751,7 +7751,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-vuQKdCLKImK10mcbCqrZ7i7MUdyqwD7LwNnOyapMm615dneROrkkEfS/PPoSQ2D8jgwA5+v/LENyqNDduJK/AA==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-s+dMun5WpGbbWhDl0LQ+IrlxsmxCrjL4bPHQ12W24hW1A/QjfX1BcCeEwursFC/LMPUt+vLYQhrmLT33O1o3xw==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -7782,7 +7782,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -7800,7 +7800,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-6SMwCKzYKfEYHcok628sCrsTbv0gsowFrg9IeJk09boqwlWQ5GLUGLT3cKchitt3LRwvkNfsUwBw+rX5lgIWNA==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-jtmB3h5FHJ0UPES2laHyCEe+agMLA/5VXSu3DsxVS4/a0pHzu5fN5SOT29kR/x2h3vKhjZnFSPybABvav1Ygww==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -7833,7 +7833,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -11522,7 +11522,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-inJ8CPESfHsR/5J7mMhGQQ4eXAMTOa9+26a1IDizmKz6UhpeM/kfYebvMYJjtvKWDv8rwfYGBEpHCwXXr8yzdw==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-0VjfzGd47tkR/d9bIMi7fhm4V421vHWjp9AHAzIfMRT7rey5JsFzdpeJObqUc6jnA4n+xXq8HRgqVnibfzQXfw==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -11530,7 +11530,7 @@ packages:
       '@types/node': 12.20.37
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
@@ -11542,7 +11542,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-hstm/UKpv2C91KB1jQwEo/DFl4w/GY8TmR1+EM0E/ud8T0evC/uEU1lfPUslBRQQzsl7U7d3dckbQs5nNSvCQg==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-hhWbpCGbz/d/YLuNRWvRBpuhaKRbsZs524o0uHIwBvBJcQKSy297rJvz/UIRrqbMFdhveTkOjgzyLSmtjgocDw==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
     name: '@rush-temp/perf-ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -11550,7 +11550,7 @@ packages:
       '@types/node': 12.20.37
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
@@ -11562,7 +11562,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-text-analytics.tgz:
-    resolution: {integrity: sha512-0nm8JbGiHkWdkLiANmvFL4VX7Oz8EB1ELR0wI8F3mtz1/y/CaZQLwBTGfwIasxNrXMddaO3gr6cHyCPs7Vhm1g==, tarball: file:projects/perf-ai-text-analytics.tgz}
+    resolution: {integrity: sha512-jM7w0b6uITkJMBgLIQ8NftjoVXLXJ7Ts4s3BNbu65lqWYtxc1Rz+GERM3z0r3/BSlfg2Pu4kihSoVwnF+7rGDQ==, tarball: file:projects/perf-ai-text-analytics.tgz}
     name: '@rush-temp/perf-ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -11570,7 +11570,7 @@ packages:
       '@types/node': 12.20.37
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
