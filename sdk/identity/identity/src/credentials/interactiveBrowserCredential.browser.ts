@@ -11,7 +11,7 @@ import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
 import { MsalBrowserFlowOptions } from "../msal/browserFlows/msalBrowserCommon";
 import {
   InteractiveBrowserCredentialInBrowserOptions,
-  InteractiveBrowserCredentialNodeOptions
+  InteractiveBrowserCredentialNodeOptions,
 } from "./interactiveBrowserCredentialOptions";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
@@ -68,7 +68,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       logger,
       loginStyle: loginStyle,
       redirectUri:
-        typeof options.redirectUri === "function" ? options.redirectUri() : options.redirectUri
+        typeof options.redirectUri === "function" ? options.redirectUri() : options.redirectUri,
     };
 
     this.msalFlow = new MSALAuthCode(msalOptions);
@@ -92,7 +92,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow.getToken(arrayScopes, {
         ...newOptions,
-        disableAutomaticAuthentication: this.disableAutomaticAuthentication
+        disableAutomaticAuthentication: this.disableAutomaticAuthentication,
       });
     });
   }

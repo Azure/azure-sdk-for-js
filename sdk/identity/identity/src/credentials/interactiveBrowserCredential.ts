@@ -12,7 +12,7 @@ import { MsalOpenBrowser } from "../msal/nodeFlows/msalOpenBrowser";
 import { MsalFlow } from "../msal/flows";
 import {
   InteractiveBrowserCredentialInBrowserOptions,
-  InteractiveBrowserCredentialNodeOptions
+  InteractiveBrowserCredentialNodeOptions,
 } from "./interactiveBrowserCredentialOptions";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
@@ -51,7 +51,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       ...options,
       tokenCredentialOptions: options,
       logger,
-      redirectUri
+      redirectUri,
     });
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
@@ -73,7 +73,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow.getToken(arrayScopes, {
         ...newOptions,
-        disableAutomaticAuthentication: this.disableAutomaticAuthentication
+        disableAutomaticAuthentication: this.disableAutomaticAuthentication,
       });
     });
   }

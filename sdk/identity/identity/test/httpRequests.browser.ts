@@ -10,7 +10,7 @@ import {
   IdentityTestContext,
   SendCredentialRequests,
   RawTestResponse,
-  TestResponse
+  TestResponse,
 } from "./httpRequestsCommon";
 
 /**
@@ -42,7 +42,7 @@ export function prepareMSALResponses(): RawTestResponse[] {
  */
 export async function prepareIdentityTests({
   replaceLogger,
-  logLevel
+  logLevel,
 }: {
   replaceLogger?: boolean;
   logLevel?: AzureLogLevel;
@@ -111,7 +111,7 @@ export async function prepareIdentityTests({
     getTokenOptions,
     credential,
     insecureResponses = [],
-    secureResponses = []
+    secureResponses = [],
   }) => {
     responses.push(...[...insecureResponses, ...secureResponses]);
     server.respondWith((xhr) => {
@@ -152,9 +152,9 @@ export async function prepareIdentityTests({
           url: request.url,
           body: request.requestBody,
           method: request.method,
-          headers: request.requestHeaders
+          headers: request.requestHeaders,
         };
-      })
+      }),
     };
   };
 
@@ -171,6 +171,6 @@ export async function prepareIdentityTests({
     },
     sendIndividualRequest,
     sendIndividualRequestAndGetError,
-    sendCredentialRequests
+    sendCredentialRequests,
   };
 }

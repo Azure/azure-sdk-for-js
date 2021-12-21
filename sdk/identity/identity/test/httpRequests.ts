@@ -14,7 +14,7 @@ import {
   IdentityTestContext,
   RawTestResponse,
   SendCredentialRequests,
-  TestResponse
+  TestResponse,
 } from "./httpRequestsCommon";
 import { AccessToken } from "../src";
 import { openIdConfigurationResponse } from "./msalTestUtils";
@@ -49,7 +49,7 @@ export class FakeRequest extends PassThrough {
 export function createRequest(): ClientRequest {
   const request = new FakeRequest();
   request.finished = false;
-  return (request as unknown) as ClientRequest;
+  return request as unknown as ClientRequest;
 }
 
 /**
@@ -66,7 +66,7 @@ function responseToIncomingMessage(response: TestResponse): IncomingMessage {
   }
   passThroughResponse.write(response.body);
   passThroughResponse.end();
-  return (passThroughResponse as unknown) as IncomingMessage;
+  return passThroughResponse as unknown as IncomingMessage;
 }
 
 /**
@@ -98,7 +98,7 @@ export function prepareMSALResponses(): RawTestResponse[] {
  */
 export async function prepareIdentityTests({
   replaceLogger,
-  logLevel
+  logLevel,
 }: {
   replaceLogger?: boolean;
   logLevel?: AzureLogLevel;
@@ -158,7 +158,7 @@ export async function prepareIdentityTests({
     getTokenOptions,
     credential,
     insecureResponses = [],
-    secureResponses = []
+    secureResponses = [],
   }) => {
     /**
      * Helps replace the <provider>.request() method with one we can control.
@@ -250,8 +250,8 @@ export async function prepareIdentityTests({
             url: `${protocol}://${requestOptions.hostname}${requestOptions.path}`,
             body: (spy.args[0] && spy.args[0][0]) || "",
             method: requestOptions.method,
-            headers: requestOptions.headers
-          }
+            headers: requestOptions.headers,
+          },
         ];
       }, []);
 
@@ -260,8 +260,8 @@ export async function prepareIdentityTests({
       error,
       requests: [
         ...extractRequests(insecureOptions, insecureSpies, "http"),
-        ...extractRequests(secureOptions, secureSpies, "https")
-      ]
+        ...extractRequests(secureOptions, secureSpies, "https"),
+      ],
     };
   };
 
@@ -278,6 +278,6 @@ export async function prepareIdentityTests({
     },
     sendIndividualRequest,
     sendIndividualRequestAndGetError,
-    sendCredentialRequests
+    sendCredentialRequests,
   };
 }

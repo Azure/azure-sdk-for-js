@@ -12,12 +12,12 @@ import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import { Context } from "mocha";
 
-describe("DeviceCodeCredential (internal)", function() {
+describe("DeviceCodeCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -29,20 +29,20 @@ describe("DeviceCodeCredential (internal)", function() {
       "acquireTokenByDeviceCode"
     );
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const scope = "https://vault.azure.net/.default";
 
-  it("Authenticates silently after the initial request", async function(this: Context) {
+  it("Authenticates silently after the initial request", async function (this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
     }
     const credential = new DeviceCodeCredential({
       tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID
+      clientId: env.AZURE_CLIENT_ID,
     });
 
     await credential.getToken(scope);

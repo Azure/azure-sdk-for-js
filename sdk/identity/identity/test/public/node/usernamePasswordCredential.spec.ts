@@ -10,18 +10,18 @@ import { UsernamePasswordCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { Context } from "mocha";
 
-describe("UsernamePasswordCredential", function() {
+describe("UsernamePasswordCredential", function () {
   let cleanup: MsalTestCleanup;
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     cleanup = msalNodeTestSetup(this).cleanup;
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates", async function(this: Context) {
+  it("authenticates", async function (this: Context) {
     if (isLiveMode()) {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
@@ -38,7 +38,7 @@ describe("UsernamePasswordCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("allows cancelling the authentication", async function() {
+  it("allows cancelling the authentication", async function () {
     const credential = new UsernamePasswordCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -48,7 +48,7 @@ describe("UsernamePasswordCredential", function() {
 
     const controller = new AbortController();
     const getTokenPromise = credential.getToken(scope, {
-      abortSignal: controller.signal
+      abortSignal: controller.signal,
     });
 
     await delay(5);
@@ -64,7 +64,7 @@ describe("UsernamePasswordCredential", function() {
     assert.ok(error?.message.includes("could not resolve endpoints"));
   });
 
-  it("supports tracing", async function(this: Context) {
+  it("supports tracing", async function (this: Context) {
     if (isLiveMode()) {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
@@ -79,15 +79,15 @@ describe("UsernamePasswordCredential", function() {
         );
 
         await credential.getToken(scope, {
-          tracingOptions
+          tracingOptions,
         });
       },
       children: [
         {
           name: "UsernamePasswordCredential.getToken",
-          children: []
-        }
-      ]
+          children: [],
+        },
+      ],
     });
   });
 });

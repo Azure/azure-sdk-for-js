@@ -12,7 +12,7 @@ import { vsCodeCredentialControl } from "../credentials/visualStudioCodeCredenti
  */
 const pluginContext: AzurePluginContext = {
   cachePluginControl: msalNodeFlowCacheControl,
-  vsCodeCredentialControl: vsCodeCredentialControl
+  vsCodeCredentialControl: vsCodeCredentialControl,
 };
 
 /**

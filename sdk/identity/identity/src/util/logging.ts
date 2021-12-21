@@ -100,7 +100,7 @@ export function credentialLoggerInstance(
   return {
     title,
     fullTitle,
-    info
+    info,
   };
 }
 
@@ -128,6 +128,6 @@ export function credentialLogger(title: string, log: AzureLogger = logger): Cred
   return {
     ...credLogger,
     parent: log,
-    getToken: credentialLoggerInstance("=> getToken()", credLogger, log)
+    getToken: credentialLoggerInstance("=> getToken()", credLogger, log),
   };
 }

@@ -10,18 +10,18 @@ import { DeviceCodeCredential, DeviceCodePromptCallback } from "../../../src";
 import { msalNodeTestSetup, MsalTestCleanup, testTracing } from "../../msalTestUtils";
 import { Context } from "mocha";
 
-describe("DeviceCodeCredential", function() {
+describe("DeviceCodeCredential", function () {
   let cleanup: MsalTestCleanup;
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     cleanup = msalNodeTestSetup(this).cleanup;
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates with default values", async function(this: Context) {
+  it("authenticates with default values", async function (this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
@@ -33,14 +33,14 @@ describe("DeviceCodeCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with provided values", async function(this: Context) {
+  it("authenticates with provided values", async function (this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
     }
     const credential = new DeviceCodeCredential({
       tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID
+      clientId: env.AZURE_CLIENT_ID,
     });
 
     const token = await credential.getToken(scope);
@@ -48,14 +48,14 @@ describe("DeviceCodeCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with specific permissions", async function(this: Context) {
+  it("authenticates with specific permissions", async function (this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
     }
     const credential = new DeviceCodeCredential({
       tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID
+      clientId: env.AZURE_CLIENT_ID,
     });
 
     // Important: Specifying permissions on the scope parameter of getToken won't work on client credential flows.
@@ -64,7 +64,7 @@ describe("DeviceCodeCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates and allows the customization of the prompt callback", async function(this: Context) {
+  it("authenticates and allows the customization of the prompt callback", async function (this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
@@ -75,7 +75,7 @@ describe("DeviceCodeCredential", function() {
     const credential = new DeviceCodeCredential({
       tenantId: env.AZURE_TENANT_ID,
       clientId: env.AZURE_CLIENT_ID,
-      userPromptCallback: callback
+      userPromptCallback: callback,
     });
 
     const token = await credential.getToken(scope);
@@ -83,7 +83,7 @@ describe("DeviceCodeCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("allows cancelling the authentication", async function(this: Context) {
+  it("allows cancelling the authentication", async function (this: Context) {
     // Because of the user interaction, this test works inconsistently in our live test pipelines.
     if (isLiveMode()) {
       this.skip();
@@ -96,12 +96,12 @@ describe("DeviceCodeCredential", function() {
 
     const credential = new DeviceCodeCredential({
       tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID
+      clientId: env.AZURE_CLIENT_ID,
     });
 
     const controller = new AbortController();
     const getTokenPromise = credential.getToken(scope, {
-      abortSignal: controller.signal
+      abortSignal: controller.signal,
     });
 
     await delay(500);
@@ -118,13 +118,13 @@ describe("DeviceCodeCredential", function() {
     assert.ok(error?.message.match("The authentication has been aborted by the caller."));
   });
 
-  it("allows setting disableAutomaticAuthentication", async function(this: Context) {
+  it("allows setting disableAutomaticAuthentication", async function (this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
     }
     const credential = new DeviceCodeCredential({
-      disableAutomaticAuthentication: true
+      disableAutomaticAuthentication: true,
     });
 
     let error: AbortError | undefined;
@@ -142,7 +142,7 @@ describe("DeviceCodeCredential", function() {
     assert.ok(account);
   });
 
-  it("supports tracing", async function(this: Context) {
+  it("supports tracing", async function (this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
@@ -151,19 +151,19 @@ describe("DeviceCodeCredential", function() {
       test: async (tracingOptions) => {
         const credential = new DeviceCodeCredential({
           tenantId: env.AZURE_TENANT_ID,
-          clientId: env.AZURE_CLIENT_ID
+          clientId: env.AZURE_CLIENT_ID,
         });
 
         await credential.getToken(scope, {
-          tracingOptions
+          tracingOptions,
         });
       },
       children: [
         {
           name: "DeviceCodeCredential.getToken",
-          children: []
-        }
-      ]
+          children: [],
+        },
+      ],
     })();
   });
 });

@@ -15,7 +15,7 @@ export const vsCodeCredentialControl = {
     throw new Error(
       "Attempted to register a VisualStudioCodeCredential provider plugin in the browser. This environment is not supported by VisualStudioCodeCredential."
     );
-  }
+  },
 };
 
 /**

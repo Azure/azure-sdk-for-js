@@ -56,7 +56,7 @@ export const cliCredentialInternals = {
             "json",
             "--resource",
             resource,
-            ...tenantSection
+            ...tenantSection,
           ],
           { cwd: cliCredentialInternals.getSafeWorkingDir(), shell: true },
           (error, stdout, stderr) => {
@@ -67,7 +67,7 @@ export const cliCredentialInternals = {
         reject(err);
       }
     });
-  }
+  },
 };
 
 const logger = credentialLogger("AzureCliCredential");
@@ -147,7 +147,7 @@ export class AzureCliCredential implements TokenCredential {
         logger.getToken.info(formatSuccess(scopes));
         const returnValue = {
           token: response.accessToken,
-          expiresOnTimestamp: new Date(response.expiresOn).getTime()
+          expiresOnTimestamp: new Date(response.expiresOn).getTime(),
         };
         return returnValue;
       }
@@ -157,7 +157,7 @@ export class AzureCliCredential implements TokenCredential {
       );
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       logger.getToken.info(formatError(scopes, error));
       throw error;

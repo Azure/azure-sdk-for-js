@@ -91,9 +91,9 @@ export class ClientCertificateCredential implements TokenCredential {
     const configuration: ClientCertificateCredentialPEMConfiguration = {
       ...(typeof certificatePathOrConfiguration === "string"
         ? {
-            certificatePath: certificatePathOrConfiguration
+            certificatePath: certificatePathOrConfiguration,
           }
-        : certificatePathOrConfiguration)
+        : certificatePathOrConfiguration),
     };
     if (!configuration || !(configuration.certificate || configuration.certificatePath)) {
       throw new Error(
@@ -112,7 +112,7 @@ export class ClientCertificateCredential implements TokenCredential {
       clientId,
       tenantId,
       sendCertificateChain: options.sendCertificateChain,
-      tokenCredentialOptions: options
+      tokenCredentialOptions: options,
     });
   }
 
