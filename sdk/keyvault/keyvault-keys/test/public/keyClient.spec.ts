@@ -27,6 +27,8 @@ import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
+import { DefaultHttpClient, WebResource } from "@azure/core-http";
+import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 
 describe("Keys client - create, read, update and delete operations", () => {
   const keyPrefix = `CRUD${env.KEY_NAME || "KeyName"}`;
@@ -539,5 +541,72 @@ describe("Keys client - create, read, update and delete operations", () => {
         );
       });
     }
+  });
+
+  onVersions({ minVer: "7.3-preview" }).describe("releaseKey", () => {
+    let attestation: string;
+    let encodedReleasePolicy: Uint8Array;
+
+    beforeEach(async () => {
+      const attestationUri = env.AZURE_KEYVAULT_ATTESTATION_URI;
+      const releasePolicy = {
+        anyOf: [
+          {
+            allOf: [
+              {
+                claim: "sdk-test",
+                equals: "true"
+              }
+            ],
+            authority: attestationUri
+          }
+        ],
+        version: "1.0.0"
+      };
+      encodedReleasePolicy = stringToUint8Array(JSON.stringify(releasePolicy));
+      const attestationTokenClient = new DefaultHttpClient();
+      const response = await attestationTokenClient.sendRequest(
+        new WebResource(`${attestationUri}/generate-test-token`)
+      );
+      attestation = JSON.parse(response.bodyAsText!).token;
+    });
+
+    it("can create an exportable key and release it", async () => {
+      const keyName = recorder.getUniqueName("exportkey");
+      const createdKey = await client.createRsaKey(keyName, {
+        exportable: true,
+        hsm: true,
+        releasePolicy: { encodedPolicy: encodedReleasePolicy },
+        keyOps: ["encrypt", "decrypt"]
+      });
+
+      assert.exists(createdKey.properties.releasePolicy?.encodedPolicy);
+      assert.isNotEmpty(
+        JSON.parse(uint8ArrayToString(createdKey.properties.releasePolicy!.encodedPolicy!))
+      );
+      assert.isTrue(createdKey.properties.exportable);
+      const releaseResult = await client.releaseKey(keyName, attestation);
+
+      assert.exists(releaseResult.value);
+    });
+
+    it("errors when key is exportable without a release policy", async () => {
+      const keyName = recorder.getUniqueName("exportablenopolicy");
+      await assert.isRejected(
+        client.createRsaKey(keyName, { exportable: true, hsm: true }),
+        /exportable/i
+      );
+    });
+
+    it("errors when a key has a release policy but is not exportable", async () => {
+      const keyName = recorder.getUniqueName("policynonexportable");
+      await assert.isRejected(
+        client.createRsaKey(keyName, {
+          hsm: true,
+          releasePolicy: { encodedPolicy: encodedReleasePolicy }
+        }),
+        /exportable/i
+      );
+    });
   });
 });
