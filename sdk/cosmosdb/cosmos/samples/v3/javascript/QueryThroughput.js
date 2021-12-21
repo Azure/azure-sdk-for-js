@@ -5,7 +5,6 @@
  * @summary Demonstrates query throughput scenarios.
  */
 
-const path = require("path");
 require("dotenv").config();
 
 const { CosmosClient } = require("@azure/cosmos");

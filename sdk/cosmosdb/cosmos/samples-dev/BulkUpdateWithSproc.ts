@@ -5,9 +5,8 @@
  * @summary Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

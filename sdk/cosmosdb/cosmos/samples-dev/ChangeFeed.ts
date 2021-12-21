@@ -5,9 +5,8 @@
  * @summary Demonstrates using a ChangeFeed.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { finish, handleError, logSampleHeader } from "./Shared/handleError";
 import { CosmosClient } from "@azure/cosmos";

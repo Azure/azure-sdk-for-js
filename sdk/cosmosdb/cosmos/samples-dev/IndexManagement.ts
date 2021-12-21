@@ -5,9 +5,8 @@
  * @summary Shows various ways to manage indexing items or changing container index policies.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 import { CosmosClient, IndexKind, DataType } from "@azure/cosmos";

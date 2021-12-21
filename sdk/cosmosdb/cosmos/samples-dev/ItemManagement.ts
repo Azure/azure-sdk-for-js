@@ -5,10 +5,8 @@
  * @summary Demonstrates item creation, read, delete and reading all items belonging to a container.
  */
 
-import path from "path";
-
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 import { CosmosClient, PatchOperation } from "@azure/cosmos";
