@@ -9,7 +9,7 @@ export {
   ChatMessageType,
   ChatThreadItem,
   ChatError,
-  SendChatMessageResult
+  SendChatMessageResult,
 } from "../generated/src/models";
 
 /** Chat thread. */

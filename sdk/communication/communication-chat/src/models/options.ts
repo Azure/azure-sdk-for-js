@@ -6,7 +6,7 @@ import {
   ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
-  ChatMessageType
+  ChatMessageType,
 } from "../generated/src/models";
 import { ChatParticipant } from "./models";
 
@@ -14,7 +14,7 @@ export {
   RestListMessagesOptions,
   RestListChatThreadsOptions,
   RestListParticipantsOptions,
-  RestListReadReceiptsOptions
+  RestListReadReceiptsOptions,
 };
 
 /**

@@ -6,7 +6,7 @@ import {
   ChatClientOptions,
   CreateChatThreadOptions,
   DeleteChatThreadOptions,
-  ListChatThreadsOptions
+  ListChatThreadsOptions,
 } from "./models/options";
 import {
   ChatEventId,
@@ -19,14 +19,14 @@ import {
   ParticipantsAddedEvent,
   ParticipantsRemovedEvent,
   ReadReceiptReceivedEvent,
-  TypingIndicatorReceivedEvent
+  TypingIndicatorReceivedEvent,
 } from "./models/events";
 import { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
 import { ConnectionState, SignalingClient } from "@azure/communication-signaling";
 import {
   mapToChatParticipantRestModel,
   mapToCreateChatThreadOptionsRestModel,
-  mapToCreateChatThreadResultSdkModel
+  mapToCreateChatThreadResultSdkModel,
 } from "./models/mappers";
 
 import { ChatApiClient } from "./generated/src";
@@ -73,14 +73,14 @@ export class ChatClient {
       ...options,
       ...{
         loggingOptions: {
-          logger: logger.info
-        }
-      }
+          logger: logger.info,
+        },
+      },
     };
 
     this.client = new ChatApiClient(this.endpoint, {
       endpoint: this.endpoint,
-      ...internalPipelineOptions
+      ...internalPipelineOptions,
     });
 
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
@@ -123,7 +123,7 @@ export class ChatClient {
           topic: request.topic,
           participants: options.participants?.map((participant) =>
             mapToChatParticipantRestModel(participant)
-          )
+          ),
         },
         updatedRestModelOptions
       );
@@ -131,7 +131,7 @@ export class ChatClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -192,12 +192,12 @@ export class ChatClient {
         },
         byPage: (settings: ListPageSettings = {}) => {
           return this.listChatThreadsPage(settings, updatedOptions);
-        }
+        },
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -221,7 +221,7 @@ export class ChatClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

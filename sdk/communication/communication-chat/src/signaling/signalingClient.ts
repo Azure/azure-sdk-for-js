@@ -17,7 +17,7 @@ export const getSignalingClient = (
   if (typeof navigator !== "undefined" && navigator.product === "ReactNative") {
     // In React Native
     return new CommunicationSignalingClient(credential, logger, {
-      environment: options?.environment ?? undefined
+      environment: options?.environment ?? undefined,
     });
   }
 
