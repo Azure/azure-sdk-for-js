@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { TestProxyHttpClient } from "./core-v2-recorder";
-export { TestProxyHttpClientCoreV1 } from "./core-v1-recorder";
+export { Recorder } from "./recorder";
 export { relativeRecordingsPath } from "./utils/relativePathCalculator";
-export { SanitizerOptions, RecorderStartOptions } from "./utils/utils";
+export {
+  SanitizerOptions,
+  RecorderStartOptions,
+  isLiveMode,
+  isPlaybackMode,
+  isRecordMode
+} from "./utils/utils";
 export { env } from "./utils/env";

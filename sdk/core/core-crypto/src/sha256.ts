@@ -16,9 +16,7 @@ export async function computeSha256Hmac(
 ): Promise<string> {
   const decodedKey = Buffer.from(key, "base64");
 
-  return createHmac("sha256", decodedKey)
-    .update(stringToSign)
-    .digest(encoding);
+  return createHmac("sha256", decodedKey).update(stringToSign).digest(encoding);
 }
 
 /**
@@ -30,7 +28,5 @@ export async function computeSha256Hash(
   content: string,
   encoding: "base64" | "hex"
 ): Promise<string> {
-  return createHash("sha256")
-    .update(content)
-    .digest(encoding);
+  return createHash("sha256").update(content).digest(encoding);
 }

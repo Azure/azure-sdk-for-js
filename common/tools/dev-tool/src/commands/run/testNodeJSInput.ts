@@ -17,6 +17,6 @@ export default leafCommand(commandInfo, async (options) => {
     : '--timeout 5000000 "dist-esm/test/{,!(browser)/**/}/*.spec.js"';
   return runTestsWithProxyTool({
     command: `nyc mocha ${defaultMochaArgs} ${mochaArgs}`,
-    name: "node-tests"
+    name: "node-tests",
   });
 });

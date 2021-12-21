@@ -8,7 +8,8 @@ import {
   TableTransactionResponse,
   TransactionAction,
   UpdateMode,
-  UpdateTableEntityOptions
+  UpdateTableEntityOptions,
+  TableServiceClientOptions
 } from "./models";
 import {
   NamedKeyCredential,
@@ -21,9 +22,9 @@ import {
 import {
   OperationOptions,
   ServiceClient,
-  ServiceClientOptions,
   serializationPolicy,
-  serializationPolicyName
+  serializationPolicyName,
+  ServiceClientOptions
 } from "@azure/core-client";
 import {
   Pipeline,
@@ -43,7 +44,6 @@ import {
   transactionRequestAssemblePolicy,
   transactionRequestAssemblePolicyName
 } from "./TablePolicies";
-import { STORAGE_SCOPE } from "./utils/constants";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TableClientLike } from "./utils/internalModels";
 import { TableServiceErrorOdataError } from "./generated";
@@ -53,6 +53,7 @@ import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 import { signURLWithSAS } from "./tablesSASTokenPolicy";
+import { STORAGE_SCOPE } from "./utils/constants";
 
 /**
  * Helper to build a list of transaction actions
@@ -130,6 +131,7 @@ export class InternalTableTransaction {
     bodyParts: string[];
     partitionKey: string;
   };
+  private clientOptions: TableServiceClientOptions;
   private interceptClient: TableClientLike;
   private credential?: NamedKeyCredential | SASCredential | TokenCredential;
   private allowInsecureConnection: boolean;
@@ -144,10 +146,12 @@ export class InternalTableTransaction {
     partitionKey: string,
     transactionId: string,
     changesetId: string,
+    clientOptions: TableServiceClientOptions,
     interceptClient: TableClientLike,
     credential?: NamedKeyCredential | SASCredential | TokenCredential,
     allowInsecureConnection: boolean = false
   ) {
+    this.clientOptions = clientOptions;
     this.credential = credential;
     this.url = url;
     this.interceptClient = interceptClient;
@@ -275,7 +279,7 @@ export class InternalTableTransaction {
       this.resetableState.changesetId
     );
 
-    const options: ServiceClientOptions = {};
+    const options: ServiceClientOptions = this.clientOptions;
 
     if (isTokenCredential(this.credential)) {
       options.credentialScopes = STORAGE_SCOPE;
@@ -283,6 +287,7 @@ export class InternalTableTransaction {
     }
 
     const client = new ServiceClient(options);
+
     const headers = getTransactionHeaders(this.resetableState.transactionId);
 
     const { span, updatedOptions } = createSpan(

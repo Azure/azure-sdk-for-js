@@ -60,7 +60,7 @@ export const AmqpAnnotatedMessage = {
       deliveryAnnotations: msg.delivery_annotations,
       applicationProperties: msg.application_properties,
       properties: AmqpMessageProperties.fromRheaMessageProperties(msg),
-      body: msg.body
+      body: msg.body,
     };
   },
   /**
@@ -74,8 +74,8 @@ export const AmqpAnnotatedMessage = {
       message_annotations: msg.messageAnnotations,
       delivery_annotations: msg.deliveryAnnotations,
       application_properties: msg.applicationProperties,
-      footer: msg.footer
+      footer: msg.footer,
     };
     return message;
-  }
+  },
 };

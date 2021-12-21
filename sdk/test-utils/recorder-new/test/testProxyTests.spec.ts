@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createPipelineRequest,
   HttpMethods,
   PipelineRequestOptions
 } from "@azure/core-rest-pipeline";
 import { ServiceClient } from "@azure/core-client";
-import { TestProxyHttpClient } from "../src";
+import { env, isLiveMode, isPlaybackMode, Recorder } from "../src";
 import { expect } from "chai";
-
-type TestMode = "record" | "playback" | "live" | undefined;
+import { TestMode } from "../src/utils/utils";
 
 const setTestMode = (mode: TestMode): TestMode => {
   env.TEST_MODE = mode;
@@ -43,7 +41,7 @@ function getTestServerUrl() {
 // - proxy-tool (to save/mock the responses)
 (["record", "playback", "live"] as TestMode[]).forEach((mode) => {
   describe(`proxy tool`, () => {
-    let recorder: TestProxyHttpClient;
+    let recorder: Recorder;
     let client: ServiceClient;
 
     const basePipelineReqOptions: Partial<PipelineRequestOptions> =
@@ -54,7 +52,7 @@ function getTestServerUrl() {
     });
 
     beforeEach(async function() {
-      recorder = new TestProxyHttpClient(this.currentTest);
+      recorder = new Recorder(this.currentTest);
       client = new ServiceClient({ baseUri: getTestServerUrl() });
       recorder.configureClient(client);
     });

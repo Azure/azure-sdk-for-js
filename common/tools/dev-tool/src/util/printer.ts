@@ -49,7 +49,7 @@ let backend: PrinterBackend = {
   log: console.log,
   info: console.info,
   warn: console.warn,
-  trace: console.trace
+  trace: console.trace,
 };
 
 /**
@@ -62,7 +62,7 @@ let backend: PrinterBackend = {
 export function updateBackend(update: Partial<PrinterBackend>): void {
   backend = {
     ...backend,
-    ...update
+    ...update,
   };
 }
 
@@ -74,7 +74,7 @@ function getCaller(): NodeJS.CallSite | undefined {
 
   let caller: NodeJS.CallSite | undefined = undefined;
   try {
-    const error = (new Error() as any) as { stack: NodeJS.CallSite[] };
+    const error = new Error() as any as { stack: NodeJS.CallSite[] };
 
     Error.prepareStackTrace = (_, stack) => stack;
 
@@ -98,7 +98,7 @@ const colors: ModeMap<Fn<string>> = {
   warn: chalk.yellow,
   error: chalk.red,
   debug: chalk.magenta,
-  success: chalk.green
+  success: chalk.green,
 };
 
 const finalLogger: ModeMap<Fn> = {
@@ -115,12 +115,13 @@ const finalLogger: ModeMap<Fn> = {
     if (process.env.DEBUG) {
       const caller = getCaller();
       const fileName = caller?.getFileName()?.split(DEV_TOOL_PATH)?.[1];
-      const callerInfo = `(@ ${fileName ? fileName : "<unknown>"}#${caller?.getFunctionName() ??
-        "<anonymous>"}:${caller?.getLineNumber()}:${caller?.getColumnNumber()})`;
+      const callerInfo = `(@ ${fileName ? fileName : "<unknown>"}#${
+        caller?.getFunctionName() ?? "<anonymous>"
+      }:${caller?.getLineNumber()}:${caller?.getColumnNumber()})`;
       backend.error(values[0], colors.debug(callerInfo), ...values.slice(1));
     }
   },
-  success: console.info
+  success: console.info,
 };
 
 /**

@@ -114,7 +114,7 @@ export class CancellableAsyncLockImpl {
     const taskDetails: TaskDetails = {
       reject: rejecter,
       resolve: resolver,
-      task
+      task,
     };
 
     // Handle timeouts by removing the task from the queue when hit.
@@ -238,7 +238,7 @@ function getPromiseParts(): {
   return {
     promise,
     resolver: resolver!,
-    rejecter: rejecter!
+    rejecter: rejecter!,
   };
 }
 

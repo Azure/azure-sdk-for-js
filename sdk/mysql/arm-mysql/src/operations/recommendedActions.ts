@@ -11,7 +11,7 @@ import { RecommendedActions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MySQLManagementClientContext } from "../mySQLManagementClientContext";
+import { MySQLManagementClient } from "../mySQLManagementClient";
 import {
   RecommendationAction,
   RecommendedActionsListByServerNextOptionalParams,
@@ -25,13 +25,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RecommendedActions operations. */
 export class RecommendedActionsImpl implements RecommendedActions {
-  private readonly client: MySQLManagementClientContext;
+  private readonly client: MySQLManagementClient;
 
   /**
    * Initialize a new instance of the class RecommendedActions class.
    * @param client Reference to the service client
    */
-  constructor(client: MySQLManagementClientContext) {
+  constructor(client: MySQLManagementClient) {
     this.client = client;
   }
 

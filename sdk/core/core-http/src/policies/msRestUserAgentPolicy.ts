@@ -12,12 +12,12 @@ export function getDefaultUserAgentKey(): string {
 export function getPlatformSpecificData(): TelemetryInfo[] {
   const runtimeInfo = {
     key: "Node",
-    value: process.version
+    value: process.version,
   };
 
   const osInfo = {
     key: "OS",
-    value: `(${os.arch()}-${os.type()}-${os.release()})`
+    value: `(${os.arch()}-${os.type()}-${os.release()})`,
   };
 
   return [runtimeInfo, osInfo];

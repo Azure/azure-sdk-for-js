@@ -44,11 +44,11 @@ export function exponentialRetryPolicy(
     [
       exponentialRetryStrategy({
         ...options,
-        ignoreSystemErrors: true
-      })
+        ignoreSystemErrors: true,
+      }),
     ],
     {
-      maxRetries: options.maxRetries ?? 10
+      maxRetries: options.maxRetries ?? 10,
     }
   );
 }

@@ -35,12 +35,12 @@ export async function runTestsWithProxyTool(
         { command: testProxyCMD },
         {
           command: `${waitForProxyEndpointCMD} && ${testCommandObj.command}`, // Waits for the proxy endpoint to be active and then starts running the tests
-          name: testCommandObj.name
-        }
+          name: testCommandObj.name,
+        },
       ],
       {
         killOthers: ["failure", "success"],
-        successCondition: "first"
+        successCondition: "first",
       }
     );
   } else {

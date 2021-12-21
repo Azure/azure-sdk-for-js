@@ -6,7 +6,7 @@ import {
   SpanKind,
   getSpanContext,
   context as otContext,
-  setSpan
+  setSpan,
 } from "../src/interfaces";
 import { createSpanFunction, isTracingDisabled, knownSpanAttributes } from "../src/createSpan";
 import { OperationTracingOptions } from "../src/interfaces";
@@ -40,18 +40,18 @@ describe("createSpan", () => {
         spanOptions: {
           kind: SpanKind.CLIENT,
           attributes: {
-            foo: "bar"
-          }
-        }
-      }
+            foo: "bar",
+          },
+        },
+      },
     };
 
     const expectedSpanOptions = {
       kind: SpanKind.CLIENT,
       attributes: {
         foo: "bar",
-        "az.namespace": "Microsoft.Test"
-      }
+        "az.namespace": "Microsoft.Test",
+      },
     };
 
     const { span, updatedOptions } = <{ span: TestSpan; updatedOptions: any }>(
@@ -82,8 +82,8 @@ describe("createSpan", () => {
         tracingOptions: {
           // validate that we dumbly just copy any fields (this makes future upgrades easier)
           someOtherField: "someOtherFieldValue",
-          tracingContext: someContext
-        }
+          tracingContext: someContext,
+        },
       },
       { kind: SpanKind.SERVER }
     );
@@ -113,8 +113,8 @@ describe("createSpan", () => {
         someTopLevelField: "someTopLevelFieldValue",
         tracingOptions: {
           someOtherTracingField: "someOtherTracingValue",
-          tracingContext: someContext
-        }
+          tracingContext: someContext,
+        },
       })
     );
     assert.strictEqual(span.name, "Azure.Test.testMethod");
@@ -131,13 +131,13 @@ describe("createSpan", () => {
   it("namespace and packagePrefix can be empty (and thus ignored)", () => {
     const cf = createSpanFunction({
       namespace: "",
-      packagePrefix: ""
+      packagePrefix: "",
     });
 
     const { span, updatedOptions } = cf("myVerbatimOperationName", {} as any, {
       attributes: {
-        testAttribute: "testValue"
-      }
+        testAttribute: "testValue",
+      },
     });
 
     assert.equal(
@@ -158,7 +158,7 @@ describe("createSpan", () => {
   it("createSpans, testing parent/child relationship", () => {
     const createSpanFn = createSpanFunction({
       namespace: "Microsoft.Test",
-      packagePrefix: "Azure.Test"
+      packagePrefix: "Azure.Test",
     });
 
     let parentContext: Context;
@@ -166,7 +166,7 @@ describe("createSpan", () => {
     // create the parent span and do some basic checks.
     {
       const op: { tracingOptions: OperationTracingOptions } = {
-        tracingOptions: {}
+        tracingOptions: {},
       };
 
       const { span, updatedOptions } = createSpanFn("parent", op);
@@ -185,8 +185,8 @@ describe("createSpan", () => {
 
     const { span: childSpan, updatedOptions } = createSpanFn("child", {
       tracingOptions: {
-        tracingContext: parentContext
-      }
+        tracingContext: parentContext,
+      },
     });
     assert.ok(childSpan);
 
@@ -205,7 +205,7 @@ describe("createSpan", () => {
     assert.exists(updatedOptions.tracingOptions.tracingContext);
   });
 
-  it("returns a no-op tracer if AZURE_TRACING_DISABLED is set", function(this: Mocha.Context) {
+  it("returns a no-op tracer if AZURE_TRACING_DISABLED is set", function (this: Mocha.Context) {
     if (typeof process === "undefined") {
       this.skip();
     }
@@ -216,21 +216,21 @@ describe("createSpan", () => {
     const someContext = setSpan(otContext.active(), testSpan);
 
     const { span } = <{ span: TestSpan; updatedOptions: any }>createSpan("testMethod", {
-      tracingOptions: ({
+      tracingOptions: {
         // validate that we dumbly just copy any fields (this makes future upgrades easier)
         someOtherField: "someOtherFieldValue",
         tracingContext: someContext,
         spanOptions: {
-          kind: SpanKind.SERVER
-        }
-      } as OperationTracingOptions) as any
+          kind: SpanKind.SERVER,
+        },
+      } as OperationTracingOptions as any,
     });
     assert.isFalse(span.isRecording());
     delete process.env.AZURE_TRACING_DISABLED;
   });
 
   describe("IsTracingDisabled", () => {
-    beforeEach(function(this: Mocha.Context) {
+    beforeEach(function (this: Mocha.Context) {
       if (typeof process === "undefined") {
         this.skip();
       }

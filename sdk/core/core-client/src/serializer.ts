@@ -16,7 +16,7 @@ import {
   SerializerOptions,
   XML_CHARKEY,
   XML_ATTRKEY,
-  RequiredSerializerOptions
+  RequiredSerializerOptions,
 } from "./interfaces";
 
 class SerializerImpl implements Serializer {
@@ -46,7 +46,7 @@ class SerializerImpl implements Serializer {
         MinLength,
         MultipleOf,
         Pattern,
-        UniqueItems
+        UniqueItems,
       } = mapper.constraints;
       if (ExclusiveMaximum !== undefined && value >= ExclusiveMaximum) {
         failValidation("ExclusiveMaximum", ExclusiveMaximum);
@@ -113,8 +113,8 @@ class SerializerImpl implements Serializer {
       xml: {
         rootName: options.xml.rootName ?? "",
         includeRoot: options.xml.includeRoot ?? false,
-        xmlCharKey: options.xml.xmlCharKey ?? XML_CHARKEY
-      }
+        xmlCharKey: options.xml.xmlCharKey ?? XML_CHARKEY,
+      },
     };
     let payload: any = {};
     const mapperType = mapper.type.name as string;
@@ -226,8 +226,8 @@ class SerializerImpl implements Serializer {
       xml: {
         rootName: options.xml.rootName ?? "",
         includeRoot: options.xml.includeRoot ?? false,
-        xmlCharKey: options.xml.xmlCharKey ?? XML_CHARKEY
-      }
+        xmlCharKey: options.xml.xmlCharKey ?? XML_CHARKEY,
+      },
     };
     if (responseBody === undefined || responseBody === null) {
       if (this.isXML && mapper.type.name === "Sequence" && !mapper.xmlIsWrapped) {
@@ -350,9 +350,7 @@ function bufferToBase64Url(buffer: Uint8Array): string | undefined {
   // Uint8Array to Base64.
   const str = base64.encodeByteArray(buffer);
   // Base64 to Base64Url.
-  return trimEnd(str, "=")
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_");
+  return trimEnd(str, "=").replace(/\+/g, "-").replace(/\//g, "_");
 }
 
 function base64UrlToByteArray(str: string): Uint8Array | undefined {
@@ -757,7 +755,7 @@ function serializeCompositeType(
             : "xmlns";
           parentObject[XML_ATTRKEY] = {
             ...parentObject[XML_ATTRKEY],
-            [xmlnsKey]: mapper.xmlNamespace
+            [xmlnsKey]: mapper.xmlNamespace,
           };
         }
         const propertyObjectName =
@@ -1170,5 +1168,5 @@ export const MapperTypeNames = {
   String: "String",
   Stream: "Stream",
   TimeSpan: "TimeSpan",
-  UnixTime: "UnixTime"
+  UnixTime: "UnixTime",
 } as const;
