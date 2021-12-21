@@ -224,14 +224,11 @@ export class KeyClient {
   public readonly vaultUrl: string;
 
   /**
-   * @internal
-   * @hidden
    * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;
 
   /**
-   * @internal
    * A reference to the credential that was used to construct this client.
    * Later used to instantiate a {@link CryptographyClient} with the same credential.
    */
@@ -599,7 +596,6 @@ export class KeyClient {
    *
    * @param args - The arguments collection.
    * @returns - The standardized arguments collection.
-   * @internal
    */
   private disambiguateUpdateKeyPropertiesArgs(
     args: [string, string, UpdateKeyPropertiesOptions?] | [string, UpdateKeyPropertiesOptions?]
@@ -902,8 +898,6 @@ export class KeyClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the pagination of {@link listPropertiesOfKeyVersions}.
    * @param name - The name of the Key Vault Key.
    * @param continuationState - An object that indicates the position of the paginated request.
@@ -947,8 +941,6 @@ export class KeyClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link listPropertiesOfKeyVersions}.
    * @param name - The name of the Key Vault Key.
    * @param options - Common options for the iterative endpoints.
@@ -1000,8 +992,6 @@ export class KeyClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the pagination of {@link listPropertiesOfKeys}.
    * @param continuationState - An object that indicates the position of the paginated request.
    * @param options - Common options for the iterative endpoints.
@@ -1043,8 +1033,6 @@ export class KeyClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link listPropertiesOfKeys}.
    * @param options - Common options for the iterative endpoints.
    */
@@ -1092,8 +1080,6 @@ export class KeyClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the pagination of {@link listDeletedKeys}.
    * @param continuationState - An object that indicates the position of the paginated request.
    * @param options - Common options for the iterative endpoints.
@@ -1134,8 +1120,6 @@ export class KeyClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link listDeletedKeys}.
    * @param options - Common options for the iterative endpoints.
    */

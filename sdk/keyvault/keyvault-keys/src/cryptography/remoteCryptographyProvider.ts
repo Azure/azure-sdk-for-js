@@ -292,7 +292,6 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
   }
 
   /**
-   * @internal
    * A reference to the auto-generated KeyVault HTTP client.
    */
   private client: KeyVaultClient;
@@ -301,25 +300,21 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
    * A reference to the key used for the cryptographic operations.
    * Based on what was provided to the CryptographyClient constructor,
    * it can be either a string with the URL of a Key Vault Key, or an already parsed {@link KeyVaultKey}.
-   * @internal
    */
   private key: string | KeyVaultKey;
 
   /**
    * Name of the key the client represents
-   * @internal
    */
   private name: string;
 
   /**
    * Version of the key the client represents
-   * @internal
    */
   private version: string;
 
   /**
    * Attempts to retrieve the ID of the key.
-   * @internal
    */
   private getKeyID(): string | undefined {
     let kid;
