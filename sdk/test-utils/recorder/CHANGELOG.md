@@ -1,9 +1,12 @@
 # Release History
 
+## 1.0.2 (#Unreleased)
+
+- Adds a default customization on the recordings to manipulate the `retry-after` header to have "0" value so that playback tests run faster.
+
 ## 1.0.1 (2021-09-01)
 
-- Fix types in the published package.
-- Adds a default customization on the recordings to manipulate the `retry-after` header to have "0" value so that playback tests run faster.
+Fix types in the published package.
 
 ## 1.0.0 (2021-08-30)
 
