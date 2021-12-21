@@ -7,7 +7,8 @@ import {
   testHasChanged,
   isContentTypeInNockFixture,
   decodeHexEncodingIfExistsInNockFixture,
-  handleSingleQuotesInUrlPath
+  handleSingleQuotesInUrlPath,
+  setDefaultRetryAfterIntervalInNockFixture
 } from "../../src/utils";
 import { nodeRequireRecordingIfExists, findRecordingsFolderPath } from "../../src/utils/recordings";
 import chai, { expect } from "chai";
@@ -15,7 +16,7 @@ import { defaultCustomizationsOnRecordings } from "../../src/defaultCustomizatio
 
 describe("NodeJS utils", () => {
   describe("nodeRequireRecordingIfExists", () => {
-    it("should be able to load the contents of a recording file if the file exists", function() {
+    it("should be able to load the contents of a recording file if the file exists", function () {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
 
@@ -49,7 +50,7 @@ describe("NodeJS utils", () => {
       mockRequire.stopAll();
     });
 
-    it("should throw if the file at a given recording path doesn't exist", function() {
+    it("should throw if the file at a given recording path doesn't exist", function () {
       if (isBrowser()) {
         this.skip();
       }
@@ -88,7 +89,7 @@ describe("NodeJS utils", () => {
   });
 
   describe("testHasChanged", () => {
-    it("should not crash if the recorded file doesn't exist", function() {
+    it("should not crash if the recorded file doesn't exist", function () {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
       const testSuiteTitle = this.test!.parent!.fullTitle();
@@ -115,7 +116,7 @@ describe("NodeJS utils", () => {
       mockRequire.stopAll();
     });
 
-    it("should return true if the older hash doesn't exist", function() {
+    it("should return true if the older hash doesn't exist", function () {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
       const platform = "node";
@@ -146,7 +147,7 @@ describe("NodeJS utils", () => {
       mockRequire.stopAll();
     });
 
-    it("should return false if the older hash is the same as the new hash", function() {
+    it("should return false if the older hash is the same as the new hash", function () {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
       const platform = "node";
@@ -187,7 +188,7 @@ describe("NodeJS utils", () => {
       mockRequire.stopAll();
     });
 
-    it("should return true if the older hash is different than the new hash", function() {
+    it("should return true if the older hash is different than the new hash", function () {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
       const platform = "node";
@@ -390,8 +391,7 @@ describe("NodeJS utils", () => {
         chai.assert.equal(
           isContentTypeInNockFixture(test.input, test.expectedContentTypes),
           test.output,
-          `Unexpected result - content types ${test.expectedContentTypes} ${
-            test.output ? "do not match" : "matched"
+          `Unexpected result - content types ${test.expectedContentTypes} ${test.output ? "do not match" : "matched"
           }`
         );
       });
@@ -552,6 +552,153 @@ describe("NodeJS utils", () => {
       });
     });
   });
+
+
+
+
+
+  describe("setDefaultRetryAfterIntervalInNockFixture", () => {
+    [
+      {
+        name: `Default RetryAfter interval is set if retry-after is > 0`,
+        input: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+        output: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  '0',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`
+      },
+      {
+        name: `has no effect if retry-after is absent`,
+        input: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+        output: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`
+      },
+      {
+        name: `unchanged if retry-after is 0 already`,
+        input: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  '0',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+        output: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  '0',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`
+      },
+      {
+        name: `unchanged if the value after the retry-after is not a number`,
+        input: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  'AB-CD',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+        output: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  'AB-CD',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`
+      },
+    ].forEach((test) => {
+      it.only(test.name, () => {
+        chai.assert.equal(
+          setDefaultRetryAfterIntervalInNockFixture(test.input),
+          test.output,
+          `Output from "setDefaultRetryAfterIntervalInNockFixture" did not match the expected output`
+        );
+      });
+    });
+  });
+
+
 
   describe("handleSingleQuotesInUrlPath", () => {
     [

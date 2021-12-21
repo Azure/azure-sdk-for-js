@@ -475,7 +475,7 @@ export function setDefaultRetryAfterIntervalInNockFixture(fixture: string) {
       `"setDefaultRetryAfterIntervalInNockFixture" method is not meant to be used in the browsers`
     );
   }
-  const matches = fixture.match(/'Retry-After',\n\s\s'([0-9]*)',\n/);
+  const matches = fixture.match(/'Retry-After',\n\s*'([0-9]*)',\n/);
   if (!matches) {
     return fixture;
   }
