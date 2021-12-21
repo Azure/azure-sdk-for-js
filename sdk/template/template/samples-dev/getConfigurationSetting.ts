@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export async function main() {
+async function main() {
   const endpoint = process.env.APPCONFIG_ENDPOINT || "<endpoint>";
   const key = process.env.APPCONFIG_TEST_SETTING_KEY || "<test-key>";
 

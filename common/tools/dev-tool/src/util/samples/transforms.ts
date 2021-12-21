@@ -3,6 +3,8 @@
 
 import ts from "typescript";
 
+import nodeBuiltins from "builtin-modules";
+
 /**
  * A TypeScript API transformer that replaces imports with CommonJS `require` calls.
  *
@@ -87,6 +89,14 @@ export function importDeclarationToCommonJs(
   const primaryBinding = importClauseToBinding(decl.importClause, factory);
 
   const namedBindings = decl.importClause.namedBindings;
+  const moduleSpecifierText = (decl.moduleSpecifier as ts.StringLiteral).text;
+
+  const isDefaultImport =
+    ts.isIdentifier(primaryBinding) &&
+    // We only allow default imports on relative modules and node builtins, but on node builtins they are actually
+    // just namespace imports in disguise. This is because of esModuleInterop compatibility in our tsconfig.json.
+    !isNodeBuiltin(moduleSpecifierText) &&
+    (!namedBindings || !ts.isNamespaceImport(namedBindings));
 
   // The declaration will usually only contain one item, and it will be something like:
   //
@@ -102,7 +112,7 @@ export function importDeclarationToCommonJs(
       /* exclamationToken: */ undefined,
       /* type: */ undefined,
       // If the binding was a name, and this isn't a namespace import, then we need to access .default on it.
-      ts.isIdentifier(primaryBinding) && (!namedBindings || !ts.isNamespaceImport(namedBindings))
+      isDefaultImport
         ? factory.createPropertyAccessExpression(requireCall(), "default")
         : requireCall()
     ),
@@ -175,4 +185,56 @@ function namedImportsToObjectBindingPattern(
       )
     )
   );
+}
+
+/**
+ * Processes a segmented module path to return the first segment. This is useful for packages that have nested imports
+ * such as "dayjs/plugin/duration".
+ *
+ * @param specifier - the module specifier to resolve to a package name
+ * @returns a package name
+ */
+export function resolveModule(specifier: string): string {
+  const parts = specifier.split("/", 2);
+
+  // The first part could be a namespace, in which case we need to join them
+  if (parts.length > 1 && parts[0].startsWith("@")) return parts[0] + "/" + parts[1];
+  else return parts[0];
+}
+
+/**
+ * Determines if a module specifier refers to a node builtin.
+ *
+ * @param specifier - the module specifier to test
+ */
+export function isNodeBuiltin(moduleSpecifier: string): boolean {
+  return (
+    moduleSpecifier.startsWith("node:") || nodeBuiltins.includes(resolveModule(moduleSpecifier))
+  );
+}
+
+/**
+ * Determines whether a string is a relative path.
+ *
+ * @param input - a string to test
+ */
+export const isRelativePath = (input: string): boolean => /^\.\.?[/\\]/.test(input);
+
+/**
+ * Determines whether a module specifier is a package dependency.
+ *
+ * A dependency is a module specifier that does not refer to a node builtin and
+ * is not a relative path.
+ *
+ * Absolute path imports are not supported in samples (because the package base
+ * is not fixed relative to the source file).
+ *
+ * @param moduleSpecifier - the string given to `import` or `require`
+ * @returns - true if `moduleSpecifier` should be considered a reference to a
+ * node module dependency
+ */
+export function isDependency(moduleSpecifier: string): boolean {
+  if (isNodeBuiltin(moduleSpecifier)) return false;
+
+  return !isRelativePath(moduleSpecifier);
 }

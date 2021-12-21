@@ -20,6 +20,7 @@ import { processSources } from "./processor";
 
 import devToolPackageJson from "../../../package.json";
 import instantiateSampleReadme from "../../templates/sampleReadme.md";
+import { resolveModule } from "./transforms";
 
 const log = createPrinter("generator");
 
@@ -60,21 +61,6 @@ export function createPackageJson(info: SampleGenerationInfo, outputKind: Output
     }`,
     ...info.computeSampleDependencies(outputKind),
   };
-}
-
-/**
- * Processes a segmented module path to return the first segment. This is useful for packages that have nested imports
- * such as "dayjs/plugin/duration".
- *
- * @param specifier - the module specifier to resolve to a package name
- * @returns a package name
- */
-function resolveModule(specifier: string): string {
-  const parts = specifier.split("/", 2);
-
-  // The first part could be a namespace, in which case we need to join them
-  if (parts.length > 1 && parts[0].startsWith("@")) return parts[0] + "/" + parts[1];
-  else return parts[0];
 }
 
 async function collect<T>(i: AsyncIterableIterator<T>): Promise<T[]> {
