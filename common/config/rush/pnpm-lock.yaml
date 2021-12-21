@@ -9650,7 +9650,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-YEE2AnQj7ZEMZEfdcAs4RIGTz5pZnwbAqI987W3/f8DG4nAzj1U+N5XZ44/ufcryLYegIvqeStDAfiLnu/xgaA==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-/lx2XG0M0Ueh1li+ZJdTqeGu2RSwfjbLyuM/Tq5W+OppFVaxzEjkWIwlbjMmuE70rU0vufg5YeeT2jWE622ilg==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
@@ -9680,7 +9680,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.2.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       source-map-support: 0.5.21
