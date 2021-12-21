@@ -476,11 +476,10 @@ export function setDefaultRetryAfterIntervalInNockFixture(fixture: string) {
     );
   }
   const matches = fixture.match(/'Retry-After',\n\s\s'([0-9]*)',\n/);
-  console.log(matches)
-  if(matches){
-    console.log(fixture.replace(matches[0], `'Retry-After',\n  '0',\n`))
+  if (!matches) {
+    return fixture;
   }
-  return fixture;
+  return fixture.replace(matches[0], `'Retry-After',\n  '0',\n`);
 }
 
 /**
