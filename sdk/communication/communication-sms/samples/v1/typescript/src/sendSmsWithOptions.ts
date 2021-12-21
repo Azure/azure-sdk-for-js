@@ -24,11 +24,11 @@ export async function main() {
   const client = new SmsClient(connectionString);
 
   // construct send request
-  var phoneNumbers: string[];
-  if (process.env.TO_PHONE_NUMBERS != undefined) {
+  let phoneNumbers: string[];
+  if (process.env.TO_PHONE_NUMBERS !== undefined) {
     phoneNumbers = process.env.TO_PHONE_NUMBERS.split(",")
   }
-  else if (process.env.AZURE_PHONE_NUMBER != undefined) {
+  else if (process.env.AZURE_PHONE_NUMBER !== undefined) {
     phoneNumbers = [process.env.AZURE_PHONE_NUMBER]
   }
   else {
