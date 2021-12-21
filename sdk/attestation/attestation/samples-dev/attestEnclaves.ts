@@ -222,7 +222,7 @@ async function attestOpenEnclaveWithRuntimeData() {
   // it does, it will emit a token for the quote.
   {
     const attestResponse = await client.attestOpenEnclave(openEnclaveReport, {
-      runTimeData: runtimeData
+      runTimeData: runtimeData,
     });
 
     console.log("Received attestation token: ", attestResponse.token.serialize());
@@ -270,7 +270,7 @@ async function attestOpenEnclaveWithRuntimeJson() {
   // it does, it will emit a token for the quote.
   {
     const attestResponse = await client.attestOpenEnclave(openEnclaveReport, {
-      runTimeJson: runtimeJson
+      runTimeJson: runtimeJson,
     });
 
     console.log("Received attestation token: ", attestResponse.token.serialize());
@@ -331,7 +331,7 @@ issuancerules
   c:[type=="x-ms-attestation-type"] => issue(type="tee", value=c.value);
 };`;
     const attestResponse = await client.attestOpenEnclave(openEnclaveReport, {
-      draftPolicyForAttestation: testPolicy
+      draftPolicyForAttestation: testPolicy,
     });
 
     console.log("Received attestation token: ", attestResponse.token.serialize());

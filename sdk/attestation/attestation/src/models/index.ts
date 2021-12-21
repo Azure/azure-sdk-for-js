@@ -13,6 +13,6 @@ export {
   AttestationType,
   CertificateModification,
   PolicyModification,
-  PolicyCertificatesModificationResult
+  PolicyCertificatesModificationResult,
 } from "../generated/models/index";
 export { AttestationPolicyToken, createAttestationPolicyToken } from "./attestationPolicyToken";
