@@ -72,7 +72,7 @@ describe("Sql test", () => {
     const res = await client.servers.beginCreateOrUpdateAndWait(resourceGroup,serverName,{
       location: "eastus",
       administratorLogin: "dummylogin",
-      administratorLoginPassword: "Un53cuRE!",
+      administratorLoginPassword: "p@55wOrd",
       version: "12.0"
     },testPollingOptions)
     assert.equal(res.name,serverName);

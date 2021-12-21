@@ -15,15 +15,15 @@ import { bearerTokenAuthenticationPolicy } from "../../src/coreHttp";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
-describe("BearerTokenAuthenticationPolicy", function() {
+describe("BearerTokenAuthenticationPolicy", function () {
   const mockPolicy: RequestPolicy = {
     sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       return Promise.resolve({
         request: request,
         status: 200,
-        headers: new HttpHeaders()
+        headers: new HttpHeaders(),
       });
-    }
+    },
   };
 
   let clock: Sinon.SinonFakeTimers;
@@ -35,12 +35,12 @@ describe("BearerTokenAuthenticationPolicy", function() {
     clock.restore();
   });
 
-  it("correctly adds an Authentication header with the Bearer token", async function() {
+  it("correctly adds an Authentication header with the Bearer token", async function () {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken = fake.returns(Promise.resolve({ token: mockToken, expiresOn: new Date() }));
     const mockCredential: TokenCredential = {
-      getToken: fakeGetToken
+      getToken: fakeGetToken,
     };
 
     const request = createRequest();
@@ -52,7 +52,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
         tokenScopes,
         match({
           abortSignal: undefined,
-          tracingOptions: { spanOptions: undefined }
+          tracingOptions: { spanOptions: undefined },
         })
       ),
       "fakeGetToken called incorrectly."
@@ -115,7 +115,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     const promises = [
       policy.sendRequest(request),
       policy.sendRequest(request),
-      policy.sendRequest(request)
+      policy.sendRequest(request),
     ];
     // Now we wait until they're all resolved.
     for (const promise of promises) {
@@ -168,7 +168,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     await Promise.all([
       policy.sendRequest(request),
       policy.sendRequest(request),
-      policy.sendRequest(request)
+      policy.sendRequest(request),
     ]);
 
     // Only getTokenDelay should have passed, and only one refresh should have happened.

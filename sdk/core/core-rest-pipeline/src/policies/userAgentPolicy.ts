@@ -37,6 +37,6 @@ export function userAgentPolicy(options: UserAgentPolicyOptions = {}): PipelineP
         request.headers.set(UserAgentHeaderName, userAgentValue);
       }
       return next(request);
-    }
+    },
   };
 }

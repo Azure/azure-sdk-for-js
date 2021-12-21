@@ -14,7 +14,7 @@ describe("SystemErrorRetryPolicy", () => {
     public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       const response = {
         ...this._response,
-        request: request
+        request: request,
       };
 
       return Promise.resolve(response);
@@ -31,14 +31,14 @@ describe("SystemErrorRetryPolicy", () => {
         const error: RetryError = {
           code: this.errorCode,
           name: "RetryError",
-          message: `Error message for ${this.errorCode}`
+          message: `Error message for ${this.errorCode}`,
         };
         return Promise.reject(error);
       }
 
       const response = {
         ...this._response,
-        request: request
+        request: request,
       };
 
       return Promise.resolve(response);
@@ -48,7 +48,7 @@ describe("SystemErrorRetryPolicy", () => {
   const defaultResponse = {
     status: 200,
     request: new WebResource(),
-    headers: new HttpHeaders()
+    headers: new HttpHeaders(),
   };
 
   function createDefaultSystemErrorRetryPolicy(
@@ -69,7 +69,7 @@ describe("SystemErrorRetryPolicy", () => {
         sendRequest: (requestToSend: WebResource): Promise<HttpOperationResponse> => {
           assert(request !== requestToSend);
           return Promise.resolve(defaultResponse);
-        }
+        },
       };
       const policy = new SystemErrorRetryPolicy(nextPolicy, new RequestPolicyOptions());
       await policy.sendRequest(request);
@@ -97,7 +97,7 @@ describe("SystemErrorRetryPolicy", () => {
         const mockResponse = {
           status: 200,
           headers: new HttpHeaders(),
-          request: request
+          request: request,
         };
 
         const faultyPolicy = new FailFirstRequestPolicy(mockResponse, code);
@@ -146,7 +146,7 @@ describe("SystemErrorRetryPolicy", () => {
             const error: RetryError = {
               code: this.errorCode,
               name: "RetryError",
-              message: `Error message for ${this.errorCode}`
+              message: `Error message for ${this.errorCode}`,
             };
             return Promise.reject(error);
           }

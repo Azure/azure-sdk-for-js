@@ -7,7 +7,7 @@ import {
   ServiceClient,
   ServiceClientCredentials,
   ServiceClientOptions,
-  TokenCredential
+  TokenCredential,
 } from "@azure/core-http";
 
 interface TestServiceClientOptions extends ServiceClientOptions {}

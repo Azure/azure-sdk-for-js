@@ -198,12 +198,6 @@ export interface SharedAccessAuthorizationRuleListResult {
   nextLink?: string;
 }
 
-/** Namespace/NotificationHub Regenerate Keys */
-export interface PolicykeyResource {
-  /** Name of the key that has to be regenerated for the Namespace/Notification Hub Authorization Rule. The value can be Primary Key/Secondary Key. */
-  policyKey?: string;
-}
-
 /** Namespace/NotificationHub Connection String */
 export interface ResourceListKeys {
   /** PrimaryConnectionString of the AuthorizationRule. */
@@ -216,6 +210,12 @@ export interface ResourceListKeys {
   secondaryKey?: string;
   /** KeyName of the created AuthorizationRule */
   keyName?: string;
+}
+
+/** Namespace/NotificationHub Regenerate Keys */
+export interface PolicykeyResource {
+  /** Name of the key that has to be regenerated for the Namespace/Notification Hub Authorization Rule. The value can be Primary Key/Secondary Key. */
+  policyKey?: string;
 }
 
 /** Description of a NotificationHub ApnsCredential. */
@@ -630,7 +630,7 @@ export interface NamespacesListKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
-export type NamespacesListKeysResponse = SharedAccessAuthorizationRuleListResult;
+export type NamespacesListKeysResponse = ResourceListKeys;
 
 /** Optional parameters. */
 export interface NamespacesRegenerateKeysOptionalParams

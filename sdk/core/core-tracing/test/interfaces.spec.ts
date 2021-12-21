@@ -15,7 +15,7 @@ describe("interface compatibility", () => {
     const context: coreTracing.SpanContext = {
       spanId: "",
       traceId: "",
-      traceFlags: coreTracing.TraceFlags.NONE
+      traceFlags: coreTracing.TraceFlags.NONE,
     };
 
     const OTContext: openTelemetry.SpanContext = context;
@@ -27,7 +27,7 @@ describe("interface compatibility", () => {
   it("SpanOptions can be passed to OT", () => {
     const spanOptions: coreTracing.SpanOptions = {
       attributes: {
-        hello: "world"
+        hello: "world",
       },
       kind: coreTracing.SpanKind.INTERNAL,
       links: [
@@ -35,10 +35,10 @@ describe("interface compatibility", () => {
           context: {
             traceFlags: coreTracing.TraceFlags.NONE,
             spanId: "",
-            traceId: ""
-          }
-        }
-      ]
+            traceId: "",
+          },
+        },
+      ],
     };
 
     const oTSpanOptions: openTelemetry.SpanOptions = spanOptions;
@@ -47,19 +47,23 @@ describe("interface compatibility", () => {
 
   it("core-auth", () => {
     const coreTracingOptions: Required<coreTracing.OperationTracingOptions> = {
-      tracingContext: coreTracing.context.active()
+      tracingContext: coreTracing.context.active(),
     };
 
-    const t: Required<Omit<
-      coreAuthTracingOptions,
-      keyof Required<coreTracing.OperationTracingOptions> | "spanOptions"
-    >> = {};
+    const t: Required<
+      Omit<
+        coreAuthTracingOptions,
+        keyof Required<coreTracing.OperationTracingOptions> | "spanOptions"
+      >
+    > = {};
     assert.ok(t, "core-tracing and core-auth should have the same properties");
 
-    const t2: Required<Omit<
-      coreTracing.OperationTracingOptions,
-      keyof Required<coreAuthTracingOptions> | "spanOptions"
-    >> = {};
+    const t2: Required<
+      Omit<
+        coreTracing.OperationTracingOptions,
+        keyof Required<coreAuthTracingOptions> | "spanOptions"
+      >
+    > = {};
     assert.ok(t2, "core-tracing and core-auth should have the same properties");
 
     const authTracingOptions: coreAuth.GetTokenOptions["tracingOptions"] = coreTracingOptions;

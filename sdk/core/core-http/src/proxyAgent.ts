@@ -25,8 +25,8 @@ export function createProxyAgent(
     proxy: {
       host: host,
       port: proxySettings.port,
-      headers: (headers && headers.rawHeaders()) || {}
-    }
+      headers: (headers && headers.rawHeaders()) || {},
+    },
   };
 
   if (proxySettings.username && proxySettings.password) {
@@ -40,7 +40,7 @@ export function createProxyAgent(
 
   const proxyAgent = {
     isHttps: isRequestHttps,
-    agent: createTunnel(isRequestHttps, isProxyHttps, tunnelOptions)
+    agent: createTunnel(isRequestHttps, isProxyHttps, tunnelOptions),
   };
 
   return proxyAgent;

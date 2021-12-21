@@ -10,7 +10,7 @@ export function webworkerConfig() {
     output: {
       file: "dist-test/webworker.js",
       format: "iife",
-      sourcemap: true
+      sourcemap: true,
     },
     preserveSymlinks: false,
     plugins: [
@@ -21,15 +21,15 @@ export function webworkerConfig() {
           // replace dynamic checks with if (false) since this is for
           // browser only. Rollup's dead code elimination will remove
           // any code guarded by if (isNode) { ... }
-          "if (isNode)": "if (false)"
-        }
+          "if (isNode)": "if (false)",
+        },
       }),
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false
+        preferBuiltins: false,
       }),
-      cjs()
-    ]
+      cjs(),
+    ],
   };
 
   baseConfig.onwarn = (warning) => {

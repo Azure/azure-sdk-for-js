@@ -62,7 +62,7 @@ const defaultAllowedHeaderNames = [
   "Retry-After",
   "Server",
   "Transfer-Encoding",
-  "User-Agent"
+  "User-Agent",
 ];
 
 const defaultAllowedQueryParameters: string[] = ["api-version"];
@@ -94,7 +94,7 @@ export class Sanitizer {
           return {
             ...value,
             name: value.name,
-            message: value.message
+            message: value.message,
           };
         }
 

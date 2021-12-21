@@ -58,7 +58,6 @@ interface EventProcessorCounts {
  *
  * @param partitionOwnershipMap - The existing PartitionOwnerships mapped by partition.
  * @param expirationIntervalInMs - The length of time a PartitionOwnership claim is valid.
- * @hidden
  */
 function getActivePartitionOwnerships(
   partitionOwnershipMap: Map<string, PartitionOwnership>,

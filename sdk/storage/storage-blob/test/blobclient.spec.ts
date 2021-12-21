@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
@@ -22,7 +22,9 @@ import {
   ContainerClient,
   BlockBlobTier,
   BlobServiceClient,
-  RehydratePriority
+  RehydratePriority,
+  ObjectReplicationPolicy,
+  BlobImmutabilityPolicyMode
 } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { base64encode } from "../src/utils/utils.common";
@@ -1365,7 +1367,7 @@ describe("BlobClient - Object Replication", () => {
     const getRes = await srcBlobClient.getProperties();
     assert.deepStrictEqual(
       getRes.objectReplicationSourceProperties,
-      expectedObjectReplicateSourceProperties
+      expectedObjectReplicateSourceProperties as ObjectReplicationPolicy[] | undefined
     );
     assert.equal(getRes.objectReplicationDestinationPolicyId, undefined);
   });
@@ -1384,7 +1386,7 @@ describe("BlobClient - Object Replication", () => {
       if (blobItem.name === blobName) {
         assert.deepStrictEqual(
           blobItem.objectReplicationSourceProperties,
-          expectedObjectReplicateSourceProperties
+          expectedObjectReplicateSourceProperties as ObjectReplicationPolicy[] | undefined
         );
       }
     }
@@ -1401,7 +1403,7 @@ describe("BlobClient - Object Replication", () => {
     assert.equal(srcRes.objectReplicationDestinationPolicyId, undefined);
     assert.deepStrictEqual(
       srcRes.objectReplicationSourceProperties,
-      expectedObjectReplicateSourceProperties
+      expectedObjectReplicateSourceProperties as ObjectReplicationPolicy[] | undefined
     );
 
     const destRes = await destBlobClient.download();
@@ -1422,7 +1424,7 @@ describe("BlobClient - Object Replication", () => {
     assert.equal(srcRes.objectReplicationDestinationPolicyId, undefined);
     assert.deepStrictEqual(
       srcRes.objectReplicationSourceProperties,
-      expectedObjectReplicateSourceProperties
+      expectedObjectReplicateSourceProperties as ObjectReplicationPolicy[] | undefined
     );
     fs.unlinkSync(srcDownloadedFilePath);
 
@@ -1498,12 +1500,18 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     });
 
     assert.ok(result.immutabilityPolicyExpiry);
-    assert.equal(result.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      result.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
 
     const propertiesResult = await blobClient.getProperties();
 
     assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
-    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      propertiesResult.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
 
     const listResult = (
       await containerClient
@@ -1519,7 +1527,10 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
     const downloadResult = await blobClient.download();
     assert.ok(downloadResult.immutabilityPolicyExpiresOn);
-    assert.equal(downloadResult.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      downloadResult.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
   });
 
   it("Set immutability policy with ifModified access condition", async () => {
@@ -1544,12 +1555,18 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     );
 
     assert.ok(result.immutabilityPolicyExpiry);
-    assert.equal(result.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      result.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
 
     const propertiesResult = await blobClient.getProperties();
 
     assert.ok(propertiesResult.immutabilityPolicyExpiresOn);
-    assert.equal(propertiesResult.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      propertiesResult.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
 
     const listResult = (
       await containerClient
@@ -1581,7 +1598,10 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     });
 
     assert.ok(result.immutabilityPolicyExpiry);
-    assert.equal(result.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      result.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
 
     let setLegalHoldResult = await blobClient.setLegalHold(true);
     assert.equal(setLegalHoldResult.legalHold, true);
@@ -1603,7 +1623,10 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
     const downloadResult = await blobClient.download();
     assert.ok(downloadResult.immutabilityPolicyExpiresOn);
-    assert.equal(downloadResult.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      downloadResult.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
     assert.equal(downloadResult.legalHold, true);
 
     setLegalHoldResult = await blobClient.setLegalHold(false);
@@ -1697,7 +1720,10 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
     const properties = await blobClient.getProperties();
     assert.ok(properties.immutabilityPolicyExpiresOn);
-    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      properties.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
   });
 
   it("Create append blob with legalhold", async () => {
@@ -1726,7 +1752,10 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
     const properties = await blobClient.getProperties();
     assert.ok(properties.immutabilityPolicyExpiresOn);
-    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      properties.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
   });
 
   it("Create page blob with legalhold", async () => {
@@ -1757,7 +1786,10 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
     const properties = await blobClient.getProperties();
     assert.ok(properties.immutabilityPolicyExpiresOn);
-    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      properties.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
   });
 
   it("Commit block list with legalhold", async () => {
@@ -1790,7 +1822,10 @@ describe("BlobClient - ImmutabilityPolicy", () => {
 
     const properties = await blobClient.getProperties();
     assert.ok(properties.immutabilityPolicyExpiresOn);
-    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      properties.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
   });
 
   it("Blockblob upload with legalhold", async () => {

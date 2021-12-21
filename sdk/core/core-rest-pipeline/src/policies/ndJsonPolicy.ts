@@ -24,6 +24,6 @@ export function ndJsonPolicy(): PipelinePolicy {
         }
       }
       return next(request);
-    }
+    },
   };
 }
