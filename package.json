@@ -63,10 +63,6 @@
   },
   "dependencies": {
     "@azure-tools/js-sdk-release-tools": "^1.0.3",
-    "@azure/arm-eventhub": "^5.0.0",
-    "@azure/arm-logic": "^8.0.0",
-    "@azure/arm-operationalinsights": "^8.0.0",
-    "@azure/arm-storage": "^17.0.0",
     "eng-package-utils": "file:eng/tools/eng-package-utils",
     "versioning": "file:eng/tools/versioning"
   }

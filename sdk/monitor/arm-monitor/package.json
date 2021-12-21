@@ -34,7 +34,11 @@
     "@azure/identity": "^2.0.1",
     "@azure-tools/test-recorder": "^1.0.0",
     "mocha": "^7.1.1",
-    "cross-env": "^7.0.2"
+    "cross-env": "^7.0.2",
+    "@azure/arm-eventhub": "^5.0.0",
+    "@azure/arm-logic": "^8.0.0",
+    "@azure/arm-operationalinsights": "^8.0.0",
+    "@azure/arm-storage": "^17.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitor",
   "repository": {
