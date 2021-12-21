@@ -26,7 +26,7 @@ The Azure resource that is used by the tests in this project is:
 
 - An [Azure Key Vault](https://docs.microsoft.com/azure/key-vault/general/basic-concepts). Your Azure Active Directory application needs to be added to the Access Policies of the Key Vault. The steps are provided [below](#aad-based-authentication).
 - An [Azure Key Vault Managed HSM](https://docs.microsoft.com/azure/key-vault/general/basic-concepts). Your Azure Active Directory application needs to be added to the Access Policies of the Key Vault. The steps are provided [below](#aad-based-authentication).
-- An [Azure Web App for Containers](https://docs.microsoft.com/azure/app-service/tutorial-custom-container?pivots=container-linux) is used to deploy a mock attestation service that is used to generate tokens and verify tokens by the HSM. The source code for the attestation service is hosted on [GitHub](https://github.com/Azure/azure-sdk-tools/tree/main/tools/keyvault-mock-attestation) and is deployed by the same ARM template when `enableHsm` ARM template parameter is true.
+- An [Azure Web App for Containers](https://docs.microsoft.com/azure/app-service/tutorial-custom-container?pivots=container-linux) is used to deploy a mock attestation service that is used to generate tokens and verify tokens by the HSM. The source code for the attestation service is hosted on [GitHub](https://github.com/Azure/azure-sdk-tools/tree/main/tools/keyvault-mock-attestation) and is deployed by the same ARM template.
 
 To run the live tests, you will also need to set the below environment variables:
 
@@ -35,13 +35,13 @@ To run the live tests, you will also need to set the below environment variables
 - `AZURE_CLIENT_SECRET`: The client secret of an Azure Active Directory application.
 - `AZURE_TENANT_ID`: The Tenant ID of your organization in Azure Active Directory.
 - `KEYVAULT_URI`: The URI of the KeyVault to use.
+- `AZURE_KEYVAULT_ATTESTATION_URI`: The URI of the mock attestation service used for Secure Key Release tests.
 
 In addition, when running HSM based live tests the following environment variables are required:
 
 > If `AZURE_MANAGEDHSM_URI` is not defined, these tests will be skipped in live mode.
 
 - `AZURE_MANAGEDHSM_URI`: The URI of the Azure Managed HSM to use in the Managed HSM tests.
-- `AZURE_KEYVAULT_ATTESTATION_URI`: The URI of the mock attestation service used for Secure Key Release tests.
 
 The live tests in this project will create, modify and delete [keys](https://docs.microsoft.com/azure/key-vault/keys/about-keys) inside of the provided Azure Key Vault.
 
