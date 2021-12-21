@@ -20,6 +20,10 @@ const Anonymous = require("./defaultExportsClass").default;
 
 require("./hasSideEffects");
 
+// Test builtins
+const path_1 = require("path");
+const path_2 = require("path");
+
 async function main() {
   const waitTime = process.env.WAIT_TIME || "5000";
   const delayMs = parseInt(waitTime);
@@ -37,6 +41,9 @@ async function main() {
 
   const object2 = new base.default(base.default.name);
   object2.say();
+
+  console.log("The path separator is:", path_1.sep);
+  console.log("And by a default import, it is also:", path_2.sep);
 }
 
 main().catch((error) => {

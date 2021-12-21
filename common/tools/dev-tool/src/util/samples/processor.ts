@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import nodeBuiltins from "builtin-modules";
 import fs from "fs-extra";
 import path from "path";
 import * as ts from "typescript";
@@ -11,7 +10,7 @@ import { createAccumulator } from "../typescript/accumulator";
 import { createDiagnosticEmitter } from "../typescript/diagnostic";
 import { AzSdkMetaTags, AZSDK_META_TAG_PREFIX, ModuleInfo, VALID_AZSDK_META_TAGS } from "./info";
 import { testSyntax } from "./syntax";
-import { toCommonJs } from "./transforms";
+import { isDependency, isRelativePath, toCommonJs } from "./transforms";
 
 const log = createPrinter("samples:processor");
 
@@ -381,25 +380,3 @@ function processExportDefault(
         );
   });
 }
-
-/**
- * Determines whether a module specifier is a package dependency.
- *
- * A dependency is a module specifier that does not refer to a node builtin and
- * is not a relative path.
- *
- * Absolute path imports are not supported in samples (because the package base
- * is not fixed relative to the source file).
- *
- * @param moduleSpecifier - the string given to `import` or `require`
- * @returns - true if `moduleSpecifier` should be considered a reference to a
- * node module dependency
- */
-function isDependency(moduleSpecifier: string): boolean {
-  if (nodeBuiltins.includes(moduleSpecifier)) return false;
-
-  return !isRelativePath(moduleSpecifier);
-}
-
-// This seems like a reasonable test for "is a relative path"
-const isRelativePath = (path: string) => /^\.\.?[/\\]/.test(path);
