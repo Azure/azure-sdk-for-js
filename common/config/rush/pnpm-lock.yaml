@@ -7572,7 +7572,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-16s3ce6B0SK1LtQPkEnwkWxiRKiUKi/3jEahmF5rvNRf/ZeHB9v7iJzHI+GgPws68wF4JahsBGmS5h8rOx0+Qg==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-6HLJpG4IU5XCZfGM8/Nd5l+W4XzXV0a0UVKBLnTCw8VJEbDUCL9/8VAqd52uJiFzmOjVfR2ZmohSCysETn9UXA==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -9694,7 +9694,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-dRsBXthB+2E8lqtimjt0jnZq5kCw3RNdI5Qh8f83crtOs0GEFZrJc9N1PIceNZY0VD6stFOXHYZUWh9oxRf7tA==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-c8AfG7dxgv5jrx3HdhUbRw21oGFr70YrFX3F+14EL4gXTYQUEpPhQbsDkCIqrCn7gmd8YK+FvsZe3O7oVedpkA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -9726,7 +9726,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       tslib: 2.3.1
@@ -9837,7 +9837,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-HQP7SoLf0pni8/IgjJzzP4e5Ii22LBrHWxaO2VOgSkA7IQsWu02zX8CrDm593Mjq5ty3J2pN4EqBxQtbmzclQA==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-heeH50UBp+30j0SbQ3afdU42l3Eh1jl4jKcR3LLzU5ihYbjApQVWrgVMlXM8pKzvEyrzWc+EPE02H0kQm2l8mA==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -11603,7 +11603,7 @@ packages:
     dev: false
 
   file:projects/perf-container-registry.tgz:
-    resolution: {integrity: sha512-HECbk/+c0Z5+6JKSo94dhetaJqaADEEpgBUGBEQN9L6D5M4Jrn1+1HuUi2U5CtKJN94f4/J4H2ifCCRcYCwOlg==, tarball: file:projects/perf-container-registry.tgz}
+    resolution: {integrity: sha512-RED3Qb+dY88UZeIY1mWPQj043OJwDIWfk4ntWO4L/K/+z/e/AvTVFe4GQS/8ct809XqBiuqb4QGJ649c4hcOBg==, tarball: file:projects/perf-container-registry.tgz}
     name: '@rush-temp/perf-container-registry'
     version: 0.0.0
     dependencies:
@@ -11611,7 +11611,7 @@ packages:
       '@types/node': 12.20.37
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 9.1.1_typescript@4.2.4
       tslib: 2.3.1
