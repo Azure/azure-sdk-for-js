@@ -17,29 +17,29 @@ const basicResponseStructure = {
   headers: testHttpHeaders,
   parsedBody: {},
   request: testHttpRequest,
-  status: 200
+  status: 200,
 };
 const initialResponse = {
   ...basicResponseStructure,
   parsedBody: {
-    started: true
-  }
+    started: true,
+  },
 };
 const doFinalResponse = {
   ...basicResponseStructure,
   parsedBody: {
-    doFinalResponse: true
-  }
+    doFinalResponse: true,
+  },
 };
 const finalResponse = {
   ...basicResponseStructure,
   parsedBody: {
-    finished: true
-  }
+    finished: true,
+  },
 };
 
-describe("Long Running Operations - custom client", function() {
-  it("can automatically poll a long running operation with one promise", async function() {
+describe("Long Running Operations - custom client", function () {
+  it("can automatically poll a long running operation with one promise", async function () {
     const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([initialResponse, doFinalResponse, finalResponse]);
 
@@ -62,7 +62,7 @@ describe("Long Running Operations - custom client", function() {
   });
 
   if (isNode) {
-    it("won't throw UnhandledPromiseRejectionWarnings when poll called without pollUntilDone", async function() {
+    it("won't throw UnhandledPromiseRejectionWarnings when poll called without pollUntilDone", async function () {
       // NOTE: Don't set any responses so that poller.poll throws an error
       const client = new TestClient(new TestTokenCredential("my-test-token"));
       let foundUnhandled = false;
@@ -83,7 +83,7 @@ describe("Long Running Operations - custom client", function() {
     });
   }
 
-  it("can poll a long running operation with more than one promise", async function() {
+  it("can poll a long running operation with more than one promise", async function () {
     const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([initialResponse, doFinalResponse, finalResponse]);
 
@@ -103,7 +103,7 @@ describe("Long Running Operations - custom client", function() {
     assert.equal(result, "Done");
   });
 
-  it("can cancel the operation (when cancellation is supported)", async function() {
+  it("can cancel the operation (when cancellation is supported)", async function () {
     const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([initialResponse, ...Array(20).fill(basicResponseStructure)]);
 
@@ -134,7 +134,7 @@ describe("Long Running Operations - custom client", function() {
     assert.ok(poller.isStopped());
   });
 
-  it("fails to cancel the operation (when cancellation is not supported)", async function() {
+  it("fails to cancel the operation (when cancellation is not supported)", async function () {
     const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([initialResponse, ...Array(20).fill(basicResponseStructure)]);
 
@@ -157,7 +157,7 @@ describe("Long Running Operations - custom client", function() {
     assert.equal(error.message, "Cancellation not supported");
   });
 
-  it("can stop polling the operation", async function() {
+  it("can stop polling the operation", async function () {
     const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([initialResponse, ...Array(20).fill(basicResponseStructure)]);
 
@@ -187,20 +187,20 @@ describe("Long Running Operations - custom client", function() {
     assert.equal(client.totalSentRequests, 12);
   });
 
-  it("can document progress", async function() {
+  it("can document progress", async function () {
     const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
       ...Array(10).fill(basicResponseStructure),
       doFinalResponse,
-      finalResponse
+      finalResponse,
     ]);
 
     let totalOperationUpdates = 0;
     const poller = await client.startLRO({
       onProgress: (_) => {
         totalOperationUpdates++;
-      }
+      },
     });
 
     const result = await poller.pollUntilDone();
@@ -211,7 +211,7 @@ describe("Long Running Operations - custom client", function() {
     assert.equal(totalOperationUpdates, 11);
   });
 
-  it("can reuse one poller state to instantiate another poller", async function() {
+  it("can reuse one poller state to instantiate another poller", async function () {
     const client = new TestClient(new TestTokenCredential("my-test-token"));
 
     // A total of 13 expected responses.
@@ -219,7 +219,7 @@ describe("Long Running Operations - custom client", function() {
       initialResponse,
       ...Array(10).fill(basicResponseStructure),
       doFinalResponse,
-      finalResponse
+      finalResponse,
     ];
     client.setResponses(responses);
 
@@ -237,7 +237,7 @@ describe("Long Running Operations - custom client", function() {
     const client2 = new TestClient(new TestTokenCredential("my-test-token"));
     client2.setResponses(responses);
     const poller2 = await client2.startLRO({
-      baseOperation: serialized
+      baseOperation: serialized,
     });
 
     assert.equal(client2.totalSentRequests, 1);
