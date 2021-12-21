@@ -64,10 +64,11 @@ export function createPoll<TResult>(
     const response = await lroPrimitives.sendPollRequest(path);
     const retryAfter: string | undefined = response.rawResponse.headers["retry-after"];
     if (retryAfter !== undefined) {
-      const retryAfterInMs = parseInt(retryAfter);
-      pollerConfig.intervalInMs = isNaN(retryAfterInMs)
+      // Retry-After header value is either in HTTP date format, or in seconds
+      const retryAfterInSeconds = parseInt(retryAfter);
+      pollerConfig.intervalInMs = isNaN(retryAfterInSeconds)
         ? calculatePollingIntervalFromDate(new Date(retryAfter), pollerConfig.intervalInMs)
-        : retryAfterInMs;
+        : retryAfterInSeconds * 1000;
     }
     return getLroStatusFromResponse(response);
   };
