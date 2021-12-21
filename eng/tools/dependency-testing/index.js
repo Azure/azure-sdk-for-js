@@ -76,14 +76,12 @@ async function insertPackageJson(repoRoot, packageJsonContents, targetPackagePat
   allowedVersionList[targetPackageName] = depList[targetPackageName];
   for (const package of Object.keys(packageJsonContents.dependencies)) {
     depList[package] = packageJsonContents.dependencies[package];
-    if (package.startsWith("@azure/") || package.startsWith("@azure-rest/")) {
       depList[package] = await findAppropriateVersion(package, packageJsonContents.dependencies[package], repoRoot, versionType);
       if (packageJsonContents.dependencies[package] !== depList[package]) {
         console.log(package);
         allowedVersionList[package] = depList[package];
         console.log(allowedVersionList[package]);
       }
-    }
   }
   testPackageJson.dependencies = depList;
 
