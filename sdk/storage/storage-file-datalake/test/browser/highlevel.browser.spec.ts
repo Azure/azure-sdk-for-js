@@ -152,29 +152,28 @@ describe("Highlevel browser only", () => {
       uint8Array[i] = i;
     }
 
-    const blob = new Blob([arrayBuf], { type: "text/plain;charset=utf-8" });
+    const blob = new Blob([arrayBuf]);
     await fileClient.upload(blob);
-    const downloadedBlob = await (await fileClient.read()).contentAsBlob;
-    assert.deepStrictEqual(downloadedBlob, blob);
+    const downloadedBlob = await (await fileClient.read()).contentAsBlob!;
+    assert.ok(arrayBufferEqual(await downloadedBlob.arrayBuffer(), await blob.arrayBuffer()));
 
     await fileClient.upload(arrayBuf);
-    const downloadedBlob1 = await (await fileClient.read()).contentAsBlob;
-    assert.deepStrictEqual(downloadedBlob1, blob);
+    const downloadedBlob1 = await (await fileClient.read()).contentAsBlob!;
+    assert.ok(arrayBufferEqual(await downloadedBlob1.arrayBuffer(), await blob.arrayBuffer()));
 
     const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
     await fileClient.upload(uint8ArrayPartial);
     const downloadedBlob2 = await (await fileClient.read()).contentAsBlob!;
-    assert.deepStrictEqual(
-      downloadedBlob2,
-      new Blob([uint8ArrayPartial], { type: "text/plain;charset=utf-8" })
-    );
+    assert.ok(arrayBufferEqual(await downloadedBlob2.arrayBuffer(), uint8ArrayPartial));
 
     const uint16Array = new Uint16Array(arrayBuf, 4, 2);
     await fileClient.upload(uint16Array);
     const downloadedBlob3 = await (await fileClient.read()).contentAsBlob!;
-    assert.deepStrictEqual(
-      downloadedBlob3,
-      new Blob([uint16Array], { type: "text/plain;charset=utf-8" })
+    assert.ok(
+      arrayBufferEqual(
+        await downloadedBlob3.arrayBuffer(),
+        new Uint8Array(uint16Array.buffer, uint16Array.byteOffset, uint16Array.byteLength)
+      )
     );
   });
 });
