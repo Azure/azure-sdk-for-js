@@ -36,7 +36,7 @@ export async function main() {
   const sendRequest: SmsSendRequest = {
     from: process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>",
     to: phoneNumbers,
-    message: "Hello World via SMS!"
+    message: "Hello World via SMS!",
   };
 
   // construct send options
