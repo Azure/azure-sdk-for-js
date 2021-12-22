@@ -63,18 +63,17 @@ class FetchHttpClient implements HttpClient {
       headers.append(name, value);
     }
 
-    const httpRequest = new Request(request.url, {
-      body: request.body,
-      method: request.method,
-      headers: headers,
-      signal: abortController.signal,
-      credentials: request.withCredentials ? "include" : "same-origin",
-      redirect: "manual",
-      cache: "no-store"
-    });
-
     try {
-      const httpResponse = await fetch(httpRequest);
+      const httpResponse = await fetch(request.url, {
+        body: request.body,
+        method: request.method,
+        headers: headers,
+        signal: abortController.signal,
+        credentials: request.withCredentials ? "include" : "same-origin",
+        redirect: "manual",
+        cache: "no-store",
+        
+      });
 
       // TODO: handle upload and download progress...
 
@@ -86,14 +85,28 @@ class FetchHttpClient implements HttpClient {
       const response: PipelineResponse = {
         request,
         headers: responseHeaders,
-        status: httpResponse.status
+        status: httpResponse.status,
       };
 
-      if (request.streamResponseStatusCodes?.has(httpResponse.status)) {
+      // TODO: Handle decompress
+
+      // Download progress
+      // const onDownloadProgress = request.onDownloadProgress;
+      // if (onDownloadProgress) {
+      //   const t = new TransformStream({})
+      //   const downloadReportStream = new TransformStream(onDownloadProgress);
+      //   downloadReportStream.on("error", (e) => {
+      //     logger.error("Error in download progress", e);
+      //   });
+      //   responseStream.pipe(downloadReportStream);
+      //   responseStream = downloadReportStream;
+      // }
+
+      if (httpResponse.body && request.streamResponseStatusCodes?.has(httpResponse.status)) {
         // TODO: figure out if we should return a blob by default for compat
         response.blobBody = httpResponse.blob();
       } else {
-        response.bodyAsText = await httpResponse.text();
+        response.bodyAsText = await readBodyContent(httpResponse, request)
       }
 
       return response;
@@ -103,7 +116,7 @@ class FetchHttpClient implements HttpClient {
       } else {
         throw new RestError(`Error sending request: ${e.message}`, {
           code: e?.code ?? RestError.REQUEST_SEND_ERROR,
-          request
+          request,
         });
       }
     }
@@ -116,4 +129,47 @@ class FetchHttpClient implements HttpClient {
  */
 export function createFetchHttpClient(): HttpClient {
   return new FetchHttpClient();
+}
+
+async function readBodyContent(
+  response: Response,
+  request: PipelineRequest
+): Promise<string> {
+  let chunks = [];
+  const reader = response.body?.getReader();
+
+  if (!reader) {
+    return "";
+  }
+
+  let received = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    const loadedBytes = value?.length ?? 0;
+    if (request.onDownloadProgress) {
+      request.onDownloadProgress({ loadedBytes });
+    }
+
+    received += loadedBytes;
+
+    if (done) {
+      break;
+    }
+
+    chunks.push(value);
+  }
+
+  let body = new Uint8Array(received);
+  let position = 0;
+
+  for (let chunk of chunks) {
+    if (!chunk) {
+      throw new Error("Invalid chunk");
+    }
+    body.set(chunk, position);
+    position += chunk.length;
+  }
+
+  return new TextDecoder("utf-8").decode(body);
 }
