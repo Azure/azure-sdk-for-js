@@ -1,6 +1,6 @@
 # Migration Guide
 
-This document outlines key differences between the legacy recorder and the new Unified Recorder client. The Unified Recorder replaces the existing `nock`-based recorder with a solution that uses the language-agnostic [test proxy server].
+This document outlines key differences between the legacy recorder and the new Unified Recorder client. The Unified Recorder replaces the existing `nock/nise`-based recorder with a solution that uses the language-agnostic [test proxy server].
 
 ## Prerequisites
 
