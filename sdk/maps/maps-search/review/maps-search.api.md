@@ -213,7 +213,7 @@ export interface GeometryIdentifier {
 }
 
 // @public
-export interface GetPointOfInterestCategoryTreeOptions extends OperationOptions {
+export interface GetPointOfInterestCategoriesOptions extends OperationOptions {
     language?: string;
 }
 
@@ -244,7 +244,7 @@ export class MapsSearchClient {
     fuzzySearch(query: string, coordinates: LatLon, countryFilter: string[], options?: FuzzySearchOptions): Promise<SearchAddressResult>;
     fuzzySearchBatchSync(requests: FuzzySearchRequest[], options?: FuzzySearchBatchOptions): Promise<BatchResult<SearchAddressResult>>;
     // Warning: (ae-forgotten-export) The symbol "PointOfInterestCategory" needs to be exported by the entry point index.d.ts
-    getPointOfInterestCategoryTree(options?: GetPointOfInterestCategoryTreeOptions): Promise<PointOfInterestCategory[]>;
+    getPointOfInterestCategories(options?: GetPointOfInterestCategoriesOptions): Promise<PointOfInterestCategory[]>;
     getPolygons(geometryIds: string[], options?: GetPolygonsOptions): Promise<Polygon[]>;
     reverseSearchAddress(coordinates: LatLon, options?: ReverseSearchAddressOptions): Promise<ReverseSearchAddressResult>;
     reverseSearchAddressBatchSync(requests: ReverseSearchAddressRequest[], options?: ReverseSearchAddressBatchOptions): Promise<BatchResult<ReverseSearchAddressResult>>;

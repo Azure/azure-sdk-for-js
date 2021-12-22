@@ -45,9 +45,9 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
       // describe("#searchPointOfInterest", function() {});
       // describe("#searchNearbyPointOfInterest", function() {});
       // describe("#searchPointOfInterestCategory", function() {});
-      describe("#getPointOfInterestCategoryTree", function() {
+      describe("#getPointOfInterestCategories", function() {
         it("return a list of POI categories", async function() {
-          const results = await client.getPointOfInterestCategoryTree();
+          const results = await client.getPointOfInterestCategories();
           assert.isAtLeast(results.length, 1);
         });
       });
