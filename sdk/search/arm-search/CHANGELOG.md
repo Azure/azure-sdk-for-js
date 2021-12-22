@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 3.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 3.0.0 (2021-12-21)
 
 The package of @azure/arm-search is using our next generation design principles since version 3.0.0, which contains breaking changes.
