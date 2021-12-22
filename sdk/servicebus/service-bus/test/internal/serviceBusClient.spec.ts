@@ -257,7 +257,7 @@ describe("ServiceBusClient live tests", () => {
       });
 
       should.equal(
-        await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
+        await checkWithTimeout(() => errorWasThrown === true, 10, 5000),
         true,
         "Error thrown flag must be true"
       );
