@@ -9336,7 +9336,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-i8O1vcHtskUYNKJMOuDG3fcrguOLC9wUvbwApeUhcACs2kJVWyPq+/KknHxy5ziBfOBST0lE0wKlhhQI+cpKqg==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-fhcFGYpz6eNL0wS9zadrtmRl960ia2mqyYsyzxHUczrVwRdVd6jCk8xB1Y0sUdcXb+q9eNlOaglROdPstwaV/Q==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -9376,7 +9376,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9396,7 +9396,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-6RlbYrsYgu1mkuGLauson3HrB6S4rnekzHayI4CE4NUE+JwvVxq+eREr4QS8QyxY9meGHUh4RlgrWpi8qge0EA==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-XVGXtPP5gK8O3e2f98x5MMmCRlVb/AVcyOvl+s4qH+nrJ7HiaINPLF/bUJ1nNrqzttUCMDLEpJ+KoZRHxP6C8A==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -9434,7 +9434,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -9452,7 +9452,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-Pd6xL9ul+ZmdKz9WDHpulw5Jg2ve/jGDcuw6gUlFoCKqPYxFyl53vhxF2CJbo2ngJu5SH5pzlQRzaWCGXkLCnQ==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-FDXs0o+ewJsf9sVFMCNjZ7LyfvhGYff1X1E9Ehp+DgavGBCE8JQntX3+IDOS4xhNBO+A55qu5lNnRGr1dL7U2w==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -9489,7 +9489,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9507,7 +9507,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-GZrr9iJJAlwg0MNIOAJFLqQ2lrnGvEoKTlTf5ogWH95gadZpSUWc5g6yNuabi2N01F0O8DsV6D4S3AhsTDPOoA==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-El7dbzRK4iVIXh6YS0LLipwQqnvmV/cQrsibu9txTyotrP1E9TeLimSEX7G2gUyV4tHxwiyzVOgkIjuQz0n0hg==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
@@ -9545,7 +9545,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9563,7 +9563,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-hRpMVtGzkAWk1S6z/0JsuEs34ixZNf+dC+0HtgOu22ANfh6oaG7I0twh+Y9Z4477PiArgV8BPbeXjEXe1SMkRA==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-M8FHNvGy7u90ya/gC+6k3bP7Wkk68ZpO3uOMjxWcWoIjygt7XdkkpqS5/Lfj8i2GrQfowdVmZmoegDSEwbgrxA==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -9600,7 +9600,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9618,7 +9618,7 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-2bCKBB9U8DafVseScFiKu7uLJ/6FTKCqL6t+Fx+rHD1PB8HY1Ko8bYM6ElYL7CzPiMVK+ZyP07DJfnRMCxX+ww==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-9pFHlwq56rAjHlB2edrP1EF6fDNleBg5eyODiuWH+ImQbuTFDFtkOaMq3eIJoUoFgna//ylYbcocQBm9Wc9hNA==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
@@ -9655,7 +9655,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9673,7 +9673,7 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-KfirQnkgiPw0HeZ+GpMnhT+uihDoL/JLKCAnf78GiwC1L0YrPU34M8t+rF8AQsPX3PbQnXlY0uhRgHWm02DGPA==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-DVCE2XYBDoK8q33yzwEeoadJYnADTspkB/1YdABVIp1qhbU4jDppQUjoqlDsrjcIMWHdP/6U5/m6yZssmP669w==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
@@ -9708,7 +9708,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0

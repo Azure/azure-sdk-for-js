@@ -9,14 +9,14 @@ import { apiVersion } from "../../src/generated/src/models/parameters";
 import { baseUri, generateToken } from "../public/utils/connectionUtils";
 import {
   AzureCommunicationTokenCredential,
-  CommunicationUserIdentifier
+  CommunicationUserIdentifier,
 } from "@azure/communication-common";
 import {
   mockThread,
   generateHttpClient,
   createChatClient,
   mockThreadItem,
-  mockCreateThreadResult
+  mockCreateThreadResult,
 } from "./utils/mockClient";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
@@ -39,7 +39,7 @@ describe("[Mocked] ChatClient", async () => {
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
     const sendRequest: CreateChatThreadRequest = {
-      topic: mockThread.topic!
+      topic: mockThread.topic!,
     };
 
     const sendOptions = {};
@@ -65,7 +65,7 @@ describe("[Mocked] ChatClient", async () => {
 
   it("makes successful list threads request", async () => {
     const mockResponse: RestModel.ChatThreadsItemCollection = {
-      value: [mockThreadItem, mockThreadItem]
+      value: [mockThreadItem, mockThreadItem],
     };
 
     const mockHttpClient = generateHttpClient(200, mockResponse);
