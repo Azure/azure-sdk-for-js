@@ -26,11 +26,22 @@ async function main() {
       }
     },
   };
+  // instantiate the generic type variables so that TElement does not default to unknown
   const iterator = getPagedAsyncIterator(pagedResult);
   for await (const page of iterator.byPage({ maxPageSize: 5 })) {
     for (const element of page) {
       console.log(`Received element: ${element}`);
     }
+  }
+
+  // iterating without for-await pattern
+  let item = await iterator.next();
+  while (!item.done) {
+    console.log(`Received element: ${item.value}`);
+    item = await iterator.next();
+  }
+  if (item.done && item.value !== undefined) {
+    throw new Error(`next() should not return a value but it returned ${item.value}`);
   }
 }
 
