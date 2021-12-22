@@ -152,7 +152,7 @@ async function main() {
 
   console.log(" --- List polygons by geometry IDs:");
   console.log(geometryIds);
-  console.log(await client.listPolygons(geometryIds));
+  console.log(await client.getPolygons(geometryIds));
 
   console.log(" --- Search along route:");
   const searchALongRouteQuery = "burger";

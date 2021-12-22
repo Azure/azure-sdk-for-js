@@ -30,13 +30,13 @@ matrix([["SubscriptionKey"]] as const, async (authMethod: AuthMethod) => {
       before(function(this: Context) {
         this.timeout(fastTimeout);
       });
-      describe("#listPolygons", function() {
+      describe("#getPolygons", function() {
         it("throws error on empty geometryIds array", async function() {
-          return assert.isRejected(client.listPolygons([]), /non-empty array/);
+          return assert.isRejected(client.getPolygons([]), /non-empty array/);
         });
         it("accepts string[]", async function() {
           const geometryId: string[] = ["00005858-5800-1200-0000-0000773670cd"];
-          const results = await client.listPolygons(geometryId);
+          const results = await client.getPolygons(geometryId);
           assert.equal(results.length, geometryId.length);
           results.forEach((r) => assert.ok(r.geometryData));
         });
