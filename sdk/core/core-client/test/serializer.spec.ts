@@ -10,7 +10,8 @@ import {
   DictionaryMapper,
   CompositeMapper,
 } from "../src";
-import { Mappers } from "./testMappers";
+import { Mappers } from "./testMappers1";
+import * as MediaMappers from "./testMappers2";
 
 const Serializer = createSerializer(Mappers);
 const valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";
@@ -825,6 +826,81 @@ describe("Serializer", function () {
       };
 
       Serializer.serialize(mapper, undefined, "testobj");
+    });
+  });
+
+  it("should correctly serialize polymorphic children of a sequence of polymorphic elements", function () {
+    const bumperJobInputAsset = {
+      odataType: "#Microsoft.Media.JobInputAsset",
+      assetName: "input2",
+      start: {
+        odataType: "#Microsoft.Media.AbsoluteClipTime",
+        time: "PT0S",
+      },
+      label: "bumper",
+    };
+
+    const mainJobInputAsset = {
+      odataType: "#Microsoft.Media.JobInputAsset",
+      assetName: "input",
+      start: {
+        odataType: "#Microsoft.Media.AbsoluteClipTime",
+        time: "PT0S",
+      },
+      label: "main",
+    };
+
+    const input = {
+      odataType: "#Microsoft.Media.JobInputSequence",
+      inputs: [bumperJobInputAsset, mainJobInputAsset],
+    };
+    const outputs = [
+      {
+        odataType: "#Microsoft.Media.JobOutputAsset",
+        assetName: "outputAssetName",
+      },
+    ];
+    const requestBody = {
+      input,
+      outputs,
+    };
+
+    const MediaSerializer = createSerializer(MediaMappers);
+    const result = MediaSerializer.serialize(MediaMappers.Job, requestBody);
+    // assetName can get clipped off if this fails, since input.inputs
+    // elements will get serialized as JobInputClip instead of JobInputAsset
+    assert.deepStrictEqual(result, {
+      properties: {
+        input: {
+          "@odata.type": "#Microsoft.Media.JobInputSequence",
+          inputs: [
+            {
+              "@odata.type": "#Microsoft.Media.JobInputAsset",
+              start: {
+                "@odata.type": "#Microsoft.Media.AbsoluteClipTime",
+                time: "PT0S",
+              },
+              label: "bumper",
+              assetName: "input2",
+            },
+            {
+              "@odata.type": "#Microsoft.Media.JobInputAsset",
+              start: {
+                "@odata.type": "#Microsoft.Media.AbsoluteClipTime",
+                time: "PT0S",
+              },
+              label: "main",
+              assetName: "input",
+            },
+          ],
+        },
+        outputs: [
+          {
+            "@odata.type": "#Microsoft.Media.JobOutputAsset",
+            assetName: "outputAssetName",
+          },
+        ],
+      },
     });
   });
 
@@ -1788,6 +1864,81 @@ describe("Serializer", function () {
         assert.equal(result.siblings.length, 3);
         assert(result.siblings[1].picture);
         assert.equal(result.siblings[2].jawsize, 5);
+      });
+    });
+
+    it("should correctly deserialize polymorphic children of a sequence of polymorphic elements", function () {
+      const serializedPayload = {
+        properties: {
+          input: {
+            "@odata.type": "#Microsoft.Media.JobInputSequence",
+            inputs: [
+              {
+                "@odata.type": "#Microsoft.Media.JobInputAsset",
+                start: {
+                  "@odata.type": "#Microsoft.Media.AbsoluteClipTime",
+                  time: "PT0S",
+                },
+                label: "bumper",
+                assetName: "input2",
+              },
+              {
+                "@odata.type": "#Microsoft.Media.JobInputAsset",
+                start: {
+                  "@odata.type": "#Microsoft.Media.AbsoluteClipTime",
+                  time: "PT0S",
+                },
+                label: "main",
+                assetName: "input",
+              },
+            ],
+          },
+          outputs: [
+            {
+              "@odata.type": "#Microsoft.Media.JobOutputAsset",
+              assetName: "outputAssetName",
+            },
+          ],
+        },
+      };
+
+      const MediaSerializer = createSerializer(MediaMappers);
+      const result = MediaSerializer.deserialize(
+        MediaMappers.Job,
+        serializedPayload,
+        "anyResponseBody"
+      );
+      // This can fail by "@odata.type" properties not turning into odataType
+      assert.deepStrictEqual(result, {
+        input: {
+          odataType: "#Microsoft.Media.JobInputSequence",
+          inputs: [
+            {
+              odataType: "#Microsoft.Media.JobInputAsset",
+              start: {
+                odataType: "#Microsoft.Media.AbsoluteClipTime",
+                time: "PT0S",
+              },
+              label: "bumper",
+              assetName: "input2",
+            },
+            {
+              odataType: "#Microsoft.Media.JobInputAsset",
+              start: {
+                odataType: "#Microsoft.Media.AbsoluteClipTime",
+                time: "PT0S",
+              },
+              label: "main",
+              assetName: "input",
+            },
+          ],
+        },
+        outputs: [
+          {
+            odataType: "#Microsoft.Media.JobOutputAsset",
+            assetName: "outputAssetName",
+          },
+        ],
       });
     });
   });
