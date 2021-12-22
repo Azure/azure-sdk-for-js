@@ -24,21 +24,7 @@ export function buildRequestUrl(
     return path;
   }
 
-  if (options.pathParameters) {
-    const pathParams = options.pathParameters;
-    for (const key of Object.keys(pathParams)) {
-      const param = pathParams[key] as any;
-      if (param === undefined || param === null) {
-        continue;
-      }
-      if (!param.toString || typeof param.toString !== "function") {
-        throw new Error(`Query parameters must be able to be represented as string, ${key} can't`);
-      }
-      const value = param.toISOString !== undefined ? param.toISOString() : param.toString();
-      const pattern = new RegExp(`{${key}}`);
-      baseUrl = baseUrl.replace(pattern, value);
-    }
-  }
+  baseUrl = buildBaseUrl(baseUrl, options);
 
   for (const pathParam of pathParameters) {
     let value = pathParam;
@@ -72,4 +58,27 @@ export function buildRequestUrl(
       // Remove double forward slashes
       .replace(/([^:]\/)\/+/g, "$1")
   );
+}
+
+export function buildBaseUrl(baseUrl: string, options: RequestParameters): string {
+  if (!options.pathParameters) {
+    return baseUrl;
+  }
+  const pathParams = options.pathParameters;
+  for (const key of Object.keys(pathParams)) {
+    const param = pathParams[key] as any;
+    if (param === undefined || param === null) {
+      throw new Error(`Query parameters ${key} must not be undefined or null`);
+    }
+    if (!param.toString || typeof param.toString !== "function") {
+      throw new Error(`Query parameters must be able to be represented as string, ${key} can't`);
+    }
+    let value = param.toISOString !== undefined ? param.toISOString() : param.toString();
+    if (!options.skipUrlEncoding) {
+      value = encodeURIComponent(param);
+    }
+    const pattern = new RegExp(`{${key}}`);
+    baseUrl = baseUrl.replace(pattern, value);
+  }
+  return baseUrl;
 }
