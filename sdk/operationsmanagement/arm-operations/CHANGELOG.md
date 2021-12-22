@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 4.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.0.0-beta.2 (2021-12-21)
 
 The package of @azure/arm-operations is using our next generation design principles since version 4.0.0-beta.2, which contains breaking changes.
