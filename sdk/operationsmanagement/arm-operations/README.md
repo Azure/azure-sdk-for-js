@@ -6,7 +6,7 @@ Operations Management Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/operationsmanagement/arm-operations) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-operations) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-operations) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-operations?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
