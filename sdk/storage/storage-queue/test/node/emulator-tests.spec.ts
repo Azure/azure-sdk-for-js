@@ -18,7 +18,7 @@ describe("Emulator Tests", () => {
     if (!env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
       this.skip();
     }
-    const queueServiceClient = getQSU();
+    const queueServiceClient = getQSU(undefined);
     queueName = getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();

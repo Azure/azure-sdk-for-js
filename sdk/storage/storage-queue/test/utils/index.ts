@@ -12,17 +12,18 @@ import {
   AccountSASServices
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { env } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder-new";
 
 // Uncomment if need to enable logger when debugging
 // import {HttpPipelineLogLevel} from "../../src"
 // import {ConsoleHttpPipelineLogger} from "./testutils.common"
 
 export function getGenericQSU(
+  recorder: Recorder | undefined,
   accountType: string,
   accountNameSuffix: string = ""
 ): QueueServiceClient {
-  if (env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
+  if (env.STORAGE_CONNECTION_STRING?.startsWith("UseDevelopmentStorage=true")) {
     // Expected environment variable to run tests with the emulator
     // [Azurite - Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Azurite.azurite)
     // STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true
@@ -41,21 +42,25 @@ export function getGenericQSU(
     }
 
     const credentials = new StorageSharedKeyCredential(accountName, accountKey);
-    const pipeline = newPipeline(credentials, {
+    const pipelineOptions = {
       // Enable logger when debugging
       // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
-    });
+    };
+    const pipeline = newPipeline(
+      credentials,
+      recorder?.configureClientOptionsCoreV1(pipelineOptions) ?? pipelineOptions
+    );
     const queuePrimaryURL = `https://${accountName}${accountNameSuffix}.queue.core.windows.net/`;
     return new QueueServiceClient(queuePrimaryURL, pipeline);
   }
 }
 
-export function getQSU(): QueueServiceClient {
-  return getGenericQSU("");
+export function getQSU(recorder: Recorder | undefined): QueueServiceClient {
+  return getGenericQSU(recorder, "");
 }
 
-export function getAlternateQSU(): QueueServiceClient {
-  return getGenericQSU("SECONDARY_", "-secondary");
+export function getAlternateQSU(recorder: Recorder | undefined): QueueServiceClient {
+  return getGenericQSU(recorder, "SECONDARY_", "-secondary");
 }
 
 export function getConnectionStringFromEnvironment(): string {
@@ -75,7 +80,7 @@ export function getSASConnectionStringFromEnvironment(): string {
 
   const tmr = new Date();
   tmr.setDate(tmr.getDate() + 1);
-  const queueServiceClient = getQSU();
+  const queueServiceClient = getQSU(undefined);
   // By default, credential is always the last element of pipeline factories
   const factories = (queueServiceClient as any).pipeline.factories;
   const sharedKeyCredential = factories[factories.length - 1];

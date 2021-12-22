@@ -338,4 +338,26 @@ export class Recorder {
 
     return this.variables[name];
   }
+
+  /**
+   * In live test mode, random string is generated, appended to `prefix` and returned.
+   *
+   * In record mode, random string is generated, appended to `prefix` and returned, and is saved in the recordings by assigning the `label`.
+   *
+   * In playback mode, the string in the recordings associated to the `label` is returned.
+   *
+   * If the `label`(optional param) is not provided, `prefix` is used as the `label`.
+   *
+   * @param prefix - Prefix for the generated random string
+   * @param label - (Optional) Label to be assigned for the generated string [necessary for playing back the recordings]. If label is not provided, prefix is assumed as the label
+   */
+  getUniqueName(prefix: string, label?: string) {
+    const suffix = Math.floor(Math.random() * 10_000);
+    return this.variable(label ?? prefix, `${prefix}-${suffix}`);
+  }
+
+  newDate(label: string) {
+    const now = new Date();
+    return new Date(this.variable(label, now.toISOString()));
+  }
 }

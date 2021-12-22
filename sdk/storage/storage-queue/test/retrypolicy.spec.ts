@@ -9,8 +9,8 @@ import { AbortController } from "@azure/abort-controller";
 import { Pipeline } from "../src/Pipeline";
 import { getQSU } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "./utils/index.browser";
+import { Recorder } from "@azure-tools/test-recorder-new";
+import { recorderStartOptions } from "./utils/index.browser";
 import { Context } from "mocha";
 
 dotenv.config();
@@ -23,8 +23,9 @@ describe("RetryPolicy", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    queueServiceClient = getQSU();
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderStartOptions);
+    queueServiceClient = getQSU(recorder);
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();

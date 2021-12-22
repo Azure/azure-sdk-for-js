@@ -8,8 +8,8 @@ import { QueueClient, QueueServiceClient } from "../src";
 import { setSpan, context } from "@azure/core-tracing";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import { URLBuilder, RestError } from "@azure/core-http";
-import { Recorder, record } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "./utils/testutils.common";
+import { Recorder } from "@azure-tools/test-recorder-new";
+import { recorderStartOptions } from "./utils/testutils.common";
 import { Context } from "mocha";
 dotenv.config();
 
@@ -21,8 +21,9 @@ describe("QueueClient", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    queueServiceClient = getQSU();
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderStartOptions);
+    queueServiceClient = getQSU(recorder);
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();

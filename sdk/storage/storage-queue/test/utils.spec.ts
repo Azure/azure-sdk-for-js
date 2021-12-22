@@ -10,8 +10,8 @@ import {
   extractConnectionStringParts,
   isIpEndpointStyle
 } from "../src/utils/utils.common";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "./utils/testutils.common";
+import { Recorder } from "@azure-tools/test-recorder-new";
+import { recorderStartOptions } from "./utils/testutils.common";
 import { URLBuilder } from "@azure/core-http";
 import { Context } from "mocha";
 dotenv.config();
@@ -45,7 +45,8 @@ describe("Utility Helpers", () => {
   }
 
   beforeEach(async function(this: Context) {
-    recorder = record(this, recorderEnvSetup);
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderStartOptions);
   });
 
   afterEach(async function() {

@@ -4,10 +4,10 @@
 import { assert } from "chai";
 import { newPipeline } from "../../src";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder-new";
 import { QueueClient } from "../../src/QueueClient";
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { recorderEnvSetup } from "../utils/index.browser";
+import { recorderStartOptions } from "../utils/index.browser";
 import { Context } from "mocha";
 
 describe("QueueClient messageId methods, Node.js only", () => {
@@ -18,8 +18,9 @@ describe("QueueClient messageId methods, Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const queueServiceClient = getQSU();
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderStartOptions);
+    const queueServiceClient = getQSU(recorder);
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();

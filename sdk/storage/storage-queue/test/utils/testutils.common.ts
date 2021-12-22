@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { env, RecorderStartOptions } from "@azure-tools/test-recorder-new";
 
 export function isBrowser(): boolean {
   return typeof self !== "undefined";
@@ -9,8 +9,18 @@ export function isBrowser(): boolean {
 
 const mockAccountName = "fakestorageaccount";
 const mockAccountKey = "aaaaa";
-export const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
+
+export function assertEnvironmentVariable(name: string): string {
+  const value = env[name];
+  if (value === undefined || value === null) {
+    throw new Error(`Expected variable ${name} to be set`);
+  }
+
+  return value;
+}
+
+export const recorderStartOptions: RecorderStartOptions = {
+  envSetupForPlayback: {
     // Used in record and playback modes
     // 1. The key-value pairs will be used as the environment variables in playback mode
     // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
@@ -22,28 +32,22 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     // which depends on this environment variable
     ACCOUNT_TOKEN: `${mockAccountKey}`
   },
-  customizationsOnRecordings: [
-    // Used in record mode
-    // Array of callback functions can be provided to customize the generated recordings in record mode
-    // `sig` param of SAS Token is being filtered here
-    (recording: string): string =>
-      recording.replace(
-        new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
-        `${mockAccountKey}`
-      )
-  ],
-  // SAS token may contain sensitive information
-  queryParametersToSkip: [
-    // Used in record and playback modes
-    "se",
-    "sig",
-    "sp",
-    "spr",
-    "srt",
-    "ss",
-    "st",
-    "sv"
-  ]
+
+  sanitizerOptions: {
+    generalRegexSanitizers: [
+      {
+        regex: assertEnvironmentVariable("ACCOUNT_SAS").match("(.*)&sig=(.*)")![2],
+        value: mockAccountKey
+      }
+    ],
+
+    connectionStringSanitizers: [
+      {
+        actualConnString: assertEnvironmentVariable("STORAGE_CONNECTION_STRING"),
+        fakeConnString: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
+      }
+    ]
+  }
 };
 
 export function getUniqueName(prefix: string): string {

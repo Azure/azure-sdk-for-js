@@ -3,20 +3,21 @@
 
 import { assert } from "chai";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder-new";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { newPipeline } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { recorderEnvSetup } from "../utils/testutils.common";
+import { recorderStartOptions } from "../utils/testutils.common";
 import { Context } from "mocha";
 
 describe("QueueServiceClient Node.js only", () => {
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
-    recorder = record(this, recorderEnvSetup);
+  beforeEach(async function(this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderStartOptions);
   });
 
   afterEach(async function() {
@@ -24,7 +25,7 @@ describe("QueueServiceClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const queueServiceClient = getQSU();
+    const queueServiceClient = getQSU(recorder);
     const factories = (queueServiceClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new QueueServiceClient(queueServiceClient.url, credential);
@@ -38,7 +39,7 @@ describe("QueueServiceClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const queueServiceClient = getQSU();
+    const queueServiceClient = getQSU(recorder);
     const factories = (queueServiceClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new QueueServiceClient(queueServiceClient.url, credential, {
@@ -56,7 +57,7 @@ describe("QueueServiceClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const queueServiceClient = getQSU();
+    const queueServiceClient = getQSU(recorder);
     const factories = (queueServiceClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);

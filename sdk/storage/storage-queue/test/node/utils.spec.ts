@@ -4,8 +4,8 @@
 import { assert } from "chai";
 import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { record, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "../utils/index.browser";
+import { Recorder } from "@azure-tools/test-recorder-new";
+import { recorderStartOptions } from "../utils/index.browser";
 import { Context } from "mocha";
 dotenv.config();
 
@@ -37,7 +37,8 @@ describe("Utility Helpers Node.js only", () => {
   }
 
   beforeEach(async function(this: Context) {
-    recorder = record(this, recorderEnvSetup);
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderStartOptions);
   });
 
   afterEach(async function() {

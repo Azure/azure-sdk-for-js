@@ -18,17 +18,18 @@ import {
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
 import { getQSU } from "../utils/index";
-import { record, delay, Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "../utils/index.browser";
+import { delay, Recorder } from "@azure-tools/test-recorder-new";
+import { recorderStartOptions } from "../utils/index.browser";
 import { Context } from "mocha";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let queueServiceClient: QueueServiceClient;
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    queueServiceClient = getQSU();
+  beforeEach(async function(this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderStartOptions);
+    queueServiceClient = getQSU(recorder);
   });
 
   afterEach(async function() {

@@ -4,10 +4,10 @@
 import { assert } from "chai";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { QueueClient } from "../src/QueueClient";
-import { record, delay, Recorder } from "@azure-tools/test-recorder";
+import { delay, Recorder } from "@azure-tools/test-recorder-new";
 import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
-import { recorderEnvSetup } from "./utils/index.browser";
+import { recorderStartOptions } from "./utils/index.browser";
 import { Context } from "mocha";
 dotenv.config();
 
@@ -19,8 +19,9 @@ describe("QueueClient messageId methods", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const queueServiceClient = getQSU();
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderStartOptions);
+    const queueServiceClient = getQSU(recorder);
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
     await queueClient.create();

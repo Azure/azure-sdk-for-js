@@ -7,8 +7,8 @@ import { AbortController } from "@azure/abort-controller";
 import { QueueClient } from "../src/QueueClient";
 import { getQSU } from "./utils";
 import * as dotenv from "dotenv";
-import { recorderEnvSetup } from "./utils/testutils.common";
-import { Recorder, record } from "@azure-tools/test-recorder";
+import { recorderStartOptions } from "./utils/testutils.common";
+import { Recorder } from "@azure-tools/test-recorder-new";
 import { Context } from "mocha";
 dotenv.config();
 
@@ -19,8 +19,9 @@ describe("Aborter", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const queueServiceClient = getQSU();
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderStartOptions);
+    const queueServiceClient = getQSU(recorder);
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
   });
