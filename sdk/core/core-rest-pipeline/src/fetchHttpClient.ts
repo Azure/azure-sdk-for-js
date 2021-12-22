@@ -4,12 +4,28 @@
 /// <reference lib="dom" />
 
 import { AbortError } from "@azure/abort-controller";
-import { HttpClient, PipelineRequest, PipelineResponse } from "./interfaces";
+import {
+  HttpClient,
+  PipelineRequest,
+  PipelineResponse,
+  TransferProgressEvent,
+  HttpHeaders as PipelineHeaders,
+} from "./interfaces";
 import { RestError } from "./restError";
 import { createHttpHeaders } from "./httpHeaders";
 
+/**
+ * Checks if the body is a NodeReadable stream which is not supported in Browsers
+ */
 function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
+}
+
+/**
+ * Checks if the body is a ReadableStream supported by browsers
+ */
+function isReadableStream(body: unknown): body is ReadableStream {
+  return Boolean(body && typeof (body as ReadableStream).getReader === "function" && typeof (body as ReadableStream).tee === "function");
 }
 
 /**
@@ -29,147 +45,190 @@ class FetchHttpClient implements HttpClient {
       throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
     }
 
-    if (isNodeReadableStream(request.body)) {
-      throw new Error("Node streams are not supported in browser environment.");
-    }
-
     if (request.proxySettings) {
       throw new Error("HTTP proxy is not supported in browser environment");
     }
-
-    const abortController = new AbortController();
-    let abortListener: ((event: any) => void) | undefined;
-    if (request.abortSignal) {
-      if (request.abortSignal.aborted) {
-        throw new AbortError("The operation was aborted.");
-      }
-
-      abortListener = (event: Event) => {
-        if (event.type === "abort") {
-          abortController.abort();
-        }
-      };
-      request.abortSignal.addEventListener("abort", abortListener);
-    }
-
-    if (request.timeout > 0) {
-      setTimeout(() => {
-        abortController.abort();
-      }, request.timeout);
-    }
-
-    const headers = new Headers();
-    for (const [name, value] of request.headers) {
-      headers.append(name, value);
-    }
-
+   
     try {
-      const httpResponse = await fetch(request.url, {
-        body: request.body,
-        method: request.method,
-        headers: headers,
-        signal: abortController.signal,
-        credentials: request.withCredentials ? "include" : "same-origin",
-        redirect: "manual",
-        cache: "no-store",
-        
-      });
-
-      // TODO: handle upload and download progress...
-
-      const responseHeaders = createHttpHeaders();
-      httpResponse.headers.forEach((value, key) => {
-        responseHeaders.set(key, value);
-      });
-
-      const response: PipelineResponse = {
-        request,
-        headers: responseHeaders,
-        status: httpResponse.status,
-      };
-
-      // TODO: Handle decompress
-
-      // Download progress
-      // const onDownloadProgress = request.onDownloadProgress;
-      // if (onDownloadProgress) {
-      //   const t = new TransformStream({})
-      //   const downloadReportStream = new TransformStream(onDownloadProgress);
-      //   downloadReportStream.on("error", (e) => {
-      //     logger.error("Error in download progress", e);
-      //   });
-      //   responseStream.pipe(downloadReportStream);
-      //   responseStream = downloadReportStream;
-      // }
-
-      if (httpResponse.body && request.streamResponseStatusCodes?.has(httpResponse.status)) {
-        // TODO: figure out if we should return a blob by default for compat
-        response.blobBody = httpResponse.blob();
-      } else {
-        response.bodyAsText = await readBodyContent(httpResponse, request)
-      }
-
-      return response;
+      return await makeRequest(request);
     } catch (e) {
-      if (e && e?.name === "AbortError") {
-        throw e;
-      } else {
-        throw new RestError(`Error sending request: ${e.message}`, {
-          code: e?.code ?? RestError.REQUEST_SEND_ERROR,
-          request,
-        });
-      }
+      throw getError(e, request);
     }
   }
+}
+
+/**
+ * Sends a request 
+ */
+ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> {
+  const abortController = handleAbortSignal(request);
+  const headers = buildFetchHeaders(request.headers);
+
+  let requestBody = buildRequestBody(request);
+
+  const response =  await fetch(request.url, {
+    body: requestBody,
+    method: request.method,
+    headers: headers,
+    signal: abortController.signal,
+    credentials: request.withCredentials ? "include" : "same-origin",
+    redirect: "manual",
+    cache: "no-store",
+  });
+
+  return buildPipelineResponse(response, request);
+}
+
+/**
+ * Creates a pipeline response from a Fetch response;
+ */
+ async function buildPipelineResponse(httpResponse: Response, request: PipelineRequest) {
+  const headers = buildPipelineHeaders(httpResponse);
+  const response: PipelineResponse = {
+    request,
+    headers,
+    status: httpResponse.status,
+  };
+
+  const bodyStream = isReadableStream(httpResponse.body)
+    ? buildBodyStream(httpResponse.body, request.onDownloadProgress)
+    : httpResponse.body;
+
+  const responseStream = new Response(bodyStream);
+
+  if (
+    // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
+    request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
+    request.streamResponseStatusCodes?.has(response.status)
+  ) {
+    response.blobBody = responseStream.blob();
+  } else {
+    response.bodyAsText = await responseStream.text();
+  }
+
+  return response;
+}
+
+function handleAbortSignal(request: PipelineRequest): AbortController {
+  const abortController = new AbortController();
+  /**
+   * Attach an abort listener to the request
+   */
+  let abortListener: ((event: any) => void) | undefined;
+  if (request.abortSignal) {
+    if (request.abortSignal.aborted) {
+      throw new AbortError("The operation was aborted.");
+    }
+
+    abortListener = (event: Event) => {
+      if (event.type === "abort") {
+        abortController.abort();
+      }
+    };
+    request.abortSignal.addEventListener("abort", abortListener);
+  }
+
+  // If a timeout was passed, call the abort signal once the time elapses
+  if (request.timeout > 0) {
+    setTimeout(() => {
+      abortController.abort();
+    }, request.timeout);
+  }
+
+  return abortController;
+}
+
+
+/**
+ * Gets the specific error
+ */
+function getError(e: RestError, request: PipelineRequest): RestError {
+  if (e && e?.name === "AbortError") {
+    return e;
+  } else {
+    return new RestError(`Error sending request: ${e.message}`, {
+      code: e?.code ?? RestError.REQUEST_SEND_ERROR,
+      request,
+    });
+  }
+}
+
+/**
+ * Converts PipelineRequest headers to Fetch headers
+ */
+function buildFetchHeaders(pipelineHeaders: PipelineHeaders) {
+  const headers = new Headers();
+  for (const [name, value] of pipelineHeaders) {
+    headers.append(name, value);
+  }
+
+  return headers;
+}
+
+function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
+  const responseHeaders = createHttpHeaders();
+  httpResponse.headers.forEach((value, key) => {
+    responseHeaders.set(key, value);
+  });
+
+  return responseHeaders;
+}
+
+
+function buildRequestBody(request: PipelineRequest) {
+  if (isNodeReadableStream(request.body)) {
+    throw new Error("Node streams are not supported in browser environment.");
+  }
+
+  return isReadableStream(request.body)
+    ? buildBodyStream(request.body, request.onUploadProgress)
+    : request.body;
+}
+
+/**
+ * Reads the request/response original stream and stream it through a new
+ * ReadableStream, this is done to be able to report progress in a way that
+ * all modern browsers support. TransformStreams would be an alternative,
+ * however they are not yet supported by all browsers i.e Firefox
+ */
+function buildBodyStream(
+  readableStream: ReadableStream<Uint8Array>,
+  onProgress?: (progress: TransferProgressEvent) => void
+): ReadableStream<Uint8Array> {
+  const reader = readableStream.getReader();
+
+  return new ReadableStream({
+    async start(controller) {
+      while (true) {
+        const { done, value } = await reader.read();
+
+        // When no more data needs to be consumed, break the reading
+        if (done) {
+          break;
+        }
+
+        if (onProgress) {
+          onProgress({ loadedBytes: value?.length ?? 0 });
+        }
+
+        if (!value) {
+          continue;
+        }
+
+        // Enqueue the next data chunk into our target stream
+        controller.enqueue(value);
+      }
+      // Close the stream
+      controller.close();
+      reader.releaseLock();
+    },
+  });
 }
 
 /**
  * Create a new HttpClient instance for the browser environment.
  * @internal
  */
-export function createFetchHttpClient(): HttpClient {
+ export function createFetchHttpClient(): HttpClient {
   return new FetchHttpClient();
-}
-
-async function readBodyContent(
-  response: Response,
-  request: PipelineRequest
-): Promise<string> {
-  let chunks = [];
-  const reader = response.body?.getReader();
-
-  if (!reader) {
-    return "";
-  }
-
-  let received = 0;
-
-  while (true) {
-    const { done, value } = await reader.read();
-    const loadedBytes = value?.length ?? 0;
-    if (request.onDownloadProgress) {
-      request.onDownloadProgress({ loadedBytes });
-    }
-
-    received += loadedBytes;
-
-    if (done) {
-      break;
-    }
-
-    chunks.push(value);
-  }
-
-  let body = new Uint8Array(received);
-  let position = 0;
-
-  for (let chunk of chunks) {
-    if (!chunk) {
-      throw new Error("Invalid chunk");
-    }
-    body.set(chunk, position);
-    position += chunk.length;
-  }
-
-  return new TextDecoder("utf-8").decode(body);
 }
