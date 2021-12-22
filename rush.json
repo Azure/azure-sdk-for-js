@@ -1175,6 +1175,11 @@
       "packageName": "@azure/arm-monitor",
       "projectFolder": "sdk/monitor/arm-monitor",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-softwareplan",
+      "projectFolder": "sdk/softwareplan/arm-softwareplan",
+      "versionPolicyName": "management"
     }
   ]
 }

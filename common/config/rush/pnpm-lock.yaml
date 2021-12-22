@@ -64,6 +64,7 @@ specifiers:
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:./projects/arm-servicefabric.tgz
+  '@rush-temp/arm-softwareplan': file:./projects/arm-softwareplan.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:./projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
@@ -237,6 +238,7 @@ dependencies:
   '@rush-temp/arm-security': file:projects/arm-security.tgz
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:projects/arm-servicefabric.tgz
+  '@rush-temp/arm-softwareplan': file:projects/arm-softwareplan.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
@@ -1406,6 +1408,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -9035,6 +9038,27 @@ packages:
   file:projects/arm-servicefabric.tgz:
     resolution: {integrity: sha512-9EyhaJlT/LbQneQqkv15+t+E+/QlQ/OfgHQrC+r2bG1hY3DrVkGw9F8DD6liJcURhUpFhzRtwbg//GSS1PV/xQ==, tarball: file:projects/arm-servicefabric.tgz}
     name: '@rush-temp/arm-servicefabric'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
+  file:projects/arm-softwareplan.tgz:
+    resolution: {integrity: sha512-ZK968NwoFveLQTfh3waV6KjpB2Snn/GqxiRM4KNd+jXtjQ3TDtiwZQAdrxBew8W0lg0oXrOnflTdBTWtGiBRNQ==, tarball: file:projects/arm-softwareplan.tgz}
+    name: '@rush-temp/arm-softwareplan'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.19.2
