@@ -10,7 +10,7 @@ import {
   DictionaryMapper,
   CompositeMapper,
 } from "../src";
-import { Mappers } from "./testMappers";
+import { Mappers } from "./testMappers1";
 import * as MediaMappers from "./testMappers2";
 
 const Serializer = createSerializer(Mappers);
