@@ -60,7 +60,7 @@ import {
   FuzzySearchBatchOptions,
   FuzzySearchOptions,
   GetPointOfInterestCategoryTreeOptions,
-  ListPolygonsOptions,
+  GetPolygonsOptions,
   ReverseSearchAddressBatchOptions,
   ReverseSearchAddressOptions,
   ReverseSearchCrossStreetAddressOptions,
@@ -167,15 +167,15 @@ export class MapsSearchClient {
    * @param geometryIds - Comma separated list of geometry UUIDs, previously retrieved from an Online Search request.
    * @param options - Optional parameters for the operation
    */
-  public async listPolygons(
+  public async getPolygons(
     geometryIds: string[],
-    options: ListPolygonsOptions = {}
+    options: GetPolygonsOptions = {}
   ): Promise<Polygon[]> {
     if (!Array.isArray(geometryIds) || geometryIds.length === 0) {
       throw new Error("'geometryIds' must be a non-empty array");
     }
 
-    const { span, updatedOptions } = createSpan("MapsSearchClient-listPolygons", options);
+    const { span, updatedOptions } = createSpan("MapsSearchClient-getPolygons", options);
     const internalOptions = updatedOptions as ListPolygonsOptionalParams;
     try {
       const result = await this.client.search.listPolygons(

@@ -20,7 +20,7 @@ export interface MapsSearchClientOptions extends CommonClientOptions {}
 /**
  * Options for get polygon
  */
-export interface ListPolygonsOptions extends OperationOptions {}
+export interface GetPolygonsOptions extends OperationOptions {}
 
 /**
  * Options for get point of interest category tree

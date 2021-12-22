@@ -218,15 +218,15 @@ export interface GetPointOfInterestCategoryTreeOptions extends OperationOptions 
 }
 
 // @public
+export interface GetPolygonsOptions extends OperationOptions {
+}
+
+// @public
 export interface LatLon {
     // (undocumented)
     latitude: number;
     // (undocumented)
     longitude: number;
-}
-
-// @public
-export interface ListPolygonsOptions extends OperationOptions {
 }
 
 // @public
@@ -245,7 +245,7 @@ export class MapsSearchClient {
     fuzzySearchBatchSync(requests: FuzzySearchRequest[], options?: FuzzySearchBatchOptions): Promise<BatchResult<SearchAddressResult>>;
     // Warning: (ae-forgotten-export) The symbol "PointOfInterestCategory" needs to be exported by the entry point index.d.ts
     getPointOfInterestCategoryTree(options?: GetPointOfInterestCategoryTreeOptions): Promise<PointOfInterestCategory[]>;
-    listPolygons(geometryIds: string[], options?: ListPolygonsOptions): Promise<Polygon[]>;
+    getPolygons(geometryIds: string[], options?: GetPolygonsOptions): Promise<Polygon[]>;
     reverseSearchAddress(coordinates: LatLon, options?: ReverseSearchAddressOptions): Promise<ReverseSearchAddressResult>;
     reverseSearchAddressBatchSync(requests: ReverseSearchAddressRequest[], options?: ReverseSearchAddressBatchOptions): Promise<BatchResult<ReverseSearchAddressResult>>;
     reverseSearchCrossStreetAddress(coordinates: LatLon, options?: ReverseSearchCrossStreetAddressOptions): Promise<ReverseSearchCrossStreetAddressResult>;
