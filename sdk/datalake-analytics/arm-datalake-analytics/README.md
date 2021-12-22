@@ -6,7 +6,7 @@ Creates an Azure Data Lake Analytics account management client.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datalake-analytics/arm-datalake-analytics) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-datalake-analytics) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-datalake-analytics?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-datalake-analytics) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

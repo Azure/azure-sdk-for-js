@@ -10,13 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder,
-  delay,
-  isPlaybackMode
+  Recorder
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
-import { ClientSecretCredential } from "@azure/identity";
-import { DataLakeAnalyticsAccountManagementClient } from "../src/dataLakeAnalyticsAccountManagementClient";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -35,68 +31,18 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export const testPollingOptions = {
-  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
-};
-
-describe("DatalakeAnalytics test", () => {
+describe("My test", () => {
   let recorder: Recorder;
-  let subscriptionId: string;
-  let client: DataLakeAnalyticsAccountManagementClient;
-  let location: string;
-  let resourceGroup: string;
-  let accountName: string;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
-    // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new DataLakeAnalyticsAccountManagementClient(credential, subscriptionId);
-    location = "eastus2";
-    resourceGroup = "myjstest";
-    accountName = "myaccountxxx";
   });
 
   afterEach(async function() {
     await recorder.stop();
   });
 
-  it("accounts create test", async function() {
-    const res = await client.accounts.beginCreateAndWait(resourceGroup,accountName,{
-      location: location,
-        tags: {
-            key1: "value1"
-        },
-        defaultDataLakeStoreAccount: "mygen1",
-        dataLakeStoreAccounts: [
-            {
-                name: "mygen1"
-            }
-        ],
-        firewallState: "Enabled",
-        firewallAllowAzureIps: "Enabled",
-        newTier: "Consumption",
-        maxJobCount: 3,
-        maxDegreeOfParallelism: 30,
-        maxDegreeOfParallelismPerJob:1,
-        minPriorityPerJob: 1,
-        queryStoreRetention: 30
-    },testPollingOptions);
-    console.log(res);
-  });
-
-  it("accounts get test", async function() {
-    const res = await client.accounts.get(resourceGroup,accountName);
-    console.log(res);
-  });
-
-  it("accounts delete test", async function() {
-    const res = await client.accounts.beginDeleteAndWait(resourceGroup,accountName,testPollingOptions);
-    console.log(res);
+  it("sample test", async function() {
+    console.log("Hi, I'm a test!");
   });
 });
