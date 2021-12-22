@@ -25,7 +25,7 @@ export interface GetPolygonsOptions extends OperationOptions {}
 /**
  * Options for get point of interest category tree
  */
-export interface GetPointOfInterestCategoryTreeOptions extends OperationOptions {
+export interface GetPointOfInterestCategoriesOptions extends OperationOptions {
   /** Language in which search results should be returned. */
   language?: string;
 }

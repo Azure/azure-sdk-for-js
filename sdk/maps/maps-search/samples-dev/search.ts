@@ -156,7 +156,7 @@ async function main() {
   );
 
   console.log(" --- Get search POI category tree:");
-  console.log(await client.getPointOfInterestCategoryTree());
+  console.log(await client.getPointOfInterestCategories());
 
   console.log(" --- List polygons by geometry IDs:");
   console.log(geometryIds);
