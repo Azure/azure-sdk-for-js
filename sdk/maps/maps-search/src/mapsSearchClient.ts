@@ -59,7 +59,7 @@ import { GeneratedClient } from "./generated";
 import {
   FuzzySearchBatchOptions,
   FuzzySearchOptions,
-  GetPointOfInterestCategoryTreeOptions,
+  GetPointOfInterestCategoriesOptions,
   GetPolygonsOptions,
   ReverseSearchAddressBatchOptions,
   ReverseSearchAddressOptions,
@@ -480,11 +480,11 @@ export class MapsSearchClient {
    *
    * @param options - Optional parameters for the operation
    */
-  public async getPointOfInterestCategoryTree(
-    options: GetPointOfInterestCategoryTreeOptions = {}
+  public async getPointOfInterestCategories(
+    options: GetPointOfInterestCategoriesOptions = {}
   ): Promise<PointOfInterestCategory[]> {
     const { span, updatedOptions } = createSpan(
-      "MapsSearchClient-getPointOfInterestCategoryTree",
+      "MapsSearchClient-getPointOfInterestCategories",
       options
     );
     const internalOptions = updatedOptions as GetPointOfInterestCategoryTreeOptionalParams;

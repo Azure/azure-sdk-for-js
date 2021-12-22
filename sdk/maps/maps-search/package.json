@@ -35,7 +35,7 @@
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
     "execute:samples": "dev-tool samples run samples-dev",
-    "publish:samples": "dev-tool samples publish",
+    "publish:samples": "dev-tool samples publish -f",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript --v3 swagger",
