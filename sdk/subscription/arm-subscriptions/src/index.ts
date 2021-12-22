@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./subscription";
-export * from "./operations";
-export * from "./alias";
-export * from "./subscriptionPolicy";
-export * from "./billingAccount";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { SubscriptionClient } from "./subscriptionClient";
+export * from "./operationsInterfaces";
