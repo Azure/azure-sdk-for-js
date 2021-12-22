@@ -1175,6 +1175,11 @@
       "packageName": "@azure/arm-monitor",
       "projectFolder": "sdk/monitor/arm-monitor",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-subscriptions",
+      "projectFolder": "sdk/subscription/arm-subscriptions",
+      "versionPolicyName": "management"
     }
   ]
 }
