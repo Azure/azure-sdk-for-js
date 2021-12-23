@@ -46,9 +46,7 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && rollup -c 2>&1 && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "karma start --single-run",
-    "preunit-test:browser": "autorest-testserver &",
-    "postunit-test:browser": "autorest-testserver stop",
+    "unit-test:browser": "autorest-testserver & karma start --single-run && autorest-testserver stop",
     "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
