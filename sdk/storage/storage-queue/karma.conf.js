@@ -1,6 +1,10 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "./.env" });
+
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder-new");
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+
 const {
   jsonRecordingFilterFunction,
   isPlaybackMode,
@@ -54,7 +58,13 @@ module.exports = function(config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["ACCOUNT_NAME", "ACCOUNT_SAS", "TEST_MODE", "STORAGE_SAS_CONNECTION_STRING"],
+    envPreprocessor: [
+      "ACCOUNT_NAME",
+      "ACCOUNT_SAS",
+      "TEST_MODE",
+      "STORAGE_SAS_CONNECTION_STRING",
+      "RECORDINGS_RELATIVE_PATH"
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
