@@ -9,7 +9,7 @@
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 import {
   ParserWeakMapESTreeToTSNode,
-  ParserWeakMap
+  ParserWeakMap,
 } from "@typescript-eslint/typescript-estree/dist/parser-options";
 import { Rule } from "eslint";
 import {
@@ -17,7 +17,7 @@ import {
   FunctionExpression,
   Identifier,
   MethodDefinition,
-  Pattern
+  Pattern,
 } from "estree";
 import {
   Declaration,
@@ -31,7 +31,7 @@ import {
   TypeReferenceNode,
   TypeReference,
   Modifier,
-  SyntaxKind
+  SyntaxKind,
 } from "typescript";
 import { getRuleMetaData } from "../utils";
 
@@ -222,8 +222,9 @@ const evaluateOverloads = (
     node: identifier,
     message: `type ${typeChecker.typeToString(
       getTypeOfParam(param, converter, typeChecker)
-    )} of parameter ${identifier.name} of function ${name ||
-      "<anonymous>"} is a class or contains a class as a member`
+    )} of parameter ${identifier.name} of function ${
+      name || "<anonymous>"
+    } is a class or contains a class as a member`,
   });
 };
 
@@ -289,12 +290,10 @@ export = {
                           (declaration: Declaration): boolean =>
                             reverter.get(declaration as TSNode) !== undefined
                         )
-                        .map(
-                          (declaration: Declaration): FunctionExpression => {
-                            const method = reverter.get(declaration as TSNode) as MethodDefinition;
-                            return method.value;
-                          }
-                        )
+                        .map((declaration: Declaration): FunctionExpression => {
+                          const method = reverter.get(declaration as TSNode) as MethodDefinition;
+                          return method.value;
+                        })
                     : [];
                 evaluateOverloads(
                   overloads,
@@ -342,8 +341,8 @@ export = {
                 );
               }
             });
-          }
+          },
         } as Rule.RuleListener)
       : {};
-  }
+  },
 };

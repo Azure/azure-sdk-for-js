@@ -350,8 +350,8 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 
 ruleTester.run("ts-package-json-files-required", rule, {
@@ -359,36 +359,36 @@ ruleTester.run("ts-package-json-files-required", rule, {
     {
       // only the fields we care about
       code: '{"files": ["dist", "dist-esm/src"]}',
-      filename: "package.json"
+      filename: "package.json",
     },
     // other valid formats
     {
       code: '{"files": ["dist/", "dist-esm/src/"]}',
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       code: '{"files": ["./dist", "./dist-esm/src"]}',
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       code: '{"files": ["./dist/", "./dist-esm/src/"]}',
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // mixed
       code: '{"files": ["dist/", "./dist-esm/src/"]}',
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // incorrect format but in a file we don't care about
       code: '{"files": []}',
-      filename: "not_package.json"
-    }
+      filename: "not_package.json",
+    },
   ],
   invalid: [
     {
@@ -396,9 +396,9 @@ ruleTester.run("ts-package-json-files-required", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "files does not exist at the outermost level"
-        }
-      ]
+          message: "files does not exist at the outermost level",
+        },
+      ],
     },
     {
       // name is in a nested object
@@ -406,9 +406,9 @@ ruleTester.run("ts-package-json-files-required", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "files does not exist at the outermost level"
-        }
-      ]
+          message: "files does not exist at the outermost level",
+        },
+      ],
     },
     // missing values
     {
@@ -416,50 +416,50 @@ ruleTester.run("ts-package-json-files-required", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "src is included in files and dist-esm/src is not included in files"
-        }
+          message: "src is included in files and dist-esm/src is not included in files",
+        },
       ],
-      output: '{"files": ["dist", "dist-esm/src"]}'
+      output: '{"files": ["dist", "dist-esm/src"]}',
     },
     {
       code: '{"files": ["src", "dist-esm/src"]}',
       filename: "package.json",
       errors: [
         {
-          message: "src is included in files and dist is not included in files"
-        }
+          message: "src is included in files and dist is not included in files",
+        },
       ],
-      output: '{"files": ["dist-esm/src", "dist"]}'
+      output: '{"files": ["dist-esm/src", "dist"]}',
     },
     {
       code: '{"files": ["dist"]}',
       filename: "package.json",
       errors: [
         {
-          message: "dist-esm/src is not included in files"
-        }
+          message: "dist-esm/src is not included in files",
+        },
       ],
-      output: '{"files": ["dist", "dist-esm/src"]}'
+      output: '{"files": ["dist", "dist-esm/src"]}',
     },
     {
       code: '{"files": ["dist-esm/src"]}',
       filename: "package.json",
       errors: [
         {
-          message: "dist is not included in files"
-        }
+          message: "dist is not included in files",
+        },
       ],
-      output: '{"files": ["dist-esm/src", "dist"]}'
+      output: '{"files": ["dist-esm/src", "dist"]}',
     },
     {
       code: '{"files": []}',
       filename: "package.json",
       errors: [
         {
-          message: "dist,dist-esm/src are not included in files"
-        }
+          message: "dist,dist-esm/src are not included in files",
+        },
       ],
-      output: '{"files": ["dist", "dist-esm/src"]}'
+      output: '{"files": ["dist", "dist-esm/src"]}',
     },
     {
       // example file with src not in files
@@ -467,10 +467,10 @@ ruleTester.run("ts-package-json-files-required", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "dist,dist-esm/src are not included in files"
-        }
+          message: "dist,dist-esm/src are not included in files",
+        },
       ],
-      output: examplePackageBadFixed
-    }
-  ]
+      output: examplePackageBadFixed,
+    },
+  ],
 });
