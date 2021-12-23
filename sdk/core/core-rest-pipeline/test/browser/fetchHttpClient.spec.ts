@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { assert } from "chai";
 import { createFetchHttpClient } from "../../src/fetchHttpClient";
 import { createPipelineRequest } from "../../src/pipelineRequest";
@@ -5,27 +8,31 @@ import { png } from "./mocks/encodedPng";
 import sinon from "sinon";
 import { createHttpHeaders } from "../../src/httpHeaders";
 
+const streamBody = new ReadableStream({
+  async start(controller) {
+    controller.enqueue(png);
+  },
+});
+
+
 describe("FetchHttpClient", function () {
   let fetchMock: sinon.SinonStub;
   let clock: sinon.SinonFakeTimers;
   beforeEach(() => {
-    fetchMock = sinon.stub(window, "fetch");
+    fetchMock = sinon.stub(self, "fetch");
   });
 
   afterEach(() => {
     fetchMock.restore();
-    if(clock) {
+    if (clock) {
       clock.restore();
     }
   });
 
   it("shouldn't throw on 404", async function () {
-    fetchMock.returns(
-      new Promise((resolve) => {
-        const blob = new Blob();
-        resolve(new Response(blob, { status: 404 }));
-      })
-    );
+    const blob = new Blob();
+    const mockedResponse = new Response(blob, { status: 404 });
+    fetchMock.returns(mockedResponse);
 
     const client = createFetchHttpClient();
 
@@ -60,12 +67,9 @@ describe("FetchHttpClient", function () {
   });
 
   it("shouldn't be affected by requests cancelled late", async function () {
-    fetchMock.returns(
-      new Promise(async (resolve) => {
-        const blob = new Blob();
-        resolve(new Response(blob, { status: 200 }));
-      })
-    );
+    const blob = new Blob();
+    const mockedResponse = new Response(blob, { status: 200 });
+    fetchMock.returns(mockedResponse);
 
     const client = createFetchHttpClient();
     const controller = new AbortController();
@@ -81,12 +85,9 @@ describe("FetchHttpClient", function () {
   });
 
   it("should allow canceling of requests before the request is made", async function () {
-    fetchMock.returns(
-      new Promise(async (resolve) => {
-        const blob = new Blob();
-        resolve(new Response(blob, { status: 200 }));
-      })
-    );
+    const blob = new Blob();
+    const mockedResponse = new Response(blob, { status: 200 });
+    fetchMock.returns(mockedResponse);
 
     const client = createFetchHttpClient();
     const controller = new AbortController();
@@ -200,7 +201,7 @@ describe("FetchHttpClient", function () {
       url,
       method: "PUT",
       body: streamBody,
-      headers: createHttpHeaders({"content-type": "application/octet-stream"}),
+      headers: createHttpHeaders({ "content-type": "application/octet-stream" }),
       allowInsecureConnection: true,
       streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
       onDownloadProgress: (ev) => {
@@ -227,7 +228,7 @@ describe("FetchHttpClient", function () {
       url,
       timeout: timeoutLength,
       allowInsecureConnection: true,
-      method: "GET"
+      method: "GET",
     });
     const promise = client.sendRequest(request);
     clock.tick(timeoutLength);
@@ -245,7 +246,7 @@ describe("FetchHttpClient", function () {
       url: "http://example.com",
     });
     try {
-      await client.sendRequest(request);;
+      await client.sendRequest(request);
       assert.fail("Expected await to throw");
     } catch (e) {
       assert.match(e.message, /^Cannot connect/, "Error should refuse connection");
@@ -253,12 +254,9 @@ describe("FetchHttpClient", function () {
   });
 
   it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function () {
-    fetchMock.returns(
-      new Promise(async (resolve) => {
-        const blob = new Blob();
-        resolve(new Response(blob, { status: 200 }));
-      })
-    );
+    const blob = new Blob();
+    const mockedResponse = new Response(blob, { status: 200 });
+    fetchMock.returns(mockedResponse);
 
     const client = createFetchHttpClient();
     const request = createPipelineRequest({
@@ -268,10 +266,4 @@ describe("FetchHttpClient", function () {
     const response = await client.sendRequest(request);
     assert.strictEqual(response.status, 200);
   });
-});
-
-const streamBody = new ReadableStream({
-  async start(controller) {
-    controller.enqueue(png);
-  },
 });

@@ -6,10 +6,10 @@
 import { AbortError } from "@azure/abort-controller";
 import {
   HttpClient,
+  HttpHeaders as PipelineHeaders,
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-  HttpHeaders as PipelineHeaders,
 } from "./interfaces";
 import { RestError } from "./restError";
 import { createHttpHeaders } from "./httpHeaders";
@@ -25,7 +25,11 @@ function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
  * Checks if the body is a ReadableStream supported by browsers
  */
 function isReadableStream(body: unknown): body is ReadableStream {
-  return Boolean(body && typeof (body as ReadableStream).getReader === "function" && typeof (body as ReadableStream).tee === "function");
+  return Boolean(
+    body &&
+      typeof (body as ReadableStream).getReader === "function" &&
+      typeof (body as ReadableStream).tee === "function"
+  );
 }
 
 /**
@@ -48,7 +52,7 @@ class FetchHttpClient implements HttpClient {
     if (request.proxySettings) {
       throw new Error("HTTP proxy is not supported in browser environment");
     }
-   
+
     try {
       return await makeRequest(request);
     } catch (e) {
@@ -58,15 +62,15 @@ class FetchHttpClient implements HttpClient {
 }
 
 /**
- * Sends a request 
+ * Sends a request
  */
- async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> {
+async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> {
   const abortController = handleAbortSignal(request);
   const headers = buildFetchHeaders(request.headers);
 
-  let requestBody = buildRequestBody(request);
+  const requestBody = buildRequestBody(request);
 
-  const response =  await fetch(request.url, {
+  const response = await fetch(request.url, {
     body: requestBody,
     method: request.method,
     headers: headers,
@@ -82,7 +86,7 @@ class FetchHttpClient implements HttpClient {
 /**
  * Creates a pipeline response from a Fetch response;
  */
- async function buildPipelineResponse(httpResponse: Response, request: PipelineRequest) {
+async function buildPipelineResponse(httpResponse: Response, request: PipelineRequest) {
   const headers = buildPipelineHeaders(httpResponse);
   const response: PipelineResponse = {
     request,
@@ -138,7 +142,6 @@ function handleAbortSignal(request: PipelineRequest): AbortController {
   return abortController;
 }
 
-
 /**
  * Gets the specific error
  */
@@ -174,7 +177,6 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
   return responseHeaders;
 }
 
-
 function buildRequestBody(request: PipelineRequest) {
   if (isNodeReadableStream(request.body)) {
     throw new Error("Node streams are not supported in browser environment.");
@@ -199,6 +201,7 @@ function buildBodyStream(
 
   return new ReadableStream({
     async start(controller) {
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         const { done, value } = await reader.read();
 
@@ -229,6 +232,6 @@ function buildBodyStream(
  * Create a new HttpClient instance for the browser environment.
  * @internal
  */
- export function createFetchHttpClient(): HttpClient {
+export function createFetchHttpClient(): HttpClient {
   return new FetchHttpClient();
 }
