@@ -722,6 +722,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure-tools/skypack-tests",
+      "projectFolder": "samples/skypack/test",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/test-utils-perf",
       "projectFolder": "sdk/test-utils/perf",
       "versionPolicyName": "utility"
