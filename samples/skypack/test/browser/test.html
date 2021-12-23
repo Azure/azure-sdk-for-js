@@ -1,4 +1,14 @@
 <div id="mocha" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/8.0.1/mocha.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/9.1.3/mocha.min.js" integrity="sha512-lvMvODyFG9d4cHdd60PNqWrHrXuuwI4NT4hZVZBVqF95tsNY36VJbXXG/s7Fv4DO4bk/g5pAvJkbKdKdieb1+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<script type="module" class="mocha-init">
+  mocha.setup('bdd');
+</script>
+
+<!-- Tests ------------------------------------ -->
 <script type="module" src="textAnalytics.js"></script>
+<!-- ------------------------------------ -->
+
+<script type="module">
+  mocha.run();
+</script>

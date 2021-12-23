@@ -1,13 +1,11 @@
 import { TextAnalyticsClient, AzureKeyCredential } from "https://cdn.skypack.dev/@azure/ai-text-analytics";
 import { assert } from "https://cdn.skypack.dev/chai";
 
-mocha.setup("bdd");
-
 describe("TextAnalytics skypack tests", function () {
   it("detects lanauges", async function() {
-    // You will need to set these environment variables or edit the following values
-    const endpoint = "ENDPOINT";
-    const apiKey = "API KEY";
+    // You will need to edit the following values
+    const endpoint = "Endpoint";
+    const apiKey = "API Key";
 
     const documents = [
       "This document is written in English.",
@@ -38,6 +36,4 @@ describe("TextAnalytics skypack tests", function () {
       }
     }
   })
-})
-
-mocha.run();
+}).timeout(30000);
