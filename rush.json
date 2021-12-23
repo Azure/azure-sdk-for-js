@@ -1180,6 +1180,11 @@
       "packageName": "@azure/arm-subscriptions",
       "projectFolder": "sdk/subscription/arm-subscriptions",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-frontdoor",
+      "projectFolder": "sdk/frontdoor/arm-frontdoor",
+      "versionPolicyName": "management"
     }
   ]
 }
