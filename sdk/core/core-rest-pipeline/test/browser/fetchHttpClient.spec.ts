@@ -14,7 +14,6 @@ const streamBody = new ReadableStream({
   },
 });
 
-
 describe("FetchHttpClient", function () {
   let fetchMock: sinon.SinonStub;
   let clock: sinon.SinonFakeTimers;
