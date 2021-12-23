@@ -94,8 +94,8 @@ module.exports = function (config) {
         base: "ChromeHeadless",
         //--no-sandbox allows our tests to run in Linux without having to change the system.
         // --disable-web-security allows us to authenticate from the browser without setting up special CORS configuration
-        flags: ["--no-sandbox", "--disable-web-security"]
-      }
+        flags: ["--no-sandbox", "--disable-web-security"],
+      },
     },
 
     // Continuous Integration mode
