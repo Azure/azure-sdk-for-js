@@ -10,7 +10,8 @@
  */
 export function isValidDtmi(dtmi: string): boolean {
   if (typeof dtmi !== "string") return false;
-  const re = /^dtmi:[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?)*;[1-9][0-9]{0,8}$/;
+  const re =
+    /^dtmi:[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?(?::[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?)*;[1-9][0-9]{0,8}$/;
   return re.test(dtmi); // true if dtmi matches regular expression, false otherwise
 }
 
@@ -46,10 +47,7 @@ export function convertDtmiToPath(dtmi: string, expanded: boolean): string {
   // that happens in the dtmiToQualifiedPath function
 
   if (isValidDtmi(dtmi)) {
-    let thePath = `${dtmi
-      .toLowerCase()
-      .replace(/:/gm, "/")
-      .replace(/;/gm, "-")}.json`;
+    let thePath = `${dtmi.toLowerCase().replace(/:/gm, "/").replace(/;/gm, "-")}.json`;
     if (expanded) {
       thePath = thePath.replace(".json", ".expanded.json");
     }
