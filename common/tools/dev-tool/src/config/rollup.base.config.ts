@@ -139,7 +139,6 @@ export function makeBrowserTestConfig(pkg: PackageJson): RollupOptions {
           // analyze its exports.
           chai: ["version", "use", "util", "config", "expect", "should", "assert"],
           events: ["EventEmitter"],
-          "@mswjs/interceptors": ["createInterceptor"],
         },
       }),
       json(),
