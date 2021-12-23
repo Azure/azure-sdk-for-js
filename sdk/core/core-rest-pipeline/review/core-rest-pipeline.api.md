@@ -5,6 +5,7 @@
 ```ts
 
 /// <reference types="node" />
+/// <reference lib="dom" />
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
