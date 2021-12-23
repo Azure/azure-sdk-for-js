@@ -1,15 +1,24 @@
 # Release History
+    
+## 11.0.0 (2021-12-23)
+    
+**Features**
 
-## 10.0.1 (Unreleased)
+  - Added Type Alias ProviderOsTypeSelected
+  - Added Type Alias ProviderStackOsType
+  - Added Enum KnownProviderOsTypeSelected
+  - Added Enum KnownProviderStackOsType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed Enum KnownEnum10
+  - Removed Enum KnownEnum11
+  - Removed Enum KnownEnum12
+  - Removed Enum KnownEnum13
+  - Removed Enum KnownEnum14
+  - Removed Enum KnownEnum15
+    
+    
 ## 10.0.0 (2021-12-13)
 
 The package of @azure/arm-appservice is using our next generation design principles since version 10.0.0, which contains breaking changes.

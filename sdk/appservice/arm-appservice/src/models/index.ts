@@ -7638,8 +7638,8 @@ export enum KnownRouteType {
  */
 export type RouteType = string;
 
-/** Known values of {@link Enum10} that the service accepts. */
-export enum KnownEnum10 {
+/** Known values of {@link ProviderOsTypeSelected} that the service accepts. */
+export enum KnownProviderOsTypeSelected {
   Windows = "Windows",
   Linux = "Linux",
   WindowsFunctions = "WindowsFunctions",
@@ -7648,8 +7648,8 @@ export enum KnownEnum10 {
 }
 
 /**
- * Defines values for Enum10. \
- * {@link KnownEnum10} can be used interchangeably with Enum10,
+ * Defines values for ProviderOsTypeSelected. \
+ * {@link KnownProviderOsTypeSelected} can be used interchangeably with ProviderOsTypeSelected,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Windows** \
@@ -7658,101 +7658,25 @@ export enum KnownEnum10 {
  * **LinuxFunctions** \
  * **All**
  */
-export type Enum10 = string;
+export type ProviderOsTypeSelected = string;
 
-/** Known values of {@link Enum11} that the service accepts. */
-export enum KnownEnum11 {
+/** Known values of {@link ProviderStackOsType} that the service accepts. */
+export enum KnownProviderStackOsType {
   Windows = "Windows",
   Linux = "Linux",
   All = "All"
 }
 
 /**
- * Defines values for Enum11. \
- * {@link KnownEnum11} can be used interchangeably with Enum11,
+ * Defines values for ProviderStackOsType. \
+ * {@link KnownProviderStackOsType} can be used interchangeably with ProviderStackOsType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Windows** \
  * **Linux** \
  * **All**
  */
-export type Enum11 = string;
-
-/** Known values of {@link Enum12} that the service accepts. */
-export enum KnownEnum12 {
-  Windows = "Windows",
-  Linux = "Linux",
-  All = "All"
-}
-
-/**
- * Defines values for Enum12. \
- * {@link KnownEnum12} can be used interchangeably with Enum12,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **All**
- */
-export type Enum12 = string;
-
-/** Known values of {@link Enum13} that the service accepts. */
-export enum KnownEnum13 {
-  Windows = "Windows",
-  Linux = "Linux",
-  All = "All"
-}
-
-/**
- * Defines values for Enum13. \
- * {@link KnownEnum13} can be used interchangeably with Enum13,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **All**
- */
-export type Enum13 = string;
-
-/** Known values of {@link Enum14} that the service accepts. */
-export enum KnownEnum14 {
-  Windows = "Windows",
-  Linux = "Linux",
-  All = "All"
-}
-
-/**
- * Defines values for Enum14. \
- * {@link KnownEnum14} can be used interchangeably with Enum14,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **All**
- */
-export type Enum14 = string;
-
-/** Known values of {@link Enum15} that the service accepts. */
-export enum KnownEnum15 {
-  Windows = "Windows",
-  Linux = "Linux",
-  WindowsFunctions = "WindowsFunctions",
-  LinuxFunctions = "LinuxFunctions",
-  All = "All"
-}
-
-/**
- * Defines values for Enum15. \
- * {@link KnownEnum15} can be used interchangeably with Enum15,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **WindowsFunctions** \
- * **LinuxFunctions** \
- * **All**
- */
-export type Enum15 = string;
+export type ProviderStackOsType = string;
 
 /** Known values of {@link ResourceScopeType} that the service accepts. */
 export enum KnownResourceScopeType {
@@ -9919,7 +9843,7 @@ export type KubeEnvironmentsListByResourceGroupNextResponse = KubeEnvironmentCol
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum10;
+  osTypeSelected?: ProviderOsTypeSelected;
 }
 
 /** Contains response data for the getAvailableStacks operation. */
@@ -9929,7 +9853,7 @@ export type ProviderGetAvailableStacksResponse = ApplicationStackCollection;
 export interface ProviderGetFunctionAppStacksOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum11;
+  stackOsType?: ProviderStackOsType;
 }
 
 /** Contains response data for the getFunctionAppStacks operation. */
@@ -9939,7 +9863,7 @@ export type ProviderGetFunctionAppStacksResponse = FunctionAppStackCollection;
 export interface ProviderGetFunctionAppStacksForLocationOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum12;
+  stackOsType?: ProviderStackOsType;
 }
 
 /** Contains response data for the getFunctionAppStacksForLocation operation. */
@@ -9949,7 +9873,7 @@ export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCo
 export interface ProviderGetWebAppStacksForLocationOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum13;
+  stackOsType?: ProviderStackOsType;
 }
 
 /** Contains response data for the getWebAppStacksForLocation operation. */
@@ -9966,7 +9890,7 @@ export type ProviderListOperationsResponse = CsmOperationCollection;
 export interface ProviderGetWebAppStacksOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum14;
+  stackOsType?: ProviderStackOsType;
 }
 
 /** Contains response data for the getWebAppStacks operation. */
@@ -9975,7 +9899,7 @@ export type ProviderGetWebAppStacksResponse = WebAppStackCollection;
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOnPremOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum15;
+  osTypeSelected?: ProviderOsTypeSelected;
 }
 
 /** Contains response data for the getAvailableStacksOnPrem operation. */
@@ -9984,7 +9908,7 @@ export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollectio
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksNextOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum10;
+  osTypeSelected?: ProviderOsTypeSelected;
 }
 
 /** Contains response data for the getAvailableStacksNext operation. */
@@ -9994,7 +9918,7 @@ export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
 export interface ProviderGetFunctionAppStacksNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum11;
+  stackOsType?: ProviderStackOsType;
 }
 
 /** Contains response data for the getFunctionAppStacksNext operation. */
@@ -10004,7 +9928,7 @@ export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollectio
 export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum12;
+  stackOsType?: ProviderStackOsType;
 }
 
 /** Contains response data for the getFunctionAppStacksForLocationNext operation. */
@@ -10014,7 +9938,7 @@ export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppSta
 export interface ProviderGetWebAppStacksForLocationNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum13;
+  stackOsType?: ProviderStackOsType;
 }
 
 /** Contains response data for the getWebAppStacksForLocationNext operation. */
@@ -10031,7 +9955,7 @@ export type ProviderListOperationsNextResponse = CsmOperationCollection;
 export interface ProviderGetWebAppStacksNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum14;
+  stackOsType?: ProviderStackOsType;
 }
 
 /** Contains response data for the getWebAppStacksNext operation. */
@@ -10040,7 +9964,7 @@ export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection;
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOnPremNextOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum15;
+  osTypeSelected?: ProviderOsTypeSelected;
 }
 
 /** Contains response data for the getAvailableStacksOnPremNext operation. */

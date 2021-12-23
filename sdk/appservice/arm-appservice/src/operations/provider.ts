@@ -640,7 +640,7 @@ const getFunctionAppStacksForLocationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.stackOsType1],
+  queryParameters: [Parameters.apiVersion, Parameters.stackOsType],
   urlParameters: [Parameters.$host, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer
@@ -656,7 +656,7 @@ const getWebAppStacksForLocationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.stackOsType2],
+  queryParameters: [Parameters.apiVersion, Parameters.stackOsType],
   urlParameters: [Parameters.$host, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer
@@ -688,7 +688,7 @@ const getWebAppStacksOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.stackOsType3],
+  queryParameters: [Parameters.apiVersion, Parameters.stackOsType],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer
@@ -705,7 +705,7 @@ const getAvailableStacksOnPremOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.osTypeSelected1],
+  queryParameters: [Parameters.apiVersion, Parameters.osTypeSelected],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -753,7 +753,7 @@ const getFunctionAppStacksForLocationNextOperationSpec: coreClient.OperationSpec
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.stackOsType1],
+  queryParameters: [Parameters.apiVersion, Parameters.stackOsType],
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer
@@ -769,7 +769,7 @@ const getWebAppStacksForLocationNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.stackOsType2],
+  queryParameters: [Parameters.apiVersion, Parameters.stackOsType],
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer
@@ -801,7 +801,7 @@ const getWebAppStacksNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.stackOsType3],
+  queryParameters: [Parameters.apiVersion, Parameters.stackOsType],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -817,7 +817,7 @@ const getAvailableStacksOnPremNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.osTypeSelected1],
+  queryParameters: [Parameters.apiVersion, Parameters.osTypeSelected],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

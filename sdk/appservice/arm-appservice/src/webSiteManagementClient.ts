@@ -140,7 +140,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/10.0.0`;
+    const packageDetails = `azsdk-js-arm-appservice/11.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

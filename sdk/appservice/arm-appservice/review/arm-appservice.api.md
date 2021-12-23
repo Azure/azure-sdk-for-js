@@ -2986,24 +2986,6 @@ export interface EndpointDetail {
 }
 
 // @public
-export type Enum10 = string;
-
-// @public
-export type Enum11 = string;
-
-// @public
-export type Enum12 = string;
-
-// @public
-export type Enum13 = string;
-
-// @public
-export type Enum14 = string;
-
-// @public
-export type Enum15 = string;
-
-// @public
 export interface ErrorEntity {
     code?: string;
     details?: ErrorEntity[];
@@ -3612,74 +3594,6 @@ export enum KnownDomainPropertiesDomainNotRenewableReasonsItem {
 }
 
 // @public
-export enum KnownEnum10 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    LinuxFunctions = "LinuxFunctions",
-    // (undocumented)
-    Windows = "Windows",
-    // (undocumented)
-    WindowsFunctions = "WindowsFunctions"
-}
-
-// @public
-export enum KnownEnum11 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum12 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum13 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum14 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum15 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    LinuxFunctions = "LinuxFunctions",
-    // (undocumented)
-    Windows = "Windows",
-    // (undocumented)
-    WindowsFunctions = "WindowsFunctions"
-}
-
-// @public
 export enum KnownFtpsState {
     // (undocumented)
     AllAllowed = "AllAllowed",
@@ -3717,6 +3631,30 @@ export enum KnownLoadBalancingMode {
     Web = "Web",
     // (undocumented)
     WebPublishing = "Web, Publishing"
+}
+
+// @public
+export enum KnownProviderOsTypeSelected {
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    Linux = "Linux",
+    // (undocumented)
+    LinuxFunctions = "LinuxFunctions",
+    // (undocumented)
+    Windows = "Windows",
+    // (undocumented)
+    WindowsFunctions = "WindowsFunctions"
+}
+
+// @public
+export enum KnownProviderStackOsType {
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    Linux = "Linux",
+    // (undocumented)
+    Windows = "Windows"
 }
 
 // @public
@@ -4561,7 +4499,7 @@ export interface Provider {
 // @public
 export interface ProviderGetAvailableStacksNextOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum10;
+    osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
@@ -4570,7 +4508,7 @@ export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
 // @public
 export interface ProviderGetAvailableStacksOnPremNextOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum15;
+    osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
@@ -4579,7 +4517,7 @@ export type ProviderGetAvailableStacksOnPremNextResponse = ApplicationStackColle
 // @public
 export interface ProviderGetAvailableStacksOnPremOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum15;
+    osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
@@ -4588,7 +4526,7 @@ export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollectio
 // @public
 export interface ProviderGetAvailableStacksOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum10;
+    osTypeSelected?: ProviderOsTypeSelected;
 }
 
 // @public
@@ -4596,7 +4534,7 @@ export type ProviderGetAvailableStacksResponse = ApplicationStackCollection;
 
 // @public
 export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum12;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -4604,7 +4542,7 @@ export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppSta
 
 // @public
 export interface ProviderGetFunctionAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum12;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -4612,7 +4550,7 @@ export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCo
 
 // @public
 export interface ProviderGetFunctionAppStacksNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum11;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -4620,7 +4558,7 @@ export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollectio
 
 // @public
 export interface ProviderGetFunctionAppStacksOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum11;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -4628,7 +4566,7 @@ export type ProviderGetFunctionAppStacksResponse = FunctionAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum13;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -4636,7 +4574,7 @@ export type ProviderGetWebAppStacksForLocationNextResponse = WebAppStackCollecti
 
 // @public
 export interface ProviderGetWebAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum13;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -4644,7 +4582,7 @@ export type ProviderGetWebAppStacksForLocationResponse = WebAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum14;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -4652,7 +4590,7 @@ export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum14;
+    stackOsType?: ProviderStackOsType;
 }
 
 // @public
@@ -4671,6 +4609,12 @@ export interface ProviderListOperationsOptionalParams extends coreClient.Operati
 
 // @public
 export type ProviderListOperationsResponse = CsmOperationCollection;
+
+// @public
+export type ProviderOsTypeSelected = string;
+
+// @public
+export type ProviderStackOsType = string;
 
 // @public
 export type ProvisioningState = "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";

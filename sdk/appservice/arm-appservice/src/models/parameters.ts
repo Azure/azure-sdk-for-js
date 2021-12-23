@@ -746,50 +746,6 @@ export const stackOsType: OperationQueryParameter = {
   }
 };
 
-export const stackOsType1: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const stackOsType2: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const stackOsType3: OperationQueryParameter = {
-  parameterPath: ["options", "stackOsType"],
-  mapper: {
-    serializedName: "stackOsType",
-    xmlName: "stackOsType",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const osTypeSelected1: OperationQueryParameter = {
-  parameterPath: ["options", "osTypeSelected"],
-  mapper: {
-    serializedName: "osTypeSelected",
-    xmlName: "osTypeSelected",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const featured: OperationQueryParameter = {
   parameterPath: ["options", "featured"],
   mapper: {
