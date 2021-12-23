@@ -294,7 +294,7 @@ export class AttestationTokenImpl implements AttestationToken {
     options: AttestationTokenValidationOptions = {
       validateExpirationTime: true,
       validateToken: true,
-      validateNotBeforeTime: true
+      validateNotBeforeTime: true,
     }
   ): string[] {
     let problems = new Array<string>();

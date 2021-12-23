@@ -11,7 +11,7 @@ import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestU
 import { Context } from "mocha";
 import { getError } from "../../authTestUtils";
 
-describe("EnvironmentCredential", function() {
+describe("EnvironmentCredential", function () {
   let cleanup: MsalTestCleanup;
   const environmentVariableNames = [
     "AZURE_TENANT_ID",
@@ -19,11 +19,11 @@ describe("EnvironmentCredential", function() {
     "AZURE_CLIENT_SECRET",
     "AZURE_CLIENT_CERTIFICATE_PATH",
     "AZURE_USERNAME",
-    "AZURE_PASSWORD"
+    "AZURE_PASSWORD",
   ];
   const cachedValues: Record<string, string | undefined> = {};
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
     environmentVariableNames.forEach((name) => {
@@ -31,7 +31,7 @@ describe("EnvironmentCredential", function() {
       delete process.env[name];
     });
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
     environmentVariableNames.forEach((name) => {
       process.env[name] = cachedValues[name];
@@ -40,7 +40,7 @@ describe("EnvironmentCredential", function() {
 
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates with a client secret on the environment variables", async function() {
+  it("authenticates with a client secret on the environment variables", async function () {
     // The following environment variables must be set for this to work.
     // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
     process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
@@ -54,7 +54,7 @@ describe("EnvironmentCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with a client certificate on the environment variables", async function(this: Context) {
+  it("authenticates with a client certificate on the environment variables", async function (this: Context) {
     if (isLiveMode()) {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
@@ -117,7 +117,7 @@ describe("EnvironmentCredential", function() {
         const credential = new EnvironmentCredential();
 
         await credential.getToken(scope, {
-          tracingOptions
+          tracingOptions,
         });
       },
       children: [
@@ -126,15 +126,15 @@ describe("EnvironmentCredential", function() {
           children: [
             {
               name: "ClientSecretCredential.getToken",
-              children: []
-            }
-          ]
-        }
-      ]
+              children: [],
+            },
+          ],
+        },
+      ],
     })
   );
 
-  it("supports tracing with environment client certificate", async function(this: Context) {
+  it("supports tracing with environment client certificate", async function (this: Context) {
     if (isLiveMode()) {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
@@ -156,7 +156,7 @@ describe("EnvironmentCredential", function() {
         const credential = new EnvironmentCredential();
 
         await credential.getToken(scope, {
-          tracingOptions
+          tracingOptions,
         });
       },
       children: [
@@ -165,11 +165,11 @@ describe("EnvironmentCredential", function() {
           children: [
             {
               name: "ClientCertificateCredential.getToken",
-              children: []
-            }
-          ]
-        }
-      ]
+              children: [],
+            },
+          ],
+        },
+      ],
     })();
   });
 
@@ -188,7 +188,7 @@ describe("EnvironmentCredential", function() {
 
         try {
           await credential.getToken(scope, {
-            tracingOptions
+            tracingOptions,
           });
         } catch (e) {
           // To avoid having to store passwords anywhere, this getToken request will fail.
@@ -201,11 +201,11 @@ describe("EnvironmentCredential", function() {
           children: [
             {
               name: "UsernamePasswordCredential.getToken",
-              children: []
-            }
-          ]
-        }
-      ]
+              children: [],
+            },
+          ],
+        },
+      ],
     })
   );
 

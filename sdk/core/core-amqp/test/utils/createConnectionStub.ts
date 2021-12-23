@@ -13,7 +13,7 @@ export function createConnectionStub(): Connection {
   stub(connectionStub, "open").resolves({} as any);
   stub(connectionStub, "createSession").resolves({
     connection: {
-      id: "connection-1"
+      id: "connection-1",
     },
     createSender: () => {
       const sender = new EventEmitter() as any;
@@ -24,7 +24,7 @@ export function createConnectionStub(): Connection {
     },
     createReceiver: () => {
       return Promise.resolve(new EventEmitter());
-    }
+    },
   } as any);
   stub(connectionStub, "id").get(() => "connection-1");
   return connectionStub;

@@ -50,13 +50,13 @@ export const Constants = {
       POST: "POST",
       MERGE: "MERGE",
       HEAD: "HEAD",
-      PATCH: "PATCH"
+      PATCH: "PATCH",
     },
 
     StatusCodes: {
       TooManyRequests: 429,
-      ServiceUnavailable: 503
-    }
+      ServiceUnavailable: 503,
+    },
   },
 
   /**
@@ -80,6 +80,6 @@ export const Constants = {
     /**
      * The UserAgent header.
      */
-    USER_AGENT: "User-Agent"
-  }
+    USER_AGENT: "User-Agent",
+  },
 };

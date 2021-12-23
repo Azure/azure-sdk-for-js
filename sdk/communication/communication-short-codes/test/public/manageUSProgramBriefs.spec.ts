@@ -9,27 +9,27 @@ import { createRecordedClient } from "./utils/recordedClient";
 import {
   assertEditableFieldsAreEqual,
   doesProgramBriefExist,
-  getTestUSProgramBrief
+  getTestUSProgramBrief,
 } from "./utils/testUSProgramBrief";
 
-describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Program Brief`, function() {
+describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Program Brief`, function () {
   let recorder: Recorder;
   let client: ShortCodesClient;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     ({ client, recorder } = createRecordedClient(this));
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }
   });
 
-  it("can create, get, update, list, and delete a US Program Brief", async function() {
+  it("can create, get, update, list, and delete a US Program Brief", async function () {
     const uspb = getTestUSProgramBrief();
     const createRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
-      body: uspb
+      body: uspb,
     };
     const updateRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
       body: {
@@ -37,9 +37,9 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
         programDetails: {
           signUpUrl: "https://endpoint/updated-sign-up",
           privacyPolicyUrl: "https://endpoint/updated-privacy",
-          termsOfServiceUrl: "https://endpoint/updated-terms"
-        }
-      }
+          termsOfServiceUrl: "https://endpoint/updated-terms",
+        },
+      },
     };
 
     // before test begins, make sure program brief does not exist, clean up if necessary

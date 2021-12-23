@@ -14,9 +14,9 @@ export const createMockHttpClient = <T = Record<string, unknown>>(
         status,
         request,
         headers: request.headers,
-        parsedBody
+        parsedBody,
       };
-    }
+    },
   };
 };
 
@@ -31,12 +31,12 @@ export const getPhoneNumberHttpClient: HttpClient = createMockHttpClient<Purchas
     purchaseDate: new Date(),
     capabilities: {
       sms: "inbound+outbound",
-      calling: "none"
+      calling: "none",
     },
     cost: {
       amount: 5,
       currencyCode: "USD",
-      billingFrequency: "monthly"
-    }
+      billingFrequency: "monthly",
+    },
   }
 );

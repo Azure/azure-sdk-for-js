@@ -1,7 +1,7 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
@@ -20,13 +20,13 @@ module.exports = function(config) {
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-sourcemap-loader",
-      "karma-junit-reporter"
+      "karma-junit-reporter",
     ],
 
     // list of files / patterns to load in the browser
     files: [
       "dist-test/index.browser.js",
-      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
     ],
 
     // list of files / patterns to exclude
@@ -38,7 +38,7 @@ module.exports = function(config) {
       "**/*.js": ["sourcemap", "env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      "dist-test/index.js": ["coverage"]
+      "dist-test/index.js": ["coverage"],
     },
 
     // inject following environment values into browser testing with window.__env__
@@ -58,8 +58,8 @@ module.exports = function(config) {
         { type: "json", subdir: ".", file: "coverage.json" },
         { type: "lcovonly", subdir: ".", file: "lcov.info" },
         { type: "html", subdir: "html" },
-        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
-      ]
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" },
+      ],
     },
 
     junitReporter: {
@@ -69,7 +69,7 @@ module.exports = function(config) {
       useBrowserName: false, // add browser name to report and classes names
       nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
       classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
-      properties: {} // key value pair of properties to add to the <properties> section of the report
+      properties: {}, // key value pair of properties to add to the <properties> section of the report
     },
 
     // web server port
@@ -106,8 +106,8 @@ module.exports = function(config) {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "600000"
-      }
-    }
+        timeout: "600000",
+      },
+    },
   });
 };

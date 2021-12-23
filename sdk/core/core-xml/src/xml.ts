@@ -8,7 +8,7 @@ function getCommonOptions(options: XmlOptions) {
   return {
     attrNodeName: XML_ATTRKEY,
     textNodeName: options.xmlCharKey ?? XML_CHARKEY,
-    ignoreAttributes: false
+    ignoreAttributes: false,
   };
 }
 
@@ -19,7 +19,7 @@ function getSerializerOptions(options: XmlOptions = {}) {
     format: true,
     supressEmptyNode: true,
     indentBy: "",
-    rootNodeName: options.rootName ?? "root"
+    rootNodeName: options.rootName ?? "root",
   };
 }
 
@@ -28,7 +28,7 @@ function getParserOptions(options: XmlOptions = {}) {
     ...getCommonOptions(options),
     parseAttributeValue: false,
     parseNodeValue: false,
-    attributeNamePrefix: ""
+    attributeNamePrefix: "",
   };
 }
 /**

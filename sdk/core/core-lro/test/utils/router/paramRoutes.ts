@@ -84,7 +84,7 @@ function retries(request: PipelineRequest): PipelineResponse | undefined {
       const headers = createHttpHeaders({
         Location: `/${methodInUri}${
           method === "get" ? "/newuri" : ""
-        }/${initialCode}/${retry}/${finalCode}`
+        }/${initialCode}/${retry}/${finalCode}`,
       });
       if (retry === "retry") {
         headers.set("Retry-After", "0");
@@ -92,7 +92,7 @@ function retries(request: PipelineRequest): PipelineResponse | undefined {
       return {
         request: request,
         headers: headers,
-        status: initialCode
+        status: initialCode,
       };
     } else if (pieces.length === 5 && pieces[1] === "newuri") {
       const methodInUri = pieces[0];
@@ -156,10 +156,10 @@ function deleteProvisioning(request: PipelineRequest): PipelineResponse | undefi
           request: request,
           headers: createHttpHeaders({
             Location: `/delete/provisioning/${initialCode}/${initialState.toLowerCase()}/${finalCode}/${finalState.toLowerCase()}`,
-            "Retry-After": "0"
+            "Retry-After": "0",
           }),
           status: initialCode,
-          bodyAsText: `{ "properties": { "provisioningState": "${initialState}"}, "id": "100", "name": "foo" }`
+          bodyAsText: `{ "properties": { "provisioningState": "${initialState}"}, "id": "100", "name": "foo" }`,
         };
       } else if (request.method === "GET") {
         return buildResponse(
@@ -193,7 +193,7 @@ function deleteasyncRetry(request: PipelineRequest): PipelineResponse | undefine
     const pollingUri = `/deleteasync/${retry}/${finalState.toLowerCase()}/operationResults/200/`;
     const headers = createHttpHeaders({
       "Azure-AsyncOperation": pollingUri,
-      Location: pollingUri
+      Location: pollingUri,
     });
     if (retry === "retry") {
       headers.set("Retry-After", "0");
@@ -209,7 +209,7 @@ function deleteasyncRetry(request: PipelineRequest): PipelineResponse | undefine
         const pollingUri = `/deleteasync/${retry}/${finalState.toLowerCase()}/operationResults/${finalCode}`;
         const headers = createHttpHeaders({
           "Azure-AsyncOperation": pollingUri,
-          Location: pollingUri
+          Location: pollingUri,
         });
         if (retry === "retry") {
           headers.set("Retry-After", "0");
@@ -256,7 +256,7 @@ function putasyncRetry(request: PipelineRequest): PipelineResponse | undefined {
       const pollingUri = `/putasync/${retry}/${finalState.toLowerCase()}/operationResults/200/`;
       const headers = createHttpHeaders({
         "Azure-AsyncOperation": pollingUri,
-        Location: pollingUri
+        Location: pollingUri,
       });
       if (retry === "retry") {
         headers.set("Retry-After", "0");
@@ -278,7 +278,7 @@ function putasyncRetry(request: PipelineRequest): PipelineResponse | undefined {
         const pollingUri = `/putasync/${retry}/${finalState.toLowerCase()}/operationResults/${finalCode}`;
         const headers = createHttpHeaders({
           "Azure-AsyncOperation": pollingUri,
-          Location: pollingUri
+          Location: pollingUri,
         });
         if (retry === "retry") {
           headers.set("Retry-After", "0");
@@ -324,7 +324,7 @@ function postasyncRetry(request: PipelineRequest): PipelineResponse | undefined 
     } else if (method === "POST") {
       const headers = createHttpHeaders({
         "Azure-AsyncOperation": `/postasync/${retry}/${finalState.toLowerCase()}/operationResults/200/`,
-        Location: `/postasync/${retry}/succeeded/operationResults/foo/200/`
+        Location: `/postasync/${retry}/succeeded/operationResults/foo/200/`,
       });
       if (retry === "retry") {
         headers.set("Retry-After", "0");
@@ -354,7 +354,7 @@ function postasyncRetry(request: PipelineRequest): PipelineResponse | undefined 
         --putasyncRetry.internalCounter;
         const headers = createHttpHeaders({
           "Azure-AsyncOperation": `/postasync/${retry}/${finalState.toLowerCase()}/operationResults/foo/${finalCode}`,
-          Location: `/postasync/${retry}/succeeded/operationResults/foo/200/`
+          Location: `/postasync/${retry}/succeeded/operationResults/foo/200/`,
         });
         if (retry === "retry") {
           headers.set("Retry-After", "0");
@@ -379,5 +379,5 @@ export const paramRoutes = [
   deleteProvisioning,
   deleteasyncRetry,
   putasyncRetry,
-  postasyncRetry
+  postasyncRetry,
 ];

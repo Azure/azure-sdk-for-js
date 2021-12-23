@@ -11,7 +11,7 @@ import {
   ArtifactManifestProperties,
   ContainerRegistryClient,
   RegistryArtifact,
-  KnownContainerRegistryAudience
+  KnownContainerRegistryAudience,
 } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -25,7 +25,7 @@ export async function main() {
   const pageSize = 1;
 
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
   });
   const repository = client.getRepository(repositoryName);
   await getProperties(repository);

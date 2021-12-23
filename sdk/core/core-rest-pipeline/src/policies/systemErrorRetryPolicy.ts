@@ -48,12 +48,12 @@ export function systemErrorRetryPolicy(
       [
         exponentialRetryStrategy({
           ...options,
-          ignoreHttpStatusCodes: true
-        })
+          ignoreHttpStatusCodes: true,
+        }),
       ],
       {
-        maxRetries: options.maxRetries ?? 10
+        maxRetries: options.maxRetries ?? 10,
       }
-    ).sendRequest
+    ).sendRequest,
   };
 }

@@ -146,13 +146,11 @@ export class RsaCryptographyProvider implements CryptographyProvider {
 
   /**
    * The {@link JsonWebKey} used to perform crypto operations.
-   * @internal
    */
   private key: JsonWebKey;
 
   /**
    * The set of algorithms this provider supports
-   * @internal
    */
   private applicableAlgorithms: string[] = [
     "RSA1_5",
@@ -167,7 +165,6 @@ export class RsaCryptographyProvider implements CryptographyProvider {
 
   /**
    * The set of operations this provider supports
-   * @internal
    */
   private applicableOperations: CryptographyProviderOperation[] = [
     "encrypt",

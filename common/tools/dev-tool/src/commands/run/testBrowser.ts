@@ -13,6 +13,6 @@ export default leafCommand(commandInfo, async (options) => {
   const karmaArgs = options["--"]?.length ? options["--"]?.join(" ") : "--single-run";
   return runTestsWithProxyTool({
     command: `karma start ${karmaArgs}`,
-    name: "browser-tests"
+    name: "browser-tests",
   });
 });

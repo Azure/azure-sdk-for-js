@@ -50,7 +50,7 @@ export class UsernamePasswordCredential implements TokenCredential {
       tenantId,
       username,
       password,
-      tokenCredentialOptions: options || {}
+      tokenCredentialOptions: options || {},
     });
   }
 

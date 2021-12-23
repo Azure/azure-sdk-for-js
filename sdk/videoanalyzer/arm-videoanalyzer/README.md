@@ -6,7 +6,7 @@ Azure Video Analyzer provides a platform for you to build intelligent video appl
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/videoanalyzer/arm-videoanalyzer) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-videoanalyzer) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-videoanalyzer) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-videoanalyzer?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

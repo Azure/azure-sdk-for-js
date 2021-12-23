@@ -5,7 +5,7 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import {
   Span,
@@ -13,7 +13,7 @@ import {
   SpanStatusCode,
   createSpanFunction,
   getTraceParentHeader,
-  isSpanContextValid
+  isSpanContextValid,
 } from "@azure/core-tracing";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { URLBuilder } from "../url";
@@ -22,7 +22,7 @@ import { logger } from "../log";
 
 const createSpan = createSpanFunction({
   packagePrefix: "",
-  namespace: ""
+  namespace: "",
 });
 
 /**
@@ -44,7 +44,7 @@ export function tracingPolicy(tracingOptions: TracingPolicyOptions = {}): Reques
   return {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
       return new TracingPolicy(nextPolicy, options, tracingOptions);
-    }
+    },
   };
 }
 
@@ -94,10 +94,10 @@ export class TracingPolicy extends BaseRequestPolicy {
         tracingOptions: {
           spanOptions: {
             ...(request as any).spanOptions,
-            kind: SpanKind.CLIENT
+            kind: SpanKind.CLIENT,
           },
-          tracingContext: request.tracingContext
-        }
+          tracingContext: request.tracingContext,
+        },
       });
 
       // If the span is not recording, don't do any more work.
@@ -115,7 +115,7 @@ export class TracingPolicy extends BaseRequestPolicy {
       span.setAttributes({
         "http.method": request.method,
         "http.url": request.url,
-        requestId: request.requestId
+        requestId: request.requestId,
       });
 
       if (this.userAgent) {
@@ -144,7 +144,7 @@ export class TracingPolicy extends BaseRequestPolicy {
     try {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: err.message
+        message: err.message,
       });
 
       if (err.statusCode) {
@@ -164,7 +164,7 @@ export class TracingPolicy extends BaseRequestPolicy {
         span.setAttribute("serviceRequestId", serviceRequestId);
       }
       span.setStatus({
-        code: SpanStatusCode.OK
+        code: SpanStatusCode.OK,
       });
       span.end();
     } catch (error) {
