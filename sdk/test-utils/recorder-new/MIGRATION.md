@@ -139,18 +139,50 @@ In this example, the name of the queue used in the recording is randomized. Howe
 
 A powerful feature of the legacy recorder was its `customizationsOnRecordings` option, which allowed for arbitrary replacements to be made to recordings. The new recorder's analog to this is the sanitizer functionality.
 
+### GeneralRegexSanitizer
+
 For a simple find/replace, a `GeneralRegexSanitizer` can be used. For example:
 
 ```ts
 recorder.addSanitizers({
   generalRegexSanitizers: [
-    regex: "find",
-    value: "replace"
+    {
+      regex: "find", // This should be a .NET regular expression as it is passed to the .NET proxy tool
+      value: "replace",
+    },
+    // add additional sanitizers here as required
   ],
 });
 ```
 
 This example would replace all instances of `find` in the recording with `replace`.
+
+### ConnectionStringSanitizer
+
+A `ConnectionStringSanitizer` can be used to strip all occurrences of a connection string from a recording. Its usage is very similar to the `GeneralRegexSanitizer`. For example:
+
+```ts
+recorder.addSanitizers({
+  connectionStringSanitizers: [
+    {
+      actualConnString: /* the actual connection string to be replaced, usually passed in as an environment variable */,  
+      fakeConnString: /* a mock connection string to replace actualConnString with */,
+    },
+  ],
+});
+```
+
+### RemoveHeaderSanitizer
+
+`RemoveHeaderSanitizer` can be used to remove specific headers from the recordings as follows:
+
+```ts
+recorder.addSanitizers({
+  removeHeaderSanitizer: {
+    headersForRemoval: ["Header1", "Header2", /* ... */]
+  }
+});
+```
 
 Other sanitizers for more complex use cases are also available.
 
