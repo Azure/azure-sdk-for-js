@@ -14,6 +14,7 @@ export const baseCommands = {
   package: () => import("./package"),
   samples: () => import("./samples"),
   "test-proxy": () => import("./test-proxy"),
+  "test-server": () => import("./test-server"),
   run: () => import("./run"),
 } as const;
 
