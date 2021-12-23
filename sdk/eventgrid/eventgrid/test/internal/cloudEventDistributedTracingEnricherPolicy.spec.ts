@@ -7,12 +7,12 @@ import {
   PipelineRequest,
   PipelineResponse,
   createPipelineRequest,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 
 const CloudEventBatchContentType = "application/cloudevents-batch+json; charset=utf-8";
 
-describe("CloudEventDistributedTracingEnricherPolicy", function() {
+describe("CloudEventDistributedTracingEnricherPolicy", function () {
   const emptyResponse: SendRequest = (request: PipelineRequest): Promise<PipelineResponse> => {
     return Promise.resolve({ request: request, status: 200, headers: request.headers });
   };
@@ -69,9 +69,9 @@ describe("CloudEventDistributedTracingEnricherPolicy", function() {
     request.body = JSON.stringify([
       {
         traceparent,
-        tracestate
+        tracestate,
       },
-      {}
+      {},
     ]);
 
     const resp = await policy.sendRequest(request, emptyResponse);
