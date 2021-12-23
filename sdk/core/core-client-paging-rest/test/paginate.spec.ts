@@ -228,7 +228,7 @@ function mockResponse(client: Client, responses: MockResponse[]): void {
 
   client.pipeline.addPolicy({
     name: "mockClient",
-    sendRequest: async (request, _next): Promise<any> => {
+    sendRequest: async (request, _next) => {
       if (count < responses.length) {
         count++;
       }
