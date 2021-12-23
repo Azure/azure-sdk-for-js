@@ -25,7 +25,8 @@ export {
   ElectricVehicleConnector,
   PointOfInterestCategoryTreeResult,
   RoadUseType,
-  GeoJsonObjectUnion
+  GeoJsonObjectUnion,
+  PointOfInterestCategory
 } from "../generated/models";
 
 /**

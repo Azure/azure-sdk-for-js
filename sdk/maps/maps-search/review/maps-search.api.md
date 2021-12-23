@@ -243,7 +243,6 @@ export class MapsSearchClient {
     fuzzySearch(query: string, countryFilter: string[], options?: FuzzySearchOptions): Promise<SearchAddressResult>;
     fuzzySearch(query: string, coordinates: LatLon, countryFilter: string[], options?: FuzzySearchOptions): Promise<SearchAddressResult>;
     fuzzySearchBatchSync(requests: FuzzySearchRequest[], options?: FuzzySearchBatchOptions): Promise<BatchResult<SearchAddressResult>>;
-    // Warning: (ae-forgotten-export) The symbol "PointOfInterestCategory" needs to be exported by the entry point index.d.ts
     getPointOfInterestCategories(options?: GetPointOfInterestCategoriesOptions): Promise<PointOfInterestCategory[]>;
     getPolygons(geometryIds: string[], options?: GetPolygonsOptions): Promise<Polygon[]>;
     reverseSearchAddress(coordinates: LatLon, options?: ReverseSearchAddressOptions): Promise<ReverseSearchAddressResult>;
@@ -301,6 +300,14 @@ export interface PointOfInterest {
     operatingHours?: OperatingHours;
     readonly phone?: string;
     readonly url?: string;
+}
+
+// @public
+export interface PointOfInterestCategory {
+    readonly childIds?: number[];
+    readonly id?: number;
+    readonly name?: string;
+    readonly synonyms?: string[];
 }
 
 // @public
