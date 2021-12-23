@@ -8,7 +8,7 @@ import {
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  SendBatchOptions
+  SendBatchOptions,
 } from "./models/public";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
@@ -195,7 +195,7 @@ export class EventHubProducerClient {
 
     let maxMessageSize = await sender.getMaxMessageSize({
       retryOptions: this._clientOptions.retryOptions,
-      abortSignal: options.abortSignal
+      abortSignal: options.abortSignal,
     });
 
     if (options.maxSizeInBytes) {
@@ -348,14 +348,14 @@ export class EventHubProducerClient {
         ...options,
         partitionId,
         partitionKey,
-        retryOptions: this._clientOptions.retryOptions
+        retryOptions: this._clientOptions.retryOptions,
       });
       sendSpan.setStatus({ code: SpanStatusCode.OK });
       return result;
     } catch (error) {
       sendSpan.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -388,7 +388,7 @@ export class EventHubProducerClient {
   getEventHubProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     return this._context.managementSession!.getEventHubProperties({
       ...options,
-      retryOptions: this._clientOptions.retryOptions
+      retryOptions: this._clientOptions.retryOptions,
     });
   }
 
@@ -404,7 +404,7 @@ export class EventHubProducerClient {
     return this._context
       .managementSession!.getEventHubProperties({
         ...options,
-        retryOptions: this._clientOptions.retryOptions
+        retryOptions: this._clientOptions.retryOptions,
       })
       .then((eventHubProperties) => {
         return eventHubProperties.partitionIds;
@@ -425,7 +425,7 @@ export class EventHubProducerClient {
   ): Promise<PartitionProperties> {
     return this._context.managementSession!.getPartitionProperties(partitionId, {
       ...options,
-      retryOptions: this._clientOptions.retryOptions
+      retryOptions: this._clientOptions.retryOptions,
     });
   }
 
@@ -435,13 +435,13 @@ export class EventHubProducerClient {
   ): Span {
     const links: Link[] = spanContextsToLink.map((context) => {
       return {
-        context
+        context,
       };
     });
 
     const { span } = createEventHubSpan("send", operationOptions, this._context.config, {
       kind: SpanKind.CLIENT,
-      links
+      links,
     });
 
     return span;
