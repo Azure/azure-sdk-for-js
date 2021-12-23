@@ -62,7 +62,7 @@
     "node": ">=10.10.0"
   },
   "dependencies": {
-    "@azure-tools/js-sdk-release-tools": "^1.0.3",
+    "@azure-tools/js-sdk-release-tools": "^1.0.4",
     "eng-package-utils": "file:eng/tools/eng-package-utils",
     "versioning": "file:eng/tools/versioning"
   }
