@@ -50,10 +50,10 @@ export = {
                     (headerComments[0] as any) || node,
                     expectedComments
                   );
-                }
+                },
               });
             }
-          }
+          },
         }
-      : {}
+      : {},
 };

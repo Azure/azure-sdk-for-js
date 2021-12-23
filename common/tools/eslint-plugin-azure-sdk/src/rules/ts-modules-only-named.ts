@@ -29,8 +29,8 @@ export = {
           ExportDefaultDeclaration: (node: ExportDefaultDeclaration): void =>
             context.report({
               node: node,
-              message: "default exports exist at top level"
-            })
+              message: "default exports exist at top level",
+            }),
         } as Rule.RuleListener)
-      : {}
+      : {},
 };
