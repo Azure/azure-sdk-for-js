@@ -5,7 +5,7 @@ import {
   createHash as cryptoCreateHash,
   createVerify as cryptoCreateVerify,
   Verify,
-  randomBytes as cryptoRandomBytes
+  randomBytes as cryptoRandomBytes,
 } from "crypto";
 
 /**
@@ -22,7 +22,7 @@ const algorithmToHashAlgorithm: { [s: string]: string } = {
   RS384: "SHA384",
   ES512: "SHA512",
   PS512: "SHA512",
-  RS512: "SHA512"
+  RS512: "SHA512",
 };
 
 /**

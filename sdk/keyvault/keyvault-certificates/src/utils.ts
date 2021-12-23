@@ -12,7 +12,7 @@ export function toBase64(bytes: Uint8Array): string {
   if (isNode) {
     return Buffer.from(bytes).toString("base64");
   } else {
-    return btoa(String.fromCharCode.apply(null, (bytes as any) as number[]));
+    return btoa(String.fromCharCode.apply(null, bytes as any as number[]));
   }
 }
 

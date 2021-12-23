@@ -5,7 +5,7 @@ import { KeyVaultAdminPoller, KeyVaultAdminPollerOptions } from "../keyVaultAdmi
 import {
   KeyVaultSelectiveKeyRestoreOperationState,
   KeyVaultSelectiveKeyRestorePollOperation,
-  KeyVaultSelectiveKeyRestorePollOperationState
+  KeyVaultSelectiveKeyRestorePollOperationState,
 } from "./operation";
 import { KeyVaultSelectiveKeyRestoreResult } from "../../backupClientModels";
 
@@ -33,7 +33,7 @@ export class KeyVaultSelectiveKeyRestorePoller extends KeyVaultAdminPoller<
       folderName,
       requestOptions,
       intervalInMs = 2000,
-      resumeFrom
+      resumeFrom,
     } = options;
 
     let state: KeyVaultSelectiveKeyRestorePollOperationState | undefined;
@@ -48,7 +48,7 @@ export class KeyVaultSelectiveKeyRestorePoller extends KeyVaultAdminPoller<
         keyName,
         folderUri: folderUri,
         sasToken,
-        folderName
+        folderName,
       },
       vaultUrl,
       client,

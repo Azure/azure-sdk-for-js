@@ -56,6 +56,6 @@ export function parseKeyvaultIdentifier(
   return {
     vaultUrl,
     name,
-    version
+    version,
   };
 }

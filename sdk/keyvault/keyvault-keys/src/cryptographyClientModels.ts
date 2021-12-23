@@ -10,7 +10,7 @@ import {
   JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,
   KnownJsonWebKeyEncryptionAlgorithm as KnownEncryptionAlgorithms,
   JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
-  KnownJsonWebKeySignatureAlgorithm as KnownSignatureAlgorithms
+  KnownJsonWebKeySignatureAlgorithm as KnownSignatureAlgorithms,
 } from "./generated/models";
 
 export {
@@ -19,7 +19,7 @@ export {
   EncryptionAlgorithm,
   KnownEncryptionAlgorithms,
   SignatureAlgorithm,
-  KnownSignatureAlgorithms
+  KnownSignatureAlgorithms,
 };
 
 /**
