@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { BatchManagementClient } from "./batchManagementClient";
-export { BatchManagementClientContext } from "./batchManagementClientContext";
 export * from "./operationsInterfaces";
