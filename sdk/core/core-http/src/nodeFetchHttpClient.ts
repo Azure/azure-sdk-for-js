@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as tough from "tough-cookie";
 import * as http from "http";
 import * as https from "https";
-import node_fetch from "node-fetch";
-import FormData from "form-data";
-import { AbortError, AbortController } from "@azure/abort-controller";
-
-import { HttpOperationResponse } from "./httpOperationResponse";
-import { TransferProgressEvent, WebResourceLike } from "./webResource";
-import { createProxyAgent, ProxyAgent, isUrlHttps } from "./proxyAgent";
-import { HttpClient } from "./httpClient";
-import { Readable, Transform } from "stream";
+import * as tough from "tough-cookie";
+import { AbortController, AbortError } from "@azure/abort-controller";
 import { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
+import { ProxyAgent, createProxyAgent, isUrlHttps } from "./proxyAgent";
+import { Readable, Transform } from "stream";
+import { TransferProgressEvent, WebResourceLike } from "./webResource";
+import FormData from "form-data";
+import { HttpClient } from "./httpClient";
+import { HttpOperationResponse } from "./httpOperationResponse";
 import { RestError } from "./restError";
 import { logger } from "./log";
+import node_fetch from "node-fetch";
 
 interface AgentCache {
   httpAgent?: http.Agent;
@@ -209,7 +208,7 @@ export class NodeFetchHttpClient implements HttpClient {
       method: httpRequest.method,
       signal: abortController.signal,
       redirect: "manual",
-      ...platformSpecificRequestInit
+      ...platformSpecificRequestInit,
     };
 
     let operationResponse: HttpOperationResponse | undefined;
@@ -227,9 +226,9 @@ export class NodeFetchHttpClient implements HttpClient {
         request: httpRequest,
         status: response.status,
         readableStreamBody: streaming
-          ? ((response.body as unknown) as NodeJS.ReadableStream)
+          ? (response.body as unknown as NodeJS.ReadableStream)
           : undefined,
-        bodyAsText: !streaming ? await response.text() : undefined
+        bodyAsText: !streaming ? await response.text() : undefined,
       };
 
       const onDownloadProgress = httpRequest.onDownloadProgress;
@@ -337,7 +336,7 @@ export class NodeFetchHttpClient implements HttpClient {
       }
 
       const agentOptions: http.AgentOptions | https.AgentOptions = {
-        keepAlive: httpRequest.keepAlive
+        keepAlive: httpRequest.keepAlive,
       };
 
       if (isHttps) {
@@ -357,7 +356,7 @@ export class NodeFetchHttpClient implements HttpClient {
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-apisurface-standardized-verbs
   async fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse> {
-    return (node_fetch(input, init) as unknown) as Promise<CommonResponse>;
+    return node_fetch(input, init) as unknown as Promise<CommonResponse>;
   }
 
   /**

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { Context } from "mocha";
 import { SDK_VERSION } from "../../src/constants";
 import { packageVersion } from "../../src/generated/keyVaultClientContext";
@@ -23,7 +23,7 @@ describe("Certificates client's user agent (only in Node, because of fs)", () =>
     try {
       // The unit-test script has this test file at: test/internal/userAgent.spec.ts
       const fileContents = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "../package.json"), { encoding: "utf-8" })
+        fs.readFileSync(path.join(__dirname, "../../package.json"), { encoding: "utf-8" })
       );
       version = fileContents.version;
     } catch {

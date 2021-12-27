@@ -36,6 +36,21 @@ export const ProfileListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const Sku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Sku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -112,21 +127,6 @@ export const SystemData: coreClient.CompositeMapper = {
         serializedName: "lastModifiedAt",
         type: {
           name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const Sku: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Sku",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
         }
       }
     }
@@ -294,386 +294,6 @@ export const EndpointListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EndpointPropertiesUpdateParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EndpointPropertiesUpdateParameters",
-    modelProperties: {
-      originPath: {
-        serializedName: "originPath",
-        type: {
-          name: "String"
-        }
-      },
-      contentTypesToCompress: {
-        serializedName: "contentTypesToCompress",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      originHostHeader: {
-        serializedName: "originHostHeader",
-        type: {
-          name: "String"
-        }
-      },
-      isCompressionEnabled: {
-        serializedName: "isCompressionEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isHttpAllowed: {
-        serializedName: "isHttpAllowed",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isHttpsAllowed: {
-        serializedName: "isHttpsAllowed",
-        type: {
-          name: "Boolean"
-        }
-      },
-      queryStringCachingBehavior: {
-        serializedName: "queryStringCachingBehavior",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "IgnoreQueryString",
-            "BypassCaching",
-            "UseQueryString",
-            "NotSet"
-          ]
-        }
-      },
-      optimizationType: {
-        serializedName: "optimizationType",
-        type: {
-          name: "String"
-        }
-      },
-      probePath: {
-        serializedName: "probePath",
-        type: {
-          name: "String"
-        }
-      },
-      geoFilters: {
-        serializedName: "geoFilters",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "GeoFilter"
-            }
-          }
-        }
-      },
-      defaultOriginGroup: {
-        serializedName: "defaultOriginGroup",
-        type: {
-          name: "Composite",
-          className: "ResourceReference"
-        }
-      },
-      urlSigningKeys: {
-        serializedName: "urlSigningKeys",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "UrlSigningKey"
-            }
-          }
-        }
-      },
-      deliveryPolicy: {
-        serializedName: "deliveryPolicy",
-        type: {
-          name: "Composite",
-          className: "EndpointPropertiesUpdateParametersDeliveryPolicy"
-        }
-      },
-      webApplicationFirewallPolicyLink: {
-        serializedName: "webApplicationFirewallPolicyLink",
-        type: {
-          name: "Composite",
-          className:
-            "EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink"
-        }
-      }
-    }
-  }
-};
-
-export const GeoFilter: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "GeoFilter",
-    modelProperties: {
-      relativePath: {
-        serializedName: "relativePath",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      action: {
-        serializedName: "action",
-        required: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["Block", "Allow"]
-        }
-      },
-      countryCodes: {
-        serializedName: "countryCodes",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ResourceReference: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ResourceReference",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const UrlSigningKey: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UrlSigningKey",
-    modelProperties: {
-      keyId: {
-        serializedName: "keyId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      keySourceParameters: {
-        serializedName: "keySourceParameters",
-        type: {
-          name: "Composite",
-          className: "KeyVaultSigningKeyParameters"
-        }
-      }
-    }
-  }
-};
-
-export const KeyVaultSigningKeyParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyVaultSigningKeyParameters",
-    modelProperties: {
-      odataType: {
-        defaultValue:
-          "#Microsoft.Azure.Cdn.Models.KeyVaultSigningKeyParameters",
-        isConstant: true,
-        serializedName: "@odata\\.type",
-        type: {
-          name: "String"
-        }
-      },
-      subscriptionId: {
-        serializedName: "subscriptionId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      resourceGroupName: {
-        serializedName: "resourceGroupName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      vaultName: {
-        serializedName: "vaultName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      secretName: {
-        serializedName: "secretName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      secretVersion: {
-        serializedName: "secretVersion",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EndpointPropertiesUpdateParametersDeliveryPolicy: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EndpointPropertiesUpdateParametersDeliveryPolicy",
-    modelProperties: {
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      rules: {
-        serializedName: "rules",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DeliveryRule"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const DeliveryRule: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DeliveryRule",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      order: {
-        serializedName: "order",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      conditions: {
-        serializedName: "conditions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DeliveryRuleCondition"
-            }
-          }
-        }
-      },
-      actions: {
-        serializedName: "actions",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DeliveryRuleAction"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const DeliveryRuleCondition: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DeliveryRuleCondition",
-    uberParent: "DeliveryRuleCondition",
-    polymorphicDiscriminator: {
-      serializedName: "name",
-      clientName: "name"
-    },
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DeliveryRuleAction: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DeliveryRuleAction",
-    uberParent: "DeliveryRuleAction",
-    polymorphicDiscriminator: {
-      serializedName: "name",
-      clientName: "name"
-    },
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className:
-      "EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink",
-    modelProperties: {
-      id: {
-        serializedName: "id",
         type: {
           name: "String"
         }
@@ -872,6 +492,21 @@ export const HealthProbeParameters: coreClient.CompositeMapper = {
   }
 };
 
+export const ResourceReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceReference",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ResponseBasedOriginErrorDetectionParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -933,6 +568,371 @@ export const HttpErrorRangeParameters: coreClient.CompositeMapper = {
         serializedName: "end",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const EndpointPropertiesUpdateParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EndpointPropertiesUpdateParameters",
+    modelProperties: {
+      originPath: {
+        serializedName: "originPath",
+        type: {
+          name: "String"
+        }
+      },
+      contentTypesToCompress: {
+        serializedName: "contentTypesToCompress",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      originHostHeader: {
+        serializedName: "originHostHeader",
+        type: {
+          name: "String"
+        }
+      },
+      isCompressionEnabled: {
+        serializedName: "isCompressionEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isHttpAllowed: {
+        serializedName: "isHttpAllowed",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isHttpsAllowed: {
+        serializedName: "isHttpsAllowed",
+        type: {
+          name: "Boolean"
+        }
+      },
+      queryStringCachingBehavior: {
+        serializedName: "queryStringCachingBehavior",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "IgnoreQueryString",
+            "BypassCaching",
+            "UseQueryString",
+            "NotSet"
+          ]
+        }
+      },
+      optimizationType: {
+        serializedName: "optimizationType",
+        type: {
+          name: "String"
+        }
+      },
+      probePath: {
+        serializedName: "probePath",
+        type: {
+          name: "String"
+        }
+      },
+      geoFilters: {
+        serializedName: "geoFilters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GeoFilter"
+            }
+          }
+        }
+      },
+      defaultOriginGroup: {
+        serializedName: "defaultOriginGroup",
+        type: {
+          name: "Composite",
+          className: "ResourceReference"
+        }
+      },
+      urlSigningKeys: {
+        serializedName: "urlSigningKeys",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UrlSigningKey"
+            }
+          }
+        }
+      },
+      deliveryPolicy: {
+        serializedName: "deliveryPolicy",
+        type: {
+          name: "Composite",
+          className: "EndpointPropertiesUpdateParametersDeliveryPolicy"
+        }
+      },
+      webApplicationFirewallPolicyLink: {
+        serializedName: "webApplicationFirewallPolicyLink",
+        type: {
+          name: "Composite",
+          className:
+            "EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink"
+        }
+      }
+    }
+  }
+};
+
+export const GeoFilter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GeoFilter",
+    modelProperties: {
+      relativePath: {
+        serializedName: "relativePath",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        serializedName: "action",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Block", "Allow"]
+        }
+      },
+      countryCodes: {
+        serializedName: "countryCodes",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UrlSigningKey: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UrlSigningKey",
+    modelProperties: {
+      keyId: {
+        serializedName: "keyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      keySourceParameters: {
+        serializedName: "keySourceParameters",
+        type: {
+          name: "Composite",
+          className: "KeyVaultSigningKeyParameters"
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultSigningKeyParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultSigningKeyParameters",
+    modelProperties: {
+      odataType: {
+        defaultValue:
+          "#Microsoft.Azure.Cdn.Models.KeyVaultSigningKeyParameters",
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGroupName: {
+        serializedName: "resourceGroupName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      vaultName: {
+        serializedName: "vaultName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      secretName: {
+        serializedName: "secretName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      secretVersion: {
+        serializedName: "secretVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EndpointPropertiesUpdateParametersDeliveryPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EndpointPropertiesUpdateParametersDeliveryPolicy",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      rules: {
+        serializedName: "rules",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeliveryRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeliveryRule",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      order: {
+        serializedName: "order",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      conditions: {
+        serializedName: "conditions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeliveryRuleCondition"
+            }
+          }
+        }
+      },
+      actions: {
+        serializedName: "actions",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeliveryRuleActionAutoGenerated"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleCondition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeliveryRuleCondition",
+    uberParent: "DeliveryRuleCondition",
+    polymorphicDiscriminator: {
+      serializedName: "name",
+      clientName: "name"
+    },
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleActionAutoGenerated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeliveryRuleActionAutoGenerated",
+    uberParent: "DeliveryRuleActionAutoGenerated",
+    polymorphicDiscriminator: {
+      serializedName: "name",
+      clientName: "name"
+    },
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1966,6 +1966,29 @@ export const AFDDomainListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const DomainValidationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DomainValidationProperties",
+    modelProperties: {
+      validationToken: {
+        serializedName: "validationToken",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      expirationDate: {
+        serializedName: "expirationDate",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AFDDomainUpdatePropertiesParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2033,29 +2056,6 @@ export const AFDStateProperties: coreClient.CompositeMapper = {
       },
       deploymentStatus: {
         serializedName: "deploymentStatus",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DomainValidationProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DomainValidationProperties",
-    modelProperties: {
-      validationToken: {
-        serializedName: "validationToken",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      expirationDate: {
-        serializedName: "expirationDate",
         readOnly: true,
         type: {
           name: "String"
@@ -2884,7 +2884,7 @@ export const RuleUpdatePropertiesParameters: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DeliveryRuleAction"
+              className: "DeliveryRuleActionAutoGenerated"
             }
           }
         }
@@ -2929,7 +2929,7 @@ export const RuleUpdateParameters: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DeliveryRuleAction"
+              className: "DeliveryRuleActionAutoGenerated"
             }
           }
         }
@@ -5912,10 +5912,11 @@ export const UrlRedirectAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UrlRedirectAction",
-    uberParent: "DeliveryRuleAction",
-    polymorphicDiscriminator: DeliveryRuleAction.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleActionAutoGenerated",
+    polymorphicDiscriminator:
+      DeliveryRuleActionAutoGenerated.type.polymorphicDiscriminator,
     modelProperties: {
-      ...DeliveryRuleAction.type.modelProperties,
+      ...DeliveryRuleActionAutoGenerated.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         type: {
@@ -5932,10 +5933,11 @@ export const UrlSigningAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UrlSigningAction",
-    uberParent: "DeliveryRuleAction",
-    polymorphicDiscriminator: DeliveryRuleAction.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleActionAutoGenerated",
+    polymorphicDiscriminator:
+      DeliveryRuleActionAutoGenerated.type.polymorphicDiscriminator,
     modelProperties: {
-      ...DeliveryRuleAction.type.modelProperties,
+      ...DeliveryRuleActionAutoGenerated.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         type: {
@@ -5952,10 +5954,11 @@ export const OriginGroupOverrideAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OriginGroupOverrideAction",
-    uberParent: "DeliveryRuleAction",
-    polymorphicDiscriminator: DeliveryRuleAction.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleActionAutoGenerated",
+    polymorphicDiscriminator:
+      DeliveryRuleActionAutoGenerated.type.polymorphicDiscriminator,
     modelProperties: {
-      ...DeliveryRuleAction.type.modelProperties,
+      ...DeliveryRuleActionAutoGenerated.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         type: {
@@ -5972,10 +5975,11 @@ export const UrlRewriteAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UrlRewriteAction",
-    uberParent: "DeliveryRuleAction",
-    polymorphicDiscriminator: DeliveryRuleAction.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleActionAutoGenerated",
+    polymorphicDiscriminator:
+      DeliveryRuleActionAutoGenerated.type.polymorphicDiscriminator,
     modelProperties: {
-      ...DeliveryRuleAction.type.modelProperties,
+      ...DeliveryRuleActionAutoGenerated.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         type: {
@@ -5992,10 +5996,11 @@ export const DeliveryRuleRequestHeaderAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeliveryRuleRequestHeaderAction",
-    uberParent: "DeliveryRuleAction",
-    polymorphicDiscriminator: DeliveryRuleAction.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleActionAutoGenerated",
+    polymorphicDiscriminator:
+      DeliveryRuleActionAutoGenerated.type.polymorphicDiscriminator,
     modelProperties: {
-      ...DeliveryRuleAction.type.modelProperties,
+      ...DeliveryRuleActionAutoGenerated.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         type: {
@@ -6012,10 +6017,11 @@ export const DeliveryRuleResponseHeaderAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeliveryRuleResponseHeaderAction",
-    uberParent: "DeliveryRuleAction",
-    polymorphicDiscriminator: DeliveryRuleAction.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleActionAutoGenerated",
+    polymorphicDiscriminator:
+      DeliveryRuleActionAutoGenerated.type.polymorphicDiscriminator,
     modelProperties: {
-      ...DeliveryRuleAction.type.modelProperties,
+      ...DeliveryRuleActionAutoGenerated.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         type: {
@@ -6032,10 +6038,11 @@ export const DeliveryRuleCacheExpirationAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeliveryRuleCacheExpirationAction",
-    uberParent: "DeliveryRuleAction",
-    polymorphicDiscriminator: DeliveryRuleAction.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleActionAutoGenerated",
+    polymorphicDiscriminator:
+      DeliveryRuleActionAutoGenerated.type.polymorphicDiscriminator,
     modelProperties: {
-      ...DeliveryRuleAction.type.modelProperties,
+      ...DeliveryRuleActionAutoGenerated.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         type: {
@@ -6052,10 +6059,11 @@ export const DeliveryRuleCacheKeyQueryStringAction: coreClient.CompositeMapper =
   type: {
     name: "Composite",
     className: "DeliveryRuleCacheKeyQueryStringAction",
-    uberParent: "DeliveryRuleAction",
-    polymorphicDiscriminator: DeliveryRuleAction.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleActionAutoGenerated",
+    polymorphicDiscriminator:
+      DeliveryRuleActionAutoGenerated.type.polymorphicDiscriminator,
     modelProperties: {
-      ...DeliveryRuleAction.type.modelProperties,
+      ...DeliveryRuleActionAutoGenerated.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         type: {
@@ -7491,7 +7499,7 @@ export const Rule: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DeliveryRuleAction"
+              className: "DeliveryRuleActionAutoGenerated"
             }
           }
         }
@@ -7584,7 +7592,7 @@ export const Secret: coreClient.CompositeMapper = {
 
 export let discriminators = {
   DeliveryRuleCondition: DeliveryRuleCondition,
-  DeliveryRuleAction: DeliveryRuleAction,
+  DeliveryRuleActionAutoGenerated: DeliveryRuleActionAutoGenerated,
   CustomDomainHttpsParameters: CustomDomainHttpsParameters,
   SecurityPolicyParameters: SecurityPolicyParameters,
   SecretParameters: SecretParameters,
@@ -7602,14 +7610,14 @@ export let discriminators = {
   "DeliveryRuleCondition.HttpVersion": DeliveryRuleHttpVersionCondition,
   "DeliveryRuleCondition.Cookies": DeliveryRuleCookiesCondition,
   "DeliveryRuleCondition.IsDevice": DeliveryRuleIsDeviceCondition,
-  "DeliveryRuleAction.UrlRedirect": UrlRedirectAction,
-  "DeliveryRuleAction.UrlSigning": UrlSigningAction,
-  "DeliveryRuleAction.OriginGroupOverride": OriginGroupOverrideAction,
-  "DeliveryRuleAction.UrlRewrite": UrlRewriteAction,
-  "DeliveryRuleAction.ModifyRequestHeader": DeliveryRuleRequestHeaderAction,
-  "DeliveryRuleAction.ModifyResponseHeader": DeliveryRuleResponseHeaderAction,
-  "DeliveryRuleAction.CacheExpiration": DeliveryRuleCacheExpirationAction,
-  "DeliveryRuleAction.CacheKeyQueryString": DeliveryRuleCacheKeyQueryStringAction,
+  "DeliveryRuleActionAutoGenerated.UrlRedirect": UrlRedirectAction,
+  "DeliveryRuleActionAutoGenerated.UrlSigning": UrlSigningAction,
+  "DeliveryRuleActionAutoGenerated.OriginGroupOverride": OriginGroupOverrideAction,
+  "DeliveryRuleActionAutoGenerated.UrlRewrite": UrlRewriteAction,
+  "DeliveryRuleActionAutoGenerated.ModifyRequestHeader": DeliveryRuleRequestHeaderAction,
+  "DeliveryRuleActionAutoGenerated.ModifyResponseHeader": DeliveryRuleResponseHeaderAction,
+  "DeliveryRuleActionAutoGenerated.CacheExpiration": DeliveryRuleCacheExpirationAction,
+  "DeliveryRuleActionAutoGenerated.CacheKeyQueryString": DeliveryRuleCacheKeyQueryStringAction,
   "CustomDomainHttpsParameters.Cdn": CdnManagedHttpsParameters,
   "CustomDomainHttpsParameters.AzureKeyVault": UserManagedHttpsParameters,
   "SecurityPolicyParameters.WebApplicationFirewall": SecurityPolicyWebApplicationFirewallParameters,

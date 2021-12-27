@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { URLBuilder, URLQuery, URLToken, URLTokenizer } from "../src/url";
 import { assert } from "chai";
-import { URLTokenizer, URLToken, URLBuilder, URLQuery } from "../src/url";
 
 describe("URLQuery", () => {
   it(`constructor()`, () => {
@@ -1127,7 +1127,7 @@ describe("URLTokenizer", () => {
     it(`with "https://www.example.com"`, () => {
       nextTest("https://www.example.com", [
         URLToken.scheme("https"),
-        URLToken.host("www.example.com")
+        URLToken.host("www.example.com"),
       ]);
     });
 
@@ -1135,7 +1135,7 @@ describe("URLTokenizer", () => {
       nextTest("https://www.example.com:", [
         URLToken.scheme("https"),
         URLToken.host("www.example.com"),
-        URLToken.port("")
+        URLToken.port(""),
       ]);
     });
 
@@ -1143,7 +1143,7 @@ describe("URLTokenizer", () => {
       nextTest("https://www.example.com:8080", [
         URLToken.scheme("https"),
         URLToken.host("www.example.com"),
-        URLToken.port("8080")
+        URLToken.port("8080"),
       ]);
     });
 
@@ -1152,7 +1152,7 @@ describe("URLTokenizer", () => {
         URLToken.scheme("ftp"),
         URLToken.host("www.bing.com"),
         URLToken.port("123"),
-        URLToken.path("/")
+        URLToken.path("/"),
       ]);
     });
 
@@ -1161,7 +1161,7 @@ describe("URLTokenizer", () => {
         URLToken.scheme("ftp"),
         URLToken.host("www.bing.com"),
         URLToken.port("123"),
-        URLToken.path("/a/b/c.txt")
+        URLToken.path("/a/b/c.txt"),
       ]);
     });
 
@@ -1170,7 +1170,7 @@ describe("URLTokenizer", () => {
         URLToken.scheme("ftp"),
         URLToken.host("www.bing.com"),
         URLToken.port("123"),
-        URLToken.query("")
+        URLToken.query(""),
       ]);
     });
 
@@ -1179,7 +1179,7 @@ describe("URLTokenizer", () => {
         URLToken.scheme("ftp"),
         URLToken.host("www.bing.com"),
         URLToken.port("123"),
-        URLToken.query("a=b&c=d")
+        URLToken.query("a=b&c=d"),
       ]);
     });
 
@@ -1187,7 +1187,7 @@ describe("URLTokenizer", () => {
       nextTest("https://www.example.com/", [
         URLToken.scheme("https"),
         URLToken.host("www.example.com"),
-        URLToken.path("/")
+        URLToken.path("/"),
       ]);
     });
 
@@ -1195,7 +1195,7 @@ describe("URLTokenizer", () => {
       nextTest("https://www.example.com/index.html", [
         URLToken.scheme("https"),
         URLToken.host("www.example.com"),
-        URLToken.path("/index.html")
+        URLToken.path("/index.html"),
       ]);
     });
 
@@ -1204,7 +1204,7 @@ describe("URLTokenizer", () => {
         URLToken.scheme("https"),
         URLToken.host("www.example.com"),
         URLToken.path("/index.html"),
-        URLToken.query("")
+        URLToken.query(""),
       ]);
     });
 
@@ -1213,7 +1213,7 @@ describe("URLTokenizer", () => {
         URLToken.scheme("https"),
         URLToken.host("www.example.com"),
         URLToken.path("/index.html"),
-        URLToken.query("")
+        URLToken.query(""),
       ]);
     });
 
@@ -1222,7 +1222,7 @@ describe("URLTokenizer", () => {
         URLToken.scheme("https"),
         URLToken.host("www.example.com"),
         URLToken.path("/index.html"),
-        URLToken.query("alpha=beta")
+        URLToken.query("alpha=beta"),
       ]);
     });
 
@@ -1230,7 +1230,7 @@ describe("URLTokenizer", () => {
       nextTest("https://www.example.com?", [
         URLToken.scheme("https"),
         URLToken.host("www.example.com"),
-        URLToken.query("")
+        URLToken.query(""),
       ]);
     });
 
@@ -1238,7 +1238,7 @@ describe("URLTokenizer", () => {
       nextTest("https://www.example.com?a=b", [
         URLToken.scheme("https"),
         URLToken.host("www.example.com"),
-        URLToken.query("a=b")
+        URLToken.query("a=b"),
       ]);
     });
 

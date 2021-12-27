@@ -409,8 +409,12 @@ export interface BatchLocationQuota {
 }
 
 // @public (undocumented)
-export class BatchManagementClient extends BatchManagementClientContext {
+export class BatchManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: BatchManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     applicationOperations: ApplicationOperations;
     // (undocumented)
@@ -429,15 +433,6 @@ export class BatchManagementClient extends BatchManagementClientContext {
     privateEndpointConnectionOperations: PrivateEndpointConnectionOperations;
     // (undocumented)
     privateLinkResourceOperations: PrivateLinkResourceOperations;
-}
-
-// @public (undocumented)
-export class BatchManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: BatchManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }

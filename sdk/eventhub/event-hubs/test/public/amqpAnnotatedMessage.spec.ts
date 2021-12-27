@@ -1,12 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import chaiExclude from "chai-exclude";
-import { Buffer } from "buffer";
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { v4 } from "uuid";
 import { EnvVarKeys, getEnvVars, getStartingPositionsForTests } from "./utils/testUtils";
 import {
   EventHubConsumerClient,
@@ -15,9 +9,15 @@ import {
   ReceivedEventData,
   Subscription
 } from "../../src";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { BodyTypes } from "../../src/dataTransformer";
-import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+import { Buffer } from "buffer";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import chaiExclude from "chai-exclude";
 import { createMockServer } from "./utils/mockService";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+import { v4 } from "uuid";
 
 const should = chai.should();
 chai.use(chaiAsPromised);

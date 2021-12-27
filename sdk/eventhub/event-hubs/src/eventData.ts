@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DeliveryAnnotations, Message as RheaMessage, MessageAnnotations } from "rhea-promise";
 import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
-import { isDefined, isObjectWithProperties, objectHasProperty } from "./util/typeGuards";
 import { BodyTypes, defaultDataTransformer } from "./dataTransformer";
+import { DeliveryAnnotations, MessageAnnotations, Message as RheaMessage } from "rhea-promise";
+import { isDefined, isObjectWithProperties, objectHasProperty } from "./util/typeGuards";
 
 /**
  * Describes the delivery annotations.
- * @hidden
+ * @internal
  */
 export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
   /**
@@ -35,7 +35,7 @@ export interface EventHubDeliveryAnnotations extends DeliveryAnnotations {
 
 /**
  * Map containing message attributes that will be held in the message header.
- * @hidden
+ * @internal
  */
 export interface EventHubMessageAnnotations extends MessageAnnotations {
   /**
@@ -62,7 +62,7 @@ export interface EventHubMessageAnnotations extends MessageAnnotations {
 
 /**
  * Describes the structure of an event to be sent or received from the EventHub.
- * @hidden
+ * @internal
  */
 export interface EventDataInternal {
   /**
@@ -157,7 +157,7 @@ const messagePropertiesMap = {
  * Converts the AMQP message to an EventData.
  * @param msg - The AMQP message that needs to be converted to EventData.
  * @param skipParsingBodyAsJson - Boolean to skip running JSON.parse() on message body when body type is `content`.
- * @hidden
+ * @internal
  */
 export function fromRheaMessage(
   msg: RheaMessage,

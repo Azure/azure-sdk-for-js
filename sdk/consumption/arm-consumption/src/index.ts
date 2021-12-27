@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { ConsumptionManagementClient } from "./consumptionManagementClient";
-export { ConsumptionManagementClientContext } from "./consumptionManagementClientContext";
 export * from "./operationsInterfaces";

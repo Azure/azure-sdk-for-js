@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableGetAccessPolicyHeaders, TableInsertEntityHeaders } from "./generated/models";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { TableGetAccessPolicyHeaders, TableInsertEntityHeaders } from "./generated/models";
 
 /**
  * Represents the Create or Delete Entity operation to be included in a Transaction request

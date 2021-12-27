@@ -6,7 +6,7 @@ import { isNode, URLBuilder, delay } from "@azure/core-http";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { setSpan, context } from "@azure/core-tracing";
-import * as assert from "assert";
+import { assert } from "chai";
 import * as dotenv from "dotenv";
 
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
@@ -30,7 +30,7 @@ describe("DataLakePathClient", () => {
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.create();
+    await fileSystemClient.createIfNotExists();
     fileName = recorder.getUniqueName("file");
     fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create();
@@ -39,7 +39,7 @@ describe("DataLakePathClient", () => {
   });
 
   afterEach(async function() {
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
 

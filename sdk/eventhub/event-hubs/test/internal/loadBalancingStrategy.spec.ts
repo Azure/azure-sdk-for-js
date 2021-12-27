@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-import { PartitionOwnership } from "../../src";
 import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
+import { PartitionOwnership } from "../../src";
 import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/unbalancedStrategy";
+import chai from "chai";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+
 const should = chai.should();
 
 testWithServiceTypes(() => {

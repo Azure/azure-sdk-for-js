@@ -12,20 +12,20 @@ import {
   createRecordedAdminClient,
   createRecordedClient,
   createRecorder,
-  EndpointType
+  EndpointType,
 } from "../utils/recordedClient";
 import * as base64url from "../utils/base64url";
 
 import { KnownAttestationType } from "../../src";
 
-describe("AttestationClient in Browser", function() {
+describe("AttestationClient in Browser", function () {
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = createRecorder(this);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -201,7 +201,7 @@ describe("AttestationClient in Browser", function() {
       await expect(
         client.attestOpenEnclave(new Blob([base64url.decodeString(_openEnclaveReport)]), {
           runTimeData: binaryRuntimeData,
-          runTimeJson: binaryRuntimeData
+          runTimeJson: binaryRuntimeData,
         })
       ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
     }
@@ -210,7 +210,7 @@ describe("AttestationClient in Browser", function() {
       const attestationResult = await client.attestOpenEnclave(
         new Blob([base64url.decodeString(_openEnclaveReport)]),
         {
-          runTimeData: binaryRuntimeData
+          runTimeData: binaryRuntimeData,
         }
       );
 
@@ -228,7 +228,7 @@ describe("AttestationClient in Browser", function() {
       const attestationResult = await client.attestOpenEnclave(
         new Blob([base64url.decodeString(_openEnclaveReport)]),
         {
-          runTimeJson: binaryRuntimeData
+          runTimeJson: binaryRuntimeData,
         }
       );
 
@@ -259,7 +259,7 @@ describe("AttestationClient in Browser", function() {
           new Blob([base64url.decodeString(_openEnclaveReport).subarray(0x10)]),
           {
             runTimeData: binaryRuntimeData,
-            runTimeJson: binaryRuntimeData
+            runTimeJson: binaryRuntimeData,
           }
         )
       ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
@@ -272,7 +272,7 @@ describe("AttestationClient in Browser", function() {
       const attestationResult = await client.attestSgxEnclave(
         new Blob([base64url.decodeString(_openEnclaveReport).subarray(0x10)]),
         {
-          runTimeData: binaryRuntimeData
+          runTimeData: binaryRuntimeData,
         }
       );
 
@@ -292,7 +292,7 @@ describe("AttestationClient in Browser", function() {
       const attestationResult = await client.attestSgxEnclave(
         new Blob([base64url.decodeString(_openEnclaveReport).subarray(0x10)]),
         {
-          runTimeJson: binaryRuntimeData
+          runTimeJson: binaryRuntimeData,
         }
       );
 

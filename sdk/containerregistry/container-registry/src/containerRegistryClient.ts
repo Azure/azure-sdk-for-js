@@ -7,7 +7,7 @@ import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import {
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
-  PipelineOptions
+  PipelineOptions,
 } from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
 
@@ -24,7 +24,7 @@ import { ChallengeHandler } from "./containerRegistryChallengeHandler";
 import {
   ContainerRepository,
   ContainerRepositoryImpl,
-  DeleteRepositoryOptions
+  DeleteRepositoryOptions,
 } from "./containerRepository";
 import { RegistryArtifact } from "./registryArtifact";
 import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryTokenCredential";
@@ -131,8 +131,8 @@ export class ContainerRegistryClient {
         logger: logger.info,
         // This array contains header names we want to log that are not already
         // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-        additionalAllowedQueryParameters: ["last", "n", "orderby", "digest"]
-      }
+        additionalAllowedQueryParameters: ["last", "n", "orderby", "digest"],
+      },
     };
     // Require audience now until we have a default ACR audience from the service.
     if (!options.audience) {
@@ -151,7 +151,7 @@ export class ContainerRegistryClient {
         scopes: [defaultScope],
         challengeCallbacks: new ChallengeHandler(
           new ContainerRegistryRefreshTokenCredential(authClient, defaultScope, credential)
-        )
+        ),
       })
     );
   }
@@ -269,7 +269,7 @@ export class ContainerRegistryClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listRepositoriesPage(settings, options)
+      byPage: (settings: PageSettings = {}) => this.listRepositoriesPage(settings, options),
     };
   }
 
@@ -288,7 +288,7 @@ export class ContainerRegistryClient {
     if (!continuationState.continuationToken) {
       const optionsComplete = {
         ...options,
-        n: continuationState.maxPageSize
+        n: continuationState.maxPageSize,
       };
       const currentPage = await this.client.containerRegistry.getRepositories(optionsComplete);
       continuationState.continuationToken = extractNextLink(currentPage.link);
@@ -296,7 +296,7 @@ export class ContainerRegistryClient {
         const array = currentPage.repositories;
         yield Object.defineProperty(array, "continuationToken", {
           value: continuationState.continuationToken,
-          enumerable: true
+          enumerable: true,
         });
       }
     }
@@ -310,7 +310,7 @@ export class ContainerRegistryClient {
         const array = currentPage.repositories;
         yield Object.defineProperty(array, "continuationToken", {
           value: continuationState.continuationToken,
-          enumerable: true
+          enumerable: true,
         });
       }
     }

@@ -1,27 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import chaiString from "chai-string";
-chai.use(chaiString);
-import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:client-spec");
-import {
-  TokenCredential,
-  EventHubProducerClient,
-  EventHubConsumerClient,
-  Subscription
-} from "../../src";
-import { packageJsonInfo } from "../../src/util/constants";
 import { EnvVarKeys, getEnvVars, isNode } from "../public/utils/testUtils";
-import { MessagingError } from "@azure/core-amqp";
+import {
+  EventHubConsumerClient,
+  EventHubProducerClient,
+  Subscription,
+  TokenCredential
+} from "../../src";
 import { ConnectionContext } from "../../src/connectionContext";
-import { getRuntimeInfo } from "../../src/util/runtimeInfo";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { MessagingError } from "@azure/core-amqp";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import chaiString from "chai-string";
 import { createMockServer } from "../public/utils/mockService";
+import debugModule from "debug";
+import { getRuntimeInfo } from "../../src/util/runtimeInfo";
+import { packageJsonInfo } from "../../src/util/constants";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
+chai.use(chaiString);
+const debug = debugModule("azure:event-hubs:client-spec");
 
 const testFailureMessage = "Test failure";
 function validateConnectionError<E extends Error & { code?: string }>(err: E): void {

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { readFileSync } from "fs";
-import { resolve as resolvePath } from "path";
 import { MockEventHub, MockServerOptions } from "@azure/mock-hub";
 import { getEnvVars } from "./testUtils";
+import { readFileSync } from "fs";
+import { resolve as resolvePath } from "path";
 
 export function createMockServer(options: MockServerOptions = {}): MockEventHub {
   const { EVENTHUB_NAME } = getEnvVars();

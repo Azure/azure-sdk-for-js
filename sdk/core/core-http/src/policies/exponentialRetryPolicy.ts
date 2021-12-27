@@ -1,28 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import {
-  RetryData,
-  RetryError,
   DEFAULT_CLIENT_MAX_RETRY_INTERVAL,
   DEFAULT_CLIENT_RETRY_COUNT,
   DEFAULT_CLIENT_RETRY_INTERVAL,
+  RetryData,
+  RetryError,
   isNumber,
+  shouldRetry,
   updateRetryData,
-  shouldRetry
 } from "../util/exponentialBackoffStrategy";
-import { RestError } from "../restError";
-import { logger } from "../log";
 import { Constants } from "../util/constants";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { RestError } from "../restError";
+import { WebResourceLike } from "../webResource";
 import { delay } from "../util/delay";
+import { logger } from "../log";
 
 /**
  * Policy that retries the request as many times as configured for as long as the max retry time interval specified, each retry waiting longer to begin than the last time.
@@ -44,7 +44,7 @@ export function exponentialRetryPolicy(
         retryInterval,
         maxRetryInterval
       );
-    }
+    },
   };
 }
 
@@ -56,7 +56,7 @@ export enum RetryMode {
    * Currently supported retry mode.
    * Each time a retry happens, it will take exponentially more time than the last time.
    */
-  Exponential
+  Exponential,
 }
 
 /**
@@ -90,7 +90,7 @@ export interface RetryOptions {
 export const DefaultRetryOptions: RetryOptions = {
   maxRetries: DEFAULT_CLIENT_RETRY_COUNT,
   retryDelayInMs: DEFAULT_CLIENT_RETRY_INTERVAL,
-  maxRetryDelayInMs: DEFAULT_CLIENT_MAX_RETRY_INTERVAL
+  maxRetryDelayInMs: DEFAULT_CLIENT_MAX_RETRY_INTERVAL,
 };
 
 /**
@@ -169,7 +169,7 @@ async function retry(
     {
       retryInterval: policy.retryInterval,
       minRetryInterval: 0,
-      maxRetryInterval: policy.maxRetryInterval
+      maxRetryInterval: policy.maxRetryInterval,
     },
     retryData,
     requestError

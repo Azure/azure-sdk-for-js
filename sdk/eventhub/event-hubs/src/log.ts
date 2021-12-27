@@ -13,7 +13,7 @@ export const logger = createClientLogger("event-hubs");
 /**
  * Logs the error's stack trace to "verbose" if a stack trace is available.
  * @param error - Error containing a stack trace.
- * @hidden
+ * @internal
  */
 export function logErrorStackTrace(error: unknown): void {
   if (isObjectWithProperties(error, ["stack"]) && error.stack) {

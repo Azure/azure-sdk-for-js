@@ -5,7 +5,7 @@ import {
   ArtifactTagOrderBy as ServiceTagOrderBy,
   ArtifactManifestOrderBy as ServiceManifestOrderBy,
   ManifestWriteableProperties as ServiceManifestWritableProperties,
-  ArtifactManifestProperties as ServiceArtifactManifestProperties
+  ArtifactManifestProperties as ServiceArtifactManifestProperties,
 } from "./generated/models";
 import { ArtifactManifestProperties, TagOrderBy, ManifestOrderBy } from "./models";
 
@@ -30,7 +30,7 @@ export function toManifestWritableProperties(
         canDelete: from.canDelete,
         canList: from.canList,
         canRead: from.canRead,
-        canWrite: from.canWrite
+        canWrite: from.canWrite,
       }
     : undefined;
 }
@@ -51,7 +51,7 @@ export function toArtifactManifestProperties(
     operatingSystem: from.operatingSystem ?? undefined,
     relatedArtifacts: from.relatedArtifacts ?? [],
     tags: from.tags ?? [],
-    ...toManifestWritableProperties(from)
+    ...toManifestWritableProperties(from),
   };
 }
 

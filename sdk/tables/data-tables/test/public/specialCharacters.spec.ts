@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableClient, TableEntityResult, TransactionAction, odata } from "../../src";
-import { assert } from "chai";
-import { createTableClient, recordedEnvironmentSetup } from "./utils/recordedClient";
-import { isNode } from "@azure/test-utils";
 import { Recorder, isLiveMode, record } from "@azure-tools/test-recorder";
+import { TableClient, TableEntityResult, TransactionAction, odata } from "../../src";
+import { createTableClient, recordedEnvironmentSetup } from "./utils/recordedClient";
 import { Context } from "mocha";
+import { assert } from "chai";
+import { isNode } from "@azure/test-utils";
 
 describe("SpecialCharacters", function() {
   before(function(this: Context) {

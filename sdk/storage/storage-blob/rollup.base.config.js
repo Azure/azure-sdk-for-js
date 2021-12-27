@@ -71,6 +71,15 @@ export function nodeConfig(test = false) {
         // Tracked in https://github.com/open-telemetry/opentelemetry-js-api/issues/87
         return;
       }
+
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai")) >= 0
+      ) {
+        // Ignore Chai circular dependency
+        return;
+      }
+
       if (warning.code === "CIRCULAR_DEPENDENCY") {
         throw new Error(warning.message);
       }
@@ -151,16 +160,7 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           events: ["EventEmitter"],
-          assert: [
-            "ok",
-            "deepEqual",
-            "equal",
-            "fail",
-            "strictEqual",
-            "deepStrictEqual",
-            "notDeepEqual",
-            "notDeepStrictEqual"
-          ],
+          chai: ["version", "use", "util", "config", "expect", "should", "assert"],
           ...openTelemetryCommonJs()
         }
       })
@@ -172,6 +172,14 @@ export function browserConfig(test = false) {
       ) {
         // opentelemetry contains circular references but it doesn't cause issues.
         // Tracked in https://github.com/open-telemetry/opentelemetry-js-api/issues/87
+        return;
+      }
+
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai")) >= 0
+      ) {
+        // Ignore Chai circular dependency
         return;
       }
 

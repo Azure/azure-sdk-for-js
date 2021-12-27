@@ -5,7 +5,7 @@ import {
   makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalyticsErrorResult
+  makeTextAnalyticsErrorResult,
 } from "./textAnalyticsResult";
 import { Entity, PiiDocumentEntities, TextAnalyticsError } from "./generated/models";
 
@@ -52,7 +52,7 @@ export function makeRecognizePiiEntitiesResult(
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     entities,
-    redactedText
+    redactedText,
   };
 }
 

@@ -516,6 +516,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
  */
 export function fromRheaMessage(
   rheaMessage: RheaMessage,
+  skipParsingBodyAsJson: boolean,
   delivery?: Delivery,
   shouldReorderLockToken?: boolean
 ): ServiceBusReceivedMessage {
@@ -525,7 +526,10 @@ export function fromRheaMessage(
     };
   }
 
-  const { body, bodyType } = defaultDataTransformer.decodeWithType(rheaMessage.body);
+  const { body, bodyType } = defaultDataTransformer.decodeWithType(
+    rheaMessage.body,
+    skipParsingBodyAsJson
+  );
 
   const sbmsg: ServiceBusMessage = {
     body: body
@@ -896,13 +900,16 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     msg: RheaMessage,
     delivery: Delivery,
     shouldReorderLockToken: boolean,
-    receiveMode: ReceiveMode
+    receiveMode: ReceiveMode,
+    skipParsingBodyAsJson: boolean
   ) {
     const { _rawAmqpMessage, ...restOfMessageProps } = fromRheaMessage(
       msg,
+      skipParsingBodyAsJson,
       delivery,
       shouldReorderLockToken
     );
+    this._rawAmqpMessage = _rawAmqpMessage; // need to initialize _rawAmqpMessage property to make compiler happy
     Object.assign(this, restOfMessageProps);
     this.state = restOfMessageProps.state; // to suppress error TS2564: Property 'state' has no initializer and is not definitely assigned in the constructor.
 
@@ -911,23 +918,6 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     if (receiveMode === "receiveAndDelete") {
       this.lockToken = undefined;
     }
-
-    let actualBodyType:
-      | ReturnType<typeof defaultDataTransformer["decodeWithType"]>["bodyType"]
-      | undefined = undefined;
-
-    if (msg.body) {
-      try {
-        const result = defaultDataTransformer.decodeWithType(msg.body);
-
-        this.body = result.body;
-        actualBodyType = result.bodyType;
-      } catch (err) {
-        this.body = undefined;
-      }
-    }
-    this._rawAmqpMessage = _rawAmqpMessage;
-    this._rawAmqpMessage.bodyType = actualBodyType;
     this.delivery = delivery;
   }
 

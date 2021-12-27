@@ -16,7 +16,7 @@ export enum KnownContainerRegistryAudience {
   /** Azure Government */
   AzureResourceManagerGovernment = "https://management.usgovcloudapi.net",
   /** Azure Public Cloud */
-  AzureResourceManagerPublicCloud = "https://management.azure.com"
+  AzureResourceManagerPublicCloud = "https://management.azure.com",
 }
 
 /**
@@ -48,7 +48,7 @@ export enum KnownArtifactArchitecture {
   /** s390x */
   S390X = "s390x",
   /** Wasm */
-  Wasm = "wasm"
+  Wasm = "wasm",
 }
 
 /**
@@ -82,7 +82,7 @@ export enum KnownArtifactOperatingSystem {
   /** Solaris */
   Solaris = "solaris",
   /** Windows */
-  Windows = "windows"
+  Windows = "windows",
 }
 
 /** Manifest attributes details */

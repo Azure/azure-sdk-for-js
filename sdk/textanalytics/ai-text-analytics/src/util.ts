@@ -10,7 +10,7 @@ import {
   GeneratedClient,
   InnerError,
   StringIndexType as GeneratedStringIndexType,
-  TextAnalyticsError
+  TextAnalyticsError,
 } from "./generated";
 import { TextAnalyticsAction } from "./textAnalyticsAction";
 import { createSpan } from "./tracing";
@@ -73,7 +73,7 @@ export function parseAssessmentIndex(pointer: string): AssessmentIndex {
     const assessmentIndex: AssessmentIndex = {
       document: parseInt(res[1]),
       sentence: parseInt(res[2]),
-      assessment: parseInt(res[3])
+      assessment: parseInt(res[3]),
     };
     return assessmentIndex;
   } else {
@@ -190,6 +190,9 @@ export function compileError(errorResponse: unknown): any {
     };
     statusCode: number;
   };
+  if (!castErrorResponse.response) {
+    throw errorResponse;
+  }
   const topLevelError = castErrorResponse.response.parsedBody?.error;
   if (!topLevelError) return errorResponse;
   let errorMessage = topLevelError.message || "";
@@ -207,7 +210,7 @@ export function compileError(errorResponse: unknown): any {
   unwrap(topLevelError);
   return new RestError(errorMessage, {
     code: invalidDocumentBatchCode ? "InvalidDocumentBatch" : topLevelError.code,
-    statusCode: castErrorResponse.statusCode
+    statusCode: castErrorResponse.statusCode,
   });
 }
 
@@ -232,15 +235,15 @@ export async function getRawResponse<TOptions extends OperationOptions, TResult>
     onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
       rawResponse = response;
       onResponse?.(response, flatResponseParam);
-    }
+    },
   });
   return {
     flatResponse,
     rawResponse: {
       statusCode: rawResponse!.status,
       headers: rawResponse!.headers.toJSON(),
-      body: rawResponse!.parsedBody
-    }
+      body: rawResponse!.parsedBody,
+    },
   };
 }
 
@@ -267,19 +270,19 @@ export async function sendGetRequest<TOptions extends OperationOptions>(
           {
             ...spec,
             path,
-            httpMethod: "GET"
+            httpMethod: "GET",
           }
         ),
       finalOptions
     );
     return {
       flatResponse: flatResponse,
-      rawResponse
+      rawResponse,
     };
   } catch (e) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: e.message
+      message: e.message,
     });
     throw e;
   } finally {

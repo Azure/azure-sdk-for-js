@@ -639,7 +639,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All queue properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use the output from `getQueue()`, update the desired properties in it, and then pass the modified object to `updateQueue()`.
    *
-   * See https://docs.microsoft.com/rest/api/servicebus/update-queue for more details.
+   * The properties that cannot be updated are marked as readonly in the `QueueProperties` interface.
    *
    * @param queue - Object representing the properties of the queue and the raw response.
    * `requiresSession`, `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the queue.
@@ -1127,7 +1127,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All topic properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use the output from `getTopic()`, update the desired properties in it, and then pass the modified object to `updateTopic()`.
    *
-   * See https://docs.microsoft.com/rest/api/servicebus/update-topic for more details.
+   * The properties that cannot be updated are marked as readonly in the `TopicProperties` interface.
    *
    * @param topic - Object representing the properties of the topic and the raw response.
    * `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the topic.
@@ -1642,6 +1642,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All subscription properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use the output from `getSubscription()`, update the desired properties in it, and then pass the modified object to `updateSubscription()`.
    *
+   * The properties that cannot be updated are marked as readonly in the `SubscriptionProperties` interface.
    * @param subscription - Object representing the properties of the subscription and the raw response.
    * `subscriptionName`, `topicName`, and `requiresSession` can't be updated after creating the subscription.
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.

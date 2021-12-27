@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { RestError, TableClient, TableServiceClient } from "../../src";
-import { Context } from "mocha";
-import { assert } from "chai";
 import { createTableClient, createTableServiceClient } from "./utils/recordedClient";
-import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { Context } from "mocha";
 import { TableServiceErrorResponse } from "../../src/utils/errorHelpers";
+import { assert } from "chai";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
 describe("TableClient CreationHandling", () => {
   let client: TableClient;

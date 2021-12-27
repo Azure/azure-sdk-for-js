@@ -73,8 +73,7 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 120000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -117,16 +116,15 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^1.18.0",
-    "nyc": "^14.0.0",
-    "prettier": "^1.16.4",
+    "mocha-junit-reporter": "^2.0.0",
+    "nyc": "^15.0.0",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.2.0",
-    "typedoc": "0.15.2"
+    "typescript": "~4.2.0"
   },
   "//sampleConfiguration": {
     "skip": [

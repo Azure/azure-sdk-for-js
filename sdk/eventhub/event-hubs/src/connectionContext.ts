@@ -4,35 +4,35 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable no-inner-declarations */
 
-import { logger, logErrorStackTrace } from "./log";
-import { getRuntimeInfo } from "./util/runtimeInfo";
-import { packageJsonInfo } from "./util/constants";
+import { Connection, ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
 import {
-  EventHubConnectionStringProperties,
-  parseEventHubConnectionString
-} from "./util/connectionStringUtils";
-import { EventHubReceiver } from "./eventHubReceiver";
-import { EventHubSender } from "./eventHubSender";
-import {
+  ConnectionConfig,
   ConnectionContextBase,
   Constants,
   CreateConnectionContextBaseParameters,
-  ConnectionConfig,
   SasTokenProvider,
   createSasTokenProvider
 } from "@azure/core-amqp";
 import {
-  TokenCredential,
+  EventHubConnectionStringProperties,
+  parseEventHubConnectionString
+} from "./util/connectionStringUtils";
+import { ManagementClient, ManagementClientOptions } from "./managementClient";
+import {
   NamedKeyCredential,
   SASCredential,
+  TokenCredential,
   isNamedKeyCredential,
   isSASCredential
 } from "@azure/core-auth";
-import { ManagementClient, ManagementClientOptions } from "./managementClient";
+import { logErrorStackTrace, logger } from "./log";
 import { EventHubClientOptions } from "./models/public";
-import { Connection, ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
+import { EventHubReceiver } from "./eventHubReceiver";
+import { EventHubSender } from "./eventHubSender";
+import { getRuntimeInfo } from "./util/runtimeInfo";
 import { isCredential } from "./util/typeGuards";
+import { packageJsonInfo } from "./util/constants";
 
 /**
  * @internal

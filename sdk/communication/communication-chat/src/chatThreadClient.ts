@@ -5,7 +5,7 @@ import { logger } from "./models/logger";
 import {
   CommunicationIdentifier,
   CommunicationTokenCredential,
-  serializeCommunicationIdentifier
+  serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -13,7 +13,7 @@ import { createSpan } from "./tracing";
 import {
   SendReadReceiptRequest,
   AddParticipantsRequest,
-  SendMessageRequest
+  SendMessageRequest,
 } from "./models/requests";
 
 import {
@@ -23,14 +23,14 @@ import {
   ChatParticipant,
   ChatThreadProperties,
   SendChatMessageResult,
-  ListPageSettings
+  ListPageSettings,
 } from "./models/models";
 import {
   mapToAddChatParticipantsRequestRestModel,
   mapToChatMessageSdkModel,
   mapToChatParticipantSdkModel,
   mapToChatThreadPropertiesSdkModel,
-  mapToReadReceiptSdkModel
+  mapToReadReceiptSdkModel,
 } from "./models/mappers";
 import {
   ChatThreadClientOptions,
@@ -46,7 +46,7 @@ import {
   SendTypingNotificationOptions,
   SendReadReceiptOptions,
   ListReadReceiptsOptions,
-  GetPropertiesOptions
+  GetPropertiesOptions,
 } from "./models/options";
 import { ChatApiClient } from "./generated/src";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
@@ -80,14 +80,14 @@ export class ChatThreadClient {
       ...options,
       ...{
         loggingOptions: {
-          logger: logger.info
-        }
-      }
+          logger: logger.info,
+        },
+      },
     };
 
     this.client = new ChatApiClient(this.endpoint, {
       endpoint: this.endpoint,
-      ...internalPipelineOptions
+      ...internalPipelineOptions,
     });
 
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
@@ -111,7 +111,7 @@ export class ChatThreadClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -136,7 +136,7 @@ export class ChatThreadClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -169,7 +169,7 @@ export class ChatThreadClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -199,7 +199,7 @@ export class ChatThreadClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -262,12 +262,12 @@ export class ChatThreadClient {
         },
         byPage: (settings: ListPageSettings = {}) => {
           return this.listMessagesPage(settings, updatedOptions);
-        }
+        },
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -288,7 +288,7 @@ export class ChatThreadClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -314,7 +314,7 @@ export class ChatThreadClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -343,7 +343,7 @@ export class ChatThreadClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -410,12 +410,12 @@ export class ChatThreadClient {
         },
         byPage: (settings: ListPageSettings = {}) => {
           return this.listParticipantsPage(settings, updatedOptions);
-        }
+        },
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -443,7 +443,7 @@ export class ChatThreadClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -465,13 +465,14 @@ export class ChatThreadClient {
     try {
       const dateNow = new Date();
       const { senderDisplayName, ...restOptions } = updatedOptions;
+
       if (this.canPostTypingNotification(dateNow)) {
+        this.timeOfLastTypingRequest = dateNow;
+
         await this.client.chatThread.sendTypingNotification(this.threadId, {
           sendTypingNotificationRequest: { senderDisplayName: senderDisplayName },
-          ...restOptions
+          ...restOptions,
         });
-
-        this.timeOfLastTypingRequest = dateNow;
         return true;
       }
 
@@ -480,7 +481,7 @@ export class ChatThreadClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -505,7 +506,7 @@ export class ChatThreadClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -572,12 +573,12 @@ export class ChatThreadClient {
         },
         byPage: (settings: ListPageSettings = {}) => {
           return this.listReadReceiptsPage(settings, updatedOptions);
-        }
+        },
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

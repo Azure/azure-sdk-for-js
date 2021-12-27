@@ -7,8 +7,8 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { NamedKeyCredential } from "@azure/core-auth";
 import { HeaderConstants } from "./utils/constants";
+import { NamedKeyCredential } from "@azure/core-auth";
 import { URL } from "./utils/url";
 import { computeHMACSHA256 } from "./utils/computeHMACSHA256";
 

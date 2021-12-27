@@ -6,7 +6,7 @@ Client that can be used to manage Azure Cognitive Search services and API keys.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/arm-search) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-search) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-search?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-search) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

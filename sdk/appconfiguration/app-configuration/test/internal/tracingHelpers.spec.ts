@@ -4,7 +4,7 @@
 import { createSpan, trace } from "../../src/internal/tracingHelpers";
 import { Span, SpanStatus, SpanStatusCode } from "@azure/core-tracing";
 
-import * as assert from "assert";
+import { assert } from "chai";
 import sinon from "sinon";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
 import { AbortSignalLike, OperationOptions } from "@azure/core-http";
@@ -39,7 +39,7 @@ describe("tracingHelpers", () => {
     await trace(
       "addConfigurationSetting",
       {
-        tracingOptions: {}
+        tracingOptions: {},
       },
       async (_newOptions, _span) => {
         /** empty */
@@ -63,7 +63,7 @@ describe("tracingHelpers", () => {
       await trace(
         "addConfigurationSetting",
         {
-          tracingOptions: {}
+          tracingOptions: {},
         },
         async (_options: any, _span: Span) => {
           throw new Error("Purposefully thrown error");
@@ -92,6 +92,9 @@ describe("tracingHelpers", () => {
 
       assert.fail("Exception should have been thrown from `trace` since the inner action threw");
     } catch (err) {
+      if (!(err instanceof Error)) {
+        throw new Error("Error is not recognized");
+      }
       assert.equal(err.message, "Purposefully thrown error");
     }
 
@@ -112,7 +115,7 @@ describe("tracingHelpers", () => {
 
     const traceData = {
       operationName: "",
-      options: undefined as OperationOptions | undefined
+      options: undefined as OperationOptions | undefined,
     };
 
     appConfigurationClient["_trace"] = async (operationName, options, _fn) => {
@@ -122,10 +125,10 @@ describe("tracingHelpers", () => {
     };
 
     const operationOptions: OperationOptions = {
-      abortSignal: ({} as any) as AbortSignalLike,
+      abortSignal: {} as any as AbortSignalLike,
       tracingOptions: {
-        hello: "world"
-      } as OperationTracingOptions
+        hello: "world",
+      } as OperationTracingOptions,
     };
 
     await appConfigurationClient.addConfigurationSetting(
@@ -134,7 +137,7 @@ describe("tracingHelpers", () => {
     );
     assert.deepEqual(traceData, {
       operationName: "addConfigurationSetting",
-      options: operationOptions
+      options: operationOptions,
     });
 
     await appConfigurationClient.setConfigurationSetting(
@@ -143,36 +146,38 @@ describe("tracingHelpers", () => {
     );
     assert.deepEqual(traceData, {
       operationName: "setConfigurationSetting",
-      options: operationOptions
+      options: operationOptions,
     });
 
     await appConfigurationClient.getConfigurationSetting({ key: "ignored" }, operationOptions);
     assert.deepEqual(traceData, {
       operationName: "getConfigurationSetting",
-      options: operationOptions
+      options: operationOptions,
     });
 
     await appConfigurationClient.setReadOnly({ key: "ignored" }, true, operationOptions);
     assert.deepEqual(traceData, {
       operationName: "setReadOnly",
-      options: operationOptions
+      options: operationOptions,
     });
 
     await appConfigurationClient.deleteConfigurationSetting({ key: "ignored" }, operationOptions);
     assert.deepEqual(traceData, {
       operationName: "deleteConfigurationSetting",
-      options: operationOptions
+      options: operationOptions,
     });
 
     const it = appConfigurationClient.listConfigurationSettings({
       keyFilter: "ignored",
-      ...operationOptions
+      ...operationOptions,
     });
     await it.next();
 
     assert.deepEqual(traceData, {
       operationName: "listConfigurationSettings",
-      options: { ...operationOptions, keyFilter: "ignored" }
+      options: { ...operationOptions, keyFilter: "ignored" } as OperationOptions & {
+        keyFilter?: string;
+      },
     });
 
     const it2 = appConfigurationClient.listRevisions({ keyFilter: "ignored", ...operationOptions });
@@ -180,7 +185,9 @@ describe("tracingHelpers", () => {
 
     assert.deepEqual(traceData, {
       operationName: "listRevisions",
-      options: { ...operationOptions, keyFilter: "ignored" }
+      options: { ...operationOptions, keyFilter: "ignored" } as OperationOptions & {
+        keyFilter?: string;
+      },
     });
   });
 });

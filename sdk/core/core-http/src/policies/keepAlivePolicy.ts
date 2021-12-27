@@ -4,11 +4,11 @@
 import {
   BaseRequestPolicy,
   RequestPolicy,
+  RequestPolicyFactory,
   RequestPolicyOptions,
-  RequestPolicyFactory
 } from "./requestPolicy";
-import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResourceLike } from "../webResource";
 
 /**
  * Options for how HTTP connections should be maintained for future
@@ -26,7 +26,7 @@ export interface KeepAliveOptions {
  * By default, HTTP connections are maintained for future requests.
  */
 export const DefaultKeepAliveOptions: KeepAliveOptions = {
-  enable: true
+  enable: true,
 };
 
 /**
@@ -38,7 +38,7 @@ export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): RequestPol
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new KeepAlivePolicy(nextPolicy, options, keepAliveOptions || DefaultKeepAliveOptions);
-    }
+    },
   };
 }
 

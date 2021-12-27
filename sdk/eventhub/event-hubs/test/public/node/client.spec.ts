@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import chaiString from "chai-string";
-chai.use(chaiString);
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
 import { EnvironmentCredential, TokenCredential } from "@azure/identity";
-import { EventHubProducerClient, EventHubConsumerClient } from "../../../src";
-import { TestTracer, setTracer, resetTracer } from "@azure/test-utils";
-import { testWithServiceTypes } from "../utils/testWithServiceTypes";
+import { EventHubConsumerClient, EventHubProducerClient } from "../../../src";
+import { TestTracer, resetTracer, setTracer } from "@azure/test-utils";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import chaiString from "chai-string";
 import { createMockServer } from "../utils/mockService";
+import { testWithServiceTypes } from "../utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
+chai.use(chaiString);
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();

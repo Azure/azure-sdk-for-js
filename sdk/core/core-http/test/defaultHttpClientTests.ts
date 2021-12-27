@@ -3,19 +3,18 @@
 
 /* eslint-disable no-unused-expressions */
 
-import { assert, AssertionError } from "chai";
-import { Context } from "mocha";
-import * as sinon from "sinon";
-import { AbortController } from "@azure/abort-controller";
 import "chai/register-should";
-
+import * as sinon from "sinon";
+import { AssertionError, assert } from "chai";
+import { HttpMockFacade, getHttpMock } from "./mockHttp";
+import { TransferProgressEvent, WebResource } from "../src/webResource";
+import { AbortController } from "@azure/abort-controller";
+import { CommonResponse } from "../src/nodeFetchHttpClient";
+import { Context } from "mocha";
 import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { RestError } from "../src/restError";
-import { WebResource, TransferProgressEvent } from "../src/webResource";
-import { getHttpMock, HttpMockFacade } from "./mockHttp";
-import { CommonResponse } from "../src/nodeFetchHttpClient";
 
-describe("defaultHttpClient", function() {
+describe("defaultHttpClient", function () {
   function sleep(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
@@ -34,14 +33,14 @@ describe("defaultHttpClient", function() {
     if (fetchMock) {
       sinon.stub(httpClient, "fetch").callsFake(async (input, init) => {
         const response = await fetchMock(input, init);
-        return (response as unknown) as CommonResponse;
+        return response as unknown as CommonResponse;
       });
     }
 
     return httpClient;
   }
 
-  it("should return a response instead of throwing for awaited 404", async function() {
+  it("should return a response instead of throwing for awaited 404", async function () {
     const resourceUrl = "/nonexistent";
 
     httpMock.get(resourceUrl, async () => {
@@ -55,7 +54,7 @@ describe("defaultHttpClient", function() {
     response.status.should.equal(404);
   });
 
-  it("should allow canceling requests", async function() {
+  it("should allow canceling requests", async function () {
     const resourceUrl = `/fileupload`;
     httpMock.post(resourceUrl, async () => {
       await sleep(10000);
@@ -87,7 +86,7 @@ describe("defaultHttpClient", function() {
     }
   });
 
-  it("should allow canceling requests before request is made", async function() {
+  it("should allow canceling requests before request is made", async function () {
     const resourceUrl = `/fileupload`;
     httpMock.post(resourceUrl, async () => {
       await sleep(10000);
@@ -119,7 +118,7 @@ describe("defaultHttpClient", function() {
     }
   });
 
-  it("should allow canceling multiple requests with one token", async function() {
+  it("should allow canceling multiple requests with one token", async function () {
     httpMock.post("/fileupload", async () => {
       await sleep(1000);
       assert.fail();
@@ -148,7 +147,7 @@ describe("defaultHttpClient", function() {
         true,
         undefined,
         controller.signal
-      )
+      ),
     ];
     const client = getMockedHttpClient();
 
@@ -175,14 +174,14 @@ describe("defaultHttpClient", function() {
       ev.loadedBytes.should.be.a("Number");
     };
 
-    it("for simple bodies", async function() {
+    it("for simple bodies", async function () {
       const body = "Very large string to upload";
 
       httpMock.post("/fileupload", async (_url, _method, _body) => {
         return {
           status: 251,
           body: body.repeat(9).substring(0, 200),
-          headers: { "Content-Length": "200" }
+          headers: { "Content-Length": "200" },
         };
       });
 
@@ -213,7 +212,7 @@ describe("defaultHttpClient", function() {
     });
   });
 
-  it("should honor request timeouts", async function() {
+  it("should honor request timeouts", async function () {
     httpMock.timeout("GET", "/slow");
 
     const request = new WebResource(
@@ -237,7 +236,7 @@ describe("defaultHttpClient", function() {
     }
   });
 
-  it("should give a graceful error for nonexistent hosts", async function(this: Context) {
+  it("should give a graceful error for nonexistent hosts", async function (this: Context) {
     // Increase timeout to give the request time to fail
     this.timeout(10000);
     const requestUrl = "http://fake.domain";
@@ -254,17 +253,17 @@ describe("defaultHttpClient", function() {
     }
   });
 
-  it("should interpret undefined as an empty body", async function() {
+  it("should interpret undefined as an empty body", async function () {
     const requestUrl = "/expect-empty";
     httpMock.put(requestUrl, async (_url, _method, body, _headers) => {
       if (!body) {
         return {
-          status: 200
+          status: 200,
         };
       } else {
         return {
           status: 400,
-          body: `Expected empty body but got "${JSON.stringify(body)}"`
+          body: `Expected empty body but got "${JSON.stringify(body)}"`,
         };
       }
     });

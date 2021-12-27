@@ -11,7 +11,7 @@ import { StreamingJobs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StreamAnalyticsManagementClientContext } from "../streamAnalyticsManagementClientContext";
+import { StreamAnalyticsManagementClient } from "../streamAnalyticsManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -31,6 +31,7 @@ import {
   StreamingJobsListResponse,
   StreamingJobsStartOptionalParams,
   StreamingJobsStopOptionalParams,
+  StreamingJobsScaleOptionalParams,
   StreamingJobsListByResourceGroupNextResponse,
   StreamingJobsListNextResponse
 } from "../models";
@@ -38,13 +39,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing StreamingJobs operations. */
 export class StreamingJobsImpl implements StreamingJobs {
-  private readonly client: StreamAnalyticsManagementClientContext;
+  private readonly client: StreamAnalyticsManagementClient;
 
   /**
    * Initialize a new instance of the class StreamingJobs class.
    * @param client Reference to the service client
    */
-  constructor(client: StreamAnalyticsManagementClientContext) {
+  constructor(client: StreamAnalyticsManagementClient) {
     this.client = client;
   }
 
@@ -533,6 +534,82 @@ export class StreamingJobsImpl implements StreamingJobs {
   }
 
   /**
+   * Scales a streaming job when the job is running.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName The name of the streaming job.
+   * @param options The options parameters.
+   */
+  async beginScale(
+    resourceGroupName: string,
+    jobName: string,
+    options?: StreamingJobsScaleOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, jobName, options },
+      scaleOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Scales a streaming job when the job is running.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName The name of the streaming job.
+   * @param options The options parameters.
+   */
+  async beginScaleAndWait(
+    resourceGroupName: string,
+    jobName: string,
+    options?: StreamingJobsScaleOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginScale(resourceGroupName, jobName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -601,8 +678,8 @@ const createOrReplaceOperationSpec: coreClient.OperationSpec = {
     Parameters.jobName
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
     Parameters.ifNoneMatch
   ],
@@ -631,8 +708,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.jobName
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch
   ],
   mediaType: "json",
@@ -743,7 +820,7 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.jobName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -770,6 +847,31 @@ const stopOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const scaleOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/scale",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  requestBody: Parameters.scaleJobParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.jobName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -784,9 +886,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -805,8 +907,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer

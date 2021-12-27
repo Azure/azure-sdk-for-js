@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createPipelineRequest,
   HttpMethods,
   PipelineRequestOptions
 } from "@azure/core-rest-pipeline";
 import { ServiceClient } from "@azure/core-client";
-import { recorderHttpPolicy, TestProxyHttpClient } from "../src";
+import { env, isLiveMode, isPlaybackMode, Recorder } from "../src";
 import { expect } from "chai";
-
-type TestMode = "record" | "playback" | "live" | undefined;
+import { TestMode } from "../src/utils/utils";
 
 const setTestMode = (mode: TestMode): TestMode => {
   env.TEST_MODE = mode;
@@ -43,7 +41,7 @@ function getTestServerUrl() {
 // - proxy-tool (to save/mock the responses)
 (["record", "playback", "live"] as TestMode[]).forEach((mode) => {
   describe(`proxy tool`, () => {
-    let recorder: TestProxyHttpClient;
+    let recorder: Recorder;
     let client: ServiceClient;
 
     const basePipelineReqOptions: Partial<PipelineRequestOptions> =
@@ -54,9 +52,9 @@ function getTestServerUrl() {
     });
 
     beforeEach(async function() {
-      recorder = new TestProxyHttpClient(this.currentTest);
+      recorder = new Recorder(this.currentTest);
       client = new ServiceClient({ baseUri: getTestServerUrl() });
-      client.pipeline.addPolicy(recorderHttpPolicy(recorder));
+      recorder.configureClient(client);
     });
 
     afterEach(async () => {
@@ -84,7 +82,11 @@ function getTestServerUrl() {
       });
       const response = await client.sendRequest(req);
       if (expectedResponse) {
-        expect(JSON.parse(response.bodyAsText!)).to.deep.equal(expectedResponse);
+        if (!response.bodyAsText) {
+          throw new Error("Expected response.bodyAsText to be defined");
+        }
+
+        expect(JSON.parse(response.bodyAsText)).to.deep.equal(expectedResponse);
       }
       // Add code to also check expected headers
       return response;
@@ -101,17 +103,21 @@ function getTestServerUrl() {
     it("sample_response with random string in path", async () => {
       await recorder.start({ envSetupForPlayback: {} });
 
-      if (!isPlaybackMode()) {
-        recorder.variables["random-1"] = `random-${Math.ceil(Math.random() * 1000 + 1000)}`;
-        recorder.variables["random-2"] = "known-string";
-      }
-
       await makeRequestAndVerifyResponse(
-        { path: `/sample_response/${recorder.variables["random-1"]}`, method: "GET" },
+        {
+          path: `/sample_response/${recorder.variable(
+            "random-1",
+            `random-${Math.ceil(Math.random() * 1000 + 1000)}`
+          )}`,
+          method: "GET"
+        },
         { val: "I am the answer!" }
       );
       await makeRequestAndVerifyResponse(
-        { path: `/sample_response/${recorder.variables["random-2"]}`, method: "GET" },
+        {
+          path: `/sample_response/${recorder.variable("random-2", "known-string")}`,
+          method: "GET"
+        },
         { val: "I am the answer!" }
       );
     });
@@ -259,7 +265,7 @@ function getTestServerUrl() {
         );
       });
 
-      it.skip("ContinuationSanitizer", async () => {
+      it("ContinuationSanitizer", async () => {
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
@@ -282,11 +288,6 @@ function getTestServerUrl() {
           undefined
         );
 
-        // Seems to fail with
-        // Unable to find a record for the request GET http://host.docker.internal:8080/sample_response
-        // Header differences:
-        //  <your_uuid> values differ, request <985e1725-6d96-467c-89fc-fe45ef0409e4>, record <7460db09-3140-4f76-b59c-16f23e91bc4c>
-        // TODO: Scott is working on fixing the sanitizer
         await makeRequestAndVerifyResponse(
           {
             path: `/sample_response`,
@@ -389,13 +390,60 @@ function getTestServerUrl() {
     });
 
     // Matchers
+
+    describe("Matchers", () => {
+      it("BodilessMatcher", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.setMatcher("BodilessMatcher");
+
+        // The body shouldn't matter for the match; verify this by using a
+        // different body in playback vs record mode.
+        const body = isPlaybackMode() ? "playback" : "record";
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/sample_response`,
+            body,
+            method: "GET",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+          },
+          { val: "abc" }
+        );
+      });
+
+      it("HeaderlessMatcher", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.setMatcher("HeaderlessMatcher");
+
+        const testHeader = {
+          headerName: `X-Test-Header-${isPlaybackMode() ? "Playback" : "Record"}`,
+          value: isPlaybackMode() ? "playback" : "record"
+        };
+
+        await makeRequestAndVerifyResponse(
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "GET",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }, testHeader]
+          },
+          { val: "abc" }
+        );
+      });
+    });
+
     // Transforms
 
     describe("Other methods", () => {
       it("transformsInfo()", async () => {
         if (!isLiveMode()) {
           await recorder.start({ envSetupForPlayback: {} });
-          await recorder["sanitizer"]!.transformsInfo();
+
+          if (!recorder["sanitizer"]) {
+            throw new Error("expected recorder.sanitizer to be defined at this point");
+          }
+
+          await recorder["sanitizer"].transformsInfo();
         }
       });
     });

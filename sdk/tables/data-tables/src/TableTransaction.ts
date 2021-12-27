@@ -2,28 +2,14 @@
 // Licensed under the MIT license.
 
 import {
-  Pipeline,
-  PipelineRequest,
-  PipelineResponse,
-  RestError,
-  createHttpHeaders,
-  createPipelineRequest
-} from "@azure/core-rest-pipeline";
-import {
-  OperationOptions,
-  ServiceClient,
-  ServiceClientOptions,
-  serializationPolicy,
-  serializationPolicyName
-} from "@azure/core-client";
-import {
   DeleteTableEntityOptions,
   TableEntity,
   TableTransactionEntityResponse,
   TableTransactionResponse,
   TransactionAction,
   UpdateMode,
-  UpdateTableEntityOptions
+  UpdateTableEntityOptions,
+  TableServiceClientOptions
 } from "./models";
 import {
   NamedKeyCredential,
@@ -33,25 +19,40 @@ import {
   isSASCredential,
   isTokenCredential
 } from "@azure/core-auth";
-import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
-import { TableClientLike } from "./utils/internalModels";
-import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { TableServiceErrorOdataError } from "./generated";
-import { getTransactionHeaders } from "./utils/transactionHeaders";
+import {
+  OperationOptions,
+  ServiceClient,
+  serializationPolicy,
+  serializationPolicyName,
+  ServiceClientOptions
+} from "@azure/core-client";
+import {
+  Pipeline,
+  PipelineRequest,
+  PipelineResponse,
+  RestError,
+  createHttpHeaders,
+  createPipelineRequest
+} from "@azure/core-rest-pipeline";
 import {
   getInitialTransactionBody,
   getTransactionHttpRequestBody
 } from "./utils/transactionHelpers";
-import { signURLWithSAS } from "./tablesSASTokenPolicy";
 import {
   transactionHeaderFilterPolicy,
   transactionHeaderFilterPolicyName,
   transactionRequestAssemblePolicy,
   transactionRequestAssemblePolicyName
 } from "./TablePolicies";
-import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { TableClientLike } from "./utils/internalModels";
+import { TableServiceErrorOdataError } from "./generated";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
+import { createSpan } from "./utils/tracing";
+import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
+import { getTransactionHeaders } from "./utils/transactionHeaders";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+import { signURLWithSAS } from "./tablesSASTokenPolicy";
 import { STORAGE_SCOPE } from "./utils/constants";
 
 /**
@@ -130,6 +131,7 @@ export class InternalTableTransaction {
     bodyParts: string[];
     partitionKey: string;
   };
+  private clientOptions: TableServiceClientOptions;
   private interceptClient: TableClientLike;
   private credential?: NamedKeyCredential | SASCredential | TokenCredential;
   private allowInsecureConnection: boolean;
@@ -144,10 +146,12 @@ export class InternalTableTransaction {
     partitionKey: string,
     transactionId: string,
     changesetId: string,
+    clientOptions: TableServiceClientOptions,
     interceptClient: TableClientLike,
     credential?: NamedKeyCredential | SASCredential | TokenCredential,
     allowInsecureConnection: boolean = false
   ) {
+    this.clientOptions = clientOptions;
     this.credential = credential;
     this.url = url;
     this.interceptClient = interceptClient;
@@ -275,7 +279,7 @@ export class InternalTableTransaction {
       this.resetableState.changesetId
     );
 
-    const options: ServiceClientOptions = {};
+    const options: ServiceClientOptions = this.clientOptions;
 
     if (isTokenCredential(this.credential)) {
       options.credentialScopes = STORAGE_SCOPE;
@@ -283,6 +287,7 @@ export class InternalTableTransaction {
     }
 
     const client = new ServiceClient(options);
+
     const headers = getTransactionHeaders(this.resetableState.transactionId);
 
     const { span, updatedOptions } = createSpan(

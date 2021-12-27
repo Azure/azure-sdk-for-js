@@ -4,14 +4,13 @@
 /* eslint-disable no-unused-expressions */
 
 import "chai/register-should";
-
-import { DefaultHttpClient } from "../src/defaultHttpClient";
-import { WebResource, TransferProgressEvent } from "../src/webResource";
-import { getHttpMock, HttpMockFacade } from "./mockHttp";
 import { CompositeMapper, Serializer } from "../src/serializer";
+import { HttpMockFacade, getHttpMock } from "./mockHttp";
+import { TransferProgressEvent, WebResource } from "../src/webResource";
+import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { OperationSpec } from "../src/operationSpec";
 
-describe("defaultHttpClient (browser)", function() {
+describe("defaultHttpClient (browser)", function () {
   let httpMock: HttpMockFacade;
   beforeEach(() => {
     httpMock = getHttpMock();
@@ -20,7 +19,7 @@ describe("defaultHttpClient (browser)", function() {
   afterEach(() => httpMock.teardown());
   after(() => httpMock.teardown());
 
-  it("should not set bodyAsText for stream response", async function() {
+  it("should not set bodyAsText for stream response", async function () {
     const serializer = new Serializer(undefined, true);
     const StorageError: CompositeMapper = {
       serializedName: "StorageError",
@@ -32,18 +31,18 @@ describe("defaultHttpClient (browser)", function() {
             xmlName: "Message",
             serializedName: "Message",
             type: {
-              name: "String"
-            }
+              name: "String",
+            },
           },
           code: {
             xmlName: "Code",
             serializedName: "Code",
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
+              name: "String",
+            },
+          },
+        },
+      },
     };
     const operationSpec: OperationSpec = {
       httpMethod: "GET",
@@ -52,23 +51,23 @@ describe("defaultHttpClient (browser)", function() {
           bodyMapper: {
             serializedName: "parsedResponse",
             type: {
-              name: "Stream"
-            }
-          }
+              name: "Stream",
+            },
+          },
         },
         default: {
-          bodyMapper: StorageError
-        }
+          bodyMapper: StorageError,
+        },
       },
       isXML: true,
       baseUrl: "httpbin.org",
-      serializer
+      serializer,
     };
     httpMock.get("http://my.fake.domain/non-existing-blob", async (_url, _method, _body) => {
       return {
         status: 200,
         headers: {},
-        body: `Some text`
+        body: `Some text`,
       };
     });
     const client = new DefaultHttpClient();
@@ -90,7 +89,7 @@ describe("defaultHttpClient (browser)", function() {
     */
   });
 
-  it("should not treat non-streaming default response body as stream", async function() {
+  it("should not treat non-streaming default response body as stream", async function () {
     const serializer = new Serializer(undefined, true);
     const StorageError: CompositeMapper = {
       serializedName: "StorageError",
@@ -102,18 +101,18 @@ describe("defaultHttpClient (browser)", function() {
             xmlName: "Message",
             serializedName: "Message",
             type: {
-              name: "String"
-            }
+              name: "String",
+            },
           },
           code: {
             xmlName: "Code",
             serializedName: "Code",
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
+              name: "String",
+            },
+          },
+        },
+      },
     };
     const operationSpec: OperationSpec = {
       httpMethod: "GET",
@@ -122,26 +121,26 @@ describe("defaultHttpClient (browser)", function() {
           bodyMapper: {
             serializedName: "parsedResponse",
             type: {
-              name: "Stream"
-            }
-          }
+              name: "Stream",
+            },
+          },
         },
         default: {
-          bodyMapper: StorageError
-        }
+          bodyMapper: StorageError,
+        },
       },
       isXML: true,
       baseUrl: "httpbin.org",
-      serializer
+      serializer,
     };
     httpMock.get("http://my.fake.domain/non-existing-blob", async (_url, _method, _body) => {
       return {
         status: 404,
         headers: {
           "Content-Type": "application/xml",
-          "Content-Length": 215
+          "Content-Length": 215,
         },
-        body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+        body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`,
       };
     });
     const client = new DefaultHttpClient();
@@ -161,7 +160,7 @@ describe("defaultHttpClient (browser)", function() {
     */
   });
 
-  it("should respect deprecated WebResource.streamResponseBody property", async function() {
+  it("should respect deprecated WebResource.streamResponseBody property", async function () {
     const serializer = new Serializer(undefined, true);
     const StorageError: CompositeMapper = {
       serializedName: "StorageError",
@@ -173,18 +172,18 @@ describe("defaultHttpClient (browser)", function() {
             xmlName: "Message",
             serializedName: "Message",
             type: {
-              name: "String"
-            }
+              name: "String",
+            },
           },
           code: {
             xmlName: "Code",
             serializedName: "Code",
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
+              name: "String",
+            },
+          },
+        },
+      },
     };
     const operationSpec: OperationSpec = {
       httpMethod: "GET",
@@ -193,26 +192,26 @@ describe("defaultHttpClient (browser)", function() {
           bodyMapper: {
             serializedName: "parsedResponse",
             type: {
-              name: "Stream"
-            }
-          }
+              name: "Stream",
+            },
+          },
         },
         default: {
-          bodyMapper: StorageError
-        }
+          bodyMapper: StorageError,
+        },
       },
       isXML: true,
       baseUrl: "httpbin.org",
-      serializer
+      serializer,
     };
     httpMock.get("http://my.fake.domain/non-existing-blob", async (_url, _method, _body) => {
       return {
         status: 404,
         headers: {
           "Content-Type": "application/xml",
-          "Content-Length": 215
+          "Content-Length": 215,
         },
-        body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+        body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`,
       };
     });
     const client = new DefaultHttpClient();
@@ -245,7 +244,7 @@ describe("defaultHttpClient (browser)", function() {
       ev.loadedBytes.should.be.a("Number");
     };
 
-    it("for blob bodies", async function() {
+    it("for blob bodies", async function () {
       const payload = new Blob([new Uint8Array(1024 * 1024)]);
       const size = undefined;
 
@@ -253,7 +252,7 @@ describe("defaultHttpClient (browser)", function() {
         return {
           status: 250,
           body: payload,
-          headers: { "Content-Type": "text/javascript", "Content-length": size }
+          headers: { "Content-Type": "text/javascript", "Content-length": size },
         };
       });
 

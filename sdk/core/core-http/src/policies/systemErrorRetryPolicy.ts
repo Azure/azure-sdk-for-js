@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import {
-  RetryData,
-  RetryError,
-  shouldRetry,
-  updateRetryData,
   DEFAULT_CLIENT_MAX_RETRY_INTERVAL,
+  DEFAULT_CLIENT_MIN_RETRY_INTERVAL,
   DEFAULT_CLIENT_RETRY_COUNT,
   DEFAULT_CLIENT_RETRY_INTERVAL,
-  DEFAULT_CLIENT_MIN_RETRY_INTERVAL,
-  isNumber
+  RetryData,
+  RetryError,
+  isNumber,
+  shouldRetry,
+  updateRetryData,
 } from "../util/exponentialBackoffStrategy";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResourceLike } from "../webResource";
 import { delay } from "../util/delay";
 
 /**
@@ -46,7 +46,7 @@ export function systemErrorRetryPolicy(
         minRetryInterval,
         maxRetryInterval
       );
-    }
+    },
   };
 }
 

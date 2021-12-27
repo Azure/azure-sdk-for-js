@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CheckpointStore } from "./eventProcessor";
-import { CloseReason } from "./models/public";
-import { ReceivedEventData } from "./eventData";
-import { LastEnqueuedEventProperties } from "./eventHubReceiver";
 import {
   BasicPartitionProperties,
   PartitionContext,
   SubscriptionEventHandlers
 } from "./eventHubConsumerClientModels";
+import { CheckpointStore } from "./eventProcessor";
+import { CloseReason } from "./models/public";
+import { LastEnqueuedEventProperties } from "./eventHubReceiver";
+import { ReceivedEventData } from "./eventData";
 import { logger } from "./log";
 
 /**

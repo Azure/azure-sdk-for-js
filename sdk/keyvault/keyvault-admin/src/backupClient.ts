@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PollerLike } from "@azure/core-lro";
-
-import { KeyVaultClient } from "./generated/keyVaultClient";
 import {
   KeyVaultBackupClientOptions,
   KeyVaultBackupResult,
@@ -14,18 +11,20 @@ import {
   KeyVaultSelectiveKeyRestoreResult
 } from "./backupClientModels";
 import { LATEST_API_VERSION, authenticationScopes } from "./constants";
-import { logger } from "./log";
-import { KeyVaultBackupPoller } from "./lro/backup/poller";
-import { KeyVaultRestorePoller } from "./lro/restore/poller";
-import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/poller";
-import { KeyVaultBackupOperationState } from "./lro/backup/operation";
-import { KeyVaultRestoreOperationState } from "./lro/restore/operation";
 import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
+import { KeyVaultBackupOperationState } from "./lro/backup/operation";
+import { KeyVaultBackupPoller } from "./lro/backup/poller";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { KeyVaultRestoreOperationState } from "./lro/restore/operation";
+import { KeyVaultRestorePoller } from "./lro/restore/poller";
 import { KeyVaultSelectiveKeyRestoreOperationState } from "./lro/selectiveKeyRestore/operation";
-import { mappings } from "./mappings";
+import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/poller";
+import { PollerLike } from "@azure/core-lro";
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createChallengeCallbacks } from "./challengeAuthenticationCallbacks";
+import { logger } from "./log";
+import { mappings } from "./mappings";
 
 export {
   KeyVaultBackupOperationState,
@@ -47,7 +46,6 @@ export class KeyVaultBackupClient {
   public readonly vaultUrl: string;
 
   /**
-   * @internal
    * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;

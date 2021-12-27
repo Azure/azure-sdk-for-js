@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import * as dotenv from "dotenv";
-import { loggerForTest } from "./logHelpers";
-import { delay } from "@azure/core-amqp";
 import { EventHubConsumerClient, EventHubProducerClient, EventPosition } from "../../../src";
-import { TestTracer, setTracer, resetTracer } from "@azure/test-utils";
+import { TestTracer, resetTracer, setTracer } from "@azure/test-utils";
+import { delay } from "@azure/core-amqp";
+import { loggerForTest } from "./logHelpers";
 
 dotenv.config();
 

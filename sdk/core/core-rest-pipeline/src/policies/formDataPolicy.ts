@@ -27,7 +27,7 @@ export function formDataPolicy(): PipelinePolicy {
         }
       }
       return next(request);
-    }
+    },
   };
 }
 

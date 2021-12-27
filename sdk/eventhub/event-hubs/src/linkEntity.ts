@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as uuid } from "uuid";
+import { AwaitableSender, Receiver } from "rhea-promise";
 import { Constants, TokenType, defaultCancellableLock, isSasTokenProvider } from "@azure/core-amqp";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
-import { AwaitableSender, Receiver } from "rhea-promise";
-import { logger } from "./log";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { logger } from "./log";
+import { v4 as uuid } from "uuid";
 
 /**
- * @hidden
+ * @internal
  */
 export interface LinkEntityOptions {
   /**
@@ -95,7 +95,6 @@ export class LinkEntity {
   protected _tokenTimeoutInMs?: number;
   /**
    * Creates a new LinkEntity instance.
-   * @hidden
    * @param context - The connection context.
    * @param options - Options that can be provided while creating the LinkEntity.
    */
@@ -110,7 +109,6 @@ export class LinkEntity {
 
   /**
    * Negotiates cbs claim for the LinkEntity.
-   * @hidden
    * @returns Promise<void>
    */
   protected async _negotiateClaim({
@@ -213,7 +211,6 @@ export class LinkEntity {
 
   /**
    * Ensures that the token is renewed within the predefined renewal margin.
-   * @hidden
    */
   protected _ensureTokenRenewal(): void {
     if (!this._tokenTimeoutInMs) {
@@ -257,7 +254,6 @@ export class LinkEntity {
   /**
    * Closes the Sender|Receiver link and it's underlying session and also removes it from the
    * internal map.
-   * @hidden
    * @param link - The Sender or Receiver link that needs to be closed and
    * removed.
    */

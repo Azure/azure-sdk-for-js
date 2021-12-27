@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import {
-  createSpanFunction,
-  SpanContext,
-  SpanOptions,
-  setSpan,
-  setSpanContext,
   Span,
+  SpanContext,
   SpanKind,
-  context
+  SpanOptions,
+  context,
+  createSpanFunction,
+  setSpan,
+  setSpanContext
 } from "@azure/core-tracing";
-import { TryAddOptions } from "../eventDataBatch";
 import { EventHubConnectionConfig } from "../eventhubConnectionConfig";
 import { OperationOptions } from "../util/operationOptions";
+import { TryAddOptions } from "../eventDataBatch";
 
 const _createSpan = createSpanFunction({
   namespace: "Microsoft.EventHub",
@@ -86,8 +86,8 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
     }
 
     function takeSomeOptionsFromSomewhere(someOptionsPassedIntoTheirFunction) {
-      
-      batch.tryAddMessage(message, { 
+
+      batch.tryAddMessage(message, {
         // "runtime" blend of options from some other part of their app
         ...someOptionsPassedIntoTheirFunction,      // parentSpan comes along for the ride...
 
@@ -102,9 +102,9 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
 
     And now they've accidentally been opted into the legacy code path even though they think
     they're using the modern code path.
-    
+
     This does kick the can down the road a bit - at some point we will be putting them in this
-    situation where things looked okay but their spans are becoming unparented but we can 
+    situation where things looked okay but their spans are becoming unparented but we can
     try to announce this (and other changes related to tracing) in our next big rev.
   */
 

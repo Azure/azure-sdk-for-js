@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { resetTracer, setTracer } from "@azure/test-utils";
 import chai from "chai";
 import { createMessageSpan } from "../../../src/diagnostics/tracing";
-import { setTracer, resetTracer } from "@azure/test-utils";
 import { testWithServiceTypes } from "../../public/utils/testWithServiceTypes";
 
 const should = chai.should();

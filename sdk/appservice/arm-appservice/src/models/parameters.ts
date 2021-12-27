@@ -39,7 +39,6 @@ import {
   CertificatePatchResource as CertificatePatchResourceMapper,
   KubeEnvironment as KubeEnvironmentMapper,
   KubeEnvironmentPatchResource as KubeEnvironmentPatchResourceMapper,
-  AppserviceGithubTokenRequest as AppserviceGithubTokenRequestMapper,
   User as UserMapper,
   SourceControl as SourceControlMapper,
   ResourceNameAvailabilityRequest as ResourceNameAvailabilityRequestMapper,
@@ -859,16 +858,6 @@ export const recommendationId: OperationQueryParameter = {
   }
 };
 
-export const code: OperationParameter = {
-  parameterPath: "code",
-  mapper: AppserviceGithubTokenRequestMapper
-};
-
-export const state: OperationParameter = {
-  parameterPath: "state",
-  mapper: AppserviceGithubTokenRequestMapper
-};
-
 export const userDetails: OperationParameter = {
   parameterPath: "userDetails",
   mapper: UserMapper
@@ -1155,7 +1144,7 @@ export const slotSwapEntity: OperationParameter = {
   mapper: CsmSlotEntityMapper
 };
 
-export const request2: OperationParameter = {
+export const request1: OperationParameter = {
   parameterPath: "request",
   mapper: BackupRequestMapper
 };
@@ -1172,7 +1161,7 @@ export const backupId: OperationURLParameter = {
   }
 };
 
-export const request3: OperationParameter = {
+export const request2: OperationParameter = {
   parameterPath: "request",
   mapper: RestoreRequestMapper
 };

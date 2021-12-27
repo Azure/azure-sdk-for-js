@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import chai from "chai";
-const should = chai.should();
-import { TableCheckpointStore } from "../src";
-import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:tableCheckpointStore");
+
+import { AzureNamedKeyCredential, TableClient, TableServiceClient } from "@azure/data-tables";
 import { Checkpoint, PartitionOwnership } from "@azure/event-hubs";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
-import { TableServiceClient, AzureNamedKeyCredential, TableClient } from "@azure/data-tables";
 import { CheckpointEntity, PartitionOwnershipEntity } from "../src/tableCheckpointStore";
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { TableCheckpointStore } from "../src";
+import chai from "chai";
+import debugModule from "debug";
+
+const should = chai.should();
+const debug = debugModule("azure:event-hubs:tableCheckpointStore");
 
 const env = getEnvVars();
 

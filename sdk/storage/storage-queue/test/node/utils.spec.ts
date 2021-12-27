@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { record, Recorder } from "@azure-tools/test-recorder";

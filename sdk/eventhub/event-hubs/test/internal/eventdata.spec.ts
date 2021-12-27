@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { EventData, ReceivedEventData, fromRheaMessage, toRheaMessage } from "../../src/eventData";
 import chai, { assert, should } from "chai";
-chai.should();
-
-import { EventData, fromRheaMessage, ReceivedEventData, toRheaMessage } from "../../src/eventData";
-import { Message } from "rhea-promise";
 import {
   dataSectionTypeCode,
   sequenceSectionTypeCode,
   valueSectionTypeCode
 } from "../../src/dataTransformer";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { Message } from "rhea-promise";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+
+chai.should();
 
 const testAnnotations = {
   "x-opt-enqueued-time": Date.now(),

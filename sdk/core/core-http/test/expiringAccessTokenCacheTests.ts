@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { assert } from "chai";
-import { ExpiringAccessTokenCache } from "../src/credentials/accessTokenCache";
+
 import { AccessToken } from "../src/coreHttp";
+import { ExpiringAccessTokenCache } from "../src/credentials/accessTokenCache";
+import { assert } from "chai";
 
 function mockToken(expirationDeltaMs: number): AccessToken {
   return {
     token: "token",
-    expiresOnTimestamp: Date.now() + expirationDeltaMs
+    expiresOnTimestamp: Date.now() + expirationDeltaMs,
   };
 }
 
-describe("ExpiringAccessTokenCache", function() {
-  it("returns a cached token within the expiration window", function() {
+describe("ExpiringAccessTokenCache", function () {
+  it("returns a cached token within the expiration window", function () {
     const tokenCache = new ExpiringAccessTokenCache(2000);
     const accessToken = mockToken(5000);
     tokenCache.setCachedToken(accessToken);
@@ -21,7 +22,7 @@ describe("ExpiringAccessTokenCache", function() {
     assert.isDefined(cachedToken, "A cached token was not returned!");
   });
 
-  it("returns undefined when refresh buffer is passed", function() {
+  it("returns undefined when refresh buffer is passed", function () {
     const tokenCache = new ExpiringAccessTokenCache(5000);
     const accessToken = mockToken(-5000);
     tokenCache.setCachedToken(accessToken);
@@ -30,7 +31,7 @@ describe("ExpiringAccessTokenCache", function() {
     assert.isUndefined(cachedToken, "A cached token was returned!");
   });
 
-  it("clears the cached token when undefined is passed to setCachedToken", function() {
+  it("clears the cached token when undefined is passed to setCachedToken", function () {
     const tokenCache = new ExpiringAccessTokenCache(2000);
     const accessToken = mockToken(5000);
     tokenCache.setCachedToken(accessToken);

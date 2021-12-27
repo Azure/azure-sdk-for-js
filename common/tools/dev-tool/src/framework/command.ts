@@ -59,7 +59,7 @@ export function makeCommandInfo<Opts extends CommandOptions>(
   return {
     name,
     description,
-    options: options as StrictAllowMultiple<Opts>
+    options: options as StrictAllowMultiple<Opts>,
   };
 }
 
@@ -96,12 +96,19 @@ export function subCommand<Info extends CommandInfo<CommandOptions>>(
       process.exit(1);
     }
 
-    log.debug(`$ ${commandName} ${commandArgs?.join(" ") ?? ""}`);
+    const extraArgs = options["--"];
+
+    const fullArgs =
+      extraArgs !== undefined && extraArgs.length > 0
+        ? [...commandArgs, "--", ...extraArgs]
+        : commandArgs;
+
+    log.debug(`$ ${commandName} ${fullArgs.join(" ") ?? ""}`);
 
     if (Object.prototype.hasOwnProperty.call(commands, commandName)) {
       const commandModule = await commands[commandName]();
 
-      return await commandModule.default(...commandArgs);
+      return await commandModule.default(...fullArgs);
     } else {
       log.error("No such sub-command:", commandName);
       await printCommandUsage(info, commands, console.error);

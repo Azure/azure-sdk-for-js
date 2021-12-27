@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-import { createConnectionContext } from "../../src/connectionContext";
 import { EventHubReceiver } from "../../src/eventHubReceiver";
 import { EventHubSender } from "../../src/eventHubSender";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import { createConnectionContext } from "../../src/connectionContext";
 import { createMockServer } from "../public/utils/mockService";
-chai.use(chaiAsPromised);
-
-import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();

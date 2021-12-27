@@ -8,12 +8,110 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** The response from the List namespace operation. */
-export interface IpFilterRuleListResult {
-  /** Result of the List IpFilter Rules operation. */
-  value?: IpFilterRule[];
-  /** Link to the next set of results. Not empty if Value contains an incomplete list of IpFilter Rules */
+/** The response of the List Namespace operation. */
+export interface SBNamespaceListResult {
+  /** Result of the List Namespace operation. */
+  value?: SBNamespace[];
+  /** Link to the next set of results. Not empty if Value contains incomplete list of Namespaces. */
   nextLink?: string;
+}
+
+/** SKU of the namespace. */
+export interface SBSku {
+  /** Name of this SKU. */
+  name: SkuName;
+  /** The billing tier of this particular SKU. */
+  tier?: SkuTier;
+  /** The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4. */
+  capacity?: number;
+}
+
+/** Properties to configure User Assigned Identities for Bring your Own Keys */
+export interface Identity {
+  /**
+   * ObjectId from the KeyVault
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * TenantId from the KeyVault
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity. */
+  type?: ManagedServiceIdentityType;
+  /** Properties for User Assigned Identities */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** Recognized Dictionary value. */
+export interface UserAssignedIdentity {
+  /**
+   * Principal Id of user assigned identity
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * Client Id of user assigned identity
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The type of identity that last modified the resource. */
+  lastModifiedAt?: Date;
+}
+
+/** Properties to configure Encryption */
+export interface Encryption {
+  /** Properties of KeyVault */
+  keyVaultProperties?: KeyVaultProperties[];
+  /** Enumerates the possible value of keySource for Encryption */
+  keySource?: "Microsoft.KeyVault";
+  /** Enable Infrastructure Encryption (Double Encryption) */
+  requireInfrastructureEncryption?: boolean;
+}
+
+/** Properties to configure keyVault Properties */
+export interface KeyVaultProperties {
+  /** Name of the Key from KeyVault */
+  keyName?: string;
+  /** Uri of KeyVault */
+  keyVaultUri?: string;
+  /** Version of KeyVault */
+  keyVersion?: string;
+  identity?: UserAssignedIdentityProperties;
+}
+
+export interface UserAssignedIdentityProperties {
+  /** ARM ID of user Identity selected for encryption */
+  userAssignedIdentity?: string;
+}
+
+/** PrivateEndpoint information. */
+export interface PrivateEndpoint {
+  /** The ARM identifier for Private Endpoint. */
+  id?: string;
+}
+
+/** ConnectionState information. */
+export interface ConnectionState {
+  /** Status of the connection. */
+  status?: PrivateLinkConnectionStatus;
+  /** Description of the connection state. */
+  description?: string;
 }
 
 /** The Resource definition for other than namespace. */
@@ -84,70 +182,12 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** The response of the List Namespace operation. */
-export interface SBNamespaceListResult {
-  /** Result of the List Namespace operation. */
-  value?: SBNamespace[];
-  /** Link to the next set of results. Not empty if Value contains incomplete list of Namespaces. */
-  nextLink?: string;
-}
-
-/** SKU of the namespace. */
-export interface SBSku {
-  /** Name of this SKU. */
-  name: SkuName;
-  /** The billing tier of this particular SKU. */
-  tier?: SkuTier;
-  /** The specified messaging units for the tier. For Premium tier, capacity are 1,2 and 4. */
-  capacity?: number;
-}
-
-/** Properties to configure Identity for Bring your Own Keys */
-export interface Identity {
-  /** ObjectId from the KeyVault */
-  principalId?: string;
-  /** TenantId from the KeyVault */
-  tenantId?: string;
-  /** Enumerates the possible value Identity type, which currently supports only 'SystemAssigned' */
-  type?: "SystemAssigned";
-}
-
-/** Properties to configure Encryption */
-export interface Encryption {
-  /** Properties of KeyVault */
-  keyVaultProperties?: KeyVaultProperties;
-  /** Enumerates the possible value of keySource for Encryption */
-  keySource?: "Microsoft.KeyVault";
-}
-
-/** Properties to configure keyVault Properties */
-export interface KeyVaultProperties {
-  /** Name of the Key from KeyVault */
-  keyName?: string;
-  /** Uri of KeyVault */
-  keyVaultUri?: string;
-}
-
 /** Result of the list of all private endpoint connections operation. */
 export interface PrivateEndpointConnectionListResult {
   /** A collection of private endpoint connection resources. */
   value?: PrivateEndpointConnection[];
   /** A link for the next page of private endpoint connection resources. */
   nextLink?: string;
-}
-
-/** PrivateEndpoint information. */
-export interface PrivateEndpoint {
-  /** The ARM identifier for Private Endpoint. */
-  id?: string;
-}
-
-/** ConnectionState information. */
-export interface ConnectionState {
-  /** Status of the connection. */
-  status?: PrivateLinkConnectionStatus;
-  /** Description of the connection state. */
-  description?: string;
 }
 
 /** Result of the List private link resources operation. */
@@ -173,12 +213,48 @@ export interface PrivateLinkResource {
   requiredZoneNames?: string[];
 }
 
-/** The response from the List namespace operation. */
-export interface VirtualNetworkRuleListResult {
-  /** Result of the List VirtualNetwork Rules operation. */
-  value?: VirtualNetworkRule[];
-  /** Link to the next set of results. Not empty if Value contains an incomplete list of VirtualNetwork Rules */
-  nextLink?: string;
+/** Result of the request to list ServiceBus operations. It contains a list of operations and a URL link to get the next set of results. */
+export interface OperationListResult {
+  /**
+   * List of ServiceBus operations supported by the Microsoft.ServiceBus resource provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
+  /**
+   * URL to get the next set of operation list results if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** A ServiceBus REST API operation */
+export interface Operation {
+  /**
+   * Operation name: {provider}/{resource}/{operation}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** The object that represents the operation. */
+  display?: OperationDisplay;
+}
+
+/** The object that represents the operation. */
+export interface OperationDisplay {
+  /**
+   * Service provider: Microsoft.ServiceBus
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * Resource on which the operation is performed: Invoice, etc.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * Operation type: Read, write, delete, etc.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
 }
 
 /** Description of a Check Name availability request properties. */
@@ -264,49 +340,15 @@ export interface AccessKeys {
   readonly keyName?: string;
 }
 
-/** Parameters supplied to the Regenerate Authorization Rule operation, specifies which key needs to be reset. */
-export interface RegenerateAccessKeyParameters {
-  /** The access key to regenerate. */
-  keyType: KeyType;
-  /** Optional, if the key value provided, is reset for KeyType value or autogenerate Key value set for keyType */
-  key?: string;
-}
-
-/** The result of the List EventHubs operation. */
-export interface EventHubListResult {
-  /** Result of the List EventHubs operation. */
-  value?: Eventhub[];
+/** The result of the List migrationConfigurations operation. */
+export interface MigrationConfigListResult {
+  /** List of Migration Configs */
+  value?: MigrationConfigProperties[];
   /**
-   * Link to the next set of results. Not empty if Value contains incomplete list of EventHubs.
+   * Link to the next set of results. Not empty if Value contains incomplete list of migrationConfigurations
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** Properties to configure capture description for eventhub */
-export interface CaptureDescription {
-  /** A value that indicates whether capture description is enabled. */
-  enabled?: boolean;
-  /** Enumerates the possible values for the encoding format of capture description. */
-  encoding?: EncodingCaptureDescription;
-  /** The time window allows you to set the frequency with which the capture to Azure Blobs will happen, value should between 60 to 900 seconds */
-  intervalInSeconds?: number;
-  /** The size window defines the amount of data built up in your Event Hub before an capture operation, value should be between 10485760 and 524288000 bytes */
-  sizeLimitInBytes?: number;
-  /** Properties of Destination where capture will be stored. (Storage Account, Blob Names) */
-  destination?: Destination;
-}
-
-/** Capture storage details for capture description */
-export interface Destination {
-  /** Name for capture destination */
-  name?: string;
-  /** Resource id of the storage account to be used to create the blobs */
-  storageAccountResourceId?: string;
-  /** Blob container Name */
-  blobContainer?: string;
-  /** Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order */
-  archiveNameFormat?: string;
 }
 
 /** Description of VirtualNetworkRules - NetworkRules resource. */
@@ -339,45 +381,12 @@ export interface NetworkRuleSetListResult {
   nextLink?: string;
 }
 
-/** Namespace Migrate Object */
-export interface SBNamespaceMigrate {
-  /** Type of namespaces */
-  targetNamespaceType: NameSpaceType;
-}
-
-/** The result of the List migrationConfigurations operation. */
-export interface MigrationConfigListResult {
-  /** List of Migration Configs */
-  value?: MigrationConfigProperties[];
-  /**
-   * Link to the next set of results. Not empty if Value contains incomplete list of migrationConfigurations
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The response of the List PremiumMessagingRegions operation. */
-export interface PremiumMessagingRegionsListResult {
-  /** Result of the List PremiumMessagingRegions type. */
-  value?: PremiumMessagingRegions[];
-  /**
-   * Link to the next set of results. Not empty if Value contains incomplete list of PremiumMessagingRegions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-export interface PremiumMessagingRegionsProperties {
-  /**
-   * Region code
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Full name of the region
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fullName?: string;
+/** Parameters supplied to the Regenerate Authorization Rule operation, specifies which key needs to be reset. */
+export interface RegenerateAccessKeyParameters {
+  /** The access key to regenerate. */
+  keyType: KeyType;
+  /** Optional, if the key value provided, is reset for KeyType value or autogenerate Key value set for keyType */
+  key?: string;
 }
 
 /** The response to the List Queues operation. */
@@ -415,14 +424,6 @@ export interface MessageCountDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly transferDeadLetterMessageCount?: number;
-}
-
-/** The response to the List Subscriptions operation. */
-export interface SBSubscriptionListResult {
-  /** Result of the List Subscriptions operation. */
-  value?: SBSubscription[];
-  /** Link to the next set of results. Not empty if Value contains incomplete list of subscriptions. */
-  nextLink?: string;
 }
 
 /** The response to the List Topics operation. */
@@ -485,58 +486,37 @@ export interface CorrelationFilter {
   requiresPreprocessing?: boolean;
 }
 
-/** Result of the request to list ServiceBus operations. It contains a list of operations and a URL link to get the next set of results. */
-export interface OperationListResult {
-  /**
-   * List of ServiceBus operations supported by the Microsoft.ServiceBus resource provider.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Operation[];
-  /**
-   * URL to get the next set of operation list results if there are any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** The response to the List Subscriptions operation. */
+export interface SBSubscriptionListResult {
+  /** Result of the List Subscriptions operation. */
+  value?: SBSubscription[];
+  /** Link to the next set of results. Not empty if Value contains incomplete list of subscriptions. */
+  nextLink?: string;
 }
 
-/** A ServiceBus REST API operation */
-export interface Operation {
-  /**
-   * Operation name: {provider}/{resource}/{operation}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** The object that represents the operation. */
-  display?: OperationDisplay;
+/** Properties specific to client affine subscriptions. */
+export interface SBClientAffineProperties {
+  /** Indicates the Client ID of the application that created the client-affine subscription. */
+  clientId?: string;
+  /** For client-affine subscriptions, this value indicates whether the subscription is durable or not. */
+  isDurable?: boolean;
+  /** For client-affine subscriptions, this value indicates whether the subscription is shared or not. */
+  isShared?: boolean;
 }
 
-/** The object that represents the operation. */
-export interface OperationDisplay {
+/** Properties of the PrivateEndpointConnection. */
+export type PrivateEndpointConnection = Resource & {
   /**
-   * Service provider: Microsoft.ServiceBus
+   * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provider?: string;
-  /**
-   * Resource on which the operation is performed: Invoice, etc.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resource?: string;
-  /**
-   * Operation type: Read, write, delete, etc.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-}
-
-/** Single item in a List or Get IpFilterRules operation */
-export type IpFilterRule = Resource & {
-  /** IP Mask */
-  ipMask?: string;
-  /** The IP Filter Action */
-  action?: IPAction;
-  /** IP Filter name */
-  filterName?: string;
+  readonly systemData?: SystemData;
+  /** The Private Endpoint resource for this Connection. */
+  privateEndpoint?: PrivateEndpoint;
+  /** Details about the state of the connection. */
+  privateLinkServiceConnectionState?: ConnectionState;
+  /** Provisioning state of the Private Endpoint Connection. */
+  provisioningState?: EndPointProvisioningState;
 };
 
 /** The Resource definition. */
@@ -555,24 +535,13 @@ export type ResourceNamespacePatch = Resource & {
   tags?: { [propertyName: string]: string };
 };
 
-/** Properties of the PrivateEndpointConnection. */
-export type PrivateEndpointConnection = Resource & {
-  /** The Private Endpoint resource for this Connection. */
-  privateEndpoint?: PrivateEndpoint;
-  /** Details about the state of the connection. */
-  privateLinkServiceConnectionState?: ConnectionState;
-  /** Provisioning state of the Private Endpoint Connection. */
-  provisioningState?: EndPointProvisioningState;
-};
-
-/** Single item in a List or Get VirtualNetworkRules operation */
-export type VirtualNetworkRule = Resource & {
-  /** Resource ID of Virtual Network Subnet */
-  virtualNetworkSubnetId?: string;
-};
-
 /** Single item in List or Get Alias(Disaster Recovery configuration) operation */
 export type ArmDisasterRecovery = Resource & {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /**
    * Provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed'
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -596,49 +565,22 @@ export type ArmDisasterRecovery = Resource & {
 
 /** Description of a namespace authorization rule. */
 export type SBAuthorizationRule = Resource & {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The rights associated with the rule. */
   rights?: AccessRights[];
 };
 
-/** Single item in List or Get Event Hub operation */
-export type Eventhub = Resource & {
-  /**
-   * Current number of shards on the Event Hub.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly partitionIds?: string[];
-  /**
-   * Exact time the Event Hub was created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdAt?: Date;
-  /**
-   * The exact time the message was updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly updatedAt?: Date;
-  /** Number of days to retain the events for this Event Hub, value should be 1 to 7 days */
-  messageRetentionInDays?: number;
-  /** Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions. */
-  partitionCount?: number;
-  /** Enumerates the possible values for the status of a Event Hub. */
-  status?: EntityStatus;
-  /** Properties of capture description */
-  captureDescription?: CaptureDescription;
-};
-
-/** Description of NetworkRuleSet resource. */
-export type NetworkRuleSet = Resource & {
-  /** Default Action for Network Rule Set */
-  defaultAction?: DefaultAction;
-  /** List VirtualNetwork Rules */
-  virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
-  /** List of IpRules */
-  ipRules?: NWRuleSetIpRules[];
-};
-
 /** Single item in List or Get Migration Config operation */
 export type MigrationConfigProperties = Resource & {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /**
    * Provisioning state of Migration Configuration
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -660,8 +602,32 @@ export type MigrationConfigProperties = Resource & {
   readonly migrationState?: string;
 };
 
+/** Description of NetworkRuleSet resource. */
+export type NetworkRuleSet = Resource & {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Value that indicates whether Trusted Service Access is Enabled or not. */
+  trustedServiceAccessEnabled?: boolean;
+  /** Default Action for Network Rule Set */
+  defaultAction?: DefaultAction;
+  /** List VirtualNetwork Rules */
+  virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
+  /** List of IpRules */
+  ipRules?: NWRuleSetIpRules[];
+  /** This determines if traffic is allowed over public network. By default it is enabled. */
+  publicNetworkAccess?: PublicNetworkAccessFlag;
+};
+
 /** Description of queue Resource. */
 export type SBQueue = Resource & {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /**
    * Message Count Details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -696,6 +662,8 @@ export type SBQueue = Resource & {
   lockDuration?: string;
   /** The maximum size of the queue in megabytes, which is the size of memory allocated for the queue. Default is 1024. */
   maxSizeInMegabytes?: number;
+  /** Maximum size (in KB) of the message payload that can be accepted by the queue. This property is only used in Premium today and default is 1024. */
+  maxMessageSizeInKilobytes?: number;
   /** A value indicating if this queue requires duplicate detection. */
   requiresDuplicateDetection?: boolean;
   /** A value that indicates whether the queue supports the concept of sessions. */
@@ -724,8 +692,91 @@ export type SBQueue = Resource & {
   forwardDeadLetteredMessagesTo?: string;
 };
 
+/** Description of topic resource. */
+export type SBTopic = Resource & {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Size of the topic, in bytes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sizeInBytes?: number;
+  /**
+   * Exact time the message was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdAt?: Date;
+  /**
+   * The exact time the message was updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedAt?: Date;
+  /**
+   * Last time the message was sent, or a request was received, for this topic.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accessedAt?: Date;
+  /**
+   * Number of subscriptions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionCount?: number;
+  /**
+   * Message count details
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly countDetails?: MessageCountDetails;
+  /** ISO 8601 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself. */
+  defaultMessageTimeToLive?: string;
+  /** Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic. Default is 1024. */
+  maxSizeInMegabytes?: number;
+  /** Maximum size (in KB) of the message payload that can be accepted by the topic. This property is only used in Premium today and default is 1024. */
+  maxMessageSizeInKilobytes?: number;
+  /** Value indicating if this topic requires duplicate detection. */
+  requiresDuplicateDetection?: boolean;
+  /** ISO8601 timespan structure that defines the duration of the duplicate detection history. The default value is 10 minutes. */
+  duplicateDetectionHistoryTimeWindow?: string;
+  /** Value that indicates whether server-side batched operations are enabled. */
+  enableBatchedOperations?: boolean;
+  /** Enumerates the possible values for the status of a messaging entity. */
+  status?: EntityStatus;
+  /** Value that indicates whether the topic supports ordering. */
+  supportOrdering?: boolean;
+  /** ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes. */
+  autoDeleteOnIdle?: string;
+  /** Value that indicates whether the topic to be partitioned across multiple message brokers is enabled. */
+  enablePartitioning?: boolean;
+  /** Value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage. */
+  enableExpress?: boolean;
+};
+
+/** Description of Rule Resource. */
+export type Rule = Resource & {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression. */
+  action?: Action;
+  /** Filter type that is evaluated against a BrokeredMessage. */
+  filterType?: FilterType;
+  /** Properties of sqlFilter */
+  sqlFilter?: SqlFilter;
+  /** Properties of correlationFilter */
+  correlationFilter?: CorrelationFilter;
+};
+
 /** Description of subscription resource. */
 export type SBSubscription = Resource & {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /**
    * Number of messages.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -775,72 +826,10 @@ export type SBSubscription = Resource & {
   forwardTo?: string;
   /** Queue/Topic name to forward the Dead Letter message */
   forwardDeadLetteredMessagesTo?: string;
-};
-
-/** Description of topic resource. */
-export type SBTopic = Resource & {
-  /**
-   * Size of the topic, in bytes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sizeInBytes?: number;
-  /**
-   * Exact time the message was created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdAt?: Date;
-  /**
-   * The exact time the message was updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly updatedAt?: Date;
-  /**
-   * Last time the message was sent, or a request was received, for this topic.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accessedAt?: Date;
-  /**
-   * Number of subscriptions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionCount?: number;
-  /**
-   * Message count details
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly countDetails?: MessageCountDetails;
-  /** ISO 8601 Default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself. */
-  defaultMessageTimeToLive?: string;
-  /** Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic. Default is 1024. */
-  maxSizeInMegabytes?: number;
-  /** Value indicating if this topic requires duplicate detection. */
-  requiresDuplicateDetection?: boolean;
-  /** ISO8601 timespan structure that defines the duration of the duplicate detection history. The default value is 10 minutes. */
-  duplicateDetectionHistoryTimeWindow?: string;
-  /** Value that indicates whether server-side batched operations are enabled. */
-  enableBatchedOperations?: boolean;
-  /** Enumerates the possible values for the status of a messaging entity. */
-  status?: EntityStatus;
-  /** Value that indicates whether the topic supports ordering. */
-  supportOrdering?: boolean;
-  /** ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes. */
-  autoDeleteOnIdle?: string;
-  /** Value that indicates whether the topic to be partitioned across multiple message brokers is enabled. */
-  enablePartitioning?: boolean;
-  /** Value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage. */
-  enableExpress?: boolean;
-};
-
-/** Description of Rule Resource. */
-export type Rule = Resource & {
-  /** Represents the filter actions which are allowed for the transformation of a message that have been matched by a filter expression. */
-  action?: Action;
-  /** Filter type that is evaluated against a BrokeredMessage. */
-  filterType?: FilterType;
-  /** Properties of sqlFilter */
-  sqlFilter?: SqlFilter;
-  /** Properties of correlationFilter */
-  correlationFilter?: CorrelationFilter;
+  /** Value that indicates whether the subscription has an affinity to the client id. */
+  isClientAffine?: boolean;
+  /** Properties specific to client affine subscriptions. */
+  clientAffineProperties?: SBClientAffineProperties;
 };
 
 /** Represents set of actions written in SQL language-based syntax that is performed against a ServiceBus.Messaging.BrokeredMessage */
@@ -852,6 +841,11 @@ export type SBNamespace = TrackedResource & {
   sku?: SBSku;
   /** Properties of BYOK Identity description */
   identity?: Identity;
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /**
    * Provisioning state of the namespace.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -886,6 +880,10 @@ export type SBNamespace = TrackedResource & {
   zoneRedundant?: boolean;
   /** Properties of BYOK Encryption description */
   encryption?: Encryption;
+  /** List of private endpoint connections. */
+  privateEndpointConnections?: PrivateEndpointConnection[];
+  /** This property disables SAS authentication for the Service Bus namespace. */
+  disableLocalAuth?: boolean;
 };
 
 /** Description of a namespace resource. */
@@ -928,28 +926,31 @@ export type SBNamespaceUpdateParameters = ResourceNamespacePatch & {
   zoneRedundant?: boolean;
   /** Properties of BYOK Encryption description */
   encryption?: Encryption;
+  /** List of private endpoint connections. */
+  privateEndpointConnections?: PrivateEndpointConnection[];
+  /** This property disables SAS authentication for the Service Bus namespace. */
+  disableLocalAuth?: boolean;
 };
 
-/** Premium Messaging Region */
-export type PremiumMessagingRegions = ResourceNamespacePatch & {
-  properties?: PremiumMessagingRegionsProperties;
-};
-
-/** Known values of {@link IPAction} that the service accepts. */
-export enum KnownIPAction {
-  Accept = "Accept",
-  Reject = "Reject"
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
 }
 
 /**
- * Defines values for IPAction. \
- * {@link KnownIPAction} can be used interchangeably with IPAction,
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Accept** \
- * **Reject**
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
  */
-export type IPAction = string;
+export type CreatedByType = string;
 
 /** Known values of {@link PrivateLinkConnectionStatus} that the service accepts. */
 export enum KnownPrivateLinkConnectionStatus {
@@ -995,6 +996,20 @@ export enum KnownEndPointProvisioningState {
  */
 export type EndPointProvisioningState = string;
 
+/** Known values of {@link MigrationConfigurationName} that the service accepts. */
+export enum KnownMigrationConfigurationName {
+  Default = "$default"
+}
+
+/**
+ * Defines values for MigrationConfigurationName. \
+ * {@link KnownMigrationConfigurationName} can be used interchangeably with MigrationConfigurationName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **$default**
+ */
+export type MigrationConfigurationName = string;
+
 /** Known values of {@link DefaultAction} that the service accepts. */
 export enum KnownDefaultAction {
   Allow = "Allow",
@@ -1025,23 +1040,31 @@ export enum KnownNetworkRuleIPAction {
  */
 export type NetworkRuleIPAction = string;
 
-/** Known values of {@link MigrationConfigurationName} that the service accepts. */
-export enum KnownMigrationConfigurationName {
-  Default = "$default"
+/** Known values of {@link PublicNetworkAccessFlag} that the service accepts. */
+export enum KnownPublicNetworkAccessFlag {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
 }
 
 /**
- * Defines values for MigrationConfigurationName. \
- * {@link KnownMigrationConfigurationName} can be used interchangeably with MigrationConfigurationName,
+ * Defines values for PublicNetworkAccessFlag. \
+ * {@link KnownPublicNetworkAccessFlag} can be used interchangeably with PublicNetworkAccessFlag,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **$default**
+ * **Enabled** \
+ * **Disabled**
  */
-export type MigrationConfigurationName = string;
+export type PublicNetworkAccessFlag = string;
 /** Defines values for SkuName. */
 export type SkuName = "Basic" | "Standard" | "Premium";
 /** Defines values for SkuTier. */
 export type SkuTier = "Basic" | "Standard" | "Premium";
+/** Defines values for ManagedServiceIdentityType. */
+export type ManagedServiceIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
 /** Defines values for UnavailableReason. */
 export type UnavailableReason =
   | "None"
@@ -1072,42 +1095,8 @@ export type EntityStatus =
   | "Deleting"
   | "Renaming"
   | "Unknown";
-/** Defines values for EncodingCaptureDescription. */
-export type EncodingCaptureDescription = "Avro" | "AvroDeflate";
-/** Defines values for NameSpaceType. */
-export type NameSpaceType =
-  | "Messaging"
-  | "NotificationHub"
-  | "Mixed"
-  | "EventHub"
-  | "Relay";
 /** Defines values for FilterType. */
 export type FilterType = "SqlFilter" | "CorrelationFilter";
-
-/** Optional parameters. */
-export interface NamespacesListIpFilterRulesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listIpFilterRules operation. */
-export type NamespacesListIpFilterRulesResponse = IpFilterRuleListResult;
-
-/** Optional parameters. */
-export interface NamespacesCreateOrUpdateIpFilterRuleOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdateIpFilterRule operation. */
-export type NamespacesCreateOrUpdateIpFilterRuleResponse = IpFilterRule;
-
-/** Optional parameters. */
-export interface NamespacesDeleteIpFilterRuleOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface NamespacesGetIpFilterRuleOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getIpFilterRule operation. */
-export type NamespacesGetIpFilterRuleResponse = IpFilterRule;
 
 /** Optional parameters. */
 export interface NamespacesListOptionalParams
@@ -1159,29 +1148,25 @@ export interface NamespacesUpdateOptionalParams
 export type NamespacesUpdateResponse = SBNamespace;
 
 /** Optional parameters. */
-export interface NamespacesListVirtualNetworkRulesOptionalParams
+export interface NamespacesCreateOrUpdateNetworkRuleSetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listVirtualNetworkRules operation. */
-export type NamespacesListVirtualNetworkRulesResponse = VirtualNetworkRuleListResult;
+/** Contains response data for the createOrUpdateNetworkRuleSet operation. */
+export type NamespacesCreateOrUpdateNetworkRuleSetResponse = NetworkRuleSet;
 
 /** Optional parameters. */
-export interface NamespacesCreateOrUpdateVirtualNetworkRuleOptionalParams
+export interface NamespacesGetNetworkRuleSetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the createOrUpdateVirtualNetworkRule operation. */
-export type NamespacesCreateOrUpdateVirtualNetworkRuleResponse = VirtualNetworkRule;
+/** Contains response data for the getNetworkRuleSet operation. */
+export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet;
 
 /** Optional parameters. */
-export interface NamespacesDeleteVirtualNetworkRuleOptionalParams
+export interface NamespacesListNetworkRuleSetsOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Optional parameters. */
-export interface NamespacesGetVirtualNetworkRuleOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getVirtualNetworkRule operation. */
-export type NamespacesGetVirtualNetworkRuleResponse = VirtualNetworkRule;
+/** Contains response data for the listNetworkRuleSets operation. */
+export type NamespacesListNetworkRuleSetsResponse = NetworkRuleSetListResult;
 
 /** Optional parameters. */
 export interface NamespacesListAuthorizationRulesOptionalParams
@@ -1230,38 +1215,6 @@ export interface NamespacesCheckNameAvailabilityOptionalParams
 export type NamespacesCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 /** Optional parameters. */
-export interface NamespacesCreateOrUpdateNetworkRuleSetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdateNetworkRuleSet operation. */
-export type NamespacesCreateOrUpdateNetworkRuleSetResponse = NetworkRuleSet;
-
-/** Optional parameters. */
-export interface NamespacesGetNetworkRuleSetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getNetworkRuleSet operation. */
-export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet;
-
-/** Optional parameters. */
-export interface NamespacesListNetworkRuleSetsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNetworkRuleSets operation. */
-export type NamespacesListNetworkRuleSetsResponse = NetworkRuleSetListResult;
-
-/** Optional parameters. */
-export interface NamespacesMigrateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface NamespacesListIpFilterRulesNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listIpFilterRulesNext operation. */
-export type NamespacesListIpFilterRulesNextResponse = IpFilterRuleListResult;
-
-/** Optional parameters. */
 export interface NamespacesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1276,11 +1229,11 @@ export interface NamespacesListByResourceGroupNextOptionalParams
 export type NamespacesListByResourceGroupNextResponse = SBNamespaceListResult;
 
 /** Optional parameters. */
-export interface NamespacesListVirtualNetworkRulesNextOptionalParams
+export interface NamespacesListNetworkRuleSetsNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listVirtualNetworkRulesNext operation. */
-export type NamespacesListVirtualNetworkRulesNextResponse = VirtualNetworkRuleListResult;
+/** Contains response data for the listNetworkRuleSetsNext operation. */
+export type NamespacesListNetworkRuleSetsNextResponse = NetworkRuleSetListResult;
 
 /** Optional parameters. */
 export interface NamespacesListAuthorizationRulesNextOptionalParams
@@ -1288,13 +1241,6 @@ export interface NamespacesListAuthorizationRulesNextOptionalParams
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
 export type NamespacesListAuthorizationRulesNextResponse = SBAuthorizationRuleListResult;
-
-/** Optional parameters. */
-export interface NamespacesListNetworkRuleSetsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNetworkRuleSetsNext operation. */
-export type NamespacesListNetworkRuleSetsNextResponse = NetworkRuleSetListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListOptionalParams
@@ -1339,6 +1285,20 @@ export interface PrivateLinkResourcesGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = PrivateLinkResourcesListResult;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams
@@ -1417,6 +1377,51 @@ export interface DisasterRecoveryConfigsListAuthorizationRulesNextOptionalParams
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
 export type DisasterRecoveryConfigsListAuthorizationRulesNextResponse = SBAuthorizationRuleListResult;
+
+/** Optional parameters. */
+export interface MigrationConfigsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type MigrationConfigsListResponse = MigrationConfigListResult;
+
+/** Optional parameters. */
+export interface MigrationConfigsCreateAndStartMigrationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createAndStartMigration operation. */
+export type MigrationConfigsCreateAndStartMigrationResponse = MigrationConfigProperties;
+
+/** Optional parameters. */
+export interface MigrationConfigsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface MigrationConfigsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MigrationConfigsGetResponse = MigrationConfigProperties;
+
+/** Optional parameters. */
+export interface MigrationConfigsCompleteMigrationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface MigrationConfigsRevertOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface MigrationConfigsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type MigrationConfigsListNextResponse = MigrationConfigListResult;
 
 /** Optional parameters. */
 export interface QueuesListAuthorizationRulesOptionalParams
@@ -1593,91 +1598,45 @@ export interface TopicsListByNamespaceNextOptionalParams
 export type TopicsListByNamespaceNextResponse = SBTopicListResult;
 
 /** Optional parameters. */
-export interface EventHubsListByNamespaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByNamespace operation. */
-export type EventHubsListByNamespaceResponse = EventHubListResult;
-
-/** Optional parameters. */
-export interface EventHubsListByNamespaceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByNamespaceNext operation. */
-export type EventHubsListByNamespaceNextResponse = EventHubListResult;
-
-/** Optional parameters. */
-export interface MigrationConfigsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type MigrationConfigsListResponse = MigrationConfigListResult;
-
-/** Optional parameters. */
-export interface MigrationConfigsCreateAndStartMigrationOptionalParams
+export interface RulesListBySubscriptionsOptionalParams
   extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
+  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
+  skip?: number;
+  /** May be used to limit the number of results to the most recent N usageDetails. */
+  top?: number;
 }
 
-/** Contains response data for the createAndStartMigration operation. */
-export type MigrationConfigsCreateAndStartMigrationResponse = MigrationConfigProperties;
+/** Contains response data for the listBySubscriptions operation. */
+export type RulesListBySubscriptionsResponse = RuleListResult;
 
 /** Optional parameters. */
-export interface MigrationConfigsDeleteOptionalParams
+export interface RulesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RulesCreateOrUpdateResponse = Rule;
+
+/** Optional parameters. */
+export interface RulesDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface MigrationConfigsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RulesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type MigrationConfigsGetResponse = MigrationConfigProperties;
+export type RulesGetResponse = Rule;
 
 /** Optional parameters. */
-export interface MigrationConfigsCompleteMigrationOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RulesListBySubscriptionsNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
+  skip?: number;
+  /** May be used to limit the number of results to the most recent N usageDetails. */
+  top?: number;
+}
 
-/** Optional parameters. */
-export interface MigrationConfigsRevertOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface MigrationConfigsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type MigrationConfigsListNextResponse = MigrationConfigListResult;
-
-/** Optional parameters. */
-export interface PremiumMessagingRegionsOperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type PremiumMessagingRegionsOperationsListResponse = PremiumMessagingRegionsListResult;
-
-/** Optional parameters. */
-export interface PremiumMessagingRegionsOperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type PremiumMessagingRegionsOperationsListNextResponse = PremiumMessagingRegionsListResult;
-
-/** Optional parameters. */
-export interface RegionsListBySkuOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySku operation. */
-export type RegionsListBySkuResponse = PremiumMessagingRegionsListResult;
-
-/** Optional parameters. */
-export interface RegionsListBySkuNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySkuNext operation. */
-export type RegionsListBySkuNextResponse = PremiumMessagingRegionsListResult;
+/** Contains response data for the listBySubscriptionsNext operation. */
+export type RulesListBySubscriptionsNextResponse = RuleListResult;
 
 /** Optional parameters. */
 export interface SubscriptionsListByTopicOptionalParams
@@ -1720,61 +1679,6 @@ export interface SubscriptionsListByTopicNextOptionalParams
 
 /** Contains response data for the listByTopicNext operation. */
 export type SubscriptionsListByTopicNextResponse = SBSubscriptionListResult;
-
-/** Optional parameters. */
-export interface RulesListBySubscriptionsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  skip?: number;
-  /** May be used to limit the number of results to the most recent N usageDetails. */
-  top?: number;
-}
-
-/** Contains response data for the listBySubscriptions operation. */
-export type RulesListBySubscriptionsResponse = RuleListResult;
-
-/** Optional parameters. */
-export interface RulesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type RulesCreateOrUpdateResponse = Rule;
-
-/** Optional parameters. */
-export interface RulesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface RulesGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type RulesGetResponse = Rule;
-
-/** Optional parameters. */
-export interface RulesListBySubscriptionsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  skip?: number;
-  /** May be used to limit the number of results to the most recent N usageDetails. */
-  top?: number;
-}
-
-/** Contains response data for the listBySubscriptionsNext operation. */
-export type RulesListBySubscriptionsNextResponse = RuleListResult;
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface ServiceBusManagementClientOptionalParams

@@ -26,6 +26,8 @@ import {
   NamespacesCreateOrUpdateNetworkRuleSetResponse,
   NamespacesGetNetworkRuleSetOptionalParams,
   NamespacesGetNetworkRuleSetResponse,
+  NamespacesListNetworkRuleSetOptionalParams,
+  NamespacesListNetworkRuleSetResponse,
   NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
   NamespacesCreateOrUpdateAuthorizationRuleResponse,
   NamespacesDeleteAuthorizationRuleOptionalParams,
@@ -177,6 +179,17 @@ export interface Namespaces {
     namespaceName: string,
     options?: NamespacesGetNetworkRuleSetOptionalParams
   ): Promise<NamespacesGetNetworkRuleSetResponse>;
+  /**
+   * Gets NetworkRuleSet for a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param options The options parameters.
+   */
+  listNetworkRuleSet(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: NamespacesListNetworkRuleSetOptionalParams
+  ): Promise<NamespacesListNetworkRuleSetResponse>;
   /**
    * Creates or updates an AuthorizationRule for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.

@@ -10,7 +10,7 @@ import { AggregatedCost } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ConsumptionManagementClientContext } from "../consumptionManagementClientContext";
+import { ConsumptionManagementClient } from "../consumptionManagementClient";
 import {
   AggregatedCostGetByManagementGroupOptionalParams,
   AggregatedCostGetByManagementGroupResponse,
@@ -20,13 +20,13 @@ import {
 
 /** Class containing AggregatedCost operations. */
 export class AggregatedCostImpl implements AggregatedCost {
-  private readonly client: ConsumptionManagementClientContext;
+  private readonly client: ConsumptionManagementClient;
 
   /**
    * Initialize a new instance of the class AggregatedCost class.
    * @param client Reference to the service client
    */
-  constructor(client: ConsumptionManagementClientContext) {
+  constructor(client: ConsumptionManagementClient) {
     this.client = client;
   }
 

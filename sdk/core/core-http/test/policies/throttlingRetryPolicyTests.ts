@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, AssertionError } from "chai";
-import sinon from "sinon";
-import { ThrottlingRetryPolicy } from "../../src/policies/throttlingRetryPolicy";
-import { WebResource } from "../../src/webResource";
-import { HttpOperationResponse } from "../../src/httpOperationResponse";
+import { AssertionError, assert } from "chai";
 import { Constants, HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
 import { AbortController } from "@azure/abort-controller";
+import { HttpOperationResponse } from "../../src/httpOperationResponse";
+import { ThrottlingRetryPolicy } from "../../src/policies/throttlingRetryPolicy";
+import { WebResource } from "../../src/webResource";
+import sinon from "sinon";
 
 describe("ThrottlingRetryPolicy", () => {
   class PassThroughPolicy {
@@ -15,7 +15,7 @@ describe("ThrottlingRetryPolicy", () => {
     public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       const response = {
         ...this._response,
-        request: request
+        request: request,
       };
 
       return Promise.resolve(response);
@@ -25,7 +25,7 @@ describe("ThrottlingRetryPolicy", () => {
   const defaultResponse = {
     status: 200,
     request: new WebResource(),
-    headers: new HttpHeaders()
+    headers: new HttpHeaders(),
   };
 
   function createDefaultThrottlingRetryPolicy(
@@ -50,7 +50,7 @@ describe("ThrottlingRetryPolicy", () => {
         sendRequest: (requestToSend: WebResource): Promise<HttpOperationResponse> => {
           assert(request !== requestToSend);
           return Promise.resolve(defaultResponse);
-        }
+        },
       };
       const policy = new ThrottlingRetryPolicy(nextPolicy, new RequestPolicyOptions());
       await policy.sendRequest(request);
@@ -77,9 +77,9 @@ describe("ThrottlingRetryPolicy", () => {
       const mockResponse = {
         status: 400,
         headers: new HttpHeaders({
-          "Retry-After": "100"
+          "Retry-After": "100",
         }),
-        request: request
+        request: request,
       };
       const policy = createDefaultThrottlingRetryPolicy(mockResponse, (_) => {
         throw new AssertionError("fail");
@@ -97,9 +97,9 @@ describe("ThrottlingRetryPolicy", () => {
       const mockResponse = {
         status: 429,
         headers: new HttpHeaders({
-          "Retry-After": "100"
+          "Retry-After": "100",
         }),
-        request: request
+        request: request,
       };
       const policy = createDefaultThrottlingRetryPolicy(mockResponse, (_, response) => {
         delete (response.request as any).requestId;
@@ -119,9 +119,9 @@ describe("ThrottlingRetryPolicy", () => {
       const mockResponse = {
         status: 503,
         headers: new HttpHeaders({
-          "Retry-After": "100"
+          "Retry-After": "100",
         }),
-        request: request
+        request: request,
       };
       const policy = createDefaultThrottlingRetryPolicy(mockResponse, (_, response) => {
         delete (response.request as any).requestId;
@@ -142,9 +142,9 @@ describe("ThrottlingRetryPolicy", () => {
       const retryResponse = {
         status,
         headers: new HttpHeaders({
-          "Retry-After": "1"
+          "Retry-After": "1",
         }),
-        request
+        request,
       };
       const responses: HttpOperationResponse[] = [
         retryResponse,
@@ -155,10 +155,10 @@ describe("ThrottlingRetryPolicy", () => {
           status,
           headers: new HttpHeaders({
             "Retry-After": "1",
-            "final-response": "final-response"
+            "final-response": "final-response",
           }),
-          request
-        }
+          request,
+        },
       ];
 
       const clock = sinon.useFakeTimers();
@@ -167,7 +167,7 @@ describe("ThrottlingRetryPolicy", () => {
         {
           async sendRequest(): Promise<HttpOperationResponse> {
             return responses.shift()!;
-          }
+          },
         },
         new RequestPolicyOptions()
       );
@@ -188,9 +188,9 @@ describe("ThrottlingRetryPolicy", () => {
       const retryResponse = {
         status,
         headers: new HttpHeaders({
-          "Retry-After": "1"
+          "Retry-After": "1",
         }),
-        request
+        request,
       };
       const responses: HttpOperationResponse[] = [
         retryResponse,
@@ -201,10 +201,10 @@ describe("ThrottlingRetryPolicy", () => {
           status,
           headers: new HttpHeaders({
             "Retry-After": "1",
-            "final-response": "final-response"
+            "final-response": "final-response",
           }),
-          request
-        }
+          request,
+        },
       ];
 
       const clock = sinon.useFakeTimers();
@@ -213,7 +213,7 @@ describe("ThrottlingRetryPolicy", () => {
         {
           async sendRequest(): Promise<HttpOperationResponse> {
             return responses.shift()!;
-          }
+          },
         },
         new RequestPolicyOptions()
       );
@@ -241,16 +241,16 @@ describe("ThrottlingRetryPolicy", () => {
       );
       const mockResponse = {
         headers: new HttpHeaders({
-          "Retry-After": "10000"
+          "Retry-After": "10000",
         }),
         status: Constants.HttpConstants.StatusCodes.TooManyRequests,
         body: {
           type: "https://fakeservice.io/errors/too-many-requests",
           title: "Resource utilization has surpassed the assigned quota",
           policy: "Total Requests",
-          status: Constants.HttpConstants.StatusCodes.TooManyRequests
+          status: Constants.HttpConstants.StatusCodes.TooManyRequests,
         },
-        request: request
+        request: request,
       };
       const policy = createDefaultThrottlingRetryPolicy(mockResponse);
       let errorWasThrown = false;
@@ -265,18 +265,18 @@ describe("ThrottlingRetryPolicy", () => {
   });
 
   describe("parseRetryAfterHeader", () => {
-    it("should return undefined for ill-formed header", function() {
+    it("should return undefined for ill-formed header", function () {
       const retryAfter = ThrottlingRetryPolicy.parseRetryAfterHeader("foobar");
       assert.equal(retryAfter, undefined);
     });
 
-    it("should return sleep interval value in milliseconds if parameter is a number", function(done) {
+    it("should return sleep interval value in milliseconds if parameter is a number", function (done) {
       const retryAfter = ThrottlingRetryPolicy.parseRetryAfterHeader("1");
       assert.equal(retryAfter, 1000);
       done();
     });
 
-    it("should return sleep interval value in milliseconds for full date format", function(done) {
+    it("should return sleep interval value in milliseconds for full date format", function (done) {
       const clock = sinon.useFakeTimers(new Date("Fri, 31 Dec 1999 23:00:00 GMT").getTime());
       const retryAfter = ThrottlingRetryPolicy.parseRetryAfterHeader(
         "Fri, 31 Dec 1999 23:02:00 GMT"
@@ -288,7 +288,7 @@ describe("ThrottlingRetryPolicy", () => {
       done();
     });
 
-    it("should return sleep interval value in milliseconds for shorter date format", function(done) {
+    it("should return sleep interval value in milliseconds for shorter date format", function (done) {
       const clock = sinon.useFakeTimers(new Date("Fri, 31 Dec 1999 23:00:00 GMT").getTime());
       const retryAfter = ThrottlingRetryPolicy.parseRetryAfterHeader("31 Dec 1999 23:03:00 GMT");
 

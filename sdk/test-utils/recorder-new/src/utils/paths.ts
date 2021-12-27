@@ -14,5 +14,6 @@ export const paths = {
   info: "/info",
   available: "/available",
   active: "/active",
-  reset: "/reset"
+  reset: "/reset",
+  setMatcher: "/setMatcher"
 };
