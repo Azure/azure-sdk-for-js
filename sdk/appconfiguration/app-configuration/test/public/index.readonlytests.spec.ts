@@ -11,28 +11,28 @@ import {
 import { AppConfigurationClient } from "../../src";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
+import { Recorder } from "@azure-tools/test-recorder-new";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   let client: AppConfigurationClient;
-  let recorder: TestProxyHttpClientCoreV1;
+  let recorder: Recorder;
   const testConfigSetting = {
     key: "",
     value: "world",
     label: "some label",
   };
 
-  beforeEach(async function(this: Context) {
-    recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
     if (!isPlaybackMode()) {
-      recorder.variables["readOnlyTests"] = `readOnlyTests-${Math.ceil(
+      recorder.variable("readOnlyTests", `readOnlyTests-${Math.ceil(
         Math.random() * 1000 + 1000
-      )}`;
+      )}`);
     }
-    testConfigSetting.key = recorder.variables["readOnlyTests"];
-    client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
+    testConfigSetting.key = recorder.variable("readOnlyTests");
+    client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
     // before it's set to read only we can set it all we want
     await client.setConfigurationSetting(testConfigSetting);
   });

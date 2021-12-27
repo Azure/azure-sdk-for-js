@@ -11,23 +11,23 @@ import {
   featureFlagPrefix,
 } from "../../src";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
+import { Recorder } from "@azure-tools/test-recorder-new";
 import { Context } from "mocha";
 import { FeatureFlagValue, isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag";
 
 describe("AppConfigurationClient - FeatureFlag", () => {
   describe("FeatureFlag configuration setting", () => {
     let client: AppConfigurationClient;
-    let recorder: TestProxyHttpClientCoreV1;
+    let recorder: Recorder;
     let baseSetting: ConfigurationSetting<FeatureFlagValue>;
     let addResponse: AddConfigurationSettingResponse;
 
-    beforeEach(async function(this: Context) {
-      recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+    beforeEach(async function (this: Context) {
+      recorder = new Recorder(this.currentTest);
       await recorder.start(recorderStartOptions);
-      client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
+      client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
       if (!isPlaybackMode()) {
-        recorder.variables["name-1"] = `${getRandomNumber()}`;
+        recorder.variable("name-1", `${getRandomNumber()}`);
       }
       baseSetting = {
         value: {
@@ -62,7 +62,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
           displayName: "for display",
         },
         isReadOnly: false,
-        key: `${featureFlagPrefix + recorder.variables["name-1"]}`,
+        key: `${featureFlagPrefix + recorder.variable("name-1")}`,
         contentType: featureFlagContentType,
         label: "label-1",
       };
@@ -193,18 +193,18 @@ describe("AppConfigurationClient - FeatureFlag", () => {
 
   describe("serializeAsConfigurationSettingParam", () => {
     let client: AppConfigurationClient;
-    let recorder: TestProxyHttpClientCoreV1;
+    let recorder: Recorder;
     let featureFlag: ConfigurationSetting<FeatureFlagValue>;
-    beforeEach(async function(this: Context) {
-      recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+    beforeEach(async function (this: Context) {
+      recorder = new Recorder(this.currentTest);
       await recorder.start(recorderStartOptions);
-      client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
+      client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
       if (!isPlaybackMode()) {
-        recorder.variables["name-1"] = `${getRandomNumber()}`;
+        recorder.variable("name-1", `${getRandomNumber()}`);
       }
       featureFlag = {
         contentType: featureFlagContentType,
-        key: `${featureFlagPrefix}${recorder.variables["name-1"]}`,
+        key: `${featureFlagPrefix}${recorder.variable("name-1")}`,
         isReadOnly: false,
         value: { conditions: { clientFilters: [] }, enabled: true },
       };

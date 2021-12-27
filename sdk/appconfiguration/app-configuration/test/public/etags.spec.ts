@@ -11,22 +11,22 @@ import {
 } from "./utils/testHelpers";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
+import { Recorder } from "@azure-tools/test-recorder-new";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("etags", () => {
   let client: AppConfigurationClient;
-  let recorder: TestProxyHttpClientCoreV1;
+  let recorder: Recorder;
   let key: string;
 
-  beforeEach(async function(this: Context) {
-    recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
-    client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
+    client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
     if (!isPlaybackMode()) {
-      recorder.variables["etags"] = `etags-${getRandomNumber()}`;
+      recorder.variable("etags", `etags-${getRandomNumber()}`);
     }
-    key = recorder.variables["etags"];
+    key = recorder.variable("etags");
     await client.addConfigurationSetting({
       key: key,
       value: "some value",

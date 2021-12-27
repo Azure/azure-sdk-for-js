@@ -11,7 +11,7 @@ import {
 } from "./utils/testHelpers";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
+import { Recorder } from "@azure-tools/test-recorder-new";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 // There's been discussion on other teams about what errors are thrown when. This
@@ -20,15 +20,15 @@ import { isPlaybackMode } from "@azure-tools/test-recorder";
 // that's okay)
 describe("Various error cases", () => {
   let client: AppConfigurationClient;
-  let recorder: TestProxyHttpClientCoreV1;
+  let recorder: Recorder;
   const nonMatchingETag = "never-match-etag";
 
-  beforeEach(async function(this: Context) {
-    recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
-    client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
+    client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
     if (!isPlaybackMode()) {
-      recorder.variables["etags"] = `etags-${getRandomNumber()}`;
+      recorder.variable("etags", `etags-${getRandomNumber()}`);
     }
   });
 
@@ -42,7 +42,7 @@ describe("Various error cases", () => {
 
     beforeEach(async () => {
       addedSetting = await client.addConfigurationSetting({
-        key: recorder.variables["etags"],
+        key: recorder.variable("etags"),
         value: "world"
       });
 
@@ -103,7 +103,7 @@ describe("Various error cases", () => {
 
       // the 'no label' value for 'hello'
       addedSetting = await client.addConfigurationSetting({
-        key: recorder.variables["etags"],
+        key: recorder.variable("etags"),
         value: "world"
       });
 

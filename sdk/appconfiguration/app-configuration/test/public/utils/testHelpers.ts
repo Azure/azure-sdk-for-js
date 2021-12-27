@@ -9,16 +9,15 @@ import {
   ListRevisionsPage,
 } from "../../../src";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { RecorderStartOptions, NoOpCredential } from "@azure-tools/test-recorder-new";
+import { RecorderStartOptions, } from "@azure-tools/test-recorder-new";
 
 // allow loading from a .env file as an alternative to defining the variable
 // in the environment
 import {
-  ClientSecretCredential,
   DefaultAzureCredentialOptions,
   TokenCredential
 } from "@azure/identity";
-
+import { createTestCredential } from "@azure-tools/test-credential"
 import { assert } from "chai";
 
 import { RestError } from "@azure/core-http";
@@ -70,14 +69,7 @@ export function getTokenAuthenticationCredential(
   }
 
   return {
-    credential: isPlaybackMode()
-      ? new NoOpCredential()
-      : new ClientSecretCredential(
-          env["AZURE_TENANT_ID"],
-          env["AZURE_CLIENT_ID"],
-          env["AZURE_CLIENT_SECRET"],
-          options
-        ),
+    credential: createTestCredential(options),
     endpoint: env["AZ_CONFIG_ENDPOINT"]!
   };
 }

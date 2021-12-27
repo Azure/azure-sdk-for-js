@@ -17,27 +17,27 @@ import {
   SecretReferenceValue,
 } from "../../src";
 import { Context } from "mocha";
-import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
+import { Recorder } from "@azure-tools/test-recorder-new";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("AppConfigurationClient - SecretReference", () => {
   let client: AppConfigurationClient;
-  let recorder: TestProxyHttpClientCoreV1;
+  let recorder: Recorder;
   let key: string;
   let randomString: string;
 
-  beforeEach(async function(this: Context) {
-    recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
-    client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
+    client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
     if (!isPlaybackMode()) {
-      recorder.variables["key-1"] = `key-1-${getRandomNumber()}`;
-      recorder.variables["random-string-1"] = `random-string-1-${Math.ceil(
+      recorder.variable("key-1", `key-1-${getRandomNumber()}`);
+      recorder.variable("random-string-1", `random-string-1-${Math.ceil(
         Math.random() * 1000 + 1000
-      )}`;
+      )}`);
     }
-    key = recorder.variables["key-1"];
-    randomString = recorder.variables["random-string-1"];
+    key = recorder.variable("key-1");
+    randomString = recorder.variable("random-string-1");
   });
 
   afterEach(async function (this: Context) {

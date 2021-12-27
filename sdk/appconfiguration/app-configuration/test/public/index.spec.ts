@@ -14,22 +14,22 @@ import {
 } from "./utils/testHelpers";
 import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
 import { Context } from "mocha";
-import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
+import { Recorder } from "@azure-tools/test-recorder-new";
 import { delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
-  let recorder: TestProxyHttpClientCoreV1;
+  let recorder: Recorder;
   let key: string;
 
-  beforeEach(async function(this: Context) {
-    recorder = new TestProxyHttpClientCoreV1(this.currentTest);
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
-    client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
+    client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
     if (!isPlaybackMode()) {
-      recorder.variables["key-1"] = `key-1-${getRandomNumber()}`;
+      recorder.variable("key-1", `key-1-${getRandomNumber()}`);
     }
-    key = recorder.variables["key-1"];
+    key = recorder.variable("key-1");
   });
 
   afterEach(async function (this: Context) {
@@ -39,9 +39,9 @@ describe("AppConfigurationClient", () => {
   describe("simple usages", () => {
     it("Add and query a setting without a label", async () => {
       if (!isPlaybackMode()) {
-        recorder.variables["noLabelTests"] = `noLabelTests-${getRandomNumber()}`;
+        recorder.variable("noLabelTests", `noLabelTests-${getRandomNumber()}`);
       }
-      const key = recorder.variables["noLabelTests"];
+      const key = recorder.variable("noLabelTests");
       await client.addConfigurationSetting({ key, value: "added" });
 
       await compare({
@@ -504,21 +504,21 @@ describe("AppConfigurationClient", () => {
 
     beforeEach(async () => {
       if (!isPlaybackMode()) {
-        recorder.variables[
+        recorder.variable(
           `listConfigSetting${count}A`
-        ] = `listConfigSetting${count}A-${getRandomNumber()}`;
-        recorder.variables[
+          , `listConfigSetting${count}A-${getRandomNumber()}`);
+        recorder.variable(
           `listConfigSetting${count}B`
-        ] = `listConfigSetting${count}B-${getRandomNumber()}`;
-        recorder.variables[
+          , `listConfigSetting${count}B-${getRandomNumber()}`);
+        recorder.variable(
           `listConfigSettingsLabel`
-        ] = `listConfigSettingsLabel-${getRandomNumber()}`;
+          , `listConfigSettingsLabel-${getRandomNumber()}`);
       }
-      keys.listConfigSettingA = recorder.variables[`listConfigSetting${count}A`];
-      keys.listConfigSettingB = recorder.variables[`listConfigSetting${count}B`];
+      keys.listConfigSettingA = recorder.variable(`listConfigSetting${count}A`);
+      keys.listConfigSettingB = recorder.variable(`listConfigSetting${count}B`);
       count += 1;
 
-      uniqueLabel = recorder.variables[`listConfigSettingsLabel`];
+      uniqueLabel = recorder.variable(`listConfigSettingsLabel`);
       productionASettingId.key = keys.listConfigSettingA;
       productionASettingId.label = uniqueLabel;
 
@@ -730,7 +730,7 @@ describe("AppConfigurationClient", () => {
       assert.ok(foundMyExactSettingToo);
     });
 
-    it.skip("list with multiple pages", async function() {
+    it.skip("list with multiple pages", async function () {
       // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
       // To avoid hitting the service with too many requests, skipping the test in live.
       // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
@@ -799,14 +799,14 @@ describe("AppConfigurationClient", () => {
 
     beforeEach(async () => {
       if (!isPlaybackMode()) {
-        recorder.variables[`listRevisions`] = `listRevisions-${getRandomNumber()}`;
-        recorder.variables[`list-revisions-A`] = `list-revisions-A-${getRandomNumber()}`;
-        recorder.variables[`list-revisions-B`] = `list-revisions-B-${getRandomNumber()}`;
+        recorder.variable(`listRevisions`, `listRevisions-${getRandomNumber()}`);
+        recorder.variable(`list-revisions-A`, `list-revisions-A-${getRandomNumber()}`);
+        recorder.variable(`list-revisions-B`, `list-revisions-B-${getRandomNumber()}`);
       }
 
-      key = recorder.variables[`listRevisions`];
-      labelA = recorder.variables[`list-revisions-A`];
-      labelB = recorder.variables[`list-revisions-B`];
+      key = recorder.variable(`listRevisions`);
+      labelA = recorder.variable(`list-revisions-A`);
+      labelB = recorder.variable(`list-revisions-B`);
       // we'll generate two sets of keys and labels for this selection
       originalSetting = await client.addConfigurationSetting({
         key,
