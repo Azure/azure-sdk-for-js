@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { TemplateSpecsClient } from "./templateSpecsClient";
-export { TemplateSpecsClientContext } from "./templateSpecsClientContext";
 export * from "./operationsInterfaces";

@@ -100,8 +100,6 @@ export class SecretClient {
   public readonly vaultUrl: string;
 
   /**
-   * @internal
-   * @hidden
    * A reference to the auto-generated KeyVault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -475,8 +473,6 @@ export class SecretClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the pagination of {@link listPropertiesOfSecretVersions}.
    * @param name - The name of the KeyVault Secret.
    * @param continuationState - An object that indicates the position of the paginated request.
@@ -529,8 +525,6 @@ export class SecretClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link listPropertiesOfSecretVersions}.
    * @param name - The name of the KeyVault Secret.
    * @param options - Optional parameters for the underlying HTTP request.
@@ -582,8 +576,6 @@ export class SecretClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the pagination of {@link listPropertiesOfSecrets}.
    * @param continuationState - An object that indicates the position of the paginated request.
    * @param options - Optional parameters for the underlying HTTP request.
@@ -630,8 +622,6 @@ export class SecretClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link listPropertiesOfSecrets}.
    * @param options - Optional parameters for the underlying HTTP request.
    */
@@ -679,8 +669,6 @@ export class SecretClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the pagination of {@link listDeletedSecrets}.
    * @param continuationState - An object that indicates the position of the paginated request.
    * @param options - Optional parameters for the underlying HTTP request.
@@ -722,8 +710,6 @@ export class SecretClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link listDeletedSecrets}.
    * @param options - Optional parameters for the underlying HTTP request.
    */

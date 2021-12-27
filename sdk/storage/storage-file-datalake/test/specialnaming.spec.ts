@@ -3,7 +3,7 @@
 
 // import { DataLakeFileClient } from "../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
-import * as assert from "assert";
+import { assert } from "chai";
 import * as dotenv from "dotenv";
 import { Context } from "mocha";
 
@@ -25,11 +25,11 @@ describe("Special Naming Tests", () => {
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("1container-with-dash");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.create();
+    await fileSystemClient.createIfNotExists();
   });
 
   afterEach(async function() {
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
 

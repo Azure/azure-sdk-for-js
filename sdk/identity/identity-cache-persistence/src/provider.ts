@@ -29,6 +29,6 @@ export async function createPersistenceCachePlugin(
 
   return new PersistenceCachePlugin(persistence, {
     retryNumber: 100,
-    retryDelay: 50
+    retryDelay: 50,
   });
 }

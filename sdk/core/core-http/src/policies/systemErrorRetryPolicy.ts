@@ -5,7 +5,7 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import {
   DEFAULT_CLIENT_MAX_RETRY_INTERVAL,
@@ -16,7 +16,7 @@ import {
   RetryError,
   isNumber,
   shouldRetry,
-  updateRetryData
+  updateRetryData,
 } from "../util/exponentialBackoffStrategy";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResourceLike } from "../webResource";
@@ -46,7 +46,7 @@ export function systemErrorRetryPolicy(
         minRetryInterval,
         maxRetryInterval
       );
-    }
+    },
   };
 }
 

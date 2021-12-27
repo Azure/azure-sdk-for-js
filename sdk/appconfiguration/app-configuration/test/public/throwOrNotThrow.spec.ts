@@ -32,7 +32,7 @@ describe("Various error cases", () => {
     }
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -49,7 +49,7 @@ describe("Various error cases", () => {
       nonExistentKey = "non-existent key " + addedSetting.key;
     });
 
-    afterEach(async function(this: Context) {
+    afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
         await deleteKeyCompletely([addedSetting.key], client);
       }
@@ -72,7 +72,7 @@ describe("Various error cases", () => {
           client.setConfigurationSetting(
             {
               ...addedSetting,
-              etag: nonMatchingETag // purposefully make the etag not match the server
+              etag: nonMatchingETag, // purposefully make the etag not match the server
             },
             { onlyIfUnchanged: true }
           ),
@@ -110,7 +110,7 @@ describe("Various error cases", () => {
       nonExistentKey = "bogus key " + addedSetting.key;
     });
 
-    afterEach(async function(this: Context) {
+    afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
         await deleteKeyCompletely([addedSetting.key], client);
       }
@@ -118,7 +118,7 @@ describe("Various error cases", () => {
 
     it("get: value is unchanged from etag (304) using ifNoneMatch, sets all properties to undefined", async () => {
       const response = await client.getConfigurationSetting(addedSetting, {
-        onlyIfChanged: true
+        onlyIfChanged: true,
       });
 
       assert.equal(304, response.statusCode);

@@ -79,7 +79,7 @@ export class UsernamePasswordCredential implements TokenCredential {
         client_id: this.clientId,
         username: this.username,
         password: this.password,
-        scope: typeof scopes === "string" ? scopes : scopes.join(" ")
+        scope: typeof scopes === "string" ? scopes : scopes.join(" "),
       });
       const webResource = createPipelineRequest({
         url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
@@ -87,10 +87,10 @@ export class UsernamePasswordCredential implements TokenCredential {
         body: params.toString(),
         headers: createHttpHeaders({
           Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "application/x-www-form-urlencoded",
         }),
         abortSignal: options && options.abortSignal,
-        tracingOptions: newOptions.tracingOptions
+        tracingOptions: newOptions.tracingOptions,
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
@@ -99,7 +99,7 @@ export class UsernamePasswordCredential implements TokenCredential {
     } catch (err) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: err.message
+        message: err.message,
       });
       logger.getToken.info(formatError(scopes, err));
       throw err;

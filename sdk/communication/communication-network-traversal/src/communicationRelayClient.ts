@@ -5,18 +5,18 @@ import {
   createCommunicationAuthPolicy,
   parseClientArguments,
   isKeyCredential,
-  CommunicationUserIdentifier
+  CommunicationUserIdentifier,
 } from "@azure/communication-common";
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import {
   CommunicationNetworkTraversal,
-  NetworkRelayRestClient
+  NetworkRelayRestClient,
 } from "./generated/src/networkRelayRestClient";
 
 import { SDK_VERSION } from "./constants";
@@ -26,7 +26,7 @@ import { CommunicationRelayClientOptions, GetRelayConfigurationOptions } from ".
 import {
   CommunicationRelayConfiguration,
   RouteType,
-  CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams
+  CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams,
 } from "./generated/src/models";
 
 const isCommunicationRelayClientOptions = (
@@ -108,9 +108,9 @@ export class CommunicationRelayClient {
       ...options,
       ...{
         loggingOptions: {
-          logger: logger.info
-        }
-      }
+          logger: logger.info,
+        },
+      },
     };
 
     const authPolicy = createCommunicationAuthPolicy(credential);
@@ -163,7 +163,8 @@ export class CommunicationRelayClient {
     paramTwo?: RouteType | GetRelayConfigurationOptions,
     options: GetRelayConfigurationOptions = {}
   ): Promise<CommunicationRelayConfiguration> {
-    let requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams = options;
+    let requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams =
+      options;
 
     if (
       typeof paramOne !== "undefined" &&
@@ -200,7 +201,7 @@ export class CommunicationRelayClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

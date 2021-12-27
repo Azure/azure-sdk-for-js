@@ -9,7 +9,7 @@ import {
   LroStatus,
   RawResponse,
   failureStates,
-  successStates
+  successStates,
 } from "./models";
 import { isUnexpectedPollingResponse } from "./requestUtils";
 
@@ -66,15 +66,15 @@ export function processAzureAsyncOperationResult<TResult>(
             );
             return {
               ...(finalResponse ?? response),
-              done: true
+              done: true,
             };
-          }
+          },
         };
       }
     }
     return {
       ...response,
-      done: false
+      done: false,
     };
   };
 }

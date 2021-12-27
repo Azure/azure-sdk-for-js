@@ -23,7 +23,7 @@ describe("Authentication", () => {
     credsAndEndpoint = getTokenAuthenticationCredential();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 

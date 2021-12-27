@@ -422,7 +422,7 @@ export class WebResource implements WebResourceLike {
             `pathTemplate: ${pathTemplate} has been provided. Hence, options.pathParameters must also be provided.`
           );
         }
-        segments.forEach(function(item) {
+        segments.forEach(function (item) {
           const pathParamName = item.slice(1, -1);
           const pathParam = (pathParameters as { [key: string]: any })[pathParamName];
           if (

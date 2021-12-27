@@ -14,7 +14,7 @@ import {
   isSecretReference,
   parseSecretReference,
   secretReferenceContentType,
-  SecretReferenceValue
+  SecretReferenceValue,
 } from "../../src";
 import { Context } from "mocha";
 import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
@@ -40,7 +40,7 @@ describe("AppConfigurationClient - SecretReference", () => {
     randomString = recorder.variables["random-string-1"];
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     await recorder.stop();
   });
 
@@ -53,7 +53,7 @@ describe("AppConfigurationClient - SecretReference", () => {
         isReadOnly: false,
         key,
         label: "label-s",
-        contentType: secretReferenceContentType
+        contentType: secretReferenceContentType,
       };
     };
 
@@ -85,7 +85,7 @@ describe("AppConfigurationClient - SecretReference", () => {
 
     afterEach(async () => {
       await client.deleteConfigurationSetting({
-        key: baseSetting.key
+        key: baseSetting.key,
       });
     });
 
@@ -93,7 +93,7 @@ describe("AppConfigurationClient - SecretReference", () => {
       assertSecretReferenceProps(addResponse, baseSetting);
       const getResponse = await client.getConfigurationSetting({
         key: baseSetting.key,
-        label: baseSetting.label
+        label: baseSetting.label,
       });
       assertSecretReferenceProps(getResponse, baseSetting);
     });
@@ -101,7 +101,7 @@ describe("AppConfigurationClient - SecretReference", () => {
     it("can add and update SecretReference", async () => {
       const getResponse = await client.getConfigurationSetting({
         key: baseSetting.key,
-        label: baseSetting.label
+        label: baseSetting.label,
       });
       const newSecretId = `https://vault_name.vault.azure.net/secrets/${randomString}`;
 
@@ -112,37 +112,37 @@ describe("AppConfigurationClient - SecretReference", () => {
       const setResponse = await client.setConfigurationSetting(secretReference);
       assertSecretReferenceProps(setResponse, {
         ...baseSetting,
-        value: { secretId: newSecretId }
+        value: { secretId: newSecretId },
       });
 
       const getResponseAfterUpdate = await client.getConfigurationSetting({
         key: baseSetting.key,
-        label: baseSetting.label
+        label: baseSetting.label,
       });
       assertSecretReferenceProps(getResponseAfterUpdate, {
         ...baseSetting,
-        value: { secretId: newSecretId }
+        value: { secretId: newSecretId },
       });
     });
 
     it("can add, list and update multiple SecretReferences", async () => {
       const secondSetting = {
         ...baseSetting,
-        key: `${baseSetting.key}-2`
+        key: `${baseSetting.key}-2`,
       };
       const newSecretId = `https://vault_name.vault.azure.net/secrets/${randomString}`;
       await client.addConfigurationSetting(secondSetting);
 
       let numberOFSecretReferencesReceived = 0;
       for await (const setting of client.listConfigurationSettings({
-        keyFilter: `${baseSetting.key}*`
+        keyFilter: `${baseSetting.key}*`,
       })) {
         numberOFSecretReferencesReceived++;
         if (setting.key === baseSetting.key) {
           assertSecretReferenceProps(setting, baseSetting);
           await client.setConfigurationSetting({
             ...baseSetting,
-            value: { secretId: newSecretId }
+            value: { secretId: newSecretId },
           });
         } else {
           assertSecretReferenceProps(setting, secondSetting);
@@ -154,7 +154,7 @@ describe("AppConfigurationClient - SecretReference", () => {
       }
       assert.equal(numberOFSecretReferencesReceived, 2, "Unexpected number of FeatureFlags seen");
       for await (const setting of client.listConfigurationSettings({
-        keyFilter: `${baseSetting.key}*`
+        keyFilter: `${baseSetting.key}*`,
       })) {
         numberOFSecretReferencesReceived--;
         if (setting.key === baseSetting.key) {
@@ -162,7 +162,7 @@ describe("AppConfigurationClient - SecretReference", () => {
         } else {
           assertSecretReferenceProps(setting, {
             ...secondSetting,
-            isReadOnly: !secondSetting.isReadOnly
+            isReadOnly: !secondSetting.isReadOnly,
           });
         }
       }
@@ -183,7 +183,7 @@ describe("AppConfigurationClient - SecretReference", () => {
           contentType: secretReferenceContentType,
           key,
           isReadOnly: false,
-          value: { secretId: "id" }
+          value: { secretId: "id" },
         };
         setting.value = value as any;
         await client.addConfigurationSetting(setting);

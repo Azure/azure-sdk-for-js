@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -717,6 +717,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure-tools/test-credential",
+      "projectFolder": "sdk/test-utils/test-credential",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/test-utils-perf",
       "projectFolder": "sdk/test-utils/perf",
       "versionPolicyName": "utility"
@@ -1154,6 +1159,26 @@
     {
       "packageName": "@azure/arm-relay",
       "projectFolder": "sdk/relay/arm-relay",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iothub",
+      "projectFolder": "sdk/iothub/arm-iothub",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-msi",
+      "projectFolder": "sdk/msi/arm-msi",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-monitor",
+      "projectFolder": "sdk/monitor/arm-monitor",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-subscriptions",
+      "projectFolder": "sdk/subscription/arm-subscriptions",
       "versionPolicyName": "management"
     }
   ]

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { URLBuilder } from "@azure/core-http";
-import * as assert from "assert";
+import { assert } from "chai";
 import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
@@ -26,11 +26,11 @@ describe("RetryPolicy", () => {
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("container");
     dataLakeFileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await dataLakeFileSystemClient.create();
+    await dataLakeFileSystemClient.createIfNotExists();
   });
 
   afterEach(async function() {
-    await dataLakeFileSystemClient.delete();
+    await dataLakeFileSystemClient.deleteIfExists();
     await recorder.stop();
   });
 

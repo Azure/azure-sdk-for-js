@@ -6,7 +6,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ConfigurationSetting,
   ListConfigurationSettingPage,
-  ListRevisionsPage
+  ListRevisionsPage,
 } from "../../../src";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { RecorderStartOptions, NoOpCredential } from "@azure-tools/test-recorder-new";
@@ -60,7 +60,7 @@ export function getTokenAuthenticationCredential(
     "AZ_CONFIG_ENDPOINT",
     "AZURE_CLIENT_ID",
     "AZURE_TENANT_ID",
-    "AZURE_CLIENT_SECRET"
+    "AZURE_CLIENT_SECRET",
   ];
 
   for (const name of requiredEnvironmentVariables) {
@@ -105,7 +105,7 @@ export async function deleteKeyCompletely(
   client: AppConfigurationClient
 ): Promise<void> {
   const settingsIterator = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of settingsIterator) {
@@ -157,7 +157,7 @@ export function assertEqualSettings(
       key: setting.key,
       label: setting.label || undefined,
       value: setting.value,
-      isReadOnly: setting.isReadOnly
+      isReadOnly: setting.isReadOnly,
     };
   });
 
@@ -173,11 +173,12 @@ export async function assertThrowsRestError(
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (err) {
-    if (!(err instanceof RestError)) {
+    if (!(err instanceof Error)) {
       throw new Error("Error is not recognized");
     }
     if (err.name === "RestError") {
-      assert.equal(expectedStatusCode, err.statusCode, message);
+      const restError = err as RestError;
+      assert.equal(expectedStatusCode, restError.statusCode, message);
       return err;
     }
 

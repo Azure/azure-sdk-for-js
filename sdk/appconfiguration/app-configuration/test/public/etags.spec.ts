@@ -29,11 +29,11 @@ describe("etags", () => {
     key = recorder.variables["etags"];
     await client.addConfigurationSetting({
       key: key,
-      value: "some value"
+      value: "some value",
     });
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await deleteKeyCompletely([key], client);
     await recorder.stop();
   });
@@ -56,13 +56,13 @@ describe("etags", () => {
 
     // etag of the remote setting matches what we have so we're okay to update
     const newlyUpdatedSetting = await client.setConfigurationSetting(addedSetting, {
-      onlyIfUnchanged: true
+      onlyIfUnchanged: true,
     });
     assert.equal(newlyUpdatedSetting.value, addedSetting.value);
 
     const badEtagSetting = {
       ...addedSetting,
-      etag: "bogus"
+      etag: "bogus",
     };
 
     // trying to save with a non-matching etag (when we specifically said to only save if
@@ -82,7 +82,7 @@ describe("etags", () => {
     // enable the etag)
     await client.setConfigurationSetting({
       ...addedSetting,
-      value: "sneaky user updated the field"
+      value: "sneaky user updated the field",
     });
 
     // the value (and thus the etag) was changed behind our backs
@@ -90,7 +90,7 @@ describe("etags", () => {
     await assertThrowsRestError(
       () =>
         client.setConfigurationSetting(addedSetting, {
-          onlyIfUnchanged: true
+          onlyIfUnchanged: true,
         }),
       412,
       "Old etag will result in a failed update and error"
@@ -100,12 +100,12 @@ describe("etags", () => {
   it("get using ifNoneMatch to only get the setting if it's changed (ie: safe GET)", async () => {
     const originalSetting = await client.setConfigurationSetting({
       key: key,
-      value: "world"
+      value: "world",
     });
 
     // only get the setting if it changed (it hasn't)
     const response = await client.getConfigurationSetting(originalSetting, {
-      onlyIfChanged: true
+      onlyIfChanged: true,
     });
 
     // to keep 'key' a required field we fill this out (but set all the other properties to undefined)
@@ -136,7 +136,7 @@ describe("etags", () => {
 
     // only get the setting if it changed (it has!)
     const configurationSetting = await client.getConfigurationSetting(originalSetting, {
-      onlyIfChanged: true
+      onlyIfChanged: true,
     });
 
     // now our retrieved setting matches what's on the server
@@ -149,14 +149,14 @@ describe("etags", () => {
 
     const badEtagSetting = {
       ...addedSetting,
-      etag: "bogus"
+      etag: "bogus",
     };
 
     // etag won't match so we get a precondition failed
     await assertThrowsRestError(
       () =>
         client.setReadOnly(badEtagSetting, true, {
-          onlyIfUnchanged: true
+          onlyIfUnchanged: true,
         }),
       412
     );
@@ -175,7 +175,7 @@ describe("etags", () => {
     await assertThrowsRestError(
       () =>
         client.setReadOnly(badEtagSetting, false, {
-          onlyIfUnchanged: true
+          onlyIfUnchanged: true,
         }),
       412
     );
@@ -186,7 +186,7 @@ describe("etags", () => {
 
     // now we'll use the right etag (from the setting we just retrieved)
     await client.setReadOnly(actualSetting, false, {
-      onlyIfUnchanged: true
+      onlyIfUnchanged: true,
     });
 
     // and now it's no longer readOnly
@@ -199,7 +199,7 @@ describe("etags", () => {
 
     const badEtagSetting = {
       ...addedSetting,
-      etag: "bogus"
+      etag: "bogus",
     };
 
     await assertThrowsRestError(

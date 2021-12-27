@@ -8,7 +8,7 @@ import {
   AnomalyAlertConfiguration,
   AnomalyDetectionConfiguration,
   MetricAlertConfiguration,
-  MetricsAdvisorAdministrationClient
+  MetricsAdvisorAdministrationClient,
 } from "../../src";
 import { createRecordedAdminClient, makeCredential, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -20,18 +20,18 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorAdministrationClient;
       let recorder: Recorder;
 
-      beforeEach(function(this: Context) {
+      beforeEach(function (this: Context) {
         ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
       });
 
-      afterEach(async function() {
+      afterEach(async function () {
         if (recorder) {
           await recorder.stop();
         }
       });
 
-      describe("Ingestion", function() {
-        it("lists ingestion status", async function() {
+      describe("Ingestion", function () {
+        it("lists ingestion status", async function () {
           const iterator = client.listDataFeedIngestionStatus(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
             new Date(Date.UTC(2020, 9, 30)),
@@ -43,7 +43,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(result.value.status, "Expecting second status");
         });
 
-        it("lists ingestion status with datetime strings", async function() {
+        it("lists ingestion status with datetime strings", async function () {
           const iterator = client.listDataFeedIngestionStatus(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
             "2020-08-30T00:00:00.000Z",
@@ -55,7 +55,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(result.value.status, "Expecting second status");
         });
 
-        it("lists ingestion status by page", async function() {
+        it("lists ingestion status by page", async function () {
           const iterator = client
             .listDataFeedIngestionStatus(
               testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
@@ -69,7 +69,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(result.value.length, 2, "Expecting two entries in second page");
         });
 
-        it("gets ingestion progress", async function() {
+        it("gets ingestion progress", async function () {
           const result = await client.getDataFeedIngestionProgress(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID
           );
@@ -78,7 +78,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(result.latestActiveTimestamp, "Expecting valid latest active timestamp");
         });
 
-        it("refreshes ingesetion status", async function(this: Context) {
+        it("refreshes ingesetion status", async function (this: Context) {
           const iterator = client.listDataFeedIngestionStatus(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
             new Date(Date.UTC(2020, 9, 30)),
@@ -106,12 +106,12 @@ matrix([[true, false]] as const, async (useAad) => {
         });
       });
 
-      describe("detection and alert configs CRUD operations", async function() {
+      describe("detection and alert configs CRUD operations", async function () {
         let createdDetectionConfigId: string;
         let createdAlertConfigId: string;
         let expectedDetectionConfigName: string;
 
-        it("creates a detection configuration", async function() {
+        it("creates a detection configuration", async function () {
           expectedDetectionConfigName = recorder.getUniqueName("js-detection-config-");
           const expected: Omit<AnomalyDetectionConfiguration, "id"> = {
             name: expectedDetectionConfigName,
@@ -124,16 +124,16 @@ matrix([[true, false]] as const, async (useAad) => {
                 shiftPoint: 1,
                 changePercentage: 33,
                 withinRange: true,
-                suppressCondition: { minNumber: 2, minRatio: 2 }
+                suppressCondition: { minNumber: 2, minRatio: 2 },
               },
               hardThresholdCondition: {
                 anomalyDetectorDirection: "Up",
                 upperBound: 400,
-                suppressCondition: { minNumber: 2, minRatio: 2 }
-              }
+                suppressCondition: { minNumber: 2, minRatio: 2 },
+              },
             },
             seriesGroupDetectionConditions: [],
-            seriesDetectionConditions: []
+            seriesDetectionConditions: [],
           };
 
           const actual = await client.createDetectionConfig(expected);
@@ -158,7 +158,7 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("updates a detection configuration", async function() {
+        it("updates a detection configuration", async function () {
           const expected: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">> = {
             name: "new Name",
             description: "new description",
@@ -169,13 +169,13 @@ matrix([[true, false]] as const, async (useAad) => {
                 shiftPoint: 2,
                 withinRange: true,
                 changePercentage: 44,
-                suppressCondition: { minNumber: 4, minRatio: 4 }
+                suppressCondition: { minNumber: 4, minRatio: 4 },
               },
               hardThresholdCondition: {
                 anomalyDetectorDirection: "Up",
                 upperBound: 500,
-                suppressCondition: { minNumber: 5, minRatio: 5 }
-              }
+                suppressCondition: { minNumber: 5, minRatio: 5 },
+              },
             },
             seriesGroupDetectionConditions: [
               {
@@ -183,9 +183,9 @@ matrix([[true, false]] as const, async (useAad) => {
                 hardThresholdCondition: {
                   anomalyDetectorDirection: "Up",
                   upperBound: 400,
-                  suppressCondition: { minNumber: 2, minRatio: 2 }
-                }
-              }
+                  suppressCondition: { minNumber: 2, minRatio: 2 },
+                },
+              },
             ],
             seriesDetectionConditions: [
               {
@@ -195,10 +195,10 @@ matrix([[true, false]] as const, async (useAad) => {
                   shiftPoint: 1,
                   changePercentage: 33,
                   withinRange: true,
-                  suppressCondition: { minNumber: 2, minRatio: 2 }
-                }
-              }
-            ]
+                  suppressCondition: { minNumber: 2, minRatio: 2 },
+                },
+              },
+            ],
           };
 
           const actual = await client.updateDetectionConfig(createdDetectionConfigId, expected);
@@ -235,14 +235,14 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("retrieves a detection configuration", async function() {
+        it("retrieves a detection configuration", async function () {
           const result = await client.getDetectionConfig(createdDetectionConfigId);
 
           assert.equal(result.name, "new Name");
           assert.equal(result.description, "new description");
         });
 
-        it("lists detection configurations", async function() {
+        it("lists detection configurations", async function () {
           const iterator = client.listDetectionConfigs(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
           );
@@ -253,7 +253,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(result.value.id, "Expecting second detection config");
         });
 
-        it("lists detection configurations by page", async function() {
+        it("lists detection configurations by page", async function () {
           const iterator = client
             .listDetectionConfigs(testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1)
             .byPage();
@@ -262,13 +262,13 @@ matrix([[true, false]] as const, async (useAad) => {
         });
 
         let expectedAlertConfigName: string;
-        it("creates an alert configuration", async function() {
+        it("creates an alert configuration", async function () {
           expectedAlertConfigName = recorder.getUniqueName("js-alert-config-");
           const metricAlertConfig: MetricAlertConfiguration = {
             detectionConfigurationId: createdDetectionConfigId,
             alertScope: {
-              scopeType: "All"
-            }
+              scopeType: "All",
+            },
           };
           const expectedAlertConfig: Omit<AnomalyAlertConfiguration, "id"> = {
             name: expectedAlertConfigName,
@@ -276,7 +276,7 @@ matrix([[true, false]] as const, async (useAad) => {
             crossMetricsOperator: "AND",
             metricAlertConfigurations: [metricAlertConfig, metricAlertConfig],
             hookIds: [],
-            dimensionsToSplitAlert: []
+            dimensionsToSplitAlert: [],
           };
 
           const actual = await client.createAlertConfig(expectedAlertConfig);
@@ -297,7 +297,7 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("retrieves an alert configuration", async function() {
+        it("retrieves an alert configuration", async function () {
           const actual = await client.getAlertConfig(createdAlertConfigId);
 
           assert.ok(actual.id, "Expecting valid alert config");
@@ -305,7 +305,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(actual.name, expectedAlertConfigName);
         });
 
-        it("updates an alert configuration", async function() {
+        it("updates an alert configuration", async function () {
           const metricAlertConfig: MetricAlertConfiguration = {
             detectionConfigurationId: createdDetectionConfigId,
             alertScope: {
@@ -313,15 +313,15 @@ matrix([[true, false]] as const, async (useAad) => {
               topNAnomalyScope: {
                 minTopCount: 2,
                 top: 3,
-                period: 4
-              }
-            }
+                period: 4,
+              },
+            },
           };
           const patch: Partial<Omit<AnomalyAlertConfiguration, "id">> = {
             name: "new alert config name",
             description: "new alert config description",
             crossMetricsOperator: "OR",
-            metricAlertConfigurations: [metricAlertConfig, metricAlertConfig]
+            metricAlertConfigurations: [metricAlertConfig, metricAlertConfig],
           };
 
           const actual = await client.updateAlertConfig(createdAlertConfigId, patch);
@@ -339,20 +339,20 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("lists alert configurations one by one and by pages", async function() {
+        it("lists alert configurations one by one and by pages", async function () {
           const secondAlertConfigName = recorder.getUniqueName("js-alert-config2-");
           // creating a second alert config for listing
           const metricAlertConfig: MetricAlertConfiguration = {
             detectionConfigurationId: createdDetectionConfigId,
             alertScope: {
-              scopeType: "All"
-            }
+              scopeType: "All",
+            },
           };
           const secondAlertConfig = await client.createAlertConfig({
             name: secondAlertConfigName,
             crossMetricsOperator: "OR",
             metricAlertConfigurations: [metricAlertConfig],
-            hookIds: []
+            hookIds: [],
           });
           try {
             const iterator = client.listAlertConfigs(createdDetectionConfigId);
@@ -370,7 +370,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an alert configuration", async function(this: Context) {
+        it("deletes an alert configuration", async function (this: Context) {
           if (!createdAlertConfigId) {
             this.skip();
           }
@@ -384,7 +384,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes a detection configuration", async function(this: Context) {
+        it("deletes a detection configuration", async function (this: Context) {
           if (!createdDetectionConfigId) {
             this.skip();
           }

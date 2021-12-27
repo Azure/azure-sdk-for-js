@@ -33,11 +33,11 @@ export {
   TimeInput,
   TraceFlags,
   Tracer,
-  TraceState
+  TraceState,
 } from "./interfaces";
 
 // Utilities
 export {
   extractSpanContextFromTraceParentHeader,
-  getTraceParentHeader
+  getTraceParentHeader,
 } from "./utils/traceParentHeader";

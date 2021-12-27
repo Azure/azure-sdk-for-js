@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 5.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 5.0.0 (2021-12-14)
 
 The package of @azure/arm-servicebus is using our next generation design principles since version 5.0.0-beta.2, which contains breaking changes.

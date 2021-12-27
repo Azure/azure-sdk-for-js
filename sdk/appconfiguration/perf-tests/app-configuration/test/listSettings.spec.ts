@@ -19,8 +19,8 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
       required: true,
       description: "Number of settings to be listed",
       longName: "count",
-      defaultValue: 10
-    }
+      defaultValue: 10,
+    },
   };
 
   public async globalSetup(): Promise<void> {
@@ -31,7 +31,7 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
       async () => {
         await this.client.addConfigurationSetting({
           key: ListSettingsTest.prefix + generateUuid(),
-          value: "random"
+          value: "random",
         });
       },
       this.parsedOptions.count.value,

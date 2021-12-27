@@ -20,9 +20,9 @@ describe("getParameterPathString()", () => {
       mapper: {
         serializedName: "value",
         type: {
-          name: "Number"
-        }
-      }
+          name: "Number",
+        },
+      },
     };
     assert.strictEqual(getPathStringFromParameter(parameter), "pathToParameterValue");
   });
@@ -33,9 +33,9 @@ describe("getParameterPathString()", () => {
       mapper: {
         serializedName: "value",
         type: {
-          name: "Number"
-        }
-      }
+          name: "Number",
+        },
+      },
     };
     assert.strictEqual(getPathStringFromParameter(parameter), "path.to.parameter.value");
   });
@@ -46,9 +46,9 @@ describe("getParameterPathString()", () => {
       mapper: {
         serializedName: "value",
         type: {
-          name: "Number"
-        }
-      }
+          name: "Number",
+        },
+      },
     };
     assert.strictEqual(getPathStringFromParameter(parameter), "pa.th.to.par.ameter.valu.e");
   });
@@ -57,14 +57,14 @@ describe("getParameterPathString()", () => {
     const parameter: OperationParameter = {
       parameterPath: {
         a: "A",
-        b: "B"
+        b: "B",
       },
       mapper: {
         serializedName: "value",
         type: {
-          name: "Number"
-        }
-      }
+          name: "Number",
+        },
+      },
     };
     assert.strictEqual(getPathStringFromParameter(parameter), "value");
   });

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
-import * as assert from "assert";
+import { assert } from "chai";
 import * as dotenv from "dotenv";
 import { Context } from "mocha";
 
@@ -230,8 +230,8 @@ describe("DataLakeServiceClient", () => {
     assert.deepEqual(result2.fileSystemItems[0].properties.leaseStatus, "unlocked");
     assert.deepEqual(result2.fileSystemItems[0].metadata!.key, "val");
 
-    await fileSystemClient1.delete();
-    await fileSystemClient2.delete();
+    await fileSystemClient1.deleteIfExists();
+    await fileSystemClient2.deleteIfExists();
   });
 
   it("Verify PagedAsyncIterableIterator for ListFileSystems", async () => {
@@ -262,7 +262,7 @@ describe("DataLakeServiceClient", () => {
     }
 
     for (const client of fileSystemClients) {
-      await client.delete();
+      await client.deleteIfExists();
     }
   });
 
@@ -302,8 +302,8 @@ describe("DataLakeServiceClient", () => {
     assert.deepEqual(fileSystemItem.value.properties.leaseStatus, "unlocked");
     assert.deepEqual(fileSystemItem.value.metadata!.key, "val");
 
-    await fileSystemClient1.delete();
-    await fileSystemClient2.delete();
+    await fileSystemClient1.deleteIfExists();
+    await fileSystemClient2.deleteIfExists();
   });
 
   it("Verify PagedAsyncIterableIterator(byPage()) for ListFileSystems", async () => {
@@ -341,7 +341,7 @@ describe("DataLakeServiceClient", () => {
     }
 
     for (const client of fileSystemClients) {
-      await client.delete();
+      await client.deleteIfExists();
     }
   });
 
@@ -401,7 +401,7 @@ describe("DataLakeServiceClient", () => {
     }
 
     for (const client of fileSystemClients) {
-      await client.delete();
+      await client.deleteIfExists();
     }
   });
 
@@ -451,13 +451,13 @@ describe("DataLakeServiceClient", () => {
     const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
     const response = await serviceURLWithToken!.getUserDelegationKey(now, tmr);
-    assert.notDeepStrictEqual(response.value, undefined);
-    assert.notDeepStrictEqual(response.signedVersion, undefined);
-    assert.notDeepStrictEqual(response.signedTenantId, undefined);
-    assert.notDeepStrictEqual(response.signedStartsOn, undefined);
-    assert.notDeepStrictEqual(response.signedService, undefined);
-    assert.notDeepStrictEqual(response.signedObjectId, undefined);
-    assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
+    assert.notDeepEqual(response.value, undefined);
+    assert.notDeepEqual(response.signedVersion, undefined);
+    assert.notDeepEqual(response.signedTenantId, undefined);
+    assert.notDeepEqual(response.signedStartsOn, undefined);
+    assert.notDeepEqual(response.signedService, undefined);
+    assert.notDeepEqual(response.signedObjectId, undefined);
+    assert.notDeepEqual(response.signedExpiresOn, undefined);
   });
 
   it("can be created from SASConnString", async () => {
@@ -521,7 +521,7 @@ describe("DataLakeServiceClient", () => {
     assert.deepStrictEqual(newFileSystemClient, renameRes.fileSystemClient);
     await newFileSystemClient.getProperties();
 
-    await newFileSystemClient.delete();
+    await newFileSystemClient.deleteIfExists();
   });
 
   it("undelete and list deleted file system should work", async function(this: Context) {

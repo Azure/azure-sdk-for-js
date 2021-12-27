@@ -10,7 +10,7 @@ import { AppConfigurationClient } from "../../src";
 import {
   getUserAgentPrefix,
   InternalAppConfigurationClientOptions,
-  packageVersion
+  packageVersion,
 } from "../../src/appConfigurationClient";
 import {
   createAppConfigurationClientForTests,
@@ -21,14 +21,14 @@ import * as chai from "chai";
 import { Context } from "mocha";
 import { TestProxyHttpClientCoreV1 } from "@azure-tools/test-recorder-new";
 
-describe("http request related tests", function() {
+describe("http request related tests", function () {
   describe("unit tests", () => {
     describe("parseSyncToken", () => {
       it("can parse various sync tokens", () => {
         assert.deepEqual(parseSyncToken("theid=thevalue;sn=1"), {
           id: "theid",
           value: "thevalue",
-          sequenceNumber: 1
+          sequenceNumber: 1,
         });
       });
 
@@ -115,7 +115,7 @@ describe("http request related tests", function() {
       client = createAppConfigurationClientForTests({ httpClient: recorder }) || this.skip();
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await recorder.stop();
     });
 
@@ -123,9 +123,9 @@ describe("http request related tests", function() {
       const iterator = client.listConfigurationSettings({
         requestOptions: {
           customHeaders: {
-            "x-ms-client-request-id": "this is my custom client request id"
-          }
-        }
+            "x-ms-client-request-id": "this is my custom client request id",
+          },
+        },
       });
 
       await iterator.next();
@@ -332,8 +332,5 @@ function splitAndSort(syncTokens: string | undefined): string {
     throw new Error("Undefined can't be split and sorted");
   }
 
-  return syncTokens
-    .split(",")
-    .sort()
-    .join(",");
+  return syncTokens.split(",").sort().join(",");
 }

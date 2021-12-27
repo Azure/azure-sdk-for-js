@@ -117,7 +117,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       tokenCredentialOptions: options || {},
       logger,
       redirectUri: this.redirectUri,
-      authorizationCode: this.authorizationCode
+      authorizationCode: this.authorizationCode,
     });
   }
 
@@ -134,7 +134,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow.getToken(arrayScopes, {
         ...newOptions,
-        disableAutomaticAuthentication: this.disableAutomaticAuthentication
+        disableAutomaticAuthentication: this.disableAutomaticAuthentication,
       });
     });
   }

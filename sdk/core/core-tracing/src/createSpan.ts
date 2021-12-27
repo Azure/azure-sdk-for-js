@@ -9,7 +9,7 @@ import {
   SpanOptions,
   getTracer,
   context as otContext,
-  setSpan
+  setSpan,
 } from "./interfaces";
 import { INVALID_SPAN_CONTEXT, trace } from "@opentelemetry/api";
 
@@ -39,7 +39,7 @@ export interface CreateSpanFunctionArgs {
  * A set of known span attributes that will exist on a context
  */
 export const knownSpanAttributes = {
-  AZ_NAMESPACE: { contextKey: Symbol.for("az.namespace"), spanAttributeName: "az.namespace" }
+  AZ_NAMESPACE: { contextKey: Symbol.for("az.namespace"), spanAttributeName: "az.namespace" },
 };
 
 /**
@@ -129,8 +129,8 @@ function setNamespaceOnSpan(
     ...spanOptions,
     attributes: {
       ...spanOptions?.attributes,
-      [knownSpanAttributes.AZ_NAMESPACE.spanAttributeName]: namespace
-    }
+      [knownSpanAttributes.AZ_NAMESPACE.spanAttributeName]: namespace,
+    },
   };
 
   return { updatedSpanOptions, updatedContext };
@@ -168,7 +168,7 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
    * const { span, updatedOptions } = createSpan("deleteConfigurationSetting", operationOptions, startSpanOptions);
    * ```
    */
-  return function<T extends { tracingOptions?: OperationTracingOptions }>(
+  return function <T extends { tracingOptions?: OperationTracingOptions }>(
     operationName: string,
     operationOptions?: T,
     startSpanOptions?: SpanOptions
@@ -199,17 +199,17 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
     const newTracingOptions = {
       ...tracingOptions,
       spanOptions: newSpanOptions,
-      tracingContext: setSpan(tracingContext, span)
+      tracingContext: setSpan(tracingContext, span),
     };
 
     const newOperationOptions = {
       ...(operationOptions as T),
-      tracingOptions: newTracingOptions
+      tracingOptions: newTracingOptions,
     };
 
     return {
       span,
-      updatedOptions: newOperationOptions
+      updatedOptions: newOperationOptions,
     };
   };
 }

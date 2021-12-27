@@ -8,6 +8,7 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
+import * as path from "path";
 // import visualizer from "rollup-plugin-visualizer";
 import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
@@ -56,6 +57,14 @@ export function nodeConfig(test = false) {
       cjs()
     ],
     onwarn(warning, warn) {
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai")) >= 0
+      ) {
+        // Ignore Chai circular dependency
+        return;
+      }
+
       if (warning.code === "CIRCULAR_DEPENDENCY") {
         throw new Error(warning.message);
       }
@@ -137,21 +146,20 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           events: ["EventEmitter"],
-          assert: [
-            "ok",
-            "deepEqual",
-            "equal",
-            "fail",
-            "strictEqual",
-            "deepStrictEqual",
-            "notDeepEqual",
-            "notDeepStrictEqual"
-          ],
+          chai: ["version", "use", "util", "config", "expect", "should", "assert"],
           ...openTelemetryCommonJs()
         }
       })
     ],
     onwarn(warning, warn) {
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai")) >= 0
+      ) {
+        // Ignore Chai circular dependency
+        return;
+      }
+
       if (
         warning.code === "CIRCULAR_DEPENDENCY" ||
         warning.code === "UNRESOLVED_IMPORT"
