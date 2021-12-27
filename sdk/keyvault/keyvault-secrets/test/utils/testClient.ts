@@ -33,7 +33,7 @@ export default class TestClient {
       client: this.client,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      operationOptions: options
+      operationOptions: options,
     });
 
     // This will initialize the poller's operation (the recovery of the backup).
