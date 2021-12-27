@@ -6,7 +6,7 @@ Azure Bot Service is a platform for creating smart conversational agents.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/botservice/arm-botservice) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-botservice) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-botservice) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-botservice?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
