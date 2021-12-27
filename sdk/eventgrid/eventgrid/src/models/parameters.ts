@@ -103,7 +103,8 @@ export const events2: OperationParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
