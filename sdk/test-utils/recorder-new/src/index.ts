@@ -11,3 +11,4 @@ export {
   isRecordMode
 } from "./utils/utils";
 export { env } from "./utils/env";
+export { delay } from "./utils/delay";
