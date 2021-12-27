@@ -11,10 +11,10 @@
     "build:samples": "echo Obsolete",
     "build:test": "echo Skipped",
     "build": "echo Skipped",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"browser/**/*.js\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"browser/**/*.js\" \"*.{js,json}\"",
     "integration-test:browser": "web-test-runner \"browser/**/*.spec.js\"",
     "integration-test:node": "echo Skipped for now",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -28,8 +28,7 @@
     "unit-test:node": "echo Skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "files": [
-  ],
+  "files": [],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
     "node": ">=12.0.0"
