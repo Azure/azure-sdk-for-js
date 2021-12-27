@@ -25,7 +25,7 @@ describe("TestProxyClient functions", () => {
   let client: Recorder;
   let clientHttpClient: HttpClient;
   let testContext: Mocha.Test | undefined;
-  beforeEach(function() {
+  beforeEach(function () {
     client = new Recorder(this.currentTest);
     clientHttpClient = client["httpClient"] as HttpClient;
     testContext = this.currentTest;
@@ -46,7 +46,7 @@ describe("TestProxyClient functions", () => {
   };
 
   describe("redirectRequest method", () => {
-    it("request unchanged if not playback or record modes", function() {
+    it("request unchanged if not playback or record modes", function () {
       env.TEST_MODE = "live";
       testRedirectedRequest(
         client,
@@ -56,7 +56,7 @@ describe("TestProxyClient functions", () => {
     });
 
     ["record", "playback"].forEach((testMode) => {
-      it(`${testMode} mode: ` + "request unchanged if `x-recording-id` in headers", function() {
+      it(`${testMode} mode: ` + "request unchanged if `x-recording-id` in headers", function () {
         env.TEST_MODE = testMode;
         testRedirectedRequest(
           client,
@@ -70,7 +70,7 @@ describe("TestProxyClient functions", () => {
 
       it(
         `${testMode} mode: ` + "url and headers get updated if no `x-recording-id` in headers",
-        function() {
+        function () {
           env.TEST_MODE = testMode;
           client = new Recorder(testContext);
           client.recordingId = "dummy-recording-id";
@@ -104,7 +104,7 @@ describe("TestProxyClient functions", () => {
   });
 
   describe("start method", () => {
-    it("nothing happens if not playback or record modes", async function() {
+    it("nothing happens if not playback or record modes", async function () {
       env.TEST_MODE = "live";
       clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
         throw new Error("should not have reached here");
@@ -115,7 +115,7 @@ describe("TestProxyClient functions", () => {
     ["record", "playback"].forEach((testMode) => {
       it(
         `${testMode} mode: ` + "succeeds in playback or record modes and gets a recordingId",
-        async function() {
+        async function () {
           env.TEST_MODE = testMode;
           const recordingId = "dummy-recording-id";
           clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
@@ -130,7 +130,7 @@ describe("TestProxyClient functions", () => {
         }
       );
 
-      it("throws if not received a 200 status code", async function() {
+      it("throws if not received a 200 status code", async function () {
         env.TEST_MODE = testMode;
         const recordingId = "dummy-recording-id";
         clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
@@ -149,7 +149,7 @@ describe("TestProxyClient functions", () => {
         }
       });
 
-      it("throws if not received a recording id upon 200 status code", async function() {
+      it("throws if not received a recording id upon 200 status code", async function () {
         env.TEST_MODE = testMode;
         clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
@@ -172,7 +172,7 @@ describe("TestProxyClient functions", () => {
   });
 
   describe("stop method", () => {
-    it("nothing happens if not playback or record modes", async function() {
+    it("nothing happens if not playback or record modes", async function () {
       env.TEST_MODE = "live";
       clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
         throw new Error("should not have reached here");
@@ -183,7 +183,7 @@ describe("TestProxyClient functions", () => {
     ["record", "playback"].forEach((testMode) => {
       it(
         `${testMode} mode: ` + "fails in playback or record modes if no recordingId",
-        async function() {
+        async function () {
           env.TEST_MODE = testMode;
           clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
             return Promise.resolve({
@@ -205,7 +205,7 @@ describe("TestProxyClient functions", () => {
         }
       );
 
-      it("throws if status code is not 200", async function() {
+      it("throws if status code is not 200", async function () {
         env.TEST_MODE = testMode;
         clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
@@ -225,7 +225,7 @@ describe("TestProxyClient functions", () => {
         }
       });
 
-      it("succeeds in playback or record modes", async function() {
+      it("succeeds in playback or record modes", async function () {
         env.TEST_MODE = testMode;
         clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
@@ -288,8 +288,8 @@ describe("TestProxyClient functions", () => {
   });
 });
 
-describe("State Manager", function() {
-  it("throws error if started twice", function() {
+describe("State Manager", function () {
+  it("throws error if started twice", function () {
     const manager = new RecordingStateManager();
     manager.state = "started";
     try {
@@ -303,7 +303,7 @@ describe("State Manager", function() {
     }
   });
 
-  it("throws error if stopped twice", function() {
+  it("throws error if stopped twice", function () {
     const manager = new RecordingStateManager();
     try {
       manager.state = "stopped";
@@ -316,5 +316,3 @@ describe("State Manager", function() {
     }
   });
 });
-
-// TODO: Can potentially add more tests that use the proxy-tool once we figure out the start/setup scripts for proxy-tool
