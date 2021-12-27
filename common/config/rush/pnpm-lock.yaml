@@ -1408,6 +1408,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -2792,7 +2793,7 @@ packages:
 
   /core-js/2.6.12:
     resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==}
-    deprecated: core-js@<3.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
+    deprecated: core-js@<3.4 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
     requiresBuild: true
     dev: false
 
@@ -8066,7 +8067,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-QDWMjs1TGNDU/wHWTMlAvGsBnDgX25veyFnRoHZCFlbWTTMY/yrt9teLhcXL8Jcrbn1fyEApNNtrcw0iFarr+A==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-3Icocw0QnB8/JYmiR/jIr/2A2XhYvFbte2ah1d8s7Mx4Bb23RCnZjTREPQinlGgdpuNSUL0va2ixFwyXTRCiBA==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -11887,14 +11888,14 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-a5TdwW3am8vY/JPngbKHtzKUqkR6pvnUsQVHwOOH8VSdyKMWaxDDndLG49y1cAUCX9UKpFfxx7snTAm1Gh+SQg==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-bWYNxuFrCq2vaETECiEOezIqefS87rjYMH1x78m9obtk1B2SHnjhPZafV29/nHiI3q+DL0jVlydcJSyI4e2USg==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.37
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
@@ -12339,7 +12340,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-ojTJp1YUTBaGGVHEKSbVrXNwr21YCOw8jwMSccBRKH79hKsGM/LyP+HV++BCMoxiFpYBFieeOdr7pSqLdgYo/w==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-I6kFqKY744occjIC9lcpQPR/+nuOMbO60AL2wPVl6HOxxyulw07zh/AImKLDiY2/v3iAVQ9LvJ2BHnHUQNuNtw==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -12371,7 +12372,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
