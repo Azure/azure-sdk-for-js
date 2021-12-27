@@ -15,7 +15,7 @@ import {
   IndexDocumentsBatch,
   KnownSpeller,
   KnownQueryLanguage,
-  AzureKeyCredential
+  AzureKeyCredential,
 } from "../../../src";
 import { Hotel } from "../utils/interfaces";
 import { createIndex, populateIndex, WAIT_TIME, createRandomIndexName } from "../utils/setup";
@@ -23,14 +23,14 @@ import { delay } from "../../../src/serviceUtils";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test1";
 
-describe("SearchClient", function(this: Suite) {
+describe("SearchClient", function (this: Suite) {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
   let indexClient: SearchIndexClient;
 
   this.timeout(99999);
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
     if (!isPlaybackMode()) {
       await createIndex(indexClient, TEST_INDEX_NAME);
@@ -42,7 +42,7 @@ describe("SearchClient", function(this: Suite) {
     ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     if (recorder) {
       await recorder.stop();
     }
@@ -52,41 +52,41 @@ describe("SearchClient", function(this: Suite) {
     }
   });
 
-  it("count returns the correct document count", async function() {
+  it("count returns the correct document count", async function () {
     const documentCount = await searchClient.getDocumentsCount();
     assert.equal(documentCount, 10);
   });
 
-  it("autocomplete returns the correct autocomplete result", async function() {
+  it("autocomplete returns the correct autocomplete result", async function () {
     const autoCompleteResult: AutocompleteResult = await searchClient.autocomplete("sec", "sg");
     assert.equal(autoCompleteResult.results.length, 1);
     assert.equal(autoCompleteResult.results[0].text, "secret");
   });
 
-  it("autocomplete returns zero results for invalid query", async function() {
+  it("autocomplete returns zero results for invalid query", async function () {
     const autoCompleteResult: AutocompleteResult = await searchClient.autocomplete("garbxyz", "sg");
     assert.isTrue(autoCompleteResult.results.length === 0);
   });
 
-  it("search returns the correct search result", async function() {
+  it("search returns the correct search result", async function () {
     const searchResults = await searchClient.search("budget", {
       skip: 0,
       top: 5,
-      includeTotalCount: true
+      includeTotalCount: true,
     });
     assert.equal(searchResults.count, 6);
   });
 
-  it("search returns zero results for invalid query", async function() {
+  it("search returns zero results for invalid query", async function () {
     const searchResults = await searchClient.search("garbxyz", {
       skip: 0,
       top: 5,
-      includeTotalCount: true
+      includeTotalCount: true,
     });
     assert.equal(searchResults.count, 0);
   });
 
-  it("suggest returns the correct suggestions", async function() {
+  it("suggest returns the correct suggestions", async function () {
     const suggestResult = await searchClient.suggest("WiFi", "sg");
     assert.equal(suggestResult.results.length, 1);
     assert.isTrue(
@@ -94,12 +94,12 @@ describe("SearchClient", function(this: Suite) {
     );
   });
 
-  it("suggest returns zero suggestions for invalid input", async function() {
+  it("suggest returns zero suggestions for invalid input", async function () {
     const suggestResult = await searchClient.suggest("garbxyz", "sg");
     assert.equal(suggestResult.results.length, 0);
   });
 
-  it("getDocument returns the correct document result", async function() {
+  it("getDocument returns the correct document result", async function () {
     const getDocumentResult = await searchClient.getDocument("8");
     assert.equal(
       getDocumentResult.description,
@@ -112,7 +112,7 @@ describe("SearchClient", function(this: Suite) {
     assert.equal(getDocumentResult.hotelId, "8");
   });
 
-  it("getDocument throws error for invalid getDocument Value", async function() {
+  it("getDocument throws error for invalid getDocument Value", async function () {
     let errorThrown = false;
     try {
       await searchClient.getDocument("garbxyz");
@@ -122,7 +122,7 @@ describe("SearchClient", function(this: Suite) {
     assert.isTrue(errorThrown, "Expected getDocument to fail with an exception");
   });
 
-  it("deleteDocuments delete a document by documents", async function() {
+  it("deleteDocuments delete a document by documents", async function () {
     const getDocumentResult = await searchClient.getDocument("8");
     await searchClient.deleteDocuments([getDocumentResult]);
     await delay(WAIT_TIME);
@@ -130,14 +130,14 @@ describe("SearchClient", function(this: Suite) {
     assert.equal(documentCount, 9);
   });
 
-  it("deleteDocuments delete a document by key/keyNames", async function() {
+  it("deleteDocuments delete a document by key/keyNames", async function () {
     await searchClient.deleteDocuments("hotelId", ["9", "10"]);
     await delay(WAIT_TIME);
     const documentCount = await searchClient.getDocumentsCount();
     assert.equal(documentCount, 8);
   });
 
-  it("mergeOrUploadDocuments modify & merge an existing document", async function() {
+  it("mergeOrUploadDocuments modify & merge an existing document", async function () {
     let getDocumentResult = await searchClient.getDocument("6");
     getDocumentResult.description = "Modified Description";
     await searchClient.mergeOrUploadDocuments([getDocumentResult]);
@@ -146,11 +146,11 @@ describe("SearchClient", function(this: Suite) {
     assert.equal(getDocumentResult.description, "Modified Description");
   });
 
-  it("mergeOrUploadDocuments merge a new document", async function() {
+  it("mergeOrUploadDocuments merge a new document", async function () {
     const document = {
       hotelId: "11",
       description: "New Hotel Description",
-      lastRenovationDate: null
+      lastRenovationDate: null,
     };
     await searchClient.mergeOrUploadDocuments([document]);
     await delay(WAIT_TIME);
@@ -158,7 +158,7 @@ describe("SearchClient", function(this: Suite) {
     assert.equal(documentCount, 11);
   });
 
-  it("mergeDocuments modify & merge an existing document", async function() {
+  it("mergeDocuments modify & merge an existing document", async function () {
     let getDocumentResult = await searchClient.getDocument("6");
     getDocumentResult.description = "Modified Description";
     await searchClient.mergeDocuments([getDocumentResult]);
@@ -167,18 +167,18 @@ describe("SearchClient", function(this: Suite) {
     assert.equal(getDocumentResult.description, "Modified Description");
   });
 
-  it("uploadDocuments upload a set of documents", async function() {
+  it("uploadDocuments upload a set of documents", async function () {
     const documents = [
       {
         hotelId: "11",
         description: "New Hotel Description",
-        lastRenovationDate: null
+        lastRenovationDate: null,
       },
       {
         hotelId: "12",
         description: "New Hotel II Description",
-        lastRenovationDate: null
-      }
+        lastRenovationDate: null,
+      },
     ];
     await searchClient.uploadDocuments(documents);
     await delay(WAIT_TIME);
@@ -186,14 +186,14 @@ describe("SearchClient", function(this: Suite) {
     assert.equal(documentCount, 12);
   });
 
-  it("indexDocuments upload a new document", async function() {
+  it("indexDocuments upload a new document", async function () {
     const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
     batch.upload([
       {
         hotelId: "11",
         description: "New Hotel Description",
-        lastRenovationDate: null
-      }
+        lastRenovationDate: null,
+      },
     ]);
     await searchClient.indexDocuments(batch);
     await delay(WAIT_TIME);
@@ -201,15 +201,15 @@ describe("SearchClient", function(this: Suite) {
     assert.equal(documentCount, 11);
   });
 
-  it("indexDocuments deletes existing documents", async function() {
+  it("indexDocuments deletes existing documents", async function () {
     const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
     batch.delete([
       {
-        hotelId: "9"
+        hotelId: "9",
       },
       {
-        hotelId: "10"
-      }
+        hotelId: "10",
+      },
     ]);
 
     await searchClient.indexDocuments(batch);
@@ -218,13 +218,13 @@ describe("SearchClient", function(this: Suite) {
     assert.equal(documentCount, 8);
   });
 
-  it("indexDocuments merges an existing document", async function() {
+  it("indexDocuments merges an existing document", async function () {
     const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
     batch.merge([
       {
         hotelId: "8",
-        description: "Modified Description"
-      }
+        description: "Modified Description",
+      },
     ]);
 
     await searchClient.indexDocuments(batch);
@@ -233,18 +233,18 @@ describe("SearchClient", function(this: Suite) {
     assert.equal(getDocumentResult.description, "Modified Description");
   });
 
-  it("indexDocuments merge/upload documents", async function() {
+  it("indexDocuments merge/upload documents", async function () {
     const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
     batch.mergeOrUpload([
       {
         hotelId: "8",
-        description: "Modified Description"
+        description: "Modified Description",
       },
       {
         hotelId: "11",
         description: "New Hotel Description",
-        lastRenovationDate: null
-      }
+        lastRenovationDate: null,
+      },
     ]);
 
     await searchClient.indexDocuments(batch);
@@ -258,13 +258,13 @@ describe("SearchClient", function(this: Suite) {
   // Fails in CI because the CI search service was created on or before 2019
   // which does not have search 'speller' feature. Will resolve the
   // resource issue and then add this test back.
-  it.skip("search with speller", async function() {
+  it.skip("search with speller", async function () {
     const searchResults = await searchClient.search("budjet", {
       skip: 0,
       top: 5,
       includeTotalCount: true,
       queryLanguage: KnownQueryLanguage.EnUs,
-      speller: KnownSpeller.Lexicon
+      speller: KnownSpeller.Lexicon,
     });
     assert.equal(searchResults.count, 6);
   });
@@ -272,13 +272,13 @@ describe("SearchClient", function(this: Suite) {
   // Currently semantic search is available only with
   // certain subscriptions and could not be tested in CI.
   // So, skipping this test for now.
-  it.skip("search with semantic ranking", async function() {
+  it.skip("search with semantic ranking", async function () {
     const searchResults = await searchClient.search("luxury", {
       skip: 0,
       top: 5,
       includeTotalCount: true,
       queryLanguage: KnownQueryLanguage.EnUs,
-      queryType: "semantic"
+      queryType: "semantic",
     });
     assert.equal(searchResults.count, 1);
   });
@@ -290,7 +290,7 @@ describe("SearchClient-local", () => {
   describe("Passing serviceVersion", () => {
     it("supports passing serviceVersion", () => {
       const client = new SearchClient<Hotel>("", "", credential, {
-        serviceVersion: "2020-06-30"
+        serviceVersion: "2020-06-30",
       });
       assert.equal("2020-06-30", client.serviceVersion);
       assert.equal("2020-06-30", client.apiVersion);
@@ -301,7 +301,7 @@ describe("SearchClient-local", () => {
       try {
         new SearchClient<Hotel>("", "", credential, {
           serviceVersion: "2020-06-30",
-          apiVersion: "foo"
+          apiVersion: "foo",
         });
       } catch (ex) {
         errorThrown = true;
@@ -314,7 +314,7 @@ describe("SearchClient-local", () => {
       try {
         new SearchClient<Hotel>("", "", credential, {
           apiVersion: "2020-06-30",
-          serviceVersion: "foo"
+          serviceVersion: "foo",
         });
       } catch (ex) {
         errorThrown = true;
@@ -324,7 +324,7 @@ describe("SearchClient-local", () => {
 
     it("supports passing the deprecated apiVersion", () => {
       const client = new SearchClient<Hotel>("", "", credential, {
-        apiVersion: "2020-06-30"
+        apiVersion: "2020-06-30",
       });
       assert.equal("2020-06-30", client.serviceVersion);
       assert.equal("2020-06-30", client.apiVersion);

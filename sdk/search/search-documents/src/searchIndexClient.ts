@@ -31,7 +31,7 @@ import {
   IndexIterator,
   IndexNameIterator,
   SearchIndexStatistics,
-  SearchServiceStatistics
+  SearchServiceStatistics,
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
@@ -127,10 +127,10 @@ export class SearchIndexClient {
             "OData-MaxVersion",
             "OData-Version",
             "Prefer",
-            "throttle-reason"
-          ]
-        }
-      }
+            "throttle-reason",
+          ],
+        },
+      },
     };
 
     let apiVersion = this.apiVersion;
@@ -166,7 +166,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -198,7 +198,7 @@ export class SearchIndexClient {
       },
       byPage: () => {
         return this.listIndexesPage(options);
-      }
+      },
     };
   }
 
@@ -209,14 +209,14 @@ export class SearchIndexClient {
     try {
       const result = await this.client.indexes.list({
         ...updatedOptions,
-        select: "name"
+        select: "name",
       });
       const mapped = result.indexes.map((idx) => idx.name);
       yield mapped;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -248,7 +248,7 @@ export class SearchIndexClient {
       },
       byPage: () => {
         return this.listIndexesNamesPage(options);
-      }
+      },
     };
   }
 
@@ -264,7 +264,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -281,13 +281,13 @@ export class SearchIndexClient {
     try {
       const result = await this.client.synonymMaps.list({
         ...updatedOptions,
-        select: "name"
+        select: "name",
       });
       return result.synonymMaps.map((sm) => sm.name);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -308,7 +308,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -332,7 +332,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -359,7 +359,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -386,7 +386,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -412,14 +412,14 @@ export class SearchIndexClient {
         utils.publicIndexToGeneratedIndex(index),
         {
           ...updatedOptions,
-          ifMatch: etag
+          ifMatch: etag,
         }
       );
       return utils.generatedIndexToPublicIndex(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -448,14 +448,14 @@ export class SearchIndexClient {
         utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
         {
           ...updatedOptions,
-          ifMatch: etag
+          ifMatch: etag,
         }
       );
       return utils.generatedSynonymMapToPublicSynonymMap(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -480,12 +480,12 @@ export class SearchIndexClient {
 
       await this.client.indexes.delete(indexName, {
         ...updatedOptions,
-        ifMatch: etag
+        ifMatch: etag,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -514,12 +514,12 @@ export class SearchIndexClient {
 
       await this.client.synonymMaps.delete(synonymMapName, {
         ...updatedOptions,
-        ifMatch: etag
+        ifMatch: etag,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -544,7 +544,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -563,7 +563,7 @@ export class SearchIndexClient {
     const operationOptions = {
       abortSignal,
       requestOptions,
-      tracingOptions
+      tracingOptions,
     };
 
     const { span, updatedOptions } = createSpan("SearchIndexClient-analyzeText", operationOptions);
@@ -574,7 +574,7 @@ export class SearchIndexClient {
           ...restOptions,
           analyzer: restOptions.analyzerName,
           tokenizer: restOptions.tokenizerName,
-          normalizer: restOptions.normalizerName
+          normalizer: restOptions.normalizerName,
         },
         updatedOptions
       );
@@ -582,7 +582,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -604,7 +604,7 @@ export class SearchIndexClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
