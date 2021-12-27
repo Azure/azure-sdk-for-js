@@ -12,7 +12,6 @@ import {
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder-new";
-import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("etags", () => {
   let client: AppConfigurationClient;
@@ -23,9 +22,7 @@ describe("etags", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
     client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
-    if (!isPlaybackMode()) {
-      recorder.variable("etags", `etags-${getRandomNumber()}`);
-    }
+    recorder.variable("etags", `etags-${getRandomNumber()}`);
     key = recorder.variable("etags");
     await client.addConfigurationSetting({
       key: key,

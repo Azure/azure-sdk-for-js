@@ -12,7 +12,6 @@ import { AppConfigurationClient } from "../../src";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder-new";
-import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   let client: AppConfigurationClient;
@@ -26,11 +25,9 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
-    if (!isPlaybackMode()) {
-      recorder.variable("readOnlyTests", `readOnlyTests-${Math.ceil(
-        Math.random() * 1000 + 1000
-      )}`);
-    }
+    recorder.variable("readOnlyTests", `readOnlyTests-${Math.ceil(
+      Math.random() * 1000 + 1000
+    )}`);
     testConfigSetting.key = recorder.variable("readOnlyTests");
     client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
     // before it's set to read only we can set it all we want

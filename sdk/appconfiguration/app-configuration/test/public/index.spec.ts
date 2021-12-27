@@ -14,8 +14,7 @@ import {
 } from "./utils/testHelpers";
 import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
 import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder-new";
-import { delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode, delay } from "@azure-tools/test-recorder-new";
 
 describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
@@ -26,9 +25,7 @@ describe("AppConfigurationClient", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
     client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
-    if (!isPlaybackMode()) {
-      recorder.variable("key-1", `key-1-${getRandomNumber()}`);
-    }
+    recorder.variable("key-1", `key-1-${getRandomNumber()}`);
     key = recorder.variable("key-1");
   });
 
@@ -38,9 +35,7 @@ describe("AppConfigurationClient", () => {
 
   describe("simple usages", () => {
     it("Add and query a setting without a label", async () => {
-      if (!isPlaybackMode()) {
-        recorder.variable("noLabelTests", `noLabelTests-${getRandomNumber()}`);
-      }
+      recorder.variable("noLabelTests", `noLabelTests-${getRandomNumber()}`);
       const key = recorder.variable("noLabelTests");
       await client.addConfigurationSetting({ key, value: "added" });
 
@@ -503,17 +498,15 @@ describe("AppConfigurationClient", () => {
     };
 
     beforeEach(async () => {
-      if (!isPlaybackMode()) {
-        recorder.variable(
-          `listConfigSetting${count}A`
-          , `listConfigSetting${count}A-${getRandomNumber()}`);
-        recorder.variable(
-          `listConfigSetting${count}B`
-          , `listConfigSetting${count}B-${getRandomNumber()}`);
-        recorder.variable(
-          `listConfigSettingsLabel`
-          , `listConfigSettingsLabel-${getRandomNumber()}`);
-      }
+      recorder.variable(
+        `listConfigSetting${count}A`
+        , `listConfigSetting${count}A-${getRandomNumber()}`);
+      recorder.variable(
+        `listConfigSetting${count}B`
+        , `listConfigSetting${count}B-${getRandomNumber()}`);
+      recorder.variable(
+        `listConfigSettingsLabel`
+        , `listConfigSettingsLabel-${getRandomNumber()}`);
       keys.listConfigSettingA = recorder.variable(`listConfigSetting${count}A`);
       keys.listConfigSettingB = recorder.variable(`listConfigSetting${count}B`);
       count += 1;
@@ -798,11 +791,9 @@ describe("AppConfigurationClient", () => {
     let originalSetting: ConfigurationSetting;
 
     beforeEach(async () => {
-      if (!isPlaybackMode()) {
-        recorder.variable(`listRevisions`, `listRevisions-${getRandomNumber()}`);
-        recorder.variable(`list-revisions-A`, `list-revisions-A-${getRandomNumber()}`);
-        recorder.variable(`list-revisions-B`, `list-revisions-B-${getRandomNumber()}`);
-      }
+      recorder.variable(`listRevisions`, `listRevisions-${getRandomNumber()}`);
+      recorder.variable(`list-revisions-A`, `list-revisions-A-${getRandomNumber()}`);
+      recorder.variable(`list-revisions-B`, `list-revisions-B-${getRandomNumber()}`);
 
       key = recorder.variable(`listRevisions`);
       labelA = recorder.variable(`list-revisions-A`);

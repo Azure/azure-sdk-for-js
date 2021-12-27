@@ -10,8 +10,7 @@ import {
 } from "./utils/testHelpers";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder-new";
-import { isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder-new";
 
 describe("Authentication", () => {
   let credsAndEndpoint: CredsAndEndpoint;

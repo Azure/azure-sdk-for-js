@@ -10,7 +10,6 @@ import {
   featureFlagContentType,
   featureFlagPrefix,
 } from "../../src";
-import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder-new";
 import { Context } from "mocha";
 import { FeatureFlagValue, isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag";
@@ -26,9 +25,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       recorder = new Recorder(this.currentTest);
       await recorder.start(recorderStartOptions);
       client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
-      if (!isPlaybackMode()) {
-        recorder.variable("name-1", `${getRandomNumber()}`);
-      }
+      recorder.variable("name-1", `${getRandomNumber()}`);
       baseSetting = {
         value: {
           conditions: {
@@ -199,9 +196,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       recorder = new Recorder(this.currentTest);
       await recorder.start(recorderStartOptions);
       client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
-      if (!isPlaybackMode()) {
         recorder.variable("name-1", `${getRandomNumber()}`);
-      }
       featureFlag = {
         contentType: featureFlagContentType,
         key: `${featureFlagPrefix}${recorder.variable("name-1")}`,

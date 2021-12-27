@@ -98,7 +98,6 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
     "@azure/keyvault-secrets": "^4.2.0",
-    "@azure-tools/test-recorder": "^1.0.0",
     "@azure-tools/test-recorder-new": "^1.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",

@@ -8,8 +8,7 @@ import {
   ListConfigurationSettingPage,
   ListRevisionsPage,
 } from "../../../src";
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { RecorderStartOptions, } from "@azure-tools/test-recorder-new";
+import { env, isPlaybackMode, RecorderStartOptions, } from "@azure-tools/test-recorder-new";
 
 // allow loading from a .env file as an alternative to defining the variable
 // in the environment
@@ -45,7 +44,7 @@ export const recorderStartOptions: RecorderStartOptions = {
     ],
     bodyRegexSanitizers: [
       {
-        regex: encodeURIComponent(env.AZ_CONFIG_ENDPOINT),
+        regex: env.AZ_CONFIG_ENDPOINT ? encodeURIComponent(env.AZ_CONFIG_ENDPOINT) : undefined,
         value: encodeURIComponent("https://myappconfig.azconfig.io")
       }
     ]

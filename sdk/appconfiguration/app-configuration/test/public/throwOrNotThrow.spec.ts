@@ -12,7 +12,6 @@ import {
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder-new";
-import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 // There's been discussion on other teams about what errors are thrown when. This
 // is the file where I've documented the throws/notThrows cases to make coordination
@@ -27,9 +26,7 @@ describe("Various error cases", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
     client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
-    if (!isPlaybackMode()) {
-      recorder.variable("etags", `etags-${getRandomNumber()}`);
-    }
+    recorder.variable("etags", `etags-${getRandomNumber()}`);
   });
 
   afterEach(async function () {

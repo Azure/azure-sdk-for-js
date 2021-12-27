@@ -97,7 +97,7 @@ export interface RegexSanitizer {
   /**
    * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation.
    */
-  regex: string;
+  regex?: string;
   /**
    * The capture group that needs to be operated upon. Do not set if you're invoking a simple replacement operation.
    */
@@ -149,7 +149,7 @@ interface ConnectionStringSanitizer {
   /**
    * Real connection string with all the secrets
    */
-  actualConnString: string;
+  actualConnString?: string;
   /**
    * Fake connection string - with all the parts of the connection string mapped to fake values
    */

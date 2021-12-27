@@ -18,7 +18,6 @@ import {
 } from "../../src";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder-new";
-import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("AppConfigurationClient - SecretReference", () => {
   let client: AppConfigurationClient;
@@ -30,12 +29,10 @@ describe("AppConfigurationClient - SecretReference", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
     client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
-    if (!isPlaybackMode()) {
-      recorder.variable("key-1", `key-1-${getRandomNumber()}`);
-      recorder.variable("random-string-1", `random-string-1-${Math.ceil(
-        Math.random() * 1000 + 1000
-      )}`);
-    }
+    recorder.variable("key-1", `key-1-${getRandomNumber()}`);
+    recorder.variable("random-string-1", `random-string-1-${Math.ceil(
+      Math.random() * 1000 + 1000
+    )}`);
     key = recorder.variable("key-1");
     randomString = recorder.variable("random-string-1");
   });

@@ -6,6 +6,7 @@ import {
   getTestMode,
   ProxyToolSanitizers,
   RecorderError,
+  RegexSanitizer,
   sanitizerKeywordMapping,
   SanitizerOptions
 } from "./utils/utils";
@@ -14,7 +15,7 @@ import {
  * Sanitizer class to handle communication with the proxy-tool relating to the sanitizers adding/resetting, etc.
  */
 export class Sanitizer {
-  constructor(private url: string, private httpClient: HttpClient) {}
+  constructor(private url: string, private httpClient: HttpClient) { }
   private recordingId: string | undefined;
 
   setRecordingId(recordingId: string): void {
@@ -74,11 +75,13 @@ export class Sanitizer {
         const replacers = options[prop];
         if (replacers) {
           return Promise.all(
-            replacers.map((replacer: unknown) =>
-              this.addSanitizer({
+            replacers.map((replacer: RegexSanitizer) => {
+              if (!replacer.regex) return;
+              return this.addSanitizer({
                 sanitizer: sanitizerKeywordMapping[prop],
                 body: JSON.stringify(replacer)
               })
+            }
             )
           );
         } else return;
@@ -140,9 +143,10 @@ export class Sanitizer {
    * - generalRegexSanitizer is applied for each of the parts with the real and fake values that are parsed
    */
   async addConnectionStringSanitizer(
-    actualConnString: string,
+    actualConnString: string | undefined,
     fakeConnString: string
   ): Promise<void> {
+    if (!actualConnString) return;
     // extract connection string parts and match call
     const pairsMatched = getRealAndFakePairs(actualConnString, fakeConnString);
     await this.addSanitizers({
@@ -160,9 +164,8 @@ export class Sanitizer {
     body: string | undefined;
   }): Promise<void> {
     if (this.recordingId !== undefined) {
-      const uri = `${this.url}${paths.admin}${
-        options.sanitizer !== "Reset" ? paths.addSanitizer : paths.reset
-      }`;
+      const uri = `${this.url}${paths.admin}${options.sanitizer !== "Reset" ? paths.addSanitizer : paths.reset
+        }`;
       const req = this._createRecordingRequest(uri);
       if (options.sanitizer !== "Reset") {
         req.headers.set("x-abstraction-identifier", options.sanitizer);
