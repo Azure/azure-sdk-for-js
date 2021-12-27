@@ -11,7 +11,7 @@ const fakeConnString =
 const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
-      actualConnString: env.TABLES_SAS_CONNECTION_STRING || "undefined",
+      actualConnString: env.TABLES_SAS_CONNECTION_STRING,
       fakeConnString
     }
   ],
@@ -29,7 +29,7 @@ const recorderOptions: RecorderStartOptions = {
 describe("Core V2 tests", () => {
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
   });
@@ -38,7 +38,7 @@ describe("Core V2 tests", () => {
     await recorder.stop();
   });
 
-  it("data-tables create entity", async function() {
+  it("data-tables create entity", async function () {
     const client = TableClient.fromConnectionString(
       assertEnvironmentVariable("TABLES_SAS_CONNECTION_STRING"),
       recorder.variable("table-name", `table${Math.ceil(Math.random() * 1000 + 1000)}`)
