@@ -87,8 +87,12 @@ export interface AvailableGroundStationsListByCapabilityOptionalParams extends c
 export type AvailableGroundStationsListByCapabilityResponse = AvailableGroundStationListResult;
 
 // @public (undocumented)
-export class AzureOrbital extends AzureOrbitalContext {
+export class AzureOrbital extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureOrbitalOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     availableGroundStations: AvailableGroundStations;
     // (undocumented)
@@ -99,15 +103,6 @@ export class AzureOrbital extends AzureOrbitalContext {
     operations: Operations;
     // (undocumented)
     spacecrafts: Spacecrafts;
-}
-
-// @public (undocumented)
-export class AzureOrbitalContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureOrbitalOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }
@@ -175,6 +170,7 @@ export type ContactProfile = TrackedResource & {
     minimumViableContactDuration?: string;
     minimumElevationDegrees?: number;
     autoTrackingConfiguration?: AutoTrackingConfiguration;
+    eventHubUri?: string;
     links?: ContactProfileLink[];
 };
 
@@ -219,6 +215,7 @@ export interface ContactProfiles {
 // @public
 export interface ContactProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     autoTrackingConfiguration?: AutoTrackingConfiguration;
+    eventHubUri?: string;
     links?: ContactProfileLink[];
     minimumElevationDegrees?: number;
     minimumViableContactDuration?: string;
