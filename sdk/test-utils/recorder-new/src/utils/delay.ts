@@ -11,6 +11,9 @@ import { isPlaybackMode } from "./utils";
  * @param {number} milliseconds The number of milliseconds to be delayed.
  * @returns {Promise<T>} Resolved promise
  */
-export function delay(milliseconds: number): Promise<void> | null {
-  return isPlaybackMode() ? null : new Promise((resolve) => setTimeout(resolve, milliseconds));
+export function delay(milliseconds: number): Promise<void> | void {
+  if (isPlaybackMode()) {
+    return;
+  }
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
