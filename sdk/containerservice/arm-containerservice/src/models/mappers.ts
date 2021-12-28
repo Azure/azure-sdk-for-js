@@ -397,6 +397,12 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
           name: "String"
         }
       },
+      messageOfTheDay: {
+        serializedName: "messageOfTheDay",
+        type: {
+          name: "String"
+        }
+      },
       vnetSubnetID: {
         serializedName: "vnetSubnetID",
         type: {
@@ -616,6 +622,12 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
         type: {
           name: "Composite",
           className: "CreationData"
+        }
+      },
+      capacityReservationGroupID: {
+        serializedName: "capacityReservationGroupID",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1348,6 +1360,28 @@ export const ManagedClusterPodIdentityException: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterOidcIssuerProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterOidcIssuerProfile",
+    modelProperties: {
+      issuerURL: {
+        serializedName: "issuerURL",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -3162,6 +3196,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      currentKubernetesVersion: {
+        serializedName: "properties.currentKubernetesVersion",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       dnsPrefix: {
         serializedName: "properties.dnsPrefix",
         type: {
@@ -3244,6 +3285,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
           className: "ManagedClusterPodIdentityProfile"
         }
       },
+      oidcIssuerProfile: {
+        serializedName: "properties.oidcIssuerProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterOidcIssuerProfile"
+        }
+      },
       nodeResourceGroup: {
         serializedName: "properties.nodeResourceGroup",
         type: {
@@ -3258,6 +3306,12 @@ export const ManagedCluster: coreClient.CompositeMapper = {
       },
       enablePodSecurityPolicy: {
         serializedName: "properties.enablePodSecurityPolicy",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableNamespaceResources: {
+        serializedName: "properties.enableNamespaceResources",
         type: {
           name: "Boolean"
         }
@@ -3531,6 +3585,12 @@ export const AgentPool: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      messageOfTheDay: {
+        serializedName: "properties.messageOfTheDay",
+        type: {
+          name: "String"
+        }
+      },
       vnetSubnetID: {
         serializedName: "properties.vnetSubnetID",
         type: {
@@ -3750,6 +3810,12 @@ export const AgentPool: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CreationData"
+        }
+      },
+      capacityReservationGroupID: {
+        serializedName: "properties.capacityReservationGroupID",
+        type: {
+          name: "String"
         }
       }
     }

@@ -18,6 +18,7 @@ export type AgentPool = SubResource & {
     osDiskType?: OSDiskType;
     kubeletDiskType?: KubeletDiskType;
     workloadRuntime?: WorkloadRuntime;
+    messageOfTheDay?: string;
     vnetSubnetID?: string;
     podSubnetID?: string;
     maxPods?: number;
@@ -55,6 +56,7 @@ export type AgentPool = SubResource & {
     enableFips?: boolean;
     gpuInstanceProfile?: GPUInstanceProfile;
     creationData?: CreationData;
+    capacityReservationGroupID?: string;
 };
 
 // @public
@@ -1047,6 +1049,7 @@ export type ManagedCluster = Resource & {
     readonly powerState?: PowerState;
     readonly maxAgentPools?: number;
     kubernetesVersion?: string;
+    readonly currentKubernetesVersion?: string;
     dnsPrefix?: string;
     fqdnSubdomain?: string;
     readonly fqdn?: string;
@@ -1060,9 +1063,11 @@ export type ManagedCluster = Resource & {
         [propertyName: string]: ManagedClusterAddonProfile;
     };
     podIdentityProfile?: ManagedClusterPodIdentityProfile;
+    oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
     nodeResourceGroup?: string;
     enableRbac?: boolean;
     enablePodSecurityPolicy?: boolean;
+    enableNamespaceResources?: boolean;
     networkProfile?: ContainerServiceNetworkProfile;
     aadProfile?: ManagedClusterAADProfile;
     autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
@@ -1115,6 +1120,7 @@ export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfilePrope
 // @public
 export interface ManagedClusterAgentPoolProfileProperties {
     availabilityZones?: string[];
+    capacityReservationGroupID?: string;
     count?: number;
     creationData?: CreationData;
     enableAutoScaling?: boolean;
@@ -1128,6 +1134,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     linuxOSConfig?: LinuxOSConfig;
     maxCount?: number;
     maxPods?: number;
+    messageOfTheDay?: string;
     minCount?: number;
     mode?: AgentPoolMode;
     readonly nodeImageVersion?: string;
@@ -1234,6 +1241,12 @@ export interface ManagedClusterNATGatewayProfile {
     effectiveOutboundIPs?: ResourceReference[];
     idleTimeoutInMinutes?: number;
     managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
+}
+
+// @public
+export interface ManagedClusterOidcIssuerProfile {
+    enabled?: boolean;
+    readonly issuerURL?: string;
 }
 
 // @public
