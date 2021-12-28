@@ -8192,7 +8192,7 @@ packages:
     dev: false
 
   file:projects/arm-containerregistry.tgz:
-    resolution: {integrity: sha512-iOcYxbtgUUyIJduY+oKd6dLRCD0nakKGeZGWDfFfIR5ENhKMLTchXaZGBQ2Mxj+Thtm1UIkJZ25NTIe2eW7bpA==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-si1/HJZ4OLzHAuxrVsQZNQv3SssXpBSFcpQGVOWTC37j48kEg0JxQREIfu0vhIteBBSLDR0IOCDA22z1QUKxyA==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
@@ -8204,6 +8204,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
