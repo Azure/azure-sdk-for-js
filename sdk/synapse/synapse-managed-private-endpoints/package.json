@@ -71,7 +71,7 @@
     "mocha-junit-reporter": "^2.0.0",
     "mocha": "^7.1.1",
     "nyc": "^15.0.0",
-    "prettier": "^1.16.4",
+    "prettier": "^2.5.1",
     "@types/chai-as-promised": "^7.1.0",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",

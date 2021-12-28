@@ -2793,7 +2793,7 @@ packages:
 
   /core-js/2.6.12:
     resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==}
-    deprecated: core-js@<3.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
+    deprecated: core-js@<3.4 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
     requiresBuild: true
     dev: false
 
@@ -12826,7 +12826,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control-1.tgz:
-    resolution: {integrity: sha512-ZtZWbYdfH0jPNoBbh9AN3T+CojyCJ+cmlAq6sgQANDIwb0FJUN5h++hpAee8dg3veW7YVBuuCs/GKMXRWvOC5g==, tarball: file:projects/synapse-access-control-1.tgz}
+    resolution: {integrity: sha512-oyb6JdMjvR69By0q6MReN1EcWS/Eqa7N/483q2nTvObJt+SF5UY6RST48wChvLDC1J0A3bHnRvw1JbsxulfLlg==, tarball: file:projects/synapse-access-control-1.tgz}
     name: '@rush-temp/synapse-access-control-1'
     version: 0.0.0
     dependencies:
@@ -12859,7 +12859,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -12933,7 +12933,7 @@ packages:
     dev: false
 
   file:projects/synapse-artifacts.tgz:
-    resolution: {integrity: sha512-rXVjHP6gQAP4mwjPA6wVqoogEt6M6UG0tE6XCApQIrOcY1DhX0mPJCz4FGSwRw/fePtE7tS/3RvIeAkF1U2rXw==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-yeEkzQdA2yUPfj1+gRhmkzqy9vMKqj9gEaofwGPeO8X7aJBFNDBRNhLKLN4QCkFHwGY3iL+eHTLUJxCwPc9HgA==, tarball: file:projects/synapse-artifacts.tgz}
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
@@ -12966,7 +12966,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -12985,7 +12985,7 @@ packages:
     dev: false
 
   file:projects/synapse-managed-private-endpoints.tgz:
-    resolution: {integrity: sha512-4jbDOLAhVBT36a908mwm0sb8bOWPuR/vZnb4dQWklgESwHkUq0OAsDBmv/YIW/meUbzllGHuPCYQDPotdiPa0g==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
+    resolution: {integrity: sha512-QH7S+f26cJUZDiVMMwtgwPpggdhBcaVmUU1KKQXAR7+bI7NTX0QrpgK3TKOUbXxlc4EC8u0ihdhPIAx4PnOzXg==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
     name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
@@ -13016,7 +13016,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       tslib: 2.3.1
@@ -13050,7 +13050,7 @@ packages:
     dev: false
 
   file:projects/synapse-spark.tgz:
-    resolution: {integrity: sha512-gMS4beeBfXs/gqkEhB6fl9sdivrz2W6UYO/0acqlJHFIXxgPep+KnHXJBP/Stjau61KD9tCDSvASv1YmkB31EA==, tarball: file:projects/synapse-spark.tgz}
+    resolution: {integrity: sha512-Jm0VBD49BuJPQJemURZTSBzQXtXUJqFFJ/JxQGkb+sEzGRyuUV1Xjs/m3wS3PFWZuYZyTX5y9jd/CnM6FF9Hhw==, tarball: file:projects/synapse-spark.tgz}
     name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
@@ -13081,7 +13081,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       tslib: 2.3.1
