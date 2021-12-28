@@ -1,5 +1,5 @@
 
-import { createPipelineRequest, HttpMethods, PipelineRequestOptions } from "@azure/core-rest-pipeline";
+import { createPipelineRequest, HttpMethods } from "@azure/core-rest-pipeline";
 import { expect } from "chai";
 import { env } from "../../src";
 import { isLiveMode, TestMode } from "../../src/utils/utils";
@@ -30,10 +30,6 @@ export function getTestServerUrl() {
     : `http://127.0.0.1:8080`;
 }
 
-
-const basePipelineReqOptions: Partial<PipelineRequestOptions> =
-  isLiveMode() ? { allowInsecureConnection: true } : {};
-
 export async function makeRequestAndVerifyResponse(client: ServiceClient,
   request: {
     url?: string;
@@ -48,7 +44,7 @@ export async function makeRequestAndVerifyResponse(client: ServiceClient,
     url: request.url ?? getTestServerUrl() + request.path,
     body: request.body,
     method: request.method,
-    ...basePipelineReqOptions
+    allowInsecureConnection: isLiveMode()
   });
   request.headers?.forEach(({ headerName, value }) => {
     req.headers.set(headerName, value);
