@@ -7,16 +7,14 @@ interface TablesCreateComplexEntityBatchTestOptions {
   batchSize: number;
 }
 
-export class CreateComplexEntityBatchTest extends TablesTest<
-  TablesCreateComplexEntityBatchTestOptions
-> {
+export class CreateComplexEntityBatchTest extends TablesTest<TablesCreateComplexEntityBatchTestOptions> {
   public options: PerfOptionDictionary<TablesCreateComplexEntityBatchTestOptions> = {
     batchSize: {
       defaultValue: 100,
       longName: "batchSize",
       shortName: "s",
-      description: "Number of entities to batch create. Defaults to 100"
-    }
+      description: "Number of entities to batch create. Defaults to 100",
+    },
   };
 
   constructor() {
