@@ -1,37 +1,11 @@
-## Release History
-
-### 10.0.0-beta.2 (Unreleased)
-
-#### Features Added
-
-#### Breaking Changes
-
-#### Bugs Fixed
-
-#### Other Changes
-
-### 10.0.0-beta.1 (2021-11-03)
+# Release History
     
-**Features**
+## 10.0.0 (2021-12-28)
 
-  - Added Interface Request_2
-  - Added Type Alias Event_2
-  - Interface ConnectedRegistryUpdateParameters has a new optional parameter notificationsList
-  - Type Alias ConnectedRegistry has a new parameter notificationsList
-  - Enum KnownConnectedRegistryMode has a new value ReadOnly
-  - Enum KnownConnectedRegistryMode has a new value ReadWrite
-    
-### 9.0.0-beta.1 (2021-10-20)
+The package of @azure/arm-containerregistry is using our next generation design principles since version 10.0.0, which contains breaking changes.
 
-This is the first preview for the new version of the `@azure/arm-containerregistry` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
+To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
 
-While this package remains auto generated, the SDK generator itself has undergone changes to comply with the above guidelines in order to generate packages that are idiomatic to the JavaScript/TypeScript ecosystem and consistent with other packages for Azure services. For more on this, please see [State of the Azure SDK 2021](https://devblogs.microsoft.com/azure-sdk/state-of-the-azure-sdk-2021/).
+To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-Please note that this version has breaking changes, all of which were made after careful consideration during the authoring of the guidelines and user studies.
-
-**Noteworthy changes and features**
-- Authentication: The packages `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` are no longer supported. Use package [@azure/identity](https://www.npmjs.com/package/@azure/identity) instead. Select a credential from Azure Identity examples based on the authentication method of your choice.
-- Callbacks: Method overloads that used callbacks have been removed and the use of promises is encouraged instead.
-- List operations now return an iterable result that follows the `PagedAsyncIterableIterator` interface as opposed to the previous model where you had to make a new request using the link to the next page.
-- Long running operations i.e. the Lro related object returned by methods whose names started with `begin`, now uses `pollUntilDone` to check whether the request is finished, instead of `pollUntilFinished`. To get the final result, use the corresponding method that will have the suffix `AndWait`.
-- The SDK only supports ECMAScript 2015 (ES6) and beyond, all projects that referenced this SDK should be upgraded to use ES6.
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
