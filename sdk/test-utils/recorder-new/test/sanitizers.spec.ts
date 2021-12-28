@@ -19,7 +19,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
       setTestMode(mode);
     });
 
-    beforeEach(async function () {
+    beforeEach(async function() {
       recorder = new Recorder(this.currentTest);
       client = new ServiceClient({ baseUri: getTestServerUrl() });
       recorder.configureClient(client);
@@ -114,8 +114,9 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             ]
           }
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
-          }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${
+          isPlaybackMode() ? fakeSecretValue : secretValue
+        }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {
@@ -274,8 +275,9 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             ]
           }
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
-          }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${
+          isPlaybackMode() ? fakeSecretValue : secretValue
+        }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {
@@ -352,9 +354,13 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             throw new Error("error was not thrown from addSanitizers call");
           } catch (error) {
             if (isRecordMode() && testCase.type === "negative") {
-              expect((error as RecorderError).message).includes(`Attempted to add an invalid sanitizer`)
+              expect((error as RecorderError).message).includes(
+                `Attempted to add an invalid sanitizer`
+              );
             } else {
-              expect((error as RecorderError).message).includes(`error was not thrown from addSanitizers call`)
+              expect((error as RecorderError).message).includes(
+                `error was not thrown from addSanitizers call`
+              );
             }
           }
         });
