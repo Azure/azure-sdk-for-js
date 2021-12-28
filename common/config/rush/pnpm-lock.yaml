@@ -1408,6 +1408,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -2792,7 +2793,7 @@ packages:
 
   /core-js/2.6.12:
     resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==}
-    deprecated: core-js@<3.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
+    deprecated: core-js@<3.4 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
     requiresBuild: true
     dev: false
 
@@ -8066,7 +8067,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-QDWMjs1TGNDU/wHWTMlAvGsBnDgX25veyFnRoHZCFlbWTTMY/yrt9teLhcXL8Jcrbn1fyEApNNtrcw0iFarr+A==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-3Icocw0QnB8/JYmiR/jIr/2A2XhYvFbte2ah1d8s7Mx4Bb23RCnZjTREPQinlGgdpuNSUL0va2ixFwyXTRCiBA==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -11928,7 +11929,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-MP7VqxpxZ8LIGj5nfzcf0PZHudexBQIWvAWfvaqxzqghKrKjYAfPCuhnu+aJ8Onb/3zh3XTnrZSxEv1IMIOXMA==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-Aa3MEh8rcdxTWFeZsS12bTroju/ijzaqtKvWM2OTWVnMcP1kPKqSvGyVRQ6i7GfzPbGWpKGAd80nRZp8kiBx1w==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -11938,7 +11939,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       node-fetch: 2.6.6
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
@@ -11951,7 +11952,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-EFqMjgVpvAabL02DvwUC+b87Lay0xAI3CG3fL5gRc6jPLJgtejI8/OLwO0IICLKTwPAb/ZEiCsspqlt3Cj41kA==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-jusOUDJu0VWfs0G86smpZKixnQLGG3+2yyk5niL8q2Omd8rxEt4bfnXjeR1J8PCpwqlAtQ6MDnI9/4+EWtvxrw==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -11959,7 +11960,7 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
@@ -11972,7 +11973,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-PNnKOA2ikFCo+7GqMnpA57prToxM5+m0mO8EyASiJPjqrr2zQV0lLO6JO+u4hyNNEl2I7P+xfIuFJZ80qZ56lA==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-xXZL6Kh5eOOeXE3ODFR2QEUTtQGzSOfotgmyVbWB9puJ58FeagI9JdIzuTF8Lzl6SZST+RcRuxoR2xHBJF+puw==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
@@ -11980,7 +11981,7 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
@@ -12457,7 +12458,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-I4kLW5r+wcs2IKR0dyXYdQKzalFrSlA6L4qDHP/ffsUdQyfTDfwMhfwiWUvGQIYBlNdsg7FOR/qTmgIUZxcZlg==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-eUWKUDBX/PtomclgLzXc/S2WZxYRV1TMhF3Vq2/nQlmPq6JIcq2kV4ITg1PJYkQf/14pFZdC6Mqc+2+uzEFGdw==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -12497,7 +12498,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12521,7 +12522,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-5UfbOh31nTYp3wOg7AmDqDljuJt1ooUr+zCaC6geOqPWg0TqzVdYgNvlXOOk28xnC6b4mJzFzgsgjfTw77L5dA==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-phT8p+t+/W0e086u5nMTbotHJN0zeLJM9v9YdDjdDOvz+X7ap8DMlU8FOgToiFRFibxAkyggedgtZbpdUCv+1A==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -12561,7 +12562,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12584,7 +12585,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-T+HPjUxknz/R5vz/WhIFIQrIUB4V6Xpn0t8G/qNFgxlhDEU7Fv4bYmUDjKCP1thqkfBsa1ZUX3x4uiGrQtUJsg==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-U8imakVwRrtpJOKbnGC3w3vDqVPyWqVe6y+D1qs4bb0TxQuPQI30EGlP+Ba/EI47BzTcr1+d1UibM5b9JD+HKA==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -12624,7 +12625,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12647,7 +12648,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-SblMPkv9eJDAJ1NWGMQKonrfINStCdZ6A8PSjdJQ06G0M7ZQaBQ3QoQIIPV7fwro80vSd2izrdLkfha8ClrvPw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-YS5aQc/4y8Hjz50yEHTbr8tS0NjvVuBjJCNVauDWsxZqZ2bNm39O1JjB23H81iQk1NnrFo3it21QJBpGp/nxKw==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -12685,7 +12686,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12708,7 +12709,7 @@ packages:
     dev: false
 
   file:projects/storage-internal-avro.tgz:
-    resolution: {integrity: sha512-jzeW6J58W+ii99DjDrdS86cdLMmTGlr39rCY/A6p5i0HmD65714e/luX6Xz+/Mi0xjTseCq0VbpLzD6s60zwyA==, tarball: file:projects/storage-internal-avro.tgz}
+    resolution: {integrity: sha512-owF6jI7BhifDhBqb9bwe1BaOkdW0juCoSLFH4fQWGmx6iqulrlXhUJ1fczoju/PSUn8pbUdPY4Q8Z+eDk02KQQ==, tarball: file:projects/storage-internal-avro.tgz}
     name: '@rush-temp/storage-internal-avro'
     version: 0.0.0
     dependencies:
@@ -12743,7 +12744,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12766,7 +12767,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-Bdupb8wOZUw74W+HM0SqSX47+YDZy5dddqfpbUKD+7hdI0ueK1tUl4hnolm6fdI3x05ZNiHFG0wqgeZQHyOAWA==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-izxMZo0B3Pi61g07eFJD4hL/cs70/626fkGP1jGtvIPrNF7beGRY3A0UjdSaqM7I3zV0YABC8vVhzjOqI3kUpg==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
@@ -12803,7 +12804,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
