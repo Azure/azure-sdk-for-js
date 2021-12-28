@@ -17,7 +17,7 @@ describe("LeaseClient from Container", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -25,7 +25,7 @@ describe("LeaseClient from Container", () => {
     await containerClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await containerClient.delete();
     await recorder.stop();
   });
@@ -151,7 +151,7 @@ describe("LeaseClient from Blob", () => {
   const content = "Hello World";
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -163,7 +163,7 @@ describe("LeaseClient from Blob", () => {
     await blockBlobClient.upload(content, content.length);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await containerClient.delete();
     await recorder.stop();
   });

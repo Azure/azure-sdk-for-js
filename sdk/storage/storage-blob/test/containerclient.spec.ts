@@ -9,7 +9,7 @@ import {
   getBSU,
   getSASConnectionStringFromEnvironment,
   isSuperSet,
-  recorderEnvSetup
+  recorderEnvSetup,
 } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { URLBuilder } from "@azure/core-http";
@@ -17,7 +17,7 @@ import {
   ContainerClient,
   BlockBlobTier,
   ContainerListBlobHierarchySegmentResponse,
-  BlobServiceClient
+  BlobServiceClient,
 } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { context, setSpan } from "@azure/core-tracing";
@@ -31,7 +31,7 @@ describe("ContainerClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -39,7 +39,7 @@ describe("ContainerClient", () => {
     await containerClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await containerClient.delete();
     await recorder.stop();
   });
@@ -48,7 +48,7 @@ describe("ContainerClient", () => {
     const metadata = {
       key0: "val0",
       keya: "vala",
-      keyb: "valb"
+      keyb: "valb",
     };
     await containerClient.setMetadata(metadata);
 
@@ -127,12 +127,7 @@ describe("ContainerClient", () => {
       blobClients.push(blobClient);
     }
 
-    const result = (
-      await containerClient
-        .listBlobsFlat()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await containerClient.listBlobsFlat().byPage().next()).value;
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.continuationToken, "");
@@ -149,12 +144,7 @@ describe("ContainerClient", () => {
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     await blockBlobClient.upload("", 0);
 
-    const result = (
-      await containerClient
-        .listBlobsFlat()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await containerClient.listBlobsFlat().byPage().next()).value;
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.continuationToken, "");
@@ -171,12 +161,7 @@ describe("ContainerClient", () => {
       blobClients.push(blobClient);
     }
 
-    const result = (
-      await containerClient
-        .listBlobsFlat({ prefix: "" })
-        .byPage()
-        .next()
-    ).value;
+    const result = (await containerClient.listBlobsFlat({ prefix: "" }).byPage().next()).value;
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.continuationToken, "");
@@ -193,14 +178,14 @@ describe("ContainerClient", () => {
     const prefix = "blockblob";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 2; i++) {
       const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
         metadata: metadata,
-        tier: BlockBlobTier.Cool
+        tier: BlockBlobTier.Cool,
       });
       blobClients.push(blobClient);
     }
@@ -213,7 +198,7 @@ describe("ContainerClient", () => {
           includeMetadata: true,
           includeSnapshots: true,
           includeUncommitedBlobs: true,
-          prefix
+          prefix,
         })
         .byPage({ maxPageSize: 1 })
         .next()
@@ -234,7 +219,7 @@ describe("ContainerClient", () => {
           includeMetadata: true,
           includeSnapshots: true,
           includeUncommitedBlobs: true,
-          prefix
+          prefix,
         })
         .byPage({ continuationToken: result.continuationToken, maxPageSize: 2 })
         .next()
@@ -263,7 +248,7 @@ describe("ContainerClient", () => {
     const result = (
       await containerClient
         .listBlobsFlat({
-          includeDeletedWithVersions: true
+          includeDeletedWithVersions: true,
         })
         .byPage()
         .next()
@@ -281,14 +266,14 @@ describe("ContainerClient", () => {
     const prefix = "blockblob";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 2; i++) {
       const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
         metadata: metadata,
-        customerProvidedKey: Test_CPK_INFO
+        customerProvidedKey: Test_CPK_INFO,
       });
       blobURLs.push(blobClient);
     }
@@ -301,7 +286,7 @@ describe("ContainerClient", () => {
           includeMetadata: true,
           includeSnapshots: true,
           includeUncommitedBlobs: true,
-          prefix
+          prefix,
         })
         .byPage({ maxPageSize: 1 })
         .next()
@@ -318,13 +303,13 @@ describe("ContainerClient", () => {
     const prefix = "blockblob";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 4; i++) {
       const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
-        metadata
+        metadata,
       });
       blobClients.push(blobClient);
     }
@@ -336,7 +321,7 @@ describe("ContainerClient", () => {
       includeMetadata: true,
       includeSnapshots: true,
       includeUncommitedBlobs: true,
-      prefix
+      prefix,
     })) {
       assert.ok(blobClients[i].url.indexOf(blob.name));
       assert.ok(isSuperSet(blob.metadata, metadata));
@@ -353,13 +338,13 @@ describe("ContainerClient", () => {
     const prefix = "blockblob";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 2; i++) {
       const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
-        metadata
+        metadata,
       });
       blobClients.push(blobClient);
     }
@@ -370,7 +355,7 @@ describe("ContainerClient", () => {
       includeMetadata: true,
       includeSnapshots: true,
       includeUncommitedBlobs: true,
-      prefix
+      prefix,
     });
 
     let blobItem = await iterator.next();
@@ -391,13 +376,13 @@ describe("ContainerClient", () => {
     const prefix = "blockblob";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 4; i++) {
       const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
-        metadata
+        metadata,
       });
       blobClients.push(blobClient);
     }
@@ -410,7 +395,7 @@ describe("ContainerClient", () => {
         includeMetadata: true,
         includeSnapshots: true,
         includeUncommitedBlobs: true,
-        prefix
+        prefix,
       })
       .byPage({ maxPageSize: 2 })) {
       for (const blob of response.segment.blobItems) {
@@ -430,13 +415,13 @@ describe("ContainerClient", () => {
     const prefix = "blockblob";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 4; i++) {
       const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`${prefix}/${i}`));
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
-        metadata
+        metadata,
       });
       blobClients.push(blobClient);
     }
@@ -449,7 +434,7 @@ describe("ContainerClient", () => {
         includeMetadata: true,
         includeSnapshots: true,
         includeUncommitedBlobs: true,
-        prefix
+        prefix,
       })
       .byPage({ maxPageSize: 2 });
     let response = (await iter.next()).value;
@@ -468,7 +453,7 @@ describe("ContainerClient", () => {
         includeMetadata: true,
         includeSnapshots: true,
         includeUncommitedBlobs: true,
-        prefix
+        prefix,
       })
       .byPage({ continuationToken: marker, maxPageSize: 2 });
     response = (await iter.next()).value;
@@ -496,12 +481,7 @@ describe("ContainerClient", () => {
     }
 
     const delimiter = "/";
-    const result = (
-      await containerClient
-        .listBlobsByHierarchy(delimiter)
-        .byPage()
-        .next()
-    ).value;
+    const result = (await containerClient.listBlobsByHierarchy(delimiter).byPage().next()).value;
 
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
@@ -536,12 +516,7 @@ describe("ContainerClient", () => {
     }
 
     const delimiter = "/";
-    const result = (
-      await containerClient
-        .listBlobsByHierarchy(delimiter)
-        .byPage()
-        .next()
-    ).value;
+    const result = (await containerClient.listBlobsByHierarchy(delimiter).byPage().next()).value;
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(containerClient.url.indexOf(result.containerName));
     assert.deepStrictEqual(result.continuationToken, "");
@@ -576,10 +551,7 @@ describe("ContainerClient", () => {
 
     const delimiter = "/";
     const result: ContainerListBlobHierarchySegmentResponse = (
-      await containerClient
-        .listBlobsByHierarchy(delimiter, { prefix: "" })
-        .byPage()
-        .next()
+      await containerClient.listBlobsByHierarchy(delimiter, { prefix: "" }).byPage().next()
     ).value;
 
     assert.ok(result.serviceEndpoint.length > 0);
@@ -603,7 +575,7 @@ describe("ContainerClient", () => {
     const prefix = "blockblob";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     const delimiter = "/";
     for (let i = 0; i < 2; i++) {
@@ -612,7 +584,7 @@ describe("ContainerClient", () => {
       );
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
-        metadata
+        metadata,
       });
       blobClients.push(blobClient);
     }
@@ -624,7 +596,7 @@ describe("ContainerClient", () => {
           includeDeleted: true,
           includeMetadata: true,
           includeUncommitedBlobs: true,
-          prefix
+          prefix,
         })
         .byPage({ maxPageSize: 1 })
         .next()
@@ -643,7 +615,7 @@ describe("ContainerClient", () => {
           includeDeleted: true,
           includeMetadata: true,
           includeUncommitedBlobs: true,
-          prefix
+          prefix,
         })
         .byPage({ continuationToken: result.continuationToken, maxPageSize: 2 })
         .next()
@@ -662,7 +634,7 @@ describe("ContainerClient", () => {
           includeDeleted: true,
           includeMetadata: true,
           includeUncommitedBlobs: true,
-          prefix: `${prefix}0${delimiter}`
+          prefix: `${prefix}0${delimiter}`,
         })
         .byPage({ maxPageSize: 2 })
         .next()
@@ -686,21 +658,21 @@ describe("ContainerClient", () => {
     const prefix = recorder.getUniqueName("prefix");
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     const name = recorder.getUniqueName("blockblob");
     for (let i = 0; i < 6; i++) {
       const blobClient = containerClient.getBlobClient(`${prefix}/${name}${i}`);
       const blockBlobClient = blobClient.getBlockBlobClient();
       await blockBlobClient.upload("", 0, {
-        metadata
+        metadata,
       });
       blobClients.push(blobClient);
     }
 
     let i = 0;
     for await (const item of containerClient.listBlobsByHierarchy("/", {
-      includeMetadata: true
+      includeMetadata: true,
     })) {
       if (item.kind === "prefix") {
         assert.equal(item.name, prefix + "/");
@@ -718,10 +690,7 @@ describe("ContainerClient", () => {
 
   it("listBlobsByHierarchy with empty delimiter should throw error", async () => {
     try {
-      await containerClient
-        .listBlobsByHierarchy("", { prefix: "" })
-        .byPage()
-        .next();
+      await containerClient.listBlobsByHierarchy("", { prefix: "" }).byPage().next();
       assert.fail("Expecting an error when listBlobsByHierarchy with empty delimiter.");
     } catch (error) {
       assert.equal(
@@ -742,13 +711,13 @@ describe("ContainerClient", () => {
       blobContentType: "blobContentType",
       metadata: {
         keya: "vala",
-        keyb: "valb"
-      }
+        keyb: "valb",
+      },
     };
     const blobName: string = recorder.getUniqueName("blob");
     const { blockBlobClient } = await containerClient.uploadBlockBlob(blobName, body, body.length, {
       blobHTTPHeaders: options,
-      metadata: options.metadata
+      metadata: options.metadata,
     });
     const result = await blockBlobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
@@ -778,16 +747,16 @@ describe("ContainerClient", () => {
       blobContentType: "blobContentType",
       metadata: {
         keya: "vala",
-        keyb: "valb"
-      }
+        keyb: "valb",
+      },
     };
     const blobName: string = recorder.getUniqueName("blob");
     const { blockBlobClient } = await containerClient.uploadBlockBlob(blobName, body, body.length, {
       blobHTTPHeaders: options,
       metadata: options.metadata,
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
-      }
+        tracingContext: setSpan(context.active(), rootSpan),
+      },
     });
 
     rootSpan.end();
@@ -810,15 +779,15 @@ describe("ContainerClient", () => {
                   children: [
                     {
                       name: urlPath,
-                      children: []
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                      children: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
@@ -854,8 +823,8 @@ describe("ContainerClient", () => {
   it("can be created with a sas connection string and a container name and an option bag", async () => {
     const newClient = new ContainerClient(getSASConnectionStringFromEnvironment(), containerName, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const result = await newClient.getProperties();
@@ -908,8 +877,8 @@ describe("ContainerClient", () => {
       blobContentType: "blobContentType",
       metadata: {
         _: "underscore value",
-        keyb: "value b"
-      }
+        keyb: "value b",
+      },
     };
     const newContainerClient = blobServiceClient.getContainerClient(
       recorder.getUniqueName("listingcontainer")
@@ -921,7 +890,7 @@ describe("ContainerClient", () => {
       body.length,
       {
         blobHTTPHeaders: options,
-        metadata: options.metadata
+        metadata: options.metadata,
       }
     );
 

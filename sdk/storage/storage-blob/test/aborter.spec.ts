@@ -17,14 +17,14 @@ describe("Aborter", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -69,7 +69,7 @@ describe("Aborter", () => {
         AbortController.timeout(10 * 60 * 1000)
       );
       const response = containerClient.create({
-        abortSignal: childAborter.signal
+        abortSignal: childAborter.signal,
       });
       aborter.abort();
       await response;
