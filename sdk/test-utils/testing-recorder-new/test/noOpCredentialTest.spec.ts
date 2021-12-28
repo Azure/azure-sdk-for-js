@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RecorderStartOptions, Recorder } from "@azure-tools/test-recorder-new";
+import { RecorderStartOptions, Recorder, env } from "@azure-tools/test-recorder-new";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { TokenCredential } from "@azure/core-auth";
 import { TableServiceClient } from "@azure/data-tables";
@@ -18,7 +18,7 @@ const getRecorderStartOptions = (): RecorderStartOptions => {
     sanitizerOptions: {
       bodyRegexSanitizers: [
         {
-          regex: encodeURIComponent(assertEnvironmentVariable("TABLES_URL")),
+          regex: env.TABLES_URL ? encodeURIComponent(env.TABLES_URL) : undefined,
           value: encodeURIComponent(`https://fakeaccount.table.core.windows.net`)
         }
       ]
@@ -30,13 +30,13 @@ describe(`NoOp credential with Tables`, () => {
   let recorder: Recorder;
   let credential: TokenCredential;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = new Recorder(this.currentTest);
     await recorder.start(getRecorderStartOptions());
     credential = createTestCredential();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
