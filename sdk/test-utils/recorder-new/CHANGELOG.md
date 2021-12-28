@@ -2,6 +2,15 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2021-12-27
+
+- Allows passing `undefined` as keys in the sanitizer options so that devs don't have to add additional checks if a certain env variable exists in playback.
+- Exports `delay`
+  - waits for expected time in record/live modes
+  - no-op in playback
+
+[#19561](https://github.com/Azure/azure-sdk-for-js/pull/19561)
+
 ## 2021-12-17
 
 - Refactoring the test proxy http clients for better clarity for the end users [#19446](https://github.com/Azure/azure-sdk-for-js/pull/19446)

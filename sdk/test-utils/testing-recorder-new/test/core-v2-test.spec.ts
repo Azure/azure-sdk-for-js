@@ -11,7 +11,7 @@ const fakeConnString =
 const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
-      actualConnString: env.TABLES_SAS_CONNECTION_STRING || "undefined",
+      actualConnString: env.TABLES_SAS_CONNECTION_STRING,
       fakeConnString
     }
   ],
