@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 4.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.0.0 (2021-12-27)
 
 The package of @azure/arm-analysisservices is using our next generation design principles since version 4.0.0, which contains breaking changes.
