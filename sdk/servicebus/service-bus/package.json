@@ -163,7 +163,7 @@
     "mocha-junit-reporter": "^2.0.0",
     "moment": "^2.24.0",
     "nyc": "^15.0.0",
-    "prettier": "^1.16.4",
+    "prettier": "^2.5.1",
     "promise": "^8.0.3",
     "puppeteer": "^10.2.0",
     "rimraf": "^3.0.0",
