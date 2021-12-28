@@ -16,6 +16,10 @@ export interface CommunicationRelayConfigurationRequest {
    * An existing ACS identity.
    */
   id?: string;
+  /**
+   * The routing methodology to where the ICE server will be located from the client.
+   */
+  routeType?: RouteType;
 }
 
 /**
@@ -48,6 +52,10 @@ export interface CommunicationIceServer {
    * Credential for the server.
    */
   credential: string;
+  /**
+   * The routing methodology to where the ICE server will be located from the client.
+   */
+  routeType: RouteType;
 }
 
 /**
@@ -85,6 +93,11 @@ export interface CommunicationError {
    */
   readonly innerError?: CommunicationError;
 }
+
+/**
+ * Defines values for RouteType.
+ */
+export type RouteType = "any" | "nearest";
 
 /**
  * Optional parameters.

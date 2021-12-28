@@ -11,7 +11,7 @@ import { ManagementGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClientContext } from "../operationalInsightsManagementClientContext";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
 import {
   ManagementGroup,
   ManagementGroupsListOptionalParams,
@@ -21,13 +21,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagementGroups operations. */
 export class ManagementGroupsImpl implements ManagementGroups {
-  private readonly client: OperationalInsightsManagementClientContext;
+  private readonly client: OperationalInsightsManagementClient;
 
   /**
    * Initialize a new instance of the class ManagementGroups class.
    * @param client Reference to the service client
    */
-  constructor(client: OperationalInsightsManagementClientContext) {
+  constructor(client: OperationalInsightsManagementClient) {
     this.client = client;
   }
 

@@ -62,6 +62,7 @@ export type MessageSessionOptions = Pick<
 > & {
   receiveMode?: ReceiveMode;
   retryOptions: RetryOptions | undefined;
+  skipParsingBodyAsJson: boolean;
 };
 
 /**
@@ -179,6 +180,11 @@ export class MessageSession extends LinkEntity<Receiver> {
   private _sessionLockRenewalTimer?: NodeJS.Timer;
 
   private _totalAutoLockRenewDuration: number;
+
+  /**
+   * Whether to prevent the client from running JSON.parse() on the message body when receiving the message.
+   */
+  private skipParsingBodyAsJson: boolean;
 
   public get receiverHelper(): ReceiverHelper {
     return this._receiverHelper;
@@ -375,6 +381,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     this.autoComplete = false;
     if (isDefined(this._providedSessionId)) this.sessionId = this._providedSessionId;
     this.receiveMode = options.receiveMode || "peekLock";
+    this.skipParsingBodyAsJson = options.skipParsingBodyAsJson;
     this.maxAutoRenewDurationInMs =
       options.maxAutoLockRenewalDurationInMs != null
         ? options.maxAutoLockRenewalDurationInMs
@@ -389,7 +396,8 @@ export class MessageSession extends LinkEntity<Receiver> {
       async (_abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
         return this.link!;
       },
-      this.receiveMode
+      this.receiveMode,
+      this.skipParsingBodyAsJson
     );
 
     // setting all the handlers
@@ -628,7 +636,8 @@ export class MessageSession extends LinkEntity<Receiver> {
           context.message!,
           context.delivery!,
           true,
-          this.receiveMode
+          this.receiveMode,
+          this.skipParsingBodyAsJson
         );
 
         try {

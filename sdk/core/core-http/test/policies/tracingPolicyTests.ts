@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
-  RequestPolicy,
-  WebResource,
-  HttpOperationResponse,
   HttpHeaders,
-  RequestPolicyOptions
+  HttpOperationResponse,
+  RequestPolicy,
+  RequestPolicyOptions,
+  WebResource,
 } from "../../src/coreHttp";
+import { Span, SpanOptions, Tracer, TracerProvider, trace } from "@opentelemetry/api";
 import {
+  SpanAttributeValue,
+  SpanAttributes,
   SpanContext,
+  SpanStatus,
+  SpanStatusCode,
   TraceFlags,
   TraceState,
-  setSpan,
   context,
-  SpanStatusCode,
-  SpanStatus,
-  SpanAttributes,
-  SpanAttributeValue
+  setSpan,
 } from "@azure/core-tracing";
-import { tracingPolicy } from "../../src/policies/tracingPolicy";
-import { TracerProvider, Tracer, Span, SpanOptions, trace } from "@opentelemetry/api";
+import { assert } from "chai";
 import sinon from "sinon";
+import { tracingPolicy } from "../../src/policies/tracingPolicy";
 
 class MockSpan implements Span {
   private _endCalled = false;
   private _status: SpanStatus = {
-    code: SpanStatusCode.UNSET
+    code: SpanStatusCode.UNSET,
   };
   private _attributes: SpanAttributes = {};
 
@@ -107,14 +107,14 @@ class MockSpan implements Span {
       },
       serialize() {
         return state;
-      }
+      },
     };
 
     return {
       traceId: this.traceId,
       spanId: this.spanId,
       traceFlags: this.flags,
-      traceState
+      traceState,
     };
   }
 }
@@ -172,7 +172,7 @@ class MockTracerProvider implements TracerProvider {
 
 const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
 
-describe("tracingPolicy", function() {
+describe("tracingPolicy", function () {
   const TRACE_VERSION = "00";
   const mockTracerProvider = new MockTracerProvider();
 
@@ -181,9 +181,9 @@ describe("tracingPolicy", function() {
       return Promise.resolve({
         request: request,
         status: 200,
-        headers: new HttpHeaders()
+        headers: new HttpHeaders(),
       });
-    }
+    },
   };
 
   beforeEach(() => {
@@ -302,9 +302,9 @@ describe("tracingPolicy", function() {
             request: requestParam,
             statusCode: 400,
             headers: new HttpHeaders(),
-            message: "Bad Request."
+            message: "Bad Request.",
           });
-        }
+        },
       },
       new RequestPolicyOptions()
     );
@@ -319,7 +319,7 @@ describe("tracingPolicy", function() {
       assert.isTrue(span.didEnd());
       assert.deepEqual(span.getStatus(), {
         code: SpanStatusCode.ERROR,
-        message: "Bad Request."
+        message: "Bad Request.",
       });
       assert.equal(span.getAttribute("http.status_code"), 400);
 
@@ -396,7 +396,7 @@ describe("tracingPolicy", function() {
 
     const request = new WebResource();
     request.spanOptions = {
-      attributes: { "az.namespace": "value_from_span_options" }
+      attributes: { "az.namespace": "value_from_span_options" },
     };
     request.tracingContext = setSpan(context.active(), ROOT_SPAN).setValue(
       Symbol.for("az.namespace"),
@@ -418,7 +418,7 @@ describe("tracingPolicy", function() {
 
     const request = new WebResource();
     request.spanOptions = {
-      attributes: { "az.namespace": "value_from_span_options" }
+      attributes: { "az.namespace": "value_from_span_options" },
     };
     request.tracingContext = setSpan(context.active(), ROOT_SPAN);
 

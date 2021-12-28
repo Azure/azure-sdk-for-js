@@ -20,14 +20,14 @@ import { createECDSKey, createRSAKey, createX509Certificate } from "../utils/cry
 import { verifyAttestationSigningKey } from "../../src/utils/helpers";
 import { AttestationTokenImpl } from "../../src/models/attestationToken";
 
-describe("AttestationTokenTests", function() {
+describe("AttestationTokenTests", function () {
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = createRecorder(this);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -145,14 +145,14 @@ describe("AttestationTokenTests", function() {
       exp: currentTime + 30,
       iat: currentTime,
       nbf: currentTime,
-      iss: "this is an issuer"
+      iss: "this is an issuer",
     };
 
     const sourceJson = JSON.stringify(sourceObject);
     const token = AttestationTokenImpl.create({
       body: sourceJson,
       privateKey: privKey,
-      certificate: cert
+      certificate: cert,
     });
 
     // Let's look at some of the properties on the token and confirm they match
@@ -180,7 +180,7 @@ describe("AttestationTokenTests", function() {
         validateAttestationToken: (tokenToCheck) => {
           console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
           return undefined;
-        }
+        },
       })
     );
 
@@ -191,7 +191,7 @@ describe("AttestationTokenTests", function() {
           validateAttestationToken: (tokenToCheck) => {
             console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
             return ["There was a validation failure"];
-          }
+          },
         })
         .find((s) => s.search("validation")) !== undefined
     );
@@ -207,7 +207,7 @@ describe("AttestationTokenTests", function() {
         nbf: currentTime,
         iss: "this is an issuer",
         foo: "foo",
-        bar: 10
+        bar: 10,
       });
 
       const token = AttestationTokenImpl.create({ body: sourceObject });
@@ -217,7 +217,7 @@ describe("AttestationTokenTests", function() {
         token.getTokenProblems(undefined, {
           validateToken: true,
           validateIssuer: true,
-          expectedIssuer: "this is an issuer"
+          expectedIssuer: "this is an issuer",
         })
       );
 
@@ -226,7 +226,7 @@ describe("AttestationTokenTests", function() {
           .getTokenProblems(undefined, {
             validateToken: true,
             validateIssuer: true,
-            expectedIssuer: "this is a different issuer"
+            expectedIssuer: "this is a different issuer",
           })
           .find((s) => s.search("different issuer")) !== undefined
       );
@@ -242,7 +242,7 @@ describe("AttestationTokenTests", function() {
         iat: currentTime,
         nbf: currentTime,
         foo: "foo",
-        bar: 10
+        bar: 10,
       });
 
       const token = AttestationTokenImpl.create({ body: sourceObject });
@@ -252,7 +252,7 @@ describe("AttestationTokenTests", function() {
         token.getTokenProblems(undefined, {
           validateToken: true,
           validateExpirationTime: true,
-          validateNotBeforeTime: true
+          validateNotBeforeTime: true,
         })
       );
     }
@@ -264,7 +264,7 @@ describe("AttestationTokenTests", function() {
         iat: currentTime,
         nbf: currentTime,
         foo: "foo",
-        bar: 10
+        bar: 10,
       });
 
       const token = AttestationTokenImpl.create({ body: sourceObject });
@@ -274,7 +274,7 @@ describe("AttestationTokenTests", function() {
           .getTokenProblems(undefined, {
             validateToken: true,
             validateExpirationTime: true,
-            validateNotBeforeTime: true
+            validateNotBeforeTime: true,
           })
           .find((s) => s.search("expired")) !== undefined
       );
@@ -287,7 +287,7 @@ describe("AttestationTokenTests", function() {
           validateToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true,
-          timeValidationSlack: 10
+          timeValidationSlack: 10,
         })
       );
     }
@@ -298,7 +298,7 @@ describe("AttestationTokenTests", function() {
         iat: currentTime + 5,
         nbf: currentTime + 5,
         foo: "foo",
-        bar: 10
+        bar: 10,
       });
 
       const token = AttestationTokenImpl.create({ body: sourceObject });
@@ -307,7 +307,7 @@ describe("AttestationTokenTests", function() {
           .getTokenProblems(undefined, {
             validateToken: true,
             validateExpirationTime: true,
-            validateNotBeforeTime: true
+            validateNotBeforeTime: true,
           })
           .find((s) => s.search("not yet")) !== undefined
       );
@@ -320,7 +320,7 @@ describe("AttestationTokenTests", function() {
           validateToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true,
-          timeValidationSlack: 10
+          timeValidationSlack: 10,
         })
       );
     }

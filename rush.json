@@ -557,11 +557,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/event-processor-host",
-      "projectFolder": "sdk/eventhub/event-processor-host",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/mock-hub",
       "projectFolder": "sdk/eventhub/mock-hub",
       "versionPolicyName": "utility"
@@ -722,6 +717,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure-tools/test-credential",
+      "projectFolder": "sdk/test-utils/test-credential",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/test-utils-perf",
       "projectFolder": "sdk/test-utils/perf",
       "versionPolicyName": "utility"
@@ -854,6 +854,11 @@
     {
       "packageName": "@azure-tests/perf-monitor-query",
       "projectFolder": "sdk/monitor/perf-tests/monitor-query",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-template",
+      "projectFolder": "sdk/template/perf-tests/template",
       "versionPolicyName": "test"
     },
     {
@@ -1074,6 +1079,106 @@
     {
       "packageName": "@azure/arm-cdn",
       "projectFolder": "sdk/cdn/arm-cdn",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cosmosdb",
+      "projectFolder": "sdk/cosmosdb/arm-cosmosdb",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-consumption",
+      "projectFolder": "sdk/consumption/arm-consumption",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datalake-analytics",
+      "projectFolder": "sdk/datalake-analytics/arm-datalake-analytics",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-batch",
+      "projectFolder": "sdk/batch/arm-batch",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managementgroups",
+      "projectFolder": "sdk/managementgroups/arm-managementgroups",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-orbital",
+      "projectFolder": "sdk/orbital/arm-orbital",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcehealth",
+      "projectFolder": "sdk/resourcehealth/arm-resourcehealth",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-botservice",
+      "projectFolder": "sdk/botservice/arm-botservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-search",
+      "projectFolder": "sdk/search/arm-search",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-analysisservices",
+      "projectFolder": "sdk/analysisservices/arm-analysisservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-portal",
+      "projectFolder": "sdk/portal/arm-portal",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-sqlvirtualmachine",
+      "projectFolder": "sdk/sqlvirtualmachine/arm-sqlvirtualmachine",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devtestlabs",
+      "projectFolder": "sdk/devtestlabs/arm-devtestlabs",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-cognitiveservices",
+      "projectFolder": "sdk/cognitiveservices/arm-cognitiveservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-loadtestservice",
+      "projectFolder": "sdk/loadtestservice/arm-loadtestservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-relay",
+      "projectFolder": "sdk/relay/arm-relay",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iothub",
+      "projectFolder": "sdk/iothub/arm-iothub",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-msi",
+      "projectFolder": "sdk/msi/arm-msi",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-monitor",
+      "projectFolder": "sdk/monitor/arm-monitor",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-subscriptions",
+      "projectFolder": "sdk/subscription/arm-subscriptions",
       "versionPolicyName": "management"
     }
   ]

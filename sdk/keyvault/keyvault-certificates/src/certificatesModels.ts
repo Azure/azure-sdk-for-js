@@ -439,6 +439,7 @@ export interface CertificateProperties {
   readonly vaultUrl?: string;
   /**
    * The version of certificate. May be undefined.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly version?: string;
   /**

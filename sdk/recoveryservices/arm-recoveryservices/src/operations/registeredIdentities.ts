@@ -10,18 +10,18 @@ import { RegisteredIdentities } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { RecoveryServicesClientContext } from "../recoveryServicesClientContext";
+import { RecoveryServicesClient } from "../recoveryServicesClient";
 import { RegisteredIdentitiesDeleteOptionalParams } from "../models";
 
 /** Class containing RegisteredIdentities operations. */
 export class RegisteredIdentitiesImpl implements RegisteredIdentities {
-  private readonly client: RecoveryServicesClientContext;
+  private readonly client: RecoveryServicesClient;
 
   /**
    * Initialize a new instance of the class RegisteredIdentities class.
    * @param client Reference to the service client
    */
-  constructor(client: RecoveryServicesClientContext) {
+  constructor(client: RecoveryServicesClient) {
     this.client = client;
   }
 

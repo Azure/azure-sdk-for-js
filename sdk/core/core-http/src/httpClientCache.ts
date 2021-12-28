@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient } from "./httpClient";
 import { DefaultHttpClient } from "./defaultHttpClient";
+import { HttpClient } from "./httpClient";
 
 let cachedHttpClient: HttpClient | undefined;
 

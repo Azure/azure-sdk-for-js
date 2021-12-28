@@ -143,9 +143,6 @@ In order to release it, we need to add some tests for it to make sure we are del
         "integration-test:browser": "karma start --single-run",
         "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"",
         "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-        "browser": {
-          "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
-        },
     ~~~
 
     Then add the following test dependencies into the `devDependencies` section.
@@ -188,7 +185,15 @@ In order to release it, we need to add some tests for it to make sure we are del
         "typedoc": "0.15.2",
         "typescript": "~4.2.0"
     ~~~
-
+   
+    Then add a browser test entry section.  
+    
+    ~~~
+      "browser": {
+        "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+      },
+    ~~~
+    
     ---
     **NOTE**
     We need to make sure those dependencies versions are align with other package.json files. You can double check it in [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/package.json)
@@ -460,7 +465,37 @@ In order to release it, we need to add some tests for it to make sure we are del
     ```
 # How to write samples
 
-There're samples for TypeScript and JavaScript and for dev, You may copy the [samples folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/samples) and [samples-dev folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-account-rest/samples-dev) and then change everything into your own services, including package-name, sample code, readme description etc.
+We author TypeScript samples under the `samples-dev` folder. You can use sample-dev template for reference [samples-dev folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/samples-dev)  folder and update the relevant information for your service such as package-name, sample code, description, etc.  
+After the samples-dev folder change is finished, you will need to change the tsconfig.json to make sure the dev samples can be compiled and build correctly.  
+
+You will need to add this part to the "compilerOptions" of your tsconfig.json file so that the Samples engine could resolve the sample-dev package against the source code of the SDK.  
+``` json
+    "paths": { "@msinternal/sql-resource-manager": ["./src/index"] } 
+```
+And change the *"include"* part into 
+```json
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"],
+```
+
+Then, we provide tools to automatically change it into workable samples in both TypeScript and JavaScript. and you just need to add a sampleConfiguration in your package.json.  
+
+You will need to add a sample configuration section in your package.json file and put the following content into it.
+```json
+  "//sampleConfiguration": {
+    "productName": "A description of your services",
+    "productSlugs": ["azure"],
+    "disableDocsMs": true,
+    "apiRefLink": "<the-link-to-your-service-on-docs.microsoft.com>"
+  }
+```
+
+Now, you can generate both JavaScript and TypeScript workable samples with the following commands.
+```shell
+npm install -g common/tools/dev-tool # make sure you are in the azure-sdk-for-js repo root directory
+cd ${PROJECT_ROOT}
+dev-tool samples publish -f 
+```
+You will see the workable samples in the `${PROJECT_ROOT}/samples` folder.  
 
 # How to create package
 

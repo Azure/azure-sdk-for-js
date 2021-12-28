@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ProxySettings } from "../serviceClient";
 import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import { ProxySettings } from "../serviceClient";
 import { WebResourceLike } from "../webResource";
 
 const proxyNotSupportedInBrowser = new Error("ProxyPolicy is not supported in browser environment");
@@ -21,7 +21,7 @@ export function proxyPolicy(_proxySettings?: ProxySettings): RequestPolicyFactor
   return {
     create: (_nextPolicy: RequestPolicy, _options: RequestPolicyOptions) => {
       throw proxyNotSupportedInBrowser;
-    }
+    },
   };
 }
 

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { SpanGraph, TestSpan } from "@azure/test-utils";
 import { setSpan, Span, context } from "@azure/core-tracing";
 import { ServiceBusSender, ServiceBusMessage, OperationOptions, TryAddOptions } from "../../src";

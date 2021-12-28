@@ -5,17 +5,14 @@
  * @summary Demonstrates using a ChangeFeed.
  */
 
-const path = require("path");
 require("dotenv").config();
 
 const { finish, handleError, logSampleHeader } = require("./Shared/handleError");
-const { CosmosClient } = require("../dist-esm");
-const {
-  COSMOS_DATABASE: databaseId,
-  COSMOS_CONTAINER: containerId,
-  COSMOS_ENDPOINT: endpoint,
-  COSMOS_KEY: key
-} = process.env;
+const { CosmosClient } = require("@azure/cosmos");
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Change Feed");
 // Establish a new instance of the CosmosClient to be used throughout this demo
@@ -44,7 +41,7 @@ async function run() {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const { container } = await database.containers.createIfNotExists({
     id: containerId,
-    partitionKey: { paths: ["/pk"] }
+    partitionKey: { paths: ["/pk"] },
   });
 
   try {
@@ -84,7 +81,7 @@ async function run() {
     console.log(`  👉 Inserted id=3`);
 
     const specificContinuationIterator = container.items.changeFeed(pk, {
-      continuation: lsn.toString()
+      continuation: lsn.toString(),
     });
     const specificPointInTimeIterator = container.items.changeFeed(pk, { startTime: now });
     const fromBeginningIterator = container.items.changeFeed(pk, { startFromBeginning: true });
@@ -161,7 +158,11 @@ async function run() {
       fromNowResults2.map((v) => parseInt(v.id))
     );
   } catch (err) {
-    handleError(err);
+    if (err) {
+      console.log("Threw, as expected");
+    } else {
+      throw err;
+    }
   } finally {
     await finish();
   }

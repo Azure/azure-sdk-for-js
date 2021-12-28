@@ -8,7 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   FeaturesImpl,
@@ -20,18 +19,21 @@ import {
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { FeatureClientContext } from "./featureClientContext";
 import {
   FeatureClientOptionalParams,
   Operation,
-  FeatureClientListOperationsNextOptionalParams,
-  FeatureClientListOperationsOptionalParams,
-  FeatureClientListOperationsResponse,
-  FeatureClientListOperationsNextResponse
+  ListOperationsNextOptionalParams,
+  ListOperationsOptionalParams,
+  ListOperationsResponse,
+  ListOperationsNextResponse
 } from "./models";
 
 /// <reference lib="esnext.asynciterable" />
-export class FeatureClient extends FeatureClientContext {
+export class FeatureClient extends coreClient.ServiceClient {
+  $host: string;
+  apiVersion: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the FeatureClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -43,7 +45,46 @@ export class FeatureClient extends FeatureClientContext {
     subscriptionId: string,
     options?: FeatureClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: FeatureClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-features/3.0.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2021-07-01";
     this.features = new FeaturesImpl(this);
     this.subscriptionFeatureRegistrations = new SubscriptionFeatureRegistrationsImpl(
       this
@@ -55,7 +96,7 @@ export class FeatureClient extends FeatureClientContext {
    * @param options The options parameters.
    */
   public listOperations(
-    options?: FeatureClientListOperationsOptionalParams
+    options?: ListOperationsOptionalParams
   ): PagedAsyncIterableIterator<Operation> {
     const iter = this.listOperationsPagingAll(options);
     return {
@@ -72,7 +113,7 @@ export class FeatureClient extends FeatureClientContext {
   }
 
   private async *listOperationsPagingPage(
-    options?: FeatureClientListOperationsOptionalParams
+    options?: ListOperationsOptionalParams
   ): AsyncIterableIterator<Operation[]> {
     let result = await this._listOperations(options);
     yield result.value || [];
@@ -85,7 +126,7 @@ export class FeatureClient extends FeatureClientContext {
   }
 
   private async *listOperationsPagingAll(
-    options?: FeatureClientListOperationsOptionalParams
+    options?: ListOperationsOptionalParams
   ): AsyncIterableIterator<Operation> {
     for await (const page of this.listOperationsPagingPage(options)) {
       yield* page;
@@ -97,8 +138,8 @@ export class FeatureClient extends FeatureClientContext {
    * @param options The options parameters.
    */
   private _listOperations(
-    options?: FeatureClientListOperationsOptionalParams
-  ): Promise<FeatureClientListOperationsResponse> {
+    options?: ListOperationsOptionalParams
+  ): Promise<ListOperationsResponse> {
     return this.sendOperationRequest({ options }, listOperationsOperationSpec);
   }
 
@@ -109,8 +150,8 @@ export class FeatureClient extends FeatureClientContext {
    */
   private _listOperationsNext(
     nextLink: string,
-    options?: FeatureClientListOperationsNextOptionalParams
-  ): Promise<FeatureClientListOperationsNextResponse> {
+    options?: ListOperationsNextOptionalParams
+  ): Promise<ListOperationsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
       listOperationsNextOperationSpec

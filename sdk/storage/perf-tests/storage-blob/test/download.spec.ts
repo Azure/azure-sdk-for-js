@@ -36,8 +36,8 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
 
     // Create a blob
     await this.blockBlobClient.upload(
-      Buffer.alloc(this.parsedOptions.size.value!),
-      this.parsedOptions.size.value!
+      Buffer.alloc(this.parsedOptions.size.value),
+      this.parsedOptions.size.value
     );
   }
 

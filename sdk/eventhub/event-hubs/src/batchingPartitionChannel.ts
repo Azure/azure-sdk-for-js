@@ -9,9 +9,9 @@ import {
   EventHubProducerClient,
   OperationOptions
 } from "./index";
-import { AwaitableQueue } from "./impl/awaitableQueue";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { AwaitableQueue } from "./impl/awaitableQueue";
 import { getPromiseParts } from "./util/getPromiseParts";
 import { logger } from "./log";
 

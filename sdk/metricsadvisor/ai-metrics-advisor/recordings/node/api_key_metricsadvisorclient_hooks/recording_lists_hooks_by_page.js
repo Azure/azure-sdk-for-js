@@ -13,37 +13,37 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '3b09147f-688a-4d37-a72f-89b51e880f20',
+  'bbf79546-9abf-49cb-a1e0-6a36a825862d',
   'x-envoy-upstream-service-time',
-  '117',
+  '110',
   'apim-request-id',
-  '3b09147f-688a-4d37-a72f-89b51e880f20',
+  'bbf79546-9abf-49cb-a1e0-6a36a825862d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:21 GMT'
+  'Tue, 16 Nov 2021 00:33:52 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/hooks')
   .query(true)
-  .reply(200, {"value":[{"hookId":"2531af07-9d0f-4cda-9b03-4284a940c710","hookName":"js-test-emailHook-163636435782600770","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test2@example.com","test3@example.com"]}},{"hookId":"5dfb93fa-fc9a-4725-af2b-c604e303336b","hookName":"js-test-webHook-163636435782604310","hookType":"Webhook","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"SecretPlaceholder"}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$maxpagesize=2&$skip=4"}, [
+  .reply(200, {"value":[{"hookId":"79223f60-bb88-424f-8942-6df8d659e5c8","hookName":"js-test-emailHook-163667848285101340","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test@example.com"]}},{"hookId":"e2f4abd6-fb50-4ccb-8d6b-55e00e68aee5","hookName":"js-test-emailHook-163667870367305614","hookType":"Email","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"toList":["test@example.com"]}}],"@nextLink":"https://endpoint:443/metricsadvisor/v1.0/hooks?hookName=js-test&$maxpagesize=2&$skip=4"}, [
   'Content-Length',
-  '725',
+  '646',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'e037451d-67f5-458f-84fb-92e37bd04a61',
+  '58870ac9-3db5-4bdb-848b-971e7d5e2ffa',
   'x-envoy-upstream-service-time',
-  '111',
+  '103',
   'apim-request-id',
-  'e037451d-67f5-458f-84fb-92e37bd04a61',
+  '58870ac9-3db5-4bdb-848b-971e7d5e2ffa',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:21 GMT'
+  'Tue, 16 Nov 2021 00:33:52 GMT'
 ]);

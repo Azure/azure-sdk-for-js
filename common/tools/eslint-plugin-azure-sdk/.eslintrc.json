@@ -33,6 +33,7 @@
     "no-multi-spaces": "error",
     "no-redeclare": "error",
     "no-useless-escape": "off",
-    "prefer-template": "error"
+    "prefer-template": "error",
+    "sort-imports": "warn"
   }
 }

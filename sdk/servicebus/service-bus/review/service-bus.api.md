@@ -426,6 +426,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
     readonly lockToken?: string;
     readonly _rawAmqpMessage: AmqpAnnotatedMessage;
     readonly sequenceNumber?: Long_2;
+    readonly state: "active" | "deferred" | "scheduled";
 }
 
 // @public
@@ -458,6 +459,7 @@ export interface ServiceBusReceiver {
 export interface ServiceBusReceiverOptions {
     maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: "peekLock" | "receiveAndDelete";
+    skipParsingBodyAsJson?: boolean;
     subQueueType?: "deadLetter" | "transferDeadLetter";
 }
 
@@ -488,6 +490,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
     maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: "peekLock" | "receiveAndDelete";
+    skipParsingBodyAsJson?: boolean;
 }
 
 // @public

@@ -49,7 +49,7 @@ module.exports = function(config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["RECORDINGS_RELATIVE_PATH"],
+    envPreprocessor: ["RECORDINGS_RELATIVE_PATH", "PROXY_MANUAL_START"],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -114,10 +114,6 @@ module.exports = function(config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
-    browserConsoleLogOptions: {
-      // We would usually hide the logs from the tests, but we don't need to do this inside of the recorder package because we are not recording the tests.
-      // // terminal: process.env.TEST_MODE !== "record"
-    },
 
     client: {
       mocha: {

@@ -5,7 +5,7 @@ module.exports.hash = "bed8dcd6fa3fb5e13165712dfeeeeea2";
 module.exports.testInfo = {"uniqueName":{"js-test-datafeed-":"js-test-datafeed-163634420758001435","js-test-appInsightsFeed-":"js-test-appInsightsFeed-163634420758004852","js-test-sqlServerFeed-":"js-test-sqlServerFeed-163634420758007869","js-test-cosmosFeed-":"js-test-cosmosFeed-163634420758006534","js-test-dataExplorerFeed-":"js-test-dataExplorerFeed-163634420758008558","js-test-tableFeed-":"js-test-tableFeed-163634420758008517","js-test-eventhubRequestFeed-":"js-test-eventhubRequestFeed-163634420758006239","js-test-logAnalyticsFeed-":"js-test-logAnalyticsFeed-163634420758006247","js-test-influxdbFeed-":"js-test-influxdbFeed-163634420758003540","js-test-mongoDbFeed-":"js-test-mongoDbFeed-163634420758009948","js-test-mySqlFeed-":"js-test-mySqlFeed-163634420758003460","js-test-postgreSqlFeed-":"js-test-postgreSqlFeed-163634420758002504","js-test-dataLakeGenFeed-":"js-test-dataLakeGenFeed-163634420758000965"},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F")
+  .post('/72698866-8641-4147-9144-24744011447/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',

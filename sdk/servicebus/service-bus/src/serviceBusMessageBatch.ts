@@ -252,7 +252,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     // Convert ServiceBusMessage to AmqpMessage.
     const amqpMessage = toRheaMessage(message, defaultDataTransformer);
 
-    let encodedMessage = RheaMessageUtil.encode(amqpMessage);
+    const encodedMessage = RheaMessageUtil.encode(amqpMessage);
     let currentSize = this._sizeInBytes;
 
     // The first time an event is added, we need to calculate

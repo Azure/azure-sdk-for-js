@@ -10,7 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  delay,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
 import { ClientSecretCredential } from "@azure/identity";
@@ -32,6 +34,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("Redis test", () => {
@@ -84,9 +90,9 @@ describe("Redis test", () => {
       },
     };
     //network create
-    const network_create = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(groupName, networkName, parameter);
+    const network_create = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(groupName, networkName, parameter,testPollingOptions);
     //subnet create
-    const subnet_info = await network_client.subnets.beginCreateOrUpdateAndWait(groupName, networkName, subnetName, { addressPrefix: "10.0.0.0/24" });
+    const subnet_info = await network_client.subnets.beginCreateOrUpdateAndWait(groupName, networkName, subnetName, { addressPrefix: "10.0.0.0/24" },testPollingOptions);
   }
 
   it("Redis create test", async function () {
@@ -110,7 +116,7 @@ describe("Redis test", () => {
       subnetId: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroupName + "/providers/Microsoft.Network/virtualNetworks/" + networkName + "/subnets/" + subnetName,
       staticIP: "10.0.0.5",
       minimumTlsVersion: "1.2"
-    });
+    },testPollingOptions);
     assert.equal(res.name, name);
   });
 
@@ -163,7 +169,7 @@ describe("Redis test", () => {
         break;
       } else {
         // The resource is activating
-        await sleep(300000);
+        await delay(300000);
       }
     }
   }).timeout(3600000);
@@ -174,7 +180,7 @@ describe("Redis test", () => {
   });
 
   it("redis delete test", async function () {
-    const res = await client.redis.beginDeleteAndWait(resourceGroupName, name);
+    const res = await client.redis.beginDeleteAndWait(resourceGroupName, name,testPollingOptions);
     const resArray = new Array();
     for await (let item of client.redis.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);

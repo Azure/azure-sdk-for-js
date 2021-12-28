@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Changed `FormRecognizerCommonClientOptions` to extend `CommonClientOptions` from `@azure/core-client` instead of `PipelineOptions`. `CommonClientOptions` itself extends `PipelineOptions`, so no fields are removed, but `CommonClientOptions` also includes `httpClient` and `allowInsecureConnection` fields to allow overriding the default HTTP client and using insecure connections (without SSL/TLS) respectively.
+
 ## 4.0.0-beta.2 (2021-11-09)
 
 ### Features Added

@@ -1,16 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import { SpanStatusCode, Link, Span, SpanContext, SpanKind } from "@azure/core-tracing";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
-import { instrumentEventData } from "./diagnostics/instrumentEventData";
-import { EventData } from "./eventData";
-import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
-import { EventHubSender } from "./eventHubSender";
-import { logErrorStackTrace, logger } from "./log";
-import { EventHubProperties, PartitionProperties } from "./managementClient";
 import {
   CreateBatchOptions,
   EventHubClientOptions,
@@ -19,10 +10,19 @@ import {
   GetPartitionPropertiesOptions,
   SendBatchOptions
 } from "./models/public";
-import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
+import { EventHubProperties, PartitionProperties } from "./managementClient";
+import { Link, Span, SpanContext, SpanKind, SpanStatusCode } from "@azure/core-tracing";
+import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isCredential, isDefined } from "./util/typeGuards";
+import { logErrorStackTrace, logger } from "./log";
+import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { EventData } from "./eventData";
+import { EventHubSender } from "./eventHubSender";
 import { OperationOptions } from "./util/operationOptions";
 import { createEventHubSpan } from "./diagnostics/tracing";
+import { instrumentEventData } from "./diagnostics/instrumentEventData";
 
 /**
  * The `EventHubProducerClient` class is used to send events to an Event Hub.

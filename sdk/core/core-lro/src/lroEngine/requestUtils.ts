@@ -41,20 +41,20 @@ export function inferLroMode(
       resourceLocation:
         requestMethod === "PUT"
           ? requestPath
-          : requestMethod === "POST"
+          : requestMethod === "POST" || requestMethod === "PATCH"
           ? getLocation(rawResponse)
-          : undefined
+          : undefined,
     };
   } else if (
     getLocation(rawResponse) !== undefined ||
     getOperationLocation(rawResponse) !== undefined
   ) {
     return {
-      mode: "Location"
+      mode: "Location",
     };
   } else if (["PUT", "PATCH"].includes(requestMethod)) {
     return {
-      mode: "Body"
+      mode: "Body",
     };
   }
   return {};

@@ -8,7 +8,7 @@ import { env, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
 import { SecretClient } from "../../src";
-import { assertThrowsAbortError } from "../utils/utils.common";
+import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
@@ -22,7 +22,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
     testClient = authentication.testClient;

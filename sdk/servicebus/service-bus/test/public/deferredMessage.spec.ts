@@ -103,6 +103,7 @@ describe("Deferred Messages", () => {
     if (!deferredMsg) {
       throw "No message received for sequence number";
     }
+    should.equal(deferredMsg.state, "deferred");
     should.equal(
       !!(deferredMsg as any)["delivery"],
       true,

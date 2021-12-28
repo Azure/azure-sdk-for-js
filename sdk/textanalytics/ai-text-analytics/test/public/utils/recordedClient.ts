@@ -24,10 +24,10 @@ const replaceableVariables: { [k: string]: string } = {
   TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_PROJECT_NAME: "project_name",
   TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME: "deployment_name",
   TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_PROJECT_NAME: "project_name",
-  TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME: "deployment_name"
+  TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME: "deployment_name",
 };
 
-export const environmentSetup: RecorderEnvironmentSetup = {
+const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
   customizationsOnRecordings: [
     (recording: string): string =>
@@ -39,9 +39,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string => {
       const replaced = recording.replace("endpoint:443", "endpoint");
       return replaced;
-    }
+    },
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export type AuthMethod = "APIKey" | "AAD" | "DummyAPIKey";

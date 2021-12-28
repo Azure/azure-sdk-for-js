@@ -31,7 +31,8 @@ describe("Receiver unit tests", () => {
         "fakeEntityPath",
         {
           lockRenewer: undefined,
-          receiveMode: "peekLock"
+          receiveMode: "peekLock",
+          skipParsingBodyAsJson: false
         }
       );
 
@@ -58,7 +59,8 @@ describe("Receiver unit tests", () => {
         "fakeEntityPath",
         {
           lockRenewer: undefined,
-          receiveMode: "peekLock"
+          receiveMode: "peekLock",
+          skipParsingBodyAsJson: false
         }
       );
 
@@ -99,7 +101,8 @@ describe("Receiver unit tests", () => {
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock",
-        1
+        1,
+        false
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -137,7 +140,8 @@ describe("Receiver unit tests", () => {
         }),
         "fakeEntityPath",
         "peekLock",
-        1
+        1,
+        false
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
@@ -168,7 +172,8 @@ describe("Receiver unit tests", () => {
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock",
-        1
+        1,
+        false
       );
 
       const abortSignal = {
@@ -211,7 +216,8 @@ describe("Receiver unit tests", () => {
         createConnectionContextForTests(),
         "entity path",
         "peekLock",
-        1
+        1,
+        false
       );
 
       const abortSignal = createAbortSignalForTest(true);
@@ -237,7 +243,8 @@ describe("Receiver unit tests", () => {
         "entity path",
         undefined,
         {
-          retryOptions: undefined
+          retryOptions: undefined,
+          skipParsingBodyAsJson: false
         }
       );
 
@@ -276,7 +283,7 @@ describe("Receiver unit tests", () => {
 
     it("create() with an existing _streamingReceiver", async () => {
       const context = createConnectionContextForTests();
-      impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1);
+      impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1, false);
 
       const existingStreamingReceiver = createStreamingReceiver("entityPath");
       const subscribeStub = sinon.spy(existingStreamingReceiver, "subscribe");
@@ -303,7 +310,7 @@ describe("Receiver unit tests", () => {
     it("create() with an existing receiver and that receiver is NOT open()", async () => {
       const context = createConnectionContextForTests();
 
-      impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1);
+      impl = new ServiceBusReceiverImpl(context, "entity path", "peekLock", 1, false);
 
       await subscribeAndWaitForInitialize(impl);
 

@@ -348,6 +348,7 @@ describe("LinkEntity unit tests", () => {
         abortSignal: undefined,
         lockRenewer: undefined,
         receiveMode: "receiveAndDelete",
+        skipParsingBodyAsJson: false,
         tracingOptions: {}
       });
 
@@ -371,6 +372,7 @@ describe("LinkEntity unit tests", () => {
         abortSignal: undefined,
         lockRenewer: undefined,
         receiveMode: "receiveAndDelete",
+        skipParsingBodyAsJson: false,
         tracingOptions: {}
       });
 
@@ -410,7 +412,8 @@ describe("LinkEntity unit tests", () => {
     it("session", () => {
       const messageSession = new MessageSession(connectionContext, "entityPath", "session-id", {
         abortSignal: undefined,
-        retryOptions: {}
+        retryOptions: {},
+        skipParsingBodyAsJson: false
       });
 
       initCachedLinks(messageSession.name);
@@ -457,7 +460,7 @@ describe("LinkEntity unit tests", () => {
       );
     }
 
-    function initCachedLinks(name: string) {
+    function initCachedLinks(name: string): void {
       connectionContext.messageReceivers[name] = {} as any;
       connectionContext.senders[name] = {} as any;
       connectionContext.managementClients[name] = {} as any;

@@ -641,7 +641,7 @@ export interface QueueRuntimeProperties {
  * Atom XML Serializer for Queues.
  */
 export class QueueResourceSerializer implements AtomXmlSerializer {
-  serialize(resource: InternalQueueOptions): object {
+  serialize(resource: InternalQueueOptions): Record<string, unknown> {
     return serializeToAtomXmlRequest("QueueDescription", resource);
   }
 

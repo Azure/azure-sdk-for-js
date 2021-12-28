@@ -2,11 +2,10 @@
 // Licensed under the MIT license.
 
 import { Connection, ConnectionOptions, generate_uuid } from "rhea-promise";
+import { getFrameworkInfo, getPlatformInfo } from "./util/runtimeInfo";
 import { CbsClient } from "./cbs";
 import { ConnectionConfig } from "./connectionConfig/connectionConfig";
-
 import { Constants } from "./util/constants";
-import { getFrameworkInfo, getPlatformInfo } from "./util/runtimeInfo";
 import { isNode } from "./util/utils";
 
 /**
@@ -110,7 +109,7 @@ export const ConnectionContextBase = {
    */
   create(parameters: CreateConnectionContextBaseParameters): ConnectionContextBase {
     ConnectionConfig.validate(parameters.config, {
-      isEntityPathRequired: parameters.isEntityPathRequired || false
+      isEntityPathRequired: parameters.isEntityPathRequired || false,
     });
     const userAgent = parameters.connectionProperties.userAgent;
     if (userAgent.length > Constants.maxUserAgentLength) {
@@ -132,12 +131,12 @@ export const ConnectionContextBase = {
         version: parameters.connectionProperties.version,
         "user-agent": userAgent,
         platform: getPlatformInfo(),
-        framework: getFrameworkInfo()
+        framework: getFrameworkInfo(),
       },
       idle_time_out: Constants.defaultConnectionIdleTimeoutInMs,
       operationTimeoutInSeconds: parameters.operationTimeoutInMs
         ? parameters.operationTimeoutInMs / 1000
-        : undefined
+        : undefined,
     };
 
     if (
@@ -154,7 +153,7 @@ export const ConnectionContextBase = {
         webSocket: socket,
         url: `wss://${host}:${port}/${endpoint}`,
         protocol: ["AMQPWSB10"],
-        options: socketOptions
+        options: socketOptions,
       };
     }
 
@@ -177,9 +176,9 @@ export const ConnectionContextBase = {
         this.connection = newConnection;
         this.connectionId = newConnection.id;
         this.cbsSession = new CbsClient(newConnection, newConnectionLock);
-      }
+      },
     };
 
     return connectionContextBase;
-  }
+  },
 };

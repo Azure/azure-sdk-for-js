@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-network-traversal",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "SDK for Azure Communication service which facilitates user token administration.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -34,8 +34,7 @@
     "test:watch": "npm run test -- --watch --reporter min",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "//sampleConfiguration": {
     "productName": "Azure Communication Services - Network Traversal",
@@ -98,7 +97,6 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
-    "assert": "^1.4.1",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
@@ -118,9 +116,9 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^1.18.0",
-    "nyc": "^14.0.0",
-    "prettier": "^1.16.4",
+    "mocha-junit-reporter": "^2.0.0",
+    "nyc": "^15.0.0",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-shim": "^1.0.0",
@@ -128,7 +126,6 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
-    "typedoc": "0.15.2",
     "typescript": "~4.2.0"
   }
 }

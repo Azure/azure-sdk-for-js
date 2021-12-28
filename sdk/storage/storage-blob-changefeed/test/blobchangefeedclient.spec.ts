@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { record, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";

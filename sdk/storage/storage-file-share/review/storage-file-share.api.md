@@ -686,7 +686,7 @@ export interface FileGetPropertiesHeaders {
     fileLastWriteOn?: Date;
     fileParentId?: string;
     filePermissionKey?: string;
-    fileType?: FileType;
+    fileType?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
@@ -990,9 +990,6 @@ export class FileSystemAttributes {
     temporary: boolean;
     toString(): string;
 }
-
-// @public
-export type FileType = "File";
 
 // @public
 export interface FileUploadRangeFromURLHeaders {
@@ -1698,6 +1695,7 @@ export interface ShareGetPropertiesHeaders {
         [propertyName: string]: string;
     };
     nextAllowedQuotaDowngradeTime?: Date;
+    provisionedBandwidthMibps?: number;
     provisionedEgressMBps?: number;
     provisionedIngressMBps?: number;
     provisionedIops?: number;
@@ -1832,6 +1830,8 @@ export interface SharePropertiesInternal {
     leaseStatus?: LeaseStatusType;
     // (undocumented)
     nextAllowedQuotaDowngradeTime?: Date;
+    // (undocumented)
+    provisionedBandwidthMiBps?: number;
     // (undocumented)
     provisionedEgressMBps?: number;
     // (undocumented)

@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as uuid } from "uuid";
-import { PumpManager, PumpManagerImpl } from "./pumpManager";
-import { AbortController, AbortSignalLike, AbortError } from "@azure/abort-controller";
-import { logErrorStackTrace, logger } from "./log";
+import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { Checkpoint, PartitionProcessor } from "./partitionProcessor";
-import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
 import { EventPosition, isEventPosition, latestEventPosition } from "./eventPosition";
-import { delayWithoutThrow } from "./util/delayWithoutThrow";
-import { CommonEventProcessorOptions } from "./models/private";
+import { PumpManager, PumpManagerImpl } from "./pumpManager";
+import { logErrorStackTrace, logger } from "./log";
 import { CloseReason } from "./models/public";
+import { CommonEventProcessorOptions } from "./models/private";
 import { ConnectionContext } from "./connectionContext";
 import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy";
 import { OperationOptions } from "./util/operationOptions";
+import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
+import { delayWithoutThrow } from "./util/delayWithoutThrow";
+import { v4 as uuid } from "uuid";
 
 /**
  * An interface representing the details on which instance of a `EventProcessor` owns processing

@@ -357,8 +357,8 @@ describe.skip("SessionReceiver - disconnects - (if recovery is supported in futu
     let settledMessageCount = 0;
 
     let messageHandlerCount = 0;
-    let receiverIsActiveResolver: Function;
-    let receiverSecondMessageResolver: Function;
+    let receiverIsActiveResolver: (value: unknown) => void;
+    let receiverSecondMessageResolver: (value: unknown) => void;
     const receiverIsActive = new Promise((resolve) => {
       receiverIsActiveResolver = resolve;
     });
@@ -379,10 +379,10 @@ describe.skip("SessionReceiver - disconnects - (if recovery is supported in futu
         }
         if (messageHandlerCount === 1) {
           // Since we've received a message, mark the receiver as active.
-          receiverIsActiveResolver();
+          receiverIsActiveResolver(undefined);
         } else {
           // Mark the second message resolver!
-          receiverSecondMessageResolver();
+          receiverSecondMessageResolver(undefined);
         }
       },
       async processError(err) {
@@ -443,8 +443,8 @@ describe("SessionReceiver - disconnects", function(): void {
       }
     );
 
-    let receiverSecondMessageResolver: Function;
-    let errorIsThrownResolver: Function;
+    let receiverSecondMessageResolver: (value: unknown) => void;
+    let errorIsThrownResolver: (value: ProcessErrorArgs | PromiseLike<ProcessErrorArgs>) => void;
     const errorIsThrown = new Promise<ProcessErrorArgs>((resolve) => {
       errorIsThrownResolver = resolve;
     });
@@ -502,9 +502,11 @@ describe("SessionReceiver - disconnects", function(): void {
     );
     receiver2.subscribe({
       async processMessage(_message: ServiceBusReceivedMessage) {
-        receiverSecondMessageResolver();
+        receiverSecondMessageResolver(undefined);
       },
-      async processError(_err) {}
+      async processError(_err) {
+        /* empty body */
+      }
     });
     await receiverSecondMessage;
     await receiver2.close();

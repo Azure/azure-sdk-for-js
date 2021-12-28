@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { getBSU, recorderEnvSetup } from "./utils";
 import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
@@ -880,12 +880,12 @@ describe("DirectoryClient", () => {
 
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
-      assert.notDeepStrictEqual(handle.handleId, undefined);
-      assert.notDeepStrictEqual(handle.path, undefined);
-      assert.notDeepStrictEqual(handle.fileId, undefined);
-      assert.notDeepStrictEqual(handle.sessionId, undefined);
-      assert.notDeepStrictEqual(handle.clientIp, undefined);
-      assert.notDeepStrictEqual(handle.openTime, undefined);
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
     }
   });
 

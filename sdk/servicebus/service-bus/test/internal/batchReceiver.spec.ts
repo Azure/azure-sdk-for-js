@@ -1055,7 +1055,9 @@ describe("Batching Receiver", () => {
           console.log(msgs.length);
           throw new Error(testFailureMessage);
         } catch (err) {
-          err.message && err.message.should.not.equal(testFailureMessage);
+          if (err.message) {
+            err.message.should.not.equal(testFailureMessage);
+          }
         }
 
         // Make sure that a 2nd receiveMessages call still works
@@ -1070,30 +1072,29 @@ describe("Batching Receiver", () => {
     });
 
     describe("Session Batch Receiver - disconnects (sessions)", function(): void {
-      let serviceBusClient: ServiceBusClientForTests;
-      let sender: ServiceBusSender;
-      let receiver: ServiceBusSessionReceiver;
+      let sessionSender: ServiceBusSender;
+      let sessionReceiver: ServiceBusSessionReceiver;
 
       before(() => {
         console.log(`Entity type: ${withSessionTestClientType}`);
       });
 
-      async function beforeEachTest(
+      async function beforeEachTestInner(
         receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
       ): Promise<void> {
         serviceBusClient = createServiceBusClientForTests();
         entityNames = await serviceBusClient.test.createTestEntities(withSessionTestClientType);
-        if (receiveMode == "receiveAndDelete") {
-          receiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
+        if (receiveMode === "receiveAndDelete") {
+          sessionReceiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
             entityNames
           )) as ServiceBusSessionReceiver;
         } else {
-          receiver = (await serviceBusClient.test.createPeekLockReceiver(
+          sessionReceiver = (await serviceBusClient.test.createPeekLockReceiver(
             entityNames
           )) as ServiceBusSessionReceiver;
         }
 
-        sender = serviceBusClient.test.addToCleanup(
+        sessionSender = serviceBusClient.test.addToCleanup(
           serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
         );
       }
@@ -1107,23 +1108,23 @@ describe("Batching Receiver", () => {
 
       it(`throws "session lock has expired" after a disconnect`, async function(): Promise<void> {
         // Create the sender and receiver.
-        await beforeEachTest();
+        await beforeEachTestInner();
 
         // Send a message so we can be sure when the receiver is open and active.
         const message = TestMessage.getSessionSample();
-        await sender.sendMessages(message);
+        await sessionSender.sendMessages(message);
 
         let settledMessageCount = 0;
 
-        const messages1 = await receiver.receiveMessages(1);
-        for (const message of messages1) {
-          await receiver.completeMessage(message);
+        const messages1 = await sessionReceiver.receiveMessages(1);
+        for (const m of messages1) {
+          await sessionReceiver.completeMessage(m);
           settledMessageCount++;
         }
 
         settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
 
-        const connectionContext = (receiver as any)["_context"];
+        const connectionContext = (sessionReceiver as any)["_context"];
         const refreshConnection = connectionContext.refreshConnection;
         let refreshConnectionCalled = 0;
         connectionContext.refreshConnection = function(...args: any) {
@@ -1132,12 +1133,14 @@ describe("Batching Receiver", () => {
         };
 
         // Simulate a disconnect being called with a non-retryable error.
-        (receiver as ServiceBusSessionReceiverImpl)["_context"].connection["_connection"].idle();
+        (sessionReceiver as ServiceBusSessionReceiverImpl)["_context"].connection[
+          "_connection"
+        ].idle();
 
         // send a second message to trigger the message handler again.
-        await sender.sendMessages(TestMessage.getSessionSample());
+        await sessionSender.sendMessages(TestMessage.getSessionSample());
         try {
-          await receiver.receiveMessages(1);
+          await sessionReceiver.receiveMessages(1);
           assert.fail("receiveMessages should have failed");
         } catch (error) {
           should.equal(
@@ -1152,28 +1155,30 @@ describe("Batching Receiver", () => {
         void
       > {
         // Create the sender and receiver.
-        await beforeEachTest("receiveAndDelete");
+        await beforeEachTestInner("receiveAndDelete");
 
         // Send a message so we can be sure when the receiver is open and active.
-        await sender.sendMessages(TestMessage.getSessionSample());
+        await sessionSender.sendMessages(TestMessage.getSessionSample());
 
-        const messages1 = await receiver.receiveMessages(1);
+        const messages1 = await sessionReceiver.receiveMessages(1);
         should.equal(
           messages1.length,
           1,
           "Unexpected number of received messages(before disconnect)."
         );
 
-        const batchingReceiver = (receiver as ServiceBusSessionReceiverImpl)["_messageSession"];
+        const batchingReceiver = (sessionReceiver as ServiceBusSessionReceiverImpl)[
+          "_messageSession"
+        ];
 
         // Send a message so we have something to receive.
-        await sender.sendMessages(TestMessage.getSessionSample());
+        await sessionSender.sendMessages(TestMessage.getSessionSample());
 
         const { onDetachedCalledPromise } = causeDisconnectDuringDrain(batchingReceiver);
 
         // Purposefully request more messages than what's available
         // so that the receiver will have to drain.
-        const messages2 = await receiver.receiveMessages(10);
+        const messages2 = await sessionReceiver.receiveMessages(10);
 
         await onDetachedCalledPromise;
 
@@ -1182,11 +1187,11 @@ describe("Batching Receiver", () => {
           "Unexpected number of messages received(during disconnect)."
         );
 
-        await sender.sendMessages(TestMessage.getSessionSample());
+        await sessionSender.sendMessages(TestMessage.getSessionSample());
 
         try {
           // New receiveMessages should fail because the session lock would be lost due to the disconnection
-          await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+          await sessionReceiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
           assert.fail("Receive messages call should have failed since the lock was lost");
         } catch (error) {
           should.equal(
@@ -1196,10 +1201,10 @@ describe("Batching Receiver", () => {
           );
           await delay(2000); // Adding a delay of 2 sec to make sure the flaky ness goes away
           // wait for the 2nd message to be received.
-          receiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
+          sessionReceiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
             entityNames
           )) as ServiceBusSessionReceiver;
-          const messages3 = await receiver.receiveMessages(1);
+          const messages3 = await sessionReceiver.receiveMessages(1);
 
           messages3.length.should.equal(
             1,
@@ -1210,22 +1215,24 @@ describe("Batching Receiver", () => {
 
       it("throws an error if drain is in progress (peekLock)", async function(): Promise<void> {
         // Create the sender and receiver.
-        await beforeEachTest();
+        await beforeEachTestInner();
 
         // Send a message so we can be sure when the receiver is open and active.
-        await sender.sendMessages(TestMessage.getSessionSample());
+        await sessionSender.sendMessages(TestMessage.getSessionSample());
 
-        const messages1 = await receiver.receiveMessages(1);
+        const messages1 = await sessionReceiver.receiveMessages(1);
         should.equal(
           messages1.length,
           1,
           "Unexpected number of received messages(before disconnect)."
         );
 
-        const batchingReceiver = (receiver as ServiceBusSessionReceiverImpl)["_messageSession"];
+        const batchingReceiver = (sessionReceiver as ServiceBusSessionReceiverImpl)[
+          "_messageSession"
+        ];
 
         // Send a message so we have something to receive.
-        await sender.sendMessages(TestMessage.getSessionSample());
+        await sessionSender.sendMessages(TestMessage.getSessionSample());
 
         const { onDetachedCalledPromise: drainRequestedPromise } = causeDisconnectDuringDrain(
           batchingReceiver
@@ -1235,7 +1242,7 @@ describe("Batching Receiver", () => {
         // so that the receiver will have to drain.
         const testFailureMessage = "Test failure";
         try {
-          await receiver.receiveMessages(10);
+          await sessionReceiver.receiveMessages(10);
           throw new Error(testFailureMessage);
         } catch (err) {
           assert.deepNestedInclude(err, {
@@ -1251,23 +1258,25 @@ describe("Batching Receiver", () => {
         void
       > {
         // Create the sender and receiver.
-        await beforeEachTest("receiveAndDelete");
+        await beforeEachTestInner("receiveAndDelete");
 
         // Send a message so we can be sure when the receiver is open and active.
-        await sender.sendMessages(TestMessage.getSessionSample());
+        await sessionSender.sendMessages(TestMessage.getSessionSample());
 
-        const messages1 = await receiver.receiveMessages(1);
+        const messages1 = await sessionReceiver.receiveMessages(1);
         should.equal(
           messages1.length,
           1,
           "Unexpected number of received messages(before disconnect)."
         );
 
-        const receiverContext = (receiver as ServiceBusSessionReceiverImpl)["_context"];
-        const batchingReceiver = (receiver as ServiceBusSessionReceiverImpl)["_messageSession"];
+        const receiverContext = (sessionReceiver as ServiceBusSessionReceiverImpl)["_context"];
+        const batchingReceiver = (sessionReceiver as ServiceBusSessionReceiverImpl)[
+          "_messageSession"
+        ];
 
         // Send a message so we have something to receive.
-        await sender.sendMessages(TestMessage.getSessionSample());
+        await sessionSender.sendMessages(TestMessage.getSessionSample());
 
         // Simulate a disconnect after a message has been received.
         batchingReceiver["link"]!.once("message", function() {
@@ -1279,18 +1288,18 @@ describe("Batching Receiver", () => {
 
         // Purposefully request more messages than what's available
         // so that the receiver will have to drain.
-        const messages2 = await receiver.receiveMessages(10);
+        const messages2 = await sessionReceiver.receiveMessages(10);
 
         messages2.length.should.equal(
           1,
           "Unexpected number of messages received(during disconnect)."
         );
 
-        await sender.sendMessages(TestMessage.getSessionSample());
+        await sessionSender.sendMessages(TestMessage.getSessionSample());
 
         try {
           // New receiveMessages should fail because the session lock would be lost due to the disconnection
-          await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+          await sessionReceiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
           assert.fail("Receive messages call should have failed since the lock was lost");
         } catch (error) {
           should.equal(
@@ -1299,11 +1308,11 @@ describe("Batching Receiver", () => {
             "Unexpected error thrown"
           );
           // wait for the 2nd message to be received.
-          await receiver.close();
-          receiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
+          await sessionReceiver.close();
+          sessionReceiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
             entityNames
           )) as ServiceBusSessionReceiver;
-          const messages3 = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+          const messages3 = await sessionReceiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
 
           messages3.length.should.equal(
             1,
@@ -1314,23 +1323,25 @@ describe("Batching Receiver", () => {
 
       it("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {
         // Create the sender and receiver.
-        await beforeEachTest();
+        await beforeEachTestInner();
 
         // Send a message so we can be sure when the receiver is open and active.
-        await sender.sendMessages(TestMessage.getSessionSample());
+        await sessionSender.sendMessages(TestMessage.getSessionSample());
 
-        const messages1 = await receiver.receiveMessages(1);
+        const messages1 = await sessionReceiver.receiveMessages(1);
         should.equal(
           messages1.length,
           1,
           "Unexpected number of received messages(before disconnect)."
         );
 
-        const receiverContext = (receiver as ServiceBusSessionReceiverImpl)["_context"];
-        const batchingReceiver = (receiver as ServiceBusSessionReceiverImpl)["_messageSession"];
+        const receiverContext = (sessionReceiver as ServiceBusSessionReceiverImpl)["_context"];
+        const batchingReceiver = (sessionReceiver as ServiceBusSessionReceiverImpl)[
+          "_messageSession"
+        ];
 
         // Send a message so we have something to receive.
-        await sender.sendMessages(TestMessage.getSessionSample());
+        await sessionSender.sendMessages(TestMessage.getSessionSample());
 
         // Simulate a disconnect after a message has been received.
         batchingReceiver["link"]!.once("message", function() {
@@ -1344,7 +1355,7 @@ describe("Batching Receiver", () => {
         // so that the receiver will have to drain.
         const testFailureMessage = "Test failure";
         try {
-          await receiver.receiveMessages(10);
+          await sessionReceiver.receiveMessages(10);
           throw new Error(testFailureMessage);
         } catch (err) {
           assert.deepNestedInclude(err, {
@@ -1358,7 +1369,7 @@ describe("Batching Receiver", () => {
 });
 
 /**
- * Sets `batchingReceiver` so it's next drain call will result in the connection recycling prior to the
+ * Sets `batchingReceiver` so its next drain call will result in the connection recycling prior to the
  * drain completing. The primary use is just to make sure that when we terminate a receiveMessages() call
  * early due to a disconnect (and interrupt the drain) that the link is restored and can be used
  * again afterwards.
@@ -1366,7 +1377,7 @@ describe("Batching Receiver", () => {
  * The `onDetachedCalledPromise` property in the return object allows you to await until the batching
  * receiver has actually been detached.
  *
- * @param batchingReceiver A batching receiver (minimal interface compatible with sessions and non-sessions)
+ * @param batchingReceiver - A batching receiver (minimal interface compatible with sessions and non-sessions)
  * @returns an object with `onDetachedCalledPromise` that resolves when onDetached has completed
  *   for the batching receiver.
  */
@@ -1375,7 +1386,7 @@ function causeDisconnectDuringDrain(
 ): { onDetachedCalledPromise: Promise<void> } {
   let resolveOnDetachedCallPromise: () => void;
 
-  let onDetachedCalledPromise = new Promise<void>((resolve) => {
+  const onDetachedCalledPromise = new Promise<void>((resolve) => {
     resolveOnDetachedCallPromise = resolve;
   });
 
@@ -1393,7 +1404,10 @@ function causeDisconnectDuringDrain(
     // don't send the drain request, we'll just detach.
     batchingReceiver
       .onDetached(new Error("Test: fake connection failure"))
-      .then(() => resolveOnDetachedCallPromise());
+      .then(() => resolveOnDetachedCallPromise())
+      .catch((e) => {
+        throw e;
+      });
   };
 
   return {

@@ -3,7 +3,7 @@
 import PriorityQueue from "priorityqueuejs";
 import semaphore from "semaphore";
 import { ClientContext } from "../ClientContext";
-import { logger } from "../common/logger";
+import { AzureLogger, createClientLogger } from "@azure/logger";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
 import { FeedOptions, Response } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
@@ -16,7 +16,7 @@ import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 
 /** @hidden */
-const log = logger("parallelQueryExecutionContextBase");
+const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
 
 /** @hidden */
 export enum ParallelQueryExecutionContextBaseStates {
@@ -92,7 +92,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             ? targetPartitionRanges.length
             : Math.min(options.maxDegreeOfParallelism, targetPartitionRanges.length);
 
-        log.info(
+        logger.info(
           "Query starting against " +
             targetPartitionRanges.length +
             " ranges with parallelism of " +

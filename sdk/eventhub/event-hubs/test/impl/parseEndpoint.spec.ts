@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseEndpoint } from "../../src/util/parseEndpoint";
 import chai from "chai";
+import { parseEndpoint } from "../../src/util/parseEndpoint";
+
 const should = chai.should();
 
 describe("parseEndpoint", () => {

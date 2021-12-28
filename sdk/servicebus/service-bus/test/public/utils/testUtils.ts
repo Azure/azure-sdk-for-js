@@ -204,8 +204,8 @@ export enum EntityNames {
  * Asserts that `fn` throws an error and assert.deepEqual compares all fields common
  * between `expectedErr` and `err`.
  *
- * @param fn A function to execute.
- * @param expectedErr The error fields you expect.
+ * @param fn - A function to execute.
+ * @param expectedErr - The error fields you expect.
  * @returns The error thrown, if equal to expectedErr.
  */
 export function assertThrows<T>(

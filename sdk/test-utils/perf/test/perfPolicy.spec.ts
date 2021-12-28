@@ -33,9 +33,19 @@ export class PerfPolicyTest extends PerfTest<PerfPolicyOptions> {
     }
   };
   async run(): Promise<void> {
-    const targetUrl = url.parse(this.parsedOptions.url.value!);
-    const differentUrl = url.parse(this.parsedOptions.url.value!);
+    const urlOption = this.parsedOptions.url.value;
+
+    if (!urlOption) {
+      throw new Error(`URL not specified`);
+    }
+
+    const targetUrl = url.parse(urlOption);
+    const differentUrl = url.parse(urlOption);
     differentUrl.host = `not-${differentUrl.host}`;
+
+    if (!targetUrl.host) {
+      throw new Error("Input URL does not specify a host");
+    }
 
     const request = new WebResource(url.format(differentUrl));
 
@@ -61,7 +71,7 @@ export class PerfPolicyTest extends PerfTest<PerfPolicyOptions> {
     const policy = new PerfPolicy(
       nextPolicy,
       new RequestPolicyOptions(),
-      targetUrl.host!,
+      targetUrl.host,
       targetUrl.port
     );
     await policy.sendRequest(request);

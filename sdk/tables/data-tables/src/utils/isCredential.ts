@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import {
-  isNamedKeyCredential,
-  isSASCredential,
-  isTokenCredential,
   NamedKeyCredential,
   SASCredential,
-  TokenCredential
+  TokenCredential,
+  isNamedKeyCredential,
+  isSASCredential,
+  isTokenCredential
 } from "@azure/core-auth";
 
 export function isCredential(

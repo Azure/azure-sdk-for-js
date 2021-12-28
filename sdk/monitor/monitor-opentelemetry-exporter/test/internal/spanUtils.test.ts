@@ -32,7 +32,7 @@ const tracerProviderConfig: TracerConfig = {
 };
 
 const tracer = new BasicTracerProvider(tracerProviderConfig).getTracer("default");
-const packageJsonPath = path.resolve(__dirname, "../../", "./package.json");
+const packageJsonPath = path.resolve(__dirname, "../../../", "./package.json");
 let packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 
 function assertEnvelope(

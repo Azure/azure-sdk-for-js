@@ -4,12 +4,12 @@
 import {
   TextDocumentBatchStatistics,
   TextDocumentInput,
-  SentimentResponse
+  SentimentResponse,
 } from "./generated/models";
 import {
   AnalyzeSentimentResult,
   makeAnalyzeSentimentErrorResult,
-  makeAnalyzeSentimentResult
+  makeAnalyzeSentimentResult,
 } from "./analyzeSentimentResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 

@@ -479,7 +479,7 @@ export interface TopicRuntimeProperties {
  * TopicResourceSerializer for serializing / deserializing Topic entities
  */
 export class TopicResourceSerializer implements AtomXmlSerializer {
-  serialize(resource: InternalTopicOptions): object {
+  serialize(resource: InternalTopicOptions): Record<string, unknown> {
     return serializeToAtomXmlRequest("TopicDescription", resource);
   }
   async deserialize(response: FullOperationResponse): Promise<FullOperationResponse> {

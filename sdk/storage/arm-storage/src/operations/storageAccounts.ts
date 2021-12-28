@@ -6,16 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { StorageAccounts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageManagementClientContext } from "../storageManagementClientContext";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { LroEngine } from "../lro";
-import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
+import { StorageManagementClient } from "../storageManagementClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   StorageAccount,
   StorageAccountsListNextOptionalParams,
@@ -48,6 +46,8 @@ import {
   StorageAccountsListServiceSASOptionalParams,
   StorageAccountsListServiceSASResponse,
   StorageAccountsFailoverOptionalParams,
+  StorageAccountsHierarchicalNamespaceMigrationOptionalParams,
+  StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
   BlobRestoreParameters,
   StorageAccountsRestoreBlobRangesOptionalParams,
   StorageAccountsRestoreBlobRangesResponse,
@@ -57,15 +57,15 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a StorageAccounts. */
+/** Class containing StorageAccounts operations. */
 export class StorageAccountsImpl implements StorageAccounts {
-  private readonly client: StorageManagementClientContext;
+  private readonly client: StorageManagementClient;
 
   /**
    * Initialize a new instance of the class StorageAccounts class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageManagementClientContext) {
+  constructor(client: StorageManagementClient) {
     this.client = client;
   }
 
@@ -247,12 +247,15 @@ export class StorageAccountsImpl implements StorageAccounts {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, accountName, parameters, options },
       createOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -523,13 +526,16 @@ export class StorageAccountsImpl implements StorageAccounts {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, accountName, options },
-      failoverOperationSpec,
-      "location"
+      failoverOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -549,6 +555,191 @@ export class StorageAccountsImpl implements StorageAccounts {
     options?: StorageAccountsFailoverOptionalParams
   ): Promise<void> {
     const poller = await this.beginFailover(
+      resourceGroupName,
+      accountName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param requestType Required. Hierarchical namespace migration type can either be a hierarchical
+   *                    namespace validation request 'HnsOnValidationRequest' or a hydration request
+   *                    'HnsOnHydrationRequest'. The validation request will validate the migration whereas the hydration
+   *                    request will migrate the account.
+   * @param options The options parameters.
+   */
+  async beginHierarchicalNamespaceMigration(
+    resourceGroupName: string,
+    accountName: string,
+    requestType: string,
+    options?: StorageAccountsHierarchicalNamespaceMigrationOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, requestType, options },
+      hierarchicalNamespaceMigrationOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+  }
+
+  /**
+   * Live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param requestType Required. Hierarchical namespace migration type can either be a hierarchical
+   *                    namespace validation request 'HnsOnValidationRequest' or a hydration request
+   *                    'HnsOnHydrationRequest'. The validation request will validate the migration whereas the hydration
+   *                    request will migrate the account.
+   * @param options The options parameters.
+   */
+  async beginHierarchicalNamespaceMigrationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    requestType: string,
+    options?: StorageAccountsHierarchicalNamespaceMigrationOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginHierarchicalNamespaceMigration(
+      resourceGroupName,
+      accountName,
+      requestType,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Abort live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  async beginAbortHierarchicalNamespaceMigration(
+    resourceGroupName: string,
+    accountName: string,
+    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, options },
+      abortHierarchicalNamespaceMigrationOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+  }
+
+  /**
+   * Abort live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  async beginAbortHierarchicalNamespaceMigrationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginAbortHierarchicalNamespaceMigration(
       resourceGroupName,
       accountName,
       options
@@ -616,13 +807,16 @@ export class StorageAccountsImpl implements StorageAccounts {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, accountName, parameters, options },
-      restoreBlobRangesOperationSpec,
-      "location"
+      restoreBlobRangesOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -932,6 +1126,52 @@ const failoverOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.accountName1
   ],
+  serializer
+};
+const hierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/hnsonmigration",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.requestType],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const abortHierarchicalNamespaceMigrationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/aborthnsonmigration",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName1
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const restoreBlobRangesOperationSpec: coreClient.OperationSpec = {

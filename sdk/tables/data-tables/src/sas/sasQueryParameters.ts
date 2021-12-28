@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { truncatedISO8061Date } from "../utils/truncateISO8061Date";
+import { SasIPRange, ipRangeToString } from "./sasIPRange";
 import { UserDelegationKey } from "./models";
-import { ipRangeToString, SasIPRange } from "./sasIPRange";
+import { truncatedISO8061Date } from "../utils/truncateISO8061Date";
 
 /**
  * Protocols for generated SAS.

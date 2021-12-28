@@ -904,8 +904,8 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
     let settledMessageCount = 0;
 
     let messageHandlerCount = 0;
-    let receiverIsActiveResolver: Function;
-    let receiverSecondMessageResolver: Function;
+    let receiverIsActiveResolver: (value: unknown) => void;
+    let receiverSecondMessageResolver: (value: unknown) => void;
     const receiverIsActive = new Promise((resolve) => {
       receiverIsActiveResolver = resolve;
     });
@@ -925,10 +925,10 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
         } finally {
           if (messageHandlerCount === 1) {
             // Since we've received a message, mark the receiver as active.
-            receiverIsActiveResolver();
+            receiverIsActiveResolver(undefined);
           } else {
             // Mark the second message resolver!
-            receiverSecondMessageResolver();
+            receiverSecondMessageResolver(undefined);
           }
         }
       },
@@ -939,7 +939,7 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
     await receiverIsActive;
 
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
-    processErrorFake.called.should.be.false;
+    processErrorFake.called.should.equal(false);
 
     const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;

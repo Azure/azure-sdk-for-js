@@ -231,27 +231,6 @@ export interface VaultList {
   readonly nextLink?: string;
 }
 
-/** ARM Resource. */
-export interface Resource {
-  /**
-   * Resource Id represents the complete path to the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name associated with the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Optional ETag. */
-  etag?: string;
-}
-
 /** Identity for the resource. */
 export interface IdentityData {
   /**
@@ -525,6 +504,27 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The type of identity that last modified the resource. */
   lastModifiedAt?: Date;
+}
+
+/** ARM Resource. */
+export interface Resource {
+  /**
+   * Resource Id represents the complete path to the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource name associated with the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type represents the complete path of the form Namespace/ResourceType/ResourceType/...
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Optional ETag. */
+  etag?: string;
 }
 
 /** Operations List response which contains list of available APIs. */
@@ -1096,18 +1096,18 @@ export interface VaultExtendedInfoUpdateOptionalParams
 export type VaultExtendedInfoUpdateResponse = VaultExtendedInfoResource;
 
 /** Optional parameters. */
-export interface RecoveryServicesClientGetOperationStatusOptionalParams
+export interface GetOperationStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperationStatus operation. */
-export type RecoveryServicesClientGetOperationStatusResponse = OperationResource;
+export type GetOperationStatusResponse = OperationResource;
 
 /** Optional parameters. */
-export interface RecoveryServicesClientGetOperationResultOptionalParams
+export interface GetOperationResultOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperationResult operation. */
-export type RecoveryServicesClientGetOperationResultResponse = Vault;
+export type GetOperationResultResponse = Vault;
 
 /** Optional parameters. */
 export interface UsagesListByVaultsOptionalParams

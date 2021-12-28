@@ -1,24 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:receiver-spec");
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import {
   EventData,
-  ReceivedEventData,
-  latestEventPosition,
-  earliestEventPosition,
   EventHubConsumerClient,
   EventHubProducerClient,
-  Subscription
+  ReceivedEventData,
+  Subscription,
+  earliestEventPosition,
+  latestEventPosition
 } from "../../src";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "./utils/mockService";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import debugModule from "debug";
 import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
+const debug = debugModule("azure:event-hubs:receiver-spec");
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();

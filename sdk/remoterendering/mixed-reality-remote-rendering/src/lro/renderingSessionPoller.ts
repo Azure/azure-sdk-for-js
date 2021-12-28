@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
-import { KnownRenderingSessionStatus } from "../generated/models/index";
+import { KnownRenderingSessionStatus, KnownRenderingServerSize } from "../generated/models/index";
 import { getSessionInternal, endSessionInternal } from "../internal/commonQueries";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { RemoteRendering } from "../generated/operationsInterfaces";
@@ -132,7 +132,7 @@ export class RenderingSessionPoller extends Poller<
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
-  public intervalInMs: number = 10000;
+  public intervalInMs: number;
 
   constructor(
     accountId: string,
@@ -147,7 +147,13 @@ export class RenderingSessionPoller extends Poller<
         new RenderingSessionOperationStateImpl(renderingSession)
       )
     );
-    this.intervalInMs = options.intervalInMs ? options.intervalInMs : 10000;
+    if (options.intervalInMs) {
+      this.intervalInMs = options.intervalInMs;
+    } else if (renderingSession.size === KnownRenderingServerSize.Standard) {
+      this.intervalInMs = 2000;
+    } else {
+      this.intervalInMs = 10000;
+    }
   }
 
   /**

@@ -4,7 +4,7 @@
 import {
   deserializeCommunicationIdentifier,
   serializeCommunicationIdentifier,
-  SerializedCommunicationIdentifier
+  SerializedCommunicationIdentifier,
 } from "@azure/communication-common";
 import * as RestModel from "../generated/src/models";
 import { AddParticipantsRequest } from "./requests";
@@ -15,7 +15,7 @@ import {
   ChatParticipant,
   ChatMessageReadReceipt,
   ChatMessageContent,
-  CreateChatThreadResult
+  CreateChatThreadResult,
 } from "./models";
 
 export const mapToCreateChatThreadOptionsRestModel = (
@@ -24,7 +24,7 @@ export const mapToCreateChatThreadOptionsRestModel = (
   const { participants, idempotencyToken, ...rest } = options;
   return {
     repeatabilityRequestId: idempotencyToken,
-    ...rest
+    ...rest,
   };
 };
 
@@ -38,7 +38,7 @@ export const mapToChatParticipantRestModel = (
   const { id, ...rest } = chatParticipant;
   return {
     ...rest,
-    communicationIdentifier: serializeCommunicationIdentifier(id)
+    communicationIdentifier: serializeCommunicationIdentifier(id),
   };
 };
 
@@ -52,7 +52,7 @@ export const mapToAddChatParticipantsRequestRestModel = (
   return {
     participants: addParticipantsRequest.participants?.map((participant) =>
       mapToChatParticipantRestModel(participant)
-    )
+    ),
   };
 };
 
@@ -68,7 +68,7 @@ export const mapToChatParticipantSdkModel = (
     ...rest,
     id: deserializeCommunicationIdentifier(
       communicationIdentifier as SerializedCommunicationIdentifier
-    )
+    ),
   };
 };
 
@@ -89,7 +89,7 @@ export const mapToChatContentSdkModel = (
   if (participants) {
     result = {
       ...result,
-      participants: participants?.map((participant) => mapToChatParticipantSdkModel(participant))
+      participants: participants?.map((participant) => mapToChatParticipantSdkModel(participant)),
     };
   }
   return result;
@@ -105,7 +105,7 @@ export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): Ch
   if (content) {
     result = {
       ...result,
-      content: mapToChatContentSdkModel(content)
+      content: mapToChatContentSdkModel(content),
     };
   }
   if (senderCommunicationIdentifier) {
@@ -140,7 +140,7 @@ export const mapToChatThreadPropertiesSdkModel = (
       ...rest,
       createdBy: deserializeCommunicationIdentifier(
         createdByCommunicationIdentifier as SerializedCommunicationIdentifier
-      )
+      ),
     };
   } else {
     return { ...rest };
@@ -158,7 +158,7 @@ export const mapToCreateChatThreadResultSdkModel = (
   if (chatThread) {
     return {
       ...rest,
-      chatThread: mapToChatThreadPropertiesSdkModel(chatThread)
+      chatThread: mapToChatThreadPropertiesSdkModel(chatThread),
     };
   } else {
     return { ...rest };
@@ -177,6 +177,6 @@ export const mapToReadReceiptSdkModel = (
     ...rest,
     sender: deserializeCommunicationIdentifier(
       senderCommunicationIdentifier as SerializedCommunicationIdentifier
-    )
+    ),
   };
 };

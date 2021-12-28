@@ -62,11 +62,10 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
 
   public async globalSetup() {
     await super.globalSetup();
-
     // Create a blob
     await this.blockBlobClient.upload(
-      Buffer.alloc(this.parsedOptions.size.value!),
-      this.parsedOptions.size.value!
+      Buffer.alloc(this.parsedOptions.size.value),
+      this.parsedOptions.size.value
     );
   }
 

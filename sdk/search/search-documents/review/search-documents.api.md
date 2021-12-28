@@ -1800,7 +1800,8 @@ export type ScoringStatistics = "local" | "global";
 // @public
 export class SearchClient<T> implements IndexDocumentsClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential | TokenCredential, options?: SearchClientOptions);
-    readonly apiVersion: string;
+    // @deprecated
+    get apiVersion(): string;
     autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options?: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
     deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -1812,13 +1813,16 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends keyof T>(searchText?: string, options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
+    readonly serviceVersion: string;
     suggest<Fields extends keyof T = never>(searchText: string, suggesterName: string, options?: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
 // @public
 export interface SearchClientOptions extends CommonClientOptions {
+    // @deprecated
     apiVersion?: string;
+    serviceVersion?: string;
 }
 
 // @public

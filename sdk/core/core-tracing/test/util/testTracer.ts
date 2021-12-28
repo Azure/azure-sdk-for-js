@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TestSpan } from "./testSpan";
 import {
+  Context as OTContext,
   SpanContext,
   SpanOptions,
   TraceFlags,
-  Context as OTContext,
-  context as otContext,
+  Tracer,
   getSpanContext,
-  Tracer
+  context as otContext,
 } from "../../src/interfaces";
+import { TestSpan } from "./testSpan";
 
 /**
  * Simple representation of a Span that only has name and child relationships.
@@ -98,7 +98,7 @@ export class TestTracer implements Tracer {
       const spanId = span.spanContext().spanId;
       const node: SpanGraphNode = {
         name: span.name,
-        children: []
+        children: [],
       };
       nodeMap.set(spanId, node);
       if (span.parentSpanId) {
@@ -115,7 +115,7 @@ export class TestTracer implements Tracer {
     }
 
     return {
-      roots
+      roots,
     };
   }
 
@@ -140,7 +140,7 @@ export class TestTracer implements Tracer {
     const spanContext: SpanContext = {
       traceId,
       spanId: this.getNextSpanId(),
-      traceFlags: TraceFlags.NONE
+      traceFlags: TraceFlags.NONE,
     };
     const span = new TestSpan(this, name, spanContext, parentContext?.spanId, options);
     this.knownSpans.push(span);

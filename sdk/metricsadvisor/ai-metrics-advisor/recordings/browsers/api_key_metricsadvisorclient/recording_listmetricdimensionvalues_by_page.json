@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"value\":[\"__SUM__\",\"Electronics (Accessories)\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$maxpagesize=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "e6859fbf-2c6c-484c-a2d1-f861fa2d9f8f",
+    "apim-request-id": "c3623a45-94b7-46d0-8f86-a1cf74d5d69b",
     "content-length": "226",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:44:16 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:27 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "108",
-    "x-request-id": "e6859fbf-2c6c-484c-a2d1-f861fa2d9f8f"
+    "x-envoy-upstream-service-time": "106",
+    "x-request-id": "c3623a45-94b7-46d0-8f86-a1cf74d5d69b"
    }
   },
   {
@@ -31,14 +31,14 @@
    "status": 200,
    "response": "{\"value\":[\"Electronics (Consumer)\",\"Grocery & Gourmet Food\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/dimension/query?$maxpagesize=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "7d5adf21-c804-418c-9cf2-9aed1a83cb1a",
+    "apim-request-id": "c90363f1-ae3f-4bfa-84c2-257b136dd26e",
     "content-length": "238",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:44:16 GMT",
+    "date": "Tue, 16 Nov 2021 02:01:27 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "113",
-    "x-request-id": "7d5adf21-c804-418c-9cf2-9aed1a83cb1a"
+    "x-envoy-upstream-service-time": "101",
+    "x-request-id": "c90363f1-ae3f-4bfa-84c2-257b136dd26e"
    }
   }
  ],

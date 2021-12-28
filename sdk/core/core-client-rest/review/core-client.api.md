@@ -81,6 +81,7 @@ export type RequestParameters = {
     contentType?: string;
     allowInsecureConnection?: boolean;
     skipUrlEncoding?: boolean;
+    binaryResponse?: boolean;
 };
 
 // @public

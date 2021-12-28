@@ -1,14 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as uuid } from "uuid";
-import chai from "chai";
-import assert from "assert";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:misc-spec");
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import {
   EventData,
   EventHubConsumerClient,
@@ -17,15 +10,22 @@ import {
   ReceivedEventData,
   Subscription
 } from "../../src";
-import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import {
   TRACEPARENT_PROPERTY,
   extractSpanContextFromEventData
 } from "../../src/diagnostics/instrumentEventData";
-import { TraceFlags } from "@azure/core-tracing";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { TraceFlags } from "@azure/core-tracing";
+import chai, { assert } from "chai";
+import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "../public/utils/mockService";
+import debugModule from "debug";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { v4 as uuid } from "uuid";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
+const debug = debugModule("azure:event-hubs:misc-spec");
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();

@@ -1568,10 +1568,14 @@ export type DatabricksSparkPythonActivity = ExecutionActivity & {
 };
 
 // @public (undocumented)
-export class DataFactoryManagementClient extends DataFactoryManagementClientContext {
+export class DataFactoryManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DataFactoryManagementClientOptionalParams);
     // (undocumented)
     activityRuns: ActivityRuns;
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     dataFlowDebugSession: DataFlowDebugSession;
     // (undocumented)
@@ -1607,20 +1611,11 @@ export class DataFactoryManagementClient extends DataFactoryManagementClientCont
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     triggerRuns: TriggerRuns;
     // (undocumented)
     triggers: Triggers;
-}
-
-// @public (undocumented)
-export class DataFactoryManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DataFactoryManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public
@@ -1784,6 +1779,9 @@ export interface DataFlowListResponse {
 export interface DataFlowReference {
     [property: string]: any;
     datasetParameters?: Record<string, unknown>;
+    parameters?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
     referenceName: string;
     type: "DataFlowReference";
 }
@@ -1823,8 +1821,6 @@ export type DataFlowsGetResponse = DataFlowResource;
 
 // @public
 export type DataFlowSink = Transformation & {
-    dataset?: DatasetReference;
-    linkedService?: LinkedServiceReference;
     schemaLinkedService?: LinkedServiceReference;
 };
 
@@ -1844,8 +1840,6 @@ export type DataFlowsListByFactoryResponse = DataFlowListResponse;
 
 // @public
 export type DataFlowSource = Transformation & {
-    dataset?: DatasetReference;
-    linkedService?: LinkedServiceReference;
     schemaLinkedService?: LinkedServiceReference;
 };
 
@@ -2770,13 +2764,11 @@ export type FilterActivity = ControlActivity & {
 // @public
 export type Flowlet = DataFlow & {
     type: "Flowlet";
-    [property: string]: any;
     sources?: DataFlowSource[];
     sinks?: DataFlowSink[];
     transformations?: Transformation[];
     script?: string;
     scriptLines?: string[];
-    additionalProperties?: Record<string, unknown>;
 };
 
 // @public
@@ -2820,6 +2812,7 @@ export type FtpReadSettings = StoreReadSettings & {
     deleteFilesAfterCompletion?: Record<string, unknown>;
     fileListPath?: Record<string, unknown>;
     useBinaryTransfer?: boolean;
+    disableChunking?: Record<string, unknown>;
 };
 
 // @public
@@ -6986,6 +6979,7 @@ export type SftpReadSettings = StoreReadSettings & {
     deleteFilesAfterCompletion?: Record<string, unknown>;
     modifiedDatetimeStart?: Record<string, unknown>;
     modifiedDatetimeEnd?: Record<string, unknown>;
+    disableChunking?: Record<string, unknown>;
 };
 
 // @public
@@ -7697,8 +7691,10 @@ export type TextFormat = DatasetStorageFormat & {
 
 // @public
 export interface Transformation {
+    dataset?: DatasetReference;
     description?: string;
     flowlet?: DataFlowReference;
+    linkedService?: LinkedServiceReference;
     name: string;
 }
 

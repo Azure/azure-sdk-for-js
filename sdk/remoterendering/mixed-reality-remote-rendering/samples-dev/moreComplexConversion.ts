@@ -67,12 +67,15 @@ export function getClientWithAAD() {
 }
 
 export function getClientWithDeviceCode() {
-  const deviceCodeCallback = (deviceCodeInfo: DeviceCodeInfo) => {
+  const userPromptCallback = (deviceCodeInfo: DeviceCodeInfo) => {
     console.debug(deviceCodeInfo.message);
     console.log(deviceCodeInfo.message);
   };
 
-  const credential = new DeviceCodeCredential(tenantId, clientId, deviceCodeCallback, {
+  const credential = new DeviceCodeCredential({
+    tenantId: tenantId,
+    clientId: clientId,
+    userPromptCallback: userPromptCallback,
     authorityHost: "https://login.microsoftonline.com/" + tenantId
   });
 

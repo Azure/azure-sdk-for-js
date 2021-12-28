@@ -23,7 +23,7 @@ describe("ReceiverHelper unit tests", () => {
     }
   } as Receiver;
 
-  const openReceiver = () => {
+  const openReceiver = (): Receiver & { _addedCredits: number } => {
     const fakeOpenReceiver = {
       _addedCredits: 0,
       credit: 0,
@@ -40,7 +40,7 @@ describe("ReceiverHelper unit tests", () => {
 
   it("addCredit works with a non-suspended open receiver", () => {
     const receiver = openReceiver();
-    let helper = new ReceiverHelper(() => ({
+    const helper = new ReceiverHelper(() => ({
       receiver,
       logPrefix: "whatever"
     }));

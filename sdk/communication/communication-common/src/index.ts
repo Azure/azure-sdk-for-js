@@ -4,7 +4,7 @@
 export {
   AzureCommunicationTokenCredential,
   CommunicationTokenCredential,
-  CommunicationGetTokenOptions
+  CommunicationGetTokenOptions,
 } from "./communicationTokenCredential";
 export * from "./credential";
 export { CommunicationTokenRefreshOptions } from "./autoRefreshTokenCredential";

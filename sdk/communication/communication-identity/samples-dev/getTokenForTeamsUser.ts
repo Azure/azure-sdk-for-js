@@ -7,7 +7,7 @@
 
 import {
   CommunicationAccessToken,
-  CommunicationIdentityClient
+  CommunicationIdentityClient,
 } from "@azure/communication-identity";
 import { UsernamePasswordCredential } from "@azure/identity";
 

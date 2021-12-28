@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { base64Encode, base64Decode } from "./bufferSerializer";
+import { base64Decode, base64Encode } from "./bufferSerializer";
 
 export interface ContinuationToken {
   nextPartitionKey: string;

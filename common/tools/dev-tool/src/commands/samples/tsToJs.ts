@@ -11,6 +11,7 @@ import ts from "typescript";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 
 import { createPrinter } from "../../util/printer";
+import { toCommonJs } from "../../util/samples/transforms";
 
 const log = createPrinter("ts-to-js");
 
@@ -20,13 +21,14 @@ export const commandInfo = makeCommandInfo(
 );
 
 const prettierOptions: prettier.Options = {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   ...(require("../../../../eslint-plugin-azure-sdk/prettier.json") as prettier.Options),
-  parser: "typescript"
+  parser: "typescript",
 };
 
 const compilerOptions: ts.CompilerOptions = {
   target: ts.ScriptTarget.ESNext,
-  module: ts.ModuleKind.ES2015
+  module: ts.ModuleKind.ES2015,
 };
 
 const NEWLINE_SIGIL = `${EOL}//@@TS-MAGIC-NEWLINE@@${EOL}`;
@@ -39,17 +41,17 @@ const NEWLINE_SIGIL_SEARCH = /\r?\n\s*\/\/@@TS-MAGIC-NEWLINE@@\r?\n/;
  *
  * Given as arguments to string.replace. Called in this order.
  */
-const REGEX_STACK: Array<[RegExp, string]> = [
-  // import * as dotenv ... -> require("dotenv").config()
+const REGEX_STACK: Array<[RegExp | (() => RegExp), string]> = [
+  // `require("dotenv").config()` is just a little cleaner for CJS
   [
-    /import\s+\*\s+as\s+dotenv\s+from\s*"dotenv"\s*;\s*\n\s*dotenv.config\({[^{]*}\)\s*;\s*/,
-    'require("dotenv").config();\n\n'
-  ], // Needs some special handling
-  // import { ... } from -> const { ... } = require
-  [/import\s+({[^}]+})\s+from\s*("[^"]+");/gs, "const $1 = require($2);"],
-  [/import\s+([^\s]+)\s+from\s*("[^"]+");/g, "const $1 = require($2);"],
-  [/import\s+\*\s+as\s+([^\s]+)\s+from\s*("[^"]+");/g, "const $1 = require($2);"],
-  [/export async function main/, "async function main"]
+    () =>
+      /^const\s+dotenv\s*=\s*require\s*\(\s*"dotenv"\s*\)\s*;\s*(\r?\n)*\s*dotenv\s*\.\s*config/gm,
+    'require("dotenv").config',
+  ],
+  // Remove exports. We would have to recreate all nodes to do this with the API.
+  [() => /^export(\s+default)?\s/gm, ""],
+  // Give `module.exports =` some breathing room
+  [() => /([^\n])\r?\nmodule\.exports/g, `$1${EOL + EOL}module.exports`],
 ];
 
 /**
@@ -63,7 +65,8 @@ function postTransform(outText: string): string {
   // that are humanly comprehensible
   text = prettier.format(text, prettierOptions);
 
-  for (const [match, replacement] of REGEX_STACK) {
+  for (const [rx, replacement] of REGEX_STACK) {
+    const match = typeof rx === "function" ? rx() : rx;
     text = text.replace(match, replacement);
   }
 
@@ -87,15 +90,15 @@ export function convert(srcText: string, transpileOptions?: ts.TranspileOptions)
 
   const extraCompilerOptions = transpileOptions?.compilerOptions;
 
-  const extraTranspileOptions = { ...transpileOptions };
   delete transpileOptions?.compilerOptions;
 
   const output = ts.transpileModule(processedSrcText, {
     compilerOptions: {
       ...compilerOptions,
-      ...extraCompilerOptions
+      ...extraCompilerOptions,
+      removeComments: false,
     },
-    ...extraTranspileOptions
+    ...transpileOptions,
   });
 
   if (output.diagnostics?.length) {
@@ -104,7 +107,7 @@ export function convert(srcText: string, transpileOptions?: ts.TranspileOptions)
     const host: ts.FormatDiagnosticsHost = {
       getNewLine: () => EOL,
       getCanonicalFileName: (path) => path,
-      getCurrentDirectory: () => process.cwd()
+      getCurrentDirectory: () => process.cwd(),
     };
 
     for (const diagnostic of output.diagnostics) {
@@ -126,7 +129,12 @@ export default leafCommand(commandInfo, async (options) => {
 
   const srcText = (await fs.readFile(src)).toString("utf-8");
 
-  const outputText = convert(srcText, { fileName: src });
+  const outputText = convert(srcText, {
+    fileName: src,
+    transformers: {
+      after: [toCommonJs],
+    },
+  });
 
   await fs.ensureDir(path.dirname(dest));
   await fs.writeFile(dest, outputText);

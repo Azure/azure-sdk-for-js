@@ -2,7 +2,7 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "sdk-type": "client",
   "keywords": [
     "node",
@@ -64,8 +64,7 @@
     "test": "npm run test:node && npm run test:browser",
     "unit-test:browser": "",
     "unit-test:node": "npm run build:test:node && mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-test/index.node.js\"",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "engines": {
     "node": ">=12.0.0"
@@ -110,7 +109,6 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
-    "assert": "^1.4.1",
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
@@ -127,10 +125,10 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^1.18.0",
+    "mocha-junit-reporter": "^2.0.0",
     "nock": "^12.0.3",
-    "nyc": "^14.0.0",
-    "prettier": "^1.16.4",
+    "nyc": "^15.0.0",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-shim": "^1.0.0",
@@ -140,8 +138,7 @@
     "ts-node": "^10.0.0",
     "typescript": "~4.2.0",
     "uglify-js": "^3.4.9",
-    "cross-env": "^7.0.2",
-    "typedoc": "0.15.2"
+    "cross-env": "^7.0.2"
   },
   "//sampleConfiguration": {
     "productName": "Azure App Configuration",

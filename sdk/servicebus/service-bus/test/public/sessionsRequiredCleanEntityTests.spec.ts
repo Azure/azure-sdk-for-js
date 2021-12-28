@@ -274,7 +274,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
  * This behavior only manifests with subscriptions. Queues won't even let you create a receiver
  * when a session does not have any messages.
  */
-async function ensureMessageExists(receiver: ServiceBusSessionReceiver) {
+async function ensureMessageExists(receiver: ServiceBusSessionReceiver): Promise<void> {
   const messages = await receiver.receiveMessages(1);
   should.equal(messages.length, 1, "Should receive a single message");
 

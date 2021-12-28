@@ -6,7 +6,7 @@ parameters:
 - name: Location
   displayName: Location
   type: string
-  default: canadacentral
+  default: centraluseuap
 
 trigger: none
 

@@ -63,6 +63,12 @@ export interface SendManagementRequestOptions extends SendRequestOptions {
    * This is used for service side optimization.
    */
   associatedLinkName?: string;
+  /**
+   * Option to disable the client from running JSON.parse() on the message body when receiving the message.
+   * Not applicable if the message was sent with AMQP body type value or sequence. Use this option when you
+   * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
+   */
+  skipParsingBodyAsJson?: boolean;
 }
 
 /**
@@ -320,6 +326,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     };
 
     let waitTimer: ReturnType<typeof setTimeout>;
+    // eslint-disable-next-line promise/param-names
     const operationTimeout = new Promise<void>((_, reject) => {
       waitTimer = setTimeout(() => actionAfterTimeout(reject), retryTimeoutInMs);
     });
@@ -498,9 +505,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const messages = result.body.messages as { message: Buffer }[];
         for (const msg of messages) {
           const decodedMessage = RheaMessageUtil.decode(msg.message);
-          const message = fromRheaMessage(decodedMessage as any);
-
-          message.body = defaultDataTransformer.decode(message.body);
+          const message = fromRheaMessage(
+            decodedMessage as any,
+            options?.skipParsingBodyAsJson ?? false
+          );
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
         }
@@ -812,7 +820,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           decodedMessage as any,
           { tag: msg["lock-token"] } as any,
           false,
-          receiveMode
+          receiveMode,
+          options?.skipParsingBodyAsJson ?? false
         );
         messageList.push(message);
       }
@@ -1344,12 +1353,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 export function toScheduleableMessage(
   item: ServiceBusMessage | AmqpAnnotatedMessage,
   scheduledEnqueueTimeUtc: Date
-) {
+): Record<string, unknown> {
   const rheaMessage = toRheaMessage(item, defaultDataTransformer);
   updateMessageId(rheaMessage, rheaMessage.message_id || generate_uuid());
   updateScheduledTime(rheaMessage, scheduledEnqueueTimeUtc);
 
-  const entry: any = {
+  const entry: Record<string, unknown> = {
     message: RheaMessageUtil.encode(rheaMessage),
     "message-id": rheaMessage.message_id
   };

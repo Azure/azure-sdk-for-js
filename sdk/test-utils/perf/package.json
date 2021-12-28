@@ -22,11 +22,11 @@
     "integration-test:node": "node dist-esm/test/index.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts -f html -o perf-lintReport.html || exit 0",
+    "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "perf-test:node": "npm run build && node dist-esm/test/index.spec.js",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
+    "unit-test:node": "ts-node runAllTests.ts",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build npm run unit-test:browser",
     "test:node": "npm run clean && npm run build && npm run unit-test:node",
@@ -63,7 +63,7 @@
     "@azure/core-http": "^2.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
     "tslib": "^2.2.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.6",
     "minimist": "~1.2.5",
     "@types/minimist": "~1.2.0"
   },
@@ -79,6 +79,7 @@
     "karma-env-preprocessor": "^0.1.1",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
-    "typescript": "~4.2.0"
+    "typescript": "~4.2.0",
+    "ts-node": "^8.3.0"
   }
 }

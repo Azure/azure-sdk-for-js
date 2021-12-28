@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { env } from "./env";
 /**
  * A custom error type for failed pipeline requests.
  */
@@ -88,7 +89,7 @@ export const sanitizerKeywordMapping: Record<
 /**
  * This sanitizer offers a general regex replace across request/response Body, Headers, and URI. For the body, this means regex applying to the raw JSON.
  */
-interface RegexSanitizer {
+export interface RegexSanitizer {
   /**
    * The substitution value.
    */
@@ -255,11 +256,57 @@ export interface RecorderStartOptions {
  *
  * Returns true if the param exists.
  */
-export function ensureExistence<T>(thing: T | undefined, label: string, mode: string): thing is T {
+export function ensureExistence<T>(thing: T | undefined, label: string): thing is T {
   if (!thing) {
     throw new RecorderError(
-      `Something went wrong, ${label} should not have been undefined in ${mode} mode.`
+      `Something went wrong, ${label} should not have been undefined in "${getTestMode()}" mode.`
     );
   }
   return true; // Since we would throw error if undefined
+}
+
+export type TestMode = "record" | "playback" | "live";
+
+/**
+ * Returns the test mode.
+ *
+ * If TEST_MODE is not defined, defaults to playback.
+ */
+export function getTestMode(): TestMode {
+  if (isPlaybackMode()) {
+    return "playback";
+  }
+  return env.TEST_MODE as "record" | "live";
+}
+
+/** Make a lazy value that can be deferred and only computed once. */
+export const once = <T>(make: () => T): (() => T) => {
+  let value: T;
+  return () => (value = value ?? make());
+};
+
+export function isRecordMode() {
+  return env.TEST_MODE === "record";
+}
+
+export function isLiveMode() {
+  return env.TEST_MODE === "live";
+}
+
+export function isPlaybackMode() {
+  return !isRecordMode() && !isLiveMode();
+}
+
+/**
+ * Loads the environment variables in both node and browser modes corresponding to the key-value pairs provided.
+ *
+ * Example-
+ *
+ * Suppose `variables` is { ACCOUNT_NAME: "my_account_name", ACCOUNT_KEY: "fake_secret" },
+ * `setEnvironmentVariables` loads the ACCOUNT_NAME and ACCOUNT_KEY in the environment accordingly.
+ */
+export function setEnvironmentVariables(variables: { [key: string]: string }) {
+  for (const [key, value] of Object.entries(variables)) {
+    env[key] = value;
+  }
 }

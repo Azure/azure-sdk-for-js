@@ -10,16 +10,13 @@ import {
   GeneratedClient,
   InnerError,
   StringIndexType as GeneratedStringIndexType,
-  TextAnalyticsError
+  TextAnalyticsError,
 } from "./generated";
 import { TextAnalyticsAction } from "./textAnalyticsAction";
 import { createSpan } from "./tracing";
 import { LroResponse } from "@azure/core-lro";
 
-/**
- * @internal
- */
-export interface IdObject {
+interface IdObject {
   id: string;
 }
 
@@ -76,7 +73,7 @@ export function parseAssessmentIndex(pointer: string): AssessmentIndex {
     const assessmentIndex: AssessmentIndex = {
       document: parseInt(res[1]),
       sentence: parseInt(res[2]),
-      assessment: parseInt(res[3])
+      assessment: parseInt(res[3]),
     };
     return assessmentIndex;
   } else {
@@ -172,33 +169,6 @@ export function addParamsToTask<X extends TextAnalyticsAction>(
   return { parameters: params, taskName: actionName };
 }
 
-/**
- * Set the modelVersion property with default if it does not exist in x.
- * @param options - operation options bag that has a {@link StringIndexType}
- * @internal
- */
-export function setModelVersionParam<X extends { modelVersion?: string }>(
-  x: X
-): X & { modelVersion: string } {
-  return { ...x, modelVersion: x.modelVersion || "latest" };
-}
-
-/**
- * @internal
- */
-export interface PageParam {
-  top: number;
-  skip: number;
-}
-
-/**
- * @internal
- */
-export function getOperationId(operationLocation: string): string {
-  const lastSlashIndex = operationLocation.lastIndexOf("/");
-  return operationLocation.substring(lastSlashIndex + 1);
-}
-
 function appendReadableErrorMessage(currentMessage: string, innerMessage: string): string {
   let message = currentMessage;
   if (message.slice(-1) !== ".") {
@@ -220,6 +190,9 @@ export function compileError(errorResponse: unknown): any {
     };
     statusCode: number;
   };
+  if (!castErrorResponse.response) {
+    throw errorResponse;
+  }
   const topLevelError = castErrorResponse.response.parsedBody?.error;
   if (!topLevelError) return errorResponse;
   let errorMessage = topLevelError.message || "";
@@ -237,18 +210,8 @@ export function compileError(errorResponse: unknown): any {
   unwrap(topLevelError);
   return new RestError(errorMessage, {
     code: invalidDocumentBatchCode ? "InvalidDocumentBatch" : topLevelError.code,
-    statusCode: castErrorResponse.statusCode
+    statusCode: castErrorResponse.statusCode,
   });
-}
-
-/**
- * A wrapper for setTimeout that resolves a promise after t milliseconds.
- * @internal
- * @param timeInMs - The number of milliseconds to be delayed.
- * @returns Resolved promise
- */
-export function delay(timeInMs: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }
 
 /**
@@ -272,15 +235,15 @@ export async function getRawResponse<TOptions extends OperationOptions, TResult>
     onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
       rawResponse = response;
       onResponse?.(response, flatResponseParam);
-    }
+    },
   });
   return {
     flatResponse,
     rawResponse: {
       statusCode: rawResponse!.status,
       headers: rawResponse!.headers.toJSON(),
-      body: rawResponse!.parsedBody
-    }
+      body: rawResponse!.parsedBody,
+    },
   };
 }
 
@@ -307,19 +270,19 @@ export async function sendGetRequest<TOptions extends OperationOptions>(
           {
             ...spec,
             path,
-            httpMethod: "GET"
+            httpMethod: "GET",
           }
         ),
       finalOptions
     );
     return {
       flatResponse: flatResponse,
-      rawResponse
+      rawResponse,
     };
   } catch (e) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: e.message
+      message: e.message,
     });
     throw e;
   } finally {

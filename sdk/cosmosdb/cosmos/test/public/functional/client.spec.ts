@@ -12,7 +12,7 @@ import {
   generateDocuments,
   bulkInsertItems
 } from "../common/TestHelpers";
-import AbortController from "node-abort-controller";
+import { AbortController } from "node-abort-controller";
 import { UsernamePasswordCredential } from "@azure/identity";
 import { defaultConnectionPolicy } from "../../../src/documents";
 
@@ -73,7 +73,7 @@ describe("Client Tests", function(this: Suite) {
         });
         await client.databases.readAll().fetchAll();
       } catch (e) {
-        assert.equal(e.statusCode, 400);
+        assert.equal(e.name, "CredentialUnavailableError");
       }
     });
   });

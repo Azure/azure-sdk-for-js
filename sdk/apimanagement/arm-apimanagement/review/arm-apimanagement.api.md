@@ -630,7 +630,9 @@ export interface ApiListByTagsOptionalParams extends coreClient.OperationOptions
 export type ApiListByTagsResponse = TagResourceCollection;
 
 // @public (undocumented)
-export class ApiManagementClient extends ApiManagementClientContext {
+export class ApiManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ApiManagementClientOptionalParams);
     // (undocumented)
     api: Api;
@@ -669,13 +671,15 @@ export class ApiManagementClient extends ApiManagementClientContext {
     // (undocumented)
     apiTagDescription: ApiTagDescription;
     // (undocumented)
+    apiVersion: string;
+    // (undocumented)
     apiVersionSet: ApiVersionSet;
     // (undocumented)
     authorizationServer: AuthorizationServer;
     // (undocumented)
     backend: Backend;
-    beginPerformConnectivityCheckAsync(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: ConnectivityCheckRequest, options?: ApiManagementClientPerformConnectivityCheckAsyncOptionalParams): Promise<PollerLike<PollOperationState<ApiManagementClientPerformConnectivityCheckAsyncResponse>, ApiManagementClientPerformConnectivityCheckAsyncResponse>>;
-    beginPerformConnectivityCheckAsyncAndWait(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: ConnectivityCheckRequest, options?: ApiManagementClientPerformConnectivityCheckAsyncOptionalParams): Promise<ApiManagementClientPerformConnectivityCheckAsyncResponse>;
+    beginPerformConnectivityCheckAsync(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: ConnectivityCheckRequest, options?: PerformConnectivityCheckAsyncOptionalParams): Promise<PollerLike<PollOperationState<PerformConnectivityCheckAsyncResponse>, PerformConnectivityCheckAsyncResponse>>;
+    beginPerformConnectivityCheckAsyncAndWait(resourceGroupName: string, serviceName: string, connectivityCheckRequestParams: ConnectivityCheckRequest, options?: PerformConnectivityCheckAsyncOptionalParams): Promise<PerformConnectivityCheckAsyncResponse>;
     // (undocumented)
     cache: Cache_2;
     // (undocumented)
@@ -761,6 +765,8 @@ export class ApiManagementClient extends ApiManagementClientContext {
     // (undocumented)
     subscription: Subscription;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     tag: Tag;
     // (undocumented)
     tagResource: TagResource;
@@ -784,32 +790,12 @@ export class ApiManagementClient extends ApiManagementClientContext {
     userSubscription: UserSubscription;
 }
 
-// @public (undocumented)
-export class ApiManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ApiManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    subscriptionId: string;
-}
-
 // @public
 export interface ApiManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
 }
-
-// @public
-export interface ApiManagementClientPerformConnectivityCheckAsyncOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ApiManagementClientPerformConnectivityCheckAsyncResponse = ConnectivityCheckResponse;
 
 // @public
 export interface ApiManagementOperations {
@@ -5457,6 +5443,15 @@ export interface ParameterExampleContract {
     summary?: string;
     value?: any;
 }
+
+// @public
+export interface PerformConnectivityCheckAsyncOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PerformConnectivityCheckAsyncResponse = ConnectivityCheckResponse;
 
 // @public
 export interface PipelineDiagnosticSettings {

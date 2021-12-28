@@ -6,12 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   ResourceGroup,
-  ResourceGroupsListNextOptionalParams,
   ResourceGroupsListOptionalParams,
   ResourceGroupsCheckExistenceOptionalParams,
   ResourceGroupsCheckExistenceResponse,
@@ -37,15 +35,6 @@ export interface ResourceGroups {
    */
   list(
     options?: ResourceGroupsListOptionalParams
-  ): PagedAsyncIterableIterator<ResourceGroup>;
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  listNext(
-    nextLink: string,
-    options?: ResourceGroupsListNextOptionalParams
   ): PagedAsyncIterableIterator<ResourceGroup>;
   /**
    * Checks whether a resource group exists.

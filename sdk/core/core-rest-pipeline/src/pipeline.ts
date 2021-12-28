@@ -129,7 +129,7 @@ class HttpPipeline implements Pipeline {
     }
     this._policies.push({
       policy,
-      options
+      options,
     });
     this._orderedPolicies = undefined;
   }
@@ -256,7 +256,7 @@ class HttpPipeline implements Pipeline {
       const node: PolicyGraphNode = {
         policy,
         dependsOn: new Set<PolicyGraphNode>(),
-        dependants: new Set<PolicyGraphNode>()
+        dependants: new Set<PolicyGraphNode>(),
       };
       if (options.afterPhase) {
         node.afterPhase = getPhase(options.afterPhase);

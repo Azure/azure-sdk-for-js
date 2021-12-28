@@ -1111,6 +1111,9 @@ export class CertificateClient {
    *   issuerName: "Self",
    *   subject: "cn=MyCert"
    * });
+   *
+   * // You may pass an empty string for version which will update
+   * // the latest version of the certificate
    * await client.updateCertificateProperties("MyCertificate", "", {
    *   tags: {
    *     customTag: "value"
@@ -1119,7 +1122,7 @@ export class CertificateClient {
    * ```
    * Updates a certificate
    * @param certificateName - The name of the certificate
-   * @param version - The version of the certificate to update
+   * @param version - The version of the certificate to update (an empty string will update the latest version)
    * @param options - The options, including what to update
    */
   public updateCertificateProperties(

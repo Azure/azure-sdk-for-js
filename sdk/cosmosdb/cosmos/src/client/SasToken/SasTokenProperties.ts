@@ -12,7 +12,7 @@ export class SasTokenProperties {
   resourceName: string;
   resourcePath: string;
   resourceKind: CosmosContainerChildResourceKind;
-  partitionKeyValueRanges: [];
+  partitionKeyValueRanges: string[];
   startTime: Date;
   expiryTime: Date;
   keyType: CosmosKeyType | number;

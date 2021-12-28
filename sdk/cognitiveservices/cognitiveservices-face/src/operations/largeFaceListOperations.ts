@@ -55,25 +55,29 @@ export class LargeFaceListOperations {
    * * Free-tier subscription quota: 64 large face lists.
    * * S0-tier subscription quota: 1,000,000 large face lists.
    * @param largeFaceListId Id referencing a particular large face list.
+   * @param name User defined name, maximum length is 128.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  create(largeFaceListId: string, options?: Models.LargeFaceListCreateOptionalParams): Promise<msRest.RestResponse>;
+  create(largeFaceListId: string, name: string, options?: Models.LargeFaceListCreateOptionalParams): Promise<msRest.RestResponse>;
   /**
    * @param largeFaceListId Id referencing a particular large face list.
+   * @param name User defined name, maximum length is 128.
    * @param callback The callback
    */
-  create(largeFaceListId: string, callback: msRest.ServiceCallback<void>): void;
+  create(largeFaceListId: string, name: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param largeFaceListId Id referencing a particular large face list.
+   * @param name User defined name, maximum length is 128.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(largeFaceListId: string, options: Models.LargeFaceListCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(largeFaceListId: string, options?: Models.LargeFaceListCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  create(largeFaceListId: string, name: string, options: Models.LargeFaceListCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  create(largeFaceListId: string, name: string, options?: Models.LargeFaceListCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         largeFaceListId,
+        name,
         options
       },
       createOperationSpec,
@@ -523,10 +527,7 @@ const createOperationSpec: msRest.OperationSpec = {
   ],
   requestBody: {
     parameterPath: {
-      name: [
-        "options",
-        "name"
-      ],
+      name: "name",
       userData: [
         "options",
         "userData"
@@ -644,7 +645,9 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint
   ],
   queryParameters: [
-    Parameters.returnRecognitionModel
+    Parameters.returnRecognitionModel,
+    Parameters.start0,
+    Parameters.top0
   ],
   responses: {
     200: {

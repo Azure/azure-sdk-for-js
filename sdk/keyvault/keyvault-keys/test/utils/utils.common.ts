@@ -3,7 +3,7 @@
 
 import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
 import { env } from "@azure-tools/test-recorder";
-import * as assert from "assert";
+import { assert } from "chai";
 import { LATEST_API_VERSION } from "../../src/keysModels";
 
 export function getKeyvaultName(): string {

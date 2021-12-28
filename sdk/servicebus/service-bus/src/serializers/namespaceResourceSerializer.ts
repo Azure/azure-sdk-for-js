@@ -65,7 +65,7 @@ export function buildNamespace(rawNamespace: Record<string, any>): NamespaceProp
  * Atom XML Serializer for Namespaces.
  */
 export class NamespaceResourceSerializer implements AtomXmlSerializer {
-  serialize(): object {
+  serialize(): Record<string, unknown> {
     return serializeToAtomXmlRequest("NamespaceProperties", {});
   }
 

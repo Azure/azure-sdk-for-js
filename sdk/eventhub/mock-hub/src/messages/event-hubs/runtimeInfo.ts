@@ -5,9 +5,9 @@ import { Message, types } from "rhea";
 
 /**
  * Checks whether the provided message is requesting the EventHub's runtime info.
- * @param entityPath The path the client sent the request to.
+ * @param entityPath - The path the client sent the request to.
  * Expected to be `$management` if the message is requesting runtime info.
- * @param message The message sent by the client.
+ * @param message - The message sent by the client.
  */
 export function isHubRuntimeInfo(entityPath: string, message: Message): boolean {
   if (entityPath !== "$management") {

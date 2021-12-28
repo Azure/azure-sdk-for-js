@@ -1,44 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import "@azure/core-paging";
 import {
-  TableEntity,
-  ListTableEntitiesOptions,
-  GetTableEntityResponse,
-  UpdateTableEntityOptions,
-  DeleteTableEntityOptions,
-  GetTableEntityOptions,
-  UpdateMode,
   CreateTableEntityResponse,
-  TableEntityQueryOptions,
-  TableServiceClientOptions as TableClientOptions,
-  TableEntityResult,
-  TransactionAction,
-  TableTransactionResponse,
-  SignedIdentifier,
+  DeleteTableEntityOptions,
   GetAccessPolicyResponse,
-  TableEntityResultPage
+  GetTableEntityOptions,
+  GetTableEntityResponse,
+  ListTableEntitiesOptions,
+  SignedIdentifier,
+  TableServiceClientOptions as TableClientOptions,
+  TableEntity,
+  TableEntityQueryOptions,
+  TableEntityResult,
+  TableEntityResultPage,
+  TableTransactionResponse,
+  TransactionAction,
+  UpdateMode,
+  UpdateTableEntityOptions
 } from "./models";
 import {
-  UpdateEntityResponse,
-  UpsertEntityResponse,
   DeleteTableEntityResponse,
-  SetAccessPolicyResponse
+  SetAccessPolicyResponse,
+  UpdateEntityResponse,
+  UpsertEntityResponse
 } from "./generatedModels";
-import { TableQueryEntitiesOptionalParams } from "./generated/models";
-import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
-  isNamedKeyCredential,
-  isSASCredential,
-  isTokenCredential,
+  FullOperationResponse,
+  InternalClientPipelineOptions,
+  OperationOptions
+} from "@azure/core-client";
+import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
+import {
   NamedKeyCredential,
   SASCredential,
-  TokenCredential
+  TokenCredential,
+  isNamedKeyCredential,
+  isSASCredential,
+  isTokenCredential
 } from "@azure/core-auth";
-import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
-import "@azure/core-paging";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
+import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
+import { decodeContinuationToken, encodeContinuationToken } from "./utils/continuationToken";
 import {
   deserialize,
   deserializeObjectsArray,
@@ -47,27 +50,25 @@ import {
   serializeQueryOptions,
   serializeSignedIdentifiers
 } from "./serialization";
-import { Table } from "./generated/operationsInterfaces";
-import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import {
-  FullOperationResponse,
-  InternalClientPipelineOptions,
-  OperationOptions
-} from "@azure/core-client";
-import { logger } from "./logger";
-import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { parseXML, stringifyXML } from "@azure/core-xml";
 import { InternalTableTransaction } from "./TableTransaction";
 import { ListEntitiesResponse } from "./utils/internalModels";
-import { Uuid } from "./utils/uuid";
-import { parseXML, stringifyXML } from "@azure/core-xml";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { isCredential } from "./utils/isCredential";
-import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
-import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { Table } from "./generated/operationsInterfaces";
+import { TableQueryEntitiesOptionalParams } from "./generated/models";
+import { Uuid } from "./utils/uuid";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
-import { decodeContinuationToken, encodeContinuationToken } from "./utils/continuationToken";
+import { createSpan } from "./utils/tracing";
 import { escapeQuotes } from "./odata";
+import { getClientParamsFromConnectionString } from "./utils/connectionString";
+import { handleTableAlreadyExists } from "./utils/errorHelpers";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+import { isCredential } from "./utils/isCredential";
+import { logger } from "./logger";
+import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
+import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -86,6 +87,7 @@ export class TableClient {
   private table: Table;
   private credential?: NamedKeyCredential | SASCredential | TokenCredential;
   private transactionClient?: InternalTableTransaction;
+  private clientOptions: TableClientOptions;
   private readonly allowInsecureConnection: boolean;
 
   /**
@@ -223,14 +225,13 @@ export class TableClient {
     const credential = isCredential(credentialOrOptions) ? credentialOrOptions : undefined;
     this.credential = credential;
 
-    const clientOptions =
-      (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
+    this.clientOptions = (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
-    this.allowInsecureConnection = clientOptions.allowInsecureConnection ?? false;
-    clientOptions.endpoint = clientOptions.endpoint || this.url;
+    this.allowInsecureConnection = this.clientOptions.allowInsecureConnection ?? false;
+    this.clientOptions.endpoint = this.clientOptions.endpoint || this.url;
 
     const internalPipelineOptions: InternalClientPipelineOptions = {
-      ...clientOptions,
+      ...this.clientOptions,
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
@@ -324,7 +325,7 @@ export class TableClient {
    * // calling create table will create the table used
    * // to instantiate the TableClient.
    * // Note: If the table already
-   * // exists this function doesn't fail.
+   * // exists this function doesn't throw.
    * await client.createTable();
    * ```
    */
@@ -334,12 +335,7 @@ export class TableClient {
     try {
       await this.table.create({ name: this.tableName }, updatedOptions);
     } catch (e) {
-      if (e.statusCode === 409) {
-        logger.info("TableClient-createTable: Table Already Exists");
-      } else {
-        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-        throw e;
-      }
+      handleTableAlreadyExists(e, { ...updatedOptions, span, logger, tableName: this.tableName });
     } finally {
       span.end();
     }
@@ -894,6 +890,7 @@ export class TableClient {
         partitionKey,
         transactionId,
         changesetId,
+        this.clientOptions,
         new TableClient(this.url, this.tableName),
         this.credential,
         this.allowInsecureConnection

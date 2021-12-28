@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CheckpointStore, EventProcessor, FullEventProcessorOptions } from "./eventProcessor";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
 import {
   EventHubConsumerClientOptions,
@@ -9,26 +10,24 @@ import {
   GetPartitionPropertiesOptions,
   LoadBalancingOptions
 } from "./models/public";
-import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
-import { CheckpointStore, EventProcessor, FullEventProcessorOptions } from "./eventProcessor";
-import { Constants } from "@azure/core-amqp";
-import { logger } from "./log";
-
+import { EventHubProperties, PartitionProperties } from "./managementClient";
+import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import {
   SubscribeOptions,
   Subscription,
   SubscriptionEventHandlers
 } from "./eventHubConsumerClientModels";
-import { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
-import { EventHubProperties, PartitionProperties } from "./managementClient";
+import { BalancedLoadBalancingStrategy } from "./loadBalancerStrategies/balancedStrategy";
+import { Constants } from "@azure/core-amqp";
+import { GreedyLoadBalancingStrategy } from "./loadBalancerStrategies/greedyStrategy";
+import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
+import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy";
 import { PartitionGate } from "./impl/partitionGate";
+import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy";
+import { isCredential } from "./util/typeGuards";
+import { logger } from "./log";
 import { v4 as uuid } from "uuid";
 import { validateEventPositions } from "./eventPosition";
-import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy";
-import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy";
-import { GreedyLoadBalancingStrategy } from "./loadBalancerStrategies/greedyStrategy";
-import { BalancedLoadBalancingStrategy } from "./loadBalancerStrategies/balancedStrategy";
-import { isCredential } from "./util/typeGuards";
 
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,

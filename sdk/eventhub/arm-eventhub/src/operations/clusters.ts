@@ -11,7 +11,7 @@ import { Clusters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { EventHubManagementClientContext } from "../eventHubManagementClientContext";
+import { EventHubManagementClient } from "../eventHubManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -40,13 +40,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Clusters operations. */
 export class ClustersImpl implements Clusters {
-  private readonly client: EventHubManagementClientContext;
+  private readonly client: EventHubManagementClient;
 
   /**
    * Initialize a new instance of the class Clusters class.
    * @param client Reference to the service client
    */
-  constructor(client: EventHubManagementClientContext) {
+  constructor(client: EventHubManagementClient) {
     this.client = client;
   }
 

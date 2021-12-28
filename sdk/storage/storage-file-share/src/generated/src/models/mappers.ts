@@ -432,6 +432,13 @@ export const SharePropertiesInternal: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
+      provisionedBandwidthMiBps: {
+        serializedName: "ProvisionedBandwidthMiBps",
+        xmlName: "ProvisionedBandwidthMiBps",
+        type: {
+          name: "Number"
+        }
+      },
       nextAllowedQuotaDowngradeTime: {
         serializedName: "NextAllowedQuotaDowngradeTime",
         xmlName: "NextAllowedQuotaDowngradeTime",
@@ -1399,6 +1406,13 @@ export const ShareGetPropertiesHeaders: coreHttp.CompositeMapper = {
         xmlName: "x-ms-share-next-allowed-quota-downgrade-time",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      provisionedBandwidthMibps: {
+        serializedName: "x-ms-share-provisioned-bandwidth-mibps",
+        xmlName: "x-ms-share-provisioned-bandwidth-mibps",
+        type: {
+          name: "Number"
         }
       },
       leaseDuration: {

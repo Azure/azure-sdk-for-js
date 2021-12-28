@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
-import { odata, TableClient, TableInsertEntityHeaders } from "@azure/data-tables";
-import { logger, logErrorStackTrace } from "./log";
+import { Checkpoint, CheckpointStore, PartitionOwnership } from "@azure/event-hubs";
+import { TableClient, TableInsertEntityHeaders, odata } from "@azure/data-tables";
+import { logErrorStackTrace, logger } from "./log";
 
 /**
  *
@@ -38,7 +38,6 @@ export interface CheckpointEntity {
 /**
  * An ownership entity of type PartitionOwnership to be stored in the table
  * @internal
- * @hidden
  */
 export interface PartitionOwnershipEntity {
   /**

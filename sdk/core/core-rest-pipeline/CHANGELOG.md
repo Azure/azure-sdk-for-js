@@ -1,10 +1,18 @@
 # Release History
 
-## 1.3.3 (Unreleased)
+## 1.4.0 (Unreleased)
 
 ### Features Added
 
 - Changed behavior when sending HTTP headers to preserve the original casing of header names. Iterating over `HttpHeaders` now keeps the original name casing. There is also a new `preserveCase` option for `HttpHeaders.toJSON()`. See [PR #18517](https://github.com/Azure/azure-sdk-for-js/pull/18517)
+- The count for how many retries in the `throttlingRetryPolicy` policy can now be configured.
+- The `bearerTokenAuthenticationPolicy` now accepts a logger.
+- A new `retryPolicy` centralizes the retry logic and allows adding retry strategies to any pipeline. With it, we're exposing some new types:
+  - `RetryStrategy` defines whether to retry and how to retry.
+  - `RetryStrategyState` keeps track of the last retry and controls how to do the subsequent retries.
+- Previous retry policies have been enhanced with better error handling.
+- A new `defaultRetryPolicy` is added, which has the same behavior as all the other retry policies combined (`throttlingRetryPolicy`, `systemErrorRetryPolicy` and `exponentialRetryPolicy`).
+- `createPipelineFromOptions` has been updated to ensure retries are properly traced.
 
 ### Breaking Changes
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { URLBuilder } from "@azure/core-http";
-import * as assert from "assert";
+import { assert } from "chai";
 import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";

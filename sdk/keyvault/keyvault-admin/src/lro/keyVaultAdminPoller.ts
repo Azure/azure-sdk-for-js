@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-client";
-import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
+import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
 import { KeyVaultClient } from "../generated/keyVaultClient";
+import { OperationOptions } from "@azure/core-client";
 
 /**
  * Common parameters to a Key Vault Admin Poller.

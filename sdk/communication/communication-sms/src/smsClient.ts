@@ -5,7 +5,7 @@
 import {
   parseClientArguments,
   isKeyCredential,
-  createCommunicationAuthPolicy
+  createCommunicationAuthPolicy,
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
@@ -13,7 +13,7 @@ import {
   InternalPipelineOptions,
   createPipelineFromOptions,
   OperationOptions,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { SmsApiClient } from "./generated/src/smsApiClient";
@@ -148,9 +148,9 @@ export class SmsClient {
       ...options,
       ...{
         loggingOptions: {
-          logger: logger.info
-        }
-      }
+          logger: logger.info,
+        },
+      },
     };
 
     const authPolicy = createCommunicationAuthPolicy(credential);
@@ -180,7 +180,7 @@ export class SmsClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

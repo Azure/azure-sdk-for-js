@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import * as dotenv from "dotenv";
 import { BlobServiceClient } from "../src";
@@ -54,6 +54,31 @@ describe("BlobServiceClient", () => {
       assert.ok(container.properties.etag.length > 0);
       assert.ok(container.properties.lastModified);
     }
+  });
+
+  it("ListContainers including system containers", async function(this: Context) {
+    if (isLiveMode()) {
+      // Skip the test case until the feature is enabled in production.
+      this.skip();
+    }
+    const blobServiceClient = getBSU();
+    const result = (
+      await blobServiceClient
+        .listContainers({ includeSystem: true })
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(result.containerItems!.length > 0);
+
+    let foundSystemContainer = false;
+    for (const containerItem of result.containerItems) {
+      if (containerItem.name === "$root") {
+        foundSystemContainer = true;
+        break;
+      }
+    }
+
+    assert.ok(foundSystemContainer, "System containers should be included in listing result");
   });
 
   it("ListContainers with default parameters - null prefix shouldn't throw error", async () => {
@@ -468,13 +493,13 @@ describe("BlobServiceClient", () => {
     const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
     const response = await serviceURLWithToken!.getUserDelegationKey(now, tmr);
-    assert.notDeepStrictEqual(response.value, undefined);
-    assert.notDeepStrictEqual(response.signedVersion, undefined);
-    assert.notDeepStrictEqual(response.signedTenantId, undefined);
-    assert.notDeepStrictEqual(response.signedStartsOn, undefined);
-    assert.notDeepStrictEqual(response.signedService, undefined);
-    assert.notDeepStrictEqual(response.signedObjectId, undefined);
-    assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
+    assert.notDeepEqual(response.value, undefined);
+    assert.notDeepEqual(response.signedVersion, undefined);
+    assert.notDeepEqual(response.signedTenantId, undefined);
+    assert.notDeepEqual(response.signedStartsOn, undefined);
+    assert.notDeepEqual(response.signedService, undefined);
+    assert.notDeepEqual(response.signedObjectId, undefined);
+    assert.notDeepEqual(response.signedExpiresOn, undefined);
   });
 
   it("Find blob by tags should work", async function() {

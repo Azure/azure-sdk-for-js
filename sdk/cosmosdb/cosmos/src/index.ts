@@ -83,3 +83,5 @@ export { ChangeFeedOptions } from "./ChangeFeedOptions";
 export { ChangeFeedResponse } from "./ChangeFeedResponse";
 export { ClientContext } from "./ClientContext";
 export { GlobalEndpointManager } from "./globalEndpointManager";
+export { SasTokenPermissionKind } from "./common/constants";
+export { createAuthorizationSasToken } from "./utils/SasToken";

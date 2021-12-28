@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createProcessingSpan, trace } from "../../src/partitionPump";
 import {
-  SpanStatusCode,
+  Context,
   SpanKind,
   SpanOptions,
-  Context,
-  setSpanContext,
-  context
+  SpanStatusCode,
+  context,
+  setSpanContext
 } from "@azure/core-tracing";
 import { TestSpan, TestTracer } from "@azure/test-utils";
-import chai from "chai";
+import { createProcessingSpan, trace } from "../../src/partitionPump";
 import { ReceivedEventData } from "../../src/eventData";
+import chai from "chai";
 import { instrumentEventData } from "../../src/diagnostics/instrumentEventData";
 import { setTracerForTest } from "../public/utils/testUtils";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";

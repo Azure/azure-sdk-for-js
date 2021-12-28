@@ -560,7 +560,7 @@ export interface SubscriptionRuntimeProperties {
  * SubscriptionResourceSerializer for serializing / deserializing Subscription entities
  */
 export class SubscriptionResourceSerializer implements AtomXmlSerializer {
-  serialize(resource: InternalSubscriptionOptions): object {
+  serialize(resource: InternalSubscriptionOptions): Record<string, unknown> {
     return serializeToAtomXmlRequest("SubscriptionDescription", resource);
   }
 

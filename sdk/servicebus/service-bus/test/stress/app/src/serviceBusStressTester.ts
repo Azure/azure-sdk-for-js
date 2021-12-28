@@ -187,7 +187,9 @@ export class ServiceBusStressTester {
       });
       this.addReceivedMessage(messages);
       if (settleMessageOnReceive && receiver.receiveMode === "peekLock") {
-        await Promise.all(messages.map((msg) => this.completeMessage(receiver, msg)));
+        await Promise.all(
+          messages.map((msg: ServiceBusReceivedMessage) => this.completeMessage(receiver, msg))
+        );
       }
       return messages;
     } catch (error) {
@@ -295,13 +297,12 @@ export class ServiceBusStressTester {
       | "lockrenewal"
       | "sessionlockrenewal"
       | "close",
-    exception: Error,
+    exception: Error | unknown,
     extraProperties?: Record<string, string>
   ) {
     ++this._numErrors;
-
     defaultClient.trackException({
-      exception,
+      exception: exception instanceof Error ? exception : new Error(`Unknown error\n ${exception}`),
       properties: {
         from,
         ...extraProperties
@@ -553,7 +554,7 @@ export class ServiceBusStressTester {
       } catch (err) {
         console.log(`ERROR: error thrown by init`, err);
 
-        this.trackError("init", err as Error);
+        this.trackError("init", err);
         defaultClient.flush();
         throw err;
       }
@@ -564,7 +565,7 @@ export class ServiceBusStressTester {
       } catch (err) {
         console.log(`ERROR: error thrown by test`, err);
 
-        this.trackError("test", err as Error);
+        this.trackError("test", err);
         defaultClient.flush();
       }
     } finally {
@@ -574,7 +575,7 @@ export class ServiceBusStressTester {
         await serviceBusClient?.close();
       } catch (err) {
         defaultClient.trackException({
-          exception: err as Error,
+          exception: err instanceof Error ? err : new Error(`Unknown error\n ${err}`),
           properties: {
             from: "end"
           }

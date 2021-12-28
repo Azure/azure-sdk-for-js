@@ -38,7 +38,7 @@ export function createAttestationPolicyToken(
   const token = AttestationTokenImpl.create({
     body: new StoredAttestationPolicy(policy).serialize(),
     privateKey: privateKey,
-    certificate: certificate
+    certificate: certificate,
   });
   return token;
 }

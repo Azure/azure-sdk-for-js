@@ -4,7 +4,7 @@
 import {
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions
+  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { TokenResponseParsedBody } from "../../client/identityClient";
@@ -37,7 +37,7 @@ function prepareRequestOptions(
 
   const queryParameters: Record<string, string> = {
     resource,
-    "api-version": "2017-09-01"
+    "api-version": "2017-09-01",
   };
 
   if (clientId) {
@@ -59,8 +59,8 @@ function prepareRequestOptions(
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",
-      secret: process.env.MSI_SECRET
-    })
+      secret: process.env.MSI_SECRET,
+    }),
   };
 }
 
@@ -97,9 +97,9 @@ export const appServiceMsi2017: MSI = {
       abortSignal: getTokenOptions.abortSignal,
       ...prepareRequestOptions(scopes, clientId),
       // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
-      allowInsecureConnection: true
+      allowInsecureConnection: true,
     });
     const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
     return (tokenResponse && tokenResponse.accessToken) || null;
-  }
+  },
 };

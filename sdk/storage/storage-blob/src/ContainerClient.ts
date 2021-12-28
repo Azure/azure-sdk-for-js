@@ -32,7 +32,6 @@ import {
   LeaseAccessConditions,
   ListBlobsFlatSegmentResponseModel,
   ListBlobsHierarchySegmentResponseModel,
-  ListBlobsIncludeItem,
   PublicAccessType,
   SignedIdentifierModel
 } from "./generatedModels";
@@ -49,9 +48,14 @@ import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing"
 import {
   appendToURLPath,
   appendToURLQuery,
+  BlobNameToString,
+  ConvertInternalResponseOfListBlobFlat,
+  ConvertInternalResponseOfListBlobHierarchy,
   extractConnectionStringParts,
   isIpEndpointStyle,
   parseObjectReplicationRecord,
+  ProcessBlobItems,
+  ProcessBlobPrefixes,
   toTags,
   truncatedISO8061Date
 } from "./utils/utils.common";
@@ -68,6 +72,7 @@ import {
   PageBlobClient
 } from "./Clients";
 import { BlobBatchClient } from "./BlobBatchClient";
+import { ListBlobsIncludeItem } from "./generated/src";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.
@@ -1274,14 +1279,23 @@ export class ContainerClient extends StorageClient {
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
 
+      response.segment.blobItems = [];
+      if ((response.segment as any)["Blob"] !== undefined) {
+        response.segment.blobItems = ProcessBlobItems((response.segment as any)["Blob"]);
+      }
+
       const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
         ...response,
-        _response: response._response, // _response is made non-enumerable
+        _response: {
+          ...response._response,
+          parsedBody: ConvertInternalResponseOfListBlobFlat(response._response.parsedBody)
+        }, // _response is made non-enumerable
         segment: {
           ...response.segment,
           blobItems: response.segment.blobItems.map((blobItemInteral) => {
             const blobItem: BlobItem = {
               ...blobItemInteral,
+              name: BlobNameToString(blobItemInteral.name),
               tags: toTags(blobItemInteral.blobTags),
               objectReplicationSourceProperties: parseObjectReplicationRecord(
                 blobItemInteral.objectReplicationMetadata
@@ -1329,20 +1343,41 @@ export class ContainerClient extends StorageClient {
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
+
+      response.segment.blobItems = [];
+      if (response.segment["Blob"] !== undefined) {
+        response.segment.blobItems = ProcessBlobItems(response.segment["Blob"]);
+      }
+
+      response.segment.blobPrefixes = [];
+      if (response.segment["BlobPrefix"] !== undefined) {
+        response.segment.blobPrefixes = ProcessBlobPrefixes(response.segment["BlobPrefix"]);
+      }
+
       const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
         ...response,
-        _response: response._response, // _response is made non-enumerable
+        _response: {
+          ...response._response,
+          parsedBody: ConvertInternalResponseOfListBlobHierarchy(response._response.parsedBody)
+        }, // _response is made non-enumerable
         segment: {
           ...response.segment,
           blobItems: response.segment.blobItems.map((blobItemInteral) => {
             const blobItem: BlobItem = {
               ...blobItemInteral,
+              name: BlobNameToString(blobItemInteral.name),
               tags: toTags(blobItemInteral.blobTags),
               objectReplicationSourceProperties: parseObjectReplicationRecord(
                 blobItemInteral.objectReplicationMetadata
               )
             };
             return blobItem;
+          }),
+          blobPrefixes: response.segment.blobPrefixes?.map((blobPrefixInternal) => {
+            const blobPrefix: BlobPrefix = {
+              name: BlobNameToString(blobPrefixInternal.name)
+            };
+            return blobPrefix;
           })
         }
       };
@@ -1614,7 +1649,7 @@ export class ContainerClient extends StorageClient {
    *   if (item.kind === "prefix") {
    *     console.log(`\tBlobPrefix: ${item.name}`);
    *   } else {
-   *     console.log(`\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`);
+   *     console.log(`\tBlobItem: name - ${item.name}`);
    *   }
    * }
    * ```
@@ -1629,7 +1664,7 @@ export class ContainerClient extends StorageClient {
    *   if (item.kind === "prefix") {
    *     console.log(`\tBlobPrefix: ${item.name}`);
    *   } else {
-   *     console.log(`\tBlobItem: name - ${item.name}, last modified - ${item.properties.lastModified}`);
+   *     console.log(`\tBlobItem: name - ${item.name}`);
    *   }
    *   entity = await iter.next();
    * }
@@ -1647,7 +1682,7 @@ export class ContainerClient extends StorageClient {
    *     }
    *   }
    *   for (const blob of response.segment.blobItems) {
-   *     console.log(`\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`);
+   *     console.log(`\tBlobItem: name - ${blob.name}`);
    *   }
    * }
    * ```
@@ -1658,7 +1693,9 @@ export class ContainerClient extends StorageClient {
    * console.log("Listing blobs by hierarchy by page, specifying a prefix and a max page size");
    *
    * let i = 1;
-   * for await (const response of containerClient.listBlobsByHierarchy("/", { prefix: "prefix2/sub1/"}).byPage({ maxPageSize: 2 })) {
+   * for await (const response of containerClient
+   *   .listBlobsByHierarchy("/", { prefix: "prefix2/sub1/" })
+   *   .byPage({ maxPageSize: 2 })) {
    *   console.log(`Page ${i++}`);
    *   const segment = response.segment;
    *
@@ -1669,7 +1706,7 @@ export class ContainerClient extends StorageClient {
    *   }
    *
    *   for (const blob of response.segment.blobItems) {
-   *     console.log(`\tBlobItem: name - ${blob.name}, last modified - ${blob.properties.lastModified}`);
+   *     console.log(`\tBlobItem: name - ${blob.name}`);
    *   }
    * }
    * ```

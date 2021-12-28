@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  parseEventHubConnectionString,
-  EventHubConnectionStringProperties
+  EventHubConnectionStringProperties,
+  parseEventHubConnectionString
 } from "../src/util/connectionStringUtils";
 import chai from "chai";
 
