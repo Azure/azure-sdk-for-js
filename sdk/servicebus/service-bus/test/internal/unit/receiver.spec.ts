@@ -13,7 +13,7 @@ import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
 import {
   addTestStreamingReceiver,
   createConnectionContextForTests,
-  createConnectionContextForTestsWithSessionId
+  createConnectionContextForTestsWithSessionId,
 } from "./unittestUtils";
 import { InternalMessageHandlers } from "../../../src/models";
 import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils";
@@ -32,7 +32,7 @@ describe("Receiver unit tests", () => {
         {
           lockRenewer: undefined,
           receiveMode: "peekLock",
-          skipParsingBodyAsJson: false
+          skipParsingBodyAsJson: false,
         }
       );
 
@@ -48,7 +48,7 @@ describe("Receiver unit tests", () => {
       await assertThrows(() => batchingReceiver.receive(1, 1, 1, {}), {
         name: "ServiceBusError",
         code: "GeneralError",
-        message: "Link closed before receiving messages."
+        message: "Link closed before receiving messages.",
       });
       assert.isTrue(initWasCalled);
     });
@@ -60,7 +60,7 @@ describe("Receiver unit tests", () => {
         {
           lockRenewer: undefined,
           receiveMode: "peekLock",
-          skipParsingBodyAsJson: false
+          skipParsingBodyAsJson: false,
         }
       );
 
@@ -114,11 +114,11 @@ describe("Receiver unit tests", () => {
         assert.deepEqual(
           {
             name: err.name,
-            message: err.message
+            message: err.message,
           },
           {
             name: "Error",
-            message: `The receiver for "${receiverImpl.entityPath}" is already receiving messages.`
+            message: `The receiver for "${receiverImpl.entityPath}" is already receiving messages.`,
           }
         );
       }
@@ -136,7 +136,7 @@ describe("Receiver unit tests", () => {
             (receiver as any).close = () => {
               closeWasCalled = true;
             };
-          }
+          },
         }),
         "fakeEntityPath",
         "peekLock",
@@ -177,7 +177,7 @@ describe("Receiver unit tests", () => {
       );
 
       const abortSignal = {
-        aborted: true
+        aborted: true,
       } as AbortSignalLike;
 
       const subscription = receiverImpl.subscribe(
@@ -187,10 +187,10 @@ describe("Receiver unit tests", () => {
           },
           processMessage: async (_msg) => {
             /** Nothing to do here */
-          }
+          },
         },
         {
-          abortSignal
+          abortSignal,
         }
       );
 
@@ -201,7 +201,7 @@ describe("Receiver unit tests", () => {
         },
         processMessage: async (_msg) => {
           /** Nothing to do here */
-        }
+        },
       });
 
       await subscription.close(); // and closing it "out of order" shouldn't be an issue either.
@@ -224,7 +224,7 @@ describe("Receiver unit tests", () => {
 
       try {
         const iter = impl.getMessageIterator({
-          abortSignal
+          abortSignal,
         });
 
         await iter.next();
@@ -244,7 +244,7 @@ describe("Receiver unit tests", () => {
         undefined,
         {
           retryOptions: undefined,
-          skipParsingBodyAsJson: false
+          skipParsingBodyAsJson: false,
         }
       );
 
@@ -260,7 +260,7 @@ describe("Receiver unit tests", () => {
 
       try {
         const iter = impl.getMessageIterator({
-          abortSignal
+          abortSignal,
         });
 
         await iter.next();
@@ -335,7 +335,7 @@ async function subscribeAndWaitForInitialize(
       },
       processMessage: async (_msg) => {
         /** Nothing to do here */
-      }
+      },
     } as InternalMessageHandlers);
   });
 

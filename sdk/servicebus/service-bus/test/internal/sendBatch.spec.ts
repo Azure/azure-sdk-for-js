@@ -13,7 +13,7 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   getRandomTestClientTypeWithSessions,
-  getRandomTestClientTypeWithNoSessions
+  getRandomTestClientTypeWithNoSessions,
 } from "../public/utils/testutils2";
 import { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender";
 
@@ -45,7 +45,7 @@ describe("Send Batch", () => {
     await sender.close();
   }
 
-  describe("Send multiple homogeneous messages - size > max_batch_size_allowed", function(): void {
+  describe("Send multiple homogeneous messages - size > max_batch_size_allowed", function (): void {
     afterEach(async () => {
       await afterEachTest();
     });
@@ -56,7 +56,7 @@ describe("Send Batch", () => {
         messagesToSend.push({
           body: Buffer.alloc(2000),
           messageId: `message ${i}`,
-          sessionId: entityNames.usesSessions ? `someSession` : undefined
+          sessionId: entityNames.usesSessions ? `someSession` : undefined,
         });
       }
       return messagesToSend;
@@ -84,18 +84,18 @@ describe("Send Batch", () => {
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, sentMessages);
     }
 
-    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+    it(`${noSessionTestClientType}: SendBatch`, async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testSendBatch();
     });
 
-    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+    it(`${withSessionTestClientType}: SendBatch`, async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testSendBatch();
     });
   });
 
-  describe("Send multiple homogeneous messages - Multiple Sessions - size > max_batch_size_allowed", function(): void {
+  describe("Send multiple homogeneous messages - Multiple Sessions - size > max_batch_size_allowed", function (): void {
     afterEach(async () => {
       await afterEachTest();
     });
@@ -117,7 +117,7 @@ describe("Send Batch", () => {
           body: Buffer.alloc(20000),
           messageId: `message ${i}`,
           sessionId: entityNames.usesSessions ? `someSession ${i}` : undefined,
-          partitionKey: entityNames.usesSessions ? `someSession ${i}` : undefined
+          partitionKey: entityNames.usesSessions ? `someSession ${i}` : undefined,
         };
         const batchHasCapacity = batchMessage.tryAddMessage(messageToSend);
         if (!batchHasCapacity) {
@@ -144,18 +144,18 @@ describe("Send Batch", () => {
     });
     */
 
-    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
+    it("Unpartitioned Queue with Sessions: SendBatch", async function (): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
       await testSendBatch();
     });
 
-    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
+    it("Unpartitioned Topic with Sessions: SendBatch", async function (): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
       await testSendBatch();
     });
   });
 
-  describe("Send multiple homogeneous messages - size < max_batch_size_allowed", function(): void {
+  describe("Send multiple homogeneous messages - size < max_batch_size_allowed", function (): void {
     afterEach(async () => {
       await afterEachTest();
     });
@@ -165,17 +165,17 @@ describe("Send Batch", () => {
       messagesToSend.push({
         body: Buffer.alloc(2000),
         messageId: `message-1`,
-        sessionId: entityNames.usesSessions ? `someSession` : undefined
+        sessionId: entityNames.usesSessions ? `someSession` : undefined,
       });
       messagesToSend.push({
         body: Buffer.alloc(2000),
         messageId: `message-2`,
-        sessionId: entityNames.usesSessions ? `someSession` : undefined
+        sessionId: entityNames.usesSessions ? `someSession` : undefined,
       });
       messagesToSend.push({
         body: Buffer.alloc(2000),
         messageId: `message-3`,
-        sessionId: entityNames.usesSessions ? `someSession` : undefined
+        sessionId: entityNames.usesSessions ? `someSession` : undefined,
       });
       return messagesToSend;
     }
@@ -202,18 +202,18 @@ describe("Send Batch", () => {
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, sentMessages);
     }
 
-    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+    it(`${noSessionTestClientType}: SendBatch`, async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testSendBatch();
     });
 
-    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+    it(`${withSessionTestClientType}: SendBatch`, async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testSendBatch();
     });
   });
 
-  describe("Send single message - size < max_batch_size_allowed", function(): void {
+  describe("Send single message - size < max_batch_size_allowed", function (): void {
     afterEach(async () => {
       await afterEachTest();
     });
@@ -223,7 +223,7 @@ describe("Send Batch", () => {
       messagesToSend.push({
         body: Buffer.alloc(20000),
         messageId: `random-message-id`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: useSessions ? `someSession` : undefined,
       });
       return messagesToSend;
     }
@@ -247,18 +247,18 @@ describe("Send Batch", () => {
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, sentMessages);
     }
 
-    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+    it(`${noSessionTestClientType}: SendBatch`, async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testSendBatch();
     });
 
-    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+    it(`${withSessionTestClientType}: SendBatch`, async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testSendBatch();
     });
   });
 
-  describe("Send multiple heterogenous messages - size > max_batch_size_allowed", function(): void {
+  describe("Send multiple heterogenous messages - size > max_batch_size_allowed", function (): void {
     afterEach(async () => {
       await afterEachTest();
     });
@@ -268,22 +268,22 @@ describe("Send Batch", () => {
       messagesToSend.push({
         body: Buffer.alloc(2000),
         messageId: `message-1`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: useSessions ? `someSession` : undefined,
       });
       messagesToSend.push({
         body: Buffer.alloc(200000),
         messageId: `message-2`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: useSessions ? `someSession` : undefined,
       });
       messagesToSend.push({
         body: Buffer.alloc(40000),
         messageId: `message-2`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: useSessions ? `someSession` : undefined,
       });
       messagesToSend.push({
         body: Buffer.alloc(20000),
         messageId: `message-3`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: useSessions ? `someSession` : undefined,
       });
       return messagesToSend;
     }
@@ -311,18 +311,18 @@ describe("Send Batch", () => {
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, sentMessages);
     }
 
-    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+    it(`${noSessionTestClientType}: SendBatch`, async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testSendBatch(false);
     });
 
-    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+    it(`${withSessionTestClientType}: SendBatch`, async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testSendBatch(true);
     });
   });
 
-  describe("CreateBatch - parameter maxSizeInBytes > max_batch_size_allowed", function(): void {
+  describe("CreateBatch - parameter maxSizeInBytes > max_batch_size_allowed", function (): void {
     afterEach(async () => {
       await afterEachTest();
     });
@@ -332,22 +332,22 @@ describe("Send Batch", () => {
       messagesToSend.push({
         body: Buffer.alloc(2000),
         messageId: `message-1`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: useSessions ? `someSession` : undefined,
       });
       messagesToSend.push({
         body: Buffer.alloc(200000),
         messageId: `message-2`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: useSessions ? `someSession` : undefined,
       });
       messagesToSend.push({
         body: Buffer.alloc(40000),
         messageId: `message-3`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: useSessions ? `someSession` : undefined,
       });
       messagesToSend.push({
         body: Buffer.alloc(20000),
         messageId: `message-4`,
-        sessionId: useSessions ? `someSession` : undefined
+        sessionId: useSessions ? `someSession` : undefined,
       });
       return messagesToSend;
     }
@@ -385,18 +385,18 @@ describe("Send Batch", () => {
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, [messagesToSend[0]]);
     }
 
-    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+    it(`${noSessionTestClientType}: SendBatch`, async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testSendBatch(5000);
     });
 
-    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+    it(`${withSessionTestClientType}: SendBatch`, async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testSendBatch(5000);
     });
   });
 
-  describe("CreateBatch should throw error - parameter maxSizeInBytes > max_batch_size_allowed", function(): void {
+  describe("CreateBatch should throw error - parameter maxSizeInBytes > max_batch_size_allowed", function (): void {
     afterEach(async () => {
       await afterEachTest();
     });
@@ -422,20 +422,18 @@ describe("Send Batch", () => {
       );
     }
 
-    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+    it(`${noSessionTestClientType}: SendBatch`, async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testSendBatch();
     });
 
-    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+    it(`${withSessionTestClientType}: SendBatch`, async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testSendBatch();
     });
   });
 
-  it("send(messages[]) overload throws an error if the size exceeds a single batch", async function(): Promise<
-    void
-  > {
+  it("send(messages[]) overload throws an error if the size exceeds a single batch", async function (): Promise<void> {
     await beforeEachTest(TestClientType.PartitionedQueue);
     try {
       await sender.sendMessages(
@@ -443,7 +441,7 @@ describe("Send Batch", () => {
         {
           // this isn't a documented option for send(batch) but we do pass it through to the underlying
           // createBatch call.
-          maxSizeInBytes: 1
+          maxSizeInBytes: 1,
         } as OperationOptions
       );
       should.fail("Should have thrown - the batch is too big");
@@ -486,8 +484,8 @@ describe("Send Batch", () => {
         // the type definition hasn't opened up to allow undefined (we do allow)
         // null, however.
         undefinedProperty: undefined as any,
-        canary: "hello"
-      }
+        canary: "hello",
+      },
     });
 
     // round trip documentation
@@ -501,16 +499,16 @@ describe("Send Batch", () => {
         applicationProperties: {
           nullProperty: receivedMessage.applicationProperties?.nullProperty,
           undefinedProperty: receivedMessage.applicationProperties?.undefinedProperty,
-          canary: receivedMessage.applicationProperties?.canary
-        }
+          canary: receivedMessage.applicationProperties?.canary,
+        },
       },
       {
         messageId,
         applicationProperties: {
           nullProperty: null,
           undefinedProperty: null, // NOTE, undefined just gets squashed to null,
-          canary: "hello"
-        }
+          canary: "hello",
+        },
       }
     );
   });
