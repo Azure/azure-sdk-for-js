@@ -19,7 +19,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
       setTestMode(mode);
     });
 
-    beforeEach(async function () {
+    beforeEach(async function() {
       recorder = new Recorder(this.currentTest);
       client = new ServiceClient({ baseUri: getTestServerUrl() });
       recorder.configureClient(client);
@@ -38,7 +38,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             SECRET_INFO: fakeSecretInfo
           }
         }); // Adds generalRegexSanitizers by default based on envSetupForPlayback
-        await makeRequestAndVerifyResponse(client,
+        await makeRequestAndVerifyResponse(
+          client,
           {
             path: `/sample_response/${env.SECRET_INFO}`,
             method: "GET"
@@ -56,7 +57,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             }
           }
         });
-        await makeRequestAndVerifyResponse(client,
+        await makeRequestAndVerifyResponse(
+          client,
           { path: `/sample_response`, method: "GET" },
           { val: "abc" }
         );
@@ -85,7 +87,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         const reqBody = {
           secret_info: isPlaybackMode() ? fakeSecretValue : secretValue
         };
-        await makeRequestAndVerifyResponse(client,
+        await makeRequestAndVerifyResponse(
+          client,
           {
             path: `/api/sample_request_body`,
             body: JSON.stringify(reqBody),
@@ -111,9 +114,11 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             ]
           }
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
-          }&random=random`;
-        await makeRequestAndVerifyResponse(client,
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${
+          isPlaybackMode() ? fakeSecretValue : secretValue
+        }&random=random`;
+        await makeRequestAndVerifyResponse(
+          client,
           {
             path: `/api/sample_request_body`,
             body: reqBody,
@@ -139,7 +144,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           }
         });
         const pathToHit = `/api/sample_request_body`;
-        await makeRequestAndVerifyResponse(client,
+        await makeRequestAndVerifyResponse(
+          client,
           {
             url: isPlaybackMode()
               ? getTestServerUrl().replace(secretEndpoint, fakeEndpoint) + pathToHit
@@ -162,7 +168,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             }
           }
         });
-        await makeRequestAndVerifyResponse(client,
+        await makeRequestAndVerifyResponse(
+          client,
           {
             path: `/subscriptions/${isPlaybackMode() ? fakeId : id}`,
             method: "GET"
@@ -187,7 +194,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         });
         // What if the id is part of the response body and not response headers?
 
-        const firstResponse = await makeRequestAndVerifyResponse(client,
+        const firstResponse = await makeRequestAndVerifyResponse(
+          client,
           {
             path: `/api/sample_uuid_in_header`,
             method: "GET"
@@ -195,7 +203,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           undefined
         );
 
-        await makeRequestAndVerifyResponse(client,
+        await makeRequestAndVerifyResponse(
+          client,
           {
             path: `/sample_response`,
             method: "GET",
@@ -224,7 +233,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           }
         });
 
-        await makeRequestAndVerifyResponse(client,
+        await makeRequestAndVerifyResponse(
+          client,
           {
             path: `/api/sample_uuid_in_header`,
             method: "GET"
@@ -265,9 +275,11 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             ]
           }
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
-          }&random=random`;
-        await makeRequestAndVerifyResponse(client,
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${
+          isPlaybackMode() ? fakeSecretValue : secretValue
+        }&random=random`;
+        await makeRequestAndVerifyResponse(
+          client,
           {
             path: `/api/sample_request_body`,
             body: reqBody,
@@ -283,7 +295,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
 
         const reqBodyAfterReset = `non_secret=i'm_no_secret&SECRET=${secretValue}&random=random`;
         // TODO: BUG OBSERVED - The following request should not be sanitized, but is sanitized
-        await makeRequestAndVerifyResponse(client,
+        await makeRequestAndVerifyResponse(
+          client,
           {
             path: `/api/sample_request_body`,
             body: reqBodyAfterReset,
@@ -306,45 +319,60 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             body: string | undefined;
           }) => {
             numberOfAddSanitizerCalls++;
-          }
+          };
         }
-      })
+      });
 
-
-      const cases =
-        [{
+      const cases = [
+        {
           options: {
-            connectionStringSanitizers: [{ actualConnString: undefined, fakeConnString: "a=b;c=d" }],
+            connectionStringSanitizers: [
+              { actualConnString: undefined, fakeConnString: "a=b;c=d" }
+            ],
             generalRegexSanitizers: [{ regex: undefined, value: "fake-value" }]
           },
           title: "all sanitizers are undefined",
           addSanitizerCallsExpectedCount: 0 // record mode
-        }, {
+        },
+        {
           options: {
-            connectionStringSanitizers: [{ actualConnString: undefined, fakeConnString: "a=b;c=d" }, { actualConnString: "1=2,3=4", fakeConnString: "a=b;c=d" }],
+            connectionStringSanitizers: [
+              { actualConnString: undefined, fakeConnString: "a=b;c=d" },
+              { actualConnString: "1=2,3=4", fakeConnString: "a=b;c=d" }
+            ],
             generalRegexSanitizers: [{ regex: undefined, value: "fake-value" }]
           },
           title: "partial sanitizers are undefined",
           addSanitizerCallsExpectedCount: 1 // record mode
-        }, {
+        },
+        {
           options: {
-            connectionStringSanitizers: [{ actualConnString: "1=2,3=4", fakeConnString: "a=b;c=d" }],
+            connectionStringSanitizers: [
+              { actualConnString: "1=2,3=4", fakeConnString: "a=b;c=d" }
+            ],
             generalRegexSanitizers: [{ regex: "value", value: "fake-value" }]
           },
           title: "all sanitizers are defined",
           addSanitizerCallsExpectedCount: 2 // record mode
-        }];
+        }
+      ];
 
       cases.forEach((testCase) => {
         it(`case - ${testCase.title}`, async () => {
           await recorder.addSanitizers(testCase.options);
           if (isRecordMode()) {
-            expect(numberOfAddSanitizerCalls).to.equal(testCase.addSanitizerCallsExpectedCount, `unexpected number of add sanitizer calls in record mode`)
+            expect(numberOfAddSanitizerCalls).to.equal(
+              testCase.addSanitizerCallsExpectedCount,
+              `unexpected number of add sanitizer calls in record mode`
+            );
           } else {
-            expect(numberOfAddSanitizerCalls).to.equal(0, `unexpected number of add sanitizer calls in ${getTestMode()} mode`)
+            expect(numberOfAddSanitizerCalls).to.equal(
+              0,
+              `unexpected number of add sanitizer calls in ${getTestMode()} mode`
+            );
           }
-        })
+        });
       });
-    })
+    });
   });
 });

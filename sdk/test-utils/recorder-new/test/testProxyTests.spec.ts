@@ -18,7 +18,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
       setTestMode(mode);
     });
 
-    beforeEach(async function () {
+    beforeEach(async function() {
       recorder = new Recorder(this.currentTest);
       client = new ServiceClient({ baseUri: getTestServerUrl() });
       recorder.configureClient(client);
@@ -27,10 +27,11 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
     afterEach(async () => {
       await recorder.stop();
     });
-    
+
     it("sample_response", async () => {
       await recorder.start({ envSetupForPlayback: {} });
-      await makeRequestAndVerifyResponse(client,
+      await makeRequestAndVerifyResponse(
+        client,
         { path: `/sample_response`, method: "GET" },
         { val: "abc" }
       );
@@ -39,7 +40,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
     it("sample_response with random string in path", async () => {
       await recorder.start({ envSetupForPlayback: {} });
 
-      await makeRequestAndVerifyResponse(client,
+      await makeRequestAndVerifyResponse(
+        client,
         {
           path: `/sample_response/${recorder.variable(
             "random-1",
@@ -49,7 +51,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         },
         { val: "I am the answer!" }
       );
-      await makeRequestAndVerifyResponse(client,
+      await makeRequestAndVerifyResponse(
+        client,
         {
           path: `/sample_response/${recorder.variable("random-2", "known-string")}`,
           method: "GET"
@@ -68,7 +71,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         // different body in playback vs record mode.
         const body = isPlaybackMode() ? "playback" : "record";
 
-        await makeRequestAndVerifyResponse(client,
+        await makeRequestAndVerifyResponse(
+          client,
           {
             path: `/sample_response`,
             body,
@@ -88,7 +92,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           value: isPlaybackMode() ? "playback" : "record"
         };
 
-        await makeRequestAndVerifyResponse(client,
+        await makeRequestAndVerifyResponse(
+          client,
           {
             path: `/sample_response`,
             body: "body",

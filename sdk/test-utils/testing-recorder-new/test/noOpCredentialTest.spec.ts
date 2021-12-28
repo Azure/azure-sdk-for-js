@@ -30,13 +30,13 @@ describe(`NoOp credential with Tables`, () => {
   let recorder: Recorder;
   let credential: TokenCredential;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = new Recorder(this.currentTest);
     await recorder.start(getRecorderStartOptions());
     credential = createTestCredential();
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 

@@ -1,4 +1,3 @@
-
 import { createPipelineRequest, HttpMethods } from "@azure/core-rest-pipeline";
 import { expect } from "chai";
 import { env } from "../../src";
@@ -30,7 +29,8 @@ export function getTestServerUrl() {
     : `http://127.0.0.1:8080`;
 }
 
-export async function makeRequestAndVerifyResponse(client: ServiceClient,
+export async function makeRequestAndVerifyResponse(
+  client: ServiceClient,
   request: {
     url?: string;
     path: string;
