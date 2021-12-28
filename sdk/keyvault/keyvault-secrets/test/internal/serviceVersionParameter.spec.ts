@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  HttpClient,
-  HttpHeaders,
-  HttpOperationResponse,
-  WebResourceLike
-} from "@azure/core-http";
+import { HttpClient, HttpHeaders, HttpOperationResponse, WebResourceLike } from "@azure/core-http";
 import { SinonSandbox, SinonSpy, createSandbox } from "sinon";
 import { ClientSecretCredential } from "@azure/identity";
 import { LATEST_API_VERSION } from "../../src/secretsModels";

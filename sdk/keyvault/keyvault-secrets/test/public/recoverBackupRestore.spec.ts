@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { 
-  Recorder,
-  env,
-  isPlaybackMode,
-  isRecordMode
-} from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
 import { Context } from "mocha";
 import { SecretClient } from "../../src";
