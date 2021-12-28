@@ -10,7 +10,7 @@ import { HostSettings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureBotServiceContext } from "../azureBotServiceContext";
+import { AzureBotService } from "../azureBotService";
 import {
   HostSettingsGetOptionalParams,
   HostSettingsGetResponse
@@ -18,13 +18,13 @@ import {
 
 /** Class containing HostSettings operations. */
 export class HostSettingsImpl implements HostSettings {
-  private readonly client: AzureBotServiceContext;
+  private readonly client: AzureBotService;
 
   /**
    * Initialize a new instance of the class HostSettings class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureBotServiceContext) {
+  constructor(client: AzureBotService) {
     this.client = client;
   }
 
