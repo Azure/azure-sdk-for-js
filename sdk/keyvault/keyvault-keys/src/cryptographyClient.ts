@@ -524,7 +524,6 @@ export class CryptographyClient {
   }
 
   /**
-   * @internal
    * Retrieves the {@link JsonWebKey} from the Key Vault.
    *
    * Example usage:

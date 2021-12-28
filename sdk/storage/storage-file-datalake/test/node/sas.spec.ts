@@ -3,7 +3,7 @@
 
 import { UserDelegationKey } from "@azure/storage-blob";
 import { record, Recorder } from "@azure-tools/test-recorder";
-import * as assert from "assert";
+import { assert } from "chai";
 import { Context } from "mocha";
 
 import {
@@ -224,7 +224,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         .next()
     ).value;
     assert.deepStrictEqual(result.pathItems.length, 0);
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
   });
 
   it("generateDataLakeSASQueryParameters should work for file with previous API version", async () => {
@@ -281,7 +281,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.equal(properties.contentLanguage, "content-language-override");
     assert.equal(properties.contentType, "content-type-override");
 
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
   });
 
   it("generateDataLakeSASQueryParameters should work for file", async () => {
@@ -338,7 +338,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.equal(properties.contentLanguage, "content-language-override");
     assert.equal(properties.contentType, "content-type-override");
 
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
   });
 
   it("generateDataLakeSASQueryParameters should work for file with special namings", async () => {
@@ -398,7 +398,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.equal(properties.contentLanguage, "content-language-override");
     assert.equal(properties.contentType, "content-type-override");
 
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
   });
 
   it("generateDataLakeSASQueryParameters should work for fileSystem with access policy", async () => {
@@ -456,7 +456,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     await fileClientWithSAS.getProperties();
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
   });
 
   it("generateDataLakeSASQueryParameters should work for file with access policy", async () => {
@@ -515,7 +515,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     await fileClientWithSAS.getProperties();
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
   });
 
   it("GenerateUserDelegationSAS should work for filesystem with all configurations", async function(this: Context) {
@@ -576,7 +576,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         .next()
     ).value;
     assert.deepStrictEqual(result.pathItems.length, 0);
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
   });
 
   it("GenerateUserDelegationSAS should work for filesystem with minimum parameters", async function(this: Context) {
@@ -633,7 +633,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         .next()
     ).value;
     assert.deepStrictEqual(result.pathItems.length, 0);
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
   });
 
   it("GenerateUserDelegationSAS should work for file", async function(this: Context) {
@@ -707,7 +707,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.equal(properties.contentLanguage, "content-language-override");
     assert.equal(properties.contentType, "content-type-override");
 
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
   });
 
   it("GenerateUserDelegationSAS should work for file for 2019-12-12", async function(this: Context) {
@@ -877,7 +877,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   it("DataLakeFileSystemClient.generateSasUrl() should work", async () => {
     const fileSystemName = recorder.getUniqueName("filesystem");
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.create();
+    await fileSystemClient.createIfNotExists();
 
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
@@ -912,7 +912,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     }
     assert.ok(exceptionCaught);
 
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
   });
 });
 
@@ -952,7 +952,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
 
     const fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.create();
+    await fileSystemClient.createIfNotExists();
 
     const directoryName = recorder.getUniqueName("directory");
     directoryClient = fileSystemClient.getDirectoryClient(directoryName);
@@ -971,7 +971,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
   });
 
   afterEach(async function() {
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
 
@@ -1278,7 +1278,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
 
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = oauthServiceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.create();
+    await fileSystemClient.createIfNotExists();
 
     const directoryName = recorder.getUniqueName("directory");
     directoryClient = fileSystemClient.getDirectoryClient(directoryName);
@@ -1291,7 +1291,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
 
   afterEach(async function() {
     if (fileSystemClient) {
-      await fileSystemClient.delete();
+      await fileSystemClient.deleteIfExists();
     }
     await recorder.stop();
   });

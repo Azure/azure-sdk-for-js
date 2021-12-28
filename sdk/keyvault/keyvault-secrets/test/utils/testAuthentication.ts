@@ -6,9 +6,13 @@ import { ClientSecretCredential } from "@azure/identity";
 import { Context } from "mocha";
 import { SecretClient } from "../../src";
 import TestClient from "./testClient";
+import { getServiceVersion } from "./utils.common";
 import { uniqueString } from "./recorderUtils";
 
-export async function authenticate(that: Context): Promise<any> {
+export async function authenticate(
+  that: Context,
+  serviceVersion: ReturnType<typeof getServiceVersion>
+): Promise<any> {
   const secretSuffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
@@ -41,7 +45,7 @@ export async function authenticate(that: Context): Promise<any> {
     throw new Error("Missing KEYVAULT_URI environment variable.");
   }
 
-  const client = new SecretClient(keyVaultUrl, credential);
+  const client = new SecretClient(keyVaultUrl, credential, { serviceVersion });
   const testClient = new TestClient(client);
 
   return { recorder, client, testClient, secretSuffix, credential };

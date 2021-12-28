@@ -12,7 +12,7 @@ import {
   generateDocuments,
   bulkInsertItems
 } from "../common/TestHelpers";
-import AbortController from "node-abort-controller";
+import { AbortController } from "node-abort-controller";
 import { UsernamePasswordCredential } from "@azure/identity";
 import { defaultConnectionPolicy } from "../../../src/documents";
 

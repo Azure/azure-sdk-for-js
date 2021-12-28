@@ -4,7 +4,7 @@
 import { HashMessage, HmacMessage } from "./webworker";
 import { assert } from "chai";
 
-describe("SHA-256 (WebWorker)", function() {
+describe("SHA-256 (WebWorker)", function () {
   const worker = new Worker("/base/dist-test/webworker.js");
 
   function postMessage(message: HashMessage | HmacMessage): Promise<string> {
@@ -18,17 +18,17 @@ describe("SHA-256 (WebWorker)", function() {
     });
   }
 
-  after(function() {
+  after(function () {
     worker.terminate();
   });
 
-  describe("Hash", function() {
-    it("base64 encoding", async function() {
+  describe("Hash", function () {
+    it("base64 encoding", async function () {
       const hash = await postMessage({
         type: "hash",
         algorithm: "sha256",
         content: "azure",
-        encoding: "base64"
+        encoding: "base64",
       });
 
       assert.equal(
@@ -38,12 +38,12 @@ describe("SHA-256 (WebWorker)", function() {
       );
     });
 
-    it("hex encoding", async function() {
+    it("hex encoding", async function () {
       const hash = await postMessage({
         type: "hash",
         algorithm: "sha256",
         content: "azure",
-        encoding: "hex"
+        encoding: "hex",
       });
 
       assert.equal(
@@ -54,16 +54,16 @@ describe("SHA-256 (WebWorker)", function() {
     });
   });
 
-  describe("HMAC", function() {
+  describe("HMAC", function () {
     const base64EncodedKey = "c2VjcmV0"; // 'secret' in utf8.
 
-    it("base64 encoding", async function() {
+    it("base64 encoding", async function () {
       const hmac = await postMessage({
         type: "hmac",
         algorithm: "sha256",
         key: base64EncodedKey,
         stringToSign: "azure",
-        encoding: "base64"
+        encoding: "base64",
       });
 
       assert.equal(
@@ -73,13 +73,13 @@ describe("SHA-256 (WebWorker)", function() {
       );
     });
 
-    it("hex encoding", async function() {
+    it("hex encoding", async function () {
       const hmac = await postMessage({
         type: "hmac",
         algorithm: "sha256",
         key: base64EncodedKey,
         stringToSign: "azure",
-        encoding: "hex"
+        encoding: "hex",
       });
 
       assert.equal(

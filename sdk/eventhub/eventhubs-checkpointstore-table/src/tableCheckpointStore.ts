@@ -38,7 +38,6 @@ export interface CheckpointEntity {
 /**
  * An ownership entity of type PartitionOwnership to be stored in the table
  * @internal
- * @hidden
  */
 export interface PartitionOwnershipEntity {
   /**

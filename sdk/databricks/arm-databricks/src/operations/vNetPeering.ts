@@ -11,7 +11,7 @@ import { VNetPeering } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureDatabricksManagementClientContext } from "../azureDatabricksManagementClientContext";
+import { AzureDatabricksManagementClient } from "../azureDatabricksManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -30,13 +30,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VNetPeering operations. */
 export class VNetPeeringImpl implements VNetPeering {
-  private readonly client: AzureDatabricksManagementClientContext;
+  private readonly client: AzureDatabricksManagementClient;
 
   /**
    * Initialize a new instance of the class VNetPeering class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureDatabricksManagementClientContext) {
+  constructor(client: AzureDatabricksManagementClient) {
     this.client = client;
   }
 

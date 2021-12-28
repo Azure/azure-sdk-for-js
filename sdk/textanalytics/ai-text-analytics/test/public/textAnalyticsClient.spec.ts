@@ -22,7 +22,7 @@ import {
   SentenceSentiment,
   Opinion,
   AssessmentSentiment,
-  PiiEntityDomain
+  PiiEntityDomain,
 } from "../../src";
 import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
@@ -31,16 +31,16 @@ const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
   "Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle",
   "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
-  "I didn't like the last book I read at all."
+  "I didn't like the last book I read at all.",
 ];
 
 const testDataEs = [
   "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
-  "La carretera estaba atascada. Había mucho tráfico el día de ayer."
+  "La carretera estaba atascada. Había mucho tráfico el día de ayer.",
 ];
 
 matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
-  describe(`[${authMethod}] TextAnalyticsClient`, function(this: Suite) {
+  describe(`[${authMethod}] TextAnalyticsClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalyticsClient;
     const CLITimeout = this.timeout();
@@ -48,43 +48,43 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
     let getId: () => string;
 
-    beforeEach(function(this: Context) {
+    beforeEach(function (this: Context) {
       recorder = createRecorder(this);
       client = createClient(authMethod);
       let nextId = 0;
-      getId = function() {
+      getId = function () {
         nextId += 1;
         return nextId.toString();
       };
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await recorder.stop();
     });
 
-    describe("fast tests", function() {
-      before(function(this: Context) {
+    describe("fast tests", function () {
+      before(function (this: Context) {
         this.timeout(fastTimeout);
       });
 
-      describe("#analyzeSentiment", function() {
-        it("client throws on empty list", async function() {
+      describe("#analyzeSentiment", function () {
+        it("client throws on empty list", async function () {
           return assert.isRejected(client.analyzeSentiment([]), /non-empty array/);
         });
 
-        it("client accepts string[] and language", async function() {
+        it("client accepts string[] and language", async function () {
           const results = await client.analyzeSentiment(testDataEn, "en");
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
-        it("client accepts string[] with no language", async function() {
+        it("client accepts string[] with no language", async function () {
           const results = await client.analyzeSentiment(testDataEn);
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
-        it("service returns error for invalid language", async function() {
+        it("service returns error for invalid language", async function () {
           const [result] = await client.analyzeSentiment(["Hello world!"], "notalanguage");
           if (result.error === undefined) {
             assert.fail("Expected an error from the service.");
@@ -92,7 +92,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.equal(result.error.code, "UnsupportedLanguageCode");
         });
 
-        it("service has a bug when referencing assessments in doc #6 or greater", async function() {
+        it("service has a bug when referencing assessments in doc #6 or greater", async function () {
           const documents = [
             "The food was unacceptable",
             "The rooms were beautiful. The AC was good and quiet.",
@@ -100,10 +100,10 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             "Loved this hotel - good breakfast - nice shuttle service - clean rooms.",
             "I had a great unobstructed view of the Microsoft campus.",
             "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
-            "The toilet smelled."
+            "The toilet smelled.",
           ];
           const results = await client.analyzeSentiment(documents, "en", {
-            includeOpinionMining: true
+            includeOpinionMining: true,
           });
           const result1 = results[0];
           const result6 = results[5];
@@ -136,7 +136,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("service returns an error for an empty document", async function() {
+        it("service returns an error for an empty document", async function () {
           const data = [...testDataEn];
           data.splice(1, 0, "");
           const results = await client.analyzeSentiment(data);
@@ -151,19 +151,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.equal(errorResult.error.code, "InvalidDocument");
         });
 
-        it("client accepts TextDocumentInput[]", async function() {
+        it("client accepts TextDocumentInput[]", async function () {
           const enInputs = testDataEn.map(
             (text): TextDocumentInput => ({
               id: getId(),
               language: "en",
-              text
+              text,
             })
           );
           const esInputs = testDataEs.map(
             (text): TextDocumentInput => ({
               id: getId(),
               language: "es",
-              text
+              text,
             })
           );
           const allInputs = enInputs.concat(esInputs);
@@ -177,20 +177,21 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           );
         });
 
-        it("client gets positive mined assessments", async function() {
+        it("client gets positive mined assessments", async function () {
           const documents = [
             {
               text: "It has a sleek premium aluminum design that makes it beautiful to look at.",
               id: "0",
-              language: "en"
-            }
+              language: "en",
+            },
           ];
           const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
-            includeOpinionMining: true
+            includeOpinionMining: true,
           });
           assert.equal(results.length, 1);
           assertAllSuccess(results);
-          const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
+          const documentSentiment: AnalyzeSentimentSuccessResult =
+            results[0] as AnalyzeSentimentSuccessResult;
           documentSentiment.sentences.map((sentence) =>
             sentence.opinions?.map((opinion) => {
               const Target = opinion.target;
@@ -225,20 +226,21 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           );
         });
 
-        it("client gets negative mined assessments", async function() {
+        it("client gets negative mined assessments", async function () {
           const documents = [
             {
               text: "The food and service is not good",
               id: "0",
-              language: "en"
-            }
+              language: "en",
+            },
           ];
           const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
-            includeOpinionMining: true
+            includeOpinionMining: true,
           });
           assert.equal(results.length, 1);
           assertAllSuccess(results);
-          const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
+          const documentSentiment: AnalyzeSentimentSuccessResult =
+            results[0] as AnalyzeSentimentSuccessResult;
           documentSentiment.sentences.map((sentence) => {
             const foodTarget = sentence.opinions?.[0].target;
             assert.equal("food", foodTarget?.text);
@@ -280,42 +282,43 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           });
         });
 
-        it("client gets no mined assessments", async function() {
+        it("client gets no mined assessments", async function () {
           const documents = [
             {
               text: "today is a hot day",
               id: "0",
-              language: "en"
-            }
+              language: "en",
+            },
           ];
           const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
-            includeOpinionMining: true
+            includeOpinionMining: true,
           });
           assert.equal(results.length, 1);
           assertAllSuccess(results);
-          const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
+          const documentSentiment: AnalyzeSentimentSuccessResult =
+            results[0] as AnalyzeSentimentSuccessResult;
           assert.isEmpty(documentSentiment.sentences[0].opinions);
         });
       });
 
-      describe("#detectLanguage", function() {
-        it("client throws on empty list", async function() {
+      describe("#detectLanguage", function () {
+        it("client throws on empty list", async function () {
           return assert.isRejected(client.detectLanguage([]), /non-empty array/);
         });
 
-        it("client accepts no countryHint", async function() {
+        it("client accepts no countryHint", async function () {
           const results = await client.detectLanguage(testDataEn);
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
-        it("client accepts a countryHint", async function() {
+        it("client accepts a countryHint", async function () {
           const results = await client.detectLanguage(["impossible"], "fr");
           assert.equal(results.length, 1);
           assertAllSuccess(results);
         });
 
-        it('client accepts "none" country hint with string[] input', async function() {
+        it('client accepts "none" country hint with string[] input', async function () {
           const results = await client.detectLanguage(
             ["I use Azure Functions to develop my service."],
             "none"
@@ -326,20 +329,20 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.equal(result.primaryLanguage.iso6391Name, "en");
         });
 
-        it('client accepts "none" country hint with DetectLanguageInput[] input', async function() {
+        it('client accepts "none" country hint with DetectLanguageInput[] input', async function () {
           const results = await client.detectLanguage(
             testDataEn.concat(testDataEs).map(
               (input): DetectLanguageInput => ({
                 id: getId(),
                 countryHint: "none",
-                text: input
+                text: input,
               })
             )
           );
           assertAllSuccess(results);
         });
 
-        it("service errors on invalid country hint", async function() {
+        it("service errors on invalid country hint", async function () {
           const [result] = await client.detectLanguage(["hello"], "invalidcountry");
           if (result.error === undefined) {
             assert.fail("Expected an error from the service");
@@ -348,18 +351,18 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.equal(result.error.code, "InvalidCountryHint");
         });
 
-        it("client accepts mixed-country DetectLanguageInput[]", async function() {
+        it("client accepts mixed-country DetectLanguageInput[]", async function () {
           const enInputs = testDataEn.map(
             (text): DetectLanguageInput => ({
               id: getId(),
-              text
+              text,
             })
           );
           const esInputs = testDataEs.map(
             (text): DetectLanguageInput => ({
               id: getId(),
               countryHint: "mx",
-              text
+              text,
             })
           );
           const allInputs = enInputs.concat(esInputs);
@@ -370,24 +373,24 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
       });
 
-      describe("#recognizeEntities", function() {
-        it("client throws on empty list", async function() {
+      describe("#recognizeEntities", function () {
+        it("client throws on empty list", async function () {
           return assert.isRejected(client.recognizeEntities([]), /non-empty array/);
         });
 
-        it("client accepts string[] with no language", async function() {
+        it("client accepts string[] with no language", async function () {
           const results = await client.recognizeEntities(testDataEn);
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
-        it("client accepts string[] with a language specified", async function() {
+        it("client accepts string[] with a language specified", async function () {
           const results = await client.recognizeEntities(testDataEn, "en");
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
-        it("service errors on unsupported language", async function() {
+        it("service errors on unsupported language", async function () {
           const [result] = await client.recognizeEntities(
             ["This is some text, but it doesn't matter."],
             "notalanguage"
@@ -400,19 +403,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.equal(result.error.code, "UnsupportedLanguageCode");
         });
 
-        it("client accepts mixed-language TextDocumentInput[]", async function() {
+        it("client accepts mixed-language TextDocumentInput[]", async function () {
           const enInputs = testDataEn.slice(0, -1).map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
-              language: "en"
+              language: "en",
             })
           );
           const esInputs = testDataEs.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
-              language: "es"
+              language: "es",
             })
           );
           const allInputs = enInputs.concat(esInputs);
@@ -422,19 +425,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assertAllSuccess(results);
         });
 
-        it("client throws exception for too many inputs", async function() {
+        it("client throws exception for too many inputs", async function () {
           const enInputs = testDataEn.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
-              language: "en"
+              language: "en",
             })
           );
           const esInputs = testDataEs.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
-              language: "es"
+              language: "es",
             })
           );
           const allInputs = enInputs.concat(esInputs);
@@ -453,24 +456,24 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
       });
 
-      describe("#extractKeyPhrases", function() {
-        it("client throws on empty list", async function() {
+      describe("#extractKeyPhrases", function () {
+        it("client throws on empty list", async function () {
           return assert.isRejected(client.extractKeyPhrases([]), /non-empty array/);
         });
 
-        it("client accepts string[] with no language", async function() {
+        it("client accepts string[] with no language", async function () {
           const results = await client.extractKeyPhrases(testDataEn);
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
-        it("client accepts string[] with a language specified", async function() {
+        it("client accepts string[] with a language specified", async function () {
           const results = await client.extractKeyPhrases(testDataEn, "en");
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
-        it("service errors on unsupported language", async function() {
+        it("service errors on unsupported language", async function () {
           const [result] = await client.extractKeyPhrases(
             ["This is some text, but it doesn't matter."],
             "notalanguage"
@@ -483,19 +486,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.equal(result.error.code, "UnsupportedLanguageCode");
         });
 
-        it("client accepts mixed-language TextDocumentInput[]", async function() {
+        it("client accepts mixed-language TextDocumentInput[]", async function () {
           const enInputs = testDataEn.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
-              language: "en"
+              language: "en",
             })
           );
           const esInputs = testDataEs.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
-              language: "es"
+              language: "es",
             })
           );
           const allInputs = enInputs.concat(esInputs);
@@ -506,24 +509,24 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
       });
 
-      describe("#recognizePiiEntities", function() {
-        it("client throws on empty list", async function() {
+      describe("#recognizePiiEntities", function () {
+        it("client throws on empty list", async function () {
           return assert.isRejected(client.recognizePiiEntities([]));
         });
 
-        it("client accepts string[] with no language", async function() {
+        it("client accepts string[] with no language", async function () {
           const results = await client.recognizePiiEntities(testDataEn);
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
-        it("client accepts string[] with a language specified", async function() {
+        it("client accepts string[] with a language specified", async function () {
           const results = await client.recognizePiiEntities(testDataEn, "en");
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
-        it("client correctly reports recognition of PII-like pattern", async function() {
+        it("client correctly reports recognition of PII-like pattern", async function () {
           // 078-05-1120 is an invalid social security number due to its use in advertising
           // throughout the late 1930s
           const fakeSSNDocument = "Your Social Security Number is 859-98-0987.";
@@ -536,7 +539,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("service errors on unsupported language", async function() {
+        it("service errors on unsupported language", async function () {
           const [result] = await client.recognizePiiEntities(
             ["This is some text, but it doesn't matter."],
             "notalanguage"
@@ -549,20 +552,20 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.equal(result.error.code, "UnsupportedLanguageCode");
         });
 
-        it("client accepts mixed-language TextDocumentInput[]", async function() {
+        it("client accepts mixed-language TextDocumentInput[]", async function () {
           const sliceSize = 3;
           const enInputs = testDataEn.slice(0, sliceSize).map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
-              language: "en"
+              language: "en",
             })
           );
           const esInputs = testDataEs.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
-              language: "es"
+              language: "es",
             })
           );
           const allInputs = enInputs.concat(esInputs);
@@ -573,14 +576,14 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.ok(results.slice(0, sliceSize).every(isSuccess));
         });
 
-        it("accepts domain filter", async function() {
+        it("accepts domain filter", async function () {
           const [result] = await client.recognizePiiEntities(
             [
               {
                 id: "0",
                 text: "I work at Microsoft and my phone number is 333-333-3333",
-                language: "en"
-              }
+                language: "en",
+              },
             ],
             { domainFilter: PiiEntityDomain.PROTECTED_HEALTH_INFORMATION }
           );
@@ -597,14 +600,14 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("accepts pii categories", async function() {
+        it("accepts pii categories", async function () {
           const [result] = await client.recognizePiiEntities(
             [
               {
                 id: "0",
                 text: "Patient name is Joe and SSN is 859-98-0987",
-                language: "en"
-              }
+                language: "en",
+              },
             ],
             { categoriesFilter: ["USSocialSecurityNumber"] }
           );
@@ -616,13 +619,13 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("output pii categories are accepted as input", async function() {
+        it("output pii categories are accepted as input", async function () {
           const [result1] = await client.recognizePiiEntities([
             {
               id: "0",
               text: "Patient name is Joe and SSN is 859-98-0987",
-              language: "en"
-            }
+              language: "en",
+            },
           ]);
           if (!result1.error) {
             const entity2 = result1.entities[1];
@@ -631,8 +634,8 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 {
                   id: "0",
                   text: "Patient name is Joe and SSN is 859-98-0987",
-                  language: "en"
-                }
+                  language: "en",
+                },
               ],
               { categoriesFilter: [entity2.category] }
             );
@@ -646,24 +649,24 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
       });
 
-      describe("#recognizeLinkedEntities", function() {
-        it("client throws on empty list", async function() {
+      describe("#recognizeLinkedEntities", function () {
+        it("client throws on empty list", async function () {
           return assert.isRejected(client.recognizeLinkedEntities([]), /non-empty array/);
         });
 
-        it("client accepts string[] with no language", async function() {
+        it("client accepts string[] with no language", async function () {
           const results = await client.recognizeLinkedEntities(testDataEn);
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
-        it("client accepts string[] with a language specified", async function() {
+        it("client accepts string[] with a language specified", async function () {
           const results = await client.recognizeLinkedEntities(testDataEn, "en");
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
-        it("service errors on unsupported language", async function() {
+        it("service errors on unsupported language", async function () {
           const [result] = await client.recognizeLinkedEntities(
             ["This is some text, but it doesn't matter."],
             "notalanguage"
@@ -676,19 +679,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.equal(result.error.code, "UnsupportedLanguageCode");
         });
 
-        it("client accepts mixed-language TextDocumentInput[]", async function() {
+        it("client accepts mixed-language TextDocumentInput[]", async function () {
           const enInputs = testDataEn.slice(0, -1).map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
-              language: "en"
+              language: "en",
             })
           );
           const esInputs = testDataEs.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
-              language: "es"
+              language: "es",
             })
           );
           const allInputs = enInputs.concat(esInputs);
@@ -698,19 +701,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assertAllSuccess(results);
         });
 
-        it("client throws exception for too many inputs", async function() {
+        it("client throws exception for too many inputs", async function () {
           const enInputs = testDataEn.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
-              language: "en"
+              language: "en",
             })
           );
           const esInputs = testDataEs.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
-              language: "es"
+              language: "es",
             })
           );
           const allInputs = enInputs.concat(esInputs);
@@ -729,9 +732,9 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
       });
 
-      describe("#String encoding", function() {
-        describe("#Default encoding (utf16CodeUnit)", function() {
-          it("emoji", async function() {
+      describe("#String encoding", function () {
+        describe("#Default encoding (utf16CodeUnit)", function () {
+          it("emoji", async function () {
             await checkOffsetAndLength(
               client,
               "👩 SSN: 859-98-0987",
@@ -742,7 +745,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("emoji with skin tone modifier", async function() {
+          it("emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(
               client,
               "👩🏻 SSN: 859-98-0987",
@@ -753,7 +756,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("family emoji", async function() {
+          it("family emoji", async function () {
             await checkOffsetAndLength(
               client,
               "👩‍👩‍👧‍👧 SSN: 859-98-0987",
@@ -764,7 +767,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("family emoji with skin tone modifier", async function(this: Context) {
+          it("family emoji with skin tone modifier", async function (this: Context) {
             await checkOffsetAndLength(
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
@@ -775,7 +778,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("diacritics nfc", async function() {
+          it("diacritics nfc", async function () {
             await checkOffsetAndLength(
               client,
               "año SSN: 859-98-0987",
@@ -786,7 +789,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("diacritics nfd", async function() {
+          it("diacritics nfd", async function () {
             await checkOffsetAndLength(
               client,
               "año SSN: 859-98-0987",
@@ -797,7 +800,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("korean nfc", async function() {
+          it("korean nfc", async function () {
             await checkOffsetAndLength(
               client,
               "아가 SSN: 859-98-0987",
@@ -808,7 +811,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("korean nfd", async function() {
+          it("korean nfd", async function () {
             await checkOffsetAndLength(
               client,
               "아가 SSN: 859-98-0987",
@@ -819,7 +822,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("zalgo", async function() {
+          it("zalgo", async function () {
             await checkOffsetAndLength(
               client,
               "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987",
@@ -830,20 +833,20 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             );
           });
         });
-        describe("#UnicodeCodePoint", function() {
-          it("emoji", async function() {
+        describe("#UnicodeCodePoint", function () {
+          it("emoji", async function () {
             await checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "UnicodeCodePoint", 7, 11); // offset was 8 with UTF16
           });
 
-          it("emoji with skin tone modifier", async function() {
+          it("emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11); // offset was 10 with UTF16
           });
 
-          it("family emoji", async function() {
+          it("family emoji", async function () {
             await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "UnicodeCodePoint", 13, 11); // offset was 17 with UTF16
           });
 
-          it("family emoji with skin tone modifier", async function() {
+          it("family emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
@@ -853,40 +856,40 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             ); // offset was 25 with UTF16
           });
 
-          it("diacritics nfc", async function() {
+          it("diacritics nfc", async function () {
             await checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 9, 11);
           });
 
-          it("diacritics nfd", async function() {
+          it("diacritics nfd", async function () {
             await checkOffsetAndLength(client, "año SSN: 859-98-0987", "UnicodeCodePoint", 10, 11);
           });
 
-          it("korean nfc", async function() {
+          it("korean nfc", async function () {
             await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11);
           });
 
-          it("korean nfd", async function() {
+          it("korean nfd", async function () {
             await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "UnicodeCodePoint", 8, 11);
           });
 
-          it("zalgo", async function() {
+          it("zalgo", async function () {
             await checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "UnicodeCodePoint", 121, 11);
           });
         });
-        describe("#TextElement_v8", function() {
-          it("emoji", async function() {
+        describe("#TextElement_v8", function () {
+          it("emoji", async function () {
             await checkOffsetAndLength(client, "👩 SSN: 859-98-0987", "TextElement_v8", 7, 11); // offset was 8 with UTF16
           });
 
-          it("emoji with skin tone modifier", async function() {
+          it("emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(client, "👩🏻 SSN: 859-98-0987", "TextElement_v8", 8, 11); // offset was 10 with UTF16
           });
 
-          it("family emoji", async function() {
+          it("family emoji", async function () {
             await checkOffsetAndLength(client, "👩‍👩‍👧‍👧 SSN: 859-98-0987", "TextElement_v8", 13, 11); // offset was 17 with UTF16
           });
 
-          it("family emoji with skin tone modifier", async function() {
+          it("family emoji with skin tone modifier", async function () {
             await checkOffsetAndLength(
               client,
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
@@ -896,45 +899,50 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             ); // offset was 25 with UTF16
           });
 
-          it("diacritics nfc", async function() {
+          it("diacritics nfc", async function () {
             await checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElement_v8", 9, 11);
           });
 
-          it("diacritics nfd", async function() {
+          it("diacritics nfd", async function () {
             await checkOffsetAndLength(client, "año SSN: 859-98-0987", "TextElement_v8", 9, 11); // offset was 10 with UTF16
           });
 
-          it("korean nfc", async function() {
+          it("korean nfc", async function () {
             await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElement_v8", 8, 11);
           });
 
-          it("korean nfd", async function() {
+          it("korean nfd", async function () {
             await checkOffsetAndLength(client, "아가 SSN: 859-98-0987", "TextElement_v8", 8, 11);
           });
 
-          it("zalgo", async function() {
+          it("zalgo", async function () {
             await checkOffsetAndLength(client, "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", "TextElement_v8", 9, 11); // offset was 121 with UTF16
           });
         });
       });
     });
 
-    describe("LROs", function() {
+    describe("LROs", function () {
       const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-      before(function(this: Context) {
+      before(function (this: Context) {
         this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
       });
 
-      describe("#analyze", function() {
-        it("single custom entity recognition action", async function() {
+      /**
+       * The service's rate limit is sometimes reached for the beginAnalyzeActions tests
+       * because of the many requests the tests send. It appears that the number of
+       * max retries should be big enough to get around this issue. 10 seems to work
+       * fine for now.
+       */
+      describe("#analyze", function () {
+        it("single custom entity recognition action", async function () {
           const docs = [
             {
               id: "1",
               language: "en",
-              text:
-                "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities."
-            }
+              text: "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
+            },
           ];
 
           const poller = await client.beginAnalyzeActions(
@@ -943,12 +951,12 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               recognizeCustomEntitiesActions: [
                 {
                   projectName: env.TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME,
-                  deploymentName: env.TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME
-                }
-              ]
+                  deploymentName: env.TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME,
+                },
+              ],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const results = await poller.pollUntilDone();
@@ -979,14 +987,13 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("single custom document single category classification action", async function() {
+        it("single custom document single category classification action", async function () {
           const docs = [
             {
               id: "1",
               language: "en",
-              text:
-                "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities."
-            }
+              text: "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
+            },
           ];
 
           const poller = await client.beginAnalyzeActions(
@@ -995,12 +1002,12 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               singleCategoryClassifyActions: [
                 {
                   projectName: env.TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_PROJECT_NAME,
-                  deploymentName: env.TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME
-                }
-              ]
+                  deploymentName: env.TEXT_ANALYTICS_SINGLE_CATEGORY_CLASSIFY_DEPLOYMENT_NAME,
+                },
+              ],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const results = await poller.pollUntilDone();
@@ -1030,14 +1037,13 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("single custom document multiple category classification action", async function() {
+        it("single custom document multiple category classification action", async function () {
           const docs = [
             {
               id: "1",
               language: "en",
-              text:
-                "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities."
-            }
+              text: "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
+            },
           ];
 
           const poller = await client.beginAnalyzeActions(
@@ -1046,12 +1052,12 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               multiCategoryClassifyActions: [
                 {
                   projectName: env.TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_PROJECT_NAME,
-                  deploymentName: env.TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME
-                }
-              ]
+                  deploymentName: env.TEXT_ANALYTICS_MULTI_CATEGORY_CLASSIFY_DEPLOYMENT_NAME,
+                },
+              ],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const results = await poller.pollUntilDone();
@@ -1085,7 +1091,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("single extract summary action", async function() {
+        it("single extract summary action", async function () {
           // Source: https://news.microsoft.com/innovation-stories/cloud-pc-windows-365/
           const windows365ArticlePart1 = `
           No roads or rails connect the 39,000 people dispersed across Nunavut, a territory in northeastern Canada that spans three time zones and features fjord-cut isles that stretch into the Arctic Circle off the west coast of Greenland. About 80% of the population is of Inuit descent with cultural ties to the land that date back more than 4,000 years.
@@ -1161,12 +1167,12 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             docs,
             {
               extractSummaryActions: [
-                { modelVersion: "latest", orderBy: "Offset", maxSentenceCount: maxSentenceCount }
-              ]
+                { modelVersion: "latest", orderBy: "Offset", maxSentenceCount: maxSentenceCount },
+              ],
             },
             "en",
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const results = await poller.pollUntilDone();
@@ -1197,19 +1203,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("single entity recognition action", async function() {
+        it("single entity recognition action", async function () {
           const docs = [
             { id: "1", language: "en", text: "Microsoft was founded by Bill Gates and Paul Allen" },
-            { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
+            { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" },
           ];
 
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              recognizeEntitiesActions: [{ modelVersion: "latest" }]
+              recognizeEntitiesActions: [{ modelVersion: "latest" }],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const results = await poller.pollUntilDone();
@@ -1233,19 +1239,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("single key phrases action", async function() {
+        it("single key phrases action", async function () {
           const docs = [
             { id: "1", language: "en", text: "Microsoft was founded by Bill Gates and Paul Allen" },
-            { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" }
+            { id: "2", language: "es", text: "Microsoft fue fundado por Bill Gates y Paul Allen" },
           ];
 
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              extractKeyPhrasesActions: [{ modelVersion: "latest" }]
+              extractKeyPhrasesActions: [{ modelVersion: "latest" }],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const results = await poller.pollUntilDone();
@@ -1270,32 +1276,32 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("single entities recognition action", async function() {
+        it("single entities recognition action", async function () {
           const docs = [
             {
               id: "1",
               text: "Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975.",
-              language: "en"
+              language: "en",
             },
             {
               id: "2",
               text: "Microsoft fue fundado por Bill Gates y Paul Allen el 4 de abril de 1975.",
-              language: "es"
+              language: "es",
             },
             {
               id: "3",
               text: "Microsoft wurde am 4. April 1975 von Bill Gates und Paul Allen gegründet.",
-              language: "de"
-            }
+              language: "de",
+            },
           ];
 
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              recognizeEntitiesActions: [{ modelVersion: "latest" }]
+              recognizeEntitiesActions: [{ modelVersion: "latest" }],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -1323,20 +1329,20 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("single entities linking action", async function() {
+        it("single entities linking action", async function () {
           const docs = [
             "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
-            "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella."
+            "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella.",
           ];
 
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              recognizeLinkedEntitiesActions: [{}]
+              recognizeLinkedEntitiesActions: [{}],
             },
             "en",
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -1364,24 +1370,23 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("single pii entities recognition action", async function() {
+        it("single pii entities recognition action", async function () {
           const docs = [
             { id: "1", text: "My SSN is 859-98-0987." },
             {
               id: "2",
-              text:
-                "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check."
+              text: "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
             },
-            { id: "3", text: "Is 998.214.865-68 your Brazilian CPF number?" }
+            { id: "3", text: "Is 998.214.865-68 your Brazilian CPF number?" },
           ];
 
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
+              recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -1425,29 +1430,27 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("single pii entities recognition action with categories filtered", async function() {
+        it("single pii entities recognition action with categories filtered", async function () {
           const docs = [
             {
               id: "1",
-              text:
-                "My SSN is 859-98-0987 and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check."
+              text: "My SSN is 859-98-0987 and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
             },
             {
               id: "2",
-              text:
-                "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check."
-            }
+              text: "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
+            },
           ];
 
           const poller = await client.beginAnalyzeActions(
             docs,
             {
               recognizePiiEntitiesActions: [
-                { modelVersion: "latest", categoriesFilter: ["USSocialSecurityNumber"] }
-              ]
+                { modelVersion: "latest", categoriesFilter: ["USSocialSecurityNumber"] },
+              ],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -1485,7 +1488,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("single sentiment analysis action", async function() {
+        it("single sentiment analysis action", async function () {
           const docs = [
             "The food was unacceptable",
             "The rooms were beautiful. The AC was good and quiet.",
@@ -1493,17 +1496,17 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             "Loved this hotel - good breakfast - nice shuttle service - clean rooms.",
             "I had a great unobstructed view of the Microsoft campus.",
             "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
-            "The toilet smelled."
+            "The toilet smelled.",
           ];
 
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              analyzeSentimentActions: [{ includeOpinionMining: true }]
+              analyzeSentimentActions: [{ includeOpinionMining: true }],
             },
             "en",
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -1553,17 +1556,17 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("bad request empty string", async function() {
+        it("bad request empty string", async function () {
           const docs = [""];
           try {
             const poller = await client.beginAnalyzeActions(
               docs,
               {
-                recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
+                recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
               },
               "en",
               {
-                updateIntervalInMs: pollingInterval
+                updateIntervalInMs: pollingInterval,
               }
             );
             await poller.pollUntilDone();
@@ -1572,19 +1575,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("some documents with errors and multiple actions", async function() {
+        it("some documents with errors and multiple actions", async function () {
           const docs = [
             { id: "1", language: "", text: "" },
             {
               id: "2",
               language: "english",
-              text: "I did not like the hotel we stayed at. It was too expensive."
+              text: "I did not like the hotel we stayed at. It was too expensive.",
             },
             {
               id: "3",
               language: "en",
-              text: "The restaurant had really good food. I recommend you try it."
-            }
+              text: "The restaurant had really good food. I recommend you try it.",
+            },
           ];
 
           const poller = await client.beginAnalyzeActions(
@@ -1592,10 +1595,10 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               recognizeEntitiesActions: [{ modelVersion: "latest" }],
               recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
-              extractKeyPhrasesActions: [{ modelVersion: "latest" }]
+              extractKeyPhrasesActions: [{ modelVersion: "latest" }],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -1644,19 +1647,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("all documents with errors and multiple actions", async function() {
+        it("all documents with errors and multiple actions", async function () {
           const docs = [
             { id: "1", language: "", text: "" },
             {
               id: "2",
               language: "english",
-              text: "I did not like the hotel we stayed at. It was too expensive."
+              text: "I did not like the hotel we stayed at. It was too expensive.",
             },
             {
               id: "3",
               language: "en",
-              text: ""
-            }
+              text: "",
+            },
           ];
 
           const poller = await client.beginAnalyzeActions(
@@ -1664,10 +1667,10 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               recognizeEntitiesActions: [{ modelVersion: "latest" }],
               recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
-              extractKeyPhrasesActions: [{ modelVersion: "latest" }]
+              extractKeyPhrasesActions: [{ modelVersion: "latest" }],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -1716,13 +1719,13 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("output order is same as the input's one with multiple actions", async function() {
+        it("output order is same as the input's one with multiple actions", async function () {
           const docs = [
             { id: "1", text: "one" },
             { id: "2", text: "two" },
             { id: "3", text: "three" },
             { id: "4", text: "four" },
-            { id: "5", text: "five" }
+            { id: "5", text: "five" },
           ];
 
           const poller = await client.beginAnalyzeActions(
@@ -1730,10 +1733,10 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               recognizeEntitiesActions: [{ modelVersion: "latest" }],
               recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
-              extractKeyPhrasesActions: [{ modelVersion: "latest" }]
+              extractKeyPhrasesActions: [{ modelVersion: "latest" }],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -1782,13 +1785,13 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("out of order input IDs with multiple actions", async function() {
+        it("out of order input IDs with multiple actions", async function () {
           const docs = [
             { id: "56", text: ":)" },
             { id: "0", text: ":(" },
             { id: "22", text: "w" },
             { id: "19", text: ":P" },
-            { id: "1", text: ":D" }
+            { id: "1", text: ":D" },
           ];
 
           const poller = await client.beginAnalyzeActions(
@@ -1796,10 +1799,10 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               recognizeEntitiesActions: [{ modelVersion: "latest" }],
               recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
-              extractKeyPhrasesActions: [{ modelVersion: "latest" }]
+              extractKeyPhrasesActions: [{ modelVersion: "latest" }],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -1850,13 +1853,13 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
 
         // the service's statistics says the number of documents is 6 instead of 5.
-        it.skip("statistics", async function() {
+        it.skip("statistics", async function () {
           const docs = [
             { id: "56", text: ":)" },
             { id: "0", text: ":(" },
             { id: "22", text: "" },
             { id: "19", text: ":P" },
-            { id: "1", text: ":D" }
+            { id: "1", text: ":D" },
           ];
 
           const poller = await client.beginAnalyzeActions(
@@ -1864,11 +1867,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               recognizeEntitiesActions: [{ modelVersion: "latest" }],
               recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
-              extractKeyPhrasesActions: [{ modelVersion: "latest" }]
+              extractKeyPhrasesActions: [{ modelVersion: "latest" }],
             },
             {
               includeStatistics: true,
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const response = await poller.pollUntilDone();
@@ -1896,11 +1899,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("whole batch language hint", async function() {
+        it("whole batch language hint", async function () {
           const docs = [
             "This was the best day of my life.",
             "I did not like the hotel we stayed at. It was too expensive.",
-            "The restaurant was not as good as I hoped."
+            "The restaurant was not as good as I hoped.",
           ];
 
           const poller = await client.beginAnalyzeActions(
@@ -1908,11 +1911,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               recognizeEntitiesActions: [{ modelVersion: "latest" }],
               recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
-              extractKeyPhrasesActions: [{ modelVersion: "latest" }]
+              extractKeyPhrasesActions: [{ modelVersion: "latest" }],
             },
             "en",
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -1930,11 +1933,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("whole batch with no language hint", async function() {
+        it("whole batch with no language hint", async function () {
           const docs = [
             "This was the best day of my life.",
             "I did not like the hotel we stayed at. It was too expensive.",
-            "The restaurant was not as good as I hoped."
+            "The restaurant was not as good as I hoped.",
           ];
 
           const poller = await client.beginAnalyzeActions(
@@ -1942,11 +1945,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               recognizeEntitiesActions: [{ modelVersion: "latest" }],
               recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
-              extractKeyPhrasesActions: [{ modelVersion: "latest" }]
+              extractKeyPhrasesActions: [{ modelVersion: "latest" }],
             },
             "",
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -1964,11 +1967,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("each doc has a language hint", async function() {
+        it("each doc has a language hint", async function () {
           const docs = [
             { id: "1", language: "", text: "I will go to the park." },
             { id: "2", language: "", text: "I did not like the hotel we stayed at." },
-            { id: "3", text: "The restaurant had really good food." }
+            { id: "3", text: "The restaurant had really good food." },
           ];
 
           const poller = await client.beginAnalyzeActions(
@@ -1976,10 +1979,10 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               recognizeEntitiesActions: [{ modelVersion: "latest" }],
               recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
-              extractKeyPhrasesActions: [{ modelVersion: "latest" }]
+              extractKeyPhrasesActions: [{ modelVersion: "latest" }],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -1997,11 +2000,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("whole batch input with a language hint", async function() {
+        it("whole batch input with a language hint", async function () {
           const docs = [
             { id: "1", text: "I will go to the park." },
             { id: "2", text: "Este es un document escrito en Español." },
-            { id: "3", text: "猫は幸せ" }
+            { id: "3", text: "猫は幸せ" },
           ];
 
           const poller = await client.beginAnalyzeActions(
@@ -2009,10 +2012,10 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               recognizeEntitiesActions: [{ modelVersion: "latest" }],
               recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
-              extractKeyPhrasesActions: [{ modelVersion: "latest" }]
+              extractKeyPhrasesActions: [{ modelVersion: "latest" }],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -2030,7 +2033,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("invalid language hint", async function() {
+        it("invalid language hint", async function () {
           const docs = ["This should fail because we're passing in an invalid language hint"];
 
           const poller = await client.beginAnalyzeActions(
@@ -2038,11 +2041,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               recognizeEntitiesActions: [{ modelVersion: "latest" }],
               recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
-              extractKeyPhrasesActions: [{ modelVersion: "latest" }]
+              extractKeyPhrasesActions: [{ modelVersion: "latest" }],
             },
             "notalanguage",
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -2067,7 +2070,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("paged results with custom page size", async function() {
+        it("paged results with custom page size", async function () {
           const totalDocs = 25;
           const docs = Array(totalDocs - 1).fill("random text");
           docs.push("Microsoft was founded by Bill Gates and Paul Allen");
@@ -2075,11 +2078,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             docs,
             {
               recognizeEntitiesActions: [{ modelVersion: "latest" }],
-              extractKeyPhrasesActions: [{ modelVersion: "latest" }]
+              extractKeyPhrasesActions: [{ modelVersion: "latest" }],
             },
             "en",
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -2107,20 +2110,20 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.equal(Math.ceil(docs.length / pageSize), pageCount);
         });
 
-        it("pii redacted test is not empty", async function() {
+        it("pii redacted test is not empty", async function () {
           const docs = [
             { id: "1", text: "I will go to the park." },
             { id: "2", text: "Este es un document escrito en Español." },
-            { id: "3", text: "猫は幸せ" }
+            { id: "3", text: "猫は幸せ" },
           ];
 
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
+              recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -2141,21 +2144,21 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("operation metadata", async function() {
+        it("operation metadata", async function () {
           const docs = [
             { id: "1", text: "I will go to the park." },
             { id: "2", text: "Este es un document escrito en Español." },
-            { id: "3", text: "猫は幸せ" }
+            { id: "3", text: "猫は幸せ" },
           ];
 
           const poller = await client.beginAnalyzeActions(
             docs,
             {
-              recognizePiiEntitiesActions: [{ modelVersion: "latest" }]
+              recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
             },
             {
               updateIntervalInMs: pollingInterval,
-              displayName: "testJob"
+              displayName: "testJob",
             }
           );
           poller.onProgress((state) => {
@@ -2172,16 +2175,16 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.ok(result);
         });
 
-        it("family emoji wit skin tone modifier", async function() {
+        it("family emoji wit skin tone modifier", async function () {
           const poller = await client.beginAnalyzeActions(
             [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }],
             {
               recognizePiiEntitiesActions: [
-                { modelVersion: "latest", stringIndexType: "UnicodeCodePoint" }
-              ]
+                { modelVersion: "latest", stringIndexType: "UnicodeCodePoint" },
+              ],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const pollerResult = await poller.pollUntilDone();
@@ -2197,7 +2200,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("malformed actions", async function() {
+        it("malformed actions", async function () {
           const docs = [{ id: "1", text: "I will go to the park." }];
 
           try {
@@ -2208,11 +2211,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 recognizePiiEntitiesActions: [
                   // { modelVersion: "bad" },
                   // { modelVersion: "latest" },
-                  { modelVersion: "bad", stringIndexType: "TextElement_v8" }
-                ]
+                  { modelVersion: "bad", stringIndexType: "TextElement_v8" },
+                ],
               },
               {
-                updateIntervalInMs: pollingInterval
+                updateIntervalInMs: pollingInterval,
               }
             );
             throw new Error("Expected an error to occur");
@@ -2222,7 +2225,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("duplicate actions of the same type are disallowed", async function() {
+        it("duplicate actions of the same type are disallowed", async function () {
           const docs = [{ id: "1", text: "I will go to the park." }];
 
           try {
@@ -2231,11 +2234,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               {
                 recognizePiiEntitiesActions: [
                   { modelVersion: "latest" },
-                  { modelVersion: "latest" }
-                ]
+                  { modelVersion: "latest" },
+                ],
               },
               {
-                updateIntervalInMs: pollingInterval
+                updateIntervalInMs: pollingInterval,
               }
             );
             assert.fail(
@@ -2251,7 +2254,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("unique multiple actions per type are allowed", async function() {
+        it("unique multiple actions per type are allowed", async function () {
           const docs = [{ id: "1", text: "I will go to the park." }];
 
           const poller = await client.beginAnalyzeActions(
@@ -2259,11 +2262,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             {
               recognizePiiEntitiesActions: [
                 { modelVersion: "latest", actionName: "action1" },
-                { modelVersion: "latest", actionName: "action2" }
-              ]
+                { modelVersion: "latest", actionName: "action2" },
+              ],
             },
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const pollerResult = await poller.pollUntilDone();
@@ -2273,16 +2276,16 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
       });
 
-      describe("#health", function() {
-        it("input strings", async function() {
+      describe("#health", function () {
+        it("input strings", async function () {
           const poller = await client.beginAnalyzeHealthcareEntities(
             [
               "Patient does not suffer from high blood pressure.",
-              "Prescribed 100mg ibuprofen, taken twice daily."
+              "Prescribed 100mg ibuprofen, taken twice daily.",
             ],
             "en",
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -2306,26 +2309,26 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               roles: [
                 {
                   entity: doc2.entities[0],
-                  name: "Dosage"
+                  name: "Dosage",
                 },
                 {
                   entity: doc2.entities[1],
-                  name: "Medication"
-                }
-              ]
+                  name: "Medication",
+                },
+              ],
             });
             assert.deepEqual(doc2.entityRelations[1], {
               relationType: "FrequencyOfMedication",
               roles: [
                 {
                   entity: doc2.entities[1],
-                  name: "Medication"
+                  name: "Medication",
                 },
                 {
                   entity: doc2.entities[2],
-                  name: "Frequency"
-                }
-              ]
+                  name: "Frequency",
+                },
+              ],
             });
 
             const doc2Entity2 = doc2.entities[1];
@@ -2336,14 +2339,14 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("entity assertions", async function() {
+        it("entity assertions", async function () {
           const poller = await client.beginAnalyzeHealthcareEntities(
             [
-              "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too."
+              "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too.",
             ],
             "en",
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -2399,18 +2402,18 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("input documents", async function() {
+        it("input documents", async function () {
           const poller = await client.beginAnalyzeHealthcareEntities(
             [
               {
                 id: "1",
                 text: "Patient does not suffer from high blood pressure.",
-                language: "en"
+                language: "en",
               },
-              { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" }
+              { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" },
             ],
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const result = await poller.pollUntilDone();
@@ -2422,19 +2425,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("some inputs with errors", async function() {
+        it("some inputs with errors", async function () {
           const docs = [
             { id: "1", language: "en", text: "" },
             {
               id: "2",
               language: "english",
-              text: "Patient does not suffer from high blood pressure."
+              text: "Patient does not suffer from high blood pressure.",
             },
-            { id: "3", language: "en", text: "Prescribed 100mg ibuprofen, taken twice daily." }
+            { id: "3", language: "en", text: "Prescribed 100mg ibuprofen, taken twice daily." },
           ];
 
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           const result1 = (await result.next()).value;
@@ -2448,19 +2451,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.ok(result2.error);
         });
 
-        it("all inputs with errors", async function() {
+        it("all inputs with errors", async function () {
           const docs = [
             { id: "1", language: "en", text: "" },
             {
               id: "2",
               language: "english",
-              text: "Patient does not suffer from high blood pressure."
+              text: "Patient does not suffer from high blood pressure.",
             },
-            { id: "3", language: "en", text: "" }
+            { id: "3", language: "en", text: "" },
           ];
 
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           const result1 = (await result.next()).value;
@@ -2471,11 +2474,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.ok(result3.error);
         });
 
-        it("too many documents", async function() {
+        it("too many documents", async function () {
           const docs = Array(11).fill("random text");
           try {
             await client.beginAnalyzeHealthcareEntities(docs, "en", {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             });
             assert.fail("Oops, an exception didn't happen.");
           } catch (e) {
@@ -2488,7 +2491,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("payload too large", async function() {
+        it("payload too large", async function () {
           const large_doc =
             "RECORD #333582770390100 | MH | 85986313 | | 054351 | 2/14/2001 12:00:00 AM | \
                 CORONARY ARTERY DISEASE | Signed | DIS | Admission Date: 5/22/2001 \
@@ -2506,7 +2509,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           const docs = Array(500).fill(large_doc);
           try {
             await client.beginAnalyzeHealthcareEntities(docs, "en", {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             });
             assert.fail("Oops, an exception didn't happen.");
           } catch (e) {
@@ -2519,10 +2522,10 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("document warnings", async function() {
+        it("document warnings", async function () {
           const docs = [{ id: "1", text: "This won't actually create a warning :'(" }];
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           for await (const doc of result) {
@@ -2532,16 +2535,16 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("output has the same order as input", async function() {
+        it("output has the same order as input", async function () {
           const docs = [
             { id: "1", text: "one" },
             { id: "2", text: "two" },
             { id: "3", text: "three" },
             { id: "4", text: "four" },
-            { id: "5", text: "five" }
+            { id: "5", text: "five" },
           ];
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           let i = 0;
@@ -2550,16 +2553,16 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("output has the same order as input with out of order IDs", async function() {
+        it("output has the same order as input with out of order IDs", async function () {
           const docs = [
             { id: "56", text: ":)" },
             { id: "0", text: ":(" },
             { id: "22", text: "" },
             { id: "19", text: ":P" },
-            { id: "1", text: ":D" }
+            { id: "1", text: ":D" },
           ];
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           const in_order = [56, 0, 22, 19, 1];
@@ -2569,18 +2572,18 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("show stats and model version", async function() {
+        it("show stats and model version", async function () {
           const docs = [
             { id: "56", text: ":)" },
             { id: "0", text: ":(" },
             { id: "22", text: "" },
             { id: "19", text: ":P" },
-            { id: "1", text: ":D" }
+            { id: "1", text: ":D" },
           ];
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
             modelVersion: "latest",
             includeStatistics: true,
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           assert.ok(result);
@@ -2591,15 +2594,15 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.equal(result.statistics?.erroneousDocumentCount, 1);
         });
 
-        it("whole batch language hint", async function() {
+        it("whole batch language hint", async function () {
           const docs = [
             "This was the best day of my life.",
             "I did not like the hotel we stayed at. It was too expensive.",
-            "The restaurant was not as good as I hoped."
+            "The restaurant was not as good as I hoped.",
           ];
 
           const poller = await client.beginAnalyzeHealthcareEntities(docs, "en", {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           for await (const doc of result) {
@@ -2607,15 +2610,15 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("whole batch empty language hint", async function() {
+        it("whole batch empty language hint", async function () {
           const docs = [
             "This was the best day of my life.",
             "I did not like the hotel we stayed at. It was too expensive.",
-            "The restaurant was not as good as I hoped."
+            "The restaurant was not as good as I hoped.",
           ];
 
           const poller = await client.beginAnalyzeHealthcareEntities(docs, "", {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           for await (const doc of result) {
@@ -2623,15 +2626,15 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("whole batch empty language hint per doc", async function() {
+        it("whole batch empty language hint per doc", async function () {
           const docs = [
             { id: "1", language: "", text: "I will go to the park." },
             { id: "2", language: "", text: "I did not like the hotel we stayed at." },
-            { id: "3", text: "The restaurant had really good food." }
+            { id: "3", text: "The restaurant had really good food." },
           ];
 
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           for await (const doc of result) {
@@ -2639,15 +2642,15 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("whole batch with multiple languages", async function() {
+        it("whole batch with multiple languages", async function () {
           const docs = [
             { id: "1", text: "I should take my cat to the veterinarian." },
             { id: "2", text: "Este es un document escrito en Español." },
-            { id: "3", text: "猫は幸せ" }
+            { id: "3", text: "猫は幸せ" },
           ];
 
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           for await (const doc of result) {
@@ -2655,28 +2658,28 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("invalid language hint", async function() {
+        it("invalid language hint", async function () {
           const docs = ["This should fail because we're passing in an invalid language hint"];
 
           const poller = await client.beginAnalyzeHealthcareEntities(docs, "notalanguage", {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           const firstResult = (await result.next()).value;
           assert.equal(firstResult.error?.code, "UnsupportedLanguageCode");
         });
 
-        it("invalid language hint in doc", async function() {
+        it("invalid language hint in doc", async function () {
           const docs = [
             {
               id: "1",
               language: "notalanguage",
-              text: "This should fail because we're passing in an invalid language hint"
-            }
+              text: "This should fail because we're passing in an invalid language hint",
+            },
           ];
 
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           const firstResult = (await result.next()).value;
@@ -2686,19 +2689,19 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         /**
          * The service accepts bad model names
          */
-        it.skip("bad model", async function() {
+        it.skip("bad model", async function () {
           const docs = [
             {
               id: "1",
               language: "en",
-              text: "This should fail because we're passing in an invalid language hint"
-            }
+              text: "This should fail because we're passing in an invalid language hint",
+            },
           ];
 
           try {
             await client.beginAnalyzeHealthcareEntities(docs, {
               modelVersion: "bad",
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             });
             assert.fail("Oops, an exception didn't happen.");
           } catch (e) {
@@ -2706,21 +2709,21 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("all documents have errors", async function() {
+        it("all documents have errors", async function () {
           const docs = [
             { id: "1", text: "" },
-            { id: "2", language: "english", text: "I did not like the hotel we stayed at." }
+            { id: "2", language: "english", text: "I did not like the hotel we stayed at." },
           ];
 
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const doc_errors = await poller.pollUntilDone();
           assert.equal((await doc_errors.next()).value.error?.code, "InvalidDocument");
           assert.equal((await doc_errors.next()).value.error?.code, "UnsupportedLanguageCode");
         });
 
-        it("big document causes a warning", async function() {
+        it("big document causes a warning", async function () {
           let text = "";
           for (let i = 0; i < 5121; ++i) {
             text = text + "x";
@@ -2728,7 +2731,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           const docs = [{ id: "3", text: text }];
 
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const results = await poller.pollUntilDone();
           const docResult = (await results.next()).value;
@@ -2741,15 +2744,15 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("documents with duplicate IDs", async function() {
+        it("documents with duplicate IDs", async function () {
           const docs = [
             { id: "1", text: "hello world" },
-            { id: "1", text: "I did not like the hotel we stayed at." }
+            { id: "1", text: "I did not like the hotel we stayed at." },
           ];
 
           try {
             await client.beginAnalyzeHealthcareEntities(docs, {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             });
             assert.fail("Oops, an exception didn't happen.");
           } catch (e) {
@@ -2765,11 +2768,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
          * pagination became unneeded. Once the service raises the limit on
          * the number of input documents, we should re-enable these tests.
          */
-        it.skip("paged results one loop", async function() {
+        it.skip("paged results one loop", async function () {
           const docs = Array(40).fill("random text");
           docs.push("Prescribed 100mg ibuprofen, taken twice daily.");
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           let count = 0;
@@ -2787,11 +2790,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.equal(docs.length, count);
         });
 
-        it.skip("paged results nested loop", async function() {
+        it.skip("paged results nested loop", async function () {
           const docs = Array(40).fill("random text");
           docs.push("Prescribed 100mg ibuprofen, taken twice daily.");
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           let docCount = 0,
@@ -2814,11 +2817,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.equal(Math.ceil(docs.length / 20), pageCount);
         });
 
-        it.skip("paged results with custom page size", async function() {
+        it.skip("paged results with custom page size", async function () {
           const docs = Array(40).fill("random text");
           docs.push("Prescribed 100mg ibuprofen, taken twice daily.");
           const poller = await client.beginAnalyzeHealthcareEntities(docs, {
-            updateIntervalInMs: pollingInterval
+            updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
           let docCount = 0;
@@ -2842,18 +2845,18 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.equal(Math.ceil(docs.length / pageSize), pageCount);
         });
 
-        it("cancelled", async function() {
+        it("cancelled", async function () {
           const poller = await client.beginAnalyzeHealthcareEntities(
             [
               {
                 id: "1",
                 text: "Patient does not suffer from high blood pressure.",
-                language: "en"
+                language: "en",
               },
-              { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" }
+              { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" },
             ],
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           if (!poller.isDone()) {
@@ -2862,18 +2865,18 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.ok(poller.getOperationState().isCancelled);
         });
 
-        it("operation metadata", async function() {
+        it("operation metadata", async function () {
           const poller = await client.beginAnalyzeHealthcareEntities(
             [
               {
                 id: "1",
                 text: "Patient does not suffer from high blood pressure.",
-                language: "en"
+                language: "en",
               },
-              { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" }
+              { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" },
             ],
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           let run = false;
@@ -2889,12 +2892,12 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           assert.isTrue(run);
         });
 
-        it("family emoji wit skin tone modifier with Utf16CodeUnit", async function() {
+        it("family emoji wit skin tone modifier with Utf16CodeUnit", async function () {
           const doc = "👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen";
           const poller = await client.beginAnalyzeHealthcareEntities(
             [{ id: "0", text: doc, language: "en" }],
             {
-              updateIntervalInMs: pollingInterval
+              updateIntervalInMs: pollingInterval,
             }
           );
           const pollerResult = await poller.pollUntilDone();
@@ -2909,12 +2912,12 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("family emoji wit skin tone modifier with UnicodeCodePoint", async function() {
+        it("family emoji wit skin tone modifier with UnicodeCodePoint", async function () {
           const poller = await client.beginAnalyzeHealthcareEntities(
             [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen", language: "en" }],
             {
               updateIntervalInMs: pollingInterval,
-              stringIndexType: "UnicodeCodePoint"
+              stringIndexType: "UnicodeCodePoint",
             }
           );
           const pollerResult = await poller.pollUntilDone();

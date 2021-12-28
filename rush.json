@@ -557,11 +557,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/event-processor-host",
-      "projectFolder": "sdk/eventhub/event-processor-host",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/mock-hub",
       "projectFolder": "sdk/eventhub/mock-hub",
       "versionPolicyName": "utility"
@@ -719,6 +714,11 @@
     {
       "packageName": "@azure-tools/test-recorder-new",
       "projectFolder": "sdk/test-utils/recorder-new",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure-tools/test-credential",
+      "projectFolder": "sdk/test-utils/test-credential",
       "versionPolicyName": "utility"
     },
     {
@@ -1159,6 +1159,26 @@
     {
       "packageName": "@azure/arm-relay",
       "projectFolder": "sdk/relay/arm-relay",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iothub",
+      "projectFolder": "sdk/iothub/arm-iothub",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-msi",
+      "projectFolder": "sdk/msi/arm-msi",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-monitor",
+      "projectFolder": "sdk/monitor/arm-monitor",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-subscriptions",
+      "projectFolder": "sdk/subscription/arm-subscriptions",
       "versionPolicyName": "management"
     }
   ]

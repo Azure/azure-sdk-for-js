@@ -5,7 +5,7 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { ServiceClientCredentials } from "../credentials/serviceClientCredentials";
@@ -22,7 +22,7 @@ export function signingPolicy(
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new SigningPolicy(nextPolicy, options, authenticationProvider);
-    }
+    },
   };
 }
 

@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
-import * as chai from "chai";
+import chai, { assert } from "chai";
 import { dataSectionTypeCode, defaultDataTransformer } from "../../src/dataTransformer";
 import { Buffer } from "buffer";
 import isBuffer from "is-buffer";

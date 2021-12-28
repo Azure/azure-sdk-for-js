@@ -1,12 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
-import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import { 
+  Recorder,
+  env,
+  isPlaybackMode,
+  isRecordMode
+} from "@azure-tools/test-recorder";
+import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
 import { Context } from "mocha";
 import { SecretClient } from "../../src";
 import TestClient from "../utils/testClient";
-import { assertThrowsAbortError } from "../utils/utils.common";
+import { assert } from "chai";
 import { authenticate } from "../utils/testAuthentication";
 import { isNode } from "@azure/core-http";
 import { testPollerProperties } from "../utils/recorderUtils";
@@ -19,7 +24,7 @@ describe("Secret client - restore secrets and recover backups", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
     testClient = authentication.testClient;

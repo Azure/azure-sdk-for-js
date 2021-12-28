@@ -11,7 +11,7 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type AacAudio = Audio & {
+export type AacAudio = Audio_2 & {
     odataType: "#Microsoft.Media.AacAudio";
     profile?: AacAudioProfile;
 };
@@ -315,12 +315,13 @@ export type AssetsUpdateResponse = Asset;
 export type AttributeFilter = string;
 
 // @public
-export type Audio = Codec & {
+type Audio_2 = Codec & {
     odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio";
     channels?: number;
     samplingRate?: number;
     bitrate?: number;
 };
+export { Audio_2 as Audio }
 
 // @public
 export type AudioAnalysisMode = string;
@@ -353,13 +354,17 @@ export type AudioTrackDescriptor = TrackDescriptor & {
 export type AudioTrackDescriptorUnion = AudioTrackDescriptor | SelectAudioTrackByAttribute | SelectAudioTrackById;
 
 // @public (undocumented)
-export type AudioUnion = Audio | AacAudio;
+export type AudioUnion = Audio_2 | AacAudio;
 
 // @public (undocumented)
-export class AzureMediaServices extends AzureMediaServicesContext {
+export class AzureMediaServices extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMediaServicesOptionalParams);
     // (undocumented)
     accountFilters: AccountFilters;
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     assetFilters: AssetFilters;
     // (undocumented)
@@ -389,18 +394,9 @@ export class AzureMediaServices extends AzureMediaServicesContext {
     // (undocumented)
     streamingPolicies: StreamingPolicies;
     // (undocumented)
-    transforms: Transforms;
-}
-
-// @public (undocumented)
-export class AzureMediaServicesContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMediaServicesOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    transforms: Transforms;
 }
 
 // @public
@@ -999,12 +995,13 @@ export interface Hls {
 }
 
 // @public
-export type Image = Video & {
+type Image_2 = Video & {
     odataType: "#Microsoft.Media.Image" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage";
     start: string;
     step?: string;
     range?: string;
 };
+export { Image_2 as Image }
 
 // @public
 export type ImageFormat = Format & {
@@ -1015,7 +1012,7 @@ export type ImageFormat = Format & {
 export type ImageFormatUnion = ImageFormat | JpgFormat | PngFormat;
 
 // @public (undocumented)
-export type ImageUnion = Image | JpgImage | PngImage;
+export type ImageUnion = Image_2 | JpgImage | PngImage;
 
 // @public
 export interface InputDefinition {
@@ -1229,7 +1226,7 @@ export type JpgFormat = ImageFormat & {
 };
 
 // @public
-export type JpgImage = Image & {
+export type JpgImage = Image_2 & {
     odataType: "#Microsoft.Media.JpgImage";
     layers?: JpgLayer[];
     spriteColumn?: number;
@@ -2264,7 +2261,7 @@ export type PngFormat = ImageFormat & {
 };
 
 // @public
-export type PngImage = Image & {
+export type PngImage = Image_2 & {
     odataType: "#Microsoft.Media.PngImage";
     layers?: PngLayer[];
 };
@@ -3020,7 +3017,6 @@ export type VideoTrackDescriptorUnion = VideoTrackDescriptor | SelectVideoTrackB
 
 // @public (undocumented)
 export type VideoUnion = Video | H265Video | ImageUnion | H264Video;
-
 
 // (No @packageDocumentation comment for this package)
 

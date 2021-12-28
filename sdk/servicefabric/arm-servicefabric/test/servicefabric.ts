@@ -149,6 +149,9 @@ describe("ServiceFabric test", () => {
   });
 
   it("clusters update test", async function() {
+    if(isPlaybackMode()) { 
+      this.skip(); 
+    }
     const res = await client.clusters.beginUpdateAndWait(resourceGroup,clusterName,{
       tags: {
             a: "b"

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { isNode, delay } from "@azure/core-http";

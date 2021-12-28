@@ -117,6 +117,8 @@ stages:
                 name: azsdk-pool-mms-ubuntu-2004-general
                 vmImage: MMSUbuntu20.04
 
+              variables:
+                DocValidationImageId: azuresdkimages.azurecr.io/jsrefautocr:latest
               strategy:
                 runOnce:
                   deploy:
@@ -128,6 +130,12 @@ stages:
                             - sdk/**/*.md
                             - .github/CODEOWNERS
                       - download: current
+                      # Pull and build the docker image.
+                      - template: /eng/common/pipelines/templates/steps/docker-pull-image.yml
+                        parameters:
+                          ContainerRegistryClientId: $(azuresdkimages-cr-clientid)
+                          ContainerRegistryClientSecret: $(azuresdkimages-cr-clientsecret)
+                          ImageId: "$(DocValidationImageId)"
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
                           PackageInfoLocations:
@@ -142,7 +150,8 @@ stages:
                             - metadata/
                             - ci-configs/packages-latest.json
                             - ci-configs/packages-preview.json
-
+                          DocValidationImageId: "$(DocValidationImageId)"
+                          
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
               displayName: Publish Docs to GitHubIO Blob Storage
@@ -208,11 +217,12 @@ stages:
                           node common/scripts/install-run-rush.js install
                         displayName: "Install dependencies"
 
-                      - bash: |
-                          npm install -g ./common/tools/dev-tool
-                          npm install ./eng/tools/eng-package-utils
-                          node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
-                        displayName: Update samples
+                      # Disabled until packages can be updated to support ES2019 syntax.
+                      # - bash: |
+                      #     npm install -g ./common/tools/dev-tool
+                      #     npm install ./eng/tools/eng-package-utils
+                      #     node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
+                      #   displayName: Update samples
 
                       - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
                         parameters:
@@ -283,6 +293,8 @@ stages:
       pool:
         name: azsdk-pool-mms-ubuntu-2004-general
         vmImage: MMSUbuntu20.04
+      variables:
+        DocValidationImageId: azuresdkimages.azurecr.io/jsrefautocr:latest
       steps:
         - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
           parameters:
@@ -294,7 +306,12 @@ stages:
         - pwsh: |
             Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
           displayName: Show visible artifacts
-
+        # Pull and build the docker image.
+        - template: /eng/common/pipelines/templates/steps/docker-pull-image.yml
+          parameters:
+            ContainerRegistryClientId: $(azuresdkimages-cr-clientid)
+            ContainerRegistryClientSecret: $(azuresdkimages-cr-clientsecret)
+            ImageId: "$(DocValidationImageId)"
         - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
           parameters:
             PackageInfoLocations:
@@ -311,3 +328,4 @@ stages:
               - metadata/
               - ci-configs/packages-latest.json
               - ci-configs/packages-preview.json
+            DocValidationImageId: "$(DocValidationImageId)"

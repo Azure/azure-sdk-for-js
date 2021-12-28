@@ -5,7 +5,7 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import { Debugger } from "@azure/logger";
 import { HttpOperationResponse } from "../httpOperationResponse";
@@ -53,7 +53,7 @@ export function logPolicy(loggingOptions: LogPolicyOptions = {}): RequestPolicyF
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new LogPolicy(nextPolicy, options, loggingOptions);
-    }
+    },
   };
 }
 
@@ -110,7 +110,7 @@ export class LogPolicy extends BaseRequestPolicy {
     {
       logger = coreLogger.info,
       allowedHeaderNames = [],
-      allowedQueryParameters = []
+      allowedQueryParameters = [],
     }: LogPolicyOptions = {}
   ) {
     super(nextPolicy, options);

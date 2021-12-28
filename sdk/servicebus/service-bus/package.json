@@ -48,9 +48,9 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:test": "npm run build:test:node && npm run build:test:browser",
+    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build:types": "downlevel-dts types/latest types/3.1",
     "build": "npm run clean && tsc -p . && rollup -c 2>&1 && npm run extract-api && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
@@ -71,8 +71,7 @@
     "test": "npm run test:node && npm run test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/internal/unit/{,!(browser)/**/}*.spec.ts\"",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
   "//metadata": {
@@ -161,9 +160,9 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^1.18.0",
+    "mocha-junit-reporter": "^2.0.0",
     "moment": "^2.24.0",
-    "nyc": "^14.0.0",
+    "nyc": "^15.0.0",
     "prettier": "^1.16.4",
     "promise": "^8.0.3",
     "puppeteer": "^10.2.0",
@@ -171,10 +170,9 @@
     "rollup": "^1.16.3",
     "ts-node": "^10.0.0",
     "typescript": "~4.2.0",
-    "ws": "^7.1.1",
+    "ws": "^8.0.0",
     "sinon": "^9.0.2",
     "@types/sinon": "^9.0.4",
-    "events": "^3.0.0",
-    "typedoc": "0.15.2"
+    "events": "^3.0.0"
   }
 }

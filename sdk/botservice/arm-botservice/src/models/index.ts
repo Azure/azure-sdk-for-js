@@ -94,6 +94,8 @@ export interface BotProperties {
   disableLocalAuth?: boolean;
   /** The channel schema transformation version for the bot */
   schemaTransformationVersion?: string;
+  /** The storage resourceId for the bot */
+  storageResourceId?: string;
   /**
    * List of Private Endpoint Connections configured for the bot
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -239,6 +241,93 @@ export interface Channel {
     | "DirectLineSpeechChannel";
   /** Entity Tag of the resource */
   etag?: string;
+  /**
+   * Provisioning state of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** Specifies the location of the resource. */
+  location?: string;
+}
+
+/** Channel settings definition */
+export interface ChannelSettings {
+  /** The extensionKey1 */
+  extensionKey1?: string;
+  /** The extensionKey2 */
+  extensionKey2?: string;
+  /** The list of sites */
+  sites?: Site[];
+  /** The channel id */
+  channelId?: string;
+  /** The channel display name */
+  channelDisplayName?: string;
+  /** The bot id */
+  botId?: string;
+  /** The bot icon url */
+  botIconUrl?: string;
+  /** Whether this channel is enabled for the bot */
+  isEnabled?: boolean;
+  /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
+  disableLocalAuth?: boolean;
+}
+
+/** A site for the Webchat channel */
+export interface WebChatSite {
+  /**
+   * Site Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly siteId?: string;
+  /** Site name */
+  siteName: string;
+  /**
+   * Primary key. Value only returned through POST to the action Channel List API, otherwise empty.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly key?: string;
+  /**
+   * Secondary key. Value only returned through POST to the action Channel List API, otherwise empty.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly key2?: string;
+  /** Whether this site is enabled for DirectLine channel */
+  isEnabled: boolean;
+  /** Whether this site is enabled for preview versions of Webchat */
+  isWebchatPreviewEnabled: boolean;
+}
+
+/** A site for the Direct Line channel */
+export interface DirectLineSite {
+  /**
+   * Site Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly siteId?: string;
+  /** Site name */
+  siteName: string;
+  /**
+   * Primary key. Value only returned through POST to the action Channel List API, otherwise empty.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly key?: string;
+  /**
+   * Secondary key. Value only returned through POST to the action Channel List API, otherwise empty.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly key2?: string;
+  /** Whether this site is enabled for DirectLine channel. */
+  isEnabled: boolean;
+  /** Whether this site is enabled for Bot Framework V1 protocol. */
+  isV1Enabled: boolean;
+  /** Whether this site is enabled for Bot Framework V1 protocol. */
+  isV3Enabled: boolean;
+  /** Whether this site is enabled for authentication with Bot Framework. */
+  isSecureSiteEnabled?: boolean;
+  /** Whether this site is enabled for block user upload. */
+  isBlockUserUploadEnabled?: boolean;
+  /** List of Trusted Origin URLs for this site. This field is applicable only if isSecureSiteEnabled is True. */
+  trustedOrigins?: string[];
 }
 
 /** The list of bot service channel operation response. */
@@ -409,6 +498,10 @@ export interface ServiceProviderParameterMetadataConstraints {
 
 /** Properties for a Connection Setting Item */
 export interface ConnectionSettingProperties {
+  /** Id associated with the Connection Setting. */
+  id?: string;
+  /** Name associated with the Connection Setting. */
+  name?: string;
   /** Client Id associated with the Connection Setting. */
   clientId?: string;
   /**
@@ -626,70 +719,12 @@ export interface WebChatChannelProperties {
   sites?: WebChatSite[];
 }
 
-/** A site for the Webchat channel */
-export interface WebChatSite {
-  /**
-   * Site Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly siteId?: string;
-  /** Site name */
-  siteName: string;
-  /**
-   * Primary key. Value only returned through POST to the action Channel List API, otherwise empty.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly key?: string;
-  /**
-   * Secondary key. Value only returned through POST to the action Channel List API, otherwise empty.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly key2?: string;
-  /** Whether this site is enabled for DirectLine channel */
-  isEnabled: boolean;
-  /** Whether this site is enabled for preview versions of Webchat */
-  isWebchatPreviewEnabled: boolean;
-}
-
 /** The parameters to provide for the Direct Line channel. */
 export interface DirectLineChannelProperties {
   /** The list of Direct Line sites */
   sites?: DirectLineSite[];
   /** Direct Line embed code of the resource */
   directLineEmbedCode?: string;
-}
-
-/** A site for the Direct Line channel */
-export interface DirectLineSite {
-  /**
-   * Site Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly siteId?: string;
-  /** Site name */
-  siteName: string;
-  /**
-   * Primary key. Value only returned through POST to the action Channel List API, otherwise empty.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly key?: string;
-  /**
-   * Secondary key. Value only returned through POST to the action Channel List API, otherwise empty.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly key2?: string;
-  /** Whether this site is enabled for DirectLine channel. */
-  isEnabled: boolean;
-  /** Whether this site is enabled for Bot Framework V1 protocol. */
-  isV1Enabled: boolean;
-  /** Whether this site is enabled for Bot Framework V1 protocol. */
-  isV3Enabled: boolean;
-  /** Whether this site is enabled for authentication with Bot Framework. */
-  isSecureSiteEnabled?: boolean;
-  /** Whether this site is enabled for block user upload. */
-  isBlockUserUploadEnabled?: boolean;
-  /** List of Trusted Origin URLs for this site. This field is applicable only if isSecureSiteEnabled is True. */
-  trustedOrigins?: string[];
 }
 
 /** The parameters to provide for the Telegram channel. */
@@ -861,11 +896,6 @@ export type AlexaChannel = Channel & {
   channelName: "AlexaChannel";
   /** The set of properties specific to Alexa channel resource */
   properties?: AlexaChannelProperties;
-  /**
-   * Provisioning state of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
 };
 
 /** Facebook channel definition */
@@ -874,10 +904,6 @@ export type FacebookChannel = Channel & {
   channelName: "FacebookChannel";
   /** The set of properties specific to bot facebook channel */
   properties?: FacebookChannelProperties;
-  /** Provisioning state of the resource */
-  provisioningState?: string;
-  /** Location of the resource */
-  location?: string;
 };
 
 /** Email channel definition */
@@ -886,8 +912,6 @@ export type EmailChannel = Channel & {
   channelName: "EmailChannel";
   /** The set of properties specific to email channel resource */
   properties?: EmailChannelProperties;
-  /** Provisioning state of the resource */
-  provisioningState?: string;
 };
 
 /** Microsoft Teams channel definition */
@@ -896,10 +920,6 @@ export type MsTeamsChannel = Channel & {
   channelName: "MsTeamsChannel";
   /** The set of properties specific to Microsoft Teams channel resource */
   properties?: MsTeamsChannelProperties;
-  /** Provisioning state of the resource */
-  provisioningState?: string;
-  /** Location of the resource */
-  location?: string;
 };
 
 /** Skype channel definition */
@@ -924,10 +944,6 @@ export type WebChatChannel = Channel & {
   channelName: "WebChatChannel";
   /** The set of properties specific to Web Chat channel resource */
   properties?: WebChatChannelProperties;
-  /** Location of the resource */
-  location?: string;
-  /** Provisioning state of the resource */
-  provisioningState?: string;
 };
 
 /** Direct Line channel definition */
@@ -936,10 +952,6 @@ export type DirectLineChannel = Channel & {
   channelName: "DirectLineChannel";
   /** The set of properties specific to Direct Line channel resource */
   properties?: DirectLineChannelProperties;
-  /** Provisioning state of the resource */
-  provisioningState?: string;
-  /** Location of the resource */
-  location?: string;
 };
 
 /** Telegram channel definition */
@@ -948,8 +960,6 @@ export type TelegramChannel = Channel & {
   channelName: "TelegramChannel";
   /** The set of properties specific to Telegram channel resource */
   properties?: TelegramChannelProperties;
-  /** Provisioning state of the resource */
-  provisioningState?: string;
 };
 
 /** Sms channel definition */
@@ -966,8 +976,6 @@ export type SlackChannel = Channel & {
   channelName: "SlackChannel";
   /** The set of properties specific to Slack channel resource */
   properties?: SlackChannelProperties;
-  /** Location of the resource */
-  location?: string;
 };
 
 /** Line channel definition */
@@ -984,8 +992,23 @@ export type DirectLineSpeechChannel = Channel & {
   channelName: "DirectLineSpeechChannel";
   /** The set of properties specific to DirectLine Speech channel resource */
   properties?: DirectLineSpeechChannelProperties;
-  /** Provisioning state of the resource */
-  provisioningState?: string;
+};
+
+/** A site for the channel */
+export type Site = WebChatSite &
+  DirectLineSite & {
+    /** Whether this site is token enabled for channel */
+    isTokenEnabled?: boolean;
+    /** Entity Tag */
+    eTag?: string;
+  };
+
+/** The ARM channel of list channel with keys operation response. */
+export type ListChannelWithKeysResponse = BotChannel & {
+  /** The set of properties specific to bot channel resource */
+  resource?: ChannelUnion;
+  /** Channel settings */
+  setting?: ChannelSettings;
 };
 
 /** Known values of {@link MsaAppType} that the service accepts. */
@@ -1266,7 +1289,7 @@ export interface ChannelsListWithKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWithKeys operation. */
-export type ChannelsListWithKeysResponse = BotChannel;
+export type ChannelsListWithKeysResponse = ListChannelWithKeysResponse;
 
 /** Optional parameters. */
 export interface ChannelsListByResourceGroupOptionalParams

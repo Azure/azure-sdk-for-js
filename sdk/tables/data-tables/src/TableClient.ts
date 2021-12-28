@@ -87,6 +87,7 @@ export class TableClient {
   private table: Table;
   private credential?: NamedKeyCredential | SASCredential | TokenCredential;
   private transactionClient?: InternalTableTransaction;
+  private clientOptions: TableClientOptions;
   private readonly allowInsecureConnection: boolean;
 
   /**
@@ -224,14 +225,13 @@ export class TableClient {
     const credential = isCredential(credentialOrOptions) ? credentialOrOptions : undefined;
     this.credential = credential;
 
-    const clientOptions =
-      (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
+    this.clientOptions = (!isCredential(credentialOrOptions) ? credentialOrOptions : options) || {};
 
-    this.allowInsecureConnection = clientOptions.allowInsecureConnection ?? false;
-    clientOptions.endpoint = clientOptions.endpoint || this.url;
+    this.allowInsecureConnection = this.clientOptions.allowInsecureConnection ?? false;
+    this.clientOptions.endpoint = this.clientOptions.endpoint || this.url;
 
     const internalPipelineOptions: InternalClientPipelineOptions = {
-      ...clientOptions,
+      ...this.clientOptions,
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
@@ -890,6 +890,7 @@ export class TableClient {
         partitionKey,
         transactionId,
         changesetId,
+        this.clientOptions,
         new TableClient(this.url, this.tableName),
         this.credential,
         this.allowInsecureConnection

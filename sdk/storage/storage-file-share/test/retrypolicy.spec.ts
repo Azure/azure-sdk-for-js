@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as dotenv from "dotenv";
-import * as assert from "assert";
+import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
 import { RestError, ShareClient } from "../src";
 import { newPipeline, Pipeline } from "../src/Pipeline";

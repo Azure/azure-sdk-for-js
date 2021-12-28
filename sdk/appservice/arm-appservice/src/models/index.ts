@@ -19,31 +19,6 @@ export interface AppServiceCertificateOrderCollection {
   readonly nextLink?: string;
 }
 
-/** Azure resource. This resource is tracked in Azure Resource Manager */
-export interface Resource {
-  /**
-   * Resource Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource Name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** Kind of resource. */
-  kind?: string;
-  /** Resource Location. */
-  location: string;
-  /**
-   * Resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-}
-
 /** Key Vault container for a certificate that is purchased through Azure. */
 export interface AppServiceCertificate {
   /** Key Vault resource Id. */
@@ -111,6 +86,31 @@ export interface CertificateOrderContact {
   nameFirst?: string;
   nameLast?: string;
   phone?: string;
+}
+
+/** Azure resource. This resource is tracked in Azure Resource Manager */
+export interface Resource {
+  /**
+   * Resource Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource Name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** Kind of resource. */
+  kind?: string;
+  /** Resource Location. */
+  location: string;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
 }
 
 /** App Service error response. */
@@ -2508,28 +2508,6 @@ export interface ResourceHealthMetadataCollection {
   readonly nextLink?: string;
 }
 
-/** Appservice Github token request content. */
-export interface AppserviceGithubTokenRequest {
-  /** Code string to exchange for Github Access token */
-  code: string;
-  /** State string used for verification. */
-  state: string;
-}
-
-/** Github access token for Appservice CLI github integration. */
-export interface AppserviceGithubToken {
-  /** Github access token for Appservice CLI github integration */
-  accessToken?: string;
-  /** Scope of the github access token */
-  scope?: string;
-  /** token type */
-  tokenType?: string;
-  /** True if valid github token received, False otherwise */
-  gotToken?: boolean;
-  /** Error message if unable to get token */
-  errorMessage?: string;
-}
-
 /** Collection of source controls. */
 export interface SourceControlCollection {
   /** Collection of resources. */
@@ -2974,8 +2952,14 @@ export interface IdentityProviders {
   gitHub?: GitHub;
   /** The configuration settings of the Google provider. */
   google?: Google;
+  /** The configuration settings of the legacy Microsoft Account provider. */
+  legacyMicrosoftAccount?: LegacyMicrosoftAccount;
   /** The configuration settings of the Twitter provider. */
   twitter?: Twitter;
+  /** The configuration settings of the Apple provider. */
+  apple?: Apple;
+  /** The configuration settings of the Azure Static Web Apps provider. */
+  azureStaticWebApps?: AzureStaticWebApps;
   /**
    * The map of the name of the alias of each custom Open ID Connect provider to the
    * configuration settings of the custom Open ID Connect provider.
@@ -2983,12 +2967,6 @@ export interface IdentityProviders {
   customOpenIdConnectProviders?: {
     [propertyName: string]: CustomOpenIdConnectProvider;
   };
-  /** The configuration settings of the legacy Microsoft Account provider. */
-  legacyMicrosoftAccount?: LegacyMicrosoftAccount;
-  /** The configuration settings of the Apple provider. */
-  apple?: Apple;
-  /** The configuration settings of the Azure Static Web Apps provider. */
-  azureStaticWebApps?: AzureStaticWebApps;
 }
 
 /** The configuration settings of the Azure Active directory provider. */
@@ -3009,6 +2987,62 @@ export interface AzureActiveDirectory {
   isAutoProvisioned?: boolean;
 }
 
+/** The configuration settings of the Azure Active Directory app registration. */
+export interface AzureActiveDirectoryRegistration {
+  /**
+   * The OpenID Connect Issuer URI that represents the entity which issues access tokens for this application.
+   * When using Azure Active Directory, this value is the URI of the directory tenant, e.g. https://login.microsoftonline.com/v2.0/{tenant-guid}/.
+   * This URI is a case-sensitive identifier for the token issuer.
+   * More information on OpenID Connect Discovery: http://openid.net/specs/openid-connect-discovery-1_0.html
+   */
+  openIdIssuer?: string;
+  /**
+   * The Client ID of this relying party application, known as the client_id.
+   * This setting is required for enabling OpenID Connection authentication with Azure Active Directory or
+   * other 3rd party OpenID Connect providers.
+   * More information on OpenID Connect: http://openid.net/specs/openid-connect-core-1_0.html
+   */
+  clientId?: string;
+  /** The app setting name that contains the client secret of the relying party application. */
+  clientSecretSettingName?: string;
+  /**
+   * An alternative to the client secret, that is the thumbprint of a certificate used for signing purposes. This property acts as
+   * a replacement for the Client Secret. It is also optional.
+   */
+  clientSecretCertificateThumbprint?: string;
+  /**
+   * An alternative to the client secret thumbprint, that is the subject alternative name of a certificate used for signing purposes. This property acts as
+   * a replacement for the Client Secret Certificate Thumbprint. It is also optional.
+   */
+  clientSecretCertificateSubjectAlternativeName?: string;
+  /**
+   * An alternative to the client secret thumbprint, that is the issuer of a certificate used for signing purposes. This property acts as
+   * a replacement for the Client Secret Certificate Thumbprint. It is also optional.
+   */
+  clientSecretCertificateIssuer?: string;
+}
+
+/** The configuration settings of the Azure Active Directory login flow. */
+export interface AzureActiveDirectoryLogin {
+  /**
+   * Login parameters to send to the OpenID Connect authorization endpoint when
+   * a user logs in. Each parameter must be in the form "key=value".
+   */
+  loginParameters?: string[];
+  /** <code>true</code> if the www-authenticate provider should be omitted from the request; otherwise, <code>false</code>. */
+  disableWWWAuthenticate?: boolean;
+}
+
+/** The configuration settings of the Azure Active Directory token validation flow. */
+export interface AzureActiveDirectoryValidation {
+  /** The configuration settings of the checks that should be made while validating the JWT Claims. */
+  jwtClaimChecks?: JwtClaimChecks;
+  /** The list of audiences that can make successful authentication/authorization requests. */
+  allowedAudiences?: string[];
+  /** The configuration settings of the default authorization policy. */
+  defaultAuthorizationPolicy?: DefaultAuthorizationPolicy;
+}
+
 /** The configuration settings of the checks that should be made while validating the JWT Claims. */
 export interface JwtClaimChecks {
   /** The list of the allowed groups. */
@@ -3025,6 +3059,14 @@ export interface DefaultAuthorizationPolicy {
   allowedApplications?: string[];
 }
 
+/** The configuration settings of the Azure Active Directory allowed principals. */
+export interface AllowedPrincipals {
+  /** The list of the allowed groups. */
+  groups?: string[];
+  /** The list of the allowed identities. */
+  identities?: string[];
+}
+
 /** The configuration settings of the Facebook provider. */
 export interface Facebook {
   /** <code>false</code> if the Facebook provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
@@ -3037,10 +3079,28 @@ export interface Facebook {
   login?: LoginScopes;
 }
 
+/** The configuration settings of the app registration for providers that have app ids and app secrets */
+export interface AppRegistration {
+  /** The App ID of the app used for login. */
+  appId?: string;
+  /** The app setting name that contains the app secret. */
+  appSecretSettingName?: string;
+}
+
 /** The configuration settings of the login flow, including the scopes that should be requested. */
 export interface LoginScopes {
   /** A list of the scopes that should be requested while authenticating. */
   scopes?: string[];
+}
+
+/** The configuration settings of the GitHub provider. */
+export interface GitHub {
+  /** <code>false</code> if the GitHub provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
+  enabled?: boolean;
+  /** The configuration settings of the app registration for the GitHub provider. */
+  registration?: ClientRegistration;
+  /** The configuration settings of the login flow. */
+  login?: LoginScopes;
 }
 
 /** The configuration settings of the app registration for providers that have client ids and client secrets */
@@ -3051,10 +3111,42 @@ export interface ClientRegistration {
   clientSecretSettingName?: string;
 }
 
+/** The configuration settings of the Google provider. */
+export interface Google {
+  /** <code>false</code> if the Google provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
+  enabled?: boolean;
+  /** The configuration settings of the app registration for the Google provider. */
+  registration?: ClientRegistration;
+  /** The configuration settings of the login flow. */
+  login?: LoginScopes;
+  /** The configuration settings of the Azure Active Directory token validation flow. */
+  validation?: AllowedAudiencesValidation;
+}
+
 /** The configuration settings of the Allowed Audiences validation flow. */
 export interface AllowedAudiencesValidation {
   /** The configuration settings of the allowed list of audiences from which to validate the JWT token. */
   allowedAudiences?: string[];
+}
+
+/** The configuration settings of the legacy Microsoft Account provider. */
+export interface LegacyMicrosoftAccount {
+  /** <code>false</code> if the legacy Microsoft Account provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
+  enabled?: boolean;
+  /** The configuration settings of the app registration for the legacy Microsoft Account provider. */
+  registration?: ClientRegistration;
+  /** The configuration settings of the login flow. */
+  login?: LoginScopes;
+  /** The configuration settings of the legacy Microsoft Account provider token validation flow. */
+  validation?: AllowedAudiencesValidation;
+}
+
+/** The configuration settings of the Twitter provider. */
+export interface Twitter {
+  /** <code>false</code> if the Twitter provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
+  enabled?: boolean;
+  /** The configuration settings of the app registration for the Twitter provider. */
+  registration?: TwitterRegistration;
 }
 
 /** The configuration settings of the app registration for the Twitter provider. */
@@ -3070,6 +3162,48 @@ export interface TwitterRegistration {
    * application used for sign-in.
    */
   consumerSecretSettingName?: string;
+}
+
+/** The configuration settings of the Apple provider. */
+export interface Apple {
+  /** <code>false</code> if the Apple provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
+  enabled?: boolean;
+  /** The configuration settings of the Apple registration. */
+  registration?: AppleRegistration;
+  /** The configuration settings of the login flow. */
+  login?: LoginScopes;
+}
+
+/** The configuration settings of the registration for the Apple provider */
+export interface AppleRegistration {
+  /** The Client ID of the app used for login. */
+  clientId?: string;
+  /** The app setting name that contains the client secret. */
+  clientSecretSettingName?: string;
+}
+
+/** The configuration settings of the Azure Static Web Apps provider. */
+export interface AzureStaticWebApps {
+  /** <code>false</code> if the Azure Static Web Apps provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
+  enabled?: boolean;
+  /** The configuration settings of the Azure Static Web Apps registration. */
+  registration?: AzureStaticWebAppsRegistration;
+}
+
+/** The configuration settings of the registration for the Azure Static Web Apps provider */
+export interface AzureStaticWebAppsRegistration {
+  /** The Client ID of the app used for login. */
+  clientId?: string;
+}
+
+/** The configuration settings of the custom Open ID Connect provider. */
+export interface CustomOpenIdConnectProvider {
+  /** <code>false</code> if the custom Open ID provider provider should not be enabled; otherwise, <code>true</code>. */
+  enabled?: boolean;
+  /** The configuration settings of the app registration for the custom Open ID Connect provider. */
+  registration?: OpenIdConnectRegistration;
+  /** The configuration settings of the login flow of the custom Open ID Connect provider. */
+  login?: OpenIdConnectLogin;
 }
 
 /** The configuration settings of the app registration for the custom Open ID Connect provider. */
@@ -3110,20 +3244,6 @@ export interface OpenIdConnectLogin {
   nameClaimType?: string;
   /** A list of the scopes that should be requested while authenticating. */
   scopes?: string[];
-}
-
-/** The configuration settings of the registration for the Apple provider */
-export interface AppleRegistration {
-  /** The Client ID of the app used for login. */
-  clientId?: string;
-  /** The app setting name that contains the client secret. */
-  clientSecretSettingName?: string;
-}
-
-/** The configuration settings of the registration for the Azure Static Web Apps provider */
-export interface AzureStaticWebAppsRegistration {
-  /** The Client ID of the app used for login. */
-  clientId?: string;
 }
 
 /** The configuration settings of the login flow of users using App Service Authentication/Authorization. */
@@ -3174,6 +3294,12 @@ export interface TokenStore {
 export interface FileSystemTokenStore {
   /** The directory in which the tokens will be stored. */
   directory?: string;
+}
+
+/** The configuration settings of the storage of the tokens if blob storage is used. */
+export interface BlobStorageTokenStore {
+  /** The name of the app setting containing the SAS URL of the blob storage containing the tokens. */
+  sasUrlSettingName?: string;
 }
 
 /** The configuration settings of the session cookie's expiration. */
@@ -3768,6 +3894,28 @@ export interface WebJobCollection {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** Github access token for Appservice CLI github integration. */
+export interface AppserviceGithubToken {
+  /** Github access token for Appservice CLI github integration */
+  accessToken?: string;
+  /** Scope of the github access token */
+  scope?: string;
+  /** token type */
+  tokenType?: string;
+  /** True if valid github token received, False otherwise */
+  gotToken?: boolean;
+  /** Error message if unable to get token */
+  errorMessage?: string;
+}
+
+/** Appservice Github token request content. */
+export interface AppserviceGithubTokenRequest {
+  /** Code string to exchange for Github Access token */
+  code: string;
+  /** State string used for verification. */
+  state: string;
 }
 
 /** SSL certificate purchase order. */
@@ -6567,154 +6715,6 @@ export type SiteAuthSettings = ProxyOnlyResource & {
    * The setting in this value can control the behavior of the control plane for Authentication / Authorization.
    */
   configVersion?: string;
-};
-
-/** The configuration settings of the Azure Active Directory app registration. */
-export type AzureActiveDirectoryRegistration = ProxyOnlyResource & {
-  /**
-   * The OpenID Connect Issuer URI that represents the entity which issues access tokens for this application.
-   * When using Azure Active Directory, this value is the URI of the directory tenant, e.g. https://login.microsoftonline.com/v2.0/{tenant-guid}/.
-   * This URI is a case-sensitive identifier for the token issuer.
-   * More information on OpenID Connect Discovery: http://openid.net/specs/openid-connect-discovery-1_0.html
-   */
-  openIdIssuer?: string;
-  /**
-   * The Client ID of this relying party application, known as the client_id.
-   * This setting is required for enabling OpenID Connection authentication with Azure Active Directory or
-   * other 3rd party OpenID Connect providers.
-   * More information on OpenID Connect: http://openid.net/specs/openid-connect-core-1_0.html
-   */
-  clientId?: string;
-  /** The app setting name that contains the client secret of the relying party application. */
-  clientSecretSettingName?: string;
-  /**
-   * An alternative to the client secret, that is the thumbprint of a certificate used for signing purposes. This property acts as
-   * a replacement for the Client Secret. It is also optional.
-   */
-  clientSecretCertificateThumbprint?: string;
-  /**
-   * An alternative to the client secret thumbprint, that is the subject alternative name of a certificate used for signing purposes. This property acts as
-   * a replacement for the Client Secret Certificate Thumbprint. It is also optional.
-   */
-  clientSecretCertificateSubjectAlternativeName?: string;
-  /**
-   * An alternative to the client secret thumbprint, that is the issuer of a certificate used for signing purposes. This property acts as
-   * a replacement for the Client Secret Certificate Thumbprint. It is also optional.
-   */
-  clientSecretCertificateIssuer?: string;
-};
-
-/** The configuration settings of the Azure Active Directory login flow. */
-export type AzureActiveDirectoryLogin = ProxyOnlyResource & {
-  /**
-   * Login parameters to send to the OpenID Connect authorization endpoint when
-   * a user logs in. Each parameter must be in the form "key=value".
-   */
-  loginParameters?: string[];
-  /** <code>true</code> if the www-authenticate provider should be omitted from the request; otherwise, <code>false</code>. */
-  disableWWWAuthenticate?: boolean;
-};
-
-/** The configuration settings of the Azure Active Directory allowed principals. */
-export type AllowedPrincipals = ProxyOnlyResource & {
-  /** The list of the allowed groups. */
-  groups?: string[];
-  /** The list of the allowed identities. */
-  identities?: string[];
-};
-
-/** The configuration settings of the Azure Active Directory token validation flow. */
-export type AzureActiveDirectoryValidation = ProxyOnlyResource & {
-  /** The configuration settings of the checks that should be made while validating the JWT Claims. */
-  jwtClaimChecks?: JwtClaimChecks;
-  /** The list of audiences that can make successful authentication/authorization requests. */
-  allowedAudiences?: string[];
-  /** The configuration settings of the default authorization policy. */
-  defaultAuthorizationPolicy?: DefaultAuthorizationPolicy;
-};
-
-/** The configuration settings of the app registration for providers that have app ids and app secrets */
-export type AppRegistration = ProxyOnlyResource & {
-  /** The App ID of the app used for login. */
-  appId?: string;
-  /** The app setting name that contains the app secret. */
-  appSecretSettingName?: string;
-};
-
-/** The configuration settings of the GitHub provider. */
-export type GitHub = ProxyOnlyResource & {
-  /** <code>false</code> if the GitHub provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
-  /** The configuration settings of the app registration for the GitHub provider. */
-  registration?: ClientRegistration;
-  /** The configuration settings of the login flow. */
-  login?: LoginScopes;
-};
-
-/** The configuration settings of the Google provider. */
-export type Google = ProxyOnlyResource & {
-  /** <code>false</code> if the Google provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
-  /** The configuration settings of the app registration for the Google provider. */
-  registration?: ClientRegistration;
-  /** The configuration settings of the login flow. */
-  login?: LoginScopes;
-  /** The configuration settings of the Azure Active Directory token validation flow. */
-  validation?: AllowedAudiencesValidation;
-};
-
-/** The configuration settings of the Twitter provider. */
-export type Twitter = ProxyOnlyResource & {
-  /** <code>false</code> if the Twitter provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
-  /** The configuration settings of the app registration for the Twitter provider. */
-  registration?: TwitterRegistration;
-};
-
-/** The configuration settings of the custom Open ID Connect provider. */
-export type CustomOpenIdConnectProvider = ProxyOnlyResource & {
-  /** <code>false</code> if the custom Open ID provider provider should not be enabled; otherwise, <code>true</code>. */
-  enabled?: boolean;
-  /** The configuration settings of the app registration for the custom Open ID Connect provider. */
-  registration?: OpenIdConnectRegistration;
-  /** The configuration settings of the login flow of the custom Open ID Connect provider. */
-  login?: OpenIdConnectLogin;
-};
-
-/** The configuration settings of the legacy Microsoft Account provider. */
-export type LegacyMicrosoftAccount = ProxyOnlyResource & {
-  /** <code>false</code> if the legacy Microsoft Account provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
-  /** The configuration settings of the app registration for the legacy Microsoft Account provider. */
-  registration?: ClientRegistration;
-  /** The configuration settings of the login flow. */
-  login?: LoginScopes;
-  /** The configuration settings of the legacy Microsoft Account provider token validation flow. */
-  validation?: AllowedAudiencesValidation;
-};
-
-/** The configuration settings of the Apple provider. */
-export type Apple = ProxyOnlyResource & {
-  /** <code>false</code> if the Apple provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
-  /** The configuration settings of the Apple registration. */
-  registration?: AppleRegistration;
-  /** The configuration settings of the login flow. */
-  login?: LoginScopes;
-};
-
-/** The configuration settings of the Azure Static Web Apps provider. */
-export type AzureStaticWebApps = ProxyOnlyResource & {
-  /** <code>false</code> if the Azure Static Web Apps provider should not be enabled despite the set registration; otherwise, <code>true</code>. */
-  enabled?: boolean;
-  /** The configuration settings of the Azure Static Web Apps registration. */
-  registration?: AzureStaticWebAppsRegistration;
-};
-
-/** The configuration settings of the storage of the tokens if blob storage is used. */
-export type BlobStorageTokenStore = ProxyOnlyResource & {
-  /** The name of the app setting containing the SAS URL of the blob storage containing the tokens. */
-  sasUrlSettingName?: string;
 };
 
 /** Configuration settings for the Azure App Service Authentication / Authorization V2 feature. */
@@ -10223,119 +10223,112 @@ export interface RecommendationsListRecommendedRulesForWebAppNextOptionalParams
 export type RecommendationsListRecommendedRulesForWebAppNextResponse = RecommendationCollection;
 
 /** Optional parameters. */
-export interface ResourceHealthMetadataOperationsListOptionalParams
+export interface ResourceHealthMetadataListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ResourceHealthMetadataOperationsListResponse = ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
-export interface ResourceHealthMetadataOperationsListByResourceGroupOptionalParams
+export interface ResourceHealthMetadataListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ResourceHealthMetadataOperationsListByResourceGroupResponse = ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListByResourceGroupResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
-export interface ResourceHealthMetadataOperationsListBySiteOptionalParams
+export interface ResourceHealthMetadataListBySiteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySite operation. */
-export type ResourceHealthMetadataOperationsListBySiteResponse = ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListBySiteResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
-export interface ResourceHealthMetadataOperationsGetBySiteOptionalParams
+export interface ResourceHealthMetadataGetBySiteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBySite operation. */
-export type ResourceHealthMetadataOperationsGetBySiteResponse = ResourceHealthMetadata;
+export type ResourceHealthMetadataGetBySiteResponse = ResourceHealthMetadata;
 
 /** Optional parameters. */
-export interface ResourceHealthMetadataOperationsListBySiteSlotOptionalParams
+export interface ResourceHealthMetadataListBySiteSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySiteSlot operation. */
-export type ResourceHealthMetadataOperationsListBySiteSlotResponse = ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListBySiteSlotResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
-export interface ResourceHealthMetadataOperationsGetBySiteSlotOptionalParams
+export interface ResourceHealthMetadataGetBySiteSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBySiteSlot operation. */
-export type ResourceHealthMetadataOperationsGetBySiteSlotResponse = ResourceHealthMetadata;
+export type ResourceHealthMetadataGetBySiteSlotResponse = ResourceHealthMetadata;
 
 /** Optional parameters. */
-export interface ResourceHealthMetadataOperationsListNextOptionalParams
+export interface ResourceHealthMetadataListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ResourceHealthMetadataOperationsListNextResponse = ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListNextResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
-export interface ResourceHealthMetadataOperationsListByResourceGroupNextOptionalParams
+export interface ResourceHealthMetadataListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ResourceHealthMetadataOperationsListByResourceGroupNextResponse = ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListByResourceGroupNextResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
-export interface ResourceHealthMetadataOperationsListBySiteNextOptionalParams
+export interface ResourceHealthMetadataListBySiteNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySiteNext operation. */
-export type ResourceHealthMetadataOperationsListBySiteNextResponse = ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListBySiteNextResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
-export interface ResourceHealthMetadataOperationsListBySiteSlotNextOptionalParams
+export interface ResourceHealthMetadataListBySiteSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySiteSlotNext operation. */
-export type ResourceHealthMetadataOperationsListBySiteSlotNextResponse = ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListBySiteSlotNextResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientGenerateGithubAccessTokenForAppserviceCLIAsyncOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the generateGithubAccessTokenForAppserviceCLIAsync operation. */
-export type WebSiteManagementClientGenerateGithubAccessTokenForAppserviceCLIAsyncResponse = AppserviceGithubToken;
-
-/** Optional parameters. */
-export interface WebSiteManagementClientGetPublishingUserOptionalParams
+export interface GetPublishingUserOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPublishingUser operation. */
-export type WebSiteManagementClientGetPublishingUserResponse = User;
+export type GetPublishingUserResponse = User;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientUpdatePublishingUserOptionalParams
+export interface UpdatePublishingUserOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updatePublishingUser operation. */
-export type WebSiteManagementClientUpdatePublishingUserResponse = User;
+export type UpdatePublishingUserResponse = User;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientListSourceControlsOptionalParams
+export interface ListSourceControlsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSourceControls operation. */
-export type WebSiteManagementClientListSourceControlsResponse = SourceControlCollection;
+export type ListSourceControlsResponse = SourceControlCollection;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientGetSourceControlOptionalParams
+export interface GetSourceControlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSourceControl operation. */
-export type WebSiteManagementClientGetSourceControlResponse = SourceControl;
+export type GetSourceControlResponse = SourceControl;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientUpdateSourceControlOptionalParams
+export interface UpdateSourceControlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateSourceControl operation. */
-export type WebSiteManagementClientUpdateSourceControlResponse = SourceControl;
+export type UpdateSourceControlResponse = SourceControl;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientListBillingMetersOptionalParams
+export interface ListBillingMetersOptionalParams
   extends coreClient.OperationOptions {
   /** Azure Location of billable resource */
   billingLocation?: string;
@@ -10344,27 +10337,27 @@ export interface WebSiteManagementClientListBillingMetersOptionalParams
 }
 
 /** Contains response data for the listBillingMeters operation. */
-export type WebSiteManagementClientListBillingMetersResponse = BillingMeterCollection;
+export type ListBillingMetersResponse = BillingMeterCollection;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientCheckNameAvailabilityOptionalParams
+export interface CheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {
   /** Is fully qualified domain name. */
   isFqdn?: boolean;
 }
 
 /** Contains response data for the checkNameAvailability operation. */
-export type WebSiteManagementClientCheckNameAvailabilityResponse = ResourceNameAvailability;
+export type CheckNameAvailabilityResponse = ResourceNameAvailability;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientGetSubscriptionDeploymentLocationsOptionalParams
+export interface GetSubscriptionDeploymentLocationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSubscriptionDeploymentLocations operation. */
-export type WebSiteManagementClientGetSubscriptionDeploymentLocationsResponse = DeploymentLocations;
+export type GetSubscriptionDeploymentLocationsResponse = DeploymentLocations;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientListGeoRegionsOptionalParams
+export interface ListGeoRegionsOptionalParams
   extends coreClient.OperationOptions {
   /** Name of SKU used to filter the regions. */
   sku?: SkuName;
@@ -10377,60 +10370,57 @@ export interface WebSiteManagementClientListGeoRegionsOptionalParams
 }
 
 /** Contains response data for the listGeoRegions operation. */
-export type WebSiteManagementClientListGeoRegionsResponse = GeoRegionCollection;
+export type ListGeoRegionsResponse = GeoRegionCollection;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientListSiteIdentifiersAssignedToHostNameOptionalParams
+export interface ListSiteIdentifiersAssignedToHostNameOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteIdentifiersAssignedToHostName operation. */
-export type WebSiteManagementClientListSiteIdentifiersAssignedToHostNameResponse = IdentifierCollection;
+export type ListSiteIdentifiersAssignedToHostNameResponse = IdentifierCollection;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientListPremierAddOnOffersOptionalParams
+export interface ListPremierAddOnOffersOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPremierAddOnOffers operation. */
-export type WebSiteManagementClientListPremierAddOnOffersResponse = PremierAddOnOfferCollection;
+export type ListPremierAddOnOffersResponse = PremierAddOnOfferCollection;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientListSkusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ListSkusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkus operation. */
-export type WebSiteManagementClientListSkusResponse = SkuInfos;
+export type ListSkusResponse = SkuInfos;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientVerifyHostingEnvironmentVnetOptionalParams
+export interface VerifyHostingEnvironmentVnetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the verifyHostingEnvironmentVnet operation. */
-export type WebSiteManagementClientVerifyHostingEnvironmentVnetResponse = VnetValidationFailureDetails;
+export type VerifyHostingEnvironmentVnetResponse = VnetValidationFailureDetails;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientMoveOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MoveOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebSiteManagementClientValidateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ValidateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the validate operation. */
-export type WebSiteManagementClientValidateResponse = ValidateResponse;
+export type ValidateOperationResponse = ValidateResponse;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientValidateMoveOptionalParams
+export interface ValidateMoveOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebSiteManagementClientListSourceControlsNextOptionalParams
+export interface ListSourceControlsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSourceControlsNext operation. */
-export type WebSiteManagementClientListSourceControlsNextResponse = SourceControlCollection;
+export type ListSourceControlsNextResponse = SourceControlCollection;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientListBillingMetersNextOptionalParams
+export interface ListBillingMetersNextOptionalParams
   extends coreClient.OperationOptions {
   /** Azure Location of billable resource */
   billingLocation?: string;
@@ -10439,10 +10429,10 @@ export interface WebSiteManagementClientListBillingMetersNextOptionalParams
 }
 
 /** Contains response data for the listBillingMetersNext operation. */
-export type WebSiteManagementClientListBillingMetersNextResponse = BillingMeterCollection;
+export type ListBillingMetersNextResponse = BillingMeterCollection;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientListGeoRegionsNextOptionalParams
+export interface ListGeoRegionsNextOptionalParams
   extends coreClient.OperationOptions {
   /** Name of SKU used to filter the regions. */
   sku?: SkuName;
@@ -10455,21 +10445,21 @@ export interface WebSiteManagementClientListGeoRegionsNextOptionalParams
 }
 
 /** Contains response data for the listGeoRegionsNext operation. */
-export type WebSiteManagementClientListGeoRegionsNextResponse = GeoRegionCollection;
+export type ListGeoRegionsNextResponse = GeoRegionCollection;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientListSiteIdentifiersAssignedToHostNameNextOptionalParams
+export interface ListSiteIdentifiersAssignedToHostNameNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteIdentifiersAssignedToHostNameNext operation. */
-export type WebSiteManagementClientListSiteIdentifiersAssignedToHostNameNextResponse = IdentifierCollection;
+export type ListSiteIdentifiersAssignedToHostNameNextResponse = IdentifierCollection;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientListPremierAddOnOffersNextOptionalParams
+export interface ListPremierAddOnOffersNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPremierAddOnOffersNext operation. */
-export type WebSiteManagementClientListPremierAddOnOffersNextResponse = PremierAddOnOfferCollection;
+export type ListPremierAddOnOffersNextResponse = PremierAddOnOfferCollection;
 
 /** Optional parameters. */
 export interface StaticSitesPreviewWorkflowOptionalParams

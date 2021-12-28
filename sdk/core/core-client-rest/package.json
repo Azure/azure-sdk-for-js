@@ -16,7 +16,6 @@
     "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -85,13 +84,12 @@
     "karma-mocha": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
-    "mocha-junit-reporter": "^1.18.0",
+    "mocha-junit-reporter": "^2.0.0",
     "mocha": "^7.1.1",
-    "prettier": "2.2.1",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "sinon": "^9.0.2",
-    "typedoc": "0.15.2",
     "typescript": "~4.2.0",
     "util": "^0.12.1"
   }

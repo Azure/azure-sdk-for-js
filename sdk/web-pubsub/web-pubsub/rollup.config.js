@@ -1,3 +1,3 @@
-import * as base from "./rollup.base.config";
+import { makeConfig } from "@azure/dev-tool/shared-config/rollup";
 
-export default [base.nodeConfig()];
+export default makeConfig(require("./package.json"));

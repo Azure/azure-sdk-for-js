@@ -45,7 +45,8 @@
         "sdk/storage/storage-blob/test/utils/fakeTestSecrets.ts",
         "sdk/servicebus/service-bus/test/public/fakeTestSecrets.ts",
         "sdk/cosmosdb/cosmos/test/public/common/_fakeTestSecrets.ts",
-        "sdk/tables/data-tables/test/internal/fakeTestSecrets.ts"
+        "sdk/tables/data-tables/test/internal/fakeTestSecrets.ts",
+        "sdk/tables/data-tables/test/internal/node/generateSas.spec.ts"
       ],
       "_justification": "File contains private key used by test code."
     }

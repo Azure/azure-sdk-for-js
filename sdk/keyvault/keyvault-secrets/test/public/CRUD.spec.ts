@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { Recorder, env } from "@azure-tools/test-recorder";
+import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
 import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
 import { SecretClient } from "../../src";
 import TestClient from "../utils/testClient";
 import { assert } from "chai";
-import { assertThrowsAbortError } from "../utils/utils.common";
 import { authenticate } from "../utils/testAuthentication";
 import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { testPollerProperties } from "../utils/recorderUtils";
@@ -21,7 +21,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
     testClient = authentication.testClient;

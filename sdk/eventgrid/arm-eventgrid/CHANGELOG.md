@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 13.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 13.0.0 (2021-12-09)
 
 The package of @azure/arm-eventgrid is using our next generation design principles since version 13.0.0, which contains breaking changes.

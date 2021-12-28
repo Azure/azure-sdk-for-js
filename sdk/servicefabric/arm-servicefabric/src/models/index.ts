@@ -22,55 +22,6 @@ export type ServiceResourceUpdatePropertiesUnion =
   | StatefulServiceUpdateProperties
   | StatelessServiceUpdateProperties;
 
-/** The resource model definition. */
-export interface Resource {
-  /**
-   * Azure resource identifier.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Azure resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Azure resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Azure resource location. */
-  location: string;
-  /** Azure resource tags. */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Azure resource etag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: string;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: string;
-  /** The timestamp of resource last modification (UTC). */
-  lastModifiedAt?: Date;
-}
-
 /** The detail of the Service Fabric runtime version result */
 export interface ClusterVersionDetails {
   /** The Service Fabric runtime version of the cluster. */
@@ -371,6 +322,55 @@ export interface NotificationTarget {
   notificationChannel: NotificationChannel;
   /** List of targets that subscribe to the notification. */
   receivers: string[];
+}
+
+/** The resource model definition. */
+export interface Resource {
+  /**
+   * Azure resource identifier.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Azure resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Azure resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Azure resource location. */
+  location: string;
+  /** Azure resource tags. */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Azure resource etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: string;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: string;
+  /** The timestamp of resource last modification (UTC). */
+  lastModifiedAt?: Date;
 }
 
 /** The structure of the error. */
@@ -762,6 +762,12 @@ export interface ApplicationResourceList {
   readonly nextLink?: string;
 }
 
+/** Describes how the service is partitioned. */
+export interface PartitionSchemeDescription {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  partitionScheme: "Named" | "Singleton" | "UniformInt64Range";
+}
+
 /** The common service resource properties. */
 export interface ServiceResourcePropertiesBase {
   /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
@@ -802,12 +808,6 @@ export interface ServiceLoadMetricDescription {
 export interface ServicePlacementPolicyDescription {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "undefined";
-}
-
-/** Describes how the service is partitioned. */
-export interface PartitionSchemeDescription {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  partitionScheme: "Named" | "Singleton" | "UniformInt64Range";
 }
 
 /** The list of service resources. */
@@ -1057,31 +1057,6 @@ export type ApplicationResourceProperties = ApplicationResourceUpdateProperties 
   typeName?: string;
 };
 
-/** The service resource properties. */
-export type ServiceResourceProperties = ServiceResourcePropertiesBase & {
-  /**
-   * The current deployment or provisioning state, which only appears in the response
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** The kind of service (Stateless or Stateful). */
-  serviceKind: ServiceKind;
-  /** The name of the service type */
-  serviceTypeName?: string;
-  /** Describes how the service is partitioned. */
-  partitionDescription?: PartitionSchemeDescriptionUnion;
-  /** The activation Mode of the service package */
-  servicePackageActivationMode?: ArmServicePackageActivationMode;
-  /** Dns name used for the service. If this is specified, then the service can be accessed via its DNS name instead of service name. */
-  serviceDnsName?: string;
-};
-
-/** The service resource properties for patch operations. */
-export type ServiceResourceUpdateProperties = ServiceResourcePropertiesBase & {
-  /** The kind of service (Stateless or Stateful). */
-  serviceKind: ServiceKind;
-};
-
 /** Describes the named partition scheme of the service. */
 export type NamedPartitionSchemeDescription = PartitionSchemeDescription & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1116,6 +1091,31 @@ export type UniformInt64RangePartitionSchemeDescription = PartitionSchemeDescrip
    *
    */
   highKey: string;
+};
+
+/** The service resource properties. */
+export type ServiceResourceProperties = ServiceResourcePropertiesBase & {
+  /**
+   * The current deployment or provisioning state, which only appears in the response
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** The kind of service (Stateless or Stateful). */
+  serviceKind: ServiceKind;
+  /** The name of the service type */
+  serviceTypeName?: string;
+  /** Describes how the service is partitioned. */
+  partitionDescription?: PartitionSchemeDescriptionUnion;
+  /** The activation Mode of the service package */
+  servicePackageActivationMode?: ArmServicePackageActivationMode;
+  /** Dns name used for the service. If this is specified, then the service can be accessed via its DNS name instead of service name. */
+  serviceDnsName?: string;
+};
+
+/** The service resource properties for patch operations. */
+export type ServiceResourceUpdateProperties = ServiceResourcePropertiesBase & {
+  /** The kind of service (Stateless or Stateful). */
+  serviceKind: ServiceKind;
 };
 
 /** The properties of a stateful service resource. */
@@ -1504,6 +1504,69 @@ export enum KnownRollingUpgradeMode {
  */
 export type RollingUpgradeMode = string;
 
+/** Known values of {@link ServiceKind} that the service accepts. */
+export enum KnownServiceKind {
+  /** Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero. */
+  Invalid = "Invalid",
+  /** Does not use Service Fabric to make its state highly available or reliable. The value is 1. */
+  Stateless = "Stateless",
+  /** Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2. */
+  Stateful = "Stateful"
+}
+
+/**
+ * Defines values for ServiceKind. \
+ * {@link KnownServiceKind} can be used interchangeably with ServiceKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid**: Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero. \
+ * **Stateless**: Does not use Service Fabric to make its state highly available or reliable. The value is 1. \
+ * **Stateful**: Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2.
+ */
+export type ServiceKind = string;
+
+/** Known values of {@link PartitionScheme} that the service accepts. */
+export enum KnownPartitionScheme {
+  /** Indicates the partition kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero. */
+  Invalid = "Invalid",
+  /** Indicates that the partition is based on string names, and is a SingletonPartitionSchemeDescription object, The value is 1. */
+  Singleton = "Singleton",
+  /** Indicates that the partition is based on Int64 key ranges, and is a UniformInt64RangePartitionSchemeDescription object. The value is 2. */
+  UniformInt64Range = "UniformInt64Range",
+  /** Indicates that the partition is based on string names, and is a NamedPartitionSchemeDescription object. The value is 3 */
+  Named = "Named"
+}
+
+/**
+ * Defines values for PartitionScheme. \
+ * {@link KnownPartitionScheme} can be used interchangeably with PartitionScheme,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid**: Indicates the partition kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero. \
+ * **Singleton**: Indicates that the partition is based on string names, and is a SingletonPartitionSchemeDescription object, The value is 1. \
+ * **UniformInt64Range**: Indicates that the partition is based on Int64 key ranges, and is a UniformInt64RangePartitionSchemeDescription object. The value is 2. \
+ * **Named**: Indicates that the partition is based on string names, and is a NamedPartitionSchemeDescription object. The value is 3
+ */
+export type PartitionScheme = string;
+
+/** Known values of {@link ArmServicePackageActivationMode} that the service accepts. */
+export enum KnownArmServicePackageActivationMode {
+  /** Indicates the application package activation mode will use shared process. */
+  SharedProcess = "SharedProcess",
+  /** Indicates the application package activation mode will use exclusive process. */
+  ExclusiveProcess = "ExclusiveProcess"
+}
+
+/**
+ * Defines values for ArmServicePackageActivationMode. \
+ * {@link KnownArmServicePackageActivationMode} can be used interchangeably with ArmServicePackageActivationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SharedProcess**: Indicates the application package activation mode will use shared process. \
+ * **ExclusiveProcess**: Indicates the application package activation mode will use exclusive process.
+ */
+export type ArmServicePackageActivationMode = string;
+
 /** Known values of {@link ServiceCorrelationScheme} that the service accepts. */
 export enum KnownServiceCorrelationScheme {
   /** An invalid correlation scheme. Cannot be used. The value is zero. */
@@ -1605,69 +1668,6 @@ export enum KnownMoveCost {
  * **High**: Specifies the move cost of the service as High. The value is 3.
  */
 export type MoveCost = string;
-
-/** Known values of {@link ServiceKind} that the service accepts. */
-export enum KnownServiceKind {
-  /** Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero. */
-  Invalid = "Invalid",
-  /** Does not use Service Fabric to make its state highly available or reliable. The value is 1. */
-  Stateless = "Stateless",
-  /** Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2. */
-  Stateful = "Stateful"
-}
-
-/**
- * Defines values for ServiceKind. \
- * {@link KnownServiceKind} can be used interchangeably with ServiceKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid**: Indicates the service kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero. \
- * **Stateless**: Does not use Service Fabric to make its state highly available or reliable. The value is 1. \
- * **Stateful**: Uses Service Fabric to make its state or part of its state highly available and reliable. The value is 2.
- */
-export type ServiceKind = string;
-
-/** Known values of {@link PartitionScheme} that the service accepts. */
-export enum KnownPartitionScheme {
-  /** Indicates the partition kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero. */
-  Invalid = "Invalid",
-  /** Indicates that the partition is based on string names, and is a SingletonPartitionSchemeDescription object, The value is 1. */
-  Singleton = "Singleton",
-  /** Indicates that the partition is based on Int64 key ranges, and is a UniformInt64RangePartitionSchemeDescription object. The value is 2. */
-  UniformInt64Range = "UniformInt64Range",
-  /** Indicates that the partition is based on string names, and is a NamedPartitionSchemeDescription object. The value is 3 */
-  Named = "Named"
-}
-
-/**
- * Defines values for PartitionScheme. \
- * {@link KnownPartitionScheme} can be used interchangeably with PartitionScheme,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid**: Indicates the partition kind is invalid. All Service Fabric enumerations have the invalid type. The value is zero. \
- * **Singleton**: Indicates that the partition is based on string names, and is a SingletonPartitionSchemeDescription object, The value is 1. \
- * **UniformInt64Range**: Indicates that the partition is based on Int64 key ranges, and is a UniformInt64RangePartitionSchemeDescription object. The value is 2. \
- * **Named**: Indicates that the partition is based on string names, and is a NamedPartitionSchemeDescription object. The value is 3
- */
-export type PartitionScheme = string;
-
-/** Known values of {@link ArmServicePackageActivationMode} that the service accepts. */
-export enum KnownArmServicePackageActivationMode {
-  /** Indicates the application package activation mode will use shared process. */
-  SharedProcess = "SharedProcess",
-  /** Indicates the application package activation mode will use exclusive process. */
-  ExclusiveProcess = "ExclusiveProcess"
-}
-
-/**
- * Defines values for ArmServicePackageActivationMode. \
- * {@link KnownArmServicePackageActivationMode} can be used interchangeably with ArmServicePackageActivationMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SharedProcess**: Indicates the application package activation mode will use shared process. \
- * **ExclusiveProcess**: Indicates the application package activation mode will use exclusive process.
- */
-export type ArmServicePackageActivationMode = string;
 /** Defines values for ManagedIdentityType. */
 export type ManagedIdentityType =
   | "SystemAssigned"

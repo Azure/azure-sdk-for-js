@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { StorageClient } from "../../src/StorageClient";
 
 export function assertClientUsesTokenCredential(client: StorageClient): void {

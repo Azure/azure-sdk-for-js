@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
 import { DeletedSecret, SecretClient } from "../../src";
 import { Recorder, env } from "@azure-tools/test-recorder";
+import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
 import { Context } from "mocha";
 import { PollerStoppedError } from "@azure/core-lro";
 import TestClient from "../utils/testClient";
-import { assertThrowsAbortError } from "../utils/utils.common";
+import { assert } from "chai";
 import { authenticate } from "../utils/testAuthentication";
 import { testPollerProperties } from "../utils/recorderUtils";
 
@@ -19,7 +19,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
     testClient = authentication.testClient;

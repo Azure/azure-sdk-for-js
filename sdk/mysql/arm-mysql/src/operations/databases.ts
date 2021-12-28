@@ -11,7 +11,7 @@ import { Databases } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MySQLManagementClientContext } from "../mySQLManagementClientContext";
+import { MySQLManagementClient } from "../mySQLManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -28,13 +28,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Databases operations. */
 export class DatabasesImpl implements Databases {
-  private readonly client: MySQLManagementClientContext;
+  private readonly client: MySQLManagementClient;
 
   /**
    * Initialize a new instance of the class Databases class.
    * @param client Reference to the service client
    */
-  constructor(client: MySQLManagementClientContext) {
+  constructor(client: MySQLManagementClient) {
     this.client = client;
   }
 

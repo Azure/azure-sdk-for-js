@@ -23,7 +23,7 @@ export async function sha256Hmac(secret: string, stringToSign: string): Promise<
     Uint8Array.from(atob(secret), (c) => c.charCodeAt(0)),
     {
       name: "HMAC",
-      hash: "SHA-256"
+      hash: "SHA-256",
     },
     false,
     ["sign"]

@@ -71,7 +71,6 @@ export class EventHubSender extends LinkEntity {
 
   /**
    * Creates a new EventHubSender instance.
-   * @hidden
    * @param context - The connection context.
    * @param partitionId - The EventHub partition id to which the sender
    * wants to send the event data.
@@ -163,7 +162,6 @@ export class EventHubSender extends LinkEntity {
 
   /**
    * Deletes the sender from the context. Clears the token renewal timer. Closes the sender link.
-   * @hidden
    * @returns Promise<void>
    */
   async close(): Promise<void> {
@@ -188,7 +186,6 @@ export class EventHubSender extends LinkEntity {
 
   /**
    * Determines whether the AMQP sender link is open. If open then returns true else returns false.
-   * @hidden
    * @returns boolean
    */
   isOpen(): boolean {
@@ -224,7 +221,6 @@ export class EventHubSender extends LinkEntity {
    * Send a batch of EventData to the EventHub. The "message_annotations",
    * "application_properties" and "properties" of the first message will be set as that
    * of the envelope (batch message).
-   * @hidden
    * @param events -  An array of EventData objects to be sent in a Batch message.
    * @param options - Options to control the way the events are batched along with request options
    */
@@ -323,7 +319,6 @@ export class EventHubSender extends LinkEntity {
    *
    * We have implemented a synchronous send over here in the sense that we shall be waiting
    * for the message to be accepted or rejected and accordingly resolve or reject the promise.
-   * @hidden
    * @param rheaMessage - The message to be sent to EventHub.
    * @returns Promise<void>
    */
@@ -497,7 +492,6 @@ export class EventHubSender extends LinkEntity {
   /**
    * Initializes the sender session on the connection.
    * Should only be called from _createLinkIfNotOpen
-   * @hidden
    */
   private async _init(
     options: AwaitableSenderOptions & {
@@ -562,7 +556,6 @@ export class EventHubSender extends LinkEntity {
   /**
    * Creates a new sender to the given event hub, and optionally to a given partition if it is
    * not present in the context or returns the one present in the context.
-   * @hidden
    * @param partitionId - Partition ID to which it will send event data.
    */
   static create(context: ConnectionContext, partitionId?: string): EventHubSender {

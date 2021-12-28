@@ -5,8 +5,8 @@ import { mockedPoller, runMockedLro } from "./utils/router";
 import { RawResponse } from "../src/lroEngine/models";
 import { assert } from "chai";
 
-describe("Lro Engine", function() {
-  it("put201Succeeded", async function() {
+describe("Lro Engine", function () {
+  it("put201Succeeded", async function () {
     const result = await runMockedLro("PUT", "/put/201/succeeded");
     assert.equal(result.id, "100");
     assert.equal(result.name, "foo");
@@ -14,7 +14,7 @@ describe("Lro Engine", function() {
   });
 
   describe("BodyPolling Strategy", () => {
-    it("put200Succeeded", async function() {
+    it("put200Succeeded", async function () {
       const result = await runMockedLro("PUT", "/put/200/succeeded");
       assert.equal(result.properties?.provisioningState, "Succeeded");
     });

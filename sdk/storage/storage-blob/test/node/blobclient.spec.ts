@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import * as dotenv from "dotenv";
 import { readFileSync, unlinkSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
@@ -12,6 +12,7 @@ import { delay, isPlaybackMode, record, Recorder } from "@azure-tools/test-recor
 
 import {
   BlobClient,
+  BlobImmutabilityPolicyMode,
   BlobSASPermissions,
   BlobServiceClient,
   BlockBlobClient,
@@ -907,7 +908,10 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
 
     const properties = await blobClient.getProperties();
     assert.ok(properties.immutabilityPolicyExpiresOn);
-    assert.equal(properties.immutabilityPolicyMode, "unlocked");
+    assert.equal(
+      properties.immutabilityPolicyMode,
+      "unlocked" as BlobImmutabilityPolicyMode | undefined
+    );
   });
 
   it("Blob syncCopyFromURL with legalhold", async () => {

@@ -29,7 +29,8 @@ import { ReceiveMode } from "../../../src/models";
 describe("AbortSignal", () => {
   const defaultOptions = {
     lockRenewer: undefined,
-    receiveMode: <ReceiveMode>"peekLock"
+    receiveMode: <ReceiveMode>"peekLock",
+    skipParsingBodyAsJson: false
   };
 
   const testMessageThatDoesntMatter = {
@@ -357,7 +358,8 @@ describe("AbortSignal", () => {
       const connectionContext = createConnectionContextForTestsWithSessionId();
 
       const messageSession = await MessageSession.create(connectionContext, "entityPath", "hello", {
-        retryOptions: undefined
+        retryOptions: undefined,
+        skipParsingBodyAsJson: false
       });
 
       const session = new ServiceBusSessionReceiverImpl(
@@ -397,7 +399,8 @@ describe("AbortSignal", () => {
         createConnectionContextForTests(),
         "entityPath",
         "peekLock",
-        1
+        1,
+        false
       );
 
       try {

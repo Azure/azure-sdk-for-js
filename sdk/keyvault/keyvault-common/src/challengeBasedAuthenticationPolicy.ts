@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
 
-import { TokenCredential } from "@azure/core-http";
+import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
 import {
   BaseRequestPolicy,
   RequestPolicy,
-  RequestPolicyOptions,
-  RequestPolicyFactory
+  RequestPolicyFactory,
+  RequestPolicyOptions
 } from "@azure/core-http";
+import { ParsedWWWAuthenticate, parseWWWAuthenticate } from "./parseWWWAuthenticate";
 import { Constants } from "@azure/core-http";
 import { HttpOperationResponse } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-http";
 import { WebResource } from "@azure/core-http";
-import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
-import { parseWWWAuthenticate, ParsedWWWAuthenticate } from "./parseWWWAuthenticate";
 
 /**
  * Representation of the Authentication Challenge

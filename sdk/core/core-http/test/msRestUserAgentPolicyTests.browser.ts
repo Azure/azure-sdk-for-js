@@ -10,14 +10,14 @@ import { WebResource } from "../src/webResource";
 import { userAgentPolicy } from "../src/policies/userAgentPolicy";
 
 describe("MsRestUserAgentPolicy (browser)", () => {
-  describe("for browser", function() {
+  describe("for browser", function () {
     const userAgentHeaderKey = "x-ms-useragent";
 
     const emptyRequestPolicy: RequestPolicy = {
       sendRequest(request: WebResource): Promise<HttpOperationResponse> {
         request.should.exist;
         return Promise.resolve({ request: request, status: 200, headers: request.headers });
-      }
+      },
     };
 
     const getUserAgent = async (headerValue?: string): Promise<string> => {

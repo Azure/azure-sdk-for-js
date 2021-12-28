@@ -208,7 +208,7 @@ export class NodeFetchHttpClient implements HttpClient {
       method: httpRequest.method,
       signal: abortController.signal,
       redirect: "manual",
-      ...platformSpecificRequestInit
+      ...platformSpecificRequestInit,
     };
 
     let operationResponse: HttpOperationResponse | undefined;
@@ -226,9 +226,9 @@ export class NodeFetchHttpClient implements HttpClient {
         request: httpRequest,
         status: response.status,
         readableStreamBody: streaming
-          ? ((response.body as unknown) as NodeJS.ReadableStream)
+          ? (response.body as unknown as NodeJS.ReadableStream)
           : undefined,
-        bodyAsText: !streaming ? await response.text() : undefined
+        bodyAsText: !streaming ? await response.text() : undefined,
       };
 
       const onDownloadProgress = httpRequest.onDownloadProgress;
@@ -336,7 +336,7 @@ export class NodeFetchHttpClient implements HttpClient {
       }
 
       const agentOptions: http.AgentOptions | https.AgentOptions = {
-        keepAlive: httpRequest.keepAlive
+        keepAlive: httpRequest.keepAlive,
       };
 
       if (isHttps) {
@@ -356,7 +356,7 @@ export class NodeFetchHttpClient implements HttpClient {
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-apisurface-standardized-verbs
   async fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse> {
-    return (node_fetch(input, init) as unknown) as Promise<CommonResponse>;
+    return node_fetch(input, init) as unknown as Promise<CommonResponse>;
   }
 
   /**

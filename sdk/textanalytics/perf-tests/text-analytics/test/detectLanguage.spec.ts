@@ -5,7 +5,7 @@ import { PerfTest, PerfOptionDictionary, getEnvVar } from "@azure/test-utils-per
 import {
   AzureKeyCredential,
   TextAnalyticsClient,
-  DetectLanguageOptions
+  DetectLanguageOptions,
 } from "@azure/ai-text-analytics";
 import { TokenCredential, DefaultAzureCredential } from "@azure/identity";
 
@@ -20,8 +20,8 @@ export class DetectLanguageTest extends PerfTest<DetectLanguagePerfTestOptions> 
       description: "Number of documents",
       shortName: "n",
       longName: "docs-count",
-      defaultValue: 1000
-    }
+      defaultValue: 1000,
+    },
   };
   client: TextAnalyticsClient;
   docs: string[] = [];

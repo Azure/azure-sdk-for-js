@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
   BotsImpl,
@@ -29,10 +30,13 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources
 } from "./operationsInterfaces";
-import { AzureBotServiceContext } from "./azureBotServiceContext";
 import { AzureBotServiceOptionalParams } from "./models";
 
-export class AzureBotService extends AzureBotServiceContext {
+export class AzureBotService extends coreClient.ServiceClient {
+  $host: string;
+  apiVersion: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the AzureBotService class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -44,7 +48,46 @@ export class AzureBotService extends AzureBotServiceContext {
     subscriptionId: string,
     options?: AzureBotServiceOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: AzureBotServiceOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-botservice/4.0.0-beta.2`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2021-05-01-preview";
     this.bots = new BotsImpl(this);
     this.channels = new ChannelsImpl(this);
     this.directLine = new DirectLineImpl(this);

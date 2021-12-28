@@ -11,7 +11,7 @@ export function generateSendMessageRequest(
   options: SmsSendOptions = {}
 ): SendMessageRequest {
   const _smsSendOptions: InternalOptions = {
-    enableDeliveryReport: options.enableDeliveryReport ?? false
+    enableDeliveryReport: options.enableDeliveryReport ?? false,
   };
   if (options.tag) {
     _smsSendOptions["tag"] = options.tag;
@@ -23,13 +23,13 @@ export function generateSendMessageRequest(
       return {
         to: phoneNumberStr,
         repeatabilityFirstSent: new Date(Date.now()).toUTCString(),
-        repeatabilityRequestId: Uuid.generateUuid()
+        repeatabilityRequestId: Uuid.generateUuid(),
       };
     }),
     message: smsRequest.message,
     smsSendOptions: {
       enableDeliveryReport: options.enableDeliveryReport ?? false,
-      ...(options.tag && { tag: options.tag })
-    }
+      ...(options.tag && { tag: options.tag }),
+    },
   };
 }

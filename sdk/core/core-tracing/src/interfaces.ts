@@ -112,7 +112,7 @@ export enum SpanKind {
    * broker. Unlike client and server, there is no direct critical path latency
    * relationship between producer and consumer spans.
    */
-  CONSUMER = 4
+  CONSUMER = 4,
 }
 
 /**
@@ -256,7 +256,7 @@ export enum SpanStatusCode {
   /**
    * The operation contains an error.
    */
-  ERROR = 2
+  ERROR = 2,
 }
 
 /**
@@ -368,7 +368,7 @@ export const enum TraceFlags {
   /** No flag set. */
   NONE = 0x0,
   /** Caller is collecting trace information. */
-  SAMPLED = 0x1
+  SAMPLED = 0x1,
 }
 
 /**

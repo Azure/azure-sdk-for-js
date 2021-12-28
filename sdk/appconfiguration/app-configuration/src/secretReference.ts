@@ -36,15 +36,15 @@ export const SecretReferenceHelper = {
     }
 
     const jsonSecretReferenceValue: JsonSecretReferenceValue = {
-      uri: secretReference.value.secretId
+      uri: secretReference.value.secretId,
     };
 
     const configSetting = {
       ...secretReference,
-      value: JSON.stringify(jsonSecretReferenceValue)
+      value: JSON.stringify(jsonSecretReferenceValue),
     };
     return configSetting;
-  }
+  },
 };
 
 /**
@@ -61,7 +61,7 @@ export function parseSecretReference(
 
   const secretReference: ConfigurationSetting<SecretReferenceValue> = {
     ...setting,
-    value: { secretId: jsonSecretReferenceValue.uri }
+    value: { secretId: jsonSecretReferenceValue.uri },
   };
   return secretReference;
 }

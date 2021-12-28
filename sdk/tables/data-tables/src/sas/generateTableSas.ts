@@ -22,7 +22,7 @@ export function generateTableSas(
   credential: NamedKeyCredential,
   options: TableSasSignatureValues = {}
 ): string {
-  const { expiresOn, permissions = tableSasPermissionsFromString("rl"), ...rest } = options;
+  let { expiresOn, permissions } = options;
 
   if (!isNamedKeyCredential(credential)) {
     throw RangeError(
@@ -30,17 +30,23 @@ export function generateTableSas(
     );
   }
 
-  let expiry = expiresOn;
+  // expiresOn and permissions are optional if an identifier is provided
+  // set defaults when no identifier and no values were provided
+  if (!options.identifier) {
+    if (!permissions) {
+      permissions = tableSasPermissionsFromString("r");
+    }
 
-  if (expiry === undefined) {
-    const now = new Date();
-    expiry = new Date(now.getTime() + 3600 * 1000);
+    if (expiresOn === undefined) {
+      const now = new Date();
+      expiresOn = new Date(now.getTime() + 3600 * 1000);
+    }
   }
 
   const sas = generateTableSasQueryParameters(tableName, credential, {
-    expiresOn: expiry,
-    permissions,
-    ...rest
+    ...options,
+    expiresOn,
+    permissions
   }).toString();
 
   return sas;
