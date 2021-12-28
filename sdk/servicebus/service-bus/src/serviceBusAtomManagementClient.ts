@@ -2231,7 +2231,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         url: this.getUrl(name),
         method: "PUT"
       });
-      webResource.body = entityFields;
+      webResource.body = entityFields as any;
       if (isUpdate) {
         webResource.headers.set("If-Match", "*");
       }

@@ -7,26 +7,25 @@
 /// <reference types="node" />
 
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
+import { CommonClientOptions } from '@azure/core-client';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
-import { HttpResponse } from '@azure/core-http';
 import { default as Long_2 } from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import { NamedKeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { SASCredential } from '@azure/core-auth';
-import { ServiceClient } from '@azure/core-http';
+import { ServiceClient } from '@azure/core-client';
 import { Span } from '@azure/core-tracing';
 import { SpanContext } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { TokenType } from '@azure/core-amqp';
-import { UserAgentOptions } from '@azure/core-http';
+import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
@@ -280,7 +279,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 }
 
 // @public
-export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
+export interface ServiceBusAdministrationClientOptions extends CommonClientOptions {
     serviceVersion?: "2021-05" | "2017-04";
 }
 
@@ -302,7 +301,7 @@ export class ServiceBusClient {
 // @public
 export interface ServiceBusClientOptions {
     retryOptions?: RetryOptions;
-    userAgentOptions?: UserAgentOptions;
+    userAgentOptions?: UserAgentPolicyOptions;
     webSocketOptions?: WebSocketOptions;
 }
 
@@ -594,9 +593,7 @@ export { WebSocketImpl }
 export { WebSocketOptions }
 
 // @public
-export type WithResponse<T extends object> = T & {
-    _response: HttpResponse;
-};
+export type WithResponse<T extends object> = T & {};
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, RestError, PipelineRequest } from "@azure/core-rest-pipeline";
+import {
+  PipelineResponse,
+  RestError,
+  PipelineRequest,
+  TransferProgressEvent
+} from "@azure/core-rest-pipeline";
 import { ServiceClient, OperationOptions, FullOperationResponse } from "@azure/core-client";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 
@@ -12,6 +17,8 @@ import { Buffer } from "buffer";
 import { parseURL } from "./parseUrl";
 import { isJSONLikeObject } from "./utils";
 import { isDefined } from "./typeGuards";
+import { OperationTracingOptions } from "@azure/core-tracing";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * @internal
@@ -22,6 +29,31 @@ export interface AtomXmlSerializer {
   serialize(requestBodyInJson: object): Record<string, unknown>;
 
   deserialize(response: FullOperationResponse): Promise<FullOperationResponse>;
+}
+
+function prepare(
+  request: PipelineRequest,
+  options: {
+    headers?: Record<string, string>;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    abortSignal?: AbortSignalLike;
+    tracingOptions?: OperationTracingOptions;
+  }
+): PipelineRequest {
+  if (options.headers) {
+    const headers = options.headers;
+    for (const headerName of Object.keys(headers)) {
+      request.headers.set(headerName, headers[headerName]);
+    }
+  }
+  request.onDownloadProgress = options.onDownloadProgress;
+  request.onUploadProgress = options.onUploadProgress;
+  request.abortSignal = options.abortSignal;
+  if (options.tracingOptions) {
+    request.tracingOptions = options.tracingOptions;
+  }
+  return request;
 }
 
 /**
@@ -35,28 +67,27 @@ export async function executeAtomXmlOperation(
   operationOptions: OperationOptions
 ): Promise<FullOperationResponse> {
   if (webResource.body) {
-    const content = serializer.serialize(webResource.body);
+    const content = serializer.serialize(webResource.body as any);
     webResource.body = stringifyXML(content, { rootName: "entry" });
   }
 
   if (webResource.method === "PUT") {
-    webResource.headers.set("content-length", Buffer.byteLength(webResource.body));
+    webResource.headers.set(
+      "content-length",
+      webResource.body ? Buffer.byteLength(webResource.body) : 0
+    );
   }
 
   logger.verbose(`Executing ATOM based HTTP request: ${webResource.body}`);
 
-  const reqPrepareOptions: RequestPrepareOptions = {
-    ...webResource,
+  const reqPrepareOptions = {
     headers: operationOptions.requestOptions?.customHeaders,
     onUploadProgress: operationOptions.requestOptions?.onUploadProgress,
     onDownloadProgress: operationOptions.requestOptions?.onDownloadProgress,
     abortSignal: operationOptions.abortSignal,
-    // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
-    spanOptions: (operationOptions.tracingOptions as any)?.spanOptions,
-    tracingContext: operationOptions.tracingOptions?.tracingContext,
-    disableJsonStringifyOnBody: true
+    tracingOptions: operationOptions.tracingOptions
   };
-  webResource = webResource.prepare(reqPrepareOptions);
+  webResource = prepare(webResource, reqPrepareOptions);
   webResource.timeout = operationOptions.requestOptions?.timeout || 0;
   const response: PipelineResponse = await serviceBusAtomManagementClient.sendRequest(webResource);
 
