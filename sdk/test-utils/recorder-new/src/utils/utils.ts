@@ -95,7 +95,7 @@ export interface RegexSanitizer {
    */
   value: string;
   /**
-   * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation.
+   * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a substitution operation.
    */
   regex?: string;
   /**
@@ -129,15 +129,11 @@ interface BodyKeySanitizer extends RegexSanitizer {
  * 2) To do a simple regex replace operation, define arguments "key", "value", and "regex"
  * 3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"
  */
-interface HeaderRegexSanitizer extends Omit<RegexSanitizer, "regex"> {
+interface HeaderRegexSanitizer extends RegexSanitizer {
   /**
    * The name of the header we're operating against.
    */
   key: string;
-  /**
-   * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation.
-   */
-  regex?: string;
 }
 /**
  * Internally,

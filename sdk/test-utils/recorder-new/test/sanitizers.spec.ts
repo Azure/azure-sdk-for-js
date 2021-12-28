@@ -4,7 +4,7 @@
 import { ServiceClient } from "@azure/core-client";
 import { expect } from "chai";
 import { env, isPlaybackMode, Recorder } from "../src";
-import { getTestMode, isRecordMode, ProxyToolSanitizers, TestMode } from "../src/utils/utils";
+import { isRecordMode, RecorderError, TestMode } from "../src/utils/utils";
 import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
 
 // These tests require the following to be running in parallel
@@ -19,7 +19,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
       setTestMode(mode);
     });
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       recorder = new Recorder(this.currentTest);
       client = new ServiceClient({ baseUri: getTestServerUrl() });
       recorder.configureClient(client);
@@ -114,9 +114,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             ]
           }
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${
-          isPlaybackMode() ? fakeSecretValue : secretValue
-        }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
+          }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {
@@ -275,9 +274,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             ]
           }
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${
-          isPlaybackMode() ? fakeSecretValue : secretValue
-        }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
+          }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {
@@ -309,18 +307,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
     });
 
     describe("Sanitizers - handling undefined", () => {
-      let numberOfAddSanitizerCalls = 0;
       beforeEach(async () => {
         await recorder.start({ envSetupForPlayback: {} });
-        numberOfAddSanitizerCalls = 0;
-        if (recorder["sanitizer"]) {
-          recorder["sanitizer"]["addSanitizer"] = async (_options: {
-            sanitizer: ProxyToolSanitizers;
-            body: string | undefined;
-          }) => {
-            numberOfAddSanitizerCalls++;
-          };
-        }
       });
 
       const cases = [
@@ -332,7 +320,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             generalRegexSanitizers: [{ regex: undefined, value: "fake-value" }]
           },
           title: "all sanitizers are undefined",
-          addSanitizerCallsExpectedCount: 0 // record mode
+          type: "negative"
         },
         {
           options: {
@@ -343,7 +331,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             generalRegexSanitizers: [{ regex: undefined, value: "fake-value" }]
           },
           title: "partial sanitizers are undefined",
-          addSanitizerCallsExpectedCount: 1 // record mode
+          type: "negative"
         },
         {
           options: {
@@ -353,23 +341,21 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             generalRegexSanitizers: [{ regex: "value", value: "fake-value" }]
           },
           title: "all sanitizers are defined",
-          addSanitizerCallsExpectedCount: 2 // record mode
+          type: "positive"
         }
       ];
 
       cases.forEach((testCase) => {
         it(`case - ${testCase.title}`, async () => {
-          await recorder.addSanitizers(testCase.options);
-          if (isRecordMode()) {
-            expect(numberOfAddSanitizerCalls).to.equal(
-              testCase.addSanitizerCallsExpectedCount,
-              `unexpected number of add sanitizer calls in record mode`
-            );
-          } else {
-            expect(numberOfAddSanitizerCalls).to.equal(
-              0,
-              `unexpected number of add sanitizer calls in ${getTestMode()} mode`
-            );
+          try {
+            await recorder.addSanitizers(testCase.options);
+            throw new Error("error was not thrown from addSanitizers call");
+          } catch (error) {
+            if (isRecordMode() && testCase.type === "negative") {
+              expect((error as RecorderError).message).includes(`Attempted to add an invalid sanitizer`)
+            } else {
+              expect((error as RecorderError).message).includes(`error was not thrown from addSanitizers call`)
+            }
           }
         });
       });
