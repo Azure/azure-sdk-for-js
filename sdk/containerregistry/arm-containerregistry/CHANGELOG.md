@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 10.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 10.0.0 (2021-12-28)
 
 The package of @azure/arm-containerregistry is using our next generation design principles since version 10.0.0, which contains breaking changes.
