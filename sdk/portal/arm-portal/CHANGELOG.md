@@ -1,5 +1,15 @@
 ## Release History
 
+### 1.0.0-beta.3 (Unreleased)
+
+#### Features Added
+
+#### Breaking Changes
+
+#### Bugs Fixed
+
+#### Other Changes
+
 ### 1.0.0-beta.2 (2021-11-30)
 
 The package of @azure/arm-portal is using our next generation design principles since version 1.0.0-beta.2, which contains breaking changes.
