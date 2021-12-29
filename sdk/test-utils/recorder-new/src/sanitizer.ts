@@ -4,6 +4,7 @@ import { getRealAndFakePairs } from "./utils/connectionStringHelpers";
 import { paths } from "./utils/paths";
 import {
   getTestMode,
+  isRecordMode,
   ProxyToolSanitizers,
   RecorderError,
   RegexSanitizer,
@@ -76,13 +77,26 @@ export class Sanitizer {
         if (replacers) {
           return Promise.all(
             replacers.map((replacer: RegexSanitizer) => {
-              if (!replacer.regex) return;
+              if (
+                // sanitizers where the "regex" is a required attribute
+                [
+                  "bodyKeySanitizers",
+                  "bodyRegexSanitizers",
+                  "generalRegexSanitizers",
+                  "uriRegexSanitizers"
+                ].includes(prop) &&
+                !replacer.regex
+              ) {
+                if (!isRecordMode()) return;
+                throw new RecorderError(
+                  `Attempted to add an invalid sanitizer - ${JSON.stringify(replacer)}`
+                );
+              }
               return this.addSanitizer({
                 sanitizer: sanitizerKeywordMapping[prop],
                 body: JSON.stringify(replacer)
-              })
-            }
-            )
+              });
+            })
           );
         } else return;
       })
@@ -146,7 +160,15 @@ export class Sanitizer {
     actualConnString: string | undefined,
     fakeConnString: string
   ): Promise<void> {
-    if (!actualConnString) return;
+    if (!actualConnString) {
+      if (!isRecordMode()) return;
+      throw new RecorderError(
+        `Attempted to add an invalid sanitizer - ${JSON.stringify({
+          actualConnString: actualConnString,
+          fakeConnString: fakeConnString
+        })}`
+      );
+    }
     // extract connection string parts and match call
     const pairsMatched = getRealAndFakePairs(actualConnString, fakeConnString);
     await this.addSanitizers({

@@ -11,7 +11,7 @@ import { Registries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerRegistryManagementClientContext } from "../containerRegistryManagementClientContext";
+import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -41,14 +41,13 @@ import {
   RegistriesListUsagesOptionalParams,
   RegistriesListUsagesResponse,
   RegistriesListPrivateLinkResourcesResponse,
+  RegistriesGetPrivateLinkResourceOptionalParams,
+  RegistriesGetPrivateLinkResourceResponse,
   RegistriesListCredentialsOptionalParams,
   RegistriesListCredentialsResponse,
   RegenerateCredentialParameters,
   RegistriesRegenerateCredentialOptionalParams,
   RegistriesRegenerateCredentialResponse,
-  GenerateCredentialsParameters,
-  RegistriesGenerateCredentialsOptionalParams,
-  RegistriesGenerateCredentialsResponse,
   RunRequestUnion,
   RegistriesScheduleRunOptionalParams,
   RegistriesScheduleRunResponse,
@@ -62,13 +61,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Registries operations. */
 export class RegistriesImpl implements Registries {
-  private readonly client: ContainerRegistryManagementClientContext;
+  private readonly client: ContainerRegistryManagementClient;
 
   /**
    * Initialize a new instance of the class Registries class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerRegistryManagementClientContext) {
+  constructor(client: ContainerRegistryManagementClient) {
     this.client = client;
   }
 
@@ -676,6 +675,25 @@ export class RegistriesImpl implements Registries {
   }
 
   /**
+   * Gets a private link resource by a specified group name for a container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param groupName The name of the private link resource.
+   * @param options The options parameters.
+   */
+  getPrivateLinkResource(
+    resourceGroupName: string,
+    registryName: string,
+    groupName: string,
+    options?: RegistriesGetPrivateLinkResourceOptionalParams
+  ): Promise<RegistriesGetPrivateLinkResourceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, groupName, options },
+      getPrivateLinkResourceOperationSpec
+    );
+  }
+
+  /**
    * Lists the login credentials for the specified container registry.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -715,101 +733,6 @@ export class RegistriesImpl implements Registries {
       },
       regenerateCredentialOperationSpec
     );
-  }
-
-  /**
-   * Generate keys for a token of a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param generateCredentialsParameters The parameters for generating credentials.
-   * @param options The options parameters.
-   */
-  async beginGenerateCredentials(
-    resourceGroupName: string,
-    registryName: string,
-    generateCredentialsParameters: GenerateCredentialsParameters,
-    options?: RegistriesGenerateCredentialsOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<RegistriesGenerateCredentialsResponse>,
-      RegistriesGenerateCredentialsResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<RegistriesGenerateCredentialsResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        registryName,
-        generateCredentialsParameters,
-        options
-      },
-      generateCredentialsOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-  }
-
-  /**
-   * Generate keys for a token of a specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param registryName The name of the container registry.
-   * @param generateCredentialsParameters The parameters for generating credentials.
-   * @param options The options parameters.
-   */
-  async beginGenerateCredentialsAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    generateCredentialsParameters: GenerateCredentialsParameters,
-    options?: RegistriesGenerateCredentialsOptionalParams
-  ): Promise<RegistriesGenerateCredentialsResponse> {
-    const poller = await this.beginGenerateCredentials(
-      resourceGroupName,
-      registryName,
-      generateCredentialsParameters,
-      options
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -1003,7 +926,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.registryNameCheckRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1084,7 +1007,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1128,7 +1051,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1170,6 +1093,29 @@ const listPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const getPrivateLinkResourceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateLinkResources/{groupName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.groupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listCredentialsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/listCredentials",
@@ -1206,37 +1152,7 @@ const regenerateCredentialOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const generateCredentialsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/generateCredentials",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GenerateCredentialsResult
-    },
-    201: {
-      bodyMapper: Mappers.GenerateCredentialsResult
-    },
-    202: {
-      bodyMapper: Mappers.GenerateCredentialsResult
-    },
-    204: {
-      bodyMapper: Mappers.GenerateCredentialsResult
-    }
-  },
-  requestBody: Parameters.generateCredentialsParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1269,7 +1185,7 @@ const scheduleRunOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
