@@ -41,7 +41,7 @@ export class SasServiceClientCredentials {
   /**
    * Signs a request with the Authentication header.
    *
-   * @param request - The {link: PipelineRequest} to be signed.
+   * @param request - The {@link PipelineRequest} to be signed.
    * @returns The signed request object.
    */
   async signRequest(request: PipelineRequest): Promise<PipelineRequest> {

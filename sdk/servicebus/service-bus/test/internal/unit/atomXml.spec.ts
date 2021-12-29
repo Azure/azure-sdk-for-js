@@ -14,10 +14,19 @@ import {
 } from "../../../src/util/atomXmlHelper";
 import * as Constants from "../../../src/util/constants";
 import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient";
-import { buildQueueOptions, QueueResourceSerializer } from "../../../src/serializers/queueResourceSerializer";
+import {
+  buildQueueOptions,
+  QueueResourceSerializer
+} from "../../../src/serializers/queueResourceSerializer";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { buildTopicOptions, TopicResourceSerializer } from "../../../src/serializers/topicResourceSerializer";
-import { buildSubscriptionOptions, SubscriptionResourceSerializer } from "../../../src/serializers/subscriptionResourceSerializer";
+import {
+  buildTopicOptions,
+  TopicResourceSerializer
+} from "../../../src/serializers/topicResourceSerializer";
+import {
+  buildSubscriptionOptions,
+  SubscriptionResourceSerializer
+} from "../../../src/serializers/subscriptionResourceSerializer";
 import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSerializer";
 import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils";
 import { TestConstants } from "../../public/fakeTestSecrets";

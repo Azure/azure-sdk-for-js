@@ -69,13 +69,14 @@ export async function executeAtomXmlOperation(
   request: PipelineRequest,
   serializer: AtomXmlSerializer,
   operationOptions: OperationOptions,
-  requestObject?: | InternalQueueOptions
+  requestObject?:
+    | InternalQueueOptions
     | InternalTopicOptions
     | InternalSubscriptionOptions
     | CreateRuleOptions
 ): Promise<FullOperationResponse> {
   if (requestObject) {
-    request.body = stringifyXML(serializer.serialize(requestObject), { rootName: "entry"});
+    request.body = stringifyXML(serializer.serialize(requestObject), { rootName: "entry" });
   }
   if (request.method === "PUT") {
     if (requestObject) {
