@@ -41,24 +41,24 @@ export class SasServiceClientCredentials {
   /**
    * Signs a request with the Authentication header.
    *
-   * @param webResource - The WebResource to be signed.
+   * @param request - The {link: PipelineRequest} to be signed.
    * @returns The signed request object.
    */
-  async signRequest(webResource: PipelineRequest): Promise<PipelineRequest> {
-    if (!webResource.headers) webResource.headers = createHttpHeaders();
+  async signRequest(request: PipelineRequest): Promise<PipelineRequest> {
+    if (!request.headers) request.headers = createHttpHeaders();
 
-    const targetUri = encodeURIComponent(webResource.url.toLowerCase()).toLowerCase();
+    const targetUri = encodeURIComponent(request.url.toLowerCase()).toLowerCase();
 
     const date = new Date();
     date.setMinutes(date.getMinutes() + 5);
     const expirationDate = Math.round(date.getTime() / 1000);
     const signature = await this._generateSignature(targetUri, expirationDate);
-    webResource.headers.set(
+    request.headers.set(
       "authorization",
       `SharedAccessSignature sig=${signature}&se=${expirationDate}&skn=${this._credential.name}&sr=${targetUri}`
     );
-    webResource.withCredentials = true;
-    return webResource;
+    request.withCredentials = true;
+    return request;
   }
 
   getToken(audience: string): AccessToken {

@@ -137,7 +137,7 @@ export type EntitiesResponse<T extends object> = WithResponse<Array<T>> &
  * @internal
  */
 function signingPolicy(credentials: {
-  signRequest(webResource: PipelineRequest): Promise<PipelineRequest>;
+  signRequest(request: PipelineRequest): Promise<PipelineRequest>;
 }): PipelinePolicy {
   return {
     name: "signingPolicy",
@@ -2227,12 +2227,12 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      const webResource: PipelineRequest = createPipelineRequest({
+      const request: PipelineRequest = createPipelineRequest({
         url: this.getUrl(name),
         method: "PUT"
       });
       if (isUpdate) {
-        webResource.headers.set("If-Match", "*");
+        request.headers.set("If-Match", "*");
       }
 
       const queueOrSubscriptionFields = entityFields as
@@ -2248,7 +2248,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
             : (await this.credentials.getToken([AMQPConstants.aadServiceBusScope]))!.token;
 
         if (queueOrSubscriptionFields.ForwardTo) {
-          webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
+          request.headers.set("ServiceBusSupplementaryAuthorization", token);
           if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
             queueOrSubscriptionFields.ForwardTo = this.endpointWithProtocol.concat(
               queueOrSubscriptionFields.ForwardTo
@@ -2256,7 +2256,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           }
         }
         if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
-          webResource.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
+          request.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
           if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
             queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = this.endpointWithProtocol.concat(
               queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
@@ -2265,9 +2265,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         }
       }
 
-      webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
+      request.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
 
-      return executeAtomXmlOperation(this, webResource, serializer, updatedOptions, entityFields);
+      return executeAtomXmlOperation(this, request, serializer, updatedOptions, entityFields);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

@@ -445,8 +445,8 @@ describe("ATOM Serializers", () => {
           MaxSizeInMegabytes: "1024"
         }
       };
-      serializedContent.QueueDescription[property1] = resource["lockDuration"];
-      serializedContent.QueueDescription[property2] = resource["maxSizeInMegabytes"];
+      serializedContent.QueueDescription[property1] = resource["LockDuration"];
+      serializedContent.QueueDescription[property2] = resource["MaxSizeInMegabytes"];
 
       return {
         $: {
@@ -560,7 +560,6 @@ describe("ATOM Serializers", () => {
           const request = createPipelineRequest({
             url: "https://someurl"
           });
-          request.body = testCase.input as any;
 
           mockServiceBusAtomManagementClient.sendRequest = async () => {
             return {
@@ -573,7 +572,8 @@ describe("ATOM Serializers", () => {
             mockServiceBusAtomManagementClient,
             request,
             new RuleResourceSerializer(),
-            {}
+            {},
+            testCase.input as any // casting because invalid input won't satisfy type requirement
           );
           assert.fail("Error must be thrown");
         } catch (err) {

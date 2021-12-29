@@ -218,10 +218,10 @@ describe("Operation Options", () => {
 
   describe("RequestOptions custom headers", () => {
     it("requestOptions.customHeaders should be populated", async () => {
-      const webResource = createPipelineRequest({ url: `https://${(serviceBusAtomManagementClient as any).endpoint}/`});
+      const request = createPipelineRequest({ url: `https://${(serviceBusAtomManagementClient as any).endpoint}/`});
       await executeAtomXmlOperation(
         serviceBusAtomManagementClient,
-        webResource,
+        request,
         new NamespaceResourceSerializer(),
         {
           requestOptions: {
@@ -230,7 +230,7 @@ describe("Operation Options", () => {
         }
       );
       assert.equal(
-        webResource.headers.get("state"),
+        request.headers.get("state"),
         "WA",
         "Custom header from the requestOptions is not populated as expected."
       );

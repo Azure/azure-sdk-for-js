@@ -66,28 +66,27 @@ function prepare(
  */
 export async function executeAtomXmlOperation(
   serviceBusAtomManagementClient: ServiceClient,
-  webResource: PipelineRequest,
+  request: PipelineRequest,
   serializer: AtomXmlSerializer,
   operationOptions: OperationOptions,
-  requestBody?: | InternalQueueOptions
+  requestObject?: | InternalQueueOptions
     | InternalTopicOptions
     | InternalSubscriptionOptions
     | CreateRuleOptions
 ): Promise<FullOperationResponse> {
-  if (webResource.method === "PUT") {
-    if (!requestBody) {
-      throw new Error("Expecting non-empty request body for PUT operations");
+  if (requestObject) {
+    request.body = stringifyXML(serializer.serialize(requestObject), { rootName: "entry"});
+  }
+  if (request.method === "PUT") {
+    if (requestObject) {
+      request.headers.set(
+        "content-length",
+        Buffer.byteLength(request.body as string) // already assigned a string above
+      );
     }
-
-    const content = serializer.serialize(requestBody);
-    webResource.body = stringifyXML(content, { rootName: "entry" });
-    webResource.headers.set(
-      "content-length",
-      Buffer.byteLength(webResource.body)
-    );
   }
 
-  logger.verbose(`Executing ATOM based HTTP request: ${webResource.body}`);
+  logger.verbose(`Executing ATOM based HTTP request: ${request.body}`);
 
   const reqPrepareOptions = {
     headers: operationOptions.requestOptions?.customHeaders,
@@ -96,9 +95,9 @@ export async function executeAtomXmlOperation(
     abortSignal: operationOptions.abortSignal,
     tracingOptions: operationOptions.tracingOptions
   };
-  webResource = prepare(webResource, reqPrepareOptions);
-  webResource.timeout = operationOptions.requestOptions?.timeout || 0;
-  const response: PipelineResponse = await serviceBusAtomManagementClient.sendRequest(webResource);
+  request = prepare(request, reqPrepareOptions);
+  request.timeout = operationOptions.requestOptions?.timeout || 0;
+  const response: PipelineResponse = await serviceBusAtomManagementClient.sendRequest(request);
 
   logger.verbose(`Received ATOM based HTTP response: ${response.bodyAsText}`);
 
