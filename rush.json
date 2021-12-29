@@ -1185,6 +1185,11 @@
       "packageName": "@azure/arm-advisor",
       "projectFolder": "sdk/advisor/arm-advisor",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hdinsight",
+      "projectFolder": "sdk/hdinsight/arm-hdinsight",
+      "versionPolicyName": "management"
     }
   ]
 }

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Applications } from "../operationsInterfaces";
+import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,27 +15,26 @@ import { HDInsightManagementClient } from "../hDInsightManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  Application,
-  ApplicationsListByClusterNextOptionalParams,
-  ApplicationsListByClusterOptionalParams,
-  ApplicationsListByClusterResponse,
-  ApplicationsGetOptionalParams,
-  ApplicationsGetResponse,
-  ApplicationsCreateOptionalParams,
-  ApplicationsCreateResponse,
-  ApplicationsDeleteOptionalParams,
-  ApplicationsGetAzureAsyncOperationStatusOptionalParams,
-  ApplicationsGetAzureAsyncOperationStatusResponse,
-  ApplicationsListByClusterNextResponse
+  PrivateEndpointConnection,
+  PrivateEndpointConnectionsListByClusterNextOptionalParams,
+  PrivateEndpointConnectionsListByClusterOptionalParams,
+  PrivateEndpointConnectionsListByClusterResponse,
+  PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
+  PrivateEndpointConnectionsCreateOrUpdateResponse,
+  PrivateEndpointConnectionsGetOptionalParams,
+  PrivateEndpointConnectionsGetResponse,
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsListByClusterNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Applications operations. */
-export class ApplicationsImpl implements Applications {
+/** Class containing PrivateEndpointConnections operations. */
+export class PrivateEndpointConnectionsImpl
+  implements PrivateEndpointConnections {
   private readonly client: HDInsightManagementClient;
 
   /**
-   * Initialize a new instance of the class Applications class.
+   * Initialize a new instance of the class PrivateEndpointConnections class.
    * @param client Reference to the service client
    */
   constructor(client: HDInsightManagementClient) {
@@ -43,7 +42,7 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Lists all of the applications for the HDInsight cluster.
+   * Lists the private endpoint connections for a HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
@@ -51,8 +50,8 @@ export class ApplicationsImpl implements Applications {
   public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: ApplicationsListByClusterOptionalParams
-  ): PagedAsyncIterableIterator<Application> {
+    options?: PrivateEndpointConnectionsListByClusterOptionalParams
+  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
     const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
@@ -78,8 +77,8 @@ export class ApplicationsImpl implements Applications {
   private async *listByClusterPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: ApplicationsListByClusterOptionalParams
-  ): AsyncIterableIterator<Application[]> {
+    options?: PrivateEndpointConnectionsListByClusterOptionalParams
+  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
     let result = await this._listByCluster(
       resourceGroupName,
       clusterName,
@@ -102,8 +101,8 @@ export class ApplicationsImpl implements Applications {
   private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: ApplicationsListByClusterOptionalParams
-  ): AsyncIterableIterator<Application> {
+    options?: PrivateEndpointConnectionsListByClusterOptionalParams
+  ): AsyncIterableIterator<PrivateEndpointConnection> {
     for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
@@ -114,7 +113,7 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Lists all of the applications for the HDInsight cluster.
+   * Lists the private endpoint connections for a HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
@@ -122,8 +121,8 @@ export class ApplicationsImpl implements Applications {
   private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: ApplicationsListByClusterOptionalParams
-  ): Promise<ApplicationsListByClusterResponse> {
+    options?: PrivateEndpointConnectionsListByClusterOptionalParams
+  ): Promise<PrivateEndpointConnectionsListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
       listByClusterOperationSpec
@@ -131,48 +130,29 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Gets properties of the specified application.
+   * Approve or reject a private endpoint connection manually.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
-   * @param applicationName The constant value for the application name.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param parameters The private endpoint connection create or update request.
    * @param options The options parameters.
    */
-  get(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     clusterName: string,
-    applicationName: string,
-    options?: ApplicationsGetOptionalParams
-  ): Promise<ApplicationsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, applicationName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Creates applications for the HDInsight cluster.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster.
-   * @param applicationName The constant value for the application name.
-   * @param parameters The application create request.
-   * @param options The options parameters.
-   */
-  async beginCreate(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    parameters: Application,
-    options?: ApplicationsCreateOptionalParams
+    privateEndpointConnectionName: string,
+    parameters: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<ApplicationsCreateResponse>,
-      ApplicationsCreateResponse
+      PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
+      PrivateEndpointConnectionsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ApplicationsCreateResponse> => {
+    ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -210,35 +190,41 @@ export class ApplicationsImpl implements Applications {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, clusterName, applicationName, parameters, options },
-      createOperationSpec
+      {
+        resourceGroupName,
+        clusterName,
+        privateEndpointConnectionName,
+        parameters,
+        options
+      },
+      createOrUpdateOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      lroResourceLocationConfig: "azure-async-operation"
     });
   }
 
   /**
-   * Creates applications for the HDInsight cluster.
+   * Approve or reject a private endpoint connection manually.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
-   * @param applicationName The constant value for the application name.
-   * @param parameters The application create request.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param parameters The private endpoint connection create or update request.
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
-    applicationName: string,
-    parameters: Application,
-    options?: ApplicationsCreateOptionalParams
-  ): Promise<ApplicationsCreateResponse> {
-    const poller = await this.beginCreate(
+    privateEndpointConnectionName: string,
+    parameters: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
-      applicationName,
+      privateEndpointConnectionName,
       parameters,
       options
     );
@@ -246,17 +232,41 @@ export class ApplicationsImpl implements Applications {
   }
 
   /**
-   * Deletes the specified application on the HDInsight cluster.
+   * Gets the specific private endpoint connection.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
-   * @param applicationName The constant value for the application name.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsGetOptionalParams
+  ): Promise<PrivateEndpointConnectionsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        clusterName,
+        privateEndpointConnectionName,
+        options
+      },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Deletes the specific private endpoint connection.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    applicationName: string,
-    options?: ApplicationsDeleteOptionalParams
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -299,57 +309,41 @@ export class ApplicationsImpl implements Applications {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, clusterName, applicationName, options },
+      {
+        resourceGroupName,
+        clusterName,
+        privateEndpointConnectionName,
+        options
+      },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      lroResourceLocationConfig: "azure-async-operation"
     });
   }
 
   /**
-   * Deletes the specified application on the HDInsight cluster.
+   * Deletes the specific private endpoint connection.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
-   * @param applicationName The constant value for the application name.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    applicationName: string,
-    options?: ApplicationsDeleteOptionalParams
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
-      applicationName,
+      privateEndpointConnectionName,
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Gets the async operation status.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster.
-   * @param applicationName The constant value for the application name.
-   * @param operationId The long running operation id.
-   * @param options The options parameters.
-   */
-  getAzureAsyncOperationStatus(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    operationId: string,
-    options?: ApplicationsGetAzureAsyncOperationStatusOptionalParams
-  ): Promise<ApplicationsGetAzureAsyncOperationStatusResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, applicationName, operationId, options },
-      getAzureAsyncOperationStatusOperationSpec
-    );
   }
 
   /**
@@ -363,8 +357,8 @@ export class ApplicationsImpl implements Applications {
     resourceGroupName: string,
     clusterName: string,
     nextLink: string,
-    options?: ApplicationsListByClusterNextOptionalParams
-  ): Promise<ApplicationsListByClusterNextResponse> {
+    options?: PrivateEndpointConnectionsListByClusterNextOptionalParams
+  ): Promise<PrivateEndpointConnectionsListByClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, nextLink, options },
       listByClusterNextOperationSpec
@@ -376,11 +370,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByClusterOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationListResult
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -396,66 +390,66 @@ const listByClusterOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Application
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.applicationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     201: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     202: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     204: {
-      bodyMapper: Mappers.Application
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.applicationName
+    Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnection
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.privateEndpointConnectionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -472,31 +466,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.applicationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getAzureAsyncOperationStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/applications/{applicationName}/azureasyncoperations/{operationId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AsyncOperationResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.operationId,
-    Parameters.applicationName
+    Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -506,7 +476,7 @@ const listByClusterNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationListResult
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
