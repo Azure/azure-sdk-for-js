@@ -9,6 +9,7 @@ specifiers:
   '@rush-temp/ai-metrics-advisor': file:./projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:./projects/app-configuration.tgz
+  '@rush-temp/arm-advisor': file:./projects/arm-advisor.tgz
   '@rush-temp/arm-analysisservices': file:./projects/arm-analysisservices.tgz
   '@rush-temp/arm-apimanagement': file:./projects/arm-apimanagement.tgz
   '@rush-temp/arm-appplatform': file:./projects/arm-appplatform.tgz
@@ -32,6 +33,7 @@ specifiers:
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
   '@rush-temp/arm-extendedlocation': file:./projects/arm-extendedlocation.tgz
   '@rush-temp/arm-features': file:./projects/arm-features.tgz
+  '@rush-temp/arm-hdinsight': file:./projects/arm-hdinsight.tgz
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
   '@rush-temp/arm-links': file:./projects/arm-links.tgz
@@ -183,6 +185,7 @@ dependencies:
   '@rush-temp/ai-metrics-advisor': file:projects/ai-metrics-advisor.tgz
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:projects/app-configuration.tgz
+  '@rush-temp/arm-advisor': file:projects/arm-advisor.tgz
   '@rush-temp/arm-analysisservices': file:projects/arm-analysisservices.tgz
   '@rush-temp/arm-apimanagement': file:projects/arm-apimanagement.tgz
   '@rush-temp/arm-appplatform': file:projects/arm-appplatform.tgz
@@ -206,6 +209,7 @@ dependencies:
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
   '@rush-temp/arm-extendedlocation': file:projects/arm-extendedlocation.tgz
   '@rush-temp/arm-features': file:projects/arm-features.tgz
+  '@rush-temp/arm-hdinsight': file:projects/arm-hdinsight.tgz
   '@rush-temp/arm-iothub': file:projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
   '@rush-temp/arm-links': file:projects/arm-links.tgz
@@ -1054,7 +1058,7 @@ packages:
     resolution: {integrity: sha512-YiWsimjsjjVu56+zOUDB1U3BCD9YNPIEZmw5iHzMk14aanqxWIvJlo+Ewo5/3FqxILgBOFWliH2hZCQPRIqKSg==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 5.0.1
+      '@azure/msal-common': 5.2.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -8281,7 +8285,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-I9+5kbiCfmq7+HDVaVYWmVCNPHzoEB9xodMOgKIpmNZn237rpMhACrcXoZF7Sgg5X5WnNw5iwlTrd9BKBemtLQ==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-kZIyJMsdo0Mla52aW40FnSuD0J416b19J1Ei6JeLJuDZM9Bjb37quj2BN6QyZ2V0RTrTdGMpcOEkkAML0UW16Q==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -8339,6 +8343,27 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/arm-advisor.tgz:
+    resolution: {integrity: sha512-sXLZvgEK3M/0EB9904jwVVIMnEZmc/NGhojlcJ0SprVlvz4syC8LQywjnworwQH90arrpiG+1hcsVKiPG+lGqg==, tarball: file:projects/arm-advisor.tgz}
+    name: '@rush-temp/arm-advisor'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.17
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
     dev: false
 
   file:projects/arm-analysisservices.tgz:
@@ -8575,7 +8600,7 @@ packages:
     dev: false
 
   file:projects/arm-containerregistry.tgz:
-    resolution: {integrity: sha512-iOcYxbtgUUyIJduY+oKd6dLRCD0nakKGeZGWDfFfIR5ENhKMLTchXaZGBQ2Mxj+Thtm1UIkJZ25NTIe2eW7bpA==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-si1/HJZ4OLzHAuxrVsQZNQv3SssXpBSFcpQGVOWTC37j48kEg0JxQREIfu0vhIteBBSLDR0IOCDA22z1QUKxyA==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
@@ -8588,6 +8613,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -8703,7 +8729,7 @@ packages:
     dev: false
 
   file:projects/arm-desktopvirtualization.tgz:
-    resolution: {integrity: sha512-9tYJwIUDFQDpXDZtTbVerkmrnUcASq7GxOdJx/27I87kpWEHNyHR5MymGEbvWs2Y3wd/9Kz49aR/aVAr7s4LJg==, tarball: file:projects/arm-desktopvirtualization.tgz}
+    resolution: {integrity: sha512-3U19vdKa3z0O/9CGkQMZc3+Q1ZmAx19snUOq6QF/djKcQEfdiP40NGU+EsN+Suc2sgUZZQUgw2mU7XMBvjd8Ag==, tarball: file:projects/arm-desktopvirtualization.tgz}
     name: '@rush-temp/arm-desktopvirtualization'
     version: 0.0.0
     dependencies:
@@ -8715,6 +8741,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
@@ -8826,6 +8853,27 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.2
+    dev: false
+
+  file:projects/arm-hdinsight.tgz:
+    resolution: {integrity: sha512-MxGX73BGBcYHfMjJFjOMYtx6Z/hU8PsFZyudN1LPg+kjlghRCdfOpsSLkSl9YmekZEVGxkR9/DyeFQBfg5/+IA==, tarball: file:projects/arm-hdinsight.tgz}
+    name: '@rush-temp/arm-hdinsight'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.17
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
@@ -11519,7 +11567,7 @@ packages:
       '@azure/keyvault-keys': 4.2.0
       '@azure/msal-browser': 2.18.0
       '@azure/msal-common': 4.5.1
-      '@azure/msal-node': 1.3.2
+      '@azure/msal-node': 1.4.0
       '@microsoft/api-extractor': 7.18.17
       '@types/chai': 4.2.22
       '@types/jws': 3.2.4

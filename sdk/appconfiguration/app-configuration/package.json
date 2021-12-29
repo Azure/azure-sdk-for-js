@@ -58,12 +58,12 @@
     "pack": "npm pack 2>&1",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input --mocha='--timeout 1200000 \"dist-esm/test/*.spec.js\" \"dist-esm/test/**/*.spec.js\"'",
+    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 1200000 \"dist-esm/test/*.spec.js\" \"dist-esm/test/**/*.spec.js\"",
     "test:browser": "npm run clean && npm run build:test:browser && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test:node && npm run unit-test:node",
     "test": "npm run test:node && npm run test:browser",
     "unit-test:browser": "dev-tool run test:browser",
-    "unit-test:node": "dev-tool run test:node-js-input --mocha='--timeout 1200000 \"dist-test/index.node.js\"'",
+    "unit-test:node": "dev-tool run test:node-js-input -- --timeout 1200000 \"dist-test/index.node.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "engines": {
