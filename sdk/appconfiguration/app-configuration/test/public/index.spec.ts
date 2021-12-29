@@ -476,7 +476,7 @@ describe("AppConfigurationClient", () => {
   describe("listConfigurationSettings", () => {
     let uniqueLabel: string;
     let listConfigSettingA: ConfigurationSetting;
-    let count = 0;
+    let randomNumber: number;
 
     /** Simulating a setting in production that will be made read only */
     const productionASettingId: Pick<
@@ -498,18 +498,18 @@ describe("AppConfigurationClient", () => {
     };
 
     beforeEach(async () => {
+      randomNumber = getRandomNumber();
       recorder.variable(
-        `listConfigSetting${count}A`
-        , `listConfigSetting${count}A-${getRandomNumber()}`);
+        `listConfigSettingA`
+        , `listConfigSettingA-${randomNumber}`);
       recorder.variable(
-        `listConfigSetting${count}B`
-        , `listConfigSetting${count}B-${getRandomNumber()}`);
+        `listConfigSettingB`
+        , `listConfigSettingB-${randomNumber}`);
       recorder.variable(
         `listConfigSettingsLabel`
-        , `listConfigSettingsLabel-${getRandomNumber()}`);
-      keys.listConfigSettingA = recorder.variable(`listConfigSetting${count}A`);
-      keys.listConfigSettingB = recorder.variable(`listConfigSetting${count}B`);
-      count += 1;
+        , `listConfigSettingsLabel-${randomNumber}`);
+      keys.listConfigSettingA = recorder.variable(`listConfigSettingA`);
+      keys.listConfigSettingB = recorder.variable(`listConfigSettingB`);
 
       uniqueLabel = recorder.variable(`listConfigSettingsLabel`);
       productionASettingId.key = keys.listConfigSettingA;
@@ -577,22 +577,20 @@ describe("AppConfigurationClient", () => {
         labelFilter: uniqueLabel.substring(0, uniqueLabel.length - 1) + "*",
       });
       const byLabelSettings = await toSortedArray(byLabelIterator);
-
-      assertEqualSettings(
-        [
-          {
-            key: keys.listConfigSettingA,
-            value: "[A] production value",
-            label: uniqueLabel,
-            isReadOnly: true,
-          },
-          {
-            key: keys.listConfigSettingB,
-            value: "[B] production value",
-            label: uniqueLabel,
-            isReadOnly: false,
-          },
-        ],
+      assertEqualSettings([
+        {
+          key: keys.listConfigSettingA,
+          value: "[A] production value",
+          label: uniqueLabel,
+          isReadOnly: true,
+        },
+        {
+          key: keys.listConfigSettingB,
+          value: "[B] production value",
+          label: uniqueLabel,
+          isReadOnly: false,
+        },
+      ],
         byLabelSettings
       );
     });
