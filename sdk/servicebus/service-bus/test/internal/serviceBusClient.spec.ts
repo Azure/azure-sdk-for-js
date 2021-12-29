@@ -17,7 +17,8 @@ import {
 } from "../../src";
 import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors";
-import { EnvVarNames, getEnvVars, isNode } from "../public/utils/envVarUtils";
+import { EnvVarNames, getEnvVars } from "../public/utils/envVarUtils";
+import { isNode } from "../public/utils/isNode";
 import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils";
 import {
   createServiceBusClientForTests,

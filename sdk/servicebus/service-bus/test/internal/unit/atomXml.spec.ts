@@ -115,7 +115,7 @@ describe("ATOM Serializers", () => {
       const request = createPipelineRequest({
         url: "https://someurl"
       });
-      request.body = { lockDuration: "PT3M", maxSizeInMegabytes: "2048" };
+      request.body = { lockDuration: "PT3M", maxSizeInMegabytes: "2048" } as any;
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
           request: request,
@@ -132,6 +132,9 @@ describe("ATOM Serializers", () => {
 
       const expectedRequestBody = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated>2019-10-15T19:55:26.821Z</updated><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT3M</LockDuration><MaxSizeInMegabytes>2048</MaxSizeInMegabytes></QueueDescription></content></entry>`;
 
+      if (!request.body) {
+        throw new Error("Expecting valid request.body");
+      }
       const requestBody: string = request.body.toString();
       const indexOfOpenUpdateTag = requestBody.indexOf("<updated>");
       const indexOfCloseUpdateTag = requestBody.indexOf("</updated>");
@@ -239,7 +242,7 @@ describe("ATOM Serializers", () => {
       const request = createPipelineRequest({
         url: "https://someurl"
       });
-      request.body = queueOptions;
+      request.body = queueOptions as any;
 
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
@@ -256,6 +259,9 @@ describe("ATOM Serializers", () => {
         {}
       );
 
+      if (!request.body) {
+        throw new Error("Expecting valid request.body");
+      }
       checkXmlHasPropertiesInExpectedOrder(request.body.toString(), queueProperties);
     });
 
@@ -297,7 +303,7 @@ describe("ATOM Serializers", () => {
       const request = createPipelineRequest({
         url: "https://someurl"
       });
-      request.body = topicOptions;
+      request.body = topicOptions as any;
 
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
@@ -314,6 +320,9 @@ describe("ATOM Serializers", () => {
         {}
       );
 
+      if (!request.body) {
+        throw new Error("Expecting valid request.body");
+      }
       checkXmlHasPropertiesInExpectedOrder(request.body.toString(), topicProperties);
     });
 
@@ -332,7 +341,7 @@ describe("ATOM Serializers", () => {
       const request = createPipelineRequest({
         url: "https://someurl"
       });
-      request.body = subscriptionOptions;
+      request.body = subscriptionOptions as any;
 
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
@@ -349,6 +358,9 @@ describe("ATOM Serializers", () => {
         {}
       );
 
+      if (!request.body) {
+        throw new Error("Expecting valid request.body");
+      }
       checkXmlHasPropertiesInExpectedOrder(request.body.toString(), subscriptionProperties);
     });
 
@@ -364,7 +376,7 @@ describe("ATOM Serializers", () => {
       const request = createPipelineRequest({
         url: "https://someurl"
       });
-      request.body = ruleOptions;
+      request.body = ruleOptions as any;
 
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
@@ -381,6 +393,9 @@ describe("ATOM Serializers", () => {
         {}
       );
 
+      if (!request.body) {
+        throw new Error("Expecting valid request.body");
+      }
       checkXmlHasPropertiesInExpectedOrder(request.body.toString(), ruleProperties);
     });
   });
@@ -543,7 +558,7 @@ describe("ATOM Serializers", () => {
           const request = createPipelineRequest({
             url: "https://someurl"
           });
-          request.body = testCase.input;
+          request.body = testCase.input as any;
 
           mockServiceBusAtomManagementClient.sendRequest = async () => {
             return {
@@ -688,7 +703,7 @@ describe("ATOM Serializers", () => {
           const request = createPipelineRequest({
             url: "https://someurl"
           });
-          request.body = testCase.input;
+          request.body = testCase.input as any;
 
           mockServiceBusAtomManagementClient.sendRequest = async () => {
             return {

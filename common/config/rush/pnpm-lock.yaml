@@ -12391,7 +12391,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-C0bmD0b/wKoYFOc3PsbSlHaXbsPpZ7qFkpfHdyTE8mk4N+uaQGhbX5Q+F5eLZj86wo8tkx6gH7FZvrFxmBdQ5A==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-enrKwgUzsoXQBfCr+r8a9DcDX8T6qzJErwZXAk/CihYj79O3aMK/N27sdQtoJxw/oiE/1w0sLhB4kyAlZlexwg==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -12406,6 +12406,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.37
       '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.3
       '@types/ws': 7.4.7
       buffer: 6.0.3
       chai: 4.3.4
@@ -12449,6 +12450,7 @@ packages:
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
       typescript: 4.2.4
+      uuid: 8.3.2
       ws: 8.3.0
     transitivePeerDependencies:
       - '@swc/core'

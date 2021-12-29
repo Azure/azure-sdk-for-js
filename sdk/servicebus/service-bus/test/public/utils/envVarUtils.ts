@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const isNode =
-  !!process && !!process.version && !!process.versions && !!process.versions.node;
+import { isNode } from "./isNode";
 
 /**
  * Enum to abstract away string values used for referencing the Environment Variable names.
