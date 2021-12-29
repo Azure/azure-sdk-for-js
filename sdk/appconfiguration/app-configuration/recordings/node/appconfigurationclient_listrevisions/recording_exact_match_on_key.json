@@ -1,25 +1,25 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://myappconfig.azconfig.io/kv/listRevisions-1544?api-version=1.0\u0026label=list-revisions-A-1305",
+      "RequestUri": "https://myappconfig.azconfig.io/kv/listRevisions-10549?api-version=1.0\u0026label=list-revisions-A-10613",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "close",
-        "Content-Length": "76",
+        "Content-Length": "78",
         "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson",
         "Cookie": "",
         "If-None-Match": "*",
-        "User-Agent": "azsdk-js-app-configuration/1.3.1 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
-        "x-ms-client-request-id": "0f1ddbe8-aa49-4682-b219-e1b58b502d81",
-        "x-ms-content-sha256": "HzVkgn4tAbwTV3IsYXhZYxjNG/yDwvzNGjImLUD6FHQ=",
-        "x-ms-date": "Tue, 07 Dec 2021 20:55:24 GMT"
+        "User-Agent": "azsdk-js-app-configuration/1.3.2 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
+        "x-ms-client-request-id": "238989ce-7bb7-4244-a1f5-69123dcc4410",
+        "x-ms-content-sha256": "jnq9BFdO9GTX1HWVJZBHvsfYVb85udl9spR3Uq9Bdm4=",
+        "x-ms-date": "Wed, 29 Dec 2021 21:10:43 GMT"
       },
       "RequestBody": {
-        "key": "listRevisions-1544",
-        "label": "list-revisions-A-1305",
+        "key": "listRevisions-10549",
+        "label": "list-revisions-A-10613",
         "value": "fooA1"
       },
       "StatusCode": 200,
@@ -29,47 +29,47 @@
         "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
         "Connection": "close",
         "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
-        "Date": "Tue, 07 Dec 2021 20:55:25 GMT",
-        "ETag": "\u0022oe7DCJeJGUmEEAVDmBJg3RbJkgN\u0022",
-        "Last-Modified": "Tue, 07 Dec 2021 20:55:25 GMT",
+        "Date": "Wed, 29 Dec 2021 21:10:43 GMT",
+        "ETag": "\u0022z9gz1TIHR52GQL7ZhSYqNs5TafW\u0022",
+        "Last-Modified": "Wed, 29 Dec 2021 21:10:44 GMT",
         "Server": "openresty/1.17.8.2",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "Sync-Token": "zAJw6V16=NToxNSMzMTk5MTQ2;sn=3199146",
+        "Sync-Token": "zAJw6V16=NToxNSMzMjg0NjIz;sn=3284623",
         "Transfer-Encoding": "chunked",
-        "x-ms-correlation-request-id": "046bc100-4211-4f62-a026-d2b5199d44b9",
-        "x-ms-request-id": "046bc100-4211-4f62-a026-d2b5199d44b9"
+        "x-ms-correlation-request-id": "a511c20c-870e-4cb3-992e-d4b7f56ff7f3",
+        "x-ms-request-id": "a511c20c-870e-4cb3-992e-d4b7f56ff7f3"
       },
       "ResponseBody": {
-        "etag": "oe7DCJeJGUmEEAVDmBJg3RbJkgN",
-        "key": "listRevisions-1544",
-        "label": "list-revisions-A-1305",
+        "etag": "z9gz1TIHR52GQL7ZhSYqNs5TafW",
+        "key": "listRevisions-10549",
+        "label": "list-revisions-A-10613",
         "content_type": null,
         "value": "fooA1",
         "tags": {},
         "locked": false,
-        "last_modified": "2021-12-07T20:55:25\u002B00:00"
+        "last_modified": "2021-12-29T21:10:44\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://myappconfig.azconfig.io/kv/listRevisions-1544?api-version=1.0\u0026label=list-revisions-A-1305",
+      "RequestUri": "https://myappconfig.azconfig.io/kv/listRevisions-10549?api-version=1.0\u0026label=list-revisions-A-10613",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "close",
-        "Content-Length": "76",
+        "Content-Length": "78",
         "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson",
         "Cookie": "",
-        "sync-token": "zAJw6V16=NToxNSMzMTk5MTQ2",
-        "User-Agent": "azsdk-js-app-configuration/1.3.1 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
-        "x-ms-client-request-id": "1364018b-450b-4b0e-9865-33893c8fc0ce",
-        "x-ms-content-sha256": "i1Oki/Qd5AOoSjfNTyKkhBBkKlVcmfGX8LKu0Oxcvy8=",
-        "x-ms-date": "Tue, 07 Dec 2021 20:55:26 GMT"
+        "sync-token": "zAJw6V16=NToxNSMzMjg0NjIz",
+        "User-Agent": "azsdk-js-app-configuration/1.3.2 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
+        "x-ms-client-request-id": "f313ef0e-50af-49cd-9b5f-33b22705da0d",
+        "x-ms-content-sha256": "rgGAMjAANVG0DR84Kw48SNnlNHrqsc5UbSP1yO1EZVw=",
+        "x-ms-date": "Wed, 29 Dec 2021 21:10:44 GMT"
       },
       "RequestBody": {
-        "key": "listRevisions-1544",
-        "label": "list-revisions-A-1305",
+        "key": "listRevisions-10549",
+        "label": "list-revisions-A-10613",
         "value": "fooA2"
       },
       "StatusCode": 200,
@@ -79,48 +79,48 @@
         "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
         "Connection": "close",
         "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
-        "Date": "Tue, 07 Dec 2021 20:55:26 GMT",
-        "ETag": "\u0022lHgu10KEacAP1YItl7fhselS0hz\u0022",
-        "Last-Modified": "Tue, 07 Dec 2021 20:55:26 GMT",
+        "Date": "Wed, 29 Dec 2021 21:10:44 GMT",
+        "ETag": "\u0022bPRRX8qbKwejiRDJzRQVEvBnJ62\u0022",
+        "Last-Modified": "Wed, 29 Dec 2021 21:10:45 GMT",
         "Server": "openresty/1.17.8.2",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "Sync-Token": "zAJw6V16=NToxNSMzMTk5MTQ3;sn=3199147",
+        "Sync-Token": "zAJw6V16=NToxNSMzMjg0NjI0;sn=3284624",
         "Transfer-Encoding": "chunked",
-        "x-ms-correlation-request-id": "899ecfc6-43df-4ec7-ab61-50060a0b77da",
-        "x-ms-request-id": "899ecfc6-43df-4ec7-ab61-50060a0b77da"
+        "x-ms-correlation-request-id": "2e18bb89-3896-498c-a796-71dd545d04d3",
+        "x-ms-request-id": "2e18bb89-3896-498c-a796-71dd545d04d3"
       },
       "ResponseBody": {
-        "etag": "lHgu10KEacAP1YItl7fhselS0hz",
-        "key": "listRevisions-1544",
-        "label": "list-revisions-A-1305",
+        "etag": "bPRRX8qbKwejiRDJzRQVEvBnJ62",
+        "key": "listRevisions-10549",
+        "label": "list-revisions-A-10613",
         "content_type": null,
         "value": "fooA2",
         "tags": {},
         "locked": false,
-        "last_modified": "2021-12-07T20:55:26\u002B00:00"
+        "last_modified": "2021-12-29T21:10:45\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://myappconfig.azconfig.io/kv/listRevisions-1544?api-version=1.0\u0026label=list-revisions-B-1824",
+      "RequestUri": "https://myappconfig.azconfig.io/kv/listRevisions-10549?api-version=1.0\u0026label=list-revisions-B-10308",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "close",
-        "Content-Length": "76",
+        "Content-Length": "78",
         "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson",
         "Cookie": "",
         "If-None-Match": "*",
-        "sync-token": "zAJw6V16=NToxNSMzMTk5MTQ3",
-        "User-Agent": "azsdk-js-app-configuration/1.3.1 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
-        "x-ms-client-request-id": "8c33a387-13c0-4aae-8d71-3491e87cd394",
-        "x-ms-content-sha256": "Ya8vkCyfvmcLBDYTGcS3atwMWORbhOQJ5SuZgL7O4f8=",
-        "x-ms-date": "Tue, 07 Dec 2021 20:55:26 GMT"
+        "sync-token": "zAJw6V16=NToxNSMzMjg0NjI0",
+        "User-Agent": "azsdk-js-app-configuration/1.3.2 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
+        "x-ms-client-request-id": "18d97676-a03b-4567-8db5-21b4f438d08c",
+        "x-ms-content-sha256": "gR/qrvSzRIus2DXqUyM5RkPH\u002BfDhFjgmBd0XqFaVmaU=",
+        "x-ms-date": "Wed, 29 Dec 2021 21:10:44 GMT"
       },
       "RequestBody": {
-        "key": "listRevisions-1544",
-        "label": "list-revisions-B-1824",
+        "key": "listRevisions-10549",
+        "label": "list-revisions-B-10308",
         "value": "fooB1"
       },
       "StatusCode": 200,
@@ -130,47 +130,47 @@
         "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
         "Connection": "close",
         "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
-        "Date": "Tue, 07 Dec 2021 20:55:26 GMT",
-        "ETag": "\u0022jPra1HXJ1hZmfwLkHHeoH0f3sQO\u0022",
-        "Last-Modified": "Tue, 07 Dec 2021 20:55:27 GMT",
+        "Date": "Wed, 29 Dec 2021 21:10:45 GMT",
+        "ETag": "\u0022TjhgulN5q39nPGHYjAQQD4LTnq0\u0022",
+        "Last-Modified": "Wed, 29 Dec 2021 21:10:45 GMT",
         "Server": "openresty/1.17.8.2",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "Sync-Token": "zAJw6V16=NToxNSMzMTk5MTQ4;sn=3199148",
+        "Sync-Token": "zAJw6V16=NToxNSMzMjg0NjI1;sn=3284625",
         "Transfer-Encoding": "chunked",
-        "x-ms-correlation-request-id": "58f2caa3-abd6-409d-b869-7d7e6a20621e",
-        "x-ms-request-id": "58f2caa3-abd6-409d-b869-7d7e6a20621e"
+        "x-ms-correlation-request-id": "f55a5ba2-603a-4b67-9ce7-a6e765cbbf02",
+        "x-ms-request-id": "f55a5ba2-603a-4b67-9ce7-a6e765cbbf02"
       },
       "ResponseBody": {
-        "etag": "jPra1HXJ1hZmfwLkHHeoH0f3sQO",
-        "key": "listRevisions-1544",
-        "label": "list-revisions-B-1824",
+        "etag": "TjhgulN5q39nPGHYjAQQD4LTnq0",
+        "key": "listRevisions-10549",
+        "label": "list-revisions-B-10308",
         "content_type": null,
         "value": "fooB1",
         "tags": {},
         "locked": false,
-        "last_modified": "2021-12-07T20:55:27\u002B00:00"
+        "last_modified": "2021-12-29T21:10:45\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://myappconfig.azconfig.io/kv/listRevisions-1544?api-version=1.0\u0026label=list-revisions-B-1824",
+      "RequestUri": "https://myappconfig.azconfig.io/kv/listRevisions-10549?api-version=1.0\u0026label=list-revisions-B-10308",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/vnd.microsoft.appconfig.kv\u002Bjson, application/json, application/problem\u002Bjson",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "close",
-        "Content-Length": "76",
+        "Content-Length": "78",
         "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson",
         "Cookie": "",
-        "sync-token": "zAJw6V16=NToxNSMzMTk5MTQ4",
-        "User-Agent": "azsdk-js-app-configuration/1.3.1 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
-        "x-ms-client-request-id": "cf518b85-104b-4d1c-a423-608338492f16",
-        "x-ms-content-sha256": "8aKJH05oMuZzdFgM1cvVowqW4DUbe76ZO1UVjBVaqDU=",
-        "x-ms-date": "Tue, 07 Dec 2021 20:55:26 GMT"
+        "sync-token": "zAJw6V16=NToxNSMzMjg0NjI1",
+        "User-Agent": "azsdk-js-app-configuration/1.3.2 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
+        "x-ms-client-request-id": "5926ece7-b602-456c-a87c-6d79bb466e4f",
+        "x-ms-content-sha256": "e4kBVmRedsr0OiJ13vr5kKZiM6WIQkfyfeDxl1FAun0=",
+        "x-ms-date": "Wed, 29 Dec 2021 21:10:45 GMT"
       },
       "RequestBody": {
-        "key": "listRevisions-1544",
-        "label": "list-revisions-B-1824",
+        "key": "listRevisions-10549",
+        "label": "list-revisions-B-10308",
         "value": "fooB2"
       },
       "StatusCode": 200,
@@ -180,29 +180,29 @@
         "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
         "Connection": "close",
         "Content-Type": "application/vnd.microsoft.appconfig.kv\u002Bjson; charset=utf-8",
-        "Date": "Tue, 07 Dec 2021 20:55:26 GMT",
-        "ETag": "\u00229XTgJei55z3UM9famoJj8QrOz7k\u0022",
-        "Last-Modified": "Tue, 07 Dec 2021 20:55:27 GMT",
+        "Date": "Wed, 29 Dec 2021 21:10:45 GMT",
+        "ETag": "\u0022RG50jJFbWTt9GrGSmrST7PQt2Wr\u0022",
+        "Last-Modified": "Wed, 29 Dec 2021 21:10:45 GMT",
         "Server": "openresty/1.17.8.2",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "Sync-Token": "zAJw6V16=NToxNSMzMTk5MTQ5;sn=3199149",
+        "Sync-Token": "zAJw6V16=NToxNSMzMjg0NjI2;sn=3284626",
         "Transfer-Encoding": "chunked",
-        "x-ms-correlation-request-id": "9dcc3ef9-5678-4493-bbc3-b8e8876c36fe",
-        "x-ms-request-id": "9dcc3ef9-5678-4493-bbc3-b8e8876c36fe"
+        "x-ms-correlation-request-id": "028794a3-a05d-461c-a899-87113aa9428f",
+        "x-ms-request-id": "028794a3-a05d-461c-a899-87113aa9428f"
       },
       "ResponseBody": {
-        "etag": "9XTgJei55z3UM9famoJj8QrOz7k",
-        "key": "listRevisions-1544",
-        "label": "list-revisions-B-1824",
+        "etag": "RG50jJFbWTt9GrGSmrST7PQt2Wr",
+        "key": "listRevisions-10549",
+        "label": "list-revisions-B-10308",
         "content_type": null,
         "value": "fooB2",
         "tags": {},
         "locked": false,
-        "last_modified": "2021-12-07T20:55:27\u002B00:00"
+        "last_modified": "2021-12-29T21:10:45\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://myappconfig.azconfig.io/revisions?api-version=1.0\u0026key=listRevisions-1544",
+      "RequestUri": "https://myappconfig.azconfig.io/revisions?api-version=1.0\u0026key=listRevisions-10549",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/vnd.microsoft.appconfig.kvset\u002Bjson, application/json, application/problem\u002Bjson",
@@ -210,11 +210,11 @@
         "Authorization": "Sanitized",
         "Connection": "close",
         "Cookie": "",
-        "sync-token": "zAJw6V16=NToxNSMzMTk5MTQ5",
-        "User-Agent": "azsdk-js-app-configuration/1.3.1 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
-        "x-ms-client-request-id": "b3358d30-925b-420b-a0f4-795d34dd23ea",
+        "sync-token": "zAJw6V16=NToxNSMzMjg0NjI2",
+        "User-Agent": "azsdk-js-app-configuration/1.3.2 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
+        "x-ms-client-request-id": "e944f5f7-939b-4aa4-98e2-05b9c5cac7c7",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 07 Dec 2021 20:55:26 GMT"
+        "x-ms-date": "Wed, 29 Dec 2021 21:10:45 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -225,61 +225,61 @@
         "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
         "Connection": "close",
         "Content-Type": "application/vnd.microsoft.appconfig.kvset\u002Bjson; charset=utf-8",
-        "Date": "Tue, 07 Dec 2021 20:55:27 GMT",
+        "Date": "Wed, 29 Dec 2021 21:10:45 GMT",
         "Server": "openresty/1.17.8.2",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "Sync-Token": "zAJw6V16=NToxNSMzMTk5MTQ5;sn=3199149",
+        "Sync-Token": "zAJw6V16=NToxNSMzMjg0NjI2;sn=3284626",
         "Transfer-Encoding": "chunked",
-        "x-ms-correlation-request-id": "4600f6c6-ba5e-427f-b4e1-d70ae430def3",
-        "x-ms-request-id": "4600f6c6-ba5e-427f-b4e1-d70ae430def3"
+        "x-ms-correlation-request-id": "9a7c3a0d-1ea4-4c56-910c-3b111df0564e",
+        "x-ms-request-id": "9a7c3a0d-1ea4-4c56-910c-3b111df0564e"
       },
       "ResponseBody": {
         "items": [
           {
-            "etag": "9XTgJei55z3UM9famoJj8QrOz7k",
-            "key": "listRevisions-1544",
-            "label": "list-revisions-B-1824",
-            "content_type": null,
-            "value": "fooB2",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-07T20:55:27\u002B00:00"
-          },
-          {
-            "etag": "jPra1HXJ1hZmfwLkHHeoH0f3sQO",
-            "key": "listRevisions-1544",
-            "label": "list-revisions-B-1824",
-            "content_type": null,
-            "value": "fooB1",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-07T20:55:27\u002B00:00"
-          },
-          {
-            "etag": "lHgu10KEacAP1YItl7fhselS0hz",
-            "key": "listRevisions-1544",
-            "label": "list-revisions-A-1305",
+            "etag": "bPRRX8qbKwejiRDJzRQVEvBnJ62",
+            "key": "listRevisions-10549",
+            "label": "list-revisions-A-10613",
             "content_type": null,
             "value": "fooA2",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-12-07T20:55:26\u002B00:00"
+            "last_modified": "2021-12-29T21:10:45\u002B00:00"
           },
           {
-            "etag": "oe7DCJeJGUmEEAVDmBJg3RbJkgN",
-            "key": "listRevisions-1544",
-            "label": "list-revisions-A-1305",
+            "etag": "RG50jJFbWTt9GrGSmrST7PQt2Wr",
+            "key": "listRevisions-10549",
+            "label": "list-revisions-B-10308",
+            "content_type": null,
+            "value": "fooB2",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T21:10:45\u002B00:00"
+          },
+          {
+            "etag": "TjhgulN5q39nPGHYjAQQD4LTnq0",
+            "key": "listRevisions-10549",
+            "label": "list-revisions-B-10308",
+            "content_type": null,
+            "value": "fooB1",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T21:10:45\u002B00:00"
+          },
+          {
+            "etag": "z9gz1TIHR52GQL7ZhSYqNs5TafW",
+            "key": "listRevisions-10549",
+            "label": "list-revisions-A-10613",
             "content_type": null,
             "value": "fooA1",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-12-07T20:55:25\u002B00:00"
+            "last_modified": "2021-12-29T21:10:44\u002B00:00"
           }
         ]
       }
     },
     {
-      "RequestUri": "https://myappconfig.azconfig.io/revisions?api-version=1.0\u0026key=listRevisions-1544",
+      "RequestUri": "https://myappconfig.azconfig.io/revisions?api-version=1.0\u0026key=listRevisions-10549",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/vnd.microsoft.appconfig.kvset\u002Bjson, application/json, application/problem\u002Bjson",
@@ -287,11 +287,11 @@
         "Authorization": "Sanitized",
         "Connection": "close",
         "Cookie": "",
-        "sync-token": "zAJw6V16=NToxNSMzMTk5MTQ5",
-        "User-Agent": "azsdk-js-app-configuration/1.3.1 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
-        "x-ms-client-request-id": "b5e225dc-d61c-4b7e-83d5-e4d2a56a26a3",
+        "sync-token": "zAJw6V16=NToxNSMzMjg0NjI2",
+        "User-Agent": "azsdk-js-app-configuration/1.3.2 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
+        "x-ms-client-request-id": "0de0c87c-1f12-4b9e-9ed6-ba986319fd7e",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 07 Dec 2021 20:55:27 GMT"
+        "x-ms-date": "Wed, 29 Dec 2021 21:10:45 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -302,64 +302,64 @@
         "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
         "Connection": "close",
         "Content-Type": "application/vnd.microsoft.appconfig.kvset\u002Bjson; charset=utf-8",
-        "Date": "Tue, 07 Dec 2021 20:55:27 GMT",
+        "Date": "Wed, 29 Dec 2021 21:10:45 GMT",
         "Server": "openresty/1.17.8.2",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "Sync-Token": "zAJw6V16=NToxNSMzMTk5MTQ5;sn=3199149",
+        "Sync-Token": "zAJw6V16=NToxNSMzMjg0NjI2;sn=3284626",
         "Transfer-Encoding": "chunked",
-        "x-ms-correlation-request-id": "781d7287-9e2f-4985-ab34-aa12593c1193",
-        "x-ms-request-id": "781d7287-9e2f-4985-ab34-aa12593c1193"
+        "x-ms-correlation-request-id": "edfe5fd3-afc2-47d0-947c-4ceeb8a32b5c",
+        "x-ms-request-id": "edfe5fd3-afc2-47d0-947c-4ceeb8a32b5c"
       },
       "ResponseBody": {
         "items": [
           {
-            "etag": "9XTgJei55z3UM9famoJj8QrOz7k",
-            "key": "listRevisions-1544",
-            "label": "list-revisions-B-1824",
-            "content_type": null,
-            "value": "fooB2",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-07T20:55:27\u002B00:00"
-          },
-          {
-            "etag": "jPra1HXJ1hZmfwLkHHeoH0f3sQO",
-            "key": "listRevisions-1544",
-            "label": "list-revisions-B-1824",
-            "content_type": null,
-            "value": "fooB1",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-07T20:55:27\u002B00:00"
-          },
-          {
-            "etag": "lHgu10KEacAP1YItl7fhselS0hz",
-            "key": "listRevisions-1544",
-            "label": "list-revisions-A-1305",
+            "etag": "bPRRX8qbKwejiRDJzRQVEvBnJ62",
+            "key": "listRevisions-10549",
+            "label": "list-revisions-A-10613",
             "content_type": null,
             "value": "fooA2",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-12-07T20:55:26\u002B00:00"
+            "last_modified": "2021-12-29T21:10:45\u002B00:00"
           },
           {
-            "etag": "oe7DCJeJGUmEEAVDmBJg3RbJkgN",
-            "key": "listRevisions-1544",
-            "label": "list-revisions-A-1305",
+            "etag": "RG50jJFbWTt9GrGSmrST7PQt2Wr",
+            "key": "listRevisions-10549",
+            "label": "list-revisions-B-10308",
+            "content_type": null,
+            "value": "fooB2",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T21:10:45\u002B00:00"
+          },
+          {
+            "etag": "TjhgulN5q39nPGHYjAQQD4LTnq0",
+            "key": "listRevisions-10549",
+            "label": "list-revisions-B-10308",
+            "content_type": null,
+            "value": "fooB1",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T21:10:45\u002B00:00"
+          },
+          {
+            "etag": "z9gz1TIHR52GQL7ZhSYqNs5TafW",
+            "key": "listRevisions-10549",
+            "label": "list-revisions-A-10613",
             "content_type": null,
             "value": "fooA1",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-12-07T20:55:25\u002B00:00"
+            "last_modified": "2021-12-29T21:10:44\u002B00:00"
           }
         ]
       }
     }
   ],
   "Variables": {
-    "key-1": "key-1-1329",
-    "list-revisions-A": "list-revisions-A-1305",
-    "list-revisions-B": "list-revisions-B-1824",
-    "listRevisions": "listRevisions-1544"
+    "key-1": "key-1-10015",
+    "list-revisions-A": "list-revisions-A-10613",
+    "list-revisions-B": "list-revisions-B-10308",
+    "listRevisions": "listRevisions-10549"
   }
 }

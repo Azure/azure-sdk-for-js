@@ -19,8 +19,8 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
         "x-ms-client-request-id": "this is my custom client request id",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 15 Dec 2021 12:17:39 GMT",
-        "x-ms-useragent": "azsdk-js-app-configuration/1.3.1 core-http/2.2.3 OS/Linuxx86_64"
+        "x-ms-date": "Wed, 29 Dec 2021 21:07:46 GMT",
+        "x-ms-useragent": "azsdk-js-app-configuration/1.3.2 core-http/2.2.3 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -30,14 +30,14 @@
         "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
         "Connection": "keep-alive",
         "Content-Type": "application/vnd.microsoft.appconfig.kvset\u002Bjson; charset=utf-8",
-        "Date": "Wed, 15 Dec 2021 12:17:39 GMT",
-        "Link": "\u003C/kv?api-version=1.0\u0026after=a2V5LTEtMTYyOQoxNDM%3D\u003E; rel=\u0022next\u0022",
+        "Date": "Wed, 29 Dec 2021 21:07:46 GMT",
+        "Link": "\u003C/kv?api-version=1.0\u0026after=a2V5LTEtMTYyOQoxMzE%3D\u003E; rel=\u0022next\u0022",
         "Server": "openresty/1.17.8.2",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "Sync-Token": "zAJw6V16=NToxNSMzMjMzMzcy;sn=3233372",
+        "Sync-Token": "zAJw6V16=NToxNSMzMjg0MzQz;sn=3284343",
         "Transfer-Encoding": "chunked",
-        "x-ms-correlation-request-id": "cbe6b285-5050-4a5a-9ebf-d28b166140e5",
-        "x-ms-request-id": "cbe6b285-5050-4a5a-9ebf-d28b166140e5"
+        "x-ms-correlation-request-id": "33fd5f4f-0220-4ae3-9c69-e48845264409",
+        "x-ms-request-id": "33fd5f4f-0220-4ae3-9c69-e48845264409"
       },
       "ResponseBody": {
         "items": [
@@ -82,6 +82,26 @@
             "last_modified": "2021-11-10T00:51:03\u002B00:00"
           },
           {
+            "etag": "qs4TQLhMaccjJfD28KBvWmWfAUq",
+            "key": ".appconfig.featureflag/1328-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u00221328-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:17:46\u002B00:00"
+          },
+          {
+            "etag": "esrrsym7HaLYDW1owpy5mLq3Ort",
+            "key": ".appconfig.featureflag/1537-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u00221537-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T20:45:19\u002B00:00"
+          },
+          {
             "etag": "6fRC7tNb5p5bMNWXzfYVlaLlcrP",
             "key": ".appconfig.featureflag/1695-2",
             "label": "label-1",
@@ -122,6 +142,16 @@
             "last_modified": "2021-11-22T22:56:22\u002B00:00"
           },
           {
+            "etag": "T6qygqwFQeqrQhpxDLA26RdUcgg",
+            "key": "key-1-1011",
+            "label": "test",
+            "content_type": null,
+            "value": "foo",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:18:35\u002B00:00"
+          },
+          {
             "etag": "Dg6oUbbPy59Gaqb5O8XjZ6bOUr7",
             "key": "key-1-1012",
             "label": null,
@@ -145,6 +175,29 @@
             "last_modified": "2021-11-10T04:37:06\u002B00:00"
           },
           {
+            "etag": "o2N9uSr4uCywaKeQPthaPYnQeaG",
+            "key": "key-1-1031",
+            "label": "test",
+            "content_type": null,
+            "value": "foo",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:18:35\u002B00:00"
+          },
+          {
+            "etag": "0N15hJY4N27CFMW4jOJtvnLMbMu",
+            "key": "key-1-1035",
+            "label": "test",
+            "content_type": "application/json",
+            "value": "foo",
+            "tags": {
+              "bar": "baz",
+              "car": "caz"
+            },
+            "locked": false,
+            "last_modified": "2021-12-15T12:17:51\u002B00:00"
+          },
+          {
             "etag": "IDBrRKOEeGGdkU6TfBLrIyWwjRf",
             "key": "key-1-1040",
             "label": null,
@@ -163,6 +216,19 @@
             "tags": {},
             "locked": false,
             "last_modified": "2021-12-07T20:55:36\u002B00:00"
+          },
+          {
+            "etag": "KRASe6vQcEm30ZwthaXPTL68nXJ",
+            "key": "key-1-1085",
+            "label": "test",
+            "content_type": "application/json",
+            "value": "foo",
+            "tags": {
+              "bar": "baz",
+              "car": "caz"
+            },
+            "locked": false,
+            "last_modified": "2021-12-29T20:45:24\u002B00:00"
           },
           {
             "etag": "euKN8cVbHkV6Fc8klU57J9Z9OT1",
@@ -321,6 +387,26 @@
             "last_modified": "2021-11-10T00:41:42\u002B00:00"
           },
           {
+            "etag": "jD8HCYMfPQ1OrRAPv1rPmJ4jQSZ",
+            "key": "key-1-1266",
+            "label": "test",
+            "content_type": null,
+            "value": "foo",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T20:45:23\u002B00:00"
+          },
+          {
+            "etag": "2wnfHLR2vXItAUR85E8NeVWqf0X",
+            "key": "key-1-1319",
+            "label": null,
+            "content_type": null,
+            "value": "value2",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:17:52\u002B00:00"
+          },
+          {
             "etag": "SrebIWnZUX5hr3VFXLGzzs5xnpG",
             "key": "key-1-1328",
             "label": "label-s",
@@ -361,6 +447,16 @@
             "last_modified": "2021-11-10T00:43:41\u002B00:00"
           },
           {
+            "etag": "ZP0zdEzkJsGuTDTpPGqc7UKjJy2",
+            "key": "key-1-1393",
+            "label": "label-s",
+            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
+            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1108\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:18:35\u002B00:00"
+          },
+          {
             "etag": "bXQG3pB1d7irbR4ibsCDZsr2Ftb",
             "key": "key-1-1401",
             "label": "test",
@@ -372,6 +468,16 @@
             },
             "locked": false,
             "last_modified": "2021-11-10T00:51:15\u002B00:00"
+          },
+          {
+            "etag": "P3Rq2S5cKvU7Vzk1Xe4x1zX4LOb",
+            "key": "key-1-1402",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2021-12-15T12:17:52\u002B00:00"
           },
           {
             "etag": "4PVCwKk6XVrccI1Q5WvdHBHyo04",
@@ -447,6 +553,16 @@
             "last_modified": "2021-11-10T01:13:04\u002B00:00"
           },
           {
+            "etag": "ggyH8t0Qfp5R1hRKeURLHHSK1jR",
+            "key": "key-1-1550",
+            "label": null,
+            "content_type": null,
+            "value": "value2",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T20:45:25\u002B00:00"
+          },
+          {
             "etag": "9KghrAMsavNMotzvwx9wUGtZDpp",
             "key": "key-1-1554",
             "label": "label-s",
@@ -505,6 +621,26 @@
             "tags": {},
             "locked": false,
             "last_modified": "2021-12-15T12:02:20\u002B00:00"
+          },
+          {
+            "etag": "DV10HlL5PGaF2II5uFglr7nLSKE",
+            "key": "key-1-1589",
+            "label": "label-s",
+            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
+            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1666\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:18:35\u002B00:00"
+          },
+          {
+            "etag": "E25twD6ZccihfneIrYGVOlBnL4o",
+            "key": "key-1-1589-2",
+            "label": "label-s",
+            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
+            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1666\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:18:35\u002B00:00"
           },
           {
             "etag": "P078JWCA59rmWWOLYjwILFx9bBh",
@@ -928,139 +1064,9 @@
             "tags": {},
             "locked": false,
             "last_modified": "2021-12-10T00:12:19\u002B00:00"
-          },
-          {
-            "etag": "Dm560pLw6jYTTcojIN6n67mRLUh",
-            "key": "key-1-1629",
-            "label": "132",
-            "content_type": null,
-            "value": "the value for 132",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-10T00:12:19\u002B00:00"
-          },
-          {
-            "etag": "vG9QOjMNoJ0qP8hhBhyMx6CnX8y",
-            "key": "key-1-1629",
-            "label": "133",
-            "content_type": null,
-            "value": "the value for 133",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-10T00:12:19\u002B00:00"
-          },
-          {
-            "etag": "ERRV7KmoWuDSNCnlDTsyHkvjlA7",
-            "key": "key-1-1629",
-            "label": "134",
-            "content_type": null,
-            "value": "the value for 134",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-10T00:12:19\u002B00:00"
-          },
-          {
-            "etag": "kRdeOzsWS4pWzSO8Vq5N2Y6ZOYx",
-            "key": "key-1-1629",
-            "label": "135",
-            "content_type": null,
-            "value": "the value for 135",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-10T00:12:19\u002B00:00"
-          },
-          {
-            "etag": "19qfRHH2qBhL0fahJxBrhuRIRqn",
-            "key": "key-1-1629",
-            "label": "136",
-            "content_type": null,
-            "value": "the value for 136",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-10T00:12:19\u002B00:00"
-          },
-          {
-            "etag": "XxJmKkEheCOppHwXkSkfEN4vm2D",
-            "key": "key-1-1629",
-            "label": "137",
-            "content_type": null,
-            "value": "the value for 137",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-10T00:12:19\u002B00:00"
-          },
-          {
-            "etag": "bvUprw9pOYu40Flt8ivaZi0ML1D",
-            "key": "key-1-1629",
-            "label": "138",
-            "content_type": null,
-            "value": "the value for 138",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-10T00:12:19\u002B00:00"
-          },
-          {
-            "etag": "U052o1YFaM8jZDcvpAmI00EJo5k",
-            "key": "key-1-1629",
-            "label": "139",
-            "content_type": null,
-            "value": "the value for 139",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-10T00:12:19\u002B00:00"
-          },
-          {
-            "etag": "zsdgjZFmWKigJ1MVQunKvKtw6ww",
-            "key": "key-1-1629",
-            "label": "14",
-            "content_type": null,
-            "value": "the value for 14",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-10T00:12:14\u002B00:00"
-          },
-          {
-            "etag": "45VImTeKEnqidEnLJV7xiHSoa91",
-            "key": "key-1-1629",
-            "label": "140",
-            "content_type": null,
-            "value": "the value for 140",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-10T00:12:19\u002B00:00"
-          },
-          {
-            "etag": "wFpNhbldVIZRu6R8YjahQfy79sZ",
-            "key": "key-1-1629",
-            "label": "141",
-            "content_type": null,
-            "value": "the value for 141",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-10T00:12:19\u002B00:00"
-          },
-          {
-            "etag": "smiTglaVATHRQqwYe6WKAtLXQbK",
-            "key": "key-1-1629",
-            "label": "142",
-            "content_type": null,
-            "value": "the value for 142",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-10T00:12:19\u002B00:00"
-          },
-          {
-            "etag": "1HsgmmOvn5tdCM4lQKrTONhE5la",
-            "key": "key-1-1629",
-            "label": "143",
-            "content_type": null,
-            "value": "the value for 143",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-12-10T00:12:19\u002B00:00"
           }
         ],
-        "@nextLink": "/kv?api-version=1.0\u0026after=a2V5LTEtMTYyOQoxNDM%3D"
+        "@nextLink": "/kv?api-version=1.0\u0026after=a2V5LTEtMTYyOQoxMzE%3D"
       }
     }
   ],

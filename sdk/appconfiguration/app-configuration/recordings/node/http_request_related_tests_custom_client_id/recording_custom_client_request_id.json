@@ -9,10 +9,10 @@
         "Authorization": "Sanitized",
         "Connection": "close",
         "Cookie": "",
-        "User-Agent": "azsdk-js-app-configuration/1.3.1 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
+        "User-Agent": "azsdk-js-app-configuration/1.3.2 core-http/2.2.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1063-azure)",
         "x-ms-client-request-id": "this is my custom client request id",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 07 Dec 2021 20:53:10 GMT"
+        "x-ms-date": "Wed, 29 Dec 2021 21:09:19 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -22,14 +22,14 @@
         "Access-Control-Expose-Headers": "DNT, X-CustomHeader, Keep-Alive, User-Agent, X-Requested-With, If-Modified-Since, Cache-Control, Content-Type, Authorization, x-ms-client-request-id, x-ms-useragent, x-ms-content-sha256, x-ms-date, host, Accept, Accept-Datetime, Date, If-Match, If-None-Match, Sync-Token, x-ms-return-client-request-id, ETag, Last-Modified, Link, Memento-Datetime, retry-after-ms, x-ms-request-id, x-ms-client-session-id, x-ms-effective-locale, WWW-Authenticate, traceparent, tracestate",
         "Connection": "close",
         "Content-Type": "application/vnd.microsoft.appconfig.kvset\u002Bjson; charset=utf-8",
-        "Date": "Tue, 07 Dec 2021 20:53:10 GMT",
-        "Link": "\u003C/kv?api-version=1.0\u0026after=bGlzdENvbmZpZ1NldHRpbmcyQS0xNDgyCg%3D%3D\u003E; rel=\u0022next\u0022",
+        "Date": "Wed, 29 Dec 2021 21:09:20 GMT",
+        "Link": "\u003C/kv?api-version=1.0\u0026after=a2V5LTEtMTYyOQoxMjA%3D\u003E; rel=\u0022next\u0022",
         "Server": "openresty/1.17.8.2",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "Sync-Token": "zAJw6V16=NToxNSMzMTk4NjI4;sn=3198628",
+        "Sync-Token": "zAJw6V16=NToxNSMzMjg0NTEx;sn=3284511",
         "Transfer-Encoding": "chunked",
-        "x-ms-correlation-request-id": "c8442aa8-7a01-4d26-9318-0b109c7303bd",
-        "x-ms-request-id": "c8442aa8-7a01-4d26-9318-0b109c7303bd"
+        "x-ms-correlation-request-id": "962b1c82-b7b4-4f7f-bd7a-cbd18714bdac",
+        "x-ms-request-id": "962b1c82-b7b4-4f7f-bd7a-cbd18714bdac"
       },
       "ResponseBody": {
         "items": [
@@ -42,6 +42,16 @@
             "tags": {},
             "locked": false,
             "last_modified": "2021-11-10T04:37:01\u002B00:00"
+          },
+          {
+            "etag": "MiLU5Z5juTv5OmJuZ5Jlm1ZVw5g",
+            "key": ".appconfig.featureflag/10439-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u002210439-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T21:07:53\u002B00:00"
           },
           {
             "etag": "BNhfMs7lV1HPk3ze2OvN2Cr3UTE",
@@ -74,6 +84,36 @@
             "last_modified": "2021-11-10T00:51:03\u002B00:00"
           },
           {
+            "etag": "qs4TQLhMaccjJfD28KBvWmWfAUq",
+            "key": ".appconfig.featureflag/1328-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u00221328-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:17:46\u002B00:00"
+          },
+          {
+            "etag": "esrrsym7HaLYDW1owpy5mLq3Ort",
+            "key": ".appconfig.featureflag/1537-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u00221537-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T20:45:19\u002B00:00"
+          },
+          {
+            "etag": "6fRC7tNb5p5bMNWXzfYVlaLlcrP",
+            "key": ".appconfig.featureflag/1695-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u00221695-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:02:16\u002B00:00"
+          },
+          {
             "etag": "f5vGRx7Gk41GC0IsFap7IoH23Xh",
             "key": ".appconfig.featureflag/1892-2",
             "label": "label-1",
@@ -84,6 +124,16 @@
             "last_modified": "2021-11-10T00:41:35\u002B00:00"
           },
           {
+            "etag": "QLS2lPfYVEurtQQufoBwc594l6S",
+            "key": ".appconfig.featureflag/1991-2",
+            "label": "label-1",
+            "content_type": "application/vnd.microsoft.appconfig.ff\u002Bjson;charset=utf-8",
+            "value": "{\u0022id\u0022:\u00221991-2\u0022,\u0022enabled\u0022:false,\u0022description\u0022:\u0022I\u0027m new description\u0022,\u0022conditions\u0022:{\u0022client_filters\u0022:[{\u0022name\u0022:\u0022Microsoft.TimeWindow\u0022,\u0022parameters\u0022:{\u0022Start\u0022:\u0022Wed, 01 May 2019 13:59:59 GMT\u0022,\u0022End\u0022:\u0022Mon, 01 July 2019 00:00:00 GMT\u0022}},{\u0022name\u0022:\u0022FilterX\u0022},{\u0022name\u0022:\u0022Microsoft.Targeting\u0022,\u0022parameters\u0022:{\u0022Audience\u0022:{\u0022Groups\u0022:[{\u0022Name\u0022:\u0022group-1\u0022,\u0022RolloutPercentage\u0022:25},{\u0022Name\u0022:\u0022group-2\u0022,\u0022RolloutPercentage\u0022:45}],\u0022Users\u0022:[\u0022userA\u0022,\u0022userB\u0022],\u0022DefaultRolloutPercentage\u0022:40}}},{\u0022name\u0022:\u0022Microsoft.Percentage\u0022,\u0022parameters\u0022:{\u0022Value\u0022:25}}]},\u0022display_name\u0022:\u0022for display\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-07T20:53:29\u002B00:00"
+          },
+          {
             "etag": "cM5y3do3KkvDpahYrqLzvZBZWyO",
             "key": "Samples:Greeting1134",
             "label": null,
@@ -92,6 +142,16 @@
             "tags": {},
             "locked": false,
             "last_modified": "2021-11-22T22:56:22\u002B00:00"
+          },
+          {
+            "etag": "T6qygqwFQeqrQhpxDLA26RdUcgg",
+            "key": "key-1-1011",
+            "label": "test",
+            "content_type": null,
+            "value": "foo",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:18:35\u002B00:00"
           },
           {
             "etag": "Dg6oUbbPy59Gaqb5O8XjZ6bOUr7",
@@ -117,6 +177,175 @@
             "last_modified": "2021-11-10T04:37:06\u002B00:00"
           },
           {
+            "etag": "LAAF0sC5e15GDkUzWDxzd5UQ4uK",
+            "key": "key-1-10244",
+            "label": "label-s",
+            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
+            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1367\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T21:08:51\u002B00:00"
+          },
+          {
+            "etag": "c1xCG5BurseH7VpCb3Hoi0pAEEU",
+            "key": "key-1-10259",
+            "label": "test",
+            "content_type": null,
+            "value": "foo",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T21:08:51\u002B00:00"
+          },
+          {
+            "etag": "o2N9uSr4uCywaKeQPthaPYnQeaG",
+            "key": "key-1-1031",
+            "label": "test",
+            "content_type": null,
+            "value": "foo",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:18:35\u002B00:00"
+          },
+          {
+            "etag": "0N15hJY4N27CFMW4jOJtvnLMbMu",
+            "key": "key-1-1035",
+            "label": "test",
+            "content_type": "application/json",
+            "value": "foo",
+            "tags": {
+              "bar": "baz",
+              "car": "caz"
+            },
+            "locked": false,
+            "last_modified": "2021-12-15T12:17:51\u002B00:00"
+          },
+          {
+            "etag": "IDBrRKOEeGGdkU6TfBLrIyWwjRf",
+            "key": "key-1-1040",
+            "label": null,
+            "content_type": null,
+            "value": "value2",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:02:22\u002B00:00"
+          },
+          {
+            "etag": "jqEfCREXcdXFOGsbrrOeJMLxf7y",
+            "key": "key-1-10402",
+            "label": "test",
+            "content_type": null,
+            "value": "foo",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T21:07:56\u002B00:00"
+          },
+          {
+            "etag": "j6lO0CxNvh3DaQsufYapRihtOj8",
+            "key": "key-1-10448",
+            "label": "test",
+            "content_type": null,
+            "value": "foo",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T21:08:51\u002B00:00"
+          },
+          {
+            "etag": "EOWZWFsxLzrEzlHCcM1SdhXUMPo",
+            "key": "key-1-10500",
+            "label": "label-s",
+            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
+            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1967\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T21:08:51\u002B00:00"
+          },
+          {
+            "etag": "PGZO7bTSv0w6gXKqebdyVKcePp7",
+            "key": "key-1-10581",
+            "label": "test",
+            "content_type": "application/json",
+            "value": "foo",
+            "tags": {
+              "bar": "baz",
+              "car": "caz"
+            },
+            "locked": false,
+            "last_modified": "2021-12-29T21:07:58\u002B00:00"
+          },
+          {
+            "etag": "TOpJp64WFdCoSe40qll5cUzv4ig",
+            "key": "key-1-10712",
+            "label": null,
+            "content_type": null,
+            "value": "MyValue",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T21:07:56\u002B00:00"
+          },
+          {
+            "etag": "bi4vevvtaoZy56rx2S3yheUglTF",
+            "key": "key-1-10807",
+            "label": null,
+            "content_type": null,
+            "value": "value2",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T21:07:59\u002B00:00"
+          },
+          {
+            "etag": "oCPorgxUbAIznbS6m8ElaGERMED",
+            "key": "key-1-1082",
+            "label": "test",
+            "content_type": null,
+            "value": "foo",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-07T20:55:36\u002B00:00"
+          },
+          {
+            "etag": "KRASe6vQcEm30ZwthaXPTL68nXJ",
+            "key": "key-1-1085",
+            "label": "test",
+            "content_type": "application/json",
+            "value": "foo",
+            "tags": {
+              "bar": "baz",
+              "car": "caz"
+            },
+            "locked": false,
+            "last_modified": "2021-12-29T20:45:24\u002B00:00"
+          },
+          {
+            "etag": "20WfvaL9wCdk29GK0kC7cIgHuEq",
+            "key": "key-1-10914",
+            "label": "label-s",
+            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
+            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1132\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T21:08:52\u002B00:00"
+          },
+          {
+            "etag": "34oYs6GGcFFX0MGHSVV4878U6d8",
+            "key": "key-1-10914-2",
+            "label": "label-s",
+            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
+            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1132\u0022}",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2021-12-29T21:08:52\u002B00:00"
+          },
+          {
+            "etag": "7rv4IwO3YZ0ayBwLZZbmRacPWin",
+            "key": "key-1-10959",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2021-12-29T21:07:59\u002B00:00"
+          },
+          {
             "etag": "euKN8cVbHkV6Fc8klU57J9Z9OT1",
             "key": "key-1-1104",
             "label": "label-s",
@@ -125,6 +354,16 @@
             "tags": {},
             "locked": false,
             "last_modified": "2021-11-10T00:59:44\u002B00:00"
+          },
+          {
+            "etag": "s4PeaSck4GijpEcjCnIHuV0L4NB",
+            "key": "key-1-1126",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2021-12-07T20:53:44\u002B00:00"
           },
           {
             "etag": "jBkoMkvr0N1co8plOwVAaAIRdsV",
@@ -145,6 +384,16 @@
             "tags": {},
             "locked": true,
             "last_modified": "2021-11-10T00:59:46\u002B00:00"
+          },
+          {
+            "etag": "23xegbLAHUA6WQApx0R6jFxnKDN",
+            "key": "key-1-1140",
+            "label": "MyLabel",
+            "content_type": null,
+            "value": "MyValue",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-07T20:53:41\u002B00:00"
           },
           {
             "etag": "nrE4ls05bqffMxfDQoaE4iUOnXx",
@@ -168,6 +417,16 @@
             "tags": {},
             "locked": false,
             "last_modified": "2021-11-10T00:57:50\u002B00:00"
+          },
+          {
+            "etag": "E0VsS1Kjr1rKtbFAJkIMyHIbkzJ",
+            "key": "key-1-1176",
+            "label": null,
+            "content_type": null,
+            "value": "MyValue",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:02:19\u002B00:00"
           },
           {
             "etag": "ZiHDeL3hhKxP2Mp7JehXs4LcaTX",
@@ -200,6 +459,19 @@
             "last_modified": "2021-11-10T00:57:51\u002B00:00"
           },
           {
+            "etag": "KsFZ98ZHs9SuxbI21bnmmGyoAYy",
+            "key": "key-1-1221",
+            "label": "test",
+            "content_type": "application/json",
+            "value": "foo",
+            "tags": {
+              "bar": "baz",
+              "car": "caz"
+            },
+            "locked": false,
+            "last_modified": "2021-12-07T20:53:42\u002B00:00"
+          },
+          {
             "etag": "S8uy0lHr06qwzA8an2AJl0JETr8",
             "key": "key-1-1226",
             "label": null,
@@ -228,6 +500,26 @@
             "tags": {},
             "locked": false,
             "last_modified": "2021-11-10T00:41:42\u002B00:00"
+          },
+          {
+            "etag": "jD8HCYMfPQ1OrRAPv1rPmJ4jQSZ",
+            "key": "key-1-1266",
+            "label": "test",
+            "content_type": null,
+            "value": "foo",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T20:45:23\u002B00:00"
+          },
+          {
+            "etag": "2wnfHLR2vXItAUR85E8NeVWqf0X",
+            "key": "key-1-1319",
+            "label": null,
+            "content_type": null,
+            "value": "value2",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:17:52\u002B00:00"
           },
           {
             "etag": "SrebIWnZUX5hr3VFXLGzzs5xnpG",
@@ -270,6 +562,16 @@
             "last_modified": "2021-11-10T00:43:41\u002B00:00"
           },
           {
+            "etag": "ZP0zdEzkJsGuTDTpPGqc7UKjJy2",
+            "key": "key-1-1393",
+            "label": "label-s",
+            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
+            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1108\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:18:35\u002B00:00"
+          },
+          {
             "etag": "bXQG3pB1d7irbR4ibsCDZsr2Ftb",
             "key": "key-1-1401",
             "label": "test",
@@ -281,6 +583,16 @@
             },
             "locked": false,
             "last_modified": "2021-11-10T00:51:15\u002B00:00"
+          },
+          {
+            "etag": "P3Rq2S5cKvU7Vzk1Xe4x1zX4LOb",
+            "key": "key-1-1402",
+            "label": "a label",
+            "content_type": "a content type",
+            "value": "value that will not be retrieved",
+            "tags": {},
+            "locked": true,
+            "last_modified": "2021-12-15T12:17:52\u002B00:00"
           },
           {
             "etag": "4PVCwKk6XVrccI1Q5WvdHBHyo04",
@@ -356,6 +668,16 @@
             "last_modified": "2021-11-10T01:13:04\u002B00:00"
           },
           {
+            "etag": "ggyH8t0Qfp5R1hRKeURLHHSK1jR",
+            "key": "key-1-1550",
+            "label": null,
+            "content_type": null,
+            "value": "value2",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-29T20:45:25\u002B00:00"
+          },
+          {
             "etag": "9KghrAMsavNMotzvwx9wUGtZDpp",
             "key": "key-1-1554",
             "label": "label-s",
@@ -406,6 +728,36 @@
             "last_modified": "2021-11-10T04:38:19\u002B00:00"
           },
           {
+            "etag": "euREsEbFctrY5UnXZ4fk668NhRU",
+            "key": "key-1-1578",
+            "label": "test",
+            "content_type": null,
+            "value": "foo",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:02:20\u002B00:00"
+          },
+          {
+            "etag": "DV10HlL5PGaF2II5uFglr7nLSKE",
+            "key": "key-1-1589",
+            "label": "label-s",
+            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
+            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1666\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:18:35\u002B00:00"
+          },
+          {
+            "etag": "E25twD6ZccihfneIrYGVOlBnL4o",
+            "key": "key-1-1589-2",
+            "label": "label-s",
+            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
+            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1666\u0022}",
+            "tags": {},
+            "locked": false,
+            "last_modified": "2021-12-15T12:18:35\u002B00:00"
+          },
+          {
             "etag": "P078JWCA59rmWWOLYjwILFx9bBh",
             "key": "key-1-1604",
             "label": "label-s",
@@ -449,607 +801,267 @@
             "last_modified": "2021-11-10T00:41:49\u002B00:00"
           },
           {
-            "etag": "MmVgRZecZ1xHiEXUmqW8pIanVXl",
+            "etag": "icGNqL27htr3odTuRr61gaTPKuU",
             "key": "key-1-1629",
-            "label": "MyLabel",
+            "label": "0",
             "content_type": null,
-            "value": "MyValue",
+            "value": "the value for 0",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T00:51:14\u002B00:00"
+            "last_modified": "2021-12-10T00:12:13\u002B00:00"
           },
           {
-            "etag": "jmNJyDfJBuXPUXk6LDWor475oFe",
-            "key": "key-1-1639",
-            "label": "label-s",
-            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
-            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1769\u0022}",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T00:59:43\u002B00:00"
-          },
-          {
-            "etag": "g8BWGJrUNT5SU0d6u7IvK2I03Im",
-            "key": "key-1-1648",
-            "label": "test",
+            "etag": "Y4DfnqbARnZjJU4BY8JyvAZUF0o",
+            "key": "key-1-1629",
+            "label": "1",
             "content_type": null,
-            "value": "foo",
+            "value": "the value for 1",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T00:59:43\u002B00:00"
+            "last_modified": "2021-12-10T00:12:13\u002B00:00"
           },
           {
-            "etag": "czDe1TBKuzeGtmgOnOrLdD5F2EU",
-            "key": "key-1-1668",
-            "label": "test",
+            "etag": "HJWrSRd4B3VSrdeM34f4NNvMJUR",
+            "key": "key-1-1629",
+            "label": "10",
             "content_type": null,
-            "value": "foo",
+            "value": "the value for 10",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T04:38:19\u002B00:00"
+            "last_modified": "2021-12-10T00:12:13\u002B00:00"
           },
           {
-            "etag": "xsvRG5naz3F9spYU5mf3qp9E64u",
-            "key": "key-1-1691",
-            "label": "a label",
-            "content_type": "a content type",
-            "value": "value that will not be retrieved",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T00:51:17\u002B00:00"
-          },
-          {
-            "etag": "xhYRDoWORDRiTd4fDJjUPP4U9T1",
-            "key": "key-1-1733",
-            "label": "label-s",
-            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
-            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1252\u0022}",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T00:43:40\u002B00:00"
-          },
-          {
-            "etag": "AwFi3CUBHp2zPpuRBhXSNIBv5eV",
-            "key": "key-1-1763",
-            "label": "label-s",
-            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
-            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1599\u0022}",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T00:53:08\u002B00:00"
-          },
-          {
-            "etag": "32C6TV9jjKDdN5Lt7AqBYB55Jck",
-            "key": "key-1-1768",
-            "label": "test",
+            "etag": "Drz6Fql3rr2PBrU50G9FwdJiMxF",
+            "key": "key-1-1629",
+            "label": "100",
             "content_type": null,
-            "value": "foo",
+            "value": "the value for 100",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T00:43:40\u002B00:00"
+            "last_modified": "2021-12-10T00:12:16\u002B00:00"
           },
           {
-            "etag": "OJTPMBWzhkdLNmy5MaKc01WgWuv",
-            "key": "key-1-1780",
-            "label": "a label",
-            "content_type": "a content type",
-            "value": "value that will not be retrieved",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T01:11:06\u002B00:00"
-          },
-          {
-            "etag": "d4EUxpR8XXdUfa1jMsBXBdwyTPZ",
-            "key": "key-1-1815",
-            "label": "label-s",
-            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
-            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1137\u0022}",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T04:38:20\u002B00:00"
-          },
-          {
-            "etag": "PrU0m8brqtto0Zs4MQiS3hc5cu4",
-            "key": "key-1-1815-2",
-            "label": "label-s",
-            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
-            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1137\u0022}",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T04:38:20\u002B00:00"
-          },
-          {
-            "etag": "8IbDMuI2qf6ff7P6Dp56IpI2LBI",
-            "key": "key-1-1845",
-            "label": "label-s",
-            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
-            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1719\u0022}",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T01:13:05\u002B00:00"
-          },
-          {
-            "etag": "CXWLg9ghaBl4J58fOfA4uh5SAWz",
-            "key": "key-1-1845-2",
-            "label": "label-s",
-            "content_type": "application/vnd.microsoft.appconfig.keyvaultref\u002Bjson;charset=utf-8",
-            "value": "{\u0022uri\u0022:\u0022https://vault_name.vault.azure.net/secrets/random-string-1-1719\u0022}",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T01:13:05\u002B00:00"
-          },
-          {
-            "etag": "fPZCcHrkvNF8waw8UsHFvY7izyJ",
-            "key": "key-1-1893",
-            "label": "a label",
-            "content_type": "a content type",
-            "value": "value that will not be retrieved",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T04:37:08\u002B00:00"
-          },
-          {
-            "etag": "p6dL7DmfFfjN9Cymcy55n8OzQ3q",
-            "key": "key-1-1924",
-            "label": null,
+            "etag": "idyYUMykavCi9qzAVVYDv4syYrj",
+            "key": "key-1-1629",
+            "label": "101",
             "content_type": null,
-            "value": "MyValue",
+            "value": "the value for 101",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T04:37:04\u002B00:00"
+            "last_modified": "2021-12-10T00:12:16\u002B00:00"
           },
           {
-            "etag": "JjJtKucO3zRAYF3ZH0CKPTg9iwh",
-            "key": "key-1-1929",
-            "label": "MyLabel",
+            "etag": "V3DRxbocHicWUv5te9YH58H384K",
+            "key": "key-1-1629",
+            "label": "102",
             "content_type": null,
-            "value": "MyValue",
+            "value": "the value for 102",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T04:37:06\u002B00:00"
+            "last_modified": "2021-12-10T00:12:16\u002B00:00"
           },
           {
-            "etag": "Q1St8vtHOZglYwGSnOMH8Y2CMPg",
-            "key": "key-1-1980",
-            "label": null,
+            "etag": "6bjMdMlbYBURMI0RpIZejkf9C0J",
+            "key": "key-1-1629",
+            "label": "103",
             "content_type": null,
-            "value": "value2",
+            "value": "the value for 103",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T04:37:07\u002B00:00"
+            "last_modified": "2021-12-10T00:12:16\u002B00:00"
           },
           {
-            "etag": "MoFIOj3Miq2LOylsQDbWacxw1oZ",
-            "key": "listConfigSetting0A-1274",
-            "label": null,
+            "etag": "8CORUTntfBQKnBleV7RkDSKMOg4",
+            "key": "key-1-1629",
+            "label": "104",
             "content_type": null,
-            "value": "[A] value",
+            "value": "the value for 104",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T00:57:52\u002B00:00"
+            "last_modified": "2021-12-10T00:12:16\u002B00:00"
           },
           {
-            "etag": "ZeXvoYmYt200szxjwc8Z1K0QaNq",
-            "key": "listConfigSetting0A-1274",
-            "label": "listConfigSettingsLabel-1269",
-            "content_type": "a content type",
-            "value": "[A] production value",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T00:57:51\u002B00:00"
-          },
-          {
-            "etag": "FOHoTJBX1a0wEitnOl4xXLGT60T",
-            "key": "listConfigSetting0A-1502",
-            "label": null,
+            "etag": "MJrntHxg9iagRwxAVb0K21zig64",
+            "key": "key-1-1629",
+            "label": "105",
             "content_type": null,
-            "value": "[A] value",
+            "value": "the value for 105",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T00:51:18\u002B00:00"
+            "last_modified": "2021-12-10T00:12:18\u002B00:00"
           },
           {
-            "etag": "iGSMPbaidwNBeucK8jrOoNMcv7K",
-            "key": "listConfigSetting0A-1502",
-            "label": "listConfigSettingsLabel-1278",
-            "content_type": "a content type",
-            "value": "[A] production value",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T00:51:18\u002B00:00"
-          },
-          {
-            "etag": "pQ9UKCP4v7BdTWYH583FjpPOCj4",
-            "key": "listConfigSetting0A-1517",
-            "label": null,
+            "etag": "aLJMOLlYmFkwx3KeE5zQu2rt8yv",
+            "key": "key-1-1629",
+            "label": "106",
             "content_type": null,
-            "value": "[A] value",
+            "value": "the value for 106",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T01:11:07\u002B00:00"
+            "last_modified": "2021-12-10T00:12:16\u002B00:00"
           },
           {
-            "etag": "Kta945T1rLLoUDzNKSMTnW8gRkG",
-            "key": "listConfigSetting0A-1517",
-            "label": "listConfigSettingsLabel-1137",
-            "content_type": "a content type",
-            "value": "[A] production value",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T01:11:06\u002B00:00"
-          },
-          {
-            "etag": "mbVWF3CbIGdecbRWdNvacu9D4S2",
-            "key": "listConfigSetting0A-1630",
-            "label": null,
+            "etag": "glMINYV8mBlzQCx4KOCz62ENOkV",
+            "key": "key-1-1629",
+            "label": "107",
             "content_type": null,
-            "value": "[A] value",
+            "value": "the value for 107",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T04:37:08\u002B00:00"
+            "last_modified": "2021-12-10T00:12:16\u002B00:00"
           },
           {
-            "etag": "vC2ls56zrjN9ffeHczUqaSrHhoh",
-            "key": "listConfigSetting0A-1630",
-            "label": "listConfigSettingsLabel-1689",
-            "content_type": "a content type",
-            "value": "[A] production value",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T04:37:08\u002B00:00"
-          },
-          {
-            "etag": "flY4AOTLtVwiqHKwkdSisxeo18C",
-            "key": "listConfigSetting0A-1647",
-            "label": null,
+            "etag": "d6dIy9MIOPdRAIdf3REtLKAhMJt",
+            "key": "key-1-1629",
+            "label": "108",
             "content_type": null,
-            "value": "[A] value",
+            "value": "the value for 108",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T00:41:50\u002B00:00"
+            "last_modified": "2021-12-10T00:12:16\u002B00:00"
           },
           {
-            "etag": "e0AbW9Opgh5GoOzPWiVpF7aWgm4",
-            "key": "listConfigSetting0A-1647",
-            "label": "listConfigSettingsLabel-1614",
-            "content_type": "a content type",
-            "value": "[A] production value",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T00:41:50\u002B00:00"
-          },
-          {
-            "etag": "Fw71ULf7lsjk9ukcF5pgzqThnqb",
-            "key": "listConfigSetting0B-1022",
-            "label": null,
+            "etag": "JUCwNCDw7VgFKX5B0Kdq30cYlpD",
+            "key": "key-1-1629",
+            "label": "109",
             "content_type": null,
-            "value": "[B] value",
+            "value": "the value for 109",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T00:41:51\u002B00:00"
+            "last_modified": "2021-12-10T00:12:16\u002B00:00"
           },
           {
-            "etag": "dxcJszVkf1DT9Xyi5FamCFVw81J",
-            "key": "listConfigSetting0B-1022",
-            "label": "listConfigSettingsLabel-1614",
+            "etag": "Q69gbzs3jwCBRkHqbVR37wJGU8j",
+            "key": "key-1-1629",
+            "label": "11",
             "content_type": null,
-            "value": "[B] production value",
+            "value": "the value for 11",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T00:41:51\u002B00:00"
+            "last_modified": "2021-12-10T00:12:14\u002B00:00"
           },
           {
-            "etag": "cS27rtduMI8un274cFr16hjldXr",
-            "key": "listConfigSetting0B-1109",
-            "label": null,
+            "etag": "xKDpnSwqnFcmg1VmplnV5o4mHyY",
+            "key": "key-1-1629",
+            "label": "110",
             "content_type": null,
-            "value": "[B] value",
+            "value": "the value for 110",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T00:51:19\u002B00:00"
+            "last_modified": "2021-12-10T00:12:16\u002B00:00"
           },
           {
-            "etag": "l3SGfhVprzmgoDxlhnPogft3SIi",
-            "key": "listConfigSetting0B-1109",
-            "label": "listConfigSettingsLabel-1278",
+            "etag": "1FdrS3Ars0CW2AEAdJQoil96IYy",
+            "key": "key-1-1629",
+            "label": "111",
             "content_type": null,
-            "value": "[B] production value",
+            "value": "the value for 111",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T00:51:18\u002B00:00"
+            "last_modified": "2021-12-10T00:12:19\u002B00:00"
           },
           {
-            "etag": "fpvhuegNIqxqKzkQhfzfKg84OPo",
-            "key": "listConfigSetting0B-1339",
-            "label": null,
+            "etag": "F9hMQnLI38bQYSUfSrJVroBjQCA",
+            "key": "key-1-1629",
+            "label": "112",
             "content_type": null,
-            "value": "[B] value",
+            "value": "the value for 112",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T04:37:08\u002B00:00"
+            "last_modified": "2021-12-10T00:12:19\u002B00:00"
           },
           {
-            "etag": "a1CR2KGdetObOtwXvxiWTiNZOVH",
-            "key": "listConfigSetting0B-1339",
-            "label": "listConfigSettingsLabel-1689",
+            "etag": "5J0QBWTYw5rEBXvKOZqnOobJKjI",
+            "key": "key-1-1629",
+            "label": "113",
             "content_type": null,
-            "value": "[B] production value",
+            "value": "the value for 113",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T04:37:08\u002B00:00"
+            "last_modified": "2021-12-10T00:12:19\u002B00:00"
           },
           {
-            "etag": "ZWCzdsk2KwcqSvZ33zzMUpAdea3",
-            "key": "listConfigSetting0B-1550",
-            "label": null,
+            "etag": "VWiHazSIAQrYYNfT5Ay8rJsSWFG",
+            "key": "key-1-1629",
+            "label": "114",
             "content_type": null,
-            "value": "[B] value",
+            "value": "the value for 114",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T01:11:07\u002B00:00"
+            "last_modified": "2021-12-10T00:12:19\u002B00:00"
           },
           {
-            "etag": "Vldjsxdu5dV79zZqk5pcBKzceqX",
-            "key": "listConfigSetting0B-1550",
-            "label": "listConfigSettingsLabel-1137",
+            "etag": "TZFTwCHcBEpIib9gz7IvO5c6Cts",
+            "key": "key-1-1629",
+            "label": "115",
             "content_type": null,
-            "value": "[B] production value",
+            "value": "the value for 115",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T01:11:07\u002B00:00"
+            "last_modified": "2021-12-10T00:12:19\u002B00:00"
           },
           {
-            "etag": "PDskOuppDcvLOBCkTwddfJaBOgN",
-            "key": "listConfigSetting0B-1852",
-            "label": null,
+            "etag": "mVDuVdMCDTXbKPhDFo7W6bvH1bk",
+            "key": "key-1-1629",
+            "label": "116",
             "content_type": null,
-            "value": "[B] value",
+            "value": "the value for 116",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T00:57:52\u002B00:00"
+            "last_modified": "2021-12-10T00:12:19\u002B00:00"
           },
           {
-            "etag": "hgWLhrOxNEWDc0mS0Ow1YF3DhbS",
-            "key": "listConfigSetting0B-1852",
-            "label": "listConfigSettingsLabel-1269",
+            "etag": "G3CrEPUBrTAZfSTAL0JON1N7XHk",
+            "key": "key-1-1629",
+            "label": "117",
             "content_type": null,
-            "value": "[B] production value",
+            "value": "the value for 117",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T00:57:52\u002B00:00"
+            "last_modified": "2021-12-10T00:12:19\u002B00:00"
           },
           {
-            "etag": "IKUmNO8tDpWfMlGewJiJkORIJjG",
-            "key": "listConfigSetting1A-1170",
-            "label": null,
+            "etag": "ivNgdkCzxcqsyexvZjTdU40ycCo",
+            "key": "key-1-1629",
+            "label": "118",
             "content_type": null,
-            "value": "[A] value",
+            "value": "the value for 118",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T01:11:08\u002B00:00"
+            "last_modified": "2021-12-10T00:12:19\u002B00:00"
           },
           {
-            "etag": "E4wF1DSPrbRbaOI0T0qJ9RfWj7r",
-            "key": "listConfigSetting1A-1170",
-            "label": "listConfigSettingsLabel-1968",
-            "content_type": "a content type",
-            "value": "[A] production value",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T01:11:08\u002B00:00"
-          },
-          {
-            "etag": "2ynkCdaElWHIlkYQcVBluK1fdMr",
-            "key": "listConfigSetting1A-1507",
-            "label": null,
+            "etag": "QMfdTTCYgQn9Ly2E3hSdUPnyXNV",
+            "key": "key-1-1629",
+            "label": "119",
             "content_type": null,
-            "value": "[A] value",
+            "value": "the value for 119",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T00:51:20\u002B00:00"
+            "last_modified": "2021-12-10T00:12:19\u002B00:00"
           },
           {
-            "etag": "ZlH6dP8SUYrnhqfNDL9o3M8ou8u",
-            "key": "listConfigSetting1A-1507",
-            "label": "listConfigSettingsLabel-1510",
-            "content_type": "a content type",
-            "value": "[A] production value",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T00:51:20\u002B00:00"
-          },
-          {
-            "etag": "eB4B4C19dvBDEUgjMAfqmaDJ9YY",
-            "key": "listConfigSetting1A-1751",
-            "label": null,
+            "etag": "ey08DyMP7reRVtWLkTne7FWPMiw",
+            "key": "key-1-1629",
+            "label": "12",
             "content_type": null,
-            "value": "[A] value",
+            "value": "the value for 12",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T04:37:09\u002B00:00"
+            "last_modified": "2021-12-10T00:12:14\u002B00:00"
           },
           {
-            "etag": "8uCtVT9887nVXlcFqZReDpzMxGO",
-            "key": "listConfigSetting1A-1751",
-            "label": "listConfigSettingsLabel-1718",
-            "content_type": "a content type",
-            "value": "[A] production value",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T04:37:09\u002B00:00"
-          },
-          {
-            "etag": "bul4bJcangtD3xHCOnCIwmGsd27",
-            "key": "listConfigSetting1A-1827",
-            "label": null,
+            "etag": "NGnQzT7SFIpYACKIhsEoADl7sDd",
+            "key": "key-1-1629",
+            "label": "120",
             "content_type": null,
-            "value": "[A] value",
+            "value": "the value for 120",
             "tags": {},
             "locked": false,
-            "last_modified": "2021-11-10T00:41:52\u002B00:00"
-          },
-          {
-            "etag": "gM999GhITwqKeZ80g7nKKrbYYsl",
-            "key": "listConfigSetting1A-1827",
-            "label": "listConfigSettingsLabel-1170",
-            "content_type": "a content type",
-            "value": "[A] production value",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T00:41:52\u002B00:00"
-          },
-          {
-            "etag": "2OiIzrLP7dnptkprYkrq32f23S3",
-            "key": "listConfigSetting1A-1904",
-            "label": null,
-            "content_type": null,
-            "value": "[A] value",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T00:57:53\u002B00:00"
-          },
-          {
-            "etag": "2zbVFb8dSb0ApMm1DlbH55k6Om8",
-            "key": "listConfigSetting1A-1904",
-            "label": "listConfigSettingsLabel-1271",
-            "content_type": "a content type",
-            "value": "[A] production value",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T00:57:53\u002B00:00"
-          },
-          {
-            "etag": "LXL4qjNFJEdMR6R037qFr0cml1Z",
-            "key": "listConfigSetting1B-1320",
-            "label": null,
-            "content_type": null,
-            "value": "[B] value",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T04:37:09\u002B00:00"
-          },
-          {
-            "etag": "ijfaRpzBuS2eI2NJ9h3bhlddlF7",
-            "key": "listConfigSetting1B-1320",
-            "label": "listConfigSettingsLabel-1718",
-            "content_type": null,
-            "value": "[B] production value",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T04:37:09\u002B00:00"
-          },
-          {
-            "etag": "fQXlUWPZWrVVyaVkpZl8j6D1GIi",
-            "key": "listConfigSetting1B-1332",
-            "label": null,
-            "content_type": null,
-            "value": "[B] value",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T01:11:08\u002B00:00"
-          },
-          {
-            "etag": "bNnzOcTp6PjQwpq7ph9DK4CLjYW",
-            "key": "listConfigSetting1B-1332",
-            "label": "listConfigSettingsLabel-1968",
-            "content_type": null,
-            "value": "[B] production value",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T01:11:08\u002B00:00"
-          },
-          {
-            "etag": "FBe6RM5cSIRzWArxP36lV2qD8re",
-            "key": "listConfigSetting1B-1428",
-            "label": null,
-            "content_type": null,
-            "value": "[B] value",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T00:57:54\u002B00:00"
-          },
-          {
-            "etag": "IqXWGBnozLOOsklAFvqNe8Jb4ve",
-            "key": "listConfigSetting1B-1428",
-            "label": "listConfigSettingsLabel-1271",
-            "content_type": null,
-            "value": "[B] production value",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T00:57:53\u002B00:00"
-          },
-          {
-            "etag": "xHp4apcEihVBtUdMTkUd6rIEFn2",
-            "key": "listConfigSetting1B-1823",
-            "label": null,
-            "content_type": null,
-            "value": "[B] value",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T00:51:20\u002B00:00"
-          },
-          {
-            "etag": "o7CLHmQP4KyA8Vl5wHdQhVFmuH8",
-            "key": "listConfigSetting1B-1823",
-            "label": "listConfigSettingsLabel-1510",
-            "content_type": null,
-            "value": "[B] production value",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T00:51:20\u002B00:00"
-          },
-          {
-            "etag": "UCzScwQyMqj86lTjPbBPIuM2x9F",
-            "key": "listConfigSetting1B-1856",
-            "label": null,
-            "content_type": null,
-            "value": "[B] value",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T00:41:52\u002B00:00"
-          },
-          {
-            "etag": "zOTVOkMzwgGIqwzQROhggbxGAHW",
-            "key": "listConfigSetting1B-1856",
-            "label": "listConfigSettingsLabel-1170",
-            "content_type": null,
-            "value": "[B] production value",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T00:41:52\u002B00:00"
-          },
-          {
-            "etag": "WUyzVCjOCWJWfgOXIgQLgPUM7RS",
-            "key": "listConfigSetting2A-1250",
-            "label": null,
-            "content_type": null,
-            "value": "[A] value",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T00:57:55\u002B00:00"
-          },
-          {
-            "etag": "yRj8MGkI2vu8senDTLgIFMBPDXy",
-            "key": "listConfigSetting2A-1250",
-            "label": "listConfigSettingsLabel-1093",
-            "content_type": "a content type",
-            "value": "[A] production value",
-            "tags": {},
-            "locked": true,
-            "last_modified": "2021-11-10T00:57:54\u002B00:00"
-          },
-          {
-            "etag": "3UcH7mNqfSHjhn1YWRyXNYk9w6W",
-            "key": "listConfigSetting2A-1482",
-            "label": null,
-            "content_type": null,
-            "value": "[A] value",
-            "tags": {},
-            "locked": false,
-            "last_modified": "2021-11-10T00:51:21\u002B00:00"
+            "last_modified": "2021-12-10T00:12:19\u002B00:00"
           }
         ],
-        "@nextLink": "/kv?api-version=1.0\u0026after=bGlzdENvbmZpZ1NldHRpbmcyQS0xNDgyCg%3D%3D"
+        "@nextLink": "/kv?api-version=1.0\u0026after=a2V5LTEtMTYyOQoxMjA%3D"
       }
     }
   ],
