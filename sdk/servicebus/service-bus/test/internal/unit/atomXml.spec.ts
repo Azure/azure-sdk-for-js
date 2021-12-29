@@ -14,10 +14,10 @@ import {
 } from "../../../src/util/atomXmlHelper";
 import * as Constants from "../../../src/util/constants";
 import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient";
-import { QueueResourceSerializer } from "../../../src/serializers/queueResourceSerializer";
+import { buildQueueOptions, QueueResourceSerializer } from "../../../src/serializers/queueResourceSerializer";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { TopicResourceSerializer } from "../../../src/serializers/topicResourceSerializer";
-import { SubscriptionResourceSerializer } from "../../../src/serializers/subscriptionResourceSerializer";
+import { buildTopicOptions, TopicResourceSerializer } from "../../../src/serializers/topicResourceSerializer";
+import { buildSubscriptionOptions, SubscriptionResourceSerializer } from "../../../src/serializers/subscriptionResourceSerializer";
 import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSerializer";
 import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils";
 import { TestConstants } from "../../public/fakeTestSecrets";
@@ -115,7 +115,7 @@ describe("ATOM Serializers", () => {
       const request = createPipelineRequest({
         url: "https://someurl"
       });
-      request.body = { lockDuration: "PT3M", maxSizeInMegabytes: "2048" } as any;
+      const requestObject = buildQueueOptions({ lockDuration: "PT3M", maxSizeInMegabytes: 2048 });
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
           request: request,
@@ -127,7 +127,8 @@ describe("ATOM Serializers", () => {
         mockServiceBusAtomManagementClient,
         request,
         new MockSerializer(),
-        {}
+        {},
+        requestObject
       );
 
       const expectedRequestBody = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated>2019-10-15T19:55:26.821Z</updated><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT3M</LockDuration><MaxSizeInMegabytes>2048</MaxSizeInMegabytes></QueueDescription></content></entry>`;
@@ -205,18 +206,18 @@ describe("ATOM Serializers", () => {
   describe("Serializer construct requests with properties in specific order", function() {
     it("Queue serializer generates XML in expected order", async function() {
       const queueOptions = {
-        messageCount: 5,
-        sizeInBytes: 250,
-        requiresDuplicateDetection: true,
-        requiresSession: true,
-        defaultMessageTimeToLive: "P2D",
-        deadLetteringOnMessageExpiration: true,
-        duplicateDetectionHistoryTimeWindow: "PT1M",
-        maxDeliveryCount: 8,
-        lockDuration: "PT45S",
-        enableBatchedOperations: false,
-        autoDeleteOnIdle: "PT1H",
-        authorizationRules: [
+        MessageCount: 5,
+        SizeInBytes: 250,
+        RequiresDuplicateDetection: true,
+        RequiresSession: true,
+        DefaultMessageTimeToLive: "P2D",
+        DeadLetteringOnMessageExpiration: true,
+        DuplicateDetectionHistoryTimeWindow: "PT1M",
+        MaxDeliveryCount: 8,
+        LockDuration: "PT45S",
+        EnableBatchedOperations: false,
+        AutoDeleteOnIdle: "PT1H",
+        AuthorizationRules: [
           {
             claimType: "SharedAccessKey",
             rights: {
@@ -242,7 +243,6 @@ describe("ATOM Serializers", () => {
       const request = createPipelineRequest({
         url: "https://someurl"
       });
-      request.body = queueOptions as any;
 
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
@@ -256,7 +256,8 @@ describe("ATOM Serializers", () => {
         mockServiceBusAtomManagementClient,
         request,
         new QueueResourceSerializer(),
-        {}
+        {},
+        buildQueueOptions(queueOptions)
       );
 
       if (!request.body) {
@@ -303,7 +304,6 @@ describe("ATOM Serializers", () => {
       const request = createPipelineRequest({
         url: "https://someurl"
       });
-      request.body = topicOptions as any;
 
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
@@ -317,7 +317,8 @@ describe("ATOM Serializers", () => {
         mockServiceBusAtomManagementClient,
         request,
         new TopicResourceSerializer(),
-        {}
+        {},
+        buildTopicOptions(topicOptions)
       );
 
       if (!request.body) {
@@ -341,7 +342,6 @@ describe("ATOM Serializers", () => {
       const request = createPipelineRequest({
         url: "https://someurl"
       });
-      request.body = subscriptionOptions as any;
 
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
@@ -355,7 +355,8 @@ describe("ATOM Serializers", () => {
         mockServiceBusAtomManagementClient,
         request,
         new SubscriptionResourceSerializer(),
-        {}
+        {},
+        buildSubscriptionOptions(subscriptionOptions)
       );
 
       if (!request.body) {
@@ -366,6 +367,7 @@ describe("ATOM Serializers", () => {
 
     it("Rule serializer generates XML in expected order", async function() {
       const ruleOptions = {
+        name: "rule name",
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
           sqlParameters: { "@intParam": 1, type: "int", "@stringParam": "b" }
@@ -376,7 +378,6 @@ describe("ATOM Serializers", () => {
       const request = createPipelineRequest({
         url: "https://someurl"
       });
-      request.body = ruleOptions as any;
 
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
@@ -390,7 +391,8 @@ describe("ATOM Serializers", () => {
         mockServiceBusAtomManagementClient,
         request,
         new RuleResourceSerializer(),
-        {}
+        {},
+        ruleOptions
       );
 
       if (!request.body) {
@@ -703,7 +705,6 @@ describe("ATOM Serializers", () => {
           const request = createPipelineRequest({
             url: "https://someurl"
           });
-          request.body = testCase.input as any;
 
           mockServiceBusAtomManagementClient.sendRequest = async () => {
             return {
@@ -716,7 +717,8 @@ describe("ATOM Serializers", () => {
             mockServiceBusAtomManagementClient,
             request,
             new RuleResourceSerializer(),
-            {}
+            {},
+            testCase.input as any // invalid input won't satisfy type requirement so need cast
           );
           assert.fail("Error must be thrown");
         } catch (err) {

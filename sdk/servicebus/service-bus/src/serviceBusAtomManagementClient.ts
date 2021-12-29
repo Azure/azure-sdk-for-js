@@ -2231,7 +2231,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         url: this.getUrl(name),
         method: "PUT"
       });
-      webResource.body = entityFields as any;
       if (isUpdate) {
         webResource.headers.set("If-Match", "*");
       }
@@ -2268,7 +2267,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
       webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
 
-      return executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
+      return executeAtomXmlOperation(this, webResource, serializer, updatedOptions, entityFields);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

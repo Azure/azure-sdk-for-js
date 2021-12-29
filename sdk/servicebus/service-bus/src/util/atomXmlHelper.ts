@@ -19,6 +19,10 @@ import { isJSONLikeObject } from "./utils";
 import { isDefined } from "./typeGuards";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { InternalQueueOptions } from "../serializers/queueResourceSerializer";
+import { InternalTopicOptions } from "../serializers/topicResourceSerializer";
+import { InternalSubscriptionOptions } from "../serializers/subscriptionResourceSerializer";
+import { CreateRuleOptions } from "../serializers/ruleResourceSerializer";
 
 /**
  * @internal
@@ -64,17 +68,22 @@ export async function executeAtomXmlOperation(
   serviceBusAtomManagementClient: ServiceClient,
   webResource: PipelineRequest,
   serializer: AtomXmlSerializer,
-  operationOptions: OperationOptions
+  operationOptions: OperationOptions,
+  requestBody?: | InternalQueueOptions
+    | InternalTopicOptions
+    | InternalSubscriptionOptions
+    | CreateRuleOptions
 ): Promise<FullOperationResponse> {
-  if (webResource.body) {
-    const content = serializer.serialize(webResource.body as any);
-    webResource.body = stringifyXML(content, { rootName: "entry" });
-  }
-
   if (webResource.method === "PUT") {
+    if (!requestBody) {
+      throw new Error("Expecting non-empty request body for PUT operations");
+    }
+
+    const content = serializer.serialize(requestBody);
+    webResource.body = stringifyXML(content, { rootName: "entry" });
     webResource.headers.set(
       "content-length",
-      webResource.body ? Buffer.byteLength(webResource.body) : 0
+      Buffer.byteLength(webResource.body)
     );
   }
 
