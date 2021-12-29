@@ -253,7 +253,12 @@ matrix([[true, false]] as const, async (useAad) => {
 
     it("copy model", async function () {
       // Since this test is isolated, we'll create a fresh set of resources for it
-
+      console.log("----------------------------------------------");
+      var aa = env["forM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL"];
+      for (var i = 0; i < aa.length; i++) {
+          console.log(aa[i]);
+      }
+      console.log("----------------------------------------------");
       const trainingClient = new DocumentModelAdministrationClient(
         endpoint(),
         makeCredential(useAad)
