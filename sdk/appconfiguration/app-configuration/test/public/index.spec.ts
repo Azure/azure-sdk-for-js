@@ -10,7 +10,7 @@ import {
   assertThrowsRestError,
   assertThrowsAbortError,
   recorderStartOptions,
-  getRandomNumber
+  getRandomNumber,
 } from "./utils/testHelpers";
 import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
 import { Context } from "mocha";
@@ -24,7 +24,9 @@ describe("AppConfigurationClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
-    client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
+    client =
+      createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) ||
+      this.skip();
     recorder.variable("key-1", `key-1-${getRandomNumber()}`);
     key = recorder.variable("key-1");
   });
@@ -499,15 +501,9 @@ describe("AppConfigurationClient", () => {
 
     beforeEach(async () => {
       randomNumber = getRandomNumber();
-      recorder.variable(
-        `listConfigSettingA`
-        , `listConfigSettingA-${randomNumber}`);
-      recorder.variable(
-        `listConfigSettingB`
-        , `listConfigSettingB-${randomNumber}`);
-      recorder.variable(
-        `listConfigSettingsLabel`
-        , `listConfigSettingsLabel-${randomNumber}`);
+      recorder.variable(`listConfigSettingA`, `listConfigSettingA-${randomNumber}`);
+      recorder.variable(`listConfigSettingB`, `listConfigSettingB-${randomNumber}`);
+      recorder.variable(`listConfigSettingsLabel`, `listConfigSettingsLabel-${randomNumber}`);
       keys.listConfigSettingA = recorder.variable(`listConfigSettingA`);
       keys.listConfigSettingB = recorder.variable(`listConfigSettingB`);
 
@@ -577,20 +573,21 @@ describe("AppConfigurationClient", () => {
         labelFilter: uniqueLabel.substring(0, uniqueLabel.length - 1) + "*",
       });
       const byLabelSettings = await toSortedArray(byLabelIterator);
-      assertEqualSettings([
-        {
-          key: keys.listConfigSettingA,
-          value: "[A] production value",
-          label: uniqueLabel,
-          isReadOnly: true,
-        },
-        {
-          key: keys.listConfigSettingB,
-          value: "[B] production value",
-          label: uniqueLabel,
-          isReadOnly: false,
-        },
-      ],
+      assertEqualSettings(
+        [
+          {
+            key: keys.listConfigSettingA,
+            value: "[A] production value",
+            label: uniqueLabel,
+            isReadOnly: true,
+          },
+          {
+            key: keys.listConfigSettingB,
+            value: "[B] production value",
+            label: uniqueLabel,
+            isReadOnly: false,
+          },
+        ],
         byLabelSettings
       );
     });
@@ -805,18 +802,18 @@ describe("AppConfigurationClient", () => {
       await client.setConfigurationSetting({
         key,
         label: labelA,
-        value: "fooA2"
+        value: "fooA2",
       });
 
       await client.addConfigurationSetting({
         key,
         label: labelB,
-        value: "fooB1"
+        value: "fooB1",
       });
       await client.setConfigurationSetting({
         key,
         label: labelB,
-        value: "fooB2"
+        value: "fooB2",
       });
     });
 

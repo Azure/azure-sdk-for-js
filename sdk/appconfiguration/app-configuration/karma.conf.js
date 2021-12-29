@@ -4,7 +4,7 @@ process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
@@ -54,7 +54,7 @@ module.exports = function(config) {
       "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
       "TEST_MODE",
-      "RECORDINGS_RELATIVE_PATH"
+      "RECORDINGS_RELATIVE_PATH",
     ],
 
     // test results reporter to use
@@ -103,8 +103,8 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox", "--disable-web-security"]
-      }
+        flags: ["--no-sandbox", "--disable-web-security"],
+      },
     },
 
     // Continuous Integration mode

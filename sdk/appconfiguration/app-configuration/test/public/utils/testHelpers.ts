@@ -8,15 +8,12 @@ import {
   ListConfigurationSettingPage,
   ListRevisionsPage,
 } from "../../../src";
-import { env, isPlaybackMode, RecorderStartOptions, } from "@azure-tools/test-recorder-new";
+import { env, isPlaybackMode, RecorderStartOptions } from "@azure-tools/test-recorder-new";
 
 // allow loading from a .env file as an alternative to defining the variable
 // in the environment
-import {
-  DefaultAzureCredentialOptions,
-  TokenCredential
-} from "@azure/identity";
-import { createTestCredential } from "@azure-tools/test-credential"
+import { DefaultAzureCredentialOptions, TokenCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 
 import { RestError } from "@azure/core-http";
@@ -36,19 +33,19 @@ export const recorderStartOptions: RecorderStartOptions = {
     AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
     AZURE_CLIENT_ID: "azure_client_id",
     AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "azuretenantid"
+    AZURE_TENANT_ID: "azuretenantid",
   },
   sanitizerOptions: {
     connectionStringSanitizers: [
-      { actualConnString: env.APPCONFIG_CONNECTION_STRING, fakeConnString }
+      { actualConnString: env.APPCONFIG_CONNECTION_STRING, fakeConnString },
     ],
     bodyRegexSanitizers: [
       {
         regex: env.AZ_CONFIG_ENDPOINT ? encodeURIComponent(env.AZ_CONFIG_ENDPOINT) : undefined,
-        value: encodeURIComponent("https://myappconfig.azconfig.io")
-      }
-    ]
-  }
+        value: encodeURIComponent("https://myappconfig.azconfig.io"),
+      },
+    ],
+  },
 };
 
 export function getTokenAuthenticationCredential(
@@ -69,7 +66,7 @@ export function getTokenAuthenticationCredential(
 
   return {
     credential: createTestCredential(options),
-    endpoint: env["AZ_CONFIG_ENDPOINT"]!
+    endpoint: env["AZ_CONFIG_ENDPOINT"]!,
   };
 }
 

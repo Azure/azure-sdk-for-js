@@ -7,7 +7,7 @@ import {
   deleteKeyCompletely,
   assertThrowsRestError,
   recorderStartOptions,
-  getRandomNumber
+  getRandomNumber,
 } from "./utils/testHelpers";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -25,7 +25,9 @@ describe("Various error cases", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
-    client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
+    client =
+      createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) ||
+      this.skip();
     recorder.variable("etags", `etags-${getRandomNumber()}`);
   });
 
@@ -40,7 +42,7 @@ describe("Various error cases", () => {
     beforeEach(async () => {
       addedSetting = await client.addConfigurationSetting({
         key: recorder.variable("etags"),
-        value: "world"
+        value: "world",
       });
 
       nonExistentKey = "non-existent key " + addedSetting.key;
@@ -101,7 +103,7 @@ describe("Various error cases", () => {
       // the 'no label' value for 'hello'
       addedSetting = await client.addConfigurationSetting({
         key: recorder.variable("etags"),
-        value: "world"
+        value: "world",
       });
 
       nonExistentKey = "bogus key " + addedSetting.key;

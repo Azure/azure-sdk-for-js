@@ -7,7 +7,7 @@ import {
   deleteKeyCompletely,
   assertThrowsRestError,
   recorderStartOptions,
-  getRandomNumber
+  getRandomNumber,
 } from "./utils/testHelpers";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -21,7 +21,9 @@ describe("etags", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
-    client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
+    client =
+      createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) ||
+      this.skip();
     recorder.variable("etags", `etags-${getRandomNumber()}`);
     key = recorder.variable("etags");
     await client.addConfigurationSetting({

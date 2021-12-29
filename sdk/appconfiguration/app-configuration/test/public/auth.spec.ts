@@ -6,7 +6,7 @@ import {
   getTokenAuthenticationCredential,
   CredsAndEndpoint,
   recorderStartOptions,
-  getRandomNumber
+  getRandomNumber,
 } from "./utils/testHelpers";
 import { assert } from "chai";
 import { Context } from "mocha";
@@ -40,7 +40,7 @@ describe("Authentication", () => {
     // able to connect and call the service
     await client.addConfigurationSetting({
       key: `token-authentication-test-${recorder.variable("label-1")}`,
-      value: "hello"
+      value: "hello",
     });
   });
 });

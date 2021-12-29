@@ -5,7 +5,7 @@ import { assert } from "chai";
 import {
   createAppConfigurationClientForTests,
   getRandomNumber,
-  recorderStartOptions
+  recorderStartOptions,
 } from "./utils/testHelpers";
 import {
   AddConfigurationSettingResponse,
@@ -28,11 +28,14 @@ describe("AppConfigurationClient - SecretReference", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
-    client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
+    client =
+      createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) ||
+      this.skip();
     recorder.variable("key-1", `key-1-${getRandomNumber()}`);
-    recorder.variable("random-string-1", `random-string-1-${Math.ceil(
-      Math.random() * 1000 + 1000
-    )}`);
+    recorder.variable(
+      "random-string-1",
+      `random-string-1-${Math.ceil(Math.random() * 1000 + 1000)}`
+    );
     key = recorder.variable("key-1");
     randomString = recorder.variable("random-string-1");
   });
@@ -45,7 +48,7 @@ describe("AppConfigurationClient - SecretReference", () => {
     const getBaseSetting = (): ConfigurationSetting<SecretReferenceValue> => {
       return {
         value: {
-          secretId: `https://vault_name.vault.azure.net/secrets/${randomString}`
+          secretId: `https://vault_name.vault.azure.net/secrets/${randomString}`,
         }, // TODO: It's a URL in .NET, should we leave it as a string input?
         isReadOnly: false,
         key,

@@ -14,7 +14,7 @@ import {
 } from "../../src/appConfigurationClient";
 import {
   createAppConfigurationClientForTests,
-  recorderStartOptions
+  recorderStartOptions,
 } from "../public/utils/testHelpers";
 
 import * as chai from "chai";
@@ -112,7 +112,9 @@ describe("http request related tests", function () {
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
       await recorder.start(recorderStartOptions);
-      client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
+      client =
+        createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) ||
+        this.skip();
     });
 
     afterEach(async function () {

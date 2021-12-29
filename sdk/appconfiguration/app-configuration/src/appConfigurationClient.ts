@@ -15,7 +15,7 @@ import {
   UserAgentOptions,
   getDefaultUserAgentValue as getCoreHttpDefaultUserAgentValue,
   userAgentPolicy,
-  HttpClient
+  HttpClient,
 } from "@azure/core-http";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { TokenCredential } from "@azure/core-auth";
@@ -183,7 +183,7 @@ export class AppConfigurationClient {
 
     this.client = new AppConfiguration(appConfigCredential, appConfigEndpoint, apiVersion, {
       ...getGeneratedClientOptions(appConfigEndpoint, this._syncTokens, appConfigOptions),
-      httpClient: appConfigOptions.httpClient
+      httpClient: appConfigOptions.httpClient,
     });
   }
 

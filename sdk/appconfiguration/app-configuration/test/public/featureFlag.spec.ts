@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { createAppConfigurationClientForTests, getRandomNumber, recorderStartOptions } from "./utils/testHelpers";
+import {
+  createAppConfigurationClientForTests,
+  getRandomNumber,
+  recorderStartOptions,
+} from "./utils/testHelpers";
 import {
   AddConfigurationSettingResponse,
   AppConfigurationClient,
@@ -24,7 +28,9 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
       await recorder.start(recorderStartOptions);
-      client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
+      client =
+        createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) ||
+        this.skip();
       recorder.variable("name-1", `${getRandomNumber()}`);
       baseSetting = {
         value: {
@@ -195,8 +201,10 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
       await recorder.start(recorderStartOptions);
-      client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
-        recorder.variable("name-1", `${getRandomNumber()}`);
+      client =
+        createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) ||
+        this.skip();
+      recorder.variable("name-1", `${getRandomNumber()}`);
       featureFlag = {
         contentType: featureFlagContentType,
         key: `${featureFlagPrefix}${recorder.variable("name-1")}`,

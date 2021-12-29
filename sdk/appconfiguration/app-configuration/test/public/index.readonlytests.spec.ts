@@ -6,7 +6,7 @@ import {
   assertThrowsRestError,
   deleteKeyCompletely,
   assertThrowsAbortError,
-  recorderStartOptions
+  recorderStartOptions,
 } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src";
 import { assert } from "chai";
@@ -25,11 +25,11 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderStartOptions);
-    recorder.variable("readOnlyTests", `readOnlyTests-${Math.ceil(
-      Math.random() * 1000 + 1000
-    )}`);
+    recorder.variable("readOnlyTests", `readOnlyTests-${Math.ceil(Math.random() * 1000 + 1000)}`);
     testConfigSetting.key = recorder.variable("readOnlyTests");
-    client = createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) || this.skip();
+    client =
+      createAppConfigurationClientForTests(recorder.configureClientOptionsCoreV1({})) ||
+      this.skip();
     // before it's set to read only we can set it all we want
     await client.setConfigurationSetting(testConfigSetting);
   });
