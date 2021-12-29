@@ -199,6 +199,6 @@ export async function assertThrowsAbortError(
   }
 }
 
-export function getRandomNumber() {
+export function getRandomNumber(): number {
   return Math.ceil(Math.random() * 1000 + 10000);
 }

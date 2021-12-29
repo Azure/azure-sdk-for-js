@@ -36,7 +36,7 @@ describe("AppConfigurationClient", () => {
   describe("simple usages", () => {
     it("Add and query a setting without a label", async () => {
       recorder.variable("noLabelTests", `noLabelTests-${getRandomNumber()}`);
-      const key = recorder.variable("noLabelTests");
+      key = recorder.variable("noLabelTests");
       await client.addConfigurationSetting({ key, value: "added" });
 
       await compare({
@@ -783,7 +783,6 @@ describe("AppConfigurationClient", () => {
   });
 
   describe("listRevisions", () => {
-    let key: string;
     let labelA: string;
     let labelB: string;
     let originalSetting: ConfigurationSetting;
