@@ -49,7 +49,7 @@ async function retry(
         succeeded = true;
         break;
       }
-      operationCallback();
+      await operationCallback();
     } catch (err) {
       lastKnownError = err;
       // Ignore error and wait before retrying
