@@ -6,9 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./cloudManifestFile";
-export * from "./customerSubscriptions";
-export * from "./products";
-export * from "./registrations";
-export * from "./linkedSubscriptions";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { AzureStackManagementClient } from "./azureStackManagementClient";
+export * from "./operationsInterfaces";
