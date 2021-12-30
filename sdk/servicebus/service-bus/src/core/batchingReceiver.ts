@@ -69,7 +69,8 @@ export class BatchingReceiver extends MessageReceiver {
 
         return this.link;
       },
-      this.receiveMode
+      this.receiveMode,
+      options.skipParsingBodyAsJson ?? false
     );
   }
 
@@ -248,7 +249,8 @@ export class BatchingReceiverLite {
     private _getCurrentReceiver: (
       abortSignal?: AbortSignalLike
     ) => Promise<MinimalReceiver | undefined>,
-    private _receiveMode: ReceiveMode
+    private _receiveMode: ReceiveMode,
+    _skipParsingBodyAsJson: boolean
   ) {
     this._createAndEndProcessingSpan = createAndEndProcessingSpan;
 
@@ -257,7 +259,8 @@ export class BatchingReceiverLite {
         context.message!,
         context.delivery!,
         true,
-        this._receiveMode
+        this._receiveMode,
+        _skipParsingBodyAsJson
       );
     };
 

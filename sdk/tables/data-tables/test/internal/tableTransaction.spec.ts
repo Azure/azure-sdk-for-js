@@ -4,10 +4,12 @@
 import {
   PipelineResponse,
   createHttpHeaders,
-  createPipelineRequest
+  createPipelineRequest,
+  HttpClient
 } from "@azure/core-rest-pipeline";
 import { assert } from "chai";
-import { parseTransactionResponse } from "../../src/TableTransaction";
+import { TableClient } from "../../src/TableClient";
+import { parseTransactionResponse, TableTransaction } from "../../src/TableTransaction";
 
 describe("TableTransaction", () => {
   describe("parseTransactionResponse", () => {
@@ -46,6 +48,25 @@ describe("TableTransaction", () => {
         assert.equal(error.message, "Test message");
         assert.equal(error.code, "123");
       }
+    });
+
+    it("should honor the custom httpClient passed to the TableClient", async () => {
+      let isProxy = false;
+      const proxyHttpClient: HttpClient = {
+        sendRequest: async (request) => {
+          isProxy = true;
+          return { status: 200, headers: createHttpHeaders(), request };
+        }
+      };
+      const client = new TableClient("https://example.org", "TestTable", {
+        httpClient: proxyHttpClient
+      });
+      const transaction = new TableTransaction();
+      transaction.createEntity({ partitionKey: "helper", rowKey: "1", value: "t1" });
+      transaction.createEntity({ partitionKey: "helper", rowKey: "2", value: "t2" });
+
+      await client.submitTransaction(transaction.actions);
+      assert.isTrue(isProxy);
     });
   });
 });

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
 import { CertificateClient } from "../../src";
 import { LATEST_API_VERSION } from "../../src/certificatesModels";

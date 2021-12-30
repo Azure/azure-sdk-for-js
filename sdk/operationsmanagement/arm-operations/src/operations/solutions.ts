@@ -10,7 +10,7 @@ import { Solutions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { OperationsManagementClientContext } from "../operationsManagementClientContext";
+import { OperationsManagementClient } from "../operationsManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -31,13 +31,13 @@ import {
 
 /** Class containing Solutions operations. */
 export class SolutionsImpl implements Solutions {
-  private readonly client: OperationsManagementClientContext;
+  private readonly client: OperationsManagementClient;
 
   /**
    * Initialize a new instance of the class Solutions class.
    * @param client Reference to the service client
    */
-  constructor(client: OperationsManagementClientContext) {
+  constructor(client: OperationsManagementClient) {
     this.client = client;
   }
 

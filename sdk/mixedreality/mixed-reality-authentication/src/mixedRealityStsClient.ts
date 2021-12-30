@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
+import { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
 import {
   InternalPipelineOptions,
   TokenCredential,
@@ -12,16 +14,14 @@ import {
   MixedRealityStsRestClientGetTokenOptionalParams,
   MixedRealityStsRestClientOptionalParams
 } from "./generated";
-import { logger } from "./logger";
-import { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
-import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { SDK_VERSION } from "./constants";
-import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint";
-import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
 import { MixedRealityAccountKeyCredential } from "./models/auth";
-import { mapToAccessToken } from "./models/mappers";
+import { SDK_VERSION } from "./constants";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint";
+import { createSpan } from "./tracing";
 import { generateCvBase } from "./util/cv";
+import { logger } from "./logger";
+import { mapToAccessToken } from "./models/mappers";
 
 /**
  * Represents the Mixed Reality STS client for retrieving STS tokens used to access Mixed Reality services.

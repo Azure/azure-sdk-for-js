@@ -5,9 +5,8 @@
  * @summary Shows a simple bulk call with each BulkOperation type.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { handleError, finish, logStep } from "./Shared/handleError";
 import {

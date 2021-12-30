@@ -9,29 +9,30 @@ import {
   SendRequest,
   PipelineResponse,
   createHttpHeaders,
-  throttlingRetryPolicy
+  throttlingRetryPolicy,
 } from "../src";
+import { DEFAULT_CLIENT_MAX_RETRY_COUNT } from "../src/policies/throttlingRetryPolicy";
 
-describe("throttlingRetryPolicy", function() {
-  afterEach(function() {
+describe("throttlingRetryPolicy", function () {
+  afterEach(function () {
     sinon.restore();
   });
 
   it("It should retry after a given number of seconds on a response with status code 429", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const retryResponse: PipelineResponse = {
       headers: createHttpHeaders({
-        "Retry-After": "10"
+        "Retry-After": "10",
       }),
       request,
-      status: 429
+      status: 429,
     };
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
 
     const policy = throttlingRetryPolicy();
@@ -57,19 +58,19 @@ describe("throttlingRetryPolicy", function() {
 
   it("It should retry after a given date occurs on a response with status code 429", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const retryResponse: PipelineResponse = {
       headers: createHttpHeaders({
-        "Retry-After": "Wed, 21 Oct 2015 07:28:00 GMT"
+        "Retry-After": "Wed, 21 Oct 2015 07:28:00 GMT",
       }),
       request,
-      status: 429
+      status: 429,
     };
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
 
     const policy = throttlingRetryPolicy();
@@ -99,19 +100,19 @@ describe("throttlingRetryPolicy", function() {
 
   it("It should retry after a given number of seconds on a response with status code 503", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const retryResponse: PipelineResponse = {
       headers: createHttpHeaders({
-        "Retry-After": "10"
+        "Retry-After": "10",
       }),
       request,
-      status: 503
+      status: 503,
     };
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
 
     const policy = throttlingRetryPolicy();
@@ -137,19 +138,19 @@ describe("throttlingRetryPolicy", function() {
 
   it("It should retry after a given date occurs on a response with status code 503", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const retryResponse: PipelineResponse = {
       headers: createHttpHeaders({
-        "Retry-After": "Wed, 21 Oct 2015 07:28:00 GMT"
+        "Retry-After": "Wed, 21 Oct 2015 07:28:00 GMT",
       }),
       request,
-      status: 503
+      status: 503,
     };
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
 
     const policy = throttlingRetryPolicy();
@@ -177,37 +178,38 @@ describe("throttlingRetryPolicy", function() {
     clock.restore();
   });
 
-  it("It should retry up to three times", async function(this: Context) {
+  it("It should retry up to the default max retries", async function (this: Context) {
     const clock = sinon.useFakeTimers();
 
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const retryResponse: PipelineResponse = {
       headers: createHttpHeaders({
-        "Retry-After": "1"
+        "Retry-After": "1",
       }),
       request,
-      status: 503
+      status: 503,
     };
 
     const policy = throttlingRetryPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onCall(0).resolves(retryResponse);
-    next.onCall(1).resolves(retryResponse);
-    next.onCall(2).resolves(retryResponse);
+    let i = 0;
+    for (; i < DEFAULT_CLIENT_MAX_RETRY_COUNT; ++i) {
+      next.onCall(i).resolves(retryResponse);
+    }
     // This one should be returned
-    next.onCall(3).resolves({
+    next.onCall(i).resolves({
       headers: createHttpHeaders({
         "Retry-After": "1",
-        "final-response": "final-response"
+        "final-response": "final-response",
       }),
       request,
-      status: 503
+      status: 503,
     });
 
     const promise = policy.sendRequest(request, next);
-    await clock.tickAsync(3000);
+    await clock.tickAsync(i * 1000);
     const response = await promise;
     assert.equal(response.status, 503);
     assert.equal(response.headers.get("final-response"), "final-response");

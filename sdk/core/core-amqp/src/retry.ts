@@ -32,7 +32,7 @@ function isDelivery(obj: any): boolean {
  */
 export enum RetryMode {
   Exponential,
-  Fixed
+  Fixed,
 }
 
 /**
@@ -47,7 +47,7 @@ export enum RetryOperationType {
   sendMessage = "sendMessage",
   receiveMessage = "receiveMessage",
   session = "session",
-  messageSettlement = "settlement"
+  messageSettlement = "settlement",
 }
 
 /**
@@ -135,6 +135,28 @@ function validateRetryConfig<T>(config: RetryConfig<T>): void {
 }
 
 /**
+ * Calculates delay between retries, in milliseconds.
+ * @internal
+ */
+function calculateDelay(
+  attemptCount: number,
+  retryDelayInMs: number,
+  maxRetryDelayInMs: number,
+  mode: RetryMode
+): number {
+  if (mode === RetryMode.Exponential) {
+    const boundedRandDelta =
+      retryDelayInMs * 0.8 +
+      Math.floor(Math.random() * (retryDelayInMs * 1.2 - retryDelayInMs * 0.8));
+
+    const incrementDelta = boundedRandDelta * (Math.pow(2, attemptCount) - 1);
+    return Math.min(incrementDelta, maxRetryDelayInMs);
+  }
+
+  return retryDelayInMs;
+}
+
+/**
  * Every operation is attempted at least once. Additional attempts are made if the previous attempt failed
  * with a retryable error. The number of additional attempts is governed by the `maxRetries` property provided
  * on the `RetryConfig` argument.
@@ -219,21 +241,14 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         i,
         err
       );
-      let targetDelayInMs = config.retryOptions.retryDelayInMs;
-      if (config.retryOptions.mode === RetryMode.Exponential) {
-        let incrementDelta = Math.pow(2, i) - 1;
-        const boundedRandDelta =
-          config.retryOptions.retryDelayInMs * 0.8 +
-          Math.floor(
-            Math.random() *
-              (config.retryOptions.retryDelayInMs * 1.2 - config.retryOptions.retryDelayInMs * 0.8)
-          );
-        incrementDelta *= boundedRandDelta;
-
-        targetDelayInMs = Math.min(incrementDelta, config.retryOptions.maxRetryDelayInMs);
-      }
 
       if (lastError && lastError.retryable && totalNumberOfAttempts > i) {
+        const targetDelayInMs = calculateDelay(
+          i,
+          config.retryOptions.retryDelayInMs,
+          config.retryOptions.maxRetryDelayInMs,
+          config.retryOptions.mode
+        );
         logger.verbose(
           "[%s] Sleeping for %d milliseconds for '%s'.",
           config.connectionId,

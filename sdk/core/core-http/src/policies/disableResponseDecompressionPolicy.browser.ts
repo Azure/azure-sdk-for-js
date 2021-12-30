@@ -8,7 +8,7 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResource } from "../webResource";
@@ -25,7 +25,7 @@ export function disableResponseDecompressionPolicy(): RequestPolicyFactory {
   return {
     create: (_nextPolicy: RequestPolicy, _options: RequestPolicyOptions) => {
       throw DisbleResponseDecompressionNotSupportedInBrowser;
-    }
+    },
   };
 }
 

@@ -353,7 +353,8 @@ describe("Retries - Receive methods", () => {
         "dummyEntityPath",
         {
           lockRenewer: undefined,
-          receiveMode: "peekLock"
+          receiveMode: "peekLock",
+          skipParsingBodyAsJson: false
         }
       );
       batchingReceiver.isOpen = () => true;

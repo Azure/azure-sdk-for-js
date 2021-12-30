@@ -5,7 +5,7 @@ import { MapperType, Serializer } from "./serializer";
 import {
   OperationParameter,
   OperationQueryParameter,
-  OperationURLParameter
+  OperationURLParameter,
 } from "./operationParameter";
 import { HttpMethods } from "./webResource";
 import { OperationResponse } from "./operationResponse";

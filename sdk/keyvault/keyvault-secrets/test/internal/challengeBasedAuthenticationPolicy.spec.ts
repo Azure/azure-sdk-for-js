@@ -17,6 +17,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { ClientSecretCredential } from "@azure/identity";
 import { WebResource } from "@azure/core-http";
+import { getServiceVersion } from "../utils/utils.common";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
@@ -31,7 +32,7 @@ describe("Challenge based authentication tests", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
     testClient = authentication.testClient;

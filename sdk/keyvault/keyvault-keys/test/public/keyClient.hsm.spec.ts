@@ -82,11 +82,10 @@ onVersions({ minVer: "7.2" }).describe(
         const releasePolicy = {
           anyOf: [
             {
-              anyOf: [
+              allOf: [
                 {
                   claim: "sdk-test",
-                  condition: "equals",
-                  value: "true"
+                  equals: "true"
                 }
               ],
               authority: attestationUri
@@ -155,8 +154,7 @@ onVersions({ minVer: "7.2" }).describe(
               anyOf: [
                 {
                   claim: "sdk-test",
-                  condition: "equals",
-                  value: "false"
+                  equals: "false"
                 }
               ],
               authority: env.AZURE_KEYVAULT_ATTESTATION_URI
@@ -173,7 +171,6 @@ onVersions({ minVer: "7.2" }).describe(
           uint8ArrayToString(updatedKey.properties.releasePolicy!.encodedPolicy!)
         );
 
-        // Note: the service will parse the policy and return a different shape, for example: { "claim": "sdk-test", "equals": "false" } in this test.
         assert.equal(decodedReleasePolicy.anyOf[0].anyOf[0].equals, "false");
       });
 

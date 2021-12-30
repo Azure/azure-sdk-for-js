@@ -14,7 +14,7 @@ import {
   Sender,
   SenderOptions,
   Session,
-  generate_uuid
+  generate_uuid,
 } from "rhea-promise";
 import { logErrorStackTrace, logger } from "./log";
 import { Constants } from "./util/constants";
@@ -161,7 +161,7 @@ export class RequestResponseLink implements ReqResLink {
           `endpoint timed out. Please try again later.`;
         const e: Error = {
           name: "OperationTimeoutError",
-          message: desc
+          message: desc,
         };
         return reject(translate(e));
       }, timeoutInMs);
@@ -174,7 +174,7 @@ export class RequestResponseLink implements ReqResLink {
           if (isDefined(timer)) {
             clearTimeout(timer);
           }
-        }
+        },
       });
 
       logger.verbose(
@@ -256,7 +256,7 @@ export const getCodeDescriptionAndError = (
   return {
     statusCode: (props[Constants.statusCode] || props.statusCode) as number,
     statusDescription: (props[Constants.statusDescription] || props.statusDescription) as string,
-    errorCondition: (props[Constants.errorCondition] || props.errorCondition) as string
+    errorCondition: (props[Constants.errorCondition] || props.errorCondition) as string,
   };
 };
 
@@ -326,7 +326,7 @@ export function onMessageReceived(
       info.errorCondition || ConditionStatusMapper[info.statusCode] || "amqp:internal-error";
     error = translate({
       condition: condition,
-      description: info.statusDescription
+      description: info.statusDescription,
     });
     logger.warning(`${error?.name}: ${error?.message}`);
   }

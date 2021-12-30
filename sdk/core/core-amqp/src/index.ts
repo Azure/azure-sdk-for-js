@@ -16,7 +16,7 @@ export { AmqpMessageProperties } from "./messageProperties";
 export {
   ConnectionContextBase,
   ConnectionProperties,
-  CreateConnectionContextBaseParameters
+  CreateConnectionContextBaseParameters,
 } from "./ConnectionContextBase";
 export {
   MessagingError,
@@ -28,14 +28,14 @@ export {
   isSystemError,
   SystemErrorConditionMapper,
   NetworkSystemError,
-  StandardAbortMessage
+  StandardAbortMessage,
 } from "./errors";
 export {
   delay,
   parseConnectionString,
   defaultCancellableLock,
   ParsedOutput,
-  WebSocketOptions
+  WebSocketOptions,
 } from "./util/utils";
 export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage";
 export { logger } from "./log";

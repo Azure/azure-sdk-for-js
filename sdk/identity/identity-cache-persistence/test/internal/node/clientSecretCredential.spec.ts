@@ -17,12 +17,12 @@ import { createPersistence } from "./setup.spec";
 
 const scope = "https://graph.microsoft.com/.default";
 
-describe("ClientSecretCredential (internal)", function(this: Mocha.Suite) {
+describe("ClientSecretCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function(this: Mocha.Context) {
+  beforeEach(function (this: Mocha.Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -34,11 +34,11 @@ describe("ClientSecretCredential (internal)", function(this: Mocha.Suite) {
       "acquireTokenByClientCredential"
     );
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
-  it("Accepts tokenCachePersistenceOptions", async function(this: Mocha.Context) {
+  it("Accepts tokenCachePersistenceOptions", async function (this: Mocha.Context) {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
       this.skip();
@@ -47,7 +47,7 @@ describe("ClientSecretCredential (internal)", function(this: Mocha.Suite) {
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-      unsafeAllowUnencryptedStorage: true
+      unsafeAllowUnencryptedStorage: true,
     };
 
     // Emptying the token cache before we start.
@@ -67,7 +67,7 @@ describe("ClientSecretCredential (internal)", function(this: Mocha.Suite) {
     assert.ok(parsedResult.AccessToken);
   });
 
-  it("Authenticates silently with tokenCachePersistenceOptions", async function(this: Mocha.Context) {
+  it("Authenticates silently with tokenCachePersistenceOptions", async function (this: Mocha.Context) {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
       this.skip();
@@ -76,7 +76,7 @@ describe("ClientSecretCredential (internal)", function(this: Mocha.Suite) {
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-      unsafeAllowUnencryptedStorage: true
+      unsafeAllowUnencryptedStorage: true,
     };
 
     // Emptying the token cache before we start.

@@ -31,7 +31,7 @@ export async function main() {
   const unchangedResponse = await client.getConfigurationSetting(addedSetting, {
     // onlyIfChanged allows us to say "get me the value only if it doesn't match the one I already have"
     // this allows us to avoid transferring the setting if nothing has changed.
-    onlyIfChanged: true
+    onlyIfChanged: true,
   });
 
   // we return the response so you can still inspect the returned headers. The body, however, is blank
@@ -47,7 +47,7 @@ export async function main() {
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
   const existingSettings = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of existingSettings) {

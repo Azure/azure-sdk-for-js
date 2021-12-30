@@ -57,16 +57,6 @@ export function nodeConfig(test = false) {
       cjs({
         namedExports: {
           events: ["EventEmitter"],
-          assert: [
-            "ok",
-            "deepEqual",
-            "equal",
-            "fail",
-            "strictEqual",
-            "deepStrictEqual",
-            "notDeepEqual",
-            "notDeepStrictEqual"
-          ],
           ...openTelemetryCommonJs()
         }
       })
@@ -77,6 +67,14 @@ export function nodeConfig(test = false) {
         warning.importer.indexOf(path.normalize("node_modules/@opentelemetry/api")) >= 0
       ) {
         // opentelemetry contains circular references but it doesn't cause issues.
+        return;
+      }
+
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai")) >= 0
+      ) {
+        // Ignore Chai circular dependency
         return;
       }
 
@@ -100,7 +98,7 @@ export function nodeConfig(test = false) {
     baseConfig.output.file = "dist-test/index.node.js";
 
     // mark assert as external
-    baseConfig.external.push("assert", "fs", "path");
+    baseConfig.external.push("fs", "path");
 
     baseConfig.context = "null";
 
@@ -159,16 +157,7 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           events: ["EventEmitter"],
-          assert: [
-            "ok",
-            "deepEqual",
-            "equal",
-            "fail",
-            "strictEqual",
-            "deepStrictEqual",
-            "notDeepEqual",
-            "notDeepStrictEqual"
-          ],
+          chai: ["version", "use", "util", "config", "expect", "should", "assert"],
           ...openTelemetryCommonJs()
         }
       })
@@ -179,6 +168,14 @@ export function browserConfig(test = false) {
         warning.importer.indexOf(path.normalize("node_modules/@opentelemetry/api")) >= 0
       ) {
         // opentelemetry contains circular references but it doesn't cause issues.
+        return;
+      }
+
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai")) >= 0
+      ) {
+        // Ignore Chai circular dependency
         return;
       }
 

@@ -6,18 +6,19 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ConfigurationSetting,
   ListConfigurationSettingPage,
-  ListRevisionsPage
+  ListRevisionsPage,
 } from "../../../src";
 import {
   env,
   isPlaybackMode,
   RecorderEnvironmentSetup,
   record,
-  Recorder
+  Recorder,
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
+import { assert } from "chai";
 
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import { RestError } from "@azure/core-http";
 
 let connectionStringNotPresentWarning = false;
 let tokenCredentialsNotPresentWarning = false;
@@ -35,10 +36,10 @@ export function startRecorder(that: Mocha.Context): Recorder {
       AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azuretenantid"
+      AZURE_TENANT_ID: "azuretenantid",
     },
     customizationsOnRecordings: [],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
   };
 
   return record(that, recorderEnvSetup);
@@ -49,7 +50,7 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
     "AZ_CONFIG_ENDPOINT",
     "AZURE_CLIENT_ID",
     "AZURE_TENANT_ID",
-    "AZURE_CLIENT_SECRET"
+    "AZURE_CLIENT_SECRET",
   ];
 
   for (const name of requiredEnvironmentVariables) {
@@ -67,7 +68,7 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
 
   return {
     credential: new DefaultAzureCredential(),
-    endpoint: env["AZ_CONFIG_ENDPOINT"]!
+    endpoint: env["AZ_CONFIG_ENDPOINT"]!,
   };
 }
 
@@ -94,7 +95,7 @@ export async function deleteKeyCompletely(
   client: AppConfigurationClient
 ): Promise<void> {
   const settingsIterator = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of settingsIterator) {
@@ -144,9 +145,9 @@ export function assertEqualSettings(
   actual = actual.map((setting) => {
     return {
       key: setting.key,
-      label: setting.label,
+      label: setting.label || undefined,
       value: setting.value,
-      isReadOnly: setting.isReadOnly
+      isReadOnly: setting.isReadOnly,
     };
   });
 
@@ -162,8 +163,12 @@ export async function assertThrowsRestError(
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (err) {
+    if (!(err instanceof Error)) {
+      throw new Error("Error is not recognized");
+    }
     if (err.name === "RestError") {
-      assert.equal(expectedStatusCode, err.statusCode, message);
+      const restError = err as RestError;
+      assert.equal(expectedStatusCode, restError.statusCode, message);
       return err;
     }
 
@@ -181,6 +186,9 @@ export async function assertThrowsAbortError(
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (e) {
+    if (!(e instanceof Error)) {
+      throw new Error("Error is not recognized");
+    }
     if (isPlaybackMode() && (e.name === "FetchError" || e.name === "AbortError")) {
       return e;
     } else {

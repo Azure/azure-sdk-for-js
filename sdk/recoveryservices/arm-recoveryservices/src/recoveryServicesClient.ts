@@ -32,16 +32,19 @@ import {
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { RecoveryServicesClientContext } from "./recoveryServicesClientContext";
 import {
   RecoveryServicesClientOptionalParams,
-  RecoveryServicesClientGetOperationStatusOptionalParams,
-  RecoveryServicesClientGetOperationStatusResponse,
-  RecoveryServicesClientGetOperationResultOptionalParams,
-  RecoveryServicesClientGetOperationResultResponse
+  GetOperationStatusOptionalParams,
+  GetOperationStatusResponse,
+  GetOperationResultOptionalParams,
+  GetOperationResultResponse
 } from "./models";
 
-export class RecoveryServicesClient extends RecoveryServicesClientContext {
+export class RecoveryServicesClient extends coreClient.ServiceClient {
+  $host: string;
+  subscriptionId: string;
+  apiVersion: string;
+
   /**
    * Initializes a new instance of the RecoveryServicesClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -53,7 +56,46 @@ export class RecoveryServicesClient extends RecoveryServicesClientContext {
     subscriptionId: string,
     options?: RecoveryServicesClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: RecoveryServicesClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-recoveryservices/5.0.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2021-08-01";
     this.vaultCertificates = new VaultCertificatesImpl(this);
     this.registeredIdentities = new RegisteredIdentitiesImpl(this);
     this.replicationUsages = new ReplicationUsagesImpl(this);
@@ -79,8 +121,8 @@ export class RecoveryServicesClient extends RecoveryServicesClientContext {
     resourceGroupName: string,
     vaultName: string,
     operationId: string,
-    options?: RecoveryServicesClientGetOperationStatusOptionalParams
-  ): Promise<RecoveryServicesClientGetOperationStatusResponse> {
+    options?: GetOperationStatusOptionalParams
+  ): Promise<GetOperationStatusResponse> {
     return this.sendOperationRequest(
       { resourceGroupName, vaultName, operationId, options },
       getOperationStatusOperationSpec
@@ -99,8 +141,8 @@ export class RecoveryServicesClient extends RecoveryServicesClientContext {
     resourceGroupName: string,
     vaultName: string,
     operationId: string,
-    options?: RecoveryServicesClientGetOperationResultOptionalParams
-  ): Promise<RecoveryServicesClientGetOperationResultResponse> {
+    options?: GetOperationResultOptionalParams
+  ): Promise<GetOperationResultResponse> {
     return this.sendOperationRequest(
       { resourceGroupName, vaultName, operationId, options },
       getOperationResultOperationSpec

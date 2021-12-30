@@ -5,9 +5,8 @@
  * @summary Demonstrates database create, read, delete and reading all databases.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { handleError, logStep, logSampleHeader, finish } from "./Shared/handleError";
 import { CosmosClient } from "@azure/cosmos";

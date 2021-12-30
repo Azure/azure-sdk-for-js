@@ -35,18 +35,18 @@ const xml2jsDefaultOptionsV2: xml2js.OptionsV2 = {
   xmldec: {
     version: "1.0",
     encoding: "UTF-8",
-    standalone: true
+    standalone: true,
   },
   doctype: undefined,
   renderOpts: {
     pretty: true,
     indent: "  ",
-    newline: "\n"
+    newline: "\n",
   },
   headless: false,
   chunkSize: 10000,
   emptyTag: "",
-  cdata: false
+  cdata: false,
 };
 
 // The xml2js settings for general XML parsing operations.
@@ -57,7 +57,7 @@ xml2jsParserSettings.explicitArray = false;
 const xml2jsBuilderSettings: any = Object.assign({}, xml2jsDefaultOptionsV2);
 xml2jsBuilderSettings.explicitArray = false;
 xml2jsBuilderSettings.renderOpts = {
-  pretty: false
+  pretty: false,
 };
 
 /**

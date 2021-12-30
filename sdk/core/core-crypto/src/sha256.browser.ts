@@ -28,7 +28,7 @@ function getCrypto(): SubtleCrypto {
 
 const importParams: HmacImportParams = {
   name: "HMAC",
-  hash: { name: "SHA-256" }
+  hash: { name: "SHA-256" },
 };
 
 /**
