@@ -6,11 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  ErrorAdditionalInfo,
-  ErrorDetail,
-  ErrorResponse,
-  ResourceProviderOperationDefinition,
-  ResourceProviderOperationDisplay,
-  ResourceProviderOperationList
-} from "../models/mappers";
+export * from "./operations";
+export * from "./resourceChanges";
+export * from "./changes";
