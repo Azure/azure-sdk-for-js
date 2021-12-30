@@ -1200,6 +1200,11 @@
       "packageName": "@azure/arm-azurestack",
       "projectFolder": "sdk/azurestack/arm-azurestack",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-changeanalysis",
+      "projectFolder": "sdk/changeanalysis/arm-changeanalysis",
+      "versionPolicyName": "management"
     }
   ]
 }
