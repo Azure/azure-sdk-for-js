@@ -19,7 +19,7 @@ import {
   ErrorResponse,
   SearchFuzzySearchOptionalParams as FuzzySearchOptionalParams,
   LatLongPairAbbreviated,
-  ReverseSearchAddressBatchProcessResult,
+  ReverseSearchAddressBatchResult,
   ReverseSearchAddressResult as ReverseSearchAddressResultInternal,
   ReverseSearchCrossStreetAddressResult as ReverseSearchCrossStreetAddressResultInternal,
   SearchAddressBatchResult,
@@ -398,7 +398,7 @@ export function mapSearchAddressBatchResult(
  * @Internal
  */
 export function mapReverseSearchAddressBatchResult(
-  internalResult: ReverseSearchAddressBatchProcessResult
+  internalResult: ReverseSearchAddressBatchResult
 ): BatchResult<ReverseSearchAddressResult> {
   const result: BatchResult<SearchAddressResult> = {
     totalRequests: internalResult.batchSummary?.totalRequests,

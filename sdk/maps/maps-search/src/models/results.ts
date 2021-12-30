@@ -121,7 +121,7 @@ export interface Address {
   /** The building number on the street. */
   readonly streetNumber?: string;
   /** The codes used to unambiguously identify the street */
-  readonly routeNumbers?: number[];
+  readonly routeNumbers?: string[];
   /** The street name. */
   readonly streetName?: string;
   /** The street name and number. */

@@ -410,7 +410,7 @@ export interface Address {
    * The codes used to unambiguously identify the street
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly routeNumbers?: number[];
+  readonly routeNumbers?: string[];
   /**
    * The street name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -496,12 +496,12 @@ export interface Address {
 /** The bounding box of the location. */
 export interface BoundingBoxCompassNotation {
   /**
-   * North-east (top-left) latitude,longitude coordinate of the bounding box as comma-separated floats
+   * North-east latitude,longitude coordinate of the bounding box as comma-separated floats
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly northEast?: string;
   /**
-   * South-west (bottom-right) latitude,longitude coordinate of the bounding box as comma-separated floats
+   * South-west latitude,longitude coordinate of the bounding box as comma-separated floats
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly southWest?: string;
@@ -825,7 +825,7 @@ export type SearchAddressBatchResult = BatchResult & {
 };
 
 /** This object is returned from a successful Search Address Reverse Batch service call. */
-export type ReverseSearchAddressBatchProcessResult = BatchResult & {
+export type ReverseSearchAddressBatchResult = BatchResult & {
   /**
    * Array containing the batch results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2223,7 +2223,7 @@ export interface SearchReverseSearchAddressBatchSyncOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the reverseSearchAddressBatchSync operation. */
-export type SearchReverseSearchAddressBatchSyncResponse = ReverseSearchAddressBatchProcessResult;
+export type SearchReverseSearchAddressBatchSyncResponse = ReverseSearchAddressBatchResult;
 
 /** Optional parameters. */
 export interface SearchReverseSearchAddressBatchOptionalParams
@@ -2235,7 +2235,7 @@ export interface SearchReverseSearchAddressBatchOptionalParams
 }
 
 /** Contains response data for the reverseSearchAddressBatch operation. */
-export type SearchReverseSearchAddressBatchResponse = ReverseSearchAddressBatchProcessResult;
+export type SearchReverseSearchAddressBatchResponse = ReverseSearchAddressBatchResult;
 
 /** Optional parameters. */
 export interface SearchGetReverseSearchAddressBatchOptionalParams
@@ -2247,7 +2247,7 @@ export interface SearchGetReverseSearchAddressBatchOptionalParams
 }
 
 /** Contains response data for the getReverseSearchAddressBatch operation. */
-export type SearchGetReverseSearchAddressBatchResponse = ReverseSearchAddressBatchProcessResult;
+export type SearchGetReverseSearchAddressBatchResponse = ReverseSearchAddressBatchResult;
 
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams
