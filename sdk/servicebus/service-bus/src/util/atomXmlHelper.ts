@@ -77,12 +77,10 @@ export async function executeAtomXmlOperation(
 ): Promise<FullOperationResponse> {
   if (requestObject) {
     request.body = stringifyXML(serializer.serialize(requestObject), { rootName: "entry" });
-  }
-  if (request.method === "PUT") {
-    if (requestObject) {
+    if (request.method === "PUT") {
       request.headers.set(
         "content-length",
-        Buffer.byteLength(request.body as string) // already assigned a string above
+        Buffer.byteLength(request.body)
       );
     }
   }

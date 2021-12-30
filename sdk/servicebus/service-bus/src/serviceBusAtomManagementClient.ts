@@ -133,9 +133,6 @@ export interface ServiceBusAdministrationClientOptions extends CommonClientOptio
 export type EntitiesResponse<T extends object> = WithResponse<Array<T>> &
   Pick<PageSettings, "continuationToken">;
 
-/**
- * @internal
- */
 function signingPolicy(credentials: {
   signRequest(request: PipelineRequest): Promise<PipelineRequest>;
 }): PipelinePolicy {
@@ -258,7 +255,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         userAgentPrefix
       }
     });
-    serviceClientOptions.addPolicy(authPolicy); /* TODO: figure out order */
+    serviceClientOptions.addPolicy(authPolicy);
     super({ pipeline: serviceClientOptions });
     this.endpoint = fullyQualifiedNamespace;
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
