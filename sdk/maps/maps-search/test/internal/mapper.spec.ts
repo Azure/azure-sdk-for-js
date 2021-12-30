@@ -58,7 +58,7 @@ import {
   ReverseSearchCrossStreetAddressResult as ReverseSearchCrossStreetAddressResultInternal,
   KnownMatchType,
   SearchAddressBatchResult,
-  ReverseSearchAddressBatchProcessResult
+  ReverseSearchAddressBatchResult
 } from "../../src/generated/models";
 import { OperationOptions } from "@azure/core-client";
 import {
@@ -571,7 +571,7 @@ describe("Result mappers", () => {
   });
   describe("mapReverseSearchAddressBatchResult", () => {
     it("should transform an internal reverse search address batch result to custom result object", () => {
-      const searchAddressBatchResult: ReverseSearchAddressBatchProcessResult = {
+      const searchAddressBatchResult: ReverseSearchAddressBatchResult = {
         batchSummary: { successfulRequests: 2, totalRequests: 3 },
         batchItems: [
           {

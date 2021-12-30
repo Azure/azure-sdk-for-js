@@ -29,7 +29,7 @@ export interface Address {
     readonly municipality?: string;
     readonly municipalitySubdivision?: string;
     readonly postalCode?: string;
-    readonly routeNumbers?: number[];
+    readonly routeNumbers?: string[];
     readonly street?: string;
     readonly streetName?: string;
     readonly streetNameAndNumber?: string;
