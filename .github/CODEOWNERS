@@ -167,6 +167,9 @@
 /sdk/appservice/arm-appservice-profile-2020-09-01-hybrid @qiaozha @dw511214992
 
 # PRLabel: %Mgmt
+/sdk/attestation/arm-attestation @qiaozha @dw511214992
+
+# PRLabel: %Mgmt
 /sdk/authorization/arm-authorization @qiaozha @dw511214992
 
 # PRLabel: %Mgmt
@@ -639,9 +642,6 @@ sdk/loadtestservice/arm-loadtestservice @qiaozha @dw511214992
 
 # PRLabel: %Mgmt
 sdk/purview/arm-purview @qiaozha @dw511214992
-
-# PRLabel: %Mgmt
-sdk/attestation/arm-attestation @qiaozha @dw511214992
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners
