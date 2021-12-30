@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./attestationProviders";
-export * from "./privateEndpointConnections";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { AttestationManagementClient } from "./attestationManagementClient";
+export * from "./operationsInterfaces";
