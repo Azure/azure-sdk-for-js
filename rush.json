@@ -1195,6 +1195,11 @@
       "packageName": "@azure/arm-attestation",
       "projectFolder": "sdk/attestation/arm-attestation",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-azurestack",
+      "projectFolder": "sdk/azurestack/arm-azurestack",
+      "versionPolicyName": "management"
     }
   ]
 }
