@@ -4270,7 +4270,7 @@ const reverseSearchAddressBatchSyncOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ReverseSearchAddressBatchProcessResult
+      bodyMapper: Mappers.ReverseSearchAddressBatchResult
     },
     408: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4296,16 +4296,16 @@ const reverseSearchAddressBatchOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ReverseSearchAddressBatchProcessResult
+      bodyMapper: Mappers.ReverseSearchAddressBatchResult
     },
     201: {
-      bodyMapper: Mappers.ReverseSearchAddressBatchProcessResult
+      bodyMapper: Mappers.ReverseSearchAddressBatchResult
     },
     202: {
-      bodyMapper: Mappers.ReverseSearchAddressBatchProcessResult
+      bodyMapper: Mappers.ReverseSearchAddressBatchResult
     },
     204: {
-      bodyMapper: Mappers.ReverseSearchAddressBatchProcessResult
+      bodyMapper: Mappers.ReverseSearchAddressBatchResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -4327,16 +4327,16 @@ const getReverseSearchAddressBatchOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReverseSearchAddressBatchProcessResult
+      bodyMapper: Mappers.ReverseSearchAddressBatchResult
     },
     201: {
-      bodyMapper: Mappers.ReverseSearchAddressBatchProcessResult
+      bodyMapper: Mappers.ReverseSearchAddressBatchResult
     },
     202: {
-      bodyMapper: Mappers.ReverseSearchAddressBatchProcessResult
+      bodyMapper: Mappers.ReverseSearchAddressBatchResult
     },
     204: {
-      bodyMapper: Mappers.ReverseSearchAddressBatchProcessResult
+      bodyMapper: Mappers.ReverseSearchAddressBatchResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

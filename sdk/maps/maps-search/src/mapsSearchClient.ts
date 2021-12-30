@@ -22,7 +22,7 @@ import {
   SearchListPolygonsOptionalParams as ListPolygonsOptionalParams,
   PointOfInterestCategory,
   Polygon,
-  ReverseSearchAddressBatchProcessResult,
+  ReverseSearchAddressBatchResult,
   SearchReverseSearchAddressOptionalParams as ReverseSearchAddressOptionalParams,
   SearchReverseSearchCrossStreetAddressOptionalParams as ReverseSearchCrossStreetAddressOptionalParams,
   SearchAddressBatchResult,
@@ -917,7 +917,7 @@ export class MapsSearchClient {
       );
       return new SearchBatchPoller<
         BatchResult<ReverseSearchAddressResult>,
-        ReverseSearchAddressBatchProcessResult
+        ReverseSearchAddressBatchResult
       >(internalPoller, mapSearchAddressBatchResult);
     } catch (e) {
       span.setStatus({

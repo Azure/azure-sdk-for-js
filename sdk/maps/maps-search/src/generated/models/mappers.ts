@@ -704,7 +704,7 @@ export const Address: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "Number"
+              name: "String"
             }
           }
         }
@@ -1660,10 +1660,10 @@ export const SearchAddressBatchResult: coreClient.CompositeMapper = {
   }
 };
 
-export const ReverseSearchAddressBatchProcessResult: coreClient.CompositeMapper = {
+export const ReverseSearchAddressBatchResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ReverseSearchAddressBatchProcessResult",
+    className: "ReverseSearchAddressBatchResult",
     modelProperties: {
       ...BatchResult.type.modelProperties,
       batchItems: {
