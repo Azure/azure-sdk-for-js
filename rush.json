@@ -1190,6 +1190,11 @@
       "packageName": "@azure/arm-hdinsight",
       "projectFolder": "sdk/hdinsight/arm-hdinsight",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-attestation",
+      "projectFolder": "sdk/attestation/arm-attestation",
+      "versionPolicyName": "management"
     }
   ]
 }
