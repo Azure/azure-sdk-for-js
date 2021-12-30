@@ -24,6 +24,12 @@ describe("KeyVaultBackupClient", () => {
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
+
+    // Temporarily disabled, https://github.com/Azure/azure-sdk-for-js/issues/19590
+    if (!isPlaybackMode()) {
+      this.skip();
+    }
+
     client = authentication.backupClient;
     keyClient = authentication.keyClient;
     recorder = authentication.recorder;
