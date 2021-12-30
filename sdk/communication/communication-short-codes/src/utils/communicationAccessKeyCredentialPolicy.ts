@@ -7,7 +7,7 @@ import {
   PipelineRequest,
   bearerTokenAuthenticationPolicy
 } from "@azure/core-rest-pipeline";
-import { URLBuilder } from "@azure/core-http";
+import { URL } from "./url";
 import { shaHash, shaHMAC } from "./cryptoUtils";
 export const communicationAccessKeyCredentialPolicyName = "CommunicationAccessKeyCredentialPolicy";
 /**
@@ -56,11 +56,11 @@ async function signRequest(
   const dateHeader = "x-ms-date";
   const signedHeaders = `${dateHeader};host;x-ms-content-sha256`;
 
-  const url = URLBuilder.parse(request.url);
-  const query = url.getQuery();
-  const urlPathAndQuery = query ? `${url.getPath()}?${query}` : url.getPath();
-  const port = url.getPort();
-  const hostAndPort = port ? `${url.getHost()}:${port}` : url.getHost();
+  const url = new URL(request.url);
+  const query = url.searchParams;
+  const urlPathAndQuery = query ? `${url.pathname}?${query}` : url.pathname;
+  const port = url.port;
+  const hostAndPort = port ? `${url.host}:${port}` : url.host;
 
   const stringToSign = `${verb}\n${urlPathAndQuery}\n${utcNow};${hostAndPort};${contentHash}`;
   const signature = await shaHMAC(accessKey.key, stringToSign);
