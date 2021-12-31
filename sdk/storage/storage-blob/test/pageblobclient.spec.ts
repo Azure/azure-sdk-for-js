@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import {
   bodyToString,
   getBSU,
@@ -19,7 +18,6 @@ import {
 } from "../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("PageBlobClient", () => {
   let blobServiceClient: BlobServiceClient;

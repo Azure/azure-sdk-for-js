@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 
 import { getBSU } from "./utils";
 import { record, Recorder, isRecordMode, isPlaybackMode } from "@azure-tools/test-recorder";
@@ -17,7 +16,6 @@ import {
 } from "../src";
 import { URLBuilder, URLQuery } from "@azure/core-http";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("BlobClient beginCopyFromURL Poller", () => {
   let containerName: string;

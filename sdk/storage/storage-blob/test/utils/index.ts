@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { randomBytes } from "crypto";
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -22,8 +21,6 @@ import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { TokenCredential } from "@azure/core-http";
 import { env } from "@azure-tools/test-recorder";
 import { DefaultAzureCredential } from "@azure/identity";
-
-dotenv.config();
 
 export * from "./testutils.common";
 

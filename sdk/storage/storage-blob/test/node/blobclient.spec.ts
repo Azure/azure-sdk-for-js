@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { readFileSync, unlinkSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 
@@ -36,8 +35,6 @@ import { assertClientUsesTokenCredential } from "../utils/assert";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
 import { Context } from "mocha";
-
-dotenv.config();
 
 describe("BlobClient Node.js only", () => {
   let containerName: string;

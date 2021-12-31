@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { isNode, delay } from "@azure/core-http";
 import { getBSU, recorderEnvSetup, bodyToString, getGenericCredential } from "./utils";
@@ -17,7 +16,6 @@ import {
 } from "../src";
 import { setURLParameter } from "../src/utils/utils.common";
 import { Context } from "mocha";
-dotenv.config({ path: "../.env" });
 
 describe("Blob versioning", () => {
   let blobServiceClient: BlobServiceClient;
