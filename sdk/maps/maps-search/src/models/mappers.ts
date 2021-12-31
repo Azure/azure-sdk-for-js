@@ -29,19 +29,19 @@ import {
 } from "../generated/models";
 import { BoundingBox, LatLon } from "./models";
 import {
-  FuzzySearchOptions,
+  FuzzySearchBaseOptions,
   SearchAddressOptions,
   SearchBaseOptions,
   SearchExtraFilterOptions,
-  SearchPointOfInterestOptions
+  SearchPointOfInterestBaseOptions
 } from "./options";
 import {
-  FuzzySearchRequest,
-  FuzzySearchRequestOptions,
-  ReverseSearchAddressRequest,
-  SearchAddressRequest,
-  SearchAddressRequestOptions
-} from "./requests";
+  FuzzySearchQuery,
+  FuzzySearchQueryOptions,
+  ReverseSearchAddressQuery,
+  SearchAddressQuery,
+  SearchAddressQueryOptions
+} from "./batchQueries";
 import { OperationOptions } from "@azure/core-client";
 
 /* LatLon / BoundingBox mappers */
@@ -126,7 +126,7 @@ export function mapBoundingBoxFromCompassNotation(
   if (bbox && bbox.northEast && bbox.southWest) {
     const northAndEast = bbox.northEast.split(",").map((s) => Number(s));
     const southAndWest = bbox.southWest.split(",").map((s) => Number(s));
-    if (northAndEast.length == 2 || southAndWest.length == 2) {
+    if (northAndEast.length === 2 || southAndWest.length === 2) {
       const top = northAndEast[0];
       const left = southAndWest[1];
       const bottom = southAndWest[0];
@@ -201,7 +201,7 @@ export function mapSearchAddressOptions(
  * @internal
  */
 export function mapSearchPointOfInterestOptions(
-  options: SearchPointOfInterestOptions
+  options: SearchPointOfInterestBaseOptions
 ): SearchPointOfInterestOptionalParams {
   return {
     operatingHours: options.operatingHours,
@@ -216,7 +216,7 @@ export function mapSearchPointOfInterestOptions(
 /**
  * @internal
  */
-export function mapFuzzySearchOptions(options: FuzzySearchOptions): FuzzySearchOptionalParams {
+export function mapFuzzySearchOptions(options: FuzzySearchBaseOptions): FuzzySearchOptionalParams {
   return {
     entityType: options.entityType,
     minFuzzyLevel: options.minFuzzyLevel,
@@ -453,7 +453,7 @@ const clientToServiceNamesArray: Readonly<Record<string, string>> = {
  * @internal
  */
 function createPartialQueryStringFromOptions(
-  options: FuzzySearchRequestOptions | SearchAddressRequestOptions
+  options: FuzzySearchQueryOptions | SearchAddressQueryOptions
 ): string {
   let partialQuery = "";
   for (const [k, v] of Object.entries(options)) {
@@ -481,24 +481,30 @@ function createPartialQueryStringFromOptions(
 /**
  * @internal
  */
-export function createFuzzySearchBatchRequest(requests: FuzzySearchRequest[]): BatchRequest {
+export function createFuzzySearchBatchRequest(queries: FuzzySearchQuery[]): BatchRequest {
   return {
-    batchItems: requests.map((r) => {
+    batchItems: queries.map((q) => {
+      const options = q.options;
+      const { query, coordinates, countryFilter } = q as {
+        query: string;
+        coordinates?: LatLon;
+        countryFilter?: string[];
+      };
       // Add top level query parameters
-      let query = `?query=${r.query}`;
-      if (r.coordinates) {
-        query += `&lat=${r.coordinates.latitude}&lon=${r.coordinates.longitude}`;
+      let queryText = `?query=${query}`;
+      if (coordinates) {
+        queryText += `&lat=${coordinates.latitude}&lon=${coordinates.longitude}`;
       }
-      if (r.countryFilter && r.countryFilter.length > 0) {
-        query += `&countrySet=${r.countryFilter.join(",")}`;
+      if (countryFilter && countryFilter.length > 0) {
+        queryText += `&countrySet=${countryFilter.join(",")}`;
       }
 
       // Add optional query parameters
-      if (r.options) {
-        query += createPartialQueryStringFromOptions(r.options);
+      if (options) {
+        queryText += createPartialQueryStringFromOptions(options);
       }
 
-      return { query };
+      return { query: queryText };
     })
   };
 }
@@ -506,17 +512,17 @@ export function createFuzzySearchBatchRequest(requests: FuzzySearchRequest[]): B
 /**
  * @internal
  */
-export function createSearchAddressBatchRequest(requests: SearchAddressRequest[]): BatchRequest {
+export function createSearchAddressBatchRequest(queries: SearchAddressQuery[]): BatchRequest {
   return {
-    batchItems: requests.map((r) => {
+    batchItems: queries.map((q) => {
       // Add top level query parameters
-      let query = `?query=${r.query}`;
+      let queryText = `?query=${q.query}`;
 
       // Add optional query parameters
-      if (r.options) {
-        query += createPartialQueryStringFromOptions(r.options);
+      if (q.options) {
+        queryText += createPartialQueryStringFromOptions(q.options);
       }
-      return { query };
+      return { query: queryText };
     })
   };
 }
@@ -525,18 +531,18 @@ export function createSearchAddressBatchRequest(requests: SearchAddressRequest[]
  * @internal
  */
 export function createReverseSearchAddressBatchRequest(
-  requests: ReverseSearchAddressRequest[]
+  queries: ReverseSearchAddressQuery[]
 ): BatchRequest {
   return {
-    batchItems: requests.map((r) => {
+    batchItems: queries.map((q) => {
       // Add top level query parameters
-      let query = `?query=${r.coordinates.latitude},${r.coordinates.longitude}`;
+      let queryText = `?query=${q.coordinates.latitude},${q.coordinates.longitude}`;
 
       // Add optional query parameters
-      if (r.options) {
-        query += createPartialQueryStringFromOptions(r.options);
+      if (q.options) {
+        queryText += createPartialQueryStringFromOptions(q.options);
       }
-      return { query };
+      return { query: queryText };
     })
   };
 }

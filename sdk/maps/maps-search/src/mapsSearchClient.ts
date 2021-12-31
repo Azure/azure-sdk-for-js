@@ -40,10 +40,10 @@ import {
   StructuredAddress
 } from "./models/models";
 import {
-  FuzzySearchRequest,
-  ReverseSearchAddressRequest,
-  SearchAddressRequest
-} from "./models/requests";
+  FuzzySearchQuery,
+  ReverseSearchAddressQuery,
+  SearchAddressQuery
+} from "./models/batchQueries";
 import {
   createFuzzySearchBatchRequest,
   createReverseSearchAddressBatchRequest,
@@ -72,7 +72,9 @@ import {
   SearchNearbyPointOfInterestOptions,
   SearchPointOfInterestCategoryOptions,
   SearchPointOfInterestOptions,
-  SearchStructuredAddressOptions
+  SearchStructuredAddressOptions,
+  FuzzySearchBaseOptions,
+  SearchPointOfInterestBaseOptions
 } from "./models/options";
 import { SearchBatchPoller } from "./models/pollers";
 import { mapsClientIdPolicy } from "./credential/mapsClientIdPolicy";
@@ -85,20 +87,6 @@ const isMapsSearchClientOptions = (
   clientIdOrOptions: any
 ): clientIdOrOptions is MapsSearchClientOptions =>
   clientIdOrOptions && typeof clientIdOrOptions !== "string";
-
-const isPOISearchOptions = <
-  TPOISearchOptions extends
-    | FuzzySearchOptions
-    | SearchPointOfInterestOptions
-    | SearchPointOfInterestCategoryOptions
->(
-  countryFilterOrOptions: any
-): countryFilterOrOptions is TPOISearchOptions =>
-  countryFilterOrOptions && Array.isArray(countryFilterOrOptions) === false;
-
-const isStringArray = (array: any[]): array is string[] => typeof array[0] === "string";
-
-const isLatLon = (obj: any): obj is LatLon => "latitude" in obj && "longitude" in obj;
 
 /**
  * Client class for interacting with Azure Maps Search Service.
@@ -198,65 +186,29 @@ export class MapsSearchClient {
   /**
    * Perform a free-form Search which handles the most fuzzy of inputs handling any combination of address or POI tokens.
    *
-   * @param query - The applicable query string (e.g., "seattle", "pizza").
-   * @param coordinates - The coordinates where results should be biased
-   * @param options - Optional parameters for the operation
+   * @param options - Options for fuzzy search
    */
-  public async fuzzySearch(
-    query: string,
-    coordinates: LatLon,
-    options?: FuzzySearchOptions
-  ): Promise<SearchAddressResult>;
-  /**
-   * Perform a free-form Search which handles the most fuzzy of inputs handling any combination of address or POI tokens.
-   *
-   * @param query - The applicable query string (e.g., "seattle", "pizza").
-   * @param countryFilter - Counter filters that limit the search to the specified countries
-   * @param options - Optional parameters for the operation
-   */
-  public async fuzzySearch(
-    query: string,
-    countryFilter: string[],
-    options?: FuzzySearchOptions
-  ): Promise<SearchAddressResult>;
-  /**
-   * Perform a free-form Search which handles the most fuzzy of inputs handling any combination of address or POI tokens.
-   *
-   * @param query - The applicable query string (e.g., "seattle", "pizza").
-   * @param coordinates - The coordinates where results should be biased
-   * @param countryFilter - Counter filters that limit the search to the specified countries
-   * @param options - Optional parameters for the operation
-   */
-  public async fuzzySearch(
-    query: string,
-    coordinates: LatLon,
-    countryFilter: string[],
-    options?: FuzzySearchOptions
-  ): Promise<SearchAddressResult>;
-  public async fuzzySearch(
-    query: string,
-    coordinatesOrCountryFilter: string[] | LatLon,
-    countryFilterOrOptions?: string[] | FuzzySearchOptions,
-    maybeOptions: FuzzySearchOptions = {}
-  ): Promise<SearchAddressResult> {
-    const options: FuzzySearchOptions = isPOISearchOptions<FuzzySearchOptions>(
-      countryFilterOrOptions
-    )
-      ? countryFilterOrOptions
-      : maybeOptions;
+  public async fuzzySearch(options: FuzzySearchOptions): Promise<SearchAddressResult> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-fuzzySearch", options);
-    const internalOptions = mapFuzzySearchOptions(updatedOptions);
-    if (isLatLon(coordinatesOrCountryFilter)) {
-      internalOptions.lat = coordinatesOrCountryFilter.latitude;
-      internalOptions.lon = coordinatesOrCountryFilter.longitude;
-      if (!isPOISearchOptions<FuzzySearchOptions>(countryFilterOrOptions)) {
-        internalOptions.countryFilter = countryFilterOrOptions;
-      }
-    } else if (
-      Array.isArray(coordinatesOrCountryFilter) &&
-      isStringArray(coordinatesOrCountryFilter)
-    ) {
-      internalOptions.countryFilter = coordinatesOrCountryFilter;
+    const {
+      query,
+      coordinates,
+      countryFilter,
+      ...otherOptions
+    } = updatedOptions as FuzzySearchBaseOptions & {
+      query: string;
+      coordinates?: LatLon;
+      countryFilter?: string[];
+    };
+
+    const internalOptions = mapFuzzySearchOptions(otherOptions);
+    if (coordinates) {
+      internalOptions.lat = coordinates.latitude;
+      internalOptions.lon = coordinates.longitude;
+    }
+
+    if (countryFilter) {
+      internalOptions.countryFilter = countryFilter;
     }
     try {
       const result = await this.client.search.fuzzySearch(
@@ -279,65 +231,31 @@ export class MapsSearchClient {
   /**
    * Requests points of interest (POI) results by name
    *
-   * @param query - The POI name to search for (e.g., "statue of liberty", "starbucks")
-   * @param coordinates - The coordinates where results should be biased
-   * @param options - Optional parameters for the operation
+   * @param options - Options for search POI
    */
   public async searchPointOfInterest(
-    query: string,
-    coordinates: LatLon,
-    options?: SearchPointOfInterestOptions
-  ): Promise<SearchAddressResult>;
-  /**
-   * Requests points of interest (POI) results by name
-   *
-   * @param query - The POI name to search for (e.g., "statue of liberty", "starbucks")
-   * @param countryFilter - Counter filters that limit the search to the specified countries
-   * @param options - Optional parameters for the operation
-   */
-  public async searchPointOfInterest(
-    query: string,
-    countryFilter: string[],
-    options?: SearchPointOfInterestOptions
-  ): Promise<SearchAddressResult>;
-  /**
-   * Requests points of interest (POI) results by name
-   *
-   * @param query - The POI name to search for (e.g., "statue of liberty", "starbucks")
-   * @param coordinates - The coordinates where results should be biased
-   * @param countryFilter - Counter filters that limit the search to the specified countries
-   * @param options - Optional parameters for the operation
-   */
-  public async searchPointOfInterest(
-    query: string,
-    coordinates: LatLon,
-    countryFilter: string[],
-    options?: SearchPointOfInterestOptions
-  ): Promise<SearchAddressResult>;
-  public async searchPointOfInterest(
-    query: string,
-    coordinatesOrCountryFilter: string[] | LatLon,
-    countryFilterOrOptions?: string[] | SearchPointOfInterestOptions,
-    maybeOptions: SearchPointOfInterestOptions = {}
+    options: SearchPointOfInterestOptions
   ): Promise<SearchAddressResult> {
-    const options: SearchPointOfInterestOptions = isPOISearchOptions<SearchPointOfInterestOptions>(
-      countryFilterOrOptions
-    )
-      ? countryFilterOrOptions
-      : maybeOptions;
     const { span, updatedOptions } = createSpan("MapsSearchClient-searchPointOfInterest", options);
-    const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
-    if (isLatLon(coordinatesOrCountryFilter)) {
-      internalOptions.lat = coordinatesOrCountryFilter.latitude;
-      internalOptions.lon = coordinatesOrCountryFilter.longitude;
-      if (!isPOISearchOptions<SearchPointOfInterestOptions>(countryFilterOrOptions)) {
-        internalOptions.countryFilter = countryFilterOrOptions;
-      }
-    } else if (
-      Array.isArray(coordinatesOrCountryFilter) &&
-      isStringArray(coordinatesOrCountryFilter)
-    ) {
-      internalOptions.countryFilter = coordinatesOrCountryFilter;
+    const {
+      query,
+      coordinates,
+      countryFilter,
+      ...otherOptions
+    } = updatedOptions as SearchPointOfInterestBaseOptions & {
+      query: string;
+      coordinates?: LatLon;
+      countryFilter?: string[];
+    };
+
+    const internalOptions = mapSearchPointOfInterestOptions(otherOptions);
+    if (coordinates) {
+      internalOptions.lat = coordinates.latitude;
+      internalOptions.lon = coordinates.longitude;
+    }
+
+    if (countryFilter) {
+      internalOptions.countryFilter = countryFilter;
     }
     try {
       const result = await this.client.search.searchPointOfInterest(
@@ -394,68 +312,33 @@ export class MapsSearchClient {
   /**
    * Requests points of interests (POI) results from given category.
    *
-   * @param query - The POI category to search for (e.g., "AIRPORT", "RESTAURANT")
-   * @param coordinates - The coordinates where results should be biased
-   * @param options - Optional parameters for the operation
+   * @param options - - Options for search POI category
    */
   public async searchPointOfInterestCategory(
-    query: string,
-    coordinates: LatLon,
-    options?: SearchPointOfInterestCategoryOptions
-  ): Promise<SearchAddressResult>;
-  /**
-   * Requests points of interests (POI) results from given category.
-   *
-   * @param query - The POI category to search for (e.g., "AIRPORT", "RESTAURANT")
-   * @param countryFilter - Counter filters that limit the search to the specified countries
-   * @param options - Optional parameters for the operation
-   */
-  public async searchPointOfInterestCategory(
-    query: string,
-    countryFilter: string[],
-    options?: SearchPointOfInterestCategoryOptions
-  ): Promise<SearchAddressResult>;
-  /**
-   * Requests points of interests (POI) results from given category.
-   *
-   * @param query - The POI category to search for (e.g., "AIRPORT", "RESTAURANT")
-   * @param coordinates - The coordinates where results should be biased
-   * @param countryFilter - Counter filters that limit the search to the specified countries
-   * @param options - Optional parameters for the operation
-   */
-  public async searchPointOfInterestCategory(
-    query: string,
-    coordinates: LatLon,
-    countryFilter: string[],
-    options?: SearchPointOfInterestCategoryOptions
-  ): Promise<SearchAddressResult>;
-  public async searchPointOfInterestCategory(
-    query: string,
-    coordinatesOrCountryFilter: string[] | LatLon,
-    countryFilterOrOptions?: string[] | SearchPointOfInterestCategoryOptions,
-    maybeOptions: SearchPointOfInterestCategoryOptions = {}
+    options: SearchPointOfInterestCategoryOptions
   ): Promise<SearchAddressResult> {
-    const options: SearchPointOfInterestCategoryOptions = isPOISearchOptions<
-      SearchPointOfInterestCategoryOptions
-    >(countryFilterOrOptions)
-      ? countryFilterOrOptions
-      : maybeOptions;
     const { span, updatedOptions } = createSpan(
       "MapsSearchClient-searchPointOfInterestCategory",
       options
     );
-    const internalOptions = mapSearchPointOfInterestOptions(updatedOptions);
-    if (isLatLon(coordinatesOrCountryFilter)) {
-      internalOptions.lat = coordinatesOrCountryFilter.latitude;
-      internalOptions.lon = coordinatesOrCountryFilter.longitude;
-      if (!isPOISearchOptions<SearchPointOfInterestOptions>(countryFilterOrOptions)) {
-        internalOptions.countryFilter = countryFilterOrOptions;
-      }
-    } else if (
-      Array.isArray(coordinatesOrCountryFilter) &&
-      isStringArray(coordinatesOrCountryFilter)
-    ) {
-      internalOptions.countryFilter = coordinatesOrCountryFilter;
+    const {
+      query,
+      coordinates,
+      countryFilter,
+      ...otherOptions
+    } = updatedOptions as SearchPointOfInterestBaseOptions & {
+      query: string;
+      coordinates?: LatLon;
+      countryFilter?: string[];
+    };
+    const internalOptions = mapSearchPointOfInterestOptions(otherOptions);
+    if (coordinates) {
+      internalOptions.lat = coordinates.latitude;
+      internalOptions.lon = coordinates.longitude;
+    }
+
+    if (countryFilter) {
+      internalOptions.countryFilter = countryFilter;
     }
     try {
       const result = await this.client.search.searchPointOfInterestCategory(
@@ -715,12 +598,12 @@ export class MapsSearchClient {
    * @param options - Optional parameters for the operation
    */
   public async fuzzySearchBatchSync(
-    requests: FuzzySearchRequest[],
+    queries: FuzzySearchQuery[],
     options: FuzzySearchBatchOptions = {}
   ): Promise<BatchResult<SearchAddressResult>> {
     // TODO: Check reqeusts number
     const { span, updatedOptions } = createSpan("MapsSearchClient-fuzzySearchBatchSync", options);
-    const batchRequest = createFuzzySearchBatchRequest(requests);
+    const batchRequest = createFuzzySearchBatchRequest(queries);
     console.log(batchRequest);
     try {
       const internalResult = await this.client.search.fuzzySearchBatchSync(
@@ -747,7 +630,7 @@ export class MapsSearchClient {
    * @param options - Optional parameters for the operation
    */
   public async beginFuzzySearchBatch(
-    requests: FuzzySearchRequest[],
+    queries: FuzzySearchQuery[],
     options: FuzzySearchBatchOptions = {}
   ): Promise<
     PollerLike<
@@ -757,7 +640,7 @@ export class MapsSearchClient {
   > {
     // TODO: Check reqeusts number
     const { span, updatedOptions } = createSpan("MapsSearchClient-beginFuzzySearchBatch", options);
-    const batchRequest = createFuzzySearchBatchRequest(requests);
+    const batchRequest = createFuzzySearchBatchRequest(queries);
     try {
       const internalPoller = await this.client.search.beginFuzzySearchBatch(
         this.defaultFormat,
@@ -786,13 +669,12 @@ export class MapsSearchClient {
    * @param options - Optional parameters for the operation
    */
   public async searchAddressBatchSync(
-    requests: SearchAddressRequest[],
+    queries: SearchAddressQuery[],
     options: SearchAddressBatchOptions = {}
   ): Promise<BatchResult<SearchAddressResult>> {
     // TODO: Check reqeusts number
     const { span, updatedOptions } = createSpan("MapsSearchClient-searchAddressBatchSync", options);
-    const batchRequest = createSearchAddressBatchRequest(requests);
-    console.log(batchRequest);
+    const batchRequest = createSearchAddressBatchRequest(queries);
     try {
       const internalResult = await this.client.search.searchAddressBatchSync(
         this.defaultFormat,
@@ -818,7 +700,7 @@ export class MapsSearchClient {
    * @param options - Optional parameters for the operation
    */
   public async beginSearchAddressBatch(
-    requests: SearchAddressRequest[],
+    queries: SearchAddressQuery[],
     options: SearchAddressBatchOptions = {}
   ): Promise<
     PollerLike<
@@ -831,7 +713,7 @@ export class MapsSearchClient {
       "MapsSearchClient-beginSearchAddressBatch",
       options
     );
-    const batchRequest = createSearchAddressBatchRequest(requests);
+    const batchRequest = createSearchAddressBatchRequest(queries);
     try {
       const internalPoller = await this.client.search.beginSearchAddressBatch(
         this.defaultFormat,
@@ -860,7 +742,7 @@ export class MapsSearchClient {
    * @param options - Optional parameters for the operation
    */
   public async reverseSearchAddressBatchSync(
-    requests: ReverseSearchAddressRequest[],
+    queries: ReverseSearchAddressQuery[],
     options: ReverseSearchAddressBatchOptions = {}
   ): Promise<BatchResult<ReverseSearchAddressResult>> {
     // TODO: Check reqeusts number
@@ -868,8 +750,7 @@ export class MapsSearchClient {
       "MapsSearchClient-reverseSearchAddressBatchSync",
       options
     );
-    const batchRequest = createReverseSearchAddressBatchRequest(requests);
-    console.log(batchRequest);
+    const batchRequest = createReverseSearchAddressBatchRequest(queries);
     try {
       const internalResult = await this.client.search.reverseSearchAddressBatchSync(
         this.defaultFormat,
@@ -895,7 +776,7 @@ export class MapsSearchClient {
    * @param options - Optional parameters for the operation
    */
   public async beginReverseSearchAddressBatch(
-    requests: ReverseSearchAddressRequest[],
+    queries: ReverseSearchAddressQuery[],
     options: ReverseSearchAddressBatchOptions = {}
   ): Promise<
     PollerLike<
@@ -908,7 +789,7 @@ export class MapsSearchClient {
       "MapsSearchClient-beginReverseSearchAddressBatch",
       options
     );
-    const batchRequest = createReverseSearchAddressBatchRequest(requests);
+    const batchRequest = createReverseSearchAddressBatchRequest(queries);
     try {
       const internalPoller = await this.client.search.beginReverseSearchAddressBatch(
         this.defaultFormat,
