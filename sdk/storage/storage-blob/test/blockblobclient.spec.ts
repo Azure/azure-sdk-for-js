@@ -17,7 +17,7 @@ import { BlockBlobTier } from "../src";
 import { Context } from "mocha";
 import { isNode } from "@azure/core-http";
 
-describe.only("BlockBlobClient", () => {
+describe("BlockBlobClient", () => {
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
