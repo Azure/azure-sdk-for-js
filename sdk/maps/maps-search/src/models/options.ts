@@ -13,17 +13,17 @@ import {
 } from "../generated/models";
 
 /**
- * Client options used to configure the Search Client
+ * Client options used to configure the Maps Search Client
  */
-export interface MapsSearchClientOptions extends CommonClientOptions {}
+export type MapsSearchClientOptions = CommonClientOptions;
 
 /**
- * Options for get polygon
+ * Options for retrieving polygon gemotries given geometry ids
  */
-export interface GetPolygonsOptions extends OperationOptions {}
+export type GetPolygonsOptions = OperationOptions;
 
 /**
- * Options for get point of interest category tree
+ * Options for retrieving point of interest categories
  */
 export interface GetPointOfInterestCategoriesOptions extends OperationOptions {
   /** Language in which search results should be returned. */
@@ -31,7 +31,7 @@ export interface GetPointOfInterestCategoriesOptions extends OperationOptions {
 }
 
 /**
- * Base options for search
+ * Base options for search operations
  */
 
 export interface SearchBaseOptions extends OperationOptions {
@@ -48,7 +48,7 @@ export interface SearchBaseOptions extends OperationOptions {
 }
 
 /**
- * Base options for search address
+ * Base options for search address operations
  */
 export interface SearchAddressBaseOptions extends SearchBaseOptions {
   /** Bounding box of the search range */
@@ -60,7 +60,7 @@ export interface SearchAddressBaseOptions extends SearchBaseOptions {
 }
 
 /**
- * Extra filter options
+ * Options for specifying extra filters
  */
 export interface SearchExtraFilterOptions {
   /**
@@ -96,27 +96,19 @@ export interface SearchExtraFilterOptions {
 }
 
 /**
- * Options for search point of interest
+ * Base Options for searching points of interest
  */
-export interface SearchPointOfInterestOptions
+export interface SearchPointOfInterestBaseOptions
   extends SearchAddressBaseOptions,
     SearchExtraFilterOptions {
   /** Hours of operation for a POI (Points of Interest). */
   operatingHours?: OperatingHoursRange;
 }
 
-export type SearchPointOfInterestCategoryOptions = SearchPointOfInterestOptions;
-
 /**
- * Options for fuzzy search
- *
- * Fuzzy Level: 1-4
- * - Level 1 has no spell checking.
- * - Level 2 uses normal n-gram spell checking. For example, query "restrant" can be matched to "restaurant."
- * - Level 3 uses sound-like spell checking, and shingle spell checking. Sound-like spell checking is for "rstrnt" to "restaurant" matching. Shingle spell checking is for "mountainview" to "mountain view" matching.
- * - Level 4 doesn’t add any more spell checking functions.
+ * Base Options for fuzzy search
  */
-export interface FuzzySearchOptions extends SearchPointOfInterestOptions {
+export interface FuzzySearchBaseOptions extends SearchPointOfInterestBaseOptions {
   /** The entityType specifies the level of filtering performed on geographies */
   entityType?: GeographicEntityType;
   /** Minimum fuzziness level to be used. Default: 1 */
@@ -134,7 +126,27 @@ export interface FuzzySearchOptions extends SearchPointOfInterestOptions {
 }
 
 /**
- * Options for search nearby point of interest
+ * Fuzzy search request
+ */
+export type FuzzySearchRequest =
+  | { query: string; coordinates: LatLon }
+  | { query: string; countryFilter: string[] };
+
+/**
+ * Options for fuzzy search
+ */
+export type FuzzySearchOptions = FuzzySearchRequest & FuzzySearchBaseOptions;
+/**
+ * Options for searching points of interest
+ */
+export type SearchPointOfInterestOptions = FuzzySearchRequest & SearchPointOfInterestBaseOptions;
+/**
+ * Options for seaching points of interest by categories
+ */
+export type SearchPointOfInterestCategoryOptions = SearchPointOfInterestOptions;
+
+/**
+ * Options for searching nearby points of interest
  */
 export interface SearchNearbyPointOfInterestOptions
   extends SearchBaseOptions,
@@ -146,7 +158,7 @@ export interface SearchNearbyPointOfInterestOptions
 }
 
 /**
- * Options for search acddress
+ * Options for searching addresses (geocoding)
  */
 export interface SearchAddressOptions extends SearchAddressBaseOptions {
   /** The entityType specifies the level of filtering performed on geographies */
@@ -158,7 +170,7 @@ export interface SearchAddressOptions extends SearchAddressBaseOptions {
 }
 
 /**
- * Options for search structured address
+ * Options for searching structured addresses
  */
 export interface SearchStructuredAddressOptions extends SearchBaseOptions {
   /** The entityType specifies the level of filtering performed on geographies */
@@ -166,7 +178,7 @@ export interface SearchStructuredAddressOptions extends SearchBaseOptions {
 }
 
 /**
- * Base options for reverse search
+ * Base options for reverse search operations
  */
 export interface ReverseSearchBaseOptions extends OperationOptions {
   /** The radius in meters to for the results to be constrained to the defined area */
@@ -180,7 +192,7 @@ export interface ReverseSearchBaseOptions extends OperationOptions {
 }
 
 /**
- * Options for reverse search address
+ * Options for reverse search address operations
  */
 export interface ReverseSearchAddressOptions extends ReverseSearchBaseOptions {
   /** The entityType specifies the level of filtering performed on geographies */
@@ -205,7 +217,7 @@ export interface ReverseSearchAddressOptions extends ReverseSearchBaseOptions {
 }
 
 /**
- * Options for reverse search cross street address
+ * Options for reverse-searching cross street addresses
  */
 export interface ReverseSearchCrossStreetAddressOptions extends ReverseSearchBaseOptions {
   /** Maximum number of responses that will be returned. Default: 10, minimum: 1 and maximum: 100 */
@@ -213,7 +225,7 @@ export interface ReverseSearchCrossStreetAddressOptions extends ReverseSearchBas
 }
 
 /**
- * Base options for geometry search
+ * Base options for geometry search operations
  */
 export interface SearchGeometryBaseOptions extends OperationOptions {
   /** Maximum number of responses that will be returned. Default: 10, minimum: 1 and maximum: 100 */
@@ -235,7 +247,7 @@ export interface SearchGeometryBaseOptions extends OperationOptions {
 }
 
 /**
- * Options for search inside geometry
+ * Options for searching inside geometries
  */
 export interface SearchInsideGeometryOptions extends SearchGeometryBaseOptions {
   /** Language in which search results should be returned. */
@@ -253,7 +265,7 @@ export interface SearchInsideGeometryOptions extends SearchGeometryBaseOptions {
 }
 
 /**
- * Options for search along route
+ * Options for searching along routes
  */
 export interface SearchAlongRouteOptions extends SearchGeometryBaseOptions {
   /**
@@ -279,15 +291,14 @@ export interface SearchAlongRouteOptions extends SearchGeometryBaseOptions {
 }
 
 /**
- * Options for begin fuzzy search batch
+ * Options for performing batch fuzzy searches
  */
-export interface FuzzySearchBatchOptions extends OperationOptions {}
+export type FuzzySearchBatchOptions = OperationOptions;
 /**
- * Options for begin search address batch
+ * Options for performing batch address searches
  */
-export interface SearchAddressBatchOptions extends OperationOptions {}
+export type SearchAddressBatchOptions = OperationOptions;
 /**
-/**
- * Options for reverse begin search address batch
+ * Options for performing batch reverse searches
  */
-export interface ReverseSearchAddressBatchOptions extends OperationOptions {}
+export type ReverseSearchAddressBatchOptions = OperationOptions;
