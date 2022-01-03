@@ -2,12 +2,10 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { getBSU, getSASConnectionStringFromEnvironment, recorderEnvSetup } from "./utils";
 import { ShareClient, ShareServiceClient } from "../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("ShareClient", () => {
   let serviceClient: ShareServiceClient;
