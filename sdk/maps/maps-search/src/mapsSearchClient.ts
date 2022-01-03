@@ -21,7 +21,6 @@ import {
   SearchGetPointOfInterestCategoryTreeOptionalParams as GetPointOfInterestCategoryTreeOptionalParams,
   SearchListPolygonsOptionalParams as ListPolygonsOptionalParams,
   PointOfInterestCategory,
-  Polygon,
   ReverseSearchAddressBatchResult,
   SearchReverseSearchAddressOptionalParams as ReverseSearchAddressOptionalParams,
   SearchReverseSearchCrossStreetAddressOptionalParams as ReverseSearchCrossStreetAddressOptionalParams,
@@ -31,14 +30,8 @@ import {
   SearchSearchStructuredAddressOptionalParams as SearchStructuredAddressOptionalParams,
   SearchSearchNearbyPointOfInterestOptionalParams as SearchNearbyPointOfInterestOptionalParams
 } from "./generated/models";
-import {
-  GeoJsonFeatureCollection,
-  GeoJsonGeometryCollection,
-  GeoJsonLineString,
-  GeoJsonPolygon,
-  LatLon,
-  StructuredAddress
-} from "./models/models";
+import { EntityGeometry, LatLon, SearchGeometry, StructuredAddress } from "./models/models";
+import { GeoJsonFeatureCollection, GeoJsonLineString } from "./models/geojsons";
 import {
   FuzzySearchQuery,
   ReverseSearchAddressQuery,
@@ -60,7 +53,7 @@ import {
   FuzzySearchBatchOptions,
   FuzzySearchOptions,
   GetPointOfInterestCategoriesOptions,
-  GetPolygonsOptions,
+  GetGeometriesOptions,
   ReverseSearchAddressBatchOptions,
   ReverseSearchAddressOptions,
   ReverseSearchCrossStreetAddressOptions,
@@ -155,15 +148,15 @@ export class MapsSearchClient {
    * @param geometryIds - Comma separated list of geometry UUIDs, previously retrieved from an Online Search request.
    * @param options - Optional parameters for the operation
    */
-  public async getPolygons(
+  public async getGeometries(
     geometryIds: string[],
-    options: GetPolygonsOptions = {}
-  ): Promise<Polygon[]> {
+    options: GetGeometriesOptions = {}
+  ): Promise<EntityGeometry[]> {
     if (!Array.isArray(geometryIds) || geometryIds.length === 0) {
       throw new Error("'geometryIds' must be a non-empty array");
     }
 
-    const { span, updatedOptions } = createSpan("MapsSearchClient-getPolygons", options);
+    const { span, updatedOptions } = createSpan("MapsSearchClient-getGeometries", options);
     const internalOptions = updatedOptions as ListPolygonsOptionalParams;
     try {
       const result = await this.client.search.listPolygons(
@@ -171,7 +164,14 @@ export class MapsSearchClient {
         geometryIds,
         internalOptions
       );
-      return result.polygons ? result.polygons : [];
+      return result.polygons
+        ? result.polygons.map((p) => {
+            return {
+              providerID: p.providerID,
+              geometryData: p.geometryData as GeoJsonFeatureCollection
+            };
+          })
+        : [];
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -529,7 +529,7 @@ export class MapsSearchClient {
    */
   public async searchInsideGeometry(
     query: string,
-    geometry: GeoJsonPolygon | GeoJsonGeometryCollection | GeoJsonFeatureCollection,
+    geometry: SearchGeometry,
     options: SearchInsideGeometryOptions = {}
   ): Promise<SearchAddressResult> {
     const { span, updatedOptions } = createSpan("MapsSearchClient-searchInsideGeometry", options);

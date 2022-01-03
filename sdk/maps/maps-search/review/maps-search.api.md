@@ -59,6 +59,15 @@ export interface BatchResult<TResult extends SearchAddressResult | ReverseSearch
 }
 
 // @public
+export type BBox = BBox2D | BBox3D;
+
+// @public
+export type BBox2D = [number, number, number, number];
+
+// @public
+export type BBox3D = [number, number, number, number, number, number];
+
+// @public
 export interface BoundingBox {
     bottomRight: LatLon;
     topLeft: LatLon;
@@ -88,6 +97,12 @@ export interface DataSource {
 
 // @public
 export type ElectricVehicleConnector = string;
+
+// @public
+export interface EntityGeometry {
+    geometryData?: GeoJsonFeatureCollection;
+    readonly providerID?: string;
+}
 
 // @public
 export interface EntryPoint {
@@ -132,7 +147,7 @@ export type FuzzySearchRequest = {
 // @public
 export type GeographicEntityType = string;
 
-// @public
+// @public (undocumented)
 export interface GeoJsonCircleFeature extends GeoJsonFeature {
     // (undocumented)
     geometry: GeoJsonPoint;
@@ -143,12 +158,21 @@ export interface GeoJsonCircleFeature extends GeoJsonFeature {
     };
 }
 
+// @public (undocumented)
+export type GeoJsonCircleOrPolygonFeature = GeoJsonPolygonFeature | GeoJsonCircleFeature;
+
 // @public
-export interface GeoJsonFeature {
+export interface GeoJsonCircleOrPolygonFeatureCollection extends GeoJsonFeatureCollection {
     // (undocumented)
-    geometry: GeoJsonPolygon | GeoJsonPoint;
+    features: GeoJsonCircleOrPolygonFeature[];
+}
+
+// @public
+export interface GeoJsonFeature extends GeoJsonObject {
     // (undocumented)
-    id?: string | number | undefined;
+    geometry?: GeoJsonGeometry;
+    // (undocumented)
+    id?: number | string;
     // (undocumented)
     properties?: {
         [name: string]: any;
@@ -158,7 +182,7 @@ export interface GeoJsonFeature {
 }
 
 // @public
-export interface GeoJsonFeatureCollection {
+export interface GeoJsonFeatureCollection extends GeoJsonObject {
     // (undocumented)
     features: GeoJsonFeature[];
     // (undocumented)
@@ -166,19 +190,54 @@ export interface GeoJsonFeatureCollection {
 }
 
 // @public
-export interface GeoJsonGeometryCollection {
+export type GeoJsonGeometry = GeoJsonPoint | GeoJsonMultiPoint | GeoJsonLineString | GeoJsonMultiLineString | GeoJsonPolygon | GeoJsonMultiPolygon;
+
+// @public
+export interface GeoJsonGeometryCollection extends GeoJsonObject {
     // (undocumented)
-    geometries: GeoJsonPolygon[];
+    geometries: GeoJsonGeometry[];
     // (undocumented)
     type: "GeometryCollection";
 }
 
 // @public
-export interface GeoJsonLineString {
+export interface GeoJsonLineString extends GeoJsonObject {
     // (undocumented)
-    coordinates: number[][];
+    coordinates: Position[];
     // (undocumented)
     type: "LineString";
+}
+
+// @public
+export interface GeoJsonMultiLineString extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position[][];
+    // (undocumented)
+    type: "MultiLineString";
+}
+
+// @public
+export interface GeoJsonMultiPoint extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position[];
+    // (undocumented)
+    type: "MultiPoint";
+}
+
+// @public
+export interface GeoJsonMultiPolygon extends GeoJsonObject {
+    // (undocumented)
+    coordinates: Position[][][];
+    // (undocumented)
+    type: "MultiPolygon";
+}
+
+// @public
+export interface GeoJsonObject {
+    // (undocumented)
+    bbox?: BBox;
+    // (undocumented)
+    type: GeoJsonType;
 }
 
 // Warning: (ae-forgotten-export) The symbol "GeoJsonObject" needs to be exported by the entry point index.d.ts
@@ -187,22 +246,28 @@ export interface GeoJsonLineString {
 // Warning: (ae-forgotten-export) The symbol "GeoJsonFeatureCollection" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export type GeoJsonObjectUnion = GeoJsonObject | GeoJsonGeometryUnion | GeoJsonFeature_2 | GeoJsonFeatureCollection_2;
+export type GeoJsonObjectUnion = GeoJsonObject_2 | GeoJsonGeometryUnion | GeoJsonFeature_2 | GeoJsonFeatureCollection_2;
 
 // @public
-export interface GeoJsonPoint {
+export interface GeoJsonPoint extends GeoJsonObject {
     // (undocumented)
-    coordinates: number[];
+    coordinates: Position;
     // (undocumented)
     type: "Point";
 }
 
 // @public
-export interface GeoJsonPolygon {
+export interface GeoJsonPolygon extends GeoJsonObject {
     // (undocumented)
-    coordinates: number[][][];
+    coordinates: Position[][];
     // (undocumented)
     type: "Polygon";
+}
+
+// @public
+export interface GeoJsonPolygonCollection extends GeoJsonGeometryCollection {
+    // (undocumented)
+    geometries: GeoJsonPolygon[];
 }
 
 // @public
@@ -212,17 +277,24 @@ export interface GeoJsonPolygonFeature extends GeoJsonFeature {
 }
 
 // @public
+export type GeoJsonType = GeometryType | "Feature" | "FeatureCollection";
+
+// @public
 export interface GeometryIdentifier {
     readonly id?: string;
+}
+
+// @public
+export type GeometryType = "Point" | "MultiPoint" | "LineString" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection";
+
+// @public
+export interface GetGeometriesOptions extends OperationOptions {
 }
 
 // @public
 export interface GetPointOfInterestCategoriesOptions extends OperationOptions {
     language?: string;
 }
-
-// @public
-export type GetPolygonsOptions = OperationOptions;
 
 // @public
 export interface LatLon {
@@ -244,15 +316,15 @@ export class MapsSearchClient {
     beginSearchAddressBatch(queries: SearchAddressQuery[], options?: SearchAddressBatchOptions): Promise<PollerLike<PollOperationState<BatchResult<SearchAddressResult>>, BatchResult<SearchAddressResult>>>;
     fuzzySearch(options: FuzzySearchOptions): Promise<SearchAddressResult>;
     fuzzySearchBatchSync(queries: FuzzySearchQuery[], options?: FuzzySearchBatchOptions): Promise<BatchResult<SearchAddressResult>>;
+    getGeometries(geometryIds: string[], options?: GetGeometriesOptions): Promise<EntityGeometry[]>;
     getPointOfInterestCategories(options?: GetPointOfInterestCategoriesOptions): Promise<PointOfInterestCategory[]>;
-    getPolygons(geometryIds: string[], options?: GetPolygonsOptions): Promise<Polygon[]>;
     reverseSearchAddress(coordinates: LatLon, options?: ReverseSearchAddressOptions): Promise<ReverseSearchAddressResult>;
     reverseSearchAddressBatchSync(queries: ReverseSearchAddressQuery[], options?: ReverseSearchAddressBatchOptions): Promise<BatchResult<ReverseSearchAddressResult>>;
     reverseSearchCrossStreetAddress(coordinates: LatLon, options?: ReverseSearchCrossStreetAddressOptions): Promise<ReverseSearchCrossStreetAddressResult>;
     searchAddress(query: string, options?: SearchAddressOptions): Promise<SearchAddressResult>;
     searchAddressBatchSync(queries: SearchAddressQuery[], options?: SearchAddressBatchOptions): Promise<BatchResult<SearchAddressResult>>;
     searchAlongRoute(query: string, maxDetourTime: number, route: GeoJsonLineString, options?: SearchAlongRouteOptions): Promise<SearchAddressResult>;
-    searchInsideGeometry(query: string, geometry: GeoJsonPolygon | GeoJsonGeometryCollection | GeoJsonFeatureCollection, options?: SearchInsideGeometryOptions): Promise<SearchAddressResult>;
+    searchInsideGeometry(query: string, geometry: SearchGeometry, options?: SearchInsideGeometryOptions): Promise<SearchAddressResult>;
     searchNearbyPointOfInterest(coordinates: LatLon, options?: SearchNearbyPointOfInterestOptions): Promise<SearchAddressResult>;
     searchPointOfInterest(options: SearchPointOfInterestOptions): Promise<SearchAddressResult>;
     searchPointOfInterestCategory(options: SearchPointOfInterestCategoryOptions): Promise<SearchAddressResult>;
@@ -326,6 +398,15 @@ export interface Polygon {
 export interface PolygonResult {
     readonly polygons?: Polygon[];
 }
+
+// @public
+export type Position = Position2D | Position3D;
+
+// @public
+export type Position2D = [number, number];
+
+// @public
+export type Position3D = [number, number, number];
 
 // @public
 export type QueryType = string;
@@ -486,6 +567,9 @@ export interface SearchExtraFilterOptions {
     categoryFilter?: number[];
     electricVehicleConnectorFilter?: ElectricVehicleConnector[];
 }
+
+// @public (undocumented)
+export type SearchGeometry = GeoJsonPolygon | GeoJsonPolygonCollection | GeoJsonCircleOrPolygonFeatureCollection;
 
 // @public
 export interface SearchGeometryBaseOptions extends OperationOptions {
