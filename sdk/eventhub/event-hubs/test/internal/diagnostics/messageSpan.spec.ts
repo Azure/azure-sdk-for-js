@@ -24,7 +24,7 @@ testWithServiceTypes(() => {
         {},
         {
           entityPath: "entity path",
-          host: "host"
+          host: "host",
         }
       );
 
@@ -36,7 +36,7 @@ testWithServiceTypes(() => {
       assert.deepStrictEqual((span as any).attributes, {
         "az.namespace": "Microsoft.EventHub",
         "message_bus.destination": "entity path",
-        "peer.address": "host"
+        "peer.address": "host",
       });
 
       span.end();

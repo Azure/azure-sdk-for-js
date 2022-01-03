@@ -34,7 +34,7 @@ export async function main() {
      * See the documentation for a list of all model versions:
      * https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/named-entity-recognition/how-to-call#specify-the-ner-model
      */
-    modelVersion: "latest"
+    modelVersion: "latest",
   });
 
   console.log(
@@ -53,9 +53,9 @@ export async function main() {
            * See the documentation for a list of all model versions:
            * https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/named-entity-recognition/how-to-call#specify-the-ner-model
            */
-          modelVersion: "latest"
-        }
-      ]
+          modelVersion: "latest",
+        },
+      ],
     },
     "en"
   );

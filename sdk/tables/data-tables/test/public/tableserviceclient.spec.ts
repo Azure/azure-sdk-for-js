@@ -4,7 +4,7 @@
 import {
   CreateClientMode,
   createTableServiceClient,
-  recordedEnvironmentSetup
+  recordedEnvironmentSetup,
 } from "./utils/recordedClient";
 import { Recorder, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import { TableItem, TableItemResultPage, TableServiceClient } from "../../src";
@@ -31,12 +31,12 @@ authModes.forEach((authMode) => {
     let recorder: Recorder;
     const suffix = isNode ? `${authMode}node` : `${authMode}browser`;
 
-    beforeEach(function(this: Context) {
+    beforeEach(function (this: Context) {
       recorder = record(this, recordedEnvironmentSetup);
       client = createTableServiceClient(authMode);
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await recorder.stop();
     });
 
@@ -66,7 +66,7 @@ authModes.forEach((authMode) => {
     describe("listTables", () => {
       const tableNames: string[] = [];
       const expectedTotalItems = 20;
-      before(async function(this: Context) {
+      before(async function (this: Context) {
         // Create tables to be listed
         if (!isPlaybackMode()) {
           this.timeout(10000);
@@ -78,7 +78,7 @@ authModes.forEach((authMode) => {
         }
       });
 
-      after(async function(this: Context) {
+      after(async function (this: Context) {
         // Cleanup tables
         if (!isPlaybackMode()) {
           this.timeout(10000);
@@ -106,12 +106,12 @@ authModes.forEach((authMode) => {
         }
       });
 
-      it("should list by page", async function() {
+      it("should list by page", async function () {
         let all: TableItem[] = [];
         const maxPageSize = 5;
         const tables = client.listTables();
         for await (const page of tables.byPage({
-          maxPageSize
+          maxPageSize,
         })) {
           all = [...all, ...page];
           assert.isTrue(page.length <= 5);
@@ -125,13 +125,13 @@ authModes.forEach((authMode) => {
         }
       });
 
-      it("should list a specific page with continuationToken", async function() {
+      it("should list a specific page with continuationToken", async function () {
         const entities = client.listTables();
 
         let lastPage: TableItemResultPage | undefined;
         let lastContinuationToken: string | undefined;
         for await (const page of entities.byPage({
-          maxPageSize: 2
+          maxPageSize: 2,
         })) {
           if (page.continuationToken) {
             lastContinuationToken = page.continuationToken;
@@ -145,7 +145,7 @@ authModes.forEach((authMode) => {
         let result: TableItemResultPage | undefined;
         for await (const page of client.listTables().byPage({
           maxPageSize: 2,
-          continuationToken: lastContinuationToken
+          continuationToken: lastContinuationToken,
         })) {
           result = page;
           break;

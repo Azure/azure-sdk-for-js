@@ -32,5 +32,5 @@ export const processUtils = {
         }
       });
     });
-  }
+  },
 };

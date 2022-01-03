@@ -19,6 +19,6 @@ export function getPromiseParts<T = unknown>(): {
   return {
     promise,
     resolve: resolver!,
-    reject: rejector!
+    reject: rejector!,
   };
 }

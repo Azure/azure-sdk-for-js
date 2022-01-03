@@ -11,18 +11,18 @@ import {
   ChangePointFeedback as ServiceChangePointFeedback,
   CommentFeedback as ServiceCommentFeedback,
   PeriodFeedback as ServicePeriodFeedback,
-  WholeMetricConfiguration as ServiceWholeMetricConfiguration
+  WholeMetricConfiguration as ServiceWholeMetricConfiguration,
 } from "../../src/generated/models";
 import {
   AzureBlobDataFeedSource,
   DataFeedGranularity,
-  MetricDetectionCondition
+  MetricDetectionCondition,
 } from "../../src/models";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
   fromServiceMetricFeedbackUnion,
-  toServiceGranularity
+  toServiceGranularity,
 } from "../../src/transforms";
 
 describe("Transforms", () => {
@@ -35,16 +35,16 @@ describe("Transforms", () => {
         upperBound: 200,
         suppressCondition: {
           minNumber: 110,
-          minRatio: 10
-        }
+          minRatio: 10,
+        },
       },
       smartDetectionCondition: {
         sensitivity: 30,
         anomalyDetectorDirection: "Both",
         suppressCondition: {
           minNumber: 120,
-          minRatio: 20
-        }
+          minRatio: 20,
+        },
       },
       changeThresholdCondition: {
         changePercentage: 400,
@@ -53,9 +53,9 @@ describe("Transforms", () => {
         anomalyDetectorDirection: "Both",
         suppressCondition: {
           minNumber: 140,
-          minRatio: 40
-        }
-      }
+          minRatio: 40,
+        },
+      },
     };
 
     const original: ServiceAnomalyDetectionConfiguration = {
@@ -63,7 +63,7 @@ describe("Transforms", () => {
       name: "detection config",
       description: "detection config description",
       metricId: "detection config metric id",
-      wholeMetricConfiguration: wholeConfig
+      wholeMetricConfiguration: wholeConfig,
     };
 
     const actual = fromServiceAnomalyDetectionConfiguration(original);
@@ -80,7 +80,7 @@ describe("Transforms", () => {
     createdTime: new Date("08/04/2020"),
     userPrincipal: "user1@example.com",
     metricId: "metricId",
-    dimensionFilter: { dimension: { city: "Redmond" } }
+    dimensionFilter: { dimension: { city: "Redmond" } },
   };
 
   it("fromServiceMetricFeedbackUnion() - AnomalyFeedback", () => {
@@ -89,7 +89,7 @@ describe("Transforms", () => {
       feedbackType: "Anomaly",
       startTime: new Date("08/05/2020"),
       endTime: new Date("08/06/2020"),
-      value: { anomalyValue: "NotAnomaly" }
+      value: { anomalyValue: "NotAnomaly" },
     };
 
     const actual = fromServiceMetricFeedbackUnion(anomalyFeedback);
@@ -113,7 +113,7 @@ describe("Transforms", () => {
       ...feedbackCommon,
       feedbackType: "ChangePoint",
       startTime: new Date("08/05/2020"),
-      value: { changePointValue: "NotChangePoint" }
+      value: { changePointValue: "NotChangePoint" },
     };
 
     const actual = fromServiceMetricFeedbackUnion(feedback);
@@ -133,7 +133,7 @@ describe("Transforms", () => {
       feedbackType: "Comment",
       startTime: new Date("08/05/2020"),
       endTime: new Date("08/06/2020"),
-      value: { commentValue: "NotAnomaly" }
+      value: { commentValue: "NotAnomaly" },
     };
 
     const actual = fromServiceMetricFeedbackUnion(feedback);
@@ -154,7 +154,7 @@ describe("Transforms", () => {
       feedbackType: "Period",
       startTime: new Date("08/05/2020"),
       endTime: new Date("08/06/2020"),
-      value: { periodType: "AssignValue", periodValue: 3 }
+      value: { periodType: "AssignValue", periodValue: 3 },
     };
 
     const actual = fromServiceMetricFeedbackUnion(feedback);
@@ -174,14 +174,14 @@ describe("Transforms", () => {
       dataSourceParameter: {
         connectionString: "https://connectionString",
         blobTemplate: "%Y/%m/%d/%h/JsonFormatV2.json",
-        container: "thisContainer"
+        container: "thisContainer",
       },
       authenticationType: "ManagedIdentity",
       dataFeedName: "name",
       metrics: [{ name: "m1", id: "m-id1", displayName: "m1 display" }],
       dimension: [{ name: "d1", displayName: "d1 display" }],
       granularityName: "Daily",
-      dataStartFrom: new Date(Date.UTC(2020, 9, 1))
+      dataStartFrom: new Date(Date.UTC(2020, 9, 1)),
     };
 
     const actual = fromServiceDataFeedDetailUnion(serviceDataFeed);
@@ -207,7 +207,7 @@ describe("Transforms", () => {
       metrics: [{ name: "m1", id: "m-id1", displayName: "m1 display" }],
       dimension: [{ name: "d1", displayName: "d1 display" }],
       granularityName: "Daily",
-      dataStartFrom: new Date(Date.UTC(2020, 9, 1))
+      dataStartFrom: new Date(Date.UTC(2020, 9, 1)),
     };
 
     const actual = fromServiceDataFeedDetailUnion(serviceDataFeed);
@@ -217,7 +217,7 @@ describe("Transforms", () => {
   [
     { original: "Yearly", expected: "Yearly" },
     { original: "Daily", expected: "Daily" },
-    { original: "Minutely", expected: "PerMinute" }
+    { original: "Minutely", expected: "PerMinute" },
   ].forEach((granularity) => {
     it(`fromServiceDataFeedDetailUnion() on granularity ${granularity.original}`, () => {
       const serviceDataFeed: ServiceDataFeedDetailUnion = {
@@ -230,14 +230,14 @@ describe("Transforms", () => {
         dataSourceParameter: {
           connectionString: "https://connectionString",
           blobTemplate: "%Y/%m/%d/%h/JsonFormatV2.json",
-          container: "thisContainer"
+          container: "thisContainer",
         },
-        authenticationType: "ManagedIdentity"
+        authenticationType: "ManagedIdentity",
       };
 
       const actual = fromServiceDataFeedDetailUnion(serviceDataFeed);
       assert.deepStrictEqual(actual.granularity, {
-        granularityType: granularity.expected
+        granularityType: granularity.expected,
       } as DataFeedGranularity);
     });
   });
@@ -245,11 +245,11 @@ describe("Transforms", () => {
   [
     { original: "Yearly", expected: "Yearly" },
     { original: "Daily", expected: "Daily" },
-    { original: "PerMinute", expected: "Minutely" }
+    { original: "PerMinute", expected: "Minutely" },
   ].forEach((granularity) => {
     it(`toServiceGranularity() on granularity ${granularity.original}`, () => {
       const from = {
-        granularityType: granularity.original
+        granularityType: granularity.original,
       } as DataFeedGranularity;
 
       const actual = toServiceGranularity(from);

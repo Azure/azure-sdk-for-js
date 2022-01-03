@@ -49,7 +49,7 @@ class FetchHttpMock implements HttpMockFacade {
 
   // returns the locally mocked fetch instance
   getFetch(): typeof node_fetch {
-    return (this._fetch as unknown) as typeof node_fetch;
+    return this._fetch as unknown as typeof node_fetch;
   }
 
   setup(): void {
@@ -145,7 +145,7 @@ export class BrowserHttpMock implements HttpMockFacade {
     } else {
       xhrMock.use(method, url, {
         status: response.status,
-        body: response.body
+        body: response.body,
       });
     }
   }

@@ -65,7 +65,6 @@
   "sideEffects": false,
   "private": true,
   "dependencies": {
-    "@azure-tools/test-recorder": "^1.0.0",
     "@azure/core-http": "^2.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/test-utils": "^1.0.0",

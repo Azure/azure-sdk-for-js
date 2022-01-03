@@ -16,16 +16,16 @@ describe("SentimentResultArray", () => {
     const input: TextDocumentInput[] = [
       {
         id: "A",
-        text: "test"
+        text: "test",
       },
       {
         id: "B",
-        text: "test2"
+        text: "test2",
       },
       {
         id: "C",
-        text: "test3"
-      }
+        text: "test3",
+      },
     ];
     const result = makeAnalyzeSentimentResultArray(input, {
       documents: [
@@ -34,34 +34,34 @@ describe("SentimentResultArray", () => {
           confidenceScores: {
             positive: 1,
             negative: 0,
-            neutral: 0
+            neutral: 0,
           },
           sentenceSentiments: [],
           sentiment: "positive",
-          warnings: []
+          warnings: [],
         },
         {
           id: "C",
           confidenceScores: {
             positive: 0,
             negative: 1,
-            neutral: 0
+            neutral: 0,
           },
           sentenceSentiments: [],
           sentiment: "negative",
-          warnings: []
-        }
+          warnings: [],
+        },
       ],
       errors: [
         {
           id: "B",
           error: {
             code: "InternalServerError",
-            message: "test error"
-          }
-        }
+            message: "test error",
+          },
+        },
       ],
-      modelVersion: ""
+      modelVersion: "",
     });
 
     const inputOrder = input.map((item) => item.id);
@@ -75,16 +75,16 @@ describe("DetectLanguageResultArray", () => {
     const input: DetectLanguageInput[] = [
       {
         id: "A",
-        text: "test"
+        text: "test",
       },
       {
         id: "B",
-        text: "test2"
+        text: "test2",
       },
       {
         id: "C",
-        text: "test3"
-      }
+        text: "test3",
+      },
     ];
     const result = makeDetectLanguageResultArray(input, {
       documents: [
@@ -93,30 +93,30 @@ describe("DetectLanguageResultArray", () => {
           detectedLanguage: {
             name: "English",
             iso6391Name: "en",
-            confidenceScore: 1
+            confidenceScore: 1,
           },
-          warnings: []
+          warnings: [],
         },
         {
           id: "C",
           detectedLanguage: {
             name: "French",
             iso6391Name: "fr",
-            confidenceScore: 1
+            confidenceScore: 1,
           },
-          warnings: []
-        }
+          warnings: [],
+        },
       ],
       errors: [
         {
           id: "B",
           error: {
             code: "InternalServerError",
-            message: "test error"
-          }
-        }
+            message: "test error",
+          },
+        },
       ],
-      modelVersion: ""
+      modelVersion: "",
     });
 
     const inputOrder = input.map((item) => item.id);
@@ -130,40 +130,40 @@ describe("ExtractKeyPhrasesResultArray", () => {
     const input: TextDocumentInput[] = [
       {
         id: "A",
-        text: "test"
+        text: "test",
       },
       {
         id: "B",
-        text: "test2"
+        text: "test2",
       },
       {
         id: "C",
-        text: "test3"
-      }
+        text: "test3",
+      },
     ];
     const result = makeExtractKeyPhrasesResultArray(input, {
       documents: [
         {
           id: "A",
           keyPhrases: ["test", "test2"],
-          warnings: []
+          warnings: [],
         },
         {
           id: "C",
           keyPhrases: ["awesome"],
-          warnings: []
-        }
+          warnings: [],
+        },
       ],
       errors: [
         {
           id: "B",
           error: {
             code: "InternalServerError",
-            message: "test error"
-          }
-        }
+            message: "test error",
+          },
+        },
       ],
-      modelVersion: ""
+      modelVersion: "",
     });
 
     const inputOrder = input.map((item) => item.id);
@@ -177,16 +177,16 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
     const input: TextDocumentInput[] = [
       {
         id: "A",
-        text: "test"
+        text: "test",
       },
       {
         id: "B",
-        text: "test2"
+        text: "test2",
       },
       {
         id: "C",
-        text: "test3"
-      }
+        text: "test3",
+      },
     ];
     const result = makeRecognizeCategorizedEntitiesResultArray(input, {
       documents: [
@@ -198,10 +198,10 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
               category: "Organization",
               confidenceScore: 0.9989,
               offset: 0,
-              length: 0
-            }
+              length: 0,
+            },
           ],
-          warnings: []
+          warnings: [],
         },
         {
           id: "C",
@@ -212,22 +212,22 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
               subCategory: "DateRange",
               confidenceScore: 0.8,
               offset: 0,
-              length: 0
-            }
+              length: 0,
+            },
           ],
-          warnings: []
-        }
+          warnings: [],
+        },
       ],
       errors: [
         {
           id: "B",
           error: {
             code: "InternalServerError",
-            message: "test error"
-          }
-        }
+            message: "test error",
+          },
+        },
       ],
-      modelVersion: ""
+      modelVersion: "",
     });
 
     const inputOrder = input.map((item) => item.id);
@@ -241,16 +241,16 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
     const input: TextDocumentInput[] = [
       {
         id: "A",
-        text: "test"
+        text: "test",
       },
       {
         id: "B",
-        text: "test2"
+        text: "test2",
       },
       {
         id: "C",
-        text: "test3"
-      }
+        text: "test3",
+      },
     ];
     const result = makeRecognizeLinkedEntitiesResultArray(input, {
       documents: [
@@ -264,16 +264,16 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                   text: "Seattle",
                   confidenceScore: 0.15046201222847677,
                   offset: 0,
-                  length: 0
-                }
+                  length: 0,
+                },
               ],
               language: "en",
               dataSourceEntityId: "Seattle",
               url: "https://en.wikipedia.org/wiki/Seattle",
-              dataSource: "Wikipedia"
-            }
+              dataSource: "Wikipedia",
+            },
           ],
-          warnings: []
+          warnings: [],
         },
         {
           id: "C",
@@ -285,28 +285,28 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                   text: "Microsoft",
                   confidenceScore: 0.1869365971673207,
                   offset: 0,
-                  length: 0
-                }
+                  length: 0,
+                },
               ],
               language: "en",
               dataSourceEntityId: "Microsoft",
               url: "https://en.wikipedia.org/wiki/Microsoft",
-              dataSource: "Wikipedia"
-            }
+              dataSource: "Wikipedia",
+            },
           ],
-          warnings: []
-        }
+          warnings: [],
+        },
       ],
       errors: [
         {
           id: "B",
           error: {
             code: "InternalServerError",
-            message: "test error"
-          }
-        }
+            message: "test error",
+          },
+        },
       ],
-      modelVersion: ""
+      modelVersion: "",
     });
     const inputOrder = input.map((item) => item.id);
     const outputOrder = result.map((item) => item.id);
@@ -318,16 +318,16 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
       const input: TextDocumentInput[] = [
         {
           id: "A",
-          text: "test"
+          text: "test",
         },
         {
           id: "B",
-          text: "test2"
+          text: "test2",
         },
         {
           id: "C",
-          text: "test3"
-        }
+          text: "test3",
+        },
       ];
       const result = makeRecognizePiiEntitiesResultArray(input, {
         documents: [
@@ -339,11 +339,11 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                 category: "US Phone Number",
                 confidenceScore: 0.9989,
                 offset: 0,
-                length: 0
-              }
+                length: 0,
+              },
             ],
             warnings: [],
-            redactedText: ""
+            redactedText: "",
           },
           {
             id: "C",
@@ -354,23 +354,23 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                 subCategory: "",
                 confidenceScore: 0.8,
                 offset: 0,
-                length: 0
-              }
+                length: 0,
+              },
             ],
             warnings: [],
-            redactedText: ""
-          }
+            redactedText: "",
+          },
         ],
         errors: [
           {
             id: "B",
             error: {
               code: "InternalServerError",
-              message: "test error"
-            }
-          }
+              message: "test error",
+            },
+          },
         ],
-        modelVersion: ""
+        modelVersion: "",
       });
 
       const inputOrder = input.map((item) => item.id);

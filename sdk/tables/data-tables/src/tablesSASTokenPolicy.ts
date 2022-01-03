@@ -5,7 +5,7 @@ import {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import { URL, URLSearchParams } from "./utils/url";
 import { SASCredential } from "@azure/core-auth";
@@ -24,7 +24,7 @@ export function tablesSASTokenPolicy(credential: SASCredential): PipelinePolicy 
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       signURLWithSAS(request, credential);
       return next(request);
-    }
+    },
   };
 }
 

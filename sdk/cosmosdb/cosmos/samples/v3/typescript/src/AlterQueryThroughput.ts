@@ -5,9 +5,8 @@
  * @summary Updates a container offer to change query throughput.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
 import {

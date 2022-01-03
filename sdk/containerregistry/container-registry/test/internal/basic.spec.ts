@@ -6,7 +6,7 @@
 import { ContainerRegistryClient, KnownContainerRegistryAudience } from "../../src";
 import { assert } from "chai";
 
-describe("ContainerRegistryClient functional test", async function() {
+describe("ContainerRegistryClient functional test", async function () {
   ["", null, undefined].forEach((value) => {
     it("constructor should throw for invalid endpoint", () => {
       assert.throws(() => {
@@ -16,9 +16,9 @@ describe("ContainerRegistryClient functional test", async function() {
   });
 
   ["", null, undefined].forEach((value) => {
-    it("deleteRepository should throw for invalid repository name", async function() {
+    it("deleteRepository should throw for invalid repository name", async function () {
       const client = new ContainerRegistryClient("https://endpoint", {
-        audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+        audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
       });
       try {
         await client.deleteRepository(value as any);
@@ -32,7 +32,7 @@ describe("ContainerRegistryClient functional test", async function() {
   ["", null, undefined].forEach((value) => {
     it("getRepository should throw for invalid endpoint", () => {
       const client = new ContainerRegistryClient("https://endpoint", {
-        audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+        audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
       });
       assert.throws(() => {
         client.getRepository(value as any);
@@ -43,7 +43,7 @@ describe("ContainerRegistryClient functional test", async function() {
   ["", null, undefined].forEach((value) => {
     it("getArtifact should throw for invalid repository name", () => {
       const client = new ContainerRegistryClient("https://endpoint", {
-        audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+        audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
       });
       assert.throws(() => {
         client.getArtifact(value as any, "digest");
@@ -52,7 +52,7 @@ describe("ContainerRegistryClient functional test", async function() {
 
     it("getArtifact should throw for invalid tagOrDigest", () => {
       const client = new ContainerRegistryClient("https://endpoint", {
-        audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+        audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
       });
       assert.throws(() => {
         client.getArtifact("repositoryName", value as any);
@@ -61,9 +61,9 @@ describe("ContainerRegistryClient functional test", async function() {
   });
 });
 
-describe("ContainerRepository functional test", async function() {
+describe("ContainerRepository functional test", async function () {
   const client = new ContainerRegistryClient("https://endpoint", {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
   });
   const repository = client.getRepository("repositoryName");
   ["", null, undefined].forEach((value) => {
@@ -75,13 +75,13 @@ describe("ContainerRepository functional test", async function() {
   });
 });
 
-describe("RegistryArtifact functional test", async function() {
+describe("RegistryArtifact functional test", async function () {
   const client = new ContainerRegistryClient("https://endpoint", {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
   });
   const artifact = client.getArtifact("repositoryName", "digest");
   ["", null, undefined].forEach((value) => {
-    it("deleteTag should throw for invalid tag", async function() {
+    it("deleteTag should throw for invalid tag", async function () {
       try {
         await artifact.deleteTag(value as any);
         assert.fail("should have thrown already");
@@ -90,7 +90,7 @@ describe("RegistryArtifact functional test", async function() {
       }
     });
 
-    it("getTagProperties should throw for invalid tag", async function() {
+    it("getTagProperties should throw for invalid tag", async function () {
       try {
         await artifact.getTagProperties(value as any);
         assert.fail("should have thrown already");
@@ -99,7 +99,7 @@ describe("RegistryArtifact functional test", async function() {
       }
     });
 
-    it("updateTagProperties should throw for invalid tag", async function() {
+    it("updateTagProperties should throw for invalid tag", async function () {
       try {
         await artifact.updateTagProperties(value as any, {});
         assert.fail("should have thrown already");

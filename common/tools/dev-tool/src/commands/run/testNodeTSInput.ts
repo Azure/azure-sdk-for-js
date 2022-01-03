@@ -17,6 +17,6 @@ export default leafCommand(commandInfo, async (options) => {
     : '--timeout 1200000 --exclude "test/**/browser/*.spec.ts" "test/**/*.spec.ts"';
   return runTestsWithProxyTool({
     command: `mocha ${defaultMochaArgs} ${mochaArgs}`,
-    name: "node-tests"
+    name: "node-tests",
   });
 });

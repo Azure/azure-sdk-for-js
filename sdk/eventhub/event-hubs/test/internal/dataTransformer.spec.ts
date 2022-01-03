@@ -10,7 +10,7 @@ import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 const should = chai.should();
 
 testWithServiceTypes(() => {
-  describe("DataTransformer", function() {
+  describe("DataTransformer", function () {
     const objectBody: any = {
       id: "123-456-789",
       weight: 10,
@@ -19,19 +19,19 @@ testWithServiceTypes(() => {
         {
           id: "098-789-564",
           weight: 20,
-          isBlue: false
-        }
-      ]
+          isBlue: false,
+        },
+      ],
     };
     const arrayBody = [
       {
         id: "098-789-564",
         weight: 20,
-        isBlue: false
+        isBlue: false,
       },
       10,
       20,
-      "some string"
+      "some string",
     ];
     const stringBody: string = "some string";
     const booleanBody: boolean = true;
@@ -430,7 +430,7 @@ testWithServiceTypes(() => {
 
       it("should correctly decode a buffer message body and that body is a JSON string", (done) => {
         const jsonBody = {
-          foo: "bar"
+          foo: "bar",
         };
         const jsonStringBufferBody = Buffer.from(JSON.stringify(jsonBody), "utf8");
         const { body: decoded, bodyType: decodedType } = transformer.decode(
@@ -444,7 +444,7 @@ testWithServiceTypes(() => {
 
       it("should correctly decode a buffer message body and that body is a JSON string, setting skipParsingBodyAsJson to true", (done) => {
         const jsonBody = {
-          foo: "bar"
+          foo: "bar",
         };
         const jsonStringBufferBody = Buffer.from(JSON.stringify(jsonBody), "utf8");
         const { body: decoded, bodyType: decodedType } = transformer.decode(
@@ -458,12 +458,12 @@ testWithServiceTypes(() => {
 
       it("should correctly decode a buffer message body and that body is a JSON string for a rhea AMQP section", (done) => {
         const jsonBody = {
-          foo: "bar"
+          foo: "bar",
         };
         const jsonStringBufferBody = Buffer.from(JSON.stringify(jsonBody), "utf8");
         const rheaAmqpSection = {
           typecode: dataSectionTypeCode,
-          content: jsonStringBufferBody
+          content: jsonStringBufferBody,
         };
         const { body: decoded, bodyType: decodedType } = transformer.decode(rheaAmqpSection, false);
         should.equal(decodedType, "data");
@@ -473,12 +473,12 @@ testWithServiceTypes(() => {
 
       it("should correctly decode a buffer message body and that body is a JSON string for a rhea AMQP section, setting skipParsingBodyAsJson to true", (done) => {
         const jsonBody = {
-          foo: "bar"
+          foo: "bar",
         };
         const jsonStringBufferBody = Buffer.from(JSON.stringify(jsonBody), "utf8");
         const rheaAmqpSection = {
           typecode: dataSectionTypeCode,
-          content: jsonStringBufferBody
+          content: jsonStringBufferBody,
         };
         const { body: decoded, bodyType: decodedType } = transformer.decode(rheaAmqpSection, true);
         should.equal(decodedType, "data");

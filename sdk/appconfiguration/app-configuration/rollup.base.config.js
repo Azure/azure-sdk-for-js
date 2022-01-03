@@ -23,7 +23,7 @@ const banner = [
   " * license information.",
   " * ",
   ` * Azure App Configuration SDK for JavaScript - ${version}`,
-  " */"
+  " */",
 ].join("\n");
 
 const ignoreKnownWarnings = (warning) => {
@@ -52,17 +52,17 @@ export function nodeConfig(test = false) {
       format: "cjs",
       sourcemap: true,
       banner: banner,
-      name: "azureappconfiguration"
+      name: "azureappconfiguration",
     },
     preserveSymlinks: false,
     plugins: [
       sourcemaps(),
       replace({
-        delimiters: ["", ""]
+        delimiters: ["", ""],
       }),
       nodeResolve({ preferBuiltins: true }),
-      cjs()
-    ]
+      cjs(),
+    ],
   };
 
   if (test) {
@@ -100,39 +100,39 @@ export function browserConfig(test = false) {
       format: "umd",
       name: "Azure.AppConfiguration",
       globals: {
-        "@azure/core-http": "Azure.Core.HTTP"
+        "@azure/core-http": "Azure.Core.HTTP",
       },
-      sourcemap: true
+      sourcemap: true,
     },
     external: ["nock", "fs-extra", "path"],
     preserveSymlinks: false,
     plugins: [
       sourcemaps(),
       replace({
-        delimiters: ["", ""]
+        delimiters: ["", ""],
       }),
 
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false
+        preferBuiltins: false,
       }),
       cjs({
         namedExports: {
           chai: ["assert", "expect", "use"],
           events: ["EventEmitter"],
-          ...openTelemetryCommonJs()
-        }
+          ...openTelemetryCommonJs(),
+        },
       }),
 
       inject({
         modules: {
-          process: "process"
+          process: "process",
         },
-        exclude: ["./**/package.json"]
+        exclude: ["./**/package.json"],
       }),
 
-      json()
-    ]
+      json(),
+    ],
   };
 
   baseConfig.onwarn = ignoreKnownWarnings;
@@ -141,7 +141,7 @@ export function browserConfig(test = false) {
     baseConfig.input = [
       "dist-esm/test/*.spec.js",
       "dist-esm/test/internal/*.spec.js",
-      "dist-esm/test/public/*.spec.js"
+      "dist-esm/test/public/*.spec.js",
     ];
 
     baseConfig.external.unshift(...["process"]);
@@ -152,7 +152,7 @@ export function browserConfig(test = false) {
       fs: "fs-extra",
       "fs-extra": "fs",
       process: "process",
-      path: "path"
+      path: "path",
     };
 
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
@@ -160,8 +160,8 @@ export function browserConfig(test = false) {
       ...[
         shim({
           path: `export function join() {}`,
-          dotenv: `export function config() { }`
-        })
+          dotenv: `export function config() { }`,
+        }),
       ]
     );
 

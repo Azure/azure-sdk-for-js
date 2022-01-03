@@ -7,28 +7,27 @@ import {
   PipelineRequest,
   PipelineResponse
 } from "@azure/core-rest-pipeline";
-import { env } from "@azure-tools/test-recorder";
 import { expect } from "chai";
-import { TestProxyHttpClient } from "../src";
-import { RecorderError, RecordingStateManager } from "../src/utils/utils";
+import { env, Recorder } from "../src";
+import { getTestMode, isLiveMode, RecorderError, RecordingStateManager } from "../src/utils/utils";
 
 const testRedirectedRequest = (
-  client: TestProxyHttpClient,
+  client: Recorder,
   makeRequest: () => PipelineRequest,
   expectedModification: (req: PipelineRequest) => PipelineRequest
 ) => {
   const redirectedRequest = makeRequest();
-  client.redirectRequest(redirectedRequest);
+  client["redirectRequest"](redirectedRequest);
   expect(redirectedRequest).to.deep.equal(expectedModification(makeRequest()));
 };
 
 describe("TestProxyClient functions", () => {
-  let client: TestProxyHttpClient;
+  let client: Recorder;
   let clientHttpClient: HttpClient;
   let testContext: Mocha.Test | undefined;
   beforeEach(function() {
-    client = new TestProxyHttpClient(this.currentTest);
-    clientHttpClient = client.httpClient as HttpClient;
+    client = new Recorder(this.currentTest);
+    clientHttpClient = client["httpClient"] as HttpClient;
     testContext = this.currentTest;
   });
 
@@ -59,7 +58,6 @@ describe("TestProxyClient functions", () => {
     ["record", "playback"].forEach((testMode) => {
       it(`${testMode} mode: ` + "request unchanged if `x-recording-id` in headers", function() {
         env.TEST_MODE = testMode;
-
         testRedirectedRequest(
           client,
           () => ({
@@ -74,7 +72,7 @@ describe("TestProxyClient functions", () => {
         `${testMode} mode: ` + "url and headers get updated if no `x-recording-id` in headers",
         function() {
           env.TEST_MODE = testMode;
-          client = new TestProxyHttpClient(testContext);
+          client = new Recorder(testContext);
           client.recordingId = "dummy-recording-id";
 
           testRedirectedRequest(
@@ -94,8 +92,9 @@ describe("TestProxyClient functions", () => {
                 headers: createHttpHeaders({
                   "x-recording-upstream-base-uri": initialRequest.url,
                   "x-recording-id": client.recordingId,
-                  "x-recording-mode": env.TEST_MODE
-                })
+                  "x-recording-mode": getTestMode()
+                }),
+                allowInsecureConnection: !isLiveMode()
               };
             }
           );
@@ -242,49 +241,6 @@ describe("TestProxyClient functions", () => {
     });
   });
 
-  describe("modifyRequest method", () => {
-    it("request unchanged if not playback or record modes", async function() {
-      env.TEST_MODE = "live";
-      expect(await client.modifyRequest(initialRequest)).to.deep.equal(initialRequest);
-    });
-
-    ["record", "playback"].forEach((testMode) => {
-      it(
-        `${testMode} mode: ` + "request unchanged if `x-recording-id` in headers",
-        async function() {
-          env.TEST_MODE = testMode;
-          const request: PipelineRequest = {
-            ...initialRequest,
-            headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
-          };
-          expect(await client.modifyRequest(request)).to.deep.equal(request);
-        }
-      );
-
-      it(
-        `${testMode} mode: ` + "url and headers get updated if no `x-recording-id` in headers",
-        async function() {
-          env.TEST_MODE = testMode;
-          client = new TestProxyHttpClient(testContext);
-          const request: PipelineRequest = {
-            ...initialRequest,
-            headers: createHttpHeaders({})
-          };
-          client.recordingId = "dummy-recording-id";
-          expect(await client.modifyRequest(request)).to.deep.equal({
-            ...request,
-            url: "http://localhost:5000/dummy_path?sas=sas",
-            headers: createHttpHeaders({
-              "x-recording-upstream-base-uri": initialRequest.url,
-              "x-recording-id": client.recordingId,
-              "x-recording-mode": env.TEST_MODE
-            })
-          });
-        }
-      );
-    });
-  });
-
   describe("variable method", () => {
     it("throws an error in record mode if a variable is accessed without giving it a value", () => {
       env.TEST_MODE = "record";
@@ -360,5 +316,3 @@ describe("State Manager", function() {
     }
   });
 });
-
-// TODO: Can potentially add more tests that use the proxy-tool once we figure out the start/setup scripts for proxy-tool

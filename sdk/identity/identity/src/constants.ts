@@ -35,7 +35,7 @@ export enum AzureAuthorityHosts {
   /**
    * Public Cloud Azure Authority Host
    */
-  AzurePublicCloud = "https://login.microsoftonline.com"
+  AzurePublicCloud = "https://login.microsoftonline.com",
 }
 
 /**

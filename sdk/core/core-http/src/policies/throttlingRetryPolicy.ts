@@ -5,7 +5,7 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import { AbortError } from "@azure/abort-controller";
 import { Constants } from "../util/constants";
@@ -34,7 +34,7 @@ export function throttlingRetryPolicy(): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new ThrottlingRetryPolicy(nextPolicy, options);
-    }
+    },
   };
 }
 
@@ -83,15 +83,14 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
     );
 
     if (retryAfterHeader) {
-      const delayInMs: number | undefined = ThrottlingRetryPolicy.parseRetryAfterHeader(
-        retryAfterHeader
-      );
+      const delayInMs: number | undefined =
+        ThrottlingRetryPolicy.parseRetryAfterHeader(retryAfterHeader);
       if (delayInMs) {
         this.numberOfRetries += 1;
 
         await delay(delayInMs, undefined, {
           abortSignal: httpRequest.abortSignal,
-          abortErrorMsg: StandardAbortMessage
+          abortErrorMsg: StandardAbortMessage,
         });
 
         if (httpRequest.abortSignal?.aborted) {

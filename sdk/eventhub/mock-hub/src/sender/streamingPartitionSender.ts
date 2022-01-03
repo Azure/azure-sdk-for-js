@@ -100,7 +100,7 @@ export class StreamingPartitionSender {
         }
 
         const outgoingMessage: Message = {
-          ...value.message
+          ...value.message,
         };
         if (Object.keys(messageAnnotations).length) {
           outgoingMessage.message_annotations = messageAnnotations;

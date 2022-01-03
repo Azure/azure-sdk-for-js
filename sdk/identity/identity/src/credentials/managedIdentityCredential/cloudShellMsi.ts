@@ -4,7 +4,7 @@
 import {
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions
+  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { credentialLogger } from "../../util/logging";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
@@ -27,7 +27,7 @@ function prepareRequestOptions(
   }
 
   const body: Record<string, string> = {
-    resource
+    resource,
   };
 
   if (clientId) {
@@ -46,8 +46,8 @@ function prepareRequestOptions(
     headers: createHttpHeaders({
       Accept: "application/json",
       Metadata: "true",
-      "Content-Type": "application/x-www-form-urlencoded"
-    })
+      "Content-Type": "application/x-www-form-urlencoded",
+    }),
   };
 }
 
@@ -81,9 +81,9 @@ export const cloudShellMsi: MSI = {
       abortSignal: getTokenOptions.abortSignal,
       ...prepareRequestOptions(scopes, clientId),
       // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
-      allowInsecureConnection: true
+      allowInsecureConnection: true,
     });
     const tokenResponse = await identityClient.sendTokenRequest(request);
     return (tokenResponse && tokenResponse.accessToken) || null;
-  }
+  },
 };

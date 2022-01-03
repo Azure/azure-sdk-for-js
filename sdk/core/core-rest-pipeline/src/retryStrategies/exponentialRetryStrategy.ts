@@ -74,7 +74,7 @@ export function exponentialRetryStrategy(
       retryAfterInMs =
         clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
       return { retryAfterInMs };
-    }
+    },
   };
 }
 

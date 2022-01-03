@@ -36,7 +36,7 @@ export function openTelemetryCommonJs(): Record<string, string[]> {
       "setSpan",
       "SpanStatusCode",
       "getSpanContext",
-      "setSpanContext"
+      "setSpanContext",
     ];
   }
 
@@ -47,15 +47,15 @@ export function openTelemetryCommonJs(): Record<string, string[]> {
       // working around a limitation in the rollup common.js plugin - it's not able to resolve these modules so the named exports listed above will not get applied. We have to drill down to the actual path.
       `../../../common/temp/node_modules/.pnpm/@opentelemetry+api@${version}/node_modules/@opentelemetry/api/build/src/index.js`
     ] = [
-        "SpanKind",
-        "TraceFlags",
-        "getSpan",
-        "setSpan",
-        "StatusCode",
-        "CanonicalCode",
-        "getSpanContext",
-        "setSpanContext"
-      ];
+      "SpanKind",
+      "TraceFlags",
+      "getSpan",
+      "setSpan",
+      "StatusCode",
+      "CanonicalCode",
+      "getSpanContext",
+      "setSpanContext",
+    ];
   }
 
   return namedExports;
@@ -73,7 +73,7 @@ function ignoreNiseSinonEvalWarnings(warning: RollupWarning): boolean {
   return (
     warning.code === "EVAL" &&
     (warning.id?.includes("node_modules/nise") || warning.id?.includes("node_modules/sinon")) ===
-    true
+      true
   );
 }
 
@@ -93,7 +93,7 @@ function ignoreOpenTelemetryThisIsUndefinedWarnings(warning: RollupWarning): boo
 const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
   ignoreChaiCircularDependencyWarnings,
   ignoreNiseSinonEvalWarnings,
-  ignoreOpenTelemetryThisIsUndefinedWarnings
+  ignoreOpenTelemetryThisIsUndefinedWarnings,
 ];
 
 /**
@@ -120,29 +120,29 @@ export function makeBrowserTestConfig(pkg: PackageJson): RollupOptions {
   const config: RollupOptions = {
     input: {
       include: [path.join(basePath, "test", "**", "*.spec.js")],
-      exclude: [path.join(basePath, "test", "**", "node", "**")]
+      exclude: [path.join(basePath, "test", "**", "node", "**")],
     },
     output: {
       file: `dist-test/index.browser.js`,
       format: "umd",
-      sourcemap: true
+      sourcemap: true,
     },
     preserveSymlinks: false,
     plugins: [
       multiEntry({ exports: false }),
       nodeResolve({
-        mainFields: ["module", "browser"]
+        mainFields: ["module", "browser"],
       }),
       cjs({
         namedExports: {
           // Chai's strange internal architecture makes it impossible to statically
           // analyze its exports.
           chai: ["version", "use", "util", "config", "expect", "should", "assert"],
-          events: ["EventEmitter"]
-        }
+          events: ["EventEmitter"],
+        },
       }),
       json(),
-      sourcemaps()
+      sourcemaps(),
       //viz({ filename: "dist-test/browser-stats.html", sourcemap: true })
     ],
     onwarn: makeOnWarnForTesting(),
@@ -150,7 +150,7 @@ export function makeBrowserTestConfig(pkg: PackageJson): RollupOptions {
     // rollup started respecting the "sideEffects" field in package.json.  Since
     // our package.json sets "sideEffects=false", this also applies to test
     // code, which causes all tests to be removed by tree-shaking.
-    treeshake: false
+    treeshake: false,
   };
 
   return config;
@@ -161,13 +161,16 @@ export interface ConfigurationOptions {
 }
 
 const defaultConfigurationOptions: ConfigurationOptions = {
-  disableBrowserBundle: false
+  disableBrowserBundle: false,
 };
 
-export function makeConfig(pkg: PackageJson, options?: Partial<ConfigurationOptions>): RollupOptions[] {
+export function makeConfig(
+  pkg: PackageJson,
+  options?: Partial<ConfigurationOptions>
+): RollupOptions[] {
   options = {
     ...defaultConfigurationOptions,
-    ...(options ?? {})
+    ...(options ?? {}),
   };
 
   const baseConfig = {
@@ -176,11 +179,11 @@ export function makeConfig(pkg: PackageJson, options?: Partial<ConfigurationOpti
     external: [
       ...nodeBuiltins,
       ...Object.keys(pkg.dependencies),
-      ...Object.keys(pkg.devDependencies)
+      ...Object.keys(pkg.devDependencies),
     ],
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
-    plugins: [sourcemaps(), nodeResolve(), cjs()]
+    plugins: [sourcemaps(), nodeResolve(), cjs()],
   };
 
   const config: RollupOptions[] = [baseConfig as RollupOptions];

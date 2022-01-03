@@ -5,7 +5,7 @@ import debug, { Debugger } from "../src/debug";
 import { assert } from "chai";
 import { stub } from "sinon";
 
-describe("debug", function() {
+describe("debug", function () {
   let logger: Debugger;
   let logStub: sinon.SinonStub<any[], void>;
 

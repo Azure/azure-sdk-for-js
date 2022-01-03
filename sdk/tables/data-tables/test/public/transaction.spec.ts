@@ -5,7 +5,7 @@ import * as sinon from "sinon";
 import {
   CreateClientMode,
   createTableClient,
-  recordedEnvironmentSetup
+  recordedEnvironmentSetup,
 } from "./utils/recordedClient";
 import { Recorder, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import { TableClient, TableTransaction, TransactionAction, odata } from "../../src";
@@ -37,10 +37,10 @@ authModes.forEach((authMode) => {
     const testEntities = [
       { partitionKey, rowKey: "1", name: "first" },
       { partitionKey, rowKey: "2", name: "second" },
-      { partitionKey, rowKey: "3", name: "third" }
+      { partitionKey, rowKey: "3", name: "third" },
     ];
 
-    beforeEach(async function(this: Context) {
+    beforeEach(async function (this: Context) {
       sinon.stub(Uuid, "generateUuid").returns("fakeId");
       recorder = record(this, recordedEnvironmentSetup);
       client = createTableClient(tableName, authMode);
@@ -54,7 +54,7 @@ authModes.forEach((authMode) => {
       }
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       sinon.restore();
       await recorder.stop();
     });
@@ -110,7 +110,7 @@ authModes.forEach((authMode) => {
       const batchResult = await client.submitTransaction(actions);
 
       const updatedEntities = client.listEntities<{ name: string }>({
-        queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
+        queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
       });
 
       assert.equal(batchResult.status, 202);
@@ -137,7 +137,7 @@ authModes.forEach((authMode) => {
 
       const batchResult = await client.submitTransaction(actions);
       const updatedEntities = client.listEntities<{ name: string }>({
-        queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
+        queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
       });
 
       assert.equal(batchResult.status, 202);
@@ -195,7 +195,7 @@ authModes.forEach((authMode) => {
       const actions1: TransactionAction[] = [
         ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r1", value: "1" }],
         ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r2", value: "2" }],
-        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r3", value: "3" }]
+        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r3", value: "3" }],
       ];
 
       await client.submitTransaction(actions1);
@@ -203,13 +203,13 @@ authModes.forEach((authMode) => {
       const actions2: TransactionAction[] = [
         ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r4", value: "4" }],
         ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r5", value: "5" }],
-        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r6", value: "6" }]
+        ["create", { partitionKey: multiBatchPartitionKey, rowKey: "r6", value: "6" }],
       ];
 
       await client.submitTransaction(actions2);
 
       const entities = client.listEntities<{ name: string }>({
-        queryOptions: { filter: odata`PartitionKey eq ${multiBatchPartitionKey}` }
+        queryOptions: { filter: odata`PartitionKey eq ${multiBatchPartitionKey}` },
       });
 
       let entityCount = 0;
@@ -228,19 +228,19 @@ authModes.forEach((authMode) => {
 
     it("should support empty partition and row keys", async () => {
       const actions1: TransactionAction[] = [
-        ["create", { partitionKey: "", rowKey: "", value: "" }]
+        ["create", { partitionKey: "", rowKey: "", value: "" }],
       ];
 
       await client.submitTransaction(actions1);
       await client.submitTransaction([
-        ["update", { partitionKey: "", rowKey: "", value: "updated" }]
+        ["update", { partitionKey: "", rowKey: "", value: "updated" }],
       ]);
 
       let entity = await client.getEntity("", "");
       assert.equal(entity.value, "updated");
 
       await client.submitTransaction([
-        ["upsert", { partitionKey: "", rowKey: "", value: "upserted" }]
+        ["upsert", { partitionKey: "", rowKey: "", value: "upserted" }],
       ]);
 
       entity = await client.getEntity("", "");

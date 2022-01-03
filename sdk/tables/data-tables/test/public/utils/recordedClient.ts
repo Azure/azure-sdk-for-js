@@ -23,7 +23,7 @@ const replaceableVariables: { [k: string]: string } = {
   SAS_CONNECTION_STRING: `${mockSasConnectionString}`,
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888"
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 export const recordedEnvironmentSetup: RecorderEnvironmentSetup = {
@@ -38,7 +38,7 @@ export const recordedEnvironmentSetup: RecorderEnvironmentSetup = {
             new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
             `${mockAccountKey}`
           )
-        : recording
+        : recording,
   ],
   // SAS token may contain sensitive information
   queryParametersToSkip: [
@@ -50,8 +50,8 @@ export const recordedEnvironmentSetup: RecorderEnvironmentSetup = {
     "srt",
     "ss",
     "st",
-    "sv"
-  ]
+    "sv",
+  ],
 };
 
 export type CreateClientMode =
