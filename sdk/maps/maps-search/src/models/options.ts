@@ -20,7 +20,7 @@ export type MapsSearchClientOptions = CommonClientOptions;
 /**
  * Options for retrieving polygon gemotries given geometry ids
  */
-export type GetPolygonsOptions = OperationOptions;
+export interface GetGeometriesOptions extends OperationOptions {}
 
 /**
  * Options for retrieving point of interest categories
