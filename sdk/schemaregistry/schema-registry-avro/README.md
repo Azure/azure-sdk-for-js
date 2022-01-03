@@ -2,7 +2,7 @@
 
 Azure Schema Registry is a schema repository service hosted by Azure Event Hubs,
 providing schema storage, versioning, and management. This package provides an
-Avro encoder capable of serializing and deserializing payloads containing
+Avro encoder capable of encoding and decoding payloads containing
 Avro-encoded data.
 
 Key links:
@@ -42,7 +42,7 @@ to get schema IDs from schema definition or vice versa. The provided API has int
 
 The same format is used by schema registry encoders across Azure SDK languages.
 
-Messages are structured contains two fields as follows:
+Messages are structured as follows:
 
 - `data`: a byte array containing the Avro Binary Encoding. Note that it is NOT
   Avro Object Container File, which includes the schema and defeats the purpose of
