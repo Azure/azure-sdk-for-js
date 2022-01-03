@@ -10809,7 +10809,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-QKo+ksa6MGdQm2cw3Rh1iZkW4yCs5227Y7uhLtIpODfLotbCM0Vjo4ecwZickPdmkFLepUzB6woCuJbb7eU9ZQ==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-NXA2+FZUn6CRh48QSGarB26hjUX5XXy9Z0PTowwGPr8Mlxk1audkfULILZjHIa0VlUaaXMa1S9p2aR7J/tSd2g==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -10861,7 +10861,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       moment: 2.29.1
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       process: 0.11.10
       puppeteer: 10.4.0
       rhea-promise: 2.1.0
@@ -10947,7 +10947,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-yukKMardh/Y+wmzXQ9Vs9SE8f29QNHZqoRrw2DoyXrSuIQxxTUVls5N4q6MKV+CYsAeiSwJyC2F7MsYIBOgr+w==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-W13AwI/nScWIjjYL5DakdTiesm+gJc2tFivKmMsI4NcwbIvTXHBODROS1J7mq0jYcLX460RaYhp/uyZUPxb0KQ==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -10985,7 +10985,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
@@ -11001,7 +11001,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz:
-    resolution: {integrity: sha512-zWlHbjrXxodAevHGy9Jf1UAVGlG/3tlPCZz1aGBDk8G/JPO96k1pHWbt7WCWR+LdfHJKBxM7YvIp6zggKW0Oog==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-UlfM48pxr7Yk+oSi9wDG9uhg4gulxHf/QpwXCCzNKdzEYUU1vIPr+6/c5yMAeIKYLra0TtmHQVb1tPMKxTgmhw==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
@@ -11038,7 +11038,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
@@ -11613,14 +11613,14 @@ packages:
     dev: false
 
   file:projects/mock-hub.tgz:
-    resolution: {integrity: sha512-K6rFTLoACIBX5It6x5v3r668Kpt7jjkgCeukzTyZ13cvPrjqJ4M7L9y0oU2ECIigGm59cbHx4sWOX/rHAhELhw==, tarball: file:projects/mock-hub.tgz}
+    resolution: {integrity: sha512-LlpgK1cB6WNMiX6Zq+iQ8+uYzOOSzwdW7BGwRSy7y+vNJD1Dfiqj3DTPAWJ8l82oGD7h6tQJoC7Q884CKbGwWw==, tarball: file:projects/mock-hub.tgz}
     name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.37
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rhea: 2.0.6
       rimraf: 3.0.2
       tslib: 2.3.1
@@ -11859,7 +11859,7 @@ packages:
     dev: false
 
   file:projects/perf-event-hubs.tgz:
-    resolution: {integrity: sha512-6AxLA3ozcov9w1YdM3FYvCUXRlN+ZstuasCq0lWD9evFsqIs1Yfjqv+W/SaqjgY1k6EuYXzM1JtUhBC0f8EVyw==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-0Shj+f5HUSjnyL56js5KhwURz4fwSgQu9vAxnC5DawSdWpExDLiGSLG+pVm7YuDQ432ondadTZDYgdkVqlFE5A==, tarball: file:projects/perf-event-hubs.tgz}
     name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
@@ -11869,7 +11869,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       moment: 2.29.1
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1

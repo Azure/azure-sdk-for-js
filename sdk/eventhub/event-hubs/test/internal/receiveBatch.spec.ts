@@ -7,7 +7,7 @@ import {
   EventHubConsumerClient,
   EventHubProducerClient,
   EventPosition,
-  MessagingError
+  MessagingError,
 } from "../../src";
 import { EventHubReceiver } from "../../src/eventHubReceiver";
 import chai from "chai";
@@ -33,15 +33,15 @@ testWithServiceTypes((serviceVersion) => {
     });
   }
 
-  describe("EventHubConsumerClient", function(): void {
+  describe("EventHubConsumerClient", function (): void {
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]
+      path: env[EnvVarKeys.EVENTHUB_NAME],
     };
     let producerClient: EventHubProducerClient;
     let consumerClient: EventHubConsumerClient;
     let partitionIds: string[];
-    before("validate environment", async function(): Promise<void> {
+    before("validate environment", async function (): Promise<void> {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -67,7 +67,7 @@ testWithServiceTypes((serviceVersion) => {
       await consumerClient.close();
     });
 
-    describe("EventHubConsumer receiveBatch", function(): void {
+    describe("EventHubConsumer receiveBatch", function (): void {
       it("should not lose messages on error", async () => {
         const partitionId = partitionIds[0];
         const { lastEnqueuedSequenceNumber } = await producerClient.getPartitionProperties(
@@ -77,7 +77,7 @@ testWithServiceTypes((serviceVersion) => {
         // Ensure the receiver only looks at new messages.
         const startPosition: EventPosition = {
           sequenceNumber: lastEnqueuedSequenceNumber,
-          isInclusive: false
+          isInclusive: false,
         };
 
         // Send a message we expect to receive.
@@ -92,8 +92,8 @@ testWithServiceTypes((serviceVersion) => {
           startPosition,
           {
             retryOptions: {
-              maxRetries: 0
-            }
+              maxRetries: 0,
+            },
           }
         );
 
@@ -132,7 +132,7 @@ testWithServiceTypes((serviceVersion) => {
         // Ensure the receiver only looks at new messages.
         const startPosition: EventPosition = {
           sequenceNumber: lastEnqueuedSequenceNumber,
-          isInclusive: false
+          isInclusive: false,
         };
 
         // Send a message we expect to receive.
@@ -147,8 +147,8 @@ testWithServiceTypes((serviceVersion) => {
           startPosition,
           {
             retryOptions: {
-              maxRetries: 1
-            }
+              maxRetries: 1,
+            },
           }
         );
 

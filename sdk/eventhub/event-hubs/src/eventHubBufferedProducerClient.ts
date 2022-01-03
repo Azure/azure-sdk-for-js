@@ -7,7 +7,7 @@ import {
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  SendBatchOptions
+  SendBatchOptions,
 } from "./models/public";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
@@ -332,7 +332,7 @@ export class EventHubBufferedProducerClient {
 
     const partitionId = this._partitionAssigner.assignPartition({
       partitionId: options.partitionId,
-      partitionKey: options.partitionKey
+      partitionKey: options.partitionKey,
     });
 
     const partitionChannel = this._getPartitionChannel(partitionId);
@@ -436,7 +436,7 @@ export class EventHubBufferedProducerClient {
         onSendEventsErrorHandler: this._clientOptions.onSendEventsErrorHandler,
         onSendEventsSuccessHandler: this._clientOptions.onSendEventsSuccessHandler,
         partitionId,
-        producer: this._producer
+        producer: this._producer,
       });
     this._partitionChannels.set(partitionId, partitionChannel);
     return partitionChannel;
