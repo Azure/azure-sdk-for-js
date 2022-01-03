@@ -33,7 +33,7 @@ export function getClientParamsFromConnectionString(
   } else if (extractedCreds.kind === "SASConnString") {
     return {
       url: `${extractedCreds.url}?${extractedCreds.accountSas}`,
-      options
+      options,
     };
   } else {
     throw new Error(

@@ -23,7 +23,7 @@ export function fromAccountConnectionString(
   return {
     url: extractedCreds.url,
     options,
-    credential: sharedKeyCredential
+    credential: sharedKeyCredential,
   };
 }
 
@@ -59,6 +59,6 @@ export function getAccountConnectionString(
     kind: "AccountConnString",
     url: tableEndpoint,
     accountName,
-    accountKey
+    accountKey,
   };
 }

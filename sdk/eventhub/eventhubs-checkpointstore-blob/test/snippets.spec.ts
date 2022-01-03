@@ -73,7 +73,7 @@ describe.skip("Snippets", () => {
           // handle any errors that occur during the course of
           // this subscription
           console.log(`Errors in subscription to partition ${context.partitionId}: ${err}`);
-        }
+        },
       });
 
       // Wait for a few seconds to receive events before closing

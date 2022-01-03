@@ -18,18 +18,18 @@ import {
   TableTransactionResponse,
   TransactionAction,
   UpdateMode,
-  UpdateTableEntityOptions
+  UpdateTableEntityOptions,
 } from "./models";
 import {
   DeleteTableEntityResponse,
   SetAccessPolicyResponse,
   UpdateEntityResponse,
-  UpsertEntityResponse
+  UpsertEntityResponse,
 } from "./generatedModels";
 import {
   FullOperationResponse,
   InternalClientPipelineOptions,
-  OperationOptions
+  OperationOptions,
 } from "@azure/core-client";
 import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import {
@@ -38,7 +38,7 @@ import {
   TokenCredential,
   isNamedKeyCredential,
   isSASCredential,
-  isTokenCredential
+  isTokenCredential,
 } from "@azure/core-auth";
 import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { decodeContinuationToken, encodeContinuationToken } from "./utils/continuationToken";
@@ -48,7 +48,7 @@ import {
   deserializeSignedIdentifier,
   serialize,
   serializeQueryOptions,
-  serializeSignedIdentifiers
+  serializeSignedIdentifiers,
 } from "./serialization";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 import { InternalTableTransaction } from "./TableTransaction";
@@ -234,18 +234,18 @@ export class TableClient {
       ...this.clientOptions,
       loggingOptions: {
         logger: logger.info,
-        additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+        additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames],
       },
       deserializationOptions: {
-        parseXML
+        parseXML,
       },
       serializationOptions: {
-        stringifyXML
+        stringifyXML,
       },
       ...(isTokenCredential(this.credential) && {
         credential: this.credential,
-        credentialScopes: STORAGE_SCOPE
-      })
+        credentialScopes: STORAGE_SCOPE,
+      }),
     };
 
     const generatedClient = new GeneratedClient(this.url, internalPipelineOptions);
@@ -393,7 +393,7 @@ export class TableClient {
         {
           ...getEntityOptions,
           queryOptions: serializeQueryOptions(queryOptions || {}),
-          onResponse
+          onResponse,
         }
       );
       const tableEntity = deserialize<TableEntityResult<T>>(
@@ -457,7 +457,7 @@ export class TableClient {
       byPage: (settings) => {
         const pageOptions: InternalListTableEntitiesOptions = {
           ...options,
-          queryOptions: { ...options.queryOptions, top: settings?.maxPageSize }
+          queryOptions: { ...options.queryOptions, top: settings?.maxPageSize },
         };
 
         if (settings?.continuationToken) {
@@ -465,7 +465,7 @@ export class TableClient {
         }
 
         return this.listEntitiesPage(tableName, pageOptions);
-      }
+      },
     };
   }
 
@@ -478,7 +478,7 @@ export class TableClient {
     if (firstPage.continuationToken) {
       const optionsWithContinuation: InternalListTableEntitiesOptions = {
         ...options,
-        continuationToken: firstPage.continuationToken
+        continuationToken: firstPage.continuationToken,
       };
       for await (const page of this.listEntitiesPage<T>(tableName, optionsWithContinuation)) {
         yield* page;
@@ -500,7 +500,7 @@ export class TableClient {
       while (result.continuationToken) {
         const optionsWithContinuation: InternalListTableEntitiesOptions = {
           ...updatedOptions,
-          continuationToken: result.continuationToken
+          continuationToken: result.continuationToken,
         };
 
         result = await this._listEntities(tableName, optionsWithContinuation);
@@ -510,7 +510,7 @@ export class TableClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -526,7 +526,7 @@ export class TableClient {
     const queryOptions = serializeQueryOptions(options.queryOptions || {});
     const listEntitiesOptions: TableQueryEntitiesOptionalParams = {
       ...options,
-      queryOptions
+      queryOptions,
     };
 
     // If a continuation token is used, decode it and set the next row and partition key
@@ -539,7 +539,7 @@ export class TableClient {
     const {
       xMsContinuationNextPartitionKey: nextPartitionKey,
       xMsContinuationNextRowKey: nextRowKey,
-      value
+      value,
     } = await this.table.queryEntities(tableName, listEntitiesOptions);
 
     const tableEntities = deserializeObjectsArray<TableEntityResult<T>>(
@@ -551,7 +551,7 @@ export class TableClient {
     // property to the page.
     const continuationToken = encodeContinuationToken(nextPartitionKey, nextRowKey);
     const page: TableEntityResultPage<T> = Object.assign([...tableEntities], {
-      continuationToken
+      continuationToken,
     });
 
     return page;
@@ -593,7 +593,7 @@ export class TableClient {
       return await this.table.insertEntity(this.tableName, {
         ...createTableEntity,
         tableEntityProperties: serialize(entity),
-        responsePreference: "return-no-content"
+        responsePreference: "return-no-content",
       });
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
@@ -639,7 +639,7 @@ export class TableClient {
     try {
       const { etag = "*", ...rest } = updatedOptions || {};
       const deleteOptions: TableDeleteEntityOptionalParams = {
-        ...rest
+        ...rest,
       };
       return await this.table.deleteEntity(
         this.tableName,
@@ -712,14 +712,14 @@ export class TableClient {
         return await this.table.mergeEntity(this.tableName, partitionKey, rowKey, {
           tableEntityProperties: serialize(entity),
           ifMatch: etag,
-          ...updateEntityOptions
+          ...updateEntityOptions,
         });
       }
       if (mode === "Replace") {
         return await this.table.updateEntity(this.tableName, partitionKey, rowKey, {
           tableEntityProperties: serialize(entity),
           ifMatch: etag,
-          ...updateEntityOptions
+          ...updateEntityOptions,
         });
       }
 
@@ -782,14 +782,14 @@ export class TableClient {
       if (mode === "Merge") {
         return await this.table.mergeEntity(this.tableName, partitionKey, rowKey, {
           tableEntityProperties: serialize(entity),
-          ...updatedOptions
+          ...updatedOptions,
         });
       }
 
       if (mode === "Replace") {
         return await this.table.updateEntity(this.tableName, partitionKey, rowKey, {
           tableEntityProperties: serialize(entity),
-          ...updatedOptions
+          ...updatedOptions,
         });
       }
       throw new Error(`Unexpected value for update mode: ${mode}`);
@@ -833,7 +833,7 @@ export class TableClient {
       const serlializedAcl = serializeSignedIdentifiers(tableAcl);
       return await this.table.setAccessPolicy(this.tableName, {
         ...updatedOptions,
-        tableAcl: serlializedAcl
+        tableAcl: serlializedAcl,
       });
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
@@ -938,10 +938,11 @@ export class TableClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableClientOptions
   ): TableClient {
-    const { url, options: clientOptions, credential } = getClientParamsFromConnectionString(
-      connectionString,
-      options
-    );
+    const {
+      url,
+      options: clientOptions,
+      credential,
+    } = getClientParamsFromConnectionString(connectionString, options);
     if (credential) {
       return new TableClient(url, tableName, credential, clientOptions);
     } else {

@@ -1418,6 +1418,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -10622,7 +10623,7 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-15oV7/MZhi1cfaumGp/t5wNZmDQdkURPM0DjX7nV5sNY+oELwhEE+r3FzcsQNHPr59wIEinsUGEaUtqZ+vXc7A==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-dnf1y2tJ2689eFPRET57b+iam8W0ziMjdROpGLFCtfwCZxqp406rPrqo7Mj7BwNjzFppRQbn/o9oOQtc+u/MhQ==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
@@ -10659,7 +10660,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -10808,7 +10809,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-QKo+ksa6MGdQm2cw3Rh1iZkW4yCs5227Y7uhLtIpODfLotbCM0Vjo4ecwZickPdmkFLepUzB6woCuJbb7eU9ZQ==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-NXA2+FZUn6CRh48QSGarB26hjUX5XXy9Z0PTowwGPr8Mlxk1audkfULILZjHIa0VlUaaXMa1S9p2aR7J/tSd2g==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -10860,7 +10861,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       moment: 2.29.1
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       process: 0.11.10
       puppeteer: 10.4.0
       rhea-promise: 2.1.0
@@ -10946,7 +10947,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-yukKMardh/Y+wmzXQ9Vs9SE8f29QNHZqoRrw2DoyXrSuIQxxTUVls5N4q6MKV+CYsAeiSwJyC2F7MsYIBOgr+w==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-W13AwI/nScWIjjYL5DakdTiesm+gJc2tFivKmMsI4NcwbIvTXHBODROS1J7mq0jYcLX460RaYhp/uyZUPxb0KQ==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -10984,7 +10985,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
@@ -11000,7 +11001,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz:
-    resolution: {integrity: sha512-zWlHbjrXxodAevHGy9Jf1UAVGlG/3tlPCZz1aGBDk8G/JPO96k1pHWbt7WCWR+LdfHJKBxM7YvIp6zggKW0Oog==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-UlfM48pxr7Yk+oSi9wDG9uhg4gulxHf/QpwXCCzNKdzEYUU1vIPr+6/c5yMAeIKYLra0TtmHQVb1tPMKxTgmhw==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
@@ -11037,7 +11038,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
@@ -11612,14 +11613,14 @@ packages:
     dev: false
 
   file:projects/mock-hub.tgz:
-    resolution: {integrity: sha512-K6rFTLoACIBX5It6x5v3r668Kpt7jjkgCeukzTyZ13cvPrjqJ4M7L9y0oU2ECIigGm59cbHx4sWOX/rHAhELhw==, tarball: file:projects/mock-hub.tgz}
+    resolution: {integrity: sha512-LlpgK1cB6WNMiX6Zq+iQ8+uYzOOSzwdW7BGwRSy7y+vNJD1Dfiqj3DTPAWJ8l82oGD7h6tQJoC7Q884CKbGwWw==, tarball: file:projects/mock-hub.tgz}
     name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.37
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rhea: 2.0.6
       rimraf: 3.0.2
       tslib: 2.3.1
@@ -11836,7 +11837,7 @@ packages:
     dev: false
 
   file:projects/perf-data-tables.tgz:
-    resolution: {integrity: sha512-apNC948J1ppaBLAz9gNALEAzb0aMyos+Gnbe9UfU/arGRMnraju1PKslj3867fbC8um2V+Z3W/TWJhsF45dBOw==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-PgjuJKqYgdWR6o7kB/EjjXwR5RMIYgjZMHBwucULF8XfMytM6SBiWpqG72edRxEFo66OxmlLR3ByLfsjUNr+Xg==, tarball: file:projects/perf-data-tables.tgz}
     name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
@@ -11845,7 +11846,7 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
@@ -11858,7 +11859,7 @@ packages:
     dev: false
 
   file:projects/perf-event-hubs.tgz:
-    resolution: {integrity: sha512-6AxLA3ozcov9w1YdM3FYvCUXRlN+ZstuasCq0lWD9evFsqIs1Yfjqv+W/SaqjgY1k6EuYXzM1JtUhBC0f8EVyw==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-0Shj+f5HUSjnyL56js5KhwURz4fwSgQu9vAxnC5DawSdWpExDLiGSLG+pVm7YuDQ432ondadTZDYgdkVqlFE5A==, tarball: file:projects/perf-event-hubs.tgz}
     name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
@@ -11868,7 +11869,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       moment: 2.29.1
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
@@ -12131,7 +12132,7 @@ packages:
     dev: false
 
   file:projects/purview-account.tgz:
-    resolution: {integrity: sha512-80S7bWUiimjhZMa44NrrcpAVceEIABUpCWdxgOkRQsMifwiI1PVT2IPTNDzAALJ9LR+BBr2YaEAbBpvceW5tMQ==, tarball: file:projects/purview-account.tgz}
+    resolution: {integrity: sha512-2SgZF7TpHa9W54okUQr0+0TPdV6LnA9Op5yR0b5jrVC+XYhwO2bclHoU9dDESg2Ehr6ZkW+qfLUF6o7b+PmgAw==, tarball: file:projects/purview-account.tgz}
     name: '@rush-temp/purview-account'
     version: 0.0.0
     dependencies:
@@ -12163,7 +12164,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.2.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       source-map-support: 0.5.21
@@ -12177,7 +12178,7 @@ packages:
     dev: false
 
   file:projects/purview-administration.tgz:
-    resolution: {integrity: sha512-i4bV/YjiM80T2/DKscf7Ok8KVddw8WU+6l4/ruqhcsRD3xBuT/D0spg8/g/xd9k/kTh0JBpl1D20dRKWsfz06Q==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-UlUeRaxkiHu2VdQj3jStF16Gp3H7GXx7yIvRxUKq5nbDL+krcnBAyXUzAU7ozWUmLEdUieYNSKpV7Dn6rbIvAA==, tarball: file:projects/purview-administration.tgz}
     name: '@rush-temp/purview-administration'
     version: 0.0.0
     dependencies:
@@ -12208,7 +12209,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.2.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       source-map-support: 0.5.21
@@ -12222,7 +12223,7 @@ packages:
     dev: false
 
   file:projects/purview-catalog.tgz:
-    resolution: {integrity: sha512-sxVdEDLLpRxKJnnMhOJJpdr6IZYqGE7uoZcR7Tt6t7N/WtHyJVOr/PytwQiQeFCETzuqT8Xik8TW9Eo9A7MB1A==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-kBvU8BT/PeSzUR/VIojuRzD1rOd9HfR4EJUf1seJy6FElzCpDlLDk3R61nAoHQn88tg7DB6akNCQp8QIOm+89g==, tarball: file:projects/purview-catalog.tgz}
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
@@ -12253,7 +12254,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.2.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       source-map-support: 0.5.21
@@ -12267,7 +12268,7 @@ packages:
     dev: false
 
   file:projects/purview-scanning.tgz:
-    resolution: {integrity: sha512-ocNGzp8fn3K2gS3Kyg5RCtE4YAtGXZ6qyz61mUXXBs0ktcmKKr2mxIqise4/7aQtawsGXBCTLIhA8/kh3/WHpA==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-P9yipFZeWLQDurFXb2cGM4raLy6GNanN8c2qdEkf+IsMYcPyctwBzhL1Nd0DQbf2ZwFndYjhWvZSDXtaEanYfw==, tarball: file:projects/purview-scanning.tgz}
     name: '@rush-temp/purview-scanning'
     version: 0.0.0
     dependencies:
@@ -12298,7 +12299,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.2.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       source-map-support: 0.5.21
@@ -12943,7 +12944,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control-1.tgz:
-    resolution: {integrity: sha512-ZtZWbYdfH0jPNoBbh9AN3T+CojyCJ+cmlAq6sgQANDIwb0FJUN5h++hpAee8dg3veW7YVBuuCs/GKMXRWvOC5g==, tarball: file:projects/synapse-access-control-1.tgz}
+    resolution: {integrity: sha512-oyb6JdMjvR69By0q6MReN1EcWS/Eqa7N/483q2nTvObJt+SF5UY6RST48wChvLDC1J0A3bHnRvw1JbsxulfLlg==, tarball: file:projects/synapse-access-control-1.tgz}
     name: '@rush-temp/synapse-access-control-1'
     version: 0.0.0
     dependencies:
@@ -12976,7 +12977,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -12995,7 +12996,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control.tgz:
-    resolution: {integrity: sha512-vLScf0uBb5vBJpylLlF5kAdViifx3fy1bVPzeK+VtmBOtxJFObL2vfZ5Xk6WemqEW04AbMTNxKSWafVu8h7ShA==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-XAxW1/ksG3TEBG4kyP/nJnWp+9g8fTRupupZ7mR3O51ObSP4yEMUaoli6n82dO/+X2Xxo9whH1BnA50hku2w4Q==, tarball: file:projects/synapse-access-control.tgz}
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
@@ -13030,7 +13031,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -13050,7 +13051,7 @@ packages:
     dev: false
 
   file:projects/synapse-artifacts.tgz:
-    resolution: {integrity: sha512-rXVjHP6gQAP4mwjPA6wVqoogEt6M6UG0tE6XCApQIrOcY1DhX0mPJCz4FGSwRw/fePtE7tS/3RvIeAkF1U2rXw==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-yeEkzQdA2yUPfj1+gRhmkzqy9vMKqj9gEaofwGPeO8X7aJBFNDBRNhLKLN4QCkFHwGY3iL+eHTLUJxCwPc9HgA==, tarball: file:projects/synapse-artifacts.tgz}
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
@@ -13083,7 +13084,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -13102,7 +13103,7 @@ packages:
     dev: false
 
   file:projects/synapse-managed-private-endpoints.tgz:
-    resolution: {integrity: sha512-4jbDOLAhVBT36a908mwm0sb8bOWPuR/vZnb4dQWklgESwHkUq0OAsDBmv/YIW/meUbzllGHuPCYQDPotdiPa0g==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
+    resolution: {integrity: sha512-QH7S+f26cJUZDiVMMwtgwPpggdhBcaVmUU1KKQXAR7+bI7NTX0QrpgK3TKOUbXxlc4EC8u0ihdhPIAx4PnOzXg==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
     name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
@@ -13133,7 +13134,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       tslib: 2.3.1
@@ -13167,7 +13168,7 @@ packages:
     dev: false
 
   file:projects/synapse-spark.tgz:
-    resolution: {integrity: sha512-gMS4beeBfXs/gqkEhB6fl9sdivrz2W6UYO/0acqlJHFIXxgPep+KnHXJBP/Stjau61KD9tCDSvASv1YmkB31EA==, tarball: file:projects/synapse-spark.tgz}
+    resolution: {integrity: sha512-Jm0VBD49BuJPQJemURZTSBzQXtXUJqFFJ/JxQGkb+sEzGRyuUV1Xjs/m3wS3PFWZuYZyTX5y9jd/CnM6FF9Hhw==, tarball: file:projects/synapse-spark.tgz}
     name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
@@ -13198,7 +13199,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       tslib: 2.3.1
