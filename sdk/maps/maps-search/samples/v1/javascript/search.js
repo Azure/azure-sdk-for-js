@@ -152,7 +152,7 @@ async function main() {
 
   console.log(" --- List polygons by geometry IDs:");
   console.log(geometryIds);
-  console.log(await client.getPolygons(geometryIds));
+  console.log(await client.getGeometries(geometryIds));
 
   console.log(" --- Search along route:");
   const searchALongRouteQuery = "burger";
@@ -177,9 +177,9 @@ async function main() {
     )
   );
 
-  console.log(" --- Search inside geometry:");
+  console.log(" --- Search inside geometry: single polygon");
   const searchInsideGeometryQuery = "burger";
-  const searchGeometry = {
+  const searchGeometryPolygon = {
     type: "Polygon",
     coordinates: [
       [
@@ -194,7 +194,83 @@ async function main() {
   console.log(
     await client.searchInsideGeometry(
       searchInsideGeometryQuery,
-      searchGeometry,
+      searchGeometryPolygon,
+      searchInsideGeometryOptions
+    )
+  );
+
+  console.log(" --- Search inside geometry: multiple polygons");
+  const searchGeometryPolygons = {
+    type: "GeometryCollection",
+    geometries: [
+      {
+        type: "Polygon",
+        coordinates: [
+          [
+            [-122.43576049804686, 37.7524152343544],
+            [-122.43301391601562, 37.70660472542312],
+            [-122.36434936523438, 37.712059855877314],
+            [-122.43576049804686, 37.7524152343544]
+          ]
+        ]
+      },
+      {
+        type: "Polygon",
+        coordinates: [
+          [
+            [-121.43576049804686, 38.7524152343544],
+            [-121.43301391601562, 38.70660472542312],
+            [-121.36434936523438, 38.712059855877314],
+            [-121.43576049804686, 38.7524152343544]
+          ]
+        ]
+      }
+    ]
+  };
+  console.log(
+    await client.searchInsideGeometry(
+      searchInsideGeometryQuery,
+      searchGeometryPolygons,
+      searchInsideGeometryOptions
+    )
+  );
+
+  console.log(" --- Search inside geometry: circles and polygons");
+  const searchGeometryPolygonsOrCircles = {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [-121.43576049804686, 38.7524152343544],
+              [-121.43301391601562, 38.70660472542312],
+              [-121.36434936523438, 38.712059855877314],
+              [-121.43576049804686, 38.7524152343544]
+            ]
+          ]
+        },
+        properties: {}
+      },
+      {
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [-121.43576049804686, 38.7524152343544]
+        },
+        properties: {
+          subType: "Circle",
+          radius: 5000
+        }
+      }
+    ]
+  };
+  console.log(
+    await client.searchInsideGeometry(
+      searchInsideGeometryQuery,
+      searchGeometryPolygonsOrCircles,
       searchInsideGeometryOptions
     )
   );

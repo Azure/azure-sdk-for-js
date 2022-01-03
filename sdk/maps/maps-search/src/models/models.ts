@@ -1,6 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import {
+  GeoJsonFeature,
+  GeoJsonFeatureCollection,
+  GeoJsonGeometryCollection,
+  GeoJsonPoint,
+  GeoJsonPolygon
+} from "./geojsons";
+
 export {
   Polygon,
   PolygonResult,
@@ -48,74 +56,6 @@ export interface LatLon {
 }
 
 /**
- * GeoJson object for Point
- */
-export interface GeoJsonPoint {
-  type: "Point";
-  coordinates: number[];
-}
-
-/**
- * GeoJson object for LineString
- */
-export interface GeoJsonLineString {
-  type: "LineString";
-  coordinates: number[][];
-}
-
-/**
- * GeoJson object for Polygon
- */
-export interface GeoJsonPolygon {
-  type: "Polygon";
-  coordinates: number[][][];
-}
-
-/**
- * GeoJson feature
- */
-export interface GeoJsonFeature {
-  type: "Feature";
-  geometry: GeoJsonPolygon | GeoJsonPoint;
-  id?: string | number | undefined;
-  properties?: { [name: string]: any };
-}
-
-/**
- * GeoJson feature for polygon
- */
-export interface GeoJsonPolygonFeature extends GeoJsonFeature {
-  geometry: GeoJsonPolygon;
-}
-
-/**
- * GeoJson feature for circle
- */
-export interface GeoJsonCircleFeature extends GeoJsonFeature {
-  geometry: GeoJsonPoint;
-  properties: {
-    subType: "Circle";
-    radius: number;
-  };
-}
-
-/**
- * GeoJson feature collection
- */
-export interface GeoJsonFeatureCollection {
-  type: "FeatureCollection";
-  features: GeoJsonFeature[];
-}
-
-/**
- * GeoJson geometry collection
- */
-export interface GeoJsonGeometryCollection {
-  type: "GeometryCollection";
-  geometries: GeoJsonPolygon[];
-}
-
-/**
  * Structured address
  */
 export interface StructuredAddress {
@@ -140,3 +80,48 @@ export interface StructuredAddress {
   /** The postal code portion of an address */
   postalCode?: string;
 }
+
+/**
+ * Entity Geometry
+ */
+export interface EntityGeometry {
+  /**  ID of the returned entity */
+  readonly providerID?: string;
+  /** Geometry data in GeoJSON FeatureCollection format. */
+  geometryData?: GeoJsonFeatureCollection;
+}
+
+/**
+ * GeoJSON Geomtry Collection containing only polygons
+ */
+export interface GeoJsonPolygonCollection extends GeoJsonGeometryCollection {
+  geometries: GeoJsonPolygon[];
+}
+
+/**
+ * GeoJSON Feature that is either polygon or circle
+ */
+export interface GeoJsonPolygonFeature extends GeoJsonFeature {
+  geometry: GeoJsonPolygon;
+}
+
+export interface GeoJsonCircleFeature extends GeoJsonFeature {
+  geometry: GeoJsonPoint;
+  properties: {
+    subType: "Circle";
+    radius: number;
+  };
+}
+
+export type GeoJsonCircleOrPolygonFeature = GeoJsonPolygonFeature | GeoJsonCircleFeature;
+/**
+ * GeoJSON Feature Collection containing only polygons or circles
+ */
+export interface GeoJsonCircleOrPolygonFeatureCollection extends GeoJsonFeatureCollection {
+  features: GeoJsonCircleOrPolygonFeature[];
+}
+
+export type SearchGeometry =
+  | GeoJsonPolygon
+  | GeoJsonPolygonCollection
+  | GeoJsonCircleOrPolygonFeatureCollection;
