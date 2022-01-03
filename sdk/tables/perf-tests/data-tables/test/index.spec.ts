@@ -20,7 +20,7 @@ const perfProgram = new PerfProgram(
     CreateComplexEntityTest,
     CreateComplexEntityBatchTest,
     ListSimpleEntitiesTest,
-    ListComplexEntitiesTest
+    ListComplexEntitiesTest,
   ])
 );
 

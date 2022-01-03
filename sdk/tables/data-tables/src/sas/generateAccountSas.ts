@@ -5,7 +5,7 @@ import { AccountSasPermissions, accountSasPermissionsFromString } from "./accoun
 import {
   AccountSasServices,
   accountSasServicesFromString,
-  accountSasServicesToString
+  accountSasServicesToString,
 } from "./accountSasServices";
 import { NamedKeyCredential, isNamedKeyCredential } from "@azure/core-auth";
 import { SasIPRange } from "./sasIPRange";
@@ -51,7 +51,7 @@ export function generateAccountSas(
       expiresOn: expiry,
       resourceTypes,
       services: accountSasServicesToString(services),
-      ...rest
+      ...rest,
     },
     credential
   ).toString();
