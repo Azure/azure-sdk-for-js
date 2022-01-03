@@ -27,6 +27,10 @@
       "metadata": {
         "description": "Storage endpoint suffix. The default value uses Azure Public Cloud (core.windows.net)"
       }
+    },
+    "baseTime": {
+      "type": "string",
+      "defaultValue": "[utcNow('u')]"
     }
   },
   "variables": {
