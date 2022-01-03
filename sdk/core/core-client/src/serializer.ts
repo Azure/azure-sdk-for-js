@@ -555,12 +555,18 @@ function serializeSequenceType(
   if (!Array.isArray(object)) {
     throw new Error(`${objectName} must be of type Array.`);
   }
-  const elementType = mapper.type.element;
+  let elementType = mapper.type.element;
   if (!elementType || typeof elementType !== "object") {
     throw new Error(
       `element" metadata for an Array must be defined in the ` +
         `mapper and it must of type "object" in ${objectName}.`
     );
+  }
+  // Quirk: Composite mappers referenced by `element` might
+  // not have *all* properties declared (like uberParent),
+  // so let's try to look up the full definition by name.
+  if (elementType.type.name === "Composite" && elementType.type.className) {
+    elementType = serializer.modelMappers[elementType.type.className] ?? elementType;
   }
   const tempArray = [];
   for (let i = 0; i < object.length; i++) {
@@ -1056,8 +1062,7 @@ function deserializeSequenceType(
   objectName: string,
   options: RequiredSerializerOptions
 ): any {
-  /* jshint validthis: true */
-  const element = mapper.type.element;
+  let element = mapper.type.element;
   if (!element || typeof element !== "object") {
     throw new Error(
       `element" metadata for an Array must be defined in the ` +
@@ -1068,6 +1073,13 @@ function deserializeSequenceType(
     if (!Array.isArray(responseBody)) {
       // xml2js will interpret a single element array as just the element, so force it to be an array
       responseBody = [responseBody];
+    }
+
+    // Quirk: Composite mappers referenced by `element` might
+    // not have *all* properties declared (like uberParent),
+    // so let's try to look up the full definition by name.
+    if (element.type.name === "Composite" && element.type.className) {
+      element = serializer.modelMappers[element.type.className] ?? element;
     }
 
     const tempArray = [];
@@ -1092,8 +1104,12 @@ function getPolymorphicMapper(
 ): CompositeMapper {
   const polymorphicDiscriminator = getPolymorphicDiscriminatorRecursively(serializer, mapper);
   if (polymorphicDiscriminator) {
-    const discriminatorName = polymorphicDiscriminator[polymorphicPropertyName];
+    let discriminatorName = polymorphicDiscriminator[polymorphicPropertyName];
     if (discriminatorName) {
+      // The serializedName might have \\, which we just want to ignore
+      if (polymorphicPropertyName === "serializedName") {
+        discriminatorName = discriminatorName.replace(/\\/gi, "");
+      }
       const discriminatorValue = object[discriminatorName];
       if (discriminatorValue !== undefined && discriminatorValue !== null) {
         const typeName = mapper.type.uberParent || mapper.type.className;

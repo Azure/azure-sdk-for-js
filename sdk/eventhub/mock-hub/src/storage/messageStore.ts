@@ -119,7 +119,7 @@ export class MessageStore {
         lastEnqueuedTimeUtc: new Date(0),
         lastEnqueuedSequenceNumber: -1,
         partitionId,
-        isPartitionEmpty: isEmpty
+        isPartitionEmpty: isEmpty,
       };
     }
 
@@ -131,7 +131,7 @@ export class MessageStore {
       lastEnqueuedTimeUtc: lastMessage.enqueuedTime,
       lastEnqueuedSequenceNumber: lastMessage.sequenceNumber,
       partitionId,
-      isPartitionEmpty: isEmpty
+      isPartitionEmpty: isEmpty,
     };
   }
 
@@ -149,7 +149,7 @@ export class MessageStore {
       enqueuedTime: new Date(),
       sequenceNumber: partitionStore.length + 1,
       offset: partitionStore.length,
-      message
+      message,
     };
     if (partitionKey) {
       record.partitionKey = partitionKey;

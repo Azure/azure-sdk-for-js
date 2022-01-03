@@ -5,9 +5,8 @@
  * @summary Demonstrates using SasTokens for granting scoped access to Cosmos resources. *Private feature*
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import {
   CosmosClient,

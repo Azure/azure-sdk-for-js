@@ -15,8 +15,8 @@ export function createMockServer(options: MockServerOptions = {}): MockEventHub 
     port: 5671,
     tlsOptions: {
       cert: readFileSync(resolvePath(process.cwd(), "certs", "my-server.crt.pem")),
-      key: readFileSync(resolvePath(process.cwd(), "certs", "my-server.key.pem"))
+      key: readFileSync(resolvePath(process.cwd(), "certs", "my-server.key.pem")),
     },
-    ...options
+    ...options,
   });
 }

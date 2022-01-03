@@ -97,7 +97,7 @@ export function createResponse(
     response: {
       statusCode,
       body: JSON.stringify(body),
-      headers
-    }
+      headers,
+    },
   };
 }

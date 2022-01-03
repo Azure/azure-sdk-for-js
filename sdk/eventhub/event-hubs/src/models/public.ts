@@ -83,7 +83,7 @@ export enum CloseReason {
   /**
    * The EventProcessor was shutdown.
    */
-  Shutdown = "Shutdown"
+  Shutdown = "Shutdown",
 }
 
 /**

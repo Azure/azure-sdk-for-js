@@ -43,7 +43,7 @@ describe("DataLakePathClient Node.js only", () => {
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.create();
+    await fileSystemClient.createIfNotExists();
     fileName = recorder.getUniqueName("file");
     fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create();
@@ -52,7 +52,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 
   afterEach(async function() {
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
 
@@ -342,7 +342,7 @@ describe("DataLakePathClient Node.js only", () => {
     await fileClient.move(destFileSystemName, destFileName);
 
     await destFileClient.getProperties();
-    await destFileSystemClient.delete();
+    await destFileSystemClient.deleteIfExists();
   });
 
   it("move should not encode / in the source", async () => {
@@ -463,7 +463,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.create();
+    await fileSystemClient.createIfNotExists();
     fileName = recorder.getUniqueName("file");
     fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create();
@@ -472,7 +472,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
   });
 
   afterEach(async function() {
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
 

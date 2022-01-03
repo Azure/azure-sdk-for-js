@@ -20,7 +20,7 @@ import {
   getKnownAuthorities,
   MsalBaseUtilities,
   msalToPublic,
-  publicToMsal
+  publicToMsal,
 } from "../utils";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { processMultiTenantRequest } from "../../util/validateMultiTenant";
@@ -56,7 +56,7 @@ let persistenceProvider:
 export const msalNodeFlowCacheControl = {
   setPersistence(pluginProvider: Exclude<typeof persistenceProvider, undefined>): void {
     persistenceProvider = pluginProvider;
-  }
+  },
 };
 
 /**
@@ -95,7 +95,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
           "Persistent token caching was requested, but no persistence provider was configured.",
           "You must install the identity-cache-persistence plugin package (`npm install --save @azure/identity-cache-persistence`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
-          "`useIdentityPlugin(cachePersistencePlugin)` before using `tokenCachePersistenceOptions`."
+          "`useIdentityPlugin(cachePersistencePlugin)` before using `tokenCachePersistenceOptions`.",
         ].join(" ")
       );
     }
@@ -118,7 +118,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
 
     this.identityClient = new IdentityClient({
       ...options.tokenCredentialOptions,
-      authorityHost: authority
+      authorityHost: authority,
     });
 
     let clientCapabilities: string[] = ["cp1"];
@@ -131,15 +131,15 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         clientId,
         authority,
         knownAuthorities: getKnownAuthorities(tenantId, authority),
-        clientCapabilities
+        clientCapabilities,
       },
       // Cache is defined in this.prepare();
       system: {
         networkClient: this.identityClient,
         loggerOptions: {
-          loggerCallback: defaultLoggerCallback(options.logger)
-        }
-      }
+          loggerCallback: defaultLoggerCallback(options.logger),
+        },
+      },
     };
   }
 
@@ -161,7 +161,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
 
     if (this.createCachePlugin !== undefined) {
       this.msalConfig.cache = {
-        cachePlugin: await this.createCachePlugin()
+        cachePlugin: await this.createCachePlugin(),
       };
     }
 
@@ -246,7 +246,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         scopes,
         getTokenOptions: options,
         message:
-          "Silent authentication failed. We couldn't retrieve an active account from the cache."
+          "Silent authentication failed. We couldn't retrieve an active account from the cache.",
       });
     }
 
@@ -256,7 +256,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       correlationId: options?.correlationId,
       scopes,
       authority: options?.authority,
-      claims: options?.claims
+      claims: options?.claims,
     };
 
     try {
@@ -301,7 +301,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
           scopes,
           getTokenOptions: options,
           message:
-            "Automatic authentication has been disabled. You may call the authentication() method."
+            "Automatic authentication has been disabled. You may call the authentication() method.",
         });
       }
       this.logger.info(`Silent authentication failed, falling back to interactive method.`);

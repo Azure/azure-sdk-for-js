@@ -10,14 +10,14 @@ import {
   StandardAbortMessage,
   delay,
   retry,
-  translate
+  translate,
 } from "@azure/core-amqp";
 import {
   EventContext,
   OnAmqpEvent,
   Receiver,
   ReceiverOptions as RheaReceiverOptions,
-  types
+  types,
 } from "rhea-promise";
 import { EventDataInternal, ReceivedEventData, fromRheaMessage } from "./eventData";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
@@ -202,7 +202,7 @@ export class EventHubReceiver extends LinkEntity {
   ) {
     super(context, {
       partitionId: partitionId,
-      name: context.config.getReceiverAddress(partitionId, consumerGroup)
+      name: context.config.getReceiverAddress(partitionId, consumerGroup),
     });
     this.consumerGroup = consumerGroup;
     this.address = context.config.getReceiverAddress(partitionId, this.consumerGroup);
@@ -232,7 +232,7 @@ export class EventHubReceiver extends LinkEntity {
       systemProperties: data.systemProperties,
       getRawAmqpMessage() {
         return rawMessage;
-      }
+      },
     };
     if (data.correlationId != null) {
       receivedEventData.correlationId = data.correlationId;
@@ -459,7 +459,7 @@ export class EventHubReceiver extends LinkEntity {
           try {
             await this.initialize({
               abortSignal,
-              timeoutInMs: getRetryAttemptTimeoutInMs(this.options.retryOptions)
+              timeoutInMs: getRetryAttemptTimeoutInMs(this.options.retryOptions),
             });
           } catch (err) {
             if (this._onError === onError) {
@@ -547,7 +547,7 @@ export class EventHubReceiver extends LinkEntity {
    */
   async initialize({
     abortSignal,
-    timeoutInMs
+    timeoutInMs,
   }: {
     abortSignal: AbortSignalLike | undefined;
     timeoutInMs: number;
@@ -565,7 +565,7 @@ export class EventHubReceiver extends LinkEntity {
           onError: (context: EventContext) => this._onAmqpError(context),
           onMessage: (context: EventContext) => this._onAmqpMessage(context),
           onSessionClose: (context: EventContext) => this._onAmqpSessionClose(context),
-          onSessionError: (context: EventContext) => this._onAmqpSessionError(context)
+          onSessionError: (context: EventContext) => this._onAmqpSessionError(context),
         };
         if (this.checkpoint > -1) {
           receiverOptions.eventPosition = { sequenceNumber: this.checkpoint };
@@ -623,19 +623,19 @@ export class EventHubReceiver extends LinkEntity {
       name: this.name,
       autoaccept: true,
       source: {
-        address: this.address
+        address: this.address,
       },
       credit_window: 0,
       onMessage: options.onMessage,
       onError: options.onError,
       onClose: options.onClose,
       onSessionError: options.onSessionError,
-      onSessionClose: options.onSessionClose
+      onSessionClose: options.onSessionClose,
     };
 
     if (typeof this.ownerLevel === "number") {
       rcvrOptions.properties = {
-        [Constants.attachEpoch]: types.wrap_long(this.ownerLevel)
+        [Constants.attachEpoch]: types.wrap_long(this.ownerLevel),
       };
     }
 
@@ -649,7 +649,7 @@ export class EventHubReceiver extends LinkEntity {
       const filterClause = getEventPositionFilter(eventPosition);
       if (filterClause) {
         (rcvrOptions.source as any).filter = {
-          "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004)
+          "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004),
         };
       }
     }
@@ -806,21 +806,21 @@ export class EventHubReceiver extends LinkEntity {
         operation: retrieveEvents,
         operationType: RetryOperationType.receiveMessage,
         abortSignal: abortSignal,
-        retryOptions: retryOptions
+        retryOptions: retryOptions,
       },
       {
         connectionId: {
           enumerable: true,
           get: () => {
             return this._context.connectionId;
-          }
+          },
         },
         connectionHost: {
           enumerable: true,
           get: () => {
             return this._context.config.host;
-          }
-        }
+          },
+        },
       }
     );
     return retry<ReceivedEventData[]>(config);

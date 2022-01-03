@@ -11,8 +11,12 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public (undocumented)
-export class AzureQuotaExtensionAPI extends AzureQuotaExtensionAPIContext {
+export class AzureQuotaExtensionAPI extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, options?: AzureQuotaExtensionAPIOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     quota: Quota;
     // (undocumented)
@@ -21,15 +25,6 @@ export class AzureQuotaExtensionAPI extends AzureQuotaExtensionAPIContext {
     quotaRequestStatus: QuotaRequestStatus;
     // (undocumented)
     usages: Usages;
-}
-
-// @public (undocumented)
-export class AzureQuotaExtensionAPIContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: AzureQuotaExtensionAPIOptionalParams);
-    // (undocumented)
-    apiVersion: string;
 }
 
 // @public
@@ -462,7 +457,6 @@ export interface UsagesProperties {
 
 // @public
 export type UsagesTypes = string;
-
 
 // (No @packageDocumentation comment for this package)
 

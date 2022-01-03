@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { AzureOrbital } from "./azureOrbital";
-export { AzureOrbitalContext } from "./azureOrbitalContext";
 export * from "./operationsInterfaces";

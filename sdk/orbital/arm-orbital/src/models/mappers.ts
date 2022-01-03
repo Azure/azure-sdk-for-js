@@ -968,6 +968,12 @@ export const ContactProfile: coreClient.CompositeMapper = {
           allowedValues: ["disabled", "xBand", "sBand"]
         }
       },
+      eventHubUri: {
+        serializedName: "properties.eventHubUri",
+        type: {
+          name: "String"
+        }
+      },
       links: {
         serializedName: "properties.links",
         type: {

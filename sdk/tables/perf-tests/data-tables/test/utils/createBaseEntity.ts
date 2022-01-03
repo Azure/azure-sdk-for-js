@@ -14,7 +14,7 @@ export function createSimpleEntity(): TableEntity {
     stringTypeProperty4: stringValue,
     stringTypeProperty5: stringValue,
     stringTypeProperty6: stringValue,
-    stringTypeProperty7: stringValue
+    stringTypeProperty7: stringValue,
   };
 }
 
@@ -28,7 +28,7 @@ export function createComplexEntity(): TableEntity {
     BinaryTypeProperty: new Uint8Array([66, 97, 114]),
     Int64TypeProperty: BigInt("4294967297"),
     DoubleTypeProperty: 1234.5,
-    IntTypeProperty: 1234
+    IntTypeProperty: 1234,
   };
 }
 
@@ -57,9 +57,7 @@ export function createBatch(entityType: EntityType, batchSize: number): Transact
     const lastItem = (currentElement + 1) * maxBatchSize;
     const entityChunk = entities.slice(currentElement, lastItem);
     currentElement = currentElement + maxBatchSize;
-    batches.push(
-      entityChunk.map<TransactionAction>((entity) => ["create", entity])
-    );
+    batches.push(entityChunk.map<TransactionAction>((entity) => ["create", entity]));
   }
   return batches;
 }

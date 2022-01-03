@@ -47,7 +47,7 @@ function getAuthorizeUrl(tenantId: string, clientId: string, scopes: string): st
     client_id: clientId,
     response_type: "code",
     redirect_uri: redirectUri,
-    scope: scopes
+    scope: scopes,
   });
   const query = params.toString();
   return `${authorityHost}/${tenantId}/oauth2/v2.0/authorize?${query}`;

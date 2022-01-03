@@ -25,12 +25,12 @@ let findCredentials: VSCodeCredentialFinder | undefined = undefined;
 export const vsCodeCredentialControl = {
   setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void {
     findCredentials = finder;
-  }
+  },
 };
 
 // Map of unsupported Tenant IDs and the errors we will be throwing.
 const unsupportedTenantIds: Record<string, string> = {
-  adfs: "The VisualStudioCodeCredential does not support authentication with ADFS tenants."
+  adfs: "The VisualStudioCodeCredential does not support authentication with ADFS tenants.",
 };
 
 function checkUnsupportedTenant(tenantId: string): void {
@@ -47,7 +47,7 @@ const mapVSCodeAuthorityHosts: Record<VSCodeCloudNames, string> = {
   AzureCloud: AzureAuthorityHosts.AzurePublicCloud,
   AzureChina: AzureAuthorityHosts.AzureChina,
   AzureGermanCloud: AzureAuthorityHosts.AzureGermany,
-  AzureUSGovernment: AzureAuthorityHosts.AzureGovernment
+  AzureUSGovernment: AzureAuthorityHosts.AzureGovernment,
 };
 
 /**
@@ -125,7 +125,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
 
     this.identityClient = new IdentityClient({
       authorityHost,
-      ...options
+      ...options,
     });
 
     if (options && options.tenantId) {
@@ -187,7 +187,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
           "No implementation of `VisualStudioCodeCredential` is available.",
           "You must install the identity-vscode plugin package (`npm install --save-dev @azure/identity-vscode`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
-          "`useIdentityPlugin(vsCodePlugin)` before creating a `VisualStudioCodeCredential`."
+          "`useIdentityPlugin(vsCodePlugin)` before creating a `VisualStudioCodeCredential`.",
         ].join(" ")
       );
     }

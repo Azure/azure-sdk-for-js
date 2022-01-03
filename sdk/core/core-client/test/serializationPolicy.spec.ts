@@ -6,7 +6,7 @@ import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { stringifyXML } from "@azure/core-xml";
 import { createSerializer, MapperTypeNames } from "../src";
 import { serializeRequestBody, serializeHeaders } from "../src/serializationPolicy";
-import { Mappers } from "./testMappers";
+import { Mappers } from "./testMappers1";
 
 describe("serializationPolicy", function () {
   describe("serializeRequestBody()", () => {

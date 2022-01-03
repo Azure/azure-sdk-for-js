@@ -11,5 +11,5 @@ import { createSpanFunction } from "@azure/core-tracing";
  */
 export const createSpan = createSpanFunction({
   packagePrefix: "Azure.Communication",
-  namespace: "Microsoft.Communication"
+  namespace: "Microsoft.Communication",
 });
