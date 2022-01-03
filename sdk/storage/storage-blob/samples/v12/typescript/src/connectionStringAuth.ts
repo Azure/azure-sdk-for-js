@@ -3,7 +3,6 @@
 
 /**
  * @summary authenticate with the storage service using a connection string
- * @azsdk-weight 80
  */
 
 import { BlobServiceClient } from "@azure/storage-blob";

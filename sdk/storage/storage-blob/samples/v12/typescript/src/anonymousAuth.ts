@@ -3,7 +3,6 @@
 
 /**
  * @summary authenticate anonymously using a SAS-encoded URL
- * @azsdk-weight 85
  */
 
 import { BlobServiceClient, AnonymousCredential } from "@azure/storage-blob";

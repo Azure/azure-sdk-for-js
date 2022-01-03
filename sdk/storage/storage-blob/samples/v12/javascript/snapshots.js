@@ -18,16 +18,14 @@
  *   data). For example, the blob may have been totally overwritten by someone else.
  *
  * @summary create and read from a blob snapshot
- * @azsdk-weight 60
  */
 
-import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
 
-import { streamToBuffer } from "./utils/stream";
+const { streamToBuffer } = require("./utils/stream");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key
@@ -58,7 +56,7 @@ async function main() {
   // Downloading blob from the snapshot
   console.log("Downloading blob...");
   const snapshotResponse = await blockBlobClient.createSnapshot();
-  const blobSnapshotClient = blockBlobClient.withSnapshot(snapshotResponse.snapshot!);
+  const blobSnapshotClient = blockBlobClient.withSnapshot(snapshotResponse.snapshot);
 
   const response = await blobSnapshotClient.download(0);
   console.log(
@@ -68,7 +66,7 @@ async function main() {
 
   console.log(
     "Downloaded blob content",
-    (await streamToBuffer(response.readableStreamBody!)).toString()
+    (await streamToBuffer(response.readableStreamBody)).toString()
   );
 
   // Delete container

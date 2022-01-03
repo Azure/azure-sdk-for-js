@@ -3,7 +3,6 @@
 
 /**
  * @summary configure proxy settings when connecting to the storage service
- * @azsdk-weight 30
  */
 
 import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";

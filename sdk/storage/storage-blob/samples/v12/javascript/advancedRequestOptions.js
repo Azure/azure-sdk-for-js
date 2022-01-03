@@ -3,23 +3,21 @@
 
 /**
  * @summary demonstrates some advanced HTTP pipeline and request options for several methods
- * @azsdk-weight 0
  */
 
-import * as fs from "fs";
+const fs = require("fs");
 
-import { AbortController } from "@azure/abort-controller";
-import { AnonymousCredential, BlobServiceClient, newPipeline } from "@azure/storage-blob";
+const { AbortController } = require("@azure/abort-controller");
+const { AnonymousCredential, BlobServiceClient, newPipeline } = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 // Enabling logging may help uncover useful information about failures.
 // In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
 // Alternatively, logging can be enabled at runtime by calling `setLogLevel("info");`
 // `setLogLevel` can be imported from the `@azure/logger` package
-import { setLogLevel } from "@azure/logger";
+const { setLogLevel } = require("@azure/logger");
 setLogLevel("info");
 
 async function main() {
@@ -30,12 +28,12 @@ async function main() {
 
   const pipeline = newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    retryOptions: { maxTries: 4 }, // Retry options
-    userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" }, // Customized telemetry string
+    retryOptions: { maxTries: 4 },
+    userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" },
     keepAliveOptions: {
       // Keep alive is enabled by default, disable keep alive by setting false
-      enable: false
-    }
+      enable: false,
+    },
   });
 
   const blobServiceClient = new BlobServiceClient(
@@ -62,9 +60,9 @@ async function main() {
   // BlockBlobClient.uploadFile() is only available in Node.js
   try {
     await blockBlobClient.uploadFile(localFilePath, {
-      blockSize: 4 * 1024 * 1024, // 4MB block size
-      concurrency: 20, // 20 concurrency
-      onProgress: (ev) => console.log(ev)
+      blockSize: 4 * 1024 * 1024,
+      concurrency: 20,
+      onProgress: (ev) => console.log(ev),
     });
     console.log("Successfully uploaded file:", blockBlobClient.name);
   } catch (err) {
@@ -77,8 +75,8 @@ async function main() {
   // BlockBlobClient.uploadStream() is only available in Node.js
   try {
     await blockBlobClient.uploadStream(fs.createReadStream(localFilePath), 4 * 1024 * 1024, 20, {
-      abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-      onProgress: (ev) => console.log(ev)
+      abortSignal: AbortController.timeout(30 * 60 * 1000),
+      onProgress: (ev) => console.log(ev),
     });
     console.log("uploadStream succeeds");
   } catch (err) {
@@ -90,13 +88,13 @@ async function main() {
   // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with BlockBlobClient.uploadData()
   // Uncomment following code in browsers because document is only available in browsers
   /*
-  const browserFile = document.getElementById("fileinput").files[0];
-  await blockBlobClient.uploadData(browserFile, {
-    blockSize: 4 * 1024 * 1024, // 4MB block size
-    concurrency: 20, // 20 concurrency
-    onProgress: ev => console.log(ev)
-  });
-  */
+    const browserFile = document.getElementById("fileinput").files[0];
+    await blockBlobClient.uploadData(browserFile, {
+      blockSize: 4 * 1024 * 1024, // 4MB block size
+      concurrency: 20, // 20 concurrency
+      onProgress: ev => console.log(ev)
+    });
+    */
 
   // Parallel downloading a block blob into Node.js buffer
   // downloadToBuffer is only available in Node.js
@@ -104,10 +102,10 @@ async function main() {
   const buffer = Buffer.alloc(fileSize);
   try {
     await blockBlobClient.downloadToBuffer(buffer, 0, undefined, {
-      abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-      blockSize: 4 * 1024 * 1024, // 4MB block size
-      concurrency: 20, // 20 concurrency
-      onProgress: (ev) => console.log(ev)
+      abortSignal: AbortController.timeout(30 * 60 * 1000),
+      blockSize: 4 * 1024 * 1024,
+      concurrency: 20,
+      onProgress: (ev) => console.log(ev),
     });
     console.log("downloadToBuffer succeeds");
   } catch (err) {

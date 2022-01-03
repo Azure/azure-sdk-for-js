@@ -3,14 +3,12 @@
 
 /**
  * @summary list blobs by hierarchy, using separators in the blob names, using options for paging, resuming paging, etc.
- * @azsdk-weight 70
  */
 
-import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key
@@ -43,7 +41,7 @@ async function main() {
     "prefix1/b2",
     "prefix2/sub1/c",
     "prefix2/sub1/d",
-    "prefix2/sub1/e"
+    "prefix2/sub1/e",
   ]) {
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     const { requestId } = await blockBlobClient.upload(content, contentByteLength);

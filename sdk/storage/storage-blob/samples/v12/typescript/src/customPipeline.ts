@@ -3,7 +3,6 @@
 
 /**
  * @summary use custom HTTP pipeline options when connecting to the service
- * @azsdk-weight 0
  */
 
 import { BlobServiceClient, StorageSharedKeyCredential, newPipeline } from "@azure/storage-blob";

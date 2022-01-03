@@ -18,7 +18,6 @@
  *   data). For example, the blob may have been totally overwritten by someone else.
  *
  * @summary create and read from a blob snapshot
- * @azsdk-weight 60
  */
 
 import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";

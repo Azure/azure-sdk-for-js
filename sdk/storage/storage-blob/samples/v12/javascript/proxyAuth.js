@@ -3,14 +3,12 @@
 
 /**
  * @summary configure proxy settings when connecting to the storage service
- * @azsdk-weight 30
  */
 
-import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key
@@ -34,14 +32,14 @@ async function main() {
     // Alternatively, the service client accepts the following `proxyOptions` as part of its options:
     {
       /*
-      proxyOptions : {
-        // To use these options, remove the section above that checks for HTTP_PROXY or HTTPS_PROXY
-        host: "http://localhost",
-        port: 3128,
-        username: "<username>",
-        password: "<password>"
-      }
-      */
+    proxyOptions : {
+      // To use these options, remove the section above that checks for HTTP_PROXY or HTTPS_PROXY
+      host: "http://localhost",
+      port: 3128,
+      username: "<username>",
+      password: "<password>"
+    }
+    */
     }
   );
 

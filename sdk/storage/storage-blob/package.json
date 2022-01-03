@@ -109,19 +109,25 @@
   },
   "//sampleConfiguration": {
     "skip": [
-      "advanced.js",
-      "anonymousCred.js",
+      "advancedRequestOptions.js",
+      "anonymousAuth.js",
       "azureAdAuth.js",
-      "basic.js",
       "customPipeline.js",
       "customizedClientHeaders.js",
-      "iterators-blobs-hierarchy.js",
-      "iterators-blobs.js",
-      "iterators-containers.js",
-      "iterators-without-await.js",
-      "readingSnapshot.js",
-      "sharedKeyCred.js"
-    ]
+      "listBlobsByHierarchy.js",
+      "listBlobs.js",
+      "listContainers.js",
+      "snapshots.js",
+      "sharedKeyAuth.js"
+    ],
+    "productName": "Azure Storage Blob",
+    "productSlugs": [
+      "azure",
+      "azure-storage"
+    ],
+    "requiredResources": {
+      "Azure Storage Account": "https://docs.microsoft.com/azure/storage/common/storage-account-overview"
+    }
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",

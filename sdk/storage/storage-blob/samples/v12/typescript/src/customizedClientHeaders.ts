@@ -10,7 +10,6 @@
  * This sample is just to demo the feature. Feel free to move the classes into one file in your code.
  *
  * @summary customize request headers such as `X-Ms-Client-Request-Id` using an HTTP policy
- * @azsdk-weight 10
  **/
 
 import {

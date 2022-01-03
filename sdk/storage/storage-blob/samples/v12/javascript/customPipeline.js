@@ -3,14 +3,16 @@
 
 /**
  * @summary use custom HTTP pipeline options when connecting to the service
- * @azsdk-weight 0
  */
 
-import { BlobServiceClient, StorageSharedKeyCredential, newPipeline } from "@azure/storage-blob";
+const {
+  BlobServiceClient,
+  StorageSharedKeyCredential,
+  newPipeline,
+} = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key
@@ -24,8 +26,8 @@ async function main() {
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
   const pipeline = newPipeline(sharedKeyCredential, {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    retryOptions: { maxTries: 4 }, // Retry options
-    userAgentOptions: { userAgentPrefix: "Sample V1.0.0" } // Customized telemetry string
+    retryOptions: { maxTries: 4 },
+    userAgentOptions: { userAgentPrefix: "Sample V1.0.0" }, // Customized telemetry string
   });
 
   // List containers

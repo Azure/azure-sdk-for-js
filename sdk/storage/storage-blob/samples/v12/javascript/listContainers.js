@@ -3,14 +3,12 @@
 
 /**
  * @summary list containers in an account, showing options for paging, resuming paging, etc.
- * @azsdk-weight 70
  */
 
-import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key
@@ -36,7 +34,7 @@ async function main() {
   // The iterator also supports iteration by page with a configurable (and optional) `maxPageSize` setting.
   console.log("Containers (by page):");
   for await (const response of blobServiceClient.listContainers().byPage({
-    maxPageSize: 20
+    maxPageSize: 20,
   })) {
     console.log("- Page:");
     if (response.containerItems) {

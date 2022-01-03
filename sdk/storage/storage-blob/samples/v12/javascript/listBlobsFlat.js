@@ -3,14 +3,12 @@
 
 /**
  * @summary list blobs in a container, showing options for paging, resuming paging, etc.
- * @azsdk-weight 70
  */
 
-import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key

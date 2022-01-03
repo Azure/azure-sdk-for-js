@@ -3,7 +3,6 @@
 
 /**
  * @summary demonstrates some advanced HTTP pipeline and request options for several methods
- * @azsdk-weight 0
  */
 
 import * as fs from "fs";

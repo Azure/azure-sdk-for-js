@@ -10,48 +10,43 @@
  * This sample is just to demo the feature. Feel free to move the classes into one file in your code.
  *
  * @summary customize request headers such as `X-Ms-Client-Request-Id` using an HTTP policy
- * @azsdk-weight 10
  **/
 
-import {
+const {
   newPipeline,
   AnonymousCredential,
   BlobServiceClient,
   BaseRequestPolicy,
-  WebResource,
-  RequestPolicy,
-  RequestPolicyOptions
-} from "@azure/storage-blob";
+} = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 // Create a policy factory with create() method provided
 class RequestIDPolicyFactory {
-  prefix: string;
+  prefix;
   // Constructor to accept parameters
-  constructor(prefix: string) {
+  constructor(prefix) {
     this.prefix = prefix;
   }
 
   // create() method needs to create a new RequestIDPolicy object
-  create(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
+  create(nextPolicy, options) {
     return new RequestIDPolicy(nextPolicy, options, this.prefix);
   }
 }
 
 // Create a policy by extending from BaseRequestPolicy
 class RequestIDPolicy extends BaseRequestPolicy {
-  prefix: string;
-  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, prefix: string) {
+  prefix;
+  constructor(nextPolicy, options, prefix) {
     super(nextPolicy, options);
     this.prefix = prefix;
   }
 
   // Customize HTTP requests and responses by overriding sendRequest
   // Parameter request is WebResource type
-  async sendRequest(request: WebResource) {
+  async sendRequest(request) {
     // Customize client request ID header
     request.headers.set(
       "x-ms-client-request-id",
@@ -83,10 +78,7 @@ async function main() {
     pipeline
   );
 
-  const result = await blobServiceClient
-    .listContainers()
-    .byPage()
-    .next();
+  const result = await blobServiceClient.listContainers().byPage().next();
 
   if (result.done) {
     throw new Error("Expected at least one page of containers.");

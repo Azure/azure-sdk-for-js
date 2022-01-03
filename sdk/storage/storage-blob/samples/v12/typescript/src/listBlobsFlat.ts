@@ -3,7 +3,6 @@
 
 /**
  * @summary list blobs in a container, showing options for paging, resuming paging, etc.
- * @azsdk-weight 70
  */
 
 import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";

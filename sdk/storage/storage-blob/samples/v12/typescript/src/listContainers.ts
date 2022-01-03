@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary authenticate using an account name and a static key
- * @azsdk-weight 10
+ * @summary list containers in an account, showing options for paging, resuming paging, etc.
  */
 
 import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
@@ -27,22 +26,24 @@ async function main() {
     sharedKeyCredential
   );
 
-  let i = 1;
+  // Iterate over all containers in the account
+  console.log("Containers:");
   for await (const container of blobServiceClient.listContainers()) {
-    console.log(`Container ${i++}: ${container.name}`);
+    console.log(`- ${container.name}`);
   }
 
-  // Create a container
-  const containerName = `newcontainer${new Date().getTime()}`;
-  const containerClient = blobServiceClient.getContainerClient(containerName);
-
-  const createContainerResponse = await containerClient.create();
-  console.log(`Create container ${containerName} successfully`, createContainerResponse.requestId);
-
-  // Delete container
-  await containerClient.delete();
-
-  console.log("deleted container");
+  // The iterator also supports iteration by page with a configurable (and optional) `maxPageSize` setting.
+  console.log("Containers (by page):");
+  for await (const response of blobServiceClient.listContainers().byPage({
+    maxPageSize: 20
+  })) {
+    console.log("- Page:");
+    if (response.containerItems) {
+      for (const container of response.containerItems) {
+        console.log(`  - ${container.name}`);
+      }
+    }
+  }
 }
 
 main().catch((error) => {

@@ -3,14 +3,12 @@
 
 /**
  * @summary authenticate anonymously using a SAS-encoded URL
- * @azsdk-weight 85
  */
 
-import { BlobServiceClient, AnonymousCredential } from "@azure/storage-blob";
+const { BlobServiceClient, AnonymousCredential } = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and SAS

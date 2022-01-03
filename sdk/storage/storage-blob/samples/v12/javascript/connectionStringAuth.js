@@ -3,14 +3,12 @@
 
 /**
  * @summary authenticate with the storage service using a connection string
- * @azsdk-weight 80
  */
 
-import { BlobServiceClient } from "@azure/storage-blob";
+const { BlobServiceClient } = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // Create Blob Service Client from Account connection string or SAS connection string
