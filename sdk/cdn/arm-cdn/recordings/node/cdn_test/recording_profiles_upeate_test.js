@@ -127,7 +127,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Location',
   'https://management.azure.com/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.Cdn/operationresults/f478bb1c-e160-4cad-a387-d654b48bfe0c/profileresults/myprofilexxx?api-version=2020-09-01',
   'Retry-After',
-  '10',
+  '0',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-request-id',
