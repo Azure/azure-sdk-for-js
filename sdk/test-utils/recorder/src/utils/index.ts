@@ -471,7 +471,7 @@ export function handleSingleQuotesInUrlPath(fixture: string): string {
 
 /**
  * Meant for node recordings only!
- * 
+ *
  * Manipulates the `retry-after` header to have "0" value so that playback tests run faster.
  */
 export function setDefaultRetryAfterIntervalInNockFixture(fixture: string) {

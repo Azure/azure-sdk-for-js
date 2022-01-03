@@ -16,7 +16,7 @@ import { defaultCustomizationsOnRecordings } from "../../src/defaultCustomizatio
 
 describe("NodeJS utils", () => {
   describe("nodeRequireRecordingIfExists", () => {
-    it("should be able to load the contents of a recording file if the file exists", function () {
+    it("should be able to load the contents of a recording file if the file exists", function() {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
 
@@ -50,7 +50,7 @@ describe("NodeJS utils", () => {
       mockRequire.stopAll();
     });
 
-    it("should throw if the file at a given recording path doesn't exist", function () {
+    it("should throw if the file at a given recording path doesn't exist", function() {
       if (isBrowser()) {
         this.skip();
       }
@@ -89,7 +89,7 @@ describe("NodeJS utils", () => {
   });
 
   describe("testHasChanged", () => {
-    it("should not crash if the recorded file doesn't exist", function () {
+    it("should not crash if the recorded file doesn't exist", function() {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
       const testSuiteTitle = this.test!.parent!.fullTitle();
@@ -116,7 +116,7 @@ describe("NodeJS utils", () => {
       mockRequire.stopAll();
     });
 
-    it("should return true if the older hash doesn't exist", function () {
+    it("should return true if the older hash doesn't exist", function() {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
       const platform = "node";
@@ -147,7 +147,7 @@ describe("NodeJS utils", () => {
       mockRequire.stopAll();
     });
 
-    it("should return false if the older hash is the same as the new hash", function () {
+    it("should return false if the older hash is the same as the new hash", function() {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
       const platform = "node";
@@ -188,7 +188,7 @@ describe("NodeJS utils", () => {
       mockRequire.stopAll();
     });
 
-    it("should return true if the older hash is different than the new hash", function () {
+    it("should return true if the older hash is different than the new hash", function() {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
       const platform = "node";
@@ -391,7 +391,8 @@ describe("NodeJS utils", () => {
         chai.assert.equal(
           isContentTypeInNockFixture(test.input, test.expectedContentTypes),
           test.output,
-          `Unexpected result - content types ${test.expectedContentTypes} ${test.output ? "do not match" : "matched"
+          `Unexpected result - content types ${test.expectedContentTypes} ${
+            test.output ? "do not match" : "matched"
           }`
         );
       });
@@ -553,10 +554,6 @@ describe("NodeJS utils", () => {
     });
   });
 
-
-
-
-
   describe("setDefaultRetryAfterIntervalInNockFixture", () => {
     [
       {
@@ -686,7 +683,7 @@ describe("NodeJS utils", () => {
   'x-ms-request-id',
   '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
 ]);`
-      },
+      }
     ].forEach((test) => {
       it(test.name, () => {
         chai.assert.equal(
@@ -697,8 +694,6 @@ describe("NodeJS utils", () => {
       });
     });
   });
-
-
 
   describe("handleSingleQuotesInUrlPath", () => {
     [
