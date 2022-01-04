@@ -48,7 +48,7 @@ export async function main() {
     ...updateRequest,
     onResponse: (response) => (res = response),
   });
-  if (res?.status == 200) {
+  if (res && res.status == 200) {
     console.log(
       `Successfully updated terms of service and privacy policy for program brief ${programBriefId} ${upsertResponse}`
     );

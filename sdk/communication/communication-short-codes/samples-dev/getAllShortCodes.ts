@@ -26,7 +26,7 @@ export async function main() {
 
   // get all short codes for a resource
   var shortCodes = await client.listShortCodes({ onResponse: (response) => (res = response) });
-  if (res?.status != 201) {
+  if (res && res.status != 201) {
     throw new Error(`Short Codes listing failed.
       Status code: ${res?.status}; 
       Error: ${res?.bodyAsText}; 
