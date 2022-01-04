@@ -8,7 +8,7 @@ export const knownContextKeys = {
   Span: Symbol.for("@azure/core-tracing span"),
   Namespace: Symbol.for("@azure/core-tracing namespace"),
   Client: Symbol.for("@azure/core-tracing client"),
-  ParentContext: Symbol.for("@azure/core-tracing parent context")
+  ParentContext: Symbol.for("@azure/core-tracing parent context"),
 };
 
 /**

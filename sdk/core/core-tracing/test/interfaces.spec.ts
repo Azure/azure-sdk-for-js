@@ -10,10 +10,10 @@ describe("Interface compatibility", () => {
   describe("OperationTracingOptions", () => {
     it("is compatible with core-auth", () => {
       const tracingOptions: coreTracing.OperationTracingOptions = {
-        tracingContext: createTracingContext({})
+        tracingContext: createTracingContext({}),
       };
       const authOptions: coreAuth.GetTokenOptions = {
-        tracingOptions
+        tracingOptions,
       };
       assert.ok(authOptions.tracingOptions);
     });
