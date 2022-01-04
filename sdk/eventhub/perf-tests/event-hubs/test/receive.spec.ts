@@ -19,7 +19,7 @@ import {
   earliestEventPosition,
   EventData,
   PartitionContext,
-  EventHubProducerClient
+  EventHubProducerClient,
 } from "@azure/event-hubs";
 import { getEnvVar } from "@azure/test-utils-perf";
 import moment from "moment";
@@ -98,7 +98,7 @@ async function RunTest(maxBatchSize: number, messages: number): Promise<void> {
   consumerClient.subscribe(
     {
       processEvents,
-      processError
+      processError,
     },
     { maxBatchSize, startPosition: earliestEventPosition }
   );

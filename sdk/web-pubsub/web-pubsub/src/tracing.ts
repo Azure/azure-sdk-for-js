@@ -6,5 +6,5 @@ import { createSpanFunction } from "@azure/core-tracing";
 /** @internal */
 export const createSpan = createSpanFunction({
   namespace: "Microsoft.WebPubSub",
-  packagePrefix: "Azure.Messaging.WebPubSub"
+  packagePrefix: "Azure.Messaging.WebPubSub",
 });

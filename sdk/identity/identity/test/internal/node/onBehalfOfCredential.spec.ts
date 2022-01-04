@@ -8,19 +8,19 @@ import { OnBehalfOfCredential } from "../../../src";
 import {
   createResponse,
   IdentityTestContext,
-  SendCredentialRequests
+  SendCredentialRequests,
 } from "../../httpRequestsCommon";
 import { prepareIdentityTests, prepareMSALResponses } from "../../httpRequests";
 
-describe("OnBehalfOfCredential", function() {
+describe("OnBehalfOfCredential", function () {
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     testContext = await prepareIdentityTests({ replaceLogger: true, logLevel: "verbose" });
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
-  afterEach(async function() {
+  afterEach(async function () {
     if (isNode) {
       delete process.env.AZURE_AUTHORITY_HOST;
     }
@@ -32,7 +32,7 @@ describe("OnBehalfOfCredential", function() {
       tenantId: "adfs",
       clientId: "client",
       clientSecret: "secret",
-      userAssertionToken: "user-assertion"
+      userAssertionToken: "user-assertion",
     });
 
     const newMSALClientLogs = () =>
@@ -47,9 +47,9 @@ describe("OnBehalfOfCredential", function() {
         ...prepareMSALResponses(),
         createResponse(200, {
           access_token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00"
-        })
-      ]
+          expires_on: "06/20/2019 02:57:58 +00:00",
+        }),
+      ],
     });
 
     assert.isNumber(authDetails.result?.expiresOnTimestamp);
@@ -65,7 +65,7 @@ describe("OnBehalfOfCredential", function() {
       tenantId: "adfs",
       clientId: "client",
       certificatePath,
-      userAssertionToken: "user-assertion"
+      userAssertionToken: "user-assertion",
     });
 
     const newMSALClientLogs = () =>
@@ -80,9 +80,9 @@ describe("OnBehalfOfCredential", function() {
         ...prepareMSALResponses(),
         createResponse(200, {
           access_token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00"
-        })
-      ]
+          expires_on: "06/20/2019 02:57:58 +00:00",
+        }),
+      ],
     });
 
     assert.isNumber(authDetails.result?.expiresOnTimestamp);

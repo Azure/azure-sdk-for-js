@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix an issue where we treat Retry-After value as milliseconds. It is actually in seconds.
+
 ### Other Changes
 
 ## 2.2.2 (2021-12-02)

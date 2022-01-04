@@ -16,7 +16,7 @@ import {
   ProcessErrorArgs,
   ServiceBusClient,
   ServiceBusMessage,
-  ServiceBusReceivedMessage
+  ServiceBusReceivedMessage,
 } from "@azure/service-bus";
 
 // Load the .env file if it exists
@@ -37,7 +37,7 @@ const listOfScientists = [
   { lastName: "Faraday", firstName: "Michael" },
   { lastName: "Galilei", firstName: "Galileo" },
   { lastName: "Kepler", firstName: "Johannes" },
-  { lastName: "Kopernikus", firstName: "Nikolaus" }
+  { lastName: "Kopernikus", firstName: "Nikolaus" },
 ];
 
 export async function main() {
@@ -59,7 +59,7 @@ async function sendScheduledMessages(sbClient: ServiceBusClient) {
   const messages: ServiceBusMessage[] = listOfScientists.map(
     (scientist): ServiceBusMessage => ({
       body: `${scientist.firstName} ${scientist.lastName}`,
-      subject: "Scientist"
+      subject: "Scientist",
     })
   );
 
@@ -92,7 +92,7 @@ async function receiveMessages(sbClient: ServiceBusClient) {
 
   queueReceiver.subscribe({
     processMessage,
-    processError
+    processError,
   });
   await delay(5000);
   await queueReceiver.close();
@@ -105,7 +105,7 @@ async function receiveMessages(sbClient: ServiceBusClient) {
 
   queueReceiver.subscribe({
     processMessage,
-    processError
+    processError,
   });
 
   await delay(5000);

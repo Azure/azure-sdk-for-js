@@ -31,6 +31,10 @@ import {
   MetricsQueryResult
 } from "../../../src";
 import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  convertIntervalToTimeIntervalObject,
+  convertTimespanToInterval
+} from "../../../src/timespanConversion";
 
 describe("Model unit tests", () => {
   describe("LogsClient", () => {
@@ -327,14 +331,51 @@ describe("Model unit tests", () => {
       );
     });
 
-    // it("convertResponseForMetricNamespaces", () => {
-    //   const actualResponse = convertResponseForMetricNamespaces({
-    //     value: [{ id: "anything" } as any]
-    //   });
+    it("convertIntervalToTimeIntervalObject", () => {
+      const res1 = convertIntervalToTimeIntervalObject("2007-11-13T00:00/2007-11-16T00:00");
+      assert.deepEqual(res1, {
+        startTime: new Date("2007-11-13T00:00"),
+        endTime: new Date("2007-11-16T00:00")
+      });
+      const res2 = convertIntervalToTimeIntervalObject("2007-03-01T13:00:00Z/P1Y2M10DT2H30M");
+      assert.deepEqual(res2, {
+        startTime: new Date("2007-03-01T13:00:00Z"),
+        duration: "P1Y2M10DT2H30M"
+      });
+      const res3 = convertIntervalToTimeIntervalObject("P1Y2M10DT2H30M/2008-05-11T15:30:00Z");
+      assert.deepEqual(res3, {
+        duration: "P1Y2M10DT2H30M",
+        endTime: new Date("2008-05-11T15:30:00Z")
+      });
+      const res4 = convertIntervalToTimeIntervalObject("P1Y2M10DT2H30M");
+      assert.deepEqual(res4, {
+        duration: "P1Y2M10DT2H30M"
+      });
+    });
 
-    //   assert.deepEqual(actualResponse, <GetMetricNamespacesResult>{
-    //     namespaces: [{ id: "anything" } as any]
-    //   });
-    // });
+    it("convertTimespanToInterval", () => {
+      const res1 = convertTimespanToInterval({
+        startTime: new Date("2007-11-13T08:00:00"),
+        endTime: new Date("2007-11-16T08:00:00")
+      });
+      assert.equal(res1, "2007-11-13T08:00:00.000Z/2007-11-16T08:00:00.000Z");
+
+      const res2 = convertTimespanToInterval({
+        startTime: new Date("2007-03-01T13:00:00Z"),
+        duration: "P1Y2M10DT2H30M"
+      });
+      assert.deepEqual(res2, "2007-03-01T13:00:00.000Z/P1Y2M10DT2H30M");
+
+      const res3 = convertTimespanToInterval({
+        duration: "P1Y2M10DT2H30M",
+        endTime: new Date("2008-05-11T15:30:00Z")
+      });
+      assert.deepEqual(res3, "P1Y2M10DT2H30M/2008-05-11T15:30:00.000Z");
+
+      const res4 = convertTimespanToInterval({
+        duration: "P1Y2M10DT2H30M"
+      });
+      assert.deepEqual(res4, "P1Y2M10DT2H30M");
+    });
   });
 });

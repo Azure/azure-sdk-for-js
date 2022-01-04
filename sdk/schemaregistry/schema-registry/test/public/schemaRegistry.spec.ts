@@ -14,7 +14,7 @@ import { SchemaRegistryClient, SchemaDescription, SchemaProperties, Schema } fro
 const options = {
   onResponse: (rawResponse: { status: number }) => {
     assert.equal(rawResponse.status, 204);
-  }
+  },
 };
 
 function assertIsValidSchemaProperties(
@@ -59,12 +59,12 @@ async function isRejected<T>(
   }
 }
 
-describe("SchemaRegistryClient", function() {
+describe("SchemaRegistryClient", function () {
   let recorder: Recorder;
   let client: SchemaRegistryClient;
   let schema: SchemaDescription;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     ({ client, recorder } = createRecordedClient(this));
     schema = {
       name: "azsdk_js_test",
@@ -77,18 +77,18 @@ describe("SchemaRegistryClient", function() {
         fields: [
           {
             name: "name",
-            type: "string"
+            type: "string",
           },
           {
             name: "favoriteNumber",
-            type: "int"
-          }
-        ]
-      })
+            type: "int",
+          },
+        ],
+      }),
     };
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -165,7 +165,7 @@ describe("SchemaRegistryClient", function() {
     const found = await client.getSchema(registered.id, {
       onResponse: (rawResponse: { status: number }) => {
         assert.equal(rawResponse.status, 200);
-      }
+      },
     });
     assertIsValidSchema(found);
     assert.equal(found.definition, schema.definition);
@@ -181,7 +181,7 @@ describe("SchemaRegistryClient", function() {
         '  "type": "record",\n' +
         '  "name": "Test",\n' +
         '  "fields": [{ "name": "X", "type": { "type": "string" } }]\n' +
-        "}\n"
+        "}\n",
     };
     // definition that is going to the service has whitespaces
     const registered = await client.registerSchema(schema2, options);
@@ -197,7 +197,7 @@ describe("SchemaRegistryClient", function() {
       definition: foundSchema.definition,
       groupName: schema2.groupName,
       name: schema2.name,
-      format: foundSchema.properties.format
+      format: foundSchema.properties.format,
     });
     assertIsValidSchemaProperties(foundId);
   });
@@ -205,7 +205,7 @@ describe("SchemaRegistryClient", function() {
   it("Allows schema names with dots in them", async () => {
     const schemaProperties = await client.registerSchema({
       ...schema,
-      name: "com.azure.schemaregistry.samples.User"
+      name: "com.azure.schemaregistry.samples.User",
     });
     assertIsValidSchemaProperties(schemaProperties);
   });

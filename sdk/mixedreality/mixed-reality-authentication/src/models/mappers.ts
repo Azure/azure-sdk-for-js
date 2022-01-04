@@ -14,7 +14,7 @@ export const mapToAccessToken = (
 ): AccessToken => {
   const token: AccessToken = {
     expiresOnTimestamp: 0,
-    token: tokenResponse.accessToken
+    token: tokenResponse.accessToken,
   };
 
   if (token.token) {

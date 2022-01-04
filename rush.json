@@ -1175,6 +1175,46 @@
       "packageName": "@azure/arm-monitor",
       "projectFolder": "sdk/monitor/arm-monitor",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-subscriptions",
+      "projectFolder": "sdk/subscription/arm-subscriptions",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-advisor",
+      "projectFolder": "sdk/advisor/arm-advisor",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hdinsight",
+      "projectFolder": "sdk/hdinsight/arm-hdinsight",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-attestation",
+      "projectFolder": "sdk/attestation/arm-attestation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-azurestack",
+      "projectFolder": "sdk/azurestack/arm-azurestack",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-changeanalysis",
+      "projectFolder": "sdk/changeanalysis/arm-changeanalysis",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-billing",
+      "projectFolder": "sdk/billing/arm-billing",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerinstance",
+      "projectFolder": "sdk/containerinstance/arm-containerinstance",
+      "versionPolicyName": "management"
     }
   ]
 }

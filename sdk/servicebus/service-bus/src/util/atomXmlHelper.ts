@@ -11,7 +11,7 @@ import {
   stripRequest,
   stripResponse,
   RequestPrepareOptions,
-  OperationOptions
+  OperationOptions,
 } from "@azure/core-http";
 
 import * as Constants from "./constants";
@@ -63,7 +63,7 @@ export async function executeAtomXmlOperation(
     // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
     spanOptions: (operationOptions.tracingOptions as any)?.spanOptions,
     tracingContext: operationOptions.tracingOptions?.tracingContext,
-    disableJsonStringifyOnBody: true
+    disableJsonStringifyOnBody: true,
   };
   webResource = webResource.prepare(reqPrepareOptions);
   webResource.timeout = operationOptions.requestOptions?.timeout || 0;
@@ -103,7 +103,7 @@ export async function executeAtomXmlOperation(
  *
  */
 export function sanitizeSerializableObject(resource: { [key: string]: any }): void {
-  Object.keys(resource).forEach(function(property) {
+  Object.keys(resource).forEach(function (property) {
     if (!isDefined(resource[property])) {
       delete resource[property];
     } else if (isJSONLikeObject(resource[property])) {
@@ -131,16 +131,16 @@ export function serializeToAtomXmlRequest(
 
   content[resourceName][Constants.XML_METADATA_MARKER] = {
     xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
-    "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
+    "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance",
   };
 
   content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
   const requestDetails: Record<string, unknown> = {
     updated: new Date().toISOString(),
-    content: content
+    content: content,
   };
   requestDetails[Constants.XML_METADATA_MARKER] = {
-    xmlns: "http://www.w3.org/2005/Atom"
+    xmlns: "http://www.w3.org/2005/Atom",
   };
   return requestDetails;
 }
@@ -229,7 +229,7 @@ function parseEntryResult(entry: any): Record<string, unknown> | undefined {
     return undefined;
   }
 
-  const contentElementNames = Object.keys(entry.content).filter(function(key) {
+  const contentElementNames = Object.keys(entry.content).filter(function (key) {
     return key !== Constants.XML_METADATA_MARKER;
   });
 

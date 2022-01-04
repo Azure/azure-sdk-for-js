@@ -123,7 +123,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Location',
   'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.EventGrid/locations/eastus/operationResults/459080F4-DAA3-4C95-AFAF-027154DC2973?api-version=2021-12-01',
   'Retry-After',
-  '10',
+  '0',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'Azure-AsyncOperation',

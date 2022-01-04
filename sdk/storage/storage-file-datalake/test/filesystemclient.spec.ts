@@ -37,11 +37,11 @@ describe("DataLakeFileSystemClient", () => {
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.create();
+    await fileSystemClient.createIfNotExists();
   });
 
   afterEach(async function() {
-    await fileSystemClient.delete();
+    await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
 
@@ -146,7 +146,7 @@ describe("DataLakeFileSystemClient", () => {
     const createRes2 = await cClient.createIfNotExists({ metadata, access });
     assert.ok(!createRes2.succeeded);
 
-    await cClient.delete();
+    await cClient.deleteIfExists();
   });
 
   it("deleteIfExists", async () => {
@@ -463,12 +463,12 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     }
 
     fileSystemClient = serviceClient.getFileSystemClient(recorder.getUniqueName(`filesystem`));
-    await fileSystemClient.create();
+    await fileSystemClient.createIfNotExists();
   });
 
   afterEach(async function() {
     if (fileSystemClient !== undefined) {
-      await fileSystemClient.delete();
+      await fileSystemClient.deleteIfExists();
     }
     await recorder.stop();
   });

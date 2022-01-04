@@ -11,7 +11,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 import {
   createRecordedAdminClient,
   createRecorder,
-  getIsolatedSigningKey
+  getIsolatedSigningKey,
 } from "../utils/recordedClient";
 import { createRSAKey, createX509Certificate, generateSha1Hash } from "../utils/cryptoUtils";
 import { KnownCertificateModification } from "../../src/generated";
@@ -21,14 +21,14 @@ import { KnownCertificateModification } from "../../src/generated";
 import * as jsrsasign from "jsrsasign";
 import { byteArrayToHex } from "../../src/utils/base64";
 
-describe("PolicyManagementTests ", function() {
+describe("PolicyManagementTests ", function () {
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = createRecorder(this);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 

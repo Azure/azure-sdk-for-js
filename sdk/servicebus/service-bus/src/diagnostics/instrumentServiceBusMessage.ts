@@ -7,7 +7,7 @@ import {
   Link,
   Span,
   SpanContext,
-  SpanKind
+  SpanKind,
 } from "@azure/core-tracing";
 import { ConnectionContext } from "../connectionContext";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
@@ -87,8 +87,8 @@ export function createProcessingSpan(
     links.push({
       context: spanContext,
       attributes: {
-        enqueuedTime: receivedMessage.enqueuedTimeUtc?.getTime()
-      }
+        enqueuedTime: receivedMessage.enqueuedTimeUtc?.getTime(),
+      },
     });
   }
 
@@ -99,7 +99,7 @@ export function createProcessingSpan(
     connectionConfig.host,
     {
       kind: SpanKind.CONSUMER,
-      links
+      links,
     }
   );
 

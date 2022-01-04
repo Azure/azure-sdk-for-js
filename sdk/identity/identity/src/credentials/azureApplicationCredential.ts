@@ -34,7 +34,7 @@ interface AzureApplicationCredentialConstructor {
 
 export const AzureApplicationCredentials: AzureApplicationCredentialConstructor[] = [
   EnvironmentCredential,
-  DefaultManagedIdentityCredential
+  DefaultManagedIdentityCredential,
 ];
 
 /**

@@ -22,14 +22,14 @@ export class GetConfigurationSettingTest extends TemplateTest<GetConfigurationSe
       required: true,
       description: "Name of the setting to be created",
       longName: "settingName",
-      defaultValue: "setting"
-    }
+      defaultValue: "setting",
+    },
   };
 
   public async globalSetup(): Promise<void> {
     await this.appConfigurationClient.addConfigurationSetting({
       key: GetConfigurationSettingTest.prefix + this.parsedOptions.settingName.value,
-      value: "settingValue"
+      value: "settingValue",
     });
   }
 
@@ -41,7 +41,7 @@ export class GetConfigurationSettingTest extends TemplateTest<GetConfigurationSe
 
   public async globalCleanup(): Promise<void> {
     await this.appConfigurationClient.deleteConfigurationSetting({
-      key: GetConfigurationSettingTest.prefix + this.parsedOptions.settingName.value
+      key: GetConfigurationSettingTest.prefix + this.parsedOptions.settingName.value,
     });
   }
 }

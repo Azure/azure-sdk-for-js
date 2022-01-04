@@ -95,9 +95,9 @@ export interface RegexSanitizer {
    */
   value: string;
   /**
-   * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation.
+   * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a substitution operation.
    */
-  regex: string;
+  regex?: string;
   /**
    * The capture group that needs to be operated upon. Do not set if you're invoking a simple replacement operation.
    */
@@ -129,15 +129,11 @@ interface BodyKeySanitizer extends RegexSanitizer {
  * 2) To do a simple regex replace operation, define arguments "key", "value", and "regex"
  * 3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"
  */
-interface HeaderRegexSanitizer extends Omit<RegexSanitizer, "regex"> {
+interface HeaderRegexSanitizer extends RegexSanitizer {
   /**
    * The name of the header we're operating against.
    */
   key: string;
-  /**
-   * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation.
-   */
-  regex?: string;
 }
 /**
  * Internally,
@@ -149,7 +145,7 @@ interface ConnectionStringSanitizer {
   /**
    * Real connection string with all the secrets
    */
-  actualConnString: string;
+  actualConnString?: string;
   /**
    * Fake connection string - with all the parts of the connection string mapped to fake values
    */
@@ -181,7 +177,17 @@ export interface SanitizerOptions {
    * Regardless, there are examples present in `recorder-new/test/testProxyTests.spec.ts`.
    */
   bodyRegexSanitizers?: RegexSanitizer[];
-
+  /**
+   * This sanitizer offers regex update of a specific JTokenPath.
+   *
+   * EG: "TableName" within a json response body having its value replaced by whatever substitution is offered.
+   * This simply means that if you are attempting to replace a specific key wholesale, this sanitizer will be simpler
+   * than configuring a BodyRegexSanitizer that has to match against the full "KeyName": "Value" that is part of the json structure.
+   *
+   * Further reading is available [here](https://www.newtonsoft.com/json/help/html/SelectToken.htm#SelectTokenJSONPath).
+   *
+   * If the body is NOT a JSON object, this sanitizer will NOT be applied.
+   */
   bodyKeySanitizers?: BodyKeySanitizer[];
   /**
    * TODO

@@ -50,14 +50,14 @@ describe("Highlevel Node.js only", () => {
     });
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.create();
+    await fileSystemClient.createIfNotExists();
     fileName = recorder.getUniqueName("file");
     fileClient = fileSystemClient.getFileClient(fileName);
   });
 
   afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
-      await fileSystemClient.delete();
+      await fileSystemClient.deleteIfExists();
       await recorder.stop();
     }
   });
@@ -250,7 +250,7 @@ describe("Highlevel Node.js only", () => {
   it("upload to a leased file should succeed when LeaseAccessConditions is specified", async () => {
     await fileClient.upload(Buffer.from("aaa"));
 
-    const duration = 30;
+    const duration = 60;
     const leaseClient = fileClient.getDataLakeLeaseClient();
     await leaseClient.acquireLease(duration);
 

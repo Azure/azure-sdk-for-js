@@ -15,8 +15,8 @@ export const extractOperationOptions = <T extends OperationOptions>(
     operationOptions: {
       abortSignal,
       requestOptions,
-      tracingOptions
+      tracingOptions,
     },
-    restOptions
+    restOptions,
   };
 };
