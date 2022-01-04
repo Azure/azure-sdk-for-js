@@ -103,9 +103,9 @@ export async function main() {
   });
   if (creationResponse && creationResponse.status != 201) {
     throw new Error(`Program brief creation failed.
-      Status code: ${creationResponse?.status}; 
-      Error: ${creationResponse?.bodyAsText}; 
-      CV: ${creationResponse?.headers.get("MS-CV")}`);
+      Status code: ${creationResponse.status}; 
+      Error: ${creationResponse.bodyAsText}; 
+      CV: ${creationResponse.headers.get("MS-CV")}`);
   } else {
     console.log(
       `Successfully created a new program brief with Id ${creationResponse?.parsedBody.id}`
@@ -117,7 +117,7 @@ export async function main() {
   client.deleteUSProgramBrief(programBriefId, {
     onResponse: (response) => (deletionResponse = response),
   });
-  if (deletionResponse && deletionResponse.status != 204) {
+  if (!deletionResponse || deletionResponse.status != 204) {
     console.log(
       `Successfully deleted draft program brief with Id ${programBriefId} ${deletionResponse}`
     );

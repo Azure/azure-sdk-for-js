@@ -28,7 +28,7 @@ export async function main() {
   var programBriefs = await client.listUSProgramBriefs({
     onResponse: (response) => (res = response),
   });
-  if (res && res.status != 200) {
+  if (!res || res.status != 200) {
     throw new Error(`US Program briefs Listing failed.
       Status code: ${res?.status}; 
       Error: ${res?.bodyAsText}; 
