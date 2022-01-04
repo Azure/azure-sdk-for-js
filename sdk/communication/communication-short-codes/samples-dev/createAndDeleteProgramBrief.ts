@@ -123,8 +123,9 @@ export async function main() {
     );
   } else {
     console.log(`Failed to delete draft program brief with Id ${programBriefId}.
-          Status code: ${deletionResponse?.status}; Error: ${deletionResponse?.bodyAsText
-      }; CV: ${deletionResponse?.headers.get("MS-CV")}`);
+          Status code: ${deletionResponse?.status}; Error: ${
+      deletionResponse?.bodyAsText
+    }; CV: ${deletionResponse?.headers.get("MS-CV")}`);
   }
 }
 
