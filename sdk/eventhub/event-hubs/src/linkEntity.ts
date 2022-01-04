@@ -114,7 +114,7 @@ export class LinkEntity {
   protected async _negotiateClaim({
     abortSignal,
     setTokenRenewal,
-    timeoutInMs
+    timeoutInMs,
   }: {
     setTokenRenewal: boolean | undefined;
     abortSignal: AbortSignalLike | undefined;
@@ -140,12 +140,12 @@ export class LinkEntity {
         () => {
           return this._context.cbsSession.init({
             abortSignal,
-            timeoutInMs: timeoutInMs - (Date.now() - startTime)
+            timeoutInMs: timeoutInMs - (Date.now() - startTime),
           });
         },
         {
           abortSignal,
-          timeoutInMs
+          timeoutInMs,
         }
       );
     }
@@ -194,7 +194,7 @@ export class LinkEntity {
       },
       {
         abortSignal,
-        timeoutInMs: timeoutInMs - (Date.now() - startTime)
+        timeoutInMs: timeoutInMs - (Date.now() - startTime),
       }
     );
     logger.verbose(
@@ -227,7 +227,7 @@ export class LinkEntity {
         await this._negotiateClaim({
           setTokenRenewal: true,
           abortSignal: undefined,
-          timeoutInMs: getRetryAttemptTimeoutInMs(undefined)
+          timeoutInMs: getRetryAttemptTimeoutInMs(undefined),
         });
       } catch (err) {
         logger.verbose(

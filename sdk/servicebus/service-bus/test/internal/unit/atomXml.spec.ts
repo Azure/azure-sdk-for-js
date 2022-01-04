@@ -10,7 +10,7 @@ import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
   executeAtomXmlOperation,
-  sanitizeSerializableObject
+  sanitizeSerializableObject,
 } from "../../../src/util/atomXmlHelper";
 import * as Constants from "../../../src/util/constants";
 import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient";
@@ -38,7 +38,7 @@ const queueProperties = [
   Constants.USER_METADATA,
   Constants.AUTO_DELETE_ON_IDLE,
   Constants.ENABLE_PARTITIONING,
-  Constants.FORWARD_DEADLETTERED_MESSAGES_TO
+  Constants.FORWARD_DEADLETTERED_MESSAGES_TO,
 ];
 
 const topicProperties = [
@@ -50,7 +50,7 @@ const topicProperties = [
   Constants.AUTHORIZATION_RULES,
   Constants.STATUS,
   Constants.SUPPORT_ORDERING,
-  Constants.ENABLE_PARTITIONING
+  Constants.ENABLE_PARTITIONING,
 ];
 
 const subscriptionProperties = [
@@ -66,25 +66,26 @@ const subscriptionProperties = [
   Constants.MESSAGE_COUNT,
   Constants.ENABLE_PARTITIONING,
   Constants.FORWARD_DEADLETTERED_MESSAGES_TO,
-  Constants.AUTO_DELETE_ON_IDLE
+  Constants.AUTO_DELETE_ON_IDLE,
 ];
 
 const ruleProperties = ["Filter", "Action", "Name"];
 
-const mockServiceBusAtomManagementClient: ServiceBusAdministrationClient = new ServiceBusAdministrationClient(
-  "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
-);
+const mockServiceBusAtomManagementClient: ServiceBusAdministrationClient =
+  new ServiceBusAdministrationClient(
+    "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
+  );
 
 describe("ATOM Serializers", () => {
-  describe("atomSerializationPolicy", function() {
-    it("should throw an error if receiving a non-XML response body", async function() {
+  describe("atomSerializationPolicy", function () {
+    it("should throw an error if receiving a non-XML response body", async function () {
       const request = new WebResource();
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
           request: request,
           status: 200,
           headers: new HttpHeaders({}),
-          bodyAsText: `{ hello: "this is a JSON response body" }`
+          bodyAsText: `{ hello: "this is a JSON response body" }`,
         };
       };
 
@@ -108,14 +109,14 @@ describe("ATOM Serializers", () => {
       }
     });
 
-    it("should properly serialize when using valid inputs and serializer", async function() {
+    it("should properly serialize when using valid inputs and serializer", async function () {
       const request = new WebResource();
       request.body = { lockDuration: "PT3M", maxSizeInMegabytes: "2048" };
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
           request: request,
           status: 200,
-          headers: new HttpHeaders({})
+          headers: new HttpHeaders({}),
         };
       };
       await executeAtomXmlOperation(
@@ -143,15 +144,15 @@ describe("ATOM Serializers", () => {
     });
   });
 
-  describe("deserializeAtomXmlResponse", function() {
-    it("should throw an error if receiving a valid XML but invalid Atom XML", async function() {
+  describe("deserializeAtomXmlResponse", function () {
+    it("should throw an error if receiving a valid XML but invalid Atom XML", async function () {
       const request: WebResource = new WebResource();
       const _response = {
         request,
         status: 200,
         headers: new HttpHeaders({}),
         bodyAsText: null,
-        parsedBody: { notAnEntry: "" }
+        parsedBody: { notAnEntry: "" },
       };
 
       try {
@@ -167,14 +168,14 @@ describe("ATOM Serializers", () => {
       }
     });
 
-    it("should throw appropriate error if unrecognized HTTP code is returned by service", async function() {
+    it("should throw appropriate error if unrecognized HTTP code is returned by service", async function () {
       const request: WebResource = new WebResource();
       const _response = {
         request,
         status: 666,
         headers: new HttpHeaders({}),
         bodyAsText: null,
-        parsedBody: undefined
+        parsedBody: undefined,
       };
       try {
         await deserializeAtomXmlResponse(["QueueName"], _response);
@@ -190,8 +191,8 @@ describe("ATOM Serializers", () => {
     });
   });
 
-  describe("Serializer construct requests with properties in specific order", function() {
-    it("Queue serializer generates XML in expected order", async function() {
+  describe("Serializer construct requests with properties in specific order", function () {
+    it("Queue serializer generates XML in expected order", async function () {
       const queueOptions = {
         messageCount: 5,
         sizeInBytes: 250,
@@ -208,23 +209,23 @@ describe("ATOM Serializers", () => {
           {
             claimType: "SharedAccessKey",
             rights: {
-              accessRights: ["Manage", "Send", "Listen"]
+              accessRights: ["Manage", "Send", "Listen"],
             },
             keyName: "allClaims_v2",
             primaryKey: TestConstants.primaryKey,
-            secondaryKey: TestConstants.secondaryKey
+            secondaryKey: TestConstants.secondaryKey,
           },
           {
             claimType: "SharedAccessKey",
             rights: {
-              accessRights: ["Manage", "Send", "Listen"]
+              accessRights: ["Manage", "Send", "Listen"],
             },
             keyName: "allClaims_v3",
             primaryKey: TestConstants.primaryKey,
-            secondaryKey: TestConstants.secondaryKey
-          }
+            secondaryKey: TestConstants.secondaryKey,
+          },
         ],
-        enablePartitioning: true
+        enablePartitioning: true,
       };
 
       const request: WebResource = new WebResource();
@@ -234,7 +235,7 @@ describe("ATOM Serializers", () => {
         return {
           request: request,
           status: 200,
-          headers: new HttpHeaders({})
+          headers: new HttpHeaders({}),
         };
       };
 
@@ -248,7 +249,7 @@ describe("ATOM Serializers", () => {
       checkXmlHasPropertiesInExpectedOrder(request.body.toString(), queueProperties);
     });
 
-    it("Topic serializer generates XML in expected order", async function() {
+    it("Topic serializer generates XML in expected order", async function () {
       const topicOptions = {
         sizeInBytes: 100,
         messageCount: 7,
@@ -265,22 +266,22 @@ describe("ATOM Serializers", () => {
           {
             claimType: "SharedAccessKey",
             rights: {
-              accessRights: ["Manage", "Send", "Listen"]
+              accessRights: ["Manage", "Send", "Listen"],
             },
             keyName: "allClaims_v2",
             primaryKey: TestConstants.primaryKey,
-            secondaryKey: TestConstants.secondaryKey
+            secondaryKey: TestConstants.secondaryKey,
           },
           {
             claimType: "SharedAccessKey",
             rights: {
-              accessRights: ["Manage", "Send", "Listen"]
+              accessRights: ["Manage", "Send", "Listen"],
             },
             keyName: "allClaims_v3",
             primaryKey: TestConstants.primaryKey,
-            secondaryKey: TestConstants.secondaryKey
-          }
-        ]
+            secondaryKey: TestConstants.secondaryKey,
+          },
+        ],
       };
 
       const request: WebResource = new WebResource();
@@ -290,7 +291,7 @@ describe("ATOM Serializers", () => {
         return {
           request: request,
           status: 200,
-          headers: new HttpHeaders({})
+          headers: new HttpHeaders({}),
         };
       };
 
@@ -304,7 +305,7 @@ describe("ATOM Serializers", () => {
       checkXmlHasPropertiesInExpectedOrder(request.body.toString(), topicProperties);
     });
 
-    it("Subscription serializer generates XML in expected order", async function() {
+    it("Subscription serializer generates XML in expected order", async function () {
       const subscriptionOptions = {
         defaultMessageTimeToLive: "P2D",
         autoDeleteOnIdle: "PT1H",
@@ -313,7 +314,7 @@ describe("ATOM Serializers", () => {
         enableBatchedOperations: false,
         requiresSession: true,
         lockDuration: "PT5M",
-        maxDeliveryCount: 20
+        maxDeliveryCount: 20,
       };
 
       const request: WebResource = new WebResource();
@@ -323,7 +324,7 @@ describe("ATOM Serializers", () => {
         return {
           request: request,
           status: 200,
-          headers: new HttpHeaders({})
+          headers: new HttpHeaders({}),
         };
       };
 
@@ -337,13 +338,13 @@ describe("ATOM Serializers", () => {
       checkXmlHasPropertiesInExpectedOrder(request.body.toString(), subscriptionProperties);
     });
 
-    it("Rule serializer generates XML in expected order", async function() {
+    it("Rule serializer generates XML in expected order", async function () {
       const ruleOptions = {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: { "@intParam": 1, type: "int", "@stringParam": "b" }
+          sqlParameters: { "@intParam": 1, type: "int", "@stringParam": "b" },
         },
-        action: { sqlExpression: "SET a='b'" }
+        action: { sqlExpression: "SET a='b'" },
       };
 
       const request: WebResource = new WebResource();
@@ -353,7 +354,7 @@ describe("ATOM Serializers", () => {
         return {
           request: request,
           status: 200,
-          headers: new HttpHeaders({})
+          headers: new HttpHeaders({}),
         };
       };
 
@@ -400,26 +401,26 @@ describe("ATOM Serializers", () => {
 
       const serializedContent = {
         $: {
-          type: "application/xml"
+          type: "application/xml",
         },
         QueueDescription: {
           $: {
             xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
-            "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
+            "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance",
           },
           LockDuration: "PT1M",
-          MaxSizeInMegabytes: "1024"
-        }
+          MaxSizeInMegabytes: "1024",
+        },
       };
       serializedContent.QueueDescription[property1] = resource["lockDuration"];
       serializedContent.QueueDescription[property2] = resource["maxSizeInMegabytes"];
 
       return {
         $: {
-          xmlns: "http://www.w3.org/2005/Atom"
+          xmlns: "http://www.w3.org/2005/Atom",
         },
         updated: new Date().toISOString(),
-        content: serializedContent
+        content: serializedContent,
       };
     }
 
@@ -435,14 +436,14 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: { "@intParam": 1, "@stringParam": Buffer.from("") }
+          sqlParameters: { "@intParam": 1, "@stringParam": Buffer.from("") },
         },
-        action: { sqlExpression: "SET a='b'" }
+        action: { sqlExpression: "SET a='b'" },
       },
       output: {
         testErrorMessage: `Unsupported type for the value in the sqlParameters for the key '@stringParam'`,
-        testErrorType: Error
-      }
+        testErrorType: Error,
+      },
     },
     {
       testCaseTitle:
@@ -450,14 +451,14 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: "notAnArray"
+          sqlParameters: "notAnArray",
         },
-        action: { sqlExpression: "SET a='b'" }
+        action: { sqlExpression: "SET a='b'" },
       },
       output: {
         testErrorMessage: `Unsupported value for the sqlParameters "notAnArray", expected a JSON object with key-value pairs.`,
-        testErrorType: TypeError
-      }
+        testErrorType: TypeError,
+      },
     },
     {
       testCaseTitle:
@@ -465,62 +466,62 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: ["notAJsObjectLikeValue"]
+          sqlParameters: ["notAJsObjectLikeValue"],
         },
-        action: { sqlExpression: "SET a='b'" }
+        action: { sqlExpression: "SET a='b'" },
       },
       output: {
         testErrorMessage: `Unsupported value for the sqlParameters ["notAJsObjectLikeValue"], expected a JSON object with key-value pairs.`,
-        testErrorType: TypeError
-      }
+        testErrorType: TypeError,
+      },
     },
     {
       testCaseTitle:
         "Rule serializer throws Error if rule action input has SQL parameters that uses an unsupported type",
       input: {
         filter: {
-          sqlExpression: "stringValue = 'abc'"
+          sqlExpression: "stringValue = 'abc'",
         },
         action: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: { "@intParam": 1, "@stringParam": Buffer.from("hello") }
-        }
+          sqlParameters: { "@intParam": 1, "@stringParam": Buffer.from("hello") },
+        },
       },
       output: {
         testErrorMessage: `Unsupported type for the value in the sqlParameters for the key '@stringParam'`,
-        testErrorType: Error
-      }
+        testErrorType: Error,
+      },
     },
     {
       testCaseTitle:
         "Rule serializer throws Error if rule action input has SQL parameters as not an array",
       input: {
         filter: {
-          sqlExpression: "stringValue = 'abc'"
+          sqlExpression: "stringValue = 'abc'",
         },
-        action: { sqlExpression: "SET a='b'", sqlParameters: "notAnArray" }
+        action: { sqlExpression: "SET a='b'", sqlParameters: "notAnArray" },
       },
       output: {
         testErrorMessage: `Unsupported value for the sqlParameters "notAnArray", expected a JSON object with key-value pairs.`,
-        testErrorType: TypeError
-      }
+        testErrorType: TypeError,
+      },
     },
     {
       testCaseTitle:
         "Rule serializer throws Error if rule action input has SQL parameter information in not a JS object like representation",
       input: {
         filter: {
-          sqlExpression: "stringValue = 'abc'"
+          sqlExpression: "stringValue = 'abc'",
         },
-        action: { sqlExpression: "SET a='b'", sqlParameters: ["notAJsObjectLikeValue"] }
+        action: { sqlExpression: "SET a='b'", sqlParameters: ["notAJsObjectLikeValue"] },
       },
       output: {
         testErrorMessage: `Unsupported value for the sqlParameters ["notAJsObjectLikeValue"], expected a JSON object with key-value pairs.`,
-        testErrorType: TypeError
-      }
-    }
+        testErrorType: TypeError,
+      },
+    },
   ].forEach((testCase) => {
-    describe(`Type validation errors on SQL parameter inputs`, function(): void {
+    describe(`Type validation errors on SQL parameter inputs`, function (): void {
       it(`${testCase.testCaseTitle}`, async () => {
         try {
           const request = new WebResource();
@@ -530,7 +531,7 @@ describe("ATOM Serializers", () => {
             return {
               request: request,
               status: 200,
-              headers: new HttpHeaders({})
+              headers: new HttpHeaders({}),
             };
           };
           await executeAtomXmlOperation(
@@ -565,14 +566,14 @@ describe("ATOM Serializers", () => {
         filter: {
           correlationId: "abcd",
           applicationProperties: {
-            message: ["hello"]
-          }
-        }
+            message: ["hello"],
+          },
+        },
       },
       output: {
         testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
-        testErrorType: Error
-      }
+        testErrorType: Error,
+      },
     },
     {
       testCaseTitle:
@@ -581,14 +582,14 @@ describe("ATOM Serializers", () => {
         filter: {
           correlationId: "abcd",
           applicationProperties: {
-            message: {}
-          }
-        }
+            message: {},
+          },
+        },
       },
       output: {
         testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
-        testErrorType: Error
-      }
+        testErrorType: Error,
+      },
     },
     {
       testCaseTitle:
@@ -597,14 +598,14 @@ describe("ATOM Serializers", () => {
         filter: {
           correlationId: "abcd",
           applicationProperties: {
-            message: undefined
-          }
-        }
+            message: undefined,
+          },
+        },
       },
       output: {
         testErrorMessage: `Unsupported type for the value in the applicationProperties for the key 'message'`,
-        testErrorType: Error
-      }
+        testErrorType: Error,
+      },
     },
     {
       testCaseTitle:
@@ -612,13 +613,13 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          applicationProperties: 123
-        }
+          applicationProperties: 123,
+        },
       },
       output: {
         testErrorMessage: `Unsupported value for the applicationProperties 123, expected a JSON object with key-value pairs.`,
-        testErrorType: Error
-      }
+        testErrorType: Error,
+      },
     },
     {
       testCaseTitle:
@@ -626,13 +627,13 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          applicationProperties: "abcd"
-        }
+          applicationProperties: "abcd",
+        },
       },
       output: {
         testErrorMessage: `Unsupported value for the applicationProperties "abcd", expected a JSON object with key-value pairs.`,
-        testErrorType: Error
-      }
+        testErrorType: Error,
+      },
     },
     {
       testCaseTitle:
@@ -640,13 +641,13 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          applicationProperties: ["abcd"]
-        }
+          applicationProperties: ["abcd"],
+        },
       },
       output: {
         testErrorMessage: `Unsupported value for the applicationProperties ["abcd"], expected a JSON object with key-value pairs.`,
-        testErrorType: Error
-      }
+        testErrorType: Error,
+      },
     },
     {
       testCaseTitle:
@@ -654,16 +655,16 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           correlationId: "abcd",
-          applicationProperties: {}
-        }
+          applicationProperties: {},
+        },
       },
       output: {
         testErrorMessage: `Unsupported value for the applicationProperties {}, expected a JSON object with key-value pairs.`,
-        testErrorType: Error
-      }
-    }
+        testErrorType: Error,
+      },
+    },
   ].forEach((testCase) => {
-    describe(`Type validation errors on Correlation user property inputs`, function(): void {
+    describe(`Type validation errors on Correlation user property inputs`, function (): void {
       it(`${testCase.testCaseTitle}`, async () => {
         try {
           const request = new WebResource();
@@ -673,7 +674,7 @@ describe("ATOM Serializers", () => {
             return {
               request: request,
               status: 200,
-              headers: new HttpHeaders({})
+              headers: new HttpHeaders({}),
             };
           };
           await executeAtomXmlOperation(
@@ -704,37 +705,37 @@ describe("ATOM Serializers", () => {
     {
       testCaseTitle: "Create queue throws Error if authorization rules input is not an array",
       input: {
-        authorizationRules: "notAnArray"
+        authorizationRules: "notAnArray",
       },
       output: {
         testErrorMessage: `authorizationRules must be an array of AuthorizationRule objects or undefined, but received "notAnArray"`,
-        testErrorType: TypeError
-      }
+        testErrorType: TypeError,
+      },
     },
     {
       testCaseTitle:
         "Create queue throws Error if authorization rule information is not a JS object like representation",
       input: {
-        authorizationRules: ["notAJsObjectLikeValue"]
+        authorizationRules: ["notAJsObjectLikeValue"],
       },
       output: {
         testErrorMessage: `Expected authorizationRule input to be a JS object value, but received "notAJsObjectLikeValue"`,
-        testErrorType: TypeError
-      }
-    }
+        testErrorType: TypeError,
+      },
+    },
   ].forEach((testCase) => {
-    describe(`Type validation errors on authorization rule inputs`, function(): void {
+    describe(`Type validation errors on authorization rule inputs`, function (): void {
       it(`${testCase.testCaseTitle}`, async () => {
         mockServiceBusAtomManagementClient.sendRequest = async () => {
           return {
             request: new WebResource(),
             status: 200,
-            headers: new HttpHeaders({})
+            headers: new HttpHeaders({}),
           };
         };
         try {
           await mockServiceBusAtomManagementClient.createQueue("test", {
-            ...(testCase.input as any)
+            ...(testCase.input as any),
           });
           assert.fail("Error must be thrown");
         } catch (err) {
@@ -759,32 +760,32 @@ describe("ATOM Serializers", () => {
       testCaseTitle: `Receives error code "UnauthorizedRequestError" when response status is "401"`,
       input: {
         responseStatus: 401,
-        body: ""
+        body: "",
       },
       output: {
-        errorCode: "UnauthorizedRequestError"
-      }
+        errorCode: "UnauthorizedRequestError",
+      },
     },
     {
       testCaseTitle: `Receives error code "MessageEntityNotFoundError" when response status is "404"`,
       input: {
         responseStatus: 404,
-        body: ""
+        body: "",
       },
       output: {
-        errorCode: "MessageEntityNotFoundError"
-      }
+        errorCode: "MessageEntityNotFoundError",
+      },
     },
     {
       testCaseTitle: `Receives error code "ServiceError" when response status is "409" and method is "DELETE`,
       input: {
         responseStatus: 409,
         body: "",
-        requestMethod: "DELETE"
+        requestMethod: "DELETE",
       },
       output: {
-        errorCode: "ServiceError"
-      }
+        errorCode: "ServiceError",
+      },
     },
     {
       testCaseTitle: `Receives error code "ServiceError" when response status is "409" and method is "PUT" with "If-Match" headers set`,
@@ -792,94 +793,94 @@ describe("ATOM Serializers", () => {
         responseStatus: 409,
         body: "",
         requestMethod: "PUT",
-        requestHeaders: { "If-Match": "*" }
+        requestHeaders: { "If-Match": "*" },
       },
       output: {
-        errorCode: "ServiceError"
-      }
+        errorCode: "ServiceError",
+      },
     },
     {
       testCaseTitle: `Receives error code "ServiceError" when response status is "409" and error message has subcode 40901 in it`,
       input: {
         responseStatus: 409,
-        body: { Error: { Detail: " ... SubCode=40901  ..." } }
+        body: { Error: { Detail: " ... SubCode=40901  ..." } },
       },
       output: {
-        errorCode: "ServiceError"
-      }
+        errorCode: "ServiceError",
+      },
     },
     {
       testCaseTitle: `Receives error code "MessageEntityAlreadyExistsError" when response status is "409" and no other special conditions are required`,
       input: {
         responseStatus: 409,
         body: "",
-        requestMethod: "GET"
+        requestMethod: "GET",
       },
       output: {
-        errorCode: "MessageEntityAlreadyExistsError"
-      }
+        errorCode: "MessageEntityAlreadyExistsError",
+      },
     },
     {
       input: {
         testCaseTitle: `Receives error code "InvalidOperationError" when response status is "403" and error message has subcode 40301 in it`,
         responseStatus: 403,
-        body: { Error: { Detail: " ... SubCode=40301  ..." } }
+        body: { Error: { Detail: " ... SubCode=40301  ..." } },
       },
       output: {
-        errorCode: "InvalidOperationError"
-      }
+        errorCode: "InvalidOperationError",
+      },
     },
     {
       testCaseTitle: `Receives error code "InvalidOperationError" when response status is "403" and error message does NOT have subcode 40301 in it`,
       input: {
         responseStatus: 403,
-        body: ""
+        body: "",
       },
       output: {
-        errorCode: "QuotaExceededError"
-      }
+        errorCode: "QuotaExceededError",
+      },
     },
     {
       testCaseTitle: `Receives error code "ServiceError" when response status is "400"`,
       input: {
         responseStatus: 400,
-        body: ""
+        body: "",
       },
       output: {
-        errorCode: "ServiceError"
-      }
+        errorCode: "ServiceError",
+      },
     },
     {
       testCaseTitle: `Receives error code "ServerBusyError" when response status is "503"`,
       input: {
         responseStatus: 503,
-        body: ""
+        body: "",
       },
       output: {
-        errorCode: "ServerBusyError"
-      }
+        errorCode: "ServerBusyError",
+      },
     },
     {
       testCaseTitle: `Receives useful error message when service returned information doesn't have the 'Detail' property defined`,
       input: {
         responseStatus: 400,
-        body: { Error: { NoDetails: "no Detail property available" } }
+        body: { Error: { NoDetails: "no Detail property available" } },
       },
       output: {
         errorCode: "ServiceError",
         errorMessage:
-          "Detailed error message information not available. Look at the 'code' property on error for more information."
-      }
-    }
+          "Detailed error message information not available. Look at the 'code' property on error for more information.",
+      },
+    },
   ].forEach((testCase) => {
-    describe(`Verify error codes and messages get constructed correctly for different scenarios`, function(): void {
+    describe(`Verify error codes and messages get constructed correctly for different scenarios`, function (): void {
       it(`${testCase.testCaseTitle}`, async () => {
         mockServiceBusAtomManagementClient.sendRequest = async () => {
           const response = {
             request: new WebResource("", testCase.input.requestMethod as "DELETE" | "GET" | "PUT"),
             status: testCase.input.responseStatus,
             headers: new HttpHeaders(),
-            parsedBody: testCase.input.body
+            parsedBody: testCase.input.body,
           };
 
           if (testCase.input.requestHeaders) {
@@ -893,7 +894,7 @@ describe("ATOM Serializers", () => {
         try {
           await mockServiceBusAtomManagementClient.createQueue({
             queueName: "test",
-            ...(testCase.input as any)
+            ...(testCase.input as any),
           });
           assert.fail("Error must be thrown");
         } catch (err) {
@@ -914,127 +915,127 @@ describe("ATOM Serializers", () => {
   [
     {
       responseStatus: 100,
-      errorCode: "Continue"
+      errorCode: "Continue",
     },
     {
       responseStatus: 101,
-      errorCode: "SwitchingProtocols"
+      errorCode: "SwitchingProtocols",
     },
     {
       responseStatus: 300,
-      errorCode: "MultipleChoices"
+      errorCode: "MultipleChoices",
     },
     {
       responseStatus: 301,
-      errorCode: "Moved"
+      errorCode: "Moved",
     },
     {
       responseStatus: 302,
-      errorCode: "Redirect"
+      errorCode: "Redirect",
     },
     {
       responseStatus: 303,
-      errorCode: "RedirectMethod"
+      errorCode: "RedirectMethod",
     },
     {
       responseStatus: 304,
-      errorCode: "NotModified"
+      errorCode: "NotModified",
     },
     {
       responseStatus: 305,
-      errorCode: "UseProxy"
+      errorCode: "UseProxy",
     },
     {
       responseStatus: 306,
-      errorCode: "Unused"
+      errorCode: "Unused",
     },
     {
       responseStatus: 402,
-      errorCode: "PaymentRequired"
+      errorCode: "PaymentRequired",
     },
     {
       responseStatus: 405,
-      errorCode: "MethodNotAllowed"
+      errorCode: "MethodNotAllowed",
     },
     {
       responseStatus: 406,
-      errorCode: "NotAcceptable"
+      errorCode: "NotAcceptable",
     },
     {
       responseStatus: 407,
-      errorCode: "ProxyAuthenticationRequired"
+      errorCode: "ProxyAuthenticationRequired",
     },
     {
       responseStatus: 410,
-      errorCode: "Gone"
+      errorCode: "Gone",
     },
     {
       responseStatus: 411,
-      errorCode: "LengthRequired"
+      errorCode: "LengthRequired",
     },
     {
       responseStatus: 412,
-      errorCode: "PreconditionFailed"
+      errorCode: "PreconditionFailed",
     },
     {
       responseStatus: 413,
-      errorCode: "RequestEntityTooLarge"
+      errorCode: "RequestEntityTooLarge",
     },
     {
       responseStatus: 414,
-      errorCode: "RequestUriTooLong"
+      errorCode: "RequestUriTooLong",
     },
     {
       responseStatus: 415,
-      errorCode: "UnsupportedMediaType"
+      errorCode: "UnsupportedMediaType",
     },
     {
       responseStatus: 416,
-      errorCode: "RequestRangeNotSatisfiable"
+      errorCode: "RequestRangeNotSatisfiable",
     },
     {
       responseStatus: 417,
-      errorCode: "ExpectationFailed"
+      errorCode: "ExpectationFailed",
     },
     {
       responseStatus: 426,
-      errorCode: "UpgradeRequired"
+      errorCode: "UpgradeRequired",
     },
     {
       responseStatus: 500,
-      errorCode: "InternalServerError"
+      errorCode: "InternalServerError",
     },
     {
       responseStatus: 501,
-      errorCode: "NotImplemented"
+      errorCode: "NotImplemented",
     },
     {
       responseStatus: 502,
-      errorCode: "BadGateway"
+      errorCode: "BadGateway",
     },
     {
       responseStatus: 504,
-      errorCode: "GatewayTimeout"
+      errorCode: "GatewayTimeout",
     },
     {
       responseStatus: 505,
-      errorCode: "HttpVersionNotSupported"
-    }
+      errorCode: "HttpVersionNotSupported",
+    },
   ].forEach((testCase) => {
-    describe(`Verify error code mapping for non-specialized failed HTTP status codes`, function(): void {
+    describe(`Verify error code mapping for non-specialized failed HTTP status codes`, function (): void {
       it(`Verify mapping for response status code "${testCase.responseStatus}" to result in "${testCase.errorCode}" error code.`, async () => {
         mockServiceBusAtomManagementClient.sendRequest = async () => {
           return {
             request: new WebResource(),
             status: testCase.responseStatus,
-            headers: new HttpHeaders()
+            headers: new HttpHeaders(),
           };
         };
 
         try {
           await mockServiceBusAtomManagementClient.createQueue({
             queueName: "test",
-            ...(testCase as any)
+            ...(testCase as any),
           });
           assert.fail("Error must be thrown");
         } catch (err) {
@@ -1044,14 +1045,14 @@ describe("ATOM Serializers", () => {
     });
   });
 
-  describe(`Parse empty response for list() requests to return as empty array`, function(): void {
+  describe(`Parse empty response for list() requests to return as empty array`, function (): void {
     function assertEmptyArray(result: any): void {
       mockServiceBusAtomManagementClient.sendRequest = async () => {
         return {
           request: new WebResource(),
           bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
           status: 200,
-          headers: new HttpHeaders({})
+          headers: new HttpHeaders({}),
         };
       };
       assert.equal(Array.isArray(result), true, "Result must be an array");
@@ -1064,7 +1065,7 @@ describe("ATOM Serializers", () => {
           request: new WebResource(),
           bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
           status: 200,
-          headers: new HttpHeaders({})
+          headers: new HttpHeaders({}),
         };
       };
     });
@@ -1075,7 +1076,7 @@ describe("ATOM Serializers", () => {
           request: new WebResource(),
           bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
           status: 200,
-          headers: new HttpHeaders({})
+          headers: new HttpHeaders({}),
         };
       };
       const result = await mockServiceBusAtomManagementClient["getQueues"]();
@@ -1088,7 +1089,7 @@ describe("ATOM Serializers", () => {
           request: new WebResource(),
           bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
           status: 200,
-          headers: new HttpHeaders({})
+          headers: new HttpHeaders({}),
         };
       };
       const result = await mockServiceBusAtomManagementClient["getTopics"]();
@@ -1101,7 +1102,7 @@ describe("ATOM Serializers", () => {
           request: new WebResource(),
           bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
           status: 200,
-          headers: new HttpHeaders({})
+          headers: new HttpHeaders({}),
         };
       };
       const result = await mockServiceBusAtomManagementClient["getSubscriptions"]("testTopic");
@@ -1114,7 +1115,7 @@ describe("ATOM Serializers", () => {
           request: new WebResource(),
           bodyAsText: '<feed xmlns="http://www.w3.org/2005/Atom"></feed>',
           status: 200,
-          headers: new HttpHeaders({})
+          headers: new HttpHeaders({}),
         };
       };
       const result = await mockServiceBusAtomManagementClient["getRules"](
@@ -1125,7 +1126,7 @@ describe("ATOM Serializers", () => {
     });
   });
 
-  describe("key-value pairs having undefined/null as the values to be sanitized with sanitizeSerializableObject", function() {
+  describe("key-value pairs having undefined/null as the values to be sanitized with sanitizeSerializableObject", function () {
     [
       {
         title: "queue options with undefined fields",
@@ -1142,9 +1143,9 @@ describe("ATOM Serializers", () => {
           AutoDeleteOnIdle: undefined,
           EnablePartitioning: undefined,
           EntityAvailabilityStatus: undefined,
-          EnableExpress: undefined
+          EnableExpress: undefined,
         },
-        output: {}
+        output: {},
       },
       {
         title: "correlation filter with some fields undefined ",
@@ -1161,34 +1162,34 @@ describe("ATOM Serializers", () => {
             Properties: undefined,
             $: {
               "p4:type": "CorrelationFilter",
-              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-            }
+              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance",
+            },
           },
           Action: {
             $: {
               "p4:type": "EmptyRuleAction",
-              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-            }
+              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance",
+            },
           },
-          Name: "rule-name"
+          Name: "rule-name",
         },
         output: {
           Filter: {
             Label: "new-subject",
             $: {
               "p4:type": "CorrelationFilter",
-              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-            }
+              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance",
+            },
           },
           Action: {
             $: {
               "p4:type": "EmptyRuleAction",
-              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
-            }
+              "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance",
+            },
           },
-          Name: "rule-name"
-        }
-      }
+          Name: "rule-name",
+        },
+      },
     ].forEach((testCase) => {
       it(testCase.title, () => {
         sanitizeSerializableObject(testCase.input);
@@ -1206,7 +1207,7 @@ describe("ATOM Serializers", () => {
       { input: [{ a: 1 }, { b: { c: 3, d: "x" } }], output: false },
       { input: new Date(), output: false },
       { input: 123, output: false },
-      { input: "abc", output: false }
+      { input: "abc", output: false },
     ].forEach((testCase) => {
       it(`${JSON.stringify(testCase.input)}`, () => {
         chai.assert.equal(isJSONLikeObject(testCase.input), testCase.output);
@@ -1220,74 +1221,74 @@ describe("ATOM Serializers", () => {
         title: `with "d3p1" as prefix`,
         input: {
           $: {
-            "xmlns:d3p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus"
+            "xmlns:d3p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus",
           },
           "d3p1:ActiveMessageCount": "3",
           "d3p1:DeadLetterMessageCount": "0",
           "d3p1:ScheduledMessageCount": "0",
           "d3p1:TransferMessageCount": "0",
-          "d3p1:TransferDeadLetterMessageCount": "0"
+          "d3p1:TransferDeadLetterMessageCount": "0",
         },
-        output: { value: "d3p1", error: undefined }
+        output: { value: "d3p1", error: undefined },
       },
       {
         title: `with "d2p1" as prefix`,
         input: {
           $: {
-            "xmlns:d2p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus"
+            "xmlns:d2p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus",
           },
-          "d2p1:DeadLetterMessageCount": "0"
+          "d2p1:DeadLetterMessageCount": "0",
         },
-        output: { value: "d2p1", error: undefined }
+        output: { value: "d2p1", error: undefined },
       },
       {
         title: `without the XML_METADATA_MARKER $`,
         input: {
-          "d3p1:DeadLetterMessageCount": "0"
+          "d3p1:DeadLetterMessageCount": "0",
         },
         output: {
           value: undefined,
-          error: `Error: Error occurred while parsing the response body - cannot find the XML_METADATA_MARKER "$" on the object {"d3p1:DeadLetterMessageCount":"0"}`
-        }
+          error: `Error: Error occurred while parsing the response body - cannot find the XML_METADATA_MARKER "$" on the object {"d3p1:DeadLetterMessageCount":"0"}`,
+        },
       },
       {
         title: `without multiple xmlns prefixes`,
         input: {
           $: {
             "xmlns:d2p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus",
-            "xmlns:d3p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus"
+            "xmlns:d3p1": "http://schemas.microsoft.com/netservices/2011/06/servicebus",
           },
-          "d3p1:DeadLetterMessageCount": "0"
+          "d3p1:DeadLetterMessageCount": "0",
         },
         output: {
           value: undefined,
-          error: `Error: Error occurred while parsing the response body - unexpected number of "xmlns:\${prefix}" keys at {"xmlns:d2p1":"http://schemas.microsoft.com/netservices/2011/06/servicebus","xmlns:d3p1":"http://schemas.microsoft.com/netservices/2011/06/servicebus"}`
-        }
+          error: `Error: Error occurred while parsing the response body - unexpected number of "xmlns:\${prefix}" keys at {"xmlns:d2p1":"http://schemas.microsoft.com/netservices/2011/06/servicebus","xmlns:d3p1":"http://schemas.microsoft.com/netservices/2011/06/servicebus"}`,
+        },
       },
       {
         title: `without "xmlns:" string`,
         input: {
           $: {
-            d2p1: "http://schemas.microsoft.com/netservices/2011/06/servicebus"
-          }
+            d2p1: "http://schemas.microsoft.com/netservices/2011/06/servicebus",
+          },
         },
         output: {
           value: undefined,
-          error: `Error: Error occurred while parsing the response body - unexpected key at {"d2p1":"http://schemas.microsoft.com/netservices/2011/06/servicebus"}`
-        }
+          error: `Error: Error occurred while parsing the response body - unexpected key at {"d2p1":"http://schemas.microsoft.com/netservices/2011/06/servicebus"}`,
+        },
       },
       {
         title: `without xmlns prefix`,
         input: {
           $: {
-            "xmlns:": "http://schemas.microsoft.com/netservices/2011/06/servicebus"
-          }
+            "xmlns:": "http://schemas.microsoft.com/netservices/2011/06/servicebus",
+          },
         },
         output: {
           value: undefined,
-          error: `Error: Error occurred while parsing the response body - unexpected xmlns prefix at {"xmlns:":"http://schemas.microsoft.com/netservices/2011/06/servicebus"}`
-        }
-      }
+          error: `Error: Error occurred while parsing the response body - unexpected xmlns prefix at {"xmlns:":"http://schemas.microsoft.com/netservices/2011/06/servicebus"}`,
+        },
+      },
     ].forEach((testCase) => {
       it(`${testCase.title}`, () => {
         try {

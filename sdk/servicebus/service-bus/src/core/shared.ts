@@ -98,7 +98,7 @@ export function createReceiverOptions(
     snd_settle_mode: receiveMode === "receiveAndDelete" ? 1 : 0,
     source,
     credit_window: 0,
-    ...handlers
+    ...handlers,
   };
 
   return rcvrOptions;

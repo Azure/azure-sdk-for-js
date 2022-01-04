@@ -6,14 +6,14 @@ import { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-
 import {
   ServiceBusClientOptions,
   createConnectionContextForConnectionString,
-  createConnectionContextForCredential
+  createConnectionContextForCredential,
 } from "./constructorHelpers";
 import { ConnectionContext } from "./connectionContext";
 import { ServiceBusReceiverOptions, ServiceBusSessionReceiverOptions, ReceiveMode } from "./models";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "./receivers/receiver";
 import {
   ServiceBusSessionReceiver,
-  ServiceBusSessionReceiverImpl
+  ServiceBusSessionReceiverImpl,
 } from "./receivers/sessionReceiver";
 import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
 import { entityPathMisMatchError } from "./util/errors";
@@ -323,7 +323,7 @@ export class ServiceBusClient {
         receiveMode,
         abortSignal: options?.abortSignal,
         retryOptions: this._clientOptions.retryOptions,
-        skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false
+        skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false,
       }
     );
 
@@ -409,7 +409,7 @@ export class ServiceBusClient {
         receiveMode,
         abortSignal: options?.abortSignal,
         retryOptions: this._clientOptions.retryOptions,
-        skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false
+        skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false,
       }
     );
 
@@ -493,7 +493,7 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
   return {
     entityPath,
     receiveMode,
-    options
+    options,
   };
 }
 

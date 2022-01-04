@@ -11,11 +11,11 @@ import {
   Constants,
   CreateConnectionContextBaseParameters,
   SasTokenProvider,
-  createSasTokenProvider
+  createSasTokenProvider,
 } from "@azure/core-amqp";
 import {
   EventHubConnectionStringProperties,
-  parseEventHubConnectionString
+  parseEventHubConnectionString,
 } from "./util/connectionStringUtils";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import {
@@ -23,7 +23,7 @@ import {
   SASCredential,
   TokenCredential,
   isNamedKeyCredential,
-  isSASCredential
+  isSASCredential,
 } from "@azure/core-auth";
 import { logErrorStackTrace, logger } from "./log";
 import { EventHubClientOptions } from "./models/public";
@@ -179,8 +179,8 @@ export namespace ConnectionContext {
       connectionProperties: {
         product: "MSJSClient",
         userAgent: getUserAgent(options),
-        version: packageJsonInfo.version
-      }
+        version: packageJsonInfo.version,
+      },
     };
     // Let us create the base context and then add EventHub specific ConnectionContext properties.
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
@@ -190,7 +190,7 @@ export namespace ConnectionContext {
     connectionContext.receivers = {};
     const mOptions: ManagementClientOptions = {
       address: options.managementSessionAddress,
-      audience: options.managementSessionAudience
+      audience: options.managementSessionAudience,
     };
     connectionContext.managementSession = new ManagementClient(connectionContext, mOptions);
 
@@ -268,7 +268,7 @@ export namespace ConnectionContext {
           logErrorStackTrace(err);
           throw err;
         }
-      }
+      },
     });
 
     // Define listeners to be added to the connection object for
@@ -316,7 +316,7 @@ export namespace ConnectionContext {
         }> = {
           wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,
           numSenders: Object.keys(connectionContext.senders).length,
-          numReceivers: Object.keys(connectionContext.receivers).length
+          numReceivers: Object.keys(connectionContext.receivers).length,
         };
         logger.verbose(
           "[%s] Closing all open senders and receivers in the state: %O",

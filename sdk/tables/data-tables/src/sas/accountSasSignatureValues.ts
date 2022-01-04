@@ -6,7 +6,7 @@ import { SasIPRange, ipRangeToString } from "./sasIPRange";
 import { SasProtocol, SasQueryParameters } from "./sasQueryParameters";
 import {
   accountSasResourceTypesFromString,
-  accountSasResourceTypesToString
+  accountSasResourceTypesToString,
 } from "./accountSasResourceTypes";
 import { accountSasServicesFromString, accountSasServicesToString } from "./accountSasServices";
 import { NamedKeyCredential } from "@azure/core-auth";
@@ -114,7 +114,7 @@ export function generateAccountSasQueryParameters(
     accountSasSignatureValues.ipRange ? ipRangeToString(accountSasSignatureValues.ipRange) : "",
     accountSasSignatureValues.protocol ? accountSasSignatureValues.protocol : "",
     version,
-    "" // Account SAS requires an additional newline character
+    "", // Account SAS requires an additional newline character
   ].join("\n");
 
   const signature: string = computeHMACSHA256(stringToSign, credential.key);
@@ -126,6 +126,6 @@ export function generateAccountSasQueryParameters(
     protocol: accountSasSignatureValues.protocol,
     startsOn: accountSasSignatureValues.startsOn,
     expiresOn: accountSasSignatureValues.expiresOn,
-    ipRange: accountSasSignatureValues.ipRange
+    ipRange: accountSasSignatureValues.ipRange,
   });
 }
