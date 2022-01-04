@@ -117,7 +117,7 @@ export const defaultDataTransformer = {
           case dataSectionTypeCode:
             return {
               body: skipParsingBodyAsJson ? body.content : tryToJsonDecode(body.content),
-              bodyType: "data"
+              bodyType: "data",
             };
           case sequenceSectionTypeCode:
             // typecode:
@@ -143,7 +143,7 @@ export const defaultDataTransformer = {
       );
       throw err;
     }
-  }
+  },
 };
 
 /** @internal */

@@ -10,7 +10,7 @@ import {
   DeadLetterOptions,
   DispositionType,
   ServiceBusMessageImpl,
-  ServiceBusReceivedMessage
+  ServiceBusReceivedMessage,
 } from "../serviceBusMessage";
 import { DispositionStatusOptions } from "../core/managementClient";
 import { ConnectionContext } from "../connectionContext";
@@ -19,7 +19,7 @@ import {
   retry,
   RetryConfig,
   RetryOperationType,
-  RetryOptions
+  RetryOptions,
 } from "@azure/core-amqp";
 import { MessageAlreadySettled } from "../util/errors";
 import { isDefined } from "../util/typeGuards";
@@ -93,7 +93,7 @@ export function completeMessage(
     message.messageId
   );
   return settleMessage(message, DispositionType.complete, context, entityPath, {
-    retryOptions
+    retryOptions,
   });
 }
 
@@ -115,7 +115,7 @@ export function abandonMessage(
   );
   return settleMessage(message, DispositionType.abandon, context, entityPath, {
     propertiesToModify,
-    retryOptions
+    retryOptions,
   });
 }
 
@@ -137,7 +137,7 @@ export function deferMessage(
   );
   return settleMessage(message, DispositionType.defer, context, entityPath, {
     retryOptions,
-    propertiesToModify
+    propertiesToModify,
   });
 }
 
@@ -159,7 +159,7 @@ export function deadLetterMessage(
   );
 
   const actualPropertiesToModify: Partial<DeadLetterOptions> = {
-    ...propertiesToModify
+    ...propertiesToModify,
   };
 
   // these two fields are handled specially and don't need to be in here.
@@ -170,7 +170,7 @@ export function deadLetterMessage(
     propertiesToModify: actualPropertiesToModify,
     deadLetterReason: propertiesToModify?.deadLetterReason,
     deadLetterDescription: propertiesToModify?.deadLetterErrorDescription,
-    retryOptions
+    retryOptions,
   };
 
   return settleMessage(
@@ -200,7 +200,7 @@ export function settleMessage(
     },
     operationType: RetryOperationType.messageSettlement,
     abortSignal: options?.abortSignal,
-    retryOptions: options?.retryOptions
+    retryOptions: options?.retryOptions,
   });
 }
 
@@ -236,7 +236,7 @@ export async function settleMessageOperation(
       description:
         `Failed to ${operation} the message as the AMQP link with which the message was ` +
         `received is no longer alive.`,
-      condition: ErrorNameConditionMapper.SessionLockLostError
+      condition: ErrorNameConditionMapper.SessionLockLostError,
     });
   }
 
@@ -259,7 +259,7 @@ export async function settleMessageOperation(
       .updateDispositionStatus(message.lockToken!, operation, {
         ...options,
         associatedLinkName,
-        sessionId: message.sessionId
+        sessionId: message.sessionId,
       })
       .catch((err) => {
         throw translateServiceBusError(err);

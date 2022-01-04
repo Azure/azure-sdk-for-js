@@ -21,19 +21,19 @@ export function makeBrowserTestConfigPatchProcess() {
         // the util polyfill does not explicitly depend on the process polyfill so
         // we replace that util's line
         // see https://github.com/browserify/node-util/issues/43
-        "if (process.env.NODE_DEBUG)": "if (false)"
-      }
+        "if (process.env.NODE_DEBUG)": "if (false)",
+      },
     }),
     inject({
       // avsc uses NodeJS's buffers so we inject an import to the browser polyfill one
       exclude: "./**/package.json",
       modules: {
-        Buffer: ["buffer", "Buffer"]
-      }
+        Buffer: ["buffer", "Buffer"],
+      },
     }),
     // avsc uses NodeJS's internal streams so we shim them there.
     shim({
-      stream: `export default {}`
+      stream: `export default {}`,
     })
   );
 

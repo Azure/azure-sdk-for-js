@@ -21,7 +21,7 @@ export function encodeContinuationToken(
 
   const continuationToken = JSON.stringify({
     nextPartitionKey,
-    nextRowKey
+    nextRowKey,
   });
 
   return base64Encode(continuationToken);

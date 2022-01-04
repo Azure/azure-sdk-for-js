@@ -16,7 +16,7 @@ interface ScenarioRenewMessageLockOptions {
 function sanitizeOptions(args: string[]): Required<ScenarioRenewMessageLockOptions> {
   const options = parsedArgs<ScenarioRenewMessageLockOptions>(args, {
     boolean: ["completeMessageAfterDuration"],
-    default: { completeMessageAfterDuration: true }
+    default: { completeMessageAfterDuration: true },
   });
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
@@ -26,7 +26,7 @@ function sanitizeOptions(args: string[]): Required<ScenarioRenewMessageLockOptio
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
-    completeMessageAfterDuration: !!options.completeMessageAfterDuration
+    completeMessageAfterDuration: !!options.completeMessageAfterDuration,
   };
 }
 
@@ -41,7 +41,7 @@ export async function main() {
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend,
-    completeMessageAfterDuration
+    completeMessageAfterDuration,
   } = testOptions;
 
   const testDurationForSendInMs = testDurationInMs * 0.7;
@@ -52,7 +52,7 @@ export async function main() {
 
   const stressBase = new ServiceBusStressTester({
     testName: "renewMessageLock",
-    snapshotFocus: ["send-info", "receive-info", "message-lock-renewal-info"]
+    snapshotFocus: ["send-info", "receive-info", "message-lock-renewal-info"],
   });
 
   const operation = async (sbClient: ServiceBusClient) => {
@@ -96,7 +96,7 @@ export async function main() {
   };
 
   return stressBase.runStressTest(operation, {
-    additionalEventProperties: testOptions
+    additionalEventProperties: testOptions,
   });
 }
 

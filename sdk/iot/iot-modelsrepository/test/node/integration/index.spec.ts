@@ -31,7 +31,7 @@ const remoteResolutionScenarios: RemoteResolutionScenario[] = [
     name: "dependencyResolution: disabled, single DTMI, no options",
     clientOptions: {
       dependencyResolution: "disabled",
-      repositoryLocation: "https://www.devicemodels.contoso.com"
+      repositoryLocation: "https://www.devicemodels.contoso.com",
     },
     getModelsOptions: undefined,
     dtmis: [
@@ -41,20 +41,20 @@ const remoteResolutionScenarios: RemoteResolutionScenario[] = [
           "https://www.devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
         mockedResponse: {
           "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-          fakeDtdl: "fakeBodyAsText"
+          fakeDtdl: "fakeBodyAsText",
         },
         expectedOutputJson: {
           "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-          fakeDtdl: "fakeBodyAsText"
-        }
-      }
-    ]
+          fakeDtdl: "fakeBodyAsText",
+        },
+      },
+    ],
   },
   {
     name: "dependencyResolution: disabled, single DTMI, no dependencies",
     clientOptions: {
       dependencyResolution: "disabled",
-      repositoryLocation: "https://www.devicemodels.contoso.com"
+      repositoryLocation: "https://www.devicemodels.contoso.com",
     },
     getModelsOptions: {},
     dtmis: [
@@ -64,20 +64,20 @@ const remoteResolutionScenarios: RemoteResolutionScenario[] = [
           "https://www.devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
         mockedResponse: {
           "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-          fakeDtdl: "fakeBodyAsText"
+          fakeDtdl: "fakeBodyAsText",
         },
         expectedOutputJson: {
           "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-          fakeDtdl: "fakeBodyAsText"
-        }
-      }
-    ]
+          fakeDtdl: "fakeBodyAsText",
+        },
+      },
+    ],
   },
   {
     name: "dependencyResolution: enabled, single DTMI, no dependencies",
     clientOptions: {
       dependencyResolution: "enabled",
-      repositoryLocation: "https://www.devicemodels.contoso.com"
+      repositoryLocation: "https://www.devicemodels.contoso.com",
     },
     getModelsOptions: {},
     dtmis: [
@@ -87,20 +87,20 @@ const remoteResolutionScenarios: RemoteResolutionScenario[] = [
           "https://www.devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
         mockedResponse: {
           "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-          fakeDtdl: "fakeBodyAsText"
+          fakeDtdl: "fakeBodyAsText",
         },
         expectedOutputJson: {
           "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-          fakeDtdl: "fakeBodyAsText"
-        }
-      }
-    ]
+          fakeDtdl: "fakeBodyAsText",
+        },
+      },
+    ],
   },
   {
     name: "dependencyResolution: tryFromExpanded, single DTMI, no dependencies",
     clientOptions: {
       dependencyResolution: "tryFromExpanded",
-      repositoryLocation: "https://www.devicemodels.contoso.com"
+      repositoryLocation: "https://www.devicemodels.contoso.com",
     },
     getModelsOptions: {},
     dtmis: [
@@ -111,21 +111,21 @@ const remoteResolutionScenarios: RemoteResolutionScenario[] = [
         mockedResponse: [
           {
             "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-            fakeDtdl: "fakeBodyAsText"
-          }
+            fakeDtdl: "fakeBodyAsText",
+          },
         ],
         expectedOutputJson: {
           "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-          fakeDtdl: "fakeBodyAsText"
-        }
-      }
-    ]
+          fakeDtdl: "fakeBodyAsText",
+        },
+      },
+    ],
   },
   {
     name: "dependencyResolution: disabled, multiple DTMI, no dependencies",
     clientOptions: {
       dependencyResolution: "tryFromExpanded",
-      repositoryLocation: "https://www.devicemodels.contoso.com"
+      repositoryLocation: "https://www.devicemodels.contoso.com",
     },
     getModelsOptions: {},
     dtmis: [
@@ -136,32 +136,32 @@ const remoteResolutionScenarios: RemoteResolutionScenario[] = [
         mockedResponse: [
           {
             "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-            fakeDtdl: "fakeBodyAsText"
-          }
+            fakeDtdl: "fakeBodyAsText",
+          },
         ],
         expectedOutputJson: {
           "@id": "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
-          fakeDtdl: "fakeBodyAsText"
-        }
+          fakeDtdl: "fakeBodyAsText",
+        },
       },
       {
         dtmi: "dtmi:com:FooFooFoo;4",
         expectedUri: "https://www.devicemodels.contoso.com/dtmi/com/foofoofoo-4.expanded.json",
         mockedResponse: [{ "@id": "dtmi:com:FooFooFoo;4", fakeDtdl: "fakeBodyAsText" }],
-        expectedOutputJson: { "@id": "dtmi:com:FooFooFoo;4", fakeDtdl: "fakeBodyAsText" }
-      }
-    ]
-  }
+        expectedOutputJson: { "@id": "dtmi:com:FooFooFoo;4", fakeDtdl: "fakeBodyAsText" },
+      },
+    ],
+  },
 ];
 
-describe("resolver - node", function() {
-  afterEach(function() {
+describe("resolver - node", function () {
+  afterEach(function () {
     sinon.restore();
   });
 
-  describe("remote URL resolution", function() {
+  describe("remote URL resolution", function () {
     remoteResolutionScenarios.forEach((scenario: RemoteResolutionScenario) => {
-      it(scenario.name, async function() {
+      it(scenario.name, async function () {
         console.log(scenario.name);
         const myStub = sinon.stub(ServiceClient.prototype, "sendRequest");
         for (let i = 0; i < scenario.dtmis.length; i++) {
@@ -173,7 +173,7 @@ describe("resolver - node", function() {
               request: request,
               bodyAsText: JSON.stringify(scenario.dtmis[i].mockedResponse),
               status: 200,
-              headers: undefined
+              headers: undefined,
             };
             return Promise.resolve(pipelineResponse);
           });

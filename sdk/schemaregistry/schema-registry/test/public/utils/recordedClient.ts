@@ -18,7 +18,7 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "azuretenantid",
   SCHEMA_REGISTRY_ENDPOINT: "https://endpoint",
-  SCHEMA_REGISTRY_GROUP: "group-1"
+  SCHEMA_REGISTRY_GROUP: "group-1",
 };
 
 const environmentSetup: RecorderEnvironmentSetup = {
@@ -33,9 +33,9 @@ const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string => {
       const replaced = recording.replace("endpoint:443", "endpoint");
       return replaced;
-    }
+    },
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export function createRecordedClient(context: Context): RecordedClient {

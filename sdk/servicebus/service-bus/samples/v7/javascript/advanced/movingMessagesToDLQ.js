@@ -40,10 +40,10 @@ async function sendMessage() {
   const message = {
     body: {
       name: "Creamy Chicken Pasta",
-      type: "Dinner"
+      type: "Dinner",
     },
     contentType: "application/json",
-    subject: "Recipe"
+    subject: "Recipe",
   };
   await sender.sendMessages(message);
   await sender.close();
@@ -63,7 +63,7 @@ async function receiveMessage() {
     // Deadletter the message received
     await receiver.deadLetterMessage(messages[0], {
       deadLetterReason: "Incorrect Recipe type",
-      deadLetterErrorDescription: "Recipe type does not match preferences."
+      deadLetterErrorDescription: "Recipe type does not match preferences.",
     });
   } else {
     console.log(">>>> Error: No messages were received from the main queue.");

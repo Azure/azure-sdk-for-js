@@ -6,8 +6,8 @@ import { assert } from "chai";
 import { IncomingMessage, ServerResponse } from "http";
 import { Socket } from "net";
 
-describe("Abuse protection works", function() {
-  it("Only requests with valid header will be processed", function() {
+describe("Abuse protection works", function () {
+  it("Only requests with valid header will be processed", function () {
     const req = new IncomingMessage(new Socket());
     const res = new ServerResponse(req);
     const dispatcher = new CloudEventsDispatcher("hub");
@@ -16,7 +16,7 @@ describe("Abuse protection works", function() {
     assert.isFalse(result);
   });
 
-  it("When allow all endpoints the requested host should return", function() {
+  it("When allow all endpoints the requested host should return", function () {
     const req = new IncomingMessage(new Socket());
     req.headers["ce-awpsversion"] = "1.0";
     req.headers["webhook-request-origin"] = "a.com";
@@ -28,13 +28,13 @@ describe("Abuse protection works", function() {
     assert.equal("a.com", res.getHeader("webhook-allowed-origin"));
   });
 
-  it("Support valid url in allowed endpoints and only return the one in the request", function() {
+  it("Support valid url in allowed endpoints and only return the one in the request", function () {
     const req = new IncomingMessage(new Socket());
     req.headers["ce-awpsversion"] = "1.0";
     req.headers["webhook-request-origin"] = "a.com";
     const res = new ServerResponse(req);
     const dispatcher = new CloudEventsDispatcher("hub", {
-      allowedEndpoints: ["https://a.com/c", "http://b.com"]
+      allowedEndpoints: ["https://a.com/c", "http://b.com"],
     });
 
     const result = dispatcher.handlePreflight(req, res);
@@ -42,13 +42,13 @@ describe("Abuse protection works", function() {
     assert.equal("a.com", res.getHeader("webhook-allowed-origin"));
   });
 
-  it("Not allowed endpoints should return 400", function() {
+  it("Not allowed endpoints should return 400", function () {
     const req = new IncomingMessage(new Socket());
     req.headers["ce-awpsversion"] = "1.0";
     req.headers["webhook-request-origin"] = "a.com";
     const res = new ServerResponse(req);
     const dispatcher = new CloudEventsDispatcher("hub", {
-      allowedEndpoints: ["https://c.com/c", "http://b.com"]
+      allowedEndpoints: ["https://c.com/c", "http://b.com"],
     });
 
     const result = dispatcher.handlePreflight(req, res);
