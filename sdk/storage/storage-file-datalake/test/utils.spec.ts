@@ -7,7 +7,7 @@ import { HttpHeaders } from "../src";
 import {
   sanitizeHeaders,
   sanitizeURL,
-  extractConnectionStringParts
+  extractConnectionStringParts,
 } from "../src/utils/utils.common";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils";
@@ -41,11 +41,11 @@ describe("Utility Helpers", () => {
     );
   }
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 

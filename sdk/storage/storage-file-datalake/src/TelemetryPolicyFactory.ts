@@ -6,7 +6,7 @@ import {
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
-  UserAgentOptions
+  UserAgentOptions,
 } from "@azure/core-http";
 import * as os from "os";
 

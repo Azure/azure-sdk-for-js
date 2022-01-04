@@ -8,7 +8,7 @@ import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import {
   failedBreezeResponse,
   partialBreezeResponse,
-  successfulBreezeResponse
+  successfulBreezeResponse,
 } from "../utils/breezeTestUtils";
 import { FileSystemPersist, HttpSender } from "../../src/platform";
 import { TelemetryItem as Envelope } from "../../src/generated";
@@ -23,7 +23,7 @@ describe("#AzureMonitorBaseExporter", () => {
     private thisAsAny: any;
     constructor() {
       super({
-        connectionString: `instrumentationkey=foo-ikey`
+        connectionString: `instrumentationkey=foo-ikey`,
       });
       this.thisAsAny = this;
     }
@@ -55,7 +55,7 @@ describe("#AzureMonitorBaseExporter", () => {
       const scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2/track");
       const envelope = {
         name: "Name",
-        time: new Date()
+        time: new Date(),
       };
 
       before(() => {
@@ -153,7 +153,7 @@ describe("#AzureMonitorBaseExporter", () => {
 
       it("should not start a retry timer when one already exists", async () => {
         const exporter = new TestExporter();
-        exporter["_retryTimer"] = ("foo" as unknown) as NodeJS.Timer;
+        exporter["_retryTimer"] = "foo" as unknown as NodeJS.Timer;
         const response = successfulBreezeResponse(1);
         scope.reply(200, JSON.stringify(response));
 
@@ -242,7 +242,7 @@ describe("#AzureMonitorBaseExporter", () => {
           .persist();
         redirectScope
           .reply(307, JSON.stringify(successfulBreezeResponse(1)), {
-            location: DEFAULT_BREEZE_ENDPOINT
+            location: DEFAULT_BREEZE_ENDPOINT,
           })
           .persist();
 

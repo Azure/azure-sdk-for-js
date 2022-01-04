@@ -11,7 +11,7 @@ import {
   ServiceSetPropertiesResponse,
   ServiceListSharesSegmentHeaders,
   ListSharesResponseModel,
-  SharePropertiesInternal
+  SharePropertiesInternal,
 } from "./generatedModels";
 import { Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -347,12 +347,12 @@ export class ShareServiceClient extends StorageClient {
       const shareCreateResponse = await shareClient.create(updatedOptions);
       return {
         shareCreateResponse,
-        shareClient
+        shareClient,
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -378,7 +378,7 @@ export class ShareServiceClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -401,12 +401,12 @@ export class ShareServiceClient extends StorageClient {
     try {
       return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -431,12 +431,12 @@ export class ShareServiceClient extends StorageClient {
     try {
       return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -586,7 +586,7 @@ export class ShareServiceClient extends StorageClient {
 
     const updatedOptions: ServiceListSharesSegmentOptions = {
       ...options,
-      ...(include.length > 0 ? { include: include } : {})
+      ...(include.length > 0 ? { include: include } : {}),
     };
 
     // AsyncIterableIterator to iterate over queues
@@ -610,9 +610,9 @@ export class ShareServiceClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
           maxResults: settings.maxPageSize,
-          ...updatedOptions
+          ...updatedOptions,
         });
-      }
+      },
     };
   }
 
@@ -643,7 +643,7 @@ export class ShareServiceClient extends StorageClient {
       const res = await this.serviceContext.listSharesSegment({
         marker,
         ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       // parse protocols
@@ -658,7 +658,7 @@ export class ShareServiceClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -688,13 +688,13 @@ export class ShareServiceClient extends StorageClient {
         deletedShareName: deletedShareName,
         deletedShareVersion: deletedShareVersion,
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       return shareClient;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -739,7 +739,7 @@ export class ShareServiceClient extends StorageClient {
         expiresOn,
         resourceTypes,
         services: AccountSASServices.parse("f").toString(),
-        ...options
+        ...options,
       },
       this.credential
     ).toString();
