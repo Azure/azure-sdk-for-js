@@ -3,7 +3,6 @@
 
 import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
 
 import {
@@ -19,8 +18,6 @@ import {
   getGenericDataLakeServiceClient,
   isBrowser
 } from "./utils";
-
-dotenv.config();
 
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;

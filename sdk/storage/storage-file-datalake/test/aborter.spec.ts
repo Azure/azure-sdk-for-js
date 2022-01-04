@@ -7,9 +7,7 @@ import { AbortController, AbortSignal } from "@azure/abort-controller";
 import { DataLakeFileSystemClient } from "../src";
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Aborter", () => {
   let fileSystemName: string;

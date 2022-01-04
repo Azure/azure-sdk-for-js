@@ -3,7 +3,6 @@
 
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import * as buffer from "buffer";
@@ -25,7 +24,6 @@ import { AbortController } from "@azure/abort-controller";
 import { Readable, PassThrough } from "stream";
 import { streamToBuffer2 } from "../../src/utils/utils.node";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Highlevel Node.js only", () => {
   let fileSystemName: string;

@@ -3,13 +3,10 @@
 
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
 
 import { DataLakeServiceClient } from "../../src";
 import { recorderEnvSetup, getConnectionStringFromEnvironment } from "../utils";
-
-dotenv.config();
 
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;

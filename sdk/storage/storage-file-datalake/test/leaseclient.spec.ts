@@ -3,13 +3,10 @@
 
 import { delay, record, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
 
 import { DataLakeFileClient, DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src";
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
-
-dotenv.config();
 
 describe("LeaseClient from FileSystem", () => {
   let fileSystemName: string;
