@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.2 (#Unreleased)
+## 1.0.2 (2022-01-04)
 
 - Fixed double replacements in case the source value and the replacement happened to remain the same after encoding.
 - Adds a default customization on the recordings to manipulate the `retry-after` header to have "0" value so that playback tests run faster.
