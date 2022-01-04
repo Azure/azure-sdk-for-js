@@ -38,7 +38,7 @@ async function main() {
       // NOTE: asking for 10 messages does not guarantee that we will return
       // all 10 at once so we must loop until we get all the messages we expected.
       const messages = await queueReceiver.receiveMessages(10, {
-        maxWaitTimeInMs: 60 * 1000
+        maxWaitTimeInMs: 60 * 1000,
       });
 
       if (!messages.length) {

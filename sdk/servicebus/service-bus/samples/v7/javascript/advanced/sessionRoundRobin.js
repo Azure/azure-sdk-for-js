@@ -80,7 +80,7 @@ async function receiveFromNextSession(serviceBusClient) {
 
   try {
     sessionReceiver = await serviceBusClient.acceptNextSession(queueName, {
-      maxAutoLockRenewalDurationInMs: sessionIdleTimeoutMs
+      maxAutoLockRenewalDurationInMs: sessionIdleTimeoutMs,
     });
   } catch (err) {
     if (
@@ -110,10 +110,10 @@ async function receiveFromNextSession(serviceBusClient) {
         },
         async processError(args) {
           rejectSessionWithError(args.error);
-        }
+        },
       },
       {
-        abortSignal: abortController.signal
+        abortSignal: abortController.signal,
       }
     );
   });

@@ -11201,7 +11201,7 @@ packages:
     dev: false
 
   file:projects/iot-modelsrepository.tgz:
-    resolution: {integrity: sha512-Hs+C3CUfDM8OoorHAPy/TXhaf7Nopw54ESJyjRfrJAKP3gRC8rvgM4SY1LUWRIA0oSeIbLsqdRYuOknFRwsX3Q==, tarball: file:projects/iot-modelsrepository.tgz}
+    resolution: {integrity: sha512-FHhmlwhSRL5pN/Ad8/v2HvyQ2ZxCBy9l0A8k6+lnAueHzfem8D/UTvdjFomm0IBx6nXT8GpgSG5Uz4kajivB/A==, tarball: file:projects/iot-modelsrepository.tgz}
     name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
@@ -11236,7 +11236,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
@@ -11520,7 +11520,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-authentication.tgz:
-    resolution: {integrity: sha512-sn1l88Lc56CQruQpjJNqYxcWHChfq2qM2hpnJqfFaAVmGHAmPjcG0c3dLDtxRR9mULI7NpABbRL6GoXCdlVPcA==, tarball: file:projects/mixed-reality-authentication.tgz}
+    resolution: {integrity: sha512-ASSVnNvRS+4ZYOinqvDRFz8UD1zq92NrhWMFIiJUKqaceMHWKAH6EScmIGFmhyHSEE6MFPwOACDK6RPImtqOHA==, tarball: file:projects/mixed-reality-authentication.tgz}
     name: '@rush-temp/mixed-reality-authentication'
     version: 0.0.0
     dependencies:
@@ -11552,7 +11552,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       tslib: 2.3.1
@@ -12024,7 +12024,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-b6AGPVr1lihogGBiieVyO3ohpQBiZG6Ch909QgYl7Ysed0tvD+FaPqnIzmn+Tla579Ia7Z+j9Qz1mv/tUFrknw==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-pKuhxHEjhyGAKk5t/XaVzB6JHLSGzv/PE9Q5zgt+fEkcKrw19H7qsWJsBqPU2TIHjX1ddRgv+GW0c79shGEWbg==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
@@ -12033,7 +12033,7 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
@@ -12111,7 +12111,7 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-jQXz+VLJkyVe3JOkTY4b7nBZiWukaei0w20dRJO3RkxX2HPwfWCxVT/J8nK9zZ5fWtERRQtmwuitoeD4XdY0eQ==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-VvyQNsAcsoyPQNLnYdewjlewsN+xhIK9BQKuWWUZT0QlTDdJSFrWOOkr9N93kx7OgqoLHmqj11qI7FodgfpscA==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
@@ -12119,7 +12119,7 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
@@ -12507,7 +12507,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-C0bmD0b/wKoYFOc3PsbSlHaXbsPpZ7qFkpfHdyTE8mk4N+uaQGhbX5Q+F5eLZj86wo8tkx6gH7FZvrFxmBdQ5A==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-Fik/oYL9HqORk5xu19GLho1NXEu4Zymq5TntPL5Z21VVFMJUX6uDRwtFEZGrQaGjpUT1J4k5SkQXtGCtEgUJyA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -12554,7 +12554,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       moment: 2.29.1
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       process: 0.11.10
       promise: 8.1.0
       puppeteer: 10.4.0
@@ -13213,7 +13213,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-kVAZRbshnhOaLSIHmuQWMteXhn9TmqqPc5kZQYK2n00EGVgYE7jGC6MA/5Ipx7HTbR4CYKHrXrAaFLsM4N5rwQ==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-2gP/TWPyJXXE5rw4+Edq6bJURtym3qFTcrDvoCldDrZPYaW8rjr/w8DWbQ1agKLKYSPNoCr7AP1P8soUVl0n2A==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -13246,7 +13246,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       source-map-support: 0.5.21
