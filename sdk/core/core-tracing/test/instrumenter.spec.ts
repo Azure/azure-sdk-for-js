@@ -4,7 +4,12 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Instrumenter, TracingSpan, TracingSpanContext } from "../src/interfaces";
-import { getInstrumenter, NoOpInstrumenter, NoOpSpan, useInstrumenter } from "../src/instrumenter";
+import {
+  createDefaultInstrumenter,
+  createDefaultTracingSpan,
+  getInstrumenter,
+  useInstrumenter,
+} from "../src/instrumenter";
 import { createTracingContext } from "../src/tracingContext";
 
 describe("Instrumenter", () => {
@@ -13,16 +18,11 @@ describe("Instrumenter", () => {
     const name = "test-operation";
 
     beforeEach(() => {
-      instrumenter = new NoOpInstrumenter();
+      instrumenter = createDefaultInstrumenter();
     });
 
     describe("#startSpan", () => {
       const packageName = "test-package";
-
-      it("return no-op span", () => {
-        const { span } = instrumenter.startSpan(name, { packageName });
-        assert.instanceOf(span, NoOpSpan);
-      });
 
       it("returns a new context", () => {
         const { tracingContext } = instrumenter.startSpan(name, { packageName });
@@ -35,7 +35,7 @@ describe("Instrumenter", () => {
 
         const { tracingContext } = instrumenter.startSpan(name, {
           tracingContext: context,
-          packageName
+          packageName,
         });
         assert.strictEqual(tracingContext.getValue(key), value);
       });
@@ -48,13 +48,13 @@ describe("Instrumenter", () => {
         assert.equal(result, expectedText);
       });
 
-      it("sets `this` correctly", function(this: Context) {
+      it("sets `this` correctly", function (this: Context) {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const that = this;
 
         instrumenter.withContext(
           createTracingContext(),
-          function(this: Context) {
+          function (this: Context) {
             assert.strictEqual(this, that);
           },
           this
@@ -73,7 +73,7 @@ describe("Instrumenter", () => {
         const span: TracingSpanContext = {
           spanId: "",
           traceId: "",
-          traceFlags: 0
+          traceFlags: 0,
         };
         assert.isEmpty(instrumenter.createRequestHeaders(span));
       });
@@ -82,14 +82,14 @@ describe("Instrumenter", () => {
 
   describe("NoOpSpan", () => {
     it("supports all TracingSpan methods", () => {
-      const span: TracingSpan = new NoOpSpan();
+      const span: TracingSpan = createDefaultTracingSpan();
       span.setStatus({ status: "success" });
       span.setAttribute("foo", "bar");
       span.recordException(new Error("test"));
       assert.deepEqual(span.spanContext, {
         spanId: "00000000-0000-0000-0000-000000000000",
         traceId: "00000000-0000-0000-0000-000000000000",
-        traceFlags: 0x0
+        traceFlags: 0x0,
       });
       span.end();
       assert.isFalse(span.isRecording());
@@ -100,9 +100,8 @@ describe("Instrumenter", () => {
     it("allows setting and getting a global instrumenter", () => {
       const instrumenter = getInstrumenter();
       assert.exists(instrumenter);
-      assert.isTrue(instrumenter instanceof NoOpInstrumenter);
 
-      const newInstrumenter = new NoOpInstrumenter();
+      const newInstrumenter = createDefaultInstrumenter();
       useInstrumenter(newInstrumenter);
       assert.strictEqual(getInstrumenter(), newInstrumenter);
     });

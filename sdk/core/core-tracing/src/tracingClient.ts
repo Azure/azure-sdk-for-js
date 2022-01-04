@@ -2,30 +2,27 @@
 // Licensed under the MIT license.
 
 import {
-  TracingClient,
   OperationTracingOptions,
-  TracingSpan,
-  TracingContext,
-  TracingSpanOptions,
-  TracingSpanContext,
+  TracingClient,
   TracingClientOptions,
-  Instrumenter
+  TracingContext,
+  TracingSpan,
+  TracingSpanContext,
+  TracingSpanOptions,
 } from "./interfaces";
 import { getInstrumenter } from "./instrumenter";
 import { knownContextKeys } from "./tracingContext";
 
-/** @internal */
-export class TracingClientImpl implements TracingClient {
-  private _namespace: string;
-  private _packageName: string;
-  private _packageVersion?: string;
+/**
+ * Creates a new tracing client.
+ *
+ * @param options - Options used to configure the tracing client.
+ * @returns - An instance of {@link TracingClient}.
+ */
+export function createTracingClient(options: TracingClientOptions): TracingClient {
+  const { namespace, packageName, packageVersion } = options;
 
-  constructor(options: TracingClientOptions) {
-    this._namespace = options.namespace;
-    this._packageName = options.packageName;
-    this._packageVersion = options.packageVersion;
-  }
-  startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
+  function startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
     operationOptions?: Options,
     spanOptions?: TracingSpanOptions
@@ -34,31 +31,32 @@ export class TracingClientImpl implements TracingClient {
     tracingContext: TracingContext;
     updatedOptions: Options;
   } {
-    const startSpanResult = this.getInstrumenter().startSpan(name, {
+    const startSpanResult = getInstrumenter().startSpan(name, {
       ...spanOptions,
-      packageName: this._packageName,
-      packageVersion: this._packageVersion,
-      tracingContext: operationOptions?.tracingOptions?.tracingContext
+      packageName: packageName,
+      packageVersion: packageVersion,
+      tracingContext: operationOptions?.tracingOptions?.tracingContext,
     });
     let tracingContext = startSpanResult.tracingContext;
     const span = startSpanResult.span;
     if (!tracingContext.getValue(knownContextKeys.Namespace)) {
-      tracingContext = tracingContext.setValue(knownContextKeys.Namespace, this._namespace);
+      tracingContext = tracingContext.setValue(knownContextKeys.Namespace, namespace);
     }
     span.setAttribute("az.namespace", tracingContext.getValue(knownContextKeys.Namespace));
     const updatedOptions = {
       ...operationOptions,
       tracingOptions: {
-        tracingContext: tracingContext
-      }
+        tracingContext: tracingContext,
+      },
     } as Options;
     return {
       span,
       tracingContext: tracingContext,
-      updatedOptions
+      updatedOptions,
     };
   }
-  async withSpan<
+
+  async function withSpan<
     Options extends { tracingOptions?: { tracingContext?: TracingContext } },
     Callback extends (
       updatedOptions: Options,
@@ -71,15 +69,11 @@ export class TracingClientImpl implements TracingClient {
     spanOptions?: TracingSpanOptions,
     callbackThis?: ThisParameterType<Callback>
   ): Promise<ReturnType<Callback>> {
-    const { span, tracingContext, updatedOptions } = this.startSpan(
-      name,
-      operationOptions,
-      spanOptions
-    );
+    const { span, tracingContext, updatedOptions } = startSpan(name, operationOptions, spanOptions);
     try {
-      const result = await this.withContext(
+      const result = await withContext(
         tracingContext,
-        () => Promise.resolve(callback.call(callbackThis, updatedOptions, span)),
+        () => Promise.resolve(callback(updatedOptions, span)),
         callbackThis
       );
       span.setStatus({ status: "success" });
@@ -91,7 +85,8 @@ export class TracingClientImpl implements TracingClient {
       span.end();
     }
   }
-  withContext<
+
+  function withContext<
     CallbackArgs extends unknown[],
     Callback extends (...args: CallbackArgs) => ReturnType<Callback>
   >(
@@ -100,16 +95,17 @@ export class TracingClientImpl implements TracingClient {
     callbackThis?: ThisParameterType<Callback>,
     ...callbackArgs: CallbackArgs
   ): ReturnType<Callback> {
-    return this.getInstrumenter().withContext(context, callback, callbackThis, ...callbackArgs);
+    return getInstrumenter().withContext(context, callback, callbackThis, ...callbackArgs);
   }
+
   /**
    * Parses a traceparent header value into a span identifier.
    *
    * @param traceparentHeader - The traceparent header to parse.
    * @returns An implementation-specific identifier for the span.
    */
-  parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined {
-    return this.getInstrumenter().parseTraceparentHeader(traceparentHeader);
+  function parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined {
+    return getInstrumenter().parseTraceparentHeader(traceparentHeader);
   }
 
   /**
@@ -118,25 +114,15 @@ export class TracingClientImpl implements TracingClient {
    * @param spanContext - The span identifier to serialize.
    * @returns The set of headers to add to a request.
    */
-  createRequestHeaders(spanContext: TracingSpanContext): Record<string, string> {
-    return this.getInstrumenter().createRequestHeaders(spanContext);
+  function createRequestHeaders(spanContext: TracingSpanContext): Record<string, string> {
+    return getInstrumenter().createRequestHeaders(spanContext);
   }
 
-  private _instrumenter?: Instrumenter;
-  private getInstrumenter(): Instrumenter {
-    if (!this._instrumenter) {
-      this._instrumenter = getInstrumenter();
-    }
-    return this._instrumenter;
-  }
-}
-
-/**
- * Creates a new tracing client.
- *
- * @param options - Options used to configure the tracing client.
- * @returns - An instance of {@link TracingClient}.
- */
-export function createTracingClient(options: TracingClientOptions): TracingClient {
-  return new TracingClientImpl(options);
+  return {
+    startSpan,
+    withSpan,
+    withContext,
+    parseTraceparentHeader,
+    createRequestHeaders,
+  };
 }
