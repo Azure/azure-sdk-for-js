@@ -22,10 +22,10 @@ For the unified recorder client library to work, the [test proxy server] must be
 
 Update your test scripts based on the following examples:
 
-| Script              | Before migration                                                                                                                                                                         | After migration                                                                                                                        |
-| :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
-| `unit-test:browser` | `karma start --single-run`                                                                                                                                                               | `dev-tool run test:browser`                                                                                                            |
-| `unit-test:node`    | `mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"` | `dev-tool run test:node-ts-input --mocha=\"--timeout 1200000 --full-trace --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'\"` |
+| Script              | Before migration                                                                                                                                                                         | After migration                                                                                                               |
+| :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| `unit-test:browser` | `karma start --single-run`                                                                                                                                                               | `dev-tool run test:browser`                                                                                                   |
+| `unit-test:node`    | `mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"` | `dev-tool run test:node-ts-input -- --timeout 1200000 --full-trace --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'` |
 
 ## Initializing the recorder
 
