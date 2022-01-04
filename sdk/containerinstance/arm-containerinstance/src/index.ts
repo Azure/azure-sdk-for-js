@@ -6,14 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  CachedImages,
-  CachedImagesListResult,
-  Capabilities,
-  CapabilitiesCapabilities,
-  CapabilitiesListResult,
-  CloudError,
-  Usage,
-  UsageListResult,
-  UsageName
-} from "../models/mappers";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { ContainerInstanceManagementClient } from "./containerInstanceManagementClient";
+export * from "./operationsInterfaces";
