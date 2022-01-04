@@ -7,12 +7,20 @@ import { createPipelineRequest } from "../../src/pipelineRequest";
 import { png } from "./mocks/encodedPng";
 import sinon from "sinon";
 import { createHttpHeaders } from "../../src/httpHeaders";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { delay } from "../../src/util/helpers";
 
 const streamBody = new ReadableStream({
   async start(controller) {
     controller.enqueue(png);
+    controller.close();
   },
 });
+
+function createResponse(statusCode: number, body = ""): Response {
+  const blob = new Blob([body], { type: "application/json" });
+  return new Response(blob, { status: statusCode });
+}
 
 describe("FetchHttpClient", function () {
   let fetchMock: sinon.SinonStub;
@@ -29,8 +37,7 @@ describe("FetchHttpClient", function () {
   });
 
   it("shouldn't throw on 404", async function () {
-    const blob = new Blob();
-    const mockedResponse = new Response(blob, { status: 404 });
+    const mockedResponse = createResponse(404);
     fetchMock.returns(mockedResponse);
 
     const client = createFetchHttpClient();
@@ -41,7 +48,22 @@ describe("FetchHttpClient", function () {
   });
 
   it("should allow canceling of requests", async function () {
-    fetchMock.restore();
+    const mockedResponse = createResponse(404);
+    const timeoutLength = 2000;
+    clock = sinon.useFakeTimers();
+    fetchMock.callsFake(async (_url, options) => {
+      await delay(timeoutLength);
+      if (options.signal) {
+        const signal: AbortSignalLike = options.signal;
+        console.log(`${signal.aborted}`);
+
+        if (signal.aborted) {
+          throw new AbortError();
+        }
+      }
+
+      return mockedResponse;
+    });
     const controller = new AbortController();
     const url = `http://localhost:3000/files/stream/verylarge`;
     const client = createFetchHttpClient();
@@ -55,7 +77,9 @@ describe("FetchHttpClient", function () {
       },
     });
     const promise = client.sendRequest(request);
+    clock.tick(timeoutLength - 1);
     controller.abort();
+    clock.tick(1);
 
     try {
       await promise;
@@ -105,9 +129,10 @@ describe("FetchHttpClient", function () {
   });
 
   it("should report download progress and decode chunks", async function () {
-    fetchMock.restore();
-    const url = `http://localhost:3000/files/stream/nonempty`;
     const client = createFetchHttpClient();
+    const responseText = "An appropriate response.";
+    fetchMock.returns(createResponse(200, responseText));
+    const url = `http://localhost:3000/files/stream/nonempty`;
     let downloadCalled = false;
     const request = createPipelineRequest({
       url,
@@ -124,9 +149,10 @@ describe("FetchHttpClient", function () {
   });
 
   it("should report download progress when handling blob", async function () {
-    fetchMock.restore();
-    const url = `http://localhost:3000/files/stream/nonempty`;
     const client = createFetchHttpClient();
+    const responseText = "An appropriate response.";
+    fetchMock.returns(createResponse(200, responseText));
+    const url = `http://localhost:3000/files/stream/nonempty`;
     let downloadCalled = false;
     const request = createPipelineRequest({
       url,
@@ -147,9 +173,10 @@ describe("FetchHttpClient", function () {
   });
 
   it("should stream response body when status code matches", async function () {
-    fetchMock.restore();
-    const url = `http://localhost:3000/files/stream/nonempty`;
     const client = createFetchHttpClient();
+    const responseText = "An appropriate response.";
+    fetchMock.returns(createResponse(200, responseText));
+    const url = `http://localhost:3000/files/stream/nonempty`;
     let downloadCalled = false;
     const request = createPipelineRequest({
       url,
@@ -169,10 +196,11 @@ describe("FetchHttpClient", function () {
     assert.isTrue(downloadCalled, "no download progress");
   });
 
-  it("should not stream response body when status code doesn't matche", async function () {
-    fetchMock.restore();
-    const url = `http://localhost:3000/files/stream/nonempty`;
+  it("should not stream response body when status code doesn't match", async function () {
     const client = createFetchHttpClient();
+    const responseText = "An appropriate response.";
+    fetchMock.returns(createResponse(200, responseText));
+    const url = `http://localhost:3000/files/stream/nonempty`;
     let downloadCalled = false;
     const request = createPipelineRequest({
       url,
@@ -191,10 +219,11 @@ describe("FetchHttpClient", function () {
   });
 
   it("should report upload progress", async () => {
-    fetchMock.restore();
+    const client = createFetchHttpClient();
+    const responseText = "An appropriate response.";
+    fetchMock.returns(createResponse(200, responseText));
     const url = `http://localhost:3000/formdata/stream/uploadfile`;
 
-    const client = createFetchHttpClient();
     let downloadCalled = false;
     const request = createPipelineRequest({
       url,
@@ -217,12 +246,26 @@ describe("FetchHttpClient", function () {
   });
 
   it("should honor timeout", async function () {
-    fetchMock.restore();
+    const timeoutLength = 2000;
+    const mockedResponse = createResponse(404);
     clock = sinon.useFakeTimers();
+    fetchMock.callsFake(async (_url, options) => {
+      await delay(timeoutLength);
+
+      if (options.signal) {
+        const signal: AbortSignalLike = options.signal;
+        console.log(`${signal.aborted}`);
+
+        if (signal.aborted) {
+          throw new AbortError();
+        }
+      }
+
+      return mockedResponse;
+    });
     const url = `http://localhost:3000/files/stream/verylarge`;
     const client = createFetchHttpClient();
 
-    const timeoutLength = 2000;
     const request = createPipelineRequest({
       url,
       timeout: timeoutLength,
@@ -231,6 +274,7 @@ describe("FetchHttpClient", function () {
     });
     const promise = client.sendRequest(request);
     clock.tick(timeoutLength);
+
     try {
       await promise;
       assert.fail("Expected await to throw");
@@ -253,8 +297,7 @@ describe("FetchHttpClient", function () {
   });
 
   it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function () {
-    const blob = new Blob();
-    const mockedResponse = new Response(blob, { status: 200 });
+    const mockedResponse = createResponse(200);
     fetchMock.returns(mockedResponse);
 
     const client = createFetchHttpClient();
