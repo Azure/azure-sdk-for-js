@@ -19,7 +19,7 @@ const replaceableVariables: Record<string, string> = {
   APPCONFIG_TEST_SETTING_EXPECTED_VALUE: "test-value",
   AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
   AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret"
+  AZURE_CLIENT_SECRET: "azure_client_secret",
 };
 
 function createConfigurationClient(recorder: Recorder): ConfigurationClient {
@@ -45,7 +45,7 @@ function createConfigurationClient(recorder: Recorder): ConfigurationClient {
 // You want to give the test suite a descriptive name. Here, I add [AAD] to
 // indicate that the tests are authenticating with the service using Azure
 // Active Directory.
-describe("[AAD] ConfigurationClient functional tests", function() {
+describe("[AAD] ConfigurationClient functional tests", function () {
   // Declare the client and recorder instances.  We will set them using the
   // beforeEach hook.
   let client: ConfigurationClient;
@@ -54,7 +54,7 @@ describe("[AAD] ConfigurationClient functional tests", function() {
   // NOTE: use of "function" and not ES6 arrow-style functions with the
   // beforeEach hook is IMPORTANT due to the use of `this` in the function
   // body.
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     // The recorder has some convenience methods, and we need to store a
     // reference to it so that we can `stop()` the recorder later in the
     // `afterEach` hook.
@@ -68,7 +68,7 @@ describe("[AAD] ConfigurationClient functional tests", function() {
   });
 
   // After each test, we need to stop the recording.
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 

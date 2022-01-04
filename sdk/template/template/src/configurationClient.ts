@@ -8,7 +8,7 @@ import {
   PipelineOptions,
   TokenCredential,
   bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions
+  createPipelineFromOptions,
 } from "@azure/core-http";
 import { SDK_VERSION } from "./constants";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -93,18 +93,18 @@ export class ConfigurationClient {
             "application/vnd.microsoft.appconfig.kv+json",
             "application/vnd.microsoft.appconfig.kvs+json",
             "application/vnd.microsoft.appconfig.keyset+json",
-            "application/vnd.microsoft.appconfig.revs+json"
-          ]
-        }
+            "application/vnd.microsoft.appconfig.revs+json",
+          ],
+        },
       },
       ...{
         loggingOptions: {
           logger: logger.info,
           // This array contains header names we want to log that are not already
           // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-          allowedHeaderNames: ["x-ms-correlation-request-id"]
-        }
-      }
+          allowedHeaderNames: ["x-ms-correlation-request-id"],
+        },
+      },
     };
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
@@ -165,7 +165,7 @@ export class ConfigurationClient {
     try {
       const result = await this.client.getKeyValue(key, {
         ...updatedOptions,
-        ifNoneMatch
+        ifNoneMatch,
       });
       return result;
     } catch (e) {
