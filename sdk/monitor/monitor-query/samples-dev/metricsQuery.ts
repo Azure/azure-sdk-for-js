@@ -34,7 +34,7 @@ export async function main() {
     console.log(`Picking an example list of metrics to query: ${metricNames}`);
     const metricsResponse = await metricsQueryClient.queryResource(metricsResourceId, metricNames, {
       granularity: "PT1M",
-      timespan: { duration: Durations.fiveMinutes }
+      timespan: { duration: Durations.fiveMinutes },
     });
 
     console.log(

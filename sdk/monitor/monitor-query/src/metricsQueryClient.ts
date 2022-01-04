@@ -10,27 +10,27 @@ import {
   MetricsQueryOptions,
   MetricsQueryResult,
   MetricDefinition,
-  MetricNamespace
+  MetricNamespace,
 } from "./models/publicMetricsModels";
 
 import {
   KnownApiVersion201801 as MetricsApiVersion,
-  MonitorManagementClient as GeneratedMetricsClient
+  MonitorManagementClient as GeneratedMetricsClient,
 } from "./generated/metrics/src";
 import {
   KnownApiVersion201801 as MetricDefinitionsApiVersion,
-  MonitorManagementClient as GeneratedMetricsDefinitionsClient
+  MonitorManagementClient as GeneratedMetricsDefinitionsClient,
 } from "./generated/metricsdefinitions/src";
 import {
   KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
-  MonitorManagementClient as GeneratedMetricsNamespacesClient
+  MonitorManagementClient as GeneratedMetricsNamespacesClient,
 } from "./generated/metricsnamespaces/src";
 import {
   convertRequestForMetrics,
   convertRequestOptionsForMetricsDefinitions,
   convertResponseForMetricNamespaces,
   convertResponseForMetrics,
-  convertResponseForMetricsDefinitions
+  convertResponseForMetricsDefinitions,
 } from "./internal/modelConverters";
 import { SDK_VERSION } from "./constants";
 const defaultMetricsScope = "https://management.azure.com/.default";
@@ -62,7 +62,7 @@ export class MetricsQueryClient {
       scope = `${options?.endpoint}./default`;
     }
     const credentialOptions = {
-      credentialScopes: scope
+      credentialScopes: scope,
     };
     const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
     const userAgentPrefix =
@@ -76,8 +76,8 @@ export class MetricsQueryClient {
       credentialScopes: credentialOptions?.credentialScopes ?? defaultMetricsScope,
       credential: tokenCredential,
       userAgentOptions: {
-        userAgentPrefix
-      }
+        userAgentPrefix,
+      },
     };
 
     this._metricsClient = new GeneratedMetricsClient(
@@ -200,7 +200,7 @@ export class MetricsQueryClient {
        */
       byPage: () => {
         return this.listSegmentOfMetricDefinitions(resourceUri, options);
-      }
+      },
     };
   }
 
@@ -284,7 +284,7 @@ export class MetricsQueryClient {
        */
       byPage: () => {
         return this.listSegmentOfMetricNamespaces(resourceUri, options);
-      }
+      },
     };
   }
 }
