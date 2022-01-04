@@ -3,16 +3,14 @@
 
 /**
  * @summary use `QueueServiceClient` to create a queue and send/receive/delete messages
- * @azsdk-weight 80
  */
 
-import { QueueServiceClient, StorageSharedKeyCredential } from "@azure/storage-queue";
+const { QueueServiceClient, StorageSharedKeyCredential } = require("@azure/storage-queue");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-export async function main() {
+async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -100,3 +98,5 @@ main().catch((error) => {
   console.error(error);
   process.exit(1);
 });
+
+module.exports = { main };

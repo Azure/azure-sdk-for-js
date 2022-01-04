@@ -18,8 +18,11 @@
     "importHelpers": true,
     "declarationDir": "./typings/latest",
     "lib": ["dom", "es5", "es6", "es7", "esnext"],
-    "esModuleInterop": true
+    "esModuleInterop": true,
+
+    "paths": {
+      "@azure/storage-queue": ["./src/index"]
+    }
   },
-  "exclude": ["node_modules", "./samples/*"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "./samples-dev/**/*.ts"]
 }

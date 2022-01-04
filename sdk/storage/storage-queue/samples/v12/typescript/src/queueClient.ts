@@ -3,7 +3,6 @@
 
 /**
  * @summary use `QueueServiceClient` to create a queue and send/receive/delete messages
- * @azsdk-weight 80
  */
 
 import { QueueServiceClient, StorageSharedKeyCredential } from "@azure/storage-queue";
