@@ -99,9 +99,10 @@ export interface EntityPartialUpdateEntityAttributeByGuidQueryParam {
   queryParameters: EntityPartialUpdateEntityAttributeByGuidQueryParamProperties;
 }
 
-export type EntityPartialUpdateEntityAttributeByGuidParameters = EntityPartialUpdateEntityAttributeByGuidQueryParam &
-  EntityPartialUpdateEntityAttributeByGuidBodyParam &
-  RequestParameters;
+export type EntityPartialUpdateEntityAttributeByGuidParameters =
+  EntityPartialUpdateEntityAttributeByGuidQueryParam &
+    EntityPartialUpdateEntityAttributeByGuidBodyParam &
+    RequestParameters;
 export type EntityDeleteByGuidParameters = RequestParameters;
 export type EntityGetClassificationParameters = RequestParameters;
 export type EntityDeleteClassificationParameters = RequestParameters;
@@ -153,9 +154,10 @@ export interface EntityPartialUpdateEntityByUniqueAttributesQueryParam {
   queryParameters?: EntityPartialUpdateEntityByUniqueAttributesQueryParamProperties;
 }
 
-export type EntityPartialUpdateEntityByUniqueAttributesParameters = EntityPartialUpdateEntityByUniqueAttributesQueryParam &
-  EntityPartialUpdateEntityByUniqueAttributesBodyParam &
-  RequestParameters;
+export type EntityPartialUpdateEntityByUniqueAttributesParameters =
+  EntityPartialUpdateEntityByUniqueAttributesQueryParam &
+    EntityPartialUpdateEntityByUniqueAttributesBodyParam &
+    RequestParameters;
 
 export interface EntityDeleteByUniqueAttributeQueryParamProperties {
   /** The qualified name of the entity. */
@@ -178,8 +180,8 @@ export interface EntityDeleteClassificationByUniqueAttributeQueryParam {
   queryParameters?: EntityDeleteClassificationByUniqueAttributeQueryParamProperties;
 }
 
-export type EntityDeleteClassificationByUniqueAttributeParameters = EntityDeleteClassificationByUniqueAttributeQueryParam &
-  RequestParameters;
+export type EntityDeleteClassificationByUniqueAttributeParameters =
+  EntityDeleteClassificationByUniqueAttributeQueryParam & RequestParameters;
 
 export interface EntityAddClassificationsByUniqueAttributeBodyParam {
   /** An array of classification to be added. */
@@ -195,9 +197,10 @@ export interface EntityAddClassificationsByUniqueAttributeQueryParam {
   queryParameters?: EntityAddClassificationsByUniqueAttributeQueryParamProperties;
 }
 
-export type EntityAddClassificationsByUniqueAttributeParameters = EntityAddClassificationsByUniqueAttributeQueryParam &
-  EntityAddClassificationsByUniqueAttributeBodyParam &
-  RequestParameters;
+export type EntityAddClassificationsByUniqueAttributeParameters =
+  EntityAddClassificationsByUniqueAttributeQueryParam &
+    EntityAddClassificationsByUniqueAttributeBodyParam &
+    RequestParameters;
 
 export interface EntityUpdateClassificationsByUniqueAttributeBodyParam {
   /** An array of classification to be updated. */
@@ -213,9 +216,10 @@ export interface EntityUpdateClassificationsByUniqueAttributeQueryParam {
   queryParameters?: EntityUpdateClassificationsByUniqueAttributeQueryParamProperties;
 }
 
-export type EntityUpdateClassificationsByUniqueAttributeParameters = EntityUpdateClassificationsByUniqueAttributeQueryParam &
-  EntityUpdateClassificationsByUniqueAttributeBodyParam &
-  RequestParameters;
+export type EntityUpdateClassificationsByUniqueAttributeParameters =
+  EntityUpdateClassificationsByUniqueAttributeQueryParam &
+    EntityUpdateClassificationsByUniqueAttributeBodyParam &
+    RequestParameters;
 
 export interface EntitySetClassificationsBodyParam {
   /** Atlas entity headers. */
@@ -238,8 +242,8 @@ export interface EntityGetEntitiesByUniqueAttributesQueryParam {
   queryParameters?: EntityGetEntitiesByUniqueAttributesQueryParamProperties;
 }
 
-export type EntityGetEntitiesByUniqueAttributesParameters = EntityGetEntitiesByUniqueAttributesQueryParam &
-  RequestParameters;
+export type EntityGetEntitiesByUniqueAttributesParameters =
+  EntityGetEntitiesByUniqueAttributesQueryParam & RequestParameters;
 export type EntityGetHeaderParameters = RequestParameters;
 
 export interface GlossaryListGlossariesQueryParamProperties {
@@ -303,8 +307,8 @@ export interface GlossaryPartialUpdateGlossaryCategoryBodyParam {
   body: Record<string, string>;
 }
 
-export type GlossaryPartialUpdateGlossaryCategoryParameters = GlossaryPartialUpdateGlossaryCategoryBodyParam &
-  RequestParameters;
+export type GlossaryPartialUpdateGlossaryCategoryParameters =
+  GlossaryPartialUpdateGlossaryCategoryBodyParam & RequestParameters;
 
 export interface GlossaryListRelatedCategoriesQueryParamProperties {
   /** The page size - by default there is no paging. */
@@ -394,9 +398,10 @@ export interface GlossaryPartialUpdateGlossaryTermQueryParam {
   queryParameters?: GlossaryPartialUpdateGlossaryTermQueryParamProperties;
 }
 
-export type GlossaryPartialUpdateGlossaryTermParameters = GlossaryPartialUpdateGlossaryTermQueryParam &
-  GlossaryPartialUpdateGlossaryTermBodyParam &
-  RequestParameters;
+export type GlossaryPartialUpdateGlossaryTermParameters =
+  GlossaryPartialUpdateGlossaryTermQueryParam &
+    GlossaryPartialUpdateGlossaryTermBodyParam &
+    RequestParameters;
 
 export interface GlossaryCreateGlossaryTermsBodyParam {
   /** An array of glossary term definitions to be created in bulk. */
@@ -429,8 +434,8 @@ export interface GlossaryGetEntitiesAssignedWithTermQueryParam {
   queryParameters?: GlossaryGetEntitiesAssignedWithTermQueryParamProperties;
 }
 
-export type GlossaryGetEntitiesAssignedWithTermParameters = GlossaryGetEntitiesAssignedWithTermQueryParam &
-  RequestParameters;
+export type GlossaryGetEntitiesAssignedWithTermParameters =
+  GlossaryGetEntitiesAssignedWithTermQueryParam & RequestParameters;
 
 export interface GlossaryAssignTermToEntitiesBodyParam {
   /** An array of related object IDs to which the term has to be associated. */
@@ -445,16 +450,16 @@ export interface GlossaryRemoveTermAssignmentFromEntitiesBodyParam {
   body: Array<AtlasRelatedObjectId>;
 }
 
-export type GlossaryRemoveTermAssignmentFromEntitiesParameters = GlossaryRemoveTermAssignmentFromEntitiesBodyParam &
-  RequestParameters;
+export type GlossaryRemoveTermAssignmentFromEntitiesParameters =
+  GlossaryRemoveTermAssignmentFromEntitiesBodyParam & RequestParameters;
 
 export interface GlossaryDeleteTermAssignmentFromEntitiesBodyParam {
   /** An array of related object IDs from which the term has to be dissociated. */
   body: Array<AtlasRelatedObjectId>;
 }
 
-export type GlossaryDeleteTermAssignmentFromEntitiesParameters = GlossaryDeleteTermAssignmentFromEntitiesBodyParam &
-  RequestParameters;
+export type GlossaryDeleteTermAssignmentFromEntitiesParameters =
+  GlossaryDeleteTermAssignmentFromEntitiesBodyParam & RequestParameters;
 
 export interface GlossaryListRelatedTermsQueryParamProperties {
   /** The page size - by default there is no paging. */
@@ -510,8 +515,8 @@ export interface GlossaryListGlossaryCategoriesHeadersQueryParam {
   queryParameters?: GlossaryListGlossaryCategoriesHeadersQueryParamProperties;
 }
 
-export type GlossaryListGlossaryCategoriesHeadersParameters = GlossaryListGlossaryCategoriesHeadersQueryParam &
-  RequestParameters;
+export type GlossaryListGlossaryCategoriesHeadersParameters =
+  GlossaryListGlossaryCategoriesHeadersQueryParam & RequestParameters;
 
 export interface GlossaryGetDetailedGlossaryQueryParamProperties {
   /** Whether include term hierarchy */
@@ -595,9 +600,10 @@ export interface GlossaryImportGlossaryTermsViaCsvQueryParam {
   queryParameters?: GlossaryImportGlossaryTermsViaCsvQueryParamProperties;
 }
 
-export type GlossaryImportGlossaryTermsViaCsvParameters = GlossaryImportGlossaryTermsViaCsvQueryParam &
-  GlossaryImportGlossaryTermsViaCsvBodyParam &
-  RequestParameters;
+export type GlossaryImportGlossaryTermsViaCsvParameters =
+  GlossaryImportGlossaryTermsViaCsvQueryParam &
+    GlossaryImportGlossaryTermsViaCsvBodyParam &
+    RequestParameters;
 
 export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameBodyParam {
   /**
@@ -617,9 +623,10 @@ export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParam {
   queryParameters?: GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParamProperties;
 }
 
-export type GlossaryImportGlossaryTermsViaCsvByGlossaryNameParameters = GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParam &
-  GlossaryImportGlossaryTermsViaCsvByGlossaryNameBodyParam &
-  RequestParameters;
+export type GlossaryImportGlossaryTermsViaCsvByGlossaryNameParameters =
+  GlossaryImportGlossaryTermsViaCsvByGlossaryNameQueryParam &
+    GlossaryImportGlossaryTermsViaCsvByGlossaryNameBodyParam &
+    RequestParameters;
 export type GlossaryGetImportCsvOperationStatusParameters = RequestParameters;
 
 export interface GlossaryExportGlossaryTermsAsCsvBodyParam {
@@ -636,9 +643,10 @@ export interface GlossaryExportGlossaryTermsAsCsvQueryParam {
   queryParameters?: GlossaryExportGlossaryTermsAsCsvQueryParamProperties;
 }
 
-export type GlossaryExportGlossaryTermsAsCsvParameters = GlossaryExportGlossaryTermsAsCsvQueryParam &
-  GlossaryExportGlossaryTermsAsCsvBodyParam &
-  RequestParameters;
+export type GlossaryExportGlossaryTermsAsCsvParameters =
+  GlossaryExportGlossaryTermsAsCsvQueryParam &
+    GlossaryExportGlossaryTermsAsCsvBodyParam &
+    RequestParameters;
 
 export interface GlossaryListTermsByGlossaryNameQueryParamProperties {
   /** The page size - by default there is no paging. */
@@ -840,5 +848,5 @@ export interface CollectionMoveEntitiesToCollectionBodyParam {
   body: MoveEntitiesRequest;
 }
 
-export type CollectionMoveEntitiesToCollectionParameters = CollectionMoveEntitiesToCollectionBodyParam &
-  RequestParameters;
+export type CollectionMoveEntitiesToCollectionParameters =
+  CollectionMoveEntitiesToCollectionBodyParam & RequestParameters;

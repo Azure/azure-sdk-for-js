@@ -17,7 +17,7 @@ import {
   Pipeline,
   RequestPolicyFactory,
   StorageSharedKeyCredential,
-  newPipeline
+  newPipeline,
 } from "@azure/storage-blob";
 
 // In this example, we assume you are running Event Hubs on Azure Stack Hub
@@ -41,9 +41,9 @@ export function createCustomPipeline(credentials: StorageSharedKeyCredential): P
           httpRequest.headers.set("x-ms-version", API_VERSION);
           const response = await nextPolicy.sendRequest(httpRequest);
           return response;
-        }
+        },
       };
-    }
+    },
   };
   const pipelineFactoriesCount = storagePipeline.factories.length;
   // Set the storage version policy as the second to last so that the HTTP header

@@ -42,19 +42,19 @@ export function getEventPosition(filter: string): EventPosition {
     return {
       type: "offset",
       operator,
-      value: normalizedValue === "@latest" ? normalizedValue : parseInt(normalizedValue, 10)
+      value: normalizedValue === "@latest" ? normalizedValue : parseInt(normalizedValue, 10),
     };
   } else if (fullType === "amqp.annotation.x-opt-sequence-number") {
     return {
       type: "sequenceNumber",
       operator,
-      value: parseInt(normalizedValue, 10)
+      value: parseInt(normalizedValue, 10),
     };
   } else if (fullType === "amqp.annotation.x-opt-enqueued-time") {
     return {
       type: "enqueuedTime",
       operator,
-      value: parseInt(normalizedValue, 10)
+      value: parseInt(normalizedValue, 10),
     };
   }
 

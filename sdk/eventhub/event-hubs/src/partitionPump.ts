@@ -77,7 +77,7 @@ export class PartitionPump {
       lastSeenSequenceNumber >= 0
         ? {
             sequenceNumber: lastSeenSequenceNumber,
-            isInclusive: false
+            isInclusive: false,
           }
         : this._startPosition;
 
@@ -91,7 +91,7 @@ export class PartitionPump {
         ownerLevel: this._processorOptions.ownerLevel,
         trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties,
         retryOptions: this._processorOptions.retryOptions,
-        skipParsingBodyAsJson: this._processorOptions.skipParsingBodyAsJson
+        skipParsingBodyAsJson: this._processorOptions.skipParsingBodyAsJson,
       }
     );
 
@@ -225,14 +225,14 @@ export function createProcessingSpan(
     links.push({
       context: spanContext,
       attributes: {
-        enqueuedTime: receivedEvent.enqueuedTimeUtc.getTime()
-      }
+        enqueuedTime: receivedEvent.enqueuedTimeUtc.getTime(),
+      },
     });
   }
 
   const { span } = createEventHubSpan("process", options, eventHubProperties, {
     kind: SpanKind.CONSUMER,
-    links
+    links,
   });
 
   return span;
@@ -248,7 +248,7 @@ export async function trace(fn: () => Promise<void>, span: Span): Promise<void> 
   } catch (err) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: err.message
+      message: err.message,
     });
     throw err;
   } finally {

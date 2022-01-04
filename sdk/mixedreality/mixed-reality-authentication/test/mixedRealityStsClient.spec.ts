@@ -55,7 +55,7 @@ describe("MixedRealityStsClient", () => {
     const expectedEndpointUrl = "https://sts.westus2.mixedreality.azure.com";
 
     const client = new MixedRealityStsClient(accountId, accountDomain, keyCredential, {
-      customEndpointUrl: expectedEndpointUrl
+      customEndpointUrl: expectedEndpointUrl,
     });
 
     assert.isNotNull(client);
@@ -74,16 +74,16 @@ describe("MixedRealityStsClient", () => {
   });
 });
 
-describe("[AccountKey] MixedRealityStsClient functional tests", function() {
+describe("[AccountKey] MixedRealityStsClient functional tests", function () {
   let client: MixedRealityStsClient;
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = createRecorder(this);
     client = createClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     // Stop the recording.
     await recorder.stop();
   });

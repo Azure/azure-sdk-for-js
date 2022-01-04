@@ -29,5 +29,5 @@ export {
   Logging,
   TableSetAccessPolicyHeaders,
   ServiceSetPropertiesHeaders,
-  TableUpdateEntityHeaders
+  TableUpdateEntityHeaders,
 } from "./generated/models";

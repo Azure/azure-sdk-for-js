@@ -9,7 +9,7 @@ import {
   AccessToken,
   AzureKeyCredential,
   isTokenCredential,
-  TokenCredential
+  TokenCredential,
 } from "@azure/core-auth";
 
 import { RemoteRenderingRestClient } from "./generated";
@@ -19,7 +19,7 @@ import {
   RemoteRenderingCreateConversionResponse,
   RenderingSessionSettings,
   RemoteRenderingCreateSessionResponse,
-  UpdateSessionSettings
+  UpdateSessionSettings,
 } from "./generated/models/index";
 
 import { RemoteRenderingClientOptions } from "./options";
@@ -40,18 +40,18 @@ import { RemoteRenderingImpl } from "./generated/operations";
 import {
   AssetConversionPoller,
   AssetConversionOperationState,
-  AssetConversionPollerOptions
+  AssetConversionPollerOptions,
 } from "./lro/assetConversionPoller";
 import {
   RenderingSessionPoller,
   RenderingSessionOperationState,
-  RenderingSessionPollerOptions
+  RenderingSessionPollerOptions,
 } from "./lro/renderingSessionPoller";
 
 import {
   endSessionInternal,
   getConversionInternal,
-  getSessionInternal
+  getSessionInternal,
 } from "./internal/commonQueries";
 
 import {
@@ -62,7 +62,7 @@ import {
   SucceededAssetConversion,
   FailedAssetConversion,
   CancelledAssetConversion,
-  assetConversionFromConversion
+  assetConversionFromConversion,
 } from "./internal/assetConversion";
 import {
   RenderingSession,
@@ -74,7 +74,7 @@ import {
   StartingRenderingSession,
   ExpiredRenderingSession,
   StoppedRenderingSession,
-  renderingSessionFromSessionProperties
+  renderingSessionFromSessionProperties,
 } from "./internal/renderingSession";
 
 export {
@@ -101,7 +101,7 @@ export {
   UpdateSessionSettings,
   RemoteRenderingClientOptions,
   AssetConversionPollerOptions,
-  RenderingSessionPollerOptions
+  RenderingSessionPollerOptions,
 };
 
 import {
@@ -112,7 +112,7 @@ import {
   KnownAssetConversionStatus,
   KnownRenderingSessionStatus,
   RenderingServerSize,
-  KnownRenderingServerSize
+  KnownRenderingServerSize,
 } from "./generated/models/index";
 
 import { RemoteRenderingServiceError } from "./remoteRenderingServiceError";
@@ -126,7 +126,7 @@ export {
   KnownAssetConversionStatus,
   KnownRenderingSessionStatus,
   RenderingServerSize,
-  KnownRenderingServerSize
+  KnownRenderingServerSize,
 };
 
 /** The poller returned by the beginConversion operation. */
@@ -297,15 +297,15 @@ export class RemoteRenderingClient {
         logger: logger.info,
         // This array contains header names we want to log that are not already
         // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-        additionalAllowedHeaderNames: ["X-MRC-CV", "MS-CV"]
-      }
+        additionalAllowedHeaderNames: ["X-MRC-CV", "MS-CV"],
+      },
     };
 
     const clientOptions: RemoteRenderingRestClientOptionalParams = {
       ...internalPipelineOptions,
       endpoint: endpoint,
       credential: tokenCredential,
-      credentialScopes: `${endpoint}/.default`
+      credentialScopes: `${endpoint}/.default`,
     };
 
     this.client = new RemoteRenderingRestClient(endpoint, clientOptions);
@@ -365,16 +365,17 @@ export class RemoteRenderingClient {
 
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginConversion", {
       conversionId: conversionId,
-      ...options
+      ...options,
     });
 
     try {
-      const conversion: RemoteRenderingCreateConversionResponse = await this.operations.createConversion(
-        this.accountId,
-        conversionId,
-        { settings: settings },
-        updatedOptions
-      );
+      const conversion: RemoteRenderingCreateConversionResponse =
+        await this.operations.createConversion(
+          this.accountId,
+          conversionId,
+          { settings: settings },
+          updatedOptions
+        );
 
       const poller = new AssetConversionPoller(
         this.accountId,
@@ -391,7 +392,7 @@ export class RemoteRenderingClient {
       // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
 
       throw e;
@@ -453,7 +454,7 @@ export class RemoteRenderingClient {
     options?: ListConversionsOptions
   ): PagedAsyncIterableIterator<AssetConversion> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-ListConversion", {
-      ...options
+      ...options,
     });
     try {
       const iter = this.getAllConversionsPagingAll(updatedOptions);
@@ -466,12 +467,12 @@ export class RemoteRenderingClient {
         },
         byPage: () => {
           return this.getAllConversionsPagingPage(updatedOptions);
-        }
+        },
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -531,16 +532,12 @@ export class RemoteRenderingClient {
 
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginSession", {
       conversionId: sessionId,
-      ...operationOptions
+      ...operationOptions,
     });
 
     try {
-      const sessionProperties: RemoteRenderingCreateSessionResponse = await this.operations.createSession(
-        this.accountId,
-        sessionId,
-        settings,
-        updatedOptions
-      );
+      const sessionProperties: RemoteRenderingCreateSessionResponse =
+        await this.operations.createSession(this.accountId, sessionId, settings, updatedOptions);
 
       const poller = new RenderingSessionPoller(
         this.accountId,
@@ -556,7 +553,7 @@ export class RemoteRenderingClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -599,7 +596,7 @@ export class RemoteRenderingClient {
   ): Promise<RenderingSession> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-UpdateSession", {
       conversionId: sessionId,
-      ...options
+      ...options,
     });
 
     try {
@@ -613,7 +610,7 @@ export class RemoteRenderingClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -667,7 +664,7 @@ export class RemoteRenderingClient {
    */
   public listSessions(options?: ListSessionsOptions): PagedAsyncIterableIterator<RenderingSession> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-ListConversion", {
-      ...options
+      ...options,
     });
     try {
       const iter = this.getAllSessionsPagingAll(updatedOptions);
@@ -680,12 +677,12 @@ export class RemoteRenderingClient {
         },
         byPage: () => {
           return this.getAllSessionsPagingPage(updatedOptions);
-        }
+        },
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

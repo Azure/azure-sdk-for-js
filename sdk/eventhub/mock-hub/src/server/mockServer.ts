@@ -12,7 +12,7 @@ import {
   ReceiverEvents,
   Sender,
   SenderEvents,
-  create_container
+  create_container,
 } from "rhea";
 import { EventEmitter } from "events";
 import { ListenOptions } from "net";
@@ -158,15 +158,15 @@ export class MockServer extends EventEmitter {
         receiver_options: {
           max_message_size: options.maxMessageSize ?? ONE_MB,
           autosettle: true,
-          autoaccept: false
+          autoaccept: false,
         },
         sender_options: {
           max_message_size: options.maxMessageSize ?? ONE_MB,
-          autosettle: true
+          autosettle: true,
         },
         transport: "tls",
         rejectUnauthorized: true,
-        ...options.tlsOptions
+        ...options.tlsOptions,
       };
 
       this._setupDefaultListeners();
@@ -274,9 +274,8 @@ export class MockServer extends EventEmitter {
   private _setupDefaultListeners(): void {
     this._container.sasl_server_mechanisms.enable_anonymous();
     this._container.sasl.server_add_external(this._container.sasl_server_mechanisms);
-    this._container.sasl_server_mechanisms["MSSBCBS"] = this._container.sasl_server_mechanisms[
-      "EXTERNAL"
-    ];
+    this._container.sasl_server_mechanisms["MSSBCBS"] =
+      this._container.sasl_server_mechanisms["EXTERNAL"];
     this._container.on(ConnectionEvents.connectionError, () => {
       /* do nothing */
     });
@@ -284,23 +283,23 @@ export class MockServer extends EventEmitter {
       /* do nothing */
     });
     this._container.on(ConnectionEvents.connectionOpen, (context: EventContext) => {
-      context.connection.on("error", function(this: typeof context.connection, err: Error) {
+      context.connection.on("error", function (this: typeof context.connection, err: Error) {
         console.log(`Error occurred on connection:`, err?.message);
       });
       this.emit("connectionOpen", {
-        context
+        context,
       });
     });
     this._container.on(ConnectionEvents.connectionClose, (context: EventContext) => {
       this.emit("connectionClose", {
         context,
-        error: context.error as ConnectionError
+        error: context.error as ConnectionError,
       });
     });
     this._container.on(ConnectionEvents.disconnected, (context: EventContext) => {
       this.emit("connectionClose", {
         context,
-        error: context.error as Error
+        error: context.error as Error,
       });
     });
     this._container.on(SenderEvents.senderOpen, (context: EventContext) => {
@@ -309,7 +308,7 @@ export class MockServer extends EventEmitter {
         this.emit("senderOpen", {
           context,
           entityPath,
-          sender: context.sender
+          sender: context.sender,
         });
       }
     });
@@ -319,7 +318,7 @@ export class MockServer extends EventEmitter {
         this.emit("receiverOpen", {
           context,
           entityPath,
-          receiver: context.receiver
+          receiver: context.receiver,
         });
       }
     });
@@ -330,7 +329,7 @@ export class MockServer extends EventEmitter {
         this.emit("senderClose", {
           context,
           entityPath,
-          sender: context.sender
+          sender: context.sender,
         });
       }
     });
@@ -340,11 +339,11 @@ export class MockServer extends EventEmitter {
         this.emit("receiverClose", {
           context,
           entityPath,
-          receiver: context.receiver
+          receiver: context.receiver,
         });
       }
     });
-    this._container.on("error", function(err) {
+    this._container.on("error", function (err) {
       console.log("Unexpected error encountered:", err);
     });
   }
@@ -379,7 +378,7 @@ export class MockServer extends EventEmitter {
       sendMessage: (message: Message) => {
         this._sendMessage(context, message, message.to);
       },
-      context
+      context,
     });
   };
 

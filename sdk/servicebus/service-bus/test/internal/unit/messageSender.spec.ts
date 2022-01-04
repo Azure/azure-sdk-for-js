@@ -11,7 +11,7 @@ describe("MessageSender unit tests", () => {
     const retryOptions = {
       maxRetries: 3,
       retryDelayInMs: 0,
-      timeoutInMs: 1000
+      timeoutInMs: 1000,
     };
 
     const messageSender = new MessageSender(
@@ -43,12 +43,12 @@ describe("MessageSender unit tests", () => {
       () =>
         messageSender.getMaxMessageSize({
           abortSignal: undefined,
-          retryOptions
+          retryOptions,
         }),
       {
         name: "ServiceBusError",
         code: "GeneralError",
-        message: "Link failed to initialize, cannot get max message size."
+        message: "Link failed to initialize, cannot get max message size.",
       }
     );
 
@@ -59,7 +59,7 @@ describe("MessageSender unit tests", () => {
     const retryOptions = {
       maxRetries: 3,
       retryDelayInMs: 0,
-      timeoutInMs: 1000
+      timeoutInMs: 1000,
     };
 
     const messageSender = new MessageSender(
@@ -74,13 +74,13 @@ describe("MessageSender unit tests", () => {
       ++openCalled;
 
       messageSender["_link"] = {
-        maxMessageSize: 101
+        maxMessageSize: 101,
       } as any;
     };
 
     const maxMessageSize = await messageSender.getMaxMessageSize({
       abortSignal: undefined,
-      retryOptions
+      retryOptions,
     });
 
     assert.equal(maxMessageSize, 101);

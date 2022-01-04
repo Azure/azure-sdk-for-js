@@ -7,7 +7,8 @@ import {
   testHasChanged,
   isContentTypeInNockFixture,
   decodeHexEncodingIfExistsInNockFixture,
-  handleSingleQuotesInUrlPath
+  handleSingleQuotesInUrlPath,
+  setDefaultRetryAfterIntervalInNockFixture
 } from "../../src/utils";
 import { nodeRequireRecordingIfExists, findRecordingsFolderPath } from "../../src/utils/recordings";
 import chai, { expect } from "chai";
@@ -548,6 +549,147 @@ describe("NodeJS utils", () => {
           updatedFixture,
           test.output,
           `Unexpected result - updatedFixture is not as expected`
+        );
+      });
+    });
+  });
+
+  describe("setDefaultRetryAfterIntervalInNockFixture", () => {
+    [
+      {
+        name: `Default RetryAfter interval is set if retry-after is > 0`,
+        input: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+        output: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  '0',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`
+      },
+      {
+        name: `has no effect if retry-after is absent`,
+        input: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+        output: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`
+      },
+      {
+        name: `unchanged if retry-after is 0 already`,
+        input: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  '0',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+        output: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  '0',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`
+      },
+      {
+        name: `unchanged if the value after the retry-after is not a number`,
+        input: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  'AB-CD',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+        output: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  'AB-CD',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`
+      }
+    ].forEach((test) => {
+      it(test.name, () => {
+        chai.assert.equal(
+          setDefaultRetryAfterIntervalInNockFixture(test.input),
+          test.output,
+          `Output from "setDefaultRetryAfterIntervalInNockFixture" did not match the expected output`
         );
       });
     });

@@ -24,7 +24,7 @@ interface ScenarioRenewSessionLockOptions {
 function sanitizeOptions(args: string[]): Required<ScenarioRenewSessionLockOptions> {
   const options = parsedArgs<ScenarioRenewSessionLockOptions>(args, {
     boolean: ["autoLockRenewal", "settleMessageOnReceive"],
-    default: { autoLockRenewal: false, settleMessageOnReceive: true }
+    default: { autoLockRenewal: false, settleMessageOnReceive: true },
   });
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
@@ -36,7 +36,7 @@ function sanitizeOptions(args: string[]): Required<ScenarioRenewSessionLockOptio
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
     autoLockRenewal: !!options.autoLockRenewal,
-    settleMessageOnReceive: !!options.settleMessageOnReceive
+    settleMessageOnReceive: !!options.settleMessageOnReceive,
   };
 }
 
@@ -54,7 +54,7 @@ export async function scenarioRenewSessionLock() {
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend,
     autoLockRenewal,
-    settleMessageOnReceive
+    settleMessageOnReceive,
   } = testOptions;
 
   const testDurationForSendInMs = testDurationInMs * 0.7;
@@ -67,7 +67,7 @@ export async function scenarioRenewSessionLock() {
 
   const stressBase = new ServiceBusStressTester({
     testName: "renewSessionLock",
-    snapshotFocus: ["send-info", "receive-info", "session-lock-renewal-info"]
+    snapshotFocus: ["send-info", "receive-info", "session-lock-renewal-info"],
   });
 
   const operation = async (sbClient: ServiceBusClient) => {
@@ -99,7 +99,7 @@ export async function scenarioRenewSessionLock() {
         try {
           receiver = await sbClient.acceptNextSession(stressBase.queueName, {
             receiveMode,
-            maxAutoLockRenewalDurationInMs: !autoLockRenewal ? 0 : testDurationInMs - elapsedTime
+            maxAutoLockRenewalDurationInMs: !autoLockRenewal ? 0 : testDurationInMs - elapsedTime,
           });
         } catch (error) {
           console.log(error);
@@ -126,7 +126,7 @@ export async function scenarioRenewSessionLock() {
 
   return stressBase.runStressTest(operation, {
     createQueueOptions: { requiresSession: useSessions },
-    additionalEventProperties: testOptions
+    additionalEventProperties: testOptions,
   });
 }
 

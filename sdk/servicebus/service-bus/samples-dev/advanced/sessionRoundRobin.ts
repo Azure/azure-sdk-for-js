@@ -16,7 +16,7 @@ import {
   delay,
   ServiceBusSessionReceiver,
   ServiceBusReceivedMessage,
-  isServiceBusError
+  isServiceBusError,
 } from "@azure/service-bus";
 import * as dotenv from "dotenv";
 import { AbortController } from "@azure/abort-controller";
@@ -87,7 +87,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
 
   try {
     sessionReceiver = await serviceBusClient.acceptNextSession(queueName, {
-      maxAutoLockRenewalDurationInMs: sessionIdleTimeoutMs
+      maxAutoLockRenewalDurationInMs: sessionIdleTimeoutMs,
     });
   } catch (err) {
     if (
@@ -117,10 +117,10 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
         },
         async processError(args) {
           rejectSessionWithError(args.error);
-        }
+        },
       },
       {
-        abortSignal: abortController.signal
+        abortSignal: abortController.signal,
       }
     );
   });

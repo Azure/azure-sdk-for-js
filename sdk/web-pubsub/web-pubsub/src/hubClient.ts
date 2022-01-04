@@ -287,15 +287,15 @@ export class WebPubSubServiceClient {
       ...{
         apiVersion: this.apiVersion,
         loggingOptions: {
-          logger: logger.info
-        }
+          logger: logger.info,
+        },
       },
       ...(isTokenCredential(this.credential)
         ? {
             credential: this.credential,
-            credentialScopes: ["https://webpubsub.azure.com/.default"]
+            credentialScopes: ["https://webpubsub.azure.com/.default"],
           }
-        : {})
+        : {}),
     };
 
     this.client = new GeneratedClient(this.endpoint, internalPipelineOptions);
@@ -511,7 +511,7 @@ export class WebPubSubServiceClient {
     try {
       await this.client.webPubSub.connectionExists(this.hubName, connectionId, {
         ...updatedOptions,
-        onResponse
+        onResponse,
       });
 
       if (response!.status === 200) {
@@ -523,7 +523,7 @@ export class WebPubSubServiceClient {
         throw new RestError(response!.bodyAsText!, {
           statusCode: response?.status,
           request: response?.request,
-          response: response
+          response: response,
         });
       }
     } finally {
@@ -637,7 +637,7 @@ export class WebPubSubServiceClient {
     try {
       await this.client.webPubSub.groupExists(this.hubName, groupName, {
         ...updatedOptions,
-        onResponse
+        onResponse,
       });
 
       if (response!.status === 200) {
@@ -648,7 +648,7 @@ export class WebPubSubServiceClient {
         throw new RestError(response!.bodyAsText!, {
           statusCode: response?.status,
           request: response?.request,
-          response: response
+          response: response,
         });
       }
     } finally {
@@ -676,7 +676,7 @@ export class WebPubSubServiceClient {
     try {
       await this.client.webPubSub.userExists(this.hubName, username, {
         ...updatedOptions,
-        onResponse
+        onResponse,
       });
 
       if (response!.status === 200) {
@@ -688,7 +688,7 @@ export class WebPubSubServiceClient {
         throw new RestError(response!.bodyAsText!, {
           statusCode: response?.status,
           request: response?.request,
-          response: response
+          response: response,
         });
       }
     } finally {
@@ -781,7 +781,7 @@ export class WebPubSubServiceClient {
     try {
       await this.client.webPubSub.checkPermission(this.hubName, permission, connectionId, {
         ...updatedOptions,
-        onResponse
+        onResponse,
       });
 
       if (response!.status === 200) {
@@ -793,7 +793,7 @@ export class WebPubSubServiceClient {
         throw new RestError(response!.bodyAsText!, {
           statusCode: response?.status,
           request: response?.request,
-          response: response
+          response: response,
         });
       }
     } finally {
@@ -836,7 +836,7 @@ export class WebPubSubServiceClient {
             options?.expirationTimeInMinutes === undefined
               ? "1h"
               : `${options.expirationTimeInMinutes}m`,
-          algorithm: "HS256"
+          algorithm: "HS256",
         };
         if (options?.userId) {
           signOptions.subject = options?.userId;
@@ -847,7 +847,7 @@ export class WebPubSubServiceClient {
       return {
         token,
         baseUrl,
-        url: `${baseUrl}?access_token=${token}`
+        url: `${baseUrl}?access_token=${token}`,
       };
     } finally {
       span.end();

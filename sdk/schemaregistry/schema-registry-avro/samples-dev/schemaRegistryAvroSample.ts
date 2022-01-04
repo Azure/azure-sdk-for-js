@@ -25,13 +25,13 @@ const schemaObject = {
   fields: [
     {
       name: "firstName",
-      type: "string"
+      type: "string",
     },
     {
       name: "lastName",
-      type: "string"
-    }
-  ]
+      type: "string",
+    },
+  ],
 };
 
 // Matching TypeScript interface for schema
@@ -47,7 +47,7 @@ const schemaDescription: SchemaDescription = {
   name: `${schemaObject.namespace}.${schemaObject.name}`,
   groupName,
   format: "Avro",
-  definition: schema
+  definition: schema,
 };
 
 export async function main() {

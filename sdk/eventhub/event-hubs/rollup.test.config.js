@@ -28,32 +28,32 @@ function makeBrowserTestConfigPatch() {
       // browser only. Rollup's dead code elimination will remove
       // any code guarded by if (isNode) { ... }
       "if (isNode)": "if (false)",
-      "if (!isNode)": "if (true)"
+      "if (!isNode)": "if (true)",
     }),
     // fs, net, and tls are used by rhea and need to be shimmed
     // dotenv doesn't work in the browser, so replace it with a no-op function
     shim({
-      dotenv: `export function config() { }`
+      dotenv: `export function config() { }`,
     }),
     nodeResolve({
       mainFields: ["module", "browser"],
-      preferBuiltins: false
+      preferBuiltins: false,
     }),
     cjs({
       namedExports: {
-        chai: ["should", "assert"]
-      }
+        chai: ["should", "assert"],
+      },
     }),
     // rhea and rhea-promise use the Buffer global which requires
     // injection to shim properly
     inject({
       modules: {
         Buffer: ["buffer", "Buffer"],
-        process: "process"
+        process: "process",
       },
-      exclude: ["./**/package.json"]
+      exclude: ["./**/package.json"],
     }),
-    json()
+    json(),
   ];
 
   return config;
