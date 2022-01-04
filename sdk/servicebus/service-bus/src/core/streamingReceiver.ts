@@ -11,7 +11,7 @@ import {
   RetryOperationType,
   MessagingError,
   RetryOptions,
-  ConditionErrorNameMapper
+  ConditionErrorNameMapper,
 } from "@azure/core-amqp";
 import { OperationOptionsBase, trace } from "../modelsToBeSharedWithEventHubs";
 import { receiverLogger as logger } from "../log";
@@ -25,7 +25,7 @@ import {
   InternalProcessErrorArgs,
   MessageHandlers,
   ProcessErrorArgs,
-  SubscribeOptions
+  SubscribeOptions,
 } from "../models";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { AbortError } from "@azure/abort-controller";
@@ -142,7 +142,7 @@ export class StreamingReceiver extends MessageReceiver {
 
     this._receiverHelper = new ReceiverHelper(() => ({
       receiver: this.link,
-      logPrefix: this.logPrefix
+      logPrefix: this.logPrefix,
     }));
 
     this._onAmqpClose = async (context: EventContext) => {
@@ -242,7 +242,7 @@ export class StreamingReceiver extends MessageReceiver {
           error: err,
           errorSource: "renewLock",
           entityPath: this.entityPath,
-          fullyQualifiedNamespace: this._context.config.host
+          fullyQualifiedNamespace: this._context.config.host,
         });
       });
 
@@ -300,7 +300,7 @@ export class StreamingReceiver extends MessageReceiver {
               error: translatedError,
               errorSource: "abandon",
               entityPath: this.entityPath,
-              fullyQualifiedNamespace: this._context.config.host
+              fullyQualifiedNamespace: this._context.config.host,
             });
           }
         }
@@ -349,7 +349,7 @@ export class StreamingReceiver extends MessageReceiver {
             error: translatedError,
             errorSource: "complete",
             entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
+            fullyQualifiedNamespace: this._context.config.host,
           });
         }
       }
@@ -364,7 +364,7 @@ export class StreamingReceiver extends MessageReceiver {
         error,
         entityPath: this.entityPath,
         errorSource: "internal",
-        fullyQualifiedNamespace: this._context.config.host
+        fullyQualifiedNamespace: this._context.config.host,
       };
 
       return messageHandlers.processError(errorArgs as ProcessErrorArgs);
@@ -382,7 +382,7 @@ export class StreamingReceiver extends MessageReceiver {
       onSessionClose: (context: EventContext) =>
         this._onSessionClose(context).catch((err) => this._reportInternalError(err)),
       onError: this._onAmqpError,
-      onSessionError: this._onSessionError
+      onSessionError: this._onSessionError,
     };
   }
 
@@ -438,7 +438,7 @@ export class StreamingReceiver extends MessageReceiver {
         entityPath: this.entityPath,
         fullyQualifiedNamespace: this._context.config.host,
         errorSource: "receive",
-        error: err
+        error: err,
       });
 
       throw err;
@@ -478,7 +478,7 @@ export class StreamingReceiver extends MessageReceiver {
             error: err,
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
+            fullyQualifiedNamespace: this._context.config.host,
           });
           throw err;
         }
@@ -493,7 +493,7 @@ export class StreamingReceiver extends MessageReceiver {
             error: err,
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
+            fullyQualifiedNamespace: this._context.config.host,
           })
         );
       },
@@ -507,11 +507,11 @@ export class StreamingReceiver extends MessageReceiver {
             error: err,
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
+            fullyQualifiedNamespace: this._context.config.host,
           })
         );
       },
-      forwardInternalErrors: userHandlers.forwardInternalErrors ?? false
+      forwardInternalErrors: userHandlers.forwardInternalErrors ?? false,
     };
 
     this._messageHandlers = () => messageHandlers;
@@ -536,17 +536,17 @@ export class StreamingReceiver extends MessageReceiver {
           operationType: RetryOperationType.receiverLink,
           abortSignal: this._subscribeOptions?.abortSignal,
           retryOptions: this._retryOptions,
-          operation: () => this._initAndAddCreditOperation(caller)
+          operation: () => this._initAndAddCreditOperation(caller),
         },
         onError: (err) =>
           this._messageHandlers().processError({
             error: err,
             errorSource: "receive",
             entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
+            fullyQualifiedNamespace: this._context.config.host,
           }),
         logPrefix: this.logPrefix,
-        logger
+        logger,
       });
     } catch (err) {
       try {
@@ -594,7 +594,7 @@ export class StreamingReceiver extends MessageReceiver {
           error,
           errorSource: "receive",
           entityPath: this.entityPath,
-          fullyQualifiedNamespace: this._context.config.host
+          fullyQualifiedNamespace: this._context.config.host,
         });
       }
       throw err;

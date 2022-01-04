@@ -86,7 +86,7 @@ export const wellKnownMessageCodesToServiceBusCodes: Map<string, ServiceBusError
   ["ServiceCommunicationError", "ServiceCommunicationProblem"],
   ["SessionCannotBeLockedError", "SessionCannotBeLocked"],
   ["SessionLockLostError", "SessionLockLost"],
-  ["UnauthorizedError", "UnauthorizedAccess"]
+  ["UnauthorizedError", "UnauthorizedAccess"],
 ]);
 
 /**

@@ -11,7 +11,7 @@ import {
   delay,
   ProcessErrorArgs,
   isServiceBusError,
-  ServiceBusError
+  ServiceBusError,
 } from "../../src";
 
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
@@ -22,7 +22,7 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  getRandomTestClientTypeWithSessions
+  getRandomTestClientTypeWithSessions,
 } from "./utils/testutils2";
 import { AbortController } from "@azure/abort-controller";
 import sinon from "sinon";
@@ -77,10 +77,8 @@ describe("session tests", () => {
     await serviceBusClient.test.after();
   });
 
-  describe(`${testClientType}: Session Receiver Tests`, function(): void {
-    it("acceptNextSession() No sessionId on empty queue throws OperationTimeoutError", async function(): Promise<
-      void
-    > {
+  describe(`${testClientType}: Session Receiver Tests`, function (): void {
+    it("acceptNextSession() No sessionId on empty queue throws OperationTimeoutError", async function (): Promise<void> {
       let expectedErrorThrown = false;
       try {
         await beforeEachTest();
@@ -103,9 +101,7 @@ describe("session tests", () => {
       await serviceBusClient.close();
     });
 
-    it("acceptSession() An already locked session throws SessionCannotBeLockedError", async function(): Promise<
-      void
-    > {
+    it("acceptSession() An already locked session throws SessionCannotBeLockedError", async function (): Promise<void> {
       let expectedErrorThrown = false;
       await beforeEachTest("boo");
       try {
@@ -128,9 +124,7 @@ describe("session tests", () => {
       await serviceBusClient.close();
     });
 
-    it("Batch Receiver: no messages received for invalid sessionId", async function(): Promise<
-      void
-    > {
+    it("Batch Receiver: no messages received for invalid sessionId", async function (): Promise<void> {
       const nonExistentSessionId: string = "non" + TestMessage.sessionId;
       await beforeEachTest(nonExistentSessionId);
       const testMessage = TestMessage.getSessionSample();
@@ -159,9 +153,7 @@ describe("session tests", () => {
       await testPeekMsgsLength(receiver, 0);
     });
 
-    it("Streaming Receiver: no messages received for invalid sessionId", async function(): Promise<
-      void
-    > {
+    it("Streaming Receiver: no messages received for invalid sessionId", async function (): Promise<void> {
       const nonExistentSessionId: string = "non" + TestMessage.sessionId;
       await beforeEachTest(nonExistentSessionId);
       const testMessage = TestMessage.getSessionSample();
@@ -173,7 +165,7 @@ describe("session tests", () => {
           receivedMsgs.push(msg);
           return Promise.resolve();
         },
-        processError
+        processError,
       });
       await delay(2000);
       should.equal(receivedMsgs.length, 0, `Expected 0, received ${receivedMsgs.length} messages`);
@@ -197,7 +189,7 @@ describe("session tests", () => {
             await receiver.completeMessage(msg);
             receivedMsgs.push(msg);
           },
-          processError
+          processError,
         },
         { autoCompleteMessages: false }
       );
@@ -209,7 +201,7 @@ describe("session tests", () => {
       await testPeekMsgsLength(receiver, 0);
     });
 
-    it("Testing getState and setState", async function(): Promise<void> {
+    it("Testing getState and setState", async function (): Promise<void> {
       await beforeEachTest(TestMessage.sessionId);
       const testMessage = TestMessage.getSessionSample();
       await sender.sendMessages(testMessage);
@@ -267,7 +259,7 @@ describe("session tests", () => {
       await testPeekMsgsLength(receiver, 0);
     });
 
-    it("Abort getState request", async function(): Promise<void> {
+    it("Abort getState request", async function (): Promise<void> {
       await beforeEachTest(TestMessage.sessionId);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
@@ -280,7 +272,7 @@ describe("session tests", () => {
       }
     });
 
-    it("Abort setState request on the session receiver", async function(): Promise<void> {
+    it("Abort setState request on the session receiver", async function (): Promise<void> {
       await beforeEachTest(TestMessage.sessionId);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
@@ -293,7 +285,7 @@ describe("session tests", () => {
       }
     });
 
-    it("Abort renewSessionLock request on the session receiver", async function(): Promise<void> {
+    it("Abort renewSessionLock request on the session receiver", async function (): Promise<void> {
       await beforeEachTest(TestMessage.sessionId);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
@@ -306,9 +298,7 @@ describe("session tests", () => {
       }
     });
 
-    it("Abort receiveDeferredMessages request on the session receiver", async function(): Promise<
-      void
-    > {
+    it("Abort receiveDeferredMessages request on the session receiver", async function (): Promise<void> {
       await beforeEachTest(TestMessage.sessionId);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
@@ -328,7 +318,7 @@ describe("session tests", () => {
  * https://github.com/Azure/azure-sdk-for-js/pull/8447#issuecomment-618510245
  * If support for this is added in the future, we can stop skipping this test.
  */
-describe.skip("SessionReceiver - disconnects - (if recovery is supported in future)", function(): void {
+describe.skip("SessionReceiver - disconnects - (if recovery is supported in future)", function (): void {
   let serviceBusClient: ServiceBusClientForTests;
   async function beforeEachTest(testClientType: TestClientType): Promise<EntityName> {
     serviceBusClient = createServiceBusClientForTests();
@@ -339,7 +329,7 @@ describe.skip("SessionReceiver - disconnects - (if recovery is supported in futu
     return serviceBusClient.test.after();
   });
 
-  it("can receive and settle messages after a disconnect", async function(): Promise<void> {
+  it("can receive and settle messages after a disconnect", async function (): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
     // Create the sender and receiver.
     const entityName = await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -347,7 +337,7 @@ describe.skip("SessionReceiver - disconnects - (if recovery is supported in futu
       entityName.queue!,
       testMessage.sessionId,
       {
-        maxAutoLockRenewalDurationInMs: 10000 // Lower this value so that test can complete in time.
+        maxAutoLockRenewalDurationInMs: 10000, // Lower this value so that test can complete in time.
       }
     );
     const sender = serviceBusClient.createSender(entityName.queue!);
@@ -389,7 +379,7 @@ describe.skip("SessionReceiver - disconnects - (if recovery is supported in futu
         console.log(`Got an error`);
         console.error(err);
         receivedErrors.push(err);
-      }
+      },
     });
 
     // Wait until we're sure the receiver is open and receiving messages.
@@ -401,7 +391,7 @@ describe.skip("SessionReceiver - disconnects - (if recovery is supported in futu
     const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
-    connectionContext.refreshConnection = function(...args: any) {
+    connectionContext.refreshConnection = function (...args: any) {
       refreshConnectionCalled++;
       refreshConnection.apply(this, args);
     };
@@ -420,7 +410,7 @@ describe.skip("SessionReceiver - disconnects - (if recovery is supported in futu
   });
 });
 
-describe("SessionReceiver - disconnects", function(): void {
+describe("SessionReceiver - disconnects", function (): void {
   let serviceBusClient: ServiceBusClientForTests;
   async function beforeEachTest(testClientType: TestClientType): Promise<EntityName> {
     serviceBusClient = createServiceBusClientForTests();
@@ -431,7 +421,7 @@ describe("SessionReceiver - disconnects", function(): void {
     return serviceBusClient.test.after();
   });
 
-  it("calls processError and closes the link", async function(): Promise<void> {
+  it("calls processError and closes the link", async function (): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
     // Create the sender and receiver.
     const entityName = await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
@@ -439,7 +429,7 @@ describe("SessionReceiver - disconnects", function(): void {
       entityName.queue!,
       testMessage.sessionId,
       {
-        maxAutoLockRenewalDurationInMs: 10000 // Lower this value so that test can complete in time.
+        maxAutoLockRenewalDurationInMs: 10000, // Lower this value so that test can complete in time.
       }
     );
 
@@ -469,7 +459,7 @@ describe("SessionReceiver - disconnects", function(): void {
         },
         async processError(err) {
           errorIsThrownResolver(err);
-        }
+        },
       },
       { autoCompleteMessages: false }
     );
@@ -497,7 +487,7 @@ describe("SessionReceiver - disconnects", function(): void {
       entityName.queue!,
       testMessage.sessionId,
       {
-        maxAutoLockRenewalDurationInMs: 10000 // Lower this value so that test can complete in time.
+        maxAutoLockRenewalDurationInMs: 10000, // Lower this value so that test can complete in time.
       }
     );
     receiver2.subscribe({
@@ -506,7 +496,7 @@ describe("SessionReceiver - disconnects", function(): void {
       },
       async processError(_err) {
         /* empty body */
-      }
+      },
     });
     await receiverSecondMessage;
     await receiver2.close();

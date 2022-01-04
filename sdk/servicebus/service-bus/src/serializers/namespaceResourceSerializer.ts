@@ -5,7 +5,7 @@ import { HttpOperationResponse } from "@azure/core-http";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
-  serializeToAtomXmlRequest
+  serializeToAtomXmlRequest,
 } from "../util/atomXmlHelper";
 import { getInteger, getString, getDate } from "../util/utils";
 
@@ -56,7 +56,7 @@ export function buildNamespace(rawNamespace: Record<string, any>): NamespaceProp
     messagingUnits:
       messagingSku === "Premium"
         ? getInteger(rawNamespace["MessagingUnits"], "messagingUnits")
-        : undefined
+        : undefined,
   };
 }
 

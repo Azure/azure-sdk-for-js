@@ -1,7 +1,7 @@
 import {
   ServiceBusClient,
   ServiceBusReceivedMessage,
-  ServiceBusReceiver
+  ServiceBusReceiver,
 } from "@azure/service-bus";
 import { ServiceBusStressTester } from "./serviceBusStressTester";
 import { delay } from "rhea-promise";
@@ -25,7 +25,7 @@ function sanitizeOptions(
     delayBetweenPeeksInMs: options.delayBetweenPeeksInMs || 0,
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
-    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity
+    totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
   };
 }
 
@@ -38,7 +38,7 @@ export async function scenarioPeekMessages() {
     delayBetweenPeeksInMs,
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
-    totalNumberOfMessagesToSend
+    totalNumberOfMessagesToSend,
   } = testOptions;
 
   // Sending stops after 70% of total duration to give the receiver a chance to clean up and receive all the messages
@@ -48,7 +48,7 @@ export async function scenarioPeekMessages() {
 
   const stressBase = new ServiceBusStressTester({
     testName: "peekMessages",
-    snapshotFocus: ["send-info", "receive-info"]
+    snapshotFocus: ["send-info", "receive-info"],
   });
 
   const operation = async (sbClient: ServiceBusClient) => {
@@ -56,7 +56,7 @@ export async function scenarioPeekMessages() {
     let receiver: ServiceBusReceiver;
 
     receiver = sbClient.createReceiver(stressBase.queueName, {
-      receiveMode: "receiveAndDelete"
+      receiveMode: "receiveAndDelete",
     });
     async function sendMessages() {
       let elapsedTime = new Date().valueOf() - startedAt.valueOf();
@@ -91,7 +91,7 @@ export async function scenarioPeekMessages() {
   };
 
   return stressBase.runStressTest(operation, {
-    additionalEventProperties: testOptions
+    additionalEventProperties: testOptions,
   });
 }
 

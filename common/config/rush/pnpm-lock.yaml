@@ -12024,7 +12024,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-b6AGPVr1lihogGBiieVyO3ohpQBiZG6Ch909QgYl7Ysed0tvD+FaPqnIzmn+Tla579Ia7Z+j9Qz1mv/tUFrknw==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-pKuhxHEjhyGAKk5t/XaVzB6JHLSGzv/PE9Q5zgt+fEkcKrw19H7qsWJsBqPU2TIHjX1ddRgv+GW0c79shGEWbg==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
@@ -12033,7 +12033,7 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
@@ -12507,7 +12507,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-C0bmD0b/wKoYFOc3PsbSlHaXbsPpZ7qFkpfHdyTE8mk4N+uaQGhbX5Q+F5eLZj86wo8tkx6gH7FZvrFxmBdQ5A==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-Fik/oYL9HqORk5xu19GLho1NXEu4Zymq5TntPL5Z21VVFMJUX6uDRwtFEZGrQaGjpUT1J4k5SkQXtGCtEgUJyA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -12554,7 +12554,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       moment: 2.29.1
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       process: 0.11.10
       promise: 8.1.0
       puppeteer: 10.4.0

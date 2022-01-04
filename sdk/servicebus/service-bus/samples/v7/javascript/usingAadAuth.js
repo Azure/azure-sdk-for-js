@@ -60,7 +60,7 @@ async function main() {
   const sender = sbClient.createSender(queueName);
 
   await sender.sendMessages({
-    body: "using AAD auth sample message"
+    body: "using AAD auth sample message",
   });
 
   await sender.close();
