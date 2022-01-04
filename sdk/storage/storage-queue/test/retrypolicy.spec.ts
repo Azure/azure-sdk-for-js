@@ -4,7 +4,6 @@
 import { URLBuilder } from "@azure/core-http";
 import { assert } from "chai";
 import { QueueClient, RestError, newPipeline, QueueServiceClient } from "../src";
-import * as dotenv from "dotenv";
 import { AbortController } from "@azure/abort-controller";
 import { Pipeline } from "../src/Pipeline";
 import { getQSU } from "./utils";
@@ -12,8 +11,6 @@ import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/index.browser";
 import { Context } from "mocha";
-
-dotenv.config();
 
 describe("RetryPolicy", () => {
   let queueServiceClient: QueueServiceClient;

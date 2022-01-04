@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { HttpHeaders } from "../src";
 import {
   sanitizeHeaders,
@@ -14,7 +13,6 @@ import { record, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common";
 import { URLBuilder } from "@azure/core-http";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Utility Helpers", () => {
   let recorder: Recorder;
