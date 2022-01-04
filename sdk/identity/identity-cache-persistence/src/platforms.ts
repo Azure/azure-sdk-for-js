@@ -4,16 +4,14 @@
 /* eslint-disable tsdoc/syntax */
 
 import * as path from "path";
-
 import {
-  KeychainPersistence,
-  FilePersistence,
   DataProtectionScope,
+  FilePersistence,
   FilePersistenceWithDataProtection,
+  KeychainPersistence,
   LibSecretPersistence,
   IPersistence as Persistence,
 } from "@azure/msal-node-extensions";
-
 import { TokenCachePersistenceOptions } from "@azure/identity";
 
 /**
