@@ -1839,8 +1839,8 @@ packages:
     resolution: {integrity: sha512-yxDeaQIAJlMav7fH5AQqPH1u8YIuhYJXYBzxaQ4PifsU0GDO38MSdmEDeRlIxrKbC6NbEaaEHDanWb+y30U8SQ==}
     dev: false
 
-  /@types/node/12.20.37:
-    resolution: {integrity: sha512-i1KGxqcvJaLQali+WuypQnXwcplhtNtjs66eNsZpp2P2FL/trJJxx/VWsM0YCL2iMoIJrbXje48lvIQAQ4p2ZA==}
+  /@types/node/12.20.40:
+    resolution: {integrity: sha512-RX6hFa0hxkFuktu5629zJEkWK5e0HreW4vpNSLn4nWkOui7CTGCjtKiKpvtZ4QwCZ2Am5uhrb5ULHKNyunYYqg==}
     dev: false
 
   /@types/node/17.0.1:
@@ -6995,7 +6995,7 @@ packages:
       '@tsconfig/node12': 1.0.9
       '@tsconfig/node14': 1.0.1
       '@tsconfig/node16': 1.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       acorn: 8.6.0
       acorn-walk: 8.2.0
       arg: 4.1.3
@@ -7025,7 +7025,7 @@ packages:
       '@tsconfig/node12': 1.0.9
       '@tsconfig/node14': 1.0.1
       '@tsconfig/node16': 1.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       acorn: 8.6.0
       acorn-walk: 8.2.0
       arg: 4.1.3
@@ -7606,7 +7606,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       downlevel-dts: 0.4.0
@@ -7650,7 +7650,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -7695,7 +7695,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       csv-parse: 5.0.3
@@ -7738,7 +7738,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -7782,7 +7782,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -7828,7 +7828,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -7878,7 +7878,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -7935,7 +7935,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -9453,7 +9453,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       buffer: 6.0.3
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -9515,7 +9515,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.3
       chai: 4.3.4
@@ -9575,7 +9575,7 @@ packages:
       '@types/chai-as-promised': 7.1.4
       '@types/jwt-decode': 2.2.1
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -9629,7 +9629,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -9685,7 +9685,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -9740,7 +9740,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -9795,7 +9795,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -9850,7 +9850,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -9899,7 +9899,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -9944,7 +9944,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
@@ -9995,7 +9995,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       '@types/ws': 7.4.7
       buffer: 6.0.3
@@ -10043,7 +10043,7 @@ packages:
     name: '@rush-temp/core-asynciterator-polyfill'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       eslint: 7.32.0
       prettier: 2.5.1
       typescript: 4.2.4
@@ -10059,7 +10059,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       downlevel-dts: 0.4.0
@@ -10086,7 +10086,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -10132,7 +10132,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
@@ -10173,7 +10173,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
@@ -10213,7 +10213,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -10257,7 +10257,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -10303,7 +10303,7 @@ packages:
       '@types/express': 4.17.13
       '@types/glob': 7.2.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/node-fetch': 2.5.12
       '@types/sinon': 9.0.11
       '@types/tough-cookie': 4.0.1
@@ -10367,7 +10367,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       eslint: 7.32.0
@@ -10410,7 +10410,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       downlevel-dts: 0.4.0
       eslint: 7.32.0
@@ -10449,7 +10449,7 @@ packages:
       '@opentelemetry/api': 1.0.3
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.3
       chai: 4.3.4
@@ -10499,7 +10499,7 @@ packages:
       '@opentelemetry/tracing': 0.22.0_@opentelemetry+api@1.0.3
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -10540,7 +10540,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -10582,7 +10582,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       '@types/xml2js': 0.4.9
       chai: 4.3.4
@@ -10628,7 +10628,7 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/priorityqueuejs': 1.0.1
       '@types/semaphore': 1.1.1
       '@types/sinon': 9.0.11
@@ -10682,7 +10682,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.3
       chai: 4.3.4
@@ -10742,7 +10742,7 @@ packages:
       '@types/fs-extra': 8.1.2
       '@types/minimist': 1.2.2
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/prettier': 2.4.2
       builtin-modules: 3.2.0
       chai: 4.3.4
@@ -10778,7 +10778,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.3
       chai: 4.3.4
@@ -10828,7 +10828,7 @@ packages:
       '@types/glob': 7.2.0
       '@types/json-schema': 7.0.9
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@typescript-eslint/eslint-plugin': 4.19.0_359354e87b989469ccdce12bde18eddc
       '@typescript-eslint/experimental-utils': 4.19.0_eslint@7.32.0+typescript@4.2.4
       '@typescript-eslint/parser': 4.19.0_eslint@7.32.0+typescript@4.2.4
@@ -10873,7 +10873,7 @@ packages:
       '@types/debug': 4.1.7
       '@types/long': 4.0.1
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.3
       '@types/ws': 7.4.7
@@ -10945,7 +10945,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.3
       chai: 4.3.4
@@ -11004,7 +11004,7 @@ packages:
       '@types/chai-string': 1.4.2
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       chai-string: 1.5.0_chai@4.3.4
@@ -11058,7 +11058,7 @@ packages:
       '@types/chai-string': 1.4.2
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       chai-string: 1.5.0_chai@4.3.4
@@ -11108,7 +11108,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/qs': 6.9.7
       '@types/sinon': 9.0.11
       cross-env: 7.0.3
@@ -11141,7 +11141,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/qs': 6.9.7
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.3
@@ -11180,7 +11180,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       '@types/stoppable': 1.1.1
       '@types/uuid': 8.3.3
@@ -11227,7 +11227,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.19.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -11259,7 +11259,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -11312,7 +11312,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.3
       chai: 4.3.4
@@ -11351,7 +11351,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -11419,7 +11419,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -11475,7 +11475,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -11526,7 +11526,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -11574,7 +11574,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
@@ -11620,7 +11620,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -11662,7 +11662,7 @@ packages:
     name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 2.5.1
@@ -11689,7 +11689,7 @@ packages:
       '@opentelemetry/semantic-conventions': 0.24.0
       '@opentelemetry/tracing': 0.22.0_@opentelemetry+api@1.0.3
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       dotenv: 8.6.0
       eslint: 7.32.0
       eslint-plugin-node: 11.1.0_eslint@7.32.0
@@ -11724,7 +11724,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
@@ -11768,7 +11768,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/ai-form-recognizer': 3.1.0-beta.3
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 2.5.1
@@ -11788,7 +11788,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/ai-metrics-advisor': 1.0.0-beta.3
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 2.5.1
@@ -11808,7 +11808,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/ai-text-analytics': 5.1.0
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 2.5.1
@@ -11827,7 +11827,7 @@ packages:
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -11849,7 +11849,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/container-registry': 1.0.0-beta.4
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 2.5.1
@@ -11866,7 +11866,7 @@ packages:
     name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -11887,7 +11887,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/data-tables': 12.1.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -11909,7 +11909,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/event-hubs': 5.6.0
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -11931,7 +11931,7 @@ packages:
     name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
@@ -11950,7 +11950,7 @@ packages:
     name: '@rush-temp/perf-identity'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -11971,7 +11971,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/keyvault-certificates': 4.3.0
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -11993,7 +11993,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/keyvault-keys': 4.3.0
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12014,7 +12014,7 @@ packages:
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12035,7 +12035,7 @@ packages:
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
@@ -12054,7 +12054,7 @@ packages:
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       dotenv: 8.6.0
       eslint: 7.32.0
       prettier: 1.19.1
@@ -12074,7 +12074,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/service-bus': 7.4.0
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12095,7 +12095,7 @@ packages:
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/node-fetch': 2.5.12
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
@@ -12118,7 +12118,7 @@ packages:
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12139,7 +12139,7 @@ packages:
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12160,7 +12160,7 @@ packages:
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -12186,7 +12186,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -12231,7 +12231,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -12276,7 +12276,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -12321,7 +12321,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -12367,7 +12367,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -12417,7 +12417,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       avsc: 5.7.3
       buffer: 6.0.3
       chai: 4.3.4
@@ -12466,7 +12466,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
@@ -12510,7 +12510,7 @@ packages:
       '@microsoft/api-extractor': 7.19.2
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -12565,7 +12565,7 @@ packages:
       '@types/is-buffer': 2.0.0
       '@types/long': 4.0.1
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       '@types/ws': 7.4.7
       buffer: 6.0.3
@@ -12633,7 +12633,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cross-env: 7.0.3
@@ -12697,7 +12697,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/node-fetch': 2.5.12
       chai: 4.3.4
       cross-env: 7.0.3
@@ -12760,7 +12760,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -12822,7 +12822,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -12882,7 +12882,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       dotenv: 8.6.0
       downlevel-dts: 0.4.0
@@ -12941,7 +12941,7 @@ packages:
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -12998,7 +12998,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -13051,7 +13051,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       '@types/uuid': 8.3.3
       chai: 4.3.4
@@ -13105,7 +13105,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -13267,7 +13267,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       cross-env: 7.0.3
@@ -13310,7 +13310,7 @@ packages:
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
@@ -13337,7 +13337,7 @@ packages:
       '@types/mock-fs': 4.13.1
       '@types/mock-require': 2.0.0
       '@types/nise': 1.4.0
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       chai: 4.3.4
       concurrently: 6.5.1
@@ -13400,7 +13400,7 @@ packages:
       '@types/mock-fs': 4.13.1
       '@types/mock-require': 2.0.0
       '@types/nise': 1.4.0
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       chai: 4.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -13450,7 +13450,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/minimist': 1.2.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/node-fetch': 2.5.12
       eslint: 7.32.0
       karma: 6.3.9
@@ -13481,7 +13481,7 @@ packages:
       '@opentelemetry/api': 1.0.3
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -13518,7 +13518,7 @@ packages:
       '@types/mock-fs': 4.13.1
       '@types/mock-require': 2.0.0
       '@types/nise': 1.4.0
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/uuid': 8.3.3
       chai: 4.3.4
       dotenv: 8.6.0
@@ -13565,7 +13565,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       azure-iothub: 1.14.6
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
@@ -13612,7 +13612,7 @@ packages:
       '@types/express-serve-static-core': 4.17.26
       '@types/jsonwebtoken': 8.5.6
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       chai: 4.3.4
       cloudevents: 4.0.3
@@ -13661,7 +13661,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/jsonwebtoken': 8.5.6
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.37
+      '@types/node': 12.20.40
       '@types/sinon': 9.0.11
       '@types/ws': 8.2.2
       chai: 4.3.4
