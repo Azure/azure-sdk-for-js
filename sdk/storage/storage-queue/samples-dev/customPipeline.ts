@@ -1,26 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary use custom HTTP pipeline options when connecting to the service
+ * @azsdk-weight 0
+ */
 
-const {
-  QueueServiceClient,
-  newPipeline,
-  StorageSharedKeyCredential
-} = require("@azure/storage-queue");
+import { QueueServiceClient, newPipeline, StorageSharedKeyCredential } from "@azure/storage-queue";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // Use sharedKeyCredential, tokenCredential or anonymousCredential to create a pipeline
@@ -49,16 +47,17 @@ async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
-    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
+    `Created queue ${queueClient.name} successfully, service assigned request ID: ${createQueueResponse.requestId}`
   );
 
   // Delete the queue.
   const deleteQueueResponse = await queueClient.delete();
   console.log(
-    `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
+    `Deleted queue ${queueClient.name} successfully, service assigned request ID: ${deleteQueueResponse.requestId}`
   );
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

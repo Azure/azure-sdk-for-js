@@ -1,22 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary authenticate using an account name and a static key
+ * @azsdk-weight 100
+ */
 
-const { QueueServiceClient, StorageSharedKeyCredential } = require("@azure/storage-queue");
+import { QueueServiceClient, StorageSharedKeyCredential } from "@azure/storage-queue";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   const queueServiceClient = new QueueServiceClient(
@@ -29,16 +31,17 @@ async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
-    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
+    `Created queue ${queueClient.name} successfully, service assigned request Id: ${createQueueResponse.requestId}`
   );
 
   // Delete the queue.
   const deleteQueueResponse = await queueClient.delete();
   console.log(
-    `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
+    `Deleted queue ${queueClient.name} successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
   );
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

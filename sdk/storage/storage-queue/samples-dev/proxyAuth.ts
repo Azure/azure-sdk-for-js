@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* 
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary configure proxy settings when connecting to the storage service
+ * @azsdk-weight 30
+ */
 
 import { StorageSharedKeyCredential, QueueServiceClient } from "@azure/storage-queue";
 
@@ -59,6 +60,7 @@ export async function main() {
   );
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

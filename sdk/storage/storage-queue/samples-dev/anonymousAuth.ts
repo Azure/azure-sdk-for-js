@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and SAS in main()
-*/
+/**
+ * @summary authenticate anonymously using a SAS-encoded URL
+ * @azsdk-weight 85
+ */
 
-const { QueueServiceClient, AnonymousCredential } = require("@azure/storage-queue");
+import { QueueServiceClient, AnonymousCredential } from "@azure/storage-queue";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   // Enter your storage account name and SAS
   const account = process.env.ACCOUNT_NAME || "";
   const accountSas = process.env.ACCOUNT_SAS || "";
@@ -29,16 +31,17 @@ async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
-    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
+    `Created queue ${queueClient.name} successfully, service assigned request ID: ${createQueueResponse.requestId}`
   );
 
   // Delete the queue.
   const deleteQueueResponse = await queueClient.delete();
   console.log(
-    `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
+    `Deleted queue ${queueClient.name} successfully, service assigned request ID: ${deleteQueueResponse.requestId}`
   );
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary demonstrates usage of `QueueServiceClient` to create a queue and send/receive/delete messages
+ * @azsdk-weight 80
+ */
 
 import { QueueServiceClient, StorageSharedKeyCredential } from "@azure/storage-queue";
 
@@ -48,24 +49,23 @@ export async function main() {
     sharedKeyCredential
   );
 
-  console.log(`List queues`);
-  let i = 1;
-  for await (const item of queueServiceClient.listQueues()) {
-    console.log(`Queue ${i++}: ${item.name}`);
+  console.log(`Queues`);
+  for await (const queue of queueServiceClient.listQueues()) {
+    console.log(`- ${queue.name}`);
   }
 
-  // Create a new queue
+  // Create a new queue.
   const queueName = `newqueue${new Date().getTime()}`;
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
-    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
+    `Created queue ${queueClient.name} successfully, service assigned request ID: ${createQueueResponse.requestId}`
   );
 
   // Send a message into the queue using the sendMessage method.
   const enqueueQueueResponse = await queueClient.sendMessage("Hello World!");
   console.log(
-    `Sent message successfully, service assigned message Id: ${enqueueQueueResponse.messageId}, service assigned request Id: ${enqueueQueueResponse.requestId}`
+    `Sent message successfully, service assigned message ID: ${enqueueQueueResponse.messageId}, service assigned request ID: ${enqueueQueueResponse.requestId}`
   );
 
   // Peek a message using peekMessages method.
@@ -85,17 +85,18 @@ export async function main() {
       dequeueMessageItem.popReceipt
     );
     console.log(
-      `Delete message successfully, service assigned request Id: ${deleteMessageResponse.requestId}`
+      `Deleted message successfully, service assigned request ID: ${deleteMessageResponse.requestId}`
     );
   }
 
   // Delete the queue.
   const deleteQueueResponse = await queueClient.delete();
   console.log(
-    `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
+    `Deleted queue ${queueClient.name} successfully, service assigned request ID: ${deleteQueueResponse.requestId}`
   );
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

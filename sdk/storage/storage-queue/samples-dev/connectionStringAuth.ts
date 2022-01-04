@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary authenticate with the storage service using a connection string
+ * @azsdk-weight 80
+ */
 
-const { QueueServiceClient } = require("@azure/storage-queue");
+import { QueueServiceClient } from "@azure/storage-queue";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   // Create Queue Service Client from Account connection string or SAS connection string
   // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
   // SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
@@ -23,16 +25,17 @@ async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
-    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
+    `Created queue ${queueClient.name} successfully, service assigned request ID: ${createQueueResponse.requestId}`
   );
 
   // Delete the queue.
   const deleteQueueResponse = await queueClient.delete();
   console.log(
-    `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
+    `Deleted queue ${queueClient.name} successfully, service assigned request ID: ${deleteQueueResponse.requestId}`
   );
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });
