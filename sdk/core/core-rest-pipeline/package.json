@@ -46,7 +46,7 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && rollup -c 2>&1 && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "dev-tool run testserver:browser",
+    "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
@@ -98,7 +98,6 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@microsoft.azure/autorest.testserver": "^3.1.6",
     "@microsoft/api-extractor": "^7.18.11",
     "@opentelemetry/api": "^1.0.1",
     "@types/chai": "^4.1.6",
