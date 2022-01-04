@@ -6,7 +6,7 @@ import {
   InstrumenterSpanOptions,
   TracingContext,
   TracingSpan,
-  TracingSpanContext
+  TracingSpanContext,
 } from "@azure/core-tracing";
 
 import { trace, context } from "@opentelemetry/api";
@@ -16,7 +16,7 @@ import {
   toTracestateHeader,
   toTraceparentHeader,
   toSpanOptions,
-  fromTraceparentHeader
+  fromTraceparentHeader,
 } from "./transformations";
 
 export class OpenTelemetryInstrumenter implements Instrumenter {
@@ -32,7 +32,7 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
 
     return {
       span: new OpenTelemetrySpanWrapper(span),
-      tracingContext: trace.setSpan(ctx, span)
+      tracingContext: trace.setSpan(ctx, span),
     };
   }
   withContext<

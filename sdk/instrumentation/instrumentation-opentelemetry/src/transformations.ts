@@ -5,7 +5,7 @@ import {
   InstrumenterSpanOptions,
   TracingSpanContext,
   TracingSpanKind,
-  TracingSpanLink
+  TracingSpanLink,
 } from "@azure/core-tracing";
 import {
   Link,
@@ -15,7 +15,7 @@ import {
   SpanKind,
   SpanOptions,
   TraceFlags,
-  TraceState
+  TraceState,
 } from "@opentelemetry/api";
 
 import { TRACEPARENT_HEADER_VERSION } from "./constants";
@@ -56,9 +56,9 @@ function toOpenTelemetryLinks(spanLinks: TracingSpanLink[] = []): Link[] {
     return {
       context: {
         ...tracingSpanLink.spanContext,
-        traceState: tracingSpanLink.spanContext.traceState as TraceState
+        traceState: tracingSpanLink.spanContext.traceState as TraceState,
       },
-      attributes: toOpenTelemetrySpanAttributes(tracingSpanLink.attributes)
+      attributes: toOpenTelemetrySpanAttributes(tracingSpanLink.attributes),
     };
   });
 }
@@ -98,7 +98,7 @@ export function toSpanOptions(spanOptions?: InstrumenterSpanOptions): SpanOption
   return {
     attributes,
     kind,
-    links
+    links,
   };
 }
 
@@ -156,7 +156,7 @@ export function fromTraceparentHeader(traceparentHeader: string): SpanContext | 
   const spanContext: SpanContext = {
     spanId,
     traceId,
-    traceFlags
+    traceFlags,
   };
 
   return spanContext;
