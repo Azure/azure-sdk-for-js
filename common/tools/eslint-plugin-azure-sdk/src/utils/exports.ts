@@ -6,10 +6,10 @@
  * @author Arpan Laha
  */
 
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
-import { Rule } from "eslint";
-import { SourceFile, Symbol as TSSymbol } from "typescript";
 import { ClassDeclaration, MethodDefinition } from "estree";
+import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { SourceFile, Symbol as TSSymbol } from "typescript";
+import { Rule } from "eslint";
 
 /**
  * Gets all Symbols of Types of all top-level exports from a package.

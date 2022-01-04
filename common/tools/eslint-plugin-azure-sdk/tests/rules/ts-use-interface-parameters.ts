@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import rule from "../../src/rules/ts-use-interface-parameters";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-use-interface-parameters";
 
 //------------------------------------------------------------------------------
 // Example class & interface
