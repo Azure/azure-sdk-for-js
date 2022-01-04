@@ -22,10 +22,10 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [listBlobsFlat.ts][listblobsflat]                     | list blobs in a container, showing options for paging, resuming paging, etc.                                 |
 | [listContainers.ts][listcontainers]                   | list containers in an account, showing options for paging, resuming paging, etc.                             |
 | [snapshots.ts][snapshots]                             | create and read from a blob snapshot                                                                         |
-| [errorsAndResponses.ts][errorsandresponses]           | demonstrates various error scenarios and their response data                                                 |
+| [errorsAndResponses.ts][errorsandresponses]           | explores various error scenarios and their response data                                                     |
 | [proxyAuth.ts][proxyauth]                             | configure proxy settings when connecting to the storage service                                              |
 | [customizedClientHeaders.ts][customizedclientheaders] | customize request headers such as `X-Ms-Client-Request-Id` using an HTTP policy                              |
-| [advancedRequestOptions.ts][advancedrequestoptions]   | demonstrates some advanced HTTP pipeline and request options for several methods                             |
+| [advancedRequestOptions.ts][advancedrequestoptions]   | use advanced HTTP pipeline and request options for several methods                                           |
 | [customPipeline.ts][custompipeline]                   | use custom HTTP pipeline options when connecting to the service                                              |
 
 ## Prerequisites

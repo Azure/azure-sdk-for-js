@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary demonstrates some advanced HTTP pipeline and request options for several methods
+ * @summary use advanced HTTP pipeline and request options for several methods
  */
 
 import * as fs from "fs";

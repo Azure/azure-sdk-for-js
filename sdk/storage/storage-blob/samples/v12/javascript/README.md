@@ -22,10 +22,10 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [listBlobsFlat.js][listblobsflat]                     | list blobs in a container, showing options for paging, resuming paging, etc.                                 |
 | [listContainers.js][listcontainers]                   | list containers in an account, showing options for paging, resuming paging, etc.                             |
 | [snapshots.js][snapshots]                             | create and read from a blob snapshot                                                                         |
-| [errorsAndResponses.js][errorsandresponses]           | demonstrates various error scenarios and their response data                                                 |
+| [errorsAndResponses.js][errorsandresponses]           | explores various error scenarios and their response data                                                     |
 | [proxyAuth.js][proxyauth]                             | configure proxy settings when connecting to the storage service                                              |
 | [customizedClientHeaders.js][customizedclientheaders] | customize request headers such as `X-Ms-Client-Request-Id` using an HTTP policy                              |
-| [advancedRequestOptions.js][advancedrequestoptions]   | demonstrates some advanced HTTP pipeline and request options for several methods                             |
+| [advancedRequestOptions.js][advancedrequestoptions]   | use advanced HTTP pipeline and request options for several methods                                           |
 | [customPipeline.js][custompipeline]                   | use custom HTTP pipeline options when connecting to the service                                              |
 
 ## Prerequisites

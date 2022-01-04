@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary demonstrates various error scenarios and their response data
+ * @summary explores various error scenarios and their response data
  */
 
 const { BlobServiceClient } = require("@azure/storage-blob");

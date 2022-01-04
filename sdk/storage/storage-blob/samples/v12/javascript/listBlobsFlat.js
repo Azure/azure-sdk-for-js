@@ -49,9 +49,9 @@ async function main() {
   const maxPageSize = 3;
   console.log(`Blobs by page (maxPageSize: ${maxPageSize}):`);
   let pageNumber = 1;
-  for await (const response of containerClient.listBlobsFlat().byPage({ maxPageSize })) {
+  for await (const page of containerClient.listBlobsFlat().byPage({ maxPageSize })) {
     console.log(`- Page ${pageNumber++}:`);
-    for (const blob of response.segment.blobItems) {
+    for (const blob of page.segment.blobItems) {
       console.log(`  - ${blob.name}`);
     }
   }
@@ -78,12 +78,15 @@ async function main() {
   }
 
   const resumed = containerClient.listBlobsFlat().byPage({ continuationToken, maxPageSize });
+  pageNumber = 2;
   for await (const page of resumed) {
-    console.log("- Page:");
+    console.log(`- Page ${pageNumber++}:`);
     for (const blob of page.segment.blobItems) {
       console.log(`  - ${blob.name}`);
     }
   }
+
+  // Finally, delete the example container
 
   await containerClient.delete();
   console.log("Deleted container:", containerClient.containerName);
