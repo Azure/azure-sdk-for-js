@@ -9,6 +9,7 @@ import {
   ShortCodesClient,
   ShortCodesUpsertUSProgramBriefOptionalParams,
 } from "@azure-tools/communication-short-codes";
+import { FullOperationResponse } from "@azure/core-client";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -24,6 +25,7 @@ export async function main() {
 
   // create new client
   const client = new ShortCodesClient(connectionString);
+  let res: FullOperationResponse | undefined;
 
   // get a program briefs for a resource
   const programBriefId = process.env.PROGRAM_BRIEF_TO_GET || "00000000-0000-0000-0000-000000000000";
@@ -42,10 +44,18 @@ export async function main() {
       },
     },
   };
-  var upsertResponse = await client.upsertUSProgramBrief(programBriefId, updateRequest);
-  console.log(
-    `Successfully updated terms of service and privacy policy for program brief ${upsertResponse.id}`
-  );
+  var upsertResponse = await client.upsertUSProgramBrief(programBriefId, {
+    ...updateRequest,
+    onResponse: (response) => (res = response),
+  });
+  if (res?.status == 200) {
+    console.log(
+      `Successfully updated terms of service and privacy policy for program brief ${programBriefId} ${upsertResponse}`
+    );
+  } else {
+    throw new Error(`Failed to update program brief with Id ${programBriefId}.
+      Status code: ${res?.status}; Error: ${res?.bodyAsText}; CV: ${res?.headers.get("MS-CV")}`);
+  }
 }
 
 main().catch((error) => {

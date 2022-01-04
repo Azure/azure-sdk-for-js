@@ -6,6 +6,7 @@
  */
 
 import { ShortCodesClient } from "@azure-tools/communication-short-codes";
+import { FullOperationResponse } from "@azure/core-client";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -21,13 +22,22 @@ export async function main() {
 
   // create new client
   const client = new ShortCodesClient(connectionString);
+  let res: FullOperationResponse | undefined;
 
   // get all program briefs for a resource
-  var programBriefs = await client.listUSProgramBriefs();
-
-  // find draft program briefs, and delete them
-  for await (const programBrief of programBriefs) {
-    console.log(`Program Brief with Id ${programBrief.id} has status ${programBrief.status}`);
+  var programBriefs = await client.listUSProgramBriefs({
+    onResponse: (response) => (res = response),
+  });
+  if (res?.status != 200) {
+    throw new Error(`US Program briefs Listing failed.
+      Status code: ${res?.status}; 
+      Error: ${res?.bodyAsText}; 
+      CV: ${res?.headers.get("MS-CV")}`);
+  } else {
+    // find draft program briefs, and delete them
+    for await (const programBrief of programBriefs) {
+      console.log(`Program Brief with Id ${programBrief.id} has status ${programBrief.status}`);
+    }
   }
 }
 

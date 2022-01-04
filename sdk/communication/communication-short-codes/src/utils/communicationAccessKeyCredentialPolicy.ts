@@ -10,6 +10,7 @@ import {
 import { URL } from "./url";
 import { shaHash, shaHMAC } from "./cryptoUtils";
 export const communicationAccessKeyCredentialPolicyName = "CommunicationAccessKeyCredentialPolicy";
+
 /**
  * Creates an HTTP pipeline policy to authenticate a request using a `KeyCredential`.
  *
@@ -32,8 +33,8 @@ export const createCommunicationAuthPolicy = (
 ): PipelinePolicy => {
   if (isTokenCredential(credential)) {
     return bearerTokenAuthenticationPolicy({
-      scopes: "https://communication.azure.com//.default",
-      credential
+      scopes: "https://communication.azure.com/.default",
+      credential,
     });
   } else {
     return createCommunicationAccessKeyCredentialPolicy(credential);

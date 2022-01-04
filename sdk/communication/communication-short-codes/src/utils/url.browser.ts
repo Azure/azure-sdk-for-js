@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { URL, URLSearchParams } from "./url"
+/// <reference lib="dom" />
 
 const url = URL;
 const urlSearchParams = URLSearchParams;
