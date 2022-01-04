@@ -85,9 +85,11 @@ describe("TracingClient", () => {
       );
     });
 
-    it("returns the same context in options", () => {
-      const { updatedOptions, tracingContext } = client.startSpan("test");
-      assert.strictEqual(updatedOptions.tracingOptions!.tracingContext, tracingContext);
+    it("Returns tracingContext in updatedOptions", () => {
+      let { updatedOptions } = client.startSpan("test");
+      assert.exists(updatedOptions.tracingOptions?.tracingContext);
+      updatedOptions = client.startSpan("test", updatedOptions).updatedOptions;
+      assert.exists(updatedOptions.tracingOptions?.tracingContext);
     });
   });
 
