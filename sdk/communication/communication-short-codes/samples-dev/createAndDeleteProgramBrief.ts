@@ -9,7 +9,6 @@ import {
   ShortCodesClient,
   ShortCodesUpsertUSProgramBriefOptionalParams,
 } from "@azure-tools/communication-short-codes";
-import { FullOperationResponse } from "@azure/core-client";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -96,37 +95,41 @@ export async function main() {
   };
 
   // create program brief
-  let creationResponse: FullOperationResponse | undefined;
-  await client.upsertUSProgramBrief(programBriefId, {
+  var createResponse = await client.upsertUSProgramBrief(programBriefId, {
     ...programBriefRequest,
-    onResponse: (response) => (creationResponse = response),
+    onResponse:
+      (response) =>
+      (res = response) => {
+        if (!res || res.status != 201) {
+          throw new Error(
+            `Program brief creation failed.
+          Status code: ${res.status}; 
+          Error: ${res.bodyAsText}; 
+          CV: ${res.headers.get("MS-CV")}`
+          );
+        }
+      },
   });
-  if (creationResponse && creationResponse.status != 201) {
-    throw new Error(`Program brief creation failed.
-      Status code: ${creationResponse.status}; 
-      Error: ${creationResponse.bodyAsText}; 
-      CV: ${creationResponse.headers.get("MS-CV")}`);
-  } else {
-    console.log(
-      `Successfully created a new program brief with Id ${creationResponse?.parsedBody.id}`
-    );
-  }
+  console.log(`Successfully created a new program brief with Id ${createResponse.id}`);
 
   // delete program brief
-  let deletionResponse: FullOperationResponse | undefined;
-  client.deleteUSProgramBrief(programBriefId, {
-    onResponse: (response) => (deletionResponse = response),
+  var deleteResponse = client.deleteUSProgramBrief(programBriefId, {
+    onResponse:
+      (response) =>
+      (res = response) => {
+        if (!res || res.status != 204) {
+          throw new Error(
+            `Program brief deletion failed.
+          Status code: ${res.status}; 
+          Error: ${res.bodyAsText}; 
+          CV: ${res.headers.get("MS-CV")}`
+          );
+        }
+      },
   });
-  if (!deletionResponse || deletionResponse.status != 204) {
-    console.log(
-      `Successfully deleted draft program brief with Id ${programBriefId} ${deletionResponse}`
-    );
-  } else {
-    console.log(`Failed to delete draft program brief with Id ${programBriefId}.
-          Status code: ${deletionResponse?.status}; Error: ${
-      deletionResponse?.bodyAsText
-    }; CV: ${deletionResponse?.headers.get("MS-CV")}`);
-  }
+  console.log(
+    `Successfully deleted draft program brief with Id ${programBriefId} ${deleteResponse}`
+  );
 }
 
 main().catch((error) => {
