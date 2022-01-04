@@ -26,9 +26,7 @@ function makeBrowserTestConfigPatch() {
       delimiters: ["", ""],
     }),
     // fs, net, and tls are used by rhea and need to be shimmed
-    // dotenv doesn't work in the browser, so replace it with a no-op function
     shim({
-      dotenv: `export function config() { }`,
       os: `export default { }`,
       path: `export default { }`,
     }),
