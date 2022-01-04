@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * @summary use `BlobChangeFeedClient` to list changes to a blob
+ */
+
 import { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { BlobChangeFeedClient, BlobChangeFeedEvent } from "@azure/storage-blob-changefeed";
 
@@ -22,25 +26,17 @@ export async function main() {
     sharedKeyCredential
   );
 
-  let changeFeedEvents: BlobChangeFeedEvent[] = [];
-  const firstPage = await changeFeedClient
-    .listChanges()
-    .byPage({ maxPageSize: 10 })
-    .next();
-  for (const event of firstPage.value.events) {
-    changeFeedEvents.push(event);
-  }
+  const start = new Date(Date.UTC(2020, 1, 21, 22, 30, 0)); // will be rounded down to 22:00
+  const end = new Date(Date.UTC(2020, 4, 8, 21, 10, 0)); // will be rounded up to 22:00
 
-  // Resume iterating from the pervious position with the continuationToken.
-  for await (const eventPage of changeFeedClient
-    .listChanges()
-    .byPage({ continuationToken: firstPage.value.continuationToken })) {
-    for (const event of eventPage.events) {
-      changeFeedEvents.push(event);
-    }
+  const changeFeedEvents: BlobChangeFeedEvent[] = [];
+  // You can also provide just a start or end time.
+  for await (const event of changeFeedClient.listChanges({ start, end })) {
+    changeFeedEvents.push(event);
   }
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

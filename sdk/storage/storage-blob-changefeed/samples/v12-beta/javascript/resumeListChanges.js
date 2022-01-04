@@ -1,14 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { StorageSharedKeyCredential } from "@azure/storage-blob";
-import { BlobChangeFeedClient, BlobChangeFeedEvent } from "@azure/storage-blob-changefeed";
+/**
+ * @summary resume listing changes using a continuation token
+ */
+
+const { StorageSharedKeyCredential } = require("@azure/storage-blob");
+const { BlobChangeFeedClient } = require("@azure/storage-blob-changefeed");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-export async function main() {
+async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -22,15 +25,24 @@ export async function main() {
     sharedKeyCredential
   );
 
-  const start = new Date(Date.UTC(2020, 1, 21, 22, 30, 0)); // will be rounded down to 22:00
-  const end = new Date(Date.UTC(2020, 4, 8, 21, 10, 0)); // will be rounded up to 22:00
-  let changeFeedEvents: BlobChangeFeedEvent[] = [];
-  // You can also provide just a start or end time.
-  for await (const event of changeFeedClient.listChanges({ start, end })) {
+  const changeFeedEvents = [];
+  const firstPage = await changeFeedClient.listChanges().byPage({ maxPageSize: 10 }).next();
+  for (const event of firstPage.value.events) {
     changeFeedEvents.push(event);
+  }
+
+  // Resume iterating from the pervious position with the continuationToken.
+  for await (const eventPage of changeFeedClient
+    .listChanges()
+    .byPage({ continuationToken: firstPage.value.continuationToken })) {
+    for (const event of eventPage.events) {
+      changeFeedEvents.push(event);
+    }
   }
 }
 
 main().catch((err) => {
   console.error("Error running sample:", err.message);
 });
+
+module.exports = { main };
