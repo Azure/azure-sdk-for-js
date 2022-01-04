@@ -323,9 +323,32 @@ describe("OpenTelemetryInstrumenter", () => {
       // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       const callback = (arg1: number) => arg1 + 42;
       const callbackArg = 37;
-      instrumenter.withContext(context.active(), callback, this, callbackArg);
+      const activeContext = context.active();
+      instrumenter.withContext(activeContext, callback, callbackArg);
 
-      assert.isTrue(contextSpy.calledWith(context.active(), callback, this, callbackArg));
+      assert.isTrue(contextSpy.calledWith(activeContext, callback, undefined, callbackArg));
+    });
+
+    it("works when caller binds `this`", function(this: Context) {
+      // a bit of a silly test but demonstrates how to bind `this` correctly
+      // and ensures the behavior does not regress
+
+      // Function syntax
+      instrumenter.withContext(context.active(), function(this: any) {
+        assert.isUndefined(this);
+      });
+      instrumenter.withContext(
+        context.active(),
+        function(this: any) {
+          assert.equal(this, 42);
+        }.bind(42)
+      );
+
+      // Arrow syntax
+      const that = this;
+      instrumenter.withContext(context.active(), () => {
+        assert.equal(this, that);
+      });
     });
 
     it("Returns the value of the callback", () => {

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { Context } from "mocha";
 import { Instrumenter, TracingSpan, TracingSpanContext } from "../src/interfaces";
 import {
   createDefaultInstrumenter,
@@ -46,19 +45,6 @@ describe("Instrumenter", () => {
         const expectedText = "expected";
         const result = instrumenter.withContext(createTracingContext(), () => expectedText);
         assert.equal(result, expectedText);
-      });
-
-      it("sets `this` correctly", function (this: Context) {
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        const that = this;
-
-        instrumenter.withContext(
-          createTracingContext(),
-          function (this: Context) {
-            assert.strictEqual(this, that);
-          },
-          this
-        );
       });
     });
 

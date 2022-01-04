@@ -15,7 +15,7 @@ export interface Instrumenter {
         span: TracingSpan;
         tracingContext: TracingContext;
     };
-    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
+    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
 }
 
 // @public
@@ -46,13 +46,12 @@ export interface TracingClient {
         tracingOptions?: OperationTracingOptions;
     }>(name: string, operationOptions?: Options, spanOptions?: TracingSpanOptions): {
         span: TracingSpan;
-        tracingContext: TracingContext;
         updatedOptions: Options;
     };
-    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, callbackThis?: ThisParameterType<Callback>, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
+    withContext<CallbackArgs extends unknown[], Callback extends (...args: CallbackArgs) => ReturnType<Callback>>(context: TracingContext, callback: Callback, ...callbackArgs: CallbackArgs): ReturnType<Callback>;
     withSpan<Options extends {
         tracingOptions?: OperationTracingOptions;
-    }, Callback extends (updatedOptions: Options, span: Omit<TracingSpan, "end">) => ReturnType<Callback>>(name: string, operationOptions: Options, callback: Callback, spanOptions?: TracingSpanOptions, callbackThis?: ThisParameterType<Callback>): Promise<ReturnType<Callback>>;
+    }, Callback extends (updatedOptions: Options, span: Omit<TracingSpan, "end">) => ReturnType<Callback>>(name: string, operationOptions: Options, callback: Callback, spanOptions?: TracingSpanOptions): Promise<ReturnType<Callback>>;
 }
 
 // @public

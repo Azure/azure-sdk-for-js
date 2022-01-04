@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { Context } from "mocha";
 import sinon from "sinon";
 import { Instrumenter, TracingClient, TracingContext, TracingSpan } from "../src/interfaces";
 import {
@@ -152,21 +151,6 @@ describe("TracingClient", () => {
         (updatedOptions) => {
           assert.strictEqual(updatedOptions.tracingOptions.tracingContext.getValue(key), value);
         }
-      );
-    });
-
-    it("sets `this` correctly", async function (this: Context) {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const that = this;
-
-      await client.withSpan(
-        spanName,
-        {},
-        () => {
-          assert.strictEqual(this, that);
-        },
-        {},
-        this
       );
     });
 

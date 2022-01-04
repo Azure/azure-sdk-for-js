@@ -41,10 +41,14 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
   >(
     tracingContext: TracingContext,
     callback: Callback,
-    callbackThis?: ThisParameterType<Callback>,
     ...callbackArgs: CallbackArgs
   ): ReturnType<Callback> {
-    return context.with(tracingContext, callback, callbackThis, ...callbackArgs);
+    return context.with(
+      tracingContext,
+      callback,
+      /** Assume caller will bind `this` or use arrow functions */ undefined,
+      ...callbackArgs
+    );
   }
 
   parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined {

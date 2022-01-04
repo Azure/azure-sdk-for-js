@@ -58,10 +58,9 @@ export function createDefaultInstrumenter(): Instrumenter {
     >(
       _context: TracingContext,
       callback: Callback,
-      callbackThis?: ThisParameterType<Callback>,
       ...callbackArgs: CallbackArgs
     ): ReturnType<Callback> {
-      return callback.apply(callbackThis, callbackArgs);
+      return callback(...callbackArgs);
     },
   };
 }
