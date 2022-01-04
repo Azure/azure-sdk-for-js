@@ -1210,6 +1210,11 @@
       "packageName": "@azure/arm-billing",
       "projectFolder": "sdk/billing/arm-billing",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerinstance",
+      "projectFolder": "sdk/containerinstance/arm-containerinstance",
+      "versionPolicyName": "management"
     }
   ]
 }
