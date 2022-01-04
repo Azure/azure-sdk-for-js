@@ -198,7 +198,7 @@ export class SchemaRegistryAvroSerializer {
       groupName: this.schemaGroup,
       name: avroType.name,
       format: "Avro",
-      definition: schema
+      definition: schema,
     };
 
     let id: string;

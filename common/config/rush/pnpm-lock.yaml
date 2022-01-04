@@ -11566,7 +11566,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-mRLZqZFQnTfvZjaZU7ZXBh82Kx8Nxl9REZudzyIU5MlkXPoYs0iNIndPX6BL7StQ6CGvz2kzwGfSRtxi5UoIsw==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-wDQhN9kT7dRXkO+aO2AVV7C94TBvPTPE9vIjHX/ncU0bkFgM//UwgSm9Lmr0wUL86eXyFCImdz6Kx5412V+thQ==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
@@ -11598,7 +11598,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       tslib: 2.3.1
@@ -12361,7 +12361,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-lCpDUBPIPTqToa1r1xA4pURdkEQ8Q7nMocwZOnLk1+g+sNbo1n3dx/t8eeMfpcY7+RQ1pB5U6ypHotrKI0kXzw==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-X/hZLrVREZDlgnJQnf3F/s3J0Jo0enaPAP3Ydr6v2yVL6eqEXQx5ssoA6h7PJLq8rgYvn4Tt2NBeptvzswvOoQ==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -12397,7 +12397,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -12412,7 +12412,7 @@ packages:
     dev: false
 
   file:projects/schema-registry.tgz:
-    resolution: {integrity: sha512-O28oxHO75o3PHV/SRMXjXOiSmP/qT0RacLYZXcEXlFYW6uF5bqMiDvFgNHA5A68a24goJl6EJzCZvbLUcyBCDw==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-s7CW2urfzFLDuxStn5xO1RvtGWA15/HoLDWb+0fX0CYRkQGrdCvSXGDcTpPTncgjEkmvtGA2QL7ZcPMRgzccBA==, tarball: file:projects/schema-registry.tgz}
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
@@ -12443,7 +12443,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       source-map-support: 0.5.21
@@ -13557,7 +13557,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-express.tgz:
-    resolution: {integrity: sha512-YYMkfUGEIJH2SYXzdPQAINA3DmLIrhaMzV+fIRdsXyQHspMst00YZNX0Sy8rVfoYohsCLHkHJ9Qo9ic9nKdmpw==, tarball: file:projects/web-pubsub-express.tgz}
+    resolution: {integrity: sha512-XHFDp/PaBzZs7IH85xM5yQNG39ZKE/V6O7FpErS/cBg7QEai5S4yoI5N5C7ma0bXkceE7/6pk+8wUYY1/gMCxg==, tarball: file:projects/web-pubsub-express.tgz}
     name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
@@ -13591,7 +13591,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -13607,7 +13607,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub.tgz:
-    resolution: {integrity: sha512-NbfQ8d9+AnqeSBFGlaHcm6U25WRVYNT/N241Gh5wZwwtYsvAD9TXykudLijPd/p9JheRC7DuM94Dv6nadeye2w==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-NngkpUc6uTF3aIG2nn6OOp+IWQzS0FL4ctOy1SOtG31BaI6HvF9Zd5N9OPgKKe8ivAulscGCE7PC/zVfvj1NWg==, tarball: file:projects/web-pubsub.tgz}
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
@@ -13641,7 +13641,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
