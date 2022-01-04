@@ -1205,6 +1205,11 @@
       "packageName": "@azure/arm-changeanalysis",
       "projectFolder": "sdk/changeanalysis/arm-changeanalysis",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-billing",
+      "projectFolder": "sdk/billing/arm-billing",
+      "versionPolicyName": "management"
     }
   ]
 }
