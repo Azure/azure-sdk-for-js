@@ -9,5 +9,5 @@ import { createSpanFunction } from "@azure/core-tracing";
  */
 export const createSpan = createSpanFunction({
   packagePrefix: "Azure.Storage.Blob.Changefeed",
-  namespace: "Microsoft.Storage"
+  namespace: "Microsoft.Storage",
 });

@@ -39,7 +39,7 @@ describe("Shard", async () => {
     const shardCursor: ShardCursor = {
       CurrentChunkPath: `log/00/2019/02/22/1810/0000${chunkIndex}.avro`,
       BlockOffset: 0,
-      EventIndex: 0
+      EventIndex: 0,
     };
 
     // build shard correctly

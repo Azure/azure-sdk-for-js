@@ -17,7 +17,7 @@ const banner = [
   "/*!",
   ` * Azure Storage SDK for JavaScript - Queue, ${version}`,
   " * Copyright (c) Microsoft and contributors. All rights reserved.",
-  " */"
+  " */",
 ].join("\n");
 
 const pkg = require("./package.json");
@@ -32,7 +32,7 @@ export function nodeConfig(test = false) {
     output: {
       file: "dist/index.js",
       format: "cjs",
-      sourcemap: true
+      sourcemap: true,
     },
     preserveSymlinks: false,
     plugins: [
@@ -41,10 +41,10 @@ export function nodeConfig(test = false) {
         delimiters: ["", ""],
         // replace dynamic checks with if (true) since this is for node only.
         // Allows rollup's dead code elimination to be more aggressive.
-        "if (isNode)": "if (true)"
+        "if (isNode)": "if (true)",
       }),
       nodeResolve({ preferBuiltins: true }),
-      cjs()
+      cjs(),
     ],
     onwarn(warning, warn) {
       if (
@@ -68,7 +68,7 @@ export function nodeConfig(test = false) {
         throw new Error(warning.message);
       }
       warn(warning);
-    }
+    },
   };
 
   if (test) {
@@ -76,7 +76,7 @@ export function nodeConfig(test = false) {
     baseConfig.input = [
       "dist-esm/test/*.spec.js",
       "dist-esm/test/node/*.spec.js",
-      "dist-esm/src/index.js"
+      "dist-esm/src/index.js",
     ];
     baseConfig.plugins.unshift(multiEntry());
 
@@ -107,7 +107,7 @@ export function browserConfig(test = false) {
       banner: banner,
       format: "umd",
       name: "azqueue",
-      sourcemap: true
+      sourcemap: true,
     },
     preserveSymlinks: false,
     plugins: [
@@ -117,7 +117,7 @@ export function browserConfig(test = false) {
         // replace dynamic checks with if (false) since this is for
         // browser only. Rollup's dead code elimination will remove
         // any code guarded by if (isNode) { ... }
-        "if (isNode)": "if (false)"
+        "if (isNode)": "if (false)",
       }),
       // os is not used by the browser bundle, so just shim it
       shim({
@@ -125,18 +125,18 @@ export function browserConfig(test = false) {
         os: `
           export const type = 1;
           export const release = 1;
-        `
+        `,
       }),
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false
+        preferBuiltins: false,
       }),
       cjs({
         namedExports: {
           chai: ["version", "use", "util", "config", "expect", "should", "assert"],
-          ...openTelemetryCommonJs()
-        }
-      })
+          ...openTelemetryCommonJs(),
+        },
+      }),
     ],
     onwarn(warning, warn) {
       if (
@@ -165,7 +165,7 @@ export function browserConfig(test = false) {
         throw new Error(warning.message);
       }
       warn(warning);
-    }
+    },
   };
 
   if (test) {

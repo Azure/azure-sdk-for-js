@@ -8,7 +8,7 @@ import {
   ContainerClient,
   BlobServiceClient,
   BlockBlobClient,
-  PageBlobClient
+  PageBlobClient,
 } from "../../src";
 import { getBSU, getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils";
 import { env } from "@azure-tools/test-recorder";
@@ -26,7 +26,7 @@ describe("Emulator Tests", () => {
   let blockBlobClient: BlockBlobClient;
   const content = "Hello World";
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     if (!env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
       this.skip();
     }
@@ -40,7 +40,7 @@ describe("Emulator Tests", () => {
     await blockBlobClient.upload(content, content.length);
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
     }
@@ -50,7 +50,7 @@ describe("Emulator Tests", () => {
     const newClient = new BlobClient(getConnectionStringFromEnvironment(), containerName, blobName);
     const metadata = {
       a: "a",
-      b: "b"
+      b: "b",
     };
     await newClient.setMetadata(metadata);
     assert.equal(
@@ -94,8 +94,8 @@ describe("Emulator Tests", () => {
   it("ContainerClient can be created with a connection string and a container name and an option bag", async () => {
     const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const result = await newClient.getProperties();

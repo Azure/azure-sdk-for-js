@@ -56,7 +56,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
         this.getHeaderValueToSign(request, HeaderConstants.IF_MATCH),
         this.getHeaderValueToSign(request, HeaderConstants.IF_NONE_MATCH),
         this.getHeaderValueToSign(request, HeaderConstants.IF_UNMODIFIED_SINCE),
-        this.getHeaderValueToSign(request, HeaderConstants.RANGE)
+        this.getHeaderValueToSign(request, HeaderConstants.RANGE),
       ].join("\n") +
       "\n" +
       this.getCanonicalizedHeadersString(request) +

@@ -20,7 +20,7 @@ describe("Special Naming Tests", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("1container-with-dash");
@@ -28,7 +28,7 @@ describe("Special Naming Tests", () => {
     await fileSystemClient.createIfNotExists();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
@@ -38,12 +38,7 @@ describe("Special Naming Tests", () => {
     const fileClient = fileSystemClient.getFileClient(fileName);
 
     await fileClient.create();
-    const response = (
-      await fileSystemClient
-        .listPaths()
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths().byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileName);
@@ -57,12 +52,7 @@ describe("Special Naming Tests", () => {
     );
 
     await fileClient.create();
-    const response = (
-      await fileSystemClient
-        .listPaths()
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths().byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileName);
@@ -74,12 +64,7 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (
-      await fileSystemClient
-        .listPaths({})
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths({}).byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileName);
@@ -94,12 +79,7 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (
-      await fileSystemClient
-        .listPaths({})
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths({}).byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileName);
@@ -111,12 +91,7 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (
-      await fileSystemClient
-        .listPaths({})
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths({}).byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileName);
@@ -131,12 +106,7 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (
-      await fileSystemClient
-        .listPaths({})
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths({}).byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileName);
@@ -150,12 +120,7 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (
-      await fileSystemClient
-        .listPaths({})
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths({}).byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileName);
@@ -196,12 +161,7 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (
-      await fileSystemClient
-        .listPaths({})
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths({}).byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileNameEncoded);
@@ -213,12 +173,7 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (
-      await fileSystemClient
-        .listPaths({})
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths({}).byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileName);
@@ -233,12 +188,7 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (
-      await fileSystemClient
-        .listPaths({})
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths({}).byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileName);
@@ -251,12 +201,7 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (
-      await fileSystemClient
-        .listPaths({})
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths({}).byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileNameEncoded);
@@ -268,12 +213,7 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (
-      await fileSystemClient
-        .listPaths({})
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths({}).byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileName);
@@ -288,12 +228,7 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (
-      await fileSystemClient
-        .listPaths({})
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths({}).byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileName);
@@ -306,12 +241,7 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (
-      await fileSystemClient
-        .listPaths({})
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths({}).byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileNameEncoded);
@@ -323,12 +253,7 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (
-      await fileSystemClient
-        .listPaths({})
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths({}).byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileName);
@@ -343,12 +268,7 @@ describe("Special Naming Tests", () => {
 
     await fileClient.create();
     await fileClient.getProperties();
-    const response = (
-      await fileSystemClient
-        .listPaths({})
-        .byPage()
-        .next()
-    ).value;
+    const response = (await fileSystemClient.listPaths({}).byPage().next()).value;
 
     assert.deepStrictEqual(response.pathItems.length, 1);
     assert.deepStrictEqual(response.pathItems[0].name, fileName);
