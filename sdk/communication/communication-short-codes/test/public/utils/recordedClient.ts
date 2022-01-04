@@ -11,8 +11,12 @@ import {
   RecorderEnvironmentSetup,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { ServiceClient } from "@azure/core-client";
-import { PipelineResponse, PipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
+import {
+  PipelineResponse,
+  PipelineRequest,
+  HttpClient,
+  createDefaultHttpClient,
+} from "@azure/core-rest-pipeline";
 import { ShortCodesClient, ShortCodesClientOptions } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
@@ -117,8 +121,7 @@ export const testPollerOptions = {
 };
 
 function createTestHttpClient(): HttpClient {
-  const customHttpClient = new ServiceClient();
-
+  const customHttpClient = createDefaultHttpClient();
   const originalSendRequest = customHttpClient.sendRequest;
   customHttpClient.sendRequest = async function(
     httpRequest: PipelineRequest

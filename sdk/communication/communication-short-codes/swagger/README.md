@@ -22,7 +22,6 @@ add-credentials: false
 azure-arm: false
 skip-enum-validation: true
 title: Short Codes Client
-use-core-v2: true
 ```
 
 ## Customizations

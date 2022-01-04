@@ -64,16 +64,10 @@ export class ShortCodesClient {
       ? credentialOrOptions
       : maybeOptions;
     const libInfo = `azsdk-js-communication-short-codes/${SDK_VERSION}`;
-
     if (!options.userAgentOptions) {
       options.userAgentOptions = {};
     }
-
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
+    options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
 
     const internalPipelineOptions: InternalClientPipelineOptions = {
       ...options,
