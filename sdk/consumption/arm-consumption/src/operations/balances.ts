@@ -86,7 +86,7 @@ const getByBillingAccountOperationSpec: coreClient.OperationSpec = {
 };
 const getForBillingPeriodByBillingAccountOperationSpec: coreClient.OperationSpec = {
   path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/balances",
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/balances",
   httpMethod: "GET",
   responses: {
     200: {

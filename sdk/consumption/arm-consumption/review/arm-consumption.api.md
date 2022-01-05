@@ -210,7 +210,7 @@ export interface ChargesListResult {
 }
 
 // @public
-export type ChargeSummary = ProxyResource & {
+export type ChargeSummary = Resource & {
     kind: ChargeSummaryKind;
 };
 
@@ -304,9 +304,6 @@ export type CreditSummary = Resource & {
 };
 
 // @public
-export type CultureCode = string;
-
-// @public
 export interface CurrentSpend {
     readonly amount?: number;
     readonly unit?: string;
@@ -375,7 +372,7 @@ export interface EventsOperations {
 }
 
 // @public
-export type EventSummary = ProxyResource & {
+export type EventSummary = Resource & {
     readonly transactionDate?: Date;
     readonly description?: string;
     readonly newCredit?: Amount;
@@ -398,7 +395,7 @@ export type EventSummary = ProxyResource & {
     readonly adjustmentsInBillingCurrency?: AmountWithExchangeRate;
     readonly chargesInBillingCurrency?: AmountWithExchangeRate;
     readonly closedBalanceInBillingCurrency?: AmountWithExchangeRate;
-    readonly eTagPropertiesETag?: string;
+    readonly eTag?: string;
 };
 
 // @public
@@ -449,52 +446,6 @@ export enum KnownChargeSummaryKind {
     Legacy = "legacy",
     // (undocumented)
     Modern = "modern"
-}
-
-// @public
-export enum KnownCultureCode {
-    // (undocumented)
-    CsCz = "cs-cz",
-    // (undocumented)
-    DaDk = "da-dk",
-    // (undocumented)
-    DeDe = "de-de",
-    // (undocumented)
-    EnGb = "en-gb",
-    // (undocumented)
-    EnUs = "en-us",
-    // (undocumented)
-    EsEs = "es-es",
-    // (undocumented)
-    FrFr = "fr-fr",
-    // (undocumented)
-    HuHu = "hu-hu",
-    // (undocumented)
-    ItIt = "it-it",
-    // (undocumented)
-    JaJp = "ja-jp",
-    // (undocumented)
-    KoKr = "ko-kr",
-    // (undocumented)
-    NbNo = "nb-no",
-    // (undocumented)
-    NlNl = "nl-nl",
-    // (undocumented)
-    PlPl = "pl-pl",
-    // (undocumented)
-    PtBr = "pt-br",
-    // (undocumented)
-    PtPt = "pt-pt",
-    // (undocumented)
-    RuRu = "ru-ru",
-    // (undocumented)
-    SvSe = "sv-se",
-    // (undocumented)
-    TrTr = "tr-tr",
-    // (undocumented)
-    ZhCn = "zh-cn",
-    // (undocumented)
-    ZhTw = "zh-tw"
 }
 
 // @public
@@ -606,9 +557,7 @@ export enum KnownTerm {
 // @public
 export enum KnownThresholdType {
     // (undocumented)
-    Actual = "Actual",
-    // (undocumented)
-    Forecasted = "Forecasted"
+    Actual = "Actual"
 }
 
 // @public
@@ -661,45 +610,12 @@ export type LegacyReservationRecommendation = ReservationRecommendation & {
     readonly totalCostWithReservedInstances?: number;
     readonly netSavings?: number;
     readonly firstUsageDate?: Date;
-    scope: string;
+    readonly scope?: string;
     readonly skuProperties?: SkuProperty[];
 };
-
-// @public
-export interface LegacyReservationRecommendationProperties {
-    readonly costWithNoReservedInstances?: number;
-    readonly firstUsageDate?: Date;
-    readonly instanceFlexibilityGroup?: string;
-    readonly instanceFlexibilityRatio?: number;
-    readonly lookBackPeriod?: string;
-    readonly meterId?: string;
-    readonly netSavings?: number;
-    readonly normalizedSize?: string;
-    readonly recommendedQuantity?: number;
-    readonly recommendedQuantityNormalized?: number;
-    readonly resourceType?: string;
-    scope: "Single" | "Shared";
-    readonly skuProperties?: SkuProperty[];
-    readonly term?: string;
-    readonly totalCostWithReservedInstances?: number;
-}
-
-// @public (undocumented)
-export type LegacyReservationRecommendationPropertiesUnion = LegacyReservationRecommendationProperties | LegacySingleScopeReservationRecommendationProperties | LegacySharedScopeReservationRecommendationProperties;
 
 // @public
 export type LegacyReservationTransaction = ReservationTransaction & {};
-
-// @public
-export type LegacySharedScopeReservationRecommendationProperties = LegacyReservationRecommendationProperties & {
-    scope: "Shared";
-};
-
-// @public
-export type LegacySingleScopeReservationRecommendationProperties = LegacyReservationRecommendationProperties & {
-    scope: "Single";
-    readonly subscriptionId?: string;
-};
 
 // @public
 export type LegacyUsageDetail = UsageDetail & {
@@ -798,7 +714,7 @@ export interface LotsOperations {
 export type LotSource = string;
 
 // @public
-export type LotSummary = ProxyResource & {
+export type LotSummary = Resource & {
     readonly originalAmount?: Amount;
     readonly closedBalance?: Amount;
     readonly source?: LotSource;
@@ -812,7 +728,7 @@ export type LotSummary = ProxyResource & {
     readonly originalAmountInBillingCurrency?: AmountWithExchangeRate;
     readonly closedBalanceInBillingCurrency?: AmountWithExchangeRate;
     readonly reseller?: Reseller;
-    readonly eTagPropertiesETag?: string;
+    readonly eTag?: string;
 };
 
 // @public
@@ -1062,7 +978,6 @@ interface Notification_2 {
     contactGroups?: string[];
     contactRoles?: string[];
     enabled: boolean;
-    locale?: CultureCode;
     operator: OperatorType;
     threshold: number;
     thresholdType?: ThresholdType;
@@ -1468,9 +1383,6 @@ export type ReservationTransaction = ReservationTransactionResource & {
     readonly costCenter?: string;
     readonly currentEnrollment?: string;
     readonly billingFrequency?: string;
-    readonly billingMonth?: number;
-    readonly monetaryCommitment?: number;
-    readonly overage?: number;
 };
 
 // @public

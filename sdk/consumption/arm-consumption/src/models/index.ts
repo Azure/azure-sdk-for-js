@@ -8,22 +8,18 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type LegacyReservationRecommendationPropertiesUnion =
-  | LegacyReservationRecommendationProperties
-  | LegacySingleScopeReservationRecommendationProperties
-  | LegacySharedScopeReservationRecommendationProperties;
 export type UsageDetailUnion =
   | UsageDetail
   | LegacyUsageDetail
   | ModernUsageDetail;
-export type ReservationRecommendationUnion =
-  | ReservationRecommendation
-  | LegacyReservationRecommendation
-  | ModernReservationRecommendation;
 export type ChargeSummaryUnion =
   | ChargeSummary
   | LegacyChargeSummary
   | ModernChargeSummary;
+export type ReservationRecommendationUnion =
+  | ReservationRecommendation
+  | LegacyReservationRecommendation
+  | ModernReservationRecommendation;
 
 /** Result of listing usage details. It contains a list of available usage details in reverse chronological order by billing period. */
 export interface UsageDetailsListResult {
@@ -192,8 +188,6 @@ export interface Notification {
   contactGroups?: string[];
   /** The type of threshold */
   thresholdType?: ThresholdType;
-  /** Language in which the recipient will receive the notification */
-  locale?: CultureCode;
 }
 
 /** The forecasted cost which is being tracked for a budget. */
@@ -801,82 +795,6 @@ export interface MeterDetailsResponse {
   readonly serviceFamily?: string;
 }
 
-/** The properties of the reservation recommendation. */
-export interface LegacyReservationRecommendationProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  scope: "Single" | "Shared";
-  /**
-   * The number of days of usage to look back for recommendation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lookBackPeriod?: string;
-  /**
-   * The instance Flexibility Ratio.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceFlexibilityRatio?: number;
-  /**
-   * The instance Flexibility Group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceFlexibilityGroup?: string;
-  /**
-   * The normalized Size.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly normalizedSize?: string;
-  /**
-   * The recommended Quantity Normalized.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recommendedQuantityNormalized?: number;
-  /**
-   * The meter id (GUID)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly meterId?: string;
-  /**
-   * The azure resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceType?: string;
-  /**
-   * RI recommendations in one or three year terms.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly term?: string;
-  /**
-   * The total amount of cost without reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly costWithNoReservedInstances?: number;
-  /**
-   * Recommended quality for reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recommendedQuantity?: number;
-  /**
-   * The total amount of cost with reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalCostWithReservedInstances?: number;
-  /**
-   * Total estimated savings with reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly netSavings?: number;
-  /**
-   * The usage date for looking back.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly firstUsageDate?: Date;
-  /**
-   * List of sku properties
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skuProperties?: SkuProperty[];
-}
-
 /** The Sku property */
 export interface SkuProperty {
   /**
@@ -1043,6 +961,12 @@ export type Marketplace = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isRecurringCharge?: boolean;
+};
+
+/** A charge summary resource. */
+export type ChargeSummary = Resource & {
+  /** Specifies the kind of charge summary. */
+  kind: ChargeSummaryKind;
 };
 
 /** A balance resource. */
@@ -1368,100 +1292,8 @@ export type ManagementGroupAggregatedCostResult = Resource & {
   excludedSubscriptions?: string[];
 };
 
-/** A credit summary resource. */
-export type CreditSummary = Resource & {
-  /**
-   * Summary of balances associated with this credit summary.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly balanceSummary?: CreditBalanceSummary;
-  /**
-   * Pending credit adjustments.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly pendingCreditAdjustments?: Amount;
-  /**
-   * Expired credit.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expiredCredit?: Amount;
-  /**
-   * Pending eligible charges.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly pendingEligibleCharges?: Amount;
-  /**
-   * The credit currency.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly creditCurrency?: string;
-  /**
-   * The billing currency.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingCurrency?: string;
-  /**
-   * Credit's reseller.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reseller?: Reseller;
-  /**
-   * The eTag for the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly eTag?: string;
-};
-
-/** A budget resource. */
-export type Budget = ProxyResource & {
-  /** The category of the budget, whether the budget tracks cost or usage. */
-  category?: CategoryType;
-  /** The total amount of cost to track with the budget */
-  amount?: number;
-  /** The time covered by a budget. Tracking of the amount will be reset based on the time grain. BillingMonth, BillingQuarter, and BillingAnnual are only supported by WD customers */
-  timeGrain?: TimeGrainType;
-  /** Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than twelve months. Past start date should  be selected within the timegrain period. There are no restrictions on the end date. */
-  timePeriod?: BudgetTimePeriod;
-  /** May be used to filter budgets by user-specified dimensions and/or tags. */
-  filter?: BudgetFilter;
-  /**
-   * The current amount of cost which is being tracked for a budget.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly currentSpend?: CurrentSpend;
-  /** Dictionary of notifications associated with the budget. Budget can have up to five notifications. */
-  notifications?: { [propertyName: string]: Notification };
-  /**
-   * The forecasted cost which is being tracked for a budget.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly forecastSpend?: ForecastSpend;
-};
-
-/** A resource listing all tags. */
-export type TagsResult = ProxyResource & {
-  /** A list of Tag. */
-  tags?: Tag[];
-  /**
-   * The link (url) to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /**
-   * The link (url) to the previous page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly previousLink?: string;
-};
-
-/** A charge summary resource. */
-export type ChargeSummary = ProxyResource & {
-  /** Specifies the kind of charge summary. */
-  kind: ChargeSummaryKind;
-};
-
 /** An event summary resource. */
-export type EventSummary = ProxyResource & {
+export type EventSummary = Resource & {
   /**
    * The date of the event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1573,11 +1405,11 @@ export type EventSummary = ProxyResource & {
    * The eTag for the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly eTagPropertiesETag?: string;
+  readonly eTag?: string;
 };
 
 /** A lot summary resource. */
-export type LotSummary = ProxyResource & {
+export type LotSummary = Resource & {
   /**
    * The original amount of a lot.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1647,7 +1479,93 @@ export type LotSummary = ProxyResource & {
    * The eTag for the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly eTagPropertiesETag?: string;
+  readonly eTag?: string;
+};
+
+/** A credit summary resource. */
+export type CreditSummary = Resource & {
+  /**
+   * Summary of balances associated with this credit summary.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly balanceSummary?: CreditBalanceSummary;
+  /**
+   * Pending credit adjustments.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pendingCreditAdjustments?: Amount;
+  /**
+   * Expired credit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expiredCredit?: Amount;
+  /**
+   * Pending eligible charges.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pendingEligibleCharges?: Amount;
+  /**
+   * The credit currency.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly creditCurrency?: string;
+  /**
+   * The billing currency.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingCurrency?: string;
+  /**
+   * Credit's reseller.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reseller?: Reseller;
+  /**
+   * The eTag for the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
+};
+
+/** A budget resource. */
+export type Budget = ProxyResource & {
+  /** The category of the budget, whether the budget tracks cost or usage. */
+  category?: CategoryType;
+  /** The total amount of cost to track with the budget */
+  amount?: number;
+  /** The time covered by a budget. Tracking of the amount will be reset based on the time grain. BillingMonth, BillingQuarter, and BillingAnnual are only supported by WD customers */
+  timeGrain?: TimeGrainType;
+  /** Has start and end date of the budget. The start date must be first of the month and should be less than the end date. Budget start date must be on or after June 1, 2017. Future start date should not be more than twelve months. Past start date should  be selected within the timegrain period. There are no restrictions on the end date. */
+  timePeriod?: BudgetTimePeriod;
+  /** May be used to filter budgets by user-specified dimensions and/or tags. */
+  filter?: BudgetFilter;
+  /**
+   * The current amount of cost which is being tracked for a budget.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentSpend?: CurrentSpend;
+  /** Dictionary of notifications associated with the budget. Budget can have up to five notifications. */
+  notifications?: { [propertyName: string]: Notification };
+  /**
+   * The forecasted cost which is being tracked for a budget.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly forecastSpend?: ForecastSpend;
+};
+
+/** A resource listing all tags. */
+export type TagsResult = ProxyResource & {
+  /** A list of Tag. */
+  tags?: Tag[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /**
+   * The link (url) to the previous page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly previousLink?: string;
 };
 
 /** Reservation transaction resource. */
@@ -1752,21 +1670,6 @@ export type ReservationTransaction = ReservationTransactionResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly billingFrequency?: string;
-  /**
-   * The billing month(yyyyMMdd), on which the event initiated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly billingMonth?: number;
-  /**
-   * The monetary commitment amount at the enrollment scope.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly monetaryCommitment?: number;
-  /**
-   * The overage amount at the enrollment scope.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly overage?: number;
 };
 
 /** Modern Reservation transaction resource. */
@@ -1885,23 +1788,6 @@ export type AmountWithExchangeRate = Amount & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly exchangeRateMonth?: number;
-};
-
-/** The properties of the legacy reservation recommendation for single scope. */
-export type LegacySingleScopeReservationRecommendationProperties = LegacyReservationRecommendationProperties & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  scope: "Single";
-  /**
-   * Subscription id associated with single scoped recommendation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subscriptionId?: string;
-};
-
-/** The properties of the legacy reservation recommendation for shared scope. */
-export type LegacySharedScopeReservationRecommendationProperties = LegacyReservationRecommendationProperties & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  scope: "Shared";
 };
 
 /** Legacy usage detail. */
@@ -2492,166 +2378,6 @@ export type ModernUsageDetail = UsageDetail & {
   readonly costAllocationRuleName?: string;
 };
 
-/** Legacy reservation recommendation. */
-export type LegacyReservationRecommendation = ReservationRecommendation & {
-  /**
-   * The number of days of usage to look back for recommendation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lookBackPeriod?: string;
-  /**
-   * The instance Flexibility Ratio.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceFlexibilityRatio?: number;
-  /**
-   * The instance Flexibility Group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceFlexibilityGroup?: string;
-  /**
-   * The normalized Size.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly normalizedSize?: string;
-  /**
-   * The recommended Quantity Normalized.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recommendedQuantityNormalized?: number;
-  /**
-   * The meter id (GUID)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly meterId?: string;
-  /**
-   * The azure resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceType?: string;
-  /**
-   * RI recommendations in one or three year terms.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly term?: string;
-  /**
-   * The total amount of cost without reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly costWithNoReservedInstances?: number;
-  /**
-   * Recommended quality for reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recommendedQuantity?: number;
-  /**
-   * The total amount of cost with reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalCostWithReservedInstances?: number;
-  /**
-   * Total estimated savings with reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly netSavings?: number;
-  /**
-   * The usage date for looking back.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly firstUsageDate?: Date;
-  /** Shared or single recommendation. */
-  scope: string;
-  /**
-   * List of sku properties
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skuProperties?: SkuProperty[];
-};
-
-/** Modern reservation recommendation. */
-export type ModernReservationRecommendation = ReservationRecommendation & {
-  /**
-   * Resource Location.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly locationPropertiesLocation?: string;
-  /**
-   * The number of days of usage to look back for recommendation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lookBackPeriod?: number;
-  /**
-   * The instance Flexibility Ratio.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceFlexibilityRatio?: number;
-  /**
-   * The instance Flexibility Group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceFlexibilityGroup?: string;
-  /**
-   * The normalized Size.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly normalizedSize?: string;
-  /**
-   * The recommended Quantity Normalized.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recommendedQuantityNormalized?: number;
-  /**
-   * The meter id (GUID)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly meterId?: string;
-  /**
-   * RI recommendations in one or three year terms.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly term?: string;
-  /**
-   * The total amount of cost without reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly costWithNoReservedInstances?: Amount;
-  /**
-   * Recommended quality for reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recommendedQuantity?: number;
-  /**
-   * The total amount of cost with reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalCostWithReservedInstances?: Amount;
-  /**
-   * Total estimated savings with reserved instances.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly netSavings?: Amount;
-  /**
-   * The usage date for looking back.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly firstUsageDate?: Date;
-  /**
-   * Shared or single recommendation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly scope?: string;
-  /**
-   * List of sku properties
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skuProperties?: SkuProperty[];
-  /**
-   * This is the ARM Sku name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skuName?: string;
-};
-
 /** Legacy charge summary. */
 export type LegacyChargeSummary = ChargeSummary & {
   /**
@@ -2748,6 +2474,169 @@ export type ModernChargeSummary = ChargeSummary & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isInvoiced?: boolean;
+};
+
+/** Legacy reservation recommendation. */
+export type LegacyReservationRecommendation = ReservationRecommendation & {
+  /**
+   * The number of days of usage to look back for recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lookBackPeriod?: string;
+  /**
+   * The instance Flexibility Ratio.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceFlexibilityRatio?: number;
+  /**
+   * The instance Flexibility Group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceFlexibilityGroup?: string;
+  /**
+   * The normalized Size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly normalizedSize?: string;
+  /**
+   * The recommended Quantity Normalized.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendedQuantityNormalized?: number;
+  /**
+   * The meter id (GUID)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly meterId?: string;
+  /**
+   * The azure resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**
+   * RI recommendations in one or three year terms.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly term?: string;
+  /**
+   * The total amount of cost without reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly costWithNoReservedInstances?: number;
+  /**
+   * Recommended quality for reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendedQuantity?: number;
+  /**
+   * The total amount of cost with reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalCostWithReservedInstances?: number;
+  /**
+   * Total estimated savings with reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly netSavings?: number;
+  /**
+   * The usage date for looking back.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firstUsageDate?: Date;
+  /**
+   * Shared or single recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scope?: string;
+  /**
+   * List of sku properties
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuProperties?: SkuProperty[];
+};
+
+/** Modern reservation recommendation. */
+export type ModernReservationRecommendation = ReservationRecommendation & {
+  /**
+   * Resource Location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly locationPropertiesLocation?: string;
+  /**
+   * The number of days of usage to look back for recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lookBackPeriod?: number;
+  /**
+   * The instance Flexibility Ratio.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceFlexibilityRatio?: number;
+  /**
+   * The instance Flexibility Group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceFlexibilityGroup?: string;
+  /**
+   * The normalized Size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly normalizedSize?: string;
+  /**
+   * The recommended Quantity Normalized.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendedQuantityNormalized?: number;
+  /**
+   * The meter id (GUID)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly meterId?: string;
+  /**
+   * RI recommendations in one or three year terms.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly term?: string;
+  /**
+   * The total amount of cost without reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly costWithNoReservedInstances?: Amount;
+  /**
+   * Recommended quality for reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendedQuantity?: number;
+  /**
+   * The total amount of cost with reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalCostWithReservedInstances?: Amount;
+  /**
+   * Total estimated savings with reserved instances.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly netSavings?: Amount;
+  /**
+   * The usage date for looking back.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firstUsageDate?: Date;
+  /**
+   * Shared or single recommendation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scope?: string;
+  /**
+   * List of sku properties
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuProperties?: SkuProperty[];
+  /**
+   * This is the ARM Sku name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuName?: string;
 };
 
 /** Legacy Reservation transaction resource. */
@@ -2862,8 +2751,7 @@ export type OperatorType = string;
 
 /** Known values of {@link ThresholdType} that the service accepts. */
 export enum KnownThresholdType {
-  Actual = "Actual",
-  Forecasted = "Forecasted"
+  Actual = "Actual"
 }
 
 /**
@@ -2871,64 +2759,9 @@ export enum KnownThresholdType {
  * {@link KnownThresholdType} can be used interchangeably with ThresholdType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Actual** \
- * **Forecasted**
+ * **Actual**
  */
 export type ThresholdType = string;
-
-/** Known values of {@link CultureCode} that the service accepts. */
-export enum KnownCultureCode {
-  EnUs = "en-us",
-  JaJp = "ja-jp",
-  ZhCn = "zh-cn",
-  DeDe = "de-de",
-  EsEs = "es-es",
-  FrFr = "fr-fr",
-  ItIt = "it-it",
-  KoKr = "ko-kr",
-  PtBr = "pt-br",
-  RuRu = "ru-ru",
-  ZhTw = "zh-tw",
-  CsCz = "cs-cz",
-  PlPl = "pl-pl",
-  TrTr = "tr-tr",
-  DaDk = "da-dk",
-  EnGb = "en-gb",
-  HuHu = "hu-hu",
-  NbNo = "nb-no",
-  NlNl = "nl-nl",
-  PtPt = "pt-pt",
-  SvSe = "sv-se"
-}
-
-/**
- * Defines values for CultureCode. \
- * {@link KnownCultureCode} can be used interchangeably with CultureCode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **en-us** \
- * **ja-jp** \
- * **zh-cn** \
- * **de-de** \
- * **es-es** \
- * **fr-fr** \
- * **it-it** \
- * **ko-kr** \
- * **pt-br** \
- * **ru-ru** \
- * **zh-tw** \
- * **cs-cz** \
- * **pl-pl** \
- * **tr-tr** \
- * **da-dk** \
- * **en-gb** \
- * **hu-hu** \
- * **nb-no** \
- * **nl-nl** \
- * **pt-pt** \
- * **sv-se**
- */
-export type CultureCode = string;
 
 /** Known values of {@link ChargeSummaryKind} that the service accepts. */
 export enum KnownChargeSummaryKind {
