@@ -1215,6 +1215,11 @@
       "packageName": "@azure/arm-containerinstance",
       "projectFolder": "sdk/containerinstance/arm-containerinstance",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-timeseriesinsights",
+      "projectFolder": "sdk/timeseriesinsights/arm-timeseriesinsights",
+      "versionPolicyName": "management"
     }
   ]
 }
