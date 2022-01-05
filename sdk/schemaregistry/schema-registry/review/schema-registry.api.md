@@ -6,7 +6,6 @@
 
 import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -54,8 +53,6 @@ export class SchemaRegistryClient implements SchemaRegistry {
     readonly fullyQualifiedNamespace: string;
     getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
     getSchemaProperties(schema: SchemaDescription, options?: GetSchemaPropertiesOptions): Promise<SchemaProperties>;
-    // (undocumented)
-    pipeline: Pipeline;
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaProperties>;
 }
 
