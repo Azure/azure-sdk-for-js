@@ -6,11 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  discriminators,
-  ErrorDefinition,
-  ErrorResponse,
-  Operation,
-  OperationDisplay,
-  OperationListResult
-} from "../models/mappers";
+export * from "./digitalTwins";
+export * from "./digitalTwinsEndpoint";
+export * from "./operations";
+export * from "./privateLinkResources";
+export * from "./privateEndpointConnections";
