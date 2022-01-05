@@ -117,7 +117,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
 
     this.client.pipeline.addPolicy(authPolicy);
     this.client.pipeline.addPolicy(cloudEventDistributedTracingEnricherPolicy(), {
-      afterPolicies: [tracingPolicyName]
+      afterPolicies: [tracingPolicyName],
     });
     this.apiVersion = this.client.apiVersion;
   }
