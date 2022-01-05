@@ -5,11 +5,6 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { SchemaRegistryClient } from "../../../src";
 import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder-new";
 
-export interface RecordedClient {
-  client: SchemaRegistryClient;
-  recorder: Recorder;
-}
-
 export const startOptions: RecorderStartOptions = {
   envSetupForPlayback: {
     AZURE_CLIENT_ID: "azure_client_id",
@@ -20,11 +15,10 @@ export const startOptions: RecorderStartOptions = {
   },
 };
 
-export function createRecordedClient(context: Mocha.Test | undefined): RecordedClient {
-  const recorder = new Recorder(context);
+export function createRecordedClient(recorder: Recorder): SchemaRegistryClient {
   const credential = createTestCredential();
   if (!env.SCHEMA_REGISTRY_ENDPOINT) throw new Error("SCHEMA_REGISTRY_ENDPOINT is not defined");
   const client = new SchemaRegistryClient(env.SCHEMA_REGISTRY_ENDPOINT, credential);
   recorder.configureClient(client);
-  return { client, recorder };
+  return client;
 }

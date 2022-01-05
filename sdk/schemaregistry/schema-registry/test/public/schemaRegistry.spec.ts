@@ -65,7 +65,9 @@ describe("SchemaRegistryClient", function () {
   let schema: SchemaDescription;
 
   beforeEach(async function (this: Context) {
-    ({ client, recorder } = createRecordedClient(this.currentTest));
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(startOptions);
+    client = createRecordedClient(recorder);
     if (!env.SCHEMA_REGISTRY_GROUP) throw new Error("SCHEMA_REGISTRY_GROUP is not defined");
     schema = {
       name: "azsdk_js_test",
@@ -87,7 +89,6 @@ describe("SchemaRegistryClient", function () {
         ],
       }),
     };
-    await recorder.start(startOptions);
   });
 
   afterEach(async function () {
