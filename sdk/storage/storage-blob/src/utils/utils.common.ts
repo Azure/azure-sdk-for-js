@@ -8,7 +8,7 @@ import {
   BlobQueryArrowConfiguration,
   BlobQueryCsvTextConfiguration,
   BlobQueryJsonTextConfiguration,
-  BlobQueryParquetConfiguration
+  BlobQueryParquetConfiguration,
 } from "../Clients";
 import {
   QuerySerialization,
@@ -27,7 +27,7 @@ import {
   ArchiveStatus,
   RehydratePriority,
   BlobImmutabilityPolicyMode,
-  BlobTag
+  BlobTag,
 } from "../generated/src/models";
 import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
 import {
@@ -35,13 +35,13 @@ import {
   ObjectReplicationPolicy,
   ObjectReplicationRule,
   ObjectReplicationStatus,
-  HttpAuthorization
+  HttpAuthorization,
 } from "../models";
 import {
   ListBlobsFlatSegmentResponseModel,
   BlobItemInternal as BlobItemInternalModel,
   ListBlobsHierarchySegmentResponseModel,
-  BlobPrefix as BlobPrefixModel
+  BlobPrefix as BlobPrefixModel,
 } from "../generatedModels";
 
 /**
@@ -218,7 +218,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       url: blobEndpoint,
       accountName,
       accountKey,
-      proxyUri
+      proxyUri,
     };
   } else {
     // SAS connection string
@@ -635,7 +635,7 @@ export function toBlobTags(tags?: Tags): BlobTags | undefined {
   }
 
   const res: BlobTags = {
-    blobTagSet: []
+    blobTagSet: [],
   };
 
   for (const key in tags) {
@@ -643,7 +643,7 @@ export function toBlobTags(tags?: Tags): BlobTags | undefined {
       const value = tags[key];
       res.blobTagSet.push({
         key,
-        value
+        value,
       });
     }
   }
@@ -693,33 +693,33 @@ export function toQuerySerialization(
             fieldQuote: textConfiguration.fieldQuote || "",
             recordSeparator: textConfiguration.recordSeparator,
             escapeChar: textConfiguration.escapeCharacter || "",
-            headersPresent: textConfiguration.hasHeaders || false
-          }
-        }
+            headersPresent: textConfiguration.hasHeaders || false,
+          },
+        },
       };
     case "json":
       return {
         format: {
           type: "json",
           jsonTextConfiguration: {
-            recordSeparator: textConfiguration.recordSeparator
-          }
-        }
+            recordSeparator: textConfiguration.recordSeparator,
+          },
+        },
       };
     case "arrow":
       return {
         format: {
           type: "arrow",
           arrowConfiguration: {
-            schema: textConfiguration.schema
-          }
-        }
+            schema: textConfiguration.schema,
+          },
+        },
       };
     case "parquet":
       return {
         format: {
-          type: "parquet"
-        }
+          type: "parquet",
+        },
       };
 
     default:
@@ -749,7 +749,7 @@ export function parseObjectReplicationRecord(
     }
     const rule: ObjectReplicationRule = {
       ruleId: ids[1],
-      replicationStatus: objectReplicationRecord[key] as ObjectReplicationStatus
+      replicationStatus: objectReplicationRecord[key] as ObjectReplicationStatus,
     };
     const policyIndex = orProperties.findIndex((policy) => policy.policyId === ids[0]);
     if (policyIndex > -1) {
@@ -757,7 +757,7 @@ export function parseObjectReplicationRecord(
     } else {
       orProperties.push({
         policyId: ids[0],
-        rules: [rule]
+        rules: [rule],
       });
     }
   }
@@ -798,11 +798,11 @@ export function ConvertInternalResponseOfListBlobFlat(
       blobItems: internalResponse.segment.blobItems.map((blobItemInteral) => {
         const blobItem: BlobItemInternalModel = {
           ...blobItemInteral,
-          name: BlobNameToString(blobItemInteral.name)
+          name: BlobNameToString(blobItemInteral.name),
         };
         return blobItem;
-      })
-    }
+      }),
+    },
   };
 }
 
@@ -814,18 +814,18 @@ export function ConvertInternalResponseOfListBlobHierarchy(
     segment: {
       blobPrefixes: internalResponse.segment.blobPrefixes?.map((blobPrefixInternal) => {
         const blobPrefix: BlobPrefixModel = {
-          name: BlobNameToString(blobPrefixInternal.name)
+          name: BlobNameToString(blobPrefixInternal.name),
         };
         return blobPrefix;
       }),
       blobItems: internalResponse.segment.blobItems.map((blobItemInteral) => {
         const blobItem: BlobItemInternalModel = {
           ...blobItemInteral,
-          name: BlobNameToString(blobItemInteral.name)
+          name: BlobNameToString(blobItemInteral.name),
         };
         return blobItem;
-      })
-    }
+      }),
+    },
   };
 }
 
@@ -853,12 +853,12 @@ function ParseBlobName(blobNameInXML: any): BlobName {
   if (blobNameInXML["$"] !== undefined && blobNameInXML["#"] !== undefined) {
     return {
       encoded: ParseBoolean(blobNameInXML["$"]["Encoded"]),
-      content: blobNameInXML["#"] as string
+      content: blobNameInXML["#"] as string,
     };
   } else {
     return {
       encoded: false,
-      content: blobNameInXML as string
+      content: blobNameInXML as string,
     };
   }
 }
@@ -937,7 +937,7 @@ function ParseBlobItem(blobInXML: any): BlobItemInternal {
     immutabilityPolicyMode: blobPropertiesInXML[
       "ImmutabilityPolicyMode"
     ] as BlobImmutabilityPolicyMode,
-    legalHold: ParseBoolean(blobPropertiesInXML["LegalHold"])
+    legalHold: ParseBoolean(blobPropertiesInXML["LegalHold"]),
   };
 
   return {
@@ -950,20 +950,20 @@ function ParseBlobItem(blobInXML: any): BlobItemInternal {
     metadata: blobInXML["Metadata"],
     blobTags: ParseBlobTags(blobInXML["Tags"]),
     objectReplicationMetadata: blobInXML["OrMetadata"],
-    hasVersionsOnly: ParseBoolean(blobInXML["HasVersionsOnly"])
+    hasVersionsOnly: ParseBoolean(blobInXML["HasVersionsOnly"]),
   };
 }
 
 function ParseBlobPrefix(blobPrefixInXML: any): BlobPrefix {
   return {
-    name: ParseBlobName(blobPrefixInXML["Name"])
+    name: ParseBlobName(blobPrefixInXML["Name"]),
   };
 }
 
 function ParseBlobTag(blobTagInXML: any): BlobTag {
   return {
     key: blobTagInXML["Key"],
-    value: blobTagInXML["Value"]
+    value: blobTagInXML["Value"],
   };
 }
 

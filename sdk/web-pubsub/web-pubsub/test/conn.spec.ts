@@ -4,7 +4,7 @@
 import { parseConnectionString } from "../src/parseConnectionString";
 import { assert } from "chai";
 
-describe("Can parse connection string", function() {
+describe("Can parse connection string", function () {
   it("can parse valid connection string", async () => {
     let conn = "Endpoint=http://localhost;AccessKey=ABC;Port=8080;Version=1.0;";
     let parsed = parseConnectionString(conn);

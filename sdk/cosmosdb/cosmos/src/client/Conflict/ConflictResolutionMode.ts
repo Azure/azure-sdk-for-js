@@ -2,5 +2,5 @@
 // Licensed under the MIT license.
 export enum ConflictResolutionMode {
   Custom = "Custom",
-  LastWriterWins = "LastWriterWins"
+  LastWriterWins = "LastWriterWins",
 }

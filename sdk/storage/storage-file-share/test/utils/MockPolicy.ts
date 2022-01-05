@@ -6,7 +6,7 @@ import {
   HttpOperationResponse,
   RequestPolicy,
   RequestPolicyOptions,
-  WebResource
+  WebResource,
 } from "../../src";
 
 /**

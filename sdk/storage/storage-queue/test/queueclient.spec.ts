@@ -18,7 +18,7 @@ describe("QueueClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
@@ -26,7 +26,7 @@ describe("QueueClient", () => {
     await queueClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await queueClient.delete();
     await recorder.stop();
   });
@@ -35,7 +35,7 @@ describe("QueueClient", () => {
     const metadata = {
       key0: "val0",
       keya: "vala",
-      keyb: "valb"
+      keyb: "valb",
     };
     await queueClient.setMetadata(metadata);
 
@@ -143,10 +143,10 @@ describe("QueueClient", () => {
         accessPolicy: {
           expiresOn: new Date("2018-12-31T11:22:33.4567890Z"),
           permissions: "rwdl",
-          startsOn: new Date("2017-12-31T11:22:33.4567890Z")
+          startsOn: new Date("2017-12-31T11:22:33.4567890Z"),
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
-      }
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+      },
     ];
 
     let error;
@@ -171,8 +171,8 @@ describe("QueueClient", () => {
   it("can be created with a sas connection string and a queue name and an option bag", async () => {
     const newClient = new QueueClient(getSASConnectionStringFromEnvironment(), queueName, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const result = await newClient.getProperties();
@@ -200,8 +200,8 @@ describe("QueueClient", () => {
     const rootSpan = tracer.startSpan("root");
     await queueClient.getProperties({
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
-      }
+        tracingContext: setSpan(context.active(), rootSpan),
+      },
     });
     rootSpan.end();
 
@@ -221,13 +221,13 @@ describe("QueueClient", () => {
               children: [
                 {
                   name: urlPath,
-                  children: []
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  children: [],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);

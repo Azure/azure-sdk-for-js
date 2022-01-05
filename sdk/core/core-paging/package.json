@@ -98,5 +98,13 @@
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "typescript": "~4.2.0"
+  },
+  "//sampleConfiguration": {
+    "skipFolder": true,
+    "disableDocsMs": true,
+    "productName": "Azure SDK Core",
+    "productSlugs": [
+      "azure"
+    ]
   }
 }

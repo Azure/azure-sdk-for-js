@@ -21,7 +21,7 @@ export class DeleteKeyPoller extends KeyVaultKeyPoller<DeleteKeyPollOperationSta
     const operation = new DeleteKeyPollOperation(
       {
         ...state,
-        name
+        name,
       },
       vaultUrl,
       client,

@@ -2,16 +2,14 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { HttpHeaders } from "../src";
 import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
-  isIpEndpointStyle
+  isIpEndpointStyle,
 } from "../src/utils/utils.common";
 import { URLBuilder } from "@azure/core-http";
-dotenv.config();
 
 describe("Utility Helpers", () => {
   const protocol = "https";

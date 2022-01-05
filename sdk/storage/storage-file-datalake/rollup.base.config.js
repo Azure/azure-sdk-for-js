@@ -18,7 +18,7 @@ const banner = [
   "/*!",
   ` * Azure Storage SDK for JavaScript - DataLake, ${version}`,
   " * Copyright (c) Microsoft and contributors. All rights reserved.",
-  " */"
+  " */",
 ].join("\n");
 
 const pkg = require("./package.json");
@@ -33,7 +33,7 @@ export function nodeConfig(test = false) {
     "events",
     "os",
     "stream",
-    "util"
+    "util",
   ];
   const baseConfig = {
     input: "dist-esm/storage-file-datalake/src/index.js",
@@ -41,7 +41,7 @@ export function nodeConfig(test = false) {
     output: {
       file: "dist/index.js",
       format: "cjs",
-      sourcemap: true
+      sourcemap: true,
     },
     preserveSymlinks: false,
     plugins: [
@@ -50,16 +50,16 @@ export function nodeConfig(test = false) {
         delimiters: ["", ""],
         // replace dynamic checks with if (true) since this is for node only.
         // Allows rollup's dead code elimination to be more aggressive.
-        "if (isNode)": "if (true)"
+        "if (isNode)": "if (true)",
       }),
       nodeResolve({ preferBuiltins: true }),
       json(),
       cjs({
         namedExports: {
           events: ["EventEmitter"],
-          ...openTelemetryCommonJs()
-        }
-      })
+          ...openTelemetryCommonJs(),
+        },
+      }),
     ],
     onwarn(warning, warn) {
       if (
@@ -82,7 +82,7 @@ export function nodeConfig(test = false) {
         throw new Error(warning.message);
       }
       warn(warning);
-    }
+    },
   };
 
   if (test) {
@@ -90,7 +90,7 @@ export function nodeConfig(test = false) {
     baseConfig.input = [
       "dist-esm/storage-file-datalake/test/*.spec.js",
       "dist-esm/storage-file-datalake/test/node/*.spec.js",
-      "dist-esm/storage-file-datalake/src/index.js"
+      "dist-esm/storage-file-datalake/src/index.js",
     ];
     baseConfig.plugins.unshift(multiEntry());
 
@@ -121,7 +121,7 @@ export function browserConfig(test = false) {
       banner: banner,
       format: "umd",
       name: "azdatalake",
-      sourcemap: true
+      sourcemap: true,
     },
     preserveSymlinks: false,
     plugins: [
@@ -131,7 +131,7 @@ export function browserConfig(test = false) {
         // replace dynamic checks with if (false) since this is for
         // browser only. Rollup's dead code elimination will remove
         // any code guarded by if (isNode) { ... }
-        "if (isNode)": "if (false)"
+        "if (isNode)": "if (false)",
       }),
       // fs and os are not used by the browser bundle, so just shim it
       // dotenv doesn't work in the browser, so replace it with a no-op function
@@ -148,19 +148,19 @@ export function browserConfig(test = false) {
         `,
         util: `
           export function promisify() { }
-        `
+        `,
       }),
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false
+        preferBuiltins: false,
       }),
       cjs({
         namedExports: {
           events: ["EventEmitter"],
           chai: ["version", "use", "util", "config", "expect", "should", "assert"],
-          ...openTelemetryCommonJs()
-        }
-      })
+          ...openTelemetryCommonJs(),
+        },
+      }),
     ],
     onwarn(warning, warn) {
       if (
@@ -188,13 +188,13 @@ export function browserConfig(test = false) {
         throw new Error(warning.message);
       }
       warn(warning);
-    }
+    },
   };
 
   if (test) {
     baseConfig.input = [
       "dist-esm/storage-file-datalake/test/*.spec.js",
-      "dist-esm/storage-file-datalake/test/browser/*.spec.js"
+      "dist-esm/storage-file-datalake/test/browser/*.spec.js",
     ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";

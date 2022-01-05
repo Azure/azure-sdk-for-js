@@ -7,7 +7,7 @@ import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
-  isIpEndpointStyle
+  isIpEndpointStyle,
 } from "../src/utils/utils.common";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common";
@@ -42,11 +42,11 @@ describe("Utility Helpers", () => {
     );
   }
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 

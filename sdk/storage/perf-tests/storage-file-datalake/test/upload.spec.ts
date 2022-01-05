@@ -19,8 +19,8 @@ export class StorageDFSUploadTest extends StorageDFSTest<StorageFileShareUploadT
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 1024
-    }
+      defaultValue: 1024,
+    },
   };
 
   constructor() {
