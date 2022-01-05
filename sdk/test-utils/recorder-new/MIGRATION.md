@@ -11,7 +11,7 @@ This document outlines key differences between the legacy recorder and the new U
 The first step is to install the unified recorder client library in your package by running
 
 ```bash
-$ rush add --dev -p @azure-tools/test-recorder-new
+$ rush add --dev --caret -p @azure-tools/test-recorder-new
 ```
 
 You will use this library to control the recorder from your tests. The API is similar to the legacy recorder. Differences will be discussed below.
