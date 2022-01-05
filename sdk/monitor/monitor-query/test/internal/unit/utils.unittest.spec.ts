@@ -13,8 +13,8 @@ describe("Utils unit tests", () => {
     [{ serverTimeoutInSeconds: 7 }, { Prefer: "wait=7" }],
     [
       { serverTimeoutInSeconds: 7, includeQueryStatistics: true },
-      { Prefer: "wait=7,include-statistics=true" }
-    ]
+      { Prefer: "wait=7,include-statistics=true" },
+    ],
   ];
 
   headers.forEach(([options, expectedResult]) => {

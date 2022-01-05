@@ -5,9 +5,9 @@ const {
   jsonRecordingFilterFunction,
   isPlaybackMode,
   isSoftRecordMode,
-  isRecordMode
+  isRecordMode,
 } = require("@azure-tools/test-recorder");
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
@@ -28,7 +28,7 @@ module.exports = function(config) {
       "karma-remap-istanbul",
       "karma-junit-reporter",
       "karma-json-to-file-reporter",
-      "karma-json-preprocessor"
+      "karma-json-preprocessor",
     ],
 
     // list of files / patterns to load in the browser
@@ -46,7 +46,7 @@ module.exports = function(config) {
       "recordings/browsers/**/*.json": ["json"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      "test-browser/index.js": ["coverage"]
+      "test-browser/index.js": ["coverage"],
     },
 
     // inject following environment values into browser testing with window.__env__
@@ -61,7 +61,7 @@ module.exports = function(config) {
 
     coverageReporter: {
       dir: "coverage-browser/",
-      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
+      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }],
     },
 
     remapIstanbulReporter: {
@@ -70,8 +70,8 @@ module.exports = function(config) {
         lcovonly: "coverage-browser/lcov.info",
         html: "coverage-browser/html/report",
         "text-summary": null,
-        cobertura: "./coverage-browser/cobertura-coverage.xml"
-      }
+        cobertura: "./coverage-browser/cobertura-coverage.xml",
+      },
     },
 
     junitReporter: {
@@ -81,12 +81,12 @@ module.exports = function(config) {
       useBrowserName: false, // add browser name to report and classes names
       nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
       classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
-      properties: {} // key value pair of properties to add to the <properties> section of the report
+      properties: {}, // key value pair of properties to add to the <properties> section of the report
     },
 
     jsonToFileReporter: {
       filter: jsonRecordingFilterFunction,
-      outputPath: "."
+      outputPath: ".",
     },
 
     // web server port
@@ -120,15 +120,15 @@ module.exports = function(config) {
     browserDisconnectTolerance: 3,
 
     browserConsoleLogOptions: {
-      terminal: !isRecordMode()
+      terminal: !isRecordMode(),
     },
 
     client: {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "600000"
-      }
-    }
+        timeout: "600000",
+      },
+    },
   });
 };

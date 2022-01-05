@@ -3,7 +3,7 @@
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { OperationTimeoutError } from "rhea-promise";
-import { StandardAbortMessage } from "../errors";
+import { StandardAbortMessage } from "./constants";
 import { logger } from "../log";
 
 /**

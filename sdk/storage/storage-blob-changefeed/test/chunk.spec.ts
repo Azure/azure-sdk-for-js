@@ -64,7 +64,7 @@ describe("Chunk", async () => {
 
     // act and verify
     const change = await chunk.getChange();
-    assert.deepStrictEqual(change, (record as unknown) as BlobChangeFeedEvent);
+    assert.deepStrictEqual(change, record as unknown as BlobChangeFeedEvent);
     assert.equal(chunk.blockOffset, avroReaderStub.blockOffset);
     assert.equal(chunk.eventIndex, avroReaderStub.objectIndex);
 

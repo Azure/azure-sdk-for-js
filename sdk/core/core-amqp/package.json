@@ -81,6 +81,7 @@
     "util": "^0.12.1"
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.18.11",
     "@rollup/plugin-commonjs": "11.0.2",
@@ -98,7 +99,6 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "debug": "^4.1.1",
-    "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
     "eslint": "^7.15.0",
     "karma": "^6.2.0",

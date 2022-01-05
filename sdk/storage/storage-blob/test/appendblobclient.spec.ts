@@ -11,7 +11,7 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  recorderEnvSetup
+  recorderEnvSetup,
 } from "./utils";
 
 dotenv.config();
@@ -24,7 +24,7 @@ describe("AppendBlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -34,7 +34,7 @@ describe("AppendBlobClient", () => {
     appendBlobClient = containerClient.getAppendBlobClient(blobName);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await containerClient.delete();
     await recorder.stop();
   });
@@ -51,12 +51,12 @@ describe("AppendBlobClient", () => {
         blobContentDisposition: "blobContentDisposition",
         blobContentEncoding: "blobContentEncoding",
         blobContentLanguage: "blobContentLanguage",
-        blobContentType: "blobContentType"
+        blobContentType: "blobContentType",
       },
       metadata: {
         key1: "vala",
-        key2: "valb"
-      }
+        key2: "valb",
+      },
     };
     await appendBlobClient.create(options);
     const properties = await appendBlobClient.getProperties();
@@ -97,7 +97,7 @@ describe("AppendBlobClient", () => {
     await appendBlobClient.appendBlock(content, content.length, {
       onProgress: () => {
         /* empty */
-      }
+      },
     });
 
     const downloadResponse = await appendBlobClient.download(0);
@@ -150,7 +150,7 @@ describe("AppendBlobClient", () => {
     let exceptionCaught = false;
     try {
       await appendBlobClient.appendBlock(content, content.length, {
-        transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
+        transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]),
       });
     } catch (err) {
       if (
@@ -194,7 +194,7 @@ describe("AppendBlobClient", () => {
     let destBlobClient = containerClient.getAppendBlobClient(recorder.getUniqueName("copiedblob1"));
     await (
       await destBlobClient.beginCopyFromURL(appendBlobClient.url, {
-        sealBlob: false
+        sealBlob: false,
       })
     ).pollUntilDone();
     let properties = await destBlobClient.getProperties();
@@ -208,7 +208,7 @@ describe("AppendBlobClient", () => {
     destBlobClient = containerClient.getAppendBlobClient(recorder.getUniqueName("copiedblob3"));
     await (
       await destBlobClient.beginCopyFromURL(appendBlobClient.url, {
-        sealBlob: true
+        sealBlob: true,
       })
     ).pollUntilDone();
     properties = await destBlobClient.getProperties();

@@ -18,7 +18,7 @@ import {
   SchemaRegistry,
   RegisterSchemaOptions,
   SchemaProperties,
-  Schema
+  Schema,
 } from "./models";
 import { DEFAULT_SCOPE } from "./constants";
 import { logger } from "./logger";
@@ -54,15 +54,15 @@ export class SchemaRegistryClient implements SchemaRegistry {
       ...options,
       ...{
         loggingOptions: {
-          logger: logger.info
-        }
-      }
+          logger: logger.info,
+        },
+      },
     };
 
     this.client = new GeneratedSchemaRegistryClient(this.fullyQualifiedNamespace, {
       endpoint: this.fullyQualifiedNamespace,
       apiVersion: options.apiVersion,
-      ...internalPipelineOptions
+      ...internalPipelineOptions,
     });
 
     const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });

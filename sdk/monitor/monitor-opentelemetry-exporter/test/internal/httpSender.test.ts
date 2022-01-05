@@ -8,7 +8,7 @@ import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import {
   successfulBreezeResponse,
   failedBreezeResponse,
-  partialBreezeResponse
+  partialBreezeResponse,
 } from "../utils/breezeTestUtils";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import nock from "nock";
@@ -32,7 +32,7 @@ describe("HttpSender", () => {
   describe("#send()", () => {
     const envelope: Envelope = {
       name: "name",
-      time: new Date()
+      time: new Date(),
     };
     it("should send a valid envelope", async () => {
       const sender = new HttpSender(DEFAULT_EXPORTER_CONFIG);

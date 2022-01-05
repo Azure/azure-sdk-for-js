@@ -10,7 +10,7 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  recorderEnvSetup
+  recorderEnvSetup,
 } from "./utils";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
@@ -28,7 +28,7 @@ describe("BlockBlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -39,7 +39,7 @@ describe("BlockBlobClient", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
@@ -58,7 +58,7 @@ describe("BlockBlobClient", () => {
     await blockBlobClient.upload(body, body.length, {
       onProgress: () => {
         /* empty */
-      }
+      },
     });
     const result = await blobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
@@ -74,13 +74,13 @@ describe("BlockBlobClient", () => {
       blobContentType: "blobContentType",
       metadata: {
         keya: "vala",
-        keyb: "valb"
-      }
+        keyb: "valb",
+      },
     };
     await blockBlobClient.upload(body, body.length, {
       blobHTTPHeaders: options,
       metadata: options.metadata,
-      tier: BlockBlobTier.Cool
+      tier: BlockBlobTier.Cool,
     });
     const result = await blobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
@@ -112,12 +112,12 @@ describe("BlockBlobClient", () => {
     await blockBlobClient.stageBlock(base64encode("1"), body, body.length, {
       onProgress: () => {
         /* empty */
-      }
+      },
     });
     await blockBlobClient.stageBlock(base64encode("2"), body, body.length, {
       onProgress: () => {
         /* empty */
-      }
+      },
     });
     await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")]);
     const listResponse = await blockBlobClient.getBlockList("committed");
@@ -178,7 +178,7 @@ describe("BlockBlobClient", () => {
     await newBlockBlobClient.commitBlockList([
       base64encode("1"),
       base64encode("2"),
-      base64encode("3")
+      base64encode("3"),
     ]);
 
     const downloadResponse = await newBlockBlobClient.download(0);
@@ -211,13 +211,13 @@ describe("BlockBlobClient", () => {
       blobContentType: "blobContentType",
       metadata: {
         keya: "vala",
-        keyb: "valb"
-      }
+        keyb: "valb",
+      },
     };
     await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], {
       blobHTTPHeaders: options,
       metadata: options.metadata,
-      tier: BlockBlobTier.Cool
+      tier: BlockBlobTier.Cool,
     });
 
     const listResponse = await blockBlobClient.getBlockList("committed");
@@ -303,17 +303,17 @@ describe("BlockBlobClient", () => {
       blobContentType: "blobContentType",
       metadata: {
         keya: "vala",
-        keyb: "valb"
-      }
+        keyb: "valb",
+      },
     };
     const uResp = await blockBlobClient.upload(body, body.length, {
       blobHTTPHeaders: options,
       metadata: options.metadata,
-      customerProvidedKey: Test_CPK_INFO
+      customerProvidedKey: Test_CPK_INFO,
     });
     assert.equal(uResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
     const result = await blobClient.download(0, undefined, {
-      customerProvidedKey: Test_CPK_INFO
+      customerProvidedKey: Test_CPK_INFO,
     });
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
     assert.deepStrictEqual(result.cacheControl, options.blobCacheControl);
@@ -338,7 +338,7 @@ describe("BlockBlobClient", () => {
       recorder.getUniqueName("newblockblob")
     );
     const sResp = await newBlockBlobURL.stageBlock(base64encode("1"), body.substring(0, 4), 4, {
-      customerProvidedKey: Test_CPK_INFO
+      customerProvidedKey: Test_CPK_INFO,
     });
     assert.equal(sResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
@@ -352,7 +352,7 @@ describe("BlockBlobClient", () => {
     assert.equal(sResp2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     await newBlockBlobURL.stageBlockFromURL(base64encode("3"), blockBlobClient.url, 8, 2, {
-      customerProvidedKey: Test_CPK_INFO
+      customerProvidedKey: Test_CPK_INFO,
     });
 
     const listResponse = await newBlockBlobURL.getBlockList("uncommitted");
@@ -371,7 +371,7 @@ describe("BlockBlobClient", () => {
     assert.equal(cmResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     const downloadResponse = await newBlockBlobURL.download(0, undefined, {
-      customerProvidedKey: Test_CPK_INFO
+      customerProvidedKey: Test_CPK_INFO,
     });
     assert.equal(await bodyToString(downloadResponse, 10), body);
   });
@@ -379,7 +379,7 @@ describe("BlockBlobClient", () => {
   it("download without CPK should fail, if upload with CPK", async () => {
     const body: string = recorder.getUniqueName("randomstring");
     await blockBlobClient.upload(body, body.length, {
-      customerProvidedKey: Test_CPK_INFO
+      customerProvidedKey: Test_CPK_INFO,
     });
 
     let exceptionCaught = false;
@@ -398,7 +398,7 @@ describe("BlockBlobClient", () => {
     let exceptionCaught = false;
     try {
       await blockBlobClient.stageBlock(base64encode("1"), content, content.length, {
-        transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
+        transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]),
       });
     } catch (err) {
       if (
@@ -417,14 +417,14 @@ describe("BlockBlobClient", () => {
   it("syncUploadFromURL with public source should work", async () => {
     const metadata = {
       key1: "val1",
-      key2: "val2"
+      key2: "val2",
     };
 
     await blockBlobClient.syncUploadFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
       conditions: {
-        ifNoneMatch: "*"
+        ifNoneMatch: "*",
       },
-      metadata
+      metadata,
     });
 
     const getRes = await blockBlobClient.getProperties();
@@ -435,9 +435,9 @@ describe("BlockBlobClient", () => {
         "https://azure.github.io/azure-sdk-for-js/index.html",
         {
           conditions: {
-            ifNoneMatch: "*"
+            ifNoneMatch: "*",
           },
-          metadata
+          metadata,
         }
       );
       assert.fail();
