@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { BandwidthSchedules } from "../operationsInterfaces";
+import { MonitoringConfig } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,25 +15,25 @@ import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  BandwidthSchedule,
-  BandwidthSchedulesListByDataBoxEdgeDeviceNextOptionalParams,
-  BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams,
-  BandwidthSchedulesListByDataBoxEdgeDeviceResponse,
-  BandwidthSchedulesGetOptionalParams,
-  BandwidthSchedulesGetResponse,
-  BandwidthSchedulesCreateOrUpdateOptionalParams,
-  BandwidthSchedulesCreateOrUpdateResponse,
-  BandwidthSchedulesDeleteOptionalParams,
-  BandwidthSchedulesListByDataBoxEdgeDeviceNextResponse
+  MonitoringMetricConfiguration,
+  MonitoringConfigListNextOptionalParams,
+  MonitoringConfigListOptionalParams,
+  MonitoringConfigListResponse,
+  MonitoringConfigGetOptionalParams,
+  MonitoringConfigGetResponse,
+  MonitoringConfigCreateOrUpdateOptionalParams,
+  MonitoringConfigCreateOrUpdateResponse,
+  MonitoringConfigDeleteOptionalParams,
+  MonitoringConfigListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing BandwidthSchedules operations. */
-export class BandwidthSchedulesImpl implements BandwidthSchedules {
+/** Class containing MonitoringConfig operations. */
+export class MonitoringConfigImpl implements MonitoringConfig {
   private readonly client: DataBoxEdgeManagementClient;
 
   /**
-   * Initialize a new instance of the class BandwidthSchedules class.
+   * Initialize a new instance of the class MonitoringConfig class.
    * @param client Reference to the service client
    */
   constructor(client: DataBoxEdgeManagementClient) {
@@ -41,18 +41,21 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
   }
 
   /**
-   * Gets all the bandwidth schedules for a Data Box Edge/Data Box Gateway device.
+   * Lists metric configurations in a role.
    * @param deviceName The device name.
+   * @param roleName The role name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  public listByDataBoxEdgeDevice(
+  public list(
     deviceName: string,
+    roleName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams
-  ): PagedAsyncIterableIterator<BandwidthSchedule> {
-    const iter = this.listByDataBoxEdgeDevicePagingAll(
+    options?: MonitoringConfigListOptionalParams
+  ): PagedAsyncIterableIterator<MonitoringMetricConfiguration> {
+    const iter = this.listPagingAll(
       deviceName,
+      roleName,
       resourceGroupName,
       options
     );
@@ -64,8 +67,9 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
         return this;
       },
       byPage: () => {
-        return this.listByDataBoxEdgeDevicePagingPage(
+        return this.listPagingPage(
           deviceName,
+          roleName,
           resourceGroupName,
           options
         );
@@ -73,21 +77,24 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
     };
   }
 
-  private async *listByDataBoxEdgeDevicePagingPage(
+  private async *listPagingPage(
     deviceName: string,
+    roleName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams
-  ): AsyncIterableIterator<BandwidthSchedule[]> {
-    let result = await this._listByDataBoxEdgeDevice(
+    options?: MonitoringConfigListOptionalParams
+  ): AsyncIterableIterator<MonitoringMetricConfiguration[]> {
+    let result = await this._list(
       deviceName,
+      roleName,
       resourceGroupName,
       options
     );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByDataBoxEdgeDeviceNext(
+      result = await this._listNext(
         deviceName,
+        roleName,
         resourceGroupName,
         continuationToken,
         options
@@ -97,13 +104,15 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
     }
   }
 
-  private async *listByDataBoxEdgeDevicePagingAll(
+  private async *listPagingAll(
     deviceName: string,
+    roleName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams
-  ): AsyncIterableIterator<BandwidthSchedule> {
-    for await (const page of this.listByDataBoxEdgeDevicePagingPage(
+    options?: MonitoringConfigListOptionalParams
+  ): AsyncIterableIterator<MonitoringMetricConfiguration> {
+    for await (const page of this.listPagingPage(
       deviceName,
+      roleName,
       resourceGroupName,
       options
     )) {
@@ -112,65 +121,67 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
   }
 
   /**
-   * Gets all the bandwidth schedules for a Data Box Edge/Data Box Gateway device.
+   * Lists metric configurations in a role.
    * @param deviceName The device name.
+   * @param roleName The role name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  private _listByDataBoxEdgeDevice(
+  private _list(
     deviceName: string,
+    roleName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams
-  ): Promise<BandwidthSchedulesListByDataBoxEdgeDeviceResponse> {
+    options?: MonitoringConfigListOptionalParams
+  ): Promise<MonitoringConfigListResponse> {
     return this.client.sendOperationRequest(
-      { deviceName, resourceGroupName, options },
-      listByDataBoxEdgeDeviceOperationSpec
+      { deviceName, roleName, resourceGroupName, options },
+      listOperationSpec
     );
   }
 
   /**
-   * Gets the properties of the specified bandwidth schedule.
+   * Gets a  metric configuration of a role.
    * @param deviceName The device name.
-   * @param name The bandwidth schedule name.
+   * @param roleName The role name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
   get(
     deviceName: string,
-    name: string,
+    roleName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesGetOptionalParams
-  ): Promise<BandwidthSchedulesGetResponse> {
+    options?: MonitoringConfigGetOptionalParams
+  ): Promise<MonitoringConfigGetResponse> {
     return this.client.sendOperationRequest(
-      { deviceName, name, resourceGroupName, options },
+      { deviceName, roleName, resourceGroupName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or updates a bandwidth schedule.
+   * Creates a new metric configuration or updates an existing one for a role.
    * @param deviceName The device name.
-   * @param name The bandwidth schedule name which needs to be added/updated.
+   * @param roleName The role name.
    * @param resourceGroupName The resource group name.
-   * @param parameters The bandwidth schedule to be added or updated.
+   * @param monitoringMetricConfiguration The metric configuration.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     deviceName: string,
-    name: string,
+    roleName: string,
     resourceGroupName: string,
-    parameters: BandwidthSchedule,
-    options?: BandwidthSchedulesCreateOrUpdateOptionalParams
+    monitoringMetricConfiguration: MonitoringMetricConfiguration,
+    options?: MonitoringConfigCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<BandwidthSchedulesCreateOrUpdateResponse>,
-      BandwidthSchedulesCreateOrUpdateResponse
+      PollOperationState<MonitoringConfigCreateOrUpdateResponse>,
+      MonitoringConfigCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<BandwidthSchedulesCreateOrUpdateResponse> => {
+    ): Promise<MonitoringConfigCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -208,7 +219,13 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
 
     const lro = new LroImpl(
       sendOperation,
-      { deviceName, name, resourceGroupName, parameters, options },
+      {
+        deviceName,
+        roleName,
+        resourceGroupName,
+        monitoringMetricConfiguration,
+        options
+      },
       createOrUpdateOperationSpec
     );
     return new LroEngine(lro, {
@@ -218,42 +235,42 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
   }
 
   /**
-   * Creates or updates a bandwidth schedule.
+   * Creates a new metric configuration or updates an existing one for a role.
    * @param deviceName The device name.
-   * @param name The bandwidth schedule name which needs to be added/updated.
+   * @param roleName The role name.
    * @param resourceGroupName The resource group name.
-   * @param parameters The bandwidth schedule to be added or updated.
+   * @param monitoringMetricConfiguration The metric configuration.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     deviceName: string,
-    name: string,
+    roleName: string,
     resourceGroupName: string,
-    parameters: BandwidthSchedule,
-    options?: BandwidthSchedulesCreateOrUpdateOptionalParams
-  ): Promise<BandwidthSchedulesCreateOrUpdateResponse> {
+    monitoringMetricConfiguration: MonitoringMetricConfiguration,
+    options?: MonitoringConfigCreateOrUpdateOptionalParams
+  ): Promise<MonitoringConfigCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       deviceName,
-      name,
+      roleName,
       resourceGroupName,
-      parameters,
+      monitoringMetricConfiguration,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes the specified bandwidth schedule.
+   * deletes a new metric configuration for a role.
    * @param deviceName The device name.
-   * @param name The bandwidth schedule name.
+   * @param roleName The role name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
   async beginDelete(
     deviceName: string,
-    name: string,
+    roleName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesDeleteOptionalParams
+    options?: MonitoringConfigDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -296,7 +313,7 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
 
     const lro = new LroImpl(
       sendOperation,
-      { deviceName, name, resourceGroupName, options },
+      { deviceName, roleName, resourceGroupName, options },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -306,21 +323,21 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
   }
 
   /**
-   * Deletes the specified bandwidth schedule.
+   * deletes a new metric configuration for a role.
    * @param deviceName The device name.
-   * @param name The bandwidth schedule name.
+   * @param roleName The role name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     deviceName: string,
-    name: string,
+    roleName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesDeleteOptionalParams
+    options?: MonitoringConfigDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       deviceName,
-      name,
+      roleName,
       resourceGroupName,
       options
     );
@@ -328,35 +345,36 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
   }
 
   /**
-   * ListByDataBoxEdgeDeviceNext
+   * ListNext
    * @param deviceName The device name.
+   * @param roleName The role name.
    * @param resourceGroupName The resource group name.
-   * @param nextLink The nextLink from the previous successful call to the ListByDataBoxEdgeDevice
-   *                 method.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listByDataBoxEdgeDeviceNext(
+  private _listNext(
     deviceName: string,
+    roleName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceNextOptionalParams
-  ): Promise<BandwidthSchedulesListByDataBoxEdgeDeviceNextResponse> {
+    options?: MonitoringConfigListNextOptionalParams
+  ): Promise<MonitoringConfigListNextResponse> {
     return this.client.sendOperationRequest(
-      { deviceName, resourceGroupName, nextLink, options },
-      listByDataBoxEdgeDeviceNextOperationSpec
+      { deviceName, roleName, resourceGroupName, nextLink, options },
+      listNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/monitoringConfig",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BandwidthSchedulesList
+      bodyMapper: Mappers.MonitoringMetricConfigurationList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -367,18 +385,19 @@ const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
+    Parameters.roleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/monitoringConfig/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.MonitoringMetricConfiguration
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -390,40 +409,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.name
+    Parameters.roleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/monitoringConfig/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.MonitoringMetricConfiguration
     },
     201: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.MonitoringMetricConfiguration
     },
     202: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.MonitoringMetricConfiguration
     },
     204: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.MonitoringMetricConfiguration
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.monitoringMetricConfiguration,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.name
+    Parameters.roleName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -431,7 +450,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/monitoringConfig/default",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -448,17 +467,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.name
+    Parameters.roleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BandwidthSchedulesList
+      bodyMapper: Mappers.MonitoringMetricConfigurationList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -470,7 +489,8 @@ const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
+    Parameters.roleName
   ],
   headerParameters: [Parameters.accept],
   serializer

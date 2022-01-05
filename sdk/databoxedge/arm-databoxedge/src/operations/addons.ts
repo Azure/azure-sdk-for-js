@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { BandwidthSchedules } from "../operationsInterfaces";
+import { Addons } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,25 +15,25 @@ import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  BandwidthSchedule,
-  BandwidthSchedulesListByDataBoxEdgeDeviceNextOptionalParams,
-  BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams,
-  BandwidthSchedulesListByDataBoxEdgeDeviceResponse,
-  BandwidthSchedulesGetOptionalParams,
-  BandwidthSchedulesGetResponse,
-  BandwidthSchedulesCreateOrUpdateOptionalParams,
-  BandwidthSchedulesCreateOrUpdateResponse,
-  BandwidthSchedulesDeleteOptionalParams,
-  BandwidthSchedulesListByDataBoxEdgeDeviceNextResponse
+  AddonUnion,
+  AddonsListByRoleNextOptionalParams,
+  AddonsListByRoleOptionalParams,
+  AddonsListByRoleResponse,
+  AddonsGetOptionalParams,
+  AddonsGetResponse,
+  AddonsCreateOrUpdateOptionalParams,
+  AddonsCreateOrUpdateResponse,
+  AddonsDeleteOptionalParams,
+  AddonsListByRoleNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing BandwidthSchedules operations. */
-export class BandwidthSchedulesImpl implements BandwidthSchedules {
+/** Class containing Addons operations. */
+export class AddonsImpl implements Addons {
   private readonly client: DataBoxEdgeManagementClient;
 
   /**
-   * Initialize a new instance of the class BandwidthSchedules class.
+   * Initialize a new instance of the class Addons class.
    * @param client Reference to the service client
    */
   constructor(client: DataBoxEdgeManagementClient) {
@@ -41,18 +41,21 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
   }
 
   /**
-   * Gets all the bandwidth schedules for a Data Box Edge/Data Box Gateway device.
+   * Lists all the addons configured in the role.
    * @param deviceName The device name.
+   * @param roleName The role name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  public listByDataBoxEdgeDevice(
+  public listByRole(
     deviceName: string,
+    roleName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams
-  ): PagedAsyncIterableIterator<BandwidthSchedule> {
-    const iter = this.listByDataBoxEdgeDevicePagingAll(
+    options?: AddonsListByRoleOptionalParams
+  ): PagedAsyncIterableIterator<AddonUnion> {
+    const iter = this.listByRolePagingAll(
       deviceName,
+      roleName,
       resourceGroupName,
       options
     );
@@ -64,8 +67,9 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
         return this;
       },
       byPage: () => {
-        return this.listByDataBoxEdgeDevicePagingPage(
+        return this.listByRolePagingPage(
           deviceName,
+          roleName,
           resourceGroupName,
           options
         );
@@ -73,21 +77,24 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
     };
   }
 
-  private async *listByDataBoxEdgeDevicePagingPage(
+  private async *listByRolePagingPage(
     deviceName: string,
+    roleName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams
-  ): AsyncIterableIterator<BandwidthSchedule[]> {
-    let result = await this._listByDataBoxEdgeDevice(
+    options?: AddonsListByRoleOptionalParams
+  ): AsyncIterableIterator<AddonUnion[]> {
+    let result = await this._listByRole(
       deviceName,
+      roleName,
       resourceGroupName,
       options
     );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByDataBoxEdgeDeviceNext(
+      result = await this._listByRoleNext(
         deviceName,
+        roleName,
         resourceGroupName,
         continuationToken,
         options
@@ -97,13 +104,15 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
     }
   }
 
-  private async *listByDataBoxEdgeDevicePagingAll(
+  private async *listByRolePagingAll(
     deviceName: string,
+    roleName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams
-  ): AsyncIterableIterator<BandwidthSchedule> {
-    for await (const page of this.listByDataBoxEdgeDevicePagingPage(
+    options?: AddonsListByRoleOptionalParams
+  ): AsyncIterableIterator<AddonUnion> {
+    for await (const page of this.listByRolePagingPage(
       deviceName,
+      roleName,
       resourceGroupName,
       options
     )) {
@@ -112,65 +121,71 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
   }
 
   /**
-   * Gets all the bandwidth schedules for a Data Box Edge/Data Box Gateway device.
+   * Lists all the addons configured in the role.
    * @param deviceName The device name.
+   * @param roleName The role name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
-  private _listByDataBoxEdgeDevice(
+  private _listByRole(
     deviceName: string,
+    roleName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams
-  ): Promise<BandwidthSchedulesListByDataBoxEdgeDeviceResponse> {
+    options?: AddonsListByRoleOptionalParams
+  ): Promise<AddonsListByRoleResponse> {
     return this.client.sendOperationRequest(
-      { deviceName, resourceGroupName, options },
-      listByDataBoxEdgeDeviceOperationSpec
+      { deviceName, roleName, resourceGroupName, options },
+      listByRoleOperationSpec
     );
   }
 
   /**
-   * Gets the properties of the specified bandwidth schedule.
+   * Gets a specific addon by name.
    * @param deviceName The device name.
-   * @param name The bandwidth schedule name.
+   * @param roleName The role name.
+   * @param addonName The addon name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
   get(
     deviceName: string,
-    name: string,
+    roleName: string,
+    addonName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesGetOptionalParams
-  ): Promise<BandwidthSchedulesGetResponse> {
+    options?: AddonsGetOptionalParams
+  ): Promise<AddonsGetResponse> {
     return this.client.sendOperationRequest(
-      { deviceName, name, resourceGroupName, options },
+      { deviceName, roleName, addonName, resourceGroupName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or updates a bandwidth schedule.
+   * Create or update a addon.
    * @param deviceName The device name.
-   * @param name The bandwidth schedule name which needs to be added/updated.
+   * @param roleName The role name.
+   * @param addonName The addon name.
    * @param resourceGroupName The resource group name.
-   * @param parameters The bandwidth schedule to be added or updated.
+   * @param addon The addon properties.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     deviceName: string,
-    name: string,
+    roleName: string,
+    addonName: string,
     resourceGroupName: string,
-    parameters: BandwidthSchedule,
-    options?: BandwidthSchedulesCreateOrUpdateOptionalParams
+    addon: AddonUnion,
+    options?: AddonsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<BandwidthSchedulesCreateOrUpdateResponse>,
-      BandwidthSchedulesCreateOrUpdateResponse
+      PollOperationState<AddonsCreateOrUpdateResponse>,
+      AddonsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<BandwidthSchedulesCreateOrUpdateResponse> => {
+    ): Promise<AddonsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -208,7 +223,7 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
 
     const lro = new LroImpl(
       sendOperation,
-      { deviceName, name, resourceGroupName, parameters, options },
+      { deviceName, roleName, addonName, resourceGroupName, addon, options },
       createOrUpdateOperationSpec
     );
     return new LroEngine(lro, {
@@ -218,42 +233,47 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
   }
 
   /**
-   * Creates or updates a bandwidth schedule.
+   * Create or update a addon.
    * @param deviceName The device name.
-   * @param name The bandwidth schedule name which needs to be added/updated.
+   * @param roleName The role name.
+   * @param addonName The addon name.
    * @param resourceGroupName The resource group name.
-   * @param parameters The bandwidth schedule to be added or updated.
+   * @param addon The addon properties.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     deviceName: string,
-    name: string,
+    roleName: string,
+    addonName: string,
     resourceGroupName: string,
-    parameters: BandwidthSchedule,
-    options?: BandwidthSchedulesCreateOrUpdateOptionalParams
-  ): Promise<BandwidthSchedulesCreateOrUpdateResponse> {
+    addon: AddonUnion,
+    options?: AddonsCreateOrUpdateOptionalParams
+  ): Promise<AddonsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       deviceName,
-      name,
+      roleName,
+      addonName,
       resourceGroupName,
-      parameters,
+      addon,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes the specified bandwidth schedule.
+   * Deletes the addon on the device.
    * @param deviceName The device name.
-   * @param name The bandwidth schedule name.
+   * @param roleName The role name.
+   * @param addonName The addon name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
   async beginDelete(
     deviceName: string,
-    name: string,
+    roleName: string,
+    addonName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesDeleteOptionalParams
+    options?: AddonsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -296,7 +316,7 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
 
     const lro = new LroImpl(
       sendOperation,
-      { deviceName, name, resourceGroupName, options },
+      { deviceName, roleName, addonName, resourceGroupName, options },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -306,21 +326,24 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
   }
 
   /**
-   * Deletes the specified bandwidth schedule.
+   * Deletes the addon on the device.
    * @param deviceName The device name.
-   * @param name The bandwidth schedule name.
+   * @param roleName The role name.
+   * @param addonName The addon name.
    * @param resourceGroupName The resource group name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     deviceName: string,
-    name: string,
+    roleName: string,
+    addonName: string,
     resourceGroupName: string,
-    options?: BandwidthSchedulesDeleteOptionalParams
+    options?: AddonsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       deviceName,
-      name,
+      roleName,
+      addonName,
       resourceGroupName,
       options
     );
@@ -328,35 +351,36 @@ export class BandwidthSchedulesImpl implements BandwidthSchedules {
   }
 
   /**
-   * ListByDataBoxEdgeDeviceNext
+   * ListByRoleNext
    * @param deviceName The device name.
+   * @param roleName The role name.
    * @param resourceGroupName The resource group name.
-   * @param nextLink The nextLink from the previous successful call to the ListByDataBoxEdgeDevice
-   *                 method.
+   * @param nextLink The nextLink from the previous successful call to the ListByRole method.
    * @param options The options parameters.
    */
-  private _listByDataBoxEdgeDeviceNext(
+  private _listByRoleNext(
     deviceName: string,
+    roleName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: BandwidthSchedulesListByDataBoxEdgeDeviceNextOptionalParams
-  ): Promise<BandwidthSchedulesListByDataBoxEdgeDeviceNextResponse> {
+    options?: AddonsListByRoleNextOptionalParams
+  ): Promise<AddonsListByRoleNextResponse> {
     return this.client.sendOperationRequest(
-      { deviceName, resourceGroupName, nextLink, options },
-      listByDataBoxEdgeDeviceNextOperationSpec
+      { deviceName, roleName, resourceGroupName, nextLink, options },
+      listByRoleNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
+const listByRoleOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/addons",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BandwidthSchedulesList
+      bodyMapper: Mappers.AddonList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -367,18 +391,19 @@ const listByDataBoxEdgeDeviceOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
+    Parameters.roleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/addons/{addonName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.Addon
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -390,40 +415,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.name
+    Parameters.roleName,
+    Parameters.addonName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/addons/{addonName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.Addon
     },
     201: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.Addon
     },
     202: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.Addon
     },
     204: {
-      bodyMapper: Mappers.BandwidthSchedule
+      bodyMapper: Mappers.Addon
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.addon,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.name
+    Parameters.roleName,
+    Parameters.addonName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -431,7 +458,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/bandwidthSchedules/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/roles/{roleName}/addons/{addonName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -448,17 +475,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deviceName,
-    Parameters.name
+    Parameters.roleName,
+    Parameters.addonName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
+const listByRoleNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BandwidthSchedulesList
+      bodyMapper: Mappers.AddonList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -470,7 +498,8 @@ const listByDataBoxEdgeDeviceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.deviceName
+    Parameters.deviceName,
+    Parameters.roleName
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -7,26 +7,26 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Operations } from "../operationsInterfaces";
+import { AvailableSkus } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
 import {
-  Operation,
-  OperationsListNextOptionalParams,
-  OperationsListOptionalParams,
-  OperationsListResponse,
-  OperationsListNextResponse
+  DataBoxEdgeSku,
+  AvailableSkusListNextOptionalParams,
+  AvailableSkusListOptionalParams,
+  AvailableSkusListResponse,
+  AvailableSkusListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Operations operations. */
-export class OperationsImpl implements Operations {
+/** Class containing AvailableSkus operations. */
+export class AvailableSkusImpl implements AvailableSkus {
   private readonly client: DataBoxEdgeManagementClient;
 
   /**
-   * Initialize a new instance of the class Operations class.
+   * Initialize a new instance of the class AvailableSkus class.
    * @param client Reference to the service client
    */
   constructor(client: DataBoxEdgeManagementClient) {
@@ -34,12 +34,12 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all the supported operations.
+   * List all the available Skus and information related to them.
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation> {
+    options?: AvailableSkusListOptionalParams
+  ): PagedAsyncIterableIterator<DataBoxEdgeSku> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -55,8 +55,8 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingPage(
-    options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<Operation[]> {
+    options?: AvailableSkusListOptionalParams
+  ): AsyncIterableIterator<DataBoxEdgeSku[]> {
     let result = await this._list(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -68,20 +68,20 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<Operation> {
+    options?: AvailableSkusListOptionalParams
+  ): AsyncIterableIterator<DataBoxEdgeSku> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * List all the supported operations.
+   * List all the available Skus and information related to them.
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationsListOptionalParams
-  ): Promise<OperationsListResponse> {
+    options?: AvailableSkusListOptionalParams
+  ): Promise<AvailableSkusListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -92,8 +92,8 @@ export class OperationsImpl implements Operations {
    */
   private _listNext(
     nextLink: string,
-    options?: OperationsListNextOptionalParams
-  ): Promise<OperationsListNextResponse> {
+    options?: AvailableSkusListNextOptionalParams
+  ): Promise<AvailableSkusListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -104,18 +104,19 @@ export class OperationsImpl implements Operations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.DataBoxEdge/operations",
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DataBoxEdge/availableSkus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationsList
+      bodyMapper: Mappers.DataBoxEdgeSkuList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -124,14 +125,18 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationsList
+      bodyMapper: Mappers.DataBoxEdgeSkuList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
