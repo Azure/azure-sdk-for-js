@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
 import { Comment, Node } from "estree";
+import { Rule } from "eslint";
 import { getRuleMetaData } from "../utils";
 
 //------------------------------------------------------------------------------

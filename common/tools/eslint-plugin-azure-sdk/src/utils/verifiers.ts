@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
 import { ArrayExpression, Literal, ObjectExpression, Property, SpreadElement } from "estree";
+import { Rule } from "eslint";
 
 interface StructureData {
   outer: string;

@@ -6,38 +6,30 @@
  * @author Arpan Laha
  */
 
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 import {
-  ParserWeakMapESTreeToTSNode,
-  ParserWeakMap,
-} from "@typescript-eslint/typescript-estree/dist/parser-options";
-import { Rule } from "eslint";
+  Declaration,
+  Modifier,
+  PropertySignature,
+  SymbolFlags,
+  SyntaxKind,
+  Node as TSNode,
+  Symbol as TSSymbol,
+  Type,
+  TypeChecker,
+  TypeReference,
+  TypeReferenceNode,
+  isArrayTypeNode
+} from "typescript";
 import {
   FunctionDeclaration,
   FunctionExpression,
   Identifier,
   MethodDefinition,
-  Pattern,
+  Pattern
 } from "estree";
-import {
-  Declaration,
-  isArrayTypeNode,
-  Node as TSNode,
-  PropertySignature,
-  Symbol as TSSymbol,
-  SymbolFlags,
-  Type,
-  TypeChecker,
-  TypeReferenceNode,
-  TypeReference,
-  Modifier,
-  SyntaxKind,
-} from "typescript";
-import { getRuleMetaData } from "../utils";
-
+import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 //------------------------------------------------------------------------------
 // Helpers
-//------------------------------------------------------------------------------
 
 type FunctionType = FunctionExpression | FunctionDeclaration;
 

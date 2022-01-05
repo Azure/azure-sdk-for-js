@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import rule from "../../src/rules/ts-package-json-bugs";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-package-json-bugs";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -80,7 +80,7 @@ const examplePackageGood = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -193,7 +193,7 @@ const examplePackageBad = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
