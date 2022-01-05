@@ -5,6 +5,7 @@ import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { env, Recorder } from "@azure-tools/test-recorder";
+import { getYieldedValue } from "@azure/test-utils";
 
 import {
   KeyVaultAccessControlClient,
@@ -70,7 +71,9 @@ describe("KeyVaultAccessControlClient", () => {
 
     describe("getRoleDefinition", function () {
       it("returns a role definition by name", async function () {
-        const anyRoleDefinition = (await client.listRoleDefinitions(globalScope).next()).value;
+        const anyRoleDefinition = getYieldedValue(
+          await client.listRoleDefinitions(globalScope).next()
+        );
 
         const roleDefinition = await client.getRoleDefinition(globalScope, anyRoleDefinition.name);
 
