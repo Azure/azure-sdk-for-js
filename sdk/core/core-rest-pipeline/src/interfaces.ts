@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="dom" />
-
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
@@ -119,7 +117,7 @@ export interface PipelineRequest {
   timeout: number;
 
   /**
-   * If credentials (cookies) should be sent along during an XHR.
+   * Indicates whether the user agent should send cookies from the other domain in the case of cross-origin requests.
    * Defaults to false.
    */
   withCredentials: boolean;
@@ -183,6 +181,16 @@ export interface PipelineRequest {
    * Does nothing when running in the browser.
    */
   agent?: Agent;
+
+  /**
+   * BROWSER ONLY
+   *
+   * A browser only option to enable browser Streams. If this option is set and a response is a stream
+   * the response will have a property `browserStream` instead of `blobBody` which will be undefined.
+   *
+   * Default value is false
+   */
+  enableBrowserStreams?: boolean;
 }
 
 /**
@@ -214,6 +222,14 @@ export interface PipelineResponse {
    * Always undefined in node.js.
    */
   blobBody?: Promise<Blob>;
+
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser ReadableStream.
+   * Always undefined in node.js.
+   */
+  browserStreamBody?: ReadableStream<Uint8Array> | null;
 
   /**
    * NODEJS ONLY

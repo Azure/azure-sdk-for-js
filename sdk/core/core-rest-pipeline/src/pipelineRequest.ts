@@ -69,6 +69,16 @@ export interface PipelineRequestOptions {
   streamResponseStatusCodes?: Set<number>;
 
   /**
+   * BROWSER ONLY
+   *
+   * A browser only option to enable browser Streams. If this option is set and a response is a stream
+   * the response will have a property `browserStream` instead of `blobBody` which will be undefined.
+   *
+   * Default value is false
+   */
+  enableBrowserStreams?: boolean;
+
+  /**
    * Proxy configuration.
    */
   proxySettings?: ProxySettings;
@@ -109,6 +119,7 @@ class PipelineRequestImpl implements PipelineRequest {
   public body?: RequestBodyType;
   public formData?: FormDataMap;
   public streamResponseStatusCodes?: Set<number>;
+  public enableBrowserStreams: boolean;
 
   public proxySettings?: ProxySettings;
   public disableKeepAlive: boolean;
@@ -136,6 +147,7 @@ class PipelineRequestImpl implements PipelineRequest {
     this.onDownloadProgress = options.onDownloadProgress;
     this.requestId = options.requestId || generateUuid();
     this.allowInsecureConnection = options.allowInsecureConnection ?? false;
+    this.enableBrowserStreams = options.enableBrowserStreams ?? false;
   }
 }
 

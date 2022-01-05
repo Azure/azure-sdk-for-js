@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="dom" />
-
 import { AbortError } from "@azure/abort-controller";
 import {
   HttpClient,
@@ -65,7 +63,7 @@ class FetchHttpClient implements HttpClient {
  * Sends a request
  */
 async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> {
-  const abortController = handleAbortSignal(request);
+  const { abortController, abortControllerCleanup } = setupAbortSignal(request);
   const headers = buildFetchHeaders(request.headers);
 
   const requestBody = buildRequestBody(request);
@@ -79,6 +77,10 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
     redirect: "manual",
     cache: "no-store",
   });
+
+  if (abortControllerCleanup) {
+    abortControllerCleanup();
+  }
 
   return buildPipelineResponse(response, request);
 }
@@ -98,23 +100,35 @@ async function buildPipelineResponse(httpResponse: Response, request: PipelineRe
     ? buildBodyStream(httpResponse.body, request.onDownloadProgress)
     : httpResponse.body;
 
-  const responseStream = new Response(bodyStream);
-
   if (
     // Value of POSITIVE_INFINITY in streamResponseStatusCodes is considered as any status code
     request.streamResponseStatusCodes?.has(Number.POSITIVE_INFINITY) ||
     request.streamResponseStatusCodes?.has(response.status)
   ) {
-    response.blobBody = responseStream.blob();
+    if (request.enableBrowserStreams) {
+      response.browserStreamBody = bodyStream;
+    } else {
+      const responseStream = new Response(bodyStream);
+      response.blobBody = responseStream.blob();
+    }
   } else {
+    const responseStream = new Response(bodyStream);
+
     response.bodyAsText = await responseStream.text();
   }
 
   return response;
 }
 
-function handleAbortSignal(request: PipelineRequest): AbortController {
+function setupAbortSignal(request: PipelineRequest): {
+  abortController: AbortController;
+  abortControllerCleanup: (() => void) | undefined;
+} {
   const abortController = new AbortController();
+
+  // Cleanup function
+  let abortControllerCleanup: (() => void) | undefined;
+
   /**
    * Attach an abort listener to the request
    */
@@ -130,6 +144,11 @@ function handleAbortSignal(request: PipelineRequest): AbortController {
       }
     };
     request.abortSignal.addEventListener("abort", abortListener);
+    abortControllerCleanup = () => {
+      if (abortListener) {
+        request.abortSignal?.removeEventListener("abort", abortListener);
+      }
+    };
   }
 
   // If a timeout was passed, call the abort signal once the time elapses
@@ -139,7 +158,7 @@ function handleAbortSignal(request: PipelineRequest): AbortController {
     }, request.timeout);
   }
 
-  return abortController;
+  return { abortController, abortControllerCleanup };
 }
 
 /**
@@ -197,35 +216,53 @@ function buildBodyStream(
   readableStream: ReadableStream<Uint8Array>,
   onProgress?: (progress: TransferProgressEvent) => void
 ): ReadableStream<Uint8Array> {
-  const reader = readableStream.getReader();
+  let loadedBytes = 0;
 
-  return new ReadableStream({
-    async start(controller) {
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
+  // If the current browser supports pipeThrough we use a TransformStream
+  // to report progress
+  if (isTransformStreamSupported(readableStream)) {
+    return readableStream.pipeThrough(
+      new TransformStream({
+        transform(chunk, controller) {
+          if (chunk === null) {
+            controller.terminate();
+            return;
+          }
+
+          controller.enqueue(chunk);
+          loadedBytes += chunk.length;
+          if (onProgress) {
+            onProgress({ loadedBytes });
+          }
+        },
+      })
+    );
+  } else {
+    // If we can't use transform streams, wrap the original stream in a new readable stream
+    // and use pull to enqueue each chunk and report progress.
+    const reader = readableStream.getReader();
+    return new ReadableStream({
+      async pull(controller) {
         const { done, value } = await reader.read();
-
         // When no more data needs to be consumed, break the reading
-        if (done) {
-          break;
+        if (done || !value) {
+          // Close the stream
+          controller.close();
+          reader.releaseLock();
+          return;
         }
 
-        if (onProgress) {
-          onProgress({ loadedBytes: value?.length ?? 0 });
-        }
-
-        if (!value) {
-          continue;
-        }
+        loadedBytes += value?.length ?? 0;
 
         // Enqueue the next data chunk into our target stream
         controller.enqueue(value);
-      }
-      // Close the stream
-      controller.close();
-      reader.releaseLock();
-    },
-  });
+
+        if (onProgress) {
+          onProgress({ loadedBytes });
+        }
+      },
+    });
+  }
 }
 
 /**
@@ -234,4 +271,8 @@ function buildBodyStream(
  */
 export function createFetchHttpClient(): HttpClient {
   return new FetchHttpClient();
+}
+
+function isTransformStreamSupported(readableStream: ReadableStream): boolean {
+  return readableStream.pipeThrough !== undefined && self.TransformStream !== undefined;
 }

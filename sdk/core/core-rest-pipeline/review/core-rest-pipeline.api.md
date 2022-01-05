@@ -5,7 +5,6 @@
 ```ts
 
 /// <reference types="node" />
-/// <reference lib="dom" />
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
@@ -206,6 +205,7 @@ export interface PipelineRequest {
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
+    enableBrowserStreams?: boolean;
     formData?: FormDataMap;
     headers: HttpHeaders;
     method: HttpMethods;
@@ -226,6 +226,7 @@ export interface PipelineRequestOptions {
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
+    enableBrowserStreams?: boolean;
     formData?: FormDataMap;
     headers?: HttpHeaders;
     method?: HttpMethods;
@@ -244,6 +245,7 @@ export interface PipelineRequestOptions {
 export interface PipelineResponse {
     blobBody?: Promise<Blob>;
     bodyAsText?: string | null;
+    browserStreamBody?: ReadableStream<Uint8Array> | null;
     headers: HttpHeaders;
     readableStreamBody?: NodeJS.ReadableStream;
     request: PipelineRequest;

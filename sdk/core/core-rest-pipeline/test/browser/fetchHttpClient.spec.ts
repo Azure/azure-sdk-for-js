@@ -17,9 +17,26 @@ const streamBody = new ReadableStream({
   },
 });
 
-function createResponse(statusCode: number, body = ""): Response {
-  const blob = new Blob([body], { type: "application/json" });
-  return new Response(blob, { status: statusCode });
+function createResponse(statusCode: number, body = "", chunkDelay = 0): Response {
+  const stream = new ReadableStream({
+    async start(controller) {
+      const encoder = new TextEncoder();
+      const view = encoder.encode(body);
+
+      if (view.length > 1) {
+        const first = view.slice(0, 1);
+        const second = view.slice(1);
+        controller.enqueue(first);
+        await delay(chunkDelay);
+        controller.enqueue(second);
+        controller.close();
+      } else {
+        controller.enqueue(view);
+        controller.close();
+      }
+    },
+  });
+  return new Response(stream, { status: statusCode });
 }
 
 describe("FetchHttpClient", function () {
@@ -30,6 +47,7 @@ describe("FetchHttpClient", function () {
   });
 
   afterEach(() => {
+    sinon.restore();
     fetchMock.restore();
     if (clock) {
       clock.restore();
@@ -128,6 +146,40 @@ describe("FetchHttpClient", function () {
     }
   });
 
+  it("should load chunk by chunk", async function () {
+    const client = createFetchHttpClient();
+    const responseText = "An appropriate response.";
+    clock = sinon.useFakeTimers();
+    // Mocking fetch to send the first chunk right away but delay the next
+    // chunk one second (1000ms).
+    fetchMock.returns(createResponse(200, responseText, 1000));
+    const url = `http://localhost:3000/files/stream/nonempty`;
+    let downloadCalled = 0;
+    const request = createPipelineRequest({
+      url,
+      allowInsecureConnection: true,
+      method: "GET",
+      onDownloadProgress: (ev) => {
+        assert.isNumber(ev.loadedBytes);
+        downloadCalled += 1;
+      },
+      enableBrowserStreams: true,
+      streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
+    });
+    const response = await client.sendRequest(request);
+    const reader = response.browserStreamBody!.getReader();
+
+    // Read the first chunk
+    const chunk = await reader.read();
+    // Advance the mocked clock 1000ms so that the mock response
+    // enqueues the second chunk
+    clock.tick(1000);
+
+    // Verify that only one chunk was loaded
+    assert.equal(downloadCalled, 1);
+    assert.equal(chunk.done, false);
+  });
+
   it("should report download progress and decode chunks", async function () {
     const client = createFetchHttpClient();
     const responseText = "An appropriate response.";
@@ -144,6 +196,30 @@ describe("FetchHttpClient", function () {
       },
     });
     const response = await client.sendRequest(request);
+    assert.isDefined(response.bodyAsText);
+    assert.isTrue(downloadCalled, "no download progress");
+  });
+
+  it("should report download progress and decode chunks without TransformStream", async function () {
+    // Make TransformStream undefined to simulate Firefox where it is not available
+    const transformStub = sinon.stub(self, "TransformStream").value(undefined);
+
+    const client = createFetchHttpClient();
+    const responseText = "An appropriate response.";
+    fetchMock.returns(createResponse(200, responseText));
+    const url = `http://localhost:3000/files/stream/nonempty`;
+    let downloadCalled = false;
+    const request = createPipelineRequest({
+      url,
+      allowInsecureConnection: true,
+      method: "GET",
+      onDownloadProgress: (ev) => {
+        assert.isNumber(ev.loadedBytes);
+        downloadCalled = true;
+      },
+    });
+    const response = await client.sendRequest(request);
+    transformStub.restore();
     assert.isDefined(response.bodyAsText);
     assert.isTrue(downloadCalled, "no download progress");
   });
@@ -218,7 +294,7 @@ describe("FetchHttpClient", function () {
     assert.isTrue(downloadCalled, "no download progress");
   });
 
-  it("should report upload progress", async () => {
+  it("should report upload progress with TransformStream", async () => {
     const client = createFetchHttpClient();
     const responseText = "An appropriate response.";
     fetchMock.returns(createResponse(200, responseText));
