@@ -463,6 +463,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-operationalinsights/8.0.0:
+    resolution: {integrity: sha512-YYeOOCajQvqaK/boY8VYkGK0SX5k+QUUtDvRYfmQBBLVPbLHiM5PsoWkIrb/1GpRyl+E+KX0n1o+yZDWU7pPLQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.3.3
+      '@azure/core-lro': 2.2.2
+      '@azure/core-paging': 1.2.0
+      '@azure/core-rest-pipeline': 1.3.2
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-common/1.1.0:
     resolution: {integrity: sha512-vqTtzDtb4NG3LWoWoqlOOJApZRRIIImNUKlGyTa6c1YC+v5A7UEOL9TX8NRDxvFVUF2wDHsSnkhLBVBgkcAhIQ==}
     engines: {node: '>=12.0.0'}
@@ -6977,37 +6992,7 @@ packages:
     hasBin: true
     dev: false
 
-  /ts-node/10.4.0_276ff2ad8f60608417677a4691c0f835:
-    resolution: {integrity: sha512-g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.7.0
-      '@tsconfig/node10': 1.0.8
-      '@tsconfig/node12': 1.0.9
-      '@tsconfig/node14': 1.0.1
-      '@tsconfig/node16': 1.0.2
-      '@types/node': 12.20.40
-      acorn: 8.6.0
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.2.4
-      yn: 3.1.1
-    dev: false
-
-  /ts-node/10.4.0_54d7f9b57c83a5c5120be11b085b9de6:
+  /ts-node/10.4.0_28670484a221c7e896c5d6b821a5cbb7:
     resolution: {integrity: sha512-g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==}
     hasBin: true
     peerDependencies:
@@ -7034,6 +7019,36 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       typescript: 4.4.4
+      yn: 3.1.1
+    dev: false
+
+  /ts-node/10.4.0_f9f9f28f986ed7ad377c75abc9f416f4:
+    resolution: {integrity: sha512-g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.7.0
+      '@tsconfig/node10': 1.0.8
+      '@tsconfig/node12': 1.0.9
+      '@tsconfig/node14': 1.0.1
+      '@tsconfig/node16': 1.0.2
+      '@types/node': 12.20.40
+      acorn: 8.6.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 4.2.4
       yn: 3.1.1
     dev: false
 
@@ -7629,7 +7644,7 @@ packages:
       prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -7857,7 +7872,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -7908,7 +7923,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -7965,7 +7980,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.5
@@ -8792,10 +8807,11 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-JKEFYPVFKOBzJ9+vOePl5GrSj73wyUUuLfuMuA1k1WrPXcLMZiTd+4RincSVkkj9niOt5z2w0QJsMFytpEyoKA==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-YOYQkxHOo7F9EI5Ut+JlAgnpVk56r35/MLULYl+qX0xEWN1sGl6fkm2I7LeHAGNQAcsmuBRuYuRbSX3LvSlvUw==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
+      '@azure/arm-operationalinsights': 8.0.0
       '@microsoft/api-extractor': 7.19.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -8810,6 +8826,8 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/arm-msi.tgz:
@@ -9487,7 +9505,7 @@ packages:
       rollup: 1.32.1
       safe-buffer: 5.2.1
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -9982,7 +10000,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-jmyXvDp5FyZIlqp1zATESQp6qO2NqjKSfY5o9ojPsKN/g9WJ45RL4jfy+cD5u8C2t9jSDTsCoL+jbiLptpkDLA==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-nAZlMW/WFVSloK1iVzoSJNx9CHjvMl4/kJrnq1s5Okn96/AQX19SYkqfdvmew1Oy3bxfDC2g3n3e1CFLrlSyEg==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -10025,7 +10043,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       url: 0.11.0
@@ -10111,7 +10129,7 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -10342,7 +10360,7 @@ packages:
       shx: 0.3.3
       sinon: 9.2.4
       tough-cookie: 4.0.0
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       tunnel: 0.0.6
       typescript: 4.2.4
@@ -10390,7 +10408,7 @@ packages:
       prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.5
@@ -10657,7 +10675,7 @@ packages:
       sinon: 9.2.4
       snap-shot-it: 7.9.6
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       universal-user-agent: 6.0.0
@@ -10714,7 +10732,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -10760,7 +10778,7 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
-      ts-node: 10.4.0_54d7f9b57c83a5c5120be11b085b9de6
+      ts-node: 10.4.0_28670484a221c7e896c5d6b821a5cbb7
       tslib: 2.3.1
       typescript: 4.4.4
       yaml: 1.10.2
@@ -10917,7 +10935,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -10979,7 +10997,7 @@ packages:
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11034,7 +11052,7 @@ packages:
       prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -11087,7 +11105,7 @@ packages:
       prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -11289,7 +11307,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -11553,7 +11571,7 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11702,7 +11720,7 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11774,7 +11792,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11794,7 +11812,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11814,7 +11832,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11834,7 +11852,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11873,7 +11891,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11894,7 +11912,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11917,7 +11935,7 @@ packages:
       moment: 2.29.1
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11937,7 +11955,7 @@ packages:
       eslint: 7.32.0
       prettier: 1.19.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11957,7 +11975,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11978,7 +11996,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12000,7 +12018,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12021,7 +12039,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12041,7 +12059,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -12060,7 +12078,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -12081,7 +12099,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12104,7 +12122,7 @@ packages:
       node-fetch: 2.6.6
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12125,7 +12143,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12146,7 +12164,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12167,7 +12185,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12539,7 +12557,7 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -12608,7 +12626,7 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       ws: 8.3.0
@@ -12671,7 +12689,7 @@ packages:
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -12734,7 +12752,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -12797,7 +12815,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -12858,7 +12876,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -12916,7 +12934,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -12976,7 +12994,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -13028,7 +13046,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.5
@@ -13082,7 +13100,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.5
@@ -13135,7 +13153,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.5
