@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { createRecordedClient, startOptions } from "./utils/recordedClient";
-import { Recorder, env } from "@azure-tools/test-recorder-new";
+import { Recorder, getEnvironmentVariable } from "@azure-tools/test-recorder-new";
 import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
@@ -68,10 +68,9 @@ describe("SchemaRegistryClient", function () {
     recorder = new Recorder(this.currentTest);
     await recorder.start(startOptions);
     client = createRecordedClient(recorder);
-    if (!env.SCHEMA_REGISTRY_GROUP) throw new Error("SCHEMA_REGISTRY_GROUP is not defined");
     schema = {
       name: "azsdk_js_test",
-      groupName: env.SCHEMA_REGISTRY_GROUP,
+      groupName: getEnvironmentVariable("SCHEMA_REGISTRY_GROUP"),
       format: "Avro",
       definition: JSON.stringify({
         type: "record",
@@ -175,10 +174,9 @@ describe("SchemaRegistryClient", function () {
   });
 
   it("schema with whitespace", async () => {
-    if (!env.SCHEMA_REGISTRY_GROUP) throw new Error("SCHEMA_REGISTRY_GROUP is not defined");
     const schema2: SchemaDescription = {
       name: "azsdk_js_test2",
-      groupName: env.SCHEMA_REGISTRY_GROUP,
+      groupName: getEnvironmentVariable("SCHEMA_REGISTRY_GROUP"),
       format: "Avro",
       definition:
         "{\n" +

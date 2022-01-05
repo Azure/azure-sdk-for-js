@@ -8,7 +8,8 @@ export {
   RecorderStartOptions,
   isLiveMode,
   isPlaybackMode,
-  isRecordMode
+  isRecordMode,
+  getEnvironmentVariable
 } from "./utils/utils";
 export { env } from "./utils/env";
 export { delay } from "./utils/delay";
