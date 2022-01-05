@@ -9,11 +9,11 @@ import { Instrumentation } from '@opentelemetry/instrumentation';
 import { InstrumentationConfig } from '@opentelemetry/instrumentation';
 
 // @public
-export interface AzureSDKInstrumentationOptions extends InstrumentationConfig {
+export interface AzureSdkInstrumentationOptions extends InstrumentationConfig {
 }
 
 // @public
-export function createAzureSDKInstrumentation(options?: AzureSDKInstrumentationOptions): Instrumentation;
+export function createAzureSdkInstrumentation(options?: AzureSdkInstrumentationOptions): Instrumentation;
 
 // @public
 export const logger: AzureLogger;
