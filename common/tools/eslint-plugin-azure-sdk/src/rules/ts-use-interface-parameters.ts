@@ -28,8 +28,16 @@ import {
   Pattern,
 } from "estree";
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import {
+  ParserWeakMap,
+  ParserWeakMapESTreeToTSNode,
+} from "@typescript-eslint/typescript-estree/dist/parser-options";
+import { Rule } from "eslint";
+import { getRuleMetaData } from "../utils";
+
 //------------------------------------------------------------------------------
 // Helpers
+//------------------------------------------------------------------------------
 
 type FunctionType = FunctionExpression | FunctionDeclaration;
 
