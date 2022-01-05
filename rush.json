@@ -1215,6 +1215,11 @@
       "packageName": "@azure/arm-containerinstance",
       "projectFolder": "sdk/containerinstance/arm-containerinstance",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datamigration",
+      "projectFolder": "sdk/datamigration/arm-datamigration",
+      "versionPolicyName": "management"
     }
   ]
 }
