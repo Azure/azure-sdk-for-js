@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AzureStackManagementClient.",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.2",
   "engines": { "node": ">=12.0.0" },
   "dependencies": {
     "@azure/core-paging": "^1.2.0",
