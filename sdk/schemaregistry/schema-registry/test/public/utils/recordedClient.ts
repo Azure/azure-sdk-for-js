@@ -20,7 +20,7 @@ export const startOptions: RecorderStartOptions = {
   },
 };
 
-export function createRecordedClient(context: Mocha.Test|undefined): RecordedClient {
+export function createRecordedClient(context: Mocha.Test | undefined): RecordedClient {
   const recorder = new Recorder(context);
   const credential = createTestCredential();
   const client = new SchemaRegistryClient(env.SCHEMA_REGISTRY_ENDPOINT || "", credential);
