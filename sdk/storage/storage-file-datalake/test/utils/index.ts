@@ -4,7 +4,6 @@
 import { TokenCredential } from "@azure/core-http";
 import { env } from "@azure-tools/test-recorder";
 import { randomBytes } from "crypto";
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -23,8 +22,6 @@ import {
   generateDataLakeSASQueryParameters,
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-
-dotenv.config();
 
 export * from "./testutils.common";
 
