@@ -10620,7 +10620,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-5AyC1YxodBNK0GKENYQCRnPLNLXPjVkHNmrqSZ9tkkAWdVHbK8rlyLC6QF81kaqebqSGZQZ8H0GuScg5dp6hFQ==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-k9RoXYEXCwMLbjVP0T/JrKR1aTq/yrhCkrKI6GxAGOWGOsch5+3W0F61A10Fi185kvrxdFi3w7DLKQw4WPqlRA==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -10647,7 +10647,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       node-abort-controller: 3.0.1
-      prettier: 1.19.1
+      prettier: 2.5.1
       priorityqueuejs: 1.0.0
       requirejs: 2.3.6
       rimraf: 3.0.2

@@ -6,7 +6,7 @@ import {
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
-  ResourceType
+  ResourceType,
 } from "../../common";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
@@ -47,7 +47,7 @@ export class UserDefinedFunction {
       path,
       resourceType: ResourceType.udf,
       resourceId: id,
-      options
+      options,
     });
     return new UserDefinedFunctionResponse(response.result, response.headers, response.code, this);
   }
@@ -77,7 +77,7 @@ export class UserDefinedFunction {
       path,
       resourceType: ResourceType.udf,
       resourceId: id,
-      options
+      options,
     });
     return new UserDefinedFunctionResponse(response.result, response.headers, response.code, this);
   }
@@ -93,7 +93,7 @@ export class UserDefinedFunction {
       path,
       resourceType: ResourceType.udf,
       resourceId: id,
-      options
+      options,
     });
     return new UserDefinedFunctionResponse(response.result, response.headers, response.code, this);
   }
