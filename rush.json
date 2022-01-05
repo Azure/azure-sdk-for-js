@@ -1215,6 +1215,11 @@
       "packageName": "@azure/arm-containerinstance",
       "projectFolder": "sdk/containerinstance/arm-containerinstance",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-communication",
+      "projectFolder": "sdk/communication/arm-communication",
+      "versionPolicyName": "management"
     }
   ]
 }
