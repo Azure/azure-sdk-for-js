@@ -19,6 +19,6 @@ export function createRecordedClient(recorder: Recorder): SchemaRegistryClient {
   const credential = createTestCredential();
   if (!env.SCHEMA_REGISTRY_ENDPOINT) throw new Error("SCHEMA_REGISTRY_ENDPOINT is not defined");
   const client = new SchemaRegistryClient(env.SCHEMA_REGISTRY_ENDPOINT, credential);
-  recorder.configureClient(client);
+  recorder.configureClient(client["client"]);
   return client;
 }

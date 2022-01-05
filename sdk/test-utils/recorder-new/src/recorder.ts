@@ -231,6 +231,8 @@ export class Recorder {
    * This method adds the recording policy to the input client's pipeline.
    *
    * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
+   * 
+   * @param client Provide the client that hosts the pipeline object. 
    */
   public configureClient(client: { pipeline: Pipeline }): void {
     if (isLiveMode()) return;
