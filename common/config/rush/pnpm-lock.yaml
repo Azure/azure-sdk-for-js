@@ -11661,7 +11661,7 @@ packages:
     dev: false
 
   file:projects/instrumentation-opentelemetry.tgz:
-    resolution: {integrity: sha512-T6QnQ6wVHA0RRZpRcXtL38MmoMiOFnMpDj76Awdq+9t4ZTMGY0SnXmzCNA+f78ra67S9tWgcSOOXwNI+01OAlw==, tarball: file:projects/instrumentation-opentelemetry.tgz}
+    resolution: {integrity: sha512-iZBVU8W1QYUak36cZoLpUnK+LO8mbvKp335Ri10FarLvxEa1hFtksQ/dt/mzQrbtV/BchL3zIidePQSFvxp8xQ==, tarball: file:projects/instrumentation-opentelemetry.tgz}
     name: '@rush-temp/instrumentation-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -11694,7 +11694,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 12.0.1

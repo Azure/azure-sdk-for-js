@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { NoOpSpan } from "../src/instrumenter";
+import { createDefaultTracingSpan } from "../src/instrumenter";
 import { createTracingClient } from "../src/tracingClient";
-import { TracingContextImpl, knownContextKeys, createTracingContext } from "../src/tracingContext";
+import { TracingContextImpl, createTracingContext, knownContextKeys } from "../src/tracingContext";
 
 describe("TracingContext", () => {
   describe("TracingContextImpl", () => {
@@ -97,12 +97,12 @@ describe("TracingContext", () => {
 
     it("can add known attributes", () => {
       const client = createTracingClient({ namespace: "test", packageName: "test" });
-      const span = new NoOpSpan();
+      const span = createDefaultTracingSpan();
       const namespace = "test-namespace";
       const newContext = createTracingContext({
         client,
         span,
-        namespace
+        namespace,
       });
       assert.strictEqual(newContext.getValue(knownContextKeys.Client), client);
       assert.strictEqual(newContext.getValue(knownContextKeys.Namespace), namespace);

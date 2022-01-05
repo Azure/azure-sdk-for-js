@@ -28,7 +28,7 @@ describe("OpenTelemetryInstrumenter", () => {
         assert.deepEqual(tracingSpanIdentifier, {
           traceId,
           spanId,
-          traceFlags: TraceFlags.SAMPLED
+          traceFlags: TraceFlags.SAMPLED,
         });
       });
 
@@ -67,13 +67,13 @@ describe("OpenTelemetryInstrumenter", () => {
         const spanContext: TracingSpanContext = {
           spanId: "2222222222222222",
           traceId: "11111111111111111111111111111111",
-          traceFlags: TraceFlags.SAMPLED
+          traceFlags: TraceFlags.SAMPLED,
         };
         const expectedTraceParentHeader = `00-11111111111111111111111111111111-2222222222222222-01`;
 
         const headers = instrumenter.createRequestHeaders(spanContext);
         assert.deepEqual(headers, {
-          traceparent: expectedTraceParentHeader
+          traceparent: expectedTraceParentHeader,
         });
       });
 
@@ -83,7 +83,7 @@ describe("OpenTelemetryInstrumenter", () => {
             spanId: "2222222222222222",
             traceId: "11111111111111111111111111111111",
             traceFlags: TraceFlags.NONE,
-            traceState: new TraceState()
+            traceState: new TraceState(),
           };
           spanContext.traceState = spanContext.traceState!.set("foo", "bar");
 
@@ -94,7 +94,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
           assert.deepEqual(headers, {
             traceparent: expectedTraceParentHeader,
-            tracestate: expectedTraceStateHeader
+            tracestate: expectedTraceStateHeader,
           });
         });
       });
@@ -104,7 +104,7 @@ describe("OpenTelemetryInstrumenter", () => {
           const spanContext: SpanContext = {
             spanId: "2222222222222222",
             traceId: "11111111111111111111111111111111",
-            traceFlags: TraceFlags.NONE
+            traceFlags: TraceFlags.NONE,
           };
 
           const headers = instrumenter.createRequestHeaders(spanContext);
@@ -119,7 +119,7 @@ describe("OpenTelemetryInstrumenter", () => {
             spanId: "2222222222222222",
             traceId: "11111111111111111111111111111111",
             traceFlags: TraceFlags.NONE,
-            traceState: new TraceState()
+            traceState: new TraceState(),
           };
 
           const headers = instrumenter.createRequestHeaders(spanContext);
@@ -135,7 +135,7 @@ describe("OpenTelemetryInstrumenter", () => {
           spanId: "2222222222222222",
           traceId: "",
           traceFlags: TraceFlags.NONE,
-          traceState: new TraceState()
+          traceState: new TraceState(),
         };
 
         const headers = instrumenter.createRequestHeaders(spanContext);
@@ -148,7 +148,7 @@ describe("OpenTelemetryInstrumenter", () => {
           spanId: "",
           traceId: "11111111111111111111111111111111",
           traceFlags: TraceFlags.NONE,
-          traceState: new TraceState()
+          traceState: new TraceState(),
         };
 
         const headers = instrumenter.createRequestHeaders(spanContext);
@@ -162,7 +162,7 @@ describe("OpenTelemetryInstrumenter", () => {
             spanId: "",
             traceId: "11111111111111111111111111111111",
             traceFlags: TraceFlags.NONE,
-            traceState: new TraceState()
+            traceState: new TraceState(),
           };
           spanContext.traceState = spanContext.traceState!.set("foo", "bar");
 
@@ -211,7 +211,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
         const { tracingContext } = instrumenter.startSpan("test", {
           tracingContext: currentContext,
-          packageName
+          packageName,
         });
 
         assert.equal(tracingContext.getValue(Symbol.for("foo")), "bar");
@@ -222,7 +222,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
         const { span, tracingContext } = instrumenter.startSpan("test", {
           tracingContext: currentContext,
-          packageName
+          packageName,
         });
 
         assert.equal(trace.getSpan(tracingContext), unwrap(span));
@@ -241,7 +241,7 @@ describe("OpenTelemetryInstrumenter", () => {
       it("sets span on the context", () => {
         const { span, tracingContext } = instrumenter.startSpan("test", {
           packageName,
-          packageVersion
+          packageVersion,
         });
 
         assert.equal(trace.getSpan(tracingContext), unwrap(span));
@@ -252,12 +252,12 @@ describe("OpenTelemetryInstrumenter", () => {
       it("passes attributes to started span", () => {
         const spanAttributes = {
           attr1: "val1",
-          attr2: "val2"
+          attr2: "val2",
         };
         const { span } = instrumenter.startSpan("test", {
           spanAttributes,
           packageName,
-          packageVersion
+          packageVersion,
         });
 
         assert.deepEqual(unwrap(span).attributes, spanAttributes);
@@ -267,7 +267,7 @@ describe("OpenTelemetryInstrumenter", () => {
         it("maps spanKind correctly", () => {
           const { span } = instrumenter.startSpan("test", {
             packageName,
-            spanKind: "client"
+            spanKind: "client",
           });
           assert.equal(unwrap(span).kind, SpanKind.CLIENT);
         });
@@ -281,7 +281,7 @@ describe("OpenTelemetryInstrumenter", () => {
         it("defaults spanKind to INTERNAL if an invalid spanKind is provided", () => {
           const { span } = instrumenter.startSpan("test", {
             packageName,
-            spanKind: "foo" as TracingSpanKind
+            spanKind: "foo" as TracingSpanKind,
           });
           assert.equal(unwrap(span).kind, SpanKind.INTERNAL);
         });
@@ -295,10 +295,10 @@ describe("OpenTelemetryInstrumenter", () => {
             {
               spanContext: linkedSpan.spanContext,
               attributes: {
-                attr1: "value1"
-              }
-            }
-          ]
+                attr1: "value1",
+              },
+            },
+          ],
         });
 
         const links = unwrap(span).links;
@@ -306,26 +306,49 @@ describe("OpenTelemetryInstrumenter", () => {
 
         assert.deepEqual(links[0], {
           attributes: {
-            attr1: "value1"
+            attr1: "value1",
           },
           context: {
             ...linkedSpan.spanContext,
-            traceState: undefined
-          }
+            traceState: undefined,
+          },
         });
       });
     });
   });
 
   describe("#withContext", () => {
-    it("passes the correct arguments to OpenTelemetry", function(this: Context) {
+    it("passes the correct arguments to OpenTelemetry", function (this: Context) {
       const contextSpy = sinon.spy(context, "with");
       // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       const callback = (arg1: number) => arg1 + 42;
       const callbackArg = 37;
-      instrumenter.withContext(context.active(), callback, this, callbackArg);
+      const activeContext = context.active();
+      instrumenter.withContext(activeContext, callback, callbackArg);
 
-      assert.isTrue(contextSpy.calledWith(context.active(), callback, this, callbackArg));
+      assert.isTrue(contextSpy.calledWith(activeContext, callback, undefined, callbackArg));
+    });
+
+    it("works when caller binds `this`", function (this: Context) {
+      // a bit of a silly test but demonstrates how to bind `this` correctly
+      // and ensures the behavior does not regress
+
+      // Function syntax
+      instrumenter.withContext(context.active(), function (this: any) {
+        assert.isUndefined(this);
+      });
+      instrumenter.withContext(
+        context.active(),
+        function (this: any) {
+          assert.equal(this, 42);
+        }.bind(42)
+      );
+
+      // Arrow syntax
+      const that = this;
+      instrumenter.withContext(context.active(), () => {
+        assert.equal(this, that);
+      });
     });
 
     it("Returns the value of the callback", () => {

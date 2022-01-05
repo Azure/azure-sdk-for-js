@@ -1,6 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export * from "./interfaces";
+export {
+  Instrumenter,
+  InstrumenterSpanOptions,
+  OperationTracingOptions,
+  SpanStatus,
+  TracingClient,
+  TracingClientOptions,
+  TracingContext,
+  TracingSpan,
+  TracingSpanContext,
+  TracingSpanKind,
+  TracingSpanLink,
+  TracingSpanOptions,
+} from "./interfaces";
 export { useInstrumenter } from "./instrumenter";
 export { createTracingClient } from "./tracingClient";
