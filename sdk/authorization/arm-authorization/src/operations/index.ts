@@ -6,6 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./operations";
+export * from "./accessReviewScheduleDefinitions";
+export * from "./accessReviewInstances";
+export * from "./accessReviewInstanceOperations";
+export * from "./accessReviewInstanceDecisions";
+export * from "./accessReviewDefaultSettingsOperations";
+export * from "./accessReviewScheduleDefinitionsAssignedForMyApproval";
+export * from "./accessReviewInstancesAssignedForMyApproval";
+export * from "./accessReviewInstanceMyDecisions";
+export * from "./denyAssignments";
+export * from "./providerOperationsMetadataOperations";
+export * from "./roleAssignments";
+export * from "./permissions";
+export * from "./roleDefinitions";
+export * from "./roleAssignmentMetrics";
+export * from "./eligibleChildResources";
 export * from "./roleAssignmentSchedules";
 export * from "./roleAssignmentScheduleInstances";
 export * from "./roleAssignmentScheduleRequests";
@@ -14,5 +30,3 @@ export * from "./roleEligibilityScheduleInstances";
 export * from "./roleEligibilityScheduleRequests";
 export * from "./roleManagementPolicies";
 export * from "./roleManagementPolicyAssignments";
-export * from "./eligibleChildResources";
-export * from "./roleAssignments";

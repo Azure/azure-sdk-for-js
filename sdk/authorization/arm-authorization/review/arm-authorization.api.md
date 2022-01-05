@@ -9,6 +9,449 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
+export type AccessRecommendationType = string;
+
+// @public
+export type AccessReviewActorIdentityType = string;
+
+// @public
+export type AccessReviewApplyResult = string;
+
+// @public
+export interface AccessReviewDecision {
+    readonly appliedDateTime?: Date;
+    readonly applyResult?: AccessReviewApplyResult;
+    decision?: AccessReviewResult;
+    readonly id?: string;
+    justification?: string;
+    readonly name?: string;
+    readonly principalIdPropertiesAppliedByPrincipalId?: string;
+    readonly principalIdPropertiesReviewedByPrincipalId?: string;
+    readonly principalNamePropertiesAppliedByPrincipalName?: string;
+    readonly principalNamePropertiesReviewedByPrincipalName?: string;
+    readonly principalTypePropertiesAppliedByPrincipalType?: AccessReviewActorIdentityType;
+    readonly principalTypePropertiesReviewedByPrincipalType?: AccessReviewActorIdentityType;
+    readonly recommendation?: AccessRecommendationType;
+    readonly reviewedDateTime?: Date;
+    readonly type?: string;
+    typePropertiesTargetType?: DecisionTargetType;
+    readonly userPrincipalNamePropertiesAppliedByUserPrincipalName?: string;
+    readonly userPrincipalNamePropertiesReviewedByUserPrincipalName?: string;
+}
+
+// @public
+export interface AccessReviewDecisionListResult {
+    nextLink?: string;
+    value?: AccessReviewDecision[];
+}
+
+// @public
+export interface AccessReviewDecisionProperties {
+    readonly appliedDateTime?: Date;
+    readonly applyResult?: AccessReviewApplyResult;
+    decision?: AccessReviewResult;
+    justification?: string;
+    readonly principalIdAppliedByPrincipalId?: string;
+    readonly principalIdReviewedByPrincipalId?: string;
+    readonly principalNameAppliedByPrincipalName?: string;
+    readonly principalNameReviewedByPrincipalName?: string;
+    readonly principalTypeAppliedByPrincipalType?: AccessReviewActorIdentityType;
+    readonly principalTypeReviewedByPrincipalType?: AccessReviewActorIdentityType;
+    readonly recommendation?: AccessRecommendationType;
+    readonly reviewedDateTime?: Date;
+    type?: DecisionTargetType;
+    readonly userPrincipalNameAppliedByUserPrincipalName?: string;
+    readonly userPrincipalNameReviewedByUserPrincipalName?: string;
+}
+
+// @public
+export interface AccessReviewDecisionTarget {
+    type: "user" | "servicePrincipal";
+}
+
+// @public (undocumented)
+export type AccessReviewDecisionTargetUnion = AccessReviewDecisionTarget | UserDecisionTarget | ServicePrincipalDecisionTarget;
+
+// @public
+export interface AccessReviewDefaultSettings {
+    autoApplyDecisionsEnabled?: boolean;
+    defaultDecision?: DefaultDecisionType;
+    defaultDecisionEnabled?: boolean;
+    endDate?: Date;
+    readonly id?: string;
+    instanceDurationInDays?: number;
+    interval?: number;
+    justificationRequiredOnApproval?: boolean;
+    mailNotificationsEnabled?: boolean;
+    readonly name?: string;
+    numberOfOccurrences?: number;
+    recommendationsEnabled?: boolean;
+    reminderNotificationsEnabled?: boolean;
+    startDate?: Date;
+    readonly type?: string;
+    typePropertiesRecurrencePatternType?: AccessReviewRecurrencePatternType;
+    typePropertiesRecurrenceRangeType?: AccessReviewRecurrenceRangeType;
+}
+
+// @public
+export interface AccessReviewDefaultSettingsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewDefaultSettingsGetResponse = AccessReviewDefaultSettings;
+
+// @public
+export interface AccessReviewDefaultSettingsOperations {
+    get(options?: AccessReviewDefaultSettingsGetOptionalParams): Promise<AccessReviewDefaultSettingsGetResponse>;
+    put(properties: AccessReviewScheduleSettings, options?: AccessReviewDefaultSettingsPutOptionalParams): Promise<AccessReviewDefaultSettingsPutResponse>;
+}
+
+// @public
+export interface AccessReviewDefaultSettingsPutOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewDefaultSettingsPutResponse = AccessReviewDefaultSettings;
+
+// @public
+export interface AccessReviewInstance {
+    endDateTime?: Date;
+    readonly id?: string;
+    readonly name?: string;
+    startDateTime?: Date;
+    readonly status?: AccessReviewInstanceStatus;
+    readonly type?: string;
+}
+
+// @public
+export interface AccessReviewInstanceAcceptRecommendationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AccessReviewInstanceApplyDecisionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AccessReviewInstanceDecisions {
+    list(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceDecisionsListOptionalParams): PagedAsyncIterableIterator<AccessReviewDecision>;
+}
+
+// @public
+export interface AccessReviewInstanceDecisionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewInstanceDecisionsListNextResponse = AccessReviewDecisionListResult;
+
+// @public
+export interface AccessReviewInstanceDecisionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewInstanceDecisionsListResponse = AccessReviewDecisionListResult;
+
+// @public
+export interface AccessReviewInstanceListResult {
+    nextLink?: string;
+    value?: AccessReviewInstance[];
+}
+
+// @public
+export interface AccessReviewInstanceMyDecisions {
+    getById(scheduleDefinitionId: string, id: string, decisionId: string, options?: AccessReviewInstanceMyDecisionsGetByIdOptionalParams): Promise<AccessReviewInstanceMyDecisionsGetByIdResponse>;
+    list(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceMyDecisionsListOptionalParams): PagedAsyncIterableIterator<AccessReviewDecision>;
+    patch(scheduleDefinitionId: string, id: string, decisionId: string, properties: AccessReviewDecisionProperties, options?: AccessReviewInstanceMyDecisionsPatchOptionalParams): Promise<AccessReviewInstanceMyDecisionsPatchResponse>;
+}
+
+// @public
+export interface AccessReviewInstanceMyDecisionsGetByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewInstanceMyDecisionsGetByIdResponse = AccessReviewDecision;
+
+// @public
+export interface AccessReviewInstanceMyDecisionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewInstanceMyDecisionsListNextResponse = AccessReviewDecisionListResult;
+
+// @public
+export interface AccessReviewInstanceMyDecisionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewInstanceMyDecisionsListResponse = AccessReviewDecisionListResult;
+
+// @public
+export interface AccessReviewInstanceMyDecisionsPatchOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewInstanceMyDecisionsPatchResponse = AccessReviewDecision;
+
+// @public
+export interface AccessReviewInstanceOperations {
+    acceptRecommendations(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceAcceptRecommendationsOptionalParams): Promise<void>;
+    applyDecisions(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceApplyDecisionsOptionalParams): Promise<void>;
+    resetDecisions(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceResetDecisionsOptionalParams): Promise<void>;
+    sendReminders(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceSendRemindersOptionalParams): Promise<void>;
+    stop(scheduleDefinitionId: string, id: string, options?: AccessReviewInstanceStopOptionalParams): Promise<void>;
+}
+
+// @public
+export interface AccessReviewInstanceResetDecisionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AccessReviewInstances {
+    getById(scheduleDefinitionId: string, id: string, options?: AccessReviewInstancesGetByIdOptionalParams): Promise<AccessReviewInstancesGetByIdResponse>;
+    list(scheduleDefinitionId: string, options?: AccessReviewInstancesListOptionalParams): PagedAsyncIterableIterator<AccessReviewInstance>;
+}
+
+// @public
+export interface AccessReviewInstancesAssignedForMyApproval {
+    getById(scheduleDefinitionId: string, id: string, options?: AccessReviewInstancesAssignedForMyApprovalGetByIdOptionalParams): Promise<AccessReviewInstancesAssignedForMyApprovalGetByIdResponse>;
+    list(scheduleDefinitionId: string, options?: AccessReviewInstancesAssignedForMyApprovalListOptionalParams): PagedAsyncIterableIterator<AccessReviewInstance>;
+}
+
+// @public
+export interface AccessReviewInstancesAssignedForMyApprovalGetByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewInstancesAssignedForMyApprovalGetByIdResponse = AccessReviewInstance;
+
+// @public
+export interface AccessReviewInstancesAssignedForMyApprovalListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewInstancesAssignedForMyApprovalListNextResponse = AccessReviewInstanceListResult;
+
+// @public
+export interface AccessReviewInstancesAssignedForMyApprovalListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewInstancesAssignedForMyApprovalListResponse = AccessReviewInstanceListResult;
+
+// @public
+export interface AccessReviewInstanceSendRemindersOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AccessReviewInstancesGetByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewInstancesGetByIdResponse = AccessReviewInstance;
+
+// @public
+export interface AccessReviewInstancesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewInstancesListNextResponse = AccessReviewInstanceListResult;
+
+// @public
+export interface AccessReviewInstancesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewInstancesListResponse = AccessReviewInstanceListResult;
+
+// @public
+export type AccessReviewInstanceStatus = string;
+
+// @public
+export interface AccessReviewInstanceStopOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewRecurrencePatternType = string;
+
+// @public
+export type AccessReviewRecurrenceRangeType = string;
+
+// @public
+export type AccessReviewResult = string;
+
+// @public
+export interface AccessReviewReviewer {
+    principalId?: string;
+    readonly principalType?: AccessReviewReviewerType;
+}
+
+// @public
+export type AccessReviewReviewerType = string;
+
+// @public
+export interface AccessReviewScheduleDefinition {
+    autoApplyDecisionsEnabled?: boolean;
+    defaultDecision?: DefaultDecisionType;
+    defaultDecisionEnabled?: boolean;
+    descriptionForAdmins?: string;
+    descriptionForReviewers?: string;
+    displayName?: string;
+    endDate?: Date;
+    readonly id?: string;
+    instanceDurationInDays?: number;
+    instances?: AccessReviewInstance[];
+    interval?: number;
+    justificationRequiredOnApproval?: boolean;
+    mailNotificationsEnabled?: boolean;
+    readonly name?: string;
+    numberOfOccurrences?: number;
+    readonly principalId?: string;
+    readonly principalName?: string;
+    readonly principalTypePropertiesCreatedByPrincipalType?: AccessReviewActorIdentityType;
+    readonly principalTypePropertiesScopePrincipalType?: AccessReviewScopePrincipalType;
+    recommendationsEnabled?: boolean;
+    reminderNotificationsEnabled?: boolean;
+    readonly resourceId?: string;
+    reviewers?: AccessReviewReviewer[];
+    readonly reviewersType?: AccessReviewScheduleDefinitionReviewersType;
+    readonly roleDefinitionId?: string;
+    startDate?: Date;
+    readonly status?: AccessReviewScheduleDefinitionStatus;
+    readonly type?: string;
+    typePropertiesSettingsRecurrencePatternType?: AccessReviewRecurrencePatternType;
+    typePropertiesSettingsRecurrenceRangeType?: AccessReviewRecurrenceRangeType;
+    readonly userPrincipalName?: string;
+}
+
+// @public
+export interface AccessReviewScheduleDefinitionListResult {
+    nextLink?: string;
+    value?: AccessReviewScheduleDefinition[];
+}
+
+// @public
+export interface AccessReviewScheduleDefinitionProperties {
+    autoApplyDecisionsEnabled?: boolean;
+    defaultDecision?: DefaultDecisionType;
+    defaultDecisionEnabled?: boolean;
+    descriptionForAdmins?: string;
+    descriptionForReviewers?: string;
+    displayName?: string;
+    endDate?: Date;
+    instanceDurationInDays?: number;
+    instances?: AccessReviewInstance[];
+    interval?: number;
+    justificationRequiredOnApproval?: boolean;
+    mailNotificationsEnabled?: boolean;
+    numberOfOccurrences?: number;
+    readonly principalId?: string;
+    readonly principalName?: string;
+    readonly principalTypeCreatedByPrincipalType?: AccessReviewActorIdentityType;
+    readonly principalTypeScopePrincipalType?: AccessReviewScopePrincipalType;
+    recommendationsEnabled?: boolean;
+    reminderNotificationsEnabled?: boolean;
+    readonly resourceId?: string;
+    reviewers?: AccessReviewReviewer[];
+    readonly reviewersType?: AccessReviewScheduleDefinitionReviewersType;
+    readonly roleDefinitionId?: string;
+    startDate?: Date;
+    readonly status?: AccessReviewScheduleDefinitionStatus;
+    typeSettingsRecurrencePatternType?: AccessReviewRecurrencePatternType;
+    typeSettingsRecurrenceRangeType?: AccessReviewRecurrenceRangeType;
+    readonly userPrincipalName?: string;
+}
+
+// @public
+export type AccessReviewScheduleDefinitionReviewersType = string;
+
+// @public
+export interface AccessReviewScheduleDefinitions {
+    createOrUpdateById(scheduleDefinitionId: string, properties: AccessReviewScheduleDefinitionProperties, options?: AccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams): Promise<AccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse>;
+    deleteById(scheduleDefinitionId: string, options?: AccessReviewScheduleDefinitionsDeleteByIdOptionalParams): Promise<void>;
+    getById(scheduleDefinitionId: string, options?: AccessReviewScheduleDefinitionsGetByIdOptionalParams): Promise<AccessReviewScheduleDefinitionsGetByIdResponse>;
+    list(options?: AccessReviewScheduleDefinitionsListOptionalParams): PagedAsyncIterableIterator<AccessReviewScheduleDefinition>;
+    stop(scheduleDefinitionId: string, options?: AccessReviewScheduleDefinitionsStopOptionalParams): Promise<void>;
+}
+
+// @public
+export interface AccessReviewScheduleDefinitionsAssignedForMyApproval {
+    list(options?: AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams): PagedAsyncIterableIterator<AccessReviewScheduleDefinition>;
+}
+
+// @public
+export interface AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextResponse = AccessReviewScheduleDefinitionListResult;
+
+// @public
+export interface AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewScheduleDefinitionsAssignedForMyApprovalListResponse = AccessReviewScheduleDefinitionListResult;
+
+// @public
+export interface AccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse = AccessReviewScheduleDefinition;
+
+// @public
+export interface AccessReviewScheduleDefinitionsDeleteByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AccessReviewScheduleDefinitionsGetByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewScheduleDefinitionsGetByIdResponse = AccessReviewScheduleDefinition;
+
+// @public
+export interface AccessReviewScheduleDefinitionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewScheduleDefinitionsListNextResponse = AccessReviewScheduleDefinitionListResult;
+
+// @public
+export interface AccessReviewScheduleDefinitionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewScheduleDefinitionsListResponse = AccessReviewScheduleDefinitionListResult;
+
+// @public
+export interface AccessReviewScheduleDefinitionsStopOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessReviewScheduleDefinitionStatus = string;
+
+// @public
+export interface AccessReviewScheduleSettings {
+    autoApplyDecisionsEnabled?: boolean;
+    defaultDecision?: DefaultDecisionType;
+    defaultDecisionEnabled?: boolean;
+    endDate?: Date;
+    instanceDurationInDays?: number;
+    interval?: number;
+    justificationRequiredOnApproval?: boolean;
+    mailNotificationsEnabled?: boolean;
+    numberOfOccurrences?: number;
+    recommendationsEnabled?: boolean;
+    reminderNotificationsEnabled?: boolean;
+    startDate?: Date;
+    typeRecurrencePatternType?: AccessReviewRecurrencePatternType;
+    typeRecurrenceRangeType?: AccessReviewRecurrenceRangeType;
+}
+
+// @public
+export type AccessReviewScopePrincipalType = string;
+
+// @public
 export type ApprovalMode = string;
 
 // @public
@@ -34,10 +477,38 @@ export interface ApprovalStage {
 export type AssignmentType = string;
 
 // @public (undocumented)
-export class AuthorizationManagementClient extends AuthorizationManagementClientContext {
+export class AuthorizationManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AuthorizationManagementClientOptionalParams);
     // (undocumented)
+    accessReviewDefaultSettingsOperations: AccessReviewDefaultSettingsOperations;
+    // (undocumented)
+    accessReviewInstanceDecisions: AccessReviewInstanceDecisions;
+    // (undocumented)
+    accessReviewInstanceMyDecisions: AccessReviewInstanceMyDecisions;
+    // (undocumented)
+    accessReviewInstanceOperations: AccessReviewInstanceOperations;
+    // (undocumented)
+    accessReviewInstances: AccessReviewInstances;
+    // (undocumented)
+    accessReviewInstancesAssignedForMyApproval: AccessReviewInstancesAssignedForMyApproval;
+    // (undocumented)
+    accessReviewScheduleDefinitions: AccessReviewScheduleDefinitions;
+    // (undocumented)
+    accessReviewScheduleDefinitionsAssignedForMyApproval: AccessReviewScheduleDefinitionsAssignedForMyApproval;
+    // (undocumented)
+    denyAssignments: DenyAssignments;
+    // (undocumented)
     eligibleChildResources: EligibleChildResources;
+    // (undocumented)
+    operations: Operations;
+    // (undocumented)
+    permissions: Permissions_2;
+    // (undocumented)
+    providerOperationsMetadataOperations: ProviderOperationsMetadataOperations;
+    // (undocumented)
+    roleAssignmentMetrics: RoleAssignmentMetrics;
     // (undocumented)
     roleAssignments: RoleAssignments;
     // (undocumented)
@@ -46,6 +517,8 @@ export class AuthorizationManagementClient extends AuthorizationManagementClient
     roleAssignmentScheduleRequests: RoleAssignmentScheduleRequests;
     // (undocumented)
     roleAssignmentSchedules: RoleAssignmentSchedules;
+    // (undocumented)
+    roleDefinitions: RoleDefinitions;
     // (undocumented)
     roleEligibilityScheduleInstances: RoleEligibilityScheduleInstances;
     // (undocumented)
@@ -56,15 +529,6 @@ export class AuthorizationManagementClient extends AuthorizationManagementClient
     roleManagementPolicies: RoleManagementPolicies;
     // (undocumented)
     roleManagementPolicyAssignments: RoleManagementPolicyAssignments;
-}
-
-// @public (undocumented)
-export class AuthorizationManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AuthorizationManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }
@@ -72,7 +536,6 @@ export class AuthorizationManagementClientContext extends coreClient.ServiceClie
 // @public
 export interface AuthorizationManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -86,6 +549,136 @@ export interface CloudErrorBody {
     code?: string;
     message?: string;
 }
+
+// @public
+export type DecisionTargetType = string;
+
+// @public
+export type DefaultDecisionType = string;
+
+// @public
+export interface DenyAssignment {
+    denyAssignmentName?: string;
+    description?: string;
+    doNotApplyToChildScopes?: boolean;
+    excludePrincipals?: Principal[];
+    readonly id?: string;
+    isSystemProtected?: boolean;
+    readonly name?: string;
+    permissions?: DenyAssignmentPermission[];
+    principals?: Principal[];
+    scope?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface DenyAssignmentFilter {
+    denyAssignmentName?: string;
+    gdprExportPrincipalId?: string;
+    principalId?: string;
+}
+
+// @public
+export interface DenyAssignmentListResult {
+    nextLink?: string;
+    value?: DenyAssignment[];
+}
+
+// @public
+export interface DenyAssignmentPermission {
+    actions?: string[];
+    dataActions?: string[];
+    notActions?: string[];
+    notDataActions?: string[];
+}
+
+// @public
+export interface DenyAssignments {
+    get(scope: string, denyAssignmentId: string, options?: DenyAssignmentsGetOptionalParams): Promise<DenyAssignmentsGetResponse>;
+    getById(denyAssignmentId: string, options?: DenyAssignmentsGetByIdOptionalParams): Promise<DenyAssignmentsGetByIdResponse>;
+    list(options?: DenyAssignmentsListOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
+    listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: DenyAssignmentsListForResourceOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
+    listForResourceGroup(resourceGroupName: string, options?: DenyAssignmentsListForResourceGroupOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
+    listForScope(scope: string, options?: DenyAssignmentsListForScopeOptionalParams): PagedAsyncIterableIterator<DenyAssignment>;
+}
+
+// @public
+export interface DenyAssignmentsGetByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DenyAssignmentsGetByIdResponse = DenyAssignment;
+
+// @public
+export interface DenyAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DenyAssignmentsGetResponse = DenyAssignment;
+
+// @public
+export interface DenyAssignmentsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DenyAssignmentsListForResourceGroupNextResponse = DenyAssignmentListResult;
+
+// @public
+export interface DenyAssignmentsListForResourceGroupOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DenyAssignmentsListForResourceGroupResponse = DenyAssignmentListResult;
+
+// @public
+export interface DenyAssignmentsListForResourceNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DenyAssignmentsListForResourceNextResponse = DenyAssignmentListResult;
+
+// @public
+export interface DenyAssignmentsListForResourceOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DenyAssignmentsListForResourceResponse = DenyAssignmentListResult;
+
+// @public
+export interface DenyAssignmentsListForScopeNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DenyAssignmentsListForScopeNextResponse = DenyAssignmentListResult;
+
+// @public
+export interface DenyAssignmentsListForScopeOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DenyAssignmentsListForScopeResponse = DenyAssignmentListResult;
+
+// @public
+export interface DenyAssignmentsListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DenyAssignmentsListNextResponse = DenyAssignmentListResult;
+
+// @public
+export interface DenyAssignmentsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type DenyAssignmentsListResponse = DenyAssignmentListResult;
 
 // @public
 export interface EligibleChildResource {
@@ -128,6 +721,17 @@ export type EnablementRules = string;
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
+}
+
+// @public
+export interface ErrorDefinition {
+    error?: ErrorDefinitionProperties;
+}
+
+// @public
+export interface ErrorDefinitionProperties {
+    code?: string;
+    readonly message?: string;
 }
 
 // @public
@@ -174,6 +778,150 @@ export interface ExpandedPropertiesScope {
 }
 
 // @public
+export enum KnownAccessRecommendationType {
+    // (undocumented)
+    Approve = "Approve",
+    // (undocumented)
+    Deny = "Deny",
+    // (undocumented)
+    NoInfoAvailable = "NoInfoAvailable"
+}
+
+// @public
+export enum KnownAccessReviewActorIdentityType {
+    // (undocumented)
+    ServicePrincipal = "servicePrincipal",
+    // (undocumented)
+    User = "user"
+}
+
+// @public
+export enum KnownAccessReviewApplyResult {
+    // (undocumented)
+    AppliedSuccessfully = "AppliedSuccessfully",
+    // (undocumented)
+    AppliedSuccessfullyButObjectNotFound = "AppliedSuccessfullyButObjectNotFound",
+    // (undocumented)
+    AppliedWithUnknownFailure = "AppliedWithUnknownFailure",
+    // (undocumented)
+    Applying = "Applying",
+    // (undocumented)
+    ApplyNotSupported = "ApplyNotSupported",
+    // (undocumented)
+    New = "New"
+}
+
+// @public
+export enum KnownAccessReviewInstanceStatus {
+    // (undocumented)
+    Applied = "Applied",
+    // (undocumented)
+    Applying = "Applying",
+    // (undocumented)
+    AutoReviewed = "AutoReviewed",
+    // (undocumented)
+    AutoReviewing = "AutoReviewing",
+    // (undocumented)
+    Completed = "Completed",
+    // (undocumented)
+    Completing = "Completing",
+    // (undocumented)
+    Initializing = "Initializing",
+    // (undocumented)
+    InProgress = "InProgress",
+    // (undocumented)
+    NotStarted = "NotStarted",
+    // (undocumented)
+    Scheduled = "Scheduled",
+    // (undocumented)
+    Starting = "Starting"
+}
+
+// @public
+export enum KnownAccessReviewRecurrencePatternType {
+    // (undocumented)
+    AbsoluteMonthly = "absoluteMonthly",
+    // (undocumented)
+    Weekly = "weekly"
+}
+
+// @public
+export enum KnownAccessReviewRecurrenceRangeType {
+    // (undocumented)
+    EndDate = "endDate",
+    // (undocumented)
+    NoEnd = "noEnd",
+    // (undocumented)
+    Numbered = "numbered"
+}
+
+// @public
+export enum KnownAccessReviewResult {
+    // (undocumented)
+    Approve = "Approve",
+    // (undocumented)
+    Deny = "Deny",
+    // (undocumented)
+    DontKnow = "DontKnow",
+    // (undocumented)
+    NotNotified = "NotNotified",
+    // (undocumented)
+    NotReviewed = "NotReviewed"
+}
+
+// @public
+export enum KnownAccessReviewReviewerType {
+    // (undocumented)
+    ServicePrincipal = "servicePrincipal",
+    // (undocumented)
+    User = "user"
+}
+
+// @public
+export enum KnownAccessReviewScheduleDefinitionReviewersType {
+    // (undocumented)
+    Assigned = "Assigned",
+    // (undocumented)
+    Managers = "Managers",
+    // (undocumented)
+    Self = "Self"
+}
+
+// @public
+export enum KnownAccessReviewScheduleDefinitionStatus {
+    // (undocumented)
+    Applied = "Applied",
+    // (undocumented)
+    Applying = "Applying",
+    // (undocumented)
+    AutoReviewed = "AutoReviewed",
+    // (undocumented)
+    AutoReviewing = "AutoReviewing",
+    // (undocumented)
+    Completed = "Completed",
+    // (undocumented)
+    Completing = "Completing",
+    // (undocumented)
+    Initializing = "Initializing",
+    // (undocumented)
+    InProgress = "InProgress",
+    // (undocumented)
+    NotStarted = "NotStarted",
+    // (undocumented)
+    Scheduled = "Scheduled",
+    // (undocumented)
+    Starting = "Starting"
+}
+
+// @public
+export enum KnownAccessReviewScopePrincipalType {
+    // (undocumented)
+    ServicePrincipal = "servicePrincipal",
+    // (undocumented)
+    User = "user"
+}
+
+// @public
 export enum KnownApprovalMode {
     // (undocumented)
     NoApproval = "NoApproval",
@@ -191,6 +939,24 @@ export enum KnownAssignmentType {
     Activated = "Activated",
     // (undocumented)
     Assigned = "Assigned"
+}
+
+// @public
+export enum KnownDecisionTargetType {
+    // (undocumented)
+    ServicePrincipal = "servicePrincipal",
+    // (undocumented)
+    User = "user"
+}
+
+// @public
+export enum KnownDefaultDecisionType {
+    // (undocumented)
+    Approve = "Approve",
+    // (undocumented)
+    Deny = "Deny",
+    // (undocumented)
+    Recommendation = "Recommendation"
 }
 
 // @public
@@ -232,25 +998,13 @@ export enum KnownNotificationLevel {
 // @public
 export enum KnownPrincipalType {
     // (undocumented)
-    Application = "Application",
-    // (undocumented)
     Device = "Device",
-    // (undocumented)
-    DirectoryObjectOrGroup = "DirectoryObjectOrGroup",
-    // (undocumented)
-    DirectoryRoleTemplate = "DirectoryRoleTemplate",
-    // (undocumented)
-    Everyone = "Everyone",
     // (undocumented)
     ForeignGroup = "ForeignGroup",
     // (undocumented)
     Group = "Group",
     // (undocumented)
-    MSI = "MSI",
-    // (undocumented)
     ServicePrincipal = "ServicePrincipal",
-    // (undocumented)
-    Unknown = "Unknown",
     // (undocumented)
     User = "User"
 }
@@ -376,6 +1130,96 @@ export type NotificationDeliveryMechanism = string;
 // @public
 export type NotificationLevel = string;
 
+// @public
+export interface Operation {
+    display?: OperationDisplay;
+    isDataAction?: boolean;
+    name?: string;
+    origin?: string;
+}
+
+// @public
+export interface OperationDisplay {
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
+}
+
+// @public
+export interface OperationListResult {
+    nextLink?: string;
+    value?: Operation[];
+}
+
+// @public
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+}
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
+
+// @public
+export interface Permission {
+    actions?: string[];
+    dataActions?: string[];
+    notActions?: string[];
+    notDataActions?: string[];
+}
+
+// @public
+export interface PermissionGetResult {
+    nextLink?: string;
+    value?: Permission[];
+}
+
+// @public
+interface Permissions_2 {
+    listForResource(resourceGroupName: string, resourceProviderNamespace: string, parentResourcePath: string, resourceType: string, resourceName: string, options?: PermissionsListForResourceOptionalParams): PagedAsyncIterableIterator<Permission>;
+    listForResourceGroup(resourceGroupName: string, options?: PermissionsListForResourceGroupOptionalParams): PagedAsyncIterableIterator<Permission>;
+}
+export { Permissions_2 as Permissions }
+
+// @public
+export interface PermissionsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PermissionsListForResourceGroupNextResponse = PermissionGetResult;
+
+// @public
+export interface PermissionsListForResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PermissionsListForResourceGroupResponse = PermissionGetResult;
+
+// @public
+export interface PermissionsListForResourceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PermissionsListForResourceNextResponse = PermissionGetResult;
+
+// @public
+export interface PermissionsListForResourceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PermissionsListForResourceResponse = PermissionGetResult;
+
 // @public (undocumented)
 export interface PolicyAssignmentProperties {
     policy?: PolicyAssignmentPropertiesPolicy;
@@ -428,10 +1272,73 @@ export interface Principal {
 export type PrincipalType = string;
 
 // @public
+export interface ProviderOperation {
+    description?: string;
+    displayName?: string;
+    isDataAction?: boolean;
+    name?: string;
+    origin?: string;
+    properties?: Record<string, unknown>;
+}
+
+// @public
+export interface ProviderOperationsMetadata {
+    displayName?: string;
+    id?: string;
+    name?: string;
+    operations?: ProviderOperation[];
+    resourceTypes?: ResourceType[];
+    type?: string;
+}
+
+// @public
+export interface ProviderOperationsMetadataGetOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type ProviderOperationsMetadataGetResponse = ProviderOperationsMetadata;
+
+// @public
+export interface ProviderOperationsMetadataListNextOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type ProviderOperationsMetadataListNextResponse = ProviderOperationsMetadataListResult;
+
+// @public
+export interface ProviderOperationsMetadataListOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type ProviderOperationsMetadataListResponse = ProviderOperationsMetadataListResult;
+
+// @public
+export interface ProviderOperationsMetadataListResult {
+    nextLink?: string;
+    value?: ProviderOperationsMetadata[];
+}
+
+// @public
+export interface ProviderOperationsMetadataOperations {
+    get(resourceProviderNamespace: string, options?: ProviderOperationsMetadataGetOptionalParams): Promise<ProviderOperationsMetadataGetResponse>;
+    list(options?: ProviderOperationsMetadataListOptionalParams): PagedAsyncIterableIterator<ProviderOperationsMetadata>;
+}
+
+// @public
 export type RecipientType = string;
 
 // @public
 export type RequestType = string;
+
+// @public
+export interface ResourceType {
+    displayName?: string;
+    name?: string;
+    operations?: ProviderOperation[];
+}
 
 // @public
 export interface RoleAssignment {
@@ -477,6 +1384,26 @@ export interface RoleAssignmentFilter {
 export interface RoleAssignmentListResult {
     readonly nextLink?: string;
     value?: RoleAssignment[];
+}
+
+// @public
+export interface RoleAssignmentMetrics {
+    getMetricsForSubscription(options?: RoleAssignmentMetricsGetMetricsForSubscriptionOptionalParams): Promise<RoleAssignmentMetricsGetMetricsForSubscriptionResponse>;
+}
+
+// @public
+export interface RoleAssignmentMetricsGetMetricsForSubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleAssignmentMetricsGetMetricsForSubscriptionResponse = RoleAssignmentMetricsResult;
+
+// @public
+export interface RoleAssignmentMetricsResult {
+    readonly roleAssignmentsCurrentCount?: number;
+    readonly roleAssignmentsLimit?: number;
+    readonly roleAssignmentsRemainingCount?: number;
+    readonly subscriptionId?: string;
 }
 
 // @public
@@ -858,6 +1785,83 @@ export interface RoleAssignmentsValidateOptionalParams extends coreClient.Operat
 
 // @public
 export type RoleAssignmentsValidateResponse = ValidationResponse;
+
+// @public
+export interface RoleDefinition {
+    assignableScopes?: string[];
+    description?: string;
+    readonly id?: string;
+    readonly name?: string;
+    permissions?: Permission[];
+    roleName?: string;
+    roleType?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface RoleDefinitionFilter {
+    roleName?: string;
+    type?: string;
+}
+
+// @public
+export interface RoleDefinitionListResult {
+    nextLink?: string;
+    value?: RoleDefinition[];
+}
+
+// @public
+export interface RoleDefinitions {
+    createOrUpdate(scope: string, roleDefinitionId: string, roleDefinition: RoleDefinition, options?: RoleDefinitionsCreateOrUpdateOptionalParams): Promise<RoleDefinitionsCreateOrUpdateResponse>;
+    delete(scope: string, roleDefinitionId: string, options?: RoleDefinitionsDeleteOptionalParams): Promise<RoleDefinitionsDeleteResponse>;
+    get(scope: string, roleDefinitionId: string, options?: RoleDefinitionsGetOptionalParams): Promise<RoleDefinitionsGetResponse>;
+    getById(roleId: string, options?: RoleDefinitionsGetByIdOptionalParams): Promise<RoleDefinitionsGetByIdResponse>;
+    list(scope: string, options?: RoleDefinitionsListOptionalParams): PagedAsyncIterableIterator<RoleDefinition>;
+}
+
+// @public
+export interface RoleDefinitionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleDefinitionsCreateOrUpdateResponse = RoleDefinition;
+
+// @public
+export interface RoleDefinitionsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleDefinitionsDeleteResponse = RoleDefinition;
+
+// @public
+export interface RoleDefinitionsGetByIdOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleDefinitionsGetByIdResponse = RoleDefinition;
+
+// @public
+export interface RoleDefinitionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RoleDefinitionsGetResponse = RoleDefinition;
+
+// @public
+export interface RoleDefinitionsListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type RoleDefinitionsListNextResponse = RoleDefinitionListResult;
+
+// @public
+export interface RoleDefinitionsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type RoleDefinitionsListResponse = RoleDefinitionListResult;
 
 // @public
 export interface RoleEligibilitySchedule {
@@ -1263,10 +2267,26 @@ export type RoleManagementPolicyRuleType = string;
 export type RoleManagementPolicyRuleUnion = RoleManagementPolicyRule | RoleManagementPolicyApprovalRule | RoleManagementPolicyAuthenticationContextRule | RoleManagementPolicyEnablementRule | RoleManagementPolicyExpirationRule | RoleManagementPolicyNotificationRule;
 
 // @public
+export type ServicePrincipalDecisionTarget = AccessReviewDecisionTarget & {
+    type: "servicePrincipal";
+    readonly principalId?: string;
+    readonly principalName?: string;
+    readonly appId?: string;
+};
+
+// @public
 export type Status = string;
 
 // @public
 export type Type = string;
+
+// @public
+export type UserDecisionTarget = AccessReviewDecisionTarget & {
+    type: "user";
+    readonly principalId?: string;
+    readonly principalName?: string;
+    readonly userPrincipalName?: string;
+};
 
 // @public
 export interface UserSet {
@@ -1290,7 +2310,6 @@ export interface ValidationResponseErrorInfo {
     readonly code?: string;
     readonly message?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

@@ -6,8 +6,25 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
+  OperationsImpl,
+  AccessReviewScheduleDefinitionsImpl,
+  AccessReviewInstancesImpl,
+  AccessReviewInstanceOperationsImpl,
+  AccessReviewInstanceDecisionsImpl,
+  AccessReviewDefaultSettingsOperationsImpl,
+  AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl,
+  AccessReviewInstancesAssignedForMyApprovalImpl,
+  AccessReviewInstanceMyDecisionsImpl,
+  DenyAssignmentsImpl,
+  ProviderOperationsMetadataOperationsImpl,
+  RoleAssignmentsImpl,
+  PermissionsImpl,
+  RoleDefinitionsImpl,
+  RoleAssignmentMetricsImpl,
+  EligibleChildResourcesImpl,
   RoleAssignmentSchedulesImpl,
   RoleAssignmentScheduleInstancesImpl,
   RoleAssignmentScheduleRequestsImpl,
@@ -15,11 +32,25 @@ import {
   RoleEligibilityScheduleInstancesImpl,
   RoleEligibilityScheduleRequestsImpl,
   RoleManagementPoliciesImpl,
-  RoleManagementPolicyAssignmentsImpl,
-  EligibleChildResourcesImpl,
-  RoleAssignmentsImpl
+  RoleManagementPolicyAssignmentsImpl
 } from "./operations";
 import {
+  Operations,
+  AccessReviewScheduleDefinitions,
+  AccessReviewInstances,
+  AccessReviewInstanceOperations,
+  AccessReviewInstanceDecisions,
+  AccessReviewDefaultSettingsOperations,
+  AccessReviewScheduleDefinitionsAssignedForMyApproval,
+  AccessReviewInstancesAssignedForMyApproval,
+  AccessReviewInstanceMyDecisions,
+  DenyAssignments,
+  ProviderOperationsMetadataOperations,
+  RoleAssignments,
+  Permissions,
+  RoleDefinitions,
+  RoleAssignmentMetrics,
+  EligibleChildResources,
   RoleAssignmentSchedules,
   RoleAssignmentScheduleInstances,
   RoleAssignmentScheduleRequests,
@@ -27,14 +58,14 @@ import {
   RoleEligibilityScheduleInstances,
   RoleEligibilityScheduleRequests,
   RoleManagementPolicies,
-  RoleManagementPolicyAssignments,
-  EligibleChildResources,
-  RoleAssignments
+  RoleManagementPolicyAssignments
 } from "./operationsInterfaces";
-import { AuthorizationManagementClientContext } from "./authorizationManagementClientContext";
 import { AuthorizationManagementClientOptionalParams } from "./models";
 
-export class AuthorizationManagementClient extends AuthorizationManagementClientContext {
+export class AuthorizationManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the AuthorizationManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -46,7 +77,77 @@ export class AuthorizationManagementClient extends AuthorizationManagementClient
     subscriptionId: string,
     options?: AuthorizationManagementClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: AuthorizationManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-authorization/9.0.0-beta.2`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
+    this.operations = new OperationsImpl(this);
+    this.accessReviewScheduleDefinitions = new AccessReviewScheduleDefinitionsImpl(
+      this
+    );
+    this.accessReviewInstances = new AccessReviewInstancesImpl(this);
+    this.accessReviewInstanceOperations = new AccessReviewInstanceOperationsImpl(
+      this
+    );
+    this.accessReviewInstanceDecisions = new AccessReviewInstanceDecisionsImpl(
+      this
+    );
+    this.accessReviewDefaultSettingsOperations = new AccessReviewDefaultSettingsOperationsImpl(
+      this
+    );
+    this.accessReviewScheduleDefinitionsAssignedForMyApproval = new AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl(
+      this
+    );
+    this.accessReviewInstancesAssignedForMyApproval = new AccessReviewInstancesAssignedForMyApprovalImpl(
+      this
+    );
+    this.accessReviewInstanceMyDecisions = new AccessReviewInstanceMyDecisionsImpl(
+      this
+    );
+    this.denyAssignments = new DenyAssignmentsImpl(this);
+    this.providerOperationsMetadataOperations = new ProviderOperationsMetadataOperationsImpl(
+      this
+    );
+    this.roleAssignments = new RoleAssignmentsImpl(this);
+    this.permissions = new PermissionsImpl(this);
+    this.roleDefinitions = new RoleDefinitionsImpl(this);
+    this.roleAssignmentMetrics = new RoleAssignmentMetricsImpl(this);
+    this.eligibleChildResources = new EligibleChildResourcesImpl(this);
     this.roleAssignmentSchedules = new RoleAssignmentSchedulesImpl(this);
     this.roleAssignmentScheduleInstances = new RoleAssignmentScheduleInstancesImpl(
       this
@@ -65,10 +166,24 @@ export class AuthorizationManagementClient extends AuthorizationManagementClient
     this.roleManagementPolicyAssignments = new RoleManagementPolicyAssignmentsImpl(
       this
     );
-    this.eligibleChildResources = new EligibleChildResourcesImpl(this);
-    this.roleAssignments = new RoleAssignmentsImpl(this);
   }
 
+  operations: Operations;
+  accessReviewScheduleDefinitions: AccessReviewScheduleDefinitions;
+  accessReviewInstances: AccessReviewInstances;
+  accessReviewInstanceOperations: AccessReviewInstanceOperations;
+  accessReviewInstanceDecisions: AccessReviewInstanceDecisions;
+  accessReviewDefaultSettingsOperations: AccessReviewDefaultSettingsOperations;
+  accessReviewScheduleDefinitionsAssignedForMyApproval: AccessReviewScheduleDefinitionsAssignedForMyApproval;
+  accessReviewInstancesAssignedForMyApproval: AccessReviewInstancesAssignedForMyApproval;
+  accessReviewInstanceMyDecisions: AccessReviewInstanceMyDecisions;
+  denyAssignments: DenyAssignments;
+  providerOperationsMetadataOperations: ProviderOperationsMetadataOperations;
+  roleAssignments: RoleAssignments;
+  permissions: Permissions;
+  roleDefinitions: RoleDefinitions;
+  roleAssignmentMetrics: RoleAssignmentMetrics;
+  eligibleChildResources: EligibleChildResources;
   roleAssignmentSchedules: RoleAssignmentSchedules;
   roleAssignmentScheduleInstances: RoleAssignmentScheduleInstances;
   roleAssignmentScheduleRequests: RoleAssignmentScheduleRequests;
@@ -77,6 +192,4 @@ export class AuthorizationManagementClient extends AuthorizationManagementClient
   roleEligibilityScheduleRequests: RoleEligibilityScheduleRequests;
   roleManagementPolicies: RoleManagementPolicies;
   roleManagementPolicyAssignments: RoleManagementPolicyAssignments;
-  eligibleChildResources: EligibleChildResources;
-  roleAssignments: RoleAssignments;
 }

@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure AuthorizationManagement client.
 
-Role based access control provides you a way to apply granular level policy administration down to individual resources or resource groups. These operations enable you to manage role assignments. A role assignment grants access to Azure Active Directory users.
+Access reviews service provides the workflow for running access reviews on different kind of resources.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/authorization/arm-authorization) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-authorization) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-authorization) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-authorization?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -33,9 +33,9 @@ npm install @azure/arm-authorization
 To create a client object to access the Azure AuthorizationManagement API, you will need the `endpoint` of your Azure AuthorizationManagement resource and a `credential`. The Azure AuthorizationManagement client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure AuthorizationManagement resource in the [Azure Portal][azure_portal].
 
-#### Using an Azure Active Directory Credential
+You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
-You can authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
+To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
 ```bash
 npm install @azure/identity
@@ -45,12 +45,17 @@ You will also need to **register a new AAD application and grant access to Azure
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
+
 ```javascript
 const { AuthorizationManagementClient } = require("@azure/arm-authorization");
 const { DefaultAzureCredential } = require("@azure/identity");
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new AuthorizationManagementClient(new DefaultAzureCredential(), subscriptionId);
 ```
+
+
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
 
