@@ -1215,6 +1215,11 @@
       "packageName": "@azure/arm-containerinstance",
       "projectFolder": "sdk/containerinstance/arm-containerinstance",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-m365securityandcompliance",
+      "projectFolder": "sdk/m365securityandcompliance/arm-m365securityandcompliance",
+      "versionPolicyName": "management"
     }
   ]
 }
