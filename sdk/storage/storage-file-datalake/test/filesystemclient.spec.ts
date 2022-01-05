@@ -13,12 +13,12 @@ import {
   DataLakeServiceClient,
   FileSystemListDeletedPathsResponse,
   DataLakeFileClient,
-  DataLakeDirectoryClient
+  DataLakeDirectoryClient,
 } from "../src";
 import {
   getDataLakeServiceClient,
   getGenericDataLakeServiceClient,
-  recorderEnvSetup
+  recorderEnvSetup,
 } from "./utils";
 import { URLBuilder } from "@azure/core-http";
 import { Context } from "mocha";
@@ -32,7 +32,7 @@ describe("DataLakeFileSystemClient", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -40,7 +40,7 @@ describe("DataLakeFileSystemClient", () => {
     await fileSystemClient.createIfNotExists();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
@@ -49,7 +49,7 @@ describe("DataLakeFileSystemClient", () => {
     const metadata = {
       key0: "val0",
       keya: "vala",
-      keyb: "valb"
+      keyb: "valb",
     };
     await fileSystemClient.setMetadata(metadata);
 
@@ -64,12 +64,12 @@ describe("DataLakeFileSystemClient", () => {
     const metadata = {
       key0: "val0",
       keya: "vala",
-      keyb: "valb"
+      keyb: "valb",
     };
     await fileSystemClient.setMetadata(metadata, {
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
-      }
+        tracingContext: setSpan(context.active(), rootSpan),
+      },
     });
     rootSpan.end();
 
@@ -91,15 +91,15 @@ describe("DataLakeFileSystemClient", () => {
                   children: [
                     {
                       name: urlPath,
-                      children: []
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                      children: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
@@ -172,12 +172,8 @@ describe("DataLakeFileSystemClient", () => {
       fileClients.push(fileClient);
     }
 
-    const result = (
-      await fileSystemClient
-        .listPaths()
-        .byPage()
-        .next()
-    ).value as FileSystemListPathsResponse;
+    const result = (await fileSystemClient.listPaths().byPage().next())
+      .value as FileSystemListPathsResponse;
 
     assert.deepStrictEqual(result.continuation, undefined);
     assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
@@ -197,12 +193,7 @@ describe("DataLakeFileSystemClient", () => {
       fileClients.push(fileClient);
     }
 
-    const result = (
-      await fileSystemClient
-        .listPaths({ path: "" })
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileSystemClient.listPaths({ path: "" }).byPage().next()).value;
     assert.deepStrictEqual(result.continuation, undefined);
     assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
     assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name));
@@ -217,13 +208,13 @@ describe("DataLakeFileSystemClient", () => {
     const prefix = "file";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 2; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
 
       await fileClient.create({
-        metadata: metadata
+        metadata: metadata,
       });
       fileClients.push(fileClient);
     }
@@ -233,7 +224,7 @@ describe("DataLakeFileSystemClient", () => {
         .listPaths({
           userPrincipalName: true,
           recursive: true,
-          path: ""
+          path: "",
         })
         .byPage({ maxPageSize: 1 })
         .next()
@@ -247,7 +238,7 @@ describe("DataLakeFileSystemClient", () => {
         .listPaths({
           userPrincipalName: true,
           recursive: true,
-          path: ""
+          path: "",
         })
         .byPage({ continuationToken: result.continuation, maxPageSize: 2 })
         .next()
@@ -266,13 +257,13 @@ describe("DataLakeFileSystemClient", () => {
     const prefix = "file";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 4; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
 
       await fileClient.create({
-        metadata
+        metadata,
       });
       fileClients.push(fileClient);
     }
@@ -281,7 +272,7 @@ describe("DataLakeFileSystemClient", () => {
     for await (const file of fileSystemClient.listPaths({
       userPrincipalName: true,
       recursive: true,
-      path: ""
+      path: "",
     })) {
       assert.ok(fileClients[i].url.indexOf(file.name!));
       i++;
@@ -297,13 +288,13 @@ describe("DataLakeFileSystemClient", () => {
     const prefix = "file";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 2; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
 
       await fileClient.create({
-        metadata
+        metadata,
       });
       fileClients.push(fileClient);
     }
@@ -311,7 +302,7 @@ describe("DataLakeFileSystemClient", () => {
     const iterator = fileSystemClient.listPaths({
       userPrincipalName: true,
       recursive: true,
-      path: ""
+      path: "",
     });
 
     let path = await iterator.next();
@@ -330,13 +321,13 @@ describe("DataLakeFileSystemClient", () => {
     const prefix = "file";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 4; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
 
       await fileClient.create({
-        metadata
+        metadata,
       });
       fileClients.push(fileClient);
     }
@@ -346,7 +337,7 @@ describe("DataLakeFileSystemClient", () => {
       .listPaths({
         userPrincipalName: true,
         recursive: true,
-        path: ""
+        path: "",
       })
       .byPage({ maxPageSize: 2 })) {
       for (const file of response.pathItems || []) {
@@ -365,13 +356,13 @@ describe("DataLakeFileSystemClient", () => {
     const prefix = "file";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 4; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
 
       await fileClient.create({
-        metadata
+        metadata,
       });
       fileClients.push(fileClient);
     }
@@ -381,7 +372,7 @@ describe("DataLakeFileSystemClient", () => {
       .listPaths({
         userPrincipalName: true,
         recursive: true,
-        path: ""
+        path: "",
       })
       .byPage({ maxPageSize: 2 });
     let response = (await iter.next()).value;
@@ -396,7 +387,7 @@ describe("DataLakeFileSystemClient", () => {
       .listPaths({
         userPrincipalName: true,
         recursive: true,
-        path: ""
+        path: "",
       })
       .byPage({ continuationToken: marker, maxPageSize: 2 });
     response = (await iter.next()).value;
@@ -448,7 +439,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
 
     if (isLiveMode()) {
@@ -466,7 +457,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     await fileSystemClient.createIfNotExists();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     if (fileSystemClient !== undefined) {
       await fileSystemClient.deleteIfExists();
     }
@@ -485,12 +476,8 @@ describe("DataLakeFileSystemClient with soft delete", () => {
       await file.delete();
     }
 
-    const result = (
-      await fileSystemClient
-        .listDeletedPaths()
-        .byPage()
-        .next()
-    ).value as FileSystemListDeletedPathsResponse;
+    const result = (await fileSystemClient.listDeletedPaths().byPage().next())
+      .value as FileSystemListDeletedPathsResponse;
 
     assert.deepStrictEqual(result.continuation, undefined);
     assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
@@ -516,12 +503,8 @@ describe("DataLakeFileSystemClient with soft delete", () => {
       await file.create();
     }
 
-    const result = (
-      await fileSystemClient
-        .listDeletedPaths()
-        .byPage()
-        .next()
-    ).value as FileSystemListDeletedPathsResponse;
+    const result = (await fileSystemClient.listDeletedPaths().byPage().next())
+      .value as FileSystemListDeletedPathsResponse;
 
     assert.deepStrictEqual(result.continuation, undefined);
     assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
@@ -533,12 +516,8 @@ describe("DataLakeFileSystemClient with soft delete", () => {
       assert.ok(pathItem.remainingRetentionDays);
     }
 
-    const listPathResult = (
-      await fileSystemClient
-        .listPaths()
-        .byPage()
-        .next()
-    ).value as FileSystemListPathsResponse;
+    const listPathResult = (await fileSystemClient.listPaths().byPage().next())
+      .value as FileSystemListPathsResponse;
 
     assert.deepStrictEqual(listPathResult.continuation, undefined);
     assert.deepStrictEqual(listPathResult.pathItems!.length, fileClients.length);
@@ -559,12 +538,8 @@ describe("DataLakeFileSystemClient with soft delete", () => {
       await file.delete();
     }
 
-    const result = (
-      await fileSystemClient
-        .listDeletedPaths()
-        .byPage()
-        .next()
-    ).value as FileSystemListDeletedPathsResponse;
+    const result = (await fileSystemClient.listDeletedPaths().byPage().next())
+      .value as FileSystemListDeletedPathsResponse;
 
     assert.deepStrictEqual(result.continuation, undefined);
     assert.deepStrictEqual(result.pathItems!.length, 2 * fileClients.length);
@@ -590,12 +565,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
       await file.delete();
     }
 
-    const result = (
-      await fileSystemClient
-        .listDeletedPaths({ prefix: "" })
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileSystemClient.listDeletedPaths({ prefix: "" }).byPage().next()).value;
 
     assert.deepStrictEqual(result.continuation, undefined);
     assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
@@ -613,13 +583,13 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     const prefix = "file";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 2; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
 
       await fileClient.create({
-        metadata: metadata
+        metadata: metadata,
       });
       fileClients.push(fileClient);
     }
@@ -631,7 +601,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     const result = (
       await fileSystemClient
         .listDeletedPaths({
-          prefix: ""
+          prefix: "",
         })
         .byPage({ maxPageSize: 1 })
         .next()
@@ -648,7 +618,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     const result2 = (
       await fileSystemClient
         .listDeletedPaths({
-          prefix: ""
+          prefix: "",
         })
         .byPage({ continuationToken: result.continuation, maxPageSize: 2 })
         .next()
@@ -663,13 +633,13 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     const prefix = "file";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 4; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
 
       await fileClient.create({
-        metadata
+        metadata,
       });
       fileClients.push(fileClient);
     }
@@ -680,7 +650,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
 
     let i = 0;
     for await (const file of fileSystemClient.listDeletedPaths({
-      prefix: ""
+      prefix: "",
     })) {
       assert.ok(fileClients[i].url.indexOf(file.name));
       assert.ok(file.deletedOn);
@@ -695,13 +665,13 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     const prefix = "file";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 2; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
 
       await fileClient.create({
-        metadata
+        metadata,
       });
       fileClients.push(fileClient);
     }
@@ -711,7 +681,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     }
 
     const iterator = fileSystemClient.listDeletedPaths({
-      prefix: ""
+      prefix: "",
     });
 
     let path = await iterator.next();
@@ -732,13 +702,13 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     const prefix = "file";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 4; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
 
       await fileClient.create({
-        metadata
+        metadata,
       });
       fileClients.push(fileClient);
     }
@@ -750,7 +720,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     let i = 0;
     for await (const response of fileSystemClient
       .listDeletedPaths({
-        prefix: ""
+        prefix: "",
       })
       .byPage({ maxPageSize: 2 })) {
       for (const file of response.pathItems || []) {
@@ -768,13 +738,13 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     const prefix = "file";
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     for (let i = 0; i < 4; i++) {
       const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
 
       await fileClient.create({
-        metadata
+        metadata,
       });
       fileClients.push(fileClient);
     }
@@ -786,7 +756,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     let i = 0;
     let iter = fileSystemClient
       .listDeletedPaths({
-        prefix: ""
+        prefix: "",
       })
       .byPage({ maxPageSize: 2 });
     let response = (await iter.next()).value;
@@ -802,7 +772,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     // Passing next marker as continuationToken
     iter = fileSystemClient
       .listDeletedPaths({
-        prefix: ""
+        prefix: "",
       })
       .byPage({ continuationToken: marker, maxPageSize: 2 });
     response = (await iter.next()).value;
@@ -938,7 +908,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     const fileNames = [
       "!'();[]@&%=+$,#äÄöÖüÜß;",
       "%21%27%28%29%3B%5B%5D%40%26%25%3D%2B%24%2C%23äÄöÖüÜß%3B",
-      " a file or directory "
+      " a file or directory ",
     ];
 
     for (const fileName of fileNames) {

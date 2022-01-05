@@ -17,7 +17,7 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
 
   let generateFakeUUID: () => string;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     const authentication = await authenticate(this);
     client = authentication.backupClient;
     recorder = authentication.recorder;
@@ -28,23 +28,23 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
     blobSasToken = sasTokenData.blobSasToken;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("can abort beginBackup", async function() {
+  it("can abort beginBackup", async function () {
     const controller = new AbortController();
     controller.abort();
 
     await assertThrowsAbortError(async () => {
       await client.beginBackup(blobStorageUri, blobSasToken, {
         ...testPollerProperties,
-        abortSignal: controller.signal
+        abortSignal: controller.signal,
       });
     });
   });
 
-  it("can abort beginRestore", async function() {
+  it("can abort beginRestore", async function () {
     const backupURI = `${blobStorageUri}/${generateFakeUUID()}`;
     const controller = new AbortController();
     controller.abort();
@@ -52,12 +52,12 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
     await assertThrowsAbortError(async () => {
       await client.beginRestore(backupURI, blobSasToken, {
         ...testPollerProperties,
-        abortSignal: controller.signal
+        abortSignal: controller.signal,
       });
     });
   });
 
-  it("can abort beginSelectiveKeyRestore", async function() {
+  it("can abort beginSelectiveKeyRestore", async function () {
     const backupURI = `${blobStorageUri}/${generateFakeUUID()}`;
 
     const controller = new AbortController();
@@ -66,7 +66,7 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
     await assertThrowsAbortError(async () => {
       await client.beginSelectiveKeyRestore("key-name", backupURI, blobSasToken, {
         ...testPollerProperties,
-        abortSignal: controller.signal
+        abortSignal: controller.signal,
       });
     });
   });

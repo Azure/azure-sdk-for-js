@@ -6,7 +6,7 @@ import { Poller } from "@azure/core-lro";
 import {
   RestoreKeyBackupPollOperationState,
   makeRestoreKeyBackupPollOperation,
-  TestKeyClientInterface
+  TestKeyClientInterface,
 } from "./operation";
 import { KeyVaultKey } from "../../../../src/keysModels";
 
@@ -43,7 +43,7 @@ export class RestoreKeyBackupPoller extends Poller<
       ...state,
       backup,
       requestOptions,
-      client
+      client,
     });
 
     super(operation);

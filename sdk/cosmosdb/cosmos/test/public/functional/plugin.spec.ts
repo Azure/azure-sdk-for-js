@@ -6,14 +6,14 @@ import { Plugin, Next, PluginConfig } from "../../../src";
 
 import * as assert from "assert";
 
-describe("Plugin", function() {
-  it("should handle all requests", async function() {
+describe("Plugin", function () {
+  it("should handle all requests", async function () {
     const successResponse = {
       headers: {},
       code: 200,
       result: {
-        message: "yay"
-      }
+        message: "yay",
+      },
     };
     let requestCount = 0;
     const FAILCOUNT = 2;
@@ -21,7 +21,7 @@ describe("Plugin", function() {
       requestCount++;
       if (context.path.includes("dbs") && requestCount <= FAILCOUNT) {
         throw {
-          code: "ECONNRESET"
+          code: "ECONNRESET",
         };
       }
       return successResponse;
@@ -29,14 +29,14 @@ describe("Plugin", function() {
 
     const options: CosmosClientOptions = {
       endpoint: "https://faaaaaaaaaaaaake.com",
-      key: "THIS IS A FAKE KEY"
+      key: "THIS IS A FAKE KEY",
     };
 
     const plugins: PluginConfig[] = [
       {
         on: "request",
-        plugin: sometimesThrow
-      }
+        plugin: sometimesThrow,
+      },
     ];
 
     const client = new CosmosClient({ ...options, plugins } as any);
@@ -48,13 +48,13 @@ describe("Plugin", function() {
     client.dispose();
   });
 
-  it("should handle all operations", async function() {
+  it("should handle all operations", async function () {
     const successResponse = {
       headers: {},
       code: 200,
       result: {
-        message: "yay"
-      }
+        message: "yay",
+      },
     };
     let requestCount = 0;
     const alwaysSucceed: Plugin<any> = async () => {
@@ -67,18 +67,18 @@ describe("Plugin", function() {
 
     const options: CosmosClientOptions = {
       endpoint: "https://faaaaaaaaaaaaake.com",
-      key: "THIS IS A FAKE KEY"
+      key: "THIS IS A FAKE KEY",
     };
 
     const plugins: PluginConfig[] = [
       {
         on: "request",
-        plugin: alwaysThrow // I'll never be called since operation will always succeed.
+        plugin: alwaysThrow, // I'll never be called since operation will always succeed.
       },
       {
         on: "operation",
-        plugin: alwaysSucceed
-      }
+        plugin: alwaysSucceed,
+      },
     ];
 
     const client = new CosmosClient({ ...options, plugins } as any);
@@ -90,13 +90,13 @@ describe("Plugin", function() {
     client.dispose();
   });
 
-  it("should allow next to be called", async function() {
+  it("should allow next to be called", async function () {
     const successResponse = {
       headers: {},
       code: 200,
       result: {
-        message: "yay"
-      }
+        message: "yay",
+      },
     };
     let innerRequestCount = 0;
     const alwaysSucceed: Plugin<any> = async () => {
@@ -115,18 +115,18 @@ describe("Plugin", function() {
 
     const options: CosmosClientOptions = {
       endpoint: "https://faaaaaaaaaaaaake.com",
-      key: "THIS IS A FAKE KEY"
+      key: "THIS IS A FAKE KEY",
     };
 
     const plugins: PluginConfig[] = [
       {
         on: "operation",
-        plugin: counts // I'll never be called since operation will always succeed.
+        plugin: counts, // I'll never be called since operation will always succeed.
       },
       {
         on: "operation",
-        plugin: alwaysSucceed
-      }
+        plugin: alwaysSucceed,
+      },
     ];
 
     const client = new CosmosClient({ ...options, plugins } as any);

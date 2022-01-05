@@ -91,7 +91,7 @@ export class Database {
       path,
       resourceType: ResourceType.database,
       resourceId: id,
-      options
+      options,
     });
     return new DatabaseResponse(response.result, response.headers, response.code, this);
   }
@@ -104,7 +104,7 @@ export class Database {
       path,
       resourceType: ResourceType.database,
       resourceId: id,
-      options
+      options,
     });
     return new DatabaseResponse(response.result, response.headers, response.code, this);
   }
@@ -122,7 +122,7 @@ export class Database {
       resourceType: ResourceType.offer,
       query: `SELECT * from root where root.resource = "${url}"`,
       resultFn: (result) => result.Offers,
-      options
+      options,
     });
     const offer = response.result[0]
       ? new Offer(this.client, response.result[0].id, this.clientContext)

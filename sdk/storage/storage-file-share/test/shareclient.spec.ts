@@ -14,7 +14,7 @@ describe("ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -22,7 +22,7 @@ describe("ShareClient", () => {
     await shareClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -31,7 +31,7 @@ describe("ShareClient", () => {
     const metadata = {
       key0: "val0",
       keya: "vala",
-      keyb: "valb"
+      keyb: "valb",
     };
     await shareClient.setMetadata(metadata);
 
@@ -112,7 +112,7 @@ describe("ShareClient", () => {
   it("create snapshot", async () => {
     const metadata = { key1: "value1", key2: "value2" };
     const createSnapshotResponse = await shareClient.createSnapshot({
-      metadata
+      metadata,
     });
 
     assert.notEqual(createSnapshotResponse.snapshot, undefined);
@@ -185,8 +185,8 @@ describe("ShareClient", () => {
   it("can be created with a sas connection string and a share name and an option bag", async () => {
     const newClient = new ShareClient(getSASConnectionStringFromEnvironment(), shareName, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
     const result = await newClient.getProperties();
 

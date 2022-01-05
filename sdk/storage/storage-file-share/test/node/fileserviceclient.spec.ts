@@ -10,11 +10,11 @@ import { Context } from "mocha";
 describe("FileServiceClient Node.js only", () => {
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -37,7 +37,7 @@ describe("FileServiceClient Node.js only", () => {
     const factories = (serviceClient as any).pipeline.factories;
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new ShareServiceClient(serviceClient.url, credential, {
-      retryOptions: { maxTries: 5 }
+      retryOptions: { maxTries: 5 },
     });
 
     const result = await newClient.getProperties();
@@ -77,8 +77,8 @@ describe("FileServiceClient Node.js only", () => {
       getConnectionStringFromEnvironment(),
       {
         retryOptions: {
-          maxTries: 5
-        }
+          maxTries: 5,
+        },
       }
     );
 

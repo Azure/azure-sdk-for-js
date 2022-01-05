@@ -2,33 +2,33 @@
 // Licensed under the MIT license.
 import {
   FetchFunctionCallback,
-  DefaultQueryExecutionContext
+  DefaultQueryExecutionContext,
 } from "../../../src/queryExecutionContext";
 import { FeedOptions } from "../../../src";
 import assert from "assert";
 import { sleep } from "../../../src/common";
 
-describe("defaultQueryExecutionContext", function() {
-  it("should not buffer items if bufferItems is false", async function() {
+describe("defaultQueryExecutionContext", function () {
+  it("should not buffer items if bufferItems is false", async function () {
     let calledCount = 0;
     const fetchFunction: FetchFunctionCallback = async () => {
       calledCount++;
       return {
         code: 200,
         headers: {
-          "x-ms-continuation": "any random text"
+          "x-ms-continuation": "any random text",
         },
         result: [
           {
-            item: "foo"
-          }
+            item: "foo",
+          },
         ],
-        substatus: 0
+        substatus: 0,
       };
     };
 
     const options: FeedOptions = {
-      bufferItems: false
+      bufferItems: false,
     };
 
     const context = new DefaultQueryExecutionContext(options, fetchFunction);
@@ -48,26 +48,26 @@ describe("defaultQueryExecutionContext", function() {
     assert.strictEqual(calledCount, 2, "Should have only fetched 2 pages");
   });
 
-  it("should buffer items if bufferItems is true", async function() {
+  it("should buffer items if bufferItems is true", async function () {
     let calledCount = 0;
     const fetchFunction: FetchFunctionCallback = async () => {
       calledCount++;
       return {
         code: 200,
         headers: {
-          "x-ms-continuation": "any random text"
+          "x-ms-continuation": "any random text",
         },
         result: [
           {
-            item: "foo"
-          }
+            item: "foo",
+          },
         ],
-        substatus: 0
+        substatus: 0,
       };
     };
 
     const options: FeedOptions = {
-      bufferItems: true
+      bufferItems: true,
     };
 
     const context = new DefaultQueryExecutionContext(options, fetchFunction);

@@ -7,7 +7,7 @@ import {
   getPathFromLink,
   isResourceValid,
   ResourceType,
-  StatusCodes
+  StatusCodes,
 } from "../../common";
 import { PartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
@@ -75,9 +75,8 @@ export class Item {
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
-      const {
-        resource: partitionKeyDefinition
-      } = await this.container.readPartitionKeyDefinition();
+      const { resource: partitionKeyDefinition } =
+        await this.container.readPartitionKeyDefinition();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
     const path = getPathFromLink(this.url);
@@ -89,7 +88,7 @@ export class Item {
         resourceType: ResourceType.item,
         resourceId: id,
         options,
-        partitionKey: this.partitionKey
+        partitionKey: this.partitionKey,
       });
     } catch (error) {
       if (error.code !== StatusCodes.NotFound) {
@@ -139,9 +138,8 @@ export class Item {
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
-      const {
-        resource: partitionKeyDefinition
-      } = await this.container.readPartitionKeyDefinition();
+      const { resource: partitionKeyDefinition } =
+        await this.container.readPartitionKeyDefinition();
       this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
 
@@ -159,7 +157,7 @@ export class Item {
       resourceType: ResourceType.item,
       resourceId: id,
       options,
-      partitionKey: this.partitionKey
+      partitionKey: this.partitionKey,
     });
     return new ItemResponse(
       response.result,
@@ -182,9 +180,8 @@ export class Item {
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
-      const {
-        resource: partitionKeyDefinition
-      } = await this.container.readPartitionKeyDefinition();
+      const { resource: partitionKeyDefinition } =
+        await this.container.readPartitionKeyDefinition();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
 
@@ -196,7 +193,7 @@ export class Item {
       resourceType: ResourceType.item,
       resourceId: id,
       options,
-      partitionKey: this.partitionKey
+      partitionKey: this.partitionKey,
     });
     return new ItemResponse(
       response.result,
@@ -220,9 +217,8 @@ export class Item {
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
-      const {
-        resource: partitionKeyDefinition
-      } = await this.container.readPartitionKeyDefinition();
+      const { resource: partitionKeyDefinition } =
+        await this.container.readPartitionKeyDefinition();
       this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
 
@@ -235,7 +231,7 @@ export class Item {
       resourceType: ResourceType.item,
       resourceId: id,
       options,
-      partitionKey: this.partitionKey
+      partitionKey: this.partitionKey,
     });
     return new ItemResponse(
       response.result,

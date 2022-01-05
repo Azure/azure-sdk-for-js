@@ -14,11 +14,11 @@ dotenv.config();
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -27,8 +27,8 @@ describe("DataLakeServiceClient", () => {
       getConnectionStringFromEnvironment(),
       {
         retryOptions: {
-          maxTries: 1
-        }
+          maxTries: 1,
+        },
       }
     );
 

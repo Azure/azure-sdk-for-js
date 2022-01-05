@@ -15,7 +15,7 @@ import {
   signingPolicy,
   PipelineOptions,
   createPipelineFromOptions,
-  InternalPipelineOptions
+  InternalPipelineOptions,
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -83,7 +83,7 @@ import {
   ImportCertificatePolicy,
   KnownCertificateKeyCurveNames,
   KnownCertificateKeyTypes,
-  KnownKeyUsageTypes
+  KnownKeyUsageTypes,
 } from "./certificatesModels";
 
 import {
@@ -103,7 +103,7 @@ import {
   JsonWebKeyType as CertificateKeyType,
   JsonWebKeyCurveName as CertificateKeyCurveName,
   KnownDeletionRecoveryLevel as KnownDeletionRecoveryLevels,
-  KeyUsageType
+  KeyUsageType,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
@@ -131,7 +131,7 @@ import {
   toCoreAttributes,
   toCorePolicy,
   toPublicIssuer,
-  toPublicPolicy
+  toPublicPolicy,
 } from "./transformations";
 import { KeyVaultCertificatePollOperationState } from "./lro/keyVaultCertificatePoller";
 
@@ -218,7 +218,7 @@ export {
   KnownCertificateKeyCurveNames,
   KnownDeletionRecoveryLevels,
   KnownCertificateKeyTypes,
-  KnownKeyUsageTypes
+  KnownKeyUsageTypes,
 };
 
 /**
@@ -265,7 +265,7 @@ export class CertificateClient {
           : libInfo;
     } else {
       pipelineOptions.userAgentOptions = {
-        userAgentPrefix: libInfo
+        userAgentPrefix: libInfo,
       };
     }
 
@@ -280,9 +280,9 @@ export class CertificateClient {
         allowedHeaderNames: [
           "x-ms-keyvault-region",
           "x-ms-keyvault-network-info",
-          "x-ms-keyvault-service-version"
-        ]
-      }
+          "x-ms-keyvault-service-version",
+        ],
+      },
     };
 
     this.client = new KeyVaultClient(
@@ -299,7 +299,7 @@ export class CertificateClient {
       const optionsComplete: KeyVaultClientGetCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
         includePending: options.includePending,
-        ...options
+        ...options,
       };
       const currentSetResponse = await withTrace(
         "listPropertiesOfCertificates",
@@ -373,7 +373,7 @@ export class CertificateClient {
         return this;
       },
       byPage: (settings: PageSettings = {}) =>
-        this.listPropertiesOfCertificatesPage(settings, options)
+        this.listPropertiesOfCertificatesPage(settings, options),
     };
 
     return result;
@@ -387,7 +387,7 @@ export class CertificateClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetCertificateVersionsOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...options
+        ...options,
       };
       const currentSetResponse = await withTrace(
         "listPropertiesOfCertificateVersions",
@@ -466,7 +466,7 @@ export class CertificateClient {
         return this;
       },
       byPage: (settings: PageSettings = {}) =>
-        this.listPropertiesOfCertificateVersionsPage(certificateName, settings, options)
+        this.listPropertiesOfCertificateVersionsPage(certificateName, settings, options),
     };
 
     return result;
@@ -513,7 +513,7 @@ export class CertificateClient {
       client: this.client,
       vaultUrl: this.vaultUrl,
       ...options,
-      operationOptions: options
+      operationOptions: options,
     });
     // This will initialize the poller's operation (the deletion of the secret).
     await poller.poll();
@@ -568,7 +568,7 @@ export class CertificateClient {
     const coreContacts = contacts.map((x) => ({
       emailAddress: x ? x.email : undefined,
       name: x ? x.name : undefined,
-      phone: x ? x.phone : undefined
+      phone: x ? x.phone : undefined,
     }));
 
     return withTrace("setContacts", options, async (updatedOptions) => {
@@ -612,7 +612,7 @@ export class CertificateClient {
     if (continuationState.continuationToken == null) {
       const requestOptionsComplete: KeyVaultClientGetCertificateIssuersOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...options
+        ...options,
       };
       const currentSetResponse = await withTrace(
         "listPropertiesOfIssuers",
@@ -685,7 +685,7 @@ export class CertificateClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listPropertiesOfIssuersPage(settings, options)
+      byPage: (settings: PageSettings = {}) => this.listPropertiesOfIssuersPage(settings, options),
     };
 
     return result;
@@ -717,8 +717,8 @@ export class CertificateClient {
         ...updatedOptions,
         credentials: {
           accountId,
-          password
-        }
+          password,
+        },
       };
 
       if (
@@ -732,15 +732,15 @@ export class CertificateClient {
                 emailAddress: x.email,
                 phone: x.phone,
                 firstName: x.firstName,
-                lastName: x.lastName
+                lastName: x.lastName,
               }))
-            : undefined
+            : undefined,
         };
       }
 
       if (updatedOptions.enabled !== undefined) {
         generatedOptions.attributes = {
-          enabled: updatedOptions.enabled
+          enabled: updatedOptions.enabled,
         };
       }
 
@@ -781,8 +781,8 @@ export class CertificateClient {
         ...updatedOptions,
         credentials: {
           accountId,
-          password
-        }
+          password,
+        },
       };
 
       if (
@@ -796,15 +796,15 @@ export class CertificateClient {
                 emailAddress: x.email,
                 phone: x.phone,
                 firstName: x.firstName,
-                lastName: x.lastName
+                lastName: x.lastName,
               }))
-            : undefined
+            : undefined,
         };
       }
 
       if (updatedOptions.enabled) {
         generatedOptions.attributes = {
-          enabled: updatedOptions.enabled
+          enabled: updatedOptions.enabled,
         };
       }
 
@@ -921,7 +921,7 @@ export class CertificateClient {
       createCertificateOptions: options,
       operationOptions: options,
       intervalInMs: options.intervalInMs,
-      resumeFrom: options.resumeFrom
+      resumeFrom: options.resumeFrom,
     });
     // This will initialize the poller's operation (the creation of the secret).
     await poller.poll();
@@ -1133,7 +1133,7 @@ export class CertificateClient {
     return withTrace("updateCertificateProperties", options, async (updatedOptions) => {
       const result = await this.client.updateCertificate(this.vaultUrl, certificateName, version, {
         ...updatedOptions,
-        certificateAttributes: toCoreAttributes(options)
+        certificateAttributes: toCoreAttributes(options),
       });
       return getCertificateFromCertificateBundle(result._response.parsedBody);
     });
@@ -1171,7 +1171,7 @@ export class CertificateClient {
       vaultUrl: this.vaultUrl,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      operationOptions: options
+      operationOptions: options,
     });
     // This will initialize the poller's operation, which pre-populates some necessary properties.
     await poller.poll();
@@ -1333,7 +1333,7 @@ export class CertificateClient {
       const requestOptionsComplete: KeyVaultClientGetDeletedCertificatesOptionalParams = {
         maxresults: continuationState.maxPageSize,
         includePending: options.includePending,
-        ...options
+        ...options,
       };
       const currentSetResponse = await withTrace(
         "listDeletedCertificates",
@@ -1404,7 +1404,7 @@ export class CertificateClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listDeletedCertificatesPage(settings, options)
+      byPage: (settings: PageSettings = {}) => this.listDeletedCertificatesPage(settings, options),
     };
 
     return result;
@@ -1502,7 +1502,7 @@ export class CertificateClient {
       client: this.client,
       vaultUrl: this.vaultUrl,
       ...options,
-      operationOptions: options
+      operationOptions: options,
     });
     // This will initialize the poller's operation (the recovery of the deleted secret).
     await poller.poll();

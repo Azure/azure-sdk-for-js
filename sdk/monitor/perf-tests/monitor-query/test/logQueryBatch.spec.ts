@@ -17,20 +17,20 @@ export class LogQueryBatchTest extends MonitorQueryLog<MonitorQueryTestOptions> 
       {
         workspaceId: this.workspaceId,
         query: "AzureActivity | summarize count()",
-        timespan: { startTime: new Date("2021-07-25"), endTime: new Date("2021-07-26") }
+        timespan: { startTime: new Date("2021-07-25"), endTime: new Date("2021-07-26") },
       },
       {
         workspaceId: this.workspaceId,
         query:
           "AppRequests | take 10  | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
-        timespan: { startTime: new Date("2021-07-25"), endTime: new Date("2021-07-26") }
+        timespan: { startTime: new Date("2021-07-25"), endTime: new Date("2021-07-26") },
       },
       {
         workspaceId: this.workspaceId,
         query: "AppRequests | take 2",
         timespan: { duration: "" },
-        includeQueryStatistics: true
-      }
+        includeQueryStatistics: true,
+      },
     ];
   }
 

@@ -35,15 +35,15 @@ export async function main(): Promise<void> {
         firstName: "John",
         lastName: "Doe",
         email: "admin@microsoft2.com",
-        phone: "4255555555"
-      }
-    ]
+        phone: "4255555555",
+      },
+    ],
   });
 
   // We can create a certificate with that issuer's name.
   const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName,
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   });
   const pendingCertificate = createPoller.getResult();
   console.log("Certificate: ", pendingCertificate);

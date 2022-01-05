@@ -6,9 +6,9 @@
  * @author Arpan Laha
  */
 
+import { Literal, Property } from "estree";
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
 import { Rule } from "eslint";
-import { Literal, Property } from "estree";
 
 //------------------------------------------------------------------------------
 // Rule Definition

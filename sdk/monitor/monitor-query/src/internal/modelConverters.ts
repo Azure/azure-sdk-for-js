@@ -9,19 +9,19 @@ import {
   QueryBody,
   Table as GeneratedTable,
   BatchQueryResults as GeneratedBatchQueryResults,
-  ErrorInfo as GeneratedErrorInfo
+  ErrorInfo as GeneratedErrorInfo,
 } from "../generated/logquery/src";
 
 import {
   Metric as GeneratedMetric,
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
   MetricsListResponse as GeneratedMetricsListResponse,
-  TimeSeriesElement as GeneratedTimeSeriesElement
+  TimeSeriesElement as GeneratedTimeSeriesElement,
 } from "../generated/metrics/src";
 
 import {
   MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams,
-  MetricDefinition as GeneratedMetricDefinition
+  MetricDefinition as GeneratedMetricDefinition,
 } from "../generated/metricsdefinitions/src";
 
 import { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src";
@@ -33,7 +33,7 @@ import {
   LogsTable,
   LogsQueryBatchResult,
   MetricsQueryOptions,
-  MetricsQueryResult
+  MetricsQueryResult,
 } from "../../src";
 import {
   MetricNamespace,
@@ -41,19 +41,19 @@ import {
   MetricDefinition,
   TimeSeriesElement,
   createMetricsQueryResult,
-  MetricAvailability
+  MetricAvailability,
 } from "../models/publicMetricsModels";
 import { FullOperationResponse } from "@azure/core-client";
 import {
   convertIntervalToTimeIntervalObject,
-  convertTimespanToInterval
+  convertTimespanToInterval,
 } from "../timespanConversion";
 import {
   LogsErrorInfo,
   LogsQueryError,
   LogsQueryPartialResult,
   LogsQueryResultStatus,
-  LogsQuerySuccessfulResult
+  LogsQuerySuccessfulResult,
 } from "../models/publicLogsModels";
 
 /**
@@ -76,7 +76,7 @@ export function convertRequestForQueryBatch(batch: QueryBatch[]): GeneratedBatch
         >
       > = {
       workspaceId: query.workspaceId,
-      query: query.query
+      query: query.query,
     };
     if (query["additionalWorkspaces"]) {
       body["workspaces"] = query["additionalWorkspaces"].map((x) => x);
@@ -94,7 +94,7 @@ export function convertRequestForQueryBatch(batch: QueryBatch[]): GeneratedBatch
       id: id.toString(),
       workspace: query.workspaceId,
       headers: formatPreferHeader(query),
-      body
+      body,
     };
 
     ++id;
@@ -103,7 +103,7 @@ export function convertRequestForQueryBatch(batch: QueryBatch[]): GeneratedBatch
   });
 
   return {
-    requests
+    requests,
   };
 }
 
@@ -192,17 +192,11 @@ export function convertRequestForMetrics(
     return {};
   }
 
-  const {
-    orderBy,
-    aggregations,
-    metricNamespace,
-    timespan,
-    granularity,
-    ...rest
-  } = queryMetricsOptions;
+  const { orderBy, aggregations, metricNamespace, timespan, granularity, ...rest } =
+    queryMetricsOptions;
 
   const obj: GeneratedMetricsListOptionalParams = {
-    ...rest
+    ...rest,
   };
 
   if (timespan) {
@@ -244,10 +238,10 @@ export function convertResponseForMetrics(
             data: ts.data,
             metadataValues: ts.metadatavalues?.map((mv) => ({
               ...mv,
-              name: mv.name?.value
-            }))
+              name: mv.name?.value,
+            })),
           }
-      )
+      ),
     };
     delete metricObject.displayDescription;
     return metricObject;
@@ -259,7 +253,7 @@ export function convertResponseForMetrics(
   const obj: Omit<MetricsQueryResult, "getMetricByName"> = {
     ...rest,
     metrics,
-    timespan: convertIntervalToTimeIntervalObject(timespan)
+    timespan: convertIntervalToTimeIntervalObject(timespan),
   };
 
   if (resourceregion) {
@@ -285,7 +279,7 @@ export function convertRequestOptionsForMetricsDefinitions(
   const { metricNamespace, ...rest } = options;
 
   const obj: GeneratedMetricDefinitionsListOptionalParams = {
-    ...rest
+    ...rest,
   };
 
   if (metricNamespace) {
@@ -305,7 +299,7 @@ export function convertResponseForMetricsDefinitions(
     const { name, dimensions, displayDescription, metricAvailabilities, ...rest } = genDef;
 
     const response: MetricDefinition = {
-      ...rest
+      ...rest,
     };
 
     if (displayDescription) {
@@ -315,14 +309,13 @@ export function convertResponseForMetricsDefinitions(
       response.name = name.value;
     }
 
-    const mappedMetricAvailabilities:
-      | Array<MetricAvailability>
-      | undefined = metricAvailabilities?.map((genMetricAvail) => {
-      return {
-        granularity: genMetricAvail.timeGrain,
-        retention: genMetricAvail.retention
-      };
-    });
+    const mappedMetricAvailabilities: Array<MetricAvailability> | undefined =
+      metricAvailabilities?.map((genMetricAvail) => {
+        return {
+          granularity: genMetricAvail.timeGrain,
+          retention: genMetricAvail.retention,
+        };
+      });
 
     if (mappedMetricAvailabilities) {
       response.metricAvailabilities = mappedMetricAvailabilities;
@@ -347,7 +340,7 @@ export function convertResponseForMetricNamespaces(
     const { properties, ...rest } = genDef;
 
     const response: MetricNamespace = {
-      ...rest
+      ...rest,
     };
 
     if (properties) {
@@ -393,7 +386,7 @@ export function convertGeneratedTable(table: GeneratedTable): LogsTable {
 
       return row;
     }),
-    columnDescriptors: table.columns
+    columnDescriptors: table.columns,
   };
 }
 
@@ -424,7 +417,8 @@ export function computeResultType(
       status: LogsQueryResultStatus.Success,
       statistics: generatedResponse.statistics,
       tables:
-        generatedResponse.tables?.map((table: GeneratedTable) => convertGeneratedTable(table)) || []
+        generatedResponse.tables?.map((table: GeneratedTable) => convertGeneratedTable(table)) ||
+        [],
     };
     return result;
   } else {
@@ -436,14 +430,14 @@ export function computeResultType(
         partialTables: generatedResponse.tables?.map((table: GeneratedTable) =>
           convertGeneratedTable(table)
         ),
-        partialError: mapError(generatedResponse.error)
+        partialError: mapError(generatedResponse.error),
       };
       return result;
     } else {
       const errorInfo: LogsErrorInfo = mapError(generatedResponse.error);
       const result: LogsQueryError = {
         status: LogsQueryResultStatus.Failure,
-        ...errorInfo
+        ...errorInfo,
       };
       return result;
     }
@@ -459,6 +453,6 @@ export function mapError(error: GeneratedErrorInfo): LogsErrorInfo {
   return {
     name: "Error",
     code: error.code,
-    message: `${error.message}.  ${innermostError.message}`
+    message: `${error.message}.  ${innermostError.message}`,
   };
 }

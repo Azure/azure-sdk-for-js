@@ -12,7 +12,7 @@ import { quoteETag } from "../../src/util";
 // Unit tests SHOULD appear inside of a `describe` block.  The hierarchical
 // oranization of tests within `describe` blocks will be reflected in our
 // pipeline analytics and metrics.
-describe("basic internal unit tests", async function() {
+describe("basic internal unit tests", async function () {
   // `it` declares a unit test. The test passes if it does not throw an `Error`
   it("basic assertion", () => {
     assert.equal(1, 1);

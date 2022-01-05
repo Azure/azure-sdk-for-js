@@ -9,15 +9,15 @@ import {
   createRecorderAndMetricsClient,
   getMetricsArmResourceId,
   loggerForTest,
-  RecorderAndMetricsClient
+  RecorderAndMetricsClient,
 } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
-describe("MetricsClient live tests", function() {
+describe("MetricsClient live tests", function () {
   let resourceId: string;
   let metricsQueryClient: MetricsQueryClient;
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     loggerForTest.verbose(`Recorder: starting...`);
     const recordedClient: RecorderAndMetricsClient = createRecorderAndMetricsClient(this);
     ({ resourceId } = getMetricsArmResourceId(this));
@@ -25,7 +25,7 @@ describe("MetricsClient live tests", function() {
     recorder = recordedClient.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     if (recorder) {
       loggerForTest.verbose("Recorder: stopping");
       await recorder.stop();
@@ -70,8 +70,8 @@ describe("MetricsClient live tests", function() {
       if (i % 20 === 0 || i === metricDefinitionsLength) {
         const newResults = await metricsQueryClient.queryResource(resourceId, definitionNames, {
           timespan: {
-            duration: Durations.twentyFourHours
-          }
+            duration: Durations.twentyFourHours,
+          },
         });
         assert.ok(newResults);
         assert.isNotEmpty(newResults.metrics);
@@ -89,7 +89,7 @@ describe("MetricsClient live tests", function() {
       [firstMetricDefinition.name!],
       {
         timespan: { duration: Durations.twentyFourHours },
-        metricNamespace: firstMetricDefinition.namespace
+        metricNamespace: firstMetricDefinition.namespace,
       }
     );
 

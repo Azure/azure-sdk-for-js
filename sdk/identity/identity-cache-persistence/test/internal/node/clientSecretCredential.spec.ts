@@ -3,17 +3,14 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import Sinon from "sinon";
-import assert from "assert";
-
-import { env } from "@azure-tools/test-recorder";
-import { ConfidentialClientApplication } from "@azure/msal-node";
-
 import { ClientSecretCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
+import { ConfidentialClientApplication } from "@azure/msal-node";
 import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
-
+import Sinon from "sinon";
+import assert from "assert";
 import { createPersistence } from "./setup.spec";
+import { env } from "@azure-tools/test-recorder";
 
 const scope = "https://graph.microsoft.com/.default";
 

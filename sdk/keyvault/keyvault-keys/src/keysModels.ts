@@ -6,7 +6,7 @@ import {
   DeletionRecoveryLevel,
   JsonWebKeyType as KeyType,
   KnownJsonWebKeyType as KnownKeyTypes,
-  JsonWebKeyOperation as KeyOperation
+  JsonWebKeyOperation as KeyOperation,
 } from "./generated/models";
 import { KeyCurveName } from "./cryptographyClientModels";
 
@@ -570,7 +570,7 @@ export enum KnownKeyOperations {
   /** Key operation - unwrapKey */
   UnwrapKey = "unwrapKey",
   /** Key operation - import */
-  Import = "import"
+  Import = "import",
 }
 
 /** Known values of {@link KeyExportEncryptionAlgorithm} that the service accepts. */
@@ -580,7 +580,7 @@ export enum KnownKeyExportEncryptionAlgorithm {
   /** RSA_AES_KEY_WRAP_256 Key Export Encryption Algorithm */
   RsaAesKeyWrap256 = "RSA_AES_KEY_WRAP_256",
   /** RSA_AES_KEY_WRAP_384 Key Export Encryption Algorithm */
-  RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384"
+  RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384",
 }
 
 /* eslint-disable tsdoc/syntax */

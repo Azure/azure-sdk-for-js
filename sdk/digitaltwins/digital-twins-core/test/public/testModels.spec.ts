@@ -22,14 +22,14 @@ const testComponent = {
     {
       "@type": "Property",
       name: "ComponentProp1",
-      schema: "string"
+      schema: "string",
     },
     {
       "@type": "Telemetry",
       name: "ComponentTelemetry1",
-      schema: "integer"
-    }
-  ]
+      schema: "integer",
+    },
+  ],
 };
 
 const testModel = {
@@ -41,32 +41,32 @@ const testModel = {
     {
       "@type": "Property",
       name: "Prop1",
-      schema: "string"
+      schema: "string",
     },
     {
       "@type": "Component",
       name: "Component1",
-      schema: COMPONENT_ID
+      schema: COMPONENT_ID,
     },
     {
       "@type": "Telemetry",
       name: "Telemetry1",
-      schema: "integer"
-    }
-  ]
+      schema: "integer",
+    },
+  ],
 };
 
 describe("DigitalTwins Models - create, read, list, delete operations", () => {
   let client: DigitalTwinsClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Mocha.Context) {
+  beforeEach(async function (this: Mocha.Context) {
     const authentication = await authenticate(this);
     client = authentication.client;
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -94,7 +94,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     await createModel();
   }
 
-  it("create models empty", async function() {
+  it("create models empty", async function () {
     await deleteModels();
 
     let errorWasThrown = false;
@@ -107,7 +107,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create models", async function() {
+  it("create models", async function () {
     await deleteModels();
 
     try {
@@ -128,7 +128,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     }
   });
 
-  it("create model existing", async function() {
+  it("create model existing", async function () {
     await setUpModels();
 
     let errorWasThrown = false;
@@ -143,7 +143,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create model invalid model", async function() {
+  it("create model invalid model", async function () {
     await deleteModels();
 
     const invalidComponent = {
@@ -153,14 +153,14 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
         {
           "@type": "Property",
           name: "ComponentProp1",
-          schema: "string"
+          schema: "string",
         },
         {
           "@type": "Telemetry",
           name: "ComponentTelemetry1",
-          schema: "integer"
-        }
-      ]
+          schema: "integer",
+        },
+      ],
     };
 
     let errorWasThrown = false;
@@ -178,7 +178,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create model invalid reference", async function() {
+  it("create model invalid reference", async function () {
     await deleteModels();
 
     const invalidModel = {
@@ -190,19 +190,19 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
         {
           "@type": "Property",
           name: "Prop1",
-          schema: "string"
+          schema: "string",
         },
         {
           "@type": "Component",
           name: "Component1",
-          schema: "XXX"
+          schema: "XXX",
         },
         {
           "@type": "Telemetry",
           name: "Telemetry1",
-          schema: "integer"
-        }
-      ]
+          schema: "integer",
+        },
+      ],
     };
 
     let errorWasThrown = false;
@@ -220,7 +220,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("get model", async function() {
+  it("get model", async function () {
     await setUpModels();
 
     try {
@@ -235,7 +235,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     }
   });
 
-  it("get model with definition", async function() {
+  it("get model with definition", async function () {
     await setUpModels();
 
     try {
@@ -250,7 +250,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     }
   });
 
-  it("get model not existing", async function() {
+  it("get model not existing", async function () {
     await deleteModels();
 
     let errorWasThrown = false;
@@ -266,7 +266,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("list models", async function() {
+  it("list models", async function () {
     await setUpModels();
 
     try {
@@ -292,7 +292,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     }
   });
 
-  it("list models with definition", async function() {
+  it("list models with definition", async function () {
     await setUpModels();
 
     try {
@@ -318,7 +318,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     }
   });
 
-  it("decommission model", async function() {
+  it("decommission model", async function () {
     await deleteModels();
 
     try {
@@ -345,7 +345,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     }
   });
 
-  it("decommission model not existing", async function() {
+  it("decommission model not existing", async function () {
     await deleteModels();
     delay(500);
 
@@ -364,7 +364,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("decommission model already decomissioned", async function() {
+  it("decommission model already decomissioned", async function () {
     await deleteModels();
 
     try {
@@ -400,7 +400,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     }
   });
 
-  it("delete model", async function() {
+  it("delete model", async function () {
     await setUpModels();
 
     try {
@@ -434,7 +434,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     }
   });
 
-  it("delete model not existing", async function() {
+  it("delete model not existing", async function () {
     await deleteModels();
 
     let errorWasThrown = false;
@@ -452,7 +452,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("delete model already deleted", async function() {
+  it("delete model already deleted", async function () {
     await setUpModels();
 
     await client.deleteModel(MODEL_ID);
@@ -472,7 +472,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("delete model with dependencies", async function() {
+  it("delete model with dependencies", async function () {
     await setUpModels();
 
     try {

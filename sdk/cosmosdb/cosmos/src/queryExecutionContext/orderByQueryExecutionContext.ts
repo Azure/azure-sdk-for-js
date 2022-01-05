@@ -10,8 +10,10 @@ import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionConte
 import { SqlQuerySpec } from "./SqlQuerySpec";
 
 /** @hidden */
-export class OrderByQueryExecutionContext extends ParallelQueryExecutionContextBase
-  implements ExecutionContext {
+export class OrderByQueryExecutionContext
+  extends ParallelQueryExecutionContextBase
+  implements ExecutionContext
+{
   private orderByComparator: any;
   /**
    * Provides the OrderByQueryExecutionContext.

@@ -10,7 +10,7 @@ import {
   BlobQueryArrowConfiguration,
   ServiceRenameContainerOptions,
   ContainerRenameResponse,
-  ContainerUndeleteResponse
+  ContainerUndeleteResponse,
 } from "@azure/storage-blob";
 import { DataLakePathClient } from "./clients";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
@@ -43,7 +43,7 @@ import {
   PathDeleteResponse,
   PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
   PathList as PathListModel,
-  PathUndeleteHeaders
+  PathUndeleteHeaders,
 } from "./generated/src/models";
 import { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions";
 import { DirectorySASPermissions } from "./sas/DirectorySASPermissions";
@@ -58,7 +58,7 @@ export {
   ServiceListContainersSegmentResponse,
   Lease,
   LeaseOperationOptions,
-  LeaseOperationResponse
+  LeaseOperationResponse,
 } from "@azure/storage-blob";
 
 export {
@@ -91,7 +91,7 @@ export {
   PathRenameMode as PathRenameModeModel,
   PathExpiryOptions as FileExpiryMode,
   PathSetExpiryResponse as FileSetExpiryResponse,
-  PathSetExpiryHeaders as FileSetExpiryHeaders
+  PathSetExpiryHeaders as FileSetExpiryHeaders,
 } from "./generated/src/models";
 
 export { PathCreateResponse };
@@ -995,7 +995,7 @@ export interface PathDeleteIfExistsResponse extends PathDeleteResponse {
  */
 export enum PathGetPropertiesAction {
   GetAccessControl = "getAccessControl",
-  GetStatus = "getStatus"
+  GetStatus = "getStatus",
 }
 /**
  * Defines values for PathRenameMode.
@@ -1004,7 +1004,7 @@ export enum PathGetPropertiesAction {
  */
 export enum PathRenameMode {
   Legacy = "legacy",
-  Posix = "posix"
+  Posix = "posix",
 }
 /**
  * Defines values for PathResourceType.
@@ -1013,7 +1013,7 @@ export enum PathRenameMode {
  */
 export enum PathResourceType {
   Directory = "directory",
-  File = "file"
+  File = "file",
 }
 
 /** **************************************************************/

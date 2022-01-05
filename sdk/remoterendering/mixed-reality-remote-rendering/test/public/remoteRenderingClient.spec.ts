@@ -16,13 +16,13 @@ import {
   KnownAssetConversionStatus,
   RenderingSessionPollerLike,
   RenderingSessionSettings,
-  RenderingSession
+  RenderingSession,
 } from "../../src";
 import {
   AccessToken,
   AzureKeyCredential,
   TokenCredential,
-  GetTokenOptions
+  GetTokenOptions,
 } from "@azure/core-auth";
 import { createClient, createRecorder, getEnv } from "../utils/recordedClient";
 
@@ -61,7 +61,7 @@ describe("RemoteRenderingClient construction", () => {
     const tokenCredential: TokenCredential = {
       getToken: (_scopes: string | string[], _options?: GetTokenOptions) => {
         return Promise.resolve(null);
-      }
+      },
     };
     const client = new RemoteRenderingClient(
       serviceEndpoint,
@@ -110,12 +110,12 @@ describe("RemoteRendering functional tests", () => {
   let client: RemoteRenderingClient;
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = createRecorder(this);
     client = createClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     // Stop the recording.
     await recorder.stop();
   });
@@ -131,12 +131,12 @@ describe("RemoteRendering functional tests", () => {
       storageContainerUrl,
       storageContainerReadListSas: getEnv("REMOTERENDERING_ARR_SAS_TOKEN"),
       relativeInputAssetPath: "testBox.fbx",
-      blobPrefix: "Input"
+      blobPrefix: "Input",
     };
     const outputSettings: AssetConversionOutputSettings = {
       storageContainerUrl,
       storageContainerWriteSas: getEnv("REMOTERENDERING_ARR_SAS_TOKEN"),
-      blobPrefix: "Output"
+      blobPrefix: "Output",
     };
     const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
 
@@ -189,11 +189,11 @@ describe("RemoteRendering functional tests", () => {
     const inputSettings: AssetConversionInputSettings = {
       storageContainerUrl,
       relativeInputAssetPath: "testBox.fbx",
-      blobPrefix: "Input"
+      blobPrefix: "Input",
     };
     const outputSettings: AssetConversionOutputSettings = {
       storageContainerUrl,
-      blobPrefix: "Output"
+      blobPrefix: "Output",
     };
     const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
 
@@ -224,12 +224,12 @@ describe("RemoteRendering functional tests", () => {
       storageContainerUrl,
       storageContainerReadListSas: getEnv("REMOTERENDERING_ARR_SAS_TOKEN"),
       relativeInputAssetPath: "boxWhichDoesNotExist.fbx",
-      blobPrefix: "Input"
+      blobPrefix: "Input",
     };
     const outputSettings: AssetConversionOutputSettings = {
       storageContainerUrl,
       storageContainerWriteSas: getEnv("REMOTERENDERING_ARR_SAS_TOKEN"),
-      blobPrefix: "Output"
+      blobPrefix: "Output",
     };
     const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
 
@@ -259,7 +259,7 @@ describe("RemoteRendering functional tests", () => {
   it("can start a session", async () => {
     const sessionSettings: RenderingSessionSettings = {
       maxLeaseTimeInMinutes: 4,
-      size: "Standard"
+      size: "Standard",
     };
     const sessionId: string = recorder.getUniqueName("sessionId");
 
@@ -284,7 +284,7 @@ describe("RemoteRendering functional tests", () => {
     assert.equal(newPoller.getOperationState().latestResponse.sessionId, sessionId);
 
     const updatedSession: RenderingSession = await client.updateSession(sessionId, {
-      maxLeaseTimeInMinutes: 5
+      maxLeaseTimeInMinutes: 5,
     });
     assert.equal(updatedSession.maxLeaseTimeInMinutes, 5);
 
@@ -313,7 +313,7 @@ describe("RemoteRendering functional tests", () => {
   it("throws the correct exception on invalid session properties", async () => {
     const sessionSettings: RenderingSessionSettings = {
       maxLeaseTimeInMinutes: -4,
-      size: "Standard"
+      size: "Standard",
     };
     const sessionId: string = recorder.getUniqueName("sessionId");
 

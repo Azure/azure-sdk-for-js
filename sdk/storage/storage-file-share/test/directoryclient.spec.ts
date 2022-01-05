@@ -31,7 +31,7 @@ describe("DirectoryClient", () => {
   fullDirAttributes.notContentIndexed = true;
   fullDirAttributes.noScrubData = true;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -52,7 +52,7 @@ describe("DirectoryClient", () => {
     assert.ok(defaultDirCreateResp.filePermissionKey!);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -61,7 +61,7 @@ describe("DirectoryClient", () => {
     const metadata = {
       key0: "val0",
       keya: "vala",
-      keyb: "valb"
+      keyb: "valb",
     };
     try {
       await dirClient.setMetadata(metadata);
@@ -97,7 +97,7 @@ describe("DirectoryClient", () => {
       creationTime: now,
       lastWriteTime: now,
       filePermissionKey: defaultDirCreateResp.filePermissionKey,
-      fileAttributes: fullDirAttributes
+      fileAttributes: fullDirAttributes,
     });
 
     const result = await dirClient2.getProperties();
@@ -132,7 +132,7 @@ describe("DirectoryClient", () => {
       creationTime: now,
       lastWriteTime: now,
       filePermission: getPermissionResp.permission,
-      fileAttributes: fullDirAttributes
+      fileAttributes: fullDirAttributes,
     });
 
     const result = await dirClient2.getProperties();
@@ -224,7 +224,7 @@ describe("DirectoryClient", () => {
       creationTime: now,
       lastWriteTime: now,
       filePermission: getPermissionResp.permission,
-      fileAttributes: fullDirAttributes
+      fileAttributes: fullDirAttributes,
     });
 
     const result = await dirClient.getProperties();
@@ -267,12 +267,7 @@ describe("DirectoryClient", () => {
       subFileClients.push(subFileClient);
     }
 
-    const result = (
-      await dirClient
-        .listFilesAndDirectories({ prefix: "" })
-        .byPage()
-        .next()
-    ).value;
+    const result = (await dirClient.listFilesAndDirectories({ prefix: "" }).byPage().next()).value;
 
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(shareClient.url.indexOf(result.shareName));
@@ -322,7 +317,7 @@ describe("DirectoryClient", () => {
           includeEtag: true,
           includeAttributes: true,
           includePermissionKey: true,
-          includeExtendedInfo: true
+          includeExtendedInfo: true,
         })
         .byPage()
         .next()
@@ -372,12 +367,7 @@ describe("DirectoryClient", () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
 
-    const prefix = recorder.getUniqueName(
-      `pre${recorder
-        .newDate("now")
-        .getTime()
-        .toString()}`
-    );
+    const prefix = recorder.getUniqueName(`pre${recorder.newDate("now").getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
       const subDirClient = rootDirClient.getDirectoryClient(
         recorder.getUniqueName(`${prefix}dir${i}`)
@@ -395,12 +385,7 @@ describe("DirectoryClient", () => {
       subFileClients.push(subFileClient);
     }
 
-    const result = (
-      await rootDirClient
-        .listFilesAndDirectories({ prefix })
-        .byPage()
-        .next()
-    ).value;
+    const result = (await rootDirClient.listFilesAndDirectories({ prefix }).byPage().next()).value;
 
     assert.ok(result.serviceEndpoint.length > 0);
     assert.ok(shareClient.url.indexOf(result.shareName));
@@ -430,12 +415,7 @@ describe("DirectoryClient", () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
 
-    const prefix = recorder.getUniqueName(
-      `pre${recorder
-        .newDate("now")
-        .getTime()
-        .toString()}`
-    );
+    const prefix = recorder.getUniqueName(`pre${recorder.newDate("now").getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
       const subDirClient = rootDirClient.getDirectoryClient(
         recorder.getUniqueName(`${prefix}dir${i}`)
@@ -474,7 +454,7 @@ describe("DirectoryClient", () => {
         .listFilesAndDirectories({ prefix })
         .byPage({
           continuationToken: firstResult.continuationToken,
-          maxPageSize: firstRequestSize + secondRequestSize
+          maxPageSize: firstRequestSize + secondRequestSize,
         })
         .next()
     ).value;
@@ -495,12 +475,7 @@ describe("DirectoryClient", () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
 
-    const prefix = recorder.getUniqueName(
-      `pre${recorder
-        .newDate("now")
-        .getTime()
-        .toString()}`
-    );
+    const prefix = recorder.getUniqueName(`pre${recorder.newDate("now").getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
       const subDirClient = rootDirClient.getDirectoryClient(
         recorder.getUniqueName(`${prefix}dir${i}`)
@@ -537,12 +512,7 @@ describe("DirectoryClient", () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
 
-    const prefix = recorder.getUniqueName(
-      `pre${recorder
-        .newDate("now")
-        .getTime()
-        .toString()}`
-    );
+    const prefix = recorder.getUniqueName(`pre${recorder.newDate("now").getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
       const subDirClient = rootDirClient.getDirectoryClient(
         recorder.getUniqueName(`${prefix}dir${i}`)
@@ -585,12 +555,7 @@ describe("DirectoryClient", () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
 
-    const prefix = recorder.getUniqueName(
-      `pre${recorder
-        .newDate("now")
-        .getTime()
-        .toString()}`
-    );
+    const prefix = recorder.getUniqueName(`pre${recorder.newDate("now").getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
       const subDirClient = rootDirClient.getDirectoryClient(
         recorder.getUniqueName(`${prefix}dir${i}`)
@@ -610,7 +575,7 @@ describe("DirectoryClient", () => {
 
     for await (const response of rootDirClient
       .listFilesAndDirectories({
-        prefix
+        prefix,
       })
       .byPage({ maxPageSize: 2 })) {
       for (const fileItem of response.segment.fileItems) {
@@ -634,12 +599,7 @@ describe("DirectoryClient", () => {
     const subDirClients = [];
     const rootDirClient = shareClient.getDirectoryClient("");
 
-    const prefix = recorder.getUniqueName(
-      `pre${recorder
-        .newDate("now")
-        .getTime()
-        .toString()}`
-    );
+    const prefix = recorder.getUniqueName(`pre${recorder.newDate("now").getTime().toString()}`);
     for (let i = 0; i < 3; i++) {
       const subDirClient = rootDirClient.getDirectoryClient(
         recorder.getUniqueName(`${prefix}dir${i}`)
@@ -662,7 +622,7 @@ describe("DirectoryClient", () => {
 
     let iter = await rootDirClient
       .listFilesAndDirectories({
-        prefix
+        prefix,
       })
       .byPage({ maxPageSize: firstRequestSize });
     let response = (await iter.next()).value;
@@ -675,11 +635,11 @@ describe("DirectoryClient", () => {
 
     iter = await rootDirClient
       .listFilesAndDirectories({
-        prefix
+        prefix,
       })
       .byPage({
         continuationToken: response.continuationToken,
-        maxPageSize: firstRequestSize + secondRequestSize
+        maxPageSize: firstRequestSize + secondRequestSize,
       });
     response = (await iter.next()).value;
     assert.deepStrictEqual(
@@ -700,7 +660,7 @@ describe("DirectoryClient", () => {
     const metadata = { key: "value" };
 
     const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {
-      metadata
+      metadata,
     });
     const result = await subDirClient.getProperties();
     assert.deepEqual(result.metadata, metadata);
@@ -741,20 +701,20 @@ describe("DirectoryClient", () => {
     const tracer = setTracer();
     const rootSpan = tracer.startSpan("root");
     const tracingOptions = {
-      tracingContext: setSpan(context.active(), rootSpan)
+      tracingContext: setSpan(context.active(), rootSpan),
     };
     const directoryName = recorder.getUniqueName("directory");
     const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {
-      tracingOptions
+      tracingOptions,
     });
     const fileName = recorder.getUniqueName("file");
     const metadata = { key: "value" };
     const { fileClient } = await subDirClient.createFile(fileName, 256, {
       metadata,
-      tracingOptions
+      tracingOptions,
     });
     const result = await fileClient.getProperties({
-      tracingOptions
+      tracingOptions,
     });
     assert.deepEqual(result.metadata, metadata);
 
@@ -796,11 +756,11 @@ describe("DirectoryClient", () => {
                   children: [
                     {
                       name: subDirPath,
-                      children: []
-                    }
-                  ]
-                }
-              ]
+                      children: [],
+                    },
+                  ],
+                },
+              ],
             },
             {
               name: "Azure.Storage.File.ShareDirectoryClient-createFile",
@@ -810,20 +770,20 @@ describe("DirectoryClient", () => {
                   children: [
                     {
                       name: filePath,
-                      children: []
-                    }
-                  ]
-                }
-              ]
+                      children: [],
+                    },
+                  ],
+                },
+              ],
             },
             {
               name: "Azure.Storage.File.ShareFileClient-getProperties",
               children: [
                 {
                   name: filePath,
-                  children: []
-                }
-              ]
+                  children: [],
+                },
+              ],
             },
             {
               name: "Azure.Storage.File.ShareDirectoryClient-deleteFile",
@@ -833,33 +793,33 @@ describe("DirectoryClient", () => {
                   children: [
                     {
                       name: filePath,
-                      children: []
-                    }
-                  ]
-                }
-              ]
+                      children: [],
+                    },
+                  ],
+                },
+              ],
             },
             {
               name: "Azure.Storage.File.ShareFileClient-getProperties",
               children: [
                 {
                   name: filePath,
-                  children: []
-                }
-              ]
+                  children: [],
+                },
+              ],
             },
             {
               name: "Azure.Storage.File.ShareDirectoryClient-delete",
               children: [
                 {
                   name: subDirPath,
-                  children: []
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  children: [],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
@@ -869,12 +829,7 @@ describe("DirectoryClient", () => {
   it("listHandles should work", async () => {
     // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
 
-    const result = (
-      await dirClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await dirClient.listHandles().byPage().next()).value;
 
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
@@ -900,12 +855,7 @@ describe("DirectoryClient", () => {
   it("forceCloseHandle should work", async () => {
     // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
 
-    const result = (
-      await dirClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await dirClient.listHandles().byPage().next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       await dirClient.forceCloseHandle(handle.handleId);
@@ -914,12 +864,7 @@ describe("DirectoryClient", () => {
 
   it("forceCloseHandle could return closeFailureCount", async () => {
     // TODO: Open or create a handle; currently have to do this manually
-    const result = (
-      await dirClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await dirClient.listHandles().byPage().next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
       const factories = (dirClient as any).pipeline.factories.slice(); // clone factories array
