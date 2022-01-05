@@ -20,7 +20,11 @@ export interface AzureSDKInstrumentationOptions extends InstrumentationConfig {}
  */
 class AzureSDKInstrumentation extends InstrumentationBase {
   constructor(options: AzureSDKInstrumentationOptions = {}) {
-    super("@azure/instrumentation-opentelemetry", SDK_VERSION, Object.assign({}, options));
+    super(
+      "@azure/opentelemetry-instrumentation-azure-sdk",
+      SDK_VERSION,
+      Object.assign({}, options)
+    );
   }
   /** In the browser we rely on overriding the `enable` function instead as there are no modules to patch. */
   protected init(): void {
@@ -49,11 +53,11 @@ class AzureSDKInstrumentation extends InstrumentationBase {
  * ```ts
  * const openTelemetryInstrumentation = require("@opentelemetry/instrumentation");
  * openTelemetryInstrumentation.registerInstrumentations({
- *   instrumentations: [createAzureInstrumentation()],
+ *   instrumentations: [createAzureSDKInstrumentation()],
  * })
  * ```
  */
-export function createAzureInstrumentation(
+export function createAzureSDKInstrumentation(
   options: AzureSDKInstrumentationOptions = {}
 ): Instrumentation {
   return new AzureSDKInstrumentation(options);

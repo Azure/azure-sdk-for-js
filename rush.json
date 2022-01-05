@@ -1217,8 +1217,8 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/instrumentation-opentelemetry",
-      "projectFolder": "sdk/instrumentation/instrumentation-opentelemetry",
+      "packageName": "@azure/opentelemetry-instrumentation-azure-sdk",
+      "projectFolder": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk",
       "versionPolicyName": "client"
     }
   ]

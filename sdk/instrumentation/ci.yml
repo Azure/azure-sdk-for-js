@@ -26,5 +26,5 @@ extends:
   parameters:
     ServiceDirectory: instrumentation
     Artifacts:
-      - name: azure-instrumentation-opentelemetry
-        safeName: azureinstrumentationopentelemetry
+      - name: opentelemetry-instrumentation-azure-sdk
+        safeName: opentelemetryinstrumentationazuresdk

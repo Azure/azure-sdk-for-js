@@ -22,7 +22,11 @@ export interface AzureSDKInstrumentationOptions extends InstrumentationConfig {}
  */
 class AzureSDKInstrumentation extends InstrumentationBase {
   constructor(options: AzureSDKInstrumentationOptions = {}) {
-    super("@azure/instrumentation-opentelemetry", SDK_VERSION, Object.assign({}, options));
+    super(
+      "@azure/opentelemetry-instrumentation-azure-sdk",
+      SDK_VERSION,
+      Object.assign({}, options)
+    );
   }
   /**
    * Entrypoint for the module registration.
@@ -61,7 +65,7 @@ class AzureSDKInstrumentation extends InstrumentationBase {
  * ```ts
  * const openTelemetryInstrumentation = require("@opentelemetry/instrumentation");
  * openTelemetryInstrumentation.registerInstrumentations({
- *   instrumentations: [createAzureInstrumentation()],
+ *   instrumentations: [createAzureSDKInstrumentation()],
  * })
  * ```
  *
@@ -70,7 +74,7 @@ class AzureSDKInstrumentation extends InstrumentationBase {
  * As OpenTelemetry instrumentations rely on patching required modules, you should register
  * this instrumentation as early as possible and before loading any Azure Client Libraries.
  */
-export function createAzureInstrumentation(
+export function createAzureSDKInstrumentation(
   options: AzureSDKInstrumentationOptions = {}
 ): Instrumentation {
   return new AzureSDKInstrumentation(options);
