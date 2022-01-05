@@ -9,13 +9,13 @@ import { createTestEncoder, registerTestSchema } from "./utils/mockedEncoder";
 
 chaiUse(chaiPromises);
 
-describe("SchemaRegistryAvroEncoder", function() {
+describe("SchemaRegistryAvroEncoder", function () {
   it("rejects invalid format", async () => {
     const encoder = await createTestEncoder();
     await assert.isRejected(
       encoder.decodeMessageData({
         data: Buffer.alloc(1),
-        contentType: "application/json+1234"
+        contentType: "application/json+1234",
       }),
       /application\/json.*avro\/binary/
     );
@@ -34,13 +34,13 @@ describe("SchemaRegistryAvroEncoder", function() {
       name: "_",
       definition: "_",
       format: "NotAvro",
-      groupName: testGroup
+      groupName: testGroup,
     });
 
     await assert.isRejected(
       encoder.decodeMessageData({
         data: Buffer.alloc(1),
-        contentType: `avro/binary+${schema.id}`
+        contentType: `avro/binary+${schema.id}`,
       }),
       new RegExp(`${schema.id}.*NotAvro.*avro`)
     );
@@ -52,7 +52,7 @@ describe("SchemaRegistryAvroEncoder", function() {
       type: "record",
       name: "NeverRegistered",
       namespace: "my.example",
-      fields: [{ name: "count", type: "int" }]
+      fields: [{ name: "count", type: "int" }],
     });
     await assert.isRejected(encoder.encodeMessageData({ count: 42 }, schema), /not found/);
   });
@@ -63,7 +63,7 @@ describe("SchemaRegistryAvroEncoder", function() {
     await assert.isRejected(
       encoder.decodeMessageData({
         data: payload,
-        contentType: `avro/binary+${testSchemaIds[1]}`
+        contentType: `avro/binary+${testSchemaIds[1]}`,
       }),
       /not found/
     );
@@ -88,7 +88,7 @@ describe("SchemaRegistryAvroEncoder", function() {
     assert.deepStrictEqual(
       await encoder.decodeMessageData({
         data: payload,
-        contentType: `avro/binary+${schemaId}`
+        contentType: `avro/binary+${schemaId}`,
       }),
       testValue
     );
@@ -120,7 +120,7 @@ describe("SchemaRegistryAvroEncoder", function() {
       type: "record",
       name: "Rating",
       namespace: "my.example",
-      fields: [{ name: "score", type: "int" }]
+      fields: [{ name: "score", type: "int" }],
     });
 
     // Example value that matches the Avro schema above

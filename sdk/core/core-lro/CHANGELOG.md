@@ -1,14 +1,10 @@
 # Release History
 
-## 2.2.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 2.2.3 (2022-01-06)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix an issue where we treat Retry-After value as milliseconds. It is actually in seconds. [PR #19479](https://github.com/Azure/azure-sdk-for-js/pull/19479)
 
 ## 2.2.2 (2021-12-02)
 

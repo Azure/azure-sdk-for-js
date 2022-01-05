@@ -17,8 +17,8 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 10240
-    }
+      defaultValue: 10240,
+    },
   };
 
   static blobName = generateUuid();

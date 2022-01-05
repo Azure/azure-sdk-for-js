@@ -254,7 +254,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    */
   private _generateBatch(encodedEvents: Buffer[], annotations?: MessageAnnotations): Buffer {
     const batchEnvelope: RheaMessage = {
-      body: message.data_sections(encodedEvents)
+      body: message.data_sections(encodedEvents),
     };
     if (annotations) {
       batchEnvelope.message_annotations = annotations;

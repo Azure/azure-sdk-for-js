@@ -5,7 +5,7 @@ import {
   createPipelineFromOptions,
   isTokenCredential,
   TokenCredential,
-  signingPolicy
+  signingPolicy,
 } from "@azure/core-http";
 import {
   EncryptParameters,
@@ -21,7 +21,7 @@ import {
   DecryptResult,
   UnwrapKeyOptions,
   SignOptions,
-  SignResult
+  SignResult,
 } from "../cryptographyClientModels";
 import { SDK_VERSION } from "../constants";
 import { UnwrapResult } from "../cryptographyClientModels";
@@ -31,7 +31,7 @@ import {
   CryptographyClientOptions,
   GetKeyOptions,
   KeyVaultKey,
-  LATEST_API_VERSION
+  LATEST_API_VERSION,
 } from "../keysModels";
 import { getKeyFromKeyBundle } from "../transformations";
 import { createHash } from "./crypto";
@@ -40,7 +40,7 @@ import { logger } from "../log";
 import {
   createTraceFunction,
   TracedFunction,
-  challengeBasedAuthenticationPolicy
+  challengeBasedAuthenticationPolicy,
 } from "../../../keyvault-common/src";
 
 const withTrace: TracedFunction = createTraceFunction(
@@ -116,7 +116,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
         keyID: this.getKeyID(),
         additionalAuthenticatedData: result.additionalAuthenticatedData,
         authenticationTag: result.authenticationTag,
-        iv: result.iv
+        iv: result.iv,
       };
     });
   }
@@ -140,7 +140,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       return {
         result: result.result!,
         keyID: this.getKeyID(),
-        algorithm
+        algorithm,
       };
     });
   }
@@ -163,7 +163,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       return {
         result: result.result!,
         algorithm,
-        keyID: this.getKeyID()
+        keyID: this.getKeyID(),
       };
     });
   }
@@ -186,7 +186,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       return {
         result: result.result!,
         algorithm,
-        keyID: this.getKeyID()
+        keyID: this.getKeyID(),
       };
     });
   }
@@ -236,7 +236,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       );
       return {
         result: response.value ? response.value : false,
-        keyID: this.getKeyID()
+        keyID: this.getKeyID(),
       };
     });
   }
@@ -292,7 +292,6 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
   }
 
   /**
-   * @internal
    * A reference to the auto-generated KeyVault HTTP client.
    */
   private client: KeyVaultClient;
@@ -301,25 +300,21 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
    * A reference to the key used for the cryptographic operations.
    * Based on what was provided to the CryptographyClient constructor,
    * it can be either a string with the URL of a Key Vault Key, or an already parsed {@link KeyVaultKey}.
-   * @internal
    */
   private key: string | KeyVaultKey;
 
   /**
    * Name of the key the client represents
-   * @internal
    */
   private name: string;
 
   /**
    * Version of the key the client represents
-   * @internal
    */
   private version: string;
 
   /**
    * Attempts to retrieve the ID of the key.
-   * @internal
    */
   private getKeyID(): string | undefined {
     let kid;
@@ -358,7 +353,7 @@ function getOrInitializeClient(
     userAgentPrefix:
       userAgentOptions && userAgentOptions.userAgentPrefix
         ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
-        : libInfo
+        : libInfo,
   };
 
   const authPolicy = isTokenCredential(credential)
@@ -372,9 +367,9 @@ function getOrInitializeClient(
       allowedHeaderNames: [
         "x-ms-keyvault-region",
         "x-ms-keyvault-network-info",
-        "x-ms-keyvault-service-version"
-      ]
-    }
+        "x-ms-keyvault-service-version",
+      ],
+    },
   };
 
   return new KeyVaultClient(

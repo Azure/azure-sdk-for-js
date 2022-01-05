@@ -30,7 +30,7 @@ onmessage = async (event: MessageEvent<HashMessage | HmacMessage>) => {
   }
 
   // https://github.com/microsoft/TypeScript/issues/20595
-  ((self as unknown) as Worker).postMessage(result);
+  (self as unknown as Worker).postMessage(result);
 };
 
 function handleHashMessage(message: HashMessage): Promise<string> {

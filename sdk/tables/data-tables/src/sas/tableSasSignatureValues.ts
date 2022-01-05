@@ -141,7 +141,7 @@ export function generateTableSasQueryParameters(
     startingPartitionKey,
     startingRowKey,
     endingPartitionKey,
-    endingRowKey
+    endingRowKey,
   ].join("\n");
 
   const signature = computeHMACSHA256(stringToSign, credential.key);
@@ -153,7 +153,7 @@ export function generateTableSasQueryParameters(
     expiresOn: tableSasSignatureValues.expiresOn,
     ipRange: tableSasSignatureValues.ipRange,
     identifier: tableSasSignatureValues.identifier,
-    tableName
+    tableName,
   });
 }
 

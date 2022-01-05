@@ -8,8 +8,8 @@ export class AutoCompleteTest extends SearchDocumentsBase<SearchDocumentsTestOpt
       description: "Number of Documents to be created",
       shortName: "dc",
       longName: "documentsCount",
-      defaultValue: 10
-    }
+      defaultValue: 10,
+    },
   };
 
   constructor() {

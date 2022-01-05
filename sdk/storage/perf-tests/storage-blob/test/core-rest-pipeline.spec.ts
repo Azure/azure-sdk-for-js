@@ -6,7 +6,7 @@ import {
   createDefaultHttpClient,
   HttpClient,
   createPipelineRequest,
-  PipelineRequest
+  PipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { drainStream } from "@azure/test-utils-perf";
 
@@ -18,7 +18,7 @@ export class CoreHTTPSDownloadWithSASTest extends StorageBlobDownloadWithSASTest
     this.client = createDefaultHttpClient();
     this.request = createPipelineRequest({
       url: this.sasUrl,
-      streamResponseStatusCodes: new Set([200, 206])
+      streamResponseStatusCodes: new Set([200, 206]),
     });
   }
 

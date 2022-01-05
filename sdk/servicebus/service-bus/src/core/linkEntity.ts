@@ -7,7 +7,7 @@ import {
   defaultCancellableLock,
   RequestResponseLink,
   StandardAbortMessage,
-  isSasTokenProvider
+  isSasTokenProvider,
 } from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "../connectionContext";
@@ -17,7 +17,7 @@ import {
   generate_uuid,
   Receiver,
   ReceiverOptions,
-  SenderOptions
+  SenderOptions,
 } from "rhea-promise";
 import { getUniqueName } from "../util/utils";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
@@ -66,28 +66,26 @@ export type ReceiverType = NonSessionReceiverType | "session"; // message sessio
 /**
  * @internal
  */
-type LinkOptionsT<
-  LinkT extends Receiver | AwaitableSender | RequestResponseLink
-> = LinkT extends Receiver
-  ? ReceiverOptions
-  : LinkT extends AwaitableSender
-  ? AwaitableSenderOptions
-  : LinkT extends RequestResponseLink
-  ? RequestResponseLinkOptions
-  : never;
+type LinkOptionsT<LinkT extends Receiver | AwaitableSender | RequestResponseLink> =
+  LinkT extends Receiver
+    ? ReceiverOptions
+    : LinkT extends AwaitableSender
+    ? AwaitableSenderOptions
+    : LinkT extends RequestResponseLink
+    ? RequestResponseLinkOptions
+    : never;
 
 /**
  * @internal
  */
-type LinkTypeT<
-  LinkT extends Receiver | AwaitableSender | RequestResponseLink
-> = LinkT extends Receiver
-  ? ReceiverType
-  : LinkT extends AwaitableSender
-  ? "sender" // sender
-  : LinkT extends RequestResponseLink
-  ? "mgmt" // management link
-  : never;
+type LinkTypeT<LinkT extends Receiver | AwaitableSender | RequestResponseLink> =
+  LinkT extends Receiver
+    ? ReceiverType
+    : LinkT extends AwaitableSender
+    ? "sender" // sender
+    : LinkT extends RequestResponseLink
+    ? "mgmt" // management link
+    : never;
 
 /**
  * @internal
@@ -227,7 +225,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       },
       {
         abortSignal: abortSignal,
-        timeoutInMs: Constants.defaultOperationTimeoutInMs
+        timeoutInMs: Constants.defaultOperationTimeoutInMs,
       }
     );
   }
@@ -268,7 +266,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       await this._negotiateClaim({
         abortSignal,
         setTokenRenewal: false,
-        timeoutInMs: Constants.defaultOperationTimeoutInMs
+        timeoutInMs: Constants.defaultOperationTimeoutInMs,
       });
 
       checkAborted();
@@ -383,7 +381,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   private async _negotiateClaim({
     abortSignal,
     setTokenRenewal,
-    timeoutInMs
+    timeoutInMs,
   }: {
     setTokenRenewal: boolean;
     abortSignal: AbortSignalLike | undefined;
@@ -418,7 +416,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         },
         {
           abortSignal,
-          timeoutInMs: timeoutInMs - (Date.now() - startTime)
+          timeoutInMs: timeoutInMs - (Date.now() - startTime),
         }
       );
     }
@@ -468,13 +466,13 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
           tokenType,
           {
             abortSignal,
-            timeoutInMs: timeoutInMs - (Date.now() - startTime)
+            timeoutInMs: timeoutInMs - (Date.now() - startTime),
           }
         );
       },
       {
         abortSignal,
-        timeoutInMs: timeoutInMs - (Date.now() - startTime)
+        timeoutInMs: timeoutInMs - (Date.now() - startTime),
       }
     );
     this._logger.verbose(
@@ -528,7 +526,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         await this._negotiateClaim({
           setTokenRenewal: true,
           abortSignal: undefined,
-          timeoutInMs: Constants.defaultOperationTimeoutInMs
+          timeoutInMs: Constants.defaultOperationTimeoutInMs,
         });
       } catch (err) {
         this._logger.logError(

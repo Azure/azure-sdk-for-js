@@ -99,7 +99,7 @@
 # PRLabel: %EngSys
 /sdk/template/ @praveenkuttappan @mikeharder @weshaggard @benbp
 
-/sdk/test-utils/ @HarshaNalluru @sadasant
+/sdk/test-utils/ @HarshaNalluru @sadasant @timovv
 
 # PRLabel: %Cognitive - Text Analytics
 /sdk/textanalytics/ @deyaaeldeen @witemple-msft

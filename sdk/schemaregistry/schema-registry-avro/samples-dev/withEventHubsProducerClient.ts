@@ -29,13 +29,13 @@ const schemaObject = {
   fields: [
     {
       name: "firstName",
-      type: "string"
+      type: "string",
     },
     {
       name: "lastName",
-      type: "string"
-    }
-  ]
+      type: "string",
+    },
+  ],
 };
 
 // Matching TypeScript interface for schema
@@ -51,7 +51,7 @@ const schemaDescription: SchemaDescription = {
   name: `${schemaObject.namespace}.${schemaObject.name}`,
   groupName: schemaGroupName,
   format: "Avro",
-  definition: schema
+  definition: schema,
 };
 
 export async function main() {
@@ -68,7 +68,7 @@ export async function main() {
 
   // Create a new encoder backed by the client
   const encoder = new SchemaRegistryAvroEncoder(schemaRegistryClient, {
-    groupName: schemaGroupName
+    groupName: schemaGroupName,
   });
 
   const eventHubsProducerClient = new EventHubProducerClient(

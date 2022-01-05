@@ -20,7 +20,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
     const { result: item, headers } = await this.executionContext.nextItem();
     return {
       result: item !== undefined ? item.payload : undefined,
-      headers
+      headers,
     };
   }
 

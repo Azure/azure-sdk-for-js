@@ -86,7 +86,7 @@ export class ChainedTokenCredential implements TokenCredential {
       );
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: err.message
+        message: err.message,
       });
       logger.getToken.info(formatError(scopes, err));
       throw err;

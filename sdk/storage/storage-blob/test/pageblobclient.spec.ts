@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
-import * as dotenv from "dotenv";
+import { assert } from "chai";
 import {
   bodyToString,
   getBSU,
   getGenericBSU,
   getSASConnectionStringFromEnvironment,
-  recorderEnvSetup
+  recorderEnvSetup,
 } from "./utils";
 import {
   ContainerClient,
   BlobClient,
   PageBlobClient,
   PremiumPageBlobTier,
-  BlobServiceClient
+  BlobServiceClient,
 } from "../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("PageBlobClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -31,7 +29,7 @@ describe("PageBlobClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -42,7 +40,7 @@ describe("PageBlobClient", () => {
     pageBlobClient = blobClient.getPageBlobClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await containerClient.delete();
     await recorder.stop();
   });
@@ -61,12 +59,12 @@ describe("PageBlobClient", () => {
         blobContentDisposition: "blobContentDisposition",
         blobContentEncoding: "blobContentEncoding",
         blobContentLanguage: "blobContentLanguage",
-        blobContentType: "blobContentType"
+        blobContentType: "blobContentType",
       },
       metadata: {
         key1: "vala",
-        key2: "valb"
-      }
+        key2: "valb",
+      },
     };
     await pageBlobClient.create(512, options);
 
@@ -134,12 +132,12 @@ describe("PageBlobClient", () => {
     await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
       onProgress: () => {
         /* empty */
-      }
+      },
     });
     await pageBlobClient.uploadPages("b".repeat(512), 512, 512, {
       onProgress: () => {
         /* empty */
-      }
+      },
     });
 
     const page1 = await pageBlobClient.download(0, 512);
@@ -200,7 +198,7 @@ describe("PageBlobClient", () => {
     assert.equal(rangesDiff.clearRange![0].count, 511);
   });
 
-  it("getPageRangesDiffForManagedDisks", async function(this: Context): Promise<void> {
+  it("getPageRangesDiffForManagedDisks", async function (this: Context): Promise<void> {
     let mdBlobServiceClient: BlobServiceClient;
     try {
       mdBlobServiceClient = getGenericBSU("MD_", "");
@@ -266,7 +264,7 @@ describe("PageBlobClient", () => {
     let exceptionCaught = false;
     try {
       await pageBlobClient.uploadPages("b".repeat(1024), 0, 1024, {
-        transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8])
+        transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]),
       });
     } catch (err) {
       if (

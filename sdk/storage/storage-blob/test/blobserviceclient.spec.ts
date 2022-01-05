@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
-import * as dotenv from "dotenv";
 import { BlobServiceClient } from "../src";
 import {
   getAlternateBSU,
@@ -12,32 +11,27 @@ import {
   getSASConnectionStringFromEnvironment,
   getTokenBSU,
   recorderEnvSetup,
-  sleep
+  sleep,
 } from "./utils";
 import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { getYieldedValue } from "@azure/test-utils";
 import { Tags } from "../src/models";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("BlobServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   it("ListContainers with default parameters", async () => {
     const blobServiceClient = getBSU();
-    const result = (
-      await blobServiceClient
-        .listContainers()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await blobServiceClient.listContainers().byPage().next()).value;
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);
@@ -56,18 +50,14 @@ describe("BlobServiceClient", () => {
     }
   });
 
-  it("ListContainers including system containers", async function(this: Context) {
+  it("ListContainers including system containers", async function (this: Context) {
     if (isLiveMode()) {
       // Skip the test case until the feature is enabled in production.
       this.skip();
     }
     const blobServiceClient = getBSU();
-    const result = (
-      await blobServiceClient
-        .listContainers({ includeSystem: true })
-        .byPage()
-        .next()
-    ).value;
+    const result = (await blobServiceClient.listContainers({ includeSystem: true }).byPage().next())
+      .value;
     assert.ok(result.containerItems!.length > 0);
 
     let foundSystemContainer = false;
@@ -83,12 +73,7 @@ describe("BlobServiceClient", () => {
 
   it("ListContainers with default parameters - null prefix shouldn't throw error", async () => {
     const blobServiceClient = getBSU();
-    const result = (
-      await blobServiceClient
-        .listContainers({ prefix: "" })
-        .byPage()
-        .next()
-    ).value;
+    const result = (await blobServiceClient.listContainers({ prefix: "" }).byPage().next()).value;
 
     assert.ok(result.containerItems!.length >= 0);
 
@@ -115,7 +100,7 @@ describe("BlobServiceClient", () => {
       await blobServiceClient
         .listContainers({
           includeMetadata: true,
-          prefix: containerNamePrefix
+          prefix: containerNamePrefix,
         })
         .byPage({ maxPageSize: 1 })
         .next()
@@ -136,7 +121,7 @@ describe("BlobServiceClient", () => {
       await blobServiceClient
         .listContainers({
           includeMetadata: true,
-          prefix: containerNamePrefix
+          prefix: containerNamePrefix,
         })
         .byPage({ continuationToken: result1.continuationToken, maxPageSize: 1 })
         .next()
@@ -172,7 +157,7 @@ describe("BlobServiceClient", () => {
 
     for await (const container of blobServiceClient.listContainers({
       includeMetadata: true,
-      prefix: containerNamePrefix
+      prefix: containerNamePrefix,
     })) {
       assert.ok(container.name.startsWith(containerNamePrefix));
       assert.ok(container.properties.etag.length > 0);
@@ -202,28 +187,28 @@ describe("BlobServiceClient", () => {
 
     const iterator = blobServiceClient.listContainers({
       includeMetadata: true,
-      prefix: containerNamePrefix
+      prefix: containerNamePrefix,
     });
 
-    let containerItem = await iterator.next();
-    assert.ok(containerItem.value.name.startsWith(containerNamePrefix));
-    assert.ok(containerItem.value.properties.etag.length > 0);
-    assert.ok(containerItem.value.properties.lastModified);
-    assert.ok(!containerItem.value.properties.leaseDuration);
-    assert.ok(!containerItem.value.properties.publicAccess);
-    assert.deepEqual(containerItem.value.properties.leaseState, "available");
-    assert.deepEqual(containerItem.value.properties.leaseStatus, "unlocked");
-    assert.deepEqual(containerItem.value.metadata!.key, "val");
+    let containerItem = getYieldedValue(await iterator.next());
+    assert.ok(containerItem.name.startsWith(containerNamePrefix));
+    assert.ok(containerItem.properties.etag.length > 0);
+    assert.ok(containerItem.properties.lastModified);
+    assert.ok(!containerItem.properties.leaseDuration);
+    assert.ok(!containerItem.properties.publicAccess);
+    assert.deepEqual(containerItem.properties.leaseState, "available");
+    assert.deepEqual(containerItem.properties.leaseStatus, "unlocked");
+    assert.deepEqual(containerItem.metadata!.key, "val");
 
-    containerItem = await iterator.next();
-    assert.ok(containerItem.value.name.startsWith(containerNamePrefix));
-    assert.ok(containerItem.value.properties.etag.length > 0);
-    assert.ok(containerItem.value.properties.lastModified);
-    assert.ok(!containerItem.value.properties.leaseDuration);
-    assert.ok(!containerItem.value.properties.publicAccess);
-    assert.deepEqual(containerItem.value.properties.leaseState, "available");
-    assert.deepEqual(containerItem.value.properties.leaseStatus, "unlocked");
-    assert.deepEqual(containerItem.value.metadata!.key, "val");
+    containerItem = getYieldedValue(await iterator.next());
+    assert.ok(containerItem.name.startsWith(containerNamePrefix));
+    assert.ok(containerItem.properties.etag.length > 0);
+    assert.ok(containerItem.properties.lastModified);
+    assert.ok(!containerItem.properties.leaseDuration);
+    assert.ok(!containerItem.properties.publicAccess);
+    assert.deepEqual(containerItem.properties.leaseState, "available");
+    assert.deepEqual(containerItem.properties.leaseStatus, "unlocked");
+    assert.deepEqual(containerItem.metadata!.key, "val");
 
     await containerClient1.delete();
     await containerClient2.delete();
@@ -245,7 +230,7 @@ describe("BlobServiceClient", () => {
     for await (const response of blobServiceClient
       .listContainers({
         includeMetadata: true,
-        prefix: containerNamePrefix
+        prefix: containerNamePrefix,
       })
       .byPage({ maxPageSize: 2 })) {
       for (const container of response.containerItems) {
@@ -281,7 +266,7 @@ describe("BlobServiceClient", () => {
     let iter = blobServiceClient
       .listContainers({
         includeMetadata: true,
-        prefix: containerNamePrefix
+        prefix: containerNamePrefix,
       })
       .byPage({ maxPageSize: 2 });
     let response = (await iter.next()).value;
@@ -301,7 +286,7 @@ describe("BlobServiceClient", () => {
     iter = blobServiceClient
       .listContainers({
         includeMetadata: true,
-        prefix: containerNamePrefix
+        prefix: containerNamePrefix,
       })
       .byPage({ continuationToken: marker, maxPageSize: 2 });
     response = (await iter.next()).value;
@@ -352,10 +337,10 @@ describe("BlobServiceClient", () => {
       read: true,
       retentionPolicy: {
         days: 5,
-        enabled: true
+        enabled: true,
       },
       version: "1.0",
-      write: true
+      write: true,
     };
 
     serviceProperties.minuteMetrics = {
@@ -363,9 +348,9 @@ describe("BlobServiceClient", () => {
       includeAPIs: true,
       retentionPolicy: {
         days: 4,
-        enabled: true
+        enabled: true,
       },
-      version: "1.0"
+      version: "1.0",
     };
 
     serviceProperties.hourMetrics = {
@@ -373,9 +358,9 @@ describe("BlobServiceClient", () => {
       includeAPIs: true,
       retentionPolicy: {
         days: 3,
-        enabled: true
+        enabled: true,
       },
-      version: "1.0"
+      version: "1.0",
     };
 
     const newCORS = {
@@ -383,7 +368,7 @@ describe("BlobServiceClient", () => {
       allowedMethods: "GET",
       allowedOrigins: "example.com",
       exposedHeaders: "*",
-      maxAgeInSeconds: 8888
+      maxAgeInSeconds: 8888,
     };
     if (!serviceProperties.cors) {
       serviceProperties.cors = [newCORS];
@@ -394,7 +379,7 @@ describe("BlobServiceClient", () => {
     if (!serviceProperties.deleteRetentionPolicy) {
       serviceProperties.deleteRetentionPolicy = {
         days: 2,
-        enabled: false
+        enabled: false,
       };
     }
 
@@ -445,7 +430,7 @@ describe("BlobServiceClient", () => {
 
     const { containerClient } = await blobServiceClient.createContainer(containerName, {
       access,
-      metadata
+      metadata,
     });
     const result = await containerClient.getProperties();
     assert.deepEqual(result.blobPublicAccess, access);
@@ -473,7 +458,7 @@ describe("BlobServiceClient", () => {
     assert.ok(result.requestId!.length > 0);
   });
 
-  it("getUserDelegationKey should work", async function(this: Context) {
+  it("getUserDelegationKey should work", async function (this: Context) {
     // Try to get serviceURL object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let serviceURLWithToken: BlobServiceClient | undefined;
@@ -493,16 +478,16 @@ describe("BlobServiceClient", () => {
     const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 1);
     const response = await serviceURLWithToken!.getUserDelegationKey(now, tmr);
-    assert.notDeepStrictEqual(response.value, undefined);
-    assert.notDeepStrictEqual(response.signedVersion, undefined);
-    assert.notDeepStrictEqual(response.signedTenantId, undefined);
-    assert.notDeepStrictEqual(response.signedStartsOn, undefined);
-    assert.notDeepStrictEqual(response.signedService, undefined);
-    assert.notDeepStrictEqual(response.signedObjectId, undefined);
-    assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
+    assert.notDeepEqual(response.value, undefined);
+    assert.notDeepEqual(response.signedVersion, undefined);
+    assert.notDeepEqual(response.signedTenantId, undefined);
+    assert.notDeepEqual(response.signedStartsOn, undefined);
+    assert.notDeepEqual(response.signedService, undefined);
+    assert.notDeepEqual(response.signedObjectId, undefined);
+    assert.notDeepEqual(response.signedExpiresOn, undefined);
   });
 
-  it("Find blob by tags should work", async function() {
+  it("Find blob by tags should work", async function () {
     const blobServiceClient = getBSU();
 
     const containerName = recorder.getUniqueName("container1");
@@ -559,7 +544,7 @@ describe("BlobServiceClient", () => {
 
     const blobsWithTag2 = [];
     for await (const segment of blobServiceClient.findBlobsByTags(`${key2}='default'`).byPage({
-      maxPageSize: 1
+      maxPageSize: 1,
     })) {
       assert.ok(segment.blobs.length <= 1);
       for (const blob of segment.blobs) {
@@ -594,8 +579,8 @@ describe("BlobServiceClient", () => {
       staticWebsite: {
         enabled: true,
         errorDocument404Path,
-        defaultIndexDocumentPath
-      }
+        defaultIndexDocumentPath,
+      },
     });
 
     const staticWebsite = (await blobServiceClient.getProperties()).staticWebsite;
@@ -604,7 +589,7 @@ describe("BlobServiceClient", () => {
     assert.equal(staticWebsite?.defaultIndexDocumentPath, defaultIndexDocumentPath);
   });
 
-  it("restore container", async function(this: Context) {
+  it("restore container", async function (this: Context) {
     let blobServiceClient: BlobServiceClient;
     try {
       blobServiceClient = getGenericBSU("SOFT_DELETE_");
@@ -641,7 +626,7 @@ describe("BlobServiceClient", () => {
     assert.ok(listed);
   });
 
-  it("rename container", async function(this: Context) {
+  it("rename container", async function (this: Context) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
       this.skip();
@@ -665,7 +650,7 @@ describe("BlobServiceClient", () => {
     await newContainerClient.delete();
   });
 
-  it("rename container should work with source lease", async function(this: Context) {
+  it("rename container should work with source lease", async function (this: Context) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
       this.skip();
@@ -684,7 +669,7 @@ describe("BlobServiceClient", () => {
 
     // const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName, {
     const renameRes = await blobServiceClient["renameContainer"](containerName, newContainerName, {
-      sourceCondition: { leaseId: leaseClient.leaseId }
+      sourceCondition: { leaseId: leaseClient.leaseId },
     });
 
     const newContainerClient = blobServiceClient.getContainerClient(newContainerName);

@@ -53,7 +53,7 @@ export class DeviceCodeCredential implements TokenCredential {
       ...options,
       logger,
       userPromptCallback: options?.userPromptCallback || defaultDeviceCodePromptCallback,
-      tokenCredentialOptions: options || {}
+      tokenCredentialOptions: options || {},
     });
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
@@ -75,7 +75,7 @@ export class DeviceCodeCredential implements TokenCredential {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow.getToken(arrayScopes, {
         ...newOptions,
-        disableAutomaticAuthentication: this.disableAutomaticAuthentication
+        disableAutomaticAuthentication: this.disableAutomaticAuthentication,
       });
     });
   }

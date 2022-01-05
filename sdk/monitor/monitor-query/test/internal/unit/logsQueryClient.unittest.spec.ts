@@ -25,11 +25,11 @@ describe("LogsQueryClient unit tests", () => {
         }
 
         throw new Error("Shortcircuit auth exception");
-      }
+      },
     };
 
     const client = new LogsQueryClient(tokenCredential, {
-      endpoint: "https://customEndpoint1"
+      endpoint: "https://customEndpoint1",
     });
 
     assert.equal(client["_logAnalytics"].$host, "https://customEndpoint1");
@@ -40,7 +40,7 @@ describe("LogsQueryClient unit tests", () => {
       assert.fail("Should have thrown");
     } catch (err) {
       assert.deepNestedInclude(err, {
-        message: "Shortcircuit auth exception"
+        message: "Shortcircuit auth exception",
       });
     }
   });

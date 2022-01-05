@@ -3,7 +3,7 @@
 
 export {
   SchemaRegistryAvroEncoder,
-  SchemaRegistryAvroEncoderOptions
+  SchemaRegistryAvroEncoderOptions,
 } from "./schemaRegistryAvroEncoder";
 
 export * from "./models";

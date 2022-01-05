@@ -179,7 +179,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       url: blobEndpoint,
       accountName,
       accountKey,
-      proxyUri
+      proxyUri,
     };
   } else {
     // SAS connection string

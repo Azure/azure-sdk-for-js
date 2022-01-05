@@ -9,7 +9,7 @@ import {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-  HttpHeaders
+  HttpHeaders,
 } from "./interfaces";
 import { RestError } from "./restError";
 import { createHttpHeaders } from "./httpHeaders";
@@ -82,13 +82,13 @@ class XhrHttpClient implements HttpClient {
         rejectOnTerminalEvent(request, xhr, reject);
       });
     } else {
-      return new Promise(function(resolve, reject) {
+      return new Promise(function (resolve, reject) {
         xhr.addEventListener("load", () =>
           resolve({
             request,
             status: xhr.status,
             headers: parseHeaders(xhr),
-            bodyAsText: xhr.responseText
+            bodyAsText: xhr.responseText,
           })
         );
         rejectOnTerminalEvent(request, xhr, reject);
@@ -121,7 +121,7 @@ function handleBlobResponse(
           request,
           status: xhr.status,
           headers: parseHeaders(xhr),
-          blobBody
+          blobBody,
         });
       } else {
         xhr.addEventListener("load", () => {
@@ -136,7 +136,7 @@ function handleBlobResponse(
                   request: request,
                   status: xhr.status,
                   headers: parseHeaders(xhr),
-                  bodyAsText: text
+                  bodyAsText: text,
                 });
                 return;
               })
@@ -147,7 +147,7 @@ function handleBlobResponse(
             res({
               request,
               status: xhr.status,
-              headers: parseHeaders(xhr)
+              headers: parseHeaders(xhr),
             });
           }
         });
@@ -163,7 +163,7 @@ function addProgressListener(
   if (listener) {
     xhr.addEventListener("progress", (rawEvent) =>
       listener({
-        loadedBytes: rawEvent.loaded
+        loadedBytes: rawEvent.loaded,
       })
     );
   }
@@ -193,7 +193,7 @@ function rejectOnTerminalEvent(
     reject(
       new RestError(`Failed to send request to ${request.url}`, {
         code: RestError.REQUEST_SEND_ERROR,
-        request
+        request,
       })
     )
   );

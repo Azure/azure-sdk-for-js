@@ -5,12 +5,12 @@ import { assert } from "chai";
 
 import { makeTextAnalyticsErrorResult } from "../../src/textAnalyticsResult";
 
-describe("makeTextAnalyticsErrorResult", function() {
+describe("makeTextAnalyticsErrorResult", function () {
   it("single-layer error is transposed", () => {
     const result = makeTextAnalyticsErrorResult("1", {
       code: "ServiceUnavailable",
       message: "internal server error",
-      details: []
+      details: [],
     });
 
     assert.deepEqual(result, {
@@ -18,8 +18,8 @@ describe("makeTextAnalyticsErrorResult", function() {
       error: {
         code: "ServiceUnavailable",
         message: "internal server error",
-        target: undefined
-      }
+        target: undefined,
+      },
     });
   });
 
@@ -30,8 +30,8 @@ describe("makeTextAnalyticsErrorResult", function() {
       innererror: {
         code: "MissingInputRecords",
         message: "This is a deeper error message",
-        target: "a target"
-      }
+        target: "a target",
+      },
     });
 
     assert.deepEqual(result, {
@@ -39,8 +39,8 @@ describe("makeTextAnalyticsErrorResult", function() {
       error: {
         code: "MissingInputRecords",
         message: "This is a deeper error message",
-        target: "a target"
-      }
+        target: "a target",
+      },
     });
   });
 });

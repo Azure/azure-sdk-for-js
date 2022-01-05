@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
 import { PublicAccessType } from "../../src";
@@ -10,7 +10,7 @@ import {
   newPipeline,
   StorageSharedKeyCredential,
   ContainerSASPermissions,
-  BlobServiceClient
+  BlobServiceClient,
 } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -23,7 +23,7 @@ describe("ContainerClient Node.js only", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -31,7 +31,7 @@ describe("ContainerClient Node.js only", () => {
     await containerClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await containerClient.delete();
     await recorder.stop();
   });
@@ -53,10 +53,10 @@ describe("ContainerClient Node.js only", () => {
         accessPolicy: {
           expiresOn: new Date("2018-12-31T11:22:33.4567890Z"),
           permissions: ContainerSASPermissions.parse("rwd").toString(),
-          startsOn: new Date("2017-12-31T11:22:33.4567890Z")
+          startsOn: new Date("2017-12-31T11:22:33.4567890Z"),
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
-      }
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+      },
     ];
 
     await containerClient.setAccessPolicy(access, containerAcl);
@@ -70,10 +70,10 @@ describe("ContainerClient Node.js only", () => {
     const containerAcl = [
       {
         accessPolicy: {
-          permissions: ContainerSASPermissions.parse("rwd").toString()
+          permissions: ContainerSASPermissions.parse("rwd").toString(),
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
-      }
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+      },
     ];
 
     await containerClient.setAccessPolicy(access, containerAcl);
@@ -84,8 +84,8 @@ describe("ContainerClient Node.js only", () => {
     const containerAclEmpty = [
       {
         accessPolicy: {},
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
-      }
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+      },
     ];
 
     await containerClient.setAccessPolicy(access, containerAclEmpty);
@@ -117,8 +117,8 @@ describe("ContainerClient Node.js only", () => {
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new ContainerClient(containerClient.url, credential, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const result = await newClient.getProperties();
@@ -139,8 +139,8 @@ describe("ContainerClient Node.js only", () => {
       getToken: () =>
         Promise.resolve({
           token: "token",
-          expiresOnTimestamp: 12345
-        })
+          expiresOnTimestamp: 12345,
+        }),
     };
     const newClient = new ContainerClient(containerClient.url, tokenCredential);
     assertClientUsesTokenCredential(newClient);
@@ -184,8 +184,8 @@ describe("ContainerClient Node.js only", () => {
   it("can be created with a connection string and a container name and an option bag", async () => {
     const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const result = await newClient.getProperties();

@@ -212,14 +212,14 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     try {
       await this.client.webPubSub.addConnectionToGroup(this.hubName, this.groupName, connectionId, {
         ...updatedOptions,
-        onResponse
+        onResponse,
       });
 
       if (response!.status === 404) {
         throw new RestError(`Connection id '${connectionId}' doesn't exist`, {
           statusCode: response?.status,
           request: response?.request,
-          response: response
+          response: response,
         });
       }
     } finally {

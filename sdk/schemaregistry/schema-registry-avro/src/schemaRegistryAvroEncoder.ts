@@ -75,7 +75,7 @@ export class SchemaRegistryAvroEncoder {
         payload.byteOffset,
         payload.byteLength / Uint8Array.BYTES_PER_ELEMENT
       ),
-      contentType: `${avroMimeType}+${entry.id}`
+      contentType: `${avroMimeType}+${entry.id}`,
     };
   }
 
@@ -143,7 +143,7 @@ export class SchemaRegistryAvroEncoder {
       groupName: this.schemaGroup,
       name: avroType.name,
       format: "Avro",
-      definition: schema
+      definition: schema,
     };
 
     let id: string;

@@ -6,7 +6,7 @@ The DevTest Labs Client.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devtestlabs/arm-devtestlabs) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-devtestlabs) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-devtestlabs?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-devtestlabs) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

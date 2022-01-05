@@ -300,7 +300,7 @@ export type FormDataMap = { [key: string]: FormDataValue | FormDataValue[] };
  */
 export interface PipelineRetryOptions {
   /**
-   * The maximum number of retry attempts. Defaults to 10.
+   * The maximum number of retry attempts. Defaults to 3.
    */
   maxRetries?: number;
 

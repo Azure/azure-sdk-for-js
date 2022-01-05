@@ -51,7 +51,7 @@ export class MsalAuthorizationCode extends MsalNode {
         code: this.authorizationCode,
         correlationId: options?.correlationId,
         authority: options?.authority,
-        claims: options?.claims
+        claims: options?.claims,
       });
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.

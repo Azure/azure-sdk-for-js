@@ -70,7 +70,7 @@ export function getEventPositionFilter(eventPosition: EventPosition): string {
   if (!result) {
     throw translate({
       condition: ErrorNameConditionMapper.ArgumentError,
-      description: "No starting position was set in the EventPosition."
+      description: "No starting position was set in the EventPosition.",
     });
   }
   return result;
@@ -93,7 +93,7 @@ export function isLatestPosition(eventPosition: EventPosition): boolean {
  * first event in the partition which has not expired due to the retention policy.
  */
 export const earliestEventPosition: EventPosition = {
-  offset: -1
+  offset: -1,
 };
 
 /**
@@ -103,7 +103,7 @@ export const earliestEventPosition: EventPosition = {
  * @returns EventPosition
  */
 export const latestEventPosition: EventPosition = {
-  offset: "@latest"
+  offset: "@latest",
 };
 
 /**

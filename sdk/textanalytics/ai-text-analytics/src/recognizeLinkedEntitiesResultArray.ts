@@ -4,12 +4,12 @@
 import {
   TextDocumentBatchStatistics,
   TextDocumentInput,
-  EntityLinkingResult
+  EntityLinkingResult,
 } from "./generated/models";
 import {
   RecognizeLinkedEntitiesResult,
   makeRecognizeLinkedEntitiesResult,
-  makeRecognizeLinkedEntitiesErrorResult
+  makeRecognizeLinkedEntitiesErrorResult,
 } from "./recognizeLinkedEntitiesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 

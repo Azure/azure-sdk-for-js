@@ -7,7 +7,7 @@ import {
   BlockBlobClient,
   generateBlobSASQueryParameters,
   BlobSASPermissions,
-  BlobClient
+  BlobClient,
 } from "@azure/storage-blob";
 import { getValueInConnString } from "./utils/utils";
 import { generateUuid } from "@azure/core-http";
@@ -16,17 +16,15 @@ interface StorageBlobDownloadTestOptions {
   size: number;
 }
 
-export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
-  StorageBlobDownloadTestOptions
-> {
+export class StorageBlobDownloadWithSASTest extends StorageBlobTest<StorageBlobDownloadTestOptions> {
   public options: PerfOptionDictionary<StorageBlobDownloadTestOptions> = {
     size: {
       required: true,
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 10240
-    }
+      defaultValue: 10240,
+    },
   };
 
   static blobName = generateUuid();
@@ -45,7 +43,7 @@ export class StorageBlobDownloadWithSASTest extends StorageBlobTest<
         expiresOn: new Date(new Date().getTime() + 86400000),
         containerName: StorageBlobDownloadWithSASTest.containerName,
         blobName: StorageBlobDownloadWithSASTest.blobName,
-        permissions: BlobSASPermissions.parse("r")
+        permissions: BlobSASPermissions.parse("r"),
       },
       this.sharedKeyCredential
     ).toString();

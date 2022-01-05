@@ -13,8 +13,8 @@ const simpleCommandInfo = makeCommandInfo("simple", "a simple command", {
     kind: "string",
     description: "a simple argument",
     allowMultiple: false,
-    default: "foo"
-  }
+    default: "foo",
+  },
 });
 
 interface SimpleExpectedOptionsType {
@@ -33,15 +33,15 @@ describe("Command Framework", () => {
         {
           sub: async () => ({
             commandInfo: { name: "sub", description: "a leaf command" },
-            default: leafCommand({ name: "sub", description: "a leaf command" }, async () => true)
+            default: leafCommand({ name: "sub", description: "a leaf command" }, async () => true),
           }),
           fail: async () => ({
             commandInfo: { name: "fail", description: "a command that fails" },
             default: leafCommand(
               { name: "fail", description: "a command that fails" },
               async () => false
-            )
-          })
+            ),
+          }),
         }
       );
 
@@ -72,6 +72,29 @@ describe("Command Framework", () => {
         simpleCommandInfo.options
       );
       assert.equal(opts.simpleArg, "test");
+    });
+
+    it("nested", async () => {
+      const nestedOptions = {
+        name: "nested",
+        description: "",
+        options: { internal: { kind: "boolean", description: "" } },
+      } as const;
+      const command = subCommand(
+        { name: "top-level", description: "" },
+        {
+          nested: () =>
+            Promise.resolve({
+              default: leafCommand(nestedOptions, (options) => {
+                assert.deepStrictEqual(options["--"], ["test1", "test2"]);
+                return Promise.resolve(true);
+              }),
+              commandInfo: nestedOptions,
+            }),
+        }
+      );
+
+      assert.isTrue(await command("nested", "--internal", "--", "test1", "test2"));
     });
   });
 });

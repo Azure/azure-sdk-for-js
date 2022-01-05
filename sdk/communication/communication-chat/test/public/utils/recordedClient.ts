@@ -10,7 +10,7 @@ import { ChatClient } from "../../../src";
 import {
   CommunicationUserIdentifier,
   AzureCommunicationTokenCredential,
-  parseClientArguments
+  parseClientArguments,
 } from "@azure/communication-common";
 import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
 import { generateToken } from "./connectionUtils";
@@ -25,7 +25,7 @@ export interface RecordedClient {
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
+  COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -33,9 +33,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   customizationsOnRecordings: [
     (recording: string): string => recording.replace(/"token"\s?:\s?"[^"]*"/g, `"token":"token"`),
     (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
-    (recording: string): string => recording.replace("endpoint:443", "endpoint")
+    (recording: string): string => recording.replace("endpoint:443", "endpoint"),
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export async function createTestUser(): Promise<CommunicationUserToken> {

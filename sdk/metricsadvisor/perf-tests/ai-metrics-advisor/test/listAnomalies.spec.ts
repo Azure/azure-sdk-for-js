@@ -17,7 +17,7 @@ export class AnomaliesListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
   async run(): Promise<void> {
     const listIterator = this.client.listAnomalies({
       alertConfigId: this.alertConfigId,
-      id: this.alertId
+      id: this.alertId,
     });
     // eslint-disable-next-line no-empty
     for await (const _anomaly of listIterator) {

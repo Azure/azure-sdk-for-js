@@ -5,7 +5,7 @@ import {
   TokenCredential,
   isTokenCredential,
   isNode,
-  getDefaultProxySettings
+  getDefaultProxySettings,
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import {
@@ -16,7 +16,7 @@ import {
   ServiceGetPropertiesResponse,
   ServiceGetStatisticsResponse,
   ServiceListQueuesSegmentResponse,
-  ServiceSetPropertiesResponse
+  ServiceSetPropertiesResponse,
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Service } from "./generated/src/operations";
@@ -27,7 +27,7 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   appendToURLPath,
   appendToURLQuery,
-  extractConnectionStringParts
+  extractConnectionStringParts,
 } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -339,12 +339,12 @@ export class QueueServiceClient extends StorageClient {
         maxPageSize: options.maxPageSize,
         prefix: options.prefix,
         include: options.include === undefined ? undefined : [options.include],
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -486,7 +486,7 @@ export class QueueServiceClient extends StorageClient {
 
     const updatedOptions: ServiceListQueuesSegmentOptions = {
       ...options,
-      ...(options.includeMetadata ? { include: "metadata" } : {})
+      ...(options.includeMetadata ? { include: "metadata" } : {}),
     };
 
     // AsyncIterableIterator to iterate over queues
@@ -510,9 +510,9 @@ export class QueueServiceClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...updatedOptions
+          ...updatedOptions,
         });
-      }
+      },
     };
   }
 
@@ -531,12 +531,12 @@ export class QueueServiceClient extends StorageClient {
     try {
       return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -561,12 +561,12 @@ export class QueueServiceClient extends StorageClient {
     try {
       return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -590,12 +590,12 @@ export class QueueServiceClient extends StorageClient {
     try {
       return await this.serviceContext.getStatistics({
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -621,7 +621,7 @@ export class QueueServiceClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -647,7 +647,7 @@ export class QueueServiceClient extends StorageClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -692,7 +692,7 @@ export class QueueServiceClient extends StorageClient {
         expiresOn,
         resourceTypes,
         services: AccountSASServices.parse("q").toString(),
-        ...options
+        ...options,
       },
       this.credential
     ).toString();

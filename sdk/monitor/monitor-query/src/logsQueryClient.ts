@@ -12,14 +12,14 @@ import {
   LogsQueryResult,
   LogsQueryResultStatus,
   LogsQuerySuccessfulResult,
-  LogsQueryPartialResult
+  LogsQueryPartialResult,
 } from "./models/publicLogsModels";
 
 import {
   convertGeneratedTable,
   convertRequestForQueryBatch,
   convertResponseForQueryBatch,
-  mapError
+  mapError,
 } from "./internal/modelConverters";
 import { formatPreferHeader } from "./internal/util";
 import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
@@ -59,7 +59,7 @@ export class LogsQueryClient {
       scope = `${options?.endpoint}./default`;
     }
     const credentialOptions = {
-      credentialScopes: scope
+      credentialScopes: scope,
     };
     const packageDetails = `azsdk-js-monitor-query/${SDK_VERSION}`;
     const userAgentPrefix =
@@ -73,8 +73,8 @@ export class LogsQueryClient {
       credentialScopes: credentialOptions?.credentialScopes ?? defaultMonitorScope,
       credential: tokenCredential,
       userAgentOptions: {
-        userAgentPrefix
-      }
+        userAgentPrefix,
+      },
     });
   }
 
@@ -106,7 +106,7 @@ export class LogsQueryClient {
           {
             query,
             timespan: timeInterval,
-            workspaces: options?.additionalWorkspaces
+            workspaces: options?.additionalWorkspaces,
           },
           paramOptions
         ),
@@ -114,9 +114,9 @@ export class LogsQueryClient {
         ...options,
         requestOptions: {
           customHeaders: {
-            ...formatPreferHeader(options)
-          }
-        }
+            ...formatPreferHeader(options),
+          },
+        },
       }
     );
 
@@ -126,7 +126,7 @@ export class LogsQueryClient {
     const res = {
       tables: flatResponse.tables.map(convertGeneratedTable),
       statistics: flatResponse.statistics,
-      visualization: flatResponse.render
+      visualization: flatResponse.render,
     };
 
     if (!flatResponse.error) {
@@ -135,7 +135,7 @@ export class LogsQueryClient {
         tables: res.tables,
         statistics: res.statistics,
         visualization: res.visualization,
-        status: LogsQueryResultStatus.Success
+        status: LogsQueryResultStatus.Success,
       };
       return result;
     } else {
@@ -144,7 +144,7 @@ export class LogsQueryClient {
         status: LogsQueryResultStatus.PartialFailure,
         partialError: mapError(flatResponse.error),
         statistics: res.statistics,
-        visualization: res.visualization
+        visualization: res.visualization,
       };
       return result;
     }
@@ -190,7 +190,7 @@ async function getRawResponse<TOptions extends OperationOptions, TResult>(
     onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
       rawResponse = response;
       customerProvidedCallback?.(response, flatResponseParam);
-    }
+    },
   });
   return { flatResponse, rawResponse: rawResponse! };
 }

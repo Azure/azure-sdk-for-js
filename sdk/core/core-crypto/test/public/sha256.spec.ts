@@ -4,9 +4,9 @@
 import { computeSha256Hash, computeSha256Hmac } from "../../src/index";
 import { assert } from "chai";
 
-describe("SHA-256", function() {
-  describe("Hash", function() {
-    it("base64 encoding", async function() {
+describe("SHA-256", function () {
+  describe("Hash", function () {
+    it("base64 encoding", async function () {
       const hash = await computeSha256Hash("azure", "base64");
 
       assert.equal(
@@ -16,7 +16,7 @@ describe("SHA-256", function() {
       );
     });
 
-    it("hex encoding", async function() {
+    it("hex encoding", async function () {
       const hash = await computeSha256Hash("azure", "hex");
 
       assert.equal(
@@ -27,10 +27,10 @@ describe("SHA-256", function() {
     });
   });
 
-  describe("HMAC", function() {
+  describe("HMAC", function () {
     const base64EncodedKey = "c2VjcmV0"; // 'secret' in utf8.
 
-    it("base64 encoding", async function() {
+    it("base64 encoding", async function () {
       const hmac = await computeSha256Hmac(base64EncodedKey, "azure", "base64");
 
       assert.equal(
@@ -40,7 +40,7 @@ describe("SHA-256", function() {
       );
     });
 
-    it("hex encoding", async function() {
+    it("hex encoding", async function () {
       const hmac = await computeSha256Hmac(base64EncodedKey, "azure", "hex");
 
       assert.equal(

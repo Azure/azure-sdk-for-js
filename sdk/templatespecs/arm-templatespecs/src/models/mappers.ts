@@ -8,6 +8,36 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const TemplateSpecVersionInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TemplateSpecVersionInfo",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      timeCreated: {
+        serializedName: "timeCreated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      timeModified: {
+        serializedName: "timeModified",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const AzureResourceBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -82,36 +112,6 @@ export const SystemData: coreClient.CompositeMapper = {
       },
       lastModifiedAt: {
         serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const TemplateSpecVersionInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TemplateSpecVersionInfo",
-    modelProperties: {
-      description: {
-        serializedName: "description",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      timeCreated: {
-        serializedName: "timeCreated",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      timeModified: {
-        serializedName: "timeModified",
-        readOnly: true,
         type: {
           name: "DateTime"
         }

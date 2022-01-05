@@ -5,9 +5,8 @@
  * @summary Updates a container offer to change query throughput.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { finish, handleError, logStep, logSampleHeader } from "./Shared/handleError";
 import {
@@ -16,7 +15,7 @@ import {
   Resource,
   ContainerDefinition,
   DatabaseDefinition,
-  FeedResponse
+  FeedResponse,
 } from "@azure/cosmos";
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
@@ -76,9 +75,9 @@ async function updateOfferForCollection(
     content: {
       offerThroughput: newRups,
       offerIsRUPerMinuteThroughputEnabled:
-        oldOfferDefinition.content.offerIsRUPerMinuteThroughputEnabled
+        oldOfferDefinition.content.offerIsRUPerMinuteThroughputEnabled,
     },
-    offerVersion: "V2"
+    offerVersion: "V2",
   };
 
   logStep("Read all databases");
@@ -89,10 +88,7 @@ async function updateOfferForCollection(
     databases
       .filter((database: DatabaseDefinition & Resource) => database.id === dbName)
       .map((database: DatabaseDefinition & Resource) => {
-        return client
-          .database(database.id)
-          .containers.readAll()
-          .fetchAll();
+        return client.database(database.id).containers.readAll().fetchAll();
       })
   );
 

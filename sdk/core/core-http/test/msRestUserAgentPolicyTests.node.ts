@@ -16,7 +16,7 @@ const emptyRequestPolicy: RequestPolicy = {
   sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     request.should.exist;
     return Promise.resolve({ request: request, status: 200, headers: request.headers });
-  }
+  },
 };
 
 const getPlainUserAgentPolicy = (headerValue?: string): RequestPolicy => {

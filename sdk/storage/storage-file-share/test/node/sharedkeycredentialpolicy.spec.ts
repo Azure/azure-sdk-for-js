@@ -12,7 +12,7 @@ describe("StorageSharedKeyCredentialPolicy Node.js only", () => {
 
   let recorder: Recorder;
 
-  before(async function(this: Context) {
+  before(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("1share-with-dash");
@@ -21,17 +21,17 @@ describe("StorageSharedKeyCredentialPolicy Node.js only", () => {
     await recorder.stop();
   });
 
-  after(async function(this: Context) {
+  after(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     await shareClient.delete();
     await recorder.stop();
   });
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 

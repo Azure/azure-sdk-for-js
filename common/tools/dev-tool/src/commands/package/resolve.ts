@@ -18,14 +18,14 @@ export const commandInfo = makeCommandInfo(
       shortName: "d",
       kind: "string",
       description: "base directory for resolution (uses CWD if unset)",
-      allowMultiple: true
+      allowMultiple: true,
     },
     quiet: {
       shortName: "q",
       kind: "boolean",
       default: false,
-      description: "output only the directory name with no extra formatting"
-    }
+      description: "output only the directory name with no extra formatting",
+    },
   }
 );
 

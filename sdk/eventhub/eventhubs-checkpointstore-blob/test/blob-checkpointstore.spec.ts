@@ -19,13 +19,13 @@ import { fail } from "assert";
 import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
 
-describe("Blob Checkpoint Store", function(): void {
+describe("Blob Checkpoint Store", function (): void {
   const TEST_FAILURE = "Test failure";
   const service = {
-    storageConnectionString: env[EnvVarKeys.STORAGE_CONNECTION_STRING]
+    storageConnectionString: env[EnvVarKeys.STORAGE_CONNECTION_STRING],
   };
   let containerClient: ContainerClient;
-  before("validate environment", async function(): Promise<void> {
+  before("validate environment", async function (): Promise<void> {
     should.exist(
       env[EnvVarKeys.STORAGE_CONNECTION_STRING],
       "define STORAGE_CONNECTION_STRING in your environment before running integration tests."
@@ -44,8 +44,8 @@ describe("Blob Checkpoint Store", function(): void {
     await containerClient.delete();
   });
 
-  describe("listOwnership", function() {
-    it("supports cancellation via abortSignal", async function() {
+  describe("listOwnership", function () {
+    it("supports cancellation via abortSignal", async function () {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and abort it after blocking code is ran.
@@ -59,7 +59,7 @@ describe("Blob Checkpoint Store", function(): void {
           "testEventHub",
           "testConsumerGroup",
           {
-            abortSignal: signal
+            abortSignal: signal,
           }
         );
         throw new Error(TEST_FAILURE);
@@ -69,7 +69,7 @@ describe("Blob Checkpoint Store", function(): void {
       }
     });
 
-    it("supports cancellation via abortSignal (pre-cancelled)", async function() {
+    it("supports cancellation via abortSignal (pre-cancelled)", async function () {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and immediately abort it.
@@ -83,7 +83,7 @@ describe("Blob Checkpoint Store", function(): void {
           "testEventHub",
           "testConsumerGroup",
           {
-            abortSignal: signal
+            abortSignal: signal,
           }
         );
         throw new Error(TEST_FAILURE);
@@ -94,7 +94,7 @@ describe("Blob Checkpoint Store", function(): void {
     });
   });
 
-  it("listOwnership should return an empty array", async function(): Promise<void> {
+  it("listOwnership should return an empty array", async function (): Promise<void> {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
@@ -104,8 +104,8 @@ describe("Blob Checkpoint Store", function(): void {
     should.equal(listOwnership.length, 0);
   });
 
-  describe("claimOwnership", function() {
-    it("supports cancellation via abortSignal", async function() {
+  describe("claimOwnership", function () {
+    it("supports cancellation via abortSignal", async function () {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and abort it after blocking code is ran.
@@ -121,11 +121,11 @@ describe("Blob Checkpoint Store", function(): void {
               consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
               fullyQualifiedNamespace: "fqdn",
               eventHubName: "ehname",
-              ownerId: "me"
-            }
+              ownerId: "me",
+            },
           ],
           {
-            abortSignal: signal
+            abortSignal: signal,
           }
         );
         throw new Error(TEST_FAILURE);
@@ -135,7 +135,7 @@ describe("Blob Checkpoint Store", function(): void {
       }
     });
 
-    it("supports cancellation via abortSignal (pre-cancelled)", async function() {
+    it("supports cancellation via abortSignal (pre-cancelled)", async function () {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and immediately abort it.
@@ -151,11 +151,11 @@ describe("Blob Checkpoint Store", function(): void {
               consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
               fullyQualifiedNamespace: "fqdn",
               eventHubName: "ehname",
-              ownerId: "me"
-            }
+              ownerId: "me",
+            },
           ],
           {
-            abortSignal: signal
+            abortSignal: signal,
           }
         );
         throw new Error(TEST_FAILURE);
@@ -178,8 +178,8 @@ describe("Blob Checkpoint Store", function(): void {
         consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
         fullyQualifiedNamespace: "fqdn",
         eventHubName: "ehname",
-        ownerId: "me"
-      }
+        ownerId: "me",
+      },
     ]);
 
     const originalETag = originalClaimedOwnerships[0] && originalClaimedOwnerships[0].etag;
@@ -198,8 +198,8 @@ describe("Blob Checkpoint Store", function(): void {
         fullyQualifiedNamespace: "fqdn",
         eventHubName: "ehname",
         ownerId: "me",
-        etag: originalETag
-      }
+        etag: originalETag,
+      },
     ]);
 
     shouldNotThrowButNothingWillClaim.length.should.equal(0);
@@ -218,8 +218,8 @@ describe("Blob Checkpoint Store", function(): void {
           consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
           fullyQualifiedNamespace: "fqdn",
           eventHubName: "ehname",
-          ownerId: "me"
-        }
+          ownerId: "me",
+        },
       ]);
       fail("Should have thrown an error - this isn't a normal claim collision issue");
     } catch (err) {
@@ -229,9 +229,7 @@ describe("Blob Checkpoint Store", function(): void {
     }
   });
 
-  it("claimOwnership call should succeed, if it has been called for the first time", async function(): Promise<
-    void
-  > {
+  it("claimOwnership call should succeed, if it has been called for the first time", async function (): Promise<void> {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
@@ -245,7 +243,7 @@ describe("Blob Checkpoint Store", function(): void {
       partitionId: "0",
       fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
       consumerGroup: "testConsumerGroup",
-      eventHubName: "testEventHub"
+      eventHubName: "testEventHub",
     };
 
     const partitionOwnershipArray = await checkpointStore.claimOwnership([partitionOwnership]);
@@ -287,9 +285,7 @@ describe("Blob Checkpoint Store", function(): void {
     );
   });
 
-  it("After multiple claimOwnership calls for a single partition, listOwnership should return an array with a single PartitionOwnership for that partition.", async function(): Promise<
-    void
-  > {
+  it("After multiple claimOwnership calls for a single partition, listOwnership should return an array with a single PartitionOwnership for that partition.", async function (): Promise<void> {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
@@ -303,7 +299,7 @@ describe("Blob Checkpoint Store", function(): void {
       partitionId: "0",
       consumerGroup: "testConsumerGroup",
       fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
-      eventHubName: "testEventHub"
+      eventHubName: "testEventHub",
     };
 
     await checkpointStore.claimOwnership([partitionOwnership]);
@@ -345,9 +341,7 @@ describe("Blob Checkpoint Store", function(): void {
     );
   });
 
-  it("After multiple claimOwnership calls for multiple partition, listOwnership should return an array with a single PartitionOwnership for each partition.", async function(): Promise<
-    void
-  > {
+  it("After multiple claimOwnership calls for multiple partition, listOwnership should return an array with a single PartitionOwnership for each partition.", async function (): Promise<void> {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
@@ -364,7 +358,7 @@ describe("Blob Checkpoint Store", function(): void {
         partitionId: `${index}`,
         fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
         consumerGroup: "testConsumerGroup",
-        eventHubName: "testEventHub"
+        eventHubName: "testEventHub",
       };
       partitionOwnershipArray.push(partitionOwnership);
     }
@@ -422,8 +416,8 @@ describe("Blob Checkpoint Store", function(): void {
     should.exist(ownershipList[2].etag, "etag should exist.");
   });
 
-  describe("listCheckpoints", function() {
-    it("supports cancellation via abortSignal", async function() {
+  describe("listCheckpoints", function () {
+    it("supports cancellation via abortSignal", async function () {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and abort it after blocking code is ran.
@@ -437,7 +431,7 @@ describe("Blob Checkpoint Store", function(): void {
           "testEventHub",
           "testConsumerGroup",
           {
-            abortSignal: signal
+            abortSignal: signal,
           }
         );
         throw new Error(TEST_FAILURE);
@@ -447,7 +441,7 @@ describe("Blob Checkpoint Store", function(): void {
       }
     });
 
-    it("supports cancellation via abortSignal (pre-cancelled)", async function() {
+    it("supports cancellation via abortSignal (pre-cancelled)", async function () {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and immediately abort it.
@@ -461,7 +455,7 @@ describe("Blob Checkpoint Store", function(): void {
           "testEventHub",
           "testConsumerGroup",
           {
-            abortSignal: signal
+            abortSignal: signal,
           }
         );
         throw new Error(TEST_FAILURE);
@@ -479,7 +473,7 @@ describe("Blob Checkpoint Store", function(): void {
       const eventHubProperties = {
         fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
         eventHubName: "testEventHub",
-        consumerGroup: "testConsumerGroup"
+        consumerGroup: "testConsumerGroup",
       };
 
       for (let i = 0; i < 3; ++i) {
@@ -487,7 +481,7 @@ describe("Blob Checkpoint Store", function(): void {
           ...eventHubProperties,
           partitionId: i.toString(),
           sequenceNumber: 100 + i,
-          offset: 1023 + i
+          offset: 1023 + i,
         };
 
         await checkpointStore.updateCheckpoint(checkpoint);
@@ -545,7 +539,7 @@ describe("Blob Checkpoint Store", function(): void {
       const eventHubProperties = {
         fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
         eventHubName: "testEventHub",
-        consumerGroup: "testConsumerGroup"
+        consumerGroup: "testConsumerGroup",
       };
 
       // Ensure that there aren't any checkpoints.
@@ -564,7 +558,7 @@ describe("Blob Checkpoint Store", function(): void {
         fullyQualifiedNamespace: eventHubProperties.fullyQualifiedNamespace,
         offset: 0,
         partitionId: "0",
-        sequenceNumber: 1
+        sequenceNumber: 1,
       };
 
       await checkpointStore.updateCheckpoint(checkpoint);
@@ -584,7 +578,7 @@ describe("Blob Checkpoint Store", function(): void {
       const eventHubProperties = {
         fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
         eventHubName: "testEventHub",
-        consumerGroup: "testConsumerGroup"
+        consumerGroup: "testConsumerGroup",
       };
 
       // now let's induce a bad failure (removing the container)
@@ -597,7 +591,7 @@ describe("Blob Checkpoint Store", function(): void {
         fullyQualifiedNamespace: eventHubProperties.fullyQualifiedNamespace,
         offset: 0,
         partitionId: "0",
-        sequenceNumber: 1
+        sequenceNumber: 1,
       };
 
       try {
@@ -608,7 +602,7 @@ describe("Blob Checkpoint Store", function(): void {
       }
     });
 
-    it("supports cancellation via abortSignal", async function() {
+    it("supports cancellation via abortSignal", async function () {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and abort it after blocking code is ran.
@@ -623,7 +617,7 @@ describe("Blob Checkpoint Store", function(): void {
         fullyQualifiedNamespace: "testConsumerGroup",
         offset: 0,
         partitionId: "0",
-        sequenceNumber: 1
+        sequenceNumber: 1,
       };
 
       try {
@@ -635,7 +629,7 @@ describe("Blob Checkpoint Store", function(): void {
       }
     });
 
-    it("supports cancellation via abortSignal (pre-cancelled)", async function() {
+    it("supports cancellation via abortSignal (pre-cancelled)", async function () {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and immediately abort it.
@@ -650,7 +644,7 @@ describe("Blob Checkpoint Store", function(): void {
         fullyQualifiedNamespace: "testConsumerGroup",
         offset: 0,
         partitionId: "0",
-        sequenceNumber: 1
+        sequenceNumber: 1,
       };
 
       try {
@@ -663,9 +657,7 @@ describe("Blob Checkpoint Store", function(): void {
     });
   });
 
-  it("Claiming ownership with an empty owner id should be fine (ie, unclaiming)", async function(): Promise<
-    void
-  > {
+  it("Claiming ownership with an empty owner id should be fine (ie, unclaiming)", async function (): Promise<void> {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
@@ -679,7 +671,7 @@ describe("Blob Checkpoint Store", function(): void {
       partitionId: "0",
       fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
       consumerGroup: "testConsumerGroup",
-      eventHubName: "testEventHub"
+      eventHubName: "testEventHub",
     };
 
     const partitionOwnershipArray = await checkpointStore.claimOwnership([partitionOwnership]);
@@ -707,14 +699,14 @@ describe("Blob Checkpoint Store", function(): void {
       consumerGroup: "test",
       eventHubName: "test",
       fullyQualifiedNamespace: "test",
-      ownerId: "test"
+      ownerId: "test",
     };
 
     await checkpointStore.claimOwnership([
       {
         ...commonData,
-        partitionId: "100"
-      }
+        partitionId: "100",
+      },
     ]);
 
     // muck with the metadata in an incompatible way
@@ -740,14 +732,14 @@ describe("Blob Checkpoint Store", function(): void {
       consumerGroup: "test",
       eventHubName: "test",
       fullyQualifiedNamespace: "test",
-      ownerId: "test"
+      ownerId: "test",
     };
 
     await checkpointStore.updateCheckpoint({
       ...commonData,
       partitionId: "100",
       sequenceNumber: 0,
-      offset: 0
+      offset: 0,
     });
 
     // muck with the metadata in an incompatible way
@@ -774,13 +766,13 @@ describe("Blob Checkpoint Store", function(): void {
       eventHubName: "test",
       fullyQualifiedNamespace: "test",
       ownerId: "test",
-      partitionId: "0"
+      partitionId: "0",
     };
 
     await checkpointStore.updateCheckpoint({
       ...commonData,
       offset: 0,
-      sequenceNumber: 0
+      sequenceNumber: 0,
     });
 
     const checkpoints = await checkpointStore.listCheckpoints(
@@ -802,7 +794,7 @@ describe("Blob Checkpoint Store", function(): void {
         type: "ownership",
         fullyQualifiedNamespace: "nAmESpAce",
         eventHubName: "eVentHubNamE",
-        consumerGroup: "cOnsuMerGrouPNaMe"
+        consumerGroup: "cOnsuMerGrouPNaMe",
         // partition ID is optional
       })
     );
@@ -814,7 +806,7 @@ describe("Blob Checkpoint Store", function(): void {
         fullyQualifiedNamespace: "nAmESpAce",
         eventHubName: "eVentHubNamE",
         consumerGroup: "cOnsuMerGrouPNaMe",
-        partitionId: "0"
+        partitionId: "0",
       })
     );
   });

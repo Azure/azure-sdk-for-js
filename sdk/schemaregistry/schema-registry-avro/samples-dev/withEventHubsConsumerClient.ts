@@ -29,13 +29,13 @@ const schemaObject = {
   fields: [
     {
       name: "firstName",
-      type: "string"
+      type: "string",
     },
     {
       name: "lastName",
-      type: "string"
-    }
-  ]
+      type: "string",
+    },
+  ],
 };
 
 const schema = JSON.stringify(schemaObject);
@@ -45,7 +45,7 @@ const schemaDescription: SchemaDescription = {
   name: `${schemaObject.namespace}.${schemaObject.name}`,
   groupName,
   format: "Avro",
-  definition: schema
+  definition: schema,
 };
 
 export async function main() {
@@ -87,7 +87,7 @@ export async function main() {
             if (contentTypeParts[0] === "avro/binary") {
               const decodedEvent = await encoder.decodeMessageData({
                 contentType: event.contentType,
-                data: Uint8Array.from(Object.values(event.body))
+                data: Uint8Array.from(Object.values(event.body)),
               });
               console.log(`Decoded message: '${JSON.stringify(decodedEvent)}'`);
             }
@@ -96,7 +96,7 @@ export async function main() {
       },
       processError: async (err, context) => {
         console.log(`Error on partition "${context.partitionId}": ${err}`);
-      }
+      },
     },
     { startPosition: earliestEventPosition }
   );

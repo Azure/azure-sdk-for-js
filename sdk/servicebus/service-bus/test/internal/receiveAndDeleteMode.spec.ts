@@ -11,7 +11,7 @@ import {
   ServiceBusMessage,
   ServiceBusReceiver,
   ProcessErrorArgs,
-  ServiceBusSender
+  ServiceBusSender,
 } from "../../src";
 
 import { TestClientType, TestMessage, checkWithTimeout } from "../public/utils/testUtils";
@@ -23,7 +23,7 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
-  getRandomTestClientTypeWithNoSessions
+  getRandomTestClientTypeWithNoSessions,
 } from "../public/utils/testutils2";
 import { DispositionType } from "../../src/serviceBusMessage";
 
@@ -68,7 +68,7 @@ describe("receive and delete", () => {
     return serviceBusClient.test.afterEach();
   }
 
-  describe("Batch Receiver in ReceiveAndDelete mode", function(): void {
+  describe("Batch Receiver in ReceiveAndDelete mode", function (): void {
     afterEach(async () => {
       await afterEachTest();
     });
@@ -105,7 +105,7 @@ describe("receive and delete", () => {
 
     it(
       noSessionTestClientType + ": No settlement of the message removes message",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testNoSettlement();
       }
@@ -113,14 +113,14 @@ describe("receive and delete", () => {
 
     it(
       withSessionTestClientType + ": No settlement of the message removes message",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testNoSettlement();
       }
     );
   });
 
-  describe("Streaming Receiver in ReceiveAndDelete mode", function(): void {
+  describe("Streaming Receiver in ReceiveAndDelete mode", function (): void {
     let errorFromErrorHandler: Error | undefined;
 
     afterEach(async () => {
@@ -143,7 +143,7 @@ describe("receive and delete", () => {
           },
           async processError(args: ProcessErrorArgs): Promise<void> {
             errors.push(args.error.message);
-          }
+          },
         },
         { autoCompleteMessages: autoCompleteFlag }
       );
@@ -184,7 +184,7 @@ describe("receive and delete", () => {
     it(
       noSessionTestClientType +
         ": With auto-complete enabled, no settlement of the message removes message",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testNoSettlement(true);
       }
@@ -193,7 +193,7 @@ describe("receive and delete", () => {
     it(
       withSessionTestClientType +
         ": With auto-complete enabled, no settlement of the message removes message",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testNoSettlement(true);
       }
@@ -202,7 +202,7 @@ describe("receive and delete", () => {
     it(
       noSessionTestClientType +
         ": With auto-complete disabled, no settlement of the message removes message",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testNoSettlement(false);
       }
@@ -211,7 +211,7 @@ describe("receive and delete", () => {
     it(
       withSessionTestClientType +
         ": With auto-complete disabled, no settlement of the message removes message",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testNoSettlement(false);
       }
@@ -274,42 +274,42 @@ describe("receive and delete", () => {
       await testPeekMsgsLength(receiver, 0);
     }
 
-    it(noSessionTestClientType + ": complete() throws error", async function(): Promise<void> {
+    it(noSessionTestClientType + ": complete() throws error", async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testSettlement(DispositionType.complete);
     });
 
-    it(withSessionTestClientType + ": complete() throws error", async function(): Promise<void> {
+    it(withSessionTestClientType + ": complete() throws error", async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testSettlement(DispositionType.complete);
     });
 
-    it(noSessionTestClientType + ": abandon() throws error", async function(): Promise<void> {
+    it(noSessionTestClientType + ": abandon() throws error", async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testSettlement(DispositionType.abandon);
     });
 
-    it(withSessionTestClientType + ": abandon() throws error", async function(): Promise<void> {
+    it(withSessionTestClientType + ": abandon() throws error", async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testSettlement(DispositionType.abandon);
     });
 
-    it(noSessionTestClientType + ": defer() throws error", async function(): Promise<void> {
+    it(noSessionTestClientType + ": defer() throws error", async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testSettlement(DispositionType.defer);
     });
 
-    it(withSessionTestClientType + ": defer() throws error", async function(): Promise<void> {
+    it(withSessionTestClientType + ": defer() throws error", async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testSettlement(DispositionType.defer);
     });
 
-    it(noSessionTestClientType + ": deadLetter() throws error", async function(): Promise<void> {
+    it(noSessionTestClientType + ": deadLetter() throws error", async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testSettlement(DispositionType.deadletter);
     });
 
-    it(withSessionTestClientType + ": deadLetter() throws error", async function(): Promise<void> {
+    it(withSessionTestClientType + ": deadLetter() throws error", async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testSettlement(DispositionType.deadletter);
     });
@@ -329,15 +329,16 @@ describe("receive and delete", () => {
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     }
 
-    it(noSessionTestClientType + ": Renew message lock throws error", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(noSessionTestClientType);
-      await testRenewLock();
-    });
+    it(
+      noSessionTestClientType + ": Renew message lock throws error",
+      async function (): Promise<void> {
+        await beforeEachTest(noSessionTestClientType);
+        await testRenewLock();
+      }
+    );
   });
 
-  describe("Receive Deferred messages in ReceiveAndDelete mode", function(): void {
+  describe("Receive Deferred messages in ReceiveAndDelete mode", function (): void {
     let entityNames: EntityName;
 
     afterEach(async () => {
@@ -399,21 +400,17 @@ describe("receive and delete", () => {
     });
     */
 
-    it("Unpartitioned Queue: No settlement of the message removes message", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Queue: No settlement of the message removes message", async function (): Promise<void> {
       await testDeferredMessage(TestClientType.UnpartitionedQueue);
     });
 
-    it("Unpartitioned Subscription: No settlement of the message removes message", async function(): Promise<
-      void
-    > {
+    it("Unpartitioned Subscription: No settlement of the message removes message", async function (): Promise<void> {
       await testDeferredMessage(TestClientType.UnpartitionedSubscription);
     });
 
     it(
       withSessionTestClientType + ": No settlement of the message removes message",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await testDeferredMessage(withSessionTestClientType);
       }
     );
@@ -483,35 +480,35 @@ describe("receive and delete", () => {
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     }
 
-    it(noSessionTestClientType + ": complete() throws error", async function(): Promise<void> {
+    it(noSessionTestClientType + ": complete() throws error", async function (): Promise<void> {
       await testSettlement(noSessionTestClientType, DispositionType.complete);
     });
 
-    it(withSessionTestClientType + ": complete() throws error", async function(): Promise<void> {
+    it(withSessionTestClientType + ": complete() throws error", async function (): Promise<void> {
       await testSettlement(withSessionTestClientType, DispositionType.complete);
     });
 
-    it(noSessionTestClientType + ": abandon() throws error", async function(): Promise<void> {
+    it(noSessionTestClientType + ": abandon() throws error", async function (): Promise<void> {
       await testSettlement(noSessionTestClientType, DispositionType.abandon);
     });
 
-    it(withSessionTestClientType + ": abandon() throws error", async function(): Promise<void> {
+    it(withSessionTestClientType + ": abandon() throws error", async function (): Promise<void> {
       await testSettlement(withSessionTestClientType, DispositionType.abandon);
     });
 
-    it(noSessionTestClientType + ": defer() throws error", async function(): Promise<void> {
+    it(noSessionTestClientType + ": defer() throws error", async function (): Promise<void> {
       await testSettlement(noSessionTestClientType, DispositionType.defer);
     });
 
-    it(withSessionTestClientType + ": defer() throws error", async function(): Promise<void> {
+    it(withSessionTestClientType + ": defer() throws error", async function (): Promise<void> {
       await testSettlement(withSessionTestClientType, DispositionType.defer);
     });
 
-    it(noSessionTestClientType + ": deadLetter() throws error", async function(): Promise<void> {
+    it(noSessionTestClientType + ": deadLetter() throws error", async function (): Promise<void> {
       await testSettlement(noSessionTestClientType, DispositionType.deadletter);
     });
 
-    it(withSessionTestClientType + ": deadLetter() throws error", async function(): Promise<void> {
+    it(withSessionTestClientType + ": deadLetter() throws error", async function (): Promise<void> {
       await testSettlement(withSessionTestClientType, DispositionType.deadletter);
     });
 
@@ -530,10 +527,11 @@ describe("receive and delete", () => {
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     }
 
-    it(noSessionTestClientType + ": Renew message lock throws error", async function(): Promise<
-      void
-    > {
-      await testRenewLock(noSessionTestClientType);
-    });
+    it(
+      noSessionTestClientType + ": Renew message lock throws error",
+      async function (): Promise<void> {
+        await testRenewLock(noSessionTestClientType);
+      }
+    );
   });
 });

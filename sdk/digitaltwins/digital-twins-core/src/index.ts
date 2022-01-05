@@ -44,5 +44,5 @@ export {
   QueryQueryTwinsResponse,
   QueryResult,
   QuerySpecification,
-  PagedDigitalTwinsModelDataCollection
+  PagedDigitalTwinsModelDataCollection,
 } from "./generated/models";

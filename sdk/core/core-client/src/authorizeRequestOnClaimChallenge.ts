@@ -86,7 +86,7 @@ export async function authorizeRequestOnClaimChallenge(
   const accessToken = await onChallengeOptions.getAccessToken(
     parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
     {
-      claims: decodeStringToString(parsedChallenge.claims)
+      claims: decodeStringToString(parsedChallenge.claims),
     } as GetTokenOptions
   );
 
