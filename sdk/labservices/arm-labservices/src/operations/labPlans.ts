@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Labs } from "../operationsInterfaces";
+import { LabPlans } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,34 +15,34 @@ import { LabServicesClient } from "../labServicesClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  Lab,
-  LabsListBySubscriptionNextOptionalParams,
-  LabsListBySubscriptionOptionalParams,
-  LabsListByResourceGroupNextOptionalParams,
-  LabsListByResourceGroupOptionalParams,
-  LabsListBySubscriptionResponse,
-  LabsListByResourceGroupResponse,
-  LabsGetOptionalParams,
-  LabsGetResponse,
-  LabsCreateOrUpdateOptionalParams,
-  LabsCreateOrUpdateResponse,
-  LabUpdate,
-  LabsUpdateOptionalParams,
-  LabsUpdateResponse,
-  LabsDeleteOptionalParams,
-  LabsPublishOptionalParams,
-  LabsSyncGroupOptionalParams,
-  LabsListBySubscriptionNextResponse,
-  LabsListByResourceGroupNextResponse
+  LabPlan,
+  LabPlansListBySubscriptionNextOptionalParams,
+  LabPlansListBySubscriptionOptionalParams,
+  LabPlansListByResourceGroupNextOptionalParams,
+  LabPlansListByResourceGroupOptionalParams,
+  LabPlansListBySubscriptionResponse,
+  LabPlansListByResourceGroupResponse,
+  LabPlansGetOptionalParams,
+  LabPlansGetResponse,
+  LabPlansCreateOrUpdateOptionalParams,
+  LabPlansCreateOrUpdateResponse,
+  LabPlanUpdate,
+  LabPlansUpdateOptionalParams,
+  LabPlansUpdateResponse,
+  LabPlansDeleteOptionalParams,
+  SaveImageBody,
+  LabPlansSaveImageOptionalParams,
+  LabPlansListBySubscriptionNextResponse,
+  LabPlansListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Labs operations. */
-export class LabsImpl implements Labs {
+/** Class containing LabPlans operations. */
+export class LabPlansImpl implements LabPlans {
   private readonly client: LabServicesClient;
 
   /**
-   * Initialize a new instance of the class Labs class.
+   * Initialize a new instance of the class LabPlans class.
    * @param client Reference to the service client
    */
   constructor(client: LabServicesClient) {
@@ -50,12 +50,12 @@ export class LabsImpl implements Labs {
   }
 
   /**
-   * Returns a list of all labs for a subscription.
+   * Returns a list of all lab plans within a subscription
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: LabsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<Lab> {
+    options?: LabPlansListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<LabPlan> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -71,8 +71,8 @@ export class LabsImpl implements Labs {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: LabsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<Lab[]> {
+    options?: LabPlansListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<LabPlan[]> {
     let result = await this._listBySubscription(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -84,22 +84,22 @@ export class LabsImpl implements Labs {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: LabsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<Lab> {
+    options?: LabPlansListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<LabPlan> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Returns a list of all labs in a resource group.
+   * Returns a list of all lab plans for a subscription and resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: LabsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<Lab> {
+    options?: LabPlansListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<LabPlan> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -116,8 +116,8 @@ export class LabsImpl implements Labs {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: LabsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<Lab[]> {
+    options?: LabPlansListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<LabPlan[]> {
     let result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -134,8 +134,8 @@ export class LabsImpl implements Labs {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: LabsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<Lab> {
+    options?: LabPlansListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<LabPlan> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -145,12 +145,12 @@ export class LabsImpl implements Labs {
   }
 
   /**
-   * Returns a list of all labs for a subscription.
+   * Returns a list of all lab plans within a subscription
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: LabsListBySubscriptionOptionalParams
-  ): Promise<LabsListBySubscriptionResponse> {
+    options?: LabPlansListBySubscriptionOptionalParams
+  ): Promise<LabPlansListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -158,14 +158,14 @@ export class LabsImpl implements Labs {
   }
 
   /**
-   * Returns a list of all labs in a resource group.
+   * Returns a list of all lab plans for a subscription and resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: LabsListByResourceGroupOptionalParams
-  ): Promise<LabsListByResourceGroupResponse> {
+    options?: LabPlansListByResourceGroupOptionalParams
+  ): Promise<LabPlansListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -173,46 +173,46 @@ export class LabsImpl implements Labs {
   }
 
   /**
-   * Returns the properties of a lab resource.
+   * Retrieves the properties of a Lab Plan.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labPlanName The name of the lab plan that uniquely identifies it within containing resource
+   *                    group. Used in resource URIs and in UI.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    labName: string,
-    options?: LabsGetOptionalParams
-  ): Promise<LabsGetResponse> {
+    labPlanName: string,
+    options?: LabPlansGetOptionalParams
+  ): Promise<LabPlansGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, options },
+      { resourceGroupName, labPlanName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Operation to create or update a lab resource.
+   * Operation to create or update a Lab Plan resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labPlanName The name of the lab plan that uniquely identifies it within containing resource
+   *                    group. Used in resource URIs and in UI.
    * @param body The request body.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    labName: string,
-    body: Lab,
-    options?: LabsCreateOrUpdateOptionalParams
+    labPlanName: string,
+    body: LabPlan,
+    options?: LabPlansCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<LabsCreateOrUpdateResponse>,
-      LabsCreateOrUpdateResponse
+      PollOperationState<LabPlansCreateOrUpdateResponse>,
+      LabPlansCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<LabsCreateOrUpdateResponse> => {
+    ): Promise<LabPlansCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -250,7 +250,7 @@ export class LabsImpl implements Labs {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, labName, body, options },
+      { resourceGroupName, labPlanName, body, options },
       createOrUpdateOperationSpec
     );
     return new LroEngine(lro, {
@@ -261,22 +261,22 @@ export class LabsImpl implements Labs {
   }
 
   /**
-   * Operation to create or update a lab resource.
+   * Operation to create or update a Lab Plan resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labPlanName The name of the lab plan that uniquely identifies it within containing resource
+   *                    group. Used in resource URIs and in UI.
    * @param body The request body.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    labName: string,
-    body: Lab,
-    options?: LabsCreateOrUpdateOptionalParams
-  ): Promise<LabsCreateOrUpdateResponse> {
+    labPlanName: string,
+    body: LabPlan,
+    options?: LabPlansCreateOrUpdateOptionalParams
+  ): Promise<LabPlansCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      labName,
+      labPlanName,
       body,
       options
     );
@@ -284,25 +284,28 @@ export class LabsImpl implements Labs {
   }
 
   /**
-   * Operation to update a lab resource.
+   * Operation to update a Lab Plan resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labPlanName The name of the lab plan that uniquely identifies it within containing resource
+   *                    group. Used in resource URIs and in UI.
    * @param body The request body.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    labName: string,
-    body: LabUpdate,
-    options?: LabsUpdateOptionalParams
+    labPlanName: string,
+    body: LabPlanUpdate,
+    options?: LabPlansUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<LabsUpdateResponse>, LabsUpdateResponse>
+    PollerLike<
+      PollOperationState<LabPlansUpdateResponse>,
+      LabPlansUpdateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<LabsUpdateResponse> => {
+    ): Promise<LabPlansUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -340,7 +343,7 @@ export class LabsImpl implements Labs {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, labName, body, options },
+      { resourceGroupName, labPlanName, body, options },
       updateOperationSpec
     );
     return new LroEngine(lro, {
@@ -351,22 +354,22 @@ export class LabsImpl implements Labs {
   }
 
   /**
-   * Operation to update a lab resource.
+   * Operation to update a Lab Plan resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labPlanName The name of the lab plan that uniquely identifies it within containing resource
+   *                    group. Used in resource URIs and in UI.
    * @param body The request body.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    labName: string,
-    body: LabUpdate,
-    options?: LabsUpdateOptionalParams
-  ): Promise<LabsUpdateResponse> {
+    labPlanName: string,
+    body: LabPlanUpdate,
+    options?: LabPlansUpdateOptionalParams
+  ): Promise<LabPlansUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      labName,
+      labPlanName,
       body,
       options
     );
@@ -374,16 +377,17 @@ export class LabsImpl implements Labs {
   }
 
   /**
-   * Operation to delete a lab resource.
+   * Operation to delete a Lab Plan resource. Deleting a lab plan does not delete labs associated with a
+   * lab plan, nor does it delete shared images added to a gallery via the lab plan permission container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labPlanName The name of the lab plan that uniquely identifies it within containing resource
+   *                    group. Used in resource URIs and in UI.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    labName: string,
-    options?: LabsDeleteOptionalParams
+    labPlanName: string,
+    options?: LabPlansDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -426,7 +430,7 @@ export class LabsImpl implements Labs {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, labName, options },
+      { resourceGroupName, labPlanName, options },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -437,178 +441,109 @@ export class LabsImpl implements Labs {
   }
 
   /**
-   * Operation to delete a lab resource.
+   * Operation to delete a Lab Plan resource. Deleting a lab plan does not delete labs associated with a
+   * lab plan, nor does it delete shared images added to a gallery via the lab plan permission container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labPlanName The name of the lab plan that uniquely identifies it within containing resource
+   *                    group. Used in resource URIs and in UI.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    labName: string,
-    options?: LabsDeleteOptionalParams
+    labPlanName: string,
+    options?: LabPlansDeleteOptionalParams
   ): Promise<void> {
-    const poller = await this.beginDelete(resourceGroupName, labName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Publish or re-publish a lab. This will create or update all lab resources, such as virtual machines.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
-   * @param options The options parameters.
-   */
-  async beginPublish(
-    resourceGroupName: string,
-    labName: string,
-    options?: LabsPublishOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, options },
-      publishOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
-    });
-  }
-
-  /**
-   * Publish or re-publish a lab. This will create or update all lab resources, such as virtual machines.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
-   * @param options The options parameters.
-   */
-  async beginPublishAndWait(
-    resourceGroupName: string,
-    labName: string,
-    options?: LabsPublishOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginPublish(resourceGroupName, labName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Action used to manually kick off an AAD group sync job.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
-   * @param options The options parameters.
-   */
-  async beginSyncGroup(
-    resourceGroupName: string,
-    labName: string,
-    options?: LabsSyncGroupOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, options },
-      syncGroupOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
-    });
-  }
-
-  /**
-   * Action used to manually kick off an AAD group sync job.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
-   * @param options The options parameters.
-   */
-  async beginSyncGroupAndWait(
-    resourceGroupName: string,
-    labName: string,
-    options?: LabsSyncGroupOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginSyncGroup(
+    const poller = await this.beginDelete(
       resourceGroupName,
-      labName,
+      labPlanName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Saves an image from a lab VM to the attached shared image gallery.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labPlanName The name of the lab plan that uniquely identifies it within containing resource
+   *                    group. Used in resource URIs and in UI.
+   * @param body The request body.
+   * @param options The options parameters.
+   */
+  async beginSaveImage(
+    resourceGroupName: string,
+    labPlanName: string,
+    body: SaveImageBody,
+    options?: LabPlansSaveImageOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, labPlanName, body, options },
+      saveImageOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+  }
+
+  /**
+   * Saves an image from a lab VM to the attached shared image gallery.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labPlanName The name of the lab plan that uniquely identifies it within containing resource
+   *                    group. Used in resource URIs and in UI.
+   * @param body The request body.
+   * @param options The options parameters.
+   */
+  async beginSaveImageAndWait(
+    resourceGroupName: string,
+    labPlanName: string,
+    body: SaveImageBody,
+    options?: LabPlansSaveImageOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginSaveImage(
+      resourceGroupName,
+      labPlanName,
+      body,
       options
     );
     return poller.pollUntilDone();
@@ -621,8 +556,8 @@ export class LabsImpl implements Labs {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: LabsListBySubscriptionNextOptionalParams
-  ): Promise<LabsListBySubscriptionNextResponse> {
+    options?: LabPlansListBySubscriptionNextOptionalParams
+  ): Promise<LabPlansListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -638,8 +573,8 @@ export class LabsImpl implements Labs {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: LabsListByResourceGroupNextOptionalParams
-  ): Promise<LabsListByResourceGroupNextResponse> {
+    options?: LabPlansListByResourceGroupNextOptionalParams
+  ): Promise<LabPlansListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -650,11 +585,12 @@ export class LabsImpl implements Labs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.LabServices/labs",
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.LabServices/labPlans",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PagedLabs
+      bodyMapper: Mappers.PagedLabPlans
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -667,11 +603,11 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labPlans",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PagedLabs
+      bodyMapper: Mappers.PagedLabPlans
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -688,11 +624,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labPlans/{labPlanName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Lab
+      bodyMapper: Mappers.LabPlan
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -703,39 +639,39 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
+    Parameters.labPlanName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labPlans/{labPlanName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Lab
+      bodyMapper: Mappers.LabPlan
     },
     201: {
-      bodyMapper: Mappers.Lab
+      bodyMapper: Mappers.LabPlan
     },
     202: {
-      bodyMapper: Mappers.Lab
+      bodyMapper: Mappers.LabPlan
     },
     204: {
-      bodyMapper: Mappers.Lab
+      bodyMapper: Mappers.LabPlan
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body5,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
+    Parameters.labPlanName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -743,32 +679,32 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labPlans/{labPlanName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Lab
+      bodyMapper: Mappers.LabPlan
     },
     201: {
-      bodyMapper: Mappers.Lab
+      bodyMapper: Mappers.LabPlan
     },
     202: {
-      bodyMapper: Mappers.Lab
+      bodyMapper: Mappers.LabPlan
     },
     204: {
-      bodyMapper: Mappers.Lab
+      bodyMapper: Mappers.LabPlan
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body6,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
+    Parameters.labPlanName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -776,7 +712,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labPlans/{labPlanName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -792,14 +728,14 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
+    Parameters.labPlanName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const publishOperationSpec: coreClient.OperationSpec = {
+const saveImageOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/publish",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labPlans/{labPlanName}/saveImage",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -810,37 +746,16 @@ const publishOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
+  requestBody: Parameters.body4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
+    Parameters.labPlanName
   ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const syncGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/syncGroup",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.labName
-  ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
@@ -848,7 +763,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PagedLabs
+      bodyMapper: Mappers.PagedLabPlans
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -868,7 +783,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PagedLabs
+      bodyMapper: Mappers.PagedLabPlans
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
