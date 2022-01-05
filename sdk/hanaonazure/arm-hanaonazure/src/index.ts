@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./sapMonitors";
-export * from "./providerInstances";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { HanaManagementClient } from "./hanaManagementClient";
+export * from "./operationsInterfaces";
