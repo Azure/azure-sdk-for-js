@@ -14,5 +14,5 @@ export enum TriggerOperation {
   /** Delete operations only. */
   Delete = "delete",
   /** Replace operations only. */
-  Replace = "replace"
+  Replace = "replace",
 }

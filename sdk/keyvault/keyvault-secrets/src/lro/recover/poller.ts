@@ -3,7 +3,7 @@
 
 import {
   RecoverDeletedSecretPollOperation,
-  RecoverDeletedSecretPollOperationState
+  RecoverDeletedSecretPollOperationState,
 } from "./operation";
 import { SecretProperties } from "../../secretsModels";
 import { KeyVaultSecretPoller, KeyVaultSecretPollerOptions } from "../keyVaultSecretPoller";
@@ -27,7 +27,7 @@ export class RecoverDeletedSecretPoller extends KeyVaultSecretPoller<
     const operation = new RecoverDeletedSecretPollOperation(
       {
         ...state,
-        name
+        name,
       },
       vaultUrl,
       client,

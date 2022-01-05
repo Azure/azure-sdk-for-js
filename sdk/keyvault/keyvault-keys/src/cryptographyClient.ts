@@ -8,7 +8,7 @@ import {
   CryptographyClientOptions,
   GetKeyOptions,
   KeyOperation,
-  KnownKeyOperations
+  KnownKeyOperations,
 } from "./keysModels";
 import {
   EncryptionAlgorithm,
@@ -30,7 +30,7 @@ import {
   DecryptParameters,
   CryptographyClientKey,
   AesCbcEncryptParameters,
-  AesCbcEncryptionAlgorithm
+  AesCbcEncryptionAlgorithm,
 } from "./cryptographyClientModels";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
 import { randomBytes } from "./cryptography/crypto";
@@ -113,21 +113,21 @@ export class CryptographyClient {
       // Key URL for remote-local operations.
       this.key = {
         kind: "identifier",
-        value: key
+        value: key,
       };
       this.remoteProvider = new RemoteCryptographyProvider(key, credential!, pipelineOptions);
     } else if ("name" in key) {
       // KeyVault key for remote-local operations.
       this.key = {
         kind: "KeyVaultKey",
-        value: key
+        value: key,
       };
       this.remoteProvider = new RemoteCryptographyProvider(key, credential!, pipelineOptions);
     } else {
       // JsonWebKey for local-only operations.
       this.key = {
         kind: "JsonWebKey",
-        value: key
+        value: key,
       };
     }
   }
@@ -216,7 +216,7 @@ export class CryptographyClient {
       "A192CBC",
       "A192CBCPAD",
       "A256CBC",
-      "A256CBCPAD"
+      "A256CBCPAD",
     ];
 
     if (parameters.algorithm in algorithmsRequiringIV) {
@@ -245,9 +245,9 @@ export class CryptographyClient {
       return [
         {
           algorithm: args[0],
-          plaintext: args[1]
+          plaintext: args[1],
         } as EncryptParameters,
-        args[2] || {}
+        args[2] || {},
       ];
     } else {
       // Sample shape: [{ algorithm: "RSA1_5", plaintext: buffer }, options]
@@ -323,9 +323,9 @@ export class CryptographyClient {
       return [
         {
           algorithm: args[0],
-          ciphertext: args[1]
+          ciphertext: args[1],
         } as DecryptParameters,
-        args[2] || {}
+        args[2] || {},
       ];
     } else {
       // Sample shape: [{ algorithm: "RSA1_5", ciphertext: encryptedBuffer }, options]
@@ -577,7 +577,7 @@ export class CryptographyClient {
       // Add local crypto providers as needed
       this.providers = [
         new RsaCryptographyProvider(keyMaterial),
-        new AesCryptographyProvider(keyMaterial)
+        new AesCryptographyProvider(keyMaterial),
       ];
 
       // If the remote provider exists, we're in hybrid-mode. Otherwise we're in local-only mode.

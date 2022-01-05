@@ -9,7 +9,7 @@ export class DecryptTest extends CryptographyTest {
   async setup(): Promise<void> {
     const encryptResult = await CryptographyTest.cryptoClient!.encrypt({
       algorithm: this.algorithm,
-      plaintext: randomBytes(32)
+      plaintext: randomBytes(32),
     });
     this.cipherText = encryptResult.result!;
   }
@@ -17,7 +17,7 @@ export class DecryptTest extends CryptographyTest {
   async run(): Promise<void> {
     await CryptographyTest.cryptoClient!.decrypt({
       algorithm: this.algorithm,
-      ciphertext: this.cipherText!
+      ciphertext: this.cipherText!,
     });
   }
 }

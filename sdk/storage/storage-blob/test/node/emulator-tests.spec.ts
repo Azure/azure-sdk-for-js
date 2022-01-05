@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import {
   BlobClient,
   ContainerClient,
@@ -13,7 +12,6 @@ import {
 import { getBSU, getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils";
 import { env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-dotenv.config();
 
 // Expected environment variable to run this test-suite
 // STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true

@@ -5,11 +5,11 @@ import { CreateCertificatePollOperation, CreateCertificateState } from "./operat
 import {
   KeyVaultCertificateWithPolicy,
   CreateCertificateOptions,
-  CertificatePolicy
+  CertificatePolicy,
 } from "../../certificatesModels";
 import {
   KeyVaultCertificatePoller,
-  KeyVaultCertificatePollerOptions
+  KeyVaultCertificatePollerOptions,
 } from "../keyVaultCertificatePoller";
 
 export interface CreateCertificatePollerOptions extends KeyVaultCertificatePollerOptions {
@@ -33,7 +33,7 @@ export class CreateCertificatePoller extends KeyVaultCertificatePoller<
       createCertificateOptions,
       operationOptions,
       intervalInMs = 2000,
-      resumeFrom
+      resumeFrom,
     } = options;
 
     let state: CreateCertificateState | undefined;
@@ -47,7 +47,7 @@ export class CreateCertificatePoller extends KeyVaultCertificatePoller<
         ...state,
         certificateName,
         certificatePolicy,
-        createCertificateOptions
+        createCertificateOptions,
       },
       vaultUrl,
       client,
