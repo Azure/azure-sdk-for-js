@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { LargePersonGroupPerson } from "../operationsInterfaces";
-import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FaceClient } from "../faceClient";
 import {
   LargePersonGroupPersonCreateOptionalParams,
   LargePersonGroupPersonCreateResponse,
@@ -31,18 +26,8 @@ import {
   LargePersonGroupPersonAddFaceFromStreamResponse
 } from "../models";
 
-/** Class containing LargePersonGroupPerson operations. */
-export class LargePersonGroupPersonImpl implements LargePersonGroupPerson {
-  private readonly client: FaceClient;
-
-  /**
-   * Initialize a new instance of the class LargePersonGroupPerson class.
-   * @param client Reference to the service client
-   */
-  constructor(client: FaceClient) {
-    this.client = client;
-  }
-
+/** Interface representing a LargePersonGroupPerson. */
+export interface LargePersonGroupPerson {
   /**
    * Create a new person in a specified large person group.
    * @param largePersonGroupId Id referencing a particular large person group.
@@ -51,13 +36,7 @@ export class LargePersonGroupPersonImpl implements LargePersonGroupPerson {
   create(
     largePersonGroupId: string,
     options?: LargePersonGroupPersonCreateOptionalParams
-  ): Promise<LargePersonGroupPersonCreateResponse> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, options },
-      createOperationSpec
-    );
-  }
-
+  ): Promise<LargePersonGroupPersonCreateResponse>;
   /**
    * List all persons in a large person group, and retrieve person information (including personId, name,
    * userData and persistedFaceIds of registered faces of the person).
@@ -67,13 +46,7 @@ export class LargePersonGroupPersonImpl implements LargePersonGroupPerson {
   list(
     largePersonGroupId: string,
     options?: LargePersonGroupPersonListOptionalParams
-  ): Promise<LargePersonGroupPersonListResponse> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, options },
-      listOperationSpec
-    );
-  }
-
+  ): Promise<LargePersonGroupPersonListResponse>;
   /**
    * Delete an existing person from a large person group. The persistedFaceId, userData, person name and
    * face feature in the person entry will all be deleted.
@@ -85,13 +58,7 @@ export class LargePersonGroupPersonImpl implements LargePersonGroupPerson {
     largePersonGroupId: string,
     personId: string,
     options?: LargePersonGroupPersonDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, personId, options },
-      deleteOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Retrieve a person's name and userData, and the persisted faceIds representing the registered person
    * face feature.
@@ -103,13 +70,7 @@ export class LargePersonGroupPersonImpl implements LargePersonGroupPerson {
     largePersonGroupId: string,
     personId: string,
     options?: LargePersonGroupPersonGetOptionalParams
-  ): Promise<LargePersonGroupPersonGetResponse> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, personId, options },
-      getOperationSpec
-    );
-  }
-
+  ): Promise<LargePersonGroupPersonGetResponse>;
   /**
    * Update name or userData of a person.
    * @param largePersonGroupId Id referencing a particular large person group.
@@ -120,13 +81,7 @@ export class LargePersonGroupPersonImpl implements LargePersonGroupPerson {
     largePersonGroupId: string,
     personId: string,
     options?: LargePersonGroupPersonUpdateOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, personId, options },
-      updateOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Delete a face from a person in a large person group by specified largePersonGroupId, personId and
    * persistedFaceId.
@@ -142,13 +97,7 @@ export class LargePersonGroupPersonImpl implements LargePersonGroupPerson {
     personId: string,
     persistedFaceId: string,
     options?: LargePersonGroupPersonDeleteFaceOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, personId, persistedFaceId, options },
-      deleteFaceOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Retrieve information about a persisted face (specified by persistedFaceId, personId and its
    * belonging largePersonGroupId).
@@ -162,13 +111,7 @@ export class LargePersonGroupPersonImpl implements LargePersonGroupPerson {
     personId: string,
     persistedFaceId: string,
     options?: LargePersonGroupPersonGetFaceOptionalParams
-  ): Promise<LargePersonGroupPersonGetFaceResponse> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, personId, persistedFaceId, options },
-      getFaceOperationSpec
-    );
-  }
-
+  ): Promise<LargePersonGroupPersonGetFaceResponse>;
   /**
    * Update a person persisted face's userData field.
    * @param largePersonGroupId Id referencing a particular large person group.
@@ -181,13 +124,7 @@ export class LargePersonGroupPersonImpl implements LargePersonGroupPerson {
     personId: string,
     persistedFaceId: string,
     options?: LargePersonGroupPersonUpdateFaceOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, personId, persistedFaceId, options },
-      updateFaceOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Add a face to a person into a large person group for face identification or verification. To deal
    * with an image contains multiple faces, input face can be specified as an image with a targetFace
@@ -229,13 +166,7 @@ export class LargePersonGroupPersonImpl implements LargePersonGroupPerson {
     personId: string,
     url: string,
     options?: LargePersonGroupPersonAddFaceFromUrlOptionalParams
-  ): Promise<LargePersonGroupPersonAddFaceFromUrlResponse> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, personId, url, options },
-      addFaceFromUrlOperationSpec
-    );
-  }
-
+  ): Promise<LargePersonGroupPersonAddFaceFromUrlResponse>;
   /**
    * Add a face to a person into a large person group for face identification or verification. To deal
    * with an image contains multiple faces, input face can be specified as an image with a targetFace
@@ -277,239 +208,5 @@ export class LargePersonGroupPersonImpl implements LargePersonGroupPerson {
     personId: string,
     image: coreRestPipeline.RequestBodyType,
     options?: LargePersonGroupPersonAddFaceFromStreamOptionalParams
-  ): Promise<LargePersonGroupPersonAddFaceFromStreamResponse> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, personId, image, options },
-      addFaceFromStreamOperationSpec
-    );
-  }
+  ): Promise<LargePersonGroupPersonAddFaceFromStreamResponse>;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/largepersongroups/{largePersonGroupId}/persons",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Person
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      name: ["options", "name"],
-      userData: ["options", "userData"]
-    },
-    mapper: { ...Mappers.NameAndUserDataContract, required: true }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.largePersonGroupId2],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/largepersongroups/{largePersonGroupId}/persons",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "Person" } }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  queryParameters: [Parameters.start, Parameters.top],
-  urlParameters: [Parameters.endpoint, Parameters.largePersonGroupId2],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/largepersongroups/{largePersonGroupId}/persons/{personId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personId1,
-    Parameters.largePersonGroupId2
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/largepersongroups/{largePersonGroupId}/persons/{personId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Person
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personId1,
-    Parameters.largePersonGroupId2
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/largepersongroups/{largePersonGroupId}/persons/{personId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      name: ["options", "name"],
-      userData: ["options", "userData"]
-    },
-    mapper: { ...Mappers.NameAndUserDataContract, required: true }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personId1,
-    Parameters.largePersonGroupId2
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const deleteFaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces/{persistedFaceId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personId1,
-    Parameters.persistedFaceId,
-    Parameters.largePersonGroupId2
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getFaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces/{persistedFaceId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PersistedFace
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personId1,
-    Parameters.persistedFaceId,
-    Parameters.largePersonGroupId2
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateFaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces/{persistedFaceId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: { userData: ["options", "userData"] },
-    mapper: { ...Mappers.UpdateFaceRequest, required: true }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personId1,
-    Parameters.persistedFaceId,
-    Parameters.largePersonGroupId2
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const addFaceFromUrlOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PersistedFace
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: { url: ["url"] },
-    mapper: { ...Mappers.ImageUrl, required: true }
-  },
-  queryParameters: [
-    Parameters.detectionModel,
-    Parameters.userData2,
-    Parameters.targetFace
-  ],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personId1,
-    Parameters.largePersonGroupId2
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const addFaceFromStreamOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/largepersongroups/{largePersonGroupId}/persons/{personId}/persistedfaces",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PersistedFace
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: Parameters.image,
-  queryParameters: [
-    Parameters.detectionModel,
-    Parameters.userData2,
-    Parameters.targetFace
-  ],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personId1,
-    Parameters.largePersonGroupId2
-  ],
-  headerParameters: [Parameters.contentType1, Parameters.accept1],
-  mediaType: "binary",
-  serializer
-};

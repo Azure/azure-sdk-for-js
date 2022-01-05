@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { FaceListOperations } from "../operationsInterfaces";
-import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FaceClient } from "../faceClient";
 import {
   FaceListCreateOptionalParams,
   FaceListGetOptionalParams,
@@ -27,18 +22,8 @@ import {
   FaceListAddFaceFromStreamResponse
 } from "../models";
 
-/** Class containing FaceListOperations operations. */
-export class FaceListOperationsImpl implements FaceListOperations {
-  private readonly client: FaceClient;
-
-  /**
-   * Initialize a new instance of the class FaceListOperations class.
-   * @param client Reference to the service client
-   */
-  constructor(client: FaceClient) {
-    this.client = client;
-  }
-
+/** Interface representing a FaceListOperations. */
+export interface FaceListOperations {
   /**
    * Create an empty face list with user-specified faceListId, name, an optional userData and
    * recognitionModel. Up to 64 face lists are allowed in one subscription.
@@ -70,13 +55,7 @@ export class FaceListOperationsImpl implements FaceListOperations {
     faceListId: string,
     name: string,
     options?: FaceListCreateOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { faceListId, name, options },
-      createOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Retrieve a face list’s faceListId, name, userData, recognitionModel and faces in the face list.
    *
@@ -86,13 +65,7 @@ export class FaceListOperationsImpl implements FaceListOperations {
   get(
     faceListId: string,
     options?: FaceListGetOptionalParams
-  ): Promise<FaceListGetResponse> {
-    return this.client.sendOperationRequest(
-      { faceListId, options },
-      getOperationSpec
-    );
-  }
-
+  ): Promise<FaceListGetResponse>;
   /**
    * Update information of a face list.
    * @param faceListId Id referencing a particular face list.
@@ -101,13 +74,7 @@ export class FaceListOperationsImpl implements FaceListOperations {
   update(
     faceListId: string,
     options?: FaceListUpdateOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { faceListId, options },
-      updateOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Delete a specified face list.
    * @param faceListId Id referencing a particular face list.
@@ -116,13 +83,7 @@ export class FaceListOperationsImpl implements FaceListOperations {
   delete(
     faceListId: string,
     options?: FaceListDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { faceListId, options },
-      deleteOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * List face lists’ faceListId, name, userData and recognitionModel. <br />
    * To get face information inside faceList use [FaceList -
@@ -130,10 +91,7 @@ export class FaceListOperationsImpl implements FaceListOperations {
    *
    * @param options The options parameters.
    */
-  list(options?: FaceListListOptionalParams): Promise<FaceListListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
+  list(options?: FaceListListOptionalParams): Promise<FaceListListResponse>;
   /**
    * Delete a face from a face list by specified faceListId and persistedFaceId.
    * <br /> Adding/deleting faces to/from a same face list are processed sequentially and to/from
@@ -146,13 +104,7 @@ export class FaceListOperationsImpl implements FaceListOperations {
     faceListId: string,
     persistedFaceId: string,
     options?: FaceListDeleteFaceOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { faceListId, persistedFaceId, options },
-      deleteFaceOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Add a face to a specified face list, up to 1,000 faces.
    * <br /> To deal with an image contains multiple faces, input face can be specified as an image with a
@@ -189,13 +141,7 @@ export class FaceListOperationsImpl implements FaceListOperations {
     faceListId: string,
     url: string,
     options?: FaceListAddFaceFromUrlOptionalParams
-  ): Promise<FaceListAddFaceFromUrlResponse> {
-    return this.client.sendOperationRequest(
-      { faceListId, url, options },
-      addFaceFromUrlOperationSpec
-    );
-  }
-
+  ): Promise<FaceListAddFaceFromUrlResponse>;
   /**
    * Add a face to a specified face list, up to 1,000 faces.
    * <br /> To deal with an image contains multiple faces, input face can be specified as an image with a
@@ -232,170 +178,5 @@ export class FaceListOperationsImpl implements FaceListOperations {
     faceListId: string,
     image: coreRestPipeline.RequestBodyType,
     options?: FaceListAddFaceFromStreamOptionalParams
-  ): Promise<FaceListAddFaceFromStreamResponse> {
-    return this.client.sendOperationRequest(
-      { faceListId, image, options },
-      addFaceFromStreamOperationSpec
-    );
-  }
+  ): Promise<FaceListAddFaceFromStreamResponse>;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/facelists/{faceListId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      name: ["name"],
-      userData: ["options", "userData"],
-      recognitionModel: ["options", "recognitionModel"]
-    },
-    mapper: { ...Mappers.MetaDataContract, required: true }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.faceListId1],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/facelists/{faceListId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.FaceList
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  queryParameters: [Parameters.returnRecognitionModel],
-  urlParameters: [Parameters.endpoint, Parameters.faceListId1],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/facelists/{faceListId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      name: ["options", "name"],
-      userData: ["options", "userData"]
-    },
-    mapper: { ...Mappers.NameAndUserDataContract, required: true }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.faceListId1],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/facelists/{faceListId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.faceListId1],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/facelists",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "FaceList" } }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  queryParameters: [Parameters.returnRecognitionModel],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteFaceOperationSpec: coreClient.OperationSpec = {
-  path: "/facelists/{faceListId}/persistedfaces/{persistedFaceId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.persistedFaceId,
-    Parameters.faceListId1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const addFaceFromUrlOperationSpec: coreClient.OperationSpec = {
-  path: "/facelists/{faceListId}/persistedfaces",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PersistedFace
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: { url: ["url"] },
-    mapper: { ...Mappers.ImageUrl, required: true }
-  },
-  queryParameters: [
-    Parameters.detectionModel,
-    Parameters.userData2,
-    Parameters.targetFace
-  ],
-  urlParameters: [Parameters.endpoint, Parameters.faceListId1],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const addFaceFromStreamOperationSpec: coreClient.OperationSpec = {
-  path: "/facelists/{faceListId}/persistedfaces",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PersistedFace
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: Parameters.image,
-  queryParameters: [
-    Parameters.detectionModel,
-    Parameters.userData2,
-    Parameters.targetFace
-  ],
-  urlParameters: [Parameters.endpoint, Parameters.faceListId1],
-  headerParameters: [Parameters.contentType1, Parameters.accept1],
-  mediaType: "binary",
-  serializer
-};

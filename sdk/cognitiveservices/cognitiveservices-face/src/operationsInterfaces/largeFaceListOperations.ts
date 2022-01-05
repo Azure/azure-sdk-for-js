@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { LargeFaceListOperations } from "../operationsInterfaces";
-import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FaceClient } from "../faceClient";
 import {
   LargeFaceListCreateOptionalParams,
   LargeFaceListGetOptionalParams,
@@ -35,18 +30,8 @@ import {
   LargeFaceListAddFaceFromStreamResponse
 } from "../models";
 
-/** Class containing LargeFaceListOperations operations. */
-export class LargeFaceListOperationsImpl implements LargeFaceListOperations {
-  private readonly client: FaceClient;
-
-  /**
-   * Initialize a new instance of the class LargeFaceListOperations class.
-   * @param client Reference to the service client
-   */
-  constructor(client: FaceClient) {
-    this.client = client;
-  }
-
+/** Interface representing a LargeFaceListOperations. */
+export interface LargeFaceListOperations {
   /**
    * Create an empty large face list with user-specified largeFaceListId, name, an optional userData and
    * recognitionModel.
@@ -82,13 +67,7 @@ export class LargeFaceListOperationsImpl implements LargeFaceListOperations {
     largeFaceListId: string,
     name: string,
     options?: LargeFaceListCreateOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { largeFaceListId, name, options },
-      createOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Retrieve a large face list’s largeFaceListId, name, userData and recognitionModel.
    * @param largeFaceListId Id referencing a particular large face list.
@@ -97,13 +76,7 @@ export class LargeFaceListOperationsImpl implements LargeFaceListOperations {
   get(
     largeFaceListId: string,
     options?: LargeFaceListGetOptionalParams
-  ): Promise<LargeFaceListGetResponse> {
-    return this.client.sendOperationRequest(
-      { largeFaceListId, options },
-      getOperationSpec
-    );
-  }
-
+  ): Promise<LargeFaceListGetResponse>;
   /**
    * Update information of a large face list.
    * @param largeFaceListId Id referencing a particular large face list.
@@ -112,13 +85,7 @@ export class LargeFaceListOperationsImpl implements LargeFaceListOperations {
   update(
     largeFaceListId: string,
     options?: LargeFaceListUpdateOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { largeFaceListId, options },
-      updateOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Delete a specified large face list.
    * @param largeFaceListId Id referencing a particular large face list.
@@ -127,13 +94,7 @@ export class LargeFaceListOperationsImpl implements LargeFaceListOperations {
   delete(
     largeFaceListId: string,
     options?: LargeFaceListDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { largeFaceListId, options },
-      deleteOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Retrieve the training status of a large face list (completed or ongoing).
    * @param largeFaceListId Id referencing a particular large face list.
@@ -142,13 +103,7 @@ export class LargeFaceListOperationsImpl implements LargeFaceListOperations {
   getTrainingStatus(
     largeFaceListId: string,
     options?: LargeFaceListGetTrainingStatusOptionalParams
-  ): Promise<LargeFaceListGetTrainingStatusResponse> {
-    return this.client.sendOperationRequest(
-      { largeFaceListId, options },
-      getTrainingStatusOperationSpec
-    );
-  }
-
+  ): Promise<LargeFaceListGetTrainingStatusResponse>;
   /**
    * List large face lists’ information of largeFaceListId, name, userData and recognitionModel. <br />
    * To get face information inside largeFaceList use [LargeFaceList Face -
@@ -170,10 +125,7 @@ export class LargeFaceListOperationsImpl implements LargeFaceListOperations {
    */
   list(
     options?: LargeFaceListListOptionalParams
-  ): Promise<LargeFaceListListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
+  ): Promise<LargeFaceListListResponse>;
   /**
    * Queue a large face list training task, the training task may not be started immediately.
    * @param largeFaceListId Id referencing a particular large face list.
@@ -182,13 +134,7 @@ export class LargeFaceListOperationsImpl implements LargeFaceListOperations {
   train(
     largeFaceListId: string,
     options?: LargeFaceListTrainOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { largeFaceListId, options },
-      trainOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Delete a face from a large face list by specified largeFaceListId and persistedFaceId.
    * <br /> Adding/deleting faces to/from a same large face list are processed sequentially and to/from
@@ -201,13 +147,7 @@ export class LargeFaceListOperationsImpl implements LargeFaceListOperations {
     largeFaceListId: string,
     persistedFaceId: string,
     options?: LargeFaceListDeleteFaceOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { largeFaceListId, persistedFaceId, options },
-      deleteFaceOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Retrieve information about a persisted face (specified by persistedFaceId and its belonging
    * largeFaceListId).
@@ -219,13 +159,7 @@ export class LargeFaceListOperationsImpl implements LargeFaceListOperations {
     largeFaceListId: string,
     persistedFaceId: string,
     options?: LargeFaceListGetFaceOptionalParams
-  ): Promise<LargeFaceListGetFaceResponse> {
-    return this.client.sendOperationRequest(
-      { largeFaceListId, persistedFaceId, options },
-      getFaceOperationSpec
-    );
-  }
-
+  ): Promise<LargeFaceListGetFaceResponse>;
   /**
    * Update a persisted face's userData field.
    * @param largeFaceListId Id referencing a particular large face list.
@@ -236,13 +170,7 @@ export class LargeFaceListOperationsImpl implements LargeFaceListOperations {
     largeFaceListId: string,
     persistedFaceId: string,
     options?: LargeFaceListUpdateFaceOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { largeFaceListId, persistedFaceId, options },
-      updateFaceOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Add a face to a specified large face list, up to 1,000,000 faces.
    * <br /> To deal with an image contains multiple faces, input face can be specified as an image with a
@@ -282,13 +210,7 @@ export class LargeFaceListOperationsImpl implements LargeFaceListOperations {
     largeFaceListId: string,
     url: string,
     options?: LargeFaceListAddFaceFromUrlOptionalParams
-  ): Promise<LargeFaceListAddFaceFromUrlResponse> {
-    return this.client.sendOperationRequest(
-      { largeFaceListId, url, options },
-      addFaceFromUrlOperationSpec
-    );
-  }
-
+  ): Promise<LargeFaceListAddFaceFromUrlResponse>;
   /**
    * List all faces in a large face list, and retrieve face information (including userData and
    * persistedFaceIds of registered faces of the face).
@@ -298,13 +220,7 @@ export class LargeFaceListOperationsImpl implements LargeFaceListOperations {
   listFaces(
     largeFaceListId: string,
     options?: LargeFaceListListFacesOptionalParams
-  ): Promise<LargeFaceListListFacesResponse> {
-    return this.client.sendOperationRequest(
-      { largeFaceListId, options },
-      listFacesOperationSpec
-    );
-  }
-
+  ): Promise<LargeFaceListListFacesResponse>;
   /**
    * Add a face to a specified large face list, up to 1,000,000 faces.
    * <br /> To deal with an image contains multiple faces, input face can be specified as an image with a
@@ -344,264 +260,5 @@ export class LargeFaceListOperationsImpl implements LargeFaceListOperations {
     largeFaceListId: string,
     image: coreRestPipeline.RequestBodyType,
     options?: LargeFaceListAddFaceFromStreamOptionalParams
-  ): Promise<LargeFaceListAddFaceFromStreamResponse> {
-    return this.client.sendOperationRequest(
-      { largeFaceListId, image, options },
-      addFaceFromStreamOperationSpec
-    );
-  }
+  ): Promise<LargeFaceListAddFaceFromStreamResponse>;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/largefacelists/{largeFaceListId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      name: ["name"],
-      userData: ["options", "userData"],
-      recognitionModel: ["options", "recognitionModel"]
-    },
-    mapper: { ...Mappers.MetaDataContract, required: true }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.largeFaceListId1],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/largefacelists/{largeFaceListId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LargeFaceList
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  queryParameters: [Parameters.returnRecognitionModel],
-  urlParameters: [Parameters.endpoint, Parameters.largeFaceListId1],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/largefacelists/{largeFaceListId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      name: ["options", "name"],
-      userData: ["options", "userData"]
-    },
-    mapper: { ...Mappers.NameAndUserDataContract, required: true }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.largeFaceListId1],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/largefacelists/{largeFaceListId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.largeFaceListId1],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getTrainingStatusOperationSpec: coreClient.OperationSpec = {
-  path: "/largefacelists/{largeFaceListId}/training",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TrainingStatus
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.largeFaceListId1],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/largefacelists",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "LargeFaceList" } }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  queryParameters: [
-    Parameters.returnRecognitionModel,
-    Parameters.start,
-    Parameters.top
-  ],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const trainOperationSpec: coreClient.OperationSpec = {
-  path: "/largefacelists/{largeFaceListId}/train",
-  httpMethod: "POST",
-  responses: {
-    202: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.largeFaceListId1],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteFaceOperationSpec: coreClient.OperationSpec = {
-  path: "/largefacelists/{largeFaceListId}/persistedfaces/{persistedFaceId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.persistedFaceId,
-    Parameters.largeFaceListId1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getFaceOperationSpec: coreClient.OperationSpec = {
-  path: "/largefacelists/{largeFaceListId}/persistedfaces/{persistedFaceId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PersistedFace
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.persistedFaceId,
-    Parameters.largeFaceListId1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateFaceOperationSpec: coreClient.OperationSpec = {
-  path: "/largefacelists/{largeFaceListId}/persistedfaces/{persistedFaceId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: { userData: ["options", "userData"] },
-    mapper: { ...Mappers.UpdateFaceRequest, required: true }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.persistedFaceId,
-    Parameters.largeFaceListId1
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const addFaceFromUrlOperationSpec: coreClient.OperationSpec = {
-  path: "/largefacelists/{largeFaceListId}/persistedfaces",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PersistedFace
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: { url: ["url"] },
-    mapper: { ...Mappers.ImageUrl, required: true }
-  },
-  queryParameters: [
-    Parameters.detectionModel,
-    Parameters.userData2,
-    Parameters.targetFace
-  ],
-  urlParameters: [Parameters.endpoint, Parameters.largeFaceListId1],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const listFacesOperationSpec: coreClient.OperationSpec = {
-  path: "/largefacelists/{largeFaceListId}/persistedfaces",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "PersistedFace" } }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  queryParameters: [Parameters.start, Parameters.top],
-  urlParameters: [Parameters.endpoint, Parameters.largeFaceListId1],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const addFaceFromStreamOperationSpec: coreClient.OperationSpec = {
-  path: "/largefacelists/{largeFaceListId}/persistedfaces",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PersistedFace
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: Parameters.image,
-  queryParameters: [
-    Parameters.detectionModel,
-    Parameters.userData2,
-    Parameters.targetFace
-  ],
-  urlParameters: [Parameters.endpoint, Parameters.largeFaceListId1],
-  headerParameters: [Parameters.contentType1, Parameters.accept1],
-  mediaType: "binary",
-  serializer
-};

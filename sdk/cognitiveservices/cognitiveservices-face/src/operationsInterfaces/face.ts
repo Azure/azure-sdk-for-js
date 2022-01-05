@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Face } from "../operationsInterfaces";
-import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FaceClient } from "../faceClient";
 import {
   FaceFindSimilarOptionalParams,
   FaceFindSimilarResponse,
@@ -29,18 +24,8 @@ import {
   FaceDetectWithStreamResponse
 } from "../models";
 
-/** Class containing Face operations. */
-export class FaceImpl implements Face {
-  private readonly client: FaceClient;
-
-  /**
-   * Initialize a new instance of the class Face class.
-   * @param client Reference to the service client
-   */
-  constructor(client: FaceClient) {
-    this.client = client;
-  }
-
+/** Interface representing a Face. */
+export interface Face {
   /**
    * Given query face's faceId, to search the similar-looking faces from a faceId array, a face list or a
    * large face list. faceId array contains the faces created by [Face - Detect With
@@ -69,13 +54,7 @@ export class FaceImpl implements Face {
   findSimilar(
     faceId: string,
     options?: FaceFindSimilarOptionalParams
-  ): Promise<FaceFindSimilarResponse> {
-    return this.client.sendOperationRequest(
-      { faceId, options },
-      findSimilarOperationSpec
-    );
-  }
-
+  ): Promise<FaceFindSimilarResponse>;
   /**
    * Divide candidate faces into groups based on face similarity.<br />
    * * The output is one or more disjointed face groups and a messyGroup. A face group contains faces
@@ -96,13 +75,7 @@ export class FaceImpl implements Face {
   group(
     faceIds: string[],
     options?: FaceGroupOptionalParams
-  ): Promise<FaceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { faceIds, options },
-      groupOperationSpec
-    );
-  }
-
+  ): Promise<FaceGroupResponse>;
   /**
    * 1-to-many identification to find the closest matches of the specific query person face from a person
    * group or large person group.
@@ -136,13 +109,7 @@ export class FaceImpl implements Face {
   identify(
     faceIds: string[],
     options?: FaceIdentifyOptionalParams
-  ): Promise<FaceIdentifyResponse> {
-    return this.client.sendOperationRequest(
-      { faceIds, options },
-      identifyOperationSpec
-    );
-  }
-
+  ): Promise<FaceIdentifyResponse>;
   /**
    * Verify whether two faces belong to a same person or whether one face belongs to a person.
    * <br/>
@@ -161,13 +128,7 @@ export class FaceImpl implements Face {
     faceId1: string,
     faceId2: string,
     options?: FaceVerifyFaceToFaceOptionalParams
-  ): Promise<FaceVerifyFaceToFaceResponse> {
-    return this.client.sendOperationRequest(
-      { faceId1, faceId2, options },
-      verifyFaceToFaceOperationSpec
-    );
-  }
-
+  ): Promise<FaceVerifyFaceToFaceResponse>;
   /**
    * Detect human faces in an image, return face rectangles, and optionally with faceIds, landmarks, and
    * attributes.<br />
@@ -212,13 +173,7 @@ export class FaceImpl implements Face {
   detectWithUrl(
     url: string,
     options?: FaceDetectWithUrlOptionalParams
-  ): Promise<FaceDetectWithUrlResponse> {
-    return this.client.sendOperationRequest(
-      { url, options },
-      detectWithUrlOperationSpec
-    );
-  }
-
+  ): Promise<FaceDetectWithUrlResponse>;
   /**
    * Verify whether two faces belong to a same person. Compares a face Id with a Person Id
    * @param faceId FaceId of the face, comes from Face - Detect
@@ -230,13 +185,7 @@ export class FaceImpl implements Face {
     faceId: string,
     personId: string,
     options?: FaceVerifyFaceToPersonOptionalParams
-  ): Promise<FaceVerifyFaceToPersonResponse> {
-    return this.client.sendOperationRequest(
-      { faceId, personId, options },
-      verifyFaceToPersonOperationSpec
-    );
-  }
-
+  ): Promise<FaceVerifyFaceToPersonResponse>;
   /**
    * Detect human faces in an image, return face rectangles, and optionally with faceIds, landmarks, and
    * attributes.<br />
@@ -280,206 +229,5 @@ export class FaceImpl implements Face {
   detectWithStream(
     image: coreRestPipeline.RequestBodyType,
     options?: FaceDetectWithStreamOptionalParams
-  ): Promise<FaceDetectWithStreamResponse> {
-    return this.client.sendOperationRequest(
-      { image, options },
-      detectWithStreamOperationSpec
-    );
-  }
+  ): Promise<FaceDetectWithStreamResponse>;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const findSimilarOperationSpec: coreClient.OperationSpec = {
-  path: "/findsimilars",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "SimilarFace" } }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      faceId: ["faceId"],
-      faceListId: ["options", "faceListId"],
-      largeFaceListId: ["options", "largeFaceListId"],
-      faceIds: ["options", "faceIds"],
-      maxNumOfCandidatesReturned: ["options", "maxNumOfCandidatesReturned"],
-      mode: ["options", "mode"]
-    },
-    mapper: { ...Mappers.FindSimilarRequest, required: true }
-  },
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const groupOperationSpec: coreClient.OperationSpec = {
-  path: "/group",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GroupResult
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: { faceIds: ["faceIds"] },
-    mapper: { ...Mappers.GroupRequest, required: true }
-  },
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const identifyOperationSpec: coreClient.OperationSpec = {
-  path: "/identify",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "IdentifyResult" } }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      faceIds: ["faceIds"],
-      personGroupId: ["options", "personGroupId"],
-      largePersonGroupId: ["options", "largePersonGroupId"],
-      maxNumOfCandidatesReturned: ["options", "maxNumOfCandidatesReturned"],
-      confidenceThreshold: ["options", "confidenceThreshold"]
-    },
-    mapper: { ...Mappers.IdentifyRequest, required: true }
-  },
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const verifyFaceToFaceOperationSpec: coreClient.OperationSpec = {
-  path: "/verify",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VerifyResult
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: { faceId1: ["faceId1"], faceId2: ["faceId2"] },
-    mapper: { ...Mappers.VerifyFaceToFaceRequest, required: true }
-  },
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const detectWithUrlOperationSpec: coreClient.OperationSpec = {
-  path: "/detect",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "DetectedFace" } }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: { url: ["url"] },
-    mapper: { ...Mappers.ImageUrl, required: true }
-  },
-  queryParameters: [
-    Parameters.returnFaceId,
-    Parameters.returnFaceLandmarks,
-    Parameters.returnFaceAttributes,
-    Parameters.recognitionModel,
-    Parameters.returnRecognitionModel,
-    Parameters.detectionModel,
-    Parameters.faceIdTimeToLive
-  ],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const verifyFaceToPersonOperationSpec: coreClient.OperationSpec = {
-  path: "/verify",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VerifyResult
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      faceId: ["faceId"],
-      personGroupId: ["options", "personGroupId"],
-      largePersonGroupId: ["options", "largePersonGroupId"],
-      personId: ["personId"]
-    },
-    mapper: { ...Mappers.VerifyFaceToPersonRequest, required: true }
-  },
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const detectWithStreamOperationSpec: coreClient.OperationSpec = {
-  path: "/detect",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "DetectedFace" } }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: Parameters.image,
-  queryParameters: [
-    Parameters.returnFaceId,
-    Parameters.returnFaceLandmarks,
-    Parameters.returnFaceAttributes,
-    Parameters.recognitionModel,
-    Parameters.returnRecognitionModel,
-    Parameters.detectionModel,
-    Parameters.faceIdTimeToLive
-  ],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType1, Parameters.accept1],
-  mediaType: "binary",
-  serializer
-};

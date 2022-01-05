@@ -6,11 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PersonGroupOperations } from "../operationsInterfaces";
-import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FaceClient } from "../faceClient";
 import {
   PersonGroupCreateOptionalParams,
   PersonGroupDeleteOptionalParams,
@@ -24,18 +19,8 @@ import {
   PersonGroupTrainOptionalParams
 } from "../models";
 
-/** Class containing PersonGroupOperations operations. */
-export class PersonGroupOperationsImpl implements PersonGroupOperations {
-  private readonly client: FaceClient;
-
-  /**
-   * Initialize a new instance of the class PersonGroupOperations class.
-   * @param client Reference to the service client
-   */
-  constructor(client: FaceClient) {
-    this.client = client;
-  }
-
+/** Interface representing a PersonGroupOperations. */
+export interface PersonGroupOperations {
   /**
    * Create a new person group with specified personGroupId, name, user-provided userData and
    * recognitionModel.
@@ -69,13 +54,7 @@ export class PersonGroupOperationsImpl implements PersonGroupOperations {
     personGroupId: string,
     name: string,
     options?: PersonGroupCreateOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { personGroupId, name, options },
-      createOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Delete an existing person group. Persisted face features of all people in the person group will also
    * be deleted.
@@ -85,13 +64,7 @@ export class PersonGroupOperationsImpl implements PersonGroupOperations {
   delete(
     personGroupId: string,
     options?: PersonGroupDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { personGroupId, options },
-      deleteOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Retrieve person group name, userData and recognitionModel. To get person information under this
    * personGroup, use [PersonGroup Person -
@@ -102,13 +75,7 @@ export class PersonGroupOperationsImpl implements PersonGroupOperations {
   get(
     personGroupId: string,
     options?: PersonGroupGetOptionalParams
-  ): Promise<PersonGroupGetResponse> {
-    return this.client.sendOperationRequest(
-      { personGroupId, options },
-      getOperationSpec
-    );
-  }
-
+  ): Promise<PersonGroupGetResponse>;
   /**
    * Update an existing person group's display name and userData. The properties which does not appear in
    * request body will not be updated.
@@ -118,13 +85,7 @@ export class PersonGroupOperationsImpl implements PersonGroupOperations {
   update(
     personGroupId: string,
     options?: PersonGroupUpdateOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { personGroupId, options },
-      updateOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Retrieve the training status of a person group (completed or ongoing).
    * @param personGroupId Id referencing a particular person group.
@@ -133,13 +94,7 @@ export class PersonGroupOperationsImpl implements PersonGroupOperations {
   getTrainingStatus(
     personGroupId: string,
     options?: PersonGroupGetTrainingStatusOptionalParams
-  ): Promise<PersonGroupGetTrainingStatusResponse> {
-    return this.client.sendOperationRequest(
-      { personGroupId, options },
-      getTrainingStatusOperationSpec
-    );
-  }
-
+  ): Promise<PersonGroupGetTrainingStatusResponse>;
   /**
    * List person groups’ personGroupId, name, userData and recognitionModel.<br />
    * * Person groups are stored in alphabetical order of personGroupId.
@@ -158,10 +113,7 @@ export class PersonGroupOperationsImpl implements PersonGroupOperations {
    */
   list(
     options?: PersonGroupListOptionalParams
-  ): Promise<PersonGroupListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
+  ): Promise<PersonGroupListResponse>;
   /**
    * Queue a person group training task, the training task may not be started immediately.
    * @param personGroupId Id referencing a particular person group.
@@ -170,138 +122,5 @@ export class PersonGroupOperationsImpl implements PersonGroupOperations {
   train(
     personGroupId: string,
     options?: PersonGroupTrainOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { personGroupId, options },
-      trainOperationSpec
-    );
-  }
+  ): Promise<void>;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/persongroups/{personGroupId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      name: ["name"],
-      userData: ["options", "userData"],
-      recognitionModel: ["options", "recognitionModel"]
-    },
-    mapper: { ...Mappers.MetaDataContract, required: true }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.personGroupId2],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/persongroups/{personGroupId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.personGroupId2],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/persongroups/{personGroupId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PersonGroup
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  queryParameters: [Parameters.returnRecognitionModel],
-  urlParameters: [Parameters.endpoint, Parameters.personGroupId2],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/persongroups/{personGroupId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      name: ["options", "name"],
-      userData: ["options", "userData"]
-    },
-    mapper: { ...Mappers.NameAndUserDataContract, required: true }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.personGroupId2],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getTrainingStatusOperationSpec: coreClient.OperationSpec = {
-  path: "/persongroups/{personGroupId}/training",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TrainingStatus
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.personGroupId2],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/persongroups",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "PersonGroup" } }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  queryParameters: [
-    Parameters.returnRecognitionModel,
-    Parameters.start1,
-    Parameters.top1
-  ],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const trainOperationSpec: coreClient.OperationSpec = {
-  path: "/persongroups/{personGroupId}/train",
-  httpMethod: "POST",
-  responses: {
-    202: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.personGroupId2],
-  headerParameters: [Parameters.accept],
-  serializer
-};

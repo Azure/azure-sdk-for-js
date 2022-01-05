@@ -6,11 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SnapshotOperations } from "../operationsInterfaces";
-import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FaceClient } from "../faceClient";
 import {
   SnapshotObjectType,
   SnapshotTakeOptionalParams,
@@ -27,18 +22,8 @@ import {
   SnapshotGetOperationStatusResponse
 } from "../models";
 
-/** Class containing SnapshotOperations operations. */
-export class SnapshotOperationsImpl implements SnapshotOperations {
-  private readonly client: FaceClient;
-
-  /**
-   * Initialize a new instance of the class SnapshotOperations class.
-   * @param client Reference to the service client
-   */
-  constructor(client: FaceClient) {
-    this.client = client;
-  }
-
+/** Interface representing a SnapshotOperations. */
+export interface SnapshotOperations {
   /**
    * Submit an operation to take a snapshot of face list, large face list, person group or large person
    * group, with user-specified snapshot type, source object id, apply scope and an optional user
@@ -80,23 +65,14 @@ export class SnapshotOperationsImpl implements SnapshotOperations {
     applyScope: string[],
     typeParam: SnapshotObjectType,
     options?: SnapshotTakeOptionalParams
-  ): Promise<SnapshotTakeResponse> {
-    return this.client.sendOperationRequest(
-      { objectId, applyScope, typeParam, options },
-      takeOperationSpec
-    );
-  }
-
+  ): Promise<SnapshotTakeResponse>;
   /**
    * List all accessible snapshots with related information, including snapshots that were taken by the
    * user, or snapshots to be applied to the user (subscription id was included in the applyScope in
    * Snapshot - Take).
    * @param options The options parameters.
    */
-  list(options?: SnapshotListOptionalParams): Promise<SnapshotListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
+  list(options?: SnapshotListOptionalParams): Promise<SnapshotListResponse>;
   /**
    * Retrieve information about a snapshot. Snapshot is only accessible to the source subscription who
    * took it, and target subscriptions included in the applyScope in Snapshot - Take.
@@ -106,13 +82,7 @@ export class SnapshotOperationsImpl implements SnapshotOperations {
   get(
     snapshotId: string,
     options?: SnapshotGetOptionalParams
-  ): Promise<SnapshotGetResponse> {
-    return this.client.sendOperationRequest(
-      { snapshotId, options },
-      getOperationSpec
-    );
-  }
-
+  ): Promise<SnapshotGetResponse>;
   /**
    * Update the information of a snapshot. Only the source subscription who took the snapshot can update
    * the snapshot.
@@ -122,13 +92,7 @@ export class SnapshotOperationsImpl implements SnapshotOperations {
   update(
     snapshotId: string,
     options?: SnapshotUpdateOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { snapshotId, options },
-      updateOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Delete an existing snapshot according to the snapshotId. All object data and information in the
    * snapshot will also be deleted. Only the source subscription who took the snapshot can delete the
@@ -140,13 +104,7 @@ export class SnapshotOperationsImpl implements SnapshotOperations {
   delete(
     snapshotId: string,
     options?: SnapshotDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { snapshotId, options },
-      deleteOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Submit an operation to apply a snapshot to current subscription. For each snapshot, only
    * subscriptions included in the applyScope of Snapshot - Take can apply it.<br />
@@ -184,13 +142,7 @@ export class SnapshotOperationsImpl implements SnapshotOperations {
     snapshotId: string,
     objectId: string,
     options?: SnapshotApplyOptionalParams
-  ): Promise<SnapshotApplyResponse> {
-    return this.client.sendOperationRequest(
-      { snapshotId, objectId, options },
-      applyOperationSpec
-    );
-  }
-
+  ): Promise<SnapshotApplyResponse>;
   /**
    * Retrieve the status of a take/apply snapshot operation.
    * @param operationId Id referencing a particular take/apply snapshot operation.
@@ -199,143 +151,5 @@ export class SnapshotOperationsImpl implements SnapshotOperations {
   getOperationStatus(
     operationId: string,
     options?: SnapshotGetOperationStatusOptionalParams
-  ): Promise<SnapshotGetOperationStatusResponse> {
-    return this.client.sendOperationRequest(
-      { operationId, options },
-      getOperationStatusOperationSpec
-    );
-  }
+  ): Promise<SnapshotGetOperationStatusResponse>;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const takeOperationSpec: coreClient.OperationSpec = {
-  path: "/snapshots",
-  httpMethod: "POST",
-  responses: {
-    202: {
-      headersMapper: Mappers.SnapshotTakeHeaders
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      typeParam: ["typeParam"],
-      objectId: ["objectId"],
-      applyScope: ["applyScope"],
-      userData: ["options", "userData"]
-    },
-    mapper: { ...Mappers.TakeSnapshotRequest, required: true }
-  },
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/snapshots",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "Snapshot" } }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  queryParameters: [Parameters.typeParam1, Parameters.applyScope1],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/snapshots/{snapshotId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Snapshot
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.snapshotId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/snapshots/{snapshotId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      applyScope: ["options", "applyScope"],
-      userData: ["options", "userData"]
-    },
-    mapper: { ...Mappers.UpdateSnapshotRequest, required: true }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.snapshotId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/snapshots/{snapshotId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.snapshotId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const applyOperationSpec: coreClient.OperationSpec = {
-  path: "/snapshots/{snapshotId}/apply",
-  httpMethod: "POST",
-  responses: {
-    202: {
-      headersMapper: Mappers.SnapshotApplyHeaders
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: { objectId: ["objectId"], mode: ["options", "mode"] },
-    mapper: { ...Mappers.ApplySnapshotRequest, required: true }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.snapshotId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getOperationStatusOperationSpec: coreClient.OperationSpec = {
-  path: "/operations/{operationId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OperationStatus
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.operationId],
-  headerParameters: [Parameters.accept],
-  serializer
-};

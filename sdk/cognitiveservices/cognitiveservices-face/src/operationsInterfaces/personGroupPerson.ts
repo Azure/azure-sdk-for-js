@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PersonGroupPerson } from "../operationsInterfaces";
-import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FaceClient } from "../faceClient";
 import {
   PersonGroupPersonCreateOptionalParams,
   PersonGroupPersonCreateResponse,
@@ -31,18 +26,8 @@ import {
   PersonGroupPersonAddFaceFromStreamResponse
 } from "../models";
 
-/** Class containing PersonGroupPerson operations. */
-export class PersonGroupPersonImpl implements PersonGroupPerson {
-  private readonly client: FaceClient;
-
-  /**
-   * Initialize a new instance of the class PersonGroupPerson class.
-   * @param client Reference to the service client
-   */
-  constructor(client: FaceClient) {
-    this.client = client;
-  }
-
+/** Interface representing a PersonGroupPerson. */
+export interface PersonGroupPerson {
   /**
    * Create a new person in a specified person group.
    * @param personGroupId Id referencing a particular person group.
@@ -51,13 +36,7 @@ export class PersonGroupPersonImpl implements PersonGroupPerson {
   create(
     personGroupId: string,
     options?: PersonGroupPersonCreateOptionalParams
-  ): Promise<PersonGroupPersonCreateResponse> {
-    return this.client.sendOperationRequest(
-      { personGroupId, options },
-      createOperationSpec
-    );
-  }
-
+  ): Promise<PersonGroupPersonCreateResponse>;
   /**
    * List all persons in a person group, and retrieve person information (including personId, name,
    * userData and persistedFaceIds of registered faces of the person).
@@ -67,13 +46,7 @@ export class PersonGroupPersonImpl implements PersonGroupPerson {
   list(
     personGroupId: string,
     options?: PersonGroupPersonListOptionalParams
-  ): Promise<PersonGroupPersonListResponse> {
-    return this.client.sendOperationRequest(
-      { personGroupId, options },
-      listOperationSpec
-    );
-  }
-
+  ): Promise<PersonGroupPersonListResponse>;
   /**
    * Delete an existing person from a person group. The persistedFaceId, userData, person name and face
    * feature in the person entry will all be deleted.
@@ -85,13 +58,7 @@ export class PersonGroupPersonImpl implements PersonGroupPerson {
     personGroupId: string,
     personId: string,
     options?: PersonGroupPersonDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { personGroupId, personId, options },
-      deleteOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Retrieve a person's information, including registered persisted faces, name and userData.
    * @param personGroupId Id referencing a particular person group.
@@ -102,13 +69,7 @@ export class PersonGroupPersonImpl implements PersonGroupPerson {
     personGroupId: string,
     personId: string,
     options?: PersonGroupPersonGetOptionalParams
-  ): Promise<PersonGroupPersonGetResponse> {
-    return this.client.sendOperationRequest(
-      { personGroupId, personId, options },
-      getOperationSpec
-    );
-  }
-
+  ): Promise<PersonGroupPersonGetResponse>;
   /**
    * Update name or userData of a person.
    * @param personGroupId Id referencing a particular person group.
@@ -119,13 +80,7 @@ export class PersonGroupPersonImpl implements PersonGroupPerson {
     personGroupId: string,
     personId: string,
     options?: PersonGroupPersonUpdateOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { personGroupId, personId, options },
-      updateOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Delete a face from a person in a person group by specified personGroupId, personId and
    * persistedFaceId.
@@ -141,13 +96,7 @@ export class PersonGroupPersonImpl implements PersonGroupPerson {
     personId: string,
     persistedFaceId: string,
     options?: PersonGroupPersonDeleteFaceOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { personGroupId, personId, persistedFaceId, options },
-      deleteFaceOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Retrieve information about a persisted face (specified by persistedFaceId, personId and its
    * belonging personGroupId).
@@ -161,13 +110,7 @@ export class PersonGroupPersonImpl implements PersonGroupPerson {
     personId: string,
     persistedFaceId: string,
     options?: PersonGroupPersonGetFaceOptionalParams
-  ): Promise<PersonGroupPersonGetFaceResponse> {
-    return this.client.sendOperationRequest(
-      { personGroupId, personId, persistedFaceId, options },
-      getFaceOperationSpec
-    );
-  }
-
+  ): Promise<PersonGroupPersonGetFaceResponse>;
   /**
    * Add a face to a person into a person group for face identification or verification. To deal with an
    * image contains multiple faces, input face can be specified as an image with a targetFace rectangle.
@@ -201,13 +144,7 @@ export class PersonGroupPersonImpl implements PersonGroupPerson {
     personId: string,
     persistedFaceId: string,
     options?: PersonGroupPersonUpdateFaceOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { personGroupId, personId, persistedFaceId, options },
-      updateFaceOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Add a face to a person into a person group for face identification or verification. To deal with an
    * image contains multiple faces, input face can be specified as an image with a targetFace rectangle.
@@ -247,13 +184,7 @@ export class PersonGroupPersonImpl implements PersonGroupPerson {
     personId: string,
     url: string,
     options?: PersonGroupPersonAddFaceFromUrlOptionalParams
-  ): Promise<PersonGroupPersonAddFaceFromUrlResponse> {
-    return this.client.sendOperationRequest(
-      { personGroupId, personId, url, options },
-      addFaceFromUrlOperationSpec
-    );
-  }
-
+  ): Promise<PersonGroupPersonAddFaceFromUrlResponse>;
   /**
    * Add a face to a person into a person group for face identification or verification. To deal with an
    * image contains multiple faces, input face can be specified as an image with a targetFace rectangle.
@@ -293,237 +224,5 @@ export class PersonGroupPersonImpl implements PersonGroupPerson {
     personId: string,
     image: coreRestPipeline.RequestBodyType,
     options?: PersonGroupPersonAddFaceFromStreamOptionalParams
-  ): Promise<PersonGroupPersonAddFaceFromStreamResponse> {
-    return this.client.sendOperationRequest(
-      { personGroupId, personId, image, options },
-      addFaceFromStreamOperationSpec
-    );
-  }
+  ): Promise<PersonGroupPersonAddFaceFromStreamResponse>;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/persongroups/{personGroupId}/persons",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Person
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      name: ["options", "name"],
-      userData: ["options", "userData"]
-    },
-    mapper: { ...Mappers.NameAndUserDataContract, required: true }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.personGroupId2],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/persongroups/{personGroupId}/persons",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "Person" } }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  queryParameters: [Parameters.start, Parameters.top],
-  urlParameters: [Parameters.endpoint, Parameters.personGroupId2],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/persongroups/{personGroupId}/persons/{personId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personGroupId2,
-    Parameters.personId1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/persongroups/{personGroupId}/persons/{personId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Person
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personGroupId2,
-    Parameters.personId1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/persongroups/{personGroupId}/persons/{personId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      name: ["options", "name"],
-      userData: ["options", "userData"]
-    },
-    mapper: { ...Mappers.NameAndUserDataContract, required: true }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personGroupId2,
-    Parameters.personId1
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const deleteFaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/persongroups/{personGroupId}/persons/{personId}/persistedfaces/{persistedFaceId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personGroupId2,
-    Parameters.personId1,
-    Parameters.persistedFaceId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getFaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/persongroups/{personGroupId}/persons/{personId}/persistedfaces/{persistedFaceId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PersistedFace
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personGroupId2,
-    Parameters.personId1,
-    Parameters.persistedFaceId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateFaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/persongroups/{personGroupId}/persons/{personId}/persistedfaces/{persistedFaceId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: { userData: ["options", "userData"] },
-    mapper: { ...Mappers.UpdateFaceRequest, required: true }
-  },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personGroupId2,
-    Parameters.personId1,
-    Parameters.persistedFaceId
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const addFaceFromUrlOperationSpec: coreClient.OperationSpec = {
-  path: "/persongroups/{personGroupId}/persons/{personId}/persistedfaces",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PersistedFace
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: { url: ["url"] },
-    mapper: { ...Mappers.ImageUrl, required: true }
-  },
-  queryParameters: [
-    Parameters.detectionModel,
-    Parameters.userData2,
-    Parameters.targetFace
-  ],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personGroupId2,
-    Parameters.personId1
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const addFaceFromStreamOperationSpec: coreClient.OperationSpec = {
-  path: "/persongroups/{personGroupId}/persons/{personId}/persistedfaces",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PersistedFace
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: Parameters.image,
-  queryParameters: [
-    Parameters.detectionModel,
-    Parameters.userData2,
-    Parameters.targetFace
-  ],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.personGroupId2,
-    Parameters.personId1
-  ],
-  headerParameters: [Parameters.contentType1, Parameters.accept1],
-  mediaType: "binary",
-  serializer
-};
