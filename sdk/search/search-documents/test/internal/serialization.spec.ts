@@ -24,7 +24,7 @@ describe("serialization.serialize", () => {
     const child = { hello: "world" };
     const documents = [
       { id: "1", children: [child] },
-      { id: "2", children: [child] }
+      { id: "2", children: [child] },
     ];
     const result = serialize(documents);
     assert.deepEqual(documents, result);
@@ -35,7 +35,7 @@ describe("serialization.serialize", () => {
     const documents = [
       { id: "1", children: [child] },
       { id: "2", children: [child] },
-      { id: "3", children: [child] }
+      { id: "3", children: [child] },
     ];
     const result = serialize(documents);
     assert.deepEqual(documents, result);
@@ -79,7 +79,7 @@ describe("serialization.deserialize", () => {
     const child = { hello: "world" };
     const documents = [
       { id: "1", children: [child] },
-      { id: "2", children: [child] }
+      { id: "2", children: [child] },
     ];
     const result = deserialize(documents);
     assert.deepEqual(documents, result);
@@ -90,7 +90,7 @@ describe("serialization.deserialize", () => {
     const documents = [
       { id: "1", children: [child] },
       { id: "2", children: [child] },
-      { id: "3", children: [child] }
+      { id: "3", children: [child] },
     ];
     const result = deserialize(documents);
     assert.deepEqual(documents, result);
@@ -139,8 +139,8 @@ describe("serialization.deserialize", () => {
       location: {
         type: "Point",
         coordinates: [-84.527771, 37.989769],
-        crs: { type: "name", properties: { name: "EPSG:4326" } }
-      }
+        crs: { type: "name", properties: { name: "EPSG:4326" } },
+      },
     });
     assert.instanceOf(result.location, GeographyPoint);
     assert.equal(result.location.latitude, 37.989769);
