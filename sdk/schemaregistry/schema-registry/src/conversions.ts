@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SchemaProperties, Schema } from "./models";
+import { Schema, SchemaProperties } from "./models";
 
 import {
   SchemaGetByIdResponse,
-  SchemaRegisterResponse,
   SchemaQueryIdByContentResponse as SchemaQueryIdByDefinitionResponse,
+  SchemaRegisterResponse,
 } from "./generated/models";
 import { getSchemaDefinition } from "./getSchemaDefinition";
 

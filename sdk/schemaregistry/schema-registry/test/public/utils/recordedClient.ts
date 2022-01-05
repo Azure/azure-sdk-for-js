@@ -3,7 +3,7 @@
 
 import { createTestCredential } from "@azure-tools/test-credential";
 import { SchemaRegistryClient } from "../../../src";
-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder-new";
+import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder-new";
 
 export interface RecordedClient {
   client: SchemaRegistryClient;

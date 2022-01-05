@@ -8,7 +8,8 @@ import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 import { ClientSecretCredential } from "@azure/identity";
 
-import { SchemaRegistryClient, SchemaDescription, SchemaProperties, Schema } from "../../src";
+import { Schema, SchemaDescription, SchemaProperties, SchemaRegistryClient } from "../../src";
+import { Context } from "mocha";
 
 const options = {
   onResponse: (rawResponse: { status: number }) => {
@@ -63,7 +64,7 @@ describe("SchemaRegistryClient", function () {
   let client: SchemaRegistryClient;
   let schema: SchemaDescription;
 
-  beforeEach(async function () {
+  beforeEach(async function (this: Context) {
     ({ client, recorder } = createRecordedClient(this.currentTest));
     schema = {
       name: "azsdk_js_test",
