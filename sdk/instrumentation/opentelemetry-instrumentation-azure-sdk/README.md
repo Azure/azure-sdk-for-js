@@ -32,7 +32,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-- The **createAzureInstrumentation** function is the main hook exported by this library which provides a way to create an Azure SDK Instrumentation object which can be registered with OpenTelemetry.
+- The **createAzureSdkInstrumentation** function is the main hook exported by this library which provides a way to create an Azure SDK Instrumentation object to be registered with OpenTelemetry.
 
 ### Compatibility with existing Client Libraries
 
@@ -44,13 +44,13 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ```javascript
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
-const { createAzureInstrumentation } = require("@azure/opentelemetry-instrumentation-azure-sdk");
+const { createAzureSdkInstrumentation } = require("@azure/opentelemetry-instrumentation-azure-sdk");
 
 // Configure exporters, tracer providers, etc.
 // Please refer to the OpenTelemetry documentation for more information.
 
 registerInstrumentations({
-  instrumentations: [createAzureInstrumentation()],
+  instrumentations: [createAzureSdkInstrumentation()],
 });
 
 // Continue to import any Azure SDK client libraries after registering the instrumentation.
