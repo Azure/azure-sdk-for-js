@@ -1215,6 +1215,11 @@
       "packageName": "@azure/arm-containerinstance",
       "projectFolder": "sdk/containerinstance/arm-containerinstance",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-healthbot",
+      "projectFolder": "sdk/healthbot/arm-healthbot",
+      "versionPolicyName": "management"
     }
   ]
 }

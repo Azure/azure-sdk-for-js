@@ -6,11 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  AvailableOperations,
-  ErrorAdditionalInfo,
-  ErrorError,
-  ErrorModel,
-  OperationDetail,
-  OperationDisplay
-} from "../models/mappers";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { HealthbotClient } from "./healthbotClient";
+export * from "./operationsInterfaces";
