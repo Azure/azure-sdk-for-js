@@ -13,22 +13,16 @@ import {
   DeletedAccountsImpl,
   ResourceSkusImpl,
   OperationsImpl,
-  CommitmentTiersImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl,
-  DeploymentsImpl,
-  CommitmentPlansImpl
+  PrivateLinkResourcesImpl
 } from "./operations";
 import {
   Accounts,
   DeletedAccounts,
   ResourceSkus,
   Operations,
-  CommitmentTiers,
   PrivateEndpointConnections,
-  PrivateLinkResources,
-  Deployments,
-  CommitmentPlans
+  PrivateLinkResources
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -72,7 +66,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-cognitiveservices/7.0.0`;
+    const packageDetails = `azsdk-js-arm-cognitiveservices/8.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -95,16 +89,13 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-01";
+    this.apiVersion = options.apiVersion || "2021-04-30";
     this.accounts = new AccountsImpl(this);
     this.deletedAccounts = new DeletedAccountsImpl(this);
     this.resourceSkus = new ResourceSkusImpl(this);
     this.operations = new OperationsImpl(this);
-    this.commitmentTiers = new CommitmentTiersImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.deployments = new DeploymentsImpl(this);
-    this.commitmentPlans = new CommitmentPlansImpl(this);
   }
 
   /**
@@ -149,11 +140,8 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
   deletedAccounts: DeletedAccounts;
   resourceSkus: ResourceSkus;
   operations: Operations;
-  commitmentTiers: CommitmentTiers;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
-  deployments: Deployments;
-  commitmentPlans: CommitmentPlans;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -199,8 +187,7 @@ const checkDomainAvailabilityOperationSpec: coreClient.OperationSpec = {
   requestBody: {
     parameterPath: {
       subdomainName: ["subdomainName"],
-      typeParam: ["typeParam"],
-      kind: ["options", "kind"]
+      typeParam: ["typeParam"]
     },
     mapper: { ...Mappers.CheckDomainAvailabilityParameter, required: true }
   },

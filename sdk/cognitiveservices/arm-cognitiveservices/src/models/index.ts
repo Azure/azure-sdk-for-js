@@ -581,61 +581,12 @@ export interface SkuAvailability {
   message?: string;
 }
 
-/** The list of cognitive services accounts operation response. */
-export interface CommitmentTierListResult {
-  /** The link used to get the next page of CommitmentTier. */
-  nextLink?: string;
-  /**
-   * Gets the list of Cognitive Services accounts CommitmentTier and their properties.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: CommitmentTier[];
-}
-
-/** Cognitive Services account commitment tier. */
-export interface CommitmentTier {
-  /** The Kind of the resource. */
-  kind?: string;
-  /** The name of the SKU. Ex - P3. It is typically a letter+number code */
-  skuName?: string;
-  /** Account hosting model. */
-  hostingModel?: HostingModel;
-  /** Commitment plan type. */
-  planType?: string;
-  /** Commitment period commitment tier. */
-  tier?: string;
-  /** Commitment period commitment max count. */
-  maxCount?: number;
-  /** Cognitive Services account commitment quota. */
-  quota?: CommitmentQuota;
-  /** Cognitive Services account commitment cost. */
-  cost?: CommitmentCost;
-}
-
-/** Cognitive Services account commitment quota. */
-export interface CommitmentQuota {
-  /** Commitment quota quantity. */
-  quantity?: number;
-  /** Commitment quota unit. */
-  unit?: string;
-}
-
-/** Cognitive Services account commitment cost. */
-export interface CommitmentCost {
-  /** Commitment meter Id. */
-  commitmentMeterId?: string;
-  /** Overage meter Id. */
-  overageMeterId?: string;
-}
-
 /** Check Domain availability parameter. */
 export interface CheckDomainAvailabilityParameter {
   /** The subdomain name to use. */
   subdomainName: string;
   /** The Type of the resource. */
   type: string;
-  /** The Kind of the resource. */
-  kind?: string;
 }
 
 /** Domain availability. */
@@ -648,8 +599,6 @@ export interface DomainAvailability {
   subdomainName?: string;
   /** The Type of the resource. */
   type?: string;
-  /** The Kind of the resource. */
-  kind?: string;
 }
 
 /** A list of private endpoint connections */
@@ -685,101 +634,6 @@ export interface PrivateLinkResourceProperties {
   readonly displayName?: string;
 }
 
-/** The list of cognitive services accounts operation response. */
-export interface DeploymentListResult {
-  /** The link used to get the next page of Deployment. */
-  nextLink?: string;
-  /**
-   * Gets the list of Cognitive Services accounts Deployment and their properties.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Deployment[];
-}
-
-/** Properties of Cognitive Services account deployment. */
-export interface DeploymentProperties {
-  /**
-   * Gets the status of the resource at the time the operation was called.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: DeploymentProvisioningState;
-  /** Properties of Cognitive Services account deployment model. */
-  model?: DeploymentModel;
-  /** Properties of Cognitive Services account deployment model. */
-  scaleSettings?: DeploymentScaleSettings;
-}
-
-/** Properties of Cognitive Services account deployment model. */
-export interface DeploymentModel {
-  /** Deployment model format. */
-  format?: string;
-  /** Deployment model name. */
-  name?: string;
-  /** Deployment model version. */
-  version?: string;
-}
-
-/** Properties of Cognitive Services account deployment model. */
-export interface DeploymentScaleSettings {
-  /** Deployment scale type. */
-  scaleType?: DeploymentScaleType;
-  /** Deployment capacity. */
-  capacity?: number;
-}
-
-/** The list of cognitive services accounts operation response. */
-export interface CommitmentPlanListResult {
-  /** The link used to get the next page of CommitmentPlan. */
-  nextLink?: string;
-  /**
-   * Gets the list of Cognitive Services accounts CommitmentPlan and their properties.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: CommitmentPlan[];
-}
-
-/** Properties of Cognitive Services account commitment plan. */
-export interface CommitmentPlanProperties {
-  /** Account hosting model. */
-  hostingModel?: HostingModel;
-  /** Commitment plan type. */
-  planType?: string;
-  /** Cognitive Services account commitment period. */
-  current?: CommitmentPeriod;
-  /** AutoRenew commitment plan. */
-  autoRenew?: boolean;
-  /** Cognitive Services account commitment period. */
-  next?: CommitmentPeriod;
-  /**
-   * Cognitive Services account commitment period.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly last?: CommitmentPeriod;
-}
-
-/** Cognitive Services account commitment period. */
-export interface CommitmentPeriod {
-  /** Commitment period commitment tier. */
-  tier?: string;
-  /** Commitment period commitment count. */
-  count?: number;
-  /**
-   * Cognitive Services account commitment quota.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly quota?: CommitmentQuota;
-  /**
-   * Commitment period start date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startDate?: string;
-  /**
-   * Commitment period end date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endDate?: string;
-}
-
 /** The resource model definition for an Azure Resource Manager resource with an etag. */
 export type AzureEntityResource = Resource & {
   /**
@@ -794,9 +648,6 @@ export type PrivateLinkResource = Resource & {
   /** Resource properties. */
   properties?: PrivateLinkResourceProperties;
 };
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
 
 /** The Private Endpoint Connection resource. */
 export type PrivateEndpointConnection = AzureEntityResource & {
@@ -830,38 +681,6 @@ export type Account = AzureEntityResource & {
   location?: string;
   /** Properties of Cognitive Services account. */
   properties?: AccountProperties;
-};
-
-/** Cognitive Services account deployment. */
-export type Deployment = ProxyResource & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * Resource Etag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Properties of Cognitive Services account deployment. */
-  properties?: DeploymentProperties;
-};
-
-/** Cognitive Services account commitment plan. */
-export type CommitmentPlan = ProxyResource & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * Resource Etag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /** Properties of Cognitive Services account commitment plan. */
-  properties?: CommitmentPlanProperties;
 };
 
 /** Known values of {@link SkuTier} that the service accepts. */
@@ -1111,62 +930,6 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
-
-/** Known values of {@link HostingModel} that the service accepts. */
-export enum KnownHostingModel {
-  Web = "Web",
-  ConnectedContainer = "ConnectedContainer",
-  DisconnectedContainer = "DisconnectedContainer"
-}
-
-/**
- * Defines values for HostingModel. \
- * {@link KnownHostingModel} can be used interchangeably with HostingModel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Web** \
- * **ConnectedContainer** \
- * **DisconnectedContainer**
- */
-export type HostingModel = string;
-
-/** Known values of {@link DeploymentProvisioningState} that the service accepts. */
-export enum KnownDeploymentProvisioningState {
-  Accepted = "Accepted",
-  Creating = "Creating",
-  Deleting = "Deleting",
-  Moving = "Moving",
-  Failed = "Failed",
-  Succeeded = "Succeeded"
-}
-
-/**
- * Defines values for DeploymentProvisioningState. \
- * {@link KnownDeploymentProvisioningState} can be used interchangeably with DeploymentProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Accepted** \
- * **Creating** \
- * **Deleting** \
- * **Moving** \
- * **Failed** \
- * **Succeeded**
- */
-export type DeploymentProvisioningState = string;
-
-/** Known values of {@link DeploymentScaleType} that the service accepts. */
-export enum KnownDeploymentScaleType {
-  Manual = "Manual"
-}
-
-/**
- * Defines values for DeploymentScaleType. \
- * {@link KnownDeploymentScaleType} can be used interchangeably with DeploymentScaleType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Manual**
- */
-export type DeploymentScaleType = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "None"
@@ -1344,27 +1107,10 @@ export type CheckSkuAvailabilityResponse = SkuAvailabilityListResult;
 
 /** Optional parameters. */
 export interface CheckDomainAvailabilityOptionalParams
-  extends coreClient.OperationOptions {
-  /** The Kind of the resource. */
-  kind?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkDomainAvailability operation. */
 export type CheckDomainAvailabilityResponse = DomainAvailability;
-
-/** Optional parameters. */
-export interface CommitmentTiersListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type CommitmentTiersListResponse = CommitmentTierListResult;
-
-/** Optional parameters. */
-export interface CommitmentTiersListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type CommitmentTiersListNextResponse = CommitmentTierListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListOptionalParams
@@ -1407,85 +1153,6 @@ export interface PrivateLinkResourcesListOptionalParams
 
 /** Contains response data for the list operation. */
 export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface DeploymentsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type DeploymentsListResponse = DeploymentListResult;
-
-/** Optional parameters. */
-export interface DeploymentsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DeploymentsGetResponse = Deployment;
-
-/** Optional parameters. */
-export interface DeploymentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DeploymentsCreateOrUpdateResponse = Deployment;
-
-/** Optional parameters. */
-export interface DeploymentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface DeploymentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DeploymentsListNextResponse = DeploymentListResult;
-
-/** Optional parameters. */
-export interface CommitmentPlansListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type CommitmentPlansListResponse = CommitmentPlanListResult;
-
-/** Optional parameters. */
-export interface CommitmentPlansGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type CommitmentPlansGetResponse = CommitmentPlan;
-
-/** Optional parameters. */
-export interface CommitmentPlansCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type CommitmentPlansCreateOrUpdateResponse = CommitmentPlan;
-
-/** Optional parameters. */
-export interface CommitmentPlansDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface CommitmentPlansListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type CommitmentPlansListNextResponse = CommitmentPlanListResult;
 
 /** Optional parameters. */
 export interface CognitiveServicesManagementClientOptionalParams

@@ -216,12 +216,10 @@ export interface CallRateLimit {
 
 // @public
 export interface CheckDomainAvailabilityOptionalParams extends coreClient.OperationOptions {
-    kind?: string;
 }
 
 // @public
 export interface CheckDomainAvailabilityParameter {
-    kind?: string;
     subdomainName: string;
     type: string;
 }
@@ -255,13 +253,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     checkDomainAvailability(subdomainName: string, typeParam: string, options?: CheckDomainAvailabilityOptionalParams): Promise<CheckDomainAvailabilityResponse>;
     checkSkuAvailability(location: string, skus: string[], kind: string, typeParam: string, options?: CheckSkuAvailabilityOptionalParams): Promise<CheckSkuAvailabilityResponse>;
     // (undocumented)
-    commitmentPlans: CommitmentPlans;
-    // (undocumented)
-    commitmentTiers: CommitmentTiers;
-    // (undocumented)
     deletedAccounts: DeletedAccounts;
-    // (undocumented)
-    deployments: Deployments;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -280,130 +272,6 @@ export interface CognitiveServicesManagementClientOptionalParams extends coreCli
     apiVersion?: string;
     endpoint?: string;
 }
-
-// @public
-export interface CommitmentCost {
-    commitmentMeterId?: string;
-    overageMeterId?: string;
-}
-
-// @public
-export interface CommitmentPeriod {
-    count?: number;
-    readonly endDate?: string;
-    readonly quota?: CommitmentQuota;
-    readonly startDate?: string;
-    tier?: string;
-}
-
-// @public
-export type CommitmentPlan = ProxyResource & {
-    readonly systemData?: SystemData;
-    readonly etag?: string;
-    properties?: CommitmentPlanProperties;
-};
-
-// @public
-export interface CommitmentPlanListResult {
-    nextLink?: string;
-    readonly value?: CommitmentPlan[];
-}
-
-// @public
-export interface CommitmentPlanProperties {
-    autoRenew?: boolean;
-    current?: CommitmentPeriod;
-    hostingModel?: HostingModel;
-    readonly last?: CommitmentPeriod;
-    next?: CommitmentPeriod;
-    planType?: string;
-}
-
-// @public
-export interface CommitmentPlans {
-    beginDelete(resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, accountName: string, commitmentPlanName: string, commitmentPlan: CommitmentPlan, options?: CommitmentPlansCreateOrUpdateOptionalParams): Promise<CommitmentPlansCreateOrUpdateResponse>;
-    get(resourceGroupName: string, accountName: string, commitmentPlanName: string, options?: CommitmentPlansGetOptionalParams): Promise<CommitmentPlansGetResponse>;
-    list(resourceGroupName: string, accountName: string, options?: CommitmentPlansListOptionalParams): PagedAsyncIterableIterator<CommitmentPlan>;
-}
-
-// @public
-export interface CommitmentPlansCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommitmentPlansCreateOrUpdateResponse = CommitmentPlan;
-
-// @public
-export interface CommitmentPlansDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CommitmentPlansGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommitmentPlansGetResponse = CommitmentPlan;
-
-// @public
-export interface CommitmentPlansListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommitmentPlansListNextResponse = CommitmentPlanListResult;
-
-// @public
-export interface CommitmentPlansListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommitmentPlansListResponse = CommitmentPlanListResult;
-
-// @public
-export interface CommitmentQuota {
-    quantity?: number;
-    unit?: string;
-}
-
-// @public
-export interface CommitmentTier {
-    cost?: CommitmentCost;
-    hostingModel?: HostingModel;
-    kind?: string;
-    maxCount?: number;
-    planType?: string;
-    quota?: CommitmentQuota;
-    skuName?: string;
-    tier?: string;
-}
-
-// @public
-export interface CommitmentTierListResult {
-    nextLink?: string;
-    readonly value?: CommitmentTier[];
-}
-
-// @public
-export interface CommitmentTiers {
-    list(location: string, options?: CommitmentTiersListOptionalParams): PagedAsyncIterableIterator<CommitmentTier>;
-}
-
-// @public
-export interface CommitmentTiersListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommitmentTiersListNextResponse = CommitmentTierListResult;
-
-// @public
-export interface CommitmentTiersListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommitmentTiersListResponse = CommitmentTierListResult;
 
 // @public
 export type CreatedByType = string;
@@ -444,94 +312,8 @@ export interface DeletedAccountsPurgeOptionalParams extends coreClient.Operation
 }
 
 // @public
-export type Deployment = ProxyResource & {
-    readonly systemData?: SystemData;
-    readonly etag?: string;
-    properties?: DeploymentProperties;
-};
-
-// @public
-export interface DeploymentListResult {
-    nextLink?: string;
-    readonly value?: Deployment[];
-}
-
-// @public
-export interface DeploymentModel {
-    format?: string;
-    name?: string;
-    version?: string;
-}
-
-// @public
-export interface DeploymentProperties {
-    model?: DeploymentModel;
-    readonly provisioningState?: DeploymentProvisioningState;
-    scaleSettings?: DeploymentScaleSettings;
-}
-
-// @public
-export type DeploymentProvisioningState = string;
-
-// @public
-export interface Deployments {
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, deploymentName: string, deployment: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DeploymentsCreateOrUpdateResponse>, DeploymentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, deploymentName: string, deployment: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<DeploymentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, accountName: string, deploymentName: string, options?: DeploymentsGetOptionalParams): Promise<DeploymentsGetResponse>;
-    list(resourceGroupName: string, accountName: string, options?: DeploymentsListOptionalParams): PagedAsyncIterableIterator<Deployment>;
-}
-
-// @public
-export interface DeploymentScaleSettings {
-    capacity?: number;
-    scaleType?: DeploymentScaleType;
-}
-
-// @public
-export type DeploymentScaleType = string;
-
-// @public
-export interface DeploymentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type DeploymentsCreateOrUpdateResponse = Deployment;
-
-// @public
-export interface DeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DeploymentsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentsGetResponse = Deployment;
-
-// @public
-export interface DeploymentsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentsListNextResponse = DeploymentListResult;
-
-// @public
-export interface DeploymentsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentsListResponse = DeploymentListResult;
-
-// @public
 export interface DomainAvailability {
     isSubdomainAvailable?: boolean;
-    kind?: string;
     reason?: string;
     subdomainName?: string;
     type?: string;
@@ -562,9 +344,6 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
-
-// @public
-export type HostingModel = string;
 
 // @public
 export interface Identity {
@@ -612,38 +391,6 @@ export enum KnownCreatedByType {
     ManagedIdentity = "ManagedIdentity",
     // (undocumented)
     User = "User"
-}
-
-// @public
-export enum KnownDeploymentProvisioningState {
-    // (undocumented)
-    Accepted = "Accepted",
-    // (undocumented)
-    Creating = "Creating",
-    // (undocumented)
-    Deleting = "Deleting",
-    // (undocumented)
-    Failed = "Failed",
-    // (undocumented)
-    Moving = "Moving",
-    // (undocumented)
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownDeploymentScaleType {
-    // (undocumented)
-    Manual = "Manual"
-}
-
-// @public
-export enum KnownHostingModel {
-    // (undocumented)
-    ConnectedContainer = "ConnectedContainer",
-    // (undocumented)
-    DisconnectedContainer = "DisconnectedContainer",
-    // (undocumented)
-    Web = "Web"
 }
 
 // @public
@@ -942,9 +689,6 @@ export interface PrivateLinkServiceConnectionState {
 
 // @public
 export type ProvisioningState = string;
-
-// @public
-export type ProxyResource = Resource & {};
 
 // @public
 export type PublicNetworkAccess = string;

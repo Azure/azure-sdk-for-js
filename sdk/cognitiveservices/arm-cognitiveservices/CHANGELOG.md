@@ -1,15 +1,23 @@
 # Release History
+    
+## 8.0.0 (2022-01-05)
+    
+**Breaking Changes**
 
-## 7.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group CommitmentPlans
+  - Removed operation group CommitmentTiers
+  - Removed operation group Deployments
+  - Interface CheckDomainAvailabilityOptionalParams no longer has parameter kind
+  - Interface CheckDomainAvailabilityParameter no longer has parameter kind
+  - Interface DomainAvailability no longer has parameter kind
+  - Class CognitiveServicesManagementClient no longer has parameter commitmentPlans
+  - Class CognitiveServicesManagementClient no longer has parameter commitmentTiers
+  - Class CognitiveServicesManagementClient no longer has parameter deployments
+  - Removed Enum KnownDeploymentProvisioningState
+  - Removed Enum KnownDeploymentScaleType
+  - Removed Enum KnownHostingModel
+    
+    
 ## 7.0.0 (2021-12-20)
 
 The package of @azure/arm-cognitiveservices is using our next generation design principles since version 7.0.0, which contains breaking changes.

@@ -10,8 +10,5 @@ export * from "./accounts";
 export * from "./deletedAccounts";
 export * from "./resourceSkus";
 export * from "./operations";
-export * from "./commitmentTiers";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
-export * from "./deployments";
-export * from "./commitmentPlans";

@@ -16,9 +16,7 @@ import {
   RegenerateKeyParameters as RegenerateKeyParametersMapper,
   CheckSkuAvailabilityParameter as CheckSkuAvailabilityParameterMapper,
   CheckDomainAvailabilityParameter as CheckDomainAvailabilityParameterMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-  Deployment as DeploymentMapper,
-  CommitmentPlan as CommitmentPlanMapper
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -96,7 +94,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-01",
+    defaultValue: "2021-04-30",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -182,11 +180,6 @@ export const typeParam1: OperationParameter = {
   mapper: CheckDomainAvailabilityParameterMapper
 };
 
-export const kind1: OperationParameter = {
-  parameterPath: ["options", "kind"],
-  mapper: CheckDomainAvailabilityParameterMapper
-};
-
 export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
@@ -201,36 +194,4 @@ export const privateEndpointConnectionName: OperationURLParameter = {
 export const properties: OperationParameter = {
   parameterPath: "properties",
   mapper: PrivateEndpointConnectionMapper
-};
-
-export const deploymentName: OperationURLParameter = {
-  parameterPath: "deploymentName",
-  mapper: {
-    serializedName: "deploymentName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const deployment: OperationParameter = {
-  parameterPath: "deployment",
-  mapper: DeploymentMapper
-};
-
-export const commitmentPlanName: OperationURLParameter = {
-  parameterPath: "commitmentPlanName",
-  mapper: {
-    serializedName: "commitmentPlanName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const commitmentPlan: OperationParameter = {
-  parameterPath: "commitmentPlan",
-  mapper: CommitmentPlanMapper
 };
