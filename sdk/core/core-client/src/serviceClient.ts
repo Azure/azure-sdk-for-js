@@ -8,7 +8,6 @@ import {
   PipelineResponse,
   Pipeline,
   createPipelineRequest,
-  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 import {
   OperationArguments,
