@@ -91,7 +91,7 @@ export class BlobBeginCopyFromUrlPoller extends Poller<
       intervalInMs = 15000,
       onProgress,
       resumeFrom,
-      startCopyFromURLOptions
+      startCopyFromURLOptions,
     } = options;
 
     let state: BlobBeginCopyFromUrlPollState | undefined;
@@ -104,7 +104,7 @@ export class BlobBeginCopyFromUrlPoller extends Poller<
       ...state,
       blobClient,
       copySource,
-      startCopyFromURLOptions
+      startCopyFromURLOptions,
     });
 
     super(operation);
@@ -144,7 +144,7 @@ const cancel: BlobBeginCopyFromURLPollOperation["cancel"] = async function cance
 
   // if abortCopyFromURL throws, it will bubble up to user's poller.cancelOperation call
   await state.blobClient.abortCopyFromURL(copyId, {
-    abortSignal: options.abortSignal
+    abortSignal: options.abortSignal,
   });
   state.isCancelled = true;
 
@@ -236,6 +236,6 @@ function makeBlobBeginCopyFromURLPollOperation(
     state: { ...state },
     cancel,
     toString,
-    update
+    update,
   };
 }

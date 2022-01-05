@@ -110,7 +110,7 @@ export const StorageDataLakeLoggingAllowedHeaderNames = [
   "x-ms-source-if-none-match",
   "x-ms-source-if-unmodified-since",
   "x-ms-tag-count",
-  "x-ms-encryption-key-sha256"
+  "x-ms-encryption-key-sha256",
 ];
 
 export const StorageDataLakeLoggingAllowedQueryParameters = [
@@ -146,7 +146,7 @@ export const StorageDataLakeLoggingAllowedQueryParameters = [
   "skt",
   "sktid",
   "skv",
-  "snapshot"
+  "snapshot",
 ];
 
 export const UrlConstants = {
@@ -154,8 +154,8 @@ export const UrlConstants = {
     FORCE_BROWSER_NO_CACHE: "_",
     SIGNATURE: "sig",
     SNAPSHOT: "snapshot",
-    TIMEOUT: "timeout"
-  }
+    TIMEOUT: "timeout",
+  },
 };
 
 export const HttpUrlConnection = {
@@ -163,7 +163,7 @@ export const HttpUrlConnection = {
   HTTP_CONFLICT: 409,
   HTTP_NOT_FOUND: 404,
   HTTP_PRECON_FAILED: 412,
-  HTTP_RANGE_NOT_SATISFIABLE: 416
+  HTTP_RANGE_NOT_SATISFIABLE: 416,
 };
 
 export const HeaderConstants = {
@@ -189,7 +189,7 @@ export const HeaderConstants = {
   X_MS_COPY_SOURCE: "x-ms-copy-source",
   X_MS_DATE: "x-ms-date",
   X_MS_ERROR_CODE: "x-ms-error-code",
-  X_MS_VERSION: "x-ms-version"
+  X_MS_VERSION: "x-ms-version",
 };
 
 export const DevelopmentConnectionString = `DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;`;
@@ -203,7 +203,7 @@ export const ToBlobEndpointHostMappings = [
   ["dfs.core.usgovcloudapi.net", "blob.core.usgovcloudapi.net"],
   ["dfs.core.cloudapi.de", "blob.core.cloudapi.de"],
   ["dfs.core.microsoft.scloud", "blob.core.microsoft.scloud"],
-  ["dfs.core.eaglex.ic.gov", "blob.core.eaglex.ic.gov"]
+  ["dfs.core.eaglex.ic.gov", "blob.core.eaglex.ic.gov"],
 ];
 
 // Mapping pairs to transform url from blob endpoint to dfs endpoint
@@ -215,7 +215,7 @@ export const ToDfsEndpointHostMappings = [
   ["blob.core.usgovcloudapi.net", "dfs.core.usgovcloudapi.net"],
   ["blob.core.cloudapi.de", "dfs.core.cloudapi.de"],
   ["blob.core.microsoft.scloud", "dfs.core.microsoft.scloud"],
-  ["blob.core.eaglex.ic.gov", "dfs.core.eaglex.ic.gov"]
+  ["blob.core.eaglex.ic.gov", "dfs.core.eaglex.ic.gov"],
 ];
 
 export const ETagAny = "*";
@@ -224,5 +224,5 @@ export const DeletionIdKey = "deletionid";
 
 export const PathResultTypeConstants = {
   FileResourceType: "file",
-  DirectoryResourceType: "directory"
+  DirectoryResourceType: "directory",
 };

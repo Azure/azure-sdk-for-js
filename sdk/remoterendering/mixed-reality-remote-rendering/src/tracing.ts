@@ -9,5 +9,5 @@ import { createSpanFunction } from "@azure/core-tracing";
  */
 export const createSpan = createSpanFunction({
   packagePrefix: "Azure.mixed-reality-remote-rendering",
-  namespace: "Microsoft.MixedReality"
+  namespace: "Microsoft.MixedReality",
 });

@@ -9,7 +9,7 @@ import {
   AzureKeyCredential,
   SearchClient,
   SearchIndexerClient,
-  SearchIndexClient
+  SearchIndexClient,
 } from "../../../src";
 
 const isNode =
@@ -31,13 +31,13 @@ export interface Clients<IndexModel> {
 const replaceableVariables: { [k: string]: string } = {
   SEARCH_API_ADMIN_KEY: "admin_key",
   SEARCH_API_ADMIN_KEY_ALT: "admin_key_alt",
-  ENDPOINT: "https://endpoint"
+  ENDPOINT: "https://endpoint",
 };
 
 export const testEnv = new Proxy(replaceableVariables, {
   get: (target, key: string) => {
     return env[key] || target[key];
-  }
+  },
 });
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -52,9 +52,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string => {
       const match = testEnv.ENDPOINT.replace(/^https:\/\//, "").replace(/\/$/, "");
       return recording.replace(match, "endpoint");
-    }
+    },
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export function createClients<IndexModel>(indexName: string): Clients<IndexModel> {
@@ -75,6 +75,6 @@ export function createClients<IndexModel>(indexName: string): Clients<IndexModel
   return {
     searchClient,
     indexClient,
-    indexerClient
+    indexerClient,
   };
 }

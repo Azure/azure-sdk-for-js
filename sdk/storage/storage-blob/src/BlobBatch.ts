@@ -14,7 +14,7 @@ import {
   TokenCredential,
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
-  isNode
+  isNode,
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -28,7 +28,7 @@ import {
   BATCH_MAX_REQUEST,
   HTTP_VERSION_1_1,
   HTTP_LINE_ENDING,
-  StorageOAuthScopes
+  StorageOAuthScopes,
 } from "./utils/constants";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { createSpan } from "./utils/tracing";
@@ -191,7 +191,7 @@ export class BlobBatch {
       await this.addSubRequestInternal(
         {
           url: url,
-          credential: credential
+          credential: credential,
         },
         async () => {
           await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete(
@@ -202,7 +202,7 @@ export class BlobBatch {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -306,7 +306,7 @@ export class BlobBatch {
       await this.addSubRequestInternal(
         {
           url: url,
-          credential: credential
+          credential: credential,
         },
         async () => {
           await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
@@ -318,7 +318,7 @@ export class BlobBatch {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -397,7 +397,7 @@ class InnerBatchRequest {
       "", // empty line after sub request's content ID
       `${request.method.toString()} ${getURLPathAndQuery(
         request.url
-      )} ${HTTP_VERSION_1_1}${HTTP_LINE_ENDING}` // sub request start line with method
+      )} ${HTTP_VERSION_1_1}${HTTP_LINE_ENDING}`, // sub request start line with method
     ].join(HTTP_LINE_ENDING);
 
     for (const header of request.headers.headersArray()) {
@@ -445,7 +445,7 @@ class BatchRequestAssemblePolicy extends BaseRequestPolicy {
   private readonly dummyResponse: HttpOperationResponse = {
     request: new WebResource(),
     status: 200,
-    headers: new HttpHeaders()
+    headers: new HttpHeaders(),
   };
 
   constructor(

@@ -152,10 +152,11 @@ export class RetriableReadableStream extends Readable {
           this.emit(
             "error",
             new Error(
-              `Data corruption failure: received less data than required and reached maxRetires limitation. Received data offset: ${this
-                .offset - 1}, data needed offset: ${this.end}, retries: ${
-                this.retries
-              }, max retries: ${this.maxRetryRequests}`
+              `Data corruption failure: received less data than required and reached maxRetires limitation. Received data offset: ${
+                this.offset - 1
+              }, data needed offset: ${this.end}, retries: ${this.retries}, max retries: ${
+                this.maxRetryRequests
+              }`
             )
           );
         }

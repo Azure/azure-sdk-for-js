@@ -34,7 +34,7 @@ describe("LinkEntity unit tests", () => {
   let linkEntity: LinkEntity<Receiver>;
   let connectionContext: ConnectionContext;
 
-  beforeEach(function() {
+  beforeEach(function () {
     connectionContext = createConnectionContextForTests();
     linkEntity = new LinkForTests(
       "some initial name",
@@ -43,7 +43,7 @@ describe("LinkEntity unit tests", () => {
       "streaming",
       receiverLogger,
       {
-        address: "my-address"
+        address: "my-address",
       }
     );
   });
@@ -238,7 +238,7 @@ describe("LinkEntity unit tests", () => {
     it("abortSignal - simple abort signal flow", async () => {
       try {
         await linkEntity.initLink({}, {
-          aborted: true
+          aborted: true,
         } as AbortSignalLike);
         assert.fail("Should have thrown.");
       } catch (err) {
@@ -304,7 +304,7 @@ describe("LinkEntity unit tests", () => {
         assert.isTrue(sawAbortSignal, "Should have seen the abortSignal.");
         assert.deepNestedInclude(err, {
           name: "AbortError",
-          message: "The operation was aborted."
+          message: "The operation was aborted.",
         });
       }
     });
@@ -313,7 +313,7 @@ describe("LinkEntity unit tests", () => {
       assert.match(linkEntity.name, /some initial name-/);
 
       await linkEntity.initLink({
-        name: "some new name"
+        name: "some new name",
       });
 
       assert.equal(linkEntity["_logPrefix"], "[connection-id|streaming:some new name]");
@@ -349,7 +349,7 @@ describe("LinkEntity unit tests", () => {
         lockRenewer: undefined,
         receiveMode: "receiveAndDelete",
         skipParsingBodyAsJson: false,
-        tracingOptions: {}
+        tracingOptions: {},
       });
 
       initCachedLinks(batchingReceiver.name);
@@ -362,8 +362,8 @@ describe("LinkEntity unit tests", () => {
         unchangedCaches: [
           connectionContext.managementClients,
           connectionContext.messageSessions,
-          connectionContext.senders
-        ]
+          connectionContext.senders,
+        ],
       });
     });
 
@@ -373,7 +373,7 @@ describe("LinkEntity unit tests", () => {
         lockRenewer: undefined,
         receiveMode: "receiveAndDelete",
         skipParsingBodyAsJson: false,
-        tracingOptions: {}
+        tracingOptions: {},
       });
 
       initCachedLinks(streamingReceiver.name);
@@ -386,8 +386,8 @@ describe("LinkEntity unit tests", () => {
         unchangedCaches: [
           connectionContext.managementClients,
           connectionContext.messageSessions,
-          connectionContext.senders
-        ]
+          connectionContext.senders,
+        ],
       });
     });
 
@@ -404,8 +404,8 @@ describe("LinkEntity unit tests", () => {
         unchangedCaches: [
           connectionContext.managementClients,
           connectionContext.messageReceivers,
-          connectionContext.messageSessions
-        ]
+          connectionContext.messageSessions,
+        ],
       });
     });
 
@@ -413,7 +413,7 @@ describe("LinkEntity unit tests", () => {
       const messageSession = new MessageSession(connectionContext, "entityPath", "session-id", {
         abortSignal: undefined,
         retryOptions: {},
-        skipParsingBodyAsJson: false
+        skipParsingBodyAsJson: false,
       });
 
       initCachedLinks(messageSession.name);
@@ -426,8 +426,8 @@ describe("LinkEntity unit tests", () => {
         unchangedCaches: [
           connectionContext.managementClients,
           connectionContext.messageReceivers,
-          connectionContext.senders
-        ]
+          connectionContext.senders,
+        ],
       });
     });
 
@@ -444,8 +444,8 @@ describe("LinkEntity unit tests", () => {
         unchangedCaches: [
           connectionContext.messageSessions,
           connectionContext.messageReceivers,
-          connectionContext.senders
-        ]
+          connectionContext.senders,
+        ],
       });
     });
 

@@ -12,7 +12,8 @@ import {
   SenderOptions,
   generate_uuid,
 } from "rhea-promise";
-import { StandardAbortMessage, translate } from "./errors";
+import { translate } from "./errors";
+import { StandardAbortMessage } from "./util/constants";
 import { logErrorStackTrace, logger } from "./log";
 import { Constants } from "./util/constants";
 import { RequestResponseLink } from "./requestResponseLink";

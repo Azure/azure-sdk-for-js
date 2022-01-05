@@ -26,8 +26,8 @@ function createHotel(hotelId: number): Hotel {
       city: "New York",
       stateProvince: "NY",
       country: "USA",
-      postalCode: "10022"
-    }
+      postalCode: "10022",
+    },
   };
   return hotel;
 }

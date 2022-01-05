@@ -19,7 +19,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     const authentication = await authenticate(this);
     certificateSuffix = authentication.suffix;
     client = authentication.client;
@@ -27,13 +27,13 @@ describe("Certificates client - LRO - recoverDelete", () => {
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("can wait until a certificate is recovered", async function(this: Context) {
+  it("can wait until a certificate is recovered", async function (this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -66,7 +66,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can resume from a stopped poller", async function(this: Context) {
+  it("can resume from a stopped poller", async function (this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -101,7 +101,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
 
     const resumePoller = await client.beginRecoverDeletedCertificate(certificateName, {
       resumeFrom: serialized,
-      ...testPollerProperties
+      ...testPollerProperties,
     });
 
     assert.ok(recoverPoller.getOperationState().isStarted);
@@ -113,7 +113,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can recover a deleted certificate with requestOptions timeout", async function(this: Context) {
+  it("can recover a deleted certificate with requestOptions timeout", async function (this: Context) {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
@@ -129,7 +129,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
     await assertThrowsAbortError(async () => {
       await client.beginRecoverDeletedCertificate(certificateName, {
         requestOptions: { timeout: 1 },
-        ...testPollerProperties
+        ...testPollerProperties,
       });
     });
   });

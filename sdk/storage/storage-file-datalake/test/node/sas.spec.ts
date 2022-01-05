@@ -22,7 +22,7 @@ import {
   PathAccessControlItem,
   PathPermissions,
   StorageSharedKeyCredential,
-  SASQueryParameters
+  SASQueryParameters,
 } from "../../src";
 import { DataLakeFileClient } from "../../src/";
 import { DirectorySASPermissions } from "../../src/sas/DirectorySASPermissions";
@@ -31,19 +31,19 @@ import { delay } from "../../src/utils/utils.common";
 import {
   getDataLakeServiceClient,
   getDataLakeServiceClientWithDefaultCredential,
-  recorderEnvSetup
+  recorderEnvSetup,
 } from "../utils";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -67,7 +67,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
         startsOn: now,
-        version: "2016-05-31"
+        version: "2016-05-31",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
@@ -91,7 +91,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         expiresOn: tmr,
         permissions: AccountSASPermissions.parse("wd"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
-        services: AccountSASServices.parse("btqf").toString()
+        services: AccountSASServices.parse("btqf").toString(),
       },
       sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
@@ -125,7 +125,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         expiresOn: tmr,
         permissions: AccountSASPermissions.parse("rwdlacup"),
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
-        services: AccountSASServices.parse("tqf").toString()
+        services: AccountSASServices.parse("tqf").toString(),
       },
       sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
@@ -162,7 +162,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("co").toString(),
         services: AccountSASServices.parse("btqf").toString(),
-        version: "2016-05-31"
+        version: "2016-05-31",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     ).toString();
@@ -206,7 +206,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: FileSystemSASPermissions.parse("racwdl"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
-        version: "2016-05-31"
+        version: "2016-05-31",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -217,12 +217,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    const result = (
-      await fileSystemClientwithSAS
-        .listPaths()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileSystemClientwithSAS.listPaths().byPage().next()).value;
     assert.deepStrictEqual(result.pathItems.length, 0);
     await fileSystemClient.deleteIfExists();
   });
@@ -245,8 +240,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create({
       pathHttpHeaders: {
-        contentType: "content-type-original"
-      }
+        contentType: "content-type-original",
+      },
     });
 
     const fileSAS = generateDataLakeSASQueryParameters(
@@ -263,7 +258,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: DataLakeSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
-        version: "2016-05-31"
+        version: "2016-05-31",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -303,8 +298,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create({
       pathHttpHeaders: {
-        contentType: "content-type-original"
-      }
+        contentType: "content-type-original",
+      },
     });
 
     const fileSAS = generateDataLakeSASQueryParameters(
@@ -320,7 +315,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: DataLakeSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
-        startsOn: now
+        startsOn: now,
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -363,8 +358,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create({
       pathHttpHeaders: {
-        contentType: "content-type-original"
-      }
+        contentType: "content-type-original",
+      },
     });
     const fileSAS = generateDataLakeSASQueryParameters(
       {
@@ -380,7 +375,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: DataLakeSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
-        version: "2016-05-31"
+        version: "2016-05-31",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -426,10 +421,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         accessPolicy: {
           expiresOn: tmr,
           permissions: FileSystemSASPermissions.parse("racwdl").toString(),
-          startsOn: now
+          startsOn: now,
         },
-        id
-      }
+        id,
+      },
     ]);
 
     /*
@@ -444,7 +439,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileSAS = generateDataLakeSASQueryParameters(
       {
         fileSystemName,
-        identifier: id
+        identifier: id,
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -484,10 +479,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         accessPolicy: {
           expiresOn: tmr,
           permissions: DataLakeSASPermissions.parse("racwd").toString(),
-          startsOn: now
+          startsOn: now,
         },
-        id
-      }
+        id,
+      },
     ]);
 
     /*
@@ -503,7 +498,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         fileSystemName,
         pathName: fileName,
-        identifier: id
+        identifier: id,
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -518,7 +513,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.deleteIfExists();
   });
 
-  it("GenerateUserDelegationSAS should work for filesystem with all configurations", async function(this: Context) {
+  it("GenerateUserDelegationSAS should work for filesystem with all configurations", async function (this: Context) {
     // Try to get DataLakeServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
@@ -557,7 +552,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: FileSystemSASPermissions.parse("racwdl"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
-        version: "2019-02-02"
+        version: "2019-02-02",
       },
       userDelegationKey,
       accountName
@@ -569,17 +564,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    const result = (
-      await fileSystemClientwithSAS
-        .listPaths()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileSystemClientwithSAS.listPaths().byPage().next()).value;
     assert.deepStrictEqual(result.pathItems.length, 0);
     await fileSystemClient.deleteIfExists();
   });
 
-  it("GenerateUserDelegationSAS should work for filesystem with minimum parameters", async function(this: Context) {
+  it("GenerateUserDelegationSAS should work for filesystem with minimum parameters", async function (this: Context) {
     // Try to get DataLakeServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
@@ -614,7 +604,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         fileSystemName: fileSystemClient.name,
         expiresOn: tmr,
-        permissions: FileSystemSASPermissions.parse("racwdl")
+        permissions: FileSystemSASPermissions.parse("racwdl"),
       },
       userDelegationKey,
       accountName
@@ -626,17 +616,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    const result = (
-      await fileSystemClientwithSAS
-        .listPaths()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileSystemClientwithSAS.listPaths().byPage().next()).value;
     assert.deepStrictEqual(result.pathItems.length, 0);
     await fileSystemClient.deleteIfExists();
   });
 
-  it("GenerateUserDelegationSAS should work for file", async function(this: Context) {
+  it("GenerateUserDelegationSAS should work for file", async function (this: Context) {
     // Try to get serviceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
@@ -671,8 +656,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create({
       pathHttpHeaders: {
-        contentType: "content-type-original"
-      }
+        contentType: "content-type-original",
+      },
     });
 
     const fileSAS = generateDataLakeSASQueryParameters(
@@ -688,7 +673,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
         permissions: DataLakeSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
-        startsOn: now
+        startsOn: now,
       },
       userDelegationKey,
       accountName
@@ -710,7 +695,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.deleteIfExists();
   });
 
-  it("GenerateUserDelegationSAS should work for file for 2019-12-12", async function(this: Context) {
+  it("GenerateUserDelegationSAS should work for file for 2019-12-12", async function (this: Context) {
     // Try to get serviceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
     let serviceClientWithToken: DataLakeServiceClient | undefined;
@@ -745,8 +730,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create({
       pathHttpHeaders: {
-        contentType: "content-type-original"
-      }
+        contentType: "content-type-original",
+      },
     });
 
     const fileSAS = generateDataLakeSASQueryParameters(
@@ -763,7 +748,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: DataLakeSASPermissions.parse("racwd"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
-        version: "2019-12-12"
+        version: "2019-12-12",
       },
       userDelegationKey,
       accountName
@@ -794,7 +779,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       permissions: "permissions",
       correlationId: "correlationId",
       directoryDepth: 2,
-      preauthorizedAgentObjectId: "preauthorizedAgentObjectId"
+      preauthorizedAgentObjectId: "preauthorizedAgentObjectId",
     });
     assert.equal(
       sasQP2.toString(),
@@ -845,7 +830,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         version: "2016-05-31",
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
-        ipRange: { start: "0.0.0.0", end: "255.255.255.255" }
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
       }
     );
     const serviceClientWithSAS = new DataLakeServiceClient(sasURL);
@@ -896,7 +881,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       contentDisposition: "content-disposition-override",
       contentEncoding: "content-encoding-override",
       contentLanguage: "content-language-override",
-      contentType: "content-type-override"
+      contentType: "content-type-override",
     });
 
     const fileSystemClientWithSAS = new DataLakeFileSystemClient(sasURL);
@@ -932,21 +917,21 @@ describe("SAS generation Node.js only for directory SAS", () => {
     owner: {
       read: true,
       write: true,
-      execute: false
+      execute: false,
     },
     group: {
       read: true,
       write: false,
-      execute: true
+      execute: true,
     },
     other: {
       read: false,
       write: true,
-      execute: false
-    }
+      execute: false,
+    },
   };
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
 
@@ -970,7 +955,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     sharedKeyCredential = serviceClient.credential as StorageSharedKeyCredential;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
@@ -987,7 +972,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         permissions: DirectorySASPermissions.parse("racwdlmeop"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
-        version: "2020-02-10"
+        version: "2020-02-10",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -1016,7 +1001,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         directoryDepth: 1,
         expiresOn: tmr,
         permissions: DirectorySASPermissions.parse("racwdlmeop"),
-        version: "2020-02-10"
+        version: "2020-02-10",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -1036,7 +1021,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         permissions: DirectorySASPermissions.parse("racwdlmeop"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
-        version: "2020-02-10"
+        version: "2020-02-10",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -1079,7 +1064,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         permissions: DataLakeSASPermissions.parse("racwdmeop"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
-        version: "2020-02-10"
+        version: "2020-02-10",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -1109,7 +1094,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         permissions: FileSystemSASPermissions.parse("racwdlmeop"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
-        version: "2020-02-10"
+        version: "2020-02-10",
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -1129,7 +1114,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
   it("DataLakeDirectoryClient.generateSasUrl() should work", async () => {
     const sasURL = await directoryClient.generateSasUrl({
       expiresOn: tmr,
-      permissions: DirectorySASPermissions.parse("racwdlmeop")
+      permissions: DirectorySASPermissions.parse("racwdlmeop"),
     });
 
     const sas = generateDataLakeSASQueryParameters(
@@ -1138,7 +1123,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         permissions: DirectorySASPermissions.parse("racwdlmeop"),
         fileSystemName: fileSystemClient.name,
         pathName: directoryClient.name,
-        isDirectory: true
+        isDirectory: true,
       },
       sharedKeyCredential
     ).toString();
@@ -1161,7 +1146,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
   it("DataLakeFileClient.generateSasUrl() should work", async () => {
     const sasURL = await fileClient.generateSasUrl({
       expiresOn: tmr,
-      permissions: DataLakeSASPermissions.parse("racwdmeop")
+      permissions: DataLakeSASPermissions.parse("racwdmeop"),
     });
 
     const sas = generateDataLakeSASQueryParameters(
@@ -1169,7 +1154,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         expiresOn: tmr,
         permissions: DirectorySASPermissions.parse("racwdmeop"),
         fileSystemName: fileSystemClient.name,
-        pathName: fileClient.name
+        pathName: fileClient.name,
       },
       sharedKeyCredential
     ).toString();
@@ -1196,10 +1181,10 @@ describe("SAS generation Node.js only for directory SAS", () => {
         accessPolicy: {
           expiresOn: tmr,
           permissions: DataLakeSASPermissions.parse("racwd").toString(),
-          startsOn: now
+          startsOn: now,
         },
-        id
-      }
+        id,
+      },
     ]);
 
     /*
@@ -1216,7 +1201,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         fileSystemName: fileSystemClient.name,
         pathName: directoryClient.name,
         isDirectory: true,
-        identifier: id
+        identifier: id,
       },
       sharedKeyCredential as StorageSharedKeyCredential
     );
@@ -1246,21 +1231,21 @@ describe("SAS generation Node.js only for delegation SAS", () => {
     owner: {
       read: true,
       write: true,
-      execute: false
+      execute: false,
     },
     group: {
       read: true,
       write: false,
-      execute: true
+      execute: true,
     },
     other: {
       read: false,
       write: true,
-      execute: false
-    }
+      execute: false,
+    },
   };
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     accountName = process.env["DFS_ACCOUNT_NAME"] || "";
     try {
@@ -1289,7 +1274,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
     await fileClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     if (fileSystemClient) {
       await fileSystemClient.deleteIfExists();
     }
@@ -1303,7 +1288,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
         pathName: directoryClient.name,
         isDirectory: true,
         expiresOn: tmr,
-        permissions: DataLakeSASPermissions.parse("racwdmeop")
+        permissions: DataLakeSASPermissions.parse("racwdmeop"),
       },
       userDelegationKey,
       accountName
@@ -1329,9 +1314,9 @@ describe("SAS generation Node.js only for delegation SAS", () => {
         permissions: {
           read: true,
           write: true,
-          execute: true
-        }
-      }
+          execute: true,
+        },
+      },
     ];
     await rootDirectoryClient.setAccessControl(acl);
 
@@ -1340,7 +1325,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
         fileSystemName: fileSystemClient.name,
         expiresOn: tmr,
         permissions: FileSystemSASPermissions.parse("racwdlmeop"),
-        agentObjectId: authorizedGuid
+        agentObjectId: authorizedGuid,
       },
       userDelegationKey,
       accountName
@@ -1359,7 +1344,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
         fileSystemName: fileSystemClient.name,
         expiresOn: tmr,
         permissions: FileSystemSASPermissions.parse("racwdlmeop"),
-        agentObjectId: unauthoriziedGuid
+        agentObjectId: unauthoriziedGuid,
       },
       userDelegationKey,
       accountName
@@ -1378,7 +1363,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
         fileSystemName: fileSystemClient.name,
         expiresOn: tmr,
         permissions: FileSystemSASPermissions.parse("racwdlmeop"),
-        preauthorizedAgentObjectId: unauthoriziedGuid
+        preauthorizedAgentObjectId: unauthoriziedGuid,
       },
       userDelegationKey,
       accountName
@@ -1394,7 +1379,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
         fileSystemName: fileSystemClient.name,
         expiresOn: tmr,
         permissions: FileSystemSASPermissions.parse("racwdlmeop"),
-        correlationId: guid
+        correlationId: guid,
       },
       userDelegationKey,
       accountName
@@ -1404,9 +1389,6 @@ describe("SAS generation Node.js only for delegation SAS", () => {
       `${fileSystemClient.url}?${fileSystemSAS}`
     );
 
-    await fileSystemClientWithSAS
-      .listPaths()
-      .byPage()
-      .next();
+    await fileSystemClientWithSAS.listPaths().byPage().next();
   });
 });

@@ -226,7 +226,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       url: queueEndpoint,
       accountName,
       accountKey,
-      proxyUri
+      proxyUri,
     };
   } else {
     // SAS connection string

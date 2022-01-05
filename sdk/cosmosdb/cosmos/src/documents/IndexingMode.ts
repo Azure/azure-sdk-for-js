@@ -18,5 +18,5 @@ export enum IndexingMode {
    */
   lazy = "lazy",
   /** No Index is provided. */
-  none = "none"
+  none = "none",
 }

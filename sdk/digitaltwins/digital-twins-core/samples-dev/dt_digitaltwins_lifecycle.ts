@@ -59,7 +59,7 @@ async function main() {
   const twinPatch = {
     op: "replace",
     path: "/AverageTemperature",
-    value: 42
+    value: 42,
   };
   const updatedTwin = await serviceClient.updateDigitalTwin(digitalTwinId, [twinPatch]);
   console.log(`Updated Digital Twin:`);

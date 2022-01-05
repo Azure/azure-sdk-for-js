@@ -14,7 +14,7 @@ describe("LeaseClient from FileSystem", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -22,7 +22,7 @@ describe("LeaseClient from FileSystem", () => {
     await fileSystemClient.createIfNotExists();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
@@ -146,7 +146,7 @@ describe("LeaseClient from File", () => {
   let fileClient: DataLakeFileClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -157,7 +157,7 @@ describe("LeaseClient from File", () => {
     await fileClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
@@ -269,7 +269,7 @@ describe("LeaseClient from Directory", () => {
   let directoryClient: DataLakeDirectoryClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -280,7 +280,7 @@ describe("LeaseClient from Directory", () => {
     await directoryClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });

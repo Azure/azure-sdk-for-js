@@ -9,7 +9,7 @@ import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializ
 
 chaiUse(chaiPromises);
 
-describe("SchemaRegistryAvroSerializer", function() {
+describe("SchemaRegistryAvroSerializer", function () {
   it("rejects buffers that are too small", async () => {
     const serializer = await createTestSerializer();
     await assert.isRejected(serializer.deserialize(Buffer.alloc(3)), /small/);
@@ -35,7 +35,7 @@ describe("SchemaRegistryAvroSerializer", function() {
       name: "_",
       definition: "_",
       format: "NotAvro",
-      groupName: testGroup
+      groupName: testGroup,
     });
 
     const buffer = Buffer.alloc(36);
@@ -52,7 +52,7 @@ describe("SchemaRegistryAvroSerializer", function() {
       type: "record",
       name: "NeverRegistered",
       namespace: "my.example",
-      fields: [{ name: "count", type: "int" }]
+      fields: [{ name: "count", type: "int" }],
     });
     await assert.isRejected(serializer.serialize({ count: 42 }, schema), /not found/);
   });
@@ -117,7 +117,7 @@ describe("SchemaRegistryAvroSerializer", function() {
       type: "record",
       name: "Rating",
       namespace: "my.example",
-      fields: [{ name: "score", type: "int" }]
+      fields: [{ name: "score", type: "int" }],
     });
 
     // Example value that matches the Avro schema above

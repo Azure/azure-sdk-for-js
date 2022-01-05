@@ -28,7 +28,7 @@ export class DataLakeLeaseClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -47,7 +47,7 @@ export class DataLakeLeaseClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -63,7 +63,7 @@ export class DataLakeLeaseClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -79,7 +79,7 @@ export class DataLakeLeaseClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -98,7 +98,7 @@ export class DataLakeLeaseClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

@@ -6,7 +6,7 @@ import { Poller } from "@azure/core-lro";
 import {
   RestoreSecretBackupPollOperationState,
   makeRestoreSecretBackupPollOperation,
-  TestSecretClientInterface
+  TestSecretClientInterface,
 } from "./operation";
 import { SecretProperties } from "../../../../src/secretsModels";
 
@@ -43,7 +43,7 @@ export class RestoreSecretBackupPoller extends Poller<
       ...state,
       backup,
       operationOptions,
-      client
+      client,
     });
 
     super(operation);

@@ -11,7 +11,7 @@ import {
   throwErrorIfConnectionClosed,
   throwIfNotValidServiceBusMessage,
   throwTypeErrorIfParameterMissing,
-  throwTypeErrorIfParameterNotLong
+  throwTypeErrorIfParameterNotLong,
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 import { CreateMessageBatchOptions } from "./models";
@@ -20,7 +20,7 @@ import {
   RetryOperationType,
   RetryOptions,
   retry,
-  AmqpAnnotatedMessage
+  AmqpAnnotatedMessage,
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import { SpanStatusCode, Link, SpanKind } from "@azure/core-tracing";
@@ -215,7 +215,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
 
     const links: Link[] = batch._messageSpanContexts.map((context) => {
       return {
-        context
+        context,
       };
     });
 
@@ -226,7 +226,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       this._context.config.host,
       {
         kind: SpanKind.CLIENT,
-        links
+        links,
       }
     );
 
@@ -237,7 +237,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     } catch (error) {
       sendSpan.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -279,7 +279,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
           ...options,
           associatedLinkName: this._sender.name,
           requestName: "scheduleMessages",
-          timeoutInMs: this._retryOptions.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs,
         });
     };
     const config: RetryConfig<Long[]> = {
@@ -287,7 +287,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
+      abortSignal: options?.abortSignal,
     };
     return retry<Long[]>(config);
   }
@@ -318,7 +318,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
           ...options,
           associatedLinkName: this._sender.name,
           requestName: "cancelScheduledMessages",
-          timeoutInMs: this._retryOptions.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs,
         });
     };
     const config: RetryConfig<void> = {
@@ -326,7 +326,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
+      abortSignal: options?.abortSignal,
     };
     return retry<void>(config);
   }

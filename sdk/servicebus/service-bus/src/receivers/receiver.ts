@@ -6,7 +6,7 @@ import {
   GetMessageIteratorOptions,
   MessageHandlers,
   ReceiveMessagesOptions,
-  SubscribeOptions
+  SubscribeOptions,
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusReceivedMessage } from "../serviceBusMessage";
@@ -19,7 +19,7 @@ import {
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
   throwErrorIfInvalidOperationOnMessage,
-  throwTypeErrorIfParameterTypeMismatch
+  throwTypeErrorIfParameterTypeMismatch,
 } from "../util/errors";
 import { ReceiveOptions } from "../core/messageReceiver";
 import { StreamingReceiver } from "../core/streamingReceiver";
@@ -30,7 +30,7 @@ import {
   completeMessage,
   deadLetterMessage,
   deferMessage,
-  getMessageIterator
+  getMessageIterator,
 } from "./receiverCommon";
 import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
@@ -359,7 +359,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
           maxConcurrentCalls: 0,
           receiveMode: this.receiveMode,
           lockRenewer: this._lockRenewer,
-          skipParsingBodyAsJson: this.skipParsingBodyAsJson
+          skipParsingBodyAsJson: this.skipParsingBodyAsJson,
         };
         this._batchingReceiver = this._createBatchingReceiver(
           this._context,
@@ -383,7 +383,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       operation: receiveMessages,
       operationType: RetryOperationType.receiveMessage,
       abortSignal: options?.abortSignal,
-      retryOptions: this._retryOptions
+      retryOptions: this._retryOptions,
     };
     return retry<ServiceBusReceivedMessage[]>(config).catch((err) => {
       throw translateServiceBusError(err);
@@ -415,14 +415,16 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     const deferredSequenceNumbers = Array.isArray(sequenceNumbers)
       ? sequenceNumbers
       : [sequenceNumbers];
-    const receiveDeferredMessagesOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
+    const receiveDeferredMessagesOperationPromise = async (): Promise<
+      ServiceBusReceivedMessage[]
+    > => {
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
         .receiveDeferredMessages(deferredSequenceNumbers, this.receiveMode, undefined, {
           ...options,
           associatedLinkName: this._getAssociatedReceiverName(),
           requestName: "receiveDeferredMessages",
-          timeoutInMs: this._retryOptions.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs,
         });
       return deferredMessages;
     };
@@ -431,7 +433,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
+      abortSignal: options?.abortSignal,
     };
     return retry<ServiceBusReceivedMessage[]>(config);
   }
@@ -448,7 +450,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       ...options,
       associatedLinkName: this._getAssociatedReceiverName(),
       requestName: "peekMessages",
-      timeoutInMs: this._retryOptions?.timeoutInMs
+      timeoutInMs: this._retryOptions?.timeoutInMs,
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (options.fromSequenceNumber) {
@@ -472,7 +474,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
+      abortSignal: options?.abortSignal,
     };
     return retry<ServiceBusReceivedMessage[]>(config);
   }
@@ -490,7 +492,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
     options = {
       ...(options ?? {}),
-      autoCompleteMessages: options?.autoCompleteMessages ?? true
+      autoCompleteMessages: options?.autoCompleteMessages ?? true,
     };
 
     // When the user "stops" a streaming receiver (via the returned instance from 'subscribe' we just suspend
@@ -510,7 +512,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         receiveMode: this.receiveMode,
         retryOptions: this._retryOptions,
         lockRenewer: this._lockRenewer,
-        skipParsingBodyAsJson: this.skipParsingBodyAsJson
+        skipParsingBodyAsJson: this.skipParsingBodyAsJson,
       });
 
     // this ensures that if the outer service bus client is closed that  this receiver is cleaned up.
@@ -528,7 +530,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return {
       close: async (): Promise<void> => {
         return this._streamingReceiver?.stopReceivingMessages();
-      }
+      },
     };
   }
 
