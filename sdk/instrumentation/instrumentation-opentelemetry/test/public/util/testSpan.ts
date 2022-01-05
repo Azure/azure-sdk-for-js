@@ -11,7 +11,7 @@ import {
   SpanStatusCode,
   SpanAttributeValue,
   Span,
-  Link
+  Link,
 } from "@opentelemetry/api";
 
 /**
@@ -91,7 +91,7 @@ export class TestSpan implements Span {
     this.startTime = startTime;
     this.parentSpanId = parentSpanId;
     this.status = {
-      code: SpanStatusCode.UNSET
+      code: SpanStatusCode.UNSET,
     };
     this.endCalled = false;
     this._context = context;

@@ -2,12 +2,15 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { Context } from "mocha";
 import sinon from "sinon";
-import { Instrumenter, TracingSpan, TracingContext, TracingClient } from "../src/interfaces";
-import { NoOpInstrumenter, NoOpSpan, useInstrumenter } from "../src/instrumenter";
-import { createTracingClient, TracingClientImpl } from "../src/tracingClient";
-import { knownContextKeys, createTracingContext } from "../src/tracingContext";
+import { Instrumenter, TracingClient, TracingContext, TracingSpan } from "../src/interfaces";
+import {
+  createDefaultInstrumenter,
+  createDefaultTracingSpan,
+  useInstrumenter,
+} from "../src/instrumenter";
+import { createTracingClient } from "../src/tracingClient";
+import { createTracingContext, knownContextKeys } from "../src/tracingContext";
 
 describe("TracingClient", () => {
   let instrumenter: Instrumenter;
@@ -17,15 +20,15 @@ describe("TracingClient", () => {
   const expectedNamespace = "Microsoft.Test";
 
   beforeEach(() => {
-    instrumenter = new NoOpInstrumenter();
-    span = new NoOpSpan();
+    instrumenter = createDefaultInstrumenter();
+    span = createDefaultTracingSpan();
     context = createTracingContext();
 
     useInstrumenter(instrumenter);
     client = createTracingClient({
       namespace: expectedNamespace,
       packageName: "test-package",
-      packageVersion: "1.0.0"
+      packageVersion: "1.0.0",
     });
   });
 
@@ -40,7 +43,7 @@ describe("TracingClient", () => {
       instrumenter.startSpan = () => {
         return {
           span,
-          tracingContext: context
+          tracingContext: context,
         };
       };
       const setAttributeSpy = sinon.spy(span, "setAttribute");
@@ -73,7 +76,7 @@ describe("TracingClient", () => {
     it("does not override existing namespace on context", () => {
       context = createTracingContext().setValue(knownContextKeys.Namespace, "Existing.Namespace");
       const { updatedOptions } = client.startSpan("test", {
-        tracingOptions: { tracingContext: context }
+        tracingOptions: { tracingContext: context },
       });
       assert.equal(
         updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.Namespace),
@@ -81,9 +84,11 @@ describe("TracingClient", () => {
       );
     });
 
-    it("returns the same context in options", () => {
-      const { updatedOptions, tracingContext } = client.startSpan("test");
-      assert.strictEqual(updatedOptions.tracingOptions!.tracingContext, tracingContext);
+    it("Returns tracingContext in updatedOptions", () => {
+      let { updatedOptions } = client.startSpan("test");
+      assert.exists(updatedOptions.tracingOptions?.tracingContext);
+      updatedOptions = client.startSpan("test", updatedOptions).updatedOptions;
+      assert.exists(updatedOptions.tracingOptions?.tracingContext);
     });
   });
 
@@ -96,7 +101,7 @@ describe("TracingClient", () => {
       instrumenter.startSpan = () => {
         return {
           span,
-          tracingContext: context
+          tracingContext: context,
         };
       };
       const setAttributeSpy = sinon.spy(span, "setAttribute");
@@ -111,7 +116,7 @@ describe("TracingClient", () => {
 
     it("passes options and span to callback", async () => {
       await client.withSpan(spanName, { foo: "foo", bar: "bar" } as any, (options, currentSpan) => {
-        assert.instanceOf(currentSpan, NoOpSpan);
+        assert.exists(currentSpan);
         assert.exists(options);
         assert.equal(options.foo, "foo");
         assert.equal(options.bar, "bar");
@@ -120,7 +125,7 @@ describe("TracingClient", () => {
     });
 
     it("promisifies synchronous functions", async () => {
-      const result = await (client as TracingClientImpl).withSpan(spanName, {}, () => {
+      const result = await client.withSpan(spanName, {}, () => {
         return 5;
       });
       assert.equal(result, 5);
@@ -140,27 +145,12 @@ describe("TracingClient", () => {
         spanName,
         {
           tracingOptions: {
-            tracingContext: parentContext
-          }
+            tracingContext: parentContext,
+          },
         },
         (updatedOptions) => {
           assert.strictEqual(updatedOptions.tracingOptions.tracingContext.getValue(key), value);
         }
-      );
-    });
-
-    it("sets `this` correctly", async function(this: Context) {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const that = this;
-
-      await client.withSpan(
-        spanName,
-        {},
-        () => {
-          assert.strictEqual(this, that);
-        },
-        {},
-        this
       );
     });
 
@@ -171,7 +161,7 @@ describe("TracingClient", () => {
         instrumenter.startSpan = () => {
           return {
             span,
-            tracingContext: context
+            tracingContext: context,
           };
         };
         const setStatusSpy = sinon.spy(span, "setStatus");
@@ -188,7 +178,7 @@ describe("TracingClient", () => {
         instrumenter.startSpan = () => {
           return {
             span,
-            tracingContext: context
+            tracingContext: context,
           };
         };
         const setStatusSpy = sinon.spy(span, "setStatus");

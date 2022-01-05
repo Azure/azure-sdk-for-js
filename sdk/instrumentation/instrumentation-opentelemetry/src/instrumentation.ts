@@ -6,9 +6,9 @@ import {
   InstrumentationBase,
   InstrumentationConfig,
   InstrumentationModuleDefinition,
-  InstrumentationNodeModuleDefinition
+  InstrumentationNodeModuleDefinition,
 } from "@opentelemetry/instrumentation";
-import type * as coreTracing from "@azure/core-tracing"
+import type * as coreTracing from "@azure/core-tracing";
 import { OpenTelemetryInstrumenter } from "./instrumenter";
 import { SDK_VERSION } from "./constants";
 
@@ -26,24 +26,25 @@ class AzureSDKInstrumentation extends InstrumentationBase {
   }
   /**
    * Entrypoint for the module registration.
-   * 
+   *
    * @returns The patched \@azure/core-tracing module after setting its instrumenter.
    */
   protected init():
     | void
     | InstrumentationModuleDefinition<typeof coreTracing>
     | InstrumentationModuleDefinition<typeof coreTracing>[] {
-    const result: InstrumentationModuleDefinition<typeof coreTracing> = new InstrumentationNodeModuleDefinition(
-      "@azure/core-tracing",
-      ["^1.0.0-preview.14", "^1.0.0"],
-      (moduleExports) => {
-        if (typeof moduleExports.useInstrumenter === "function") {
-          moduleExports.useInstrumenter(new OpenTelemetryInstrumenter());
-        }
+    const result: InstrumentationModuleDefinition<typeof coreTracing> =
+      new InstrumentationNodeModuleDefinition(
+        "@azure/core-tracing",
+        ["^1.0.0-preview.14", "^1.0.0"],
+        (moduleExports) => {
+          if (typeof moduleExports.useInstrumenter === "function") {
+            moduleExports.useInstrumenter(new OpenTelemetryInstrumenter());
+          }
 
-        return moduleExports;
-      }
-    );
+          return moduleExports;
+        }
+      );
     // Needed to support 1.0.0-preview.14
     result.includePrerelease = true;
     return result;
@@ -55,7 +56,7 @@ class AzureSDKInstrumentation extends InstrumentationBase {
  *
  * When registerd, any Azure data plane package will begin emitting tracing spans for internal calls
  * as well as network calls
- * 
+ *
  * Example usage:
  * ```ts
  * const openTelemetryInstrumentation = require("@opentelemetry/instrumentation");
@@ -69,6 +70,8 @@ class AzureSDKInstrumentation extends InstrumentationBase {
  * As OpenTelemetry instrumentations rely on patching required modules, you should register
  * this instrumentation as early as possible and before loading any Azure Client Libraries.
  */
-export function createAzureInstrumentation(options: AzureSDKInstrumentationOptions = {}): Instrumentation {
+export function createAzureInstrumentation(
+  options: AzureSDKInstrumentationOptions = {}
+): Instrumentation {
   return new AzureSDKInstrumentation(options);
 }

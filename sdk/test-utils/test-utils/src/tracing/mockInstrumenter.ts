@@ -68,11 +68,10 @@ export class MockInstrumenter implements Instrumenter {
   >(
     context: TracingContext,
     callback: Callback,
-    callbackThis?: ThisParameterType<Callback>,
     ...callbackArgs: CallbackArgs
   ): ReturnType<Callback> {
     this.contextStack.push(context);
-    return Promise.resolve(callback.call(callbackThis, ...callbackArgs)).finally(() => {
+    return Promise.resolve(callback(...callbackArgs)).finally(() => {
       this.contextStack.pop();
     }) as ReturnType<Callback>;
   }
