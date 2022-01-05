@@ -6,7 +6,7 @@ Use these API to manage Azure Relay resources through Azure Resource Manager.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/relay/arm-relay) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-relay) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-relay) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-relay?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
