@@ -1,0 +1,43 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/never-registered:get-id?api-version=2021-10",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "160",
+        "Content-Type": "application/json; serialization=Avro",
+        "User-Agent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "bf915237-fefa-4352-bd2b-4c58a5be3f16"
+      },
+      "RequestBody": {
+        "type": "record",
+        "name": "User",
+        "namespace": "com.azure.schemaregistry.samples",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "favoriteNumber",
+            "type": "int"
+          }
+        ]
+      },
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Wed, 05 Jan 2022 00:43:39 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000",
+        "Transfer-Encoding": "chunked"
+      },
+      "ResponseBody": "{\u0022Code\u0022:404,\u0022Detail\u0022:\u0022Schema group-1\\/never-registered does not exist. TrackingId:f361bfd3-f292-4144-822e-feac6320fa8a_G31, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups\\/group-1\\/schemas\\/never-registered:get-id, Timestamp:2022-01-05T00:43:39\u0022}"
+    }
+  ],
+  "Variables": {}
+}

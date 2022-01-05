@@ -1,0 +1,81 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2021-10",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "160",
+        "Content-Type": "application/json; serialization=null",
+        "User-Agent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "93b7a189-03f3-4a10-afb1-598229f94ce2"
+      },
+      "RequestBody": {
+        "type": "record",
+        "name": "User",
+        "namespace": "com.azure.schemaregistry.samples",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "favoriteNumber",
+            "type": "int"
+          }
+        ]
+      },
+      "StatusCode": 415,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Wed, 05 Jan 2022 00:43:34 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000",
+        "Transfer-Encoding": "chunked"
+      },
+      "ResponseBody": "{\u0022Code\u0022:415,\u0022Detail\u0022:\u0022Invalid schema type for PUT request. \u0027null\u0027 is not supported. TrackingId:6cc1f6d4-3dca-4544-ba93-9eef8159bfec_G31, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups\\/group-1\\/schemas\\/azsdk_js_test, Timestamp:2022-01-05T00:43:35\u0022}"
+    },
+    {
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2021-10",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "160",
+        "Content-Type": "application/json; serialization=not-valid",
+        "User-Agent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "cd92f428-d80a-46bb-affc-924f54c06134"
+      },
+      "RequestBody": {
+        "type": "record",
+        "name": "User",
+        "namespace": "com.azure.schemaregistry.samples",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "favoriteNumber",
+            "type": "int"
+          }
+        ]
+      },
+      "StatusCode": 415,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Wed, 05 Jan 2022 00:43:35 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000",
+        "Transfer-Encoding": "chunked"
+      },
+      "ResponseBody": "{\u0022Code\u0022:415,\u0022Detail\u0022:\u0022Invalid schema type for PUT request. \u0027not-valid\u0027 is not supported. TrackingId:7a25bba7-7db2-41a5-a3e8-59726350b236_G31, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups\\/group-1\\/schemas\\/azsdk_js_test, Timestamp:2022-01-05T00:43:35\u0022}"
+    }
+  ],
+  "Variables": {}
+}

@@ -5,7 +5,8 @@ import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegist
 import { TokenCredential } from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
-  InternalPipelineOptions
+  InternalPipelineOptions,
+  Pipeline
 } from "@azure/core-rest-pipeline";
 import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 
@@ -28,6 +29,8 @@ import { logger } from "./logger";
 export class SchemaRegistryClient implements SchemaRegistry {
   /** The Schema Registry service fully qualified namespace URL. */
   readonly fullyQualifiedNamespace: string;
+
+  public pipeline:Pipeline;
 
   /** Underlying autorest generated client. */
   private readonly client: GeneratedSchemaRegistryClient;
@@ -64,6 +67,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
 
     const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
     this.client.pipeline.addPolicy(authPolicy);
+    this.pipeline = this.client.pipeline;
   }
 
   /**
