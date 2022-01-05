@@ -5,7 +5,6 @@ import { SpanGraph, setTracer, getYieldedValue } from "@azure/test-utils";
 import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 
 import {
   DataLakeFileSystemClient,
@@ -22,8 +21,6 @@ import {
 } from "./utils";
 import { URLBuilder } from "@azure/core-http";
 import { Context } from "mocha";
-
-dotenv.config();
 
 describe("DataLakeFileSystemClient", () => {
   let fileSystemName: string;

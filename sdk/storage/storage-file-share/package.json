@@ -31,11 +31,11 @@
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:samples": "cross-env ONLY_NODE=true npm run build && npm run build:prep-samples",
+    "build:samples": "npm run build && npm run build:prep-samples",
     "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
-    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build:test": "tsc -p . && rollup -c 2>&1",
     "build:types": "downlevel-dts typings/latest typings/3.1",
-    "build": "npm run clean && tsc -p . && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* typings temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "clean:samples": "rimraf samples/javascript/node_modules samples/typescript/node_modules samples/typescript/dist samples/typescript/package-lock.json samples/javascript/package-lock.json",
@@ -53,7 +53,7 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 \"dist-test/index.node.js\"",
+    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [

@@ -3,7 +3,6 @@
 
 import { assert } from "chai";
 import { getBSU, recorderEnvSetup } from "../utils";
-import * as dotenv from "dotenv";
 import {
   ShareDirectoryClient,
   newPipeline,
@@ -12,7 +11,6 @@ import {
 } from "../../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("DirectoryClient Node.js only", () => {
   let shareName: string;

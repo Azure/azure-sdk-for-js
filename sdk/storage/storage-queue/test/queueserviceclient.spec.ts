@@ -2,14 +2,12 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { QueueServiceClient } from "../src/QueueServiceClient";
 import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record, delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure/test-utils";
 import { recorderEnvSetup } from "./utils/index.browser";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("QueueServiceClient", () => {
   let recorder: Recorder;

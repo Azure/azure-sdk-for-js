@@ -3,7 +3,6 @@
 
 import { assert } from "chai";
 
-import * as dotenv from "dotenv";
 import { BlobServiceClient } from "../src";
 import {
   getAlternateBSU,
@@ -18,7 +17,6 @@ import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder"
 import { getYieldedValue } from "@azure/test-utils";
 import { Tags } from "../src/models";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("BlobServiceClient", () => {
   let recorder: Recorder;

@@ -7,14 +7,11 @@ import { SpanGraph, setTracer } from "@azure/test-utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { toPermissionsString } from "../src/transforms";
 import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { Context } from "mocha";
-
-dotenv.config();
 
 describe("DataLakePathClient", () => {
   let fileSystemName: string;
