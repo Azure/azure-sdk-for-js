@@ -6,7 +6,7 @@ Azure Event Hubs client for managing Event Hubs Cluster, IPFilter Rules and Virt
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/arm-eventhub) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-eventhub) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-eventhub) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-eventhub?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
