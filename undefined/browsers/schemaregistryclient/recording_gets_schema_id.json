@@ -1,0 +1,111 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2021-10",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "160",
+        "Content-Type": "application/json; serialization=Avro",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "8735eb32-f739-4852-bebb-07c8df56bf3b",
+        "x-ms-useragent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.3.3 OS/Win32"
+      },
+      "RequestBody": {
+        "type": "record",
+        "name": "User",
+        "namespace": "com.azure.schemaregistry.samples",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "favoriteNumber",
+            "type": "int"
+          }
+        ]
+      },
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Wed, 05 Jan 2022 00:56:14 GMT",
+        "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2021-10",
+        "Schema-Group-Name": "group-1",
+        "Schema-Id": "e086b25cd8344fad9fc9e1dc3d8363f9",
+        "Schema-Id-Location": "https://endpoint:443/$schemagroups/$schemas/e086b25cd8344fad9fc9e1dc3d8363f9?api-version=2021-10",
+        "Schema-Name": "azsdk_js_test",
+        "Schema-Version": "1",
+        "Schema-Versions-Location": "https://endpoint:443/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2021-10",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test:get-id?api-version=2021-10",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "160",
+        "Content-Type": "application/json; serialization=Avro",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "5211aa07-7e47-4e5b-ad59-39057a4a7506",
+        "x-ms-useragent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.3.3 OS/Win32"
+      },
+      "RequestBody": {
+        "type": "record",
+        "name": "User",
+        "namespace": "com.azure.schemaregistry.samples",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "favoriteNumber",
+            "type": "int"
+          }
+        ]
+      },
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Wed, 05 Jan 2022 00:56:15 GMT",
+        "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2021-10",
+        "Schema-Group-Name": "group-1",
+        "Schema-Id": "e086b25cd8344fad9fc9e1dc3d8363f9",
+        "Schema-Id-Location": "https://endpoint:443/$schemagroups/$schemas/e086b25cd8344fad9fc9e1dc3d8363f9?api-version=2021-10",
+        "Schema-Name": "azsdk_js_test",
+        "Schema-Version": "1",
+        "Schema-Versions-Location": "https://endpoint:443/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2021-10",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}
