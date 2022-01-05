@@ -7,32 +7,30 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Groups } from "../operationsInterfaces";
+import { ImportCollectors } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMigrateV2 } from "../azureMigrateV2";
 import {
-  Group,
-  GroupsListByProjectOptionalParams,
-  GroupsListByProjectResponse,
-  GroupsGetOptionalParams,
-  GroupsGetResponse,
-  GroupsCreateOptionalParams,
-  GroupsCreateResponse,
-  GroupsDeleteOptionalParams,
-  GroupsDeleteResponse,
-  GroupsUpdateMachinesOptionalParams,
-  GroupsUpdateMachinesResponse
+  ImportCollector,
+  ImportCollectorsListByProjectOptionalParams,
+  ImportCollectorsListByProjectResponse,
+  ImportCollectorsGetOptionalParams,
+  ImportCollectorsGetResponse,
+  ImportCollectorsCreateOptionalParams,
+  ImportCollectorsCreateResponse,
+  ImportCollectorsDeleteOptionalParams,
+  ImportCollectorsDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Groups operations. */
-export class GroupsImpl implements Groups {
+/** Class containing ImportCollectors operations. */
+export class ImportCollectorsImpl implements ImportCollectors {
   private readonly client: AzureMigrateV2;
 
   /**
-   * Initialize a new instance of the class Groups class.
+   * Initialize a new instance of the class ImportCollectors class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMigrateV2) {
@@ -40,8 +38,7 @@ export class GroupsImpl implements Groups {
   }
 
   /**
-   * Get all groups created in the project. Returns a json array of objects of type 'group' as specified
-   * in the Models section.
+   * Get a list of Import collector.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param options The options parameters.
@@ -49,8 +46,8 @@ export class GroupsImpl implements Groups {
   public listByProject(
     resourceGroupName: string,
     projectName: string,
-    options?: GroupsListByProjectOptionalParams
-  ): PagedAsyncIterableIterator<Group> {
+    options?: ImportCollectorsListByProjectOptionalParams
+  ): PagedAsyncIterableIterator<ImportCollector> {
     const iter = this.listByProjectPagingAll(
       resourceGroupName,
       projectName,
@@ -76,8 +73,8 @@ export class GroupsImpl implements Groups {
   private async *listByProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: GroupsListByProjectOptionalParams
-  ): AsyncIterableIterator<Group[]> {
+    options?: ImportCollectorsListByProjectOptionalParams
+  ): AsyncIterableIterator<ImportCollector[]> {
     let result = await this._listByProject(
       resourceGroupName,
       projectName,
@@ -89,8 +86,8 @@ export class GroupsImpl implements Groups {
   private async *listByProjectPagingAll(
     resourceGroupName: string,
     projectName: string,
-    options?: GroupsListByProjectOptionalParams
-  ): AsyncIterableIterator<Group> {
+    options?: ImportCollectorsListByProjectOptionalParams
+  ): AsyncIterableIterator<ImportCollector> {
     for await (const page of this.listByProjectPagingPage(
       resourceGroupName,
       projectName,
@@ -101,8 +98,7 @@ export class GroupsImpl implements Groups {
   }
 
   /**
-   * Get all groups created in the project. Returns a json array of objects of type 'group' as specified
-   * in the Models section.
+   * Get a list of Import collector.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param options The options parameters.
@@ -110,8 +106,8 @@ export class GroupsImpl implements Groups {
   private _listByProject(
     resourceGroupName: string,
     projectName: string,
-    options?: GroupsListByProjectOptionalParams
-  ): Promise<GroupsListByProjectResponse> {
+    options?: ImportCollectorsListByProjectOptionalParams
+  ): Promise<ImportCollectorsListByProjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, options },
       listByProjectOperationSpec
@@ -119,88 +115,59 @@ export class GroupsImpl implements Groups {
   }
 
   /**
-   * Get information related to a specific group in the project. Returns a json object of type 'group' as
-   * specified in the models section.
+   * Get a Import collector.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
-   * @param groupName Unique name of a group within a project.
+   * @param importCollectorName Unique name of a Import collector within a project.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     projectName: string,
-    groupName: string,
-    options?: GroupsGetOptionalParams
-  ): Promise<GroupsGetResponse> {
+    importCollectorName: string,
+    options?: ImportCollectorsGetOptionalParams
+  ): Promise<ImportCollectorsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, groupName, options },
+      { resourceGroupName, projectName, importCollectorName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create a new group by sending a json object of type 'group' as given in Models section as part of
-   * the Request Body. The group name in a project is unique.
-   *
-   * This operation is Idempotent.
-   *
+   * Create or Update Import collector
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
-   * @param groupName Unique name of a group within a project.
+   * @param importCollectorName Unique name of a Import collector within a project.
    * @param options The options parameters.
    */
   create(
     resourceGroupName: string,
     projectName: string,
-    groupName: string,
-    options?: GroupsCreateOptionalParams
-  ): Promise<GroupsCreateResponse> {
+    importCollectorName: string,
+    options?: ImportCollectorsCreateOptionalParams
+  ): Promise<ImportCollectorsCreateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, groupName, options },
+      { resourceGroupName, projectName, importCollectorName, options },
       createOperationSpec
     );
   }
 
   /**
-   * Delete the group from the project. The machines remain in the project. Deleting a non-existent group
-   * results in a no-operation.
-   *
-   * A group is an aggregation mechanism for machines in a project. Therefore, deleting group does not
-   * delete machines in it.
-   *
+   * Delete a Import collector from the project.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
-   * @param groupName Unique name of a group within a project.
+   * @param importCollectorName Unique name of a Import collector within a project.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     projectName: string,
-    groupName: string,
-    options?: GroupsDeleteOptionalParams
-  ): Promise<GroupsDeleteResponse> {
+    importCollectorName: string,
+    options?: ImportCollectorsDeleteOptionalParams
+  ): Promise<ImportCollectorsDeleteResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, groupName, options },
+      { resourceGroupName, projectName, importCollectorName, options },
       deleteOperationSpec
-    );
-  }
-
-  /**
-   * Update machines in group by adding or removing machines.
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
-   * @param groupName Unique name of a group within a project.
-   * @param options The options parameters.
-   */
-  updateMachines(
-    resourceGroupName: string,
-    projectName: string,
-    groupName: string,
-    options?: GroupsUpdateMachinesOptionalParams
-  ): Promise<GroupsUpdateMachinesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, groupName, options },
-      updateMachinesOperationSpec
     );
   }
 }
@@ -209,12 +176,12 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByProjectOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/importcollectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GroupResultList,
-      headersMapper: Mappers.GroupsListByProjectHeaders
+      bodyMapper: Mappers.ImportCollectorList,
+      headersMapper: Mappers.ImportCollectorsListByProjectHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -232,12 +199,12 @@ const listByProjectOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/importcollectors/{importCollectorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Group,
-      headersMapper: Mappers.GroupsGetHeaders
+      bodyMapper: Mappers.ImportCollector,
+      headersMapper: Mappers.ImportCollectorsGetHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -249,36 +216,36 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.groupName
+    Parameters.importCollectorName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/importcollectors/{importCollectorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Group,
-      headersMapper: Mappers.GroupsCreateHeaders
+      bodyMapper: Mappers.ImportCollector,
+      headersMapper: Mappers.ImportCollectorsCreateHeaders
     },
     201: {
-      bodyMapper: Mappers.Group,
-      headersMapper: Mappers.GroupsCreateHeaders
+      bodyMapper: Mappers.ImportCollector,
+      headersMapper: Mappers.ImportCollectorsCreateHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.group,
+  requestBody: Parameters.collectorBody3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.groupName
+    Parameters.importCollectorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -286,11 +253,11 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/importcollectors/{importCollectorName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.GroupsDeleteHeaders
+      headersMapper: Mappers.ImportCollectorsDeleteHeaders
     },
     204: {},
     default: {
@@ -303,34 +270,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.groupName
+    Parameters.importCollectorName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const updateMachinesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/updateMachines",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Group,
-      headersMapper: Mappers.GroupsUpdateMachinesHeaders
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.groupUpdateProperties,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.groupName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };

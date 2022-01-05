@@ -7,32 +7,30 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Groups } from "../operationsInterfaces";
+import { HyperVCollectors } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMigrateV2 } from "../azureMigrateV2";
 import {
-  Group,
-  GroupsListByProjectOptionalParams,
-  GroupsListByProjectResponse,
-  GroupsGetOptionalParams,
-  GroupsGetResponse,
-  GroupsCreateOptionalParams,
-  GroupsCreateResponse,
-  GroupsDeleteOptionalParams,
-  GroupsDeleteResponse,
-  GroupsUpdateMachinesOptionalParams,
-  GroupsUpdateMachinesResponse
+  HyperVCollector,
+  HyperVCollectorsListByProjectOptionalParams,
+  HyperVCollectorsListByProjectResponse,
+  HyperVCollectorsGetOptionalParams,
+  HyperVCollectorsGetResponse,
+  HyperVCollectorsCreateOptionalParams,
+  HyperVCollectorsCreateResponse,
+  HyperVCollectorsDeleteOptionalParams,
+  HyperVCollectorsDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Groups operations. */
-export class GroupsImpl implements Groups {
+/** Class containing HyperVCollectors operations. */
+export class HyperVCollectorsImpl implements HyperVCollectors {
   private readonly client: AzureMigrateV2;
 
   /**
-   * Initialize a new instance of the class Groups class.
+   * Initialize a new instance of the class HyperVCollectors class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMigrateV2) {
@@ -40,8 +38,7 @@ export class GroupsImpl implements Groups {
   }
 
   /**
-   * Get all groups created in the project. Returns a json array of objects of type 'group' as specified
-   * in the Models section.
+   * Get a list of Hyper-V collector.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param options The options parameters.
@@ -49,8 +46,8 @@ export class GroupsImpl implements Groups {
   public listByProject(
     resourceGroupName: string,
     projectName: string,
-    options?: GroupsListByProjectOptionalParams
-  ): PagedAsyncIterableIterator<Group> {
+    options?: HyperVCollectorsListByProjectOptionalParams
+  ): PagedAsyncIterableIterator<HyperVCollector> {
     const iter = this.listByProjectPagingAll(
       resourceGroupName,
       projectName,
@@ -76,8 +73,8 @@ export class GroupsImpl implements Groups {
   private async *listByProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: GroupsListByProjectOptionalParams
-  ): AsyncIterableIterator<Group[]> {
+    options?: HyperVCollectorsListByProjectOptionalParams
+  ): AsyncIterableIterator<HyperVCollector[]> {
     let result = await this._listByProject(
       resourceGroupName,
       projectName,
@@ -89,8 +86,8 @@ export class GroupsImpl implements Groups {
   private async *listByProjectPagingAll(
     resourceGroupName: string,
     projectName: string,
-    options?: GroupsListByProjectOptionalParams
-  ): AsyncIterableIterator<Group> {
+    options?: HyperVCollectorsListByProjectOptionalParams
+  ): AsyncIterableIterator<HyperVCollector> {
     for await (const page of this.listByProjectPagingPage(
       resourceGroupName,
       projectName,
@@ -101,8 +98,7 @@ export class GroupsImpl implements Groups {
   }
 
   /**
-   * Get all groups created in the project. Returns a json array of objects of type 'group' as specified
-   * in the Models section.
+   * Get a list of Hyper-V collector.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
    * @param options The options parameters.
@@ -110,8 +106,8 @@ export class GroupsImpl implements Groups {
   private _listByProject(
     resourceGroupName: string,
     projectName: string,
-    options?: GroupsListByProjectOptionalParams
-  ): Promise<GroupsListByProjectResponse> {
+    options?: HyperVCollectorsListByProjectOptionalParams
+  ): Promise<HyperVCollectorsListByProjectResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, projectName, options },
       listByProjectOperationSpec
@@ -119,88 +115,59 @@ export class GroupsImpl implements Groups {
   }
 
   /**
-   * Get information related to a specific group in the project. Returns a json object of type 'group' as
-   * specified in the models section.
+   * Get a Hyper-V collector.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
-   * @param groupName Unique name of a group within a project.
+   * @param hyperVCollectorName Unique name of a Hyper-V collector within a project.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     projectName: string,
-    groupName: string,
-    options?: GroupsGetOptionalParams
-  ): Promise<GroupsGetResponse> {
+    hyperVCollectorName: string,
+    options?: HyperVCollectorsGetOptionalParams
+  ): Promise<HyperVCollectorsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, groupName, options },
+      { resourceGroupName, projectName, hyperVCollectorName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create a new group by sending a json object of type 'group' as given in Models section as part of
-   * the Request Body. The group name in a project is unique.
-   *
-   * This operation is Idempotent.
-   *
+   * Create or Update Hyper-V collector
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
-   * @param groupName Unique name of a group within a project.
+   * @param hyperVCollectorName Unique name of a Hyper-V collector within a project.
    * @param options The options parameters.
    */
   create(
     resourceGroupName: string,
     projectName: string,
-    groupName: string,
-    options?: GroupsCreateOptionalParams
-  ): Promise<GroupsCreateResponse> {
+    hyperVCollectorName: string,
+    options?: HyperVCollectorsCreateOptionalParams
+  ): Promise<HyperVCollectorsCreateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, groupName, options },
+      { resourceGroupName, projectName, hyperVCollectorName, options },
       createOperationSpec
     );
   }
 
   /**
-   * Delete the group from the project. The machines remain in the project. Deleting a non-existent group
-   * results in a no-operation.
-   *
-   * A group is an aggregation mechanism for machines in a project. Therefore, deleting group does not
-   * delete machines in it.
-   *
+   * Delete a Hyper-V collector from the project.
    * @param resourceGroupName Name of the Azure Resource Group that project is part of.
    * @param projectName Name of the Azure Migrate project.
-   * @param groupName Unique name of a group within a project.
+   * @param hyperVCollectorName Unique name of a Hyper-V collector within a project.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     projectName: string,
-    groupName: string,
-    options?: GroupsDeleteOptionalParams
-  ): Promise<GroupsDeleteResponse> {
+    hyperVCollectorName: string,
+    options?: HyperVCollectorsDeleteOptionalParams
+  ): Promise<HyperVCollectorsDeleteResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, groupName, options },
+      { resourceGroupName, projectName, hyperVCollectorName, options },
       deleteOperationSpec
-    );
-  }
-
-  /**
-   * Update machines in group by adding or removing machines.
-   * @param resourceGroupName Name of the Azure Resource Group that project is part of.
-   * @param projectName Name of the Azure Migrate project.
-   * @param groupName Unique name of a group within a project.
-   * @param options The options parameters.
-   */
-  updateMachines(
-    resourceGroupName: string,
-    projectName: string,
-    groupName: string,
-    options?: GroupsUpdateMachinesOptionalParams
-  ): Promise<GroupsUpdateMachinesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, projectName, groupName, options },
-      updateMachinesOperationSpec
     );
   }
 }
@@ -209,12 +176,12 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByProjectOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/hypervcollectors",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GroupResultList,
-      headersMapper: Mappers.GroupsListByProjectHeaders
+      bodyMapper: Mappers.HyperVCollectorList,
+      headersMapper: Mappers.HyperVCollectorsListByProjectHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -232,12 +199,12 @@ const listByProjectOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/hypervcollectors/{hyperVCollectorName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Group,
-      headersMapper: Mappers.GroupsGetHeaders
+      bodyMapper: Mappers.HyperVCollector,
+      headersMapper: Mappers.HyperVCollectorsGetHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -249,36 +216,36 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.groupName
+    Parameters.hyperVCollectorName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/hypervcollectors/{hyperVCollectorName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Group,
-      headersMapper: Mappers.GroupsCreateHeaders
+      bodyMapper: Mappers.HyperVCollector,
+      headersMapper: Mappers.HyperVCollectorsCreateHeaders
     },
     201: {
-      bodyMapper: Mappers.Group,
-      headersMapper: Mappers.GroupsCreateHeaders
+      bodyMapper: Mappers.HyperVCollector,
+      headersMapper: Mappers.HyperVCollectorsCreateHeaders
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.group,
+  requestBody: Parameters.collectorBody,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.groupName
+    Parameters.hyperVCollectorName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -286,11 +253,11 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/hypervcollectors/{hyperVCollectorName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.GroupsDeleteHeaders
+      headersMapper: Mappers.HyperVCollectorsDeleteHeaders
     },
     204: {},
     default: {
@@ -303,34 +270,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.projectName,
-    Parameters.groupName
+    Parameters.hyperVCollectorName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const updateMachinesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/updateMachines",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Group,
-      headersMapper: Mappers.GroupsUpdateMachinesHeaders
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.groupUpdateProperties,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.projectName,
-    Parameters.groupName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
