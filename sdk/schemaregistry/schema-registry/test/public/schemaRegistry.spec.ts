@@ -66,9 +66,10 @@ describe("SchemaRegistryClient", function () {
 
   beforeEach(async function (this: Context) {
     ({ client, recorder } = createRecordedClient(this.currentTest));
+    if (!env.SCHEMA_REGISTRY_GROUP) throw new Error("SCHEMA_REGISTRY_GROUP is not defined");
     schema = {
       name: "azsdk_js_test",
-      groupName: env.SCHEMA_REGISTRY_GROUP || "",
+      groupName: env.SCHEMA_REGISTRY_GROUP,
       format: "Avro",
       definition: JSON.stringify({
         type: "record",
@@ -173,9 +174,10 @@ describe("SchemaRegistryClient", function () {
   });
 
   it("schema with whitespace", async () => {
+    if (!env.SCHEMA_REGISTRY_GROUP) throw new Error("SCHEMA_REGISTRY_GROUP is not defined");
     const schema2: SchemaDescription = {
       name: "azsdk_js_test2",
-      groupName: env.SCHEMA_REGISTRY_GROUP || "",
+      groupName: env.SCHEMA_REGISTRY_GROUP,
       format: "Avro",
       definition:
         "{\n" +

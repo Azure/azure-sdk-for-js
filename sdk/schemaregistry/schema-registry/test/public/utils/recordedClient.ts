@@ -23,7 +23,8 @@ export const startOptions: RecorderStartOptions = {
 export function createRecordedClient(context: Mocha.Test | undefined): RecordedClient {
   const recorder = new Recorder(context);
   const credential = createTestCredential();
-  const client = new SchemaRegistryClient(env.SCHEMA_REGISTRY_ENDPOINT || "", credential);
+  if (!env.SCHEMA_REGISTRY_ENDPOINT) throw new Error("SCHEMA_REGISTRY_ENDPOINT is not defined");
+  const client = new SchemaRegistryClient(env.SCHEMA_REGISTRY_ENDPOINT, credential);
   recorder.configureClient(client);
   return { client, recorder };
 }
