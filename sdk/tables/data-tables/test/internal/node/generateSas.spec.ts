@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { AzureNamedKeyCredential, generateAccountSas, generateTableSas } from "../../../src";
 import * as sinon from "sinon";
 
-describe("SAS generation", function() {
+describe("SAS generation", function () {
   describe("generateTableSAS", () => {
     let clock: sinon.SinonFakeTimers;
     beforeEach(() => {
@@ -39,8 +39,8 @@ describe("SAS generation", function() {
         {
           permissions: {
             add: true,
-            delete: true
-          }
+            delete: true,
+          },
         }
       );
 
@@ -56,7 +56,7 @@ describe("SAS generation", function() {
         "testTable",
         new AzureNamedKeyCredential("keyName", "keySecret"),
         {
-          expiresOn: new Date("2022-12-12")
+          expiresOn: new Date("2022-12-12"),
         }
       );
 
@@ -73,7 +73,7 @@ describe("SAS generation", function() {
         new AzureNamedKeyCredential("keyName", "keySecret"),
         {
           identifier: "MyAccessPolicy",
-          version: "2019-02-02"
+          version: "2019-02-02",
         }
       );
 
@@ -111,8 +111,8 @@ describe("SAS generation", function() {
       const tableSas = generateAccountSas(new AzureNamedKeyCredential("keyName", "keySecret"), {
         permissions: {
           add: true,
-          delete: true
-        }
+          delete: true,
+        },
       });
 
       assert.equal(
@@ -124,7 +124,7 @@ describe("SAS generation", function() {
     it("should generate a SAS token with explicit expiry", async () => {
       // Create the table SAS token
       const tableSas = generateAccountSas(new AzureNamedKeyCredential("keyName", "keySecret"), {
-        expiresOn: new Date("2022-12-12")
+        expiresOn: new Date("2022-12-12"),
       });
 
       assert.equal(

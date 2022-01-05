@@ -3,17 +3,14 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
+import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
+import { TokenCachePersistenceOptions, UsernamePasswordCredential } from "../../../../identity/src";
+import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
+import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
 import assert from "assert";
-
-import { env } from "@azure-tools/test-recorder";
-import { PublicClientApplication } from "@azure/msal-node";
-
-import { UsernamePasswordCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
-import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
-
 import { createPersistence } from "./setup.spec";
+import { env } from "@azure-tools/test-recorder";
 
 describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;

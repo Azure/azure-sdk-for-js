@@ -5,7 +5,7 @@ import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegist
 import { TokenCredential } from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
-  InternalPipelineOptions
+  InternalPipelineOptions,
 } from "@azure/core-rest-pipeline";
 import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 
@@ -17,7 +17,7 @@ import {
   SchemaRegistry,
   RegisterSchemaOptions,
   SchemaProperties,
-  Schema
+  Schema,
 } from "./models";
 import { DEFAULT_SCOPE } from "./constants";
 import { logger } from "./logger";
@@ -51,15 +51,15 @@ export class SchemaRegistryClient implements SchemaRegistry {
       ...options,
       ...{
         loggingOptions: {
-          logger: logger.info
-        }
-      }
+          logger: logger.info,
+        },
+      },
     };
 
     this.client = new GeneratedSchemaRegistryClient(this.fullyQualifiedNamespace, {
       endpoint: this.fullyQualifiedNamespace,
       apiVersion: options.apiVersion,
-      ...internalPipelineOptions
+      ...internalPipelineOptions,
     });
 
     const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });

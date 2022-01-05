@@ -8,7 +8,7 @@ import {
   EventPosition,
   PartitionContext,
   ReceivedEventData,
-  SubscriptionEventHandlers
+  SubscriptionEventHandlers,
 } from "../../../src";
 import chai from "chai";
 import { delay } from "@azure/core-amqp";
@@ -35,13 +35,13 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     for (const partitionId of partitionIds) {
       const props = await client.getPartitionProperties(partitionId);
       startPosition[props.partitionId] = {
-        sequenceNumber: props.lastEnqueuedSequenceNumber
+        sequenceNumber: props.lastEnqueuedSequenceNumber,
       };
     }
 
     return {
       startPosition: startPosition,
-      subscriptionEventHandler: new SubscriptionHandlerForTests()
+      subscriptionEventHandler: new SubscriptionHandlerForTests(),
     };
   }
 
@@ -72,7 +72,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
       ...events.map((event) => {
         return {
           event,
-          partitionId: context.partitionId
+          partitionId: context.partitionId,
         };
       })
     );
@@ -97,7 +97,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
       timeBetweenRunsMs: 1000,
       until: async () => {
         return this.data.size === partitionIds.length;
-      }
+      },
     });
   }
 
@@ -144,7 +144,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     return events.map((eventAndPartitionId) => {
       return {
         body: eventAndPartitionId.event.body,
-        partitionId: eventAndPartitionId.partitionId
+        partitionId: eventAndPartitionId.partitionId,
       };
     });
   }
@@ -188,7 +188,7 @@ export async function sendOneMessagePerPartition(
     await producerClient.sendBatch([{ body }], { partitionId });
     sentMessages.push({
       body,
-      partitionId
+      partitionId,
     });
   }
 

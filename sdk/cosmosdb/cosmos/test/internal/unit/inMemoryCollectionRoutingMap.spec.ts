@@ -4,48 +4,47 @@ import assert from "assert";
 import { QueryRange } from "../../../src/routing";
 import { createCompleteRoutingMap } from "../../../src/routing/CollectionRoutingMapFactory";
 
-describe("InMemoryCollectionRoutingMap Tests", function() {
-  describe("getOverlappingRanges", function() {
+describe("InMemoryCollectionRoutingMap Tests", function () {
+  describe("getOverlappingRanges", function () {
     const partitionKeyRanges = [
       { id: "0", minInclusive: "", maxExclusive: "05C1C9CD673398" },
       {
         id: "1",
         minInclusive: "05C1C9CD673398",
-        maxExclusive: "05C1D9CD673398"
+        maxExclusive: "05C1D9CD673398",
       },
       {
         id: "2",
         minInclusive: "05C1D9CD673398",
-        maxExclusive: "05C1E399CD6732"
+        maxExclusive: "05C1E399CD6732",
       },
       {
         id: "3",
         minInclusive: "05C1E399CD6732",
-        maxExclusive: "05C1E9CD673398"
+        maxExclusive: "05C1E9CD673398",
       },
-      { id: "4", minInclusive: "05C1E9CD673398", maxExclusive: "FF" }
+      { id: "4", minInclusive: "05C1E9CD673398", maxExclusive: "FF" },
     ];
     const partitionRangeWithInfo = partitionKeyRanges.map((r) => [r, true]);
     const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
 
-    it("queryCompleteRange", function() {
+    it("queryCompleteRange", function () {
       const completeRange = new QueryRange("", "FF", true, false);
-      const overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges(
-        completeRange
-      );
+      const overlappingPartitionKeyRanges =
+        collectionRoutingMap.getOverlappingRanges(completeRange);
 
       assert.equal(overlappingPartitionKeyRanges.length, partitionKeyRanges.length);
       assert.deepEqual(overlappingPartitionKeyRanges, partitionKeyRanges);
     });
 
-    it("queryEmptyRange", function() {
+    it("queryEmptyRange", function () {
       const emtpyRange = new QueryRange("05C1C9CD673396", "05C1C9CD673396", true, false);
       const overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges(emtpyRange);
 
       assert.equal(overlappingPartitionKeyRanges.length, 0);
     });
 
-    it("queryPoint", function() {
+    it("queryPoint", function () {
       const pointRange = new QueryRange("05C1D9CD673397", "05C1D9CD673397", true, true);
       const overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges(pointRange);
 
@@ -54,7 +53,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
       assert(overlappingPartitionKeyRanges[0].maxExclusive > pointRange.max);
     });
 
-    it("boundaryPointQuery", function() {
+    it("boundaryPointQuery", function () {
       const pointRange = new QueryRange("05C1C9CD673398", "05C1C9CD673398", true, true);
       const overlappingPartitionKeyRanges = collectionRoutingMap.getOverlappingRanges(pointRange);
 
@@ -65,45 +64,45 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
     });
   });
 
-  describe("All methods", function() {
+  describe("All methods", function () {
     const partitionRangeWithInfo = [
       [
         {
           id: "2",
           minInclusive: "0000000050",
-          maxExclusive: "0000000070"
+          maxExclusive: "0000000070",
         },
-        2
+        2,
       ],
       [
         {
           id: "0",
           minInclusive: "",
-          maxExclusive: "0000000030"
+          maxExclusive: "0000000030",
         },
-        0
+        0,
       ],
       [
         {
           id: "1",
           minInclusive: "0000000030",
-          maxExclusive: "0000000050"
+          maxExclusive: "0000000050",
         },
-        1
+        1,
       ],
       [
         {
           id: "3",
           minInclusive: "0000000070",
-          maxExclusive: "FF"
+          maxExclusive: "FF",
         },
-        3
-      ]
+        3,
+      ],
     ];
 
     const collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
 
-    it("validate _orderedPartitionKeyRanges", function() {
+    it("validate _orderedPartitionKeyRanges", function () {
       assert.equal("0", collectionRoutingMap.getOrderedParitionKeyRanges()[0].id);
       assert.equal("1", collectionRoutingMap.getOrderedParitionKeyRanges()[1].id);
       assert.equal("2", collectionRoutingMap.getOrderedParitionKeyRanges()[2].id);
@@ -111,17 +110,17 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
     });
 
     // TODO: bad practice to test implementation details
-    it("validate _orderedPartitionInfo", function() {
+    it("validate _orderedPartitionInfo", function () {
       assert.equal(0, (collectionRoutingMap.orderedPartitionInfo as number[])[0]);
       assert.equal(1, (collectionRoutingMap.orderedPartitionInfo as number[])[1]);
       assert.equal(2, (collectionRoutingMap.orderedPartitionInfo as number[])[2]);
       assert.equal(3, (collectionRoutingMap.orderedPartitionInfo as number[])[3]);
     });
 
-    it("validate getOverlappingRanges", function() {
+    it("validate getOverlappingRanges", function () {
       const completeRange = new QueryRange("", "FF", true, false);
 
-      const compareId = function(a: any, b: any): number {
+      const compareId = function (a: any, b: any): number {
         // TODO: any
         return a["id"] - b["id"];
       };
@@ -131,7 +130,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
         .sort(compareId);
       assert.equal(4, overlappingRanges.length);
 
-      let onlyParitionRanges = partitionRangeWithInfo.map(function(item) {
+      let onlyParitionRanges = partitionRangeWithInfo.map(function (item) {
         return item[0];
       });
 
@@ -149,7 +148,7 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
       const ranges = [
         new QueryRange("0000000040", "0000000045", true, true),
         new QueryRange("0000000045", "0000000046", true, true),
-        new QueryRange("0000000046", "0000000050", true, true)
+        new QueryRange("0000000046", "0000000050", true, true),
       ];
       overlappingPartitionKeyRanges = collectionRoutingMap
         .getOverlappingRanges(ranges)
@@ -161,26 +160,26 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
     });
   });
 
-  describe("Error Handling", function() {
-    describe("Incorrect instantiation", function() {
-      it("Invalid Routing Map", function() {
+  describe("Error Handling", function () {
+    describe("Incorrect instantiation", function () {
+      it("Invalid Routing Map", function () {
         const partitionRangeWithInfo = [
           [
             {
               id: "1",
               minInclusive: "0000000020",
-              maxExclusive: "0000000030"
+              maxExclusive: "0000000030",
             },
-            2
+            2,
           ],
           [
             {
               id: "2",
               minInclusive: "0000000025",
-              maxExclusive: "0000000035"
+              maxExclusive: "0000000035",
             },
-            2
-          ]
+            2,
+          ],
         ];
         try {
           createCompleteRoutingMap(partitionRangeWithInfo);
@@ -191,24 +190,24 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
       });
 
       // TODO: test does two things (code smell)
-      it("Incomplete Routing Map", function() {
+      it("Incomplete Routing Map", function () {
         let partitionRangeWithInfo = [
           [
             {
               id: "2",
               minInclusive: "",
-              maxExclusive: "0000000030"
+              maxExclusive: "0000000030",
             },
-            2
+            2,
           ],
           [
             {
               id: "3",
               minInclusive: "0000000031",
-              maxExclusive: "FF"
+              maxExclusive: "FF",
             },
-            2
-          ]
+            2,
+          ],
         ];
         let collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
         assert.equal(collectionRoutingMap, null);
@@ -218,18 +217,18 @@ describe("InMemoryCollectionRoutingMap Tests", function() {
             {
               id: "2",
               minInclusive: "",
-              maxExclusive: "0000000030"
+              maxExclusive: "0000000030",
             },
-            2
+            2,
           ],
           [
             {
               id: "2",
               minInclusive: "0000000030",
-              maxExclusive: "FF"
+              maxExclusive: "FF",
             },
-            2
-          ]
+            2,
+          ],
         ];
         collectionRoutingMap = createCompleteRoutingMap(partitionRangeWithInfo);
         assert.notEqual(collectionRoutingMap, null);

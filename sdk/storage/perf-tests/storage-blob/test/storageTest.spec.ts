@@ -6,7 +6,7 @@ import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 import {
   BlobServiceClient,
   ContainerClient,
-  StorageSharedKeyCredential
+  StorageSharedKeyCredential,
 } from "@azure/storage-blob";
 import { getValueInConnString } from "./utils/utils";
 

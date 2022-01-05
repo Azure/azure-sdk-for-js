@@ -7,12 +7,12 @@ import {
   InternalPipelineOptions,
   TokenCredential,
   bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions
+  createPipelineFromOptions,
 } from "@azure/core-http";
 import {
   MixedRealityStsRestClient,
   MixedRealityStsRestClientGetTokenOptionalParams,
-  MixedRealityStsRestClientOptionalParams
+  MixedRealityStsRestClientOptionalParams,
 } from "./generated";
 import { MixedRealityAccountKeyCredential } from "./models/auth";
 import { SDK_VERSION } from "./constants";
@@ -113,9 +113,9 @@ export class MixedRealityStsClient {
           logger: logger.info,
           // This array contains header names we want to log that are not already
           // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-          allowedHeaderNames: ["X-MRC-CV", "MS-CV"]
-        }
-      }
+          allowedHeaderNames: ["X-MRC-CV", "MS-CV"],
+        },
+      },
     };
 
     let tokenCredential: TokenCredential;
@@ -135,7 +135,7 @@ export class MixedRealityStsClient {
     const clientOptions: MixedRealityStsRestClientOptionalParams = {
       ...internalPipelineOptions,
       ...pipeline,
-      endpoint: this.endpointUrl
+      endpoint: this.endpointUrl,
     };
 
     this.restClient = new MixedRealityStsRestClient(clientOptions);
@@ -149,8 +149,8 @@ export class MixedRealityStsClient {
     const internalOptions: MixedRealityStsRestClientGetTokenOptionalParams = {
       ...options,
       tokenRequestOptions: {
-        clientRequestId: generateCvBase()
-      }
+        clientRequestId: generateCvBase(),
+      },
     };
 
     const { span, updatedOptions } = createSpan("MixedRealityStsClient-GetToken", internalOptions);
@@ -164,7 +164,7 @@ export class MixedRealityStsClient {
       // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
 
       throw e;

@@ -105,7 +105,7 @@ function calculateBalancedLoadCounts(
 
   return {
     minPartitionsPerOwner,
-    requiredNumberOfOwnersWithExtraPartition
+    requiredNumberOfOwnersWithExtraPartition,
   };
 }
 
@@ -134,7 +134,7 @@ function getEventProcessorCounts(
   const counts: EventProcessorCounts = {
     haveRequiredPartitions: 0,
     haveAdditionalPartition: 0,
-    haveTooManyPartitions: 0
+    haveTooManyPartitions: 0,
   };
 
   for (const ownershipList of ownerToOwnershipMap.values()) {
@@ -324,10 +324,8 @@ export function listAvailablePartitions(
 
   logger.info(`[${ownerId}] Number of active event processors: ${ownerToOwnershipMap.size}.`);
 
-  const {
-    minPartitionsPerOwner,
-    requiredNumberOfOwnersWithExtraPartition
-  } = calculateBalancedLoadCounts(ownerToOwnershipMap, partitionIds);
+  const { minPartitionsPerOwner, requiredNumberOfOwnersWithExtraPartition } =
+    calculateBalancedLoadCounts(ownerToOwnershipMap, partitionIds);
 
   logger.verbose(
     `[${ownerId}] Expected minimum number of partitions per event processor: ${minPartitionsPerOwner},` +

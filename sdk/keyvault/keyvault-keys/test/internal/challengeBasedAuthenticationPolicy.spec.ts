@@ -10,7 +10,7 @@ import {
   AuthenticationChallengeCache,
   AuthenticationChallenge,
   parseWWWAuthenticate,
-  challengeBasedAuthenticationPolicy
+  challengeBasedAuthenticationPolicy,
 } from "../../../keyvault-common/src";
 import { KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
@@ -32,7 +32,7 @@ describe("Challenge based authentication tests", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     const authentication = await authenticate(this, getServiceVersion());
     keySuffix = authentication.keySuffix;
     client = authentication.client;
@@ -40,13 +40,13 @@ describe("Challenge based authentication tests", () => {
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("Authentication should work for parallel requests", async function(this: Context) {
+  it("Authentication should work for parallel requests", async function (this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
 
@@ -77,7 +77,7 @@ describe("Challenge based authentication tests", () => {
     sandbox.restore();
   });
 
-  it("Once authenticated, new requests should not authenticate again", async function(this: Context) {
+  it("Once authenticated, new requests should not authenticate again", async function (this: Context) {
     // Our goal is to intercept how our pipelines are storing the challenge.
     // The first network call should indeed set the challenge in memory.
     // Subsequent network calls should not set new challenges.
@@ -97,7 +97,7 @@ describe("Challenge based authentication tests", () => {
     // Note: Failing to authenticate will make network requests throw.
   });
 
-  it("supports multi-tenant authentication", async function(this: Context) {
+  it("supports multi-tenant authentication", async function (this: Context) {
     if (!isNode) {
       this.skip();
     }
@@ -127,7 +127,7 @@ describe("Local Challenge based authentication tests", () => {
       {
         sendRequest: () => {
           throw new Error("Boom");
-        }
+        },
       },
       { log: () => null, shouldLog: () => false }
     );
@@ -161,10 +161,10 @@ describe("Local Challenge based authentication tests", () => {
           Promise.resolve({
             status: 401,
             headers: new HttpHeaders({
-              "WWW-Authenticate": `Bearer authorization="https://login.windows.net/${expectedTenantId}" scope="default"`
+              "WWW-Authenticate": `Bearer authorization="https://login.windows.net/${expectedTenantId}" scope="default"`,
             }),
-            request
-          })
+            request,
+          }),
       },
       { log: () => null, shouldLog: () => false }
     );
@@ -183,14 +183,14 @@ describe("Local Challenge based authentication tests", () => {
       const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
       assert.deepEqual(parsed1, {
         authorization: "https://login.windows.net/",
-        resource: "https://some.url"
+        resource: "https://some.url",
       });
 
       const wwwAuthenticate2 = `Bearer authorization="https://login.windows.net", scope="https://some.url"`;
       const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
       assert.deepEqual(parsed2, {
         authorization: "https://login.windows.net",
-        scope: "https://some.url"
+        scope: "https://some.url",
       });
     });
 
@@ -200,7 +200,7 @@ describe("Local Challenge based authentication tests", () => {
       assert.deepEqual(parsed1, {
         authorization: "https://login.windows.net/9999",
         resource: "https://some.url",
-        tenantId: "9999"
+        tenantId: "9999",
       });
     });
   });

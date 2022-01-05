@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 2.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 2.0.0-beta.2 (2021-12-23)
 
 The package of @azure/arm-datalake-analytics is using our next generation design principles since version 2.0.0-beta.2, which contains breaking changes.

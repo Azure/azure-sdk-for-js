@@ -11,7 +11,7 @@ import {
   bodyToString,
   getBrowserFile,
   getBSU,
-  recorderEnvSetup
+  recorderEnvSetup,
 } from "../utils/index.browser";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
@@ -31,7 +31,7 @@ describe("Highlevel", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -42,14 +42,14 @@ describe("Highlevel", () => {
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
     }
   });
 
-  before(async function(this: Context) {
+  before(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     tempFile1 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile1Length);
     tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile2"), tempFile2Length);
@@ -66,7 +66,7 @@ describe("Highlevel", () => {
 
     try {
       await blockBlobClient.uploadBrowserData(tempFile1, {
-        abortSignal: aborter
+        abortSignal: aborter,
       });
       assert.fail();
     } catch (err) {
@@ -82,7 +82,7 @@ describe("Highlevel", () => {
       await blockBlobClient.uploadBrowserData(tempFile2, {
         abortSignal: aborter,
         blockSize: 4 * 1024 * 1024,
-        concurrency: 2
+        concurrency: 2,
       });
       assert.fail();
     } catch (err) {
@@ -105,7 +105,7 @@ describe("Highlevel", () => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
-        }
+        },
       });
     } catch (err) {}
     assert.ok(eventTriggered);
@@ -126,7 +126,7 @@ describe("Highlevel", () => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
-        }
+        },
       });
     } catch (err) {}
     assert.ok(eventTriggered);
@@ -136,7 +136,7 @@ describe("Highlevel", () => {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     await blockBlobClient.uploadBrowserData(tempFile2, {
       blockSize: 4 * 1024 * 1024,
-      concurrency: 2
+      concurrency: 2,
     });
 
     const downloadResponse = await blockBlobClient.download(0);
@@ -150,7 +150,7 @@ describe("Highlevel", () => {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     await blockBlobClient.uploadBrowserData(tempFile2, {
       blockSize: 512 * 1024,
-      maxSingleShotSize: 0
+      maxSingleShotSize: 0,
     });
 
     const downloadResponse = await blockBlobClient.download(0);
@@ -160,29 +160,29 @@ describe("Highlevel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it("uploadBrowserDataToBlockBlob should work with tags", async function() {
+  it("uploadBrowserDataToBlockBlob should work with tags", async function () {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
 
     const tags = {
       tag1: "val1",
-      tag2: "val2"
+      tag2: "val2",
     };
 
     await blockBlobClient.uploadBrowserData(tempFile2, {
       blockSize: 512 * 1024,
       maxSingleShotSize: 0,
-      tags
+      tags,
     });
 
     const response = await blockBlobClient.getTags();
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function() {
+  it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     await blockBlobClient.uploadBrowserData(tempFile1, {
       blockSize: 4 * 1024 * 1024,
-      concurrency: 2
+      concurrency: 2,
     });
 
     const downloadResponse = await blockBlobClient.download(0);
@@ -197,13 +197,13 @@ describe("Highlevel", () => {
     // single upload
     await blockBlobClient.uploadBrowserData(tempFile2, {
       tier: "Hot",
-      maxSingleShotSize: 256 * 1024 * 1024
+      maxSingleShotSize: 256 * 1024 * 1024,
     });
     assert.equal((await blockBlobClient.getProperties()).accessTier, "Hot");
 
     await blockBlobClient.uploadBrowserData(tempFile2, {
       tier: "Cool",
-      maxSingleShotSize: 256 * 1024
+      maxSingleShotSize: 256 * 1024,
     });
     assert.equal((await blockBlobClient.getProperties()).accessTier, "Cool");
   });

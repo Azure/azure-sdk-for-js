@@ -10,7 +10,7 @@ export { TokenType } from "./auth/token";
 export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig/connectionConfig";
 
 export { CbsClient, CbsResponse } from "./cbs";
-export { Constants } from "./util/constants";
+export { Constants, StandardAbortMessage } from "./util/constants";
 export { AmqpMessageHeader } from "./messageHeader";
 export { AmqpMessageProperties } from "./messageProperties";
 export {
@@ -28,7 +28,6 @@ export {
   isSystemError,
   SystemErrorConditionMapper,
   NetworkSystemError,
-  StandardAbortMessage,
 } from "./errors";
 export {
   delay,

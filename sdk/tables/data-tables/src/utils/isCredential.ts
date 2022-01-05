@@ -7,7 +7,7 @@ import {
   TokenCredential,
   isNamedKeyCredential,
   isSASCredential,
-  isTokenCredential
+  isTokenCredential,
 } from "@azure/core-auth";
 
 export function isCredential(

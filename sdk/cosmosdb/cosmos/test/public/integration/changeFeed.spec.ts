@@ -6,23 +6,23 @@ import { RequestOptions } from "../../../src";
 import { Container, ContainerDefinition } from "../../../src";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
-describe("Change Feed Iterator", function(this: Suite) {
+describe("Change Feed Iterator", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   // delete all databases and create sample database
-  before(async function() {
+  before(async function () {
     await removeAllDatabases();
   });
 
-  describe("Newly updated items should be fetched incrementally", function() {
+  describe("Newly updated items should be fetched incrementally", function () {
     let container: Container;
 
     // create container and two items
-    before(async function() {
+    before(async function () {
       const containerDef: ContainerDefinition = {
         partitionKey: {
-          paths: ["/key"]
-        }
+          paths: ["/key"],
+        },
       };
       const throughput: RequestOptions = { offerThroughput: 25100 };
       container = await getTestContainer(
@@ -37,7 +37,7 @@ describe("Change Feed Iterator", function(this: Suite) {
       await container.items.create({ id: "item2", key: "1" });
     });
 
-    it("should throw if used with no partition key or partition key range id", async function() {
+    it("should throw if used with no partition key or partition key range id", async function () {
       const iterator = container.items.changeFeed({ startFromBeginning: true });
 
       try {
@@ -52,7 +52,7 @@ describe("Change Feed Iterator", function(this: Suite) {
       assert.fail("Should have failed");
     });
 
-    it("should fetch updated items only", async function() {
+    it("should fetch updated items only", async function () {
       const iterator = container.items.changeFeed("0", { startFromBeginning: true });
 
       const { result: items, headers } = await iterator.fetchNext();
@@ -82,15 +82,15 @@ describe("Change Feed Iterator", function(this: Suite) {
     });
   });
 
-  describe("Newly created items should be fetched incrementally", async function() {
+  describe("Newly created items should be fetched incrementally", async function () {
     let container: Container;
 
     // create container and one item
-    before(async function() {
+    before(async function () {
       const containerDef: ContainerDefinition = {
         partitionKey: {
-          paths: ["/key"]
-        }
+          paths: ["/key"],
+        },
       };
       const throughput: RequestOptions = { offerThroughput: 25100 };
       container = await getTestContainer(
@@ -103,11 +103,11 @@ describe("Change Feed Iterator", function(this: Suite) {
       await container.items.create({ id: "item1", key: "1" });
     });
 
-    after(async function() {
+    after(async function () {
       await container.delete();
     });
 
-    it("should fetch new items only", async function() {
+    it("should fetch new items only", async function () {
       const iterator = container.items.changeFeed("0");
 
       const { result: items, headers } = await iterator.fetchNext();
@@ -117,7 +117,7 @@ describe("Change Feed Iterator", function(this: Suite) {
       const { resource: itemThatWasCreated } = await container.items.create({
         id: "item2",
         prop: 1,
-        key: "0"
+        key: "0",
       });
 
       const { result: itemsAfterCreate } = await iterator.fetchNext();

@@ -13,7 +13,7 @@ export async function generateKey(secret: string, stringToSign: string): Promise
     convertToUint8Array(secret),
     {
       name: "HMAC",
-      hash: { name: "SHA-256" }
+      hash: { name: "SHA-256" },
     },
     false,
     ["sign"]

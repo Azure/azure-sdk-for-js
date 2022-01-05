@@ -10,7 +10,7 @@ import {
   DataLakeFileSystemClient,
   FileSystemSASPermissions,
   newPipeline,
-  StorageSharedKeyCredential
+  StorageSharedKeyCredential,
 } from "../../src";
 import { PublicAccessType } from "../../src/models";
 import { getDataLakeServiceClient, recorderEnvSetup } from "../utils";
@@ -21,7 +21,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
   let fileSystemClient: DataLakeFileSystemClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -29,7 +29,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
     await fileSystemClient.createIfNotExists();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
@@ -51,10 +51,10 @@ describe("DataLakeFileSystemClient Node.js only", () => {
         accessPolicy: {
           expiresOn: new Date("2018-12-31T11:22:33.4567890Z"),
           permissions: FileSystemSASPermissions.parse("rwd").toString(),
-          startsOn: new Date("2017-12-31T11:22:33.4567890Z")
+          startsOn: new Date("2017-12-31T11:22:33.4567890Z"),
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
-      }
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+      },
     ];
 
     await fileSystemClient.setAccessPolicy(access, acl);
@@ -68,10 +68,10 @@ describe("DataLakeFileSystemClient Node.js only", () => {
     const acl = [
       {
         accessPolicy: {
-          permissions: FileSystemSASPermissions.parse("rwd").toString()
+          permissions: FileSystemSASPermissions.parse("rwd").toString(),
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
-      }
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+      },
     ];
 
     await fileSystemClient.setAccessPolicy(access, acl);
@@ -103,8 +103,8 @@ describe("DataLakeFileSystemClient Node.js only", () => {
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new DataLakeFileSystemClient(fileSystemClient.url, credential, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const result = await newClient.getProperties();
@@ -125,8 +125,8 @@ describe("DataLakeFileSystemClient Node.js only", () => {
       getToken: () =>
         Promise.resolve({
           token: "token",
-          expiresOnTimestamp: 12345
-        })
+          expiresOnTimestamp: 12345,
+        }),
     };
     const newClient = new DataLakeFileSystemClient(fileSystemClient.url, tokenCredential);
     assertClientUsesTokenCredential(newClient);

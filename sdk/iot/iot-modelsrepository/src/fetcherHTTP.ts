@@ -9,7 +9,7 @@ import {
   HttpMethods,
   PipelineRequest,
   PipelineResponse,
-  RestError
+  RestError,
 } from "@azure/core-rest-pipeline";
 import { logger } from "./logger";
 import { Fetcher } from "./fetcherAbstract";
@@ -45,7 +45,7 @@ export class HttpFetcher implements Fetcher {
       timeout: options.requestOptions?.timeout,
       abortSignal: options.abortSignal,
       tracingOptions: options.tracingOptions,
-      allowInsecureConnection: true
+      allowInsecureConnection: true,
     };
     const request: PipelineRequest = createPipelineRequest(requestOptions);
     const res: PipelineResponse = await this._client.sendRequest(request);
@@ -59,7 +59,7 @@ export class HttpFetcher implements Fetcher {
         code: "ResourceNotFound",
         statusCode: res.status,
         response: res,
-        request: request
+        request: request,
       });
     }
   }

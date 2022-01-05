@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import * as chai from "chai";
-import * as dotenv from "dotenv";
 import {
   Constants,
   MessagingError,
@@ -18,7 +17,6 @@ import debugModule from "debug";
 
 const debug = debugModule("azure:core-amqp:retry-spec");
 const should = chai.should();
-dotenv.config();
 
 [RetryMode.Exponential, RetryMode.Fixed].forEach((mode) => {
   describe(`retry function for "${

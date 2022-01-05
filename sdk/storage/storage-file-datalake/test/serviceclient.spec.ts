@@ -3,13 +3,12 @@
 
 import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
 
 import {
   DataLakeServiceClient,
   DataLakeServiceProperties,
-  ServiceListFileSystemsSegmentResponse
+  ServiceListFileSystemsSegmentResponse,
 } from "../src";
 import {
   getDataLakeServiceClient,
@@ -17,19 +16,17 @@ import {
   getTokenDataLakeServiceClient,
   recorderEnvSetup,
   getGenericDataLakeServiceClient,
-  isBrowser
+  isBrowser,
 } from "./utils";
-
-dotenv.config();
 
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -47,33 +44,33 @@ describe("DataLakeServiceClient", () => {
         read: true,
         retentionPolicy: {
           days: 5,
-          enabled: true
+          enabled: true,
         },
         version: "1.0",
-        write: true
+        write: true,
       },
       minuteMetrics: {
         enabled: true,
         includeAPIs: true,
         retentionPolicy: {
           days: 4,
-          enabled: true
+          enabled: true,
         },
-        version: "1.0"
+        version: "1.0",
       },
       hourMetrics: {
         enabled: true,
         includeAPIs: true,
         retentionPolicy: {
           days: 3,
-          enabled: true
+          enabled: true,
         },
-        version: "1.0"
+        version: "1.0",
       },
       deleteRetentionPolicy: {
         days: 2,
-        enabled: true
-      }
+        enabled: true,
+      },
     };
 
     if (!isBrowser()) {
@@ -83,8 +80,8 @@ describe("DataLakeServiceClient", () => {
           allowedMethods: "GET",
           allowedOrigins: "example.com",
           exposedHeaders: "*",
-          maxAgeInSeconds: 8888
-        }
+          maxAgeInSeconds: 8888,
+        },
       ];
     }
 
@@ -131,12 +128,8 @@ describe("DataLakeServiceClient", () => {
 
   it("ListFileSystems with default parameters", async () => {
     const serviceClient = getDataLakeServiceClient();
-    const result = (
-      await serviceClient
-        .listFileSystems()
-        .byPage()
-        .next()
-    ).value as ServiceListFileSystemsSegmentResponse;
+    const result = (await serviceClient.listFileSystems().byPage().next())
+      .value as ServiceListFileSystemsSegmentResponse;
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(typeof result.version);
@@ -157,12 +150,7 @@ describe("DataLakeServiceClient", () => {
 
   it("ListFileSystems with default parameters - null prefix shouldn't throw error", async () => {
     const serviceClient = getDataLakeServiceClient();
-    const result = (
-      await serviceClient
-        .listFileSystems({ prefix: "" })
-        .byPage()
-        .next()
-    ).value;
+    const result = (await serviceClient.listFileSystems({ prefix: "" }).byPage().next()).value;
 
     assert.ok(result.fileSystemItems.length >= 0);
 
@@ -192,7 +180,7 @@ describe("DataLakeServiceClient", () => {
       await serviceClient
         .listFileSystems({
           includeMetadata: true,
-          prefix: fileSystemNamePrefix
+          prefix: fileSystemNamePrefix,
         })
         .byPage({ maxPageSize: 1 })
         .next()
@@ -213,7 +201,7 @@ describe("DataLakeServiceClient", () => {
       await serviceClient
         .listFileSystems({
           includeMetadata: true,
-          prefix: fileSystemNamePrefix
+          prefix: fileSystemNamePrefix,
         })
         .byPage({ continuationToken: result1.continuationToken, maxPageSize: 1 })
         .next()
@@ -249,7 +237,7 @@ describe("DataLakeServiceClient", () => {
 
     for await (const filesystem of serviceClient.listFileSystems({
       includeMetadata: true,
-      prefix: fileSystemNamePrefix
+      prefix: fileSystemNamePrefix,
     })) {
       assert.ok(filesystem.name.startsWith(fileSystemNamePrefix));
       assert.ok(filesystem.properties.etag.length > 0);
@@ -279,7 +267,7 @@ describe("DataLakeServiceClient", () => {
 
     const iterator = serviceClient.listFileSystems({
       includeMetadata: true,
-      prefix: fileSystemNamePrefix
+      prefix: fileSystemNamePrefix,
     });
 
     let fileSystemItem = await iterator.next();
@@ -325,7 +313,7 @@ describe("DataLakeServiceClient", () => {
     for await (const response of serviceClient
       .listFileSystems({
         includeMetadata: true,
-        prefix: fileSystemNamePrefix
+        prefix: fileSystemNamePrefix,
       })
       .byPage({ maxPageSize: 2 })) {
       for (const filesystem of response.fileSystemItems) {
@@ -364,7 +352,7 @@ describe("DataLakeServiceClient", () => {
     let iter = serviceClient
       .listFileSystems({
         includeMetadata: true,
-        prefix: fileSystemNamePrefix
+        prefix: fileSystemNamePrefix,
       })
       .byPage({ maxPageSize: 2 });
     let response = (await iter.next()).value;
@@ -384,7 +372,7 @@ describe("DataLakeServiceClient", () => {
     iter = serviceClient
       .listFileSystems({
         includeMetadata: true,
-        prefix: fileSystemNamePrefix
+        prefix: fileSystemNamePrefix,
       })
       .byPage({ continuationToken: marker, maxPageSize: 2 });
     response = (await iter.next()).value;
@@ -430,7 +418,7 @@ describe("DataLakeServiceClient", () => {
   //   }
   // });
 
-  it("getUserDelegationKey should work", async function(this: Context) {
+  it("getUserDelegationKey should work", async function (this: Context) {
     // Try to get serviceURL object with TokenCredential
     // when DFS_ACCOUNT_TOKEN environment variable is set
     let serviceURLWithToken: DataLakeServiceClient | undefined;
@@ -465,8 +453,8 @@ describe("DataLakeServiceClient", () => {
       getSASConnectionStringFromEnvironment(),
       {
         retryOptions: {
-          maxTries: 1
-        }
+          maxTries: 1,
+        },
       }
     );
 
@@ -475,7 +463,7 @@ describe("DataLakeServiceClient", () => {
     assert.ok(newClient.url.includes("dfs"));
   });
 
-  it("renameFileSystem should work", async function(this: Context) {
+  it("renameFileSystem should work", async function (this: Context) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
       this.skip();
@@ -497,7 +485,7 @@ describe("DataLakeServiceClient", () => {
     await newFileSystemClient.delete();
   });
 
-  it("renameFileSystem should work with source lease", async function(this: Context) {
+  it("renameFileSystem should work with source lease", async function (this: Context) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
       this.skip();
@@ -514,7 +502,7 @@ describe("DataLakeServiceClient", () => {
     const newFileSystemName = recorder.getUniqueName("newfilesystem");
     // const renameRes = await serviceClient.renameFileSystem(fileSystemName, newFileSystemName, {
     const renameRes = await serviceClient["renameFileSystem"](fileSystemName, newFileSystemName, {
-      sourceCondition: { leaseId: leaseClient.leaseId }
+      sourceCondition: { leaseId: leaseClient.leaseId },
     });
 
     const newFileSystemClient = serviceClient.getFileSystemClient(newFileSystemName);
@@ -524,7 +512,7 @@ describe("DataLakeServiceClient", () => {
     await newFileSystemClient.deleteIfExists();
   });
 
-  it("undelete and list deleted file system should work", async function(this: Context) {
+  it("undelete and list deleted file system should work", async function (this: Context) {
     let serviceClient: DataLakeServiceClient;
     try {
       serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");
@@ -545,7 +533,7 @@ describe("DataLakeServiceClient", () => {
     let listed = false;
     for await (const fileSystemItem of serviceClient.listFileSystems({
       includeDeleted: true,
-      includeMetadata: true
+      includeMetadata: true,
     })) {
       if (fileSystemItem.deleted && fileSystemItem.name === fileSystemName) {
         listed = true;

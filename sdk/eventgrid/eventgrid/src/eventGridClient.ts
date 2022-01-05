@@ -21,7 +21,7 @@ import { createSpan } from "./tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { v4 as uuidv4 } from "uuid";
 import { TokenCredential } from "@azure/core-auth";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy, tracingPolicyName } from "@azure/core-rest-pipeline";
 
 /**
  * Options for the Event Grid Client.
@@ -116,7 +116,9 @@ export class EventGridPublisherClient<T extends InputSchema> {
       : eventGridCredentialPolicy(credential);
 
     this.client.pipeline.addPolicy(authPolicy);
-    this.client.pipeline.addPolicy(cloudEventDistributedTracingEnricherPolicy());
+    this.client.pipeline.addPolicy(cloudEventDistributedTracingEnricherPolicy(), {
+      afterPolicies: [tracingPolicyName]
+    });
     this.apiVersion = this.client.apiVersion;
   }
 

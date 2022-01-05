@@ -6,7 +6,7 @@ import {
   PipelinePolicy,
   PipelineRequest,
   SendRequest,
-  PipelineResponse
+  PipelineResponse,
 } from "@azure/core-rest-pipeline";
 
 const API_KEY_HEADER_NAME = "api-key";
@@ -24,6 +24,6 @@ export function createSearchApiKeyCredentialPolicy(credential: KeyCredential): P
         request.headers.set(API_KEY_HEADER_NAME, credential.key);
       }
       return next(request);
-    }
+    },
   };
 }
