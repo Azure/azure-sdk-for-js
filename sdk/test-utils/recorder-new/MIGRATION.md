@@ -188,7 +188,13 @@ Other sanitizers for more complex use cases are also available.
 
 ## AAD and the new `NoOpCredential`
 
-The new recorder does not record AAD traffic at present. As such, tests with clients using AAD should make use of the new `NoOpCredential` provided by the `@azure-tools/test-credential` when in playback mode. The `createTestCredential` helper also exported by the `test-credential` package will handle switching between NoOpCredential in playback and ClientSecretCredential when recording for you:
+The new recorder does not record AAD traffic at present. As such, tests with clients using AAD should make use of the new `@azure-tools/test-credential` package, installed as follows:
+
+```bash
+$ rush add --dev --caret -p @azure-tools/test-credential
+```
+
+This package provides a `NoOpCredential` implementation of `TokenCredential` which makes no network requests, and should be used in playback mode. The provided `createTestCredential` helper will handle switching between NoOpCredential in playback and ClientSecretCredential when recording for you:
 
 ```ts
 const credential = createTestCredential();
