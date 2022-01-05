@@ -192,7 +192,7 @@ export class ServiceClient {
       }
       return flatResponse;
     } catch (e) {
-      let error: any = e;
+      const error: any = e;
       if (typeof error === "object" && error) {
         let rawResponse: PipelineResponse = {
           request,
