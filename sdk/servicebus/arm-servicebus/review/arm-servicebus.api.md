@@ -32,7 +32,7 @@ export interface Action {
 }
 
 // @public
-export type ArmDisasterRecovery = Resource & {
+export type ArmDisasterRecovery = ProxyResource & {
     readonly systemData?: SystemData;
     readonly provisioningState?: ProvisioningStateDR;
     readonly pendingReplicationOperationsCount?: number;
@@ -328,7 +328,7 @@ export interface MigrationConfigListResult {
 }
 
 // @public
-export type MigrationConfigProperties = Resource & {
+export type MigrationConfigProperties = ProxyResource & {
     readonly systemData?: SystemData;
     readonly provisioningState?: string;
     readonly pendingReplicationOperationsCount?: number;
@@ -557,7 +557,7 @@ export type NamespacesUpdateResponse = SBNamespace;
 export type NetworkRuleIPAction = string;
 
 // @public
-export type NetworkRuleSet = Resource & {
+export type NetworkRuleSet = ProxyResource & {
     readonly systemData?: SystemData;
     trustedServiceAccessEnabled?: boolean;
     defaultAction?: DefaultAction;
@@ -587,11 +587,15 @@ export interface NWRuleSetVirtualNetworkRules {
 // @public
 export interface Operation {
     display?: OperationDisplay;
+    isDataAction?: boolean;
     readonly name?: string;
+    origin?: string;
+    properties?: Record<string, unknown>;
 }
 
 // @public
 export interface OperationDisplay {
+    readonly description?: string;
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
@@ -628,7 +632,7 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export type PrivateEndpointConnection = ProxyResource & {
     readonly systemData?: SystemData;
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: ConnectionState;
@@ -718,6 +722,14 @@ export interface PrivateLinkResourcesListResult {
 
 // @public
 export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
+
+// @public
+export interface ProxyResource {
+    readonly id?: string;
+    readonly location?: string;
+    readonly name?: string;
+    readonly type?: string;
+}
 
 // @public
 export type PublicNetworkAccessFlag = string;
@@ -843,7 +855,7 @@ export type ResourceNamespacePatch = Resource & {
 export type RoleDisasterRecovery = "Primary" | "PrimaryNotReplicating" | "Secondary";
 
 // @public
-export type Rule = Resource & {
+export type Rule = ProxyResource & {
     readonly systemData?: SystemData;
     action?: Action;
     filterType?: FilterType;
@@ -902,7 +914,7 @@ export interface RulesListBySubscriptionsOptionalParams extends coreClient.Opera
 export type RulesListBySubscriptionsResponse = RuleListResult;
 
 // @public
-export type SBAuthorizationRule = Resource & {
+export type SBAuthorizationRule = ProxyResource & {
     readonly systemData?: SystemData;
     rights?: AccessRights[];
 };
@@ -935,6 +947,7 @@ export type SBNamespace = TrackedResource & {
     encryption?: Encryption;
     privateEndpointConnections?: PrivateEndpointConnection[];
     disableLocalAuth?: boolean;
+    alternateName?: string;
 };
 
 // @public
@@ -953,14 +966,14 @@ export type SBNamespaceUpdateParameters = ResourceNamespacePatch & {
     readonly updatedAt?: Date;
     readonly serviceBusEndpoint?: string;
     readonly metricId?: string;
-    zoneRedundant?: boolean;
     encryption?: Encryption;
     privateEndpointConnections?: PrivateEndpointConnection[];
     disableLocalAuth?: boolean;
+    alternateName?: string;
 };
 
 // @public
-export type SBQueue = Resource & {
+export type SBQueue = ProxyResource & {
     readonly systemData?: SystemData;
     readonly countDetails?: MessageCountDetails;
     readonly createdAt?: Date;
@@ -1000,7 +1013,7 @@ export interface SBSku {
 }
 
 // @public
-export type SBSubscription = Resource & {
+export type SBSubscription = ProxyResource & {
     readonly systemData?: SystemData;
     readonly messageCount?: number;
     readonly createdAt?: Date;
@@ -1030,7 +1043,7 @@ export interface SBSubscriptionListResult {
 }
 
 // @public
-export type SBTopic = Resource & {
+export type SBTopic = ProxyResource & {
     readonly systemData?: SystemData;
     readonly sizeInBytes?: number;
     readonly createdAt?: Date;
