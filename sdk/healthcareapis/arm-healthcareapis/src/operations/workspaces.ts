@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Services } from "../operationsInterfaces";
+import { Workspaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,35 +15,32 @@ import { HealthcareApisManagementClient } from "../healthcareApisManagementClien
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  ServicesDescription,
-  ServicesListNextOptionalParams,
-  ServicesListOptionalParams,
-  ServicesListByResourceGroupNextOptionalParams,
-  ServicesListByResourceGroupOptionalParams,
-  ServicesGetOptionalParams,
-  ServicesGetResponse,
-  ServicesCreateOrUpdateOptionalParams,
-  ServicesCreateOrUpdateResponse,
-  ServicesPatchDescription,
-  ServicesUpdateOptionalParams,
-  ServicesUpdateResponse,
-  ServicesDeleteOptionalParams,
-  ServicesListResponse,
-  ServicesListByResourceGroupResponse,
-  CheckNameAvailabilityParameters,
-  ServicesCheckNameAvailabilityOptionalParams,
-  ServicesCheckNameAvailabilityResponse,
-  ServicesListNextResponse,
-  ServicesListByResourceGroupNextResponse
+  Workspace,
+  WorkspacesListBySubscriptionNextOptionalParams,
+  WorkspacesListBySubscriptionOptionalParams,
+  WorkspacesListByResourceGroupNextOptionalParams,
+  WorkspacesListByResourceGroupOptionalParams,
+  WorkspacesListBySubscriptionResponse,
+  WorkspacesListByResourceGroupResponse,
+  WorkspacesGetOptionalParams,
+  WorkspacesGetResponse,
+  WorkspacesCreateOrUpdateOptionalParams,
+  WorkspacesCreateOrUpdateResponse,
+  WorkspacePatchResource,
+  WorkspacesUpdateOptionalParams,
+  WorkspacesUpdateResponse,
+  WorkspacesDeleteOptionalParams,
+  WorkspacesListBySubscriptionNextResponse,
+  WorkspacesListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Services operations. */
-export class ServicesImpl implements Services {
+/** Class containing Workspaces operations. */
+export class WorkspacesImpl implements Workspaces {
   private readonly client: HealthcareApisManagementClient;
 
   /**
-   * Initialize a new instance of the class Services class.
+   * Initialize a new instance of the class Workspaces class.
    * @param client Reference to the service client
    */
   constructor(client: HealthcareApisManagementClient) {
@@ -51,13 +48,13 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Get all the service instances in a subscription.
+   * Lists all the available workspaces under the specified subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: ServicesListOptionalParams
-  ): PagedAsyncIterableIterator<ServicesDescription> {
-    const iter = this.listPagingAll(options);
+  public listBySubscription(
+    options?: WorkspacesListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<Workspace> {
+    const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -66,41 +63,41 @@ export class ServicesImpl implements Services {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(options);
+        return this.listBySubscriptionPagingPage(options);
       }
     };
   }
 
-  private async *listPagingPage(
-    options?: ServicesListOptionalParams
-  ): AsyncIterableIterator<ServicesDescription[]> {
-    let result = await this._list(options);
+  private async *listBySubscriptionPagingPage(
+    options?: WorkspacesListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<Workspace[]> {
+    let result = await this._listBySubscription(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+      result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
-  private async *listPagingAll(
-    options?: ServicesListOptionalParams
-  ): AsyncIterableIterator<ServicesDescription> {
-    for await (const page of this.listPagingPage(options)) {
+  private async *listBySubscriptionPagingAll(
+    options?: WorkspacesListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<Workspace> {
+    for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Get all the service instances in a resource group.
+   * Lists all the available workspaces under the specified resource group.
    * @param resourceGroupName The name of the resource group that contains the service instance.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<ServicesDescription> {
+    options?: WorkspacesListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<Workspace> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -117,8 +114,8 @@ export class ServicesImpl implements Services {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<ServicesDescription[]> {
+    options?: WorkspacesListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<Workspace[]> {
     let result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -135,8 +132,8 @@ export class ServicesImpl implements Services {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<ServicesDescription> {
+    options?: WorkspacesListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<Workspace> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -146,44 +143,72 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Get the metadata of a service instance.
+   * Lists all the available workspaces under the specified subscription.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: WorkspacesListBySubscriptionOptionalParams
+  ): Promise<WorkspacesListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec
+    );
+  }
+
+  /**
+   * Lists all the available workspaces under the specified resource group.
    * @param resourceGroupName The name of the resource group that contains the service instance.
-   * @param resourceName The name of the service instance.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: WorkspacesListByResourceGroupOptionalParams
+  ): Promise<WorkspacesListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec
+    );
+  }
+
+  /**
+   * Gets the properties of the specified workspace.
+   * @param resourceGroupName The name of the resource group that contains the service instance.
+   * @param workspaceName The name of workspace resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    resourceName: string,
-    options?: ServicesGetOptionalParams
-  ): Promise<ServicesGetResponse> {
+    workspaceName: string,
+    options?: WorkspacesGetOptionalParams
+  ): Promise<WorkspacesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, options },
+      { resourceGroupName, workspaceName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update the metadata of a service instance.
+   * Creates or updates a workspace resource with the specified parameters.
    * @param resourceGroupName The name of the resource group that contains the service instance.
-   * @param resourceName The name of the service instance.
-   * @param serviceDescription The service instance metadata.
+   * @param workspaceName The name of workspace resource.
+   * @param workspace The parameters for creating or updating a healthcare workspace.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    resourceName: string,
-    serviceDescription: ServicesDescription,
-    options?: ServicesCreateOrUpdateOptionalParams
+    workspaceName: string,
+    workspace: Workspace,
+    options?: WorkspacesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<ServicesCreateOrUpdateResponse>,
-      ServicesCreateOrUpdateResponse
+      PollOperationState<WorkspacesCreateOrUpdateResponse>,
+      WorkspacesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ServicesCreateOrUpdateResponse> => {
+    ): Promise<WorkspacesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -221,7 +246,7 @@ export class ServicesImpl implements Services {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, resourceName, serviceDescription, options },
+      { resourceGroupName, workspaceName, workspace, options },
       createOrUpdateOperationSpec
     );
     return new LroEngine(lro, {
@@ -231,49 +256,49 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Create or update the metadata of a service instance.
+   * Creates or updates a workspace resource with the specified parameters.
    * @param resourceGroupName The name of the resource group that contains the service instance.
-   * @param resourceName The name of the service instance.
-   * @param serviceDescription The service instance metadata.
+   * @param workspaceName The name of workspace resource.
+   * @param workspace The parameters for creating or updating a healthcare workspace.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    resourceName: string,
-    serviceDescription: ServicesDescription,
-    options?: ServicesCreateOrUpdateOptionalParams
-  ): Promise<ServicesCreateOrUpdateResponse> {
+    workspaceName: string,
+    workspace: Workspace,
+    options?: WorkspacesCreateOrUpdateOptionalParams
+  ): Promise<WorkspacesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      resourceName,
-      serviceDescription,
+      workspaceName,
+      workspace,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Update the metadata of a service instance.
+   * Patch workspace details.
    * @param resourceGroupName The name of the resource group that contains the service instance.
-   * @param resourceName The name of the service instance.
-   * @param servicePatchDescription The service instance metadata and security metadata.
+   * @param workspaceName The name of workspace resource.
+   * @param workspacePatchResource The parameters for updating a specified workspace.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    resourceName: string,
-    servicePatchDescription: ServicesPatchDescription,
-    options?: ServicesUpdateOptionalParams
+    workspaceName: string,
+    workspacePatchResource: WorkspacePatchResource,
+    options?: WorkspacesUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<ServicesUpdateResponse>,
-      ServicesUpdateResponse
+      PollOperationState<WorkspacesUpdateResponse>,
+      WorkspacesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ServicesUpdateResponse> => {
+    ): Promise<WorkspacesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -311,7 +336,7 @@ export class ServicesImpl implements Services {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, resourceName, servicePatchDescription, options },
+      { resourceGroupName, workspaceName, workspacePatchResource, options },
       updateOperationSpec
     );
     return new LroEngine(lro, {
@@ -321,37 +346,37 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Update the metadata of a service instance.
+   * Patch workspace details.
    * @param resourceGroupName The name of the resource group that contains the service instance.
-   * @param resourceName The name of the service instance.
-   * @param servicePatchDescription The service instance metadata and security metadata.
+   * @param workspaceName The name of workspace resource.
+   * @param workspacePatchResource The parameters for updating a specified workspace.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    resourceName: string,
-    servicePatchDescription: ServicesPatchDescription,
-    options?: ServicesUpdateOptionalParams
-  ): Promise<ServicesUpdateResponse> {
+    workspaceName: string,
+    workspacePatchResource: WorkspacePatchResource,
+    options?: WorkspacesUpdateOptionalParams
+  ): Promise<WorkspacesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      resourceName,
-      servicePatchDescription,
+      workspaceName,
+      workspacePatchResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a service instance.
+   * Deletes a specified workspace.
    * @param resourceGroupName The name of the resource group that contains the service instance.
-   * @param resourceName The name of the service instance.
+   * @param workspaceName The name of workspace resource.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    resourceName: string,
-    options?: ServicesDeleteOptionalParams
+    workspaceName: string,
+    options?: WorkspacesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -394,7 +419,7 @@ export class ServicesImpl implements Services {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, resourceName, options },
+      { resourceGroupName, workspaceName, options },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -404,77 +429,36 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Delete a service instance.
+   * Deletes a specified workspace.
    * @param resourceGroupName The name of the resource group that contains the service instance.
-   * @param resourceName The name of the service instance.
+   * @param workspaceName The name of workspace resource.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    resourceName: string,
-    options?: ServicesDeleteOptionalParams
+    workspaceName: string,
+    options?: WorkspacesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      resourceName,
+      workspaceName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Get all the service instances in a subscription.
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
-  private _list(
-    options?: ServicesListOptionalParams
-  ): Promise<ServicesListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * Get all the service instances in a resource group.
-   * @param resourceGroupName The name of the resource group that contains the service instance.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: ServicesListByResourceGroupOptionalParams
-  ): Promise<ServicesListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
-    );
-  }
-
-  /**
-   * Check if a service instance name is available.
-   * @param checkNameAvailabilityInputs Set the name parameter in the CheckNameAvailabilityParameters
-   *                                    structure to the name of the service instance to check.
-   * @param options The options parameters.
-   */
-  checkNameAvailability(
-    checkNameAvailabilityInputs: CheckNameAvailabilityParameters,
-    options?: ServicesCheckNameAvailabilityOptionalParams
-  ): Promise<ServicesCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { checkNameAvailabilityInputs, options },
-      checkNameAvailabilityOperationSpec
-    );
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
+  private _listBySubscriptionNext(
     nextLink: string,
-    options?: ServicesListNextOptionalParams
-  ): Promise<ServicesListNextResponse> {
+    options?: WorkspacesListBySubscriptionNextOptionalParams
+  ): Promise<WorkspacesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listBySubscriptionNextOperationSpec
     );
   }
 
@@ -487,8 +471,8 @@ export class ServicesImpl implements Services {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ServicesListByResourceGroupNextOptionalParams
-  ): Promise<ServicesListByResourceGroupNextResponse> {
+    options?: WorkspacesListByResourceGroupNextOptionalParams
+  ): Promise<WorkspacesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -498,124 +482,13 @@ export class ServicesImpl implements Services {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/services/{resourceName}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.HealthcareApis/workspaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServicesDescription
-    },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/services/{resourceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServicesDescription
-    },
-    201: {
-      bodyMapper: Mappers.ServicesDescription
-    },
-    202: {
-      bodyMapper: Mappers.ServicesDescription
-    },
-    204: {
-      bodyMapper: Mappers.ServicesDescription
-    },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  requestBody: Parameters.serviceDescription,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/services/{resourceName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServicesDescription
-    },
-    201: {
-      bodyMapper: Mappers.ServicesDescription
-    },
-    202: {
-      bodyMapper: Mappers.ServicesDescription
-    },
-    204: {
-      bodyMapper: Mappers.ServicesDescription
-    },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  requestBody: Parameters.servicePatchDescription,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/services/{resourceName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HealthcareApis/services",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServicesDescriptionListResult
+      bodyMapper: Mappers.WorkspaceList
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
@@ -628,11 +501,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/services",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServicesDescriptionListResult
+      bodyMapper: Mappers.WorkspaceList
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
@@ -647,31 +520,123 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HealthcareApis/checkNameAvailability",
-  httpMethod: "POST",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServicesNameAvailabilityInfo
+      bodyMapper: Mappers.Workspace
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  requestBody: Parameters.checkNameAvailabilityInputs,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Workspace
+    },
+    201: {
+      bodyMapper: Mappers.Workspace
+    },
+    202: {
+      bodyMapper: Mappers.Workspace
+    },
+    204: {
+      bodyMapper: Mappers.Workspace
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails
+    }
+  },
+  requestBody: Parameters.workspace,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
+  ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Workspace
+    },
+    201: {
+      bodyMapper: Mappers.Workspace
+    },
+    202: {
+      bodyMapper: Mappers.Workspace
+    },
+    204: {
+      bodyMapper: Mappers.Workspace
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails
+    }
+  },
+  requestBody: Parameters.workspacePatchResource,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServicesDescriptionListResult
+      bodyMapper: Mappers.WorkspaceList
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
@@ -691,7 +656,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServicesDescriptionListResult
+      bodyMapper: Mappers.WorkspaceList
     },
     default: {
       bodyMapper: Mappers.ErrorDetails
