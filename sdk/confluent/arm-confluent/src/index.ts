@@ -6,13 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  BaseResource,
-  ConfluentAgreementResource,
-  ErrorResponseBody,
-  OfferDetail,
-  OrganizationResource,
-  ResourceProviderDefaultErrorResponse,
-  SystemData,
-  UserDetail
-} from "../models/mappers";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { ConfluentManagementClient } from "./confluentManagementClient";
+export * from "./operationsInterfaces";
