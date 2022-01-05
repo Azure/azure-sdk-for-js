@@ -6,7 +6,7 @@ LoadTest client provides access to LoadTest Resource and it's status operations.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtestservice/arm-loadtestservice) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-loadtestservice) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-loadtestservice) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-loadtestservice?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
