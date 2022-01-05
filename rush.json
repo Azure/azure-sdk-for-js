@@ -1215,6 +1215,11 @@
       "packageName": "@azure/arm-containerinstance",
       "projectFolder": "sdk/containerinstance/arm-containerinstance",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "adp",
+      "projectFolder": "sdk/adp/arm-adp",
+      "versionPolicyName": "management"
     }
   ]
 }
