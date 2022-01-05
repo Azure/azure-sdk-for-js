@@ -32,7 +32,7 @@ export async function authenticate(that: any): Promise<any> {
       BLOB_STORAGE_ACCOUNT_NAME: "blob_storage_account_name",
       BLOB_STORAGE_SAS_TOKEN: "blob_storage_sas_token",
       BLOB_STORAGE_URI: "https://uri.blob.core.windows.net/",
-      CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6"
+      CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6",
     },
     customizationsOnRecordings: [
       (recording: any): any =>
@@ -52,9 +52,9 @@ export async function authenticate(that: any): Promise<any> {
           );
         }
         return recording;
-      }
+      },
     ],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
   };
   const recorder = record(that, recorderEnvSetup);
 
@@ -63,7 +63,7 @@ export async function authenticate(that: any): Promise<any> {
     getEnvironmentVariable("AZURE_CLIENT_ID"),
     getEnvironmentVariable("AZURE_CLIENT_SECRET"),
     {
-      authorityHost: env.AZURE_AUTHORITY_HOST // undefined by default is expected
+      authorityHost: env.AZURE_AUTHORITY_HOST, // undefined by default is expected
     }
   );
 

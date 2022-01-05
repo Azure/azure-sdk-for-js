@@ -5,7 +5,7 @@ import { DeleteCertificatePollOperation, DeleteCertificatePollOperationState } f
 import { DeletedCertificate } from "../../certificatesModels";
 import {
   KeyVaultCertificatePoller,
-  KeyVaultCertificatePollerOptions
+  KeyVaultCertificatePollerOptions,
 } from "../keyVaultCertificatePoller";
 
 export interface DeleteCertificatePollerOptions extends KeyVaultCertificatePollerOptions {}
@@ -25,7 +25,7 @@ export class DeleteCertificatePoller extends KeyVaultCertificatePoller<
       certificateName,
       operationOptions,
       intervalInMs = 2000,
-      resumeFrom
+      resumeFrom,
     } = options;
 
     let state: DeleteCertificatePollOperationState | undefined;
@@ -37,7 +37,7 @@ export class DeleteCertificatePoller extends KeyVaultCertificatePoller<
     const operation = new DeleteCertificatePollOperation(
       {
         ...state,
-        certificateName
+        certificateName,
       },
       vaultUrl,
       client,

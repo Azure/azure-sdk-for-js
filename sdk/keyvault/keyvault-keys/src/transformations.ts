@@ -8,7 +8,7 @@ import {
   KeyBundle,
   KeyItem,
   KeyRotationPolicy as GeneratedPolicy,
-  LifetimeActions
+  LifetimeActions,
 } from "./generated/models";
 import { parseKeyVaultKeyIdentifier } from "./identifier";
 import {
@@ -16,7 +16,7 @@ import {
   KeyVaultKey,
   KeyProperties,
   KeyRotationPolicy,
-  KeyRotationPolicyProperties
+  KeyRotationPolicyProperties,
 } from "./keysModels";
 
 /**
@@ -58,8 +58,8 @@ export function getKeyFromKeyBundle(
       name: parsedId.name,
       managed: keyBundle.managed,
 
-      id: keyBundle.key ? keyBundle.key.kid : undefined
-    }
+      id: keyBundle.key ? keyBundle.key.kid : undefined,
+    },
   };
 
   if (deletedKeyBundle.recoveryId) {
@@ -80,7 +80,7 @@ export function getDeletedKeyFromDeletedKeyItem(keyItem: DeletedKeyItem): Delete
 
   return {
     key: {
-      kid: keyItem.kid
+      kid: keyItem.kid,
     },
     id: keyItem.kid,
     name: commonProperties.name,
@@ -88,8 +88,8 @@ export function getDeletedKeyFromDeletedKeyItem(keyItem: DeletedKeyItem): Delete
       ...commonProperties,
       recoveryId: keyItem.recoveryId,
       scheduledPurgeDate: keyItem.scheduledPurgeDate,
-      deletedOn: keyItem.deletedDate
-    }
+      deletedOn: keyItem.deletedDate,
+    },
   };
 }
 
@@ -114,7 +114,7 @@ export function getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
     tags: keyItem.tags,
     updatedOn: attributes.updated,
     vaultUrl: parsedId.vaultUrl,
-    version: parsedId.version
+    version: parsedId.version,
   };
 
   return resultObject;
@@ -124,17 +124,17 @@ export function getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
  * @internal
  */
 export const keyRotationTransformations = {
-  propertiesToGenerated: function(
+  propertiesToGenerated: function (
     parameters: KeyRotationPolicyProperties
   ): Partial<GeneratedPolicy> {
     const policy: GeneratedPolicy = {
       attributes: {
-        expiryTime: parameters.expiresIn
+        expiryTime: parameters.expiresIn,
       },
       lifetimeActions: parameters.lifetimeActions?.map((action) => {
         const generatedAction: LifetimeActions = {
           action: { type: action.action },
-          trigger: {}
+          trigger: {},
         };
 
         if (action.timeAfterCreate) {
@@ -146,7 +146,7 @@ export const keyRotationTransformations = {
         }
 
         return generatedAction;
-      })
+      }),
     };
     return policy;
   },
@@ -160,10 +160,10 @@ export const keyRotationTransformations = {
         return {
           action: action.action!.type!,
           timeAfterCreate: action.trigger?.timeAfterCreate,
-          timeBeforeExpiry: action.trigger?.timeBeforeExpiry
+          timeBeforeExpiry: action.trigger?.timeBeforeExpiry,
         };
-      })
+      }),
     };
     return policy;
-  }
+  },
 };

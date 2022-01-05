@@ -95,7 +95,7 @@ async function cancel(this: RestoreSecretBackupPollOperation): Promise<never> {
  */
 function toString(this: RestoreSecretBackupPollOperation): string {
   return JSON.stringify({
-    state: this.state
+    state: this.state,
   });
 }
 
@@ -108,10 +108,10 @@ export function makeRestoreSecretBackupPollOperation(
 ): RestoreSecretBackupPollOperation {
   return {
     state: {
-      ...state
+      ...state,
     },
     update,
     cancel,
-    toString
+    toString,
   };
 }

@@ -11303,7 +11303,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-2DO+4Eg75yZ9tIJl/4WBkk2D3b2qrpuIHJPJQ3aYFrn06gRCiyLtD9wLWLuJZM597/U8Mz2AFKEP4oa9pqNirQ==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-WishpCTglzE/R1KHqr1CsFyB4FFl/wuA5M6s8hpDxJszHz1qeUQacRQPEIDxBsjhexwUTL9bYA6nXVPCguGvaw==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -11325,7 +11325,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -11338,7 +11338,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-fRnN3uH8Yw60ALFxjYvrSEOP3EP4X8CbT8X+qRVLE3GcnhbytoIza5Hu2TuJq31N4j7R4AbcOqCtC9nmtihedQ==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-aowXHcSOxD6UUWlOiIzOc+Y+qf8jOlVdnaIn8L/VGSleXtiFrQjPuWj6hU2ec8w8aTytReW3nphgigR5aXFynw==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -11375,7 +11375,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -11396,13 +11396,13 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-nqJYMdkZslJJL2Y7fIMCVXcAtsuKOm8ZMukvR5AW7V+uzqZ6s1nAQ+MCQtJlJsKwr8ittY4DXsM70/n0e/g74A==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-HttizuBsTZidkvb3eSDhsCbTVOKn0ZqHdltvQaPR6p9IrLep0ujcQBBj5zzv5d+jC2f/T6ypCtUbhCJWmTsvdQ==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       tslib: 2.3.1
       typescript: 4.2.4
@@ -11411,7 +11411,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-lrKVoLOE1t9Q/nnxEXeDfW6/4UQ7mHtexpCZKc0Yp20HIHh6xVkiJgy/oSEK/xYR5C7H+vxfuLU9/IRuPIhGSg==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-DcMai4r3B5EuYLtn/gB1h6UtONfVOPzla31wkii1KDZYNlvFYqD18Jpttff+jWG1r10Zk+eJaCGvozTdOl+YJw==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -11446,7 +11446,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -11463,7 +11463,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-nMU8vzQWo39Cm5rehMDTpOUcvvh8U4C8TfFVkKhd5em7YFcC9vw3LzmUz6DmawAE34IFxUvCR/UMBqPOBYhcDQ==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-jMOyRWijzmuL2hpRiyy4x0uT6LTUVjfnLhR70ai98MRM2jjUzwVaubd87d9LPlO337sZjgQ37UXkUEpVK/gNhg==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -11499,7 +11499,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -11967,7 +11967,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-certificates.tgz:
-    resolution: {integrity: sha512-CgkoyMtb9yE2k43nODIE43YaMKp47jIHTda+My34qZqOobF/lpAhMSchnu5iTCDByxXU0884fVBG7Huf1M6q6Q==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-WAAXhO5nZoVvfP3Wn8zF/2yWRcCJK3wXRKNRnALR8hS/KEcA1OMUXpRaLuElACjIjHtB1Q4a4ekDoKT9AwYZjQ==, tarball: file:projects/perf-keyvault-certificates.tgz}
     name: '@rush-temp/perf-keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -11976,7 +11976,7 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
@@ -11989,7 +11989,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-keys.tgz:
-    resolution: {integrity: sha512-LVKSth+yOv+DaREd0kcgHbV+oVrbqZZsUhI/CVsot34uNGtRfNw0G2Cu7cUNohdHJ2ABf6wVtbQhua67L9DfKw==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-rv8aPhNajg9pk92DcAUwgiUg+3zySN1t8xLCtwSdRkWNmHgMfCU2l9M0rwNk6MTWEFtao5oYKvD9thd/pATdVQ==, tarball: file:projects/perf-keyvault-keys.tgz}
     name: '@rush-temp/perf-keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -11998,7 +11998,7 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1
@@ -12011,7 +12011,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-6PXCroWdlod0WXXgBFQxJqbvFl5g6rQhpzVViP+tyYi68/SczLCtrSoT3jBfWt749Z0SM3R30CsdvBeLLgwx5A==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-GXvdLBt4w4hjwK1RkFL4LjuDmhLszmxGutt0nYKMwslEiOgggW8fDmcuPfczB90buz/iIEmsZ97cGXEwyDrDvg==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -12019,7 +12019,7 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
       tslib: 2.3.1

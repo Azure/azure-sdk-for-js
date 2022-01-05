@@ -19,7 +19,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     const authentication = await authenticate(this, getServiceVersion());
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
@@ -27,13 +27,13 @@ describe("Secrets client - Long Running Operations - delete", () => {
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("can wait until a secret is deleted", async function(this: Context) {
+  it("can wait until a secret is deleted", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -52,7 +52,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
     assert.equal(poller.getOperationState().result!.name, secretName);
   });
 
-  it("can resume from a stopped poller", async function(this: Context) {
+  it("can resume from a stopped poller", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -74,7 +74,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
 
     const resumePoller = await client.beginDeleteSecret(secretName, {
       resumeFrom: serialized,
-      ...testPollerProperties
+      ...testPollerProperties,
     });
 
     assert.ok(resumePoller.getOperationState().isStarted);
@@ -84,7 +84,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can attempt to delete a secret with requestOptions timeout", async function(this: Context) {
+  it("can attempt to delete a secret with requestOptions timeout", async function (this: Context) {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`

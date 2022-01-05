@@ -10,11 +10,7 @@ if (isNode) {
 }
 
 export function uniqueString(): string {
-  return isPlaybackMode()
-    ? ""
-    : Math.random()
-        .toString()
-        .slice(2);
+  return isPlaybackMode() ? "" : Math.random().toString().slice(2);
 }
 
 /**
@@ -25,5 +21,5 @@ export function uniqueString(): string {
  * of 10s here anyway.
  */
 export const testPollerProperties = {
-  intervalInMs: isPlaybackMode() ? 0 : 10 * 1000
+  intervalInMs: isPlaybackMode() ? 0 : 10 * 1000,
 };
