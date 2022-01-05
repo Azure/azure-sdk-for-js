@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  discriminators,
-  ErrorDetails,
-  ErrorModel,
-  ErrorResponse,
-  Operation,
-  OperationDisplay,
-  OperationListResult
-} from "../models/mappers";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { ResourceGraphClient } from "./resourceGraphClient";
+export * from "./operationsInterfaces";
