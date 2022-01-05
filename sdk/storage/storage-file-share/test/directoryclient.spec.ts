@@ -8,7 +8,7 @@ import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src"
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
-import { SpanGraph, setTracer } from "@azure/test-utils";
+import { SpanGraph, setTracer, getYieldedValue } from "@azure/test-utils";
 import { URLBuilder } from "@azure/core-http";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { Pipeline } from "../src/Pipeline";
@@ -533,13 +533,13 @@ describe("DirectoryClient", () => {
     }
 
     const iter = rootDirClient.listFilesAndDirectories({ prefix });
-    let entity = (await iter.next()).value;
+    let entity = getYieldedValue(await iter.next());
     assert.ok(entity.name.startsWith(prefix));
     if (entity.kind === "file") {
       assert.deepEqual(entity.properties.contentLength, 1024);
     }
 
-    entity = (await iter.next()).value;
+    entity = getYieldedValue(await iter.next());
     assert.ok(entity.name.startsWith(prefix));
     if (entity.kind === "file") {
       assert.deepEqual(entity.properties.contentLength, 1024);

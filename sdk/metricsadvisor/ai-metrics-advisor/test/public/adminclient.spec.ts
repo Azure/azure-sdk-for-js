@@ -12,7 +12,7 @@ import {
 } from "../../src";
 import { createRecordedAdminClient, makeCredential, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
-import { matrix } from "./util/matrix";
+import { matrix, getYieldedValue } from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -37,10 +37,10 @@ matrix([[true, false]] as const, async (useAad) => {
             new Date(Date.UTC(2020, 9, 30)),
             new Date(Date.UTC(2021, 10, 1))
           );
-          let result = await iterator.next();
-          assert.ok(result.value.status, "Expecting first status");
-          result = await iterator.next();
-          assert.ok(result.value.status, "Expecting second status");
+          let result = getYieldedValue(await iterator.next());
+          assert.ok(result.status, "Expecting first status");
+          result = getYieldedValue(await iterator.next());
+          assert.ok(result.status, "Expecting second status");
         });
 
         it("lists ingestion status with datetime strings", async function () {
@@ -49,10 +49,10 @@ matrix([[true, false]] as const, async (useAad) => {
             "2020-08-30T00:00:00.000Z",
             "2021-11-01T00:00:00.000Z"
           );
-          let result = await iterator.next();
-          assert.ok(result.value.status, "Expecting first status");
-          result = await iterator.next();
-          assert.ok(result.value.status, "Expecting second status");
+          let result = getYieldedValue(await iterator.next());
+          assert.ok(result.status, "Expecting first status");
+          result = getYieldedValue(await iterator.next());
+          assert.ok(result.status, "Expecting second status");
         });
 
         it("lists ingestion status by page", async function () {
@@ -84,9 +84,9 @@ matrix([[true, false]] as const, async (useAad) => {
             new Date(Date.UTC(2020, 9, 30)),
             new Date(Date.UTC(2020, 10, 1))
           );
-          const result = await iterator.next();
+          const result = getYieldedValue(await iterator.next());
 
-          if (result.value.status === "Succeeded") {
+          if (result.status === "Succeeded") {
             await client.refreshDataFeedIngestion(
               testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
               new Date(Date.UTC(2020, 9, 30)),
@@ -98,8 +98,8 @@ matrix([[true, false]] as const, async (useAad) => {
               new Date(Date.UTC(2020, 9, 30)),
               new Date(Date.UTC(2020, 10, 1))
             );
-            const result2 = await iterator2.next();
-            assert.notEqual(result2.value.status, "Succeeded");
+            const result2 = getYieldedValue(await iterator2.next());
+            assert.notEqual(result2.status, "Succeeded");
           } else {
             this.skip();
           }
@@ -246,11 +246,10 @@ matrix([[true, false]] as const, async (useAad) => {
           const iterator = client.listDetectionConfigs(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1
           );
-          let result = await iterator.next();
-
-          assert.ok(result.value.id, "Expecting first detection config");
-          result = await iterator.next();
-          assert.ok(result.value.id, "Expecting second detection config");
+          let result = getYieldedValue(await iterator.next());
+          assert.ok(result.id, "Expecting first detection config");
+          result = getYieldedValue(await iterator.next());
+          assert.ok(result.id, "Expecting second detection config");
         });
 
         it("lists detection configurations by page", async function () {
@@ -356,12 +355,10 @@ matrix([[true, false]] as const, async (useAad) => {
           });
           try {
             const iterator = client.listAlertConfigs(createdDetectionConfigId);
-            let result = await iterator.next();
-
-            assert.ok(result.value.id, "Expecting first alert config");
-            result = await iterator.next();
-            assert.ok(result.value.id, "Expecting second alert config");
-
+            let result = getYieldedValue(await iterator.next());
+            assert.ok(result.id, "Expecting first alert config");
+            result = getYieldedValue(await iterator.next());
+            assert.ok(result.id, "Expecting second alert config");
             const pageIterator = client.listAlertConfigs(createdDetectionConfigId).byPage();
             const pageResult = await pageIterator.next();
             assert.isTrue(pageResult.value.length > 1, "Expecting more than one entries in page");

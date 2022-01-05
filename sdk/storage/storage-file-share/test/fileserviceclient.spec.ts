@@ -14,6 +14,7 @@ import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder"
 import * as dotenv from "dotenv";
 import { ShareServiceClient, ShareItem, ShareRootSquash } from "../src";
 import { Context } from "mocha";
+import { getYieldedValue } from "@azure/test-utils";
 dotenv.config();
 
 describe("FileServiceClient", () => {
@@ -165,17 +166,17 @@ describe("FileServiceClient", () => {
       includeSnapshots: true,
       prefix: shareNamePrefix,
     });
-    let shareItem = await iter.next();
-    assert.ok(shareItem.value.name.startsWith(shareNamePrefix));
-    assert.ok(shareItem.value.properties.etag.length > 0);
-    assert.ok(shareItem.value.properties.lastModified);
-    assert.deepEqual(shareItem.value.metadata!.key, "val");
+    let shareItem = getYieldedValue(await iter.next());
+    assert.ok(shareItem.name.startsWith(shareNamePrefix));
+    assert.ok(shareItem.properties.etag.length > 0);
+    assert.ok(shareItem.properties.lastModified);
+    assert.deepEqual(shareItem.metadata!.key, "val");
 
-    shareItem = await iter.next();
-    assert.ok(shareItem.value.name.startsWith(shareNamePrefix));
-    assert.ok(shareItem.value.properties.etag.length > 0);
-    assert.ok(shareItem.value.properties.lastModified);
-    assert.deepEqual(shareItem.value.metadata!.key, "val");
+    shareItem = getYieldedValue(await iter.next());
+    assert.ok(shareItem.name.startsWith(shareNamePrefix));
+    assert.ok(shareItem.properties.etag.length > 0);
+    assert.ok(shareItem.properties.lastModified);
+    assert.deepEqual(shareItem.metadata!.key, "val");
 
     await shareClient1.delete();
     await shareClient2.delete();
