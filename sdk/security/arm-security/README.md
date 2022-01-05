@@ -6,7 +6,7 @@ API spec for Microsoft.Security (Azure Security Center) resource provider
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/security/arm-security) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-security) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-security) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-security?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
