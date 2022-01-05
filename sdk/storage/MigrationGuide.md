@@ -1,8 +1,6 @@
 # Guide for migrating to v12 storage SDKs from `azure-storage`
 
-This guide is intended to assist in the migration to version 12 of `@azure/storage-blob`, `@azure/storage-file-share`, `@azure/storage-queue` and `@azure/data-tables` from the legacy `azure-storage` package. It will focus on side-by-side comparisons for similar operations between the two packages.
-
-Below are links to detailed migration guide for each separating package of different services:
+Below are links to detailed guides to migrate from the legacy `azure-storage` package to the latest versions of `@azure/storage-blob`, `@azure/storage-file-share`, `@azure/storage-queue` and `@azure/data-tables`.
 
 | Package                                                                              | Version | Description                                     | Migration Guide Links                                                                                                                                                       |
 | ------------------------------------------------------------------------------------ | ------- | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
