@@ -8,6 +8,7 @@ import {
   PipelineResponse,
   Pipeline,
   createPipelineRequest,
+  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 import {
   OperationArguments,
@@ -190,12 +191,26 @@ export class ServiceClient {
         options.onResponse(rawResponse, flatResponse);
       }
       return flatResponse;
-    } catch (error) {
-      if (error.response) {
-        error.details = flattenResponse(
-          error.response,
-          operationSpec.responses[error.statusCode] || operationSpec.responses["default"]
-        );
+    } catch (e) {
+      let error: any = e;
+      if (typeof error === "object" && error) {
+        let rawResponse: PipelineResponse = {
+          request,
+          headers: createHttpHeaders(),
+          status: 0,
+        };
+        let flatResponse: unknown;
+        if (error.response) {
+          rawResponse = error.response;
+          flatResponse = flattenResponse(
+            rawResponse,
+            operationSpec.responses[error.statusCode] || operationSpec.responses["default"]
+          );
+          error.details = flatResponse;
+        }
+        if (options?.onResponse) {
+          options.onResponse(rawResponse, flatResponse, error);
+        }
       }
       throw error;
     }
