@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./recordSets";
-export * from "./zones";
-export * from "./dnsResourceReferenceOperations";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { DnsManagementClient } from "./dnsManagementClient";
+export * from "./operationsInterfaces";
