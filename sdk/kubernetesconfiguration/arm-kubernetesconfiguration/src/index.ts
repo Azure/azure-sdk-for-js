@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  ErrorDefinition,
-  ErrorResponse,
-  ResourceProviderOperation,
-  ResourceProviderOperationDisplay,
-  ResourceProviderOperationList
-} from "../models/mappers";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { SourceControlConfigurationClient } from "./sourceControlConfigurationClient";
+export * from "./operationsInterfaces";
