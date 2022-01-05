@@ -7,26 +7,26 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { DomainServiceOperations } from "../operationsInterfaces";
+import { OuContainerOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DomainServicesResourceProvider } from "../domainServicesResourceProvider";
 import {
   OperationEntity,
-  DomainServiceOperationsListNextOptionalParams,
-  DomainServiceOperationsListOptionalParams,
-  DomainServiceOperationsListResponse,
-  DomainServiceOperationsListNextResponse
+  OuContainerOperationsListNextOptionalParams,
+  OuContainerOperationsListOptionalParams,
+  OuContainerOperationsListResponse,
+  OuContainerOperationsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DomainServiceOperations operations. */
-export class DomainServiceOperationsImpl implements DomainServiceOperations {
+/** Class containing OuContainerOperations operations. */
+export class OuContainerOperationsImpl implements OuContainerOperations {
   private readonly client: DomainServicesResourceProvider;
 
   /**
-   * Initialize a new instance of the class DomainServiceOperations class.
+   * Initialize a new instance of the class OuContainerOperations class.
    * @param client Reference to the service client
    */
   constructor(client: DomainServicesResourceProvider) {
@@ -34,11 +34,11 @@ export class DomainServiceOperationsImpl implements DomainServiceOperations {
   }
 
   /**
-   * Lists all the available Domain Services operations.
+   * Lists all the available OuContainer operations.
    * @param options The options parameters.
    */
   public list(
-    options?: DomainServiceOperationsListOptionalParams
+    options?: OuContainerOperationsListOptionalParams
   ): PagedAsyncIterableIterator<OperationEntity> {
     const iter = this.listPagingAll(options);
     return {
@@ -55,7 +55,7 @@ export class DomainServiceOperationsImpl implements DomainServiceOperations {
   }
 
   private async *listPagingPage(
-    options?: DomainServiceOperationsListOptionalParams
+    options?: OuContainerOperationsListOptionalParams
   ): AsyncIterableIterator<OperationEntity[]> {
     let result = await this._list(options);
     yield result.value || [];
@@ -68,7 +68,7 @@ export class DomainServiceOperationsImpl implements DomainServiceOperations {
   }
 
   private async *listPagingAll(
-    options?: DomainServiceOperationsListOptionalParams
+    options?: OuContainerOperationsListOptionalParams
   ): AsyncIterableIterator<OperationEntity> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -76,12 +76,12 @@ export class DomainServiceOperationsImpl implements DomainServiceOperations {
   }
 
   /**
-   * Lists all the available Domain Services operations.
+   * Lists all the available OuContainer operations.
    * @param options The options parameters.
    */
   private _list(
-    options?: DomainServiceOperationsListOptionalParams
-  ): Promise<DomainServiceOperationsListResponse> {
+    options?: OuContainerOperationsListOptionalParams
+  ): Promise<OuContainerOperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -92,8 +92,8 @@ export class DomainServiceOperationsImpl implements DomainServiceOperations {
    */
   private _listNext(
     nextLink: string,
-    options?: DomainServiceOperationsListNextOptionalParams
-  ): Promise<DomainServiceOperationsListNextResponse> {
+    options?: OuContainerOperationsListNextOptionalParams
+  ): Promise<OuContainerOperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -104,7 +104,7 @@ export class DomainServiceOperationsImpl implements DomainServiceOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.AAD/operations",
+  path: "/providers/Microsoft.Aad/operations",
   httpMethod: "GET",
   responses: {
     200: {

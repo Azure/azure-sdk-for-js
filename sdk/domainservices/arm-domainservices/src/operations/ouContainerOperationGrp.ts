@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { DomainServices } from "../operationsInterfaces";
+import { OuContainerOperationGrp } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,31 +15,28 @@ import { DomainServicesResourceProvider } from "../domainServicesResourceProvide
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  DomainService,
-  DomainServicesListNextOptionalParams,
-  DomainServicesListOptionalParams,
-  DomainServicesListByResourceGroupNextOptionalParams,
-  DomainServicesListByResourceGroupOptionalParams,
-  DomainServicesListResponse,
-  DomainServicesListByResourceGroupResponse,
-  DomainServicesCreateOrUpdateOptionalParams,
-  DomainServicesCreateOrUpdateResponse,
-  DomainServicesGetOptionalParams,
-  DomainServicesGetResponse,
-  DomainServicesDeleteOptionalParams,
-  DomainServicesUpdateOptionalParams,
-  DomainServicesUpdateResponse,
-  DomainServicesListNextResponse,
-  DomainServicesListByResourceGroupNextResponse
+  OuContainer,
+  OuContainerListNextOptionalParams,
+  OuContainerListOptionalParams,
+  OuContainerListResponse,
+  OuContainerGetOptionalParams,
+  OuContainerGetResponse,
+  ContainerAccount,
+  OuContainerCreateOptionalParams,
+  OuContainerCreateResponse,
+  OuContainerDeleteOptionalParams,
+  OuContainerUpdateOptionalParams,
+  OuContainerUpdateResponse,
+  OuContainerListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DomainServices operations. */
-export class DomainServicesImpl implements DomainServices {
+/** Class containing OuContainerOperationGrp operations. */
+export class OuContainerOperationGrpImpl implements OuContainerOperationGrp {
   private readonly client: DomainServicesResourceProvider;
 
   /**
-   * Initialize a new instance of the class DomainServices class.
+   * Initialize a new instance of the class OuContainerOperationGrp class.
    * @param client Reference to the service client
    */
   constructor(client: DomainServicesResourceProvider) {
@@ -47,14 +44,22 @@ export class DomainServicesImpl implements DomainServices {
   }
 
   /**
-   * The List Domain Services in Subscription operation lists all the domain services available under the
-   * given subscription (and across all resource groups within that subscription).
+   * The List of OuContainers in DomainService instance.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param domainServiceName The name of the domain service.
    * @param options The options parameters.
    */
   public list(
-    options?: DomainServicesListOptionalParams
-  ): PagedAsyncIterableIterator<DomainService> {
-    const iter = this.listPagingAll(options);
+    resourceGroupName: string,
+    domainServiceName: string,
+    options?: OuContainerListOptionalParams
+  ): PagedAsyncIterableIterator<OuContainer> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      domainServiceName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -63,67 +68,31 @@ export class DomainServicesImpl implements DomainServices {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(options);
+        return this.listPagingPage(
+          resourceGroupName,
+          domainServiceName,
+          options
+        );
       }
     };
   }
 
   private async *listPagingPage(
-    options?: DomainServicesListOptionalParams
-  ): AsyncIterableIterator<DomainService[]> {
-    let result = await this._list(options);
+    resourceGroupName: string,
+    domainServiceName: string,
+    options?: OuContainerListOptionalParams
+  ): AsyncIterableIterator<OuContainer[]> {
+    let result = await this._list(
+      resourceGroupName,
+      domainServiceName,
+      options
+    );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listPagingAll(
-    options?: DomainServicesListOptionalParams
-  ): AsyncIterableIterator<DomainService> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * The List Domain Services in Resource Group operation lists all the domain services available under
-   * the given resource group.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param options The options parameters.
-   */
-  public listByResourceGroup(
-    resourceGroupName: string,
-    options?: DomainServicesListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<DomainService> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
-      }
-    };
-  }
-
-  private async *listByResourceGroupPagingPage(
-    resourceGroupName: string,
-    options?: DomainServicesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<DomainService[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listByResourceGroupNext(
+      result = await this._listNext(
         resourceGroupName,
+        domainServiceName,
         continuationToken,
         options
       );
@@ -132,12 +101,14 @@ export class DomainServicesImpl implements DomainServices {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
-    options?: DomainServicesListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<DomainService> {
-    for await (const page of this.listByResourceGroupPagingPage(
+    domainServiceName: string,
+    options?: OuContainerListOptionalParams
+  ): AsyncIterableIterator<OuContainer> {
+    for await (const page of this.listPagingPage(
       resourceGroupName,
+      domainServiceName,
       options
     )) {
       yield* page;
@@ -145,58 +116,69 @@ export class DomainServicesImpl implements DomainServices {
   }
 
   /**
-   * The List Domain Services in Subscription operation lists all the domain services available under the
-   * given subscription (and across all resource groups within that subscription).
+   * The List of OuContainers in DomainService instance.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param domainServiceName The name of the domain service.
    * @param options The options parameters.
    */
   private _list(
-    options?: DomainServicesListOptionalParams
-  ): Promise<DomainServicesListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * The List Domain Services in Resource Group operation lists all the domain services available under
-   * the given resource group.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
     resourceGroupName: string,
-    options?: DomainServicesListByResourceGroupOptionalParams
-  ): Promise<DomainServicesListByResourceGroupResponse> {
+    domainServiceName: string,
+    options?: OuContainerListOptionalParams
+  ): Promise<OuContainerListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      { resourceGroupName, domainServiceName, options },
+      listOperationSpec
     );
   }
 
   /**
-   * The Create Domain Service operation creates a new domain service with the specified parameters. If
-   * the specific service already exists, then any patchable properties will be updated and any immutable
-   * properties will remain unchanged.
+   * Get OuContainer in DomainService instance.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param domainServiceName The name of the domain service.
-   * @param domainService Properties supplied to the Create or Update a Domain Service operation.
+   * @param ouContainerName The name of the OuContainer.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  get(
     resourceGroupName: string,
     domainServiceName: string,
-    domainService: DomainService,
-    options?: DomainServicesCreateOrUpdateOptionalParams
+    ouContainerName: string,
+    options?: OuContainerGetOptionalParams
+  ): Promise<OuContainerGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, domainServiceName, ouContainerName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * The Create OuContainer operation creates a new OuContainer under the specified Domain Service
+   * instance.
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param domainServiceName The name of the domain service.
+   * @param ouContainerName The name of the OuContainer.
+   * @param containerAccount Container Account Description.
+   * @param options The options parameters.
+   */
+  async beginCreate(
+    resourceGroupName: string,
+    domainServiceName: string,
+    ouContainerName: string,
+    containerAccount: ContainerAccount,
+    options?: OuContainerCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<DomainServicesCreateOrUpdateResponse>,
-      DomainServicesCreateOrUpdateResponse
+      PollOperationState<OuContainerCreateResponse>,
+      OuContainerCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<DomainServicesCreateOrUpdateResponse> => {
+    ): Promise<OuContainerCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -234,8 +216,14 @@ export class DomainServicesImpl implements DomainServices {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, domainServiceName, domainService, options },
-      createOrUpdateOperationSpec
+      {
+        resourceGroupName,
+        domainServiceName,
+        ouContainerName,
+        containerAccount,
+        options
+      },
+      createOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -244,59 +232,45 @@ export class DomainServicesImpl implements DomainServices {
   }
 
   /**
-   * The Create Domain Service operation creates a new domain service with the specified parameters. If
-   * the specific service already exists, then any patchable properties will be updated and any immutable
-   * properties will remain unchanged.
+   * The Create OuContainer operation creates a new OuContainer under the specified Domain Service
+   * instance.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param domainServiceName The name of the domain service.
-   * @param domainService Properties supplied to the Create or Update a Domain Service operation.
+   * @param ouContainerName The name of the OuContainer.
+   * @param containerAccount Container Account Description.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginCreateAndWait(
     resourceGroupName: string,
     domainServiceName: string,
-    domainService: DomainService,
-    options?: DomainServicesCreateOrUpdateOptionalParams
-  ): Promise<DomainServicesCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    ouContainerName: string,
+    containerAccount: ContainerAccount,
+    options?: OuContainerCreateOptionalParams
+  ): Promise<OuContainerCreateResponse> {
+    const poller = await this.beginCreate(
       resourceGroupName,
       domainServiceName,
-      domainService,
+      ouContainerName,
+      containerAccount,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The Get Domain Service operation retrieves a json representation of the Domain Service.
+   * The Delete OuContainer operation deletes specified OuContainer.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param domainServiceName The name of the domain service.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    domainServiceName: string,
-    options?: DomainServicesGetOptionalParams
-  ): Promise<DomainServicesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, domainServiceName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * The Delete Domain Service operation deletes an existing Domain Service.
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param domainServiceName The name of the domain service.
+   * @param ouContainerName The name of the OuContainer.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     domainServiceName: string,
-    options?: DomainServicesDeleteOptionalParams
+    ouContainerName: string,
+    options?: OuContainerDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -339,7 +313,7 @@ export class DomainServicesImpl implements DomainServices {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, domainServiceName, options },
+      { resourceGroupName, domainServiceName, ouContainerName, options },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -349,49 +323,53 @@ export class DomainServicesImpl implements DomainServices {
   }
 
   /**
-   * The Delete Domain Service operation deletes an existing Domain Service.
+   * The Delete OuContainer operation deletes specified OuContainer.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param domainServiceName The name of the domain service.
+   * @param ouContainerName The name of the OuContainer.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     domainServiceName: string,
-    options?: DomainServicesDeleteOptionalParams
+    ouContainerName: string,
+    options?: OuContainerDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       domainServiceName,
+      ouContainerName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * The Update Domain Service operation can be used to update the existing deployment. The update call
-   * only supports the properties listed in the PATCH body.
+   * The Update OuContainer operation can be used to update the existing OuContainers.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param domainServiceName The name of the domain service.
-   * @param domainService Properties supplied to the Update a Domain Service operation.
+   * @param ouContainerName The name of the OuContainer.
+   * @param containerAccount Container Account Description.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     domainServiceName: string,
-    domainService: DomainService,
-    options?: DomainServicesUpdateOptionalParams
+    ouContainerName: string,
+    containerAccount: ContainerAccount,
+    options?: OuContainerUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<DomainServicesUpdateResponse>,
-      DomainServicesUpdateResponse
+      PollOperationState<OuContainerUpdateResponse>,
+      OuContainerUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<DomainServicesUpdateResponse> => {
+    ): Promise<OuContainerUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -429,7 +407,13 @@ export class DomainServicesImpl implements DomainServices {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, domainServiceName, domainService, options },
+      {
+        resourceGroupName,
+        domainServiceName,
+        ouContainerName,
+        containerAccount,
+        options
+      },
       updateOperationSpec
     );
     return new LroEngine(lro, {
@@ -439,24 +423,26 @@ export class DomainServicesImpl implements DomainServices {
   }
 
   /**
-   * The Update Domain Service operation can be used to update the existing deployment. The update call
-   * only supports the properties listed in the PATCH body.
+   * The Update OuContainer operation can be used to update the existing OuContainers.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param domainServiceName The name of the domain service.
-   * @param domainService Properties supplied to the Update a Domain Service operation.
+   * @param ouContainerName The name of the OuContainer.
+   * @param containerAccount Container Account Description.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     domainServiceName: string,
-    domainService: DomainService,
-    options?: DomainServicesUpdateOptionalParams
-  ): Promise<DomainServicesUpdateResponse> {
+    ouContainerName: string,
+    containerAccount: ContainerAccount,
+    options?: OuContainerUpdateOptionalParams
+  ): Promise<OuContainerUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       domainServiceName,
-      domainService,
+      ouContainerName,
+      containerAccount,
       options
     );
     return poller.pollUntilDone();
@@ -464,34 +450,21 @@ export class DomainServicesImpl implements DomainServices {
 
   /**
    * ListNext
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param domainServiceName The name of the domain service.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    nextLink: string,
-    options?: DomainServicesListNextOptionalParams
-  ): Promise<DomainServicesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
-   *                          case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
     resourceGroupName: string,
+    domainServiceName: string,
     nextLink: string,
-    options?: DomainServicesListByResourceGroupNextOptionalParams
-  ): Promise<DomainServicesListByResourceGroupNextResponse> {
+    options?: OuContainerListNextOptionalParams
+  ): Promise<OuContainerListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      { resourceGroupName, domainServiceName, nextLink, options },
+      listNextOperationSpec
     );
   }
 }
@@ -500,100 +473,86 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AAD/domainServices",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Aad/domainServices/{domainServiceName}/ouContainer",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainServiceListResult
+      bodyMapper: Mappers.OuContainerListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AAD/domainServices",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DomainServiceListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AAD/domainServices/{domainServiceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DomainService
-    },
-    201: {
-      bodyMapper: Mappers.DomainService
-    },
-    202: {
-      bodyMapper: Mappers.DomainService
-    },
-    204: {
-      bodyMapper: Mappers.DomainService
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.domainService,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.domainServiceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Aad/domainServices/{domainServiceName}/ouContainer/{ouContainerName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OuContainer
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.domainServiceName,
+    Parameters.ouContainerName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Aad/domainServices/{domainServiceName}/ouContainer/{ouContainerName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OuContainer
+    },
+    201: {
+      bodyMapper: Mappers.OuContainer
+    },
+    202: {
+      bodyMapper: Mappers.OuContainer
+    },
+    204: {
+      bodyMapper: Mappers.OuContainer
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.containerAccount,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.domainServiceName,
+    Parameters.ouContainerName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AAD/domainServices/{domainServiceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DomainService
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.domainServiceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AAD/domainServices/{domainServiceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Aad/domainServices/{domainServiceName}/ouContainer/{ouContainerName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -609,39 +568,41 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.domainServiceName
+    Parameters.domainServiceName,
+    Parameters.ouContainerName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AAD/domainServices/{domainServiceName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Aad/domainServices/{domainServiceName}/ouContainer/{ouContainerName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainService
+      bodyMapper: Mappers.OuContainer
     },
     201: {
-      bodyMapper: Mappers.DomainService
+      bodyMapper: Mappers.OuContainer
     },
     202: {
-      bodyMapper: Mappers.DomainService
+      bodyMapper: Mappers.OuContainer
     },
     204: {
-      bodyMapper: Mappers.DomainService
+      bodyMapper: Mappers.OuContainer
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.domainService,
+  requestBody: Parameters.containerAccount,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.domainServiceName
+    Parameters.domainServiceName,
+    Parameters.ouContainerName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -652,27 +613,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DomainServiceListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DomainServiceListResult
+      bodyMapper: Mappers.OuContainerListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -683,7 +624,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.domainServiceName
   ],
   headerParameters: [Parameters.accept],
   serializer
