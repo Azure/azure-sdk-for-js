@@ -3,7 +3,6 @@
 
 import { assert } from "chai";
 import { getBSU, recorderEnvSetup } from "./utils";
-import * as dotenv from "dotenv";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
@@ -14,7 +13,6 @@ import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { Pipeline } from "../src/Pipeline";
 import { setSpan, context } from "@azure/core-tracing";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("DirectoryClient", () => {
   let shareName: string;

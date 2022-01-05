@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
@@ -19,8 +18,6 @@ import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 import { setSpan, context } from "@azure/core-tracing";
 import { Context } from "mocha";
-
-dotenv.config();
 
 describe("FileClient", () => {
   let shareName: string;

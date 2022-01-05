@@ -3,11 +3,9 @@
 
 import { assert } from "chai";
 import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
-import * as dotenv from "dotenv";
 import { ShareServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("FileServiceClient Node.js only", () => {
   let recorder: Recorder;

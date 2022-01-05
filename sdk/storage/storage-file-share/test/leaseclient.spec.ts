@@ -5,9 +5,7 @@ import { assert } from "chai";
 import { getBSU, recorderEnvSetup, bodyToString } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
-dotenv.config();
 
 // for file
 describe("LeaseClient", () => {
