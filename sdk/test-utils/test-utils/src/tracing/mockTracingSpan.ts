@@ -73,7 +73,7 @@ export class MockTracingSpan implements TracingSpan {
   }
 
   private _spanContext: TracingSpanContext;
-  get spanContext() {
+  spanContext() {
     return this._spanContext;
   }
 }
