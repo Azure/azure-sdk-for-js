@@ -21,7 +21,7 @@ export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = Page
   /**
    * The next method, part of the iteration protocol
    */
-  next(): Promise<IteratorResult<T, T>>;
+  next(): Promise<IteratorResult<T>>;
   /**
    * The connection to the async iterator, part of the iteration protocol
    */

@@ -8,7 +8,7 @@ import {
   getTokenCredential,
   SimpleTokenCredential,
   recorderEnvSetup,
-  getTokenBSU
+  getTokenBSU,
 } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { BlobBatch } from "../src";
@@ -18,7 +18,7 @@ import {
   BlobServiceClient,
   newPipeline,
   BlobBatchClient,
-  StorageSharedKeyCredential
+  StorageSharedKeyCredential,
 } from "../src";
 import { Context } from "mocha";
 
@@ -35,7 +35,7 @@ describe("BlobBatch", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
 
     blobServiceClient = getGenericBSU("");
@@ -58,7 +58,7 @@ describe("BlobBatch", () => {
     blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
@@ -99,7 +99,7 @@ describe("BlobBatch", () => {
     const resp2 = (
       await containerClient
         .listBlobsFlat({
-          includeSnapshots: true
+          includeSnapshots: true,
         })
         .byPage({ maxPageSize: 1 })
         .next()
@@ -136,7 +136,7 @@ describe("BlobBatch", () => {
     const resp2 = (
       await containerClient
         .listBlobsFlat({
-          includeSnapshots: true
+          includeSnapshots: true,
         })
         .byPage({ maxPageSize: 1 })
         .next()
@@ -159,14 +159,14 @@ describe("BlobBatch", () => {
     // Assemble batch delete request which delete blob with its snapshot.
     const batchDeleteRequest = new BlobBatch();
     await batchDeleteRequest.deleteBlob(blockBlobClients[0].url, credential, {
-      deleteSnapshots: "include"
+      deleteSnapshots: "include",
     });
 
     // Ensure blobs ready.
     let respList1 = (
       await containerClient
         .listBlobsFlat({
-          includeSnapshots: true
+          includeSnapshots: true,
         })
         .byPage({ maxPageSize: 5 })
         .next()
@@ -183,7 +183,7 @@ describe("BlobBatch", () => {
     respList1 = (
       await containerClient
         .listBlobsFlat({
-          includeSnapshots: true
+          includeSnapshots: true,
         })
         .byPage({ maxPageSize: 5 })
         .next()
@@ -206,7 +206,7 @@ describe("BlobBatch", () => {
     let respList2 = (
       await containerClient
         .listBlobsFlat({
-          includeSnapshots: true
+          includeSnapshots: true,
         })
         .byPage({ maxPageSize: 5 })
         .next()
@@ -223,7 +223,7 @@ describe("BlobBatch", () => {
     respList2 = (
       await containerClient
         .listBlobsFlat({
-          includeSnapshots: true
+          includeSnapshots: true,
         })
         .byPage({ maxPageSize: 5 })
         .next()
@@ -246,7 +246,7 @@ describe("BlobBatch", () => {
     let respList3 = (
       await containerClient
         .listBlobsFlat({
-          includeSnapshots: true
+          includeSnapshots: true,
         })
         .byPage({ maxPageSize: 5 })
         .next()
@@ -263,7 +263,7 @@ describe("BlobBatch", () => {
     respList3 = (
       await containerClient
         .listBlobsFlat({
-          includeSnapshots: true
+          includeSnapshots: true,
         })
         .byPage({ maxPageSize: 5 })
         .next()
@@ -284,13 +284,13 @@ describe("BlobBatch", () => {
     const batchDeleteRequest = new BlobBatch();
     await batchDeleteRequest.deleteBlob(blockBlobClients[0], {
       conditions: {
-        ifMatch: b0.etag
-      }
+        ifMatch: b0.etag,
+      },
     });
     await batchDeleteRequest.deleteBlob(blockBlobClients[1], {
       conditions: {
-        ifNoneMatch: b1.etag
-      }
+        ifNoneMatch: b1.etag,
+      },
     });
 
     // Submit batch request and verify response.
@@ -396,7 +396,7 @@ describe("BlobBatch", () => {
     const batchSetTierRequest = new BlobBatch();
     await batchSetTierRequest.setBlobAccessTier(blockBlobClients[0], "Cool");
     await batchSetTierRequest.setBlobAccessTier(blockBlobClients[1], "Cool", {
-      conditions: { leaseId: leaseResp.leaseId! }
+      conditions: { leaseId: leaseResp.leaseId! },
     });
 
     // Submit batch request and verify response.
@@ -509,7 +509,7 @@ describe("BlobBatch", () => {
     }
   });
 
-  it("submitBatch should work with multiple types of credentials for subrequests", async function(this: Context) {
+  it("submitBatch should work with multiple types of credentials for subrequests", async function (this: Context) {
     recorder.skip(
       undefined,
       "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
@@ -713,7 +713,7 @@ describe("BlobBatch", () => {
     const resp2 = (
       await containerClient
         .listBlobsFlat({
-          includeSnapshots: true
+          includeSnapshots: true,
         })
         .byPage({ maxPageSize: 1 })
         .next()
@@ -732,7 +732,7 @@ describe("BlobBatch Token auth", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
 
     // Try to get serviceURL object with TokenCredential when ACCOUNT_TOKEN environment variable is set
@@ -759,14 +759,14 @@ describe("BlobBatch Token auth", () => {
     blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await recorder.stop();
     }
   });
 
-  it("Should work when passing in BlobClient", async function() {
+  it("Should work when passing in BlobClient", async function () {
     recorder.skip(
       undefined,
       "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
@@ -797,7 +797,7 @@ describe("BlobBatch Token auth", () => {
     }
   });
 
-  it("Should work when passing in url and credential", async function() {
+  it("Should work when passing in url and credential", async function () {
     recorder.skip(
       undefined,
       "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."

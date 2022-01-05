@@ -18,7 +18,7 @@ import {
   VerifyOptions,
   VerifyResult,
   WrapKeyOptions,
-  WrapResult
+  WrapResult,
 } from "..";
 
 export class LocalCryptographyUnsupportedError extends Error {}

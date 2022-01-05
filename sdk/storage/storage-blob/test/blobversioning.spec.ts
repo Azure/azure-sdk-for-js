@@ -12,7 +12,7 @@ import {
   BlobClient,
   BlockBlobClient,
   BlockBlobUploadResponse,
-  BlobBatch
+  BlobBatch,
 } from "../src";
 import { setURLParameter } from "../src/utils/utils.common";
 import { Context } from "mocha";
@@ -30,7 +30,7 @@ describe("Blob versioning", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -43,7 +43,7 @@ describe("Blob versioning", () => {
     uploadRes2 = await blockBlobClient.upload("", 0);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await containerClient.delete();
     await recorder.stop();
   });
@@ -63,7 +63,7 @@ describe("Blob versioning", () => {
     const result = (
       await containerClient
         .listBlobsFlat({
-          includeVersions: true
+          includeVersions: true,
         })
         .byPage()
         .next()
@@ -91,7 +91,7 @@ describe("Blob versioning", () => {
     }
   });
 
-  it("download a version to file", async function(this: Context) {
+  it("download a version to file", async function (this: Context) {
     if (!isNode) {
       // downloadToFile only available in Node.js
       this.skip();
@@ -131,7 +131,7 @@ describe("Blob versioning", () => {
     assert.ok(existRes);
   });
 
-  it("delete a version", async function() {
+  it("delete a version", async function () {
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
     await blobVersionClient.delete();
 
@@ -142,7 +142,7 @@ describe("Blob versioning", () => {
     assert.ok(rootExists);
   });
 
-  it("deleteBlobs should work for batch delete", async function() {
+  it("deleteBlobs should work for batch delete", async function () {
     recorder.skip(
       undefined,
       "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
@@ -195,7 +195,7 @@ describe("Blob versioning", () => {
     const resp2 = (
       await containerClient
         .listBlobsFlat({
-          includeVersions: true
+          includeVersions: true,
         })
         .byPage()
         .next()
@@ -203,9 +203,9 @@ describe("Blob versioning", () => {
     assert.equal(resp2.segment.blobItems.length, 2 + blockBlobCount);
   });
 
-  it("deleting root blob with versionId should fail", async function() {
+  it("deleting root blob with versionId should fail", async function () {
     await containerClient.deleteBlob(blobName, {
-      versionId: uploadRes.versionId
+      versionId: uploadRes.versionId,
     });
     const versionExists = await blobClient.withVersion(uploadRes.versionId!).exists();
     assert.ok(!versionExists);
@@ -213,7 +213,7 @@ describe("Blob versioning", () => {
     let exceptionCaught: boolean = false;
     try {
       await containerClient.deleteBlob(blobName, {
-        versionId: uploadRes2.versionId
+        versionId: uploadRes2.versionId,
       });
     } catch (err) {
       assert.equal(err.details.errorCode, "OperationNotAllowedOnRootBlob");
@@ -236,7 +236,7 @@ describe("Blob versioning", () => {
     assert.ok(rootExists);
   });
 
-  it("deleting a blob that has snapshots needs deleteSnapshots option", async function() {
+  it("deleting a blob that has snapshots needs deleteSnapshots option", async function () {
     const result = await blobClient.createSnapshot();
     assert.ok(result.snapshot);
 
@@ -291,7 +291,7 @@ describe("Blob versioning", () => {
     assert.ok(versionExists);
   });
 
-  it("promote a version: as the copy source", async function() {
+  it("promote a version: as the copy source", async function () {
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
     await blobVersionClient.getProperties();
 
@@ -302,7 +302,7 @@ describe("Blob versioning", () => {
     const listRes = (
       await containerClient
         .listBlobsFlat({
-          includeVersions: true
+          includeVersions: true,
         })
         .byPage()
         .next()
@@ -352,20 +352,20 @@ describe("Blob versioning", () => {
   it("setMetaData", async () => {
     const metadata = {
       keya: "a",
-      keyb: "c"
+      keyb: "c",
     };
     const setMetaRes = await blobClient.setMetadata(metadata);
     assert.ok(setMetaRes.versionId);
   });
 
-  it("undelete a soft-deleted version", async function() {
+  it("undelete a soft-deleted version", async function () {
     let properties = await blobServiceClient.getProperties();
     if (!properties.deleteRetentionPolicy!.enabled) {
       await blobServiceClient.setProperties({
         deleteRetentionPolicy: {
           days: 7,
-          enabled: true
-        }
+          enabled: true,
+        },
       });
       await delay(30 * 1000);
       properties = await blobServiceClient.getProperties();

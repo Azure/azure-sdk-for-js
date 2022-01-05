@@ -14,14 +14,14 @@ interface ScenarioSimpleSendOptions {
 function sanitizeOptions(args: string[]): Required<ScenarioSimpleSendOptions> {
   const options = parsedArgs<ScenarioSimpleSendOptions>(args, {
     boolean: ["useScheduleApi"],
-    default: { useScheduleApi: false }
+    default: { useScheduleApi: false },
   });
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
-    useScheduleApi: !!options.useScheduleApi
+    useScheduleApi: !!options.useScheduleApi,
   };
 }
 
@@ -33,12 +33,12 @@ async function main() {
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend,
-    useScheduleApi
+    useScheduleApi,
   } = testOptions;
 
   const stressTester = new ServiceBusStressTester({
     testName: "send",
-    snapshotFocus: ["send-info"]
+    snapshotFocus: ["send-info"],
   });
 
   await stressTester.runStressTest(
@@ -57,7 +57,7 @@ async function main() {
       }
     },
     {
-      additionalEventProperties: testOptions
+      additionalEventProperties: testOptions,
     }
   );
 }

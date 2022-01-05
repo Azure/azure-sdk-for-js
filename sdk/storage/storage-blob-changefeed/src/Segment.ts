@@ -74,7 +74,7 @@ export class Segment {
         const currentShard = this.shards[this.shardIndex];
         event = await currentShard.getChange({
           abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions
+          tracingOptions: updatedOptions.tracingOptions,
         });
 
         if (!currentShard.hasNext()) {
@@ -88,7 +88,7 @@ export class Segment {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -108,7 +108,7 @@ export class Segment {
     return {
       SegmentPath: this.manifestPath,
       ShardCursors: shardCursors,
-      CurrentShardPath: this.shards[this.shardIndex].shardPath
+      CurrentShardPath: this.shards[this.shardIndex].shardPath,
     };
   }
 }

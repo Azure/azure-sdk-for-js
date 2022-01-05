@@ -8,13 +8,13 @@ import {
   FileDownloadResponseModel,
   LeaseDurationType,
   LeaseStateType,
-  LeaseStatusType
+  LeaseStatusType,
 } from "./generatedModels";
 import { Metadata } from "./models";
 import {
   ReadableStreamGetter,
   RetriableReadableStream,
-  RetriableReadableStreamOptions
+  RetriableReadableStreamOptions,
 } from "./utils/RetriableReadableStream";
 
 /**

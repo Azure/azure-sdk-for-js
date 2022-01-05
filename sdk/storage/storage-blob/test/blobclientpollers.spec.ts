@@ -12,7 +12,7 @@ import {
   ContainerClient,
   BlobBeginCopyFromURLResponse,
   PollerLike,
-  PollOperationState
+  PollOperationState,
 } from "../src";
 import { URLBuilder, URLQuery } from "@azure/core-http";
 import { Context } from "mocha";
@@ -29,7 +29,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
@@ -44,7 +44,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     await destinationContainerClient.create();
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await destinationContainerClient.delete();
@@ -136,7 +136,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     );
   });
 
-  it("supports cancellation of the copy", async function(this: Context) {
+  it("supports cancellation of the copy", async function (this: Context) {
     if (!(isRecordMode() || isPlaybackMode())) {
       // Depends on the service not returning 'success' as soon as
       // the copy is initiated. Since this can't be guaranteed in the live tests,
@@ -160,7 +160,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     }
   });
 
-  it("supports updating on progress events", async function(this: Context) {
+  it("supports updating on progress events", async function (this: Context) {
     if (!(isRecordMode() || isPlaybackMode())) {
       // Depends on the service not returning 'success' as soon as
       // the copy is initiated. Since this can't be guaranteed in the live tests,
@@ -178,7 +178,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
         onProgress(_) {
           onProgressCalled = true;
         },
-        ...testPollerProperties
+        ...testPollerProperties,
       }
     );
     await poller.pollUntilDone();
@@ -201,7 +201,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
 
     const poller2 = await newBlobClient.beginCopyFromURL(copySourceUrl, {
       resumeFrom: state,
-      ...testPollerProperties
+      ...testPollerProperties,
     });
     const result = await poller2.pollUntilDone();
     assert.ok(result.copyId);

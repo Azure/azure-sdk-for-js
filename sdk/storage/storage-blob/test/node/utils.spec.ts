@@ -10,11 +10,11 @@ import { Readable, ReadableOptions, PassThrough } from "stream";
 import {
   readStreamToLocalFile,
   streamToBuffer2,
-  streamToBuffer3
+  streamToBuffer3,
 } from "../../src/utils/utils.node";
 import {
   ReadableStreamGetter,
-  RetriableReadableStream
+  RetriableReadableStream,
 } from "../../src/utils/RetriableReadableStream";
 
 describe("Utility Helpers Node.js only", () => {
@@ -277,7 +277,7 @@ describe("Utility Helpers Node.js only", () => {
         streamLength: len,
         bufferLength: len,
         bytesPerRead: len,
-        expectedSuccess: true
+        expectedSuccess: true,
       },
       {
         title:
@@ -286,7 +286,7 @@ describe("Utility Helpers Node.js only", () => {
         streamLength: len,
         bufferLength: len + 1,
         bytesPerRead: len,
-        expectedSuccess: true
+        expectedSuccess: true,
       },
       {
         title:
@@ -295,7 +295,7 @@ describe("Utility Helpers Node.js only", () => {
         streamLength: len,
         bufferLength: len - 1,
         bytesPerRead: len,
-        expectedSuccess: false
+        expectedSuccess: false,
       },
       {
         title:
@@ -304,7 +304,7 @@ describe("Utility Helpers Node.js only", () => {
         streamLength: len,
         bufferLength: len,
         bytesPerRead: 100,
-        expectedSuccess: true
+        expectedSuccess: true,
       },
       {
         title:
@@ -313,7 +313,7 @@ describe("Utility Helpers Node.js only", () => {
         streamLength: len,
         bufferLength: len + 1,
         bytesPerRead: 100,
-        expectedSuccess: true
+        expectedSuccess: true,
       },
       {
         title:
@@ -322,7 +322,7 @@ describe("Utility Helpers Node.js only", () => {
         streamLength: len,
         bufferLength: len - 1,
         bytesPerRead: 100,
-        expectedSuccess: false
+        expectedSuccess: false,
       },
       {
         title:
@@ -330,7 +330,7 @@ describe("Utility Helpers Node.js only", () => {
         streamType: "passthrough",
         streamLength: len,
         bufferLength: len,
-        expectedSuccess: true
+        expectedSuccess: true,
       },
       {
         title:
@@ -338,7 +338,7 @@ describe("Utility Helpers Node.js only", () => {
         streamType: "passthrough",
         streamLength: len,
         bufferLength: len + 1,
-        expectedSuccess: true
+        expectedSuccess: true,
       },
       {
         title:
@@ -346,11 +346,11 @@ describe("Utility Helpers Node.js only", () => {
         streamType: "passthrough",
         streamLength: len,
         bufferLength: len - 1,
-        expectedSuccess: false
-      }
+        expectedSuccess: false,
+      },
     ];
 
-    tests.forEach(function(test) {
+    tests.forEach(function (test) {
       it(test.title, async () => {
         const inputBuffer = randomBytes(test.streamLength);
 
@@ -476,7 +476,7 @@ describe("RetriableReadableStream", () => {
   it("retry should work on source error", async () => {
     const counter = new Counter();
     const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
-      maxRetryRequests: 1
+      maxRetryRequests: 1,
     });
     counter.destroy(new Error("Manual injected error."));
 
@@ -487,7 +487,7 @@ describe("RetriableReadableStream", () => {
   it("retry should work on source unexpected end", async () => {
     const counter = new Counter(2);
     const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
-      maxRetryRequests: 1
+      maxRetryRequests: 1,
     });
 
     const resBuf = await streamToBuffer3(retriable);

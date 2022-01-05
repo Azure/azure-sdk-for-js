@@ -11,7 +11,7 @@ import {
   bodyToString,
   getBrowserFile,
   blobToArrayBuffer,
-  arrayBufferEqual
+  arrayBufferEqual,
 } from "../utils/index.browser";
 import { MB } from "../../src/utils/constants";
 import { AbortController } from "@azure/abort-controller";
@@ -30,7 +30,7 @@ describe("Highlevel browser only", () => {
   const tempFileSmallLength: number = 1 * MB - 1;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -40,14 +40,14 @@ describe("Highlevel browser only", () => {
     fileClient = fileSystemClient.getFileClient(fileName);
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await fileSystemClient.delete();
       await recorder.stop();
     }
   });
 
-  before(async function(this: Context) {
+  before(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     tempFileLarge = getBrowserFile(recorder.getUniqueName("browserfilesmall"), tempFileLargeLength);
     tempFileSmall = getBrowserFile(recorder.getUniqueName("browserfilelarge"), tempFileSmallLength);
@@ -64,7 +64,7 @@ describe("Highlevel browser only", () => {
     assert.equal(uploadedString, readString);
   });
 
-  it("upload should work for large data", async function() {
+  it("upload should work for large data", async function () {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
     await fileClient.upload(tempFileLarge);
     const readResponse = await fileClient.read();
@@ -80,7 +80,7 @@ describe("Highlevel browser only", () => {
     try {
       await fileClient.upload(tempFileLarge, {
         abortSignal: aborter,
-        singleUploadThreshold: 8 * MB
+        singleUploadThreshold: 8 * MB,
       });
       assert.fail();
     } catch (err) {
@@ -104,7 +104,7 @@ describe("Highlevel browser only", () => {
           assert.ok(ev.loadedBytes);
           eventTriggered = true;
           aborter.abort();
-        }
+        },
       });
     } catch (err) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
@@ -129,7 +129,7 @@ describe("Highlevel browser only", () => {
           eventTriggered = true;
           aborter.abort();
         },
-        singleUploadThreshold: 8 * MB
+        singleUploadThreshold: 8 * MB,
       });
     } catch (err) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);

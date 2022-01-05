@@ -8,7 +8,7 @@ import {
   KeyVaultBeginRestoreOptions,
   KeyVaultBeginSelectiveKeyRestoreOptions,
   KeyVaultRestoreResult,
-  KeyVaultSelectiveKeyRestoreResult
+  KeyVaultSelectiveKeyRestoreResult,
 } from "./backupClientModels";
 import { LATEST_API_VERSION, authenticationScopes } from "./constants";
 import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
@@ -30,7 +30,7 @@ export {
   KeyVaultBackupOperationState,
   KeyVaultRestoreOperationState,
   KeyVaultSelectiveKeyRestoreOperationState,
-  KeyVaultAdminPollOperationState
+  KeyVaultAdminPollOperationState,
 };
 
 /**
@@ -83,9 +83,9 @@ export class KeyVaultBackupClient {
         additionalAllowedHeaderNames: [
           "x-ms-keyvault-region",
           "x-ms-keyvault-network-info",
-          "x-ms-keyvault-service-version"
-        ]
-      }
+          "x-ms-keyvault-service-version",
+        ],
+      },
     };
 
     this.client = new KeyVaultClient(apiVersion, clientOptions);
@@ -93,7 +93,7 @@ export class KeyVaultBackupClient {
       bearerTokenAuthenticationPolicy({
         credential,
         scopes: authenticationScopes,
-        challengeCallbacks: createChallengeCallbacks()
+        challengeCallbacks: createChallengeCallbacks(),
       })
     );
   }
@@ -141,7 +141,7 @@ export class KeyVaultBackupClient {
       vaultUrl: this.vaultUrl,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      requestOptions: options
+      requestOptions: options,
     });
 
     // This will initialize the poller's operation (the generation of the backup).
@@ -194,7 +194,7 @@ export class KeyVaultBackupClient {
       vaultUrl: this.vaultUrl,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      requestOptions: options
+      requestOptions: options,
     });
 
     // This will initialize the poller's operation (the generation of the backup).
@@ -252,7 +252,7 @@ export class KeyVaultBackupClient {
       vaultUrl: this.vaultUrl,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      requestOptions: options
+      requestOptions: options,
     });
 
     // This will initialize the poller's operation (the generation of the backup).

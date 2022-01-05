@@ -16,7 +16,7 @@ import {
   ListRoleAssignmentsPageSettings,
   ListRoleDefinitionsOptions,
   ListRoleDefinitionsPageSettings,
-  SetRoleDefinitionOptions
+  SetRoleDefinitionOptions,
 } from "./accessControlModels";
 import { LATEST_API_VERSION, authenticationScopes } from "./constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
@@ -81,9 +81,9 @@ export class KeyVaultAccessControlClient {
         additionalAllowedHeaderNames: [
           "x-ms-keyvault-region",
           "x-ms-keyvault-network-info",
-          "x-ms-keyvault-service-version"
-        ]
-      }
+          "x-ms-keyvault-service-version",
+        ],
+      },
     };
 
     this.client = new KeyVaultClient(serviceVersion, clientOptions);
@@ -92,7 +92,7 @@ export class KeyVaultAccessControlClient {
       bearerTokenAuthenticationPolicy({
         credential,
         scopes: authenticationScopes,
-        challengeCallbacks: createChallengeCallbacks()
+        challengeCallbacks: createChallengeCallbacks(),
       })
     );
   }
@@ -129,8 +129,8 @@ export class KeyVaultAccessControlClient {
         {
           properties: {
             roleDefinitionId,
-            principalId
-          }
+            principalId,
+          },
         },
         updatedOptions
       );
@@ -282,7 +282,7 @@ export class KeyVaultAccessControlClient {
         return this;
       },
       byPage: (settings: ListRoleAssignmentsPageSettings = {}) =>
-        this.listRoleAssignmentsPage(roleScope, settings, options)
+        this.listRoleAssignmentsPage(roleScope, settings, options),
     };
   }
 
@@ -370,7 +370,7 @@ export class KeyVaultAccessControlClient {
         return this;
       },
       byPage: (settings: ListRoleDefinitionsPageSettings = {}) =>
-        this.listRoleDefinitionsPage(roleScope, settings, options)
+        this.listRoleDefinitionsPage(roleScope, settings, options),
     };
   }
 
@@ -435,8 +435,8 @@ export class KeyVaultAccessControlClient {
             permissions: options.permissions,
             assignableScopes: [roleScope],
             roleName: options.roleName,
-            roleType: "CustomRole"
-          }
+            roleType: "CustomRole",
+          },
         },
         updatedOptions
       );

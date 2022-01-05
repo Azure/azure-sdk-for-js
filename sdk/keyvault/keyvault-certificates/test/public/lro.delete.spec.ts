@@ -18,7 +18,7 @@ describe("Certificates client - lro - delete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     const authentication = await authenticate(this);
     certificateSuffix = authentication.suffix;
     client = authentication.client;
@@ -26,13 +26,13 @@ describe("Certificates client - lro - delete", () => {
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("can wait until a certificate is deleted", async function(this: Context) {
+  it("can wait until a certificate is deleted", async function (this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -60,7 +60,7 @@ describe("Certificates client - lro - delete", () => {
     assert.equal(poller.getOperationState().result!.name, certificateName);
   });
 
-  it("can resume from a stopped poller", async function(this: Context) {
+  it("can resume from a stopped poller", async function (this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -87,7 +87,7 @@ describe("Certificates client - lro - delete", () => {
 
     const resumePoller = await client.beginDeleteCertificate(certificateName, {
       resumeFrom: serialized,
-      ...testPollerProperties
+      ...testPollerProperties,
     });
 
     assert.ok(resumePoller.getOperationState().isStarted);

@@ -11,7 +11,7 @@ import {
   ServiceBusClient,
   ServiceBusMessage,
   SqlRuleFilter,
-  ServiceBusAdministrationClient
+  ServiceBusAdministrationClient,
 } from "../../src";
 import { DEFAULT_RULE_NAME } from "../../src/util/constants";
 import { recreateSubscription, recreateTopic } from "../public/utils/managementUtils";
@@ -23,9 +23,8 @@ const should = chai.should();
 
 dotenv.config();
 
-const serviceBusAtomManagementClient: ServiceBusAdministrationClient = new ServiceBusAdministrationClient(
-  getConnectionString()
-);
+const serviceBusAtomManagementClient: ServiceBusAdministrationClient =
+  new ServiceBusAdministrationClient(getConnectionString());
 
 describe("Filter messages with the rules set by the ATOM API", () => {
   const topicName = "new-topic";
@@ -75,7 +74,7 @@ describe("Filter messages with the rules set by the ATOM API", () => {
     await verifyRuleFilter(
       [
         { body: "msg-1", subject }, // to be filtered
-        { body: "msg-2" } // not to be filtered
+        { body: "msg-2" }, // not to be filtered
       ],
       { subject },
       1,
@@ -116,7 +115,7 @@ describe("getSubscriptionRuntimeProperties", () => {
     await recreateSubscription(topicName, subscriptionName1);
     const messages = [1, 2, 3].map((num) => {
       return {
-        body: `msg-${num}`
+        body: `msg-${num}`,
       };
     });
     await serviceBusClient.createSender(topicName).sendMessages(messages);
@@ -136,7 +135,7 @@ describe("getSubscriptionRuntimeProperties", () => {
     await recreateSubscription(topicName, subscriptionName2);
     const messages = [1, 2, 3].map((num) => {
       return {
-        body: `msg-${num}`
+        body: `msg-${num}`,
       };
     });
     await serviceBusClient.createSender(topicName).sendMessages(messages);

@@ -24,7 +24,7 @@ export class DeleteSecretPoller extends KeyVaultSecretPoller<
     const operation = new DeleteSecretPollOperation(
       {
         ...state,
-        name
+        name,
       },
       vaultUrl,
       client,

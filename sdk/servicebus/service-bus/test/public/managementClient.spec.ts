@@ -9,7 +9,7 @@ import { ServiceBusClientForTests, createServiceBusClientForTests } from "./util
 chai.should();
 chai.use(chaiAsPromised);
 
-describe("ManagementClient - disconnects", function(): void {
+describe("ManagementClient - disconnects", function (): void {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
   let receiver: ServiceBusReceiver;
@@ -37,7 +37,7 @@ describe("ManagementClient - disconnects", function(): void {
     await afterEachTest();
   });
 
-  it("can receive and settle messages after a disconnect", async function(): Promise<void> {
+  it("can receive and settle messages after a disconnect", async function (): Promise<void> {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     // Send a message so we have something to peek.
@@ -54,7 +54,7 @@ describe("ManagementClient - disconnects", function(): void {
     const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
-    connectionContext.refreshConnection = function(...args: any) {
+    connectionContext.refreshConnection = function (...args: any) {
       refreshConnectionCalled++;
       refreshConnection.apply(this, args);
     };
@@ -70,9 +70,7 @@ describe("ManagementClient - disconnects", function(): void {
     refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
   });
 
-  it("schedule can receive and settle messages after a disconnect", async function(): Promise<
-    void
-  > {
+  it("schedule can receive and settle messages after a disconnect", async function (): Promise<void> {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     // Send a message so we have something to peek.
@@ -87,7 +85,7 @@ describe("ManagementClient - disconnects", function(): void {
     const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
-    connectionContext.refreshConnection = function(...args: any) {
+    connectionContext.refreshConnection = function (...args: any) {
       refreshConnectionCalled++;
       refreshConnection.apply(this, args);
     };

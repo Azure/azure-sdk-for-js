@@ -16,7 +16,7 @@ import {
   getRandomTestClientTypeWithNoSessions,
   getRandomTestClientTypeWithSessions,
   EntityName,
-  getRandomTestClientType
+  getRandomTestClientType,
 } from "./utils/testutils2";
 import { ServiceBusSender } from "../../src";
 import { AbortController } from "@azure/abort-controller";
@@ -79,31 +79,32 @@ describe("Sender Tests", () => {
     await testPeekMsgsLength(receiver, 0);
   }
 
-  it(noSessionTestClientType + ": Send single message", async function(): Promise<void> {
+  it(noSessionTestClientType + ": Send single message", async function (): Promise<void> {
     await beforeEachTest(noSessionTestClientType);
     await testSimpleSend();
   });
 
-  it(withSessionTestClientType + ": Send single message", async function(): Promise<void> {
+  it(withSessionTestClientType + ": Send single message", async function (): Promise<void> {
     await beforeEachTest(withSessionTestClientType);
     await testSimpleSend();
   });
 
-  it(withSessionTestClientType + ": Received message has active state", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(withSessionTestClientType);
-    const testMessage = entityName.usesSessions
-      ? TestMessage.getSessionSample()
-      : TestMessage.getSample();
-    // Ensure the message is not scheduled.
-    delete testMessage.scheduledEnqueueTimeUtc;
-    await sender.sendMessages(testMessage);
-    const msgs = await receiver.receiveMessages(1);
-    // remove message first in case any assertion fails to ensure we don't have lingering message
-    await receiver.completeMessage(msgs[0]);
-    msgs[0].state.should.equal("active");
-  });
+  it(
+    withSessionTestClientType + ": Received message has active state",
+    async function (): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      const testMessage = entityName.usesSessions
+        ? TestMessage.getSessionSample()
+        : TestMessage.getSample();
+      // Ensure the message is not scheduled.
+      delete testMessage.scheduledEnqueueTimeUtc;
+      await sender.sendMessages(testMessage);
+      const msgs = await receiver.receiveMessages(1);
+      // remove message first in case any assertion fails to ensure we don't have lingering message
+      await receiver.completeMessage(msgs[0]);
+      msgs[0].state.should.equal("active");
+    }
+  );
 
   async function testSimpleSendArray(): Promise<void> {
     const testMessages = [];
@@ -168,12 +169,12 @@ describe("Sender Tests", () => {
     await testPeekMsgsLength(receiver, 0);
   }
 
-  it(noSessionTestClientType + ": Send Array of messages", async function(): Promise<void> {
+  it(noSessionTestClientType + ": Send Array of messages", async function (): Promise<void> {
     await beforeEachTest(noSessionTestClientType);
     await testSimpleSendArray();
   });
 
-  it(withSessionTestClientType + ": Send Array of messages", async function(): Promise<void> {
+  it(withSessionTestClientType + ": Send Array of messages", async function (): Promise<void> {
     await beforeEachTest(withSessionTestClientType);
     await testSimpleSendArray();
   });
@@ -249,19 +250,19 @@ describe("Sender Tests", () => {
 
   it(
     anyRandomTestClientType + ": Schedule with empty input does not throw error",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(anyRandomTestClientType);
       const sequenceNumbers = await sender.scheduleMessages([], new Date());
       should.equal(sequenceNumbers.length, 0);
     }
   );
 
-  it(anyRandomTestClientType + ": Schedule single message", async function(): Promise<void> {
+  it(anyRandomTestClientType + ": Schedule single message", async function (): Promise<void> {
     await beforeEachTest(anyRandomTestClientType);
     await testScheduleSingleMessage();
   });
 
-  it(anyRandomTestClientType + ": Schedule multiple messages", async function(): Promise<void> {
+  it(anyRandomTestClientType + ": Schedule multiple messages", async function (): Promise<void> {
     await beforeEachTest(anyRandomTestClientType);
     await testScheduleMultipleMessages();
   });
@@ -304,25 +305,27 @@ describe("Sender Tests", () => {
 
   it(
     anyRandomTestClientType + ": Cancel Scheduled message with empty input does not throw error",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(anyRandomTestClientType);
       await sender.cancelScheduledMessages([]);
     }
   );
 
-  it(anyRandomTestClientType + ": Cancel single Scheduled message", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(anyRandomTestClientType);
-    await testCancelSingleScheduledMessage();
-  });
+  it(
+    anyRandomTestClientType + ": Cancel single Scheduled message",
+    async function (): Promise<void> {
+      await beforeEachTest(anyRandomTestClientType);
+      await testCancelSingleScheduledMessage();
+    }
+  );
 
-  it(anyRandomTestClientType + ": Cancel multiple Scheduled messages", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(anyRandomTestClientType);
-    await testCancelMultipleScheduleMessages();
-  });
+  it(
+    anyRandomTestClientType + ": Cancel multiple Scheduled messages",
+    async function (): Promise<void> {
+      await beforeEachTest(anyRandomTestClientType);
+      await testCancelMultipleScheduleMessages();
+    }
+  );
 
   // This test occasionally fails on macOS.
   // Issue - https://github.com/Azure/azure-sdk-for-js/issues/9912
@@ -336,13 +339,13 @@ describe("Sender Tests", () => {
     const messages = [
       { body: "Hello!" },
       { body: "Hello, again!" },
-      { body: "Hello, again and again!!" }
+      { body: "Hello, again and again!!" },
     ];
     const [result1, result2, result3] = await Promise.all([
       // Schedule messages in parallel
       sender.scheduleMessages(messages[0], date),
       sender.scheduleMessages(messages[1], date),
-      sender.scheduleMessages(messages[2], date)
+      sender.scheduleMessages(messages[2], date),
     ]);
     const sequenceNumbers = [result1[0], result2[0], result3[0]];
     compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[1]);
@@ -381,7 +384,7 @@ describe("Sender Tests", () => {
 
   async function testReceivedMsgsLength(expectedReceivedMsgsLength: number): Promise<void> {
     const receivedMsgs = await receiver.receiveMessages(expectedReceivedMsgsLength + 1, {
-      maxWaitTimeInMs: 5000
+      maxWaitTimeInMs: 5000,
     });
 
     should.equal(
@@ -393,13 +396,13 @@ describe("Sender Tests", () => {
 
   it(
     anyRandomTestClientType + ": Abort scheduleMessages request on the sender",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(anyRandomTestClientType);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
         await sender.scheduleMessages([TestMessage.getSample()], new Date(), {
-          abortSignal: controller.signal
+          abortSignal: controller.signal,
         });
         throw new Error(`Test failure`);
       } catch (err) {
@@ -410,7 +413,7 @@ describe("Sender Tests", () => {
 
   it(
     anyRandomTestClientType + ": Abort cancelScheduledMessages request on the sender",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(anyRandomTestClientType);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
@@ -424,7 +427,7 @@ describe("Sender Tests", () => {
   );
 });
 
-describe("ServiceBusMessage validations", function(): void {
+describe("ServiceBusMessage validations", function (): void {
   let sbClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
 
@@ -449,44 +452,44 @@ describe("ServiceBusMessage validations", function(): void {
     {
       message: { body: "", contentType: 1 as any },
       expectedErrorMessage: "The property 'contentType' on the message must be of type 'string'",
-      title: "contentType is of invalid type"
+      title: "contentType is of invalid type",
     },
     {
       message: { body: "", subject: 1 as any },
       expectedErrorMessage: "The property 'label' on the message must be of type 'string'",
-      title: "label is of invalid type"
+      title: "label is of invalid type",
     },
     {
       message: { body: "", to: 1 as any },
       expectedErrorMessage: "The property 'to' on the message must be of type 'string'",
-      title: "to is of invalid type"
+      title: "to is of invalid type",
     },
     {
       message: { body: "", replyToSessionId: 1 as any },
       expectedErrorMessage:
         "The property 'replyToSessionId' on the message must be of type 'string'",
-      title: "replyToSessionId is of invalid type"
+      title: "replyToSessionId is of invalid type",
     },
     {
       message: { body: "", sessionId: 1 as any },
       expectedErrorMessage: "The property 'sessionId' on the message must be of type 'string'",
-      title: "sessionId is of invalid type"
+      title: "sessionId is of invalid type",
     },
     {
       message: { body: "", replyTo: 1 as any },
       expectedErrorMessage: "The property 'replyTo' on the message must be of type 'string'",
-      title: "replyTo is of invalid type"
+      title: "replyTo is of invalid type",
     },
     {
       message: { body: "", timeToLive: "" as any },
       expectedErrorMessage: "The property 'timeToLive' on the message must be of type 'number'",
-      title: "timeToLive is of invalid type"
+      title: "timeToLive is of invalid type",
     },
     {
       message: { body: "", partitionKey: longString },
       expectedErrorMessage:
         "Length of 'partitionKey' property on the message cannot be greater than 128 characters.",
-      title: "partitionKey is longer than 128 characters"
+      title: "partitionKey is longer than 128 characters",
     },
     // {
     //   message: { body: "", viaPartitionKey: longString },
@@ -498,34 +501,34 @@ describe("ServiceBusMessage validations", function(): void {
       message: { body: "", sessionId: longString },
       expectedErrorMessage:
         "Length of 'sessionId' property on the message cannot be greater than 128 characters.",
-      title: "sessionId is longer than 128 characters"
+      title: "sessionId is longer than 128 characters",
     },
     {
       message: { body: "", messageId: longString },
       expectedErrorMessage:
         "Length of 'messageId' property on the message cannot be greater than 128 characters.",
-      title: "messageId is longer than 128 characters"
+      title: "messageId is longer than 128 characters",
     },
     {
       message: { body: "", messageId: {} as any },
       expectedErrorMessage:
         "The property 'messageId' on the message must be of type string, number or Buffer",
-      title: "messageId is of invalid type"
+      title: "messageId is of invalid type",
     },
     {
       message: { body: "", correlationId: {} as any },
       expectedErrorMessage:
         "The property 'correlationId' on the message must be of type string, number or Buffer",
-      title: "correlationId is of invalid type"
-    }
+      title: "correlationId is of invalid type",
+    },
   ];
 
-  testInputs.forEach(function(testInput: {
+  testInputs.forEach(function (testInput: {
     message: ServiceBusMessage;
     expectedErrorMessage: string;
     title?: string;
   }): void {
-    it("SendMessages() throws if (" + testInput.title + ")", async function(): Promise<void> {
+    it("SendMessages() throws if (" + testInput.title + ")", async function (): Promise<void> {
       let actualErrorMsg = "";
 
       await sender.sendMessages(testInput.message).catch((err) => {
@@ -566,7 +569,7 @@ describe("ServiceBusMessage validations", function(): void {
     //   }
     // );
 
-    it("ScheduleMessages() throws if " + testInput.title, async function(): Promise<void> {
+    it("ScheduleMessages() throws if " + testInput.title, async function (): Promise<void> {
       let actualErrorMsg = "";
       let actualErr;
       await sender.scheduleMessages(testInput.message, new Date()).catch((err) => {

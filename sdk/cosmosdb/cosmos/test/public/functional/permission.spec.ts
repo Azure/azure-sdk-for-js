@@ -8,16 +8,16 @@ import {
   createOrUpsertPermission,
   getTestContainer,
   removeAllDatabases,
-  replaceOrUpsertPermission
+  replaceOrUpsertPermission,
 } from "../common/TestHelpers";
 
-describe("NodeJS CRUD Tests", function(this: Suite) {
+describe("NodeJS CRUD Tests", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function() {
+  beforeEach(async function () {
     await removeAllDatabases();
   });
-  describe("Validate Permission CRUD", function() {
-    const permissionCRUDTest = async function(isUpsertTest: boolean): Promise<void> {
+  describe("Validate Permission CRUD", function () {
+    const permissionCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
       // create container & database
       const container = await getTestContainer("Validate Permission Crud");
 
@@ -31,7 +31,7 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       const permissionDef: PermissionDefinition = {
         id: "new permission",
         permissionMode: PermissionMode.Read,
-        resource: container.url
+        resource: container.url,
       };
 
       // create permission
@@ -54,9 +54,9 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
         parameters: [
           {
             name: "@id",
-            value: permissionDef.id
-          }
-        ]
+            value: permissionDef.id,
+          },
+        ],
       };
       const { resources: results } = await user.permissions.query(querySpec).fetchAll();
       assert(results.length > 0, "number of results for the query should be > 0");
@@ -99,7 +99,7 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       }
     };
 
-    const permissionCRUDOverMultiplePartitionsTest = async function(
+    const permissionCRUDOverMultiplePartitionsTest = async function (
       isUpsertTest: boolean
     ): Promise<void> {
       // create database
@@ -107,7 +107,7 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       const partitionKey = "id";
       const containerDefinition = {
         id: "coll1",
-        partitionKey: { paths: ["/" + partitionKey] }
+        partitionKey: { paths: ["/" + partitionKey] },
       };
       const container = await getTestContainer(
         "permission CRUD over multiple partitions",
@@ -127,7 +127,7 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
         id: "new permission",
         permissionMode: PermissionMode.Read,
         resource: container.url,
-        resourcePartitionKey: [1]
+        resourcePartitionKey: [1],
       };
 
       // create permission
@@ -156,9 +156,9 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
         parameters: [
           {
             name: "@id",
-            value: permissionDef.id
-          }
-        ]
+            value: permissionDef.id,
+          },
+        ],
       };
       const { resources: results } = await user.permissions.query(querySpec).fetchAll();
       assert(results.length > 0, "number of results for the query should be > 0");
@@ -206,19 +206,19 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       }
     };
 
-    it("nativeApi Should do Permission CRUD operations successfully name based", async function() {
+    it("nativeApi Should do Permission CRUD operations successfully name based", async function () {
       await permissionCRUDTest(false);
     });
 
-    it("nativeApi Should do Permission CRUD operations successfully name based with upsert", async function() {
+    it("nativeApi Should do Permission CRUD operations successfully name based with upsert", async function () {
       await permissionCRUDTest(true);
     });
 
-    it("nativeApi Should do Permission CRUD operations over multiple partitions successfully name based", async function() {
+    it("nativeApi Should do Permission CRUD operations over multiple partitions successfully name based", async function () {
       await permissionCRUDOverMultiplePartitionsTest(false);
     });
 
-    it("nativeApi Should do Permission CRUD operations over multiple partitions successfully with upsert", async function() {
+    it("nativeApi Should do Permission CRUD operations over multiple partitions successfully with upsert", async function () {
       await permissionCRUDOverMultiplePartitionsTest(true);
     });
   });

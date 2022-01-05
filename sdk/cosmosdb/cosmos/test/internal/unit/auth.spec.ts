@@ -5,13 +5,13 @@ import { getAuthorizationTokenUsingResourceTokens } from "../../../src/auth";
 import { Suite } from "mocha";
 import assert from "assert";
 
-describe("NodeJS CRUD Tests", function(this: Suite) {
+describe("NodeJS CRUD Tests", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
-  it("should find exact match", async function() {
+  it("should find exact match", async function () {
     const token = getAuthorizationTokenUsingResourceTokens(
       {
-        foo: "bar"
+        foo: "bar",
       },
       "foo",
       "foo"
@@ -19,10 +19,10 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
     assert.strictEqual(token, "bar");
   });
 
-  it("should only allow container tokens", async function() {
+  it("should only allow container tokens", async function () {
     const token = getAuthorizationTokenUsingResourceTokens(
       {
-        "dbs/ValidateAuthorization containe8734/colls/ValidateAuthorization containe5344": "token"
+        "dbs/ValidateAuthorization containe8734/colls/ValidateAuthorization containe5344": "token",
       },
       "/dbs/ValidateAuthorization%20containe8734/colls/ValidateAuthorization%20containe5344/docs/coll1doc1",
       "dbs/ValidateAuthorization containe8734/colls/ValidateAuthorization containe5344/docs/coll1doc1"

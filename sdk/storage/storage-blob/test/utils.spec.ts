@@ -7,7 +7,7 @@ import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
-  isIpEndpointStyle
+  isIpEndpointStyle,
 } from "../src/utils/utils.common";
 import { URLBuilder } from "@azure/core-http";
 
