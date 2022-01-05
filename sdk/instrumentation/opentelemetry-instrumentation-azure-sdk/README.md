@@ -16,12 +16,12 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 You'll need to configure the OpenTelemetry SDK in order to produce Telemetry data. While configuring OpenTelemetry is outside the scope of this README, we encourage you to review the [OpenTelemetry documentation][otel_documentation] in order to get started using OpenTelemetry.
 
-### Install the `@azure/instrumentation-opentelemetry` package
+### Install the `@azure/opentelemetry-instrumentation-azure-sdk` package
 
 Install the Azure OpenTelemetry Instrumentation client library with `npm`:
 
 ```bash
-npm install @azure/instrumentation-opentelemetry
+npm install @azure/opentelemetry-instrumentation-azure-sdk
 ```
 
 ### Browser support
@@ -44,13 +44,13 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ```javascript
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
-const { createAzureInstrumentation } = require("@azure/instrumentation-opentelemetry");
+const { createAzureInstrumentation } = require("@azure/opentelemetry-instrumentation-azure-sdk");
 
 // Configure exporters, tracer providers, etc.
 // Please refer to the OpenTelemetry documentation for more information.
 
 registerInstrumentations({
-  instrumentations: [createAzureInstrumentation()]
+  instrumentations: [createAzureInstrumentation()],
 });
 
 // Continue to import any Azure SDK client libraries after registering the instrumentation.

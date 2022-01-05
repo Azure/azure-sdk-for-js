@@ -44,7 +44,7 @@ export class MockInstrumenter implements Instrumenter {
     const parentSpan = tracingContext.getValue(spanKey) as TracingSpan | undefined;
     let traceId;
     if (parentSpan) {
-      traceId = parentSpan.spanContext.traceId;
+      traceId = parentSpan.spanContext().traceId;
     } else {
       traceId = this.getNextTraceId();
     }

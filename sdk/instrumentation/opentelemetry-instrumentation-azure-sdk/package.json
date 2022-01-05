@@ -1,5 +1,5 @@
 {
-  "name": "@azure/instrumentation-opentelemetry",
+  "name": "@azure/opentelemetry-instrumentation-azure-sdk",
   "version": "1.0.0-beta.1",
   "description": "Instrumentation client for the Azure SDK.",
   "sdk-type": "client",
@@ -16,11 +16,11 @@
       }
     ]
   },
-  "types": "types/latest/instrumentation-opentelemetry.d.ts",
+  "types": "types/latest/opentelemetry-instrumentation-azure-sdk.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "types/3.1/instrumentation-opentelemetry.d.ts"
+        "types/3.1/opentelemetry-instrumentation-azure-sdk.d.ts"
       ]
     }
   },
@@ -73,7 +73,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/instrumentation/instrumentation-opentelemetry/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/instrumentation/opentelemetry-instrumentation-azure-sdk/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {

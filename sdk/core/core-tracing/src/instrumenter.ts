@@ -15,7 +15,7 @@ export function createDefaultTracingSpan(): TracingSpan {
     end: () => {
       // noop
     },
-    get spanContext() {
+    spanContext() {
       return {
         spanId: "00000000-0000-0000-0000-000000000000",
         traceId: "00000000-0000-0000-0000-000000000000",

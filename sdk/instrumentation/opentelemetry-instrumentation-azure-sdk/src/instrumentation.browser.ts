@@ -11,16 +11,20 @@ import { useInstrumenter } from "@azure/core-tracing";
 import { OpenTelemetryInstrumenter } from "./instrumenter";
 
 /**
- * Configuration options that can be passed to {@link AzureSDKInstrumentation}'s constructor
+ * Configuration options that can be passed to {@link createAzureSdkInstrumentation} function.
  */
-export interface AzureSDKInstrumentationOptions extends InstrumentationConfig {}
+export interface AzureSdkInstrumentationOptions extends InstrumentationConfig {}
 
 /**
  * The instrumentation module for the Azure SDK. Implements OpenTelemetry's {@link Instrumentation}.
  */
-class AzureSDKInstrumentation extends InstrumentationBase {
-  constructor(options: AzureSDKInstrumentationOptions = {}) {
-    super("@azure/instrumentation-opentelemetry", SDK_VERSION, Object.assign({}, options));
+class AzureSdkInstrumentation extends InstrumentationBase {
+  constructor(options: AzureSdkInstrumentationOptions = {}) {
+    super(
+      "@azure/opentelemetry-instrumentation-azure-sdk",
+      SDK_VERSION,
+      Object.assign({}, options)
+    );
   }
   /** In the browser we rely on overriding the `enable` function instead as there are no modules to patch. */
   protected init(): void {
@@ -49,12 +53,12 @@ class AzureSDKInstrumentation extends InstrumentationBase {
  * ```ts
  * const openTelemetryInstrumentation = require("@opentelemetry/instrumentation");
  * openTelemetryInstrumentation.registerInstrumentations({
- *   instrumentations: [createAzureInstrumentation()],
+ *   instrumentations: [createAzureSdkInstrumentation()],
  * })
  * ```
  */
-export function createAzureInstrumentation(
-  options: AzureSDKInstrumentationOptions = {}
+export function createAzureSdkInstrumentation(
+  options: AzureSdkInstrumentationOptions = {}
 ): Instrumentation {
-  return new AzureSDKInstrumentation(options);
+  return new AzureSdkInstrumentation(options);
 }

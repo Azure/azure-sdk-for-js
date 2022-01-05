@@ -250,7 +250,7 @@ export interface TracingSpan {
   isRecording(): boolean;
 
   /** A set of implementation-specific key-value pairs that can uniquely identify a given span. */
-  readonly spanContext: TracingSpanContext;
+  spanContext(): TracingSpanContext;
 }
 
 /** An immutable context bag of tracing values for the current operation. */

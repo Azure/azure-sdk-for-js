@@ -34,11 +34,12 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
   recordException(exception: string | Error): void {
     this._span.recordException(exception);
   }
+
   isRecording(): boolean {
     return this._span.isRecording();
   }
 
-  get spanContext(): TracingSpanContext {
+  spanContext(): TracingSpanContext {
     return this._span.spanContext();
   }
 
