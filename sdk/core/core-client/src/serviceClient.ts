@@ -191,23 +191,14 @@ export class ServiceClient {
         options.onResponse(rawResponse, flatResponse);
       }
       return flatResponse;
-    } catch (e) {
-      const error: any = e;
-      if (typeof error === "object" && error) {
-        let rawResponse: PipelineResponse = {
-          request,
-          headers: createHttpHeaders(),
-          status: 0,
-        };
-        let flatResponse: unknown;
-        if (error.response) {
-          rawResponse = error.response;
-          flatResponse = flattenResponse(
-            rawResponse,
-            operationSpec.responses[error.statusCode] || operationSpec.responses["default"]
-          );
-          error.details = flatResponse;
-        }
+    } catch (error: any) {
+      if (typeof error === "object" && error && error.response) {
+        const rawResponse = error.response;
+        const flatResponse = flattenResponse(
+          rawResponse,
+          operationSpec.responses[error.statusCode] || operationSpec.responses["default"]
+        );
+        error.details = flatResponse;
         if (options?.onResponse) {
           options.onResponse(rawResponse, flatResponse, error);
         }
