@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./accounts";
-export * from "./maps";
-export * from "./creators";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { AzureMapsManagementClient } from "./azureMapsManagementClient";
+export * from "./operationsInterfaces";
