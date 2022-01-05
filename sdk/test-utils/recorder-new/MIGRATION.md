@@ -148,10 +148,10 @@ recorder.addSanitizers({
   generalRegexSanitizers: [
     {
       regex: "find", // This should be a .NET regular expression as it is passed to the .NET proxy tool
-      value: "replace",
-    },
+      value: "replace"
+    }
     // add additional sanitizers here as required
-  ],
+  ]
 });
 ```
 
@@ -165,7 +165,7 @@ A `ConnectionStringSanitizer` can be used to strip all occurrences of a connecti
 recorder.addSanitizers({
   connectionStringSanitizers: [
     {
-      actualConnString: /* the actual connection string to be replaced, usually passed in as an environment variable */,  
+      actualConnString: /* the actual connection string to be replaced, usually passed in as an environment variable */,
       fakeConnString: /* a mock connection string to replace actualConnString with */,
     },
   ],
@@ -179,7 +179,7 @@ recorder.addSanitizers({
 ```ts
 recorder.addSanitizers({
   removeHeaderSanitizer: {
-    headersForRemoval: ["Header1", "Header2", /* ... */]
+    headersForRemoval: ["Header1", "Header2" /* ... */]
   }
 });
 ```
@@ -243,6 +243,19 @@ browserConsoleLogOptions: {
 jsonToFileReporter: {
   filter: jsonRecordingFilterFunction,  outputPath: ".",
 }
+```
+
+## Changes to `ci.yml`
+
+You must set the `TestProxy` parameter to `true` to enable the test proxy server in your SDK's `ci.yml` file.
+
+```yaml
+# irrelevant sections of ci.yml omitted
+
+extends:
+  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    TestProxy: true # Add me!
 ```
 
 [docker]: https://docker.com/
