@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { TestTracer, SpanGraph, setTracer } from "@azure/test-utils";
 import {
   bodyToString,
@@ -22,7 +21,6 @@ import {
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { context, setSpan } from "@azure/core-tracing";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("ContainerClient", () => {
   let blobServiceClient: BlobServiceClient;
