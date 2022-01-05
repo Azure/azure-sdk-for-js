@@ -306,10 +306,24 @@ export const IotHubProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      deviceStreams: {
+        serializedName: "deviceStreams",
+        type: {
+          name: "Composite",
+          className: "IotHubPropertiesDeviceStreams"
+        }
+      },
       features: {
         serializedName: "features",
         type: {
           name: "String"
+        }
+      },
+      encryption: {
+        serializedName: "encryption",
+        type: {
+          name: "Composite",
+          className: "EncryptionPropertiesDescription"
         }
       },
       locations: {
@@ -1328,6 +1342,75 @@ export const FeedbackProperties: coreClient.CompositeMapper = {
         serializedName: "maxDeliveryCount",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const IotHubPropertiesDeviceStreams: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IotHubPropertiesDeviceStreams",
+    modelProperties: {
+      streamingEndpoints: {
+        serializedName: "streamingEndpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionPropertiesDescription: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionPropertiesDescription",
+    modelProperties: {
+      keySource: {
+        serializedName: "keySource",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultProperties: {
+        serializedName: "keyVaultProperties",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KeyVaultKeyProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultKeyProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultKeyProperties",
+    modelProperties: {
+      keyIdentifier: {
+        serializedName: "keyIdentifier",
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedIdentity"
         }
       }
     }

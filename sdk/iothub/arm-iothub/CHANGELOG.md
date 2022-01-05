@@ -1,15 +1,18 @@
 # Release History
+    
+## 6.1.0-beta.1 (2022-01-05)
+    
+**Features**
 
-## 6.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface EncryptionPropertiesDescription
+  - Added Interface IotHubPropertiesDeviceStreams
+  - Added Interface KeyVaultKeyProperties
+  - Interface IotHubProperties has a new optional parameter deviceStreams
+  - Interface IotHubProperties has a new optional parameter encryption
+  - Enum KnownRoutingSource has a new value DigitalTwinChangeEvents
+  - Enum KnownRoutingSource has a new value MqttBrokerMessages
+    
+    
 ## 6.0.0 (2021-12-17)
 
 The package of @azure/arm-iothub is using our next generation design principles since version 6.0.0, which contains breaking changes.

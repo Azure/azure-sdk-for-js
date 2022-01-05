@@ -153,6 +153,12 @@ export interface CloudToDeviceProperties {
 export type DefaultAction = string;
 
 // @public
+export interface EncryptionPropertiesDescription {
+    keySource?: string;
+    keyVaultProperties?: KeyVaultKeyProperties[];
+}
+
+// @public
 export interface EndpointHealthData {
     endpointId?: string;
     healthStatus?: EndpointHealthStatus;
@@ -369,10 +375,12 @@ export interface IotHubProperties {
     authorizationPolicies?: SharedAccessSignatureAuthorizationRule[];
     cloudToDevice?: CloudToDeviceProperties;
     comments?: string;
+    deviceStreams?: IotHubPropertiesDeviceStreams;
     disableDeviceSAS?: boolean;
     disableLocalAuth?: boolean;
     disableModuleSAS?: boolean;
     enableFileUploadNotifications?: boolean;
+    encryption?: EncryptionPropertiesDescription;
     eventHubEndpoints?: {
         [propertyName: string]: EventHubProperties;
     };
@@ -394,6 +402,11 @@ export interface IotHubProperties {
     storageEndpoints?: {
         [propertyName: string]: StorageEndpointProperties;
     };
+}
+
+// @public
+export interface IotHubPropertiesDeviceStreams {
+    streamingEndpoints?: string[];
 }
 
 // @public
@@ -727,6 +740,12 @@ export type JobStatus = "unknown" | "enqueued" | "running" | "completed" | "fail
 export type JobType = string;
 
 // @public
+export interface KeyVaultKeyProperties {
+    identity?: ManagedIdentity;
+    keyIdentifier?: string;
+}
+
+// @public
 export enum KnownAuthenticationType {
     // (undocumented)
     IdentityBased = "identityBased",
@@ -859,7 +878,11 @@ export enum KnownRoutingSource {
     // (undocumented)
     DeviceMessages = "DeviceMessages",
     // (undocumented)
+    DigitalTwinChangeEvents = "DigitalTwinChangeEvents",
+    // (undocumented)
     Invalid = "Invalid",
+    // (undocumented)
+    MqttBrokerMessages = "MqttBrokerMessages",
     // (undocumented)
     TwinChangeEvents = "TwinChangeEvents"
 }
