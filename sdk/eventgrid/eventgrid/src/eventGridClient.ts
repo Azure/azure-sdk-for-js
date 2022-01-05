@@ -9,12 +9,12 @@ import { DEFAULT_EVENTGRID_SCOPE } from "./constants";
 import {
   SendCloudEventInput,
   SendEventGridEventInput,
-  cloudEventReservedPropertyNames
+  cloudEventReservedPropertyNames,
 } from "./models";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
   CloudEvent as CloudEventWireModel,
-  EventGridEvent as EventGridEventWireModel
+  EventGridEvent as EventGridEventWireModel,
 } from "./generated/models";
 import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
 import { createSpan } from "./tracing";
@@ -117,7 +117,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
 
     this.client.pipeline.addPolicy(authPolicy);
     this.client.pipeline.addPolicy(cloudEventDistributedTracingEnricherPolicy(), {
-      afterPolicies: [tracingPolicyName]
+      afterPolicies: [tracingPolicyName],
     });
     this.apiVersion = this.client.apiVersion;
   }
@@ -182,7 +182,7 @@ export function convertEventGridEventToModelType(
     subject: event.subject,
     topic: event.topic,
     data: event.data,
-    dataVersion: event.dataVersion
+    dataVersion: event.dataVersion,
   };
 }
 
@@ -212,7 +212,7 @@ export function convertCloudEventToModelType(event: SendCloudEventInput<any>): C
     time: event.time ?? new Date(),
     subject: event.subject,
     dataschema: event.dataschema,
-    ...(event.extensionAttributes ?? [])
+    ...(event.extensionAttributes ?? []),
   };
 
   if (event.data instanceof Uint8Array) {
