@@ -18,14 +18,14 @@ import {
   TypeChecker,
   TypeReference,
   TypeReferenceNode,
-  isArrayTypeNode
+  isArrayTypeNode,
 } from "typescript";
 import {
   FunctionDeclaration,
   FunctionExpression,
   Identifier,
   MethodDefinition,
-  Pattern
+  Pattern,
 } from "estree";
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 //------------------------------------------------------------------------------
