@@ -293,7 +293,7 @@ describe("OpenTelemetryInstrumenter", () => {
           packageName,
           spanLinks: [
             {
-              spanContext: linkedSpan.spanContext,
+              spanContext: linkedSpan.spanContext(),
               attributes: {
                 attr1: "value1",
               },
@@ -309,7 +309,7 @@ describe("OpenTelemetryInstrumenter", () => {
             attr1: "value1",
           },
           context: {
-            ...linkedSpan.spanContext,
+            ...linkedSpan.spanContext(),
             traceState: undefined,
           },
         });
@@ -345,6 +345,7 @@ describe("OpenTelemetryInstrumenter", () => {
       );
 
       // Arrow syntax
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
       const that = this;
       instrumenter.withContext(context.active(), () => {
         assert.equal(this, that);
