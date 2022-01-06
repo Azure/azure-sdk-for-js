@@ -53,7 +53,7 @@ const reportInternal = (
     if (!TSDocTags.some((TSDocTag: string): boolean => /(internal)|(hidden)/.test(TSDocTag))) {
       context.report({
         node: node,
-        message: "internal items with TSDoc comments should include an @internal or @hidden tag"
+        message: "internal items with TSDoc comments should include an @internal or @hidden tag",
       });
     }
   }
@@ -143,8 +143,8 @@ export = {
             ) {
               reportInternal(node, context, converter, typeChecker);
             }
-          }
+          },
         }
       : {};
-  }
+  },
 };
