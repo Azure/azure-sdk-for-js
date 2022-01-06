@@ -13,8 +13,8 @@ export class ListComplexEntitiesTest extends TablesTest<ListComplexEntitiesTestO
       defaultValue: 100,
       longName: "entityCount",
       shortName: "ec",
-      description: "Number of entities to list. Defaults to 100"
-    }
+      description: "Number of entities to list. Defaults to 100",
+    },
   };
 
   constructor() {

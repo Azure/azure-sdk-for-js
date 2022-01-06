@@ -24,7 +24,7 @@ import {
   KeepAliveOptions,
   UserAgentOptions,
   generateClientRequestIdPolicy,
-  keepAlivePolicy
+  keepAlivePolicy,
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -36,7 +36,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
   StorageOAuthScopes,
   StorageQueueLoggingAllowedHeaderNames,
-  StorageQueueLoggingAllowedQueryParameters
+  StorageQueueLoggingAllowedQueryParameters,
 } from "./utils/constants";
 import { getCachedDefaultHttpClient } from "./utils/cache";
 
@@ -53,7 +53,7 @@ export {
   WebResource,
   RequestPolicyFactory,
   RequestPolicy,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 };
 
 /**
@@ -95,7 +95,7 @@ export class Pipeline {
     // avoid each client creating its own http client.
     this.options = {
       ...options,
-      httpClient: options.httpClient || getCachedDefaultHttpClient()
+      httpClient: options.httpClient || getCachedDefaultHttpClient(),
     };
   }
 
@@ -108,7 +108,7 @@ export class Pipeline {
   public toServiceClientOptions(): ServiceClientOptions {
     return {
       httpClient: this.options.httpClient,
-      requestPolicyFactories: this.factories
+      requestPolicyFactories: this.factories,
     };
   }
 }
@@ -170,8 +170,8 @@ export function newPipeline(
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageQueueLoggingAllowedHeaderNames,
-      allowedQueryParameters: StorageQueueLoggingAllowedQueryParameters
-    })
+      allowedQueryParameters: StorageQueueLoggingAllowedQueryParameters,
+    }),
   ];
 
   if (isNode) {

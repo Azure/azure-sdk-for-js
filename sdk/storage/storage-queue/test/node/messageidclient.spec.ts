@@ -17,7 +17,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
@@ -25,7 +25,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
     await queueClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await queueClient.delete();
     await recorder.stop();
   });
@@ -128,8 +128,8 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
     const newClient = new QueueClient(queueClient.url, credential, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
     await newClient.updateMessage(
       eResult.messageId,
@@ -190,8 +190,8 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueClient.name, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
     await newClient.updateMessage(
       eResult.messageId,

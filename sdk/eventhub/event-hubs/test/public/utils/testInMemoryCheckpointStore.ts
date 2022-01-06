@@ -63,7 +63,7 @@ export class TestInMemoryCheckpointStore implements CheckpointStore {
         const newOwnership = {
           ...ownership,
           etag: generate_uuid(),
-          lastModifiedTimeInMs: date.getTime()
+          lastModifiedTimeInMs: date.getTime(),
         };
 
         this._partitionOwnershipMap.set(newOwnership.partitionId, newOwnership);

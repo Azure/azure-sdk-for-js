@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import rule from "../../src/rules/github-source-headers";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/github-source-headers";
 
 //------------------------------------------------------------------------------
 // Tests

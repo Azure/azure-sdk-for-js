@@ -152,7 +152,7 @@ export {
   BlockBlobPutBlobFromUrlResponse,
   BlockBlobPutBlobFromUrlHeaders,
   ContainerRenameResponse,
-  ContainerRenameHeaders
+  ContainerRenameHeaders,
 } from "./generated/src/models";
 
 // Following definitions are to avoid breaking change.

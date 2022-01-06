@@ -5,14 +5,14 @@ import {
   createCommunicationAuthPolicy,
   parseClientArguments,
   isKeyCredential,
-  CommunicationUserIdentifier
+  CommunicationUserIdentifier,
 } from "@azure/communication-common";
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
   OperationOptions,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { CommunicationIdentity, IdentityRestClient } from "./generated/src/identityRestClient";
@@ -23,7 +23,7 @@ import {
   CommunicationIdentityClientOptions,
   TokenScope,
   CommunicationUserToken,
-  CommunicationAccessToken
+  CommunicationAccessToken,
 } from "./models";
 
 const isCommunicationIdentityClientOptions = (
@@ -99,9 +99,9 @@ export class CommunicationIdentityClient {
       ...options,
       ...{
         loggingOptions: {
-          logger: logger.info
-        }
-      }
+          logger: logger.info,
+        },
+      },
     };
 
     const authPolicy = createCommunicationAuthPolicy(credential);
@@ -132,7 +132,7 @@ export class CommunicationIdentityClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -159,7 +159,7 @@ export class CommunicationIdentityClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -177,12 +177,12 @@ export class CommunicationIdentityClient {
     try {
       const result = await this.client.create(operationOptionsToRequestOptionsBase(updatedOptions));
       return {
-        communicationUserId: result.identity.id
+        communicationUserId: result.identity.id,
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -207,16 +207,16 @@ export class CommunicationIdentityClient {
     try {
       const { identity, accessToken } = await this.client.create({
         body: { createTokenWithScopes: scopes },
-        ...operationOptionsToRequestOptionsBase(updatedOptions)
+        ...operationOptionsToRequestOptionsBase(updatedOptions),
       });
       return {
         ...accessToken!,
-        user: { communicationUserId: identity.id }
+        user: { communicationUserId: identity.id },
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -243,7 +243,7 @@ export class CommunicationIdentityClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -274,7 +274,7 @@ export class CommunicationIdentityClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

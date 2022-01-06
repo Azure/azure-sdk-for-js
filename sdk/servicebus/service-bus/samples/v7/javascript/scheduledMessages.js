@@ -31,7 +31,7 @@ const listOfScientists = [
   { lastName: "Faraday", firstName: "Michael" },
   { lastName: "Galilei", firstName: "Galileo" },
   { lastName: "Kepler", firstName: "Johannes" },
-  { lastName: "Kopernikus", firstName: "Nikolaus" }
+  { lastName: "Kopernikus", firstName: "Nikolaus" },
 ];
 
 async function main() {
@@ -52,7 +52,7 @@ async function sendScheduledMessages(sbClient) {
 
   const messages = listOfScientists.map((scientist) => ({
     body: `${scientist.firstName} ${scientist.lastName}`,
-    subject: "Scientist"
+    subject: "Scientist",
   }));
 
   const timeNowUtc = new Date(Date.now());
@@ -84,7 +84,7 @@ async function receiveMessages(sbClient) {
 
   queueReceiver.subscribe({
     processMessage,
-    processError
+    processError,
   });
   await delay(5000);
   await queueReceiver.close();
@@ -97,7 +97,7 @@ async function receiveMessages(sbClient) {
 
   queueReceiver.subscribe({
     processMessage,
-    processError
+    processError,
   });
 
   await delay(5000);

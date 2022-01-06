@@ -5,7 +5,7 @@ const uuid = v4;
 import {
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
-  Pipeline
+  Pipeline,
 } from "@azure/core-rest-pipeline";
 import { PartitionKeyRange } from "./client/Container/PartitionKeyRange";
 import { Resource } from "./client/Resource";
@@ -66,8 +66,8 @@ export class ClientContext {
               const AUTH_PREFIX = `type=aad&ver=1.0&sig=`;
               const authorizationToken = `${AUTH_PREFIX}${tokenResponse.token}`;
               request.headers.set("Authorization", authorizationToken);
-            }
-          }
+            },
+          },
         })
       );
     }
@@ -78,7 +78,7 @@ export class ClientContext {
     resourceType,
     resourceId,
     options = {},
-    partitionKey
+    partitionKey,
   }: {
     path: string;
     resourceType: ResourceType;
@@ -100,7 +100,7 @@ export class ClientContext {
         resourceType,
         plugins: this.cosmosClientOptions.plugins,
         partitionKey,
-        pipeline: this.pipeline
+        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -128,7 +128,7 @@ export class ClientContext {
     query,
     options,
     partitionKeyRangeId,
-    partitionKey
+    partitionKey,
   }: {
     path: string;
     resourceType: ResourceType;
@@ -157,7 +157,7 @@ export class ClientContext {
       body: query,
       plugins: this.cosmosClientOptions.plugins,
       partitionKey,
-      pipeline: this.pipeline
+      pipeline: this.pipeline,
     };
     const requestId = uuid();
     if (query !== undefined) {
@@ -210,7 +210,7 @@ export class ClientContext {
       options,
       body: query,
       plugins: this.cosmosClientOptions.plugins,
-      pipeline: this.pipeline
+      pipeline: this.pipeline,
     };
 
     request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
@@ -247,7 +247,7 @@ export class ClientContext {
         resourceId: id,
         resultFn: (result) => result.PartitionKeyRanges,
         query,
-        options: innerOptions
+        options: innerOptions,
       });
     };
     return new QueryIterator<PartitionKeyRange>(this, query, options, cb);
@@ -258,7 +258,7 @@ export class ClientContext {
     resourceType,
     resourceId,
     options = {},
-    partitionKey
+    partitionKey,
   }: {
     path: string;
     resourceType: ResourceType;
@@ -280,7 +280,7 @@ export class ClientContext {
         resourceId,
         plugins: this.cosmosClientOptions.plugins,
         partitionKey,
-        pipeline: this.pipeline
+        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -309,7 +309,7 @@ export class ClientContext {
     resourceType,
     resourceId,
     options = {},
-    partitionKey
+    partitionKey,
   }: {
     body: any;
     path: string;
@@ -332,7 +332,7 @@ export class ClientContext {
         resourceId,
         options,
         plugins: this.cosmosClientOptions.plugins,
-        partitionKey
+        partitionKey,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -358,7 +358,7 @@ export class ClientContext {
     resourceType,
     resourceId,
     options = {},
-    partitionKey
+    partitionKey,
   }: {
     body: T;
     path: string;
@@ -382,7 +382,7 @@ export class ClientContext {
         options,
         plugins: this.cosmosClientOptions.plugins,
         partitionKey,
-        pipeline: this.pipeline
+        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -447,7 +447,7 @@ export class ClientContext {
     resourceType,
     resourceId,
     options = {},
-    partitionKey
+    partitionKey,
   }: {
     body: any;
     path: string;
@@ -471,7 +471,7 @@ export class ClientContext {
         options,
         plugins: this.cosmosClientOptions.plugins,
         partitionKey,
-        pipeline: this.pipeline
+        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -497,7 +497,7 @@ export class ClientContext {
     resourceType,
     resourceId,
     options = {},
-    partitionKey
+    partitionKey,
   }: {
     body: T;
     path: string;
@@ -521,7 +521,7 @@ export class ClientContext {
         options,
         plugins: this.cosmosClientOptions.plugins,
         partitionKey,
-        pipeline: this.pipeline
+        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -546,7 +546,7 @@ export class ClientContext {
     sprocLink,
     params,
     options = {},
-    partitionKey
+    partitionKey,
   }: {
     sprocLink: string;
     params?: any[];
@@ -575,7 +575,7 @@ export class ClientContext {
       body: params,
       plugins: this.cosmosClientOptions.plugins,
       partitionKey,
-      pipeline: this.pipeline
+      pipeline: this.pipeline,
     };
 
     request.headers = await this.buildHeaders(request);
@@ -608,7 +608,7 @@ export class ClientContext {
       resourceType: ResourceType.none,
       options,
       plugins: this.cosmosClientOptions.plugins,
-      pipeline: this.pipeline
+      pipeline: this.pipeline,
     };
 
     request.headers = await this.buildHeaders(request);
@@ -641,7 +641,7 @@ export class ClientContext {
     path,
     partitionKey,
     resourceId,
-    options = {}
+    options = {},
   }: {
     body: T;
     path: string;
@@ -664,7 +664,7 @@ export class ClientContext {
         plugins: this.cosmosClientOptions.plugins,
         options,
         pipeline: this.pipeline,
-        partitionKey
+        partitionKey,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -692,7 +692,7 @@ export class ClientContext {
     partitionKeyRangeId,
     resourceId,
     bulkOptions = {},
-    options = {}
+    options = {},
   }: {
     body: T;
     path: string;
@@ -715,7 +715,7 @@ export class ClientContext {
         resourceId,
         plugins: this.cosmosClientOptions.plugins,
         options,
-        pipeline: this.pipeline
+        pipeline: this.pipeline,
       };
 
       request.headers = await this.buildHeaders(request);
@@ -777,7 +777,7 @@ export class ClientContext {
       resourceId,
       resourceAddress,
       resourceType,
-      isNameBased: true
+      isNameBased: true,
     };
   }
 
@@ -803,7 +803,7 @@ export class ClientContext {
       clientOptions: this.cosmosClientOptions,
       defaultHeaders: {
         ...this.cosmosClientOptions.defaultHeaders,
-        ...requestContext.options.initialHeaders
+        ...requestContext.options.initialHeaders,
       },
       verb: requestContext.method,
       path: requestContext.path,
@@ -812,7 +812,7 @@ export class ClientContext {
       options: requestContext.options,
       partitionKeyRangeId: requestContext.partitionKeyRangeId,
       useMultipleWriteLocations: this.connectionPolicy.useMultipleWriteLocations,
-      partitionKey: requestContext.partitionKey
+      partitionKey: requestContext.partitionKey,
     });
   }
 }

@@ -472,6 +472,24 @@ export function handleSingleQuotesInUrlPath(fixture: string): string {
 /**
  * Meant for node recordings only!
  *
+ * Manipulates the `retry-after` header to have "0" value so that playback tests run faster.
+ */
+export function setDefaultRetryAfterIntervalInNockFixture(fixture: string) {
+  if (isBrowser()) {
+    throw new Error(
+      `"setDefaultRetryAfterIntervalInNockFixture" method is not meant to be used in the browsers`
+    );
+  }
+  const matches = fixture.match(/'Retry-After',\n\s*'([0-9]*)',\n/);
+  if (!matches) {
+    return fixture;
+  }
+  return fixture.replace(matches[0], `'Retry-After',\n  '0',\n`);
+}
+
+/**
+ * Meant for node recordings only!
+ *
  * Masks access tokens in the json response from nock fixtures.
  * For example, the following part of the nock fixture/recording would be updated.
  * from `.reply(200, {"token_type":"Bearer","expires_in":86399,"access_token":"e6z-9_g"}, [`

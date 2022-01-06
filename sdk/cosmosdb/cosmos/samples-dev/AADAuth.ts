@@ -5,9 +5,8 @@
  * @summary Uses AAD credentials to authenticate with the CosmosClient.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { UsernamePasswordCredential } from "@azure/identity";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -30,12 +29,12 @@ async function run() {
   logStep("Pass credentials to client object with key aadCredentials");
   const aadClient = new CosmosClient({
     endpoint,
-    aadCredentials: credentials
+    aadCredentials: credentials,
   });
 
   const genericClient = new CosmosClient({
     endpoint,
-    key: key
+    key: key,
   });
 
   logStep(
@@ -48,15 +47,9 @@ async function run() {
   await genericClient.databases.readAll({}).fetchAll();
 
   // succeeds
-  await aadClient
-    .database("example")
-    .container(existingContainerId)
-    .items.readAll();
+  await aadClient.database("example").container(existingContainerId).items.readAll();
   // succeeds
-  await genericClient
-    .database("example")
-    .container(existingContainerId)
-    .items.readAll();
+  await genericClient.database("example").container(existingContainerId).items.readAll();
 
   await finish();
 }

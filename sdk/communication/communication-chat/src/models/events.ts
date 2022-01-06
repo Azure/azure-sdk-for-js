@@ -11,7 +11,7 @@ import {
   ChatThreadDeletedEvent,
   ChatThreadPropertiesUpdatedEvent,
   ParticipantsAddedEvent,
-  ParticipantsRemovedEvent
+  ParticipantsRemovedEvent,
 } from "@azure/communication-signaling";
 
 type ChatEventId =
@@ -39,5 +39,5 @@ export {
   ChatThreadDeletedEvent,
   ChatThreadPropertiesUpdatedEvent,
   ParticipantsAddedEvent,
-  ParticipantsRemovedEvent
+  ParticipantsRemovedEvent,
 };

@@ -129,7 +129,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         if (this.fetchBuffer.length === 0) {
           return {
             result: undefined,
-            headers: this.fetchMoreRespHeaders
+            headers: this.fetchMoreRespHeaders,
           };
         } else {
           // Just give what we have

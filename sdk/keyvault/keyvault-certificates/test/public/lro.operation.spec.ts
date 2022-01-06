@@ -9,7 +9,7 @@ import {
   CertificateClient,
   CertificateOperation,
   DefaultCertificatePolicy,
-  KeyVaultCertificateWithPolicy
+  KeyVaultCertificateWithPolicy,
 } from "../../src";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
@@ -22,7 +22,7 @@ describe("Certificates client - LRO - certificate operation", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     const authentication = await authenticate(this);
     certificateSuffix = authentication.suffix;
     client = authentication.client;
@@ -30,13 +30,13 @@ describe("Certificates client - LRO - certificate operation", () => {
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("can wait until a certificate is created by getting the poller from getCertificateOperation", async function(this: Context) {
+  it("can wait until a certificate is created by getting the poller from getCertificateOperation", async function (this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -63,7 +63,7 @@ describe("Certificates client - LRO - certificate operation", () => {
     assert.equal(poller.getOperationState().certificateOperation!.status, "completed");
   });
 
-  it("can resume from a stopped poller", async function(this: Context) {
+  it("can resume from a stopped poller", async function (this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -82,7 +82,7 @@ describe("Certificates client - LRO - certificate operation", () => {
 
     const resumePoller = await client.getCertificateOperation(certificateName, {
       resumeFrom: serialized,
-      ...testPollerProperties
+      ...testPollerProperties,
     });
     assert.ok(resumePoller.getOperationState().isStarted);
 

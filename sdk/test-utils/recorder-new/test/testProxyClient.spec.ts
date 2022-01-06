@@ -316,5 +316,3 @@ describe("State Manager", function() {
     }
   });
 });
-
-// TODO: Can potentially add more tests that use the proxy-tool once we figure out the start/setup scripts for proxy-tool

@@ -7,7 +7,7 @@ import {
   SpanOptions,
   SpanStatusCode,
   context,
-  setSpanContext
+  setSpanContext,
 } from "@azure/core-tracing";
 import { TestSpan, TestTracer } from "@azure/test-utils";
 import { createProcessingSpan, trace } from "../../src/partitionPump";
@@ -24,7 +24,7 @@ testWithServiceTypes(() => {
     describe("telemetry", () => {
       const eventHubProperties = {
         host: "thehost",
-        entityPath: "theeventhubname"
+        entityPath: "theeventhubname",
       };
 
       class TestTracer2 extends TestTracer {
@@ -49,8 +49,8 @@ testWithServiceTypes(() => {
 
         await createProcessingSpan([], eventHubProperties, {
           tracingOptions: {
-            tracingContext: fakeParentSpanContext
-          }
+            tracingContext: fakeParentSpanContext,
+          },
         });
 
         should.equal(tracer.spanName, "Azure.EventHubs.process");
@@ -59,13 +59,14 @@ testWithServiceTypes(() => {
         tracer.spanOptions!.kind!.should.equal(SpanKind.CONSUMER);
         tracer.context!.should.equal(fakeParentSpanContext);
 
-        const attributes = tracer.getActiveSpans().find((s) => s.name === "Azure.EventHubs.process")
-          ?.attributes;
+        const attributes = tracer
+          .getActiveSpans()
+          .find((s) => s.name === "Azure.EventHubs.process")?.attributes;
 
         attributes!.should.deep.equal({
           "az.namespace": "Microsoft.EventHub",
           "message_bus.destination": eventHubProperties.entityPath,
-          "peer.address": eventHubProperties.host
+          "peer.address": eventHubProperties.host,
         });
 
         resetTracer();
@@ -80,7 +81,7 @@ testWithServiceTypes(() => {
           sequenceNumber: 0,
           getRawAmqpMessage() {
             return {} as any;
-          }
+          },
         };
 
         const { tracer, resetTracer } = setTracerForTest(new TestTracer2());
@@ -93,8 +94,8 @@ testWithServiceTypes(() => {
             { ...requiredEventProperties },
             {
               tracingOptions: {
-                tracingContext: setSpanContext(context.active(), firstEvent.spanContext())
-              }
+                tracingContext: setSpanContext(context.active(), firstEvent.spanContext()),
+              },
             },
             "entityPath",
             "host"
@@ -104,12 +105,12 @@ testWithServiceTypes(() => {
             { ...requiredEventProperties },
             {
               tracingOptions: {
-                tracingContext: setSpanContext(context.active(), thirdEvent.spanContext())
-              }
+                tracingContext: setSpanContext(context.active(), thirdEvent.spanContext()),
+              },
             },
             "entityPath",
             "host"
-          ).event as ReceivedEventData
+          ).event as ReceivedEventData,
         ];
 
         await createProcessingSpan(receivedEvents, eventHubProperties, {});

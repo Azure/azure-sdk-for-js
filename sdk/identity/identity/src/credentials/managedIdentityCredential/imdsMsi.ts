@@ -7,7 +7,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   PipelineRequestOptions,
-  RestError
+  RestError,
 } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { IdentityClient, TokenResponseParsedBody } from "../../client/identityClient";
@@ -66,7 +66,7 @@ function prepareRequestOptions(
   if (!skipQuery) {
     const queryParameters: Record<string, string> = {
       resource,
-      "api-version": imdsApiVersion
+      "api-version": imdsApiVersion,
     };
     if (clientId) {
       queryParameters.client_id = clientId;
@@ -79,7 +79,7 @@ function prepareRequestOptions(
 
   const rawHeaders: Record<string, string> = {
     Accept: "application/json",
-    Metadata: "true"
+    Metadata: "true",
   };
 
   // Remove the Metadata header to invoke a request error from some IMDS endpoints.
@@ -91,7 +91,7 @@ function prepareRequestOptions(
     // In this case, the `?` should be added in the "query" variable `skipQuery` is not set.
     url: `${url}${query}`,
     method: "GET",
-    headers: createHttpHeaders(rawHeaders)
+    headers: createHttpHeaders(rawHeaders),
   };
 }
 
@@ -99,7 +99,7 @@ function prepareRequestOptions(
 export const imdsMsiRetryConfig = {
   maxRetries: 3,
   startDelayInMs: 800,
-  intervalIncrement: 2
+  intervalIncrement: 2,
 };
 
 /**
@@ -129,7 +129,7 @@ export const imdsMsi: MSI = {
 
     const requestOptions = prepareRequestOptions(resource, clientId, {
       skipMetadataHeader: true,
-      skipQuery: true
+      skipQuery: true,
     });
     requestOptions.tracingOptions = options.tracingOptions;
 
@@ -160,7 +160,7 @@ export const imdsMsi: MSI = {
           logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
           span.setStatus({
             code: SpanStatusCode.ERROR,
-            message: err.message
+            message: err.message,
           });
           return false;
         }
@@ -177,7 +177,7 @@ export const imdsMsi: MSI = {
       );
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: err.message
+        message: err.message,
       });
       throw err;
     } finally {
@@ -200,7 +200,7 @@ export const imdsMsi: MSI = {
         const request = createPipelineRequest({
           abortSignal: getTokenOptions.abortSignal,
           ...prepareRequestOptions(scopes, clientId),
-          allowInsecureConnection: true
+          allowInsecureConnection: true,
         });
         const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
         return (tokenResponse && tokenResponse.accessToken) || null;
@@ -218,5 +218,5 @@ export const imdsMsi: MSI = {
       404,
       `${msiName}: Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
     );
-  }
+  },
 };

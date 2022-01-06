@@ -5,10 +5,8 @@
  * @summary Demonstrates item creation, read, delete and reading all items belonging to a container.
  */
 
-import path from "path";
-
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 import { CosmosClient, PatchOperation } from "@azure/cosmos";
@@ -145,7 +143,7 @@ async function run(): Promise<void> {
   const upsertSource = itemDefList[1];
   logStep(
     `Upserting person ${upsertSource && upsertSource.id} with id ${upsertSource &&
-    upsertSource.id}...`
+      upsertSource.id}...`
   );
 
   // a non-identity change will cause an update on upsert
@@ -167,14 +165,15 @@ async function run(): Promise<void> {
     }
   }
   logStep("Patching an item with single patch operation");
-  const patchSource = itemDefList.find(t => t.id == "AndersenFamily");
+  const patchSource = itemDefList.find((t) => t.id == "AndersenFamily");
   console.log(JSON.stringify(patchSource));
-  const replaceOperation: PatchOperation[] =
-    [{
+  const replaceOperation: PatchOperation[] = [
+    {
       op: "replace",
       path: "/lastName",
       value: "Martin"
-    }];
+    }
+  ];
   if (patchSource) {
     const patchId = patchSource && patchSource.id;
     if (typeof id === "undefined") {

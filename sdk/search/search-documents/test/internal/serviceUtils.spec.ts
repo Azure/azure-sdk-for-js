@@ -23,8 +23,8 @@ describe("serviceUtils", () => {
         indexAnalyzer: KnownLexicalAnalyzerName.ArLucene,
         normalizer: KnownLexicalAnalyzerName.BgLucene,
         searchAnalyzer: KnownLexicalAnalyzerName.CaLucene,
-        synonymMaps: undefined
-      }
+        synonymMaps: undefined,
+      },
     ]);
 
     assert.include(publicFields[0], {
@@ -40,7 +40,7 @@ describe("serviceUtils", () => {
       indexAnalyzerName: KnownLexicalAnalyzerName.ArLucene,
       normalizerName: KnownLexicalAnalyzerName.BgLucene,
       searchAnalyzerName: KnownLexicalAnalyzerName.CaLucene,
-      synonymMapNames: undefined
+      synonymMapNames: undefined,
     });
   });
 
@@ -63,15 +63,15 @@ describe("serviceUtils", () => {
             indexAnalyzer: KnownLexicalAnalyzerName.ArLucene,
             normalizer: KnownLexicalAnalyzerName.BgLucene,
             searchAnalyzer: KnownLexicalAnalyzerName.CaLucene,
-            synonymMaps: undefined
-          }
-        ]
-      }
+            synonymMaps: undefined,
+          },
+        ],
+      },
     ]);
 
     assert.include(publicFields[0], {
       name: "ComplexObj",
-      type: "Edm.ComplexType"
+      type: "Edm.ComplexType",
     });
 
     assert.include((publicFields[0] as ComplexField).fields![0], {
@@ -87,7 +87,7 @@ describe("serviceUtils", () => {
       indexAnalyzerName: KnownLexicalAnalyzerName.ArLucene,
       normalizerName: KnownLexicalAnalyzerName.BgLucene,
       searchAnalyzerName: KnownLexicalAnalyzerName.CaLucene,
-      synonymMapNames: undefined
+      synonymMapNames: undefined,
     });
   });
 
@@ -106,8 +106,8 @@ describe("serviceUtils", () => {
         indexAnalyzerName: KnownLexicalAnalyzerName.ArLucene,
         normalizerName: KnownLexicalAnalyzerName.BgLucene,
         searchAnalyzerName: KnownLexicalAnalyzerName.CaLucene,
-        synonymMapNames: undefined
-      }
+        synonymMapNames: undefined,
+      },
     ]);
 
     assert.include(generatedFields[0], {
@@ -123,7 +123,7 @@ describe("serviceUtils", () => {
       indexAnalyzer: KnownLexicalAnalyzerName.ArLucene,
       normalizer: KnownLexicalAnalyzerName.BgLucene,
       searchAnalyzer: KnownLexicalAnalyzerName.CaLucene,
-      synonymMaps: undefined
+      synonymMaps: undefined,
     });
   });
 
@@ -146,15 +146,15 @@ describe("serviceUtils", () => {
             indexAnalyzerName: KnownLexicalAnalyzerName.ArLucene,
             normalizerName: KnownLexicalAnalyzerName.BgLucene,
             searchAnalyzerName: KnownLexicalAnalyzerName.CaLucene,
-            synonymMapNames: undefined
-          }
-        ]
-      }
+            synonymMapNames: undefined,
+          },
+        ],
+      },
     ]);
 
     assert.include(generatedFields[0], {
       name: "ComplexObj",
-      type: "Edm.ComplexType"
+      type: "Edm.ComplexType",
     });
 
     assert.include(generatedFields[0].fields![0], {
@@ -170,7 +170,7 @@ describe("serviceUtils", () => {
       indexAnalyzer: KnownLexicalAnalyzerName.ArLucene,
       normalizer: KnownLexicalAnalyzerName.BgLucene,
       searchAnalyzer: KnownLexicalAnalyzerName.CaLucene,
-      synonymMaps: undefined
+      synonymMaps: undefined,
     });
   });
 });

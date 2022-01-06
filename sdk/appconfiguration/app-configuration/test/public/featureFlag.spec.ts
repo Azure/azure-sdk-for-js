@@ -8,7 +8,7 @@ import {
   AppConfigurationClient,
   ConfigurationSetting,
   featureFlagContentType,
-  featureFlagPrefix
+  featureFlagPrefix,
 } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
@@ -21,7 +21,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     let baseSetting: ConfigurationSetting<FeatureFlagValue>;
     let addResponse: AddConfigurationSettingResponse;
 
-    beforeEach(async function(this: Context) {
+    beforeEach(async function (this: Context) {
       recorder = startRecorder(this);
       client = createAppConfigurationClientForTests() || this.skip();
       baseSetting = {
@@ -32,8 +32,8 @@ describe("AppConfigurationClient - FeatureFlag", () => {
                 name: "Microsoft.TimeWindow",
                 parameters: {
                   Start: "Wed, 01 May 2019 13:59:59 GMT",
-                  End: "Mon, 01 July 2019 00:00:00 GMT"
-                }
+                  End: "Mon, 01 July 2019 00:00:00 GMT",
+                },
               },
               { name: "FilterX" },
               {
@@ -42,32 +42,32 @@ describe("AppConfigurationClient - FeatureFlag", () => {
                   Audience: {
                     Groups: [
                       { Name: "group-1", RolloutPercentage: 25 },
-                      { Name: "group-2", RolloutPercentage: 45 }
+                      { Name: "group-2", RolloutPercentage: 45 },
                     ],
                     Users: ["userA", "userB"],
-                    DefaultRolloutPercentage: 40
-                  }
-                }
+                    DefaultRolloutPercentage: 40,
+                  },
+                },
               },
-              { name: "Microsoft.Percentage", parameters: { Value: 25 } }
-            ]
+              { name: "Microsoft.Percentage", parameters: { Value: 25 } },
+            ],
           },
           enabled: false,
           description: "I'm a description",
-          displayName: "for display"
+          displayName: "for display",
         },
         isReadOnly: false,
         key: `${featureFlagPrefix + recorder.getUniqueName("name-1")}`,
         contentType: featureFlagContentType,
-        label: "label-1"
+        label: "label-1",
       };
       addResponse = await client.addConfigurationSetting(baseSetting);
     });
 
-    afterEach(async function(this: Context) {
+    afterEach(async function (this: Context) {
       await client.deleteConfigurationSetting({
         key: baseSetting.key,
-        label: baseSetting.label
+        label: baseSetting.label,
       });
       await recorder.stop();
     });
@@ -100,7 +100,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       assertFeatureFlagProps(addResponse, baseSetting);
       const getResponse = await client.getConfigurationSetting({
         key: baseSetting.key,
-        label: baseSetting.label
+        label: baseSetting.label,
       });
       assertFeatureFlagProps(getResponse, baseSetting);
     });
@@ -108,7 +108,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     it("can add and update FeatureFlag", async () => {
       const getResponse = await client.getConfigurationSetting({
         key: baseSetting.key,
-        label: baseSetting.label
+        label: baseSetting.label,
       });
       assertFeatureFlagProps(getResponse, baseSetting);
 
@@ -118,61 +118,61 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       const setResponse = await client.setConfigurationSetting(featureFlag);
       assertFeatureFlagProps(setResponse, {
         ...baseSetting,
-        value: { ...baseSetting.value, enabled: !baseSetting.value.enabled }
+        value: { ...baseSetting.value, enabled: !baseSetting.value.enabled },
       });
 
       const getResponseAfterUpdate = await client.getConfigurationSetting({
         key: baseSetting.key,
-        label: baseSetting.label
+        label: baseSetting.label,
       });
       assertFeatureFlagProps(getResponseAfterUpdate, {
         ...baseSetting,
-        value: { ...baseSetting.value, enabled: !baseSetting.value.enabled }
+        value: { ...baseSetting.value, enabled: !baseSetting.value.enabled },
       });
     });
 
     it("can add, list and update multiple FeatureFlags", async () => {
       const secondSetting = {
         ...baseSetting,
-        key: `${baseSetting.key}-2`
+        key: `${baseSetting.key}-2`,
       };
       await client.addConfigurationSetting(secondSetting);
 
       let numberOFFeatureFlagsReceived = 0;
       for await (const setting of client.listConfigurationSettings({
-        keyFilter: `${baseSetting.key}*`
+        keyFilter: `${baseSetting.key}*`,
       })) {
         numberOFFeatureFlagsReceived++;
         if (setting.key === baseSetting.key) {
           assertFeatureFlagProps(setting, baseSetting);
           await client.setConfigurationSetting({
             ...baseSetting,
-            value: { ...baseSetting.value, enabled: !baseSetting.value.enabled }
+            value: { ...baseSetting.value, enabled: !baseSetting.value.enabled },
           });
         } else {
           assertFeatureFlagProps(setting, secondSetting);
           const parsedSetting = parseFeatureFlag(setting);
           await client.setConfigurationSetting({
             ...parsedSetting,
-            value: { ...parsedSetting.value, description: "I'm new description" }
+            value: { ...parsedSetting.value, description: "I'm new description" },
           });
         }
       }
       assert.equal(numberOFFeatureFlagsReceived, 2, "Unexpected number of FeatureFlags seen");
 
       for await (const setting of client.listConfigurationSettings({
-        keyFilter: `${baseSetting.key}*`
+        keyFilter: `${baseSetting.key}*`,
       })) {
         numberOFFeatureFlagsReceived--;
         if (setting.key === baseSetting.key) {
           assertFeatureFlagProps(setting, {
             ...baseSetting,
-            value: { ...baseSetting.value, enabled: !baseSetting.value.enabled }
+            value: { ...baseSetting.value, enabled: !baseSetting.value.enabled },
           });
         } else {
           assertFeatureFlagProps(setting, {
             ...secondSetting,
-            value: { ...secondSetting.value, description: "I'm new description" }
+            value: { ...secondSetting.value, description: "I'm new description" },
           });
         }
       }
@@ -190,18 +190,18 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     let client: AppConfigurationClient;
     let recorder: Recorder;
     let featureFlag: ConfigurationSetting<FeatureFlagValue>;
-    beforeEach(async function(this: Context) {
+    beforeEach(async function (this: Context) {
       recorder = startRecorder(this);
       client = createAppConfigurationClientForTests() || this.skip();
       featureFlag = {
         contentType: featureFlagContentType,
         key: `${featureFlagPrefix}${recorder.getUniqueName("name-1")}`,
         isReadOnly: false,
-        value: { conditions: { clientFilters: [] }, enabled: true }
+        value: { conditions: { clientFilters: [] }, enabled: true },
       };
     });
 
-    afterEach(async function(this: Context) {
+    afterEach(async function (this: Context) {
       await client.deleteConfigurationSetting({ key: featureFlag.key });
       await recorder.stop();
     });

@@ -39,8 +39,8 @@ export function getSecretFromSecretBundle(
       vaultUrl: parsedId.vaultUrl,
       version: parsedId.version,
       name: parsedId.name,
-      certificateKeyId: secretBundle.kid
-    }
+      certificateKeyId: secretBundle.kid,
+    },
   };
 
   if (deletedSecretBundle.recoveryId) {

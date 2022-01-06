@@ -69,7 +69,7 @@ export class ChunkFactory {
     }
 
     return new Chunk(avroReader, blockOffset, eventIndex, chunkPath, {
-      abortSignal: options.abortSignal
+      abortSignal: options.abortSignal,
     });
   }
 }

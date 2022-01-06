@@ -53,7 +53,7 @@ export function generateHubRuntimeInfoResponse({
   partitions,
   targetLinkName,
   createdOn,
-  eventHubName
+  eventHubName,
 }: GenerateHubRuntimeInfoResponseOptions): Message {
   return {
     to: targetLinkName,
@@ -64,7 +64,7 @@ export function generateHubRuntimeInfoResponse({
       type: "com.microsoft:eventhub",
       created_at: createdOn,
       partition_count: partitions.length,
-      partition_ids: types.wrap_array(partitions, 0xa1, undefined)
-    }
+      partition_ids: types.wrap_array(partitions, 0xa1, undefined),
+    },
   };
 }

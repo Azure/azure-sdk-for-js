@@ -9,7 +9,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptions,
   RestError,
-  WebResource
+  WebResource,
 } from "@azure/core-http";
 
 import { AbortError } from "@azure/abort-controller";
@@ -30,7 +30,7 @@ export function NewStorageRetryPolicyFactory(
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions): StorageRetryPolicy => {
       return new StorageRetryPolicy(nextPolicy, options, retryOptions);
-    }
+    },
   };
 }
 
@@ -45,7 +45,7 @@ export enum StorageRetryPolicyType {
   /**
    * Linear retry. Retry time delay grows linearly.
    */
-  FIXED
+  FIXED,
 }
 
 // Default values of RetryOptions
@@ -54,7 +54,7 @@ const DEFAULT_RETRY_OPTIONS: StorageRetryOptions = {
   maxTries: 4,
   retryDelayInMs: 4 * 1000,
   retryPolicyType: StorageRetryPolicyType.EXPONENTIAL,
-  tryTimeoutInMs: undefined // Use server side default timeout strategy
+  tryTimeoutInMs: undefined, // Use server side default timeout strategy
 };
 
 const RETRY_ABORT_ERROR = new AbortError("The operation was aborted.");
@@ -111,7 +111,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       maxRetryDelayInMs:
         retryOptions.maxRetryDelayInMs && retryOptions.maxRetryDelayInMs >= 0
           ? retryOptions.maxRetryDelayInMs
-          : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs
+          : DEFAULT_RETRY_OPTIONS.maxRetryDelayInMs,
     };
   }
 
@@ -206,7 +206,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       "ENOTFOUND",
       "TIMEOUT",
       "EPIPE",
-      "REQUEST_SEND_ERROR" // For default xhr based http client provided in ms-rest-js
+      "REQUEST_SEND_ERROR", // For default xhr based http client provided in ms-rest-js
     ];
     if (err) {
       for (const retriableError of retriableErrors) {

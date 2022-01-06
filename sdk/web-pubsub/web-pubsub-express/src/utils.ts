@@ -43,7 +43,7 @@ export function getHttpHeader(req: IncomingMessage, key: string): string | undef
 export async function convertHttpToEvent(request: IncomingMessage): Promise<Message> {
   const normalized: Message = {
     headers: {},
-    body: ""
+    body: "",
   };
   if (request.headers) {
     for (const key in request.headers) {
@@ -61,17 +61,17 @@ export async function convertHttpToEvent(request: IncomingMessage): Promise<Mess
 }
 
 export function readRequestBody(req: IncomingMessage): Promise<string> {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     const chunks: any = [];
-    req.on("data", function(chunk) {
+    req.on("data", function (chunk) {
       chunks.push(chunk);
     });
-    req.on("end", function() {
+    req.on("end", function () {
       const buffer = Buffer.concat(chunks);
       resolve(buffer.toString());
     });
     // reject on request error
-    req.on("error", function(err) {
+    req.on("error", function (err) {
       // This is not a "Second reject", just a different sort of failure
       reject(err);
     });

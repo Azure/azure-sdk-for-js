@@ -18,7 +18,7 @@ describe("Keys client - import keys", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     const authentication = await authenticate(this, getServiceVersion());
     suffix = authentication.keySuffix;
     client = authentication.client;
@@ -26,13 +26,13 @@ describe("Keys client - import keys", () => {
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("can import a key", async function(this: Context) {
+  it("can import a key", async function (this: Context) {
     const jsonWebKey = createRsaKey();
     const keyName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const key = await client.importKey(keyName, jsonWebKey);

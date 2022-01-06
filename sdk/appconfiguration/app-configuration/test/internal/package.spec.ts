@@ -12,7 +12,7 @@ import fs from "fs";
 describe("packagejson related tests", () => {
   // if this test is failing you need to update the contant `packageVersion` referenced above
   // in the generated code.
-  it("user agent string matches the package version", function(this: Context) {
+  it("user agent string matches the package version", function (this: Context) {
     if (!isNode) {
       this.skip();
     }

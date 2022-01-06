@@ -11,7 +11,7 @@
 import {
   TableServiceClient,
   AzureNamedKeyCredential,
-  AzureSASCredential
+  AzureSASCredential,
 } from "@azure/data-tables";
 
 import { DefaultAzureCredential } from "@azure/identity";

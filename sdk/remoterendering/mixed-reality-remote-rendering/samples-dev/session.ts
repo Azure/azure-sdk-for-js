@@ -13,7 +13,7 @@ import {
   RemoteRenderingClient,
   RenderingSessionSettings,
   RenderingSessionPollerLike,
-  RenderingSession
+  RenderingSession,
 } from "@azure/mixed-reality-remote-rendering";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -41,7 +41,7 @@ export async function main() {
 
   const sessionSettings: RenderingSessionSettings = {
     maxLeaseTimeInMinutes: 4,
-    size: "Standard"
+    size: "Standard",
   };
 
   // A randomly generated UUID is a good choice for a conversionId.

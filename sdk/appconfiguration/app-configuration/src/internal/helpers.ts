@@ -11,14 +11,14 @@ import {
   HttpResponseFields,
   HttpOnlyIfChangedField,
   HttpOnlyIfUnchangedField,
-  ConfigurationSettingParam
+  ConfigurationSettingParam,
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
 import { FeatureFlagHelper, FeatureFlagValue } from "../featureFlag";
 import {
   secretReferenceContentType,
   SecretReferenceHelper,
-  SecretReferenceValue
+  SecretReferenceValue,
 } from "../secretReference";
 import { isDefined } from "./typeguards";
 
@@ -70,7 +70,7 @@ export function checkAndFormatIfAndIfNoneMatch(
 
   return {
     ifMatch: ifMatch,
-    ifNoneMatch: ifNoneMatch
+    ifNoneMatch: ifNoneMatch,
   };
 }
 
@@ -96,7 +96,7 @@ export function formatFiltersAndSelect(
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
     acceptDatetime,
-    select: formatFieldsForSelect(listConfigOptions.fields)
+    select: formatFieldsForSelect(listConfigOptions.fields),
   };
 }
 
@@ -105,11 +105,11 @@ export function formatFiltersAndSelect(
  * @param newOptions - A newer style options with acceptDateTime as a date (and with proper casing!)
  * @internal
  */
-export function formatAcceptDateTime(newOptions: {
-  acceptDateTime?: Date;
-}): { acceptDatetime?: string } {
+export function formatAcceptDateTime(newOptions: { acceptDateTime?: Date }): {
+  acceptDatetime?: string;
+} {
   return {
-    acceptDatetime: newOptions.acceptDateTime && newOptions.acceptDateTime.toISOString()
+    acceptDatetime: newOptions.acceptDateTime && newOptions.acceptDateTime.toISOString(),
   };
 }
 
@@ -146,7 +146,7 @@ export function makeConfigurationSettingEmpty(
     "lastModified",
     "isReadOnly",
     "tags",
-    "value"
+    "value",
   ];
 
   for (const name of names) {
@@ -161,7 +161,7 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
   const setting: ConfigurationSetting & KeyValue = {
     value: undefined,
     ...kvp,
-    isReadOnly: !!kvp.locked
+    isReadOnly: !!kvp.locked,
   };
 
   delete setting.locked;
@@ -239,7 +239,7 @@ export function transformKeyValueResponseWithStatusCode<
     ConfigurationSetting & HttpResponseField<any> & HttpResponseFields
   >{
     ...transformKeyValue(kvp),
-    statusCode: kvp._response.status
+    statusCode: kvp._response.status,
   });
 }
 
@@ -250,7 +250,7 @@ export function transformKeyValueResponse<
   T extends KeyValue & { eTag?: string } & HttpResponseField<any>
 >(kvp: T): ConfigurationSetting & HttpResponseField<any> {
   return normalizeResponse(kvp, <ConfigurationSetting & HttpResponseField<any>>{
-    ...transformKeyValue(kvp)
+    ...transformKeyValue(kvp),
   });
 }
 
@@ -260,7 +260,7 @@ function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string }>
 ): T {
   Object.defineProperty(newResponse, "_response", {
     enumerable: false,
-    value: originalResponse._response
+    value: originalResponse._response,
   });
 
   // this field comes from the header but it's redundant with

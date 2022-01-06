@@ -22,7 +22,7 @@ describe("KeyVaultBackupClient", () => {
   let blobStorageUri: string;
   let blobSasToken: string;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     const authentication = await authenticate(this);
     client = authentication.backupClient;
     keyClient = authentication.keyClient;
@@ -32,12 +32,12 @@ describe("KeyVaultBackupClient", () => {
     blobSasToken = sasTokenData.blobSasToken;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  describe("beginBackup", function() {
-    it("returns the correct backup result when successful", async function() {
+  describe("beginBackup", function () {
+    it("returns the correct backup result when successful", async function () {
       const backupPoller = await client.beginBackup(
         blobStorageUri,
         blobSasToken,
@@ -48,7 +48,7 @@ describe("KeyVaultBackupClient", () => {
       // A poller can be serialized and then resumed
       const resumedPoller = await client.beginBackup(blobStorageUri, blobSasToken, {
         resumeFrom: backupPoller.toString(),
-        ...testPollerProperties
+        ...testPollerProperties,
       });
 
       assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
@@ -62,7 +62,7 @@ describe("KeyVaultBackupClient", () => {
       assert.match(backupResult.folderUri!, new RegExp(blobStorageUri));
     });
 
-    it("throws when polling errors", async function() {
+    it("throws when polling errors", async function () {
       const backupPoller = await client.beginBackup(
         blobStorageUri,
         "invalid_sas_token",
@@ -72,8 +72,8 @@ describe("KeyVaultBackupClient", () => {
     });
   });
 
-  describe("beginRestore", function() {
-    it("full restore completes successfully", async function() {
+  describe("beginRestore", function () {
+    it("full restore completes successfully", async function () {
       const backupPoller = await client.beginBackup(
         blobStorageUri,
         blobSasToken,
@@ -92,7 +92,7 @@ describe("KeyVaultBackupClient", () => {
       // A poller can be serialized and then resumed
       const resumedPoller = await client.beginRestore(backupResult.folderUri!, blobSasToken, {
         ...testPollerProperties,
-        resumeFrom: restorePoller.toString()
+        resumeFrom: restorePoller.toString(),
       });
       assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
       assert.equal(
@@ -114,7 +114,7 @@ describe("KeyVaultBackupClient", () => {
       }
     });
 
-    it("selectiveKeyRestore completes successfully", async function() {
+    it("selectiveKeyRestore completes successfully", async function () {
       // This test can only be run in playback mode because running a backup
       // or restore puts the instance in a bad state (tracked in IcM).
       if (!isPlaybackMode()) {
@@ -149,7 +149,7 @@ describe("KeyVaultBackupClient", () => {
         blobSasToken,
         {
           ...testPollerProperties,
-          resumeFrom: selectiveKeyRestorePoller.toString()
+          resumeFrom: selectiveKeyRestorePoller.toString(),
         }
       );
       assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
@@ -165,7 +165,7 @@ describe("KeyVaultBackupClient", () => {
       await keyClient.getKey(keyName);
     });
 
-    it("throws when polling errors", async function() {
+    it("throws when polling errors", async function () {
       const restorePoller = await client.beginRestore(
         blobStorageUri,
         "bad_token",

@@ -10,9 +10,7 @@ interface StorageFileShareUploadTestOptions {
   size: number;
 }
 
-export class StorageFileShareUploadTest extends StorageFileShareTest<
-  StorageFileShareUploadTestOptions
-> {
+export class StorageFileShareUploadTest extends StorageFileShareTest<StorageFileShareUploadTestOptions> {
   fileClient: ShareFileClient;
   buffer: Buffer;
   public options: PerfOptionDictionary<StorageFileShareUploadTestOptions> = {
@@ -21,8 +19,8 @@ export class StorageFileShareUploadTest extends StorageFileShareTest<
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 1024
-    }
+      defaultValue: 1024,
+    },
   };
 
   constructor() {

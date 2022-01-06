@@ -11,12 +11,12 @@ import {
   bulkInsertItems,
   getTestContainer,
   removeAllDatabases,
-  generateDocuments
+  generateDocuments,
 } from "../common/TestHelpers";
 import { FeedResponse, FeedOptions } from "../../../src";
 
 function compare(key: string) {
-  return function(a: any, b: any): number {
+  return function (a: any, b: any): number {
     if (a[key] > b[key]) {
       return 1;
     }
@@ -27,10 +27,10 @@ function compare(key: string) {
   };
 }
 
-describe("Cross Partition", function(this: Suite) {
+describe("Cross Partition", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
 
-  describe("Validate Query", function() {
+  describe("Validate Query", function () {
     const documentDefinitions = generateDocuments(20);
 
     const containerDefinition: ContainerDefinition = {
@@ -42,19 +42,19 @@ describe("Cross Partition", function(this: Suite) {
             indexes: [
               {
                 kind: IndexKind.Range,
-                dataType: DataType.Number
+                dataType: DataType.Number,
               },
               {
                 kind: IndexKind.Range,
-                dataType: DataType.String
-              }
-            ]
-          }
-        ]
+                dataType: DataType.String,
+              },
+            ],
+          },
+        ],
       },
       partitionKey: {
-        paths: ["/id"]
-      }
+        paths: ["/id"],
+      },
     };
     const containerOptions = { offerThroughput: 25100 };
 
@@ -64,7 +64,7 @@ describe("Cross Partition", function(this: Suite) {
     // - creates a new database,
     // - creates a new collecton,
     // - bulk inserts documents to the container
-    before(async function() {
+    before(async function () {
       await removeAllDatabases();
       container = await getTestContainer(
         "Validate 中文 Query",
@@ -75,7 +75,7 @@ describe("Cross Partition", function(this: Suite) {
       await bulkInsertItems(container, documentDefinitions);
     });
 
-    const validateResults = function(
+    const validateResults = function (
       actualResults: any[],
       expectedOrderIds: string[],
       expectedCount: number
@@ -95,7 +95,7 @@ describe("Cross Partition", function(this: Suite) {
       }
     };
 
-    const validateFetchAll = async function(
+    const validateFetchAll = async function (
       queryIterator: QueryIterator<any>,
       options: any,
       expectedOrderIds: string[],
@@ -121,7 +121,7 @@ describe("Cross Partition", function(this: Suite) {
       return response;
     };
 
-    const validateFetchNextAndHasMoreResults = async function(
+    const validateFetchNextAndHasMoreResults = async function (
       options: any,
       queryIterator: QueryIterator<any>,
       expectedOrderIds: string[],
@@ -188,7 +188,7 @@ describe("Cross Partition", function(this: Suite) {
       );
     };
 
-    const validateAsyncIterator = async function(
+    const validateAsyncIterator = async function (
       queryIterator: QueryIterator<any>,
       expectedOrderIds: any[],
       expecetedCount: number
@@ -210,13 +210,13 @@ describe("Cross Partition", function(this: Suite) {
       validateResults(results, expectedOrderIds, expecetedCount);
     };
 
-    const executeQueryAndValidateResults = async function({
+    const executeQueryAndValidateResults = async function ({
       query,
       options,
       expectedOrderIds,
       expectedCount,
       expectedRus,
-      expectedIteratorCalls
+      expectedIteratorCalls,
     }: {
       query: string | SqlQuerySpec;
       options: any;
@@ -238,8 +238,9 @@ describe("Cross Partition", function(this: Suite) {
           Math.abs(fetchAllResponse.requestCharge - expectedRus) / expectedRus;
         assert(
           percentDifference <= 0.05,
-          `difference between fetchAll request charge and expected request charge should be less than 5%. Got ${percentDifference *
-            100}`
+          `difference between fetchAll request charge and expected request charge should be less than 5%. Got ${
+            percentDifference * 100
+          }`
         );
       }
       queryIterator.reset();
@@ -255,98 +256,78 @@ describe("Cross Partition", function(this: Suite) {
       await validateAsyncIterator(queryIterator, expectedOrderIds, expectedCount);
     };
 
-    it("Validate Parallel Query As String With maxDegreeOfParallelism = 0", async function() {
+    it("Validate Parallel Query As String With maxDegreeOfParallelism = 0", async function () {
       // simple order by query in string format
       const query = "SELECT * FROM root r";
       const options = {
         maxItemCount: 2,
-        maxDegreeOfParallelism: 0
+        maxDegreeOfParallelism: 0,
       };
 
       // validates the results size and order
       await executeQueryAndValidateResults({
         query,
-        options
+        options,
       });
     });
 
-    it("Validate Parallel Query As String With maxDegreeOfParallelism: -1", async function() {
+    it("Validate Parallel Query As String With maxDegreeOfParallelism: -1", async function () {
       // simple order by query in string format
       const query = "SELECT * FROM root r";
       const options: FeedOptions = {
         maxItemCount: 2,
         maxDegreeOfParallelism: -1,
         forceQueryPlan: true,
-        populateQueryMetrics: true
+        populateQueryMetrics: true,
       };
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options
-      });
-    });
-
-    it("Validate Parallel Query As String With maxDegreeOfParallelism: 1", async function() {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r";
-      const options = {
-        maxItemCount: 2,
-        maxDegreeOfParallelism: 1
-      };
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options
-      });
-    });
-
-    it("Validate Parallel Query As String With maxDegreeOfParallelism: 3", async function() {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r";
-      const options: FeedOptions = {
-        maxItemCount: 2,
-        maxDegreeOfParallelism: 3,
-        bufferItems: true
-      };
-
-      // validates the results size and order
-      await executeQueryAndValidateResults({
-        query,
-        options
-      });
-    });
-
-    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 0", async function() {
-      // simple order by query in string format
-      const query = "SELECT * FROM root r order by r.spam";
-      const options = {
-        maxItemCount: 2,
-        maxDegreeOfParallelism: 0
-      };
-
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
-        return r["id"];
-      });
 
       // validates the results size and order
       await executeQueryAndValidateResults({
         query,
         options,
-        expectedOrderIds: expectedOrderedIds
       });
     });
 
-    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 1 #nosignoff", async function() {
+    it("Validate Parallel Query As String With maxDegreeOfParallelism: 1", async function () {
+      // simple order by query in string format
+      const query = "SELECT * FROM root r";
+      const options = {
+        maxItemCount: 2,
+        maxDegreeOfParallelism: 1,
+      };
+
+      // validates the results size and order
+      await executeQueryAndValidateResults({
+        query,
+        options,
+      });
+    });
+
+    it("Validate Parallel Query As String With maxDegreeOfParallelism: 3", async function () {
+      // simple order by query in string format
+      const query = "SELECT * FROM root r";
+      const options: FeedOptions = {
+        maxItemCount: 2,
+        maxDegreeOfParallelism: 3,
+        bufferItems: true,
+      };
+
+      // validates the results size and order
+      await executeQueryAndValidateResults({
+        query,
+        options,
+      });
+    });
+
+    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 0", async function () {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.spam";
       const options = {
         maxItemCount: 2,
-        maxDegreeOfParallelism: 1
+        maxDegreeOfParallelism: 0,
       };
 
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
+      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
         return r["id"];
       });
 
@@ -355,19 +336,18 @@ describe("Cross Partition", function(this: Suite) {
         query,
         options,
         expectedOrderIds: expectedOrderedIds,
-        expectedRus: 35
       });
     });
 
-    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 3", async function() {
+    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 1 #nosignoff", async function () {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.spam";
       const options = {
         maxItemCount: 2,
-        maxDegreeOfParallelism: 3
+        maxDegreeOfParallelism: 1,
       };
 
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
+      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
         return r["id"];
       });
 
@@ -375,19 +355,20 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
+        expectedRus: 35,
       });
     });
 
-    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = -1", async function() {
+    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = 3", async function () {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.spam";
       const options = {
         maxItemCount: 2,
-        maxDegreeOfParallelism: -1
+        maxDegreeOfParallelism: 3,
       };
 
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
+      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
         return r["id"];
       });
 
@@ -395,26 +376,46 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate DISTINCT Query", async function() {
+    it("Validate Simple OrderBy Query As String With maxDegreeOfParallelism = -1", async function () {
+      // simple order by query in string format
+      const query = "SELECT * FROM root r order by r.spam";
+      const options = {
+        maxItemCount: 2,
+        maxDegreeOfParallelism: -1,
+      };
+
+      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
+        return r["id"];
+      });
+
+      // validates the results size and order
+      await executeQueryAndValidateResults({
+        query,
+        options,
+        expectedOrderIds: expectedOrderedIds,
+      });
+    });
+
+    it("Validate DISTINCT Query", async function () {
       // simple order by query in string format
       const query = "SELECT DISTINCT VALUE r.spam3 FROM root r";
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       // validates the results size and order
       await executeQueryAndValidateResults({ query, options, expectedCount: 3 });
     });
 
-    it("Validate DISTINCT OrderBy Query", async function() {
+    it("Validate DISTINCT OrderBy Query", async function () {
       // simple order by query in string format
       const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3 DESC";
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       const expectedOrderedIds = ["eggs2", "eggs1", "eggs0"];
@@ -423,17 +424,17 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate parallel DISTINCT Query", async function() {
+    it("Validate parallel DISTINCT Query", async function () {
       // simple order by query in string format
       const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
       const options = {
         maxItemCount: 2,
         maxDegreeOfParallelism: 3,
-        bufferItems: true
+        bufferItems: true,
       };
 
       const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
@@ -442,15 +443,15 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate DISTINCT Query with maxItemCount = 1", async function() {
+    it("Validate DISTINCT Query with maxItemCount = 1", async function () {
       // simple order by query in string format
       const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
       const options = {
-        maxItemCount: 1
+        maxItemCount: 1,
       };
 
       const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
@@ -459,15 +460,15 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate DISTINCT Query with maxItemCount = 20", async function() {
+    it("Validate DISTINCT Query with maxItemCount = 20", async function () {
       // simple order by query in string format
       const query = "SELECT DISTINCT VALUE r.spam3 FROM root r order by r.spam3";
       const options = {
-        maxItemCount: 20
+        maxItemCount: 20,
       };
 
       const expectedOrderedIds = ["eggs0", "eggs1", "eggs2"];
@@ -476,18 +477,18 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate Simple OrderBy Query As String", async function() {
+    it("Validate Simple OrderBy Query As String", async function () {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.spam";
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
+      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
         return r["id"];
       });
 
@@ -495,20 +496,20 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate Simple OrderBy Query", async function() {
+    it("Validate Simple OrderBy Query", async function () {
       // simple order by query
       const querySpec = {
-        query: "SELECT * FROM root r order by r.spam"
+        query: "SELECT * FROM root r order by r.spam",
       };
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
+      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
         return r["id"];
       });
 
@@ -516,20 +517,20 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query: querySpec,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate OrderBy Query With ASC", async function() {
+    it("Validate OrderBy Query With ASC", async function () {
       // an order by query with explicit ascending ordering
       const querySpec = {
-        query: "SELECT * FROM root r order by r.spam ASC"
+        query: "SELECT * FROM root r order by r.spam ASC",
       };
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
+      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
         return r["id"];
       });
 
@@ -537,22 +538,22 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query: querySpec,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate OrderBy Query With DESC", async function() {
+    it("Validate OrderBy Query With DESC", async function () {
       // an order by query with explicit descending ordering
       const querySpec = {
-        query: "SELECT * FROM root r order by r.spam DESC"
+        query: "SELECT * FROM root r order by r.spam DESC",
       };
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       const expectedOrderedIds = documentDefinitions
         .sort(compare("spam"))
-        .map(function(r) {
+        .map(function (r) {
           return r["id"];
         })
         .reverse();
@@ -561,23 +562,23 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query: querySpec,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate OrderBy with top", async function() {
+    it("Validate OrderBy with top", async function () {
       // an order by query with top, total existing docs more than requested top count
       const topCount = 9;
       const querySpec = {
-        query: util.format("SELECT top %d * FROM root r order by r.spam", topCount)
+        query: util.format("SELECT top %d * FROM root r order by r.spam", topCount),
       };
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       const expectedOrderedIds = documentDefinitions
         .sort(compare("spam"))
-        .map(function(r) {
+        .map(function (r) {
           return r["id"];
         })
         .slice(0, topCount);
@@ -585,34 +586,34 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query: querySpec,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate OrderBy with Top Query (less results than top counts)", async function() {
+    it("Validate OrderBy with Top Query (less results than top counts)", async function () {
       // an order by query with top, total existing docs less than requested top count
       const topCount = 30;
       // sanity check
       assert(topCount > documentDefinitions.length, "test setup is wrong");
       const querySpec = {
-        query: util.format("SELECT top %d * FROM root r order by r.spam", topCount)
+        query: util.format("SELECT top %d * FROM root r order by r.spam", topCount),
       };
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
-      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function(r) {
+      const expectedOrderedIds = documentDefinitions.sort(compare("spam")).map(function (r) {
         return r["id"];
       });
 
       await executeQueryAndValidateResults({
         query: querySpec,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate Top Query with maxDegreeOfParallelism = 3", async function() {
+    it("Validate Top Query with maxDegreeOfParallelism = 3", async function () {
       // a top query
       const topCount = 6;
       // sanity check
@@ -623,7 +624,7 @@ describe("Cross Partition", function(this: Suite) {
         maxItemCount: 2,
         maxDegreeOfParallelism: 3,
         forceQueryPlan: true,
-        bufferItems: true
+        bufferItems: true,
       };
 
       // prepare expected behaviour verifier
@@ -634,14 +635,14 @@ describe("Cross Partition", function(this: Suite) {
 
       // select unique ids
       const uniqueIds: any = {};
-      results.forEach(function(item) {
+      results.forEach(function (item) {
         uniqueIds[item.id] = true;
       });
       // assert no duplicate results
       assert.equal(results.length, Object.keys(uniqueIds).length);
     });
 
-    it("Validate Top Query", async function() {
+    it("Validate Top Query", async function () {
       // a top query
       const topCount = 6;
       // sanity check
@@ -649,7 +650,7 @@ describe("Cross Partition", function(this: Suite) {
 
       const query = util.format("SELECT top %d * FROM root r", topCount);
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       // prepare expected behaviour verifier
@@ -667,7 +668,7 @@ describe("Cross Partition", function(this: Suite) {
       assert.equal(results.length, Object.keys(uniqueIds).length);
     });
 
-    it("Validate Top Query (with 0 topCount)", async function() {
+    it("Validate Top Query (with 0 topCount)", async function () {
       // a top query
       const topCount = 0;
       // sanity check
@@ -675,7 +676,7 @@ describe("Cross Partition", function(this: Suite) {
 
       const query = util.format("SELECT top %d * FROM root r", topCount);
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       // prepare expected behaviour verifier
@@ -693,7 +694,7 @@ describe("Cross Partition", function(this: Suite) {
       assert.equal(results.length, Object.keys(uniqueIds).length);
     });
 
-    it("Validate Parametrized Top Query", async function() {
+    it("Validate Parametrized Top Query", async function () {
       // a top query
       const topCount = 6;
       // sanity check
@@ -702,10 +703,10 @@ describe("Cross Partition", function(this: Suite) {
       const querySpec: SqlQuerySpec = {
         query: "SELECT top @n * FROM root r",
 
-        parameters: [{ name: "@n", value: topCount }]
+        parameters: [{ name: "@n", value: topCount }],
       };
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       // prepare expected behaviour verifier
@@ -723,7 +724,7 @@ describe("Cross Partition", function(this: Suite) {
       assert.equal(results.length, Object.keys(uniqueIds).length);
     });
 
-    it("Validate OrderBy with Parametrized Top Query", async function() {
+    it("Validate OrderBy with Parametrized Top Query", async function () {
       // a parametrized top order by query
       const topCount = 9;
       // sanity check
@@ -732,15 +733,15 @@ describe("Cross Partition", function(this: Suite) {
       const querySpec = {
         query: "SELECT top @n * FROM root r order by r.spam",
 
-        parameters: [{ name: "@n", value: topCount }]
+        parameters: [{ name: "@n", value: topCount }],
       };
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       const expectedOrderedIds = documentDefinitions
         .sort(compare("spam"))
-        .map(function(r) {
+        .map(function (r) {
           return r["id"];
         })
         .slice(0, topCount);
@@ -748,44 +749,44 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query: querySpec,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate OrderBy with Parametrized Predicate", async function() {
+    it("Validate OrderBy with Parametrized Predicate", async function () {
       // an order by query combined with parametrized predicate
       const querySpec = {
         query: "SELECT * FROM root r where r.cnt > @cnt order by r.spam",
-        parameters: [{ name: "@cnt", value: 5 }]
+        parameters: [{ name: "@cnt", value: 5 }],
       };
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       const expectedOrderedIds = documentDefinitions
         .sort(compare("spam"))
-        .filter(function(r) {
+        .filter(function (r) {
           return r["cnt"] > 5;
         })
-        .map(function(r) {
+        .map(function (r) {
           return r["id"];
         });
 
       await executeQueryAndValidateResults({
         query: querySpec,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate Error Handling - Orderby where types are noncomparable", async function() {
+    it("Validate Error Handling - Orderby where types are noncomparable", async function () {
       // test orderby with different order by item type
       // an order by query
       const query = {
-        query: "SELECT * FROM root r order by r.spam2"
+        query: "SELECT * FROM root r order by r.spam2",
       };
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       // prepare expected behaviour verifier
@@ -797,14 +798,14 @@ describe("Cross Partition", function(this: Suite) {
       }
     });
 
-    it("Validate OrderBy Integer Query", async function() {
+    it("Validate OrderBy Integer Query", async function () {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.cnt";
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
-      const expectedOrderedIds = documentDefinitions.sort(compare("cnt")).map(function(r) {
+      const expectedOrderedIds = documentDefinitions.sort(compare("cnt")).map(function (r) {
         return r["id"];
       });
 
@@ -812,18 +813,18 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate OrderBy Floating Point Number Query", async function() {
+    it("Validate OrderBy Floating Point Number Query", async function () {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.number";
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
-      const expectedOrderedIds = documentDefinitions.sort(compare("number")).map(function(r) {
+      const expectedOrderedIds = documentDefinitions.sort(compare("number")).map(function (r) {
         return r["id"];
       });
 
@@ -831,15 +832,15 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate OrderBy Boolean Query", async function() {
+    it("Validate OrderBy Boolean Query", async function () {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.boolVar";
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       const queryIterator = container.items.query(query, options);
@@ -862,15 +863,15 @@ describe("Cross Partition", function(this: Suite) {
       }
     });
 
-    it("Validate simple LIMIT OFFSET", async function() {
+    it("Validate simple LIMIT OFFSET", async function () {
       const limit = 1;
       const offset = 7;
 
       const querySpec = {
-        query: `SELECT * FROM root r OFFSET ${offset} LIMIT ${limit}`
+        query: `SELECT * FROM root r OFFSET ${offset} LIMIT ${limit}`,
       };
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       // validates the results size and order
@@ -878,47 +879,47 @@ describe("Cross Partition", function(this: Suite) {
         query: querySpec,
         options,
         expectedCount: 1,
-        expectedIteratorCalls: 1
+        expectedIteratorCalls: 1,
       });
     });
 
-    it("Validate filtered LIMIT OFFSET", async function() {
+    it("Validate filtered LIMIT OFFSET", async function () {
       const limit = 1;
       const offset = 2;
 
       // an order by query with explicit ascending ordering
       const querySpec = {
-        query: `SELECT * FROM root r WHERE r.number > 5 OFFSET ${offset} LIMIT ${limit}`
+        query: `SELECT * FROM root r WHERE r.number > 5 OFFSET ${offset} LIMIT ${limit}`,
       };
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       // validates the results size and order
       await executeQueryAndValidateResults({
         query: querySpec,
         options,
-        expectedCount: 1
+        expectedCount: 1,
       });
     });
 
     // TODO Add test for OFFSET LIMT filtered on partition
 
-    it("Validate OrderBy Query With ASC and LIMIT 2 and OFFSET 10", async function() {
+    it("Validate OrderBy Query With ASC and LIMIT 2 and OFFSET 10", async function () {
       const limit = 2;
       const offset = 10;
 
       // an order by query with explicit ascending ordering
       const querySpec = {
-        query: `SELECT * FROM root r order by r.spam ASC OFFSET ${offset} LIMIT ${limit}`
+        query: `SELECT * FROM root r order by r.spam ASC OFFSET ${offset} LIMIT ${limit}`,
       };
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       const expectedOrderedIds = documentDefinitions
         .sort(compare("spam"))
-        .map(function(r) {
+        .map(function (r) {
           return r["id"];
         })
         .splice(offset, limit);
@@ -927,25 +928,25 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query: querySpec,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate OrderBy Query With ASC and LIMIT 0 and OFFSET 5", async function() {
+    it("Validate OrderBy Query With ASC and LIMIT 0 and OFFSET 5", async function () {
       const limit = 5;
       const offset = 0;
 
       // an order by query with explicit ascending ordering
       const querySpec = {
-        query: `SELECT * FROM root r order by r.spam ASC OFFSET ${offset} LIMIT ${limit}`
+        query: `SELECT * FROM root r order by r.spam ASC OFFSET ${offset} LIMIT ${limit}`,
       };
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       const expectedOrderedIds = documentDefinitions
         .sort(compare("spam"))
-        .map(function(r) {
+        .map(function (r) {
           return r["id"];
         })
         .splice(offset, limit);
@@ -954,16 +955,16 @@ describe("Cross Partition", function(this: Suite) {
       await executeQueryAndValidateResults({
         query: querySpec,
         options,
-        expectedOrderIds: expectedOrderedIds
+        expectedOrderIds: expectedOrderedIds,
       });
     });
 
-    it("Validate Failure", async function() {
+    it("Validate Failure", async function () {
       // simple order by query in string format
       const query = "SELECT * FROM root r order by r.spam";
 
       const options = {
-        maxItemCount: 2
+        maxItemCount: 2,
       };
 
       const queryIterator = container.items.query(query, options);

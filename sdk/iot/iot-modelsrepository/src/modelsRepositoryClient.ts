@@ -7,7 +7,7 @@ import {
   DEFAULT_USER_AGENT,
   DEPENDENCY_MODE_DISABLED,
   DEPENDENCY_MODE_ENABLED,
-  DEPENDENCY_MODE_TRY_FROM_EXPANDED
+  DEPENDENCY_MODE_TRY_FROM_EXPANDED,
 } from "./utils/constants";
 import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
 import { Fetcher } from "./fetcherAbstract";
@@ -110,9 +110,9 @@ export class ModelsRepositoryClient {
       ...pipelineOptions,
       ...{
         loggingOptions: {
-          logger: logger.info
-        }
-      }
+          logger: logger.info,
+        },
+      },
     };
 
     const pipeline = createClientPipeline(internalPipelineOptions);

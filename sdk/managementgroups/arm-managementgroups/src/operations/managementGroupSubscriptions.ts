@@ -11,7 +11,7 @@ import { ManagementGroupSubscriptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ManagementGroupsAPIContext } from "../managementGroupsAPIContext";
+import { ManagementGroupsAPI } from "../managementGroupsAPI";
 import {
   SubscriptionUnderManagementGroup,
   ManagementGroupSubscriptionsGetSubscriptionsUnderManagementGroupNextOptionalParams,
@@ -29,13 +29,13 @@ import {
 /** Class containing ManagementGroupSubscriptions operations. */
 export class ManagementGroupSubscriptionsImpl
   implements ManagementGroupSubscriptions {
-  private readonly client: ManagementGroupsAPIContext;
+  private readonly client: ManagementGroupsAPI;
 
   /**
    * Initialize a new instance of the class ManagementGroupSubscriptions class.
    * @param client Reference to the service client
    */
-  constructor(client: ManagementGroupsAPIContext) {
+  constructor(client: ManagementGroupsAPI) {
     this.client = client;
   }
 
