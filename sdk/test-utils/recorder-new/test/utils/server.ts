@@ -26,11 +26,11 @@ app.get(`/subscriptions/:secret_info`, (_, res) => {
   res.send({ val: "I am the answer!" });
 });
 
-app.post("/api/sample_request_body", function(req, res) {
+app.post("/api/sample_request_body", function (req, res) {
   res.send({ bodyProvided: req.body });
 });
 
-app.get("/api/sample_uuid_in_header", function(_, res) {
+app.get("/api/sample_uuid_in_header", function (_, res) {
   res.header("your_uuid", uuidv4());
   res.send();
 });

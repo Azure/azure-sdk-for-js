@@ -12,24 +12,24 @@ const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
       actualConnString: env.TABLES_SAS_CONNECTION_STRING,
-      fakeConnString
-    }
+      fakeConnString,
+    },
   ],
   removeHeaderSanitizer: { headersForRemoval: ["X-Content-Type-Options"] },
-  generalRegexSanitizers: [{ regex: "abc", value: "fake_abc" }]
+  generalRegexSanitizers: [{ regex: "abc", value: "fake_abc" }],
 };
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {
-    TABLES_SAS_CONNECTION_STRING: fakeConnString
+    TABLES_SAS_CONNECTION_STRING: fakeConnString,
   },
-  sanitizerOptions
+  sanitizerOptions,
 };
 
 describe("Core V2 tests", () => {
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
   });
@@ -38,7 +38,7 @@ describe("Core V2 tests", () => {
     await recorder.stop();
   });
 
-  it("data-tables create entity", async function() {
+  it("data-tables create entity", async function () {
     const client = TableClient.fromConnectionString(
       assertEnvironmentVariable("TABLES_SAS_CONNECTION_STRING"),
       recorder.variable("table-name", `table${Math.ceil(Math.random() * 1000 + 1000)}`)

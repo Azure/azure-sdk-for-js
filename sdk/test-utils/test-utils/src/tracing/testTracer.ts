@@ -10,7 +10,7 @@ import {
   Context as OTContext,
   context as otContext,
   getSpanContext,
-  Tracer
+  Tracer,
 } from "@azure/core-tracing";
 
 /**
@@ -99,7 +99,7 @@ export class TestTracer implements Tracer {
       const spanId = span.spanContext().spanId;
       const node: SpanGraphNode = {
         name: span.name,
-        children: []
+        children: [],
       };
       nodeMap.set(spanId, node);
       if (span.parentSpanId) {
@@ -116,7 +116,7 @@ export class TestTracer implements Tracer {
     }
 
     return {
-      roots
+      roots,
     };
   }
 
@@ -141,7 +141,7 @@ export class TestTracer implements Tracer {
     const spanContext: SpanContext = {
       traceId,
       spanId: this.getNextSpanId(),
-      traceFlags: TraceFlags.NONE
+      traceFlags: TraceFlags.NONE,
     };
     const span = new TestSpan(
       this,

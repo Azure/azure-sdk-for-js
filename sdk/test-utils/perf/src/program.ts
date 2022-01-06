@@ -7,7 +7,7 @@ import {
   PerfOptionDictionary,
   parsePerfOption,
   defaultPerfOptions,
-  DefaultPerfOptions
+  DefaultPerfOptions,
 } from "./options";
 import { PerfParallel } from "./parallel";
 import { exec } from "child_process";
@@ -103,19 +103,19 @@ export class PerfProgram {
     const weightedAverage = totalOperations / operationsPerSecond;
     console.log(
       `Completed ${totalOperations.toLocaleString(undefined, {
-        maximumFractionDigits: 0
+        maximumFractionDigits: 0,
       })} ` +
         `operations in a weighted-average of ` +
         `${weightedAverage.toLocaleString(undefined, {
           maximumFractionDigits: 2,
-          minimumFractionDigits: 2
+          minimumFractionDigits: 2,
         })}s ` +
         `(${operationsPerSecond.toLocaleString(undefined, {
-          maximumFractionDigits: 2
+          maximumFractionDigits: 2,
         })} ops/s, ` +
         `${secondsPerOperation.toLocaleString(undefined, {
           maximumFractionDigits: 3,
-          minimumFractionDigits: 3
+          minimumFractionDigits: 3,
         })} s/op)`
     );
   }
@@ -141,8 +141,9 @@ export class PerfProgram {
     // of operations running.
     const millisecondsToLog = Number(this.parsedDefaultOptions["milliseconds-to-log"].value);
     console.log(
-      `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog /
-        1000}s ===`
+      `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${
+        millisecondsToLog / 1000
+      }s ===`
     );
     console.log(`ElapsedTime\tCurrent\t\tTotal\t\tAverage`);
     let lastCompleted = 0;
@@ -177,7 +178,7 @@ export class PerfProgram {
       this.tests.map((test, i = 0) => {
         parallels[i] = {
           completedOperations: 0,
-          lastMillisecondsElapsed: 0
+          lastMillisecondsElapsed: 0,
         };
         return test.runAll(parallels[i], durationMilliseconds, abortController);
       })
