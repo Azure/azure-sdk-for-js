@@ -59,9 +59,7 @@ async function main() {
   const continuationToken = result.value.continuationToken;
 
   if (!continuationToken) {
-    throw new Error(
-      "Expected a continuation token from the blob service, but one was not returned."
-    );
+    throw new Error("Expected a continuation token from the service, but one was not returned.");
   }
 
   const resumed = queueServiceClient.listQueues().byPage({ continuationToken, maxPageSize });
