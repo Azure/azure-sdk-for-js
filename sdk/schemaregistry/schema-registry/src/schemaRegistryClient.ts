@@ -4,20 +4,20 @@
 import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
 import { TokenCredential } from "@azure/core-auth";
 import {
-  InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
+  InternalPipelineOptions,
 } from "@azure/core-rest-pipeline";
 import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 
 import {
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
-  RegisterSchemaOptions,
-  Schema,
   SchemaDescription,
-  SchemaProperties,
-  SchemaRegistry,
   SchemaRegistryClientOptions,
+  SchemaRegistry,
+  RegisterSchemaOptions,
+  SchemaProperties,
+  Schema,
 } from "./models";
 import { DEFAULT_SCOPE } from "./constants";
 import { logger } from "./logger";
