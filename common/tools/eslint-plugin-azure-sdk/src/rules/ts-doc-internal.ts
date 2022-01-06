@@ -7,14 +7,14 @@
  */
 
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { getLocalExports, getRuleMetaData } from "../utils";
+import { Node } from "estree";
 import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
 import { Rule } from "eslint";
-import { Node } from "estree";
-import { readFileSync } from "fs";
-import { sync as globSync } from "glob";
-import { relative } from "path";
 import { TypeChecker } from "typescript";
-import { getLocalExports, getRuleMetaData } from "../utils";
+import { sync as globSync } from "glob";
+import { readFileSync } from "fs";
+import { relative } from "path";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -53,7 +53,7 @@ const reportInternal = (
     if (!TSDocTags.some((TSDocTag: string): boolean => /(internal)|(hidden)/.test(TSDocTag))) {
       context.report({
         node: node,
-        message: "internal items with TSDoc comments should include an @internal or @hidden tag"
+        message: "internal items with TSDoc comments should include an @internal or @hidden tag",
       });
     }
   }
@@ -143,8 +143,8 @@ export = {
             ) {
               reportInternal(node, context, converter, typeChecker);
             }
-          }
+          },
         }
       : {};
-  }
+  },
 };

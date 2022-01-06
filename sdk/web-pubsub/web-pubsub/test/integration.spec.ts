@@ -23,7 +23,7 @@ function defer<T>(): {
   return {
     promise,
     resolve: actualResolve!,
-    reject: actualReject!
+    reject: actualReject!,
   };
 }
 
@@ -69,8 +69,8 @@ function getEndSignal(): Uint8Array {
   return payload;
 }
 
-describe("ServiceClient to manage the connected WebSocket connections", function() {
-  it("Simple clients can receive expected messages with different content types", async function(this: Context) {
+describe("ServiceClient to manage the connected WebSocket connections", function () {
+  it("Simple clients can receive expected messages with different content types", async function (this: Context) {
     if (!isLiveMode()) this.skip();
     const hub = "SimpleClientCanReceiveMessage";
 
@@ -109,7 +109,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     assert.equal(messages[1].dataAsString, "Hi there!");
   });
 
-  it("Subprotocol clients can receive expected messages with different content types", async function(this: Context) {
+  it("Subprotocol clients can receive expected messages with different content types", async function (this: Context) {
     if (!isLiveMode()) this.skip();
     const hub = "PubSubClientCanReceiveMessage";
     const messages: PubSubWebSocketFrame[] = [];

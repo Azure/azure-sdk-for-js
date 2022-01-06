@@ -4,7 +4,6 @@
 import { TokenCredential } from "@azure/core-http";
 import { env } from "@azure-tools/test-recorder";
 import { randomBytes } from "crypto";
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -20,11 +19,9 @@ import {
   DataLakeFileSystemClient,
   DataLakeSASSignatureValues,
   generateAccountSASQueryParameters,
-  generateDataLakeSASQueryParameters
+  generateDataLakeSASQueryParameters,
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-
-dotenv.config();
 
 export * from "./testutils.common";
 
@@ -105,7 +102,7 @@ export function getGenericDataLakeServiceClient(
   } else {
     const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential, {
-      ...pipelineOptions
+      ...pipelineOptions,
       // Enable logger when debugging
       // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
       // proxyOptions: {
@@ -154,7 +151,7 @@ export function getDataLakeServiceClientWithDefaultCredential(
 
   const credential = new DefaultAzureCredential();
   const pipeline = newPipeline(credential, {
-    ...pipelineOptions
+    ...pipelineOptions,
   });
   const dfsPrimaryURL = `https://${accountName}${accountNameSuffix}.dfs.core.windows.net/`;
   return new DataLakeServiceClient(dfsPrimaryURL, pipeline);
@@ -265,7 +262,7 @@ export function getSASConnectionStringFromEnvironment(): string {
       expiresOn: tmr,
       permissions: AccountSASPermissions.parse("rwdlacup"),
       resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
-      services: AccountSASServices.parse("btqf").toString()
+      services: AccountSASServices.parse("btqf").toString(),
     },
     sharedKeyCredential as StorageSharedKeyCredential
   ).toString();

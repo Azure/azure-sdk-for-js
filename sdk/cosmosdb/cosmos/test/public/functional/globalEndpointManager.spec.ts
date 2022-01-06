@@ -24,32 +24,32 @@ const headers = {
   "x-ms-max-media-storage-usage-mb": "10240",
   "x-ms-media-storage-usage-mb": "0",
   "x-ms-throttle-retry-count": 0,
-  "x-ms-throttle-retry-wait-time-ms": 0
+  "x-ms-throttle-retry-wait-time-ms": 0,
 };
 const databaseAccountBody: any = {
   writableLocations: [
-    { name: "West US 2", databaseAccountEndpoint: "https://test-westus2.documents.azure.com:443/" }
+    { name: "West US 2", databaseAccountEndpoint: "https://test-westus2.documents.azure.com:443/" },
   ],
   readableLocations: [
     { name: "West US 2", databaseAccountEndpoint: "https://test-westus2.documents.azure.com:443/" },
-    { name: "East US 2", databaseAccountEndpoint: "https://test-eastus2.documents.azure.com:443/" }
+    { name: "East US 2", databaseAccountEndpoint: "https://test-eastus2.documents.azure.com:443/" },
   ],
   DatabasesLink: "/dbs/",
   MediaLink: "/media/",
-  ConsistencyPolicy: "Session"
+  ConsistencyPolicy: "Session",
 };
 
-describe("GlobalEndpointManager", function() {
-  describe("#resolveServiceEndpoint", function() {
-    it("should resolve the correct endpoint", async function() {
+describe("GlobalEndpointManager", function () {
+  describe("#resolveServiceEndpoint", function () {
+    it("should resolve the correct endpoint", async function () {
       const gem = new GlobalEndpointManager(
         {
           endpoint: "https://test.documents.azure.com:443/",
           key: masterKey,
           connectionPolicy: {
             enableEndpointDiscovery: true,
-            preferredLocations: ["East US 2", "West US 2"]
-          }
+            preferredLocations: ["East US 2", "West US 2"],
+          },
         },
         async () => {
           const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
@@ -71,15 +71,15 @@ describe("GlobalEndpointManager", function() {
         "https://test-eastus2.documents.azure.com:443/"
       );
     });
-    it("should allow you to pass a normalized preferred location", async function() {
+    it("should allow you to pass a normalized preferred location", async function () {
       const gem = new GlobalEndpointManager(
         {
           endpoint: "https://test.documents.azure.com:443/",
           key: masterKey,
           connectionPolicy: {
             enableEndpointDiscovery: true,
-            preferredLocations: ["eastus2", "West US 2"]
-          }
+            preferredLocations: ["eastus2", "West US 2"],
+          },
         },
         async () => {
           const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(

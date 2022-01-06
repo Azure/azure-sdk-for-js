@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import rule from "../../src/rules/ts-no-const-enums";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-no-const-enums";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -18,19 +18,19 @@ const ruleTester = new RuleTester({
   parserOptions: {
     createDefaultProgram: true,
     project: "./tsconfig.json",
-    sourceType: "module"
+    sourceType: "module",
   },
   settings: {
-    main: "test.ts"
-  }
+    main: "test.ts",
+  },
 });
 
 ruleTester.run("ts-no-const-enums", rule, {
   valid: [
     {
       code: "enum Enum { a = 1 }",
-      filename: "src/test.ts"
-    }
+      filename: "src/test.ts",
+    },
   ],
   invalid: [
     {
@@ -38,10 +38,10 @@ ruleTester.run("ts-no-const-enums", rule, {
       filename: "src/test.ts",
       errors: [
         {
-          message: "const enums should not be used"
-        }
+          message: "const enums should not be used",
+        },
       ],
-      output: "enum Enum { a = 1 }"
-    }
-  ]
+      output: "enum Enum { a = 1 }",
+    },
+  ],
 });

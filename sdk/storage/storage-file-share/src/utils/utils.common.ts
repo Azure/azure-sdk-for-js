@@ -154,7 +154,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       kind: "AccountConnString",
       url: fileEndpoint,
       accountName,
-      accountKey
+      accountKey,
     };
   } else {
     // SAS connection string
@@ -447,9 +447,11 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
   );
 }
 
-export function getShareNameAndPathFromUrl(
-  url: string
-): { baseName: string; shareName: string; path: string } {
+export function getShareNameAndPathFromUrl(url: string): {
+  baseName: string;
+  shareName: string;
+  path: string;
+} {
   //  URL may look like the following
   // "https://myaccount.file.core.windows.net/myshare/mydirectory/file?sasString";
   // "https://myaccount.file.core.windows.net/myshare/mydirectory/file";

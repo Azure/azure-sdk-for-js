@@ -106,7 +106,7 @@ export class ChangeFeedIterator<T> {
     if (this.nextIfNoneMatch) {
       feedOptions.accessCondition = {
         type: Constants.HttpHeaders.IfNoneMatch,
-        condition: this.nextIfNoneMatch
+        condition: this.nextIfNoneMatch,
       };
     }
 
@@ -121,7 +121,7 @@ export class ChangeFeedIterator<T> {
       resultFn: (result) => (result ? result.Documents : []),
       query: undefined,
       options: feedOptions,
-      partitionKey: this.partitionKey
+      partitionKey: this.partitionKey,
     }) as Promise<any>); // TODO: some funky issues with query feed. Probably need to change it up.
 
     return new ChangeFeedResponse(

@@ -3,17 +3,14 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import Sinon from "sinon";
-import assert from "assert";
-
-import { PublicClientApplication } from "@azure/msal-node";
-import { isLiveMode } from "@azure-tools/test-recorder";
-
 import { DeviceCodeCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
 import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
-
+import { PublicClientApplication } from "@azure/msal-node";
+import Sinon from "sinon";
+import assert from "assert";
 import { createPersistence } from "./setup.spec";
+import { isLiveMode } from "@azure-tools/test-recorder";
 
 describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;

@@ -11,17 +11,17 @@ const notFoundErrorCode = 404;
 // Mock for trigger function bodies
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", function(this: Suite) {
+describe("NodeJS CRUD Tests", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   let container: Container;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     await removeAllDatabases();
     container = await getTestContainer("trigger container");
   });
 
-  describe("Validate Trigger CRUD", function() {
-    it("nativeApi Should do trigger CRUD operations successfully name based", async function() {
+  describe("Validate Trigger CRUD", function () {
+    it("nativeApi Should do trigger CRUD operations successfully name based", async function () {
       // read triggers
       const { resources: triggers } = await container.scripts.triggers.readAll().fetchAll();
       assert.equal(Array.isArray(triggers), true);
@@ -32,7 +32,7 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
         id: "sample trigger",
         body: "serverScript() { var x = 10; }",
         triggerType: TriggerType.Pre,
-        triggerOperation: TriggerOperation.All
+        triggerOperation: TriggerOperation.All,
       };
 
       const { resource: trigger } = await container.scripts.triggers.create(triggerDefinition);
@@ -41,9 +41,9 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       assert.equal(trigger.body, "serverScript() { var x = 10; }");
 
       // read triggers after creation
-      const {
-        resources: triggersAfterCreation
-      } = await container.scripts.triggers.readAll().fetchAll();
+      const { resources: triggersAfterCreation } = await container.scripts.triggers
+        .readAll()
+        .fetchAll();
       assert.equal(
         triggersAfterCreation.length,
         beforeCreateTriggersCount + 1,
@@ -56,9 +56,9 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
         parameters: [
           {
             name: "@id",
-            value: triggerDefinition.id
-          }
-        ]
+            value: triggerDefinition.id,
+          },
+        ],
       };
       const { resources: results } = await container.scripts.triggers.query(querySpec).fetchAll();
       assert(results.length > 0, "number of results for the query should be > 0");
@@ -92,66 +92,54 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
     });
   });
 
-  describe("validate trigger functionality", function() {
+  describe("validate trigger functionality", function () {
     const triggers: TriggerDefinition[] = [
       {
         id: "t1",
-        body: function() {
-          const item = getContext()
-            .getRequest()
-            .getBody();
+        body: function () {
+          const item = getContext().getRequest().getBody();
           item.id = item.id.toUpperCase() + "t1";
-          getContext()
-            .getRequest()
-            .setBody(item);
+          getContext().getRequest().setBody(item);
         },
         triggerType: TriggerType.Pre,
-        triggerOperation: TriggerOperation.All
+        triggerOperation: TriggerOperation.All,
       },
       {
         id: "t2",
         body: "function() { }", // trigger already stringified
         triggerType: TriggerType.Pre,
-        triggerOperation: TriggerOperation.All
+        triggerOperation: TriggerOperation.All,
       },
       {
         id: "t3",
-        body: function() {
-          const item = getContext()
-            .getRequest()
-            .getBody();
+        body: function () {
+          const item = getContext().getRequest().getBody();
           item.id = item.id.toLowerCase() + "t3";
-          getContext()
-            .getRequest()
-            .setBody(item);
+          getContext().getRequest().setBody(item);
         },
         triggerType: TriggerType.Pre,
-        triggerOperation: TriggerOperation.All
+        triggerOperation: TriggerOperation.All,
       },
       {
         id: "response1",
-        body: function() {
-          const prebody = getContext()
-            .getRequest()
-            .getBody();
+        body: function () {
+          const prebody = getContext().getRequest().getBody();
           if (prebody.id !== "TESTING POST TRIGGERt1") throw "name mismatch";
-          const postbody = getContext()
-            .getResponse()
-            .getBody();
+          const postbody = getContext().getResponse().getBody();
           if (postbody.id !== "TESTING POST TRIGGERt1") throw "name mismatch";
         },
         triggerType: TriggerType.Post,
-        triggerOperation: TriggerOperation.All
+        triggerOperation: TriggerOperation.All,
       },
       {
         id: "triggerOpType",
         body: "function() { }",
         triggerType: TriggerType.Post,
-        triggerOperation: TriggerOperation.Delete
-      }
+        triggerOperation: TriggerOperation.Delete,
+      },
     ];
 
-    it("should do trigger operations successfully with create", async function() {
+    it("should do trigger operations successfully with create", async function () {
       for (const trigger of triggers) {
         await container.scripts.triggers.create(trigger);
       }

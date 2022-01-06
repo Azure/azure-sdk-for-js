@@ -14,7 +14,7 @@ const perfProgram = new PerfProgram(
     StorageFileShareDownloadTest,
     StorageFileShareDownloadToFileTest,
     StorageFileShareUploadTest,
-    StorageFileShareUploadFromFileTest
+    StorageFileShareUploadFromFileTest,
   ])
 );
 

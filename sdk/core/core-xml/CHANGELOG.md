@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.0 (2022-01-06)
+
+### Other Changes
+
+- Migrate to depend on `fast-xml-parser` for XML parsing/building [PR# #17792](https://github.com/Azure/azure-sdk-for-js/pull/17792)
 
 ## 1.0.0 (2021-08-05)
 
