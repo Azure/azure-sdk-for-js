@@ -7688,7 +7688,7 @@ packages:
     dev: false
 
   file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-WHbpbaWO5MeauoXqz1GyjxINlCGfFYPa3O8pOn8TsMY9clEFX/dkGHl9W+Twc3zYSXyCi6ALbGH6JkufxbUEpg==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-vyIx2mIY55b8rYGptKRmKMLOCIrjXaHu62WE5UTJULDp9hjlEYx9+Ms1Cp2E+b/1GI/pzL3W8q/y7l6qoOi5mA==, tarball: file:projects/ai-anomaly-detector.tgz}
     name: '@rush-temp/ai-anomaly-detector'
     version: 0.0.0
     dependencies:
@@ -7717,7 +7717,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       tslib: 2.3.1
@@ -11222,7 +11222,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-yKaQRRzbc8nuJGrj8daTEQ3r45c20aXlL1O21pNa+L7foP7ezix+r/qe2NNpYRov+uEZNTRQ9GZ2K48pDXBhXA==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-snhjdvouSICvDkA0OFk1WQkpRdqFJCFCCgkf6MIq6fcWw3/bqSMAfyOuortt41olfegAvjpBW957V07pyPcjvA==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -11234,7 +11234,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       mkdirp: 1.0.4
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       source-map-support: 0.5.21
@@ -12359,7 +12359,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-aCZcQP0XMMsSqGOihniPOWJ8Hod0UiPUZDHxA4ol4iaBTeRwFMnASXbL2L2bijeWrw410QiBfVlvotZ2ipSzLA==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-qSzsQXvfjB9gOhpVkOEdqUYXRJjxFx5F1PVTU6Hdnm2rp1h+12RzDJ1Fk6HeScoUVFC/99sl6mWKJBc9NLZsng==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -12392,7 +12392,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -13557,7 +13557,7 @@ packages:
     dev: false
 
   file:projects/video-analyzer-edge.tgz:
-    resolution: {integrity: sha512-3K3GXicyBLnLGZS61V0u4pL1Ta9XSm2F2BrflOVAotw7384DUsiOvoIxnMSWMxlzr4QuTbU92MhxDepXTxk6cw==, tarball: file:projects/video-analyzer-edge.tgz}
+    resolution: {integrity: sha512-u3GkTL9aaRrRmRU4+7LIkwAn5o+8DQ6o6FAtAcLAQ462YrN/AeLmmKlWDDpZV3X77RyNcP7HhZWuOi1qajyy/Q==, tarball: file:projects/video-analyzer-edge.tgz}
     name: '@rush-temp/video-analyzer-edge'
     version: 0.0.0
     dependencies:
@@ -13589,7 +13589,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       tslib: 2.3.1
