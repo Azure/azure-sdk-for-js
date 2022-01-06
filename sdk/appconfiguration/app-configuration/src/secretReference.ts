@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { errorMessageForUnexpectedSetting } from "./internal/helpers";
 import { JsonSecretReferenceValue } from "./internal/jsonModels";
 import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
 
@@ -54,7 +53,9 @@ export function parseSecretReference(
   setting: ConfigurationSetting
 ): ConfigurationSetting<SecretReferenceValue> {
   if (!isSecretReference(setting)) {
-    throw TypeError(errorMessageForUnexpectedSetting(setting.key, "SecretReference"));
+    throw TypeError(
+      `Setting with key ${setting.key} is not a valid SecretReference, make sure to have the correct content-type and a valid non-null value.`
+    );
   }
 
   const jsonSecretReferenceValue = JSON.parse(setting.value) as JsonSecretReferenceValue;
