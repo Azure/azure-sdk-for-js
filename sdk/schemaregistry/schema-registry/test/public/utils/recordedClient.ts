@@ -5,7 +5,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { SchemaRegistryClient } from "../../../src";
 import { Recorder, RecorderStartOptions, getEnvironmentVariable } from "@azure-tools/test-recorder-new";
 
-export const startOptions: RecorderStartOptions = {
+export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {
     AZURE_CLIENT_ID: "azure_client_id",
     AZURE_CLIENT_SECRET: "azure_client_secret",

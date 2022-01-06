@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRecordedClient, startOptions } from "./utils/recordedClient";
+import { createRecordedClient, recorderOptions } from "./utils/recordedClient";
 import { Recorder, getEnvironmentVariable } from "@azure-tools/test-recorder-new";
 import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
@@ -66,7 +66,7 @@ describe("SchemaRegistryClient", function () {
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
-    await recorder.start(startOptions);
+    await recorder.start(recorderOptions);
     client = createRecordedClient(recorder);
     schema = {
       name: "azsdk_js_test",
