@@ -950,7 +950,7 @@ packages:
     resolution: {integrity: sha512-Q71Buur3RMcg6lCnisLL8Im562DBw+ybzgm+YQj/FbAaI8ZNu/zl/5z1fE4k3Q9LSIzYrz6HLRzlhdSBXpydlQ==}
     engines: {node: '>=8.0.0'}
     dependencies:
-      '@azure/core-http': 1.2.6
+      '@azure/core-http': 1.2.3
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/logger': 1.0.3
       '@azure/msal-node': 1.0.0-beta.6_debug@4.3.4
@@ -984,9 +984,9 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/core-util': 1.0.0-beta.1
       '@azure/logger': 1.0.3
-      '@azure/msal-browser': 2.22.1
+      '@azure/msal-browser': 2.23.0
       '@azure/msal-common': 4.5.1
-      '@azure/msal-node': 1.7.0
+      '@azure/msal-node': 1.8.0
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.0
@@ -1009,9 +1009,9 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/core-util': 1.0.0-beta.1
       '@azure/logger': 1.0.3
-      '@azure/msal-browser': 2.22.1
+      '@azure/msal-browser': 2.23.0
       '@azure/msal-common': 4.5.1
-      '@azure/msal-node': 1.7.0_debug@4.3.4
+      '@azure/msal-node': 1.8.0_debug@4.3.4
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.0
@@ -1127,13 +1127,11 @@ packages:
       - encoding
     dev: false
 
-  /@azure/msal-browser/2.22.1:
-    resolution: {integrity: sha512-VYvdSHnOen1CDok01OhfQ2qNxsrY10WAKe6c2reIuwqqDDOkWwq1IDkieGHpDRjj4kGdPZ/dle4d7SlvNi9EJQ==}
+  /@azure/msal-browser/2.23.0:
+    resolution: {integrity: sha512-qxyWmsP/pf+xJFEhMgiJ0r1v6TjF+x8iMWYU5R63Lb/fjQfKalaNX9f5D6GbJYJS5s9OF3abtdGtB/Lxea15mQ==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 6.1.0
-    transitivePeerDependencies:
-      - supports-color
+      '@azure/msal-common': 6.2.0
     dev: false
 
   /@azure/msal-common/4.5.1:
@@ -1154,13 +1152,9 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/msal-common/6.1.0:
-    resolution: {integrity: sha512-IGjAHttOgKDPQr0Qxx1NjABR635ZNuN7LHjxI0Y7SEA2thcaRGTccy+oaXTFabM/rZLt4F2VrPKUX4BnR9hW9g==}
+  /@azure/msal-common/6.2.0:
+    resolution: {integrity: sha512-SU2/vfbKn1WvtKM8tsBKZAbmRJvO8E3H773ZT0GGKuO9rwLfxP5qOzTHV5crCEm8DgvL/IppmWh2lsUFieDi1A==}
     engines: {node: '>=0.8.0'}
-    dependencies:
-      debug: 4.3.4
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@azure/msal-node-extensions/1.0.0-alpha.13:
@@ -1188,11 +1182,11 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/msal-node/1.7.0:
-    resolution: {integrity: sha512-qDkW+Z4b0SGkkYrM1x+0s5WJ3z96vgiNZ20iwpmtCUHVfSrDiGFB8s8REKVaz7JZJi2L1s0vQRbUahly8EoGnw==}
+  /@azure/msal-node/1.8.0:
+    resolution: {integrity: sha512-rA5KzhvNuNef6Bzap8Sm/LbuesvA1yY2dj/W+QZuKMtT5nboZ4n4w8LRjwMMxucvYfizybPbLGTFpbq2IJtOfQ==}
     engines: {node: 10 || 12 || 14 || 16}
     dependencies:
-      '@azure/msal-common': 6.1.0
+      '@azure/msal-common': 6.2.0
       axios: 0.21.4
       https-proxy-agent: 5.0.0
       jsonwebtoken: 8.5.1
@@ -1202,11 +1196,11 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/msal-node/1.7.0_debug@4.3.4:
-    resolution: {integrity: sha512-qDkW+Z4b0SGkkYrM1x+0s5WJ3z96vgiNZ20iwpmtCUHVfSrDiGFB8s8REKVaz7JZJi2L1s0vQRbUahly8EoGnw==}
+  /@azure/msal-node/1.8.0_debug@4.3.4:
+    resolution: {integrity: sha512-rA5KzhvNuNef6Bzap8Sm/LbuesvA1yY2dj/W+QZuKMtT5nboZ4n4w8LRjwMMxucvYfizybPbLGTFpbq2IJtOfQ==}
     engines: {node: 10 || 12 || 14 || 16}
     dependencies:
-      '@azure/msal-common': 6.1.0
+      '@azure/msal-common': 6.2.0
       axios: 0.21.4_debug@4.3.4
       https-proxy-agent: 5.0.0
       jsonwebtoken: 8.5.1
@@ -2226,7 +2220,7 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/chai-as-promised/7.1.5:
@@ -2252,14 +2246,14 @@ packages:
   /@types/concurrently/6.4.0:
     resolution: {integrity: sha512-CYU1eyFHsIa2IZIsb8gfUOdiewfnZcyM2Hg1Zaq95xnmB0Ix/bTRM8SttqZ2Cjy6JGPZLttHjZewVsDg1yvnJg==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
       chalk: 4.1.2
     dev: false
 
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/cookie/0.4.1:
@@ -2294,7 +2288,7 @@ packages:
   /@types/express-serve-static-core/4.17.28:
     resolution: {integrity: sha512-P1BJAEAW3E2DJUlkgq4tOL3RyMunoWXqbSCygWo5ZIWTjUgN1YnaXWW4VWl/oc8vs/XoYibEGBKP0uZyF4AHig==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
     dev: false
@@ -2311,26 +2305,26 @@ packages:
   /@types/fs-extra/8.1.2:
     resolution: {integrity: sha512-SvSrYXfWSc7R4eqnOzbQF4TZmfpNSM9FrSWLU3EUnWBuyZqNBOrv1B1JA3byUDPUl9z4Ab3jeZG2eDdySlgNMg==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/glob/7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 3.0.5
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/is-buffer/2.0.0:
     resolution: {integrity: sha512-0f7N/e3BAz32qDYvgB4d2cqv1DqUwvGxHkXsrucICn8la1Vb6Yl6Eg8mPScGwUiqHJeE7diXlzaK+QMA9m4Gxw==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/json-schema/7.0.11:
@@ -2344,13 +2338,13 @@ packages:
   /@types/jsonwebtoken/8.5.8:
     resolution: {integrity: sha512-zm6xBQpFDIDM6o9r6HSgDeIcLy82TKWctCXEPbJJcXb5AKmi5BNNdLXneixK4lplX3PqIVcwLBCGE/kAGnlD4A==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/jws/3.2.4:
     resolution: {integrity: sha512-aqtH4dPw1wUjFZaeMD1ak/pf8iXlu/odFe+trJrvw0g1sTh93i+SCykg0Ek8C6B7rVK3oBORbfZAsKO7P10etg==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/long/4.0.1:
@@ -2394,13 +2388,13 @@ packages:
   /@types/mock-fs/4.13.1:
     resolution: {integrity: sha512-m6nFAJ3lBSnqbvDZioawRvpLXSaPyn52Srf7OfzjubYbYX8MTUdIgDxQl0wEapm4m/pNYSd9TXocpQ0TvZFlYA==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/mock-require/2.0.1:
     resolution: {integrity: sha512-O7U5DVGboY/Crueb5/huUCIRjKtRVRaLmRDbZJBlDQgJn966z3aiFDN+6AtYviu2ExwMkl34LjT/IiC0OPtKuQ==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/ms/0.7.31:
@@ -2414,7 +2408,7 @@ packages:
   /@types/node-fetch/2.6.1:
     resolution: {integrity: sha512-oMqjURCaxoSIsHSr1E47QHzbmzNR5rK8McHuNb11BOM9cHcIK3Avy0s/b2JlXHoQGTYS3NsvWzV1M0iK7l0wbA==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
       form-data: 3.0.1
     dev: false
 
@@ -2464,7 +2458,7 @@ packages:
     resolution: {integrity: sha512-nCkHGI4w7ZgAdNkrEu0bv+4xNV/XDqW+DydknebMOQwkpDGx8G+HTlj7R7ABI8i8nKxVw0wtKPi1D+lPOkh4YQ==}
     dependencies:
       '@types/mime': 1.3.2
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/sinon/10.0.11:
@@ -2486,7 +2480,7 @@ packages:
   /@types/stoppable/1.1.1:
     resolution: {integrity: sha512-b8N+fCADRIYYrGZOcmOR8ZNBOqhktWTB/bMUl5LvGtT201QKJZOOH5UsFyI3qtteM6ZAJbJqZoBcLqqxKIwjhw==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/tough-cookie/4.0.1:
@@ -2496,13 +2490,13 @@ packages:
   /@types/tunnel/0.0.1:
     resolution: {integrity: sha512-AOqu6bQu5MSWwYvehMXLukFHnupHrpZ8nvgae5Ggie9UwzDR1CCwoXgSSWNZJuyOlCdfdsWMA5F2LlmvyoTv8A==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/tunnel/0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/underscore/1.11.4:
@@ -2520,26 +2514,26 @@ packages:
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/ws/8.5.3:
     resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/xml2js/0.4.9:
     resolution: {integrity: sha512-CHiCKIihl1pychwR2RNX5mAYmJDACgFVCMT5OArMaO3erzwXVcBqPcusr+Vl8yeeXukxZqtF8mZioqX+mpjjdw==}
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
 
   /@types/yauzl/2.9.2:
     resolution: {integrity: sha512-8uALY5LTvSuHgloDVUvWP3pIauILm+8/0pDMokuDYIoNsOkSwd5AiHBTSEJjKTDcZr5z8UpgOWZkxBF4iJftoA==}
     requiresBuild: true
     dependencies:
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
     dev: false
     optional: true
 
@@ -2891,6 +2885,13 @@ packages:
     hasBin: true
     dev: false
 
+  /autorest/3.6.1:
+    resolution: {integrity: sha512-tTOnfQq+LAyqnxFrOOnyCEaErXnjRTgduUN7a8LUv2u5deqDlI0zoJllHeIEYDZS2o2Kr1s8pDj2NxaFPOWldg==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+    requiresBuild: true
+    dev: false
+
   /available-typed-arrays/1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
@@ -3023,11 +3024,35 @@ packages:
       type-is: 1.6.18
     dev: false
 
+  /body-parser/1.20.0:
+    resolution: {integrity: sha512-DfJ+q6EPcGKZD1QWUjSpqp+Q7bDQTsQIF4zfUAtZ6qk+H/3/QRhg9CEp39ss+/T2vw0+HaidC0ecJj/DRLIaKg==}
+    engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
+    dependencies:
+      bytes: 3.1.2
+      content-type: 1.0.4
+      debug: 2.6.9
+      depd: 2.0.0
+      destroy: 1.2.0
+      http-errors: 2.0.0
+      iconv-lite: 0.4.24
+      on-finished: 2.4.1
+      qs: 6.10.3
+      raw-body: 2.5.1
+      type-is: 1.6.18
+      unpipe: 1.0.0
+    dev: false
+
   /brace-expansion/1.1.11:
     resolution: {integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==}
     dependencies:
       balanced-match: 1.0.2
       concat-map: 0.0.1
+    dev: false
+
+  /brace-expansion/2.0.1:
+    resolution: {integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==}
+    dependencies:
+      balanced-match: 1.0.2
     dev: false
 
   /braces/3.0.2:
@@ -3046,7 +3071,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001323
+      caniuse-lite: 1.0.30001325
       electron-to-chromium: 1.4.103
       escalade: 3.1.1
       node-releases: 2.0.2
@@ -3131,8 +3156,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /caniuse-lite/1.0.30001323:
-    resolution: {integrity: sha512-e4BF2RlCVELKx8+RmklSEIVub1TWrmdhvA5kEUueummz1XyySW0DVk+3x9HyhU9MuWTa2BhqLgEuEmUwASAdCA==}
+  /caniuse-lite/1.0.30001325:
+    resolution: {integrity: sha512-sB1bZHjseSjDtijV1Hb7PB2Zd58Kyx+n/9EotvZ4Qcz2K3d0lWB8dB4nb8wN/TsOGFq3UuAm0zQZNQ4SoR7TrQ==}
     dev: false
 
   /chai-as-promised/7.1.1_chai@4.3.6:
@@ -3418,7 +3443,7 @@ packages:
     resolution: {integrity: sha512-fmvV4caBnofhPe8kOcitBwSn2f39QLjnAnGq3gO9dfd75mUytzKNZB1hde6QHunW2Rt+OwuBOMc3i1tNElbszA==}
     engines: {node: '>=6'}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       make-dir: 2.1.0
       nested-error-stacks: 2.1.1
       pify: 4.0.1
@@ -3508,7 +3533,7 @@ packages:
     resolution: {integrity: sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==}
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dependencies:
-      ms: 2.1.3
+      ms: 2.1.1
     dev: false
 
   /debug/3.2.7:
@@ -3616,8 +3641,18 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
+  /depd/2.0.0:
+    resolution: {integrity: sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==}
+    engines: {node: '>= 0.8'}
+    dev: false
+
   /destroy/1.0.4:
     resolution: {integrity: sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=}
+    dev: false
+
+  /destroy/1.2.0:
+    resolution: {integrity: sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==}
+    engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
     dev: false
 
   /detect-libc/2.0.1:
@@ -3695,13 +3730,22 @@ packages:
       typescript: 3.9.10
     dev: false
 
+  /downlevel-dts/0.7.0:
+    resolution: {integrity: sha512-tcjGqElN0/oad/LJBlaxmZ3zOYEQOBbGuirKzif8s1jeRiWBdNX9H6OBFlRjOQkosXgV+qSjs4osuGCivyZ4Jw==}
+    hasBin: true
+    dependencies:
+      semver: 7.3.5
+      shelljs: 0.8.5
+      typescript: 4.4.4
+    dev: false
+
   /downlevel-dts/0.8.0:
     resolution: {integrity: sha512-wBy+Q0Ya/1XRz9MMaj3BXH95E8aSckY3lppmUnf8Qv7dUg0wbWm3szDiVL4PdAvwcS7JbBBDPhCXeAGNT3ttFQ==}
     hasBin: true
     dependencies:
       semver: 7.3.5
       shelljs: 0.8.5
-      typescript: 4.5.5
+      typescript: 4.2.4
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -3754,7 +3798,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.12
-      '@types/node': 17.0.23
+      '@types/node': 12.20.47
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -3800,7 +3844,7 @@ packages:
       is-callable: 1.2.4
       is-negative-zero: 2.0.2
       is-regex: 1.1.4
-      is-shared-array-buffer: 1.0.1
+      is-shared-array-buffer: 1.0.2
       is-string: 1.0.7
       is-weakref: 1.0.2
       object-inspect: 1.12.0
@@ -4452,7 +4496,7 @@ packages:
     resolution: {integrity: sha512-NbdoVMZso2Lsrn/QwLXOy6rm0ufY2zEOKCDzJR/0kBsb0E6qed0P3iYK+Ath3BfvXEeu4JhEtXLgILx5psUfag==}
     engines: {node: '>=12'}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       jsonfile: 6.1.0
       universalify: 2.0.0
     dev: false
@@ -4461,7 +4505,7 @@ packages:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}
     engines: {node: '>=6 <7 || >=8'}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       jsonfile: 4.0.0
       universalify: 0.1.2
     dev: false
@@ -4470,7 +4514,7 @@ packages:
     resolution: {integrity: sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==}
     engines: {node: '>=6 <7 || >=8'}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       jsonfile: 4.0.0
       universalify: 0.1.2
     dev: false
@@ -4595,7 +4639,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.1.2
+      minimatch: 3.0.4
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: false
@@ -4662,8 +4706,8 @@ packages:
       slash: 3.0.0
     dev: false
 
-  /graceful-fs/4.2.9:
-    resolution: {integrity: sha512-NtNxqUcXgpW2iMrfqSfR73Glt39K+BLwWsPs94yR63v45T0Wbej7eRmL5cWfwEgqXnmjQp3zaJTshdRW/qC2ZQ==}
+  /graceful-fs/4.2.10:
+    resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
     dev: false
 
   /growl/1.10.5:
@@ -4781,6 +4825,17 @@ packages:
       inherits: 2.0.4
       setprototypeof: 1.2.0
       statuses: 1.5.0
+      toidentifier: 1.0.1
+    dev: false
+
+  /http-errors/2.0.0:
+    resolution: {integrity: sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==}
+    engines: {node: '>= 0.8'}
+    dependencies:
+      depd: 2.0.0
+      inherits: 2.0.4
+      setprototypeof: 1.2.0
+      statuses: 2.0.1
       toidentifier: 1.0.1
     dev: false
 
@@ -5057,8 +5112,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: false
 
-  /is-number-object/1.0.6:
-    resolution: {integrity: sha512-bEVOqiRcvo3zO1+G2lVMy+gkkEm9Yh7cDMRusKKu5ZJKPUYSJwICTKZrNKHA2EbSP0Tu0+6B/emsYNHZyn6K8g==}
+  /is-number-object/1.0.7:
+    resolution: {integrity: sha512-k1U0IRzLMo7ZlYIfzRu23Oh6MiIFasgpb9X76eqfFZAqwH44UI4KTBvBYIZ1dSL9ZzChTB9ShHfLkR4pdW5krQ==}
     engines: {node: '>= 0.4'}
     dependencies:
       has-tostringtag: 1.0.0
@@ -5083,8 +5138,10 @@ packages:
       has-tostringtag: 1.0.0
     dev: false
 
-  /is-shared-array-buffer/1.0.1:
-    resolution: {integrity: sha512-IU0NmyknYZN0rChcKhRO1X8LYz5Isj/Fsqh8NJOSf+N/hCOTwy29F32Ik7a+QszE63IdvmwdTPDd6cZ5pg4cwA==}
+  /is-shared-array-buffer/1.0.2:
+    resolution: {integrity: sha512-sqN2UDu1/0y6uvXyStCOzyhAjCSlHceFoMKJW8W9EU9cvic/QdsZ0kEU93HEy3IUEFZIiH/3w+AH/UQbPHNdhA==}
+    dependencies:
+      call-bind: 1.0.2
     dev: false
 
   /is-stream/1.1.0:
@@ -5392,10 +5449,14 @@ packages:
     hasBin: true
     dev: false
 
+  /jsonc-parser/3.0.0:
+    resolution: {integrity: sha512-fQzRfAbIBnR0IQvftw9FJveWiHp72Fg20giDrHz6TdfB12UH/uue0D3hm57UB5KgAVuniLMCaS8P1IMj9NR7cA==}
+    dev: false
+
   /jsonfile/4.0.0:
     resolution: {integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=}
     optionalDependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
     dev: false
 
   /jsonfile/6.1.0:
@@ -5403,7 +5464,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
     dev: false
 
   /jsonwebtoken/8.5.1:
@@ -5582,7 +5643,7 @@ packages:
   /karma-sourcemap-loader/0.3.8:
     resolution: {integrity: sha512-zorxyAakYZuBcHRJE+vbrK2o2JXLFWK8VVjiT/6P+ltLBUGUvqTEkUiQ119MGdOrK7mrmxXHZF1/pfT6GgIZ6g==}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
     dev: false
 
   /karma/6.3.17:
@@ -5591,14 +5652,14 @@ packages:
     hasBin: true
     dependencies:
       '@colors/colors': 1.5.0
-      body-parser: 1.19.2
+      body-parser: 1.20.0
       braces: 3.0.2
       chokidar: 3.5.3
       connect: 3.7.0
       di: 0.0.1
       dom-serialize: 2.2.1
       glob: 7.2.0
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       http-proxy: 1.18.1
       isbinaryfile: 4.0.10
       lodash: 4.17.21
@@ -5627,14 +5688,14 @@ packages:
     hasBin: true
     dependencies:
       '@colors/colors': 1.5.0
-      body-parser: 1.19.2
+      body-parser: 1.20.0
       braces: 3.0.2
       chokidar: 3.5.3
       connect: 3.7.0
       di: 0.0.1
       dom-serialize: 2.2.1
       glob: 7.2.0
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       http-proxy: 1.18.1_debug@4.3.4
       isbinaryfile: 4.0.10
       lodash: 4.17.21
@@ -5677,7 +5738,7 @@ packages:
     resolution: {integrity: sha1-L19Fq5HjMhYjT9U62rZo607AmTs=}
     engines: {node: '>=4'}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       parse-json: 4.0.0
       pify: 3.0.0
       strip-bom: 3.0.0
@@ -5860,6 +5921,12 @@ packages:
     hasBin: true
     dev: false
 
+  /marked/4.0.12:
+    resolution: {integrity: sha512-hgibXWrEDNBWgGiK18j/4lkS6ihTe9sxtV4Q1OQppb/0zzyPSzoFANBa5MfsG/zgsWklmNnhm0XACZOH/0HBiQ==}
+    engines: {node: '>= 12'}
+    hasBin: true
+    dev: false
+
   /matched/1.0.2:
     resolution: {integrity: sha512-7ivM1jFZVTOOS77QsR+TtYHH0ecdLclMkqbf5qiJdX2RorqfhsL65QHySPZgDE0ZjHoh+mQUNHTanNXIlzXd0Q==}
     engines: {node: '>= 0.12.0'}
@@ -6012,6 +6079,13 @@ packages:
       brace-expansion: 1.1.11
     dev: false
 
+  /minimatch/5.0.1:
+    resolution: {integrity: sha512-nLDxIFRyhDblz3qMuq+SoRZED4+miJ/G+tdDrjkkkRnjAsBexeGpgjLEQ0blJy7rHhR2b93rhQY4SvyWu9v03g==}
+    engines: {node: '>=10'}
+    dependencies:
+      brace-expansion: 2.0.1
+    dev: false
+
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: false
@@ -6114,8 +6188,8 @@ packages:
     resolution: {integrity: sha1-EUyUlnPiqKNenTV4hSeqN7Z52is=}
     dev: false
 
-  /moment/2.29.1:
-    resolution: {integrity: sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==}
+  /moment/2.29.2:
+    resolution: {integrity: sha512-UgzG4rvxYpN15jgCmVJwac49h9ly9NurikMWGPdVxm8GZD6XjkKPxDTjQQ43gtGgnV3X0cAyWDdP2Wexoquifg==}
     dev: false
 
   /ms/2.0.0:
@@ -6454,6 +6528,13 @@ packages:
       ee-first: 1.1.1
     dev: false
 
+  /on-finished/2.4.1:
+    resolution: {integrity: sha512-oVlzkg3ENAhCk2zdv7IJwd/QUD4z2RxRwpkcGY8psCVcCYZNq4wYnVWALHM+brtuJjePWiYF/ClmuDr8Ch5+kg==}
+    engines: {node: '>= 0.8'}
+    dependencies:
+      ee-first: 1.1.1
+    dev: false
+
   /once/1.4.0:
     resolution: {integrity: sha1-WDsap3WWHUsROsF9nFC6753Xa9E=}
     dependencies:
@@ -6564,7 +6645,7 @@ packages:
     resolution: {integrity: sha512-lOtmukMDVvtkL84rJHI7dpTYq+0rli8N2wlnqUcBuDWCfVhRUfOmnR9SsoHFMLpACvEV60dX7rd0rFaYDZI+FA==}
     engines: {node: '>=6'}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       hasha: 3.0.0
       lodash.flattendeep: 4.4.0
       release-zalgo: 1.0.0
@@ -6574,7 +6655,7 @@ packages:
     resolution: {integrity: sha512-whdkPIooSu/bASggZ96BWVvZTRMOFxnyUG5PnTSGKoJE2gd5mbVNmR2Nj20QFzxYYgAXpoqC+AiXzl+UMRh7zQ==}
     engines: {node: '>=8'}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       hasha: 5.2.2
       lodash.flattendeep: 4.4.0
       release-zalgo: 1.0.0
@@ -6766,8 +6847,8 @@ packages:
     hasBin: true
     dev: false
 
-  /prettier/2.6.1:
-    resolution: {integrity: sha512-8UVbTBYGwN37Bs9LERmxCPjdvPxlEowx2urIL6urHzdb3SDq4B/Z6xLFCblrSnE4iKWcS6ziJ3aOYrc1kz/E2A==}
+  /prettier/2.6.2:
+    resolution: {integrity: sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: false
@@ -6918,6 +6999,16 @@ packages:
     dependencies:
       bytes: 3.1.2
       http-errors: 1.8.1
+      iconv-lite: 0.4.24
+      unpipe: 1.0.0
+    dev: false
+
+  /raw-body/2.5.1:
+    resolution: {integrity: sha512-qqJBtEyVgS0ZmPGdCFPWJ3FreoqvG4MVQln/kCgF7Olq95IbOp0/BWyMwbdtn4VTvkM8Y7khCQ2Xgk/tcrCXig==}
+    engines: {node: '>= 0.8'}
+    dependencies:
+      bytes: 3.1.2
+      http-errors: 2.0.0
       iconv-lite: 0.4.24
       unpipe: 1.0.0
     dev: false
@@ -7425,6 +7516,14 @@ packages:
       rechoir: 0.6.2
     dev: false
 
+  /shiki/0.10.1:
+    resolution: {integrity: sha512-VsY7QJVzU51j5o1+DguUd+6vmCmZ5v/6gYu4vyYAhzjuNQU6P/vmSy4uQaOhvje031qQMiW0d2BwgMH52vqMng==}
+    dependencies:
+      jsonc-parser: 3.0.0
+      vscode-oniguruma: 1.6.2
+      vscode-textmate: 5.2.0
+    dev: false
+
   /shimmer/1.2.1:
     resolution: {integrity: sha512-sQTKC1Re/rM6XyFM6fIAGHRPVGvyXfgzIDvzoq608vM+jeyVD0Tu1E6Np0Kc2zAIFWIj963V2800iF/9LPieQw==}
     dev: false
@@ -7635,6 +7734,11 @@ packages:
   /statuses/1.5.0:
     resolution: {integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=}
     engines: {node: '>= 0.6'}
+    dev: false
+
+  /statuses/2.0.1:
+    resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
+    engines: {node: '>= 0.8'}
     dev: false
 
   /stoppable/1.1.0:
@@ -8165,6 +8269,21 @@ packages:
       typescript: 3.7.7
     dev: false
 
+  /typedoc/0.22.13_typescript@4.4.4:
+    resolution: {integrity: sha512-NHNI7Dr6JHa/I3+c62gdRNXBIyX7P33O9TafGLd07ur3MqzcKgwTvpg18EtvCLHJyfeSthAtCLpM7WkStUmDuQ==}
+    engines: {node: '>= 12.10.0'}
+    hasBin: true
+    peerDependencies:
+      typescript: 4.0.x || 4.1.x || 4.2.x || 4.3.x || 4.4.x || 4.5.x || 4.6.x
+    dependencies:
+      glob: 7.2.0
+      lunr: 2.3.9
+      marked: 4.0.12
+      minimatch: 5.0.1
+      shiki: 0.10.1
+      typescript: 4.4.4
+    dev: false
+
   /typescript/3.7.7:
     resolution: {integrity: sha512-MmQdgo/XenfZPvVLtKZOq9jQQvzaUAUpcKW8Z43x9B2fOm4S5g//tPtMweZUIP+SoBqrVPEIm+dJeQ9dfO0QdA==}
     engines: {node: '>=4.2.0'}
@@ -8339,6 +8458,14 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /vscode-oniguruma/1.6.2:
+    resolution: {integrity: sha512-KH8+KKov5eS/9WhofZR8M8dMHWN2gTxjMsG4jd04YhpbPR91fUj7rYQ2/XjeHCJWbg7X++ApRIU9NUwM2vTvLA==}
+    dev: false
+
+  /vscode-textmate/5.2.0:
+    resolution: {integrity: sha512-Uw5ooOQxRASHgu6C7GVvUxisKXfSgW4oFlO+aa+PAkgmH89O3CXxEEzNRNtHSqtXFTl0nAC1uYj0GMSH27uwtQ==}
+    dev: false
+
   /webidl-conversions/3.0.1:
     resolution: {integrity: sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=}
     dev: false
@@ -8367,7 +8494,7 @@ packages:
     dependencies:
       is-bigint: 1.0.4
       is-boolean-object: 1.1.2
-      is-number-object: 1.0.6
+      is-number-object: 1.0.7
       is-string: 1.0.7
       is-symbol: 1.0.4
     dev: false
@@ -8412,7 +8539,7 @@ packages:
   /wide-align/1.1.5:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
-      string-width: 4.2.3
+      string-width: 1.0.2
     dev: false
 
   /word-wrap/1.2.3:
@@ -8458,7 +8585,7 @@ packages:
   /write-file-atomic/2.4.3:
     resolution: {integrity: sha512-GaETH5wwsX+GcnzhPgKcKjJ6M2Cq3/iZp1WyY/X1CSqrW+jVNM9Y7D8EC2sM4ZG/V8wZlSniJnCKWPmBYAucRQ==}
     dependencies:
-      graceful-fs: 4.2.9
+      graceful-fs: 4.2.10
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
     dev: false
@@ -8714,7 +8841,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -8761,7 +8888,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -8806,7 +8933,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       tslib: 2.3.1
       typescript: 4.2.4
@@ -8892,7 +9019,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
@@ -8939,7 +9066,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
@@ -8989,7 +9116,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
@@ -9045,7 +9172,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nock: 12.0.3
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       rollup: 2.70.1
       rollup-plugin-shim: 1.0.0
@@ -13543,7 +13670,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       safe-buffer: 5.2.1
       source-map-support: 0.5.21
@@ -13595,7 +13722,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
@@ -13643,7 +13770,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
@@ -13688,7 +13815,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
@@ -13742,7 +13869,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       rollup: 2.70.1
       rollup-plugin-shim: 1.0.0
@@ -13795,7 +13922,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
@@ -13843,7 +13970,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
@@ -13890,7 +14017,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
@@ -13936,7 +14063,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -13980,7 +14107,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       tslib: 2.3.1
       typescript: 4.2.4
@@ -14024,7 +14151,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       process: 0.11.10
       puppeteer: 13.5.2
       rhea: 2.0.8
@@ -14057,7 +14184,7 @@ packages:
     dependencies:
       '@types/node': 12.20.47
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -14080,7 +14207,7 @@ packages:
       inherits: 2.0.4
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       tslib: 2.3.1
       typescript: 4.2.4
@@ -14118,7 +14245,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
@@ -14161,7 +14288,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
@@ -14203,7 +14330,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       rollup: 2.70.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.70.1
@@ -14228,7 +14355,7 @@ packages:
       eslint: 7.32.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -14275,7 +14402,7 @@ packages:
       node-fetch: 2.6.7
       npm-run-all: 4.1.5
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       process: 0.11.10
       puppeteer: 13.5.2
       regenerator-runtime: 0.13.9
@@ -14329,7 +14456,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       npm-run-all: 4.1.5
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -14369,7 +14496,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       tslib: 2.3.1
       typescript: 4.2.4
@@ -14416,7 +14543,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       sinon: 9.2.4
@@ -14460,7 +14587,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
@@ -14501,7 +14628,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
@@ -14544,7 +14671,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
@@ -14584,7 +14711,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       node-abort-controller: 3.0.1
-      prettier: 2.6.1
+      prettier: 2.6.2
       priorityqueuejs: 1.0.0
       requirejs: 2.3.6
       rimraf: 3.0.2
@@ -14634,7 +14761,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
@@ -14652,10 +14779,11 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-yzKWBCkzMevHTMCBXF5TtplsSiw0P5Ptb2aDta8qfPqX+bjDfJ5id6MFNLyWN02fdcz1ziuK3tRLsRGcQaGNgA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-NIMTCTpJzVvMOgjJdi5ZeQnEdvxy/0nA47kI0dh4jkjGoQh8AnB+9Iwtlh8OYUryuuivZMOA/2iWQGsgqaAoUw==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.20.0
       '@rollup/plugin-commonjs': 21.0.1_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -14668,17 +14796,23 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
       '@types/prettier': 2.4.4
+      autorest: 3.6.1
       builtin-modules: 3.2.0
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       chalk: 4.1.2
       concurrently: 6.5.1
+      cross-env: 7.0.3
       dotenv: 8.6.0
+      downlevel-dts: 0.7.0
       eslint: 7.32.0
       fs-extra: 10.0.1
+      karma: 6.3.17
       minimist: 1.2.6
+      mkdirp: 1.0.4
       mocha: 7.2.0
-      prettier: 2.6.1
+      nyc: 15.1.0
+      prettier: 2.6.2
       rimraf: 3.0.2
       rollup: 2.70.1
       rollup-plugin-polyfill-node: 0.8.0_rollup@2.70.1
@@ -14686,12 +14820,16 @@ packages:
       rollup-plugin-visualizer: 5.6.0_rollup@2.70.1
       ts-node: 10.7.0_c7b7062e0b9347939444ea76e6e422c3
       tslib: 2.3.1
+      typedoc: 0.22.13_typescript@4.4.4
       typescript: 4.4.4
       yaml: 1.10.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - bufferutil
+      - debug
       - supports-color
+      - utf-8-validate
     dev: false
 
   file:projects/digital-twins-core.tgz:
@@ -14729,7 +14867,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
@@ -14828,7 +14966,7 @@ packages:
       json-schema: 0.4.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -14889,9 +15027,9 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      moment: 2.29.1
+      moment: 2.29.2
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       process: 0.11.10
       puppeteer: 13.5.2
       rhea-promise: 2.1.0
@@ -14948,7 +15086,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
@@ -15003,7 +15141,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -15055,7 +15193,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -15074,7 +15212,7 @@ packages:
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
-      '@azure/msal-node': 1.7.0
+      '@azure/msal-node': 1.8.0
       '@azure/msal-node-extensions': 1.0.0-alpha.13
       '@microsoft/api-extractor': 7.20.0
       '@types/jws': 3.2.4
@@ -15089,7 +15227,7 @@ packages:
       keytar: 7.9.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       sinon: 9.2.4
@@ -15123,7 +15261,7 @@ packages:
       keytar: 7.9.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       sinon: 9.2.4
@@ -15144,9 +15282,9 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/keyvault-keys': 4.2.0
-      '@azure/msal-browser': 2.22.1
+      '@azure/msal-browser': 2.23.0
       '@azure/msal-common': 4.5.1
-      '@azure/msal-node': 1.7.0
+      '@azure/msal-node': 1.8.0
       '@microsoft/api-extractor': 7.20.0
       '@types/chai': 4.3.0
       '@types/jws': 3.2.4
@@ -15174,7 +15312,7 @@ packages:
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
       open: 8.4.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       sinon: 9.2.4
@@ -15267,7 +15405,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
@@ -15303,7 +15441,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
@@ -15347,7 +15485,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       sinon: 9.2.4
@@ -15369,7 +15507,7 @@ packages:
     version: 0.0.0
     dependencies:
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       tslib: 2.3.1
       typescript: 4.2.4
@@ -15408,7 +15546,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       sinon: 9.2.4
@@ -15454,7 +15592,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       sinon: 9.2.4
@@ -15499,7 +15637,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       sinon: 9.2.4
@@ -15550,7 +15688,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       tslib: 2.3.1
       typescript: 4.2.4
@@ -15597,7 +15735,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       tslib: 2.3.1
       typescript: 4.2.4
@@ -15618,7 +15756,7 @@ packages:
       '@types/node': 12.20.47
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rhea: 2.0.8
       rimraf: 3.0.2
       tslib: 2.3.1
@@ -15650,7 +15788,7 @@ packages:
       mocha: 7.2.0
       nock: 12.0.3
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
@@ -15699,7 +15837,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -15750,7 +15888,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 12.0.1
       source-map-support: 0.5.21
@@ -15776,7 +15914,7 @@ packages:
       '@types/node': 12.20.47
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -15798,7 +15936,7 @@ packages:
       '@types/node': 12.20.47
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -15820,7 +15958,7 @@ packages:
       '@types/node': 12.20.47
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -15841,7 +15979,7 @@ packages:
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -15861,7 +15999,7 @@ packages:
       '@types/node': 12.20.47
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 9.1.1_typescript@4.2.4
       tslib: 2.3.1
@@ -15879,7 +16017,7 @@ packages:
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -15899,7 +16037,7 @@ packages:
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -15921,8 +16059,8 @@ packages:
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
-      moment: 2.29.1
-      prettier: 2.6.1
+      moment: 2.29.2
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -15942,7 +16080,7 @@ packages:
       '@types/node': 12.20.47
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -15963,7 +16101,7 @@ packages:
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -15986,7 +16124,7 @@ packages:
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -16011,7 +16149,7 @@ packages:
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -16036,7 +16174,7 @@ packages:
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -16059,7 +16197,7 @@ packages:
       '@types/node': 12.20.47
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -16080,7 +16218,7 @@ packages:
       '@types/node': 12.20.47
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -16102,7 +16240,7 @@ packages:
       '@types/node': 12.20.47
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -16124,7 +16262,7 @@ packages:
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -16148,7 +16286,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       node-fetch: 2.6.7
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -16170,7 +16308,7 @@ packages:
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -16191,7 +16329,7 @@ packages:
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -16213,7 +16351,7 @@ packages:
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
       tslib: 2.3.1
@@ -16387,7 +16525,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
@@ -16442,7 +16580,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       process: 0.11.10
       rimraf: 3.0.2
       rollup: 2.70.1
@@ -16492,7 +16630,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -16537,7 +16675,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
@@ -16601,9 +16739,9 @@ packages:
       long: 4.0.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      moment: 2.29.1
+      moment: 2.29.2
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       process: 0.11.10
       promise: 8.1.0
       puppeteer: 13.5.2
@@ -16662,7 +16800,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       sinon: 9.2.4
@@ -16719,7 +16857,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       source-map-support: 0.5.21
@@ -16775,7 +16913,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       source-map-support: 0.5.21
@@ -16829,7 +16967,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       source-map-support: 0.5.21
@@ -16880,7 +17018,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       source-map-support: 0.5.21
@@ -16934,7 +17072,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       source-map-support: 0.5.21
@@ -16988,7 +17126,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
@@ -17042,7 +17180,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
@@ -17095,7 +17233,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
@@ -17146,7 +17284,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       tslib: 2.3.1
       typescript: 4.2.4
@@ -17213,7 +17351,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       tslib: 2.3.1
       typescript: 4.2.4
@@ -17258,7 +17396,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -17279,7 +17417,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@types/node': 12.20.47
       eslint: 7.32.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -17318,7 +17456,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 9.1.1_typescript@4.2.4
       tslib: 2.3.1
@@ -17346,7 +17484,7 @@ packages:
       karma-env-preprocessor: 0.1.1
       minimist: 1.2.6
       node-fetch: 2.6.7
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 8.10.2_typescript@4.2.4
       tslib: 2.3.1
@@ -17382,7 +17520,7 @@ packages:
       karma-coverage: 2.2.0
       karma-env-preprocessor: 0.1.1
       mocha: 7.2.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
@@ -17431,7 +17569,7 @@ packages:
       mock-require: 3.0.3
       npm-run-all: 4.1.5
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       typescript: 4.2.4
       uuid: 8.3.2
@@ -17476,7 +17614,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       tslib: 2.3.1
       typescript: 4.2.4
@@ -17525,7 +17663,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       sinon: 9.2.4
@@ -17573,7 +17711,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       puppeteer: 13.5.2
       rimraf: 3.0.2
       sinon: 9.2.4
