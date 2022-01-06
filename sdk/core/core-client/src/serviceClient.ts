@@ -191,7 +191,7 @@ export class ServiceClient {
       }
       return flatResponse;
     } catch (error: any) {
-      if (typeof error === "object" && error && error.response) {
+      if (typeof error === "object" && error?.response) {
         const rawResponse = error.response;
         const flatResponse = flattenResponse(
           rawResponse,

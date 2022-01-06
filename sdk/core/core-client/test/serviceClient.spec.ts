@@ -24,6 +24,7 @@ import {
   HttpClient,
   createPipelineRequest,
   PipelineRequest,
+  RestError,
 } from "@azure/core-rest-pipeline";
 
 import {
@@ -315,10 +316,21 @@ describe("ServiceClient", function () {
 
     let rawResponse: FullOperationResponse | undefined;
     let requestFailed = false;
+    let caughtError: RestError | undefined;
+    let flatResponse: any;
+    let onResponseError: unknown;
 
     try {
       await client.sendOperationRequest(
-        { options: { onResponse: (response) => (rawResponse = response) } },
+        {
+          options: {
+            onResponse: (response, flat, error) => {
+              rawResponse = response;
+              flatResponse = flat;
+              onResponseError = error;
+            },
+          },
+        },
         {
           httpMethod: "GET",
           baseUrl: "https://example.com",
@@ -330,6 +342,7 @@ describe("ServiceClient", function () {
         }
       );
     } catch (e: any) {
+      caughtError = e;
       requestFailed = true;
       assert.strictEqual(e.name, "RestError");
     }
@@ -338,6 +351,8 @@ describe("ServiceClient", function () {
     assert(request!);
     assert.strictEqual(rawResponse?.status, 500);
     assert.strictEqual(rawResponse?.request, request!);
+    assert.deepStrictEqual(flatResponse, { body: undefined });
+    assert.strictEqual(caughtError, onResponseError);
   });
 
   it("should serialize collection:csv query parameters", async function () {
