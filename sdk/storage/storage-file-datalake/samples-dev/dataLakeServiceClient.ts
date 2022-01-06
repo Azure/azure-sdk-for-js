@@ -1,6 +1,9 @@
-/* 
- Setup: Enter your storage account name and shared key in main()
-*/
+// Copyright (c) Microsoft corporation.
+// Licensed under the MIT license.
+
+/**
+ * @summary use `DataLakeServiceClient` to create and read filesystems and files
+ */
 
 import { DataLakeServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-datalake";
 
@@ -44,49 +47,51 @@ export async function main() {
     sharedKeyCredential
   );
 
-  let i = 1;
+  console.log("Filesystems:");
   for await (const filesystem of serviceClient.listFileSystems()) {
-    console.log(`FileSystem ${i++}: ${filesystem.name}`);
+    console.log(`- ${filesystem.name}`);
   }
 
   // Create a filesystem
-  const fileSystemName = `newfilesystem${new Date().getTime()}`;
-  const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+  const filesystemName = `newfilesystem${new Date().getTime()}`;
+  const filesystemClient = serviceClient.getFileSystemClient(filesystemName);
 
-  const createFileSystemResponse = await fileSystemClient.create();
+  const filesystemResponse = await filesystemClient.create();
   console.log(
-    `Create filesystem ${fileSystemName} successfully`,
-    createFileSystemResponse.requestId
+    `Created filesystem ${filesystemClient.name} successfully, request ID: ${filesystemResponse.requestId}`
   );
 
   // Create a file
   const content = "hello";
   const fileName = "newfile" + new Date().getTime();
-  const fileClient = fileSystemClient.getFileClient(fileName);
+  const fileClient = filesystemClient.getFileClient(fileName);
   await fileClient.create();
   await fileClient.append(content, 0, content.length);
   const flushFileResponse = await fileClient.flush(content.length);
-  console.log(`Upload file ${fileName} successfully`, flushFileResponse.requestId);
+  console.log(`Uploaded file ${fileClient.name} successfully`, flushFileResponse.requestId);
 
-  // List paths
-  i = 1;
-  for await (const path of fileSystemClient.listPaths()) {
-    console.log(`Path ${i++}: ${path.name}, isDirectory:${path.isDirectory}`);
+  console.log(`Paths in ${filesystemClient.name}:`);
+  for await (const path of filesystemClient.listPaths()) {
+    console.log(`- ${path.name} (isDirectory = ${path.isDirectory})`);
   }
 
   // Get file content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.contentAsBlob
   const readFileResponse = await fileClient.read();
-  console.log(
-    "Downloaded file content",
-    (await streamToBuffer(readFileResponse.readableStreamBody!)).toString()
-  );
 
-  // Delete filesystem
-  await fileSystemClient.delete();
+  if (!readFileResponse.readableStreamBody) {
+    throw new Error("Expected a readable stream body, but none was returned.");
+  }
 
-  console.log("Deleted filesystem");
+  const readFileContent = (await streamToBuffer(readFileResponse.readableStreamBody)).toString();
+
+  console.log(`Downloaded file content: ${readFileContent}`);
+
+  // Finally, delete the example filesystem.
+  await filesystemClient.delete();
+
+  console.log(`Deleted filesystem ${filesystemClient.name}.`);
 }
 
 // A helper method used to read a Node.js readable stream into a Buffer
@@ -103,6 +108,7 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Bu
   });
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });
