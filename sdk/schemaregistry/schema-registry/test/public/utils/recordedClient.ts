@@ -3,7 +3,11 @@
 
 import { createTestCredential } from "@azure-tools/test-credential";
 import { SchemaRegistryClient } from "../../../src";
-import { Recorder, RecorderStartOptions, getEnvironmentVariable } from "@azure-tools/test-recorder-new";
+import {
+  Recorder,
+  RecorderStartOptions,
+  getEnvironmentVariable,
+} from "@azure-tools/test-recorder-new";
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {
@@ -17,7 +21,10 @@ export const recorderOptions: RecorderStartOptions = {
 
 export function createRecordedClient(recorder: Recorder): SchemaRegistryClient {
   const credential = createTestCredential();
-  const client = new SchemaRegistryClient(getEnvironmentVariable("SCHEMA_REGISTRY_ENDPOINT"), credential);
+  const client = new SchemaRegistryClient(
+    getEnvironmentVariable("SCHEMA_REGISTRY_ENDPOINT"),
+    credential
+  );
   recorder.configureClient(client["client"]);
   return client;
 }
