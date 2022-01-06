@@ -81,40 +81,40 @@ describe("ImageBuilder test", () => {
     await recorder.stop();
   });
 
-  // it("create parameter for virtualMachineImageTemplates test", async function() {
-  //   //create a userAssignedIdentities
-  //   const msiCreate = await msi_client.userAssignedIdentities.createOrUpdate(resourceGroup,msiName,{location: location});
-  //   //create a disk
-  //   const diskCreate = await compute_client.disks.beginCreateOrUpdateAndWait(resourceGroup,diskName,{
-  //     location: location,
-  //     creationData: {
-  //         createOption: "Empty"
-  //     },
-  //     diskSizeGB: 200
-  //   })
-  //   //create a snapshots
-  //   const snapshotsCreate = await compute_client.snapshots.beginCreateOrUpdateAndWait(resourceGroup,snapshotName,{
-  //     location: location,
-  //     creationData: {
-  //         createOption: "Copy",
-  //         sourceUri: "/subscriptions/" +subscriptionId +"/resourceGroups/" +resourceGroup +"/providers/Microsoft.Compute/disks/mydiskaaa",
-  //     }
-  //   })
-  //   //create a images
-  //   const imagesCreate = await compute_client.images.beginCreateOrUpdateAndWait(resourceGroup,imagesName,{
-  //     location: location,
-  //     storageProfile: {
-  //         osDisk: {
-  //             osType: "Linux",
-  //             osState: "Generalized",
-  //             snapshot: {
-  //                 id: "subscriptions/" +subscriptionId +"/resourceGroups/" +resourceGroup +"/providers/Microsoft.Compute/snapshots/mysnapshotaaa",
-  //             }
-  //         }
-  //     },
-  //     hyperVGeneration: "V1"
-  //   })
-  // });
+  it("create parameter for virtualMachineImageTemplates test", async function() {
+    //create a userAssignedIdentities
+    const msiCreate = await msi_client.userAssignedIdentities.createOrUpdate(resourceGroup,msiName,{location: location});
+    //create a disk
+    const diskCreate = await compute_client.disks.beginCreateOrUpdateAndWait(resourceGroup,diskName,{
+      location: location,
+      creationData: {
+          createOption: "Empty"
+      },
+      diskSizeGB: 200
+    })
+    //create a snapshots
+    const snapshotsCreate = await compute_client.snapshots.beginCreateOrUpdateAndWait(resourceGroup,snapshotName,{
+      location: location,
+      creationData: {
+          createOption: "Copy",
+          sourceUri: "/subscriptions/" +subscriptionId +"/resourceGroups/" +resourceGroup +"/providers/Microsoft.Compute/disks/mydiskaaa",
+      }
+    })
+    //create a images
+    const imagesCreate = await compute_client.images.beginCreateOrUpdateAndWait(resourceGroup,imagesName,{
+      location: location,
+      storageProfile: {
+          osDisk: {
+              osType: "Linux",
+              osState: "Generalized",
+              snapshot: {
+                  id: "subscriptions/" +subscriptionId +"/resourceGroups/" +resourceGroup +"/providers/Microsoft.Compute/snapshots/mysnapshotaaa",
+              }
+          }
+      },
+      hyperVGeneration: "V1"
+    })
+  });
 
   it("virtualMachineImageTemplates create test", async function() {
     //before create ,we need add msi owner authority for images in portal
