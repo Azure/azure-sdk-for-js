@@ -5,7 +5,7 @@ declare global {
   interface FormData {}
   interface Blob {}
   interface File {}
-  interface ReadableStream {}
+  interface ReadableStream<T> {}
   interface TransformStream {}
 }
 
