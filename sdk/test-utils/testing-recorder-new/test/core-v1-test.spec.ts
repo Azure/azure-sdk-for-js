@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { QueueServiceClient } from "@azure/storage-queue";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder-new";
+import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "./utils/utils";
 
 const fakeSASUrl =
