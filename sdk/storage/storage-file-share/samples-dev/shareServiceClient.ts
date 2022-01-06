@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary use `ShareServiceClient` to interact with shares, directories, and files
+ * @azsdk-weight 80
+ */
 
 import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-share";
 
@@ -30,61 +31,60 @@ export async function main() {
     sharedKeyCredential
   );
 
-  console.log(`List shares`);
-  let i = 1;
+  console.log("Shares:");
   for await (const share of serviceClient.listShares()) {
-    console.log(`Share ${i++}: ${share.name}`);
+    console.log(`- ${share.name}`);
   }
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
   const shareClient = serviceClient.getShareClient(shareName);
   await shareClient.create();
-  console.log(`Create share ${shareName} successfully`);
+  console.log(`Created share ${shareClient.name} successfully.`);
 
   // Create a directory
   const directoryName = `newdirectory${new Date().getTime()}`;
   const directoryClient = shareClient.getDirectoryClient(directoryName);
   await directoryClient.create();
-  console.log(`Create directory ${directoryName} successfully`);
+  console.log(`Created directory ${directoryClient.name} successfully.`);
 
-  // Create a file
+  // Create a file with multibyte characters as an example.
   const content = "Hello World!你好";
   // Get its length in bytes.
   const contentByteLength = Buffer.byteLength(content);
   const fileName = "newfile" + new Date().getTime();
   const fileClient = directoryClient.getFileClient(fileName);
   await fileClient.create(contentByteLength);
-  console.log(`Create file ${fileName} successfully`);
+  console.log(`Created file ${fileClient.name} successfully.`);
 
   // Upload file range
   await fileClient.uploadRange(content, 0, contentByteLength);
-  console.log(`Upload file range "${content}" to ${fileName} successfully`);
+  console.log(`Uploaded file range "${content}" to ${fileName} successfully.`);
 
   // List directories and files
-  console.log(`List directories and files under directory ${directoryName}`);
-  i = 1;
+  console.log(`Files and Directories in ${directoryName}:`);
   for await (const entity of directoryClient.listFilesAndDirectories()) {
-    if (entity.kind === "directory") {
-      console.log(`${i++} - directory\t: ${entity.name}`);
-    } else {
-      console.log(`${i++} - file\t: ${entity.name}`);
-    }
+    console.log(`- (${entity.kind})\t${entity.name}`);
   }
 
   // Get file content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadFileResponse.contentAsBlob
   const downloadFileResponse = await fileClient.download(0);
-  console.log(
-    `Downloaded file content: ${(
-      await streamToBuffer(downloadFileResponse.readableStreamBody!)
-    ).toString()}`
-  );
 
-  // Delete share
+  if (!downloadFileResponse.readableStreamBody) {
+    throw new Error("Expected a readable stream, but none was returned.");
+  }
+
+  const downloadedContent = (
+    await streamToBuffer(downloadFileResponse.readableStreamBody)
+  ).toString();
+
+  console.log(`Downloaded file content: ${downloadedContent}`);
+
+  // Finally, delete the example share
   await shareClient.delete();
-  console.log(`deleted share ${shareName}`);
+  console.log(`Deleted share ${shareClient.name}`);
 }
 
 // A helper method used to read a Node.js readable stream into a Buffer
@@ -101,6 +101,7 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Bu
   });
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

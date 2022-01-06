@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary use custom HTTP pipeline options when connecting to the service
+ * @azsdk-weight 0
+ */
 
-const {
+import {
+  newPipeline,
   ShareServiceClient,
-  StorageSharedKeyCredential,
-  newPipeline
-} = require("@azure/storage-file-share");
+  StorageSharedKeyCredential
+} from "@azure/storage-file-share";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -36,7 +38,7 @@ async function main() {
     pipeline
   );
 
-  console.log(`List shares`);
+  console.log("Shares:");
   let i = 1;
   for await (const share of serviceClient.listShares()) {
     console.log(`Share ${i++}: ${share.name}`);
@@ -46,13 +48,14 @@ async function main() {
   const shareName = `newshare${new Date().getTime()}`;
   const shareClient = serviceClient.getShareClient(shareName);
   await shareClient.create();
-  console.log(`Create share ${shareName} successfully`);
+  console.log(`Created share ${shareClient.name} successfully.`);
 
   // Delete share
   await shareClient.delete();
-  console.log(`deleted share ${shareName}`);
+  console.log(`Deleted share ${shareClient.name}.`);
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

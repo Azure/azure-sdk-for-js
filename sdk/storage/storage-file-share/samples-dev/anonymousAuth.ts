@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and SAS in main()
-*/
+/**
+ * @summary authenticate anonymously using a SAS-encoded URL
+ * @azsdk-weight 85
+ */
 
-const { ShareServiceClient, AnonymousCredential } = require("@azure/storage-file-share");
+import { ShareServiceClient, AnonymousCredential } from "@azure/storage-file-share";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   // Enter your storage account name and SAS
   const account = process.env.ACCOUNT_NAME || "";
   const accountSas = process.env.ACCOUNT_SAS || "";
@@ -25,23 +27,23 @@ async function main() {
     anonymousCredential
   );
 
-  console.log(`List shares`);
-  let i = 1;
+  console.log("Shares:");
   for await (const share of serviceClient.listShares()) {
-    console.log(`Share ${i++}: ${share.name}`);
+    console.log(`- ${share.name}`);
   }
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
   const shareClient = serviceClient.getShareClient(shareName);
   await shareClient.create();
-  console.log(`Create share ${shareName} successfully`);
+  console.log(`Created share ${shareClient.name} successfully.`);
 
   // Delete share
   await shareClient.delete();
-  console.log(`deleted share ${shareName}`);
+  console.log(`Deleted share ${shareClient.name}.`);
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

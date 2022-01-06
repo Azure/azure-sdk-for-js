@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary authenticate using an account name and a static key
+ * @azsdk-weight 100
+ */
 
 import { ShareServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-share";
 
@@ -26,23 +27,23 @@ export async function main() {
     sharedKeyCredential
   );
 
-  console.log(`List shares`);
-  let i = 1;
+  console.log("Shares:");
   for await (const share of serviceClient.listShares()) {
-    console.log(`Share ${i++}: ${share.name}`);
+    console.log(`- ${share.name}`);
   }
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
   const shareClient = serviceClient.getShareClient(shareName);
   await shareClient.create();
-  console.log(`Create share ${shareName} successfully`);
+  console.log(`Created share ${shareClient.name} successfully.`);
 
   // Delete share
   await shareClient.delete();
-  console.log(`deleted share ${shareName}`);
+  console.log(`Deleted share ${shareClient.name}.`);
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

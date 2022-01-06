@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name, SAS and a path pointing to local file in main()
-*/
+/**
+ * @summary use advanced HTTP pipeline and request options for several methods
+ * @azsdk-weight 0
+ */
 
 import * as fs from "fs";
 
@@ -23,7 +24,7 @@ export async function main() {
   const pipeline = newPipeline(new AnonymousCredential(), {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     retryOptions: { maxTries: 4 }, // Retry options
-    userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" }, // Customized telemetry string
+    userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" }, // Customized user-agent string
     keepAliveOptions: {
       // Keep alive is enabled by default, disable keep alive by setting false
       enable: false
@@ -39,13 +40,13 @@ export async function main() {
   const shareName = `newshare${new Date().getTime()}`;
   const shareClient = serviceClient.getShareClient(shareName);
   await shareClient.create();
-  console.log(`Create share ${shareName} successfully`);
+  console.log(`Created share ${shareName} successfully`);
 
   // Create a directory
   const directoryName = `newdirectory${new Date().getTime()}`;
   const directoryClient = shareClient.getDirectoryClient(directoryName);
   await directoryClient.create();
-  console.log(`Create directory ${directoryName} successfully`);
+  console.log(`Created directory ${directoryName} successfully`);
 
   // Upload local file to Azure file parallelly
   const fileName = "newfile" + new Date().getTime();
@@ -59,7 +60,7 @@ export async function main() {
     concurrency: 20, // 20 concurrency
     onProgress: (ev) => console.log(ev)
   });
-  console.log("uploadFile success");
+  console.log("uploadFile succeeded");
 
   // Parallel uploading a Readable stream with ShareFileClient.uploadStream() in Node.js runtime
   // ShareFileClient.uploadStream() is only available in Node.js
@@ -67,7 +68,7 @@ export async function main() {
     abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
     onProgress: (ev: any) => console.log(ev)
   });
-  console.log("uploadStream success");
+  console.log("uploadStream succeeded");
 
   // Parallel uploading a browser File/Blob/ArrayBuffer in browsers with ShareFileClient.uploadBrowserData()
   // Uncomment following code in browsers because ShareFileClient.uploadBrowserData() is only available in browsers
@@ -89,13 +90,14 @@ export async function main() {
     concurrency: 20, // 20 concurrency
     onProgress: (ev) => console.log(ev)
   });
-  console.log("downloadToBuffer success");
+  console.log("downloadToBuffer succeeded");
 
   // Delete share
   await shareClient.delete();
-  console.log("deleted share");
+  console.log(`Deleted share ${shareClient.name}`);
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });

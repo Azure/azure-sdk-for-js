@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*
- Setup: Enter your storage account name and shared key in main()
-*/
+/**
+ * @summary authenticate with the storage service using a connection string
+ * @azsdk-weight 80
+ */
 
-const { ShareServiceClient } = require("@azure/storage-file-share");
+import { ShareServiceClient } from "@azure/storage-file-share";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   // Create File Service Client from Account connection string or SAS connection string
   // Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
   // SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
@@ -18,23 +20,23 @@ async function main() {
   // Note - Account connection string can only be used in node.
   const serviceClient = ShareServiceClient.fromConnectionString(STORAGE_CONNECTION_STRING);
 
-  console.log(`List shares`);
-  let i = 1;
+  console.log("Shares:");
   for await (const share of serviceClient.listShares()) {
-    console.log(`Share ${i++}: ${share.name}`);
+    console.log(`- ${share.name}`);
   }
 
   // Create a share
   const shareName = `newshare${new Date().getTime()}`;
   const shareClient = serviceClient.getShareClient(shareName);
   await shareClient.create();
-  console.log(`Create share ${shareName} successfully`);
+  console.log(`Created share ${shareClient.name} successfully.`);
 
   // Delete share
   await shareClient.delete();
-  console.log(`deleted share ${shareName}`);
+  console.log(`Deleted share ${shareClient.name}.`);
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
 });
