@@ -10,5 +10,5 @@ import { createSpanFunction } from "@azure/core-http";
 
 export const createSpan = createSpanFunction({
   namespace: "Azure.DeviceUpdate",
-  packagePrefix: "Microsoft.DeviceUpdate"
+  packagePrefix: "Microsoft.DeviceUpdate",
 });

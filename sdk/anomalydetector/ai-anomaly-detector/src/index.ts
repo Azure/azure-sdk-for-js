@@ -5,6 +5,6 @@ export { AnomalyDetectorClient } from "./AnomalyDetectorClient";
 export {
   AnomalyDetector,
   AnomalyDetectorContext,
-  AnomalyDetectorOptionalParams
+  AnomalyDetectorOptionalParams,
 } from "./generated";
 export * from "./models";
