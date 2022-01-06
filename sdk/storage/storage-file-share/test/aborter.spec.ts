@@ -6,10 +6,8 @@ import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
 import { getBSU, recorderEnvSetup } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
-import * as dotenv from "dotenv";
 import { ShareClient } from "../src";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Aborter", () => {
   let shareName: string;

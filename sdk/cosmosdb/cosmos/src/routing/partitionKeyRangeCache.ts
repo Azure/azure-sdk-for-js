@@ -26,9 +26,8 @@ export class PartitionKeyRangeCache {
   ): Promise<InMemoryCollectionRoutingMap> {
     const collectionId = getIdFromLink(collectionLink);
     if (this.collectionRoutingMapByCollectionId[collectionId] === undefined) {
-      this.collectionRoutingMapByCollectionId[collectionId] = this.requestCollectionRoutingMap(
-        collectionLink
-      );
+      this.collectionRoutingMapByCollectionId[collectionId] =
+        this.requestCollectionRoutingMap(collectionLink);
     }
     return this.collectionRoutingMapByCollectionId[collectionId];
   }

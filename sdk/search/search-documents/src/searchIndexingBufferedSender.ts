@@ -10,7 +10,7 @@ import {
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderDeleteDocumentsOptions,
   SearchIndexingBufferedSenderFlushDocumentsOptions,
-  IndexDocumentsOptions
+  IndexDocumentsOptions,
 } from "./indexModels";
 import { IndexDocumentsResult } from "./generated/data/models";
 import { OperationOptions } from "@azure/core-client";
@@ -160,13 +160,13 @@ export class SearchIndexingBufferedSender<T> {
       this.batchObject.upload(documents);
       this.emitter.emit("batchAdded", {
         action: "upload",
-        documents
+        documents,
       });
       return this.internalFlush(false, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -192,13 +192,13 @@ export class SearchIndexingBufferedSender<T> {
       this.batchObject.merge(documents);
       this.emitter.emit("batchAdded", {
         action: "merge",
-        documents
+        documents,
       });
       return this.internalFlush(false, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -224,13 +224,13 @@ export class SearchIndexingBufferedSender<T> {
       this.batchObject.mergeOrUpload(documents);
       this.emitter.emit("batchAdded", {
         action: "mergeOrUpload",
-        documents
+        documents,
       });
       return this.internalFlush(false, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -256,13 +256,13 @@ export class SearchIndexingBufferedSender<T> {
       this.batchObject.delete(documents);
       this.emitter.emit("batchAdded", {
         action: "delete",
-        documents
+        documents,
       });
       return this.internalFlush(false, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -286,7 +286,7 @@ export class SearchIndexingBufferedSender<T> {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -394,15 +394,16 @@ export class SearchIndexingBufferedSender<T> {
     }
   }
 
-  private pruneActions(
-    batch: IndexDocumentsAction<T>[]
-  ): { batchToSubmit: IndexDocumentsAction<T>[]; submitLater: IndexDocumentsAction<T>[] } {
+  private pruneActions(batch: IndexDocumentsAction<T>[]): {
+    batchToSubmit: IndexDocumentsAction<T>[];
+    submitLater: IndexDocumentsAction<T>[];
+  } {
     const hashSet: Set<string> = new Set<string>();
     const resultBatch: IndexDocumentsAction<T>[] = [];
     const pruned: IndexDocumentsAction<T>[] = [];
 
     for (const document of batch) {
-      const key = this.documentKeyRetriever((document as unknown) as T);
+      const key = this.documentKeyRetriever(document as unknown as T);
       if (hashSet.has(key)) {
         pruned.push(document);
       } else {
@@ -433,7 +434,7 @@ export class SearchIndexingBufferedSender<T> {
         // Cut the payload size to half
         const splitActionsArray = [
           actionsToSend.slice(0, actionsToSend.length / 2),
-          actionsToSend.slice(actionsToSend.length / 2, actionsToSend.length)
+          actionsToSend.slice(actionsToSend.length / 2, actionsToSend.length),
         ];
         this.initialBatchActionCount = splitActionsArray[0].length; // So, we do not want 413 happening again and again
         for (const actions of splitActionsArray) {

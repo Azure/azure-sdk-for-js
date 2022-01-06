@@ -4,7 +4,6 @@
 import { assert } from "chai";
 
 import { record, Recorder } from "@azure-tools/test-recorder";
-import * as dotenv from "dotenv";
 import {
   base64encode,
   bodyToString,
@@ -17,7 +16,6 @@ import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { BlockBlobTier } from "../src";
 import { Context } from "mocha";
 import { isNode } from "@azure/core-http";
-dotenv.config();
 
 describe("BlockBlobClient", () => {
   let containerName: string;

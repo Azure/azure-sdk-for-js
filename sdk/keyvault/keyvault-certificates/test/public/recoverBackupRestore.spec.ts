@@ -21,10 +21,10 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   const basicCertificatePolicy = {
     issuerName: "Self",
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   };
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     const authentication = await authenticate(this);
     suffix = authentication.suffix;
     client = authentication.client;
@@ -32,13 +32,13 @@ describe("Certificates client - restore certificates and recover backups", () =>
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("can recover a deleted certificate", async function(this: Context) {
+  it("can recover a deleted certificate", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const createPoller = await client.beginCreateCertificate(
       certificateName,
@@ -65,7 +65,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     );
   });
 
-  it("can recover a deleted certificate (non existing)", async function(this: Context) {
+  it("can recover a deleted certificate (non existing)", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let error;
     try {
@@ -81,7 +81,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
   if (isRecordMode() || isPlaybackMode()) {
     // This test can't run live,
     // since the purge operation currently can't be expected to finish anytime soon.
-    it("can restore a certificate", async function(this: Context) {
+    it("can restore a certificate", async function (this: Context) {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const createPoller = await client.beginCreateCertificate(
         certificateName,
@@ -115,14 +115,14 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
-    it("can generate a backup of a certificate with requestOptions timeout", async function() {
+    it("can generate a backup of a certificate with requestOptions timeout", async function () {
       await assertThrowsAbortError(async () => {
         await client.backupCertificate("doesn't matter", { requestOptions: { timeout: 1 } });
       });
     });
   }
 
-  it("can restore a certificate (Malformed Backup Bytes)", async function() {
+  it("can restore a certificate (Malformed Backup Bytes)", async function () {
     const backup = new Uint8Array(4728);
     let error;
     try {
@@ -140,7 +140,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
-    it("can restore a key with requestOptions timeout", async function(this: Context) {
+    it("can restore a key with requestOptions timeout", async function (this: Context) {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const createPoller = await client.beginCreateCertificate(
         certificateName,

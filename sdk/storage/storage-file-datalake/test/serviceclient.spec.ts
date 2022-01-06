@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { delay, isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
+import { getYieldedValue } from "@azure/test-utils";
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
 
 import {
@@ -19,8 +19,6 @@ import {
   getGenericDataLakeServiceClient,
   isBrowser,
 } from "./utils";
-
-dotenv.config();
 
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;
@@ -273,25 +271,25 @@ describe("DataLakeServiceClient", () => {
       prefix: fileSystemNamePrefix,
     });
 
-    let fileSystemItem = await iterator.next();
-    assert.ok(fileSystemItem.value.name.startsWith(fileSystemNamePrefix));
-    assert.ok(fileSystemItem.value.properties.etag.length > 0);
-    assert.ok(fileSystemItem.value.properties.lastModified);
-    assert.ok(!fileSystemItem.value.properties.leaseDuration);
-    assert.ok(!fileSystemItem.value.properties.publicAccess);
-    assert.deepEqual(fileSystemItem.value.properties.leaseState, "available");
-    assert.deepEqual(fileSystemItem.value.properties.leaseStatus, "unlocked");
-    assert.deepEqual(fileSystemItem.value.metadata!.key, "val");
+    let fileSystemItem = getYieldedValue(await iterator.next());
+    assert.ok(fileSystemItem.name.startsWith(fileSystemNamePrefix));
+    assert.ok(fileSystemItem.properties.etag.length > 0);
+    assert.ok(fileSystemItem.properties.lastModified);
+    assert.ok(!fileSystemItem.properties.leaseDuration);
+    assert.ok(!fileSystemItem.properties.publicAccess);
+    assert.deepEqual(fileSystemItem.properties.leaseState, "available");
+    assert.deepEqual(fileSystemItem.properties.leaseStatus, "unlocked");
+    assert.deepEqual(fileSystemItem.metadata!.key, "val");
 
-    fileSystemItem = await iterator.next();
-    assert.ok(fileSystemItem.value.name.startsWith(fileSystemNamePrefix));
-    assert.ok(fileSystemItem.value.properties.etag.length > 0);
-    assert.ok(fileSystemItem.value.properties.lastModified);
-    assert.ok(!fileSystemItem.value.properties.leaseDuration);
-    assert.ok(!fileSystemItem.value.properties.publicAccess);
-    assert.deepEqual(fileSystemItem.value.properties.leaseState, "available");
-    assert.deepEqual(fileSystemItem.value.properties.leaseStatus, "unlocked");
-    assert.deepEqual(fileSystemItem.value.metadata!.key, "val");
+    fileSystemItem = getYieldedValue(await iterator.next());
+    assert.ok(fileSystemItem.name.startsWith(fileSystemNamePrefix));
+    assert.ok(fileSystemItem.properties.etag.length > 0);
+    assert.ok(fileSystemItem.properties.lastModified);
+    assert.ok(!fileSystemItem.properties.leaseDuration);
+    assert.ok(!fileSystemItem.properties.publicAccess);
+    assert.deepEqual(fileSystemItem.properties.leaseState, "available");
+    assert.deepEqual(fileSystemItem.properties.leaseStatus, "unlocked");
+    assert.deepEqual(fileSystemItem.metadata!.key, "val");
 
     await fileSystemClient1.deleteIfExists();
     await fileSystemClient2.deleteIfExists();

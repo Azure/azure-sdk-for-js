@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanGraph, setTracer } from "@azure/test-utils";
+import { SpanGraph, setTracer, getYieldedValue } from "@azure/test-utils";
 import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 
 import {
   DataLakeFileSystemClient,
@@ -22,8 +21,6 @@ import {
 } from "./utils";
 import { URLBuilder } from "@azure/core-http";
 import { Context } from "mocha";
-
-dotenv.config();
 
 describe("DataLakeFileSystemClient", () => {
   let fileSystemName: string;
@@ -305,11 +302,11 @@ describe("DataLakeFileSystemClient", () => {
       path: "",
     });
 
-    let path = await iterator.next();
-    assert.ok(fileClients[0].url.indexOf(path.value.name!));
+    let path = getYieldedValue(await iterator.next());
+    assert.ok(fileClients[0].url.indexOf(path.name!));
 
-    path = await iterator.next();
-    assert.ok(fileClients[1].url.indexOf(path.value.name!));
+    path = getYieldedValue(await iterator.next());
+    assert.ok(fileClients[1].url.indexOf(path.name!));
 
     for (const file of fileClients) {
       await file.delete();
@@ -684,17 +681,17 @@ describe("DataLakeFileSystemClient with soft delete", () => {
       prefix: "",
     });
 
-    let path = await iterator.next();
-    assert.ok(fileClients[0].url.indexOf(path.value.name));
-    assert.ok(path.value.deletedOn);
-    assert.ok(path.value.deletionId);
-    assert.ok(path.value.remainingRetentionDays);
+    let path = getYieldedValue(await iterator.next());
+    assert.ok(fileClients[0].url.indexOf(path.name));
+    assert.ok(path.deletedOn);
+    assert.ok(path.deletionId);
+    assert.ok(path.remainingRetentionDays);
 
-    path = await iterator.next();
-    assert.ok(fileClients[1].url.indexOf(path.value.name));
-    assert.ok(path.value.deletedOn);
-    assert.ok(path.value.deletionId);
-    assert.ok(path.value.remainingRetentionDays);
+    path = getYieldedValue(await iterator.next());
+    assert.ok(fileClients[1].url.indexOf(path.name));
+    assert.ok(path.deletedOn);
+    assert.ok(path.deletionId);
+    assert.ok(path.remainingRetentionDays);
   });
 
   it("Verify PagedAsyncIterableIterator(byPage()) for listDeletedPaths", async () => {

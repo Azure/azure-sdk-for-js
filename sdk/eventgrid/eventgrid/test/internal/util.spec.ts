@@ -5,7 +5,7 @@ import { assert } from "chai";
 
 import { dateToServiceTimeString } from "../../src/util";
 
-describe("util", function() {
+describe("util", function () {
   describe("dateToServiceTimeString", () => {
     it("converts dates correctly", () => {
       const simpleMorningDate = new Date(Date.UTC(2020, 0, 2, 3, 4, 5));

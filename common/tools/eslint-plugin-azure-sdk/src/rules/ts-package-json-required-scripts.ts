@@ -22,11 +22,11 @@ export = {
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const buildVerifiers = getVerifiers(context, {
       outer: "scripts",
-      inner: "build"
+      inner: "build",
     });
     const testVerifiers = getVerifiers(context, {
       outer: "scripts",
-      inner: "test"
+      inner: "test",
     });
     return stripPath(context.getFilename()) === "package.json"
       ? ({
@@ -41,8 +41,8 @@ export = {
           ): void => {
             buildVerifiers.isMemberOf(node);
             testVerifiers.isMemberOf(node);
-          }
+          },
         } as Rule.RuleListener)
       : {};
-  }
+  },
 };

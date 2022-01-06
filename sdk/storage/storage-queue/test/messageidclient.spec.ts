@@ -5,11 +5,9 @@ import { assert } from "chai";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { QueueClient } from "../src/QueueClient";
 import { record, delay, Recorder } from "@azure-tools/test-recorder";
-import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
 import { recorderEnvSetup } from "./utils/index.browser";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("QueueClient messageId methods", () => {
   let queueName: string;

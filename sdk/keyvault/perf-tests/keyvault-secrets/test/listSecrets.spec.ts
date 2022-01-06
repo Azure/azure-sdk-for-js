@@ -14,8 +14,8 @@ export class ListSecretsTest extends SecretTest<ListSecretPerfTestOptions> {
       description: "The number of secrets to create",
       shortName: "c",
       longName: "count",
-      defaultValue: 10
-    }
+      defaultValue: 10,
+    },
   };
 
   async globalSetup() {

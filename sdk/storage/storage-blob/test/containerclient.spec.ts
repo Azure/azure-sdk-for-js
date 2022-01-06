@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { TestTracer, SpanGraph, setTracer } from "@azure/test-utils";
 import {
   bodyToString,
@@ -12,6 +11,7 @@ import {
   recorderEnvSetup,
 } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
+import { getYieldedValue } from "@azure/test-utils";
 import { URLBuilder } from "@azure/core-http";
 import {
   ContainerClient,
@@ -22,7 +22,6 @@ import {
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { context, setSpan } from "@azure/core-tracing";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("ContainerClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -358,13 +357,13 @@ describe("ContainerClient", () => {
       prefix,
     });
 
-    let blobItem = await iterator.next();
-    assert.ok(blobClients[0].url.indexOf(blobItem.value.name));
-    assert.ok(isSuperSet(blobItem.value.metadata, metadata));
+    let blobItem = getYieldedValue(await iterator.next());
+    assert.ok(blobClients[0].url.indexOf(blobItem.name));
+    assert.ok(isSuperSet(blobItem.metadata, metadata));
 
-    blobItem = await iterator.next();
-    assert.ok(blobClients[1].url.indexOf(blobItem.value.name));
-    assert.ok(isSuperSet(blobItem.value.metadata, metadata));
+    blobItem = getYieldedValue(await iterator.next());
+    assert.ok(blobClients[1].url.indexOf(blobItem.name));
+    assert.ok(isSuperSet(blobItem.metadata, metadata));
 
     for (const blob of blobClients) {
       await blob.delete();

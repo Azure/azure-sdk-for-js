@@ -3,7 +3,6 @@
 
 import { assert } from "chai";
 
-import * as dotenv from "dotenv";
 import {
   AppendBlobClient,
   newPipeline,
@@ -26,7 +25,6 @@ import { assertClientUsesTokenCredential } from "../utils/assert";
 import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("AppendBlobClient Node.js only", () => {
   let containerName: string;

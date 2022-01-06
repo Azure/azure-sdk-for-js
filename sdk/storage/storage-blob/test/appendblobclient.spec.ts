@@ -3,7 +3,6 @@
 
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
 
 import { AppendBlobClient, ContainerClient } from "../src";
@@ -13,8 +12,6 @@ import {
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup,
 } from "./utils";
-
-dotenv.config();
 
 describe("AppendBlobClient", () => {
   let containerName: string;
