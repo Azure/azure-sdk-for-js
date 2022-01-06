@@ -119,10 +119,10 @@ export function toFileSystemPagedAsyncIterableIterator(
   iter: PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>
 ): PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse> {
   return {
-    async next(): Promise<{ done?: boolean; value: FileSystemItem }> {
+    async next(): Promise<IteratorResult<FileSystemItem>> {
       const rawResult = await iter.next();
-      const result = rawResult as { done?: boolean; value: FileSystemItem };
-      if (result.value) {
+      const result = rawResult as IteratorResult<FileSystemItem>;
+      if (!result.done && !rawResult.done) {
         result.value.properties.publicAccess = toPublicAccessType(
           rawResult.value.properties.publicAccess
         );

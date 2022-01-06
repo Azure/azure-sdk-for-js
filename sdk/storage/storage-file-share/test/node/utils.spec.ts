@@ -2,12 +2,10 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "../utils";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Utility Helpers Node.js only", () => {
   let recorder: Recorder;

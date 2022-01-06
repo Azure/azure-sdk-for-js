@@ -11,9 +11,7 @@ import { Pipeline } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
 import { setSpan, context } from "@azure/core-tracing";
 
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
-dotenv.config();
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 

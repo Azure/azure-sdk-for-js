@@ -4,7 +4,6 @@
 // import { DataLakeFileClient } from "../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
 
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
@@ -12,7 +11,6 @@ import { appendToURLPath } from "../src/utils/utils.common";
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
 // import { appendToURLPath } from "../src/utils/utils.common";
-dotenv.config();
 
 describe("Special Naming Tests", () => {
   let fileSystemName: string;

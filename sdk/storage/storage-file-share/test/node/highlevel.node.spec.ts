@@ -3,7 +3,6 @@
 
 import { assert } from "chai";
 import * as buffer from "buffer";
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
@@ -13,7 +12,6 @@ import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Highlevel Node.js only", () => {
   let shareName: string;

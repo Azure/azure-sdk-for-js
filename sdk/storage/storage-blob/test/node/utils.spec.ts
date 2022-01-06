@@ -3,7 +3,6 @@
 
 import { assert } from "chai";
 import { randomBytes } from "crypto";
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { delay, extractConnectionStringParts } from "../../src/utils/utils.common";
@@ -17,7 +16,6 @@ import {
   ReadableStreamGetter,
   RetriableReadableStream,
 } from "../../src/utils/RetriableReadableStream";
-dotenv.config();
 
 describe("Utility Helpers Node.js only", () => {
   const protocol = "https";
