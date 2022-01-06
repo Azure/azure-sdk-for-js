@@ -429,7 +429,7 @@ async function main() {
 main();
 ```
 
-A complete example of simple `QueueServiceClient` scenarios is at [samples/v12/typescript/src/queueServiceClient.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/v12/typescript/src/queueServiceClient.ts).
+A complete example of simple `QueueServiceClient` scenarios is at [samples/v12/typescript/src/queueClient.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/v12/typescript/src/queueClient.ts).
 
 ## Troubleshooting
 
