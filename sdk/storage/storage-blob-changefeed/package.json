@@ -12,11 +12,11 @@
     "os": false,
     "process": false
   },
-  "types": "./typings/latest/storage-blob-changefeed.d.ts",
+  "types": "./types/latest/storage-blob-changefeed.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "./typings/3.1/storage-blob-changefeed.d.ts"
+        "./types/3.1/storage-blob-changefeed.d.ts"
       ]
     }
   },
@@ -29,10 +29,10 @@
     "build:samples": "echo Obsolete.",
     "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
     "build:test": "npm run build:es6 && rollup -c 2>&1",
-    "build:types": "downlevel-dts typings/latest typings/3.1",
+    "build:types": "downlevel-dts types/latest types/3.1",
     "build": "npm run clean && npm run build:es6 && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* typings temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "clean": "rimraf dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "clean:samples": "rimraf samples/v12-beta/javascript/node_modules samples/v12-beta/typescript/node_modules samples/v12-beta/typescript/dist samples/v12-beta/typescript/package-lock.json samples/v12-beta/javascript/package-lock.json",
     "extract-api": "tsc -p . && api-extractor run --local",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -58,8 +58,8 @@
     "dist-browser/",
     "dist-esm/storage-blob-changefeed/src/",
     "dist-esm/storage-internal-avro/src/",
-    "typings/latest/storage-blob-changefeed.d.ts",
-    "typings/3.1/storage-blob-changefeed.d.ts",
+    "types/latest/storage-blob-changefeed.d.ts",
+    "types/3.1/storage-blob-changefeed.d.ts",
     "README.md",
     "LICENSE"
   ],
