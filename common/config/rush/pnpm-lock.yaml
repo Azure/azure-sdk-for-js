@@ -39,6 +39,7 @@ specifiers:
   '@rush-temp/arm-extendedlocation': file:./projects/arm-extendedlocation.tgz
   '@rush-temp/arm-features': file:./projects/arm-features.tgz
   '@rush-temp/arm-hdinsight': file:./projects/arm-hdinsight.tgz
+  '@rush-temp/arm-imagebuilder': file:./projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
   '@rush-temp/arm-links': file:./projects/arm-links.tgz
@@ -220,6 +221,7 @@ dependencies:
   '@rush-temp/arm-extendedlocation': file:projects/arm-extendedlocation.tgz
   '@rush-temp/arm-features': file:projects/arm-features.tgz
   '@rush-temp/arm-hdinsight': file:projects/arm-hdinsight.tgz
+  '@rush-temp/arm-imagebuilder': file:projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iothub': file:projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
   '@rush-temp/arm-links': file:projects/arm-links.tgz
@@ -1422,7 +1424,6 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
-    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -7821,7 +7822,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-s+dMun5WpGbbWhDl0LQ+IrlxsmxCrjL4bPHQ12W24hW1A/QjfX1BcCeEwursFC/LMPUt+vLYQhrmLT33O1o3xw==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-U0OBdhA2UsNoYOBkp/0tnP6b3pblzKhmggJFKaC2pUrpKftVfWGTCh3c1B4pzpfA7YG4tjrp2B3A7EbuWpU83A==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -8586,6 +8587,27 @@ packages:
   file:projects/arm-hdinsight.tgz:
     resolution: {integrity: sha512-MxGX73BGBcYHfMjJFjOMYtx6Z/hU8PsFZyudN1LPg+kjlghRCdfOpsSLkSl9YmekZEVGxkR9/DyeFQBfg5/+IA==, tarball: file:projects/arm-hdinsight.tgz}
     name: '@rush-temp/arm-hdinsight'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
+  file:projects/arm-imagebuilder.tgz:
+    resolution: {integrity: sha512-2JRBKRkzXpd8Za+0QN3is3v5bIxolziCAWRULRkA5xxAKzjY/UBJPht5UzWOHKNVxMi2Fr0pDnlXiHnvleVAGA==, tarball: file:projects/arm-imagebuilder.tgz}
+    name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.19.2
@@ -11712,7 +11734,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-F7qKV2Ge+sv8/xFVsPWmCv75v87nMDRm3Q+JuyyTQlh4PXsxpnUTz2g9Q32wYuBYqcKsov9TKc2XhSp6poIBew==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-3tAn0vXw53fi/gF+/DDq4KqenujlXI1TiQKHdzNUCzLnOmOG+ehh8H6ZOeEgkBpqq+FxTxUG1g6nF1K9rECjwA==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
