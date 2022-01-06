@@ -33,7 +33,7 @@ export default class GeographyPoint {
     return {
       type: "Point",
       coordinates: [this.longitude, this.latitude],
-      crs: { type: "name", properties: { name: WorldGeodeticSystem1984 } }
+      crs: { type: "name", properties: { name: WorldGeodeticSystem1984 } },
     };
   }
 }

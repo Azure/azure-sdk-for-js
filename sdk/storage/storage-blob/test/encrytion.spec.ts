@@ -2,13 +2,11 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { getBSU, getEncryptionScope_1, getEncryptionScope_2, recorderEnvSetup } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Encryption Scope", function () {
   let blobServiceClient: BlobServiceClient;

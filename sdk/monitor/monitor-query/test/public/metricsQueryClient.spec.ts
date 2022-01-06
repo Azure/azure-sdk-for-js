@@ -3,6 +3,7 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
+import { getYieldedValue } from "@azure/test-utils";
 import { Durations, MetricsQueryClient } from "../../src";
 
 import {
@@ -36,8 +37,8 @@ describe("MetricsClient live tests", function () {
     const iter = metricsQueryClient.listMetricDefinitions(resourceId);
 
     let result = await iter.next();
+    const firstResult = getYieldedValue(result);
     assert.isNotEmpty(result);
-    const firstMetricDefinition = result.value;
     let metricDefinitionsLength = 0;
     while (!result.done) {
       // you can only query 20 metrics at a time.
@@ -80,16 +81,16 @@ describe("MetricsClient live tests", function () {
 
     // pick the first query and use the namespace as well.
 
-    assert.isNotNull(firstMetricDefinition);
-    assert.isNotEmpty(firstMetricDefinition.name);
-    assert.isNotEmpty(firstMetricDefinition.namespace);
+    assert.isNotNull(firstResult);
+    assert.isNotEmpty(firstResult.name);
+    assert.isNotEmpty(firstResult.namespace);
 
     const individualMetricWithNamespace = await metricsQueryClient.queryResource(
       resourceId,
-      [firstMetricDefinition.name!],
+      [firstResult.name!],
       {
         timespan: { duration: Durations.twentyFourHours },
-        metricNamespace: firstMetricDefinition.namespace,
+        metricNamespace: firstResult.namespace,
       }
     );
 

@@ -8,7 +8,7 @@ import { Suite, Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
-import { matrix } from "@azure/test-utils";
+import { matrix, getYieldedValue } from "@azure/test-utils";
 import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 
 import { AuthMethod, createClient, createRecorder } from "./utils/recordedClient";
@@ -1875,7 +1875,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const response = await poller.pollUntilDone();
-          const results = (await response.next()).value;
+          const results = getYieldedValue(await response.next());
           const recognizeEntitiesResults = results.recognizeEntitiesResults[0];
           if (!recognizeEntitiesResults.error) {
             assert.equal(recognizeEntitiesResults.results.statistics?.documentCount, 5);
@@ -2049,7 +2049,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const result = await poller.pollUntilDone();
-          const firstResult = (await result.next()).value;
+          const firstResult = getYieldedValue(await result.next());
           const entitiesTaskDocs = firstResult?.recognizeEntitiesResults[0];
           if (!entitiesTaskDocs.error) {
             for (const doc of entitiesTaskDocs.results) {
@@ -2188,7 +2188,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const pollerResult = await poller.pollUntilDone();
-          const firstResult = (await pollerResult.next()).value;
+          const firstResult = getYieldedValue(await pollerResult.next());
           const actionResult = firstResult.recognizePiiEntitiesResults[0];
           if (!actionResult.error) {
             const docResult = actionResult.results[0];
@@ -2270,7 +2270,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const pollerResult = await poller.pollUntilDone();
-          const firstResult = (await pollerResult.next()).value;
+          const firstResult = getYieldedValue(await pollerResult.next());
           assert.equal(firstResult.recognizePiiEntitiesResults[0].actionName, "action1");
           assert.equal(firstResult.recognizePiiEntitiesResults[1].actionName, "action2");
         });
@@ -2289,7 +2289,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const result = await poller.pollUntilDone();
-          const doc1 = (await result.next()).value;
+          const doc1 = getYieldedValue(await result.next());
           if (!doc1.error) {
             assert.ok(doc1.id);
             assert.ok(doc1.entities);
@@ -2298,7 +2298,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(doc1Entity1.assertion?.certainty, "negative");
           }
 
-          const doc2 = (await result.next()).value;
+          const doc2 = getYieldedValue(await result.next());
           if (!doc2.error) {
             assert.ok(doc2.id);
             assert.ok(doc2.entities);
@@ -2350,7 +2350,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const result = await poller.pollUntilDone();
-          const doc1 = (await result.next()).value;
+          const doc1 = getYieldedValue(await result.next());
           if (!doc1.error) {
             assert.ok(doc1.id);
             assert.ok(doc1.entities);
@@ -2440,9 +2440,9 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
-          const result1 = (await result.next()).value;
-          const result2 = (await result.next()).value;
-          const result3 = (await result.next()).value;
+          const result1 = getYieldedValue(await result.next());
+          const result2 = getYieldedValue(await result.next());
+          const result3 = getYieldedValue(await result.next());
           if (!result3.error) {
             assert.ok(result3.id);
             assert.ok(result3.entities);
@@ -2466,9 +2466,9 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
-          const result1 = (await result.next()).value;
-          const result2 = (await result.next()).value;
-          const result3 = (await result.next()).value;
+          const result1 = getYieldedValue(await result.next());
+          const result2 = getYieldedValue(await result.next());
+          const result3 = getYieldedValue(await result.next());
           assert.ok(result1.error);
           assert.ok(result2.error);
           assert.ok(result3.error);
@@ -2665,7 +2665,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
-          const firstResult = (await result.next()).value;
+          const firstResult = getYieldedValue(await result.next());
           assert.equal(firstResult.error?.code, "UnsupportedLanguageCode");
         });
 
@@ -2682,7 +2682,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             updateIntervalInMs: pollingInterval,
           });
           const result = await poller.pollUntilDone();
-          const firstResult = (await result.next()).value;
+          const firstResult = getYieldedValue(await result.next());
           assert.equal(firstResult.error?.code, "UnsupportedLanguageCode");
         });
 
@@ -2719,8 +2719,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             updateIntervalInMs: pollingInterval,
           });
           const doc_errors = await poller.pollUntilDone();
-          assert.equal((await doc_errors.next()).value.error?.code, "InvalidDocument");
-          assert.equal((await doc_errors.next()).value.error?.code, "UnsupportedLanguageCode");
+          assert.equal(getYieldedValue(await doc_errors.next()).error?.code, "InvalidDocument");
+          assert.equal(
+            getYieldedValue(await doc_errors.next()).error?.code,
+            "UnsupportedLanguageCode"
+          );
         });
 
         it("big document causes a warning", async function () {
@@ -2734,7 +2737,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             updateIntervalInMs: pollingInterval,
           });
           const results = await poller.pollUntilDone();
-          const docResult = (await results.next()).value;
+          const docResult = getYieldedValue(await results.next());
           if (!docResult.error) {
             assert.equal(docResult.warnings[0].code, "DocumentTruncated");
           } else {
@@ -2901,7 +2904,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const pollerResult = await poller.pollUntilDone();
-          const result = (await pollerResult.next()).value;
+          const result = getYieldedValue(await pollerResult.next());
           if (!result.error) {
             const entity = result.entities[0];
             const offset = 20;
@@ -2921,7 +2924,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             }
           );
           const pollerResult = await poller.pollUntilDone();
-          const result = (await pollerResult.next()).value;
+          const result = getYieldedValue(await pollerResult.next());
           if (!result.error) {
             assert.equal(result.entities[0].offset, 12); // 20 with UTF16
             assert.equal(result.entities[0].length, 9);

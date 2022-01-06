@@ -3,7 +3,6 @@
 
 import { assert } from "chai";
 
-import * as dotenv from "dotenv";
 import { BlobServiceClient } from "../src";
 import {
   getAlternateBSU,
@@ -15,9 +14,9 @@ import {
   sleep,
 } from "./utils";
 import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { getYieldedValue } from "@azure/test-utils";
 import { Tags } from "../src/models";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("BlobServiceClient", () => {
   let recorder: Recorder;
@@ -191,25 +190,25 @@ describe("BlobServiceClient", () => {
       prefix: containerNamePrefix,
     });
 
-    let containerItem = await iterator.next();
-    assert.ok(containerItem.value.name.startsWith(containerNamePrefix));
-    assert.ok(containerItem.value.properties.etag.length > 0);
-    assert.ok(containerItem.value.properties.lastModified);
-    assert.ok(!containerItem.value.properties.leaseDuration);
-    assert.ok(!containerItem.value.properties.publicAccess);
-    assert.deepEqual(containerItem.value.properties.leaseState, "available");
-    assert.deepEqual(containerItem.value.properties.leaseStatus, "unlocked");
-    assert.deepEqual(containerItem.value.metadata!.key, "val");
+    let containerItem = getYieldedValue(await iterator.next());
+    assert.ok(containerItem.name.startsWith(containerNamePrefix));
+    assert.ok(containerItem.properties.etag.length > 0);
+    assert.ok(containerItem.properties.lastModified);
+    assert.ok(!containerItem.properties.leaseDuration);
+    assert.ok(!containerItem.properties.publicAccess);
+    assert.deepEqual(containerItem.properties.leaseState, "available");
+    assert.deepEqual(containerItem.properties.leaseStatus, "unlocked");
+    assert.deepEqual(containerItem.metadata!.key, "val");
 
-    containerItem = await iterator.next();
-    assert.ok(containerItem.value.name.startsWith(containerNamePrefix));
-    assert.ok(containerItem.value.properties.etag.length > 0);
-    assert.ok(containerItem.value.properties.lastModified);
-    assert.ok(!containerItem.value.properties.leaseDuration);
-    assert.ok(!containerItem.value.properties.publicAccess);
-    assert.deepEqual(containerItem.value.properties.leaseState, "available");
-    assert.deepEqual(containerItem.value.properties.leaseStatus, "unlocked");
-    assert.deepEqual(containerItem.value.metadata!.key, "val");
+    containerItem = getYieldedValue(await iterator.next());
+    assert.ok(containerItem.name.startsWith(containerNamePrefix));
+    assert.ok(containerItem.properties.etag.length > 0);
+    assert.ok(containerItem.properties.lastModified);
+    assert.ok(!containerItem.properties.leaseDuration);
+    assert.ok(!containerItem.properties.publicAccess);
+    assert.deepEqual(containerItem.properties.leaseState, "available");
+    assert.deepEqual(containerItem.properties.leaseStatus, "unlocked");
+    assert.deepEqual(containerItem.metadata!.key, "val");
 
     await containerClient1.delete();
     await containerClient2.delete();

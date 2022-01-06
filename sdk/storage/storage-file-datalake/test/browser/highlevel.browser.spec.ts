@@ -3,7 +3,6 @@
 
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
 import { getDataLakeServiceClient, recorderEnvSetup } from "../utils";
 import {
@@ -16,8 +15,6 @@ import {
 import { MB } from "../../src/utils/constants";
 import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
-
-dotenv.config();
 
 describe("Highlevel browser only", () => {
   let fileSystemName: string;

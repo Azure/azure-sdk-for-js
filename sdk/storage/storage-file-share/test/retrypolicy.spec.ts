@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as dotenv from "dotenv";
 import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
 import { RestError, ShareClient } from "../src";
@@ -10,8 +9,6 @@ import { getBSU, recorderEnvSetup } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-
-dotenv.config();
 
 describe("RetryPolicy", () => {
   let shareName: string;

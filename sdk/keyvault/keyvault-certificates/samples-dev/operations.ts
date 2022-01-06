@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
   // Certificates' operations will be pending for some time right after they're created.
   const createPoller = await client.beginCreateCertificate(certificateName, {
     issuerName: "Self",
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   });
 
   const pendingCertificate = createPoller.getResult();

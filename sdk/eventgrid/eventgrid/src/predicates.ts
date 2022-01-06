@@ -128,7 +128,7 @@ import {
   WebSlotSwapFailedEventData,
   WebSlotSwapStartedEventData,
   WebSlotSwapWithPreviewCancelledEventData,
-  WebSlotSwapWithPreviewStartedEventData
+  WebSlotSwapWithPreviewStartedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";

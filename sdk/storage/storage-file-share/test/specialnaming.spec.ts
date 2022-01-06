@@ -6,9 +6,7 @@ import { getBSU, recorderEnvSetup } from "./utils/index";
 import { assert } from "chai";
 import { appendToURLPath } from "../src/utils/utils.common";
 import { record, Recorder } from "@azure-tools/test-recorder";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Special Naming Tests", () => {
   let shareName: string;

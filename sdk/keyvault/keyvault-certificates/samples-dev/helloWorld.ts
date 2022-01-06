@@ -9,7 +9,7 @@ import {
   CertificateClient,
   DefaultCertificatePolicy,
   UpdateCertificateOptions,
-  CertificatePolicy
+  CertificatePolicy,
 } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -60,9 +60,9 @@ export async function main(): Promise<void> {
   const properties: UpdateCertificateOptions = {
     tags: {
       projectName: "certificate-sample",
-      projectOwner: "REPLACE-WITH-YOUR-NAME"
+      projectOwner: "REPLACE-WITH-YOUR-NAME",
     },
-    enabled: true
+    enabled: true,
   };
   const updatedCertificate = await client.updateCertificateProperties(
     certificateName,
@@ -76,7 +76,7 @@ export async function main(): Promise<void> {
     issuerName: "Self",
     subject: "cn=MyOtherCert",
     exportable: true,
-    enabled: true
+    enabled: true,
   };
   await client.updateCertificatePolicy(certificateName, policy);
 

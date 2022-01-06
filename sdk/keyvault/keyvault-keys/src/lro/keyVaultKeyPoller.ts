@@ -85,7 +85,7 @@ export class KeyVaultKeyPollOperation<TState, TResult> implements PollOperation<
    */
   public toString(): string {
     return JSON.stringify({
-      state: this.state
+      state: this.state,
     });
   }
 }

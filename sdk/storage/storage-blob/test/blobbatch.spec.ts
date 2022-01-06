@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import {
   getGenericBSU,
   getGenericCredential,
@@ -22,8 +21,6 @@ import {
   StorageSharedKeyCredential,
 } from "../src";
 import { Context } from "mocha";
-
-dotenv.config();
 
 describe("BlobBatch", () => {
   let blobServiceClient: BlobServiceClient;

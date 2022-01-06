@@ -68,7 +68,7 @@ export function mergeHeaders(headers: CosmosHeaders, toBeMergedHeaders: CosmosHe
     for (const partitionId in toBeMergedHeaderQueryMetrics) {
       if (headerQueryMetrics[partitionId]) {
         const combinedQueryMetrics = headerQueryMetrics[partitionId].add([
-          toBeMergedHeaderQueryMetrics[partitionId]
+          toBeMergedHeaderQueryMetrics[partitionId],
         ]);
         headerQueryMetrics[partitionId] = combinedQueryMetrics;
       } else {

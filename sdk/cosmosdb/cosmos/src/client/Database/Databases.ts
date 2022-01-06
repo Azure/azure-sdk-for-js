@@ -75,7 +75,7 @@ export class Databases {
         resourceId: "",
         resultFn: (result) => result.Databases,
         query,
-        options: innerOptions
+        options: innerOptions,
       });
     };
     return new QueryIterator(this.clientContext, query, options, cb);
@@ -115,14 +115,14 @@ export class Databases {
           };
         };
       } = {
-        maxThroughput: body.maxThroughput
+        maxThroughput: body.maxThroughput,
       };
       if (body.autoUpgradePolicy) {
         autoscaleParams.autoUpgradePolicy = body.autoUpgradePolicy;
       }
       const autoscaleHeaders = JSON.stringify(autoscaleParams);
       options.initialHeaders = Object.assign({}, options.initialHeaders, {
-        [Constants.HttpHeaders.AutoscaleSettings]: autoscaleHeaders
+        [Constants.HttpHeaders.AutoscaleSettings]: autoscaleHeaders,
       });
       delete body.maxThroughput;
       delete body.autoUpgradePolicy;
@@ -130,7 +130,7 @@ export class Databases {
 
     if (body.throughput) {
       options.initialHeaders = Object.assign({}, options.initialHeaders, {
-        [Constants.HttpHeaders.OfferThroughput]: body.throughput
+        [Constants.HttpHeaders.OfferThroughput]: body.throughput,
       });
       delete body.throughput;
     }
@@ -141,7 +141,7 @@ export class Databases {
       path,
       resourceType: ResourceType.database,
       resourceId: undefined,
-      options
+      options,
     });
     const ref = new Database(this.client, body.id, this.clientContext);
     return new DatabaseResponse(response.result, response.headers, response.code, ref);

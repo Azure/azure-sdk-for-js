@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
@@ -30,7 +29,6 @@ import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { base64encode } from "../src/utils/utils.common";
 import { context, setSpan } from "@azure/core-tracing";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
