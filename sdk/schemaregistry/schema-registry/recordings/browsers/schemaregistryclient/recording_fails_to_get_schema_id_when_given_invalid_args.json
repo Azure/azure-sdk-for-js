@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 10 Nov 2021 07:53:31 GMT",
+    "date": "Thu, 06 Jan 2022 21:37:06 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12231.7 - WUS2 ProdSlices",
-    "x-ms-request-id": "19fae638-b9c4-4c2b-807b-77e139ad0d00"
+    "x-ms-ests-server": "2.1.12261.17 - NCUS ProdSlices",
+    "x-ms-request-id": "e9785add-4411-45fa-8584-fa81523a5c02"
    }
   },
   {
@@ -32,13 +32,14 @@
    },
    "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
    "status": 415,
-   "response": "{\"Code\":415,\"Detail\":\"Invalid schema type for POST request. 'null' is not supported. TrackingId:7fe9dcfb-0fca-4ab2-9beb-473aa5fe6406_G23, SystemTracker:endpoint:$schemaGroups\\/group-1\\/schemas\\/azsdk_js_test:get-id, Timestamp:2021-11-10T07:53:32\"}",
+   "response": "{\"error\":{\"code\":\"InvalidSchemaType\",\"message\":\"Invalid schema type for POST request. 'null' is not supported. TrackingId:0c05b62a-6dfa-400a-bc4a-e22c21ff459d_G7, SystemTracker:endpoint:$schemaGroups\\/group-1\\/schemas\\/azsdk_js_test:get-id, Timestamp:2022-01-06T21:37:06\"}}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 10 Nov 2021 07:53:31 GMT",
+    "date": "Thu, 06 Jan 2022 21:37:06 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
-    "transfer-encoding": "chunked"
+    "transfer-encoding": "chunked",
+    "x-ms-error-code": "InvalidSchemaType"
    }
   },
   {
@@ -49,13 +50,14 @@
    },
    "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
    "status": 415,
-   "response": "{\"Code\":415,\"Detail\":\"Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:1111c7fa-5159-4fcd-9530-a48bc1602146_G23, SystemTracker:endpoint:$schemaGroups\\/group-1\\/schemas\\/azsdk_js_test:get-id, Timestamp:2021-11-10T07:53:32\"}",
+   "response": "{\"error\":{\"code\":\"InvalidSchemaType\",\"message\":\"Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:e33c0e44-8e8b-482c-a4e5-151f35393c62_G7, SystemTracker:endpoint:$schemaGroups\\/group-1\\/schemas\\/azsdk_js_test:get-id, Timestamp:2022-01-06T21:37:07\"}}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 10 Nov 2021 07:53:32 GMT",
+    "date": "Thu, 06 Jan 2022 21:37:07 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
-    "transfer-encoding": "chunked"
+    "transfer-encoding": "chunked",
+    "x-ms-error-code": "InvalidSchemaType"
    }
   }
  ],
@@ -63,5 +65,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "36009d8faaaf7d79236f8a74fecd05d9"
+ "hash": "80f6da42ad77eaff6205f57b245cda36"
 }

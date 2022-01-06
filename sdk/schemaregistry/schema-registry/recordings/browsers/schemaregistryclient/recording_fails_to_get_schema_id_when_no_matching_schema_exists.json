@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 10 Nov 2021 07:53:32 GMT",
+    "date": "Thu, 06 Jan 2022 21:37:07 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12231.7 - EUS ProdSlices",
-    "x-ms-request-id": "76167308-c68e-4c9d-9b00-7a72ea020a00"
+    "x-ms-ests-server": "2.1.12261.17 - EUS ProdSlices",
+    "x-ms-request-id": "b9b05e59-c1b1-4e5d-963e-f5f24b7f3303"
    }
   },
   {
@@ -32,13 +32,14 @@
    },
    "requestBody": "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}",
    "status": 404,
-   "response": "{\"Code\":404,\"Detail\":\"Schema group-1\\/never-registered does not exist. TrackingId:3c8bd53d-8aea-412c-87a6-bb74b9e31eaa_G23, SystemTracker:endpoint:$schemaGroups\\/group-1\\/schemas\\/never-registered:get-id, Timestamp:2021-11-10T07:53:33\"}",
+   "response": "{\"error\":{\"code\":\"ItemNotFound\",\"message\":\"Schema group-1\\/never-registered does not exist. TrackingId:49a58be9-a818-4136-800b-923c44a47869_G7, SystemTracker:endpoint:$schemaGroups\\/group-1\\/schemas\\/never-registered:get-id, Timestamp:2022-01-06T21:37:08\"}}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 10 Nov 2021 07:53:33 GMT",
+    "date": "Thu, 06 Jan 2022 21:37:07 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
-    "transfer-encoding": "chunked"
+    "transfer-encoding": "chunked",
+    "x-ms-error-code": "ItemNotFound"
    }
   }
  ],
@@ -46,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "3a495a0f1d563cd8e589d6e800559bc0"
+ "hash": "bc442ec030c0577acd471817b4d77564"
 }

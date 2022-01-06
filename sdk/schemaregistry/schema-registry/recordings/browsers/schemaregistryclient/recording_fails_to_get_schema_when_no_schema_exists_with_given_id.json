@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 10 Nov 2021 07:53:34 GMT",
+    "date": "Thu, 06 Jan 2022 21:37:08 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12231.7 - EUS ProdSlices",
-    "x-ms-request-id": "930e8bba-aea5-42f9-8294-9f37ddee0800"
+    "x-ms-ests-server": "2.1.12261.17 - EUS ProdSlices",
+    "x-ms-request-id": "b9b05e59-c1b1-4e5d-963e-f5f2ad7f3303"
    }
   },
   {
@@ -32,13 +32,14 @@
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"Code\":404,\"Detail\":\"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:c4c4395b-aec7-4b2f-b208-ee9c63d85939_G23, SystemTracker:endpoint:$schemaGroups\\/$schemas\\/ffffffffffffffffffffffffffffffff, Timestamp:2021-11-10T07:53:35\"}",
+   "response": "{\"error\":{\"code\":\"ItemNotFound\",\"message\":\"Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:6a13dcaa-5942-4050-a7b8-faf799f749ff_G7, SystemTracker:endpoint:$schemaGroups\\/$schemas\\/ffffffffffffffffffffffffffffffff, Timestamp:2022-01-06T21:37:09\"}}",
    "responseHeaders": {
     "content-type": "application/json",
-    "date": "Wed, 10 Nov 2021 07:53:35 GMT",
+    "date": "Thu, 06 Jan 2022 21:37:08 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
-    "transfer-encoding": "chunked"
+    "transfer-encoding": "chunked",
+    "x-ms-error-code": "ItemNotFound"
    }
   }
  ],
@@ -46,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "9af3d75a3765ed81e4d792fadab21064"
+ "hash": "14a93d5e3a77fcd0abb15de1bda40cba"
 }
