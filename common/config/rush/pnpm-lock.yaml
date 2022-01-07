@@ -13574,14 +13574,14 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-w6klFaGoGCmvGA/AxBDfE+CFN1B/lX+5C7o1ZUk5rCHdR1t1Q8XdUYHJpliTMvPDzNJyGiTTaUw7Jn9r6evdUA==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-0CVhBlgJ8+DdZ0gcYZssRyRznTjjPu5x/zziSM1TbkQfv23tepvKRLbrNtWcGSrfRApzXCMn6pXsMBQMxTtJHA==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@types/node': 12.20.37
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       typescript: 4.2.4
@@ -13590,7 +13590,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-fWM7YZs58Mx0QSFxbOkyGpZiAr124tDvnAir5DHbBoQfyuGhwuyYmqYCVI+hgSMbLMCAVTaHLWm2RJWkBjUqAA==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-hyhTSwuHkPE4ewaRniaFnE3v7xduYSH8f9iY7T3d36CKNdEaBr0yxng8nGIFvYxdeFx8VoNF7kxDbIVk/bS2Wg==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
@@ -13638,7 +13638,7 @@ packages:
       nock: 12.0.3
       npm-run-all: 4.1.5
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -13658,7 +13658,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-eO/XaNwlnKeTn9jy1A0SpJpAZ8rztxeZU7LKQzOR6rqho1XiZX/N6zsCkAYiOLfvxJnRSqBlDGclKFf6U68xQw==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-O62R8KYXtyRFfZxEkDFh0GoSOi7M9RpWp4Hr4a337ZNCw1xZh94T1xOrLuC8Lgx7glixJv3OTm/1hYvsAVuhRg==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
@@ -13672,7 +13672,7 @@ packages:
       karma-env-preprocessor: 0.1.1
       minimist: 1.2.5
       node-fetch: 2.6.6
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 8.10.2_typescript@4.2.4
       tslib: 2.3.1
@@ -13685,7 +13685,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-1MhUTJgKxXp8JRp8Klkxr3zp5qDH/KxUV4gloPBZ2imU61yJZLRe1tr5HrcZc0JS5EifErCALl25iN8NKdpcuQ==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-9oVWl3O8jFhwXr7Pazeu+RlwP1FpfspA0kb0VlhQyMjr3oJJQlsF+pTufxLQ4pFLYLUU9PGB8QVnp+WwiWCzIg==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -13705,7 +13705,7 @@ packages:
       karma-coverage: 2.1.0
       karma-env-preprocessor: 0.1.1
       mocha: 7.2.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -13719,7 +13719,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-XXuFjpc+RKpuVi7v9B2bMvFAqG6w3mamSVy37WXKkhUxsxoOJLm/Zu8+j49yGU5BIIYCok/NIjfJDtQQVPCHWw==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-2jRazzf9Vlhxjak/7gq7R1PPcaleaoZi0jwsdJKY2xjmQf4Q+fv+4AAfIbMJ+dnNgXHry8+W0y6Nxn6opp2AgA==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:
@@ -13756,7 +13756,7 @@ packages:
       mock-require: 3.0.3
       npm-run-all: 4.1.5
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       typescript: 4.2.4
