@@ -23,14 +23,17 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
       this._span.setStatus({ code: SpanStatusCode.OK });
     }
   }
+
   setAttribute(name: string, value: unknown): void {
     if (value !== null && value !== undefined) {
       this._span.setAttribute(name, value as SpanAttributeValue);
     }
   }
+
   end(): void {
     this._span.end();
   }
+
   recordException(exception: string | Error): void {
     this._span.recordException(exception);
   }
