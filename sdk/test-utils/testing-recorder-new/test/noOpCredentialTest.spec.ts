@@ -13,16 +13,16 @@ const getRecorderStartOptions = (): RecorderStartOptions => {
       TABLES_URL: "https://fakeaccount.table.core.windows.net",
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azuretenantid"
+      AZURE_TENANT_ID: "azuretenantid",
     },
     sanitizerOptions: {
       bodyRegexSanitizers: [
         {
           regex: env.TABLES_URL ? encodeURIComponent(env.TABLES_URL) : undefined,
-          value: encodeURIComponent(`https://fakeaccount.table.core.windows.net`)
-        }
-      ]
-    }
+          value: encodeURIComponent(`https://fakeaccount.table.core.windows.net`),
+        },
+      ],
+    },
   };
 };
 
@@ -30,13 +30,13 @@ describe(`NoOp credential with Tables`, () => {
   let recorder: Recorder;
   let credential: TokenCredential;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = new Recorder(this.currentTest);
     await recorder.start(getRecorderStartOptions());
     credential = createTestCredential();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 

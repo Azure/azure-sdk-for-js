@@ -10,8 +10,8 @@ const fakeSASUrl =
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {
-    STORAGE_SAS_URL: fakeSASUrl
-  }
+    STORAGE_SAS_URL: fakeSASUrl,
+  },
 };
 
 const getSanitizerOptions = () => {
@@ -19,22 +19,20 @@ const getSanitizerOptions = () => {
     generalRegexSanitizers: [
       {
         regex: assertEnvironmentVariable("STORAGE_SAS_URL").split("/")[2],
-        value: fakeSASUrl.split("/")[2]
+        value: fakeSASUrl.split("/")[2],
       },
       {
-        regex: assertEnvironmentVariable("STORAGE_SAS_URL")
-          .split("/")[3]
-          .split("?")[1],
-        value: fakeSASUrl.split("/")[3].split("?")[1]
-      }
-    ]
+        regex: assertEnvironmentVariable("STORAGE_SAS_URL").split("/")[3].split("?")[1],
+        value: fakeSASUrl.split("/")[3].split("?")[1],
+      },
+    ],
   };
 };
 
 describe("Core V1 tests", () => {
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = new Recorder(this.currentTest);
 
     await recorder.start(recorderOptions);
@@ -45,7 +43,7 @@ describe("Core V1 tests", () => {
     await recorder.stop();
   });
 
-  it("storage-queue create queue", async function() {
+  it("storage-queue create queue", async function () {
     const client = new QueueServiceClient(
       assertEnvironmentVariable("STORAGE_SAS_URL"),
       undefined,

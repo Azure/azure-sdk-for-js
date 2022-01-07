@@ -16,7 +16,7 @@ export function createSimpleEntity(): TableEntity {
     stringTypeProperty4: stringValue,
     stringTypeProperty5: stringValue,
     stringTypeProperty6: stringValue,
-    stringTypeProperty7: stringValue
+    stringTypeProperty7: stringValue,
   };
 }
 
