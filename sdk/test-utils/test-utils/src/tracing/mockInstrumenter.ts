@@ -80,7 +80,7 @@ export class MockInstrumenter implements Instrumenter {
     return;
   }
 
-  createRequestHeaders(_spanContext: TracingSpanContext): Record<string, string> {
+  createRequestHeaders(_tracingContext: TracingContext): Record<string, string> {
     return {};
   }
 

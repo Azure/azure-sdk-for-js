@@ -37,7 +37,7 @@ export function createDefaultTracingSpan(): TracingSpan {
 
 export function createDefaultInstrumenter(): Instrumenter {
   return {
-    createRequestHeaders: (_spanContext: TracingSpanContext): Record<string, string> => {
+    createRequestHeaders: (_context: TracingContext): Record<string, string> => {
       return {};
     },
     parseTraceparentHeader: (_traceparentHeader: string): TracingSpanContext | undefined => {

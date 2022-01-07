@@ -105,11 +105,11 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
   /**
    * Creates a set of request headers to propagate tracing information to a backend.
    *
-   * @param spanContext - The span identifier to serialize.
+   * @param tracingContext - The context containing the span to serialize.
    * @returns The set of headers to add to a request.
    */
-  function createRequestHeaders(spanContext: TracingSpanContext): Record<string, string> {
-    return getInstrumenter().createRequestHeaders(spanContext);
+  function createRequestHeaders(tracingContext?: TracingContext): Record<string, string> {
+    return getInstrumenter().createRequestHeaders(tracingContext);
   }
 
   return {

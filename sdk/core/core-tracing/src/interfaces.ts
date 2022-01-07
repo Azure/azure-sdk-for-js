@@ -81,10 +81,10 @@ export interface TracingClient {
   /**
    * Creates a set of request headers to propagate tracing information to a backend.
    *
-   * @param spanContext - The span identifier to serialize.
+   * @param tracingContext - The context containing the span to propagate.
    * @returns The set of headers to add to a request.
    */
-  createRequestHeaders(spanContext: TracingSpanContext): Record<string, string>;
+  createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
 }
 
 /**
@@ -177,9 +177,9 @@ export interface Instrumenter {
   parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined;
   /**
    * Provides an implementation-specific method to serialize a {@link TracingSpan} to a set of headers.
-   * @param span - The span to serialize.
+   * @param tracingContext - The context containing the span to serialize.
    */
-  createRequestHeaders(spanContext: TracingSpanContext): Record<string, string>;
+  createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
 }
 
 /**

@@ -9,7 +9,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
 
 // @public
 export interface Instrumenter {
-    createRequestHeaders(spanContext: TracingSpanContext): Record<string, string>;
+    createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
     parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined;
     startSpan(name: string, spanOptions: InstrumenterSpanOptions): {
         span: TracingSpan;
@@ -40,7 +40,7 @@ export type SpanStatus = {
 
 // @public
 export interface TracingClient {
-    createRequestHeaders(spanContext: TracingSpanContext): Record<string, string>;
+    createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
     parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined;
     startSpan<Options extends {
         tracingOptions?: OperationTracingOptions;

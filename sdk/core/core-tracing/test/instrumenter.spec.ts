@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { Instrumenter, TracingSpan, TracingSpanContext } from "../src/interfaces";
+import { Instrumenter, TracingSpan } from "../src/interfaces";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
   getInstrumenter,
   useInstrumenter,
 } from "../src/instrumenter";
-import { createTracingContext } from "../src/tracingContext";
+import { createTracingContext, knownContextKeys } from "../src/tracingContext";
 
 describe("Instrumenter", () => {
   describe("NoOpInstrumenter", () => {
@@ -56,12 +56,12 @@ describe("Instrumenter", () => {
 
     describe("#createRequestHeaders", () => {
       it("returns an empty object", () => {
-        const span: TracingSpanContext = {
-          spanId: "",
-          traceId: "",
-          traceFlags: 0,
-        };
-        assert.isEmpty(instrumenter.createRequestHeaders(span));
+        assert.isEmpty(instrumenter.createRequestHeaders(createTracingContext()));
+        assert.isEmpty(
+          instrumenter.createRequestHeaders(
+            createTracingContext().setValue(knownContextKeys.Span, createDefaultTracingSpan())
+          )
+        );
       });
     });
   });
