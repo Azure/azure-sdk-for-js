@@ -124,7 +124,22 @@ export type UserEventRequest =
       /**
        * The type of the data.
        */
-      dataType: "text" | "json";
+      dataType: "text";
+    }
+  | {
+      /**
+       * The context of current CloudEvents request.
+       */
+      context: ConnectionContext;
+
+      /**
+       * The content data.
+       */
+      data: any;
+      /**
+       * The type of the data.
+       */
+      dataType: "json";
     }
   | {
       /**
@@ -191,7 +206,7 @@ export interface UserEventResponseHandler {
   setState(name: string, value: unknown): void;
   /**
    * Return success response with data to be delivered to the client WebSocket connection.
-   * @param data - The payload data to be returned to the client.
+   * @param data - The payload data to be returned to the client. Stringify the message if it is a JSON object.
    * @param dataType - The type of the payload data.
    */
   success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void;

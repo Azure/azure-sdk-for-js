@@ -62,6 +62,64 @@ describe("Can handle user event", function () {
     assert.isTrue(endSpy.notCalled);
   });
 
+  it("Should handle number requests", async function () {
+    const endSpy = sinon.spy(res.end);
+    buildRequest(req, "hub", "conn1");
+
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (req, response) => {
+        assert.equal(req.dataType, "json");
+        assert.equal(typeof req.data, "json");
+        response.success();
+      },
+    });
+    const process = dispatcher.handleRequest(req, res);
+    mockBody(req, JSON.stringify(1));
+    const result = await process;
+
+    assert.isTrue(result);
+    assert.isTrue(endSpy.calledOnce);
+  });
+
+  it("Should handle complex object requests", async function () {
+    const endSpy = sinon.spy(res.end);
+    buildRequest(req, "hub", "conn1");
+
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (req, response) => {
+        assert.equal(req.dataType, "json");
+        assert.equal(typeof req.data, "object");
+        assert.equal(req.data.a, 1);
+        response.success();
+      },
+    });
+    const process = dispatcher.handleRequest(req, res);
+    mockBody(req, JSON.stringify({ a: 1 }));
+    const result = await process;
+
+    assert.isTrue(result);
+    assert.isTrue(endSpy.calledOnce);
+  });
+
+  it("Should handle complex array requests", async function () {
+    const endSpy = sinon.spy(res.end);
+    buildRequest(req, "hub", "conn1");
+
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (req, response) => {
+        assert.equal(req.dataType, "json");
+        assert.equal(typeof req.data, "array");
+        response.success();
+      },
+    });
+    const process = dispatcher.handleRequest(req, res);
+    mockBody(req, JSON.stringify([1, 2, 3]));
+    const result = await process;
+
+    assert.isTrue(result);
+    assert.isTrue(endSpy.calledOnce);
+  });
+
   it("Should response with 200 when option is not specified", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
