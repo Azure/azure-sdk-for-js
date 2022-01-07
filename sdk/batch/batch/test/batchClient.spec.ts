@@ -5,7 +5,6 @@ import { duration } from "moment";
 import { AccountListPoolNodeCountsResponse, TaskGetResponse } from "../src/models";
 import { assert } from "chai";
 import { BatchServiceClient, BatchServiceModels } from "../src/batchServiceClient";
-import { TokenCredentials } from "@azure/ms-rest-js";
 import moment from "moment";
 import { createClient } from "./utils/recordedClient";
 
@@ -41,7 +40,7 @@ function getPoolName(type: string) {
 
 describe("Batch Service", () => {
   let client: BatchServiceClient;
-  let batchEndpoint: string;
+  // let batchEndpoint: string;
   // let clientId: string;
   // let secret: string;
   let certThumb: string;
@@ -62,7 +61,7 @@ describe("Batch Service", () => {
   };
 
   beforeEach(async () => {
-    batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"]!;
+    // batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"]!;
 
     // dummy thumb
     certThumb = "cff2ab63c8c955aaf71989efa641b906558d9fb7";
@@ -215,41 +214,41 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
     });
 
-    it.skip("should perform AAD authentication successfully", (done) => {
-      const verifyAadAuth = function(token: string, callback: any) {
-        const tokenCreds = new TokenCredentials(token, "Bearer");
-        const aadClient = new BatchServiceClient(tokenCreds, batchEndpoint);
-        aadClient.account.listSupportedImages(function(err, result, request, response) {
-          assert.isNull(err);
-          assert.isDefined(result);
-          assert.isAtLeast(result!.length, 1);
-          assert.equal(response!.status, 200);
-          assert.isDefined(request!.headers.get("authorization"));
-          assert.equal(request!.headers.get("authorization"), "Bearer " + token);
-          callback();
-        });
-      };
+    // it("should perform AAD authentication successfully", (done) => {
+    //   const verifyAadAuth = function(token: string, callback: any) {
+    //     const tokenCreds = new TokenCredentials(token, "Bearer");
+    //     const aadClient = new BatchServiceClient(tokenCreds, batchEndpoint);
+    //     aadClient.account.listSupportedImages(function(err, result, request, response) {
+    //       assert.isNull(err);
+    //       assert.isDefined(result);
+    //       assert.isAtLeast(result!.length, 1);
+    //       assert.equal(response!.status, 200);
+    //       assert.isDefined(request!.headers.get("authorization"));
+    //       assert.equal(request!.headers.get("authorization"), "Bearer " + token);
+    //       callback();
+    //     });
+    //   };
 
-      // if (!suite.isPlayback) {
-      //      const authContext = new AuthenticationContext(
-      //         "https://login.microsoftonline.com/microsoft.onmicrosoft.com"
-      //     );
+    //   // if (!suite.isPlayback) {
+    //   //      const authContext = new AuthenticationContext(
+    //   //         "https://login.microsoftonline.com/microsoft.onmicrosoft.com"
+    //   //     );
 
-      //     authContext.acquireTokenWithClientCredentials(
-      //         "https://batch.core.windows.net/",
-      //         clientId,
-      //         secret,
-      //         function(err: any, tokenResponse: TokenResponse) {
-      //             assert.isNull(err);
-      //             assert.isDefined(tokenResponse);
-      //             assert.isDefined((tokenResponse as TokenResponse).accessToken);
-      //             verifyAadAuth((tokenResponse as TokenResponse).accessToken, done);
-      //         }
-      //     );
-      // } else {
-      verifyAadAuth("dummy token", done);
-      // }
-    });
+    //   //     authContext.acquireTokenWithClientCredentials(
+    //   //         "https://batch.core.windows.net/",
+    //   //         clientId,
+    //   //         secret,
+    //   //         function(err: any, tokenResponse: TokenResponse) {
+    //   //             assert.isNull(err);
+    //   //             assert.isDefined(tokenResponse);
+    //   //             assert.isDefined((tokenResponse as TokenResponse).accessToken);
+    //   //             verifyAadAuth((tokenResponse as TokenResponse).accessToken, done);
+    //   //         }
+    //   //     );
+    //   // } else {
+    //   verifyAadAuth("dummy token", done);
+    //   // }
+    // });
 
     it("should add a pool with vnet and get expected error", async () => {
       const pool: BatchServiceModels.PoolAddParameter = {
@@ -1025,19 +1024,19 @@ describe("Batch Service", () => {
     });
   });
 
-  describe("Applications", async () => {
-    // the application is not added by the tests and should be added by the tester manually
-    it.skip("should list applications successfully", async () => {
-      const result = await client.application.list();
+  // describe("Applications", async () => {
+  //   // the application is not added by the tests and should be added by the tester manually
+  //   it("should list applications successfully", async () => {
+  //     const result = await client.application.list();
 
-      assert.isAtLeast(result.length, 1);
-      assert.equal(result._response.status, 200);
-    });
+  //     assert.isAtLeast(result.length, 1);
+  //     assert.equal(result._response.status, 200);
+  //   });
 
-    it.skip("should get application reference successfully", async () => {
-      await client.application.get("my_application_id");
-    });
-  });
+  //   it("should get application reference successfully", async () => {
+  //     await client.application.get("my_application_id");
+  //   });
+  // });
 
   describe("Task cleanup", async () => {
     it("should delete a task successfully", async () => {
