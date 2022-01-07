@@ -68,7 +68,7 @@ export async function convertHttpToEvent(request: IncomingMessage): Promise<Clou
   return receivedEvent;
 }
 
-export function isJsonData(event: CloudEvent) {
+export function isJsonData(event: CloudEvent): boolean {
   return event.datacontenttype?.startsWith("application/json;");
 }
 
