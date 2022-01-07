@@ -289,6 +289,134 @@ export interface GetPointOfInterestCategoriesOptions extends OperationOptions {
 }
 
 // @public
+export enum KnownElectricVehicleConnector {
+    Chademo = "Chademo",
+    IEC60309AC1PhaseBlue = "IEC60309AC1PhaseBlue",
+    IEC60309DCWhite = "IEC60309DCWhite",
+    IEC62196Type1 = "IEC62196Type1",
+    IEC62196Type1CCS = "IEC62196Type1CCS",
+    IEC62196Type2CableAttached = "IEC62196Type2CableAttached",
+    IEC62196Type2CCS = "IEC62196Type2CCS",
+    IEC62196Type2Outlet = "IEC62196Type2Outlet",
+    IEC62196Type3 = "IEC62196Type3",
+    StandardHouseholdCountrySpecific = "StandardHouseholdCountrySpecific",
+    Tesla = "Tesla"
+}
+
+// @public
+export enum KnownEntryPointType {
+    // (undocumented)
+    Main = "main",
+    // (undocumented)
+    Minor = "minor"
+}
+
+// @public
+export enum KnownGeographicEntityType {
+    // (undocumented)
+    Country = "Country",
+    // (undocumented)
+    CountrySecondarySubdivision = "CountrySecondarySubdivision",
+    // (undocumented)
+    CountrySubdivision = "CountrySubdivision",
+    // (undocumented)
+    CountryTertiarySubdivision = "CountryTertiarySubdivision",
+    // (undocumented)
+    Municipality = "Municipality",
+    // (undocumented)
+    MunicipalitySubdivision = "MunicipalitySubdivision",
+    // (undocumented)
+    Neighbourhood = "Neighbourhood",
+    // (undocumented)
+    PostalCodeArea = "PostalCodeArea"
+}
+
+// @public
+export enum KnownLocalizedMapView {
+    AE = "AE",
+    AR = "AR",
+    Auto = "Auto",
+    BH = "BH",
+    IN = "IN",
+    IQ = "IQ",
+    JO = "JO",
+    KW = "KW",
+    LB = "LB",
+    MA = "MA",
+    OM = "OM",
+    PK = "PK",
+    PS = "PS",
+    QA = "QA",
+    SA = "SA",
+    SY = "SY",
+    Unified = "Unified",
+    YE = "YE"
+}
+
+// @public
+export enum KnownMatchType {
+    // (undocumented)
+    AddressPoint = "AddressPoint",
+    // (undocumented)
+    HouseNumberRange = "HouseNumberRange",
+    // (undocumented)
+    Street = "Street"
+}
+
+// @public
+export enum KnownOperatingHoursRange {
+    NextSevenDays = "nextSevenDays"
+}
+
+// @public
+export enum KnownQueryType {
+    Global = "NON_NEAR",
+    Nearby = "NEARBY"
+}
+
+// @public
+export enum KnownRoadUseType {
+    // (undocumented)
+    Arterial = "Arterial",
+    // (undocumented)
+    LimitedAccess = "LimitedAccess",
+    // (undocumented)
+    LocalStreet = "LocalStreet",
+    // (undocumented)
+    Ramp = "Ramp",
+    // (undocumented)
+    Rotary = "Rotary",
+    // (undocumented)
+    Terminal = "Terminal"
+}
+
+// @public
+export enum KnownSearchAddressResultType {
+    // (undocumented)
+    AddressRange = "Address Range",
+    // (undocumented)
+    CrossStreet = "Cross Street",
+    // (undocumented)
+    Geography = "Geography",
+    // (undocumented)
+    POI = "POI",
+    // (undocumented)
+    PointAddress = "Point Address",
+    // (undocumented)
+    Street = "Street"
+}
+
+// @public
+export enum KnownSearchIndexes {
+    Address = "Addr",
+    CrossStreets = "Xstr",
+    Geographies = "Geo",
+    PointAddresses = "PAD",
+    PointsOfInterest = "POI",
+    Streets = "Str"
+}
+
+// @public
 export interface LatLon {
     // (undocumented)
     latitude: number;
