@@ -334,7 +334,6 @@ matrix([[true, false]] as const, async (useAad) => {
           new Date(Date.UTC(2021, 7, 5)),
           new Date(Date.UTC(2021, 11, 5))
         );
-        console.dir(data);
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
         assert.equal(
           data![0].definition.metricId,
@@ -518,9 +517,9 @@ matrix([[true, false]] as const, async (useAad) => {
         );
       });
 
-      describe("Feedback", async function () {
+      describe.only("Feedback", async function () {
         let createdFeedbackId: string;
-        it.skip("creates Anomaly feedback", async function () {
+        (useAad ? it.skip : it)("creates Anomaly feedback", async function () {
           const anomalyFeedback: MetricAnomalyFeedback = {
             metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             feedbackType: "Anomaly",
@@ -539,7 +538,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("creates ChangePoint feedback", async function () {
+        (useAad ? it.skip : it)("creates ChangePoint feedback", async function () {
           const changePointFeedback: MetricChangePointFeedback = {
             metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             feedbackType: "ChangePoint",
@@ -548,7 +547,6 @@ matrix([[true, false]] as const, async (useAad) => {
             dimensionKey: { category: "Home & Garden", region: "Cairo" },
           };
           const actual = await client.addFeedback(changePointFeedback);
-
           assert.ok(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "ChangePoint");
@@ -557,7 +555,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("creates Period feedback", async function () {
+        (useAad ? it.skip : it)("creates Period feedback", async function () {
           const periodFeedback: MetricPeriodFeedback = {
             metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             feedbackType: "Period",
@@ -576,7 +574,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it.skip("creates Comment feedback", async function () {
+        (useAad ? it.skip : it)("creates Comment feedback", async function () {
           const expectedCommentFeedback: MetricCommentFeedback = {
             metricId: testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
             feedbackType: "Comment",
@@ -594,7 +592,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it.skip("retrieves Comment feedback", async function () {
+        (useAad ? it.skip : it)("retrieves Comment feedback", async function () {
           const actual = await client.getFeedback(createdFeedbackId);
 
           assert.ok(actual.id, "Expecting valid feedback");
@@ -605,7 +603,6 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        // service issue, skipping for now
         it("lists Anomaly feedbacks", async function () {
           const iterator = client.listFeedback(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1,
