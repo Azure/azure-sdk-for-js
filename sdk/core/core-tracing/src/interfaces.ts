@@ -15,7 +15,7 @@ export interface TracingClient {
    * Example:
    *
    * ```ts
-   * const myOperationResult = await withSpan("myClassName.myOperationName", options, (updatedOptions) => myOperation(updatedOptions));
+   * const myOperationResult = await tracingClient.withSpan("myClassName.myOperationName", options, (updatedOptions) => myOperation(updatedOptions));
    * ```
    * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
    * @param operationOptions - The original options passed to the method. The callback will receive these options with the newly created {@link TracingContext}.
@@ -34,7 +34,7 @@ export interface TracingClient {
     spanOptions?: TracingSpanOptions
   ): Promise<ReturnType<Callback>>;
   /**
-   * Start a given span but does not set it as the active span.
+   * Starts a given span but does not set it as the active span.
    *
    * You must end the span using {@link TracingSpan.end}.
    *
@@ -44,7 +44,7 @@ export interface TracingClient {
    * @param operationOptions - The original operation options.
    * @param spanOptions - The options to use when creating the span.
    *
-   * @returns A {@link TracingSpan} that can be used to end the span, the newly updated tracingContext, and the updated operation options.
+   * @returns A {@link TracingSpan} and the updated operation options.
    */
   startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
@@ -55,7 +55,7 @@ export interface TracingClient {
    * Wraps a callback with an active context and calls the callback.
    * Depending on the implementation, this may set the globally available active context.
    *
-   * Useful when you want to leave the boundaries of the SDK (make a request or callback to user code) and are unable to use the {@link withSpan} interface.
+   * Useful when you want to leave the boundaries of the SDK (make a request or callback to user code) and are unable to use the {@link withSpan} API.
    *
    * @param context - The {@link TracingContext} to use as the active context in the scope of the callback.
    * @param callback - The callback to be invoked with the given context set as the globally active context.
@@ -71,7 +71,7 @@ export interface TracingClient {
   ): ReturnType<Callback>;
 
   /**
-   * Parses a traceparent header value into a span identifier.
+   * Parses a traceparent header value into a {@link TracingSpanContext}.
    *
    * @param traceparentHeader - The traceparent header to parse.
    * @returns An implementation-specific identifier for the span.
@@ -106,17 +106,17 @@ export type TracingSpanKind = "client" | "server" | "producer" | "consumer" | "i
 export interface TracingSpanOptions {
   /** The kind of span. Implementations should default this to "client". */
   spanKind?: TracingSpanKind;
-  /** A collection of span identifiers to link to this span. */
+  /** A collection of {@link TracingSpanLink} to link to this span. */
   spanLinks?: TracingSpanLink[];
-  /** Initial attributes to set on a span. */
+  /** Initial set of attributes to set on a span. */
   spanAttributes?: { [key: string]: unknown };
 }
 
 /** A pointer from the current {@link TracingSpan} to another span in the same or a different trace. */
 export interface TracingSpanLink {
-  /** The {@link TracingSpanContext} to link to */
+  /** The {@link TracingSpanContext} to link to. */
   spanContext: TracingSpanContext;
-  /** A set of attributes on the link */
+  /** A set of attributes on the link. */
   attributes?: { [key: string]: unknown };
 }
 
@@ -215,7 +215,7 @@ export interface TracingSpan {
   /**
    * Sets the status of the span. When an error is provided, it will be recorded on the span as well.
    *
-   * @param status - The status to set on the span.
+   * @param status - The {@link SpanStatus} to set on the span.
    */
   setStatus(status: SpanStatus): void;
 
@@ -249,7 +249,7 @@ export interface TracingSpan {
    */
   isRecording(): boolean;
 
-  /** A set of implementation-specific key-value pairs that can uniquely identify a given span. */
+  /** Returns the {@link TracingSpanContext} - an immutable, serializable span identifier. */
   spanContext(): TracingSpanContext;
 }
 

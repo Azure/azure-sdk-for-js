@@ -59,7 +59,7 @@ describe("Instrumenter", () => {
         assert.isEmpty(instrumenter.createRequestHeaders(createTracingContext()));
         assert.isEmpty(
           instrumenter.createRequestHeaders(
-            createTracingContext().setValue(knownContextKeys.Span, createDefaultTracingSpan())
+            createTracingContext().setValue(knownContextKeys.span, createDefaultTracingSpan())
           )
         );
       });

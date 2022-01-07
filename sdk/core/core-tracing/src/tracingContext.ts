@@ -5,10 +5,10 @@ import { TracingClient, TracingContext, TracingSpan } from "./interfaces";
 
 /** @internal */
 export const knownContextKeys = {
-  Span: Symbol.for("@azure/core-tracing span"),
-  Namespace: Symbol.for("@azure/core-tracing namespace"),
-  Client: Symbol.for("@azure/core-tracing client"),
-  ParentContext: Symbol.for("@azure/core-tracing parent context"),
+  span: Symbol.for("@azure/core-tracing span"),
+  namespace: Symbol.for("@azure/core-tracing namespace"),
+  client: Symbol.for("@azure/core-tracing client"),
+  parentContext: Symbol.for("@azure/core-tracing parent context"),
 };
 
 /**
@@ -21,13 +21,13 @@ export const knownContextKeys = {
 export function createTracingContext(options: CreateTracingContextOptions = {}): TracingContext {
   let context: TracingContext = new TracingContextImpl(options.parentContext);
   if (options.span) {
-    context = context.setValue(knownContextKeys.Span, options.span);
+    context = context.setValue(knownContextKeys.span, options.span);
   }
   if (options.client) {
-    context = context.setValue(knownContextKeys.Client, options.client);
+    context = context.setValue(knownContextKeys.client, options.client);
   }
   if (options.namespace) {
-    context = context.setValue(knownContextKeys.Namespace, options.namespace);
+    context = context.setValue(knownContextKeys.namespace, options.namespace);
   }
   return context;
 }
@@ -65,7 +65,7 @@ export class TracingContextImpl implements TracingContext {
 export interface CreateTracingContextOptions {
   /** The {@link parentContext} - the newly created context will contain all the values of the parent context unless overriden. */
   parentContext?: TracingContext;
-  /** The span to set on the context. */
+  /** An initial span to set on the context. */
   span?: TracingSpan;
   /** The tracing client used to create this context. */
   client?: TracingClient;

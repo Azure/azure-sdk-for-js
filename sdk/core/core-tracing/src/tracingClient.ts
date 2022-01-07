@@ -38,10 +38,10 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     });
     let tracingContext = startSpanResult.tracingContext;
     const span = startSpanResult.span;
-    if (!tracingContext.getValue(knownContextKeys.Namespace)) {
-      tracingContext = tracingContext.setValue(knownContextKeys.Namespace, namespace);
+    if (!tracingContext.getValue(knownContextKeys.namespace)) {
+      tracingContext = tracingContext.setValue(knownContextKeys.namespace, namespace);
     }
-    span.setAttribute("az.namespace", tracingContext.getValue(knownContextKeys.Namespace));
+    span.setAttribute("az.namespace", tracingContext.getValue(knownContextKeys.namespace));
     const updatedOptions = {
       ...operationOptions,
       tracingOptions: {

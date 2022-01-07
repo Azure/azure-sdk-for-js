@@ -37,10 +37,10 @@ export function createDefaultTracingSpan(): TracingSpan {
 
 export function createDefaultInstrumenter(): Instrumenter {
   return {
-    createRequestHeaders: (_context: TracingContext): Record<string, string> => {
+    createRequestHeaders: (): Record<string, string> => {
       return {};
     },
-    parseTraceparentHeader: (_traceparentHeader: string): TracingSpanContext | undefined => {
+    parseTraceparentHeader: (): TracingSpanContext | undefined => {
       return undefined;
     },
     startSpan: (
@@ -78,7 +78,7 @@ export function useInstrumenter(instrumenter: Instrumenter): void {
 }
 
 /**
- * Gets the currently set instrumenter, which is {@link NoOpInstrumenter} by default.
+ * Gets the currently set instrumenter, a No-Op instrumenter by default.
  *
  * @returns The currently set instrumenter
  */

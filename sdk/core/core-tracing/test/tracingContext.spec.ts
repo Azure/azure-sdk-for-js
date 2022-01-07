@@ -104,18 +104,18 @@ describe("TracingContext", () => {
         span,
         namespace,
       });
-      assert.strictEqual(newContext.getValue(knownContextKeys.Client), client);
-      assert.strictEqual(newContext.getValue(knownContextKeys.Namespace), namespace);
-      assert.strictEqual(newContext.getValue(knownContextKeys.Span), span);
+      assert.strictEqual(newContext.getValue(knownContextKeys.client), client);
+      assert.strictEqual(newContext.getValue(knownContextKeys.namespace), namespace);
+      assert.strictEqual(newContext.getValue(knownContextKeys.span), span);
     });
 
     it("can be initialized from an existing context", () => {
       const parentContext = createTracingContext().setValue(
-        knownContextKeys.Namespace,
+        knownContextKeys.namespace,
         "test-namespace"
       );
       const newContext = createTracingContext({ parentContext: parentContext });
-      assert.equal(newContext.getValue(knownContextKeys.Namespace), "test-namespace");
+      assert.equal(newContext.getValue(knownContextKeys.namespace), "test-namespace");
     });
   });
 });

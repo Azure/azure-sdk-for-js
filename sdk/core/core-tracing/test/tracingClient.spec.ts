@@ -68,18 +68,18 @@ describe("TracingClient", () => {
     it("sets namespace on context", () => {
       const { updatedOptions } = client.startSpan("test");
       assert.equal(
-        updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.Namespace),
+        updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.namespace),
         expectedNamespace
       );
     });
 
     it("does not override existing namespace on context", () => {
-      context = createTracingContext().setValue(knownContextKeys.Namespace, "Existing.Namespace");
+      context = createTracingContext().setValue(knownContextKeys.namespace, "Existing.Namespace");
       const { updatedOptions } = client.startSpan("test", {
         tracingOptions: { tracingContext: context },
       });
       assert.equal(
-        updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.Namespace),
+        updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.namespace),
         "Existing.Namespace"
       );
     });
