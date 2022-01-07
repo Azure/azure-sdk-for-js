@@ -4,7 +4,7 @@ This document outlines key differences between the legacy recorder and the new U
 
 ## Prerequisites
 
-- [Docker] is required, as the [test proxy server] is run in a container during testing.
+- [Docker] is required, as the [test proxy server] is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient. 
 
 ## Installing the Unified Recorder
 
