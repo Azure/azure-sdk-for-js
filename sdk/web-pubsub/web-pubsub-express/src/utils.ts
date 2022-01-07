@@ -69,7 +69,7 @@ export async function convertHttpToEvent(request: IncomingMessage): Promise<Clou
 }
 
 export function isJsonData(event: CloudEvent): boolean {
-  return event.datacontenttype?.startsWith("application/json;");
+  return event.datacontenttype?.startsWith("application/json;") === true ? true : false;
 }
 
 export function readRequestBody(req: IncomingMessage): Promise<string> {
