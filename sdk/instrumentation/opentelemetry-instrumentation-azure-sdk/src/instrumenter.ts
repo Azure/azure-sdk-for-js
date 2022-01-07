@@ -9,10 +9,14 @@ import {
   TracingSpanContext,
 } from "@azure/core-tracing";
 
-import { trace, context, propagation } from "@opentelemetry/api";
+import { trace, context, defaultTextMapGetter, defaultTextMapSetter } from "@opentelemetry/api";
+import { W3CTraceContextPropagator } from "@opentelemetry/core";
 import { OpenTelemetrySpanWrapper } from "./spanWrapper";
 
 import { toSpanOptions } from "./transformations";
+
+// While default propagation is user-configurable, Azure services always use the W3C implementation.
+export const propagator = new W3CTraceContextPropagator();
 
 export class OpenTelemetryInstrumenter implements Instrumenter {
   startSpan(
@@ -47,13 +51,17 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
   }
 
   parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined {
-    const newContext = propagation.extract(context.active(), { traceparent: traceparentHeader });
+    const newContext = propagator.extract(
+      context.active(),
+      { traceparent: traceparentHeader },
+      defaultTextMapGetter
+    );
     return trace.getSpanContext(newContext);
   }
 
   createRequestHeaders(tracingContext?: TracingContext): Record<string, string> {
     const headers: Record<string, string> = {};
-    propagation.inject(tracingContext || context.active(), headers);
+    propagator.inject(tracingContext || context.active(), headers, defaultTextMapSetter);
 
     return headers;
   }

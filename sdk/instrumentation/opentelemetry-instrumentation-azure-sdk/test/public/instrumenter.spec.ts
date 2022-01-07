@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { OpenTelemetryInstrumenter } from "../../src/instrumenter";
+import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter";
 import { trace, context, SpanKind } from "@opentelemetry/api";
 import { TracingSpan, TracingSpanKind } from "@azure/core-tracing";
 import { TestSpan } from "./util/testSpan";
@@ -14,6 +14,27 @@ import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper";
 
 describe("OpenTelemetryInstrumenter", () => {
   const instrumenter = new OpenTelemetryInstrumenter();
+
+  describe("#createRequestHeaders", () => {
+    afterEach(() => {
+      sinon.restore();
+    });
+
+    it("uses the passed in context if it exists", () => {
+      let propagationSpy = sinon.spy(propagator);
+      const span = new TestTracer().startSpan("test");
+      let tracingContext = trace.setSpan(context.active(), span);
+      instrumenter.createRequestHeaders(tracingContext);
+      assert.isTrue(propagationSpy.inject.calledWith(tracingContext));
+    });
+
+    it("uses the active context if no context was provided", () => {
+      let propagationSpy = sinon.spy(propagator);
+      instrumenter.createRequestHeaders();
+      const activeContext = context.active();
+      assert.isTrue(propagationSpy.inject.calledWith(activeContext));
+    });
+  });
 
   // TODO: the following still uses existing test support for OTel.
   // Once the new APIs are available we should move away from those.

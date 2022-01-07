@@ -1397,6 +1397,16 @@ packages:
       semver: 7.3.5
     dev: false
 
+  /@opentelemetry/core/1.0.1_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-90nQ2X6b/8X+xjcLDBYKooAcOsIlwLRYm+1VsxcX5cHl6V4CSVmDpBreQSDH/A21SqROzapk6813008SatmPpQ==}
+    engines: {node: '>=8.5.0'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.1.0'
+    dependencies:
+      '@opentelemetry/api': 1.0.4
+      '@opentelemetry/semantic-conventions': 1.0.1
+    dev: false
+
   /@opentelemetry/instrumentation-http/0.22.0_@opentelemetry+api@1.0.4:
     resolution: {integrity: sha512-vqM1hqgYtcO8Upq8pl4I+YW0bnodHlUSSKYuOH7m9Aujbi571pU3zFctpiU5pNhj9eLEJ/r7aOTV6O4hCxqOjQ==}
     engines: {node: '>=8.0.0'}
@@ -1494,6 +1504,11 @@ packages:
 
   /@opentelemetry/semantic-conventions/0.24.0:
     resolution: {integrity: sha512-a/szuMQV0Quy0/M7kKdglcbRSoorleyyOwbTNNJ32O+RBN766wbQlMTvdimImTmwYWGr+NJOni1EcC242WlRcA==}
+    engines: {node: '>=8.0.0'}
+    dev: false
+
+  /@opentelemetry/semantic-conventions/1.0.1:
+    resolution: {integrity: sha512-7XU1sfQ8uCVcXLxtAHA8r3qaLJ2oq7sKtEwzZhzuEXqYmjW+n+J4yM3kNo0HQo3Xp1eUe47UM6Wy6yuAvIyllg==}
     engines: {node: '>=8.0.0'}
     dev: false
 
@@ -12203,12 +12218,13 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-buEtsfLj6YwyqxpQ3SQwkfkaHhf52uMJZ2g2o26eymaH9b5HcWvCydd9Z2radd1vhXQJy8CfCBjC/A5V4eNliQ==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-Dz8EkDVTh8SfKUFatcu/WZUX6YQjIQaE3A1qmM9RPSGXloRh/3TmyrrqqKvP6WRoyYIosCqRbwvzMUdyPljP/g==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.19.2
       '@opentelemetry/api': 1.0.4
+      '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
       '@opentelemetry/instrumentation': 0.27.0_@opentelemetry+api@1.0.4
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
