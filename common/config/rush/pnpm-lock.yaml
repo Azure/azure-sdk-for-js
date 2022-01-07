@@ -13307,13 +13307,13 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-dIUQJVvw4Gnx1Osn8Vj7n6nqoGnnQ8KV+b6fkYsdyovvWHNiNFhWK/OQ266RL82kLTxYavEKp6QXQQciJ1XnZA==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-iEnhmTWqjqTfunF2+GRxZMJ4OvO2ek3Y0Mb/RcroAYf1B+/FWfYl0k48jg+uby0+EBT5xVa3+SfANBVgQAlN/g==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.38
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       typescript: 4.2.4
@@ -13322,7 +13322,7 @@ packages:
     dev: false
 
   file:projects/test-recorder-new.tgz:
-    resolution: {integrity: sha512-xEdkJC5rMO2mmrosjw15rNWHcxhh5uXxCdZskU9147jLdrePtr1kmPV64xnZf6GLjTndCpq9tJydQdWwbtIQ4g==, tarball: file:projects/test-recorder-new.tgz}
+    resolution: {integrity: sha512-SaWOH6ubcTbybPLHGNUDpnpejqqcrxBF9x8qJWcH29LqMf9bq2zJaDTjqLnZR+ZFi4geKD99EafcGTYUXQzCEA==, tarball: file:projects/test-recorder-new.tgz}
     name: '@rush-temp/test-recorder-new'
     version: 0.0.0
     dependencies:
@@ -13365,7 +13365,7 @@ packages:
       mock-require: 3.0.3
       npm-run-all: 4.1.5
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -13385,7 +13385,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-z/9s2WuTY21k9477HxunczqlV10RdF5LRqldQZ7NVU4QXeakJpyGbs55FV5fEABACHIyYzBU3IUvp+uKOxEnLA==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-YVTZKhc57wqPtdwdRvUNEeT7fWFV9Z8biRjF+DNywqCbCLC6QY/gIy7+Cb7Lw9B+MVCPDxqW4r0dU4aFd4rBjA==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
@@ -13428,7 +13428,7 @@ packages:
       nock: 12.0.3
       npm-run-all: 4.1.5
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -13446,7 +13446,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-eO/XaNwlnKeTn9jy1A0SpJpAZ8rztxeZU7LKQzOR6rqho1XiZX/N6zsCkAYiOLfvxJnRSqBlDGclKFf6U68xQw==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-O62R8KYXtyRFfZxEkDFh0GoSOi7M9RpWp4Hr4a337ZNCw1xZh94T1xOrLuC8Lgx7glixJv3OTm/1hYvsAVuhRg==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
@@ -13460,7 +13460,7 @@ packages:
       karma-env-preprocessor: 0.1.1
       minimist: 1.2.5
       node-fetch: 2.6.6
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 8.10.2_typescript@4.2.4
       tslib: 2.3.1
@@ -13473,7 +13473,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-mNAkFGRCdahoUfUgUBHK/rXrhHNsoD91poUZvHUzfF4V5Gf5+FJSetlGsuoN0loxj1ZFSLY88FvRmMDpAGAYmw==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-lRA7wxoXX7NWHc36e1+U8RH2RQmoZlFm50QXbLBRXqr+A8eIi8u5lphwOZchx6UzOpv1AatfESPoxcp5n7iyzA==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -13492,7 +13492,7 @@ packages:
       karma-coverage: 2.1.0
       karma-env-preprocessor: 0.1.1
       mocha: 7.2.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -13506,7 +13506,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-mdXZ9tCySJwZPY1AEBWEe2U+al31WEkYxH1NEziqnPjUDTHhHobXZ7SLt6IzIirAKaB7TC4/N6YFv6PPJYjR1w==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-05oLLpWqsXhCMszzTOhm+TeCAFXH70Qld5TTY6BdKQBuXU2c60RzuGJRJK4C87u+v3On/mdfTzth6YG/iJmLOQ==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:
@@ -13543,7 +13543,7 @@ packages:
       mock-require: 3.0.3
       npm-run-all: 4.1.5
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       typescript: 4.2.4

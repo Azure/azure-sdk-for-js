@@ -28,7 +28,7 @@ let cachedHttpsAgent: https.Agent;
 export const getCachedHttpsAgent = (insecure: boolean): https.Agent => {
   if (!cachedHttpsAgent) {
     cachedHttpsAgent = new https.Agent({
-      rejectUnauthorized: !insecure
+      rejectUnauthorized: !insecure,
       // TODO: Doesn't work currently
       // pfx: require("fs").readFileSync(
       //   "/workspaces/azure-sdk-for-js/eng/common/testproxy/dotnet-devcert.pfx"
@@ -66,7 +66,7 @@ export async function makeRequest(
         uri,
         {
           ...requestOptions,
-          agent: getCachedHttpsAgent(insecure)
+          agent: getCachedHttpsAgent(insecure),
         },
         resolve
       );

@@ -1,5 +1,17 @@
 # Release History
 
+## 1.4.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Addressed an issue where the `onResponse` callback wouldn't be called in certain cases where an unexpected response was received from the service. [PR #19702](https://github.com/Azure/azure-sdk-for-js/pull/19702)
+
+### Other Changes
+
 ## 1.4.0 (2022-01-06)
 
 ### Features Added

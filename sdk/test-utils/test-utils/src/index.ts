@@ -6,7 +6,7 @@ export {
   versionsToTest,
   SupportedVersions,
   MultiVersionTestOptions,
-  TestFunctionWrapper
+  TestFunctionWrapper,
 } from "./multiVersion";
 
 export { matrix } from "./matrix";

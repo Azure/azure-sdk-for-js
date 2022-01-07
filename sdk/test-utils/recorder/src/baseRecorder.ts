@@ -7,11 +7,11 @@ import {
   RecorderEnvironmentSetup,
   filterSecretsFromStrings,
   filterSecretsRecursivelyFromJSON,
-  generateTestRecordingFilePath
+  generateTestRecordingFilePath,
 } from "./utils";
 import {
   defaultRequestBodyTransforms,
-  RequestBodyTransformsType
+  RequestBodyTransformsType,
 } from "./utils/requestBodyTransform";
 
 type InternalRecorderEnvironmentSetup = RecorderEnvironmentSetup & {
@@ -53,7 +53,7 @@ export abstract class BaseRecorder {
     replaceableVariables: {},
     customizationsOnRecordings: [],
     queryParametersToSkip: [],
-    requestBodyTransformations: defaultRequestBodyTransforms
+    requestBodyTransformations: defaultRequestBodyTransforms,
   };
   protected hash: string;
   private defaultCustomizationsOnRecordings = defaultCustomizationsOnRecordings;
@@ -109,21 +109,21 @@ export abstract class BaseRecorder {
     this.environmentSetup = {
       replaceableVariables: {
         ...this.environmentSetup.replaceableVariables,
-        ...environmentSetup.replaceableVariables
+        ...environmentSetup.replaceableVariables,
       },
       customizationsOnRecordings: [
         ...this.environmentSetup.customizationsOnRecordings,
-        ...environmentSetup.customizationsOnRecordings
+        ...environmentSetup.customizationsOnRecordings,
       ],
       queryParametersToSkip: [
         ...this.environmentSetup.queryParametersToSkip,
-        ...environmentSetup.queryParametersToSkip
+        ...environmentSetup.queryParametersToSkip,
       ],
       requestBodyTransformations: {
         // TODO: Concat with the requestBodyTransformations once exposed
         stringTransforms: this.environmentSetup.requestBodyTransformations?.stringTransforms,
-        jsonTransforms: this.environmentSetup.requestBodyTransformations?.jsonTransforms
-      }
+        jsonTransforms: this.environmentSetup.requestBodyTransformations?.jsonTransforms,
+      },
     };
   }
 

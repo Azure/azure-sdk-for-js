@@ -93,11 +93,7 @@ export function isPlaybackMode() {
 export function encodeRFC3986(str: string): string {
   return encodeURIComponent(str).replace(
     /[!'()*]/g,
-    (x) =>
-      `%${x
-        .charCodeAt(0)
-        .toString(16)
-        .toUpperCase()}`
+    (x) => `%${x.charCodeAt(0).toString(16).toUpperCase()}`
   );
 }
 
@@ -328,7 +324,7 @@ export function parseUrl(url: string): any {
   }, {});
   return {
     url: cleanUrl,
-    query
+    query,
   };
 }
 
