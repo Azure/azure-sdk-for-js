@@ -1,0 +1,49 @@
+{
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+      "query": {},
+      "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fapi.adu.microsoft.com%2F.default",
+      "status": 200,
+      "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+      "responseHeaders": {
+        "cache-control": "no-store, no-cache",
+        "content-length": "1679",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Thu, 18 Nov 2021 07:07:20 GMT",
+        "expires": "-1",
+        "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+        "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+        "pragma": "no-cache",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+krc\"}]}",
+        "strict-transport-security": "max-age=31536000; includeSubDomains",
+        "x-content-type-options": "nosniff",
+        "x-ms-ests-server": "2.1.12231.8 - SEASLR1 ProdSlices",
+        "x-ms-request-id": "d2d0a0fd-aa12-4284-8cd0-f42b23160200"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/deviceupdate/sdkinstance/management/groups/testgroup",
+      "query": {
+        "api-version": "2021-06-01-preview"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\r\n  \"deploymentId\": \"test20211117112017\",\r\n  \"groupId\": \"testgroup\",\r\n  \"tags\": [\r\n    \"testgroup\"\r\n  ],\r\n  \"createdDateTime\": \"2021-11-16T00:49:25.141+00:00\",\r\n  \"groupType\": \"DeviceClassIdAndIoTHubTag\",\r\n  \"deviceCount\": 2,\r\n  \"deviceClassId\": \"0919e3ae422a2bfa8c84ff905813e60351e456d1\"\r\n}",
+      "responseHeaders": {
+        "content-length": "292",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Thu, 18 Nov 2021 07:07:20 GMT",
+        "traceparent": "00-34aed2433b2ca54589d93398d5b76408-54b6e1a3fd6b814d-00"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "c1eda040c59e71808cf51d9d3fde31c8"
+}
