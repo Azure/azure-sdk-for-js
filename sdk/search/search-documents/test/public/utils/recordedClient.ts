@@ -9,7 +9,7 @@ import {
   AzureKeyCredential,
   SearchClient,
   SearchIndexerClient,
-  SearchIndexClient,
+  SearchIndexClient
 } from "../../../src";
 
 const isNode =
@@ -31,13 +31,13 @@ export interface Clients<IndexModel> {
 const replaceableVariables: { [k: string]: string } = {
   SEARCH_API_ADMIN_KEY: "admin_key",
   SEARCH_API_ADMIN_KEY_ALT: "admin_key_alt",
-  ENDPOINT: "https://endpoint",
+  ENDPOINT: "https://endpoint"
 };
 
 export const testEnv = new Proxy(replaceableVariables, {
   get: (target, key: string) => {
     return env[key] || target[key];
-  },
+  }
 });
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -52,12 +52,15 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string => {
       const match = testEnv.ENDPOINT.replace(/^https:\/\//, "").replace(/\/$/, "");
       return recording.replace(match, "endpoint");
-    },
+    }
   ],
-  queryParametersToSkip: [],
+  queryParametersToSkip: []
 };
 
-export function createClients<IndexModel>(indexName: string): Clients<IndexModel> {
+export function createClients<IndexModel>(
+  indexName: string,
+  serviceVersion: string
+): Clients<IndexModel> {
   switch (testEnv.AZURE_AUTHORITY_HOST) {
     case "https://login.microsoftonline.us":
       process.env.ENDPOINT = process.env.ENDPOINT!.toString().replace(".windows.net", ".azure.us");
@@ -68,13 +71,19 @@ export function createClients<IndexModel>(indexName: string): Clients<IndexModel
   }
 
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
-  const searchClient = new SearchClient<IndexModel>(testEnv.ENDPOINT, indexName, credential);
-  const indexClient = new SearchIndexClient(testEnv.ENDPOINT, credential);
-  const indexerClient = new SearchIndexerClient(testEnv.ENDPOINT, credential);
+  const searchClient = new SearchClient<IndexModel>(testEnv.ENDPOINT, indexName, credential, {
+    serviceVersion
+  });
+  const indexClient = new SearchIndexClient(testEnv.ENDPOINT, credential, {
+    serviceVersion
+  });
+  const indexerClient = new SearchIndexerClient(testEnv.ENDPOINT, credential, {
+    serviceVersion
+  });
 
   return {
     searchClient,
     indexClient,
-    indexerClient,
+    indexerClient
   };
 }
