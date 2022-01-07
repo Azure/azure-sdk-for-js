@@ -7,12 +7,9 @@
 
 // This sample assumes the registry has a repository `hello-world` with image tagged `v1`.
 
-const {
-  ContainerRegistryClient,
-  KnownContainerRegistryAudience
-} = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
-const dotenv = require("dotenv");
+import { ContainerRegistryClient, KnownContainerRegistryAudience } from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
@@ -20,14 +17,14 @@ async function main() {
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   // Create a new ContainerRegistryClient
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
   });
   const image = client.getArtifact("library/hello-world", "v1");
 
   // Set permissions on the image's "latest" tag
   await image.updateTagProperties("latest", {
     canWrite: false,
-    canDelete: false
+    canDelete: false,
   });
   // After this update, if someone were to push an update to `<registry endpoint>\hello-world:v1`, it would fail.
   // It's worth noting that if this image also had another tag, such as `latest`, and that tag did not have

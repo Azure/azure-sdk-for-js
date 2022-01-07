@@ -1,8 +1,8 @@
 {
-  "name": "azure-container-registry-samples-js",
+  "name": "azure-container-registry-samples-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Container Registry client library samples for JavaScript",
+  "description": "Azure Container Registry client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=12.0.0"
   },
