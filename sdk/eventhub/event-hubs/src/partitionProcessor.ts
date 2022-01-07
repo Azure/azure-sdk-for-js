@@ -11,6 +11,8 @@ import { CloseReason } from "./models/public";
 import { LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
 import { logger } from "./log";
+import { tracingClient } from "./diagnostics/tracing";
+import { OperationOptions } from "./util/operationOptions";
 
 /**
  * A checkpoint is meant to represent the last successfully processed event by the user from a particular
@@ -158,8 +160,13 @@ export class PartitionProcessor implements PartitionContext {
    *
    * @param event - The received events to be processed.
    */
-  async processEvents(events: ReceivedEventData[]): Promise<void> {
-    await this._eventHandlers.processEvents(events, this);
+  async processEvents(
+    events: ReceivedEventData[],
+    updatedOptions: OperationOptions
+  ): Promise<void> {
+    await tracingClient.withContext(updatedOptions.tracingOptions!.tracingContext!, async () => {
+      await this._eventHandlers.processEvents(events, this);
+    });
   }
 
   /**

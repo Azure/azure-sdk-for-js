@@ -3,14 +3,14 @@
 
 import { EventData, isAmqpAnnotatedMessage } from "../eventData";
 import {
-  extractSpanContextFromTraceParentHeader,
-  getTraceParentHeader,
-  isSpanContextValid,
+  TracingSpanContext,
+  // extractSpanContextFromTraceParentHeader,
+  // getTraceParentHeader,
+  // isSpanContextValid,
 } from "@azure/core-tracing";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { OperationOptions } from "../util/operationOptions";
-import { SpanContext } from "@azure/core-tracing";
-import { createMessageSpan } from "./tracing";
+import { createMessageSpan, tracingClient } from "./tracing";
 
 /**
  * @internal
@@ -29,7 +29,7 @@ export function instrumentEventData(
   options: OperationOptions,
   entityPath: string,
   host: string
-): { event: EventData; spanContext: SpanContext | undefined } {
+): { event: EventData; spanContext: TracingSpanContext | undefined } {
   const props = isAmqpAnnotatedMessage(eventData)
     ? eventData.applicationProperties
     : eventData.properties;
@@ -41,7 +41,7 @@ export function instrumentEventData(
     return { event: eventData, spanContext: undefined };
   }
 
-  const { span: messageSpan } = createMessageSpan(options, { entityPath, host });
+  const { span: messageSpan, updatedOptions } = createMessageSpan(options, { entityPath, host });
   try {
     if (!messageSpan.isRecording()) {
       return {
@@ -50,8 +50,10 @@ export function instrumentEventData(
       };
     }
 
-    const traceParent = getTraceParentHeader(messageSpan.spanContext());
-    if (traceParent && isSpanContextValid(messageSpan.spanContext())) {
+    const traceParent = tracingClient.createRequestHeaders(
+      updatedOptions.tracingOptions?.tracingContext
+    )["traceparent"];
+    if (traceParent) {
       const copiedProps = { ...props };
 
       // create a copy so the original isn't modified
@@ -77,11 +79,13 @@ export function instrumentEventData(
  * @param eventData - An individual `EventData` object.
  * @internal
  */
-export function extractSpanContextFromEventData(eventData: EventData): SpanContext | undefined {
+export function extractSpanContextFromEventData(
+  eventData: EventData
+): TracingSpanContext | undefined {
   if (!eventData.properties || !eventData.properties[TRACEPARENT_PROPERTY]) {
     return;
   }
 
   const diagnosticId = eventData.properties[TRACEPARENT_PROPERTY];
-  return extractSpanContextFromTraceParentHeader(diagnosticId);
+  return tracingClient.parseTraceparentHeader(diagnosticId);
 }

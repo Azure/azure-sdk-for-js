@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context, SpanOptions } from "@azure/core-tracing";
+import { TracingContext } from "@azure/core-tracing";
 import { HttpHeaders, HttpHeadersLike, isHttpHeadersLike } from "./httpHeaders";
 import { Mapper, Serializer } from "./serializer";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -142,7 +142,7 @@ export interface WebResourceLike {
   /**
    * Tracing: Context used when creating spans.
    */
-  tracingContext?: Context;
+  tracingContext?: TracingContext;
 
   /**
    * Validates that the required properties such as method, url, headers["Content-Type"],
@@ -285,14 +285,9 @@ export class WebResource implements WebResourceLike {
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
   /**
-   * Tracing: Options used to create a span when tracing is enabled.
-   */
-  spanOptions?: SpanOptions;
-
-  /**
    * Tracing: Context used when creating Spans.
    */
-  tracingContext?: Context;
+  tracingContext?: TracingContext;
 
   constructor(
     url?: string,
@@ -550,10 +545,6 @@ export class WebResource implements WebResourceLike {
       }
     }
 
-    if (options.spanOptions) {
-      this.spanOptions = options.spanOptions;
-    }
-
     if (options.tracingContext) {
       this.tracingContext = options.tracingContext;
     }
@@ -712,13 +703,9 @@ export interface RequestPrepareOptions {
    */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
   /**
-   * Tracing: Options used to create a span when tracing is enabled.
-   */
-  spanOptions?: SpanOptions;
-  /**
    * Tracing: Context used when creating spans.
    */
-  tracingContext?: Context;
+  tracingContext?: TracingContext;
 }
 
 /**
@@ -778,7 +765,7 @@ export interface RequestOptionsBase {
   /**
    * Tracing: Context used when creating spans.
    */
-  tracingContext?: Context;
+  tracingContext?: TracingContext;
 
   /**
    * May contain other properties.

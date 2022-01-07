@@ -29,7 +29,7 @@ import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { OperationOptions } from "./util/operationOptions";
-import { SpanStatusCode } from "@azure/core-tracing";
+import {} from "@azure/core-tracing";
 import { createEventHubSpan } from "./diagnostics/tracing";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { v4 as uuid } from "uuid";
@@ -190,13 +190,10 @@ export class ManagementClient extends LinkEntity {
       };
       logger.verbose("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);
 
-      clientSpan.setStatus({ code: SpanStatusCode.OK });
+      clientSpan.setStatus({ status: "success" });
       return runtimeInfo;
     } catch (error) {
-      clientSpan.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error.message,
-      });
+      clientSpan.setStatus({ status: "error", error });
       logger.warning(
         `An error occurred while getting the hub runtime information: ${error?.name}: ${error?.message}`
       );
@@ -261,13 +258,13 @@ export class ManagementClient extends LinkEntity {
       };
       logger.verbose("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
 
-      clientSpan.setStatus({ code: SpanStatusCode.OK });
+      clientSpan.setStatus({ status: "success" });
 
       return partitionInfo;
     } catch (error) {
       clientSpan.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error.message,
+        status: "error",
+        error,
       });
       logger.warning(
         `An error occurred while getting the partition information: ${error?.name}: ${error?.message}`
