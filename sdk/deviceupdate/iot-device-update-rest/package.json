@@ -16,7 +16,7 @@
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/iot-device-update-rest.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdate/iot-device-update",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdate/iot-device-update/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"

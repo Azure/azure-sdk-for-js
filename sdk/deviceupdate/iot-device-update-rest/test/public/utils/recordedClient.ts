@@ -5,7 +5,7 @@
 
 import { Context } from "mocha";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { Recorder, RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
 
 import "./env";
 import { ClientOptions } from "@azure-rest/core-client";

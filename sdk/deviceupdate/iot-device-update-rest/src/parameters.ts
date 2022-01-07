@@ -4,9 +4,9 @@
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
 import {
-  ImportUpdateInputItem,
-  Group,
   Deployment,
+  Group,
+  ImportUpdateInputItem,
   LogCollectionOperation
 } from "./models";
 

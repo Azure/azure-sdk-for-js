@@ -8,7 +8,10 @@
   "eslint.validate": [
     "javascript",
     "javascriptreact",
-    { "language": "typescript", "autoFix": true }
+    {
+      "language": "typescript",
+      "autoFix": true
+    }
   ],
   "files.exclude": {
     "**/.git": true,
@@ -23,5 +26,6 @@
   "git.ignoreLimitWarning": true,
   "cSpell.words": [
     "datalake"
-  ]
+  ],
+  "workbench.editor.enablePreview": false
 }
