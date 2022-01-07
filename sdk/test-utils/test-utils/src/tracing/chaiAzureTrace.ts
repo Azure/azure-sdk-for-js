@@ -24,11 +24,9 @@ import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
  */
 function chaiAzureTrace(chai: Chai.ChaiStatic): void {
   // expect(() => {}).to.supportsTracing() syntax
-  chai.Assertion.addMethod("supportTracing", function<T>(
-    this: Chai.AssertionStatic,
-    expectedSpanNames: string[],
-    options?: T
-  ) {
+  chai.Assertion.addMethod("supportTracing", function <
+    T
+  >(this: Chai.AssertionStatic, expectedSpanNames: string[], options?: T) {
     return assert.supportsTracing(this._obj, expectedSpanNames, options, this._obj);
   });
 
@@ -58,15 +56,15 @@ async function supportsTracing<
   instrumenter.reset();
   const startSpanOptions = {
     packageName: "test",
-    ...options
+    ...options,
   };
   const { span: rootSpan, tracingContext } = instrumenter.startSpan("root", startSpanOptions);
 
   const newOptions = {
     ...options,
     tracingOptions: {
-      tracingContext: tracingContext
-    }
+      tracingContext: tracingContext,
+    },
   } as Options;
   await callback.call(thisArg, newOptions);
   rootSpan.end();
@@ -107,7 +105,7 @@ function getSpanGraph(traceId: string, instrumenter: MockInstrumenter): SpanGrap
     const spanId = span.spanContext().spanId;
     const node: SpanGraphNode = {
       name: span.name,
-      children: []
+      children: [],
     };
     nodeMap.set(spanId, node);
 
@@ -126,7 +124,7 @@ function getSpanGraph(traceId: string, instrumenter: MockInstrumenter): SpanGrap
   }
 
   return {
-    roots
+    roots,
   };
 }
 

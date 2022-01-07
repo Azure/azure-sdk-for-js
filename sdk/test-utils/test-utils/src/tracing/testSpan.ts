@@ -10,7 +10,7 @@ import {
   Tracer,
   TimeInput,
   SpanStatus,
-  SpanStatusCode
+  SpanStatusCode,
 } from "@opentelemetry/api";
 /**
  * A mock span useful for testing.

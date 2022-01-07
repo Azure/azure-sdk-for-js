@@ -7,7 +7,7 @@ import {
   TracingSpanOptions,
   TracingSpanKind,
   TracingSpanContext,
-  TracingContext
+  TracingContext,
 } from "@azure/core-tracing";
 import { spanKey } from "./mockContext";
 

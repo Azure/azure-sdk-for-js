@@ -6,7 +6,7 @@ import {
   InstrumenterSpanOptions,
   TracingContext,
   TracingSpan,
-  TracingSpanContext
+  TracingSpanContext,
 } from "@azure/core-tracing";
 import { MockContext, spanKey } from "./mockContext";
 import { MockTracingSpan } from "./mockTracingSpan";
@@ -52,7 +52,7 @@ export class MockInstrumenter implements Instrumenter {
     const spanContext = {
       spanId: this.getNextSpanId(),
       traceId: traceId,
-      traceFlags: 0
+      traceFlags: 0,
     };
     const span = new MockTracingSpan(name, spanContext, tracingContext, spanOptions);
     let context: TracingContext = new MockContext(tracingContext);
