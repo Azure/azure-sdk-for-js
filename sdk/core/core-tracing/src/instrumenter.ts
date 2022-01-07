@@ -16,6 +16,7 @@ export function createDefaultTracingSpan(): TracingSpan {
       // noop
     },
     spanContext() {
+      // The world could always use more zeroes.
       return {
         spanId: "00000000-0000-0000-0000-000000000000",
         traceId: "00000000-0000-0000-0000-000000000000",
