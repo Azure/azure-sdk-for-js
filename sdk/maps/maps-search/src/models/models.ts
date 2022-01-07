@@ -10,8 +10,6 @@ import {
 } from "./geojsons";
 
 export {
-  Polygon,
-  PolygonResult,
   SearchIndexes,
   GeographicEntityType,
   LocalizedMapView,
@@ -33,7 +31,6 @@ export {
   ElectricVehicleConnector,
   PointOfInterestCategoryTreeResult,
   RoadUseType,
-  GeoJsonObjectUnion,
   PointOfInterestCategory
 } from "../generated/models";
 
