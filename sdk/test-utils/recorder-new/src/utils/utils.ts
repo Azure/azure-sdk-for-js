@@ -320,7 +320,7 @@ export function setEnvironmentVariables(variables: { [key: string]: string }) {
 /**
  * Returns the environment variable. Throws error if not defined.
  */
-export function getEnvironmentVariable(variable: string): string {
+export function assertEnvironmentVariable(variable: string): string {
   const value = env[variable];
   if (!value) throw new Error(`${variable} is not defined`);
   return value;
