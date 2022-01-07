@@ -517,7 +517,7 @@ matrix([[true, false]] as const, async (useAad) => {
         );
       });
 
-      describe.only("Feedback", async function () {
+      describe("Feedback", async function () {
         let createdFeedbackId: string;
         (useAad ? it.skip : it)("creates Anomaly feedback", async function () {
           const anomalyFeedback: MetricAnomalyFeedback = {
