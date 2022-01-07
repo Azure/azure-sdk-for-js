@@ -14,7 +14,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 | **File Name**         | **Description**                                                                                                                    |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| [device.js][updates] | Demonstrates the use of a DeviceUpdateClient to list all the update providers that have been imported to Device Update for IoT Hub |
+| [device.js][devices] | Demonstrates the use of a DeviceUpdateClient to list all the update providers that have been imported to Device Update for IoT Hub |
 
 ## Prerequisites
 
@@ -56,7 +56,7 @@ npx cross-env ENDPOINT="<account endpoint>" INSTANCE_ID="<instance id>" node dev
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[updates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/javascript/updates.js
+[devices]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/javascript/devices.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/iot-device-update
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuredeviceupdateforiothubinstance]: https://docs.microsoft.com/azure/iot-hub-device-update/understand-device-update
