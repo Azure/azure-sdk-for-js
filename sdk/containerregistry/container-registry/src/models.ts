@@ -167,22 +167,22 @@ export interface ArtifactManifestProperties {
 }
 
 /**
- * Defines values for TagOrder.
+ * Defines values for ArtifactTagOrder.
  *  this contains the known values that the service supports.
  * ### Know values supported by the service
  * **LastUpdatedOnDescending**: Order tags by LastUpdatedOn field, from most recently updated to least recently updated.
  * **LastUpdatedOnAscending**: Order tags by LastUpdatedOn field, from least recently updated to most recently updated.
  */
-export type TagOrder = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
+export type ArtifactTagOrder = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
 /**
- * Defines values for RegistryArtifactOrder.
+ * Defines values for ArtifactManifestOrder.
  *  this contains the known values that the service supports.
  * ### Know values supported by the service
  * **LastUpdatedOnDescending**: Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated.
  * **LastUpdatedOnAscending**: Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated.
  */
-export type ManifestOrder = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
+export type ArtifactManifestOrder = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
 /**
  * Contains response data for the listRepositoryNames operation.

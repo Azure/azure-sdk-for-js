@@ -11,7 +11,7 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ArtifactTagProperties,
   ArtifactManifestProperties,
-  TagOrder,
+  ArtifactTagOrder,
   TagPageResponse,
 } from "./models";
 import { URL } from "./utils/url";
@@ -69,8 +69,8 @@ export interface UpdateManifestPropertiesOptions extends OperationOptions {
  * Options for the `listTagProperties` method of `RegistryArtifact`.
  */
 export interface ListTagPropertiesOptions extends OperationOptions {
-  /** order for listing tag properties */
-  order?: TagOrder;
+  /** order in which the tags are returned */
+  order?: ArtifactTagOrder;
 }
 
 /**

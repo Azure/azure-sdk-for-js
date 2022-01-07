@@ -6,8 +6,8 @@
 
 ### Breaking Changes
 
-- `TagOrderBy` is renamed to `TagOrder`.
-- `ManifestOrderBy` is renamed to `ManifestOrder`.
+- `TagOrderBy` is renamed to `ArtifactTagOrder`.
+- `ManifestOrderBy` is renamed to `ArtifactManifestOrder`.
 - `size` property in `ArtifactManifestProperties` is renamed to `sizeInBytes`.
 
 ### Bugs Fixed

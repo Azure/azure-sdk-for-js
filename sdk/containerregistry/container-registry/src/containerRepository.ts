@@ -11,7 +11,7 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GeneratedClient, RepositoryWriteableProperties } from "./generated";
 import { createSpan } from "./tracing";
 import {
-  ManifestOrder,
+  ArtifactManifestOrder,
   ContainerRepositoryProperties,
   ArtifactManifestProperties,
   ManifestPageResponse,
@@ -28,8 +28,8 @@ export interface DeleteRepositoryOptions extends OperationOptions {}
  * Options for the `listRegistryArtifacts` method of `ContainerRepository`.
  */
 export interface ListManifestPropertiesOptions extends OperationOptions {
-  /** order for listing manifest properties */
-  order?: ManifestOrder;
+  /** order in which the manifest properties are returned */
+  order?: ArtifactManifestOrder;
 }
 /**
  * Options for the `getProperties` method of `ContainerRepository`.
