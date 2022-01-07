@@ -33,7 +33,7 @@ export interface ArtifactManifestProperties {
     readonly registryLoginServer: string;
     readonly relatedArtifacts: ArtifactManifestPlatform[];
     readonly repositoryName: string;
-    readonly size?: number;
+    readonly sizeInBytes?: number;
     readonly tags: string[];
 }
 
@@ -162,7 +162,7 @@ export enum KnownContainerRegistryAudience {
 
 // @public
 export interface ListManifestPropertiesOptions extends OperationOptions {
-    orderBy?: ManifestOrderBy;
+    order?: ManifestOrder;
 }
 
 // @public
@@ -171,11 +171,11 @@ export interface ListRepositoriesOptions extends OperationOptions {
 
 // @public
 export interface ListTagPropertiesOptions extends OperationOptions {
-    orderBy?: TagOrderBy;
+    order?: TagOrder;
 }
 
 // @public
-export type ManifestOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
+export type ManifestOrder = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
 // @public
 export interface ManifestPageResponse extends Array<ArtifactManifestProperties> {
@@ -202,7 +202,7 @@ export interface RepositoryPageResponse extends Array<string> {
 }
 
 // @public
-export type TagOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
+export type TagOrder = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
 // @public
 export interface TagPageResponse extends Array<ArtifactTagProperties> {
