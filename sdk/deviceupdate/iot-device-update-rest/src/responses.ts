@@ -30,7 +30,7 @@ import {
   UpdateListOutput,
   UpdateOperationOutput,
   UpdateOperationsListOutput,
-  UpdateOutput
+  UpdateOutput,
 } from "./outputModels";
 
 export interface UpdatesImportUpdate202Headers {
@@ -208,8 +208,7 @@ export interface ManagementListDeviceClasses200Response extends HttpResponse {
 }
 
 /** Gets a list of all device classes (unique combinations of device manufacturer and model) for all devices connected to Device Update for IoT Hub. */
-export interface ManagementListDeviceClassesdefaultResponse
-  extends HttpResponse {
+export interface ManagementListDeviceClassesdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -227,8 +226,7 @@ export interface ManagementGetDeviceClassdefaultResponse extends HttpResponse {
 }
 
 /** Gets a list of installable updates for a device class. */
-export interface ManagementListInstallableUpdatesForDeviceClass200Response
-  extends HttpResponse {
+export interface ManagementListInstallableUpdatesForDeviceClass200Response extends HttpResponse {
   status: "200";
   body: UpdateIdsListOutput;
 }
@@ -301,8 +299,7 @@ export interface ManagementGetUpdateCompliance200Response extends HttpResponse {
 }
 
 /** Gets the breakdown of how many devices are on their latest update, have new updates available, or are in progress receiving new updates. */
-export interface ManagementGetUpdateCompliancedefaultResponse
-  extends HttpResponse {
+export interface ManagementGetUpdateCompliancedefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -362,8 +359,7 @@ export interface ManagementCreateOrUpdateGroup200Response extends HttpResponse {
 }
 
 /** Create or update a device group. */
-export interface ManagementCreateOrUpdateGroupdefaultResponse
-  extends HttpResponse {
+export interface ManagementCreateOrUpdateGroupdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -381,43 +377,37 @@ export interface ManagementDeleteGroupdefaultResponse extends HttpResponse {
 }
 
 /** Get group update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update. */
-export interface ManagementGetGroupUpdateCompliance200Response
-  extends HttpResponse {
+export interface ManagementGetGroupUpdateCompliance200Response extends HttpResponse {
   status: "200";
   body: UpdateComplianceOutput;
 }
 
 /** Get group update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update. */
-export interface ManagementGetGroupUpdateCompliancedefaultResponse
-  extends HttpResponse {
+export interface ManagementGetGroupUpdateCompliancedefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Get the best available updates for a group and a count of how many devices need each update. */
-export interface ManagementListBestUpdatesForGroup200Response
-  extends HttpResponse {
+export interface ManagementListBestUpdatesForGroup200Response extends HttpResponse {
   status: "200";
   body: UpdatableDevicesListOutput;
 }
 
 /** Get the best available updates for a group and a count of how many devices need each update. */
-export interface ManagementListBestUpdatesForGroupdefaultResponse
-  extends HttpResponse {
+export interface ManagementListBestUpdatesForGroupdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Gets a list of deployments for a group. */
-export interface ManagementListDeploymentsForGroup200Response
-  extends HttpResponse {
+export interface ManagementListDeploymentsForGroup200Response extends HttpResponse {
   status: "200";
   body: DeploymentsListOutput;
 }
 
 /** Gets a list of deployments for a group. */
-export interface ManagementListDeploymentsForGroupdefaultResponse
-  extends HttpResponse {
+export interface ManagementListDeploymentsForGroupdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -435,15 +425,13 @@ export interface ManagementGetDeploymentdefaultResponse extends HttpResponse {
 }
 
 /** Creates or updates a deployment. */
-export interface ManagementCreateOrUpdateDeployment200Response
-  extends HttpResponse {
+export interface ManagementCreateOrUpdateDeployment200Response extends HttpResponse {
   status: "200";
   body: DeploymentOutput;
 }
 
 /** Creates or updates a deployment. */
-export interface ManagementCreateOrUpdateDeploymentdefaultResponse
-  extends HttpResponse {
+export interface ManagementCreateOrUpdateDeploymentdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -455,8 +443,7 @@ export interface ManagementDeleteDeployment204Response extends HttpResponse {
 }
 
 /** Deletes a deployment. */
-export interface ManagementDeleteDeploymentdefaultResponse
-  extends HttpResponse {
+export interface ManagementDeleteDeploymentdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -468,22 +455,19 @@ export interface ManagementGetDeploymentStatus200Response extends HttpResponse {
 }
 
 /** Gets the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed. */
-export interface ManagementGetDeploymentStatusdefaultResponse
-  extends HttpResponse {
+export interface ManagementGetDeploymentStatusdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Gets a list of devices in a deployment along with their state. Useful for getting a list of failed devices. */
-export interface ManagementListDeploymentDevices200Response
-  extends HttpResponse {
+export interface ManagementListDeploymentDevices200Response extends HttpResponse {
   status: "200";
   body: DeploymentDeviceStatesListOutput;
 }
 
 /** Gets a list of devices in a deployment along with their state. Useful for getting a list of failed devices. */
-export interface ManagementListDeploymentDevicesdefaultResponse
-  extends HttpResponse {
+export interface ManagementListDeploymentDevicesdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -537,36 +521,31 @@ export interface ManagementCollectLogsdefaultResponse extends HttpResponse {
 }
 
 /** Get the device diagnostics log collection operation */
-export interface ManagementGetLogCollectionOperation200Response
-  extends HttpResponse {
+export interface ManagementGetLogCollectionOperation200Response extends HttpResponse {
   status: "200";
   body: LogCollectionOperationOutput;
 }
 
 /** Get the device diagnostics log collection operation */
-export interface ManagementGetLogCollectionOperationdefaultResponse
-  extends HttpResponse {
+export interface ManagementGetLogCollectionOperationdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Get all device diagnostics log collection operations */
-export interface ManagementListLogCollectionOperations200Response
-  extends HttpResponse {
+export interface ManagementListLogCollectionOperations200Response extends HttpResponse {
   status: "200";
   body: LogCollectionOperationListOutput;
 }
 
 /** Get all device diagnostics log collection operations */
-export interface ManagementListLogCollectionOperationsdefaultResponse
-  extends HttpResponse {
+export interface ManagementListLogCollectionOperationsdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Get device diagnostics log collection operation with detailed status */
-export interface ManagementGetLogCollectionOperationDetailedStatus200Response
-  extends HttpResponse {
+export interface ManagementGetLogCollectionOperationDetailedStatus200Response extends HttpResponse {
   status: "200";
   body: LogCollectionOperationDetailedStatusOutput;
 }

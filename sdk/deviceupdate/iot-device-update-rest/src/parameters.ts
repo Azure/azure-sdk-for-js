@@ -3,12 +3,7 @@
 
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
-import {
-  Deployment,
-  Group,
-  ImportUpdateInputItem,
-  LogCollectionOperation
-} from "./models";
+import { Deployment, Group, ImportUpdateInputItem, LogCollectionOperation } from "./models";
 
 export interface UpdatesImportUpdateBodyParam {
   /** The update to be imported. */
@@ -45,8 +40,7 @@ export interface UpdatesListUpdatesQueryParam {
   queryParameters?: UpdatesListUpdatesQueryParamProperties;
 }
 
-export type UpdatesListUpdatesParameters = UpdatesListUpdatesQueryParam &
-  RequestParameters;
+export type UpdatesListUpdatesParameters = UpdatesListUpdatesQueryParam & RequestParameters;
 
 export interface UpdatesGetUpdateHeaders {
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -57,8 +51,7 @@ export interface UpdatesGetUpdateHeaderParam {
   headers: RawHttpHeadersInput & UpdatesGetUpdateHeaders;
 }
 
-export type UpdatesGetUpdateParameters = UpdatesGetUpdateHeaderParam &
-  RequestParameters;
+export type UpdatesGetUpdateParameters = UpdatesGetUpdateHeaderParam & RequestParameters;
 export type UpdatesDeleteUpdateParameters = RequestParameters;
 export type UpdatesListProvidersParameters = RequestParameters;
 export type UpdatesListNamesParameters = RequestParameters;
@@ -72,8 +65,7 @@ export interface UpdatesListVersionsQueryParam {
   queryParameters?: UpdatesListVersionsQueryParamProperties;
 }
 
-export type UpdatesListVersionsParameters = UpdatesListVersionsQueryParam &
-  RequestParameters;
+export type UpdatesListVersionsParameters = UpdatesListVersionsQueryParam & RequestParameters;
 export type UpdatesListFilesParameters = RequestParameters;
 
 export interface UpdatesGetFileHeaders {
@@ -85,8 +77,7 @@ export interface UpdatesGetFileHeaderParam {
   headers: RawHttpHeadersInput & UpdatesGetFileHeaders;
 }
 
-export type UpdatesGetFileParameters = UpdatesGetFileHeaderParam &
-  RequestParameters;
+export type UpdatesGetFileParameters = UpdatesGetFileHeaderParam & RequestParameters;
 
 export interface UpdatesListOperationsQueryParamProperties {
   /** Restricts the set of operations returned. Only one specific filter is supported: "status eq 'NotStarted' or status eq 'Running'" */
@@ -99,8 +90,7 @@ export interface UpdatesListOperationsQueryParam {
   queryParameters?: UpdatesListOperationsQueryParamProperties;
 }
 
-export type UpdatesListOperationsParameters = UpdatesListOperationsQueryParam &
-  RequestParameters;
+export type UpdatesListOperationsParameters = UpdatesListOperationsQueryParam & RequestParameters;
 
 export interface UpdatesGetOperationHeaders {
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
@@ -111,8 +101,7 @@ export interface UpdatesGetOperationHeaderParam {
   headers: RawHttpHeadersInput & UpdatesGetOperationHeaders;
 }
 
-export type UpdatesGetOperationParameters = UpdatesGetOperationHeaderParam &
-  RequestParameters;
+export type UpdatesGetOperationParameters = UpdatesGetOperationHeaderParam & RequestParameters;
 export type ManagementListDeviceClassesParameters = RequestParameters;
 export type ManagementGetDeviceClassParameters = RequestParameters;
 export type ManagementListInstallableUpdatesForDeviceClassParameters = RequestParameters;
@@ -126,8 +115,7 @@ export interface ManagementListDevicesQueryParam {
   queryParameters?: ManagementListDevicesQueryParamProperties;
 }
 
-export type ManagementListDevicesParameters = ManagementListDevicesQueryParam &
-  RequestParameters;
+export type ManagementListDevicesParameters = ManagementListDevicesQueryParam & RequestParameters;
 
 export interface ManagementImportDevicesBodyParam {
   /** The types of devices to import. */

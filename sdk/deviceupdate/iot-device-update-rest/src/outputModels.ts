@@ -199,12 +199,7 @@ export interface DeviceOutput {
   /** Update identity. */
   lastAttemptedUpdateId?: UpdateIdOutput;
   /** State of the device in its last deployment. */
-  deploymentStatus?:
-    | "Succeeded"
-    | "InProgress"
-    | "Failed"
-    | "Canceled"
-    | "Incompatible";
+  deploymentStatus?: "Succeeded" | "InProgress" | "Failed" | "Canceled" | "Incompatible";
   /** Update identity. */
   installedUpdateId?: UpdateIdOutput;
   /** Boolean flag indicating whether the latest update is installed on the device */
@@ -359,12 +354,7 @@ export interface DeploymentDeviceStateOutput {
   /** Boolean flag indicating whether this device is in a newer deployment and can no longer retry this deployment. */
   movedOnToNewDeployment: boolean;
   /** Deployment device state. */
-  deviceState:
-    | "Succeeded"
-    | "InProgress"
-    | "Failed"
-    | "Canceled"
-    | "Incompatible";
+  deviceState: "Succeeded" | "InProgress" | "Failed" | "Canceled" | "Incompatible";
 }
 
 export interface DeviceOperationOutput {

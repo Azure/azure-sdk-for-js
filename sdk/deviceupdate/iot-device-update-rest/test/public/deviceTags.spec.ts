@@ -19,10 +19,14 @@ describe("device tags test", () => {
     await recorder.stop();
   });
 
-  it("list device tags", async function() {
-    const result = await client.path("/deviceupdate/{instanceId}/management/devicetags", "sdkinstance").get();
+  it("list device tags", async function () {
+    const result = await client
+      .path("/deviceupdate/{instanceId}/management/devicetags", "sdkinstance")
+      .get();
     if (result.status !== "200") {
-      assert.fail(`GET "/deviceupdate/sdkinstance/management/devicetags" failed with ${result.status}`);
+      assert.fail(
+        `GET "/deviceupdate/sdkinstance/management/devicetags" failed with ${result.status}`
+      );
     }
   });
 }).timeout(60000000000);

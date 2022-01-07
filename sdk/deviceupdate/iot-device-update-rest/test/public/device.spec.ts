@@ -19,10 +19,14 @@ describe("device test", () => {
     await recorder.stop();
   });
 
-  it("list devices", async function() {
-    const result = await client.path("/deviceupdate/{instanceId}/management/devices", "sdkinstance").get();
+  it("list devices", async function () {
+    const result = await client
+      .path("/deviceupdate/{instanceId}/management/devices", "sdkinstance")
+      .get();
     if (result.status !== "200") {
-      assert.fail(`GET "/deviceupdate/sdkinstance/management/devices" failed with ${result.status}`);
+      assert.fail(
+        `GET "/deviceupdate/sdkinstance/management/devices" failed with ${result.status}`
+      );
     }
   });
 }).timeout(60000000000);

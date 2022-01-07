@@ -34,7 +34,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     },
   ],
   queryParametersToSkip: [],
-}
+};
 
 export function createClient(options?: ClientOptions): DeviceUpdateRestClient {
   const credential = new ClientSecretCredential(
