@@ -258,6 +258,12 @@ extends:
     TestProxy: true # Add me!
 ```
 
+## Migrating your recordings
+
+Once you have made the necessary code changes, it is time to re-record your tests using the Unified Recorder to complete the migration. To do this, first **delete** the directory containing the old recordings (the `recordings` folder). Then, run your tests with the `TEST_MODE` environment variable to `record`.
+
+If everything succeeds, the new recordings will be made available in the `recordings` directory. Inspect them to make sure everything looks OK (no secrets present, etc.), and then run the tests in playback mode to ensure everything is passing. If you're running into issues, check out the [Troubleshooting section](#troubleshooting).
+
 [docker]: https://docker.com/
 [`core-rest-pipeline`]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-rest-pipeline
 [`core-http`]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-http
