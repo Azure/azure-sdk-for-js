@@ -240,14 +240,6 @@ export interface GeoJsonObject {
     type: GeoJsonType;
 }
 
-// Warning: (ae-forgotten-export) The symbol "GeoJsonObject" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "GeoJsonGeometryUnion" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "GeoJsonFeature" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "GeoJsonFeatureCollection" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export type GeoJsonObjectUnion = GeoJsonObject_2 | GeoJsonGeometryUnion | GeoJsonFeature_2 | GeoJsonFeatureCollection_2;
-
 // @public
 export interface GeoJsonPoint extends GeoJsonObject {
     // (undocumented)
@@ -386,17 +378,6 @@ export interface PointOfInterestCategorySet {
 // @public
 export interface PointOfInterestCategoryTreeResult {
     readonly categories?: PointOfInterestCategory[];
-}
-
-// @public (undocumented)
-export interface Polygon {
-    geometryData?: GeoJsonObjectUnion;
-    readonly providerID?: string;
-}
-
-// @public
-export interface PolygonResult {
-    readonly polygons?: Polygon[];
 }
 
 // @public
