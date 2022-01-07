@@ -66,10 +66,10 @@ describe("Can handle user event", function () {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
-      handleUserEvent: async (req, response) => {
-        assert.equal(req.dataType, "json");
-        assert.equal(typeof req.data, "number");
-        assert.strictEqual(1, req.data);
+      handleUserEvent: async (request, response) => {
+        assert.equal(request.dataType, "json");
+        assert.equal(typeof request.data, "number");
+        assert.strictEqual(1, request.data);
         response.success();
       },
     });
@@ -87,10 +87,10 @@ describe("Can handle user event", function () {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
-      handleUserEvent: async (req, response) => {
-        assert.equal(req.dataType, "json");
-        assert.equal(typeof req.data, "boolean");
-        assert.strictEqual(true, req.data);
+      handleUserEvent: async (request, response) => {
+        assert.equal(request.dataType, "json");
+        assert.equal(typeof request.data, "boolean");
+        assert.strictEqual(true, request.data);
         response.success();
       },
     });
@@ -108,10 +108,10 @@ describe("Can handle user event", function () {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
-      handleUserEvent: async (req, response) => {
-        assert.equal(req.dataType, "json");
-        assert.equal(typeof req.data, "object");
-        assert.equal(req.data.a, 1);
+      handleUserEvent: async (request, response) => {
+        assert.equal(request.dataType, "json");
+        assert.equal(typeof request.data, "object");
+        assert.equal(request.data.a, 1);
         response.success();
       },
     });
@@ -128,11 +128,11 @@ describe("Can handle user event", function () {
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
-      handleUserEvent: async (req, response) => {
-        assert.equal(req.dataType, "json");
-        assert.equal(typeof req.data, "object");
-        assert.isTrue(Array.isArray(req.data));
-        assert.deepEqual(req.data, [1, 2, 3]);
+      handleUserEvent: async (request, response) => {
+        assert.equal(request.dataType, "json");
+        assert.equal(typeof request.data, "object");
+        assert.isTrue(Array.isArray(request.data));
+        assert.deepEqual(request.data, [1, 2, 3]);
         response.success();
       },
     });
