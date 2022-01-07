@@ -232,7 +232,7 @@ export class Recorder {
    *
    * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
    *
-   * @param client Provide the client that hosts the pipeline object.
+   * @param client - the client that hosts the pipeline object
    */
   public configureClient(client: { pipeline: Pipeline }): void {
     if (isLiveMode()) return;
