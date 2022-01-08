@@ -6,7 +6,7 @@
 import {
   bearerTokenAuthenticationPolicy,
   InternalPipelineOptions,
-  PipelineOptions
+  PipelineOptions,
 } from "@azure/core-rest-pipeline";
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
@@ -16,7 +16,7 @@ import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import {
   createMetricsAdvisorKeyCredentialPolicy,
-  MetricsAdvisorKeyCredential
+  MetricsAdvisorKeyCredential,
 } from "./metricsAdvisorKeyCredentialPolicy";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { GeneratedClient } from "./generated/generatedClient";
@@ -44,7 +44,7 @@ import {
   DataSourceCredentialEntityUnion,
   DataSourceCredentialPatch,
   CredentialsPageResponse,
-  RestResponse
+  RestResponse,
 } from "./models";
 import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
@@ -62,12 +62,12 @@ import {
   toServiceCredential,
   fromServiceCredential,
   toServiceDataFeedSource,
-  toServiceDataFeedSourcePatch
+  toServiceDataFeedSourcePatch,
 } from "./transforms";
 import {
   DEFAULT_COGNITIVE_SCOPE,
   MetricsAdvisorLoggingAllowedHeaderNames,
-  MetricsAdvisorLoggingAllowedQueryParameters
+  MetricsAdvisorLoggingAllowedQueryParameters,
 } from "./constants";
 
 /**
@@ -188,8 +188,8 @@ export class MetricsAdvisorAdministrationClient {
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: MetricsAdvisorLoggingAllowedHeaderNames,
-        additionalAllowedQueryParameters: MetricsAdvisorLoggingAllowedQueryParameters
-      }
+        additionalAllowedQueryParameters: MetricsAdvisorLoggingAllowedQueryParameters,
+      },
     };
     this.client = new GeneratedClient(this.endpointUrl, internalPipelineOptions);
     const authPolicy = isTokenCredential(credential)
@@ -223,7 +223,7 @@ export class MetricsAdvisorAdministrationClient {
       accessMode,
       admins,
       viewers,
-      description
+      description,
     } = feed;
 
     if (source.dataSourceType === "Unknown") {
@@ -276,7 +276,7 @@ export class MetricsAdvisorAdministrationClient {
         admins: admins,
         viewers: viewers,
         dataFeedDescription: description,
-        ...finalOptions
+        ...finalOptions,
       };
       const result = await this.client.createDataFeed(body, finalOptions);
       if (!result.location) {
@@ -288,7 +288,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -317,7 +317,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -398,11 +398,11 @@ export class MetricsAdvisorAdministrationClient {
         return this.listSegmentsOfDataFeeds(
           {
             ...options,
-            maxPageSize: settings.maxPageSize
+            maxPageSize: settings.maxPageSize,
           },
           settings.continuationToken
         );
-      }
+      },
     };
   }
 
@@ -425,14 +425,14 @@ export class MetricsAdvisorAdministrationClient {
       segmentResponse = await this.client.listDataFeeds({
         ...options.filter,
         maxpagesize: options.maxPageSize,
-        ...options
+        ...options,
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
       });
       const resultArray = Object.defineProperty(dataFeeds || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -445,14 +445,14 @@ export class MetricsAdvisorAdministrationClient {
       segmentResponse = await this.client.listDataFeedsNext(continuationToken, {
         ...options.filter,
         maxpagesize: options.maxPageSize,
-        ...options
+        ...options,
       });
       const dataFeeds = segmentResponse.value?.map((d) => {
         return fromServiceDataFeedDetailUnion(d);
       });
       const resultArray = Object.defineProperty(dataFeeds || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -507,7 +507,7 @@ export class MetricsAdvisorAdministrationClient {
         admins: patch.admins,
         viewers: patch.viewers,
         status: patch.status,
-        actionLinkTemplate: patch.actionLinkTemplate
+        actionLinkTemplate: patch.actionLinkTemplate,
       };
       const result = await this.client.updateDataFeed(dataFeedId, patchBody, finalOptions);
       const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
@@ -515,7 +515,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -537,13 +537,13 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const response = await getRawResponse(() => this.client.deleteDataFeed(id, finalOptions), {
-        ...options
+        ...options,
       });
       return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -580,7 +580,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -609,7 +609,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -645,7 +645,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -672,14 +672,14 @@ export class MetricsAdvisorAdministrationClient {
       const response = await getRawResponse(
         () => this.client.deleteAnomalyDetectionConfiguration(id, finalOptions),
         {
-          ...options
+          ...options,
         }
       );
       return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -715,7 +715,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -750,7 +750,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -779,7 +779,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -806,14 +806,14 @@ export class MetricsAdvisorAdministrationClient {
       const response = await getRawResponse(
         () => this.client.deleteAnomalyAlertingConfiguration(id, finalOptions),
         {
-          ...options
+          ...options,
         }
       );
       return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -826,10 +826,11 @@ export class MetricsAdvisorAdministrationClient {
     options: OperationOptions & { maxPageSize?: number } = {}
   ): AsyncIterableIterator<AlertConfigurationsPageResponse> {
     // Service doesn't support server-side paging now
-    const segment = await this.client.getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration(
-      detectionConfigId,
-      options
-    );
+    const segment =
+      await this.client.getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration(
+        detectionConfigId,
+        options
+      );
 
     const alertConfigurations = segment.value?.map((c) => fromServiceAlertConfiguration(c)) ?? [];
     yield alertConfigurations;
@@ -927,10 +928,10 @@ export class MetricsAdvisorAdministrationClient {
        */
       byPage: () => {
         return this.listSegmentsOfAlertingConfigurations(detectionConfigId, {
-          ...options
+          ...options,
           // maxPageSize: settings.maxPageSize
         });
-      }
+      },
     };
   }
 
@@ -958,7 +959,7 @@ export class MetricsAdvisorAdministrationClient {
           description,
           externalLink,
           admins,
-          hookParameter
+          hookParameter,
         } as HookInfoUnion,
         finalOptions
       );
@@ -971,7 +972,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -997,7 +998,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1014,12 +1015,12 @@ export class MetricsAdvisorAdministrationClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listHooks({
         ...options,
-        maxpagesize: maxPageSize
+        maxpagesize: maxPageSize,
       });
       const hooks = segmentResponse.value?.map((h) => fromServiceHookInfoUnion(h)) || [];
       const resultArray = Object.defineProperty(hooks, "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
       continuationToken = segmentResponse.nextLink;
@@ -1032,7 +1033,7 @@ export class MetricsAdvisorAdministrationClient {
       const hooks = segmentResponse.value?.map((h) => fromServiceHookInfoUnion(h)) || [];
       const resultArray = Object.defineProperty(hooks, "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
       continuationToken = segmentResponse.nextLink;
@@ -1119,7 +1120,7 @@ export class MetricsAdvisorAdministrationClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegmentOfHooks(settings.continuationToken, settings.maxPageSize, options);
-      }
+      },
     };
   }
 
@@ -1145,7 +1146,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1166,13 +1167,13 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const response = await getRawResponse(() => this.client.deleteHook(id, finalOptions), {
-        ...options
+        ...options,
       });
       return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1284,10 +1285,10 @@ export class MetricsAdvisorAdministrationClient {
        */
       byPage: () => {
         return this.listSegmentsOfDetectionConfigurations(metricId, {
-          ...options
+          ...options,
           // maxPageSize: settings.maxPageSize
         });
-      }
+      },
     };
   }
 
@@ -1310,12 +1311,12 @@ export class MetricsAdvisorAdministrationClient {
       const response = await this.client.getIngestionProgress(dataFeedId, finalOptions);
       return {
         latestActiveTimestamp: response.latestActiveTimestamp?.getTime(),
-        latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime()
+        latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime(),
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1336,11 +1337,11 @@ export class MetricsAdvisorAdministrationClient {
         dataFeedId,
         {
           startTime,
-          endTime
+          endTime,
         },
         {
           ...options,
-          maxpagesize: options?.maxPageSize
+          maxpagesize: options?.maxPageSize,
         }
       );
       const resultArray = Object.defineProperty(
@@ -1348,13 +1349,13 @@ export class MetricsAdvisorAdministrationClient {
           return {
             timestamp: s.timestamp?.getTime(),
             status: s.status,
-            message: s.message
+            message: s.message,
           };
         }) || [],
         "continuationToken",
         {
           enumerable: true,
-          value: segmentResponse.nextLink
+          value: segmentResponse.nextLink,
         }
       );
       yield resultArray;
@@ -1369,7 +1370,7 @@ export class MetricsAdvisorAdministrationClient {
         continuationToken,
         {
           startTime,
-          endTime
+          endTime,
         },
         options
       );
@@ -1379,13 +1380,13 @@ export class MetricsAdvisorAdministrationClient {
           return {
             timestamp: s.timestamp?.getTime(),
             status: s.status,
-            message: s.message
+            message: s.message,
           };
         }) || [],
         "continuationToken",
         {
           enumerable: true,
-          value: segmentResponse.nextLink
+          value: segmentResponse.nextLink,
         }
       );
       yield resultArray;
@@ -1502,10 +1503,10 @@ export class MetricsAdvisorAdministrationClient {
           settings.continuationToken,
           {
             ...options,
-            maxPageSize: settings.maxPageSize
+            maxPageSize: settings.maxPageSize,
           }
         );
-      }
+      },
     };
   }
 
@@ -1535,12 +1536,12 @@ export class MetricsAdvisorAdministrationClient {
             dataFeedId,
             {
               startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
-              endTime: typeof endTime === "string" ? new Date(endTime) : endTime
+              endTime: typeof endTime === "string" ? new Date(endTime) : endTime,
             },
             finalOptions
           ),
         {
-          ...options
+          ...options,
         }
       );
       logger.info(response);
@@ -1548,7 +1549,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1582,7 +1583,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1611,7 +1612,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1687,11 +1688,11 @@ export class MetricsAdvisorAdministrationClient {
         return this.listSegmentsOfCredentialEntities(
           {
             ...options,
-            maxPageSize: settings.maxPageSize
+            maxPageSize: settings.maxPageSize,
           },
           settings.continuationToken
         );
-      }
+      },
     };
   }
 
@@ -1713,14 +1714,14 @@ export class MetricsAdvisorAdministrationClient {
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listCredentials({
         maxpagesize: options.maxPageSize,
-        ...options
+        ...options,
       });
       const credentials = segmentResponse.value?.map((d) => {
         return fromServiceCredential(d);
       });
       const resultArray = Object.defineProperty(credentials || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -1732,14 +1733,14 @@ export class MetricsAdvisorAdministrationClient {
     while (continuationToken) {
       segmentResponse = await this.client.listCredentialsNext(continuationToken, {
         maxpagesize: options.maxPageSize,
-        ...options
+        ...options,
       });
       const credentials = segmentResponse.value?.map((d) => {
         return fromServiceCredential(d);
       });
       const resultArray = Object.defineProperty(credentials || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -1772,7 +1773,7 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1796,13 +1797,13 @@ export class MetricsAdvisorAdministrationClient {
 
     try {
       const response = await getRawResponse(() => this.client.deleteCredential(id, finalOptions), {
-        ...options
+        ...options,
       });
       return { _response: response.rawResponse };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1829,7 +1830,7 @@ async function getRawResponse<TOptions extends OperationOptions, TResult>(
     onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
       rawResponse = response;
       customerProvidedCallback?.(response, flatResponseParam);
-    }
+    },
   });
   return { flatResponse, rawResponse: rawResponse! };
 }

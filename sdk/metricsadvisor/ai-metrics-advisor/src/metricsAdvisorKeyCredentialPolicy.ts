@@ -5,7 +5,7 @@ import {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
 const X_API_KEY_HEADER_NAME = "x-api-key";
@@ -100,6 +100,6 @@ export function createMetricsAdvisorKeyCredentialPolicy(
       request.headers.set(API_KEY_HEADER_NAME, credential.subscriptionKey);
       request.headers.set(X_API_KEY_HEADER_NAME, credential.apiKey);
       return next(request);
-    }
+    },
   };
 }

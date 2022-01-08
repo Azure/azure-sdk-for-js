@@ -7,7 +7,7 @@
 import {
   bearerTokenAuthenticationPolicy,
   InternalPipelineOptions,
-  PipelineOptions
+  PipelineOptions,
 } from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -16,7 +16,7 @@ import { GeneratedClient } from "./generated/generatedClient";
 import { createSpan } from "./tracing";
 import {
   createMetricsAdvisorKeyCredentialPolicy,
-  MetricsAdvisorKeyCredential
+  MetricsAdvisorKeyCredential,
 } from "./metricsAdvisorKeyCredentialPolicy";
 import { SpanStatusCode } from "@azure/core-tracing";
 import {
@@ -37,14 +37,14 @@ import {
   EnrichmentStatus,
   GetMetricSeriesDataResponse,
   MetricFeedbackPageResponse,
-  AlertQueryTimeMode
+  AlertQueryTimeMode,
 } from "./models";
 import { SeverityFilterCondition, FeedbackType, FeedbackQueryTimeMode } from "./generated/models";
 import { toServiceMetricFeedbackUnion, fromServiceMetricFeedbackUnion } from "./transforms";
 import {
   DEFAULT_COGNITIVE_SCOPE,
   MetricsAdvisorLoggingAllowedHeaderNames,
-  MetricsAdvisorLoggingAllowedQueryParameters
+  MetricsAdvisorLoggingAllowedQueryParameters,
 } from "./constants";
 import { logger } from "./logger";
 
@@ -220,8 +220,8 @@ export class MetricsAdvisorClient {
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: MetricsAdvisorLoggingAllowedHeaderNames,
-        additionalAllowedQueryParameters: MetricsAdvisorLoggingAllowedQueryParameters
-      }
+        additionalAllowedQueryParameters: MetricsAdvisorLoggingAllowedQueryParameters,
+      },
     };
     this.client = new GeneratedClient(this.endpointUrl, internalPipelineOptions);
     const authPolicy = isTokenCredential(credential)
@@ -246,7 +246,7 @@ export class MetricsAdvisorClient {
     const optionsBody = {
       startTime: startTime,
       endTime: endTime,
-      timeMode: timeMode
+      timeMode: timeMode,
     };
     if (continuationToken === undefined) {
       segmentResponse = await this.client.getAlertsByAnomalyAlertingConfiguration(
@@ -254,7 +254,7 @@ export class MetricsAdvisorClient {
         optionsBody,
         {
           ...options,
-          maxpagesize: maxPageSize
+          maxpagesize: maxPageSize,
         }
       );
       const alerts = segmentResponse.value?.map((a) => {
@@ -263,12 +263,12 @@ export class MetricsAdvisorClient {
           alertConfigId: alertConfigId,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          timestamp: a.timestamp?.getTime()
+          timestamp: a.timestamp?.getTime(),
         };
       });
       const resultArray = Object.defineProperty(alerts || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
       continuationToken = segmentResponse.nextLink;
@@ -288,12 +288,12 @@ export class MetricsAdvisorClient {
           alertConfigId: alertConfigId,
           createdOn: a.createdTime,
           modifiedOn: a.modifiedTime,
-          timestamp: a.timestamp?.getTime()
+          timestamp: a.timestamp?.getTime(),
         };
       });
       const resultArray = Object.defineProperty(alerts || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
       continuationToken = segmentResponse.nextLink;
@@ -421,7 +421,7 @@ export class MetricsAdvisorClient {
           settings.maxPageSize,
           options
         );
-      }
+      },
     };
   }
 
@@ -442,7 +442,7 @@ export class MetricsAdvisorClient {
         alertId,
         {
           skip: options.skip,
-          maxpagesize: maxPageSize
+          maxpagesize: maxPageSize,
         }
       );
       const anomalies = segmentResponse.value?.map((a) => {
@@ -454,12 +454,12 @@ export class MetricsAdvisorClient {
           seriesKey: a.dimension,
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus,
-          timestamp: a.timestamp.getTime()
+          timestamp: a.timestamp.getTime(),
         };
       });
       const resultArray = Object.defineProperty(anomalies || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
       continuationToken = segmentResponse.nextLink;
@@ -474,7 +474,7 @@ export class MetricsAdvisorClient {
         continuationToken,
         {
           ...options,
-          maxpagesize: maxPageSize
+          maxpagesize: maxPageSize,
         }
       );
       const anomalies = segmentResponse.value?.map((a) => {
@@ -486,12 +486,12 @@ export class MetricsAdvisorClient {
           seriesKey: a.dimension,
           severity: a.property.anomalySeverity,
           status: a.property.anomalyStatus,
-          timestamp: a.timestamp.getTime()
+          timestamp: a.timestamp.getTime(),
         };
       });
       const resultArray = Object.defineProperty(anomalies || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
       continuationToken = segmentResponse.nextLink;
@@ -598,7 +598,7 @@ export class MetricsAdvisorClient {
           settings.maxPageSize,
           options
         );
-      }
+      },
     };
   }
 
@@ -619,7 +619,7 @@ export class MetricsAdvisorClient {
         alertId,
         {
           ...options,
-          maxpagesize: maxPageSize
+          maxpagesize: maxPageSize,
         }
       );
       const incidents = segmentResponse.value?.map((incident) => {
@@ -631,12 +631,12 @@ export class MetricsAdvisorClient {
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
-          lastOccurredTime: incident.lastTime
+          lastOccurredTime: incident.lastTime,
         };
       });
       const resultArray = Object.defineProperty(incidents || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
       continuationToken = segmentResponse.nextLink;
@@ -651,7 +651,7 @@ export class MetricsAdvisorClient {
         continuationToken,
         {
           ...options,
-          maxpagesize: maxPageSize
+          maxpagesize: maxPageSize,
         }
       );
       const incidents = segmentResponse.value?.map((incident) => {
@@ -663,12 +663,12 @@ export class MetricsAdvisorClient {
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
-          lastOccurredTime: incident.lastTime
+          lastOccurredTime: incident.lastTime,
         };
       });
       const resultArray = Object.defineProperty(incidents || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -775,7 +775,7 @@ export class MetricsAdvisorClient {
           settings.maxPageSize,
           options
         );
-      }
+      },
     };
   }
 
@@ -800,7 +800,7 @@ export class MetricsAdvisorClient {
       endTime: typeof endTime === "string" ? new Date(endTime) : endTime,
       series: seriesKey.map((s) => {
         return { dimension: s };
-      })
+      }),
     };
     const result = await this.client.getSeriesByAnomalyDetectionConfiguration(
       detectionConfigId,
@@ -816,7 +816,7 @@ export class MetricsAdvisorClient {
         lowerBounds: d.lowerBoundaryList,
         upperBounds: d.upperBoundaryList,
         isAnomaly: d.isAnomalyList,
-        periods: d.periodList
+        periods: d.periodList,
       };
     });
 
@@ -844,9 +844,9 @@ export class MetricsAdvisorClient {
               dimensionFilter: options.seriesGroupKeys?.map((d) => {
                 return { dimension: d };
               }),
-              severityFilter: options.severityFilter
+              severityFilter: options.severityFilter,
             }
-          : undefined
+          : undefined,
     };
     if (continuationToken === undefined) {
       segmentResponse = await this.client.getAnomaliesByAnomalyDetectionConfiguration(
@@ -854,7 +854,7 @@ export class MetricsAdvisorClient {
         optionsBody,
         {
           ...options,
-          maxpagesize: maxPageSize
+          maxpagesize: maxPageSize,
         }
       );
       const anomalies = segmentResponse.value?.map((a) => {
@@ -866,12 +866,12 @@ export class MetricsAdvisorClient {
           modifiedOn: a.modifiedTime,
           seriesKey: a.dimension,
           severity: a.property.anomalySeverity,
-          status: a.property.anomalyStatus
+          status: a.property.anomalyStatus,
         };
       });
       const resultArray = Object.defineProperty(anomalies || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
       continuationToken = segmentResponse.nextLink;
@@ -895,12 +895,12 @@ export class MetricsAdvisorClient {
           modifiedOn: a.modifiedTime,
           seriesKey: a.dimension,
           severity: a.property.anomalySeverity,
-          status: a.property.anomalyStatus
+          status: a.property.anomalyStatus,
         };
       });
       const resultArray = Object.defineProperty(anomalies || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
     }
@@ -1021,7 +1021,7 @@ export class MetricsAdvisorClient {
           settings.continuationToken,
           options
         );
-      }
+      },
     };
   }
 
@@ -1041,7 +1041,7 @@ export class MetricsAdvisorClient {
       dimensionFilter: options.seriesGroupKey ? { dimension: options.seriesGroupKey } : undefined,
       startTime,
       endTime,
-      dimensionName
+      dimensionName,
     };
     if (continuationToken === undefined) {
       segmentResponse = await this.client.getDimensionOfAnomaliesByAnomalyDetectionConfiguration(
@@ -1049,12 +1049,12 @@ export class MetricsAdvisorClient {
         optionsBody,
         {
           ...options,
-          maxpagesize: maxPageSize
+          maxpagesize: maxPageSize,
         }
       );
       const resultArray = Object.defineProperty(segmentResponse.value, "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -1064,14 +1064,15 @@ export class MetricsAdvisorClient {
     // we are using nextLink so don't send 'skip' in options
     delete options.skip;
     while (continuationToken) {
-      segmentResponse = await this.client.getDimensionOfAnomaliesByAnomalyDetectionConfigurationNext(
-        continuationToken,
-        optionsBody,
-        options
-      );
+      segmentResponse =
+        await this.client.getDimensionOfAnomaliesByAnomalyDetectionConfigurationNext(
+          continuationToken,
+          optionsBody,
+          options
+        );
       const resultArray = Object.defineProperty(segmentResponse.value, "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -1200,7 +1201,7 @@ export class MetricsAdvisorClient {
           settings.maxPageSize,
           options
         );
-      }
+      },
     };
   }
 
@@ -1220,8 +1221,8 @@ export class MetricsAdvisorClient {
       filter: {
         dimensionFilter: options.seriesGroupKeys?.map((d) => {
           return { dimension: d };
-        })
-      }
+        }),
+      },
     };
     if (continuationToken === undefined) {
       segmentResponse = await this.client.getIncidentsByAnomalyDetectionConfiguration(
@@ -1229,7 +1230,7 @@ export class MetricsAdvisorClient {
         optionsBody,
         {
           ...options,
-          maxpagesize: maxPageSize
+          maxpagesize: maxPageSize,
         }
       );
       const incidents = segmentResponse.value?.map((incident) => {
@@ -1241,12 +1242,12 @@ export class MetricsAdvisorClient {
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
-          lastOccurredTime: incident.lastTime
+          lastOccurredTime: incident.lastTime,
         };
       });
       const resultArray = Object.defineProperty(incidents || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -1260,7 +1261,7 @@ export class MetricsAdvisorClient {
         continuationToken,
         {
           ...options,
-          maxpagesize: maxPageSize
+          maxpagesize: maxPageSize,
         }
       );
       const incidents = segmentResponse.value?.map((incident) => {
@@ -1272,12 +1273,12 @@ export class MetricsAdvisorClient {
           status: incident.property.incidentStatus!,
           severity: incident.property.maxSeverity,
           startTime: incident.startTime,
-          lastOccurredTime: incident.lastTime
+          lastOccurredTime: incident.lastTime,
         };
       });
       const resultArray = Object.defineProperty(incidents || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -1398,7 +1399,7 @@ export class MetricsAdvisorClient {
           settings.maxPageSize,
           options
         );
-      }
+      },
     };
   }
 
@@ -1430,16 +1431,16 @@ export class MetricsAdvisorClient {
           seriesKey: r.rootCause.dimension,
           path: r.path,
           score: r.score,
-          description: r.description
+          description: r.description,
         };
       });
       return {
-        rootCauses: transformed
+        rootCauses: transformed,
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1475,7 +1476,7 @@ export class MetricsAdvisorClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1503,7 +1504,7 @@ export class MetricsAdvisorClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1534,19 +1535,19 @@ export class MetricsAdvisorClient {
       feedbackType: options.filter?.feedbackType,
       startTime,
       endTime,
-      timeMode: options.filter?.timeMode
+      timeMode: options.filter?.timeMode,
     };
     if (continuationToken === undefined) {
       segmentResponse = await this.client.listMetricFeedbacks(optionsBody, {
         ...options,
-        maxpagesize: maxPageSize
+        maxpagesize: maxPageSize,
       });
       const feedbacks = segmentResponse.value?.map((feedback) => {
         return fromServiceMetricFeedbackUnion(feedback);
       });
       const resultArray = Object.defineProperty(feedbacks || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -1564,7 +1565,7 @@ export class MetricsAdvisorClient {
       });
       const resultArray = Object.defineProperty(feedbacks || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -1666,7 +1667,7 @@ export class MetricsAdvisorClient {
           settings.maxPageSize,
           options
         );
-      }
+      },
     };
   }
 
@@ -1690,7 +1691,7 @@ export class MetricsAdvisorClient {
     const optionsBody = {
       startTime: typeof startTime === "string" ? new Date(startTime) : startTime,
       endTime: typeof endTime === "string" ? new Date(endTime) : endTime,
-      series: seriesKey
+      series: seriesKey,
     };
     const result = await this.client.getMetricData(metricId, optionsBody, options);
     const resultArray =
@@ -1698,7 +1699,7 @@ export class MetricsAdvisorClient {
         return {
           definition: { metricId: s.id!.metricId!, seriesKey: s.id!.dimension! },
           timestamps: s.timestampList,
-          values: s.valueList
+          values: s.valueList,
         };
       }) || [];
 
@@ -1715,22 +1716,22 @@ export class MetricsAdvisorClient {
     let segmentResponse;
     const optionsBody = {
       activeSince: activeSince,
-      dimensionFilter: options.dimensionFilter
+      dimensionFilter: options.dimensionFilter,
     };
     if (continuationToken === undefined) {
       segmentResponse = await this.client.getMetricSeries(metricId, optionsBody, {
         ...options,
-        maxpagesize: maxPageSize
+        maxpagesize: maxPageSize,
       });
       const definitions = segmentResponse.value?.map((d) => {
         return {
           metricId: d.metricId!,
-          seriesKey: d.dimension!
+          seriesKey: d.dimension!,
         };
       });
       const resultArray = Object.defineProperty(definitions || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -1748,12 +1749,12 @@ export class MetricsAdvisorClient {
       const definitions = segmentResponse.value?.map((d) => {
         return {
           metricId: d.metricId!,
-          seriesKey: d.dimension!
+          seriesKey: d.dimension!,
         };
       });
       const resultArray = Object.defineProperty(definitions || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -1863,7 +1864,7 @@ export class MetricsAdvisorClient {
           settings.maxPageSize,
           options
         );
-      }
+      },
     };
   }
 
@@ -1876,17 +1877,17 @@ export class MetricsAdvisorClient {
   ): AsyncIterableIterator<DimensionValuesPageResponse> {
     let segmentResponse;
     const optionsBody = {
-      dimensionName: dimensionName
+      dimensionName: dimensionName,
     };
 
     if (continuationToken === undefined) {
       segmentResponse = await this.client.getMetricDimension(metricId, optionsBody, {
         ...options,
-        maxpagesize: maxPageSize
+        maxpagesize: maxPageSize,
       });
       const resultArray = Object.defineProperty(segmentResponse.value || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -1903,7 +1904,7 @@ export class MetricsAdvisorClient {
       );
       const resultArray = Object.defineProperty(segmentResponse.value || [], "continuationToken", {
         enumerable: true,
-        value: segmentResponse.nextLink
+        value: segmentResponse.nextLink,
       });
       yield resultArray;
 
@@ -2009,7 +2010,7 @@ export class MetricsAdvisorClient {
           settings.maxPageSize,
           options
         );
-      }
+      },
     };
   }
 
@@ -2024,25 +2025,25 @@ export class MetricsAdvisorClient {
     let segmentResponse;
     const optionsBody = {
       startTime: startTime,
-      endTime: endTime
+      endTime: endTime,
     };
     if (continuationToken === undefined) {
       segmentResponse = await this.client.getEnrichmentStatusByMetric(metricId, optionsBody, {
         ...options,
-        maxpagesize: maxPageSize
+        maxpagesize: maxPageSize,
       });
       const resultArray = Object.defineProperty(
         segmentResponse.value?.map((s) => {
           return {
             timestamp: s.timestamp?.getTime(),
             status: s.status,
-            message: s.message
+            message: s.message,
           };
         }) || [],
         "continuationToken",
         {
           enumerable: true,
-          value: segmentResponse.nextLink
+          value: segmentResponse.nextLink,
         }
       );
       yield resultArray;
@@ -2062,13 +2063,13 @@ export class MetricsAdvisorClient {
           return {
             timestamp: s.timestamp?.getTime(),
             status: s.status,
-            message: s.message
+            message: s.message,
           };
         }) || [],
         "continuationToken",
         {
           enumerable: true,
-          value: segmentResponse.nextLink
+          value: segmentResponse.nextLink,
         }
       );
       yield resultArray;
@@ -2186,7 +2187,7 @@ export class MetricsAdvisorClient {
           settings.maxPageSize,
           options
         );
-      }
+      },
     };
   }
 }
