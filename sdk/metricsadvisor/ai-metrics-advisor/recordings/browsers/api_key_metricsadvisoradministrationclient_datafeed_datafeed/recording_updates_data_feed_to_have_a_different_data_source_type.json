@@ -2,20 +2,20 @@
  "recordings": [
   {
    "method": "PATCH",
-   "url": "https://endpoint//metricsadvisor/v1.0/dataFeeds/b39b5d8a-966f-4536-bd35-e1ffc8e764e4",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/9476162b-f590-4dfd-a7d6-bd387ada92d7",
    "query": {},
    "requestBody": "{\"dataSourceType\":\"MongoDB\",\"authenticationType\":\"Basic\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-mongodb-patch\",\"database\":\"data-feed-mongodb-patch\",\"command\":\"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }\"}}",
    "status": 200,
-   "response": "{\"dataFeedId\":\"b39b5d8a-966f-4536-bd35-e1ffc8e764e4\",\"dataFeedName\":\"js-test-postgreSqlFeed-163978434104808166\",\"metrics\":[{\"metricId\":\"94883394-33f1-4fc6-a679-e9402e35a38f\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"45e95613-fe71-421c-8340-1790c7eb5aa5\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"MongoDB\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2021-12-17T23:39:16Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"database\":\"data-feed-mongodb-patch\",\"command\":\"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }\"},\"authenticationType\":\"Basic\"}",
+   "response": "{\"dataFeedId\":\"9476162b-f590-4dfd-a7d6-bd387ada92d7\",\"dataFeedName\":\"js-test-postgreSqlFeed-164161072894502481\",\"metrics\":[{\"metricId\":\"b40b73f2-960a-48c8-b9dd-dfd9773c8d88\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"b5f02126-f65e-43af-8b54-0c6fa408950b\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"MongoDB\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"kaghiya@microsoft.com\"],\"viewers\":[],\"creator\":\"kaghiya@microsoft.com\",\"status\":\"Active\",\"createdTime\":\"2022-01-08T02:59:04Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"database\":\"data-feed-mongodb-patch\",\"command\":\"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }\"},\"authenticationType\":\"Basic\"}",
    "responseHeaders": {
-    "apim-request-id": "d78eebd8-ac23-48f1-b385-14358e057c9d",
+    "apim-request-id": "35d29923-df5b-4065-8c9a-1b3786c5b318",
     "content-length": "1305",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 17 Dec 2021 23:39:17 GMT",
+    "date": "Sat, 08 Jan 2022 02:59:05 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "724",
-    "x-request-id": "d78eebd8-ac23-48f1-b385-14358e057c9d"
+    "x-envoy-upstream-service-time": "638",
+    "x-request-id": "35d29923-df5b-4065-8c9a-1b3786c5b318"
    }
   }
  ],
@@ -23,5 +23,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "fcb92c8106be3c13250a71da23758094"
+ "hash": "31f1281e83542b2fef08b347705c8c65"
 }

@@ -8,14 +8,14 @@
    "status": 200,
    "response": "{\"value\":[{\"rootCause\":{\"dimension\":{\"region\":\"Beijing\",\"category\":\"Handmade\"}},\"path\":[\"category\"],\"score\":0.05937581364487382,\"description\":\"Increase on region = Beijing | category = Handmade contributes the most to current incident.\"}]}",
    "responseHeaders": {
-    "apim-request-id": "391e0dbf-d64a-4c72-b958-1b996694fe66",
+    "apim-request-id": "34ec60d2-5d1a-4dd8-85a5-8f6b5bc15cca",
     "content-length": "239",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:01:29 GMT",
+    "date": "Sat, 08 Jan 2022 02:58:25 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "277",
-    "x-request-id": "391e0dbf-d64a-4c72-b958-1b996694fe66"
+    "x-envoy-upstream-service-time": "270",
+    "x-request-id": "34ec60d2-5d1a-4dd8-85a5-8f6b5bc15cca"
    }
   }
  ],

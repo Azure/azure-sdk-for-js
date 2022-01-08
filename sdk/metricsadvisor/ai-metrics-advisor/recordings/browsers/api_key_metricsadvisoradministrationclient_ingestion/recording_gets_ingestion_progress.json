@@ -6,16 +6,16 @@
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"latestSuccessTimestamp\":\"2021-11-15T00:00:00Z\",\"latestActiveTimestamp\":\"2021-11-15T00:00:00Z\"}",
+   "response": "{\"latestSuccessTimestamp\":\"2022-01-07T00:00:00Z\",\"latestActiveTimestamp\":\"2022-01-07T00:00:00Z\"}",
    "responseHeaders": {
-    "apim-request-id": "67588fa0-7a68-43e7-b935-7e3e1ebcced9",
+    "apim-request-id": "20404860-13b1-4be8-ac4e-721198dd7df2",
     "content-length": "96",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:00:58 GMT",
+    "date": "Sat, 08 Jan 2022 02:57:59 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "287",
-    "x-request-id": "67588fa0-7a68-43e7-b935-7e3e1ebcced9"
+    "x-envoy-upstream-service-time": "249",
+    "x-request-id": "20404860-13b1-4be8-ac4e-721198dd7df2"
    }
   }
  ],

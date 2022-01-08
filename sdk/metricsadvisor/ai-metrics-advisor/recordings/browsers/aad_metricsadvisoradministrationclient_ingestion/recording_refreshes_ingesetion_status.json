@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:00:45 GMT",
+    "date": "Sat, 08 Jan 2022 02:57:51 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12231.7 - EUS ProdSlices",
-    "x-ms-request-id": "01bb7887-8939-496e-98b3-986da28e8e00"
+    "x-ms-ests-server": "2.1.12261.17 - SCUS ProdSlices",
+    "x-ms-request-id": "ef821019-076a-4335-b4ab-6be7f30fe602"
    }
   },
   {
@@ -32,14 +32,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2020-10-31T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"},{\"timestamp\":\"2020-10-30T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"}]}",
    "responseHeaders": {
-    "apim-request-id": "851b5ca5-6192-4c66-8c56-a835c555c9aa",
+    "apim-request-id": "1c4759ca-ca86-4bae-a9ae-e9aaf3890db7",
     "content-length": "153",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:00:45 GMT",
+    "date": "Sat, 08 Jan 2022 02:57:51 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "268",
-    "x-request-id": "851b5ca5-6192-4c66-8c56-a835c555c9aa"
+    "x-envoy-upstream-service-time": "266",
+    "x-request-id": "1c4759ca-ca86-4bae-a9ae-e9aaf3890db7"
    }
   },
   {
@@ -50,13 +50,13 @@
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "386c31a5-e6aa-47d8-b956-81e8bc44d335",
+    "apim-request-id": "5e789921-1ff5-4dea-8367-f42414246c32",
     "content-length": "0",
-    "date": "Tue, 16 Nov 2021 02:00:46 GMT",
+    "date": "Sat, 08 Jan 2022 02:57:52 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "359",
-    "x-request-id": "386c31a5-e6aa-47d8-b956-81e8bc44d335"
+    "x-envoy-upstream-service-time": "347",
+    "x-request-id": "5e789921-1ff5-4dea-8367-f42414246c32"
    }
   },
   {
@@ -67,14 +67,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2020-10-31T00:00:00Z\",\"status\":\"NotStarted\",\"message\":\"\"},{\"timestamp\":\"2020-10-30T00:00:00Z\",\"status\":\"NotStarted\",\"message\":\"\"}]}",
    "responseHeaders": {
-    "apim-request-id": "328e4881-991c-4cd3-afd9-236b86922d95",
+    "apim-request-id": "7b383216-5e52-427d-ac2a-449960088db6",
     "content-length": "155",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:00:46 GMT",
+    "date": "Sat, 08 Jan 2022 02:57:52 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "325",
-    "x-request-id": "328e4881-991c-4cd3-afd9-236b86922d95"
+    "x-envoy-upstream-service-time": "236",
+    "x-request-id": "7b383216-5e52-427d-ac2a-449960088db6"
    }
   }
  ],
@@ -82,5 +82,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "0b10ce50869d5977916fc7709b138bb3"
+ "hash": "1156dbeced81e6f9212c40fb3159209e"
 }

@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 17 Dec 2021 23:27:08 GMT",
+    "date": "Sat, 08 Jan 2022 02:59:10 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,53 +20,53 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12261.15 - NCUS ProdSlices",
-    "x-ms-request-id": "9f7f8084-5845-4ee9-b52e-10c08d702700"
+    "x-ms-ests-server": "2.1.12261.17 - SCUS ProdSlices",
+    "x-ms-request-id": "8569d11d-25a0-4fcc-829f-e3e3f5bdbb02"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint//metricsadvisor/v1.0/hooks",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks",
    "query": {},
-   "requestBody": "{\"hookType\":\"Email\",\"hookName\":\"js-test-emailHook-163978362909902123\",\"description\":\"description\",\"hookParameter\":{\"toList\":[\"test@example.com\"]}}",
+   "requestBody": "{\"hookType\":\"Email\",\"hookName\":\"js-test-emailHook-164161075142601422\",\"description\":\"description\",\"hookParameter\":{\"toList\":[\"test@example.com\"]}}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "ed587884-f744-4ae1-ba19-551c7fc0c71d",
+    "apim-request-id": "7d6ee9e7-608d-411f-9e37-a158a3f0fa53",
     "content-length": "0",
-    "date": "Fri, 17 Dec 2021 23:27:09 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/hooks/4eeb9f9c-5f6c-4801-83e4-27f729ec7481",
+    "date": "Sat, 08 Jan 2022 02:59:11 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/hooks/a04fbedb-59a9-403f-a922-edc7553c5cb0",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "204",
-    "x-request-id": "ed587884-f744-4ae1-ba19-551c7fc0c71d"
+    "x-envoy-upstream-service-time": "251",
+    "x-request-id": "7d6ee9e7-608d-411f-9e37-a158a3f0fa53"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint//metricsadvisor/v1.0/hooks/4eeb9f9c-5f6c-4801-83e4-27f729ec7481",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/a04fbedb-59a9-403f-a922-edc7553c5cb0",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"hookId\":\"4eeb9f9c-5f6c-4801-83e4-27f729ec7481\",\"hookName\":\"js-test-emailHook-163978362909902123\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}}",
+   "response": "{\"hookId\":\"a04fbedb-59a9-403f-a922-edc7553c5cb0\",\"hookName\":\"js-test-emailHook-164161075142601422\",\"hookType\":\"Email\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"toList\":[\"test@example.com\"]}}",
    "responseHeaders": {
-    "apim-request-id": "187963ae-45e0-4a53-a81e-8708afcec85e",
+    "apim-request-id": "394c39c7-05de-4bc8-9fb8-1583ad9658ff",
     "content-length": "262",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 17 Dec 2021 23:27:09 GMT",
+    "date": "Sat, 08 Jan 2022 02:59:11 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "122",
-    "x-request-id": "187963ae-45e0-4a53-a81e-8708afcec85e"
+    "x-envoy-upstream-service-time": "125",
+    "x-request-id": "394c39c7-05de-4bc8-9fb8-1583ad9658ff"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "js-test-emailHook-": "js-test-emailHook-163978362909902123",
-   "js-test-webHook-": "js-test-webHook-163978362909904035"
+   "js-test-emailHook-": "js-test-emailHook-164161075142601422",
+   "js-test-webHook-": "js-test-webHook-164161075142609241"
   },
   "newDate": {}
  },
- "hash": "f7c31834c79a5e67f51968ca3f03f1a8"
+ "hash": "778ec13d4d0172721b8497a61a1a0605"
 }
