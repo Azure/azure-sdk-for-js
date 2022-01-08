@@ -13,7 +13,7 @@ import {
   createSynonymMaps,
   deleteSynonymMaps,
   WAIT_TIME,
-  createRandomIndexName
+  createRandomIndexName,
 } from "../utils/setup";
 import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { versionsToTest } from "@azure/test-utils";
@@ -21,13 +21,13 @@ import { versionsToTest } from "@azure/test-utils";
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test3";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
-  onVersions({ minVer: "2020-06-30" }).describe("SearchIndexClient", function(this: Suite) {
+  onVersions({ minVer: "2020-06-30" }).describe("SearchIndexClient", function (this: Suite) {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
 
     this.timeout(99999);
 
-    beforeEach(async function(this: Context) {
+    beforeEach(async function (this: Context) {
       ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME, serviceVersion));
       if (!isPlaybackMode()) {
         await createSynonymMaps(indexClient);
@@ -39,7 +39,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME, serviceVersion));
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       if (recorder) {
         await recorder.stop();
       }
@@ -50,13 +50,13 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       }
     });
 
-    describe("#synonymmaps", function() {
-      it("gets the list of synonymmaps", async function() {
+    describe("#synonymmaps", function () {
+      it("gets the list of synonymmaps", async function () {
         const synonymMaps = await indexClient.listSynonymMaps();
         assert.isAtLeast(synonymMaps.length, 2);
       });
 
-      it("gets the list of synonymmaps names", async function() {
+      it("gets the list of synonymmaps names", async function () {
         const synonymMapNames = await indexClient.listSynonymMapsNames();
         assert.isAtLeast(synonymMapNames.length, 2);
         for (let i = 1; i <= 2; i++) {
@@ -64,19 +64,19 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }
       });
 
-      it("gets the correct synonymmap object", async function() {
+      it("gets the correct synonymmap object", async function () {
         const synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
         assert.equal(synonymMap.name, "my-azure-synonymmap-1");
         assert.equal(synonymMap.synonyms.length, 2);
         const synonyms = [
           "United States, United States of America => USA",
-          "Washington, Wash. => WA"
+          "Washington, Wash. => WA",
         ];
         assert.include(synonyms, synonymMap.synonyms[0]);
         assert.include(synonyms, synonymMap.synonyms[1]);
       });
 
-      it("throws error for invalid synonymmap object", async function() {
+      it("throws error for invalid synonymmap object", async function () {
         let retrievalError: boolean = false;
         try {
           await indexClient.getSynonymMap("garbxyz");
@@ -86,10 +86,10 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         assert.isTrue(retrievalError);
       });
 
-      it("creates the synonymmap object using createOrUpdateSynonymMap", async function() {
+      it("creates the synonymmap object using createOrUpdateSynonymMap", async function () {
         let synonymMap: SynonymMap = {
           name: `my-azure-synonymmap-3`,
-          synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"]
+          synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"],
         };
         await indexClient.createOrUpdateSynonymMap(synonymMap);
         try {
@@ -98,7 +98,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
           assert.equal(synonymMap.synonyms.length, 2);
           const synonyms = [
             "United States, United States of America => USA",
-            "Washington, Wash. => WA"
+            "Washington, Wash. => WA",
           ];
           assert.include(synonyms, synonymMap.synonyms[0]);
           assert.include(synonyms, synonymMap.synonyms[1]);
@@ -107,7 +107,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }
       });
 
-      it("modify and updates the synonymmap object", async function() {
+      it("modify and updates the synonymmap object", async function () {
         let synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
         synonymMap.synonyms.push("California, Clif. => CA");
         await indexClient.createOrUpdateSynonymMap(synonymMap);
@@ -116,7 +116,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         const synonyms = [
           "United States, United States of America => USA",
           "Washington, Wash. => WA",
-          "California, Clif. => CA"
+          "California, Clif. => CA",
         ];
         assert.include(synonyms, synonymMap.synonyms[0]);
         assert.include(synonyms, synonymMap.synonyms[1]);
@@ -124,8 +124,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       });
     });
 
-    describe("#indexes", function() {
-      it("gets the list of indexes", async function() {
+    describe("#indexes", function () {
+      it("gets the list of indexes", async function () {
         const result = await indexClient.listIndexes();
         let listOfIndexes = await result.next();
         const indexNames: string[] = [];
@@ -136,7 +136,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         assert.include(indexNames, TEST_INDEX_NAME);
       });
 
-      it("gets the list of indexes names", async function() {
+      it("gets the list of indexes names", async function () {
         const result = await indexClient.listIndexesNames();
         let listOfIndexNames = await result.next();
         const indexNames: string[] = [];
@@ -147,13 +147,13 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         assert.include(indexNames, TEST_INDEX_NAME);
       });
 
-      it("gets the correct index object", async function() {
+      it("gets the correct index object", async function () {
         const index = await indexClient.getIndex(TEST_INDEX_NAME);
         assert.equal(index.name, TEST_INDEX_NAME);
         assert.equal(index.fields.length, 5);
       });
 
-      it("throws error for invalid index object", async function() {
+      it("throws error for invalid index object", async function () {
         let retrievalError: boolean = false;
         try {
           await indexClient.getIndex("garbxyz");
@@ -163,7 +163,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         assert.isTrue(retrievalError);
       });
 
-      it("creates the index object using createOrUpdateIndex", async function() {
+      it("creates the index object using createOrUpdateIndex", async function () {
         const indexName: string = isLiveMode() ? createRandomIndexName() : "hotel-live-test4";
         let index: SearchIndex = {
           name: indexName,
@@ -171,19 +171,19 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
             {
               type: "Edm.String",
               name: "id",
-              key: true
+              key: true,
             },
             {
               type: "Edm.Double",
               name: "awesomenessLevel",
               sortable: true,
               filterable: true,
-              facetable: true
+              facetable: true,
             },
             {
               type: "Edm.String",
               name: "description",
-              searchable: true
+              searchable: true,
             },
             {
               type: "Edm.ComplexType",
@@ -192,16 +192,16 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
                 {
                   type: "Collection(Edm.String)",
                   name: "tags",
-                  searchable: true
-                }
-              ]
+                  searchable: true,
+                },
+              ],
             },
             {
               type: "Edm.Int32",
               name: "hiddenWeight",
-              hidden: true
-            }
-          ]
+              hidden: true,
+            },
+          ],
         };
         await indexClient.createOrUpdateIndex(index);
         try {
@@ -213,12 +213,12 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }
       });
 
-      it("modify and updates the index object", async function() {
+      it("modify and updates the index object", async function () {
         let index = await indexClient.getIndex(TEST_INDEX_NAME);
         index.fields.push({
           type: "Edm.DateTimeOffset",
           name: "lastUpdatedOn",
-          filterable: true
+          filterable: true,
         });
         await indexClient.createOrUpdateIndex(index);
         index = await indexClient.getIndex(TEST_INDEX_NAME);
