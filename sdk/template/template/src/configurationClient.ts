@@ -84,7 +84,7 @@ export class ConfigurationClient {
     // may be different for your service.
     const authPolicy = bearerTokenAuthenticationPolicy({credential, scopes: `${endpointUrl}/.default`});
 
-    const InternalClientPipelineOptions: InternalClientPipelineOptions = {
+    const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...options,
       deserializationOptions: {
         expectedContentTypes: {
@@ -107,7 +107,7 @@ export class ConfigurationClient {
       },
     };
 
-    this.client = new GeneratedClient(endpointUrl, InternalClientPipelineOptions);
+    this.client = new GeneratedClient(endpointUrl, internalClientPipelineOptions);
     this.client.pipeline.addPolicy(authPolicy);
   }
 
