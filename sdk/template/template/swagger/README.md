@@ -18,8 +18,9 @@ add-credentials: false
 package-version: 1.0.11-beta.1
 disable-async-iterators: true
 hide-clients: true
+use-core-v2: true
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210121.2"
+  "@autorest/typescript": "6.0.0-beta.13"
 ```
 
 ### Rename KeyValue to ConfigurationSetting
