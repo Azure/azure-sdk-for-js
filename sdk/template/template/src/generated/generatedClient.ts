@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { GeneratedClientContext } from "./generatedClientContext";
@@ -50,7 +50,7 @@ import {
   GeneratedClientGetRevisionsNextResponse
 } from "./models";
 
-/** @hidden */
+/** @internal */
 export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
@@ -68,13 +68,7 @@ export class GeneratedClient extends GeneratedClientContext {
   getKeys(
     options?: GeneratedClientGetKeysOptionalParams
   ): Promise<GeneratedClientGetKeysResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.sendOperationRequest(
-      operationArguments,
-      getKeysOperationSpec
-    ) as Promise<GeneratedClientGetKeysResponse>;
+    return this.sendOperationRequest({ options }, getKeysOperationSpec);
   }
 
   /**
@@ -84,13 +78,7 @@ export class GeneratedClient extends GeneratedClientContext {
   checkKeys(
     options?: GeneratedClientCheckKeysOptionalParams
   ): Promise<GeneratedClientCheckKeysResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.sendOperationRequest(
-      operationArguments,
-      checkKeysOperationSpec
-    ) as Promise<GeneratedClientCheckKeysResponse>;
+    return this.sendOperationRequest({ options }, checkKeysOperationSpec);
   }
 
   /**
@@ -100,13 +88,7 @@ export class GeneratedClient extends GeneratedClientContext {
   getKeyValues(
     options?: GeneratedClientGetKeyValuesOptionalParams
   ): Promise<GeneratedClientGetKeyValuesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.sendOperationRequest(
-      operationArguments,
-      getKeyValuesOperationSpec
-    ) as Promise<GeneratedClientGetKeyValuesResponse>;
+    return this.sendOperationRequest({ options }, getKeyValuesOperationSpec);
   }
 
   /**
@@ -116,13 +98,7 @@ export class GeneratedClient extends GeneratedClientContext {
   checkKeyValues(
     options?: GeneratedClientCheckKeyValuesOptionalParams
   ): Promise<GeneratedClientCheckKeyValuesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.sendOperationRequest(
-      operationArguments,
-      checkKeyValuesOperationSpec
-    ) as Promise<GeneratedClientCheckKeyValuesResponse>;
+    return this.sendOperationRequest({ options }, checkKeyValuesOperationSpec);
   }
 
   /**
@@ -134,14 +110,10 @@ export class GeneratedClient extends GeneratedClientContext {
     key: string,
     options?: GeneratedClientGetKeyValueOptionalParams
   ): Promise<GeneratedClientGetKeyValueResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      key,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { key, options },
       getKeyValueOperationSpec
-    ) as Promise<GeneratedClientGetKeyValueResponse>;
+    );
   }
 
   /**
@@ -153,14 +125,10 @@ export class GeneratedClient extends GeneratedClientContext {
     key: string,
     options?: GeneratedClientPutKeyValueOptionalParams
   ): Promise<GeneratedClientPutKeyValueResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      key,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { key, options },
       putKeyValueOperationSpec
-    ) as Promise<GeneratedClientPutKeyValueResponse>;
+    );
   }
 
   /**
@@ -172,14 +140,10 @@ export class GeneratedClient extends GeneratedClientContext {
     key: string,
     options?: GeneratedClientDeleteKeyValueOptionalParams
   ): Promise<GeneratedClientDeleteKeyValueResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      key,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { key, options },
       deleteKeyValueOperationSpec
-    ) as Promise<GeneratedClientDeleteKeyValueResponse>;
+    );
   }
 
   /**
@@ -191,14 +155,10 @@ export class GeneratedClient extends GeneratedClientContext {
     key: string,
     options?: GeneratedClientCheckKeyValueOptionalParams
   ): Promise<GeneratedClientCheckKeyValueResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      key,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { key, options },
       checkKeyValueOperationSpec
-    ) as Promise<GeneratedClientCheckKeyValueResponse>;
+    );
   }
 
   /**
@@ -208,13 +168,7 @@ export class GeneratedClient extends GeneratedClientContext {
   getLabels(
     options?: GeneratedClientGetLabelsOptionalParams
   ): Promise<GeneratedClientGetLabelsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.sendOperationRequest(
-      operationArguments,
-      getLabelsOperationSpec
-    ) as Promise<GeneratedClientGetLabelsResponse>;
+    return this.sendOperationRequest({ options }, getLabelsOperationSpec);
   }
 
   /**
@@ -224,13 +178,7 @@ export class GeneratedClient extends GeneratedClientContext {
   checkLabels(
     options?: GeneratedClientCheckLabelsOptionalParams
   ): Promise<GeneratedClientCheckLabelsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.sendOperationRequest(
-      operationArguments,
-      checkLabelsOperationSpec
-    ) as Promise<GeneratedClientCheckLabelsResponse>;
+    return this.sendOperationRequest({ options }, checkLabelsOperationSpec);
   }
 
   /**
@@ -242,14 +190,7 @@ export class GeneratedClient extends GeneratedClientContext {
     key: string,
     options?: GeneratedClientPutLockOptionalParams
   ): Promise<GeneratedClientPutLockResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      key,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.sendOperationRequest(
-      operationArguments,
-      putLockOperationSpec
-    ) as Promise<GeneratedClientPutLockResponse>;
+    return this.sendOperationRequest({ key, options }, putLockOperationSpec);
   }
 
   /**
@@ -261,14 +202,7 @@ export class GeneratedClient extends GeneratedClientContext {
     key: string,
     options?: GeneratedClientDeleteLockOptionalParams
   ): Promise<GeneratedClientDeleteLockResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      key,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.sendOperationRequest(
-      operationArguments,
-      deleteLockOperationSpec
-    ) as Promise<GeneratedClientDeleteLockResponse>;
+    return this.sendOperationRequest({ key, options }, deleteLockOperationSpec);
   }
 
   /**
@@ -278,13 +212,7 @@ export class GeneratedClient extends GeneratedClientContext {
   getRevisions(
     options?: GeneratedClientGetRevisionsOptionalParams
   ): Promise<GeneratedClientGetRevisionsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.sendOperationRequest(
-      operationArguments,
-      getRevisionsOperationSpec
-    ) as Promise<GeneratedClientGetRevisionsResponse>;
+    return this.sendOperationRequest({ options }, getRevisionsOperationSpec);
   }
 
   /**
@@ -294,13 +222,7 @@ export class GeneratedClient extends GeneratedClientContext {
   checkRevisions(
     options?: GeneratedClientCheckRevisionsOptionalParams
   ): Promise<GeneratedClientCheckRevisionsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.sendOperationRequest(
-      operationArguments,
-      checkRevisionsOperationSpec
-    ) as Promise<GeneratedClientCheckRevisionsResponse>;
+    return this.sendOperationRequest({ options }, checkRevisionsOperationSpec);
   }
 
   /**
@@ -312,14 +234,10 @@ export class GeneratedClient extends GeneratedClientContext {
     nextLink: string,
     options?: GeneratedClientGetKeysNextOptionalParams
   ): Promise<GeneratedClientGetKeysNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { nextLink, options },
       getKeysNextOperationSpec
-    ) as Promise<GeneratedClientGetKeysNextResponse>;
+    );
   }
 
   /**
@@ -331,14 +249,10 @@ export class GeneratedClient extends GeneratedClientContext {
     nextLink: string,
     options?: GeneratedClientGetKeyValuesNextOptionalParams
   ): Promise<GeneratedClientGetKeyValuesNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { nextLink, options },
       getKeyValuesNextOperationSpec
-    ) as Promise<GeneratedClientGetKeyValuesNextResponse>;
+    );
   }
 
   /**
@@ -350,14 +264,10 @@ export class GeneratedClient extends GeneratedClientContext {
     nextLink: string,
     options?: GeneratedClientGetLabelsNextOptionalParams
   ): Promise<GeneratedClientGetLabelsNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { nextLink, options },
       getLabelsNextOperationSpec
-    ) as Promise<GeneratedClientGetLabelsNextResponse>;
+    );
   }
 
   /**
@@ -369,20 +279,16 @@ export class GeneratedClient extends GeneratedClientContext {
     nextLink: string,
     options?: GeneratedClientGetRevisionsNextOptionalParams
   ): Promise<GeneratedClientGetRevisionsNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.sendOperationRequest(
-      operationArguments,
+      { nextLink, options },
       getRevisionsNextOperationSpec
-    ) as Promise<GeneratedClientGetRevisionsNextResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getKeysOperationSpec: coreHttp.OperationSpec = {
+const getKeysOperationSpec: coreClient.OperationSpec = {
   path: "/keys",
   httpMethod: "GET",
   responses: {
@@ -403,7 +309,7 @@ const getKeysOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const checkKeysOperationSpec: coreHttp.OperationSpec = {
+const checkKeysOperationSpec: coreClient.OperationSpec = {
   path: "/keys",
   httpMethod: "HEAD",
   responses: {
@@ -417,7 +323,7 @@ const checkKeysOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
   serializer
 };
-const getKeyValuesOperationSpec: coreHttp.OperationSpec = {
+const getKeyValuesOperationSpec: coreClient.OperationSpec = {
   path: "/kv",
   httpMethod: "GET",
   responses: {
@@ -444,7 +350,7 @@ const getKeyValuesOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const checkKeyValuesOperationSpec: coreHttp.OperationSpec = {
+const checkKeyValuesOperationSpec: coreClient.OperationSpec = {
   path: "/kv",
   httpMethod: "HEAD",
   responses: {
@@ -464,7 +370,7 @@ const checkKeyValuesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
   serializer
 };
-const getKeyValueOperationSpec: coreHttp.OperationSpec = {
+const getKeyValueOperationSpec: coreClient.OperationSpec = {
   path: "/kv/{key}",
   httpMethod: "GET",
   responses: {
@@ -487,7 +393,7 @@ const getKeyValueOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const putKeyValueOperationSpec: coreHttp.OperationSpec = {
+const putKeyValueOperationSpec: coreClient.OperationSpec = {
   path: "/kv/{key}",
   httpMethod: "PUT",
   responses: {
@@ -512,7 +418,7 @@ const putKeyValueOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const deleteKeyValueOperationSpec: coreHttp.OperationSpec = {
+const deleteKeyValueOperationSpec: coreClient.OperationSpec = {
   path: "/kv/{key}",
   httpMethod: "DELETE",
   responses: {
@@ -536,7 +442,7 @@ const deleteKeyValueOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const checkKeyValueOperationSpec: coreHttp.OperationSpec = {
+const checkKeyValueOperationSpec: coreClient.OperationSpec = {
   path: "/kv/{key}",
   httpMethod: "HEAD",
   responses: {
@@ -555,7 +461,7 @@ const checkKeyValueOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const getLabelsOperationSpec: coreHttp.OperationSpec = {
+const getLabelsOperationSpec: coreClient.OperationSpec = {
   path: "/labels",
   httpMethod: "GET",
   responses: {
@@ -581,7 +487,7 @@ const getLabelsOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const checkLabelsOperationSpec: coreHttp.OperationSpec = {
+const checkLabelsOperationSpec: coreClient.OperationSpec = {
   path: "/labels",
   httpMethod: "HEAD",
   responses: {
@@ -600,7 +506,7 @@ const checkLabelsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
   serializer
 };
-const putLockOperationSpec: coreHttp.OperationSpec = {
+const putLockOperationSpec: coreClient.OperationSpec = {
   path: "/locks/{key}",
   httpMethod: "PUT",
   responses: {
@@ -622,7 +528,7 @@ const putLockOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const deleteLockOperationSpec: coreHttp.OperationSpec = {
+const deleteLockOperationSpec: coreClient.OperationSpec = {
   path: "/locks/{key}",
   httpMethod: "DELETE",
   responses: {
@@ -644,7 +550,7 @@ const deleteLockOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const getRevisionsOperationSpec: coreHttp.OperationSpec = {
+const getRevisionsOperationSpec: coreClient.OperationSpec = {
   path: "/revisions",
   httpMethod: "GET",
   responses: {
@@ -671,7 +577,7 @@ const getRevisionsOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const checkRevisionsOperationSpec: coreHttp.OperationSpec = {
+const checkRevisionsOperationSpec: coreClient.OperationSpec = {
   path: "/revisions",
   httpMethod: "HEAD",
   responses: {
@@ -691,7 +597,7 @@ const checkRevisionsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
   serializer
 };
-const getKeysNextOperationSpec: coreHttp.OperationSpec = {
+const getKeysNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -712,7 +618,7 @@ const getKeysNextOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const getKeyValuesNextOperationSpec: coreHttp.OperationSpec = {
+const getKeyValuesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -739,7 +645,7 @@ const getKeyValuesNextOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const getLabelsNextOperationSpec: coreHttp.OperationSpec = {
+const getLabelsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -765,7 +671,7 @@ const getLabelsNextOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const getRevisionsNextOperationSpec: coreHttp.OperationSpec = {
+const getRevisionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

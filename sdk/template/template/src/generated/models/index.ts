@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 /** The result of a list request. */
 export interface KeyListResult {
@@ -218,7 +218,7 @@ export type SettingFields =
 
 /** Optional parameters. */
 export interface GeneratedClientGetKeysOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** A filter for the name of the returned keys. */
   name?: string;
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
@@ -229,22 +229,11 @@ export interface GeneratedClientGetKeysOptionalParams
 
 /** Contains response data for the getKeys operation. */
 export type GeneratedClientGetKeysResponse = GeneratedClientGetKeysHeaders &
-  KeyListResult & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: KeyListResult;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: GeneratedClientGetKeysHeaders;
-    };
-  };
+  KeyListResult;
 
 /** Optional parameters. */
 export interface GeneratedClientCheckKeysOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** A filter for the name of the returned keys. */
   name?: string;
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
@@ -254,17 +243,11 @@ export interface GeneratedClientCheckKeysOptionalParams
 }
 
 /** Contains response data for the checkKeys operation. */
-export type GeneratedClientCheckKeysResponse = GeneratedClientCheckKeysHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientCheckKeysHeaders;
-  };
-};
+export type GeneratedClientCheckKeysResponse = GeneratedClientCheckKeysHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientGetKeyValuesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
@@ -279,22 +262,11 @@ export interface GeneratedClientGetKeyValuesOptionalParams
 
 /** Contains response data for the getKeyValues operation. */
 export type GeneratedClientGetKeyValuesResponse = GeneratedClientGetKeyValuesHeaders &
-  KeyValueListResult & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: KeyValueListResult;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: GeneratedClientGetKeyValuesHeaders;
-    };
-  };
+  KeyValueListResult;
 
 /** Optional parameters. */
 export interface GeneratedClientCheckKeyValuesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
@@ -308,17 +280,11 @@ export interface GeneratedClientCheckKeyValuesOptionalParams
 }
 
 /** Contains response data for the checkKeyValues operation. */
-export type GeneratedClientCheckKeyValuesResponse = GeneratedClientCheckKeyValuesHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientCheckKeyValuesHeaders;
-  };
-};
+export type GeneratedClientCheckKeyValuesResponse = GeneratedClientCheckKeyValuesHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientGetKeyValueOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
   /** The label of the key-value to retrieve. */
@@ -333,22 +299,11 @@ export interface GeneratedClientGetKeyValueOptionalParams
 
 /** Contains response data for the getKeyValue operation. */
 export type GeneratedClientGetKeyValueResponse = GeneratedClientGetKeyValueHeaders &
-  ConfigurationSetting & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: ConfigurationSetting;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: GeneratedClientGetKeyValueHeaders;
-    };
-  };
+  ConfigurationSetting;
 
 /** Optional parameters. */
 export interface GeneratedClientPutKeyValueOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The label of the key-value to create. */
   label?: string;
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
@@ -361,22 +316,11 @@ export interface GeneratedClientPutKeyValueOptionalParams
 
 /** Contains response data for the putKeyValue operation. */
 export type GeneratedClientPutKeyValueResponse = GeneratedClientPutKeyValueHeaders &
-  ConfigurationSetting & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: ConfigurationSetting;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: GeneratedClientPutKeyValueHeaders;
-    };
-  };
+  ConfigurationSetting;
 
 /** Optional parameters. */
 export interface GeneratedClientDeleteKeyValueOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The label of the key-value to delete. */
   label?: string;
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
@@ -385,22 +329,11 @@ export interface GeneratedClientDeleteKeyValueOptionalParams
 
 /** Contains response data for the deleteKeyValue operation. */
 export type GeneratedClientDeleteKeyValueResponse = GeneratedClientDeleteKeyValueHeaders &
-  ConfigurationSetting & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: ConfigurationSetting;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: GeneratedClientDeleteKeyValueHeaders;
-    };
-  };
+  ConfigurationSetting;
 
 /** Optional parameters. */
 export interface GeneratedClientCheckKeyValueOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
   /** The label of the key-value to retrieve. */
@@ -414,17 +347,11 @@ export interface GeneratedClientCheckKeyValueOptionalParams
 }
 
 /** Contains response data for the checkKeyValue operation. */
-export type GeneratedClientCheckKeyValueResponse = GeneratedClientCheckKeyValueHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientCheckKeyValueHeaders;
-  };
-};
+export type GeneratedClientCheckKeyValueResponse = GeneratedClientCheckKeyValueHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientGetLabelsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** A filter for the name of the returned labels. */
   name?: string;
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
@@ -437,22 +364,11 @@ export interface GeneratedClientGetLabelsOptionalParams
 
 /** Contains response data for the getLabels operation. */
 export type GeneratedClientGetLabelsResponse = GeneratedClientGetLabelsHeaders &
-  LabelListResult & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: LabelListResult;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: GeneratedClientGetLabelsHeaders;
-    };
-  };
+  LabelListResult;
 
 /** Optional parameters. */
 export interface GeneratedClientCheckLabelsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** A filter for the name of the returned labels. */
   name?: string;
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
@@ -464,17 +380,11 @@ export interface GeneratedClientCheckLabelsOptionalParams
 }
 
 /** Contains response data for the checkLabels operation. */
-export type GeneratedClientCheckLabelsResponse = GeneratedClientCheckLabelsHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientCheckLabelsHeaders;
-  };
-};
+export type GeneratedClientCheckLabelsResponse = GeneratedClientCheckLabelsHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientPutLockOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The label, if any, of the key-value to lock. */
   label?: string;
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
@@ -485,22 +395,11 @@ export interface GeneratedClientPutLockOptionalParams
 
 /** Contains response data for the putLock operation. */
 export type GeneratedClientPutLockResponse = GeneratedClientPutLockHeaders &
-  ConfigurationSetting & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: ConfigurationSetting;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: GeneratedClientPutLockHeaders;
-    };
-  };
+  ConfigurationSetting;
 
 /** Optional parameters. */
 export interface GeneratedClientDeleteLockOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** The label, if any, of the key-value to unlock. */
   label?: string;
   /** Used to perform an operation only if the targeted resource's etag matches the value provided. */
@@ -511,22 +410,11 @@ export interface GeneratedClientDeleteLockOptionalParams
 
 /** Contains response data for the deleteLock operation. */
 export type GeneratedClientDeleteLockResponse = GeneratedClientDeleteLockHeaders &
-  ConfigurationSetting & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: ConfigurationSetting;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: GeneratedClientDeleteLockHeaders;
-    };
-  };
+  ConfigurationSetting;
 
 /** Optional parameters. */
 export interface GeneratedClientGetRevisionsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
@@ -541,22 +429,11 @@ export interface GeneratedClientGetRevisionsOptionalParams
 
 /** Contains response data for the getRevisions operation. */
 export type GeneratedClientGetRevisionsResponse = GeneratedClientGetRevisionsHeaders &
-  KeyValueListResult & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: KeyValueListResult;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: GeneratedClientGetRevisionsHeaders;
-    };
-  };
+  KeyValueListResult;
 
 /** Optional parameters. */
 export interface GeneratedClientCheckRevisionsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
@@ -570,17 +447,11 @@ export interface GeneratedClientCheckRevisionsOptionalParams
 }
 
 /** Contains response data for the checkRevisions operation. */
-export type GeneratedClientCheckRevisionsResponse = GeneratedClientCheckRevisionsHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientCheckRevisionsHeaders;
-  };
-};
+export type GeneratedClientCheckRevisionsResponse = GeneratedClientCheckRevisionsHeaders;
 
 /** Optional parameters. */
 export interface GeneratedClientGetKeysNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** A filter for the name of the returned keys. */
   name?: string;
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
@@ -591,22 +462,11 @@ export interface GeneratedClientGetKeysNextOptionalParams
 
 /** Contains response data for the getKeysNext operation. */
 export type GeneratedClientGetKeysNextResponse = GeneratedClientGetKeysNextHeaders &
-  KeyListResult & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: KeyListResult;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: GeneratedClientGetKeysNextHeaders;
-    };
-  };
+  KeyListResult;
 
 /** Optional parameters. */
 export interface GeneratedClientGetKeyValuesNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
@@ -621,22 +481,11 @@ export interface GeneratedClientGetKeyValuesNextOptionalParams
 
 /** Contains response data for the getKeyValuesNext operation. */
 export type GeneratedClientGetKeyValuesNextResponse = GeneratedClientGetKeyValuesNextHeaders &
-  KeyValueListResult & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: KeyValueListResult;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: GeneratedClientGetKeyValuesNextHeaders;
-    };
-  };
+  KeyValueListResult;
 
 /** Optional parameters. */
 export interface GeneratedClientGetLabelsNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** A filter for the name of the returned labels. */
   name?: string;
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
@@ -649,22 +498,11 @@ export interface GeneratedClientGetLabelsNextOptionalParams
 
 /** Contains response data for the getLabelsNext operation. */
 export type GeneratedClientGetLabelsNextResponse = GeneratedClientGetLabelsNextHeaders &
-  LabelListResult & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: LabelListResult;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: GeneratedClientGetLabelsNextHeaders;
-    };
-  };
+  LabelListResult;
 
 /** Optional parameters. */
 export interface GeneratedClientGetRevisionsNextOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Instructs the server to return elements that appear after the element referred to by the specified token. */
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
@@ -679,22 +517,11 @@ export interface GeneratedClientGetRevisionsNextOptionalParams
 
 /** Contains response data for the getRevisionsNext operation. */
 export type GeneratedClientGetRevisionsNextResponse = GeneratedClientGetRevisionsNextHeaders &
-  KeyValueListResult & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: KeyValueListResult;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: GeneratedClientGetRevisionsNextHeaders;
-    };
-  };
+  KeyValueListResult;
 
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** Used to guarantee real-time consistency between requests. */
   syncToken?: string;
   /** Api Version */
