@@ -10,7 +10,7 @@ nock('https://endpoint/:443', {"encodedQueryParams":true})
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint//metricsadvisor/v1.0/feedback/metric/549e8d9e-f903-4219-a46b-1e8781500468',
+  'https://endpoint/metricsadvisor/v1.0/feedback/metric/549e8d9e-f903-4219-a46b-1e8781500468',
   'x-request-id',
   'cc21e47a-c6d2-462c-a10f-dab72b12a467',
   'x-envoy-upstream-service-time',

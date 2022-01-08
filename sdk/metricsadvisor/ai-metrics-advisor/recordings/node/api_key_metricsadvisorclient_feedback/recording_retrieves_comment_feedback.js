@@ -4,7 +4,7 @@ module.exports.hash = "a02c571d82becd3f2077fa6b7c7d3774";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint/:443', {"encodedQueryParams":true})
+nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/metricsadvisor/v1.0/feedback/metric/549e8d9e-f903-4219-a46b-1e8781500468')
   .reply(200, {"feedbackId":"549e8d9e-f903-4219-a46b-1e8781500468","createdTime":"2022-01-08T00:08:24.84Z","userPrincipal":"kaghiya@microsoft.com","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","dimensionFilter":{"dimension":{"region":"Cairo","category":"Home & Garden"}},"feedbackType":"Comment","value":{"commentValue":"This is a comment"}}, [
   'Content-Length',
