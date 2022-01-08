@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "5186be9e5ad20b4bbf5c572e069f2571";
+module.exports.hash = "fc0796b89dece8e4c6b5d8c11269b033";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '080aa94b-834a-4261-a3e5-3099312c2900',
+  'a46bb235-2253-4e5f-9db4-977a0d80f302',
   'x-ms-ests-server',
-  '2.1.12261.14 - SCUS ProdSlices',
+  '2.1.12261.17 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AlT49uvzu4pHhni8varKG8Y; expires=Sun, 16-Jan-2022 23:37:56 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhlcY-UohxhMr5QhVHKMkpA; expires=Mon, 07-Feb-2022 02:16:46 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrS17dUCIcSq1bxxTiy2GaLc5TqQH8A2txjN2OeFDlCcQKvmX8cajr4lYTp-6xiwRPjtXWVMEtg9Rmi8wAYrRLytboob6uUF_B1dawKW_Z7uOFW3lNIcz1EinOn3Do9iiCqdK97dPoV-almwvgtTeepDjJY9mjDrS9WMSB8vX5l0ggAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrWaCedyPvQdRFc7BBUYb7epoDrLli2rGkeNGZzBpJcBVVrvDhWO7vroOIQQAg-zjAyRArjAcHjaeLinlrItlwZeGwGjrZmn18rmivixOC1S6ZkNy1CVuvfm2LiueZk638AYQxtn2pxKIDTrUNDjJf3I0DuTTEJccN5zzWNOZnJ7AgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 17 Dec 2021 23:37:56 GMT',
+  'Sat, 08 Jan 2022 02:16:46 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '857cbe6e-8e1f-4e13-92e9-6d337bd62c00',
+  'a4c7189c-d141-4468-9505-acd161ed5503',
   'x-ms-ests-server',
-  '2.1.12261.15 - NCUS ProdSlices',
+  '2.1.12261.17 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AlHgWEAnNJxNoDxE7uM1pyA; expires=Sun, 16-Jan-2022 23:37:56 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ak_P24e3BJ5Mh_pZUgbYzV0; expires=Mon, 07-Feb-2022 02:16:46 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrOZJJSrwZD-H-9Pfpco4pNLgetIholMR3Z3J8_7JfjzIBAYOlLm5FljzIfm5hG2oawegB7YCP6ufKH68DhLGRxgCl96MnRNvAo1fD6elLN1vSoJKdKF4r2KrVRdrUPYE_l_gHN_QBcr1K54QWpJVGw2KEr0rQAw8nfJG2qQbcZkIgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrTTjMmkz5T1BoiWPbUthiiYFeLhbjUitfwWpwRho4NIU0dWpYVXu7qv5rbV3Dc-u46ysy6ZMgZ-rcsvQ40Dva1uT4vEQe7w_ZoGBA0TOua2xppMvnL1GRE_c-jX-5JLUuPv_-2L-yUHZzFV20p-q0g0s0bGt61vZOnYy8rUvdLCMgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 17 Dec 2021 23:37:56 GMT',
+  'Sat, 08 Jan 2022 02:16:46 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.4.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=272e29d6-5db1-4a7f-bfa0-be79e91c6d3f&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.5.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=56d5dc68-ab51-4e9b-ab12-ef547bac047d&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,61 +93,61 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'a557f14a-4b99-47b8-b011-038c55dd1c00',
+  '1e751c9a-7c21-4e50-82e9-29c212d40500',
   'x-ms-ests-server',
-  '2.1.12261.15 - SCUS ProdSlices',
+  '2.1.12381.10 - WUS2 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AhPgCiXMgsxHhNvWaa6sXeg; expires=Sun, 16-Jan-2022 23:37:56 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnJTQP5cybVJsilKF2KPKoQ; expires=Mon, 07-Feb-2022 02:16:46 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 17 Dec 2021 23:37:56 GMT',
+  'Sat, 08 Jan 2022 02:16:46 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('//metricsadvisor/v1.0/dataFeeds', {"dataSourceType":"AzureTable","dataFeedName":"js-test-tableFeed-163978426297605182","dataFeedDescription":"Data feed description","granularityName":"Daily","metrics":[{"metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00.000Z","startOffsetInSeconds":0,"maxConcurrency":-1,"minRetryIntervalInSeconds":-1,"stopRetryAfterInSeconds":-1,"needRollup":"NeedRollup","rollUpMethod":"Sum","allUpIdentification":"__CUSTOM_SUM__","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"viewMode":"Private","authenticationType":"Basic","dataSourceParameter":{"connectionString":"https://table.example.net","table":"table-name","query":"partition-key eq @start-time"}})
+  .post('/metricsadvisor/v1.0/dataFeeds', {"dataSourceType":"AzureTable","dataFeedName":"js-test-tableFeed-164160819373408540","dataFeedDescription":"Data feed description","granularityName":"Daily","metrics":[{"metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00.000Z","startOffsetInSeconds":0,"maxConcurrency":-1,"minRetryIntervalInSeconds":-1,"stopRetryAfterInSeconds":-1,"needRollup":"NeedRollup","rollUpMethod":"Sum","allUpIdentification":"__CUSTOM_SUM__","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"viewMode":"Private","authenticationType":"Basic","dataSourceParameter":{"connectionString":"https://table.example.net","table":"table-name","query":"partition-key eq @start-time"}})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/metricsadvisor/v1.0/dataFeeds/b8504769-5a47-4152-9f1c-d009f9482288',
+  'https://endpoint/metricsadvisor/v1.0/dataFeeds/74cf7c13-08e4-4067-9718-4f9af65b934d',
   'x-request-id',
-  '34d1c257-b81c-43d3-8c42-dd734087f473',
+  'a7b3a387-a5f0-435b-8f3e-8de70df99af3',
   'x-envoy-upstream-service-time',
-  '491',
+  '464',
   'apim-request-id',
-  '34d1c257-b81c-43d3-8c42-dd734087f473',
+  'a7b3a387-a5f0-435b-8f3e-8de70df99af3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 17 Dec 2021 23:37:56 GMT'
+  'Sat, 08 Jan 2022 02:16:46 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('//metricsadvisor/v1.0/dataFeeds/b8504769-5a47-4152-9f1c-d009f9482288')
-  .reply(200, {"dataFeedId":"b8504769-5a47-4152-9f1c-d009f9482288","dataFeedName":"js-test-tableFeed-163978426297605182","metrics":[{"metricId":"8d4501e8-11d5-494e-8a90-cab007a6ed92","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"a0dba3e2-4804-4fc9-ae53-d45b608c2773","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"AzureTable","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["azure_client_id"],"viewers":[],"creator":"azure_client_id","status":"Active","createdTime":"2021-12-17T23:37:56Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"query":"partition-key eq @start-time","table":"table-name"},"authenticationType":"Basic"}, [
+  .get('/metricsadvisor/v1.0/dataFeeds/74cf7c13-08e4-4067-9718-4f9af65b934d')
+  .reply(200, {"dataFeedId":"74cf7c13-08e4-4067-9718-4f9af65b934d","dataFeedName":"js-test-tableFeed-164160819373408540","metrics":[{"metricId":"457f0abd-4615-408c-9c73-8dd4948df170","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"d10475bd-f0af-46a1-872b-c61545269aac","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"AzureTable","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["azure_client_id"],"viewers":[],"creator":"azure_client_id","status":"Active","createdTime":"2022-01-08T02:16:46Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"query":"partition-key eq @start-time","table":"table-name"},"authenticationType":"Basic"}, [
   'Content-Length',
   '1286',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '81263c4c-94bf-481a-b62d-1d54876ef0be',
+  'f28d6f5d-c51f-43b8-9db1-c51ef5ab3f60',
   'x-envoy-upstream-service-time',
-  '119',
+  '129',
   'apim-request-id',
-  '81263c4c-94bf-481a-b62d-1d54876ef0be',
+  'f28d6f5d-c51f-43b8-9db1-c51ef5ab3f60',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 17 Dec 2021 23:37:57 GMT'
+  'Sat, 08 Jan 2022 02:16:46 GMT'
 ]);

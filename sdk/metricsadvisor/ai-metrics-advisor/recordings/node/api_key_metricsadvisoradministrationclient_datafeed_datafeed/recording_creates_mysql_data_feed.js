@@ -1,47 +1,47 @@
 let nock = require('nock');
 
-module.exports.hash = "4bb0c54363466bf4ac07bece7a8646a6";
+module.exports.hash = "82f9f5f9f54fd20a1faabc3d1db56cc0";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('//metricsadvisor/v1.0/dataFeeds', {"dataSourceType":"MySql","dataFeedName":"js-test-mySqlFeed-163978429259808585","dataFeedDescription":"Data feed description","granularityName":"Daily","metrics":[{"metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00.000Z","startOffsetInSeconds":0,"maxConcurrency":-1,"minRetryIntervalInSeconds":-1,"stopRetryAfterInSeconds":-1,"needRollup":"NeedRollup","rollUpMethod":"Sum","allUpIdentification":"__CUSTOM_SUM__","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"viewMode":"Private","authenticationType":"Basic","dataSourceParameter":{"connectionString":"https://connect-to-mysql","query":"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"}})
+  .post('/metricsadvisor/v1.0/dataFeeds', {"dataSourceType":"MySql","dataFeedName":"js-test-mySqlFeed-164160822036704760","dataFeedDescription":"Data feed description","granularityName":"Daily","metrics":[{"metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00.000Z","startOffsetInSeconds":0,"maxConcurrency":-1,"minRetryIntervalInSeconds":-1,"stopRetryAfterInSeconds":-1,"needRollup":"NeedRollup","rollUpMethod":"Sum","allUpIdentification":"__CUSTOM_SUM__","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"viewMode":"Private","authenticationType":"Basic","dataSourceParameter":{"connectionString":"https://connect-to-mysql","query":"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"}})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/metricsadvisor/v1.0/dataFeeds/ae45fff1-950e-4271-801c-e64de61d8982',
+  'https://endpoint/metricsadvisor/v1.0/dataFeeds/3ce45f43-62cb-423f-8ac6-0fa1388641f9',
   'x-request-id',
-  '101ceb8e-de40-47e3-8f27-a782b58e76ed',
+  'cfeb6460-b427-45ce-93b3-077eab035265',
   'x-envoy-upstream-service-time',
-  '484',
+  '476',
   'apim-request-id',
-  '101ceb8e-de40-47e3-8f27-a782b58e76ed',
+  'cfeb6460-b427-45ce-93b3-077eab035265',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 17 Dec 2021 23:38:24 GMT'
+  'Sat, 08 Jan 2022 02:17:11 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('//metricsadvisor/v1.0/dataFeeds/ae45fff1-950e-4271-801c-e64de61d8982')
-  .reply(200, {"dataFeedId":"ae45fff1-950e-4271-801c-e64de61d8982","dataFeedName":"js-test-mySqlFeed-163978429259808585","metrics":[{"metricId":"dce80185-146d-4917-a2e3-af88ac923abe","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"3cc17207-2f2e-47af-b0da-8ba7e9f86ee1","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"MySql","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["kaghiya@microsoft.com"],"viewers":[],"creator":"kaghiya@microsoft.com","status":"Active","createdTime":"2021-12-17T23:38:25Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"query":"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"},"authenticationType":"Basic"}, [
+  .get('/metricsadvisor/v1.0/dataFeeds/3ce45f43-62cb-423f-8ac6-0fa1388641f9')
+  .reply(200, {"dataFeedId":"3ce45f43-62cb-423f-8ac6-0fa1388641f9","dataFeedName":"js-test-mySqlFeed-164160822036704760","metrics":[{"metricId":"297ff9e1-fcb8-49e3-804b-9eaf27e3c663","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"dda992e2-7715-425e-9d11-0014e65a1da4","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"MySql","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["kaghiya@microsoft.com"],"viewers":[],"creator":"kaghiya@microsoft.com","status":"Active","createdTime":"2022-01-08T02:17:11Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"query":"{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"},"authenticationType":"Basic"}, [
   'Content-Length',
   '1259',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'da6f0ac6-9c60-48c9-b6f6-87386119e6cf',
+  '5cba89a2-79a9-4f0a-ac1e-0b6507124faf',
   'x-envoy-upstream-service-time',
-  '167',
+  '156',
   'apim-request-id',
-  'da6f0ac6-9c60-48c9-b6f6-87386119e6cf',
+  '5cba89a2-79a9-4f0a-ac1e-0b6507124faf',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 17 Dec 2021 23:38:24 GMT'
+  'Sat, 08 Jan 2022 02:17:11 GMT'
 ]);

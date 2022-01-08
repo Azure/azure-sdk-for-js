@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "032a09938d4f27dfae54c12cebe5fff2";
+module.exports.hash = "fce73406a4b205a8d6b34af4119dc3eb";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '0b0f9cee-2082-44d0-9017-6c50b16f4200',
+  '004a0026-d020-44ab-8e90-6f1d601fc800',
   'x-ms-ests-server',
-  '2.1.12261.14 - NCUS ProdSlices',
+  '2.1.12261.17 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=Au03tbPLVm5MvGVdh4bKHLk; expires=Sun, 16-Jan-2022 23:37:58 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ApP_0H8rvyREqbhmnJ5lNDg; expires=Mon, 07-Feb-2022 02:16:48 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrp0b1Z9i2h4qGtC4XFndI64EAoG9C8cLdQqtn76D5CC6GfmAFV_1CrwZ6sPRDgsQqzGC0xvhm7lUKAQTyVeQsuu_makfHWsDyWD-TcL-lBPkRfw4WQBFzxCGAE8q3U0ZBg6IlLZgBfZN_Axp7l-wAXHvplxhYbCE9APJJnHxF3pIgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr2m1ipN4ngB4dPXd9wus27AwESgGO1V8GHSnmfkYtcmUTVCG09G0WUxoHp3x2XpzB4uGQC_RWQnwQ-ZCmsDHfUYOyi1StOosmzd4LoVAX9HApu8r5wZ0H-SNWXikFxtD7M_a9NLcc-6u0jTlRg_E_ty7tVUWw4BrlJn5OKkAfbDAgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 17 Dec 2021 23:37:57 GMT',
+  'Sat, 08 Jan 2022 02:16:48 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd2e55d1c-4318-4697-a5a2-a05f3b7e1a00',
+  '2c2e4443-5cf2-4ec6-96d9-4e1e0f954902',
   'x-ms-ests-server',
-  '2.1.12261.15 - WUS2 ProdSlices',
+  '2.1.12261.17 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Av-sFqgvPZRBsW9pB-7bQJ8; expires=Sun, 16-Jan-2022 23:37:58 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AtdIcjn0GO1OihWFWQNQfVw; expires=Mon, 07-Feb-2022 02:16:48 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr5_rKQrFGfhPaDylqMv33loqV69uFskJo213F6mIZRZniidBmdh9FM05KPkgS2s-EoWG7mfEVqAXA20iveNTpfy8pP9ODjyyj0HwM-c93GbVLTAPvDnoEPm-n_a8NjbUSPkHXeN0JW3NONBXGA405A4AzjvoFwUkTwy83e0SgPXMgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrC4SmuYhJ3861_D3UdIQbhvs1X1gVJczEohxHN_TU1YTujyGLAG1JbmrHqxLrOA5mEcU7RKHiAbp6NGxoCGkR7-iiGHmtaSZpHgzqWgOGWqEn_jxgmFQsfZ6eIJN1cUVwtpKkoopWjN818wTOcT8r7zU3xblLHqgeCAP2rYiU2PYgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 17 Dec 2021 23:37:57 GMT',
+  'Sat, 08 Jan 2022 02:16:48 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.4.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=0856e154-f0fa-45ca-a9ff-74ddb51aaed1&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.5.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=de4ba0ae-b9ee-471c-97c4-a3d0eb8d2d59&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,61 +93,61 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '2b41289b-02e5-49c1-b572-8672753f1d00',
+  '085a3729-cd4b-4071-b024-d31a83437303',
   'x-ms-ests-server',
-  '2.1.12261.15 - SCUS ProdSlices',
+  '2.1.12261.17 - EUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=Amwnjr2rgz1MhG1fQ-OGc2PGLH8mAQAAAFUWT9kOAAAA; expires=Sun, 16-Jan-2022 23:37:58 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ap3PA0BRMtxLv_uYvKnS4vg; expires=Mon, 07-Feb-2022 02:16:48 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 17 Dec 2021 23:37:58 GMT',
+  'Sat, 08 Jan 2022 02:16:48 GMT',
   'Content-Length',
   '1331'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('//metricsadvisor/v1.0/dataFeeds', {"dataSourceType":"InfluxDB","dataFeedName":"js-test-influxdbFeed-163978426297601701","dataFeedDescription":"Data feed description","granularityName":"Daily","metrics":[{"metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00.000Z","startOffsetInSeconds":0,"maxConcurrency":-1,"minRetryIntervalInSeconds":-1,"stopRetryAfterInSeconds":-1,"needRollup":"NeedRollup","rollUpMethod":"Sum","allUpIdentification":"__CUSTOM_SUM__","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"viewMode":"Private","authenticationType":"Basic","dataSourceParameter":{"connectionString":"https://connect-to-influxdb","database":"data-feed-database","userName":"user","password":"SecretPlaceholder","query":"partition-key eq @start-time"}})
+  .post('/metricsadvisor/v1.0/dataFeeds', {"dataSourceType":"InfluxDB","dataFeedName":"js-test-influxdbFeed-164160819373403226","dataFeedDescription":"Data feed description","granularityName":"Daily","metrics":[{"metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00.000Z","startOffsetInSeconds":0,"maxConcurrency":-1,"minRetryIntervalInSeconds":-1,"stopRetryAfterInSeconds":-1,"needRollup":"NeedRollup","rollUpMethod":"Sum","allUpIdentification":"__CUSTOM_SUM__","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"viewMode":"Private","authenticationType":"Basic","dataSourceParameter":{"connectionString":"https://connect-to-influxdb","database":"data-feed-database","userName":"user","password":"SecretPlaceholder","query":"partition-key eq @start-time"}})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/metricsadvisor/v1.0/dataFeeds/6c89a557-29ab-442f-b25e-aa548bd3dbe7',
+  'https://endpoint/metricsadvisor/v1.0/dataFeeds/74a710e7-4164-46d2-8200-937e37fb5f3c',
   'x-request-id',
-  '4a042cd0-c776-4b62-b2a4-1ab84f53b3df',
+  '8129478f-e05f-49ff-a100-ba955175addc',
   'x-envoy-upstream-service-time',
-  '440',
+  '436',
   'apim-request-id',
-  '4a042cd0-c776-4b62-b2a4-1ab84f53b3df',
+  '8129478f-e05f-49ff-a100-ba955175addc',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 17 Dec 2021 23:37:58 GMT'
+  'Sat, 08 Jan 2022 02:16:48 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('//metricsadvisor/v1.0/dataFeeds/6c89a557-29ab-442f-b25e-aa548bd3dbe7')
-  .reply(200, {"dataFeedId":"6c89a557-29ab-442f-b25e-aa548bd3dbe7","dataFeedName":"js-test-influxdbFeed-163978426297601701","metrics":[{"metricId":"83c9f2fa-7d21-4de7-a587-b693c5b49ff5","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"d181906e-8f81-4372-b33e-24efee8aaae2","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"InfluxDB","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["azure_client_id"],"viewers":[],"creator":"azure_client_id","status":"Active","createdTime":"2021-12-17T23:37:58Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"connectionString":"https://connect-to-influxdb","database":"data-feed-database","query":"partition-key eq @start-time","userName":"user"},"authenticationType":"Basic"}, [
+  .get('/metricsadvisor/v1.0/dataFeeds/74a710e7-4164-46d2-8200-937e37fb5f3c')
+  .reply(200, {"dataFeedId":"74a710e7-4164-46d2-8200-937e37fb5f3c","dataFeedName":"js-test-influxdbFeed-164160819373403226","metrics":[{"metricId":"26eba79d-0fc7-4955-9326-19b824c2c480","metricName":"cost","metricDisplayName":"cost","metricDescription":""},{"metricId":"d35bb996-6bc6-4749-a4a3-1852fd52d4d2","metricName":"revenue","metricDisplayName":"revenue","metricDescription":""}],"dimension":[{"dimensionName":"category","dimensionDisplayName":"category"},{"dimensionName":"city","dimensionDisplayName":"city"}],"dataStartFrom":"2020-08-21T00:00:00Z","dataSourceType":"InfluxDB","timestampColumn":"","startOffsetInSeconds":0,"maxQueryPerMinute":30,"granularityName":"Daily","allUpIdentification":"__CUSTOM_SUM__","needRollup":"NeedRollup","fillMissingPointType":"CustomValue","fillMissingPointValue":555,"rollUpMethod":"Sum","dataFeedDescription":"Data feed description","stopRetryAfterInSeconds":-1,"minRetryIntervalInSeconds":-1,"maxConcurrency":-1,"viewMode":"Private","admins":["azure_client_id"],"viewers":[],"creator":"azure_client_id","status":"Active","createdTime":"2022-01-08T02:16:48Z","isAdmin":true,"actionLinkTemplate":"","dataSourceParameter":{"connectionString":"https://connect-to-influxdb","database":"data-feed-database","query":"partition-key eq @start-time","userName":"user"},"authenticationType":"Basic"}, [
   'Content-Length',
   '1365',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '3005b8a3-9c16-4321-a9c5-e892ad538b9e',
+  'ae69ff26-f5d0-4231-8f3c-c266a99a6b1b',
   'x-envoy-upstream-service-time',
-  '123',
+  '113',
   'apim-request-id',
-  '3005b8a3-9c16-4321-a9c5-e892ad538b9e',
+  'ae69ff26-f5d0-4231-8f3c-c266a99a6b1b',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 17 Dec 2021 23:37:58 GMT'
+  'Sat, 08 Jan 2022 02:16:48 GMT'
 ]);

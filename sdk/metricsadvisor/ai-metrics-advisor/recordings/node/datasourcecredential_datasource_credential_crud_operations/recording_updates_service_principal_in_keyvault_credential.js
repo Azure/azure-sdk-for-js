@@ -1,26 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "7be3c94e62b49b6318687c3fa1d9c10d";
+module.exports.hash = "3f2f2e52becb7dfc9578a36e9342eca6";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint/:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/credentials/fe484186-7d3e-4ccc-9875-ab931019cc68', {"dataSourceCredentialType":"ServicePrincipalInKV","dataSourceCredentialName":"js-test-servicePrincipalInKVCred-163978895648400227","dataSourceCredentialDescription":"updated description","parameters":{"keyVaultEndpoint":"updated-keyvault-endpoint","keyVaultClientId":"updated-keyvault-client-id","keyVaultClientSecret":"updated-keyvault-client-secret","servicePrincipalIdNameInKV":"updated-service-principal-in-kv","servicePrincipalSecretNameInKV":"updated-service-principal-secret-name-in-kv","tenantId":"updated-tenant"}})
-  .reply(200, {"dataSourceCredentialId":"fe484186-7d3e-4ccc-9875-ab931019cc68","dataSourceCredentialName":"js-test-servicePrincipalInKVCred-163978895648400227","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"ServicePrincipalInKV","parameters":{"servicePrincipalSecretNameInKV":"updated-service-principal-secret-name-in-kv","servicePrincipalIdNameInKV":"updated-service-principal-in-kv","tenantId":"updated-tenant","keyVaultClientId":"updated-keyvault-client-id","keyVaultEndpoint":"updated-keyvault-endpoint"}}, [
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .patch('/metricsadvisor/v1.0/credentials/59b66b44-7558-46c1-8dc4-df31839467e6', {"dataSourceCredentialType":"ServicePrincipalInKV","dataSourceCredentialName":"js-test-servicePrincipalInKVCred-164160823668206422","dataSourceCredentialDescription":"updated description","parameters":{"keyVaultEndpoint":"updated-keyvault-endpoint","keyVaultClientId":"updated-keyvault-client-id","keyVaultClientSecret":"updated-keyvault-client-secret","servicePrincipalIdNameInKV":"updated-service-principal-in-kv","servicePrincipalSecretNameInKV":"updated-service-principal-secret-name-in-kv","tenantId":"updated-tenant"}})
+  .reply(200, {"dataSourceCredentialId":"59b66b44-7558-46c1-8dc4-df31839467e6","dataSourceCredentialName":"js-test-servicePrincipalInKVCred-164160823668206422","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"ServicePrincipalInKV","parameters":{"servicePrincipalSecretNameInKV":"updated-service-principal-secret-name-in-kv","servicePrincipalIdNameInKV":"updated-service-principal-in-kv","tenantId":"updated-tenant","keyVaultClientId":"updated-keyvault-client-id","keyVaultEndpoint":"updated-keyvault-endpoint"}}, [
   'Content-Length',
   '532',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'b8b40096-2099-42d4-ad06-44e2195d8c61',
+  'a9ac3b88-e291-4584-a829-402cdde4f6cd',
   'x-envoy-upstream-service-time',
-  '316',
+  '327',
   'apim-request-id',
-  'b8b40096-2099-42d4-ad06-44e2195d8c61',
+  'a9ac3b88-e291-4584-a829-402cdde4f6cd',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Sat, 18 Dec 2021 00:55:59 GMT'
+  'Sat, 08 Jan 2022 02:17:19 GMT'
 ]);

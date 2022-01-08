@@ -4,42 +4,42 @@ module.exports.hash = "245355127474a82348bfd6e169bccfd4";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint/:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/101f1f1d-203a-4a25-83e3-d0258aff44d1')
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .delete('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/359d1bf9-0c6a-4063-bd2d-64b80f65253b')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  '98f7a449-aec3-46f5-baa2-7554a2138fd9',
+  'be54936f-a1dd-4009-833a-f4ccc0761ea3',
   'x-envoy-upstream-service-time',
-  '122',
+  '115',
   'apim-request-id',
-  '98f7a449-aec3-46f5-baa2-7554a2138fd9',
+  'be54936f-a1dd-4009-833a-f4ccc0761ea3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Sat, 18 Dec 2021 00:02:00 GMT'
+  'Sat, 08 Jan 2022 02:16:03 GMT'
 ]);
 
-nock('https://endpoint/:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/101f1f1d-203a-4a25-83e3-d0258aff44d1')
-  .reply(404, {"code":"Not Found","message":"Not found this AnomalyDetectionConfiguration. TraceId: b8e7b952-ac9b-4d47-baa7-3e78087f0b74"}, [
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/359d1bf9-0c6a-4063-bd2d-64b80f65253b')
+  .reply(404, {"code":"Not Found","message":"Not found this AnomalyDetectionConfiguration. TraceId: aa7d59d6-d1a6-477f-bd28-05ee0d93d294"}, [
   'Content-Length',
   '124',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'b8e7b952-ac9b-4d47-baa7-3e78087f0b74',
+  'aa7d59d6-d1a6-477f-bd28-05ee0d93d294',
   'x-envoy-upstream-service-time',
-  '106',
+  '88',
   'apim-request-id',
-  'b8e7b952-ac9b-4d47-baa7-3e78087f0b74',
+  'aa7d59d6-d1a6-477f-bd28-05ee0d93d294',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Sat, 18 Dec 2021 00:02:00 GMT'
+  'Sat, 08 Jan 2022 02:16:03 GMT'
 ]);

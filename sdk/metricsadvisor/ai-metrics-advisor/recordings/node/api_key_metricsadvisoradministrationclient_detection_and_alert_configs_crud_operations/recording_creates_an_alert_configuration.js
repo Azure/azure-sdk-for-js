@@ -1,47 +1,47 @@
 let nock = require('nock');
 
-module.exports.hash = "5259dd1945f72341676b3c0de1514ada";
+module.exports.hash = "19ec4c0ee7f71f9d8dc767b8ee8928f9";
 
-module.exports.testInfo = {"uniqueName":{"js-alert-config-":"js-alert-config-163978571845003060"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"js-alert-config-":"js-alert-config-164160816145405741"},"newDate":{}}
 
-nock('https://endpoint/:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/alert/anomaly/configurations', {"name":"js-alert-config-163978571845003060","description":"alerting config description","crossMetricsOperator":"AND","splitAlertByDimensions":[],"hookIds":[],"metricAlertingConfigurations":[{"anomalyDetectionConfigurationId":"101f1f1d-203a-4a25-83e3-d0258aff44d1","anomalyScopeType":"All"},{"anomalyDetectionConfigurationId":"101f1f1d-203a-4a25-83e3-d0258aff44d1","anomalyScopeType":"All"}]})
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .post('/metricsadvisor/v1.0/alert/anomaly/configurations', {"name":"js-alert-config-164160816145405741","description":"alerting config description","crossMetricsOperator":"AND","splitAlertByDimensions":[],"hookIds":[],"metricAlertingConfigurations":[{"anomalyDetectionConfigurationId":"359d1bf9-0c6a-4063-bd2d-64b80f65253b","anomalyScopeType":"All"},{"anomalyDetectionConfigurationId":"359d1bf9-0c6a-4063-bd2d-64b80f65253b","anomalyScopeType":"All"}]})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint//metricsadvisor/v1.0/alert/anomaly/configurations/7b07c399-db39-4c99-b1b1-62b5ff9aac49',
+  'https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/c2338a32-2941-4718-8eac-468cc77ee2a5',
   'x-request-id',
-  '08ffbaba-f3c4-49f5-b78a-eb1187f3fb5f',
+  'd881c798-80bd-4868-807f-1c05e0ce6d30',
   'x-envoy-upstream-service-time',
-  '147',
+  '133',
   'apim-request-id',
-  '08ffbaba-f3c4-49f5-b78a-eb1187f3fb5f',
+  'd881c798-80bd-4868-807f-1c05e0ce6d30',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Sat, 18 Dec 2021 00:01:58 GMT'
+  'Sat, 08 Jan 2022 02:16:01 GMT'
 ]);
 
-nock('https://endpoint/:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/alert/anomaly/configurations/7b07c399-db39-4c99-b1b1-62b5ff9aac49')
-  .reply(200, {"anomalyAlertingConfigurationId":"7b07c399-db39-4c99-b1b1-62b5ff9aac49","name":"js-alert-config-163978571845003060","description":"alerting config description","crossMetricsOperator":"AND","splitAlertByDimensions":[],"hookIds":[],"metricAlertingConfigurations":[{"anomalyDetectionConfigurationId":"101f1f1d-203a-4a25-83e3-d0258aff44d1","anomalyScopeType":"All","negationOperation":false},{"anomalyDetectionConfigurationId":"101f1f1d-203a-4a25-83e3-d0258aff44d1","anomalyScopeType":"All","negationOperation":false}]}, [
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/metricsadvisor/v1.0/alert/anomaly/configurations/c2338a32-2941-4718-8eac-468cc77ee2a5')
+  .reply(200, {"anomalyAlertingConfigurationId":"c2338a32-2941-4718-8eac-468cc77ee2a5","name":"js-alert-config-164160816145405741","description":"alerting config description","crossMetricsOperator":"AND","splitAlertByDimensions":[],"hookIds":[],"metricAlertingConfigurations":[{"anomalyDetectionConfigurationId":"359d1bf9-0c6a-4063-bd2d-64b80f65253b","anomalyScopeType":"All","negationOperation":false},{"anomalyDetectionConfigurationId":"359d1bf9-0c6a-4063-bd2d-64b80f65253b","anomalyScopeType":"All","negationOperation":false}]}, [
   'Content-Length',
   '516',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '85cffe7a-83b0-43fc-9086-3447e51a19fe',
+  'd8058bb0-6a6b-4ef9-9d61-ecd58d8fd41a',
   'x-envoy-upstream-service-time',
-  '107',
+  '115',
   'apim-request-id',
-  '85cffe7a-83b0-43fc-9086-3447e51a19fe',
+  'd8058bb0-6a6b-4ef9-9d61-ecd58d8fd41a',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Sat, 18 Dec 2021 00:01:58 GMT'
+  'Sat, 08 Jan 2022 02:16:01 GMT'
 ]);
