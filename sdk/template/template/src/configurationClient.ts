@@ -6,7 +6,7 @@ import {
   OperationOptions,
   InternalClientPipelineOptions,
 } from "@azure/core-client";
-import {bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TokenCredential } from "@azure/core-auth";
 
@@ -82,7 +82,10 @@ export class ConfigurationClient {
 
     // The AAD scope for an API is usually the baseUri + "/.default", but it
     // may be different for your service.
-    const authPolicy = bearerTokenAuthenticationPolicy({credential, scopes: `${endpointUrl}/.default`});
+    const authPolicy = bearerTokenAuthenticationPolicy({
+      credential,
+      scopes: `${endpointUrl}/.default`,
+    });
 
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...options,
