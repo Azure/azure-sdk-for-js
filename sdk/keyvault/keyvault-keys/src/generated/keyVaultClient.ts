@@ -598,21 +598,21 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key to get.
    * @param keyVersion Adding the version parameter retrieves a specific version of a key.
-   * @param target The attestation assertion for the target of the key release.
+   * @param targetAttestationToken The attestation assertion for the target of the key release.
    * @param options The options parameters.
    */
   release(
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    target: string,
+    targetAttestationToken: string,
     options?: KeyVaultClientReleaseOptionalParams
   ): Promise<KeyVaultClientReleaseResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
       keyVersion,
-      target,
+      targetAttestationToken,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.sendOperationRequest(
@@ -1288,7 +1288,7 @@ const releaseOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: {
     parameterPath: {
-      target: ["target"],
+      targetAttestationToken: ["targetAttestationToken"],
       nonce: ["options", "nonce"],
       enc: ["options", "enc"]
     },

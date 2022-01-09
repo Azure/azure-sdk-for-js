@@ -82,7 +82,7 @@ export interface JsonWebKey {
   n?: Uint8Array;
   /** RSA public exponent. */
   e?: Uint8Array;
-  /** RSA private exponent, or the D component of an EC private key. */
+  /** RSA private exponent, or the D component of an EC or OKP private key. */
   d?: Uint8Array;
   /** RSA private key parameter. */
   dp?: Uint8Array;
@@ -100,7 +100,7 @@ export interface JsonWebKey {
   t?: Uint8Array;
   /** Elliptic curve name. For valid values, see JsonWebKeyCurveName. */
   crv?: JsonWebKeyCurveName;
-  /** X component of an EC public key. */
+  /** X component of an EC or OKP public key. */
   x?: Uint8Array;
   /** Y component of an EC public key. */
   y?: Uint8Array;
@@ -273,7 +273,7 @@ export interface KeyExportParameters {
 /** The release key parameters. */
 export interface KeyReleaseParameters {
   /** The attestation assertion for the target of the key release. */
-  target: string;
+  targetAttestationToken: string;
   /** A client provided nonce for freshness. */
   nonce?: string;
   /** The encryption algorithm to use to protected the exported key material */
@@ -326,9 +326,9 @@ export interface LifetimeActions {
 
 /** A condition to be satisfied for an action to be executed. */
 export interface LifetimeActionsTrigger {
-  /** Time after creation to attempt rotate. It will be in ISO 8601 format. Example: 90 days : "P90D" */
+  /** Time after creation to attempt to rotate. It only applies to rotate. It will be in ISO 8601 duration format. Example: 90 days : "P90D" */
   timeAfterCreate?: string;
-  /** Time before expiry to attempt rotate. It will be in ISO 8601 format. Example: 90 days : "P90D" */
+  /** Time before expiry to attempt to rotate or notify. It will be in ISO 8601 duration format. Example: 90 days : "P90D" */
   timeBeforeExpiry?: string;
 }
 
@@ -363,7 +363,7 @@ export interface GetRandomBytesRequest {
 /** The get random bytes response object containing the bytes. */
 export interface RandomBytes {
   /** The bytes encoded as a base64url string. */
-  value?: Uint8Array;
+  value: Uint8Array;
 }
 
 /** Properties of the key pair backing a certificate. */
@@ -456,7 +456,11 @@ export enum KnownJsonWebKeyType {
   /** Octet sequence (used to represent symmetric keys) */
   Oct = "oct",
   /** Octet sequence (used to represent symmetric keys) which is stored the HSM. */
-  OctHSM = "oct-HSM"
+  OctHSM = "oct-HSM",
+  /** Octet key pair (https://tools.ietf.org/html/rfc8037) */
+  OKP = "OKP",
+  /** Octet key pair (https://tools.ietf.org/html/rfc8037) with a private key which is stored in the HSM. */
+  OKPHSM = "OKP-HSM"
 }
 
 /**
@@ -543,7 +547,9 @@ export enum KnownJsonWebKeyCurveName {
   /** The NIST P-521 elliptic curve, AKA SECG curve SECP521R1. */
   P521 = "P-521",
   /** The SECG SECP256K1 elliptic curve. */
-  P256K = "P-256K"
+  P256K = "P-256K",
+  /** The Ed25519 Edwards curve. */
+  Ed25519 = "Ed25519"
 }
 
 /**
@@ -638,7 +644,9 @@ export enum KnownJsonWebKeySignatureAlgorithm {
   /** ECDSA using P-521 and SHA-512, as described in https://tools.ietf.org/html/rfc7518 */
   ES512 = "ES512",
   /** ECDSA using P-256K and SHA-256, as described in https://tools.ietf.org/html/rfc7518 */
-  ES256K = "ES256K"
+  ES256K = "ES256K",
+  /** Edwards-curve Digital Signature Algorithm, as described in https://tools.ietf.org/html/rfc8032. */
+  EdDSA = "EdDSA"
 }
 
 /**
@@ -656,7 +664,8 @@ export enum KnownJsonWebKeySignatureAlgorithm {
  * **ES256**: ECDSA using P-256 and SHA-256, as described in https:\/\/tools.ietf.org\/html\/rfc7518. \
  * **ES384**: ECDSA using P-384 and SHA-384, as described in https:\/\/tools.ietf.org\/html\/rfc7518 \
  * **ES512**: ECDSA using P-521 and SHA-512, as described in https:\/\/tools.ietf.org\/html\/rfc7518 \
- * **ES256K**: ECDSA using P-256K and SHA-256, as described in https:\/\/tools.ietf.org\/html\/rfc7518
+ * **ES256K**: ECDSA using P-256K and SHA-256, as described in https:\/\/tools.ietf.org\/html\/rfc7518 \
+ * **EdDSA**: Edwards-curve Digital Signature Algorithm, as described in https:\/\/tools.ietf.org\/html\/rfc8032.
  */
 export type JsonWebKeySignatureAlgorithm = string;
 

@@ -705,7 +705,7 @@ export const KeyReleaseParameters: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "KeyReleaseParameters",
     modelProperties: {
-      target: {
+      targetAttestationToken: {
         constraints: {
           MinLength: 1
         },
@@ -927,6 +927,7 @@ export const RandomBytes: coreHttp.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Base64Url"
         }
