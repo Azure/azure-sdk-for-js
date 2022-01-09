@@ -19,8 +19,10 @@ import {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
+  SignDataOptions,
+  SignDataResult,
+  VerifyDataResult,
 } from "..";
-import { SignDataOptions, SignDataResult, VerifyDataResult } from "../cryptographyClientModels";
 
 export class LocalCryptographyUnsupportedError extends Error {}
 

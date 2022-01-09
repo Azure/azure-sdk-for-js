@@ -34,6 +34,7 @@ import {
   SignDataResult,
   VerifyDataResult,
   SignDataOptions,
+  VerifyDataOptions,
 } from "./cryptographyClientModels";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
 import { randomBytes } from "./cryptography/crypto";
@@ -41,7 +42,6 @@ import { CryptographyProvider, CryptographyProviderOperation } from "./cryptogra
 import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
 import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider";
 import { createTraceFunction } from "../../keyvault-common/src";
-import { VerifyDataOptions } from ".";
 
 const withTrace = createTraceFunction("Azure.KeyVault.Keys.CryptographyClient");
 
