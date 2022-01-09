@@ -473,7 +473,9 @@ export enum KnownJsonWebKeyType {
  * **RSA**: RSA (https:\/\/tools.ietf.org\/html\/rfc3447) \
  * **RSA-HSM**: RSA with a private key which is stored in the HSM. \
  * **oct**: Octet sequence (used to represent symmetric keys) \
- * **oct-HSM**: Octet sequence (used to represent symmetric keys) which is stored the HSM.
+ * **oct-HSM**: Octet sequence (used to represent symmetric keys) which is stored the HSM. \
+ * **OKP**: Octet key pair (https:\/\/tools.ietf.org\/html\/rfc8037) \
+ * **OKP-HSM**: Octet key pair (https:\/\/tools.ietf.org\/html\/rfc8037) with a private key which is stored in the HSM.
  */
 export type JsonWebKeyType = string;
 

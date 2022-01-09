@@ -277,8 +277,8 @@ export const enc: OperationParameter = {
   mapper: KeyExportParametersMapper
 };
 
-export const target: OperationParameter = {
-  parameterPath: "target",
+export const targetAttestationToken: OperationParameter = {
+  parameterPath: "targetAttestationToken",
   mapper: KeyReleaseParametersMapper
 };
 

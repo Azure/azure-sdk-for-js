@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { env, Recorder } from "@azure-tools/test-recorder";
-import { KeyClient } from "../../src";
+import { KeyClient, KnownKeyCurveNames } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { CreateOctKeyOptions, KnownKeyExportEncryptionAlgorithm } from "../../src/keysModels";
@@ -190,6 +190,26 @@ onVersions({ minVer: "7.2" }).describe(
           }),
           /exportable/i
         );
+      });
+    });
+
+    onVersions({ minVer: "7.3-preview" }).describe("OKP Key Type", () => {
+      it("supports creating OKP keys using createKey", async () => {
+        const keyName = recorder.getUniqueName("createKeyOkp");
+        const key = await hsmClient.createKey(keyName, "OKP-HSM");
+        assert.exists(key);
+        assert.equal(key.keyType, "OKP-HSM");
+        assert.equal(key.name, keyName);
+        assert.equal(key.key!.crv, KnownKeyCurveNames.Ed25519);
+      });
+
+      it("supports creating OKP keys using createOkpKey", async () => {
+        const keyName = recorder.getUniqueName("createOkpKey");
+        const key = await hsmClient.createOkpKey(keyName, { curve: KnownKeyCurveNames.Ed25519 });
+        assert.exists(key);
+        assert.equal(key.keyType, "OKP-HSM");
+        assert.equal(key.name, keyName);
+        assert.equal(key.key!.crv, KnownKeyCurveNames.Ed25519);
       });
     });
   }

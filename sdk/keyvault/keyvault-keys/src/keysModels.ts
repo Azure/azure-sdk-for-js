@@ -383,6 +383,12 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 }
 
 /**
+ * An interface representing optional parameters that can be
+ * passed to {@link KeyClient.createOkpKey}
+ */
+export interface CreateOkpKeyOptions extends CreateKeyOptions {}
+
+/**
  * An interface representing the optional parameters that can be
  * passed to {@link createOctKey}
  */
