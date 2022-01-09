@@ -7870,7 +7870,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-jtmB3h5FHJ0UPES2laHyCEe+agMLA/5VXSu3DsxVS4/a0pHzu5fN5SOT29kR/x2h3vKhjZnFSPybABvav1Ygww==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-CgeLVCZwfspweQBHcNd4/2uI/rEvbU60GAjFDSUwGnXFVywaMqd6i1jPcZlkCGNitvctyEsQDnJc0PiIN4pRXw==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:

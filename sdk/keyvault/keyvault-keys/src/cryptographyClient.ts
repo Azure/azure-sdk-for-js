@@ -31,6 +31,9 @@ import {
   CryptographyClientKey,
   AesCbcEncryptParameters,
   AesCbcEncryptionAlgorithm,
+  SignDataResult,
+  VerifyDataResult,
+  SignDataOptions,
 } from "./cryptographyClientModels";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
 import { randomBytes } from "./cryptography/crypto";
@@ -38,6 +41,7 @@ import { CryptographyProvider, CryptographyProviderOperation } from "./cryptogra
 import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
 import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider";
 import { createTraceFunction } from "../../keyvault-common/src";
+import { VerifyDataOptions } from ".";
 
 const withTrace = createTraceFunction("Azure.KeyVault.Keys.CryptographyClient");
 
@@ -474,8 +478,8 @@ export class CryptographyClient {
   public signData(
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
-    options: SignOptions = {}
-  ): Promise<SignResult> {
+    options: SignDataOptions = {}
+  ): Promise<SignDataResult> {
     return withTrace("signData", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Sign);
       const provider = await this.getProvider("signData", algorithm, updatedOptions);
@@ -507,8 +511,8 @@ export class CryptographyClient {
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
-    options: VerifyOptions = {}
-  ): Promise<VerifyResult> {
+    options: VerifyDataOptions = {}
+  ): Promise<VerifyDataResult> {
     return withTrace("verifyData", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Verify);
       const provider = await this.getProvider("verifyData", algorithm, updatedOptions);

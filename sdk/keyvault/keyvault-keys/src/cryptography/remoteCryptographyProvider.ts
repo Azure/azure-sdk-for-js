@@ -15,13 +15,17 @@ import {
   WrapKeyOptions,
   WrapResult,
   VerifyOptions,
+  VerifyDataOptions,
   VerifyResult,
+  VerifyDataResult,
   DecryptParameters,
   DecryptOptions,
   DecryptResult,
   UnwrapKeyOptions,
   SignOptions,
+  SignDataOptions,
   SignResult,
+  SignDataResult,
 } from "../cryptographyClientModels";
 import { SDK_VERSION } from "../constants";
 import { UnwrapResult } from "../cryptographyClientModels";
@@ -210,11 +214,12 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     algorithm: string,
     data: Uint8Array,
     signature: Uint8Array,
-    options: VerifyOptions = {}
-  ): Promise<VerifyResult> {
+    options: VerifyDataOptions = {}
+  ): Promise<VerifyDataResult> {
     return withTrace("verifyData", options, async (updatedOptions) => {
-      const hash = await createHash(algorithm, data);
-      return this.verify(algorithm, hash, signature, updatedOptions);
+      const { digest, hashAlgorithm } = await createHash(algorithm, data, options.hashAlgorithm);
+      const verifyResult = await this.verify(algorithm, digest, signature, updatedOptions);
+      return { ...verifyResult, hashAlgorithm };
     });
   }
 
@@ -241,18 +246,15 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     });
   }
 
-  signData(algorithm: string, data: Uint8Array, options: SignOptions = {}): Promise<SignResult> {
+  signData(
+    algorithm: string,
+    data: Uint8Array,
+    options: SignDataOptions = {}
+  ): Promise<SignDataResult> {
     return withTrace("signData", options, async (updatedOptions) => {
-      const digest = await createHash(algorithm, data);
-      const result = await this.client.sign(
-        this.vaultUrl,
-        this.name,
-        this.version,
-        algorithm,
-        digest,
-        updatedOptions
-      );
-      return { result: result.result!, algorithm, keyID: this.getKeyID() };
+      const { digest, hashAlgorithm } = await createHash(algorithm, data, options.hashAlgorithm);
+      const signResult = await this.sign(algorithm, digest, updatedOptions);
+      return { ...signResult, hashAlgorithm };
     });
   }
 

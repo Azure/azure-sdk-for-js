@@ -22,6 +22,10 @@ import {
   SignResult,
   UnwrapResult,
   WrapResult,
+  SignDataOptions,
+  SignDataResult,
+  VerifyDataOptions,
+  VerifyDataResult,
 } from "..";
 import { convertJWKtoPEM } from "./conversions";
 import {
@@ -110,8 +114,8 @@ export class RsaCryptographyProvider implements CryptographyProvider {
   signData(
     _algorithm: SignatureAlgorithm,
     _data: Uint8Array,
-    _options?: SignOptions
-  ): Promise<SignResult> {
+    _options?: SignDataOptions
+  ): Promise<SignDataResult> {
     throw new LocalCryptographyUnsupportedError(
       "Signing a block of data using a local JsonWebKey is not supported."
     );
@@ -132,15 +136,16 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
-    _options?: VerifyOptions
-  ): Promise<VerifyResult> {
+    options?: VerifyDataOptions
+  ): Promise<VerifyDataResult> {
     this.ensureValid();
     const keyPEM = convertJWKtoPEM(this.key);
 
-    const verifier = createVerify(algorithm, data);
+    const { verifier, hashAlgorithm } = createVerify(algorithm, data, options?.hashAlgorithm);
     return Promise.resolve({
       result: verifier.verify(keyPEM, Buffer.from(signature)),
       keyID: this.key.kid,
+      hashAlgorithm,
     });
   }
 

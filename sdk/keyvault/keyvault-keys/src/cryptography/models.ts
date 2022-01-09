@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
 import {
   DecryptOptions,
   DecryptParameters,
@@ -15,11 +14,13 @@ import {
   SignResult,
   UnwrapKeyOptions,
   UnwrapResult,
+  VerifyDataOptions,
   VerifyOptions,
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
 } from "..";
+import { SignDataOptions, SignDataResult, VerifyDataResult } from "../cryptographyClientModels";
 
 export class LocalCryptographyUnsupportedError extends Error {}
 
@@ -127,8 +128,8 @@ export interface CryptographyProvider {
   signData(
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
-    options?: SignOptions
-  ): Promise<SignResult>;
+    options?: SignDataOptions
+  ): Promise<SignDataResult>;
 
   /**
    * Verify the signed message digest
@@ -153,12 +154,12 @@ export interface CryptographyProvider {
    * @param algorithm - The algorithm to use to verify with.
    * @param data - The signed block of data to verify.
    * @param signature - The signature to verify the block against.
-   * @param updatedOptions - Additional options.
+   * @param options - Additional options.
    */
   verifyData(
     algorithm: string,
     data: Uint8Array,
     signature: Uint8Array,
-    updatedOptions: OperationOptions
-  ): Promise<VerifyResult>;
+    options?: VerifyDataOptions
+  ): Promise<VerifyDataResult>;
 }

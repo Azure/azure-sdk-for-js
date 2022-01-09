@@ -17,6 +17,7 @@ const algorithmToHashAlgorithm: { [s: string]: string } = {
   ES256K: "SHA256",
   PS256: "SHA256",
   RS256: "SHA256",
+  EdDSA: "SHA256",
   ES384: "SHA384",
   PS384: "SHA384",
   RS384: "SHA384",
@@ -29,8 +30,12 @@ const algorithmToHashAlgorithm: { [s: string]: string } = {
  * @internal
  * Use the platform-local hashing functionality
  */
-export async function createHash(algorithm: string, data: Uint8Array): Promise<Buffer> {
-  const hashAlgorithm = algorithmToHashAlgorithm[algorithm];
+export async function createHash(
+  algorithm: string,
+  data: Uint8Array,
+  hashAlgorithm?: string
+): Promise<{ digest: Buffer; hashAlgorithm: string }> {
+  hashAlgorithm ||= algorithmToHashAlgorithm[algorithm];
   if (!hashAlgorithm) {
     throw new Error(
       `Invalid algorithm ${algorithm} passed to createHash. Supported algorithms: ${Object.keys(
@@ -41,26 +46,30 @@ export async function createHash(algorithm: string, data: Uint8Array): Promise<B
   const hash = cryptoCreateHash(hashAlgorithm);
   hash.update(Buffer.from(data));
   const digest = hash.digest();
-  return digest;
+  return { digest, hashAlgorithm };
 }
 
 /**
  * @internal
  * Use the platform-local verify functionality
  */
-export function createVerify(algorithm: string, data: Uint8Array): Verify {
-  const verifyAlgorithm = algorithmToHashAlgorithm[algorithm];
-  if (!verifyAlgorithm) {
+export function createVerify(
+  algorithm: string,
+  data: Uint8Array,
+  hashAlgorithm?: string
+): { verifier: Verify; hashAlgorithm: string } {
+  hashAlgorithm ||= algorithmToHashAlgorithm[algorithm];
+  if (!hashAlgorithm) {
     throw new Error(
       `Invalid algorithm ${algorithm} passed to createHash. Supported algorithms: ${Object.keys(
         algorithmToHashAlgorithm
       ).join(", ")}`
     );
   }
-  const verifier = cryptoCreateVerify(verifyAlgorithm);
+  const verifier = cryptoCreateVerify(hashAlgorithm);
   verifier.update(Buffer.from(data));
   verifier.end();
-  return verifier;
+  return { verifier, hashAlgorithm };
 }
 
 /**

@@ -88,6 +88,10 @@ export interface CreateOctKeyOptions extends CreateKeyOptions {
 }
 
 // @public
+export interface CreateOkpKeyOptions extends CreateKeyOptions {
+}
+
+// @public
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
     publicExponent?: number;
 }
@@ -104,11 +108,11 @@ export class CryptographyClient {
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
     get keyID(): string | undefined;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
-    signData(algorithm: SignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
+    signData(algorithm: SignatureAlgorithm, data: Uint8Array, options?: SignDataOptions): Promise<SignDataResult>;
     unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapKeyOptions): Promise<UnwrapResult>;
     get vaultUrl(): string;
     verify(algorithm: SignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
-    verifyData(algorithm: SignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: VerifyOptions): Promise<VerifyResult>;
+    verifyData(algorithm: SignatureAlgorithm, data: Uint8Array, signature: Uint8Array, options?: VerifyDataOptions): Promise<VerifyDataResult>;
     wrapKey(algorithm: KeyWrapAlgorithm, key: Uint8Array, options?: WrapKeyOptions): Promise<WrapResult>;
 }
 
@@ -236,6 +240,7 @@ export class KeyClient {
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
     createKey(name: string, keyType: KeyType_2, options?: CreateKeyOptions): Promise<KeyVaultKey>;
     createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey>;
+    createOkpKey(name: string, options?: CreateOkpKeyOptions): Promise<KeyVaultKey>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     getCryptographyClient(keyName: string, options?: GetCryptographyClientOptions): CryptographyClient;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
@@ -383,6 +388,7 @@ export enum KnownEncryptionAlgorithms {
 
 // @public
 export enum KnownKeyCurveNames {
+    Ed25519 = "Ed25519",
     P256 = "P-256",
     P256K = "P-256K",
     P384 = "P-384",
@@ -413,12 +419,15 @@ export enum KnownKeyTypes {
     ECHSM = "EC-HSM",
     Oct = "oct",
     OctHSM = "oct-HSM",
+    OKP = "OKP",
+    OKPHSM = "OKP-HSM",
     RSA = "RSA",
     RSAHSM = "RSA-HSM"
 }
 
 // @public
 export enum KnownSignatureAlgorithms {
+    EdDSA = "EdDSA",
     ES256 = "ES256",
     ES256K = "ES256K",
     ES384 = "ES384",
@@ -503,6 +512,16 @@ export interface RsaEncryptParameters {
 export type SignatureAlgorithm = string;
 
 // @public
+export interface SignDataOptions extends CryptographyOptions {
+    hashAlgorithm?: string;
+}
+
+// @public
+export interface SignDataResult extends SignResult {
+    hashAlgorithm: string;
+}
+
+// @public
 export interface SignOptions extends CryptographyOptions {
 }
 
@@ -542,6 +561,12 @@ export interface UpdateKeyRotationPolicyOptions extends coreHttp.OperationOption
 
 // @public
 export interface VerifyDataOptions extends CryptographyOptions {
+    hashAlgorithm?: string;
+}
+
+// @public
+export interface VerifyDataResult extends VerifyResult {
+    hashAlgorithm: string;
 }
 
 // @public

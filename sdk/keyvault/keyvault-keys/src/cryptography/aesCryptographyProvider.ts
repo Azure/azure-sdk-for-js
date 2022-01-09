@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
 import * as crypto from "crypto";
 import {
   EncryptOptions,
@@ -19,8 +18,14 @@ import {
   VerifyResult,
   AesCbcEncryptParameters,
   JsonWebKey,
+  VerifyDataOptions,
 } from "..";
-import { AesCbcDecryptParameters } from "../cryptographyClientModels";
+import {
+  AesCbcDecryptParameters,
+  SignDataOptions,
+  SignDataResult,
+  VerifyDataResult,
+} from "../cryptographyClientModels";
 import {
   CryptographyProvider,
   CryptographyProviderOperation,
@@ -144,7 +149,11 @@ export class AesCryptographyProvider implements CryptographyProvider {
     );
   }
 
-  signData(_algorithm: string, _data: Uint8Array, _options?: SignOptions): Promise<SignResult> {
+  signData(
+    _algorithm: string,
+    _data: Uint8Array,
+    _options?: SignDataOptions
+  ): Promise<SignDataResult> {
     throw new LocalCryptographyUnsupportedError(
       "Signing using a local JsonWebKey is not supported for AES."
     );
@@ -164,8 +173,8 @@ export class AesCryptographyProvider implements CryptographyProvider {
     _algorithm: string,
     _data: Uint8Array,
     _signature: Uint8Array,
-    _updatedOptions: OperationOptions
-  ): Promise<VerifyResult> {
+    _updatedOptions: VerifyDataOptions
+  ): Promise<VerifyDataResult> {
     throw new LocalCryptographyUnsupportedError(
       "Verifying using a local JsonWebKey is not supported for AES."
     );

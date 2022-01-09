@@ -135,6 +135,16 @@ export interface SignResult {
 }
 
 /**
+ * Result of the {@link signData} operation.
+ */
+export interface SignDataResult extends SignResult {
+  /**
+   * The Hash algorithm used to create the message digest.
+   */
+  hashAlgorithm: string;
+}
+
+/**
  * Result of the {@link verify} operation.
  */
 export interface VerifyResult {
@@ -146,6 +156,16 @@ export interface VerifyResult {
    * The ID of the Key Vault Key used to verify the data.
    */
   keyID?: string;
+}
+
+/**
+ * Result of the {@link verifyData} operation.
+ */
+export interface VerifyDataResult extends VerifyResult {
+  /**
+   * The Hash algorithm used to create the message digest.
+   */
+  hashAlgorithm: string;
 }
 
 /**
@@ -164,6 +184,16 @@ export interface DecryptOptions extends CryptographyOptions {}
 export interface SignOptions extends CryptographyOptions {}
 
 /**
+ * Options for {@link signData}.
+ */
+export interface SignDataOptions extends CryptographyOptions {
+  /**
+   * Allows the caller to override the hash algorithm we use when generating a message digest from the provided data.
+   */
+  hashAlgorithm?: string;
+}
+
+/**
  * Options for {@link verify}.
  */
 export interface VerifyOptions extends CryptographyOptions {}
@@ -171,7 +201,12 @@ export interface VerifyOptions extends CryptographyOptions {}
 /**
  * Options for {@link verifyData}
  */
-export interface VerifyDataOptions extends CryptographyOptions {}
+export interface VerifyDataOptions extends CryptographyOptions {
+  /**
+   * Allows the caller to override the hash algorithm we use when generating a message digest from the provided data.
+   */
+  hashAlgorithm?: string;
+}
 
 /**
  * Options for {@link wrapKey}.
