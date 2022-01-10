@@ -7,12 +7,12 @@ import { RecorderError } from "./utils/utils";
 
 interface ApplyCondition {
   uriRegex: string;
-};
+}
 
 type TransformType<TType extends string, TParams = undefined> = {
   type: TType;
   applyCondition?: ApplyCondition;
-} & (TParams extends undefined ? {} : { params: TParams });
+} & (TParams extends undefined ? unknown : { params: TParams });
 
 interface HeaderTransformParams {
   key: string;
@@ -30,7 +30,7 @@ export async function addTransform(
   httpClient: HttpClient,
   transform: Transform,
   recordingId: string
-) {
+): Promise<void> {
   const url = `${recorderUrl}${paths.admin}${paths.addTransform}`;
 
   const request = createPipelineRequest({ url, method: "POST", allowInsecureConnection: true });
@@ -41,7 +41,7 @@ export async function addTransform(
 
   request.body = JSON.stringify({
     ...(transform.applyCondition ? { applyCondition: transform.applyCondition } : {}),
-    ...((transform as any).params ?? {}),
+    ...((transform as { params?: Record<string, unknown> }).params ?? {}),
   })
 
   const { status, bodyAsText } = await httpClient.sendRequest(request);
