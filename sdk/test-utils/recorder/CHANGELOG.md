@@ -2,6 +2,13 @@
 
 ## 2.0.0 (Unreleased)
 
+## 2022-01-20
+
+- Add support for `addTransform`, which allows for transforms to be applied to saved recordings in playback mode. The following transforms are supported:
+  - `ApiVersionTransform`: During playback mode, echoes back the `api-version` header provided by the request
+  - `ClientIdTransform`, `StorageRequestIdTransform`: these echo back the `X-MS-Client-Id` and the `X-MS-Client-Request-Id` headers respectively
+  - `HeaderTransform`: adds an arbitrary header and value to the returned request. These are provided by the `key` and `value` parameters to `addTransform`.
+
 ## 2022-01-06
 
 - Renaming the package `@azure-tools/test-recorder-new@1.0.0` as `@azure-tools/test-recorder@2.0.0`.
