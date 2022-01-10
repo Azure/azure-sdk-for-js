@@ -130,7 +130,7 @@ Here is an example:
 ```ts
 const queueName = recorder.variable("queueName", "queue-${Math.floor(Math.random * 1000)}");
 // Assume that we have a client that has a createQueue method.
-client.createQueue(queueName);
+await client.createQueue(queueName);
 ```
 
 In this example, the name of the queue used in the recording is randomized. However, in playback, instead of using the value passed into `recorder.variable`, the value will be retrieved from the recording file. This means that the name of the queue will be consistent between recording and playback.
@@ -144,7 +144,7 @@ A powerful feature of the legacy recorder was its `customizationsOnRecordings` o
 For a simple find/replace, a `GeneralRegexSanitizer` can be used. For example:
 
 ```ts
-recorder.addSanitizers({
+await recorder.addSanitizers({
   generalRegexSanitizers: [
     {
       regex: "find", // This should be a .NET regular expression as it is passed to the .NET proxy tool
