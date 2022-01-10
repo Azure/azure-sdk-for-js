@@ -199,7 +199,8 @@ This package provides a `NoOpCredential` implementation of `TokenCredential` whi
 ```ts
 const credential = createTestCredential();
 
-// You may now pass the created credential to your client.
+// Create your client using the test credential.
+new MyServiceClient(<endpoint>, credential);
 ```
 
 Since AAD traffic is not recorded by the new recorder, there is no longer a need to remove AAD credentials from the recording using a sanitizer.
