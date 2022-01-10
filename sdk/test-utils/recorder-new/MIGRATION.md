@@ -84,7 +84,7 @@ This will allow requests to be intercepted and redirected to the proxy tool.
 
 ## Starting and stopping the recorder
 
-The way that the recorder is started and stopped has changed slightly. At the beginning of your test, start the recorder as follows:
+The way that the recorder is started and stopped has changed slightly. At the beginning of your test (or in a `beforeEach` block), start the recorder as follows:
 
 ```ts
 await recorder.start({
@@ -95,7 +95,7 @@ await recorder.start({
 });
 ```
 
-And at the end of your test, stop the recorder:
+And at the end of your test (or in an `afterEach` block), stop the recorder:
 
 ```ts
 await recorder.stop();
