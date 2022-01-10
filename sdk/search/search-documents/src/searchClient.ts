@@ -82,9 +82,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
    * The API version to use when communicating with the service.
    * @deprecated use {@Link serviceVersion} instead
    */
-  public get apiVersion(): string {
-    return this.serviceVersion;
-  }
+  public readonly apiVersion: string = utils.defaultServiceVersion;
 
   /**
    * The endpoint of the search service
