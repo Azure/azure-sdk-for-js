@@ -22,11 +22,11 @@ describe("The Keys client should set the serviceVersion", () => {
         request: httpRequest,
         parsedBody: {
           key: {
-            kid: `${keyVaultUrl}/keys/keyName/id`
-          }
-        }
+            kid: `${keyVaultUrl}/keys/keyName/id`,
+          },
+        },
       };
-    }
+    },
   };
 
   let sandbox: SinonSandbox;
@@ -47,9 +47,9 @@ describe("The Keys client should set the serviceVersion", () => {
     sandbox.restore();
   });
 
-  it("it should default to the latest API version", async function() {
+  it("it should default to the latest API version", async function () {
     const client = new KeyClient(keyVaultUrl, credential, {
-      httpClient: mockHttpClient
+      httpClient: mockHttpClient,
     });
     await client.createKey("keyName", "RSA");
 
@@ -61,10 +61,10 @@ describe("The Keys client should set the serviceVersion", () => {
   });
 
   versionsToTest(serviceVersions, {}, (serviceVersion) => {
-    it("it should allow us to specify an API version from a specific set of versions", async function() {
+    it("it should allow us to specify an API version from a specific set of versions", async function () {
       const client = new KeyClient(keyVaultUrl, credential, {
         serviceVersion: serviceVersion,
-        httpClient: mockHttpClient
+        httpClient: mockHttpClient,
       });
       await client.createKey("keyName", "RSA");
 

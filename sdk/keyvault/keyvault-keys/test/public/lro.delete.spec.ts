@@ -19,7 +19,7 @@ describe("Keys client - Long Running Operations - delete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     const authentication = await authenticate(this, getServiceVersion());
     keySuffix = authentication.keySuffix;
     client = authentication.client;
@@ -27,13 +27,13 @@ describe("Keys client - Long Running Operations - delete", () => {
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("can wait until a key is deleted", async function(this: Context) {
+  it("can wait until a key is deleted", async function (this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName, testPollerProperties);
@@ -52,7 +52,7 @@ describe("Keys client - Long Running Operations - delete", () => {
     await testClient.purgeKey(keyName);
   });
 
-  it("can resume from a stopped poller", async function(this: Context) {
+  it("can resume from a stopped poller", async function (this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName, testPollerProperties);
@@ -74,7 +74,7 @@ describe("Keys client - Long Running Operations - delete", () => {
 
     const resumePoller = await client.beginDeleteKey(keyName, {
       resumeFrom: serialized,
-      ...testPollerProperties
+      ...testPollerProperties,
     });
 
     assert.ok(resumePoller.getOperationState().isStarted);

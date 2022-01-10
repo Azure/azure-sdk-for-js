@@ -18,8 +18,5 @@ export function fromBase64url(value: string): string {
  * @internal
  */
 export function toBase64url(value: string): string {
-  return btoa(value)
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
+  return btoa(value).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }

@@ -10,7 +10,7 @@ import {
   env,
   isSoftRecordMode,
   testHasChanged,
-  stripNewLines
+  stripNewLines,
 } from "./utils";
 import { setEnvironmentVariables } from "./baseRecorder";
 import { createRecorder } from "./createRecorder";
@@ -148,7 +148,7 @@ export function record(
   // If TEST_MODE=live, hits the live-service and no recordings are generated.
 
   return {
-    stop: async function() {
+    stop: async function () {
       // We check wether we're on record or playback inside of the recorder's stop method.
       if (recorder) {
         await recorder.stop();
@@ -160,7 +160,7 @@ export function record(
      * @param runtime Can either be `"node"` or `"browser"` or `undefined`
      * @param reason Reason for skipping the test
      */
-    skip: function(runtime?: "node" | "browser", reason?: string): void {
+    skip: function (runtime?: "node" | "browser", reason?: string): void {
       if (!reason) reason = "Reason to skip the test is not specified";
       // 1. skipping the test only in node
       // 2. skipping the test only in browser
@@ -181,7 +181,7 @@ export function record(
         }
       }
     },
-    getUniqueName: function(prefix: string, label?: string): string {
+    getUniqueName: function (prefix: string, label?: string): string {
       let name: string;
       if (!label) {
         label = prefix;
@@ -208,7 +208,7 @@ export function record(
       }
       return name;
     },
-    newDate: function(label: string): Date {
+    newDate: function (label: string): Date {
       let date: Date;
       if (isRecordMode()) {
         date = new Date();
@@ -230,6 +230,6 @@ export function record(
         date = new Date();
       }
       return date;
-    }
+    },
   };
 }

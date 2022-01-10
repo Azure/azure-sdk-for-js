@@ -24,6 +24,7 @@ specifiers:
   '@rush-temp/arm-changeanalysis': file:./projects/arm-changeanalysis.tgz
   '@rush-temp/arm-cognitiveservices': file:./projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
+  '@rush-temp/arm-confluent': file:./projects/arm-confluent.tgz
   '@rush-temp/arm-consumption': file:./projects/arm-consumption.tgz
   '@rush-temp/arm-containerinstance': file:./projects/arm-containerinstance.tgz
   '@rush-temp/arm-containerregistry': file:./projects/arm-containerregistry.tgz
@@ -39,6 +40,7 @@ specifiers:
   '@rush-temp/arm-extendedlocation': file:./projects/arm-extendedlocation.tgz
   '@rush-temp/arm-features': file:./projects/arm-features.tgz
   '@rush-temp/arm-hdinsight': file:./projects/arm-hdinsight.tgz
+  '@rush-temp/arm-imagebuilder': file:./projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
   '@rush-temp/arm-links': file:./projects/arm-links.tgz
@@ -205,6 +207,7 @@ dependencies:
   '@rush-temp/arm-changeanalysis': file:projects/arm-changeanalysis.tgz
   '@rush-temp/arm-cognitiveservices': file:projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
+  '@rush-temp/arm-confluent': file:projects/arm-confluent.tgz
   '@rush-temp/arm-consumption': file:projects/arm-consumption.tgz
   '@rush-temp/arm-containerinstance': file:projects/arm-containerinstance.tgz
   '@rush-temp/arm-containerregistry': file:projects/arm-containerregistry.tgz
@@ -220,6 +223,7 @@ dependencies:
   '@rush-temp/arm-extendedlocation': file:projects/arm-extendedlocation.tgz
   '@rush-temp/arm-features': file:projects/arm-features.tgz
   '@rush-temp/arm-hdinsight': file:projects/arm-hdinsight.tgz
+  '@rush-temp/arm-imagebuilder': file:projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iothub': file:projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
   '@rush-temp/arm-links': file:projects/arm-links.tgz
@@ -6976,37 +6980,7 @@ packages:
     hasBin: true
     dev: false
 
-  /ts-node/10.4.0_276ff2ad8f60608417677a4691c0f835:
-    resolution: {integrity: sha512-g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.7.0
-      '@tsconfig/node10': 1.0.8
-      '@tsconfig/node12': 1.0.9
-      '@tsconfig/node14': 1.0.1
-      '@tsconfig/node16': 1.0.2
-      '@types/node': 12.20.40
-      acorn: 8.6.0
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.2.4
-      yn: 3.1.1
-    dev: false
-
-  /ts-node/10.4.0_54d7f9b57c83a5c5120be11b085b9de6:
+  /ts-node/10.4.0_28670484a221c7e896c5d6b821a5cbb7:
     resolution: {integrity: sha512-g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==}
     hasBin: true
     peerDependencies:
@@ -7033,6 +7007,36 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       typescript: 4.4.4
+      yn: 3.1.1
+    dev: false
+
+  /ts-node/10.4.0_f9f9f28f986ed7ad377c75abc9f416f4:
+    resolution: {integrity: sha512-g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.7.0
+      '@tsconfig/node10': 1.0.8
+      '@tsconfig/node12': 1.0.9
+      '@tsconfig/node14': 1.0.1
+      '@tsconfig/node16': 1.0.2
+      '@types/node': 12.20.40
+      acorn: 8.6.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 4.2.4
       yn: 3.1.1
     dev: false
 
@@ -7628,7 +7632,7 @@ packages:
       prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -7687,7 +7691,7 @@ packages:
     dev: false
 
   file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-WHbpbaWO5MeauoXqz1GyjxINlCGfFYPa3O8pOn8TsMY9clEFX/dkGHl9W+Twc3zYSXyCi6ALbGH6JkufxbUEpg==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-vyIx2mIY55b8rYGptKRmKMLOCIrjXaHu62WE5UTJULDp9hjlEYx9+Ms1Cp2E+b/1GI/pzL3W8q/y7l6qoOi5mA==, tarball: file:projects/ai-anomaly-detector.tgz}
     name: '@rush-temp/ai-anomaly-detector'
     version: 0.0.0
     dependencies:
@@ -7716,7 +7720,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       tslib: 2.3.1
@@ -7820,7 +7824,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-s+dMun5WpGbbWhDl0LQ+IrlxsmxCrjL4bPHQ12W24hW1A/QjfX1BcCeEwursFC/LMPUt+vLYQhrmLT33O1o3xw==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-U0OBdhA2UsNoYOBkp/0tnP6b3pblzKhmggJFKaC2pUrpKftVfWGTCh3c1B4pzpfA7YG4tjrp2B3A7EbuWpU83A==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -7856,7 +7860,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -7869,7 +7873,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-jtmB3h5FHJ0UPES2laHyCEe+agMLA/5VXSu3DsxVS4/a0pHzu5fN5SOT29kR/x2h3vKhjZnFSPybABvav1Ygww==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-CgeLVCZwfspweQBHcNd4/2uI/rEvbU60GAjFDSUwGnXFVywaMqd6i1jPcZlkCGNitvctyEsQDnJc0PiIN4pRXw==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -7907,7 +7911,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -7964,7 +7968,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.5
@@ -8289,6 +8293,27 @@ packages:
       uglify-js: 3.14.5
     dev: false
 
+  file:projects/arm-confluent.tgz:
+    resolution: {integrity: sha512-jXenjQsBBnIV0WeP9lGHDgrWpTQBr0nOQF4RCcTKTA9tD8f6B/DhYy6m+fgc1ejTXlZqIfp20kTKc3vOI0FIBQ==, tarball: file:projects/arm-confluent.tgz}
+    name: '@rush-temp/arm-confluent'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
   file:projects/arm-consumption.tgz:
     resolution: {integrity: sha512-m+tcI8203C8X1l/+HsD9meTIpK7WFovm3PIq8aPtplYANgJya1BCr/a8aFHJGlLx5SRquHceWeAZeP0Iqn6jTQ==, tarball: file:projects/arm-consumption.tgz}
     name: '@rush-temp/arm-consumption'
@@ -8592,6 +8617,28 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
+  file:projects/arm-imagebuilder.tgz:
+    resolution: {integrity: sha512-B799VwkrNiyXYwO50wx8MUAixrwU14vIOD/zW01n/i2Dxa8nYggsoGMFbqk8itwj35VpaoZ3u542uzhkqzubbw==, tarball: file:projects/arm-imagebuilder.tgz}
+    name: '@rush-temp/arm-imagebuilder'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@types/node': 12.20.40
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -9486,7 +9533,7 @@ packages:
       rollup: 1.32.1
       safe-buffer: 5.2.1
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -9981,7 +10028,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-jmyXvDp5FyZIlqp1zATESQp6qO2NqjKSfY5o9ojPsKN/g9WJ45RL4jfy+cD5u8C2t9jSDTsCoL+jbiLptpkDLA==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-nAZlMW/WFVSloK1iVzoSJNx9CHjvMl4/kJrnq1s5Okn96/AQX19SYkqfdvmew1Oy3bxfDC2g3n3e1CFLrlSyEg==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -10024,7 +10071,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       url: 0.11.0
@@ -10110,7 +10157,7 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -10341,7 +10388,7 @@ packages:
       shx: 0.3.3
       sinon: 9.2.4
       tough-cookie: 4.0.0
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       tunnel: 0.0.6
       typescript: 4.2.4
@@ -10389,7 +10436,7 @@ packages:
       prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.5
@@ -10619,7 +10666,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-5AyC1YxodBNK0GKENYQCRnPLNLXPjVkHNmrqSZ9tkkAWdVHbK8rlyLC6QF81kaqebqSGZQZ8H0GuScg5dp6hFQ==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-k9RoXYEXCwMLbjVP0T/JrKR1aTq/yrhCkrKI6GxAGOWGOsch5+3W0F61A10Fi185kvrxdFi3w7DLKQw4WPqlRA==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -10646,7 +10693,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       node-abort-controller: 3.0.1
-      prettier: 1.19.1
+      prettier: 2.5.1
       priorityqueuejs: 1.0.0
       requirejs: 2.3.6
       rimraf: 3.0.2
@@ -10656,7 +10703,7 @@ packages:
       sinon: 9.2.4
       snap-shot-it: 7.9.6
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       universal-user-agent: 6.0.0
@@ -10713,7 +10760,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -10759,7 +10806,7 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
-      ts-node: 10.4.0_54d7f9b57c83a5c5120be11b085b9de6
+      ts-node: 10.4.0_28670484a221c7e896c5d6b821a5cbb7
       tslib: 2.3.1
       typescript: 4.4.4
       yaml: 1.10.2
@@ -10770,7 +10817,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-EmRXFsKEZJNpofnEOpGuVkNnFxj9RfZWOoBLxP97eQfAEKKdyOEJp5PX9J7daCz9SB4sjh+QyRI7ySWSzpov2A==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-+g1UwytCUmPweJ5AQbmVt9MgiJZ/LKESrTbTQnPspd235nWy3EcPruTNZe1aGsN2gkasNWHJu4peD5EQ+hfhTA==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -10802,7 +10849,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -10818,7 +10865,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-VMZ895AjMuHWXPhrhzYKmnX1zhUsCqdRyh86lBlco1vnwBTU2nNrJ0jbVWawWXQGFSGdBYVMzw/nIQVfppKbcg==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-L7HkizsdDc/0/ZqKkNo4eNOvRKzmrzg/Ae8eS5hF9Z2fwaHODmXlT2gpmwnhogJjKs31bDA0rhIzp2pGZ/5gsw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -10844,7 +10891,7 @@ packages:
       json-schema: 0.4.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.3.1
@@ -10916,7 +10963,7 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -10930,7 +10977,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-OyxPQd3x48aJnJKTx1KWVCN5SxkIwpa+LyNvuCj2gpaV/IbovvKxRzIeFLvUKFWZUVL7g6su4u9l+n1/O0pD6w==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-yEsNmtsrNOZZh3o8ggYy1epV5p8qjZEkYAoGzKBjf4yRrSi26VbwnS+wi1T0zjKqZTq4so6VaSzH0AmYNfLpWQ==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -10969,7 +11016,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -10978,7 +11025,7 @@ packages:
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11033,7 +11080,7 @@ packages:
       prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -11086,7 +11133,7 @@ packages:
       prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -11221,7 +11268,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-yKaQRRzbc8nuJGrj8daTEQ3r45c20aXlL1O21pNa+L7foP7ezix+r/qe2NNpYRov+uEZNTRQ9GZ2K48pDXBhXA==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-snhjdvouSICvDkA0OFk1WQkpRdqFJCFCCgkf6MIq6fcWw3/bqSMAfyOuortt41olfegAvjpBW957V07pyPcjvA==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -11233,7 +11280,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       mkdirp: 1.0.4
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       source-map-support: 0.5.21
@@ -11288,7 +11335,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -11302,7 +11349,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-2DO+4Eg75yZ9tIJl/4WBkk2D3b2qrpuIHJPJQ3aYFrn06gRCiyLtD9wLWLuJZM597/U8Mz2AFKEP4oa9pqNirQ==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-WishpCTglzE/R1KHqr1CsFyB4FFl/wuA5M6s8hpDxJszHz1qeUQacRQPEIDxBsjhexwUTL9bYA6nXVPCguGvaw==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -11324,7 +11371,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -11337,7 +11384,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-fRnN3uH8Yw60ALFxjYvrSEOP3EP4X8CbT8X+qRVLE3GcnhbytoIza5Hu2TuJq31N4j7R4AbcOqCtC9nmtihedQ==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-aowXHcSOxD6UUWlOiIzOc+Y+qf8jOlVdnaIn8L/VGSleXtiFrQjPuWj6hU2ec8w8aTytReW3nphgigR5aXFynw==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -11374,7 +11421,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -11395,13 +11442,13 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-nqJYMdkZslJJL2Y7fIMCVXcAtsuKOm8ZMukvR5AW7V+uzqZ6s1nAQ+MCQtJlJsKwr8ittY4DXsM70/n0e/g74A==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-HttizuBsTZidkvb3eSDhsCbTVOKn0ZqHdltvQaPR6p9IrLep0ujcQBBj5zzv5d+jC2f/T6ypCtUbhCJWmTsvdQ==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       tslib: 2.3.1
       typescript: 4.2.4
@@ -11410,7 +11457,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-lrKVoLOE1t9Q/nnxEXeDfW6/4UQ7mHtexpCZKc0Yp20HIHh6xVkiJgy/oSEK/xYR5C7H+vxfuLU9/IRuPIhGSg==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-DcMai4r3B5EuYLtn/gB1h6UtONfVOPzla31wkii1KDZYNlvFYqD18Jpttff+jWG1r10Zk+eJaCGvozTdOl+YJw==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -11445,7 +11492,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -11462,7 +11509,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-nMU8vzQWo39Cm5rehMDTpOUcvvh8U4C8TfFVkKhd5em7YFcC9vw3LzmUz6DmawAE34IFxUvCR/UMBqPOBYhcDQ==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-jMOyRWijzmuL2hpRiyy4x0uT6LTUVjfnLhR70ai98MRM2jjUzwVaubd87d9LPlO337sZjgQ37UXkUEpVK/gNhg==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -11498,7 +11545,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -11552,7 +11599,7 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11675,7 +11722,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-hUGjniOfZdX1DTXlFw/eeSyMLWuV3E/A+21fV6405htKobNDL6r/pa8EnyOKbo7G1yc6/DlmXWb1vWTa5pl9fg==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-ZgJHlXiQ9BsBuPzzO8guFh3+2SiW8Tg88utfw0sH7FB3MXciTahHb2NE/4iIpRibG+V1drIj4fgQ16PXfKmk4A==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -11697,11 +11744,11 @@ packages:
       mocha: 7.2.0
       nock: 12.0.3
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11711,7 +11758,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-HX2UiwoQApKmkl6q9RDlQxORcN+jTP5EexaMAzfPUSh+gMOOuTx1hkCFbz50TojEESraHguMG/rpvvM8jWKWOA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-3tAn0vXw53fi/gF+/DDq4KqenujlXI1TiQKHdzNUCzLnOmOG+ehh8H6ZOeEgkBpqq+FxTxUG1g6nF1K9rECjwA==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -11748,7 +11795,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       source-map-support: 0.5.21
@@ -11773,7 +11820,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11793,7 +11840,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11813,7 +11860,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11833,7 +11880,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11872,7 +11919,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11893,7 +11940,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11916,7 +11963,7 @@ packages:
       moment: 2.29.1
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11927,16 +11974,16 @@ packages:
     dev: false
 
   file:projects/perf-eventgrid.tgz:
-    resolution: {integrity: sha512-WgF8bFqeJWC6N3KUnQslzFUyq5CwwakUL6Jz24U2OQWIOPVPHEYC1e+b/H6qY65yzg7Uua9vVIV4wMdmE63h5g==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-xZEKu3aE6Hkt6dwHFG0AhSvy3ckK6GMgKPzXbfuk1CXxIUnDmFq8MzclLNVzyjVDXNtMmyqv3seBpd+2SLHV0Q==, tarball: file:projects/perf-eventgrid.tgz}
     name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.40
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11956,7 +12003,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -11966,7 +12013,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-certificates.tgz:
-    resolution: {integrity: sha512-CgkoyMtb9yE2k43nODIE43YaMKp47jIHTda+My34qZqOobF/lpAhMSchnu5iTCDByxXU0884fVBG7Huf1M6q6Q==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-WAAXhO5nZoVvfP3Wn8zF/2yWRcCJK3wXRKNRnALR8hS/KEcA1OMUXpRaLuElACjIjHtB1Q4a4ekDoKT9AwYZjQ==, tarball: file:projects/perf-keyvault-certificates.tgz}
     name: '@rush-temp/perf-keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -11975,9 +12022,9 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -11988,7 +12035,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-keys.tgz:
-    resolution: {integrity: sha512-LVKSth+yOv+DaREd0kcgHbV+oVrbqZZsUhI/CVsot34uNGtRfNw0G2Cu7cUNohdHJ2ABf6wVtbQhua67L9DfKw==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-rv8aPhNajg9pk92DcAUwgiUg+3zySN1t8xLCtwSdRkWNmHgMfCU2l9M0rwNk6MTWEFtao5oYKvD9thd/pATdVQ==, tarball: file:projects/perf-keyvault-keys.tgz}
     name: '@rush-temp/perf-keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -11997,9 +12044,9 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12010,7 +12057,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-6PXCroWdlod0WXXgBFQxJqbvFl5g6rQhpzVViP+tyYi68/SczLCtrSoT3jBfWt749Z0SM3R30CsdvBeLLgwx5A==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-GXvdLBt4w4hjwK1RkFL4LjuDmhLszmxGutt0nYKMwslEiOgggW8fDmcuPfczB90buz/iIEmsZ97cGXEwyDrDvg==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -12018,9 +12065,9 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12031,16 +12078,16 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-xYKcIj+FhMLQhLv3oen9Srqw6c6WMMD/xf3ytiZdHmIkBWYe9IX+6rsG1zYaYHwHqhj5lbJQbNlFYF0ul2CHGQ==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-Oq9k5ax0x+0PM6SCLUI3GtgiuTnDF8I6wcFhluHUciEBcHa86W0H+LQ3kozwf6IAbRXefBQ75TpATFUAQ3BaPg==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.40
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -12050,16 +12097,16 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-a5TdwW3am8vY/JPngbKHtzKUqkR6pvnUsQVHwOOH8VSdyKMWaxDDndLG49y1cAUCX9UKpFfxx7snTAm1Gh+SQg==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-bWYNxuFrCq2vaETECiEOezIqefS87rjYMH1x78m9obtk1B2SHnjhPZafV29/nHiI3q+DL0jVlydcJSyI4e2USg==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.40
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -12080,7 +12127,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12091,7 +12138,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-MP7VqxpxZ8LIGj5nfzcf0PZHudexBQIWvAWfvaqxzqghKrKjYAfPCuhnu+aJ8Onb/3zh3XTnrZSxEv1IMIOXMA==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-Aa3MEh8rcdxTWFeZsS12bTroju/ijzaqtKvWM2OTWVnMcP1kPKqSvGyVRQ6i7GfzPbGWpKGAd80nRZp8kiBx1w==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -12101,9 +12148,9 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       node-fetch: 2.6.6
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12114,7 +12161,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-EFqMjgVpvAabL02DvwUC+b87Lay0xAI3CG3fL5gRc6jPLJgtejI8/OLwO0IICLKTwPAb/ZEiCsspqlt3Cj41kA==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-jusOUDJu0VWfs0G86smpZKixnQLGG3+2yyk5niL8q2Omd8rxEt4bfnXjeR1J8PCpwqlAtQ6MDnI9/4+EWtvxrw==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -12122,9 +12169,9 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12135,7 +12182,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-PNnKOA2ikFCo+7GqMnpA57prToxM5+m0mO8EyASiJPjqrr2zQV0lLO6JO+u4hyNNEl2I7P+xfIuFJZ80qZ56lA==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-xXZL6Kh5eOOeXE3ODFR2QEUTtQGzSOfotgmyVbWB9puJ58FeagI9JdIzuTF8Lzl6SZST+RcRuxoR2xHBJF+puw==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
@@ -12143,9 +12190,9 @@ packages:
       '@types/uuid': 8.3.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12166,7 +12213,7 @@ packages:
       eslint: 7.32.0
       prettier: 2.5.1
       rimraf: 3.0.2
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uuid: 8.3.2
@@ -12358,7 +12405,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-aCZcQP0XMMsSqGOihniPOWJ8Hod0UiPUZDHxA4ol4iaBTeRwFMnASXbL2L2bijeWrw410QiBfVlvotZ2ipSzLA==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-qSzsQXvfjB9gOhpVkOEdqUYXRJjxFx5F1PVTU6Hdnm2rp1h+12RzDJ1Fk6HeScoUVFC/99sl6mWKJBc9NLZsng==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -12391,7 +12438,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -12502,7 +12549,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-ojTJp1YUTBaGGVHEKSbVrXNwr21YCOw8jwMSccBRKH79hKsGM/LyP+HV++BCMoxiFpYBFieeOdr7pSqLdgYo/w==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-I6kFqKY744occjIC9lcpQPR/+nuOMbO60AL2wPVl6HOxxyulw07zh/AImKLDiY2/v3iAVQ9LvJ2BHnHUQNuNtw==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -12534,11 +12581,11 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -12607,7 +12654,7 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       ws: 8.3.0
@@ -12620,7 +12667,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-I4kLW5r+wcs2IKR0dyXYdQKzalFrSlA6L4qDHP/ffsUdQyfTDfwMhfwiWUvGQIYBlNdsg7FOR/qTmgIUZxcZlg==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-eUWKUDBX/PtomclgLzXc/S2WZxYRV1TMhF3Vq2/nQlmPq6JIcq2kV4ITg1PJYkQf/14pFZdC6Mqc+2+uzEFGdw==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -12660,7 +12707,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12670,7 +12717,7 @@ packages:
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -12684,7 +12731,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-5UfbOh31nTYp3wOg7AmDqDljuJt1ooUr+zCaC6geOqPWg0TqzVdYgNvlXOOk28xnC6b4mJzFzgsgjfTw77L5dA==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-phT8p+t+/W0e086u5nMTbotHJN0zeLJM9v9YdDjdDOvz+X7ap8DMlU8FOgToiFRFibxAkyggedgtZbpdUCv+1A==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -12724,7 +12771,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12733,7 +12780,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -12747,7 +12794,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-T+HPjUxknz/R5vz/WhIFIQrIUB4V6Xpn0t8G/qNFgxlhDEU7Fv4bYmUDjKCP1thqkfBsa1ZUX3x4uiGrQtUJsg==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-U8imakVwRrtpJOKbnGC3w3vDqVPyWqVe6y+D1qs4bb0TxQuPQI30EGlP+Ba/EI47BzTcr1+d1UibM5b9JD+HKA==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -12787,7 +12834,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12796,7 +12843,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -12810,7 +12857,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-SblMPkv9eJDAJ1NWGMQKonrfINStCdZ6A8PSjdJQ06G0M7ZQaBQ3QoQIIPV7fwro80vSd2izrdLkfha8ClrvPw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-YS5aQc/4y8Hjz50yEHTbr8tS0NjvVuBjJCNVauDWsxZqZ2bNm39O1JjB23H81iQk1NnrFo3it21QJBpGp/nxKw==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -12848,7 +12895,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12857,7 +12904,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -12871,7 +12918,7 @@ packages:
     dev: false
 
   file:projects/storage-internal-avro.tgz:
-    resolution: {integrity: sha512-jzeW6J58W+ii99DjDrdS86cdLMmTGlr39rCY/A6p5i0HmD65714e/luX6Xz+/Mi0xjTseCq0VbpLzD6s60zwyA==, tarball: file:projects/storage-internal-avro.tgz}
+    resolution: {integrity: sha512-owF6jI7BhifDhBqb9bwe1BaOkdW0juCoSLFH4fQWGmx6iqulrlXhUJ1fczoju/PSUn8pbUdPY4Q8Z+eDk02KQQ==, tarball: file:projects/storage-internal-avro.tgz}
     name: '@rush-temp/storage-internal-avro'
     version: 0.0.0
     dependencies:
@@ -12906,7 +12953,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12915,7 +12962,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -12929,7 +12976,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-Bdupb8wOZUw74W+HM0SqSX47+YDZy5dddqfpbUKD+7hdI0ueK1tUl4hnolm6fdI3x05ZNiHFG0wqgeZQHyOAWA==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-izxMZo0B3Pi61g07eFJD4hL/cs70/626fkGP1jGtvIPrNF7beGRY3A0UjdSaqM7I3zV0YABC8vVhzjOqI3kUpg==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
@@ -12966,7 +13013,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       puppeteer: 10.4.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -12975,7 +13022,7 @@ packages:
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
       rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
@@ -13027,7 +13074,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.5
@@ -13081,7 +13128,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.5
@@ -13134,7 +13181,7 @@ packages:
       rollup: 1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.4.0_276ff2ad8f60608417677a4691c0f835
+      ts-node: 10.4.0_f9f9f28f986ed7ad377c75abc9f416f4
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.5
@@ -13306,13 +13353,13 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-dIUQJVvw4Gnx1Osn8Vj7n6nqoGnnQ8KV+b6fkYsdyovvWHNiNFhWK/OQ266RL82kLTxYavEKp6QXQQciJ1XnZA==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-iEnhmTWqjqTfunF2+GRxZMJ4OvO2ek3Y0Mb/RcroAYf1B+/FWfYl0k48jg+uby0+EBT5xVa3+SfANBVgQAlN/g==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.40
       eslint: 7.32.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       typescript: 4.2.4
@@ -13321,7 +13368,7 @@ packages:
     dev: false
 
   file:projects/test-recorder-new.tgz:
-    resolution: {integrity: sha512-xEdkJC5rMO2mmrosjw15rNWHcxhh5uXxCdZskU9147jLdrePtr1kmPV64xnZf6GLjTndCpq9tJydQdWwbtIQ4g==, tarball: file:projects/test-recorder-new.tgz}
+    resolution: {integrity: sha512-SaWOH6ubcTbybPLHGNUDpnpejqqcrxBF9x8qJWcH29LqMf9bq2zJaDTjqLnZR+ZFi4geKD99EafcGTYUXQzCEA==, tarball: file:projects/test-recorder-new.tgz}
     name: '@rush-temp/test-recorder-new'
     version: 0.0.0
     dependencies:
@@ -13364,7 +13411,7 @@ packages:
       mock-require: 3.0.3
       npm-run-all: 4.1.5
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -13384,7 +13431,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-z/9s2WuTY21k9477HxunczqlV10RdF5LRqldQZ7NVU4QXeakJpyGbs55FV5fEABACHIyYzBU3IUvp+uKOxEnLA==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-YVTZKhc57wqPtdwdRvUNEeT7fWFV9Z8biRjF+DNywqCbCLC6QY/gIy7+Cb7Lw9B+MVCPDxqW4r0dU4aFd4rBjA==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
@@ -13427,7 +13474,7 @@ packages:
       nock: 12.0.3
       npm-run-all: 4.1.5
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -13445,7 +13492,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-eO/XaNwlnKeTn9jy1A0SpJpAZ8rztxeZU7LKQzOR6rqho1XiZX/N6zsCkAYiOLfvxJnRSqBlDGclKFf6U68xQw==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-O62R8KYXtyRFfZxEkDFh0GoSOi7M9RpWp4Hr4a337ZNCw1xZh94T1xOrLuC8Lgx7glixJv3OTm/1hYvsAVuhRg==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
@@ -13459,7 +13506,7 @@ packages:
       karma-env-preprocessor: 0.1.1
       minimist: 1.2.5
       node-fetch: 2.6.6
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 8.10.2_typescript@4.2.4
       tslib: 2.3.1
@@ -13472,7 +13519,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-mNAkFGRCdahoUfUgUBHK/rXrhHNsoD91poUZvHUzfF4V5Gf5+FJSetlGsuoN0loxj1ZFSLY88FvRmMDpAGAYmw==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-lRA7wxoXX7NWHc36e1+U8RH2RQmoZlFm50QXbLBRXqr+A8eIi8u5lphwOZchx6UzOpv1AatfESPoxcp5n7iyzA==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -13491,7 +13538,7 @@ packages:
       karma-coverage: 2.1.0
       karma-env-preprocessor: 0.1.1
       mocha: 7.2.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       sinon: 9.2.4
@@ -13505,7 +13552,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-mdXZ9tCySJwZPY1AEBWEe2U+al31WEkYxH1NEziqnPjUDTHhHobXZ7SLt6IzIirAKaB7TC4/N6YFv6PPJYjR1w==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-05oLLpWqsXhCMszzTOhm+TeCAFXH70Qld5TTY6BdKQBuXU2c60RzuGJRJK4C87u+v3On/mdfTzth6YG/iJmLOQ==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:
@@ -13542,7 +13589,7 @@ packages:
       mock-require: 3.0.3
       npm-run-all: 4.1.5
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       typescript: 4.2.4
@@ -13556,7 +13603,7 @@ packages:
     dev: false
 
   file:projects/video-analyzer-edge.tgz:
-    resolution: {integrity: sha512-3K3GXicyBLnLGZS61V0u4pL1Ta9XSm2F2BrflOVAotw7384DUsiOvoIxnMSWMxlzr4QuTbU92MhxDepXTxk6cw==, tarball: file:projects/video-analyzer-edge.tgz}
+    resolution: {integrity: sha512-u3GkTL9aaRrRmRU4+7LIkwAn5o+8DQ6o6FAtAcLAQ462YrN/AeLmmKlWDDpZV3X77RyNcP7HhZWuOi1qajyy/Q==, tarball: file:projects/video-analyzer-edge.tgz}
     name: '@rush-temp/video-analyzer-edge'
     version: 0.0.0
     dependencies:
@@ -13588,7 +13635,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
-      prettier: 1.19.1
+      prettier: 2.5.1
       rimraf: 3.0.2
       rollup: 1.32.1
       tslib: 2.3.1

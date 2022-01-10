@@ -7,7 +7,7 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "@azure/core-http";
 import { ParsedWWWAuthenticate, parseWWWAuthenticate } from "./parseWWWAuthenticate";
 import { Constants } from "@azure/core-http";
@@ -68,7 +68,7 @@ export function challengeBasedAuthenticationPolicy(
         tokenCache,
         challengeCache
       );
-    }
+    },
   };
 }
 
@@ -80,9 +80,8 @@ export function challengeBasedAuthenticationPolicy(
  *
  */
 export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
-  private parseWWWAuthenticate: (
-    wwwAuthenticate: string
-  ) => ParsedWWWAuthenticate = parseWWWAuthenticate;
+  private parseWWWAuthenticate: (wwwAuthenticate: string) => ParsedWWWAuthenticate =
+    parseWWWAuthenticate;
 
   /**
    * Creates a new ChallengeBasedAuthenticationPolicy object.
@@ -111,7 +110,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     // If there's no cached token in the cache, we try to get a new one.
     if (accessToken === undefined) {
       const receivedToken = await this.credential.getToken(this.challengeCache.challenge!.scope, {
-        tenantId: this.challengeCache.challenge!.tenantId
+        tenantId: this.challengeCache.challenge!.tenantId,
       });
       accessToken = receivedToken || undefined;
       this.tokenCache.setCachedToken(accessToken);

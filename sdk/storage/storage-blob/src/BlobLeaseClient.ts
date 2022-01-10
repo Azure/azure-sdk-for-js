@@ -182,15 +182,15 @@ export class BlobLeaseClient {
         duration,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         proposedLeaseId: this._leaseId,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -233,9 +233,9 @@ export class BlobLeaseClient {
           abortSignal: options.abortSignal,
           modifiedAccessConditions: {
             ...options.conditions,
-            ifTags: options.conditions?.tagConditions
+            ifTags: options.conditions?.tagConditions,
           },
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
       this._leaseId = proposedLeaseId;
@@ -243,7 +243,7 @@ export class BlobLeaseClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -280,14 +280,14 @@ export class BlobLeaseClient {
         abortSignal: options.abortSignal,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -323,14 +323,14 @@ export class BlobLeaseClient {
         abortSignal: options.abortSignal,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -372,15 +372,15 @@ export class BlobLeaseClient {
         breakPeriod,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       };
       return await this._containerOrBlobOperation.breakLease(operationOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

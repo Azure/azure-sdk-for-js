@@ -19,7 +19,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
       setTestMode(mode);
     });
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       recorder = new Recorder(this.currentTest);
       client = new ServiceClient({ baseUri: getTestServerUrl() });
       recorder.configureClient(client);
@@ -35,14 +35,14 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         const fakeSecretInfo = "fake_secret_info";
         await recorder.start({
           envSetupForPlayback: {
-            SECRET_INFO: fakeSecretInfo
-          }
+            SECRET_INFO: fakeSecretInfo,
+          },
         }); // Adds generalRegexSanitizers by default based on envSetupForPlayback
         await makeRequestAndVerifyResponse(
           client,
           {
             path: `/sample_response/${env.SECRET_INFO}`,
-            method: "GET"
+            method: "GET",
           },
           { val: "I am the answer!" }
         );
@@ -53,9 +53,9 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           envSetupForPlayback: {},
           sanitizerOptions: {
             removeHeaderSanitizer: {
-              headersForRemoval: ["ETag", "Date"]
-            }
-          }
+              headersForRemoval: ["ETag", "Date"],
+            },
+          },
         });
         await makeRequestAndVerifyResponse(
           client,
@@ -74,18 +74,18 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
               {
                 jsonPath: "$.secret_info", // Handles the request body
                 regex: secretValue,
-                value: fakeSecretValue
+                value: fakeSecretValue,
               },
               {
                 jsonPath: "$.bodyProvided.secret_info", // Handles the response body
                 regex: secretValue,
-                value: fakeSecretValue
-              }
-            ]
-          }
+                value: fakeSecretValue,
+              },
+            ],
+          },
         });
         const reqBody = {
-          secret_info: isPlaybackMode() ? fakeSecretValue : secretValue
+          secret_info: isPlaybackMode() ? fakeSecretValue : secretValue,
         };
         await makeRequestAndVerifyResponse(
           client,
@@ -93,7 +93,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             path: `/api/sample_request_body`,
             body: JSON.stringify(reqBody),
             method: "POST",
-            headers: [{ headerName: "Content-Type", value: "application/json" }]
+            headers: [{ headerName: "Content-Type", value: "application/json" }],
           },
           { bodyProvided: reqBody }
         );
@@ -109,10 +109,10 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
               {
                 regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
                 value: fakeSecretValue,
-                groupForReplace: "secret_content"
-              }
-            ]
-          }
+                groupForReplace: "secret_content",
+              },
+            ],
+          },
         });
         const reqBody = `non_secret=i'm_no_secret&SECRET=${
           isPlaybackMode() ? fakeSecretValue : secretValue
@@ -123,7 +123,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             path: `/api/sample_request_body`,
             body: reqBody,
             method: "POST",
-            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
           { bodyProvided: reqBody }
         );
@@ -138,10 +138,10 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             uriRegexSanitizers: [
               {
                 regex: secretEndpoint,
-                value: fakeEndpoint
-              }
-            ]
-          }
+                value: fakeEndpoint,
+              },
+            ],
+          },
         });
         const pathToHit = `/api/sample_request_body`;
         await makeRequestAndVerifyResponse(
@@ -151,7 +151,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
               ? getTestServerUrl().replace(secretEndpoint, fakeEndpoint) + pathToHit
               : undefined,
             path: pathToHit,
-            method: "POST"
+            method: "POST",
           },
           { bodyProvided: {} }
         );
@@ -164,15 +164,15 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           envSetupForPlayback: {},
           sanitizerOptions: {
             uriSubscriptionIdSanitizer: {
-              value: fakeId
-            }
-          }
+              value: fakeId,
+            },
+          },
         });
         await makeRequestAndVerifyResponse(
           client,
           {
             path: `/subscriptions/${isPlaybackMode() ? fakeId : id}`,
-            method: "GET"
+            method: "GET",
           },
           { val: "I am the answer!" }
         );
@@ -187,10 +187,10 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
               {
                 key: "your_uuid",
                 method: "guid", // What is this method exactly?
-                resetAfterFirst: false
-              }
-            ]
-          }
+                resetAfterFirst: false,
+              },
+            ],
+          },
         });
         // What if the id is part of the response body and not response headers?
 
@@ -198,7 +198,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           client,
           {
             path: `/api/sample_uuid_in_header`,
-            method: "GET"
+            method: "GET",
           },
           undefined
         );
@@ -211,9 +211,9 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             headers: [
               {
                 headerName: "your_uuid",
-                value: firstResponse.headers.get("your_uuid") || ""
-              }
-            ]
+                value: firstResponse.headers.get("your_uuid") || "",
+              },
+            ],
           },
           { val: "abc" }
         );
@@ -227,17 +227,17 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             headerRegexSanitizers: [
               {
                 key: "your_uuid",
-                value: sanitizedValue
-              }
-            ]
-          }
+                value: sanitizedValue,
+              },
+            ],
+          },
         });
 
         await makeRequestAndVerifyResponse(
           client,
           {
             path: `/api/sample_uuid_in_header`,
-            method: "GET"
+            method: "GET",
           },
           undefined
         );
@@ -270,10 +270,10 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
               {
                 regex: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)",
                 value: fakeSecretValue,
-                groupForReplace: "secret_content"
-              }
-            ]
-          }
+                groupForReplace: "secret_content",
+              },
+            ],
+          },
         });
         const reqBody = `non_secret=i'm_no_secret&SECRET=${
           isPlaybackMode() ? fakeSecretValue : secretValue
@@ -284,13 +284,13 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             path: `/api/sample_request_body`,
             body: reqBody,
             method: "POST",
-            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
           { bodyProvided: reqBody }
         );
 
         await recorder.addSanitizers({
-          resetSanitizer: true
+          resetSanitizer: true,
         });
 
         const reqBodyAfterReset = `non_secret=i'm_no_secret&SECRET=${secretValue}&random=random`;
@@ -301,7 +301,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             path: `/api/sample_request_body`,
             body: reqBodyAfterReset,
             method: "POST",
-            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
           { bodyProvided: reqBodyAfterReset }
         );
@@ -317,34 +317,34 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         {
           options: {
             connectionStringSanitizers: [
-              { actualConnString: undefined, fakeConnString: "a=b;c=d" }
+              { actualConnString: undefined, fakeConnString: "a=b;c=d" },
             ],
-            generalRegexSanitizers: [{ regex: undefined, value: "fake-value" }]
+            generalRegexSanitizers: [{ regex: undefined, value: "fake-value" }],
           },
           title: "all sanitizers are undefined",
-          type: "negative"
+          type: "negative",
         },
         {
           options: {
             connectionStringSanitizers: [
               { actualConnString: undefined, fakeConnString: "a=b;c=d" },
-              { actualConnString: "1=2,3=4", fakeConnString: "a=b;c=d" }
+              { actualConnString: "1=2,3=4", fakeConnString: "a=b;c=d" },
             ],
-            generalRegexSanitizers: [{ regex: undefined, value: "fake-value" }]
+            generalRegexSanitizers: [{ regex: undefined, value: "fake-value" }],
           },
           title: "partial sanitizers are undefined",
-          type: "negative"
+          type: "negative",
         },
         {
           options: {
             connectionStringSanitizers: [
-              { actualConnString: "1=2,3=4", fakeConnString: "a=b;c=d" }
+              { actualConnString: "1=2,3=4", fakeConnString: "a=b;c=d" },
             ],
-            generalRegexSanitizers: [{ regex: "value", value: "fake-value" }]
+            generalRegexSanitizers: [{ regex: "value", value: "fake-value" }],
           },
           title: "all sanitizers are defined",
-          type: "positive"
-        }
+          type: "positive",
+        },
       ];
 
       cases.forEach((testCase) => {

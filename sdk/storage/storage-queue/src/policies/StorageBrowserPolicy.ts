@@ -7,7 +7,7 @@ import {
   isNode,
   RequestPolicy,
   RequestPolicyOptions,
-  WebResource
+  WebResource,
 } from "@azure/core-http";
 
 import { HeaderConstants, URLConstants } from "../utils/constants";

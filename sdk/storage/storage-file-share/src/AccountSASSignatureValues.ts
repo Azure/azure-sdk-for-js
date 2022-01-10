@@ -112,7 +112,7 @@ export function generateAccountSASQueryParameters(
       accountSASSignatureValues.protocol ? accountSASSignatureValues.protocol : "",
       version,
       "", // Reserved for encryption scope
-      "" // Account SAS requires an additional newline character
+      "", // Account SAS requires an additional newline character
     ].join("\n");
   } else {
     stringToSign = [
@@ -127,7 +127,7 @@ export function generateAccountSASQueryParameters(
       accountSASSignatureValues.ipRange ? ipRangeToString(accountSASSignatureValues.ipRange) : "",
       accountSASSignatureValues.protocol ? accountSASSignatureValues.protocol : "",
       version,
-      "" // Account SAS requires an additional newline character
+      "", // Account SAS requires an additional newline character
     ].join("\n");
   }
 

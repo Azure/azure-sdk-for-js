@@ -353,7 +353,8 @@ export interface FullOperationResponse extends PipelineResponse {
  */
 export type RawResponseCallback = (
   rawResponse: FullOperationResponse,
-  flatResponse: unknown
+  flatResponse: unknown,
+  error?: unknown
 ) => void;
 
 /**

@@ -6,11 +6,11 @@ import {
   DeletedSecret,
   GetSecretOptions,
   KeyVaultSecret,
-  SecretProperties
+  SecretProperties,
 } from "../../secretsModels";
 import {
   KeyVaultSecretPollOperation,
-  KeyVaultSecretPollOperationState
+  KeyVaultSecretPollOperationState,
 } from "../keyVaultSecretPoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getSecretFromSecretBundle } from "../../transformations";

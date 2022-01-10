@@ -5,7 +5,7 @@ import { ClientContext } from "../../../src/ClientContext";
 import { PartitionKeyRangeCache, QueryRange, SmartRoutingMapProvider } from "../../../src/routing";
 import { MockedClientContext } from "../../public/common/MockClientContext";
 
-describe("Smart Routing Map Provider OverlappingRanges", function() {
+describe("Smart Routing Map Provider OverlappingRanges", function () {
   const containerLink = "dbs/7JZZAA==/colls/7JZZAOS-JQA=/";
 
   const partitionKeyRanges = [
@@ -13,19 +13,19 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
     {
       id: "1",
       minInclusive: "05C1C9CD673398",
-      maxExclusive: "05C1D9CD673398"
+      maxExclusive: "05C1D9CD673398",
     },
     {
       id: "2",
       minInclusive: "05C1D9CD673398",
-      maxExclusive: "05C1E399CD6732"
+      maxExclusive: "05C1E399CD6732",
     },
     {
       id: "3",
       minInclusive: "05C1E399CD6732",
-      maxExclusive: "05C1E9CD673398"
+      maxExclusive: "05C1E9CD673398",
     },
-    { id: "4", minInclusive: "05C1E9CD673398", maxExclusive: "FF" }
+    { id: "4", minInclusive: "05C1E9CD673398", maxExclusive: "FF" },
   ];
 
   const mockedClientContext: ClientContext = new MockedClientContext(partitionKeyRanges) as any;
@@ -58,7 +58,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
 
   // Validates the results
   // provider.getOverlappingRanges() is as expected
-  const validateProviderOverlappingRanges = async function(
+  const validateProviderOverlappingRanges = async function (
     provider: SmartRoutingMapProvider,
     queryRanges: any,
     expectedResults: any,
@@ -80,7 +80,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
 
   // validates that the results of
   // smartRoutingMapProvider.getOverlappingRanges() is as expected
-  const validateSmartOverlappingRanges = async function(
+  const validateSmartOverlappingRanges = async function (
     queryRanges: any,
     expectedResults: any,
     errorExpected: any
@@ -95,7 +95,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
 
   // validates that the results of
   // partitionKeyRangeCache.getOverlappingRanges() is as expected
-  const validatePartitionKeyRangeCacheOverlappingRanges = async function(
+  const validatePartitionKeyRangeCacheOverlappingRanges = async function (
     queryRanges: any,
     expectedResults: any,
     errorExpected: any
@@ -111,7 +111,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
   // Validates the results
   // smartRoutingMapProvider.getOverlappingRanges()
   // partitionKeyRangeCache.getOverlappingRanges() is as expected
-  const validateOverlappingRanges = async function(
+  const validateOverlappingRanges = async function (
     queryRanges: any,
     expectedResults: any,
     errorExpected?: any
@@ -127,7 +127,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
 
   // Validates the results
   // provider.getOverlappingRanges() is the same on both queryRanges1, queryRanges2
-  const assertProviderOverlappingRangesAreEqual = async function(
+  const assertProviderOverlappingRangesAreEqual = async function (
     provider: SmartRoutingMapProvider,
     queryRanges1: any,
     queryRanges2: any
@@ -153,7 +153,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
   // Validates the results of both
   // smartRoutingMapProvider.getOverlappingRanges()
   // partitionKeyRangeCache.getOverlappingRanges() is the same for both queryRanges1, queryRanges2
-  const assertOverlappingRangesAreEqual = async function(
+  const assertOverlappingRangesAreEqual = async function (
     queryRanges1: any,
     queryRanges2: any
   ): Promise<void> {
@@ -170,63 +170,63 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
     await assertBothProvidersResultsEqual(queryRanges1);
   };
 
-  describe("Test Full Range", function() {
-    it('query ranges: ["", ""FF)', function() {
+  describe("Test Full Range", function () {
+    it('query ranges: ["", ""FF)', function () {
       // query range is the whole partition key range
       const pkRange = new QueryRange("", "FF", true, false);
       return validateOverlappingRanges([pkRange], partitionKeyRanges);
     });
 
-    it('query ranges: ("", ""FF)', function() {
+    it('query ranges: ("", ""FF)', function () {
       // query range is the whole partition key range
       const pkRange = new QueryRange("", "FF", false, false);
       return validateOverlappingRanges([pkRange], partitionKeyRanges);
     });
   });
 
-  describe("Test Empty Range", function() {
-    it("empty query range list", async function() {
+  describe("Test Empty Range", function () {
+    it("empty query range list", async function () {
       // query range list is empty
       await validateOverlappingRanges([], []);
     });
 
-    it('query ranges: ("", ""]', async function() {
+    it('query ranges: ("", ""]', async function () {
       // validate the overlaping partition key ranges results for empty ranges is empty
       await validateOverlappingRanges([new QueryRange("", "", false, true)], []);
     });
 
-    it('query ranges: ("", "")', async function() {
+    it('query ranges: ("", "")', async function () {
       // validate the overlaping partition key ranges results for empty ranges is empty
       await validateOverlappingRanges([new QueryRange("", "", false, false)], []);
     });
 
-    it('query ranges: ["", "")', async function() {
+    it('query ranges: ["", "")', async function () {
       // validate the overlaping partition key ranges results for empty ranges is empty
       await validateOverlappingRanges([new QueryRange("", "", true, false)], []);
     });
   });
 
-  describe("Error Handling: Bad Overlapping Query Range", function() {
-    it("overlapping query ranges (in a point)", async function() {
+  describe("Error Handling: Bad Overlapping Query Range", function () {
+    it("overlapping query ranges (in a point)", async function () {
       const r1 = new QueryRange("", "AA", true, true);
       const r2 = new QueryRange("AA", "FF", true, false);
       await validateSmartOverlappingRanges([r1, r2], undefined, true);
     });
 
-    it("overlapping query ranges (in a range)", async function() {
+    it("overlapping query ranges (in a range)", async function () {
       const r1 = new QueryRange("", "AB", true, false);
       const r2 = new QueryRange("AA", "FA", true, false);
       await validateSmartOverlappingRanges([r1, r2], undefined, true);
     });
 
-    it("not sorted query ranges", async function() {
+    it("not sorted query ranges", async function () {
       const r1 = new QueryRange("AB", "AC", true, false);
       const r2 = new QueryRange("AA", "AB", true, false);
       await validateSmartOverlappingRanges([r1, r2], undefined, true);
     });
   });
 
-  it("Empty Ranges are thrown away", async function() {
+  it("Empty Ranges are thrown away", async function () {
     const e1 = new QueryRange("", "", true, false);
     const r1 = new QueryRange("", "AB", true, false);
     const e2 = new QueryRange("AB", "AB", true, false);
@@ -236,45 +236,45 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
     await assertOverlappingRangesAreEqual([e1, r1, e2, r2, e3, e4], [r1, r2]);
   });
 
-  it("Single Query Range", async function() {
+  it("Single Query Range", async function () {
     const r = new QueryRange("AB", "AC", true, false);
     await assertBothProvidersResultsEqual([r]);
   });
 
-  it("Multiple Query Ranges", async function() {
+  it("Multiple Query Ranges", async function () {
     const ranges = [
       new QueryRange("0000000040", "0000000045", true, false),
       new QueryRange("0000000045", "0000000046", true, false),
-      new QueryRange("0000000046", "0000000050", true, false)
+      new QueryRange("0000000046", "0000000050", true, false),
     ];
     await assertBothProvidersResultsEqual(ranges);
   });
 
-  it("Single Boundary Case Query Range", async function() {
+  it("Single Boundary Case Query Range", async function () {
     const ranges = [new QueryRange("05C1C9CD673398", "05C1D9CD673398", true, false)];
     await validateOverlappingRanges(ranges, partitionKeyRanges.slice(1, 2));
   });
 
-  it("Two Adjacent Boundary Case Query Ranges", async function() {
+  it("Two Adjacent Boundary Case Query Ranges", async function () {
     const ranges = [
       // partitionKeyRanges[1]
       new QueryRange("05C1C9CD673398", "05C1D9CD673398", true, false),
       // partitionKeyRanges[2]
-      new QueryRange("05C1D9CD673398", "05C1D9CD673399", true, false)
+      new QueryRange("05C1D9CD673398", "05C1D9CD673399", true, false),
     ];
     await validateOverlappingRanges(ranges, partitionKeyRanges.slice(1, 3));
   });
 
-  it("Two Ranges in one partition key range", async function() {
+  it("Two Ranges in one partition key range", async function () {
     const ranges = [
       // two ranges fall in the same partition key range
       new QueryRange("05C1C9CD673400", "05C1C9CD673401", true, false),
-      new QueryRange("05C1C9CD673402", "05C1C9CD673403", true, false)
+      new QueryRange("05C1C9CD673402", "05C1C9CD673403", true, false),
     ];
     await validateOverlappingRanges(ranges, partitionKeyRanges.slice(1, 2));
   });
 
-  it("Complex", async function() {
+  it("Complex", async function () {
     const ranges = [
       // all are covered by partitionKeyRanges[1]
       new QueryRange("05C1C9CD673398", "05C1D9CD673391", true, false),
@@ -285,7 +285,7 @@ describe("Smart Routing Map Provider OverlappingRanges", function() {
       new QueryRange("05C1E9CD673398", "05C1E9CD673401", true, false),
       new QueryRange("05C1E9CD673402", "05C1E9CD673403", true, false),
       // empty range
-      new QueryRange("FF", "FF", true, false)
+      new QueryRange("FF", "FF", true, false),
     ];
     await validateOverlappingRanges(ranges, [partitionKeyRanges[1], partitionKeyRanges[4]]);
   });

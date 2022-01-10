@@ -33,7 +33,7 @@ export async function main(): Promise<void> {
   await client.beginCreateCertificate(certificateName, {
     issuerName: "Unknown",
     certificateTransparency: false,
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   });
 
   // Retrieving the certificate's signing request
@@ -58,12 +58,7 @@ ${base64Csr}
   childProcess.execSync(
     "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt"
   );
-  const base64Crt = fs
-    .readFileSync("test.crt")
-    .toString()
-    .split("\n")
-    .slice(1, -1)
-    .join("");
+  const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
 
   // Once we have the response in base64 format, we send it to mergeCertificate
   await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);

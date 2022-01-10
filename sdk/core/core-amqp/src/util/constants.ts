@@ -122,3 +122,9 @@ export const Constants = {
     falseFilterList: 83483426824,
   },
 } as const;
+
+/**
+ * The standard error message accompanying an AbortError.
+ * @hidden
+ */
+export const StandardAbortMessage = "The operation was aborted.";

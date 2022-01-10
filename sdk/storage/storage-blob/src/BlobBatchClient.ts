@@ -5,7 +5,7 @@ import {
   AccessTier,
   ServiceSubmitBatchHeaders,
   ServiceSubmitBatchOptionalParamsModel,
-  ServiceSubmitBatchResponseModel
+  ServiceSubmitBatchResponseModel,
 } from "./generatedModels";
 import { ParsedBatchResponse } from "./BatchResponse";
 import { BatchResponseParser } from "./BatchResponseParser";
@@ -315,15 +315,16 @@ export class BlobBatchClient {
       const batchRequestBody = batchRequest.getHttpRequestBody();
 
       // ServiceSubmitBatchResponseModel and ContainerSubmitBatchResponse are compatible for now.
-      const rawBatchResponse: ServiceSubmitBatchResponseModel = await this.serviceOrContainerContext.submitBatch(
-        utf8ByteLength(batchRequestBody),
-        batchRequest.getMultiPartContentType(),
-        batchRequestBody,
-        {
-          ...options,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
-        }
-      );
+      const rawBatchResponse: ServiceSubmitBatchResponseModel =
+        await this.serviceOrContainerContext.submitBatch(
+          utf8ByteLength(batchRequestBody),
+          batchRequest.getMultiPartContentType(),
+          batchRequestBody,
+          {
+            ...options,
+            ...convertTracingToRequestOptionsBase(updatedOptions),
+          }
+        );
 
       // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
       const batchResponseParser = new BatchResponseParser(
@@ -341,14 +342,14 @@ export class BlobBatchClient {
         version: rawBatchResponse.version,
         subResponses: responseSummary.subResponses,
         subResponsesSucceededCount: responseSummary.subResponsesSucceededCount,
-        subResponsesFailedCount: responseSummary.subResponsesFailedCount
+        subResponsesFailedCount: responseSummary.subResponsesFailedCount,
       };
 
       return res;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

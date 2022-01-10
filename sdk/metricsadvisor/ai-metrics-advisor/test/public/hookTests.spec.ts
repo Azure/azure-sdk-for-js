@@ -13,7 +13,7 @@ import {
 } from "../../src";
 import { createRecordedAdminClient, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
-import { matrix } from "./util/matrix";
+import { matrix, getYieldedValue } from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -108,10 +108,10 @@ matrix([[true, false]] as const, async (useAad) => {
         const iterator = client.listHooks({
           hookName: "js-test",
         });
-        let result = await iterator.next();
-        assert.ok(result.value.name, "Expecting first definition");
-        result = await iterator.next();
-        assert.ok(result.value.name, "Expecting second definition");
+        let result = getYieldedValue(await iterator.next());
+        assert.ok(result.name, "Expecting first definition");
+        result = getYieldedValue(await iterator.next());
+        assert.ok(result.name, "Expecting second definition");
       });
 
       it("lists hooks by page", async function () {

@@ -3,20 +3,17 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import Sinon from "sinon";
-import assert from "assert";
 import * as path from "path";
-
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { ConfidentialClientApplication } from "@azure/msal-node";
-
 import {
   ClientCertificateCredential,
   TokenCachePersistenceOptions,
 } from "../../../../identity/src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { ConfidentialClientApplication } from "@azure/msal-node";
 import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
-
+import Sinon from "sinon";
+import assert from "assert";
 import { createPersistence } from "./setup.spec";
 
 const ASSET_PATH = "assets";

@@ -5,7 +5,7 @@ import {
   createHttpHeaders,
   HttpClient,
   PipelineRequest,
-  PipelineResponse
+  PipelineResponse,
 } from "@azure/core-rest-pipeline";
 import { expect } from "chai";
 import { env, Recorder } from "../src";
@@ -25,7 +25,7 @@ describe("TestProxyClient functions", () => {
   let client: Recorder;
   let clientHttpClient: HttpClient;
   let testContext: Mocha.Test | undefined;
-  beforeEach(function() {
+  beforeEach(function () {
     client = new Recorder(this.currentTest);
     clientHttpClient = client["httpClient"] as HttpClient;
     testContext = this.currentTest;
@@ -42,11 +42,11 @@ describe("TestProxyClient functions", () => {
     withCredentials: false,
     requestId: "abcd",
     timeout: 0,
-    allowInsecureConnection: false
+    allowInsecureConnection: false,
   };
 
   describe("redirectRequest method", () => {
-    it("request unchanged if not playback or record modes", function() {
+    it("request unchanged if not playback or record modes", function () {
       env.TEST_MODE = "live";
       testRedirectedRequest(
         client,
@@ -56,13 +56,13 @@ describe("TestProxyClient functions", () => {
     });
 
     ["record", "playback"].forEach((testMode) => {
-      it(`${testMode} mode: ` + "request unchanged if `x-recording-id` in headers", function() {
+      it(`${testMode} mode: ` + "request unchanged if `x-recording-id` in headers", function () {
         env.TEST_MODE = testMode;
         testRedirectedRequest(
           client,
           () => ({
             ...initialRequest,
-            headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" })
+            headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" }),
           }),
           (req) => req
         );
@@ -70,7 +70,7 @@ describe("TestProxyClient functions", () => {
 
       it(
         `${testMode} mode: ` + "url and headers get updated if no `x-recording-id` in headers",
-        function() {
+        function () {
           env.TEST_MODE = testMode;
           client = new Recorder(testContext);
           client.recordingId = "dummy-recording-id";
@@ -79,7 +79,7 @@ describe("TestProxyClient functions", () => {
             client,
             () => ({
               ...initialRequest,
-              headers: createHttpHeaders({})
+              headers: createHttpHeaders({}),
             }),
             (req) => {
               if (!client.recordingId) {
@@ -92,9 +92,9 @@ describe("TestProxyClient functions", () => {
                 headers: createHttpHeaders({
                   "x-recording-upstream-base-uri": initialRequest.url,
                   "x-recording-id": client.recordingId,
-                  "x-recording-mode": getTestMode()
+                  "x-recording-mode": getTestMode(),
                 }),
-                allowInsecureConnection: !isLiveMode()
+                allowInsecureConnection: !isLiveMode(),
               };
             }
           );
@@ -104,7 +104,7 @@ describe("TestProxyClient functions", () => {
   });
 
   describe("start method", () => {
-    it("nothing happens if not playback or record modes", async function() {
+    it("nothing happens if not playback or record modes", async function () {
       env.TEST_MODE = "live";
       clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
         throw new Error("should not have reached here");
@@ -115,14 +115,14 @@ describe("TestProxyClient functions", () => {
     ["record", "playback"].forEach((testMode) => {
       it(
         `${testMode} mode: ` + "succeeds in playback or record modes and gets a recordingId",
-        async function() {
+        async function () {
           env.TEST_MODE = testMode;
           const recordingId = "dummy-recording-id";
           clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
             return Promise.resolve({
               status: 200,
               headers: createHttpHeaders({ "x-recording-id": recordingId }),
-              request: initialRequest
+              request: initialRequest,
             });
           };
           await client.start({ envSetupForPlayback: {} });
@@ -130,14 +130,14 @@ describe("TestProxyClient functions", () => {
         }
       );
 
-      it("throws if not received a 200 status code", async function() {
+      it("throws if not received a 200 status code", async function () {
         env.TEST_MODE = testMode;
         const recordingId = "dummy-recording-id";
         clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
             status: 404,
             headers: createHttpHeaders({ "x-recording-id": recordingId }),
-            request: initialRequest
+            request: initialRequest,
           });
         };
         try {
@@ -149,13 +149,13 @@ describe("TestProxyClient functions", () => {
         }
       });
 
-      it("throws if not received a recording id upon 200 status code", async function() {
+      it("throws if not received a recording id upon 200 status code", async function () {
         env.TEST_MODE = testMode;
         clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
             status: 200,
             headers: createHttpHeaders({}),
-            request: initialRequest
+            request: initialRequest,
           });
         };
         try {
@@ -172,7 +172,7 @@ describe("TestProxyClient functions", () => {
   });
 
   describe("stop method", () => {
-    it("nothing happens if not playback or record modes", async function() {
+    it("nothing happens if not playback or record modes", async function () {
       env.TEST_MODE = "live";
       clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
         throw new Error("should not have reached here");
@@ -183,13 +183,13 @@ describe("TestProxyClient functions", () => {
     ["record", "playback"].forEach((testMode) => {
       it(
         `${testMode} mode: ` + "fails in playback or record modes if no recordingId",
-        async function() {
+        async function () {
           env.TEST_MODE = testMode;
           clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
             return Promise.resolve({
               status: 200,
               headers: createHttpHeaders(),
-              request: initialRequest
+              request: initialRequest,
             });
           };
           client["stateManager"].state = "started";
@@ -205,13 +205,13 @@ describe("TestProxyClient functions", () => {
         }
       );
 
-      it("throws if status code is not 200", async function() {
+      it("throws if status code is not 200", async function () {
         env.TEST_MODE = testMode;
         clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
             status: 401,
             headers: createHttpHeaders(),
-            request: initialRequest
+            request: initialRequest,
           });
         };
         client.recordingId = "dummy-id";
@@ -225,13 +225,13 @@ describe("TestProxyClient functions", () => {
         }
       });
 
-      it("succeeds in playback or record modes", async function() {
+      it("succeeds in playback or record modes", async function () {
         env.TEST_MODE = testMode;
         clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
           return Promise.resolve({
             status: 200,
             headers: createHttpHeaders(),
-            request: initialRequest
+            request: initialRequest,
           });
         };
         client.recordingId = "dummy-id";
@@ -288,8 +288,8 @@ describe("TestProxyClient functions", () => {
   });
 });
 
-describe("State Manager", function() {
-  it("throws error if started twice", function() {
+describe("State Manager", function () {
+  it("throws error if started twice", function () {
     const manager = new RecordingStateManager();
     manager.state = "started";
     try {
@@ -303,7 +303,7 @@ describe("State Manager", function() {
     }
   });
 
-  it("throws error if stopped twice", function() {
+  it("throws error if stopped twice", function () {
     const manager = new RecordingStateManager();
     try {
       manager.state = "stopped";

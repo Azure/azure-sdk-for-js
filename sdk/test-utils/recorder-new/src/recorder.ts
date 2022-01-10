@@ -10,7 +10,7 @@ import {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import {
   ensureExistence,
@@ -21,7 +21,7 @@ import {
   once,
   RecorderError,
   RecorderStartOptions,
-  RecordingStateManager
+  RecordingStateManager,
 } from "./utils/utils";
 import { Test } from "mocha";
 import { sessionFilePath } from "./utils/sessionFilePath";
@@ -35,7 +35,7 @@ import {
   HttpClient as HttpClientCoreV1,
   HttpOperationResponse,
   WebResource,
-  WebResourceLike
+  WebResourceLike,
 } from "@azure/core-http";
 
 /**
@@ -140,7 +140,7 @@ export class Recorder {
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
         const rsp = await this.httpClient.sendRequest({
           ...req,
-          allowInsecureConnection: true
+          allowInsecureConnection: true,
         });
         if (rsp.status !== 200) {
           throw new RecorderError("Start request failed.");
@@ -187,7 +187,7 @@ export class Recorder {
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
         const rsp = await this.httpClient.sendRequest({
           ...req,
-          allowInsecureConnection: true
+          allowInsecureConnection: true,
         });
         if (rsp.status !== 200) {
           throw new RecorderError("Stop request failed.");
@@ -264,7 +264,7 @@ export class Recorder {
       ): Promise<PipelineResponse> => {
         this.redirectRequest(request);
         return next(request);
-      }
+      },
     };
   }
 
@@ -278,7 +278,7 @@ export class Recorder {
       sendRequest: async (request: WebResourceLike): Promise<HttpOperationResponse> => {
         this.redirectRequest(request);
         return client.sendRequest(request);
-      }
+      },
     };
   }
 

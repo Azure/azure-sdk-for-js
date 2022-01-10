@@ -35,10 +35,10 @@ export interface TracedFunction {
 export function createTraceFunction(prefix: string): TracedFunction {
   const createSpan = createSpanFunction({
     namespace: "Microsoft.KeyVault",
-    packagePrefix: prefix
+    packagePrefix: prefix,
   });
 
-  return async function(operationName, options, cb) {
+  return async function (operationName, options, cb) {
     const { updatedOptions, span } = createSpan(operationName, options);
 
     try {
@@ -48,13 +48,13 @@ export function createTraceFunction(prefix: string): TracedFunction {
 
       // otel 0.16+ needs this or else the code ends up being set as UNSET
       span.setStatus({
-        code: SpanStatusCode.OK
+        code: SpanStatusCode.OK,
       });
       return result;
     } catch (err) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: err.message
+        message: err.message,
       });
       throw err;
     } finally {
