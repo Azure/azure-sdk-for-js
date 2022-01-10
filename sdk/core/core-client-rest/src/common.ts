@@ -50,7 +50,7 @@ export type RequestParameters = {
   /**
    * Path parameters for custom the base url
    */
-  pathParameters?: Record<string, unknown>;
+  pathParameters?: Record<string, any>;
 };
 
 /**
