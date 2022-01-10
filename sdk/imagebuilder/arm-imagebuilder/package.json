@@ -36,7 +36,8 @@
     "mocha": "^7.1.1",
     "cross-env": "^7.0.2",
     "@azure/arm-compute": "^17.0.0",
-    "@azure/arm-msi": "^2.0.0"
+    "@azure/arm-msi": "^2.0.0",
+    "@types/node": "^12.20.41"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/imagebuilder/arm-imagebuilder",
   "repository": {
