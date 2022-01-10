@@ -116,6 +116,10 @@ describe("ImageBuilder test", () => {
   });
 
   it("virtualMachineImageTemplates create test", async function() {
+
+    if(isPlaybackMode()) { 
+      this.skip(); 
+    }
     //before create ,we need add msi owner authority for images in portal
     const res = await client.virtualMachineImageTemplates.beginCreateOrUpdateAndWait(resourceGroup,imageTemplateName,{
       location: location,
