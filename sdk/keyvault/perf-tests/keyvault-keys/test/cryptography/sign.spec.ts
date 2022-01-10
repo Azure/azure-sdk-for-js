@@ -6,9 +6,7 @@ export class SignTest extends CryptographyTest {
 
   async setup() {
     const plaintext = randomBytes(32);
-    this.digest = createHash("SHA256")
-      .update(plaintext)
-      .digest();
+    this.digest = createHash("SHA256").update(plaintext).digest();
   }
 
   async run(): Promise<void> {

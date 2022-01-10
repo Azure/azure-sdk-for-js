@@ -16,15 +16,15 @@ export class MockReceiverTest extends BatchPerfTest<MockReceiverOptions> {
       description: "Required option",
       shortName: "min",
       longName: "minimum",
-      defaultValue: 5
+      defaultValue: 5,
     },
     "max-count": {
       required: true,
       description: "Required option",
       shortName: "max",
       longName: "maximum",
-      defaultValue: 50
-    }
+      defaultValue: 50,
+    },
   };
   constructor() {
     super();

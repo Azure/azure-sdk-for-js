@@ -83,7 +83,7 @@ export const sanitizerKeywordMapping: Record<
   removeHeaderSanitizer: "RemoveHeaderSanitizer",
   resetSanitizer: "Reset",
   uriRegexSanitizers: "UriRegexSanitizer",
-  uriSubscriptionIdSanitizer: "UriSubscriptionIdSanitizer"
+  uriSubscriptionIdSanitizer: "UriSubscriptionIdSanitizer",
 };
 
 /**

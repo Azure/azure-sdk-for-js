@@ -59,8 +59,8 @@ Currently, all rules are tested through the [`RuleTester`](https://eslint.org/do
 const ruleTester = new RuleTester({
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 ```
 

@@ -128,11 +128,11 @@ export = {
           ) {
             context.report({
               node: method,
-              message: `async method ${key.name} should accept an AbortSignalLike parameter or option`
+              message: `async method ${key.name} should accept an AbortSignalLike parameter or option`,
             });
           }
         });
-      }
+      },
     } as Rule.RuleListener;
-  }
+  },
 };

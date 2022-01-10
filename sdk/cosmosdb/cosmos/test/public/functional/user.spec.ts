@@ -5,13 +5,13 @@ import { Suite } from "mocha";
 import { UserDefinition } from "../../../src";
 import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
-describe("NodeJS CRUD Tests", function(this: Suite) {
+describe("NodeJS CRUD Tests", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function() {
+  beforeEach(async function () {
     await removeAllDatabases();
   });
-  describe("Validate User CRUD", function() {
-    const userCRUDTest = async function(isUpsertTest: boolean): Promise<void> {
+  describe("Validate User CRUD", function () {
+    const userCRUDTest = async function (isUpsertTest: boolean): Promise<void> {
       // create database
       const database = await getTestDatabase("Validate user CRUD");
 
@@ -40,9 +40,9 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
         parameters: [
           {
             name: "@id",
-            value: "new user"
-          }
-        ]
+            value: "new user",
+          },
+        ],
       };
       const { resources: results } = await database.users.query(querySpec).fetchAll();
       assert(results.length > 0, "number of results for the query should be > 0");
@@ -78,11 +78,11 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       }
     };
 
-    it("nativeApi Should do User CRUD operations successfully name based", async function() {
+    it("nativeApi Should do User CRUD operations successfully name based", async function () {
       await userCRUDTest(false);
     });
 
-    it("nativeApi Should do User CRUD operations successfully name based with upsert", async function() {
+    it("nativeApi Should do User CRUD operations successfully name based with upsert", async function () {
       await userCRUDTest(true);
     });
   });

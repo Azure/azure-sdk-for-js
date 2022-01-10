@@ -8,7 +8,7 @@ import {
   TokenCredential,
   createPipelineFromOptions,
   isTokenCredential,
-  signingPolicy
+  signingPolicy,
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -21,7 +21,7 @@ import {
   DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
   KeyVaultClientGetKeysOptionalParams,
-  KnownJsonWebKeyType
+  KnownJsonWebKeyType,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
@@ -73,7 +73,7 @@ import {
   KeyRotationLifetimeAction,
   KeyRotationPolicy,
   KeyRotationPolicyProperties,
-  KeyRotationPolicyAction
+  KeyRotationPolicyAction,
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -109,7 +109,7 @@ import {
   AesCbcDecryptParameters,
   AesGcmDecryptParameters,
   RsaDecryptParameters,
-  VerifyDataOptions
+  VerifyDataOptions,
 } from "./cryptographyClientModels";
 
 import { KeyVaultKeyIdentifier, parseKeyVaultKeyIdentifier } from "./identifier";
@@ -117,7 +117,7 @@ import {
   getDeletedKeyFromDeletedKeyItem,
   getKeyFromKeyBundle,
   getKeyPropertiesFromKeyItem,
-  keyRotationTransformations
+  keyRotationTransformations,
 } from "./transformations";
 import { createTraceFunction } from "../../keyvault-common/src";
 
@@ -205,7 +205,7 @@ export {
   KeyRotationLifetimeAction,
   UpdateKeyRotationPolicyOptions,
   GetKeyRotationPolicyOptions,
-  logger
+  logger,
 };
 
 const withTrace = createTraceFunction("Azure.KeyVault.Keys.KeyClient");
@@ -266,7 +266,7 @@ export class KeyClient {
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
-          : libInfo
+          : libInfo,
     };
 
     const authPolicy = isTokenCredential(credential)
@@ -280,9 +280,9 @@ export class KeyClient {
         allowedHeaderNames: [
           "x-ms-keyvault-region",
           "x-ms-keyvault-network-info",
-          "x-ms-keyvault-service-version"
-        ]
-      }
+          "x-ms-keyvault-service-version",
+        ],
+      },
     };
 
     this.credential = credential;
@@ -323,8 +323,8 @@ export class KeyClient {
           enabled,
           notBefore,
           expires,
-          exportable
-        }
+          exportable,
+        },
       };
     }
     return withTrace("createKey", unflattenedOptions, async (updatedOptions) => {
@@ -430,8 +430,8 @@ export class KeyClient {
           notBefore,
           expires,
           hsm,
-          exportable
-        }
+          exportable,
+        },
       };
     }
 
@@ -468,7 +468,7 @@ export class KeyClient {
     // In order to avoid publicly exposing the pipeline we will pass in the underlying client as an undocumented
     // property to the constructor so that crypto providers downstream can use it.
     const constructorOptions: CryptographyClientOptions & { generatedClient: KeyVaultClient } = {
-      generatedClient: this.client
+      generatedClient: this.client,
     };
     const cryptoClient = new CryptographyClient(
       keyUrl.toString(),
@@ -515,7 +515,7 @@ export class KeyClient {
       client: this.client,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      operationOptions: options
+      operationOptions: options,
     });
 
     // This will initialize the poller's operation (the deletion of the key).
@@ -578,8 +578,8 @@ export class KeyClient {
         keyAttributes: {
           enabled,
           notBefore,
-          expires
-        }
+          expires,
+        },
       };
       const response = await this.client.updateKey(
         this.vaultUrl,
@@ -715,7 +715,7 @@ export class KeyClient {
       client: this.client,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      operationOptions: options
+      operationOptions: options,
     });
     // This will initialize the poller's operation (the deletion of the key).
     await poller.poll();
@@ -835,7 +835,7 @@ export class KeyClient {
         {
           enc: algorithm,
           nonce,
-          ...rest
+          ...rest,
         }
       );
 
@@ -911,7 +911,7 @@ export class KeyClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...options
+        ...options,
       };
       const currentSetResponse = await withTrace(
         "listPropertiesOfKeyVersionsPage",
@@ -987,7 +987,7 @@ export class KeyClient {
         return this;
       },
       byPage: (settings: PageSettings = {}) =>
-        this.listPropertiesOfKeyVersionsPage(name, settings, options)
+        this.listPropertiesOfKeyVersionsPage(name, settings, options),
     };
   }
 
@@ -1003,7 +1003,7 @@ export class KeyClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...options
+        ...options,
       };
       const currentSetResponse = await withTrace(
         "listPropertiesOfKeysPage",
@@ -1075,7 +1075,7 @@ export class KeyClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listPropertiesOfKeysPage(settings, options)
+      byPage: (settings: PageSettings = {}) => this.listPropertiesOfKeysPage(settings, options),
     };
   }
 
@@ -1091,7 +1091,7 @@ export class KeyClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...options
+        ...options,
       };
       const currentSetResponse = await withTrace(
         "listDeletedKeysPage",
@@ -1161,7 +1161,7 @@ export class KeyClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listDeletedKeysPage(settings, options)
+      byPage: (settings: PageSettings = {}) => this.listDeletedKeysPage(settings, options),
     };
   }
 }

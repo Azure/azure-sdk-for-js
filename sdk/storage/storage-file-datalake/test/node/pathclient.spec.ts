@@ -4,7 +4,6 @@
 import { AbortController } from "@azure/abort-controller";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
 import { join } from "path";
 
@@ -25,8 +24,6 @@ import {
   recorderEnvSetup,
   getDataLakeFileSystemClientWithSASCredential,
 } from "../utils";
-
-dotenv.config();
 
 describe("DataLakePathClient Node.js only", () => {
   let fileSystemName: string;

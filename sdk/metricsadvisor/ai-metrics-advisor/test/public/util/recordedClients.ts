@@ -36,7 +36,7 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
   METRICS_ADVISOR_SUBSCRIPTION_KEY: "sub_key",
   METRICS_ADVISOR_API_KEY: "api_key",
-  METRICS_ADVISOR_ENDPOINT: "https://endpoint/",
+  METRICS_ADVISOR_ENDPOINT: "https://endpoint",
   METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING: blobConnectionString,
   METRICS_ADVISOR_AZURE_BLOB_TEMPLATE: blobTemplate,
   METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID: "appInsights_application",

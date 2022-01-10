@@ -128,7 +128,7 @@
     "execa": "^5.0.0",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^2.0.0",
-    "prettier": "^1.16.4",
+    "prettier": "^2.5.1",
     "requirejs": "^2.3.5",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",

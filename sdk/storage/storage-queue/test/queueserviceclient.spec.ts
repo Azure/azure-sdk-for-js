@@ -2,13 +2,12 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { QueueServiceClient } from "../src/QueueServiceClient";
 import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record, delay, Recorder } from "@azure-tools/test-recorder";
+import { getYieldedValue } from "@azure/test-utils";
 import { recorderEnvSetup } from "./utils/index.browser";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("QueueServiceClient", () => {
   let recorder: Recorder;
@@ -142,13 +141,13 @@ describe("QueueServiceClient", () => {
       includeMetadata: true,
       prefix: queueNamePrefix,
     });
-    let queueItem = await iter1.next();
-    assert.ok(queueItem.value.name.startsWith(queueNamePrefix));
-    assert.deepEqual(queueItem.value.metadata!.key, "val");
+    let queueItem = getYieldedValue(await iter1.next());
+    assert.ok(queueItem.name.startsWith(queueNamePrefix));
+    assert.deepEqual(queueItem.metadata!.key, "val");
 
-    queueItem = await iter1.next();
-    assert.ok(queueItem.value.name.startsWith(queueNamePrefix));
-    assert.deepEqual(queueItem.value.metadata!.key, "val");
+    queueItem = getYieldedValue(await iter1.next());
+    assert.ok(queueItem.name.startsWith(queueNamePrefix));
+    assert.deepEqual(queueItem.metadata!.key, "val");
 
     await queueClient1.delete();
     await queueClient2.delete();

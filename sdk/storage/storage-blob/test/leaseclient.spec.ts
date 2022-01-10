@@ -3,12 +3,10 @@
 
 import { assert } from "chai";
 
-import * as dotenv from "dotenv";
 import { getBSU, recorderEnvSetup } from "./utils";
 import { record, delay, Recorder } from "@azure-tools/test-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../src";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("LeaseClient from Container", () => {
   let blobServiceClient: BlobServiceClient;

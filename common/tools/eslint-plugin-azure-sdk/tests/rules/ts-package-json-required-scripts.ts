@@ -257,8 +257,8 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 
 ruleTester.run("ts-package-json-required-scripts", rule, {
@@ -266,18 +266,18 @@ ruleTester.run("ts-package-json-required-scripts", rule, {
     {
       // only the fields we care about
       code: '{"scripts": {"build": "build", "test": "test"}}',
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // incorrect format but in a file we don't care about
       code: '{"scripts": {}}',
-      filename: "not_package.json"
-    }
+      filename: "not_package.json",
+    },
   ],
   invalid: [
     {
@@ -285,9 +285,9 @@ ruleTester.run("ts-package-json-required-scripts", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "scripts does not exist at the outermost level"
-        }
-      ]
+          message: "scripts does not exist at the outermost level",
+        },
+      ],
     },
     {
       // scripts is in a nested object
@@ -295,9 +295,9 @@ ruleTester.run("ts-package-json-required-scripts", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "scripts does not exist at the outermost level"
-        }
-      ]
+          message: "scripts does not exist at the outermost level",
+        },
+      ],
     },
     {
       // both build and test missing
@@ -305,12 +305,12 @@ ruleTester.run("ts-package-json-required-scripts", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "build is not a member of scripts"
+          message: "build is not a member of scripts",
         },
         {
-          message: "test is not a member of scripts"
-        }
-      ]
+          message: "test is not a member of scripts",
+        },
+      ],
     },
     {
       // build missing
@@ -318,9 +318,9 @@ ruleTester.run("ts-package-json-required-scripts", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "build is not a member of scripts"
-        }
-      ]
+          message: "build is not a member of scripts",
+        },
+      ],
     },
     {
       // test missing
@@ -328,9 +328,9 @@ ruleTester.run("ts-package-json-required-scripts", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "test is not a member of scripts"
-        }
-      ]
+          message: "test is not a member of scripts",
+        },
+      ],
     },
     {
       // example file with scripts missing both build and test
@@ -338,12 +338,12 @@ ruleTester.run("ts-package-json-required-scripts", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "build is not a member of scripts"
+          message: "build is not a member of scripts",
         },
         {
-          message: "test is not a member of scripts"
-        }
-      ]
-    }
-  ]
+          message: "test is not a member of scripts",
+        },
+      ],
+    },
+  ],
 });

@@ -21,14 +21,14 @@ export class ServiceClientGetTest extends PerfTest<ServiceClientGetOptions> {
       description:
         "Extra requests to send on first run.  " +
         "Simulates SDKs which require extra requests (like authentication) on first API call.",
-      defaultValue: 0
+      defaultValue: 0,
     },
     url: {
       required: true,
       description: "URL to retrieve",
       shortName: "u",
-      longName: "url"
-    }
+      longName: "url",
+    },
   };
 
   constructor() {
@@ -41,7 +41,7 @@ export class ServiceClientGetTest extends PerfTest<ServiceClientGetOptions> {
     this.request = createPipelineRequest({
       allowInsecureConnection: true,
       streamResponseStatusCodes: new Set([200]),
-      url: url
+      url: url,
     });
 
     if (insecure && url.toLowerCase().startsWith("https:")) {

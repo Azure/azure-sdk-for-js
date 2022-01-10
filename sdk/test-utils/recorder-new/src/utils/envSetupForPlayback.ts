@@ -31,7 +31,7 @@ export async function handleEnvSetup(
         }
       }
       await sanitizer.addSanitizers({
-        generalRegexSanitizers
+        generalRegexSanitizers,
       });
     }
   }
