@@ -41,6 +41,7 @@ specifiers:
   '@rush-temp/arm-hdinsight': file:./projects/arm-hdinsight.tgz
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
+  '@rush-temp/arm-labservices': file:./projects/arm-labservices.tgz
   '@rush-temp/arm-links': file:./projects/arm-links.tgz
   '@rush-temp/arm-loadtestservice': file:./projects/arm-loadtestservice.tgz
   '@rush-temp/arm-locks': file:./projects/arm-locks.tgz
@@ -222,6 +223,7 @@ dependencies:
   '@rush-temp/arm-hdinsight': file:projects/arm-hdinsight.tgz
   '@rush-temp/arm-iothub': file:projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
+  '@rush-temp/arm-labservices': file:projects/arm-labservices.tgz
   '@rush-temp/arm-links': file:projects/arm-links.tgz
   '@rush-temp/arm-loadtestservice': file:projects/arm-loadtestservice.tgz
   '@rush-temp/arm-locks': file:projects/arm-locks.tgz
@@ -1422,7 +1424,6 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.4:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
-    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -7870,7 +7871,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-jtmB3h5FHJ0UPES2laHyCEe+agMLA/5VXSu3DsxVS4/a0pHzu5fN5SOT29kR/x2h3vKhjZnFSPybABvav1Ygww==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-CgeLVCZwfspweQBHcNd4/2uI/rEvbU60GAjFDSUwGnXFVywaMqd6i1jPcZlkCGNitvctyEsQDnJc0PiIN4pRXw==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -8638,6 +8639,27 @@ packages:
       mkdirp: 1.0.4
       rollup: 1.32.1
       rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
+  file:projects/arm-labservices.tgz:
+    resolution: {integrity: sha512-TDIH21tup+u8tIdkR3Yu88pFq/pb3gA87wyBizIPT+RPJ8oM4eoHC7bPRYyoEUBgJzCsEigP4leyUGB0Md5QKg==, tarball: file:projects/arm-labservices.tgz}
+    name: '@rush-temp/arm-labservices'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4

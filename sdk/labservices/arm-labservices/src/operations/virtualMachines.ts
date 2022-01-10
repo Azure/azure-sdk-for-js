@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Labs } from "../operationsInterfaces";
+import { VirtualMachines } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,34 +15,28 @@ import { LabServicesClient } from "../labServicesClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  Lab,
-  LabsListBySubscriptionNextOptionalParams,
-  LabsListBySubscriptionOptionalParams,
-  LabsListByResourceGroupNextOptionalParams,
-  LabsListByResourceGroupOptionalParams,
-  LabsListBySubscriptionResponse,
-  LabsListByResourceGroupResponse,
-  LabsGetOptionalParams,
-  LabsGetResponse,
-  LabsCreateOrUpdateOptionalParams,
-  LabsCreateOrUpdateResponse,
-  LabUpdate,
-  LabsUpdateOptionalParams,
-  LabsUpdateResponse,
-  LabsDeleteOptionalParams,
-  LabsPublishOptionalParams,
-  LabsSyncGroupOptionalParams,
-  LabsListBySubscriptionNextResponse,
-  LabsListByResourceGroupNextResponse
+  VirtualMachine,
+  VirtualMachinesListByLabNextOptionalParams,
+  VirtualMachinesListByLabOptionalParams,
+  VirtualMachinesListByLabResponse,
+  VirtualMachinesGetOptionalParams,
+  VirtualMachinesGetResponse,
+  VirtualMachinesStartOptionalParams,
+  VirtualMachinesStopOptionalParams,
+  VirtualMachinesReimageOptionalParams,
+  VirtualMachinesRedeployOptionalParams,
+  ResetPasswordBody,
+  VirtualMachinesResetPasswordOptionalParams,
+  VirtualMachinesListByLabNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Labs operations. */
-export class LabsImpl implements Labs {
+/** Class containing VirtualMachines operations. */
+export class VirtualMachinesImpl implements VirtualMachines {
   private readonly client: LabServicesClient;
 
   /**
-   * Initialize a new instance of the class Labs class.
+   * Initialize a new instance of the class VirtualMachines class.
    * @param client Reference to the service client
    */
   constructor(client: LabServicesClient) {
@@ -50,57 +44,18 @@ export class LabsImpl implements Labs {
   }
 
   /**
-   * Returns a list of all labs for a subscription.
-   * @param options The options parameters.
-   */
-  public listBySubscription(
-    options?: LabsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<Lab> {
-    const iter = this.listBySubscriptionPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
-      }
-    };
-  }
-
-  private async *listBySubscriptionPagingPage(
-    options?: LabsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<Lab[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listBySubscriptionNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listBySubscriptionPagingAll(
-    options?: LabsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<Lab> {
-    for await (const page of this.listBySubscriptionPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Returns a list of all labs in a resource group.
+   * Returns a list of all virtual machines for a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
+   *                in resource URIs.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
+  public listByLab(
     resourceGroupName: string,
-    options?: LabsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<Lab> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    labName: string,
+    options?: VirtualMachinesListByLabOptionalParams
+  ): PagedAsyncIterableIterator<VirtualMachine> {
+    const iter = this.listByLabPagingAll(resourceGroupName, labName, options);
     return {
       next() {
         return iter.next();
@@ -109,21 +64,23 @@ export class LabsImpl implements Labs {
         return this;
       },
       byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+        return this.listByLabPagingPage(resourceGroupName, labName, options);
       }
     };
   }
 
-  private async *listByResourceGroupPagingPage(
+  private async *listByLabPagingPage(
     resourceGroupName: string,
-    options?: LabsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<Lab[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    labName: string,
+    options?: VirtualMachinesListByLabOptionalParams
+  ): AsyncIterableIterator<VirtualMachine[]> {
+    let result = await this._listByLab(resourceGroupName, labName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
+      result = await this._listByLabNext(
         resourceGroupName,
+        labName,
         continuationToken,
         options
       );
@@ -132,12 +89,14 @@ export class LabsImpl implements Labs {
     }
   }
 
-  private async *listByResourceGroupPagingAll(
+  private async *listByLabPagingAll(
     resourceGroupName: string,
-    options?: LabsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<Lab> {
-    for await (const page of this.listByResourceGroupPagingPage(
+    labName: string,
+    options?: VirtualMachinesListByLabOptionalParams
+  ): AsyncIterableIterator<VirtualMachine> {
+    for await (const page of this.listByLabPagingPage(
       resourceGroupName,
+      labName,
       options
     )) {
       yield* page;
@@ -145,74 +104,63 @@ export class LabsImpl implements Labs {
   }
 
   /**
-   * Returns a list of all labs for a subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: LabsListBySubscriptionOptionalParams
-  ): Promise<LabsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
-    );
-  }
-
-  /**
-   * Returns a list of all labs in a resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: LabsListByResourceGroupOptionalParams
-  ): Promise<LabsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
-    );
-  }
-
-  /**
-   * Returns the properties of a lab resource.
+   * Returns a list of all virtual machines for a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
    *                in resource URIs.
+   * @param options The options parameters.
+   */
+  private _listByLab(
+    resourceGroupName: string,
+    labName: string,
+    options?: VirtualMachinesListByLabOptionalParams
+  ): Promise<VirtualMachinesListByLabResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, labName, options },
+      listByLabOperationSpec
+    );
+  }
+
+  /**
+   * Returns the properties for a lab virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
+   *                in resource URIs.
+   * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
+   *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     labName: string,
-    options?: LabsGetOptionalParams
-  ): Promise<LabsGetResponse> {
+    virtualMachineName: string,
+    options?: VirtualMachinesGetOptionalParams
+  ): Promise<VirtualMachinesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, options },
+      { resourceGroupName, labName, virtualMachineName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Operation to create or update a lab resource.
+   * Action to start a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
    *                in resource URIs.
-   * @param body The request body.
+   * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
+   *                           containing lab. Used in resource URIs.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  async beginStart(
     resourceGroupName: string,
     labName: string,
-    body: Lab,
-    options?: LabsCreateOrUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<LabsCreateOrUpdateResponse>,
-      LabsCreateOrUpdateResponse
-    >
-  > {
+    virtualMachineName: string,
+    options?: VirtualMachinesStartOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<LabsCreateOrUpdateResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -250,33 +198,403 @@ export class LabsImpl implements Labs {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, labName, body, options },
-      createOrUpdateOperationSpec
+      { resourceGroupName, labName, virtualMachineName, options },
+      startOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "original-uri"
+      lroResourceLocationConfig: "location"
     });
   }
 
   /**
-   * Operation to create or update a lab resource.
+   * Action to start a lab virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
    *                in resource URIs.
+   * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
+   *                           containing lab. Used in resource URIs.
+   * @param options The options parameters.
+   */
+  async beginStartAndWait(
+    resourceGroupName: string,
+    labName: string,
+    virtualMachineName: string,
+    options?: VirtualMachinesStartOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginStart(
+      resourceGroupName,
+      labName,
+      virtualMachineName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Action to stop a lab virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
+   *                in resource URIs.
+   * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
+   *                           containing lab. Used in resource URIs.
+   * @param options The options parameters.
+   */
+  async beginStop(
+    resourceGroupName: string,
+    labName: string,
+    virtualMachineName: string,
+    options?: VirtualMachinesStopOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, labName, virtualMachineName, options },
+      stopOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+  }
+
+  /**
+   * Action to stop a lab virtual machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
+   *                in resource URIs.
+   * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
+   *                           containing lab. Used in resource URIs.
+   * @param options The options parameters.
+   */
+  async beginStopAndWait(
+    resourceGroupName: string,
+    labName: string,
+    virtualMachineName: string,
+    options?: VirtualMachinesStopOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginStop(
+      resourceGroupName,
+      labName,
+      virtualMachineName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Re-image a lab virtual machine. The virtual machine will be deleted and recreated using the latest
+   * published snapshot of the reference environment of the lab.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
+   *                in resource URIs.
+   * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
+   *                           containing lab. Used in resource URIs.
+   * @param options The options parameters.
+   */
+  async beginReimage(
+    resourceGroupName: string,
+    labName: string,
+    virtualMachineName: string,
+    options?: VirtualMachinesReimageOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, labName, virtualMachineName, options },
+      reimageOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+  }
+
+  /**
+   * Re-image a lab virtual machine. The virtual machine will be deleted and recreated using the latest
+   * published snapshot of the reference environment of the lab.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
+   *                in resource URIs.
+   * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
+   *                           containing lab. Used in resource URIs.
+   * @param options The options parameters.
+   */
+  async beginReimageAndWait(
+    resourceGroupName: string,
+    labName: string,
+    virtualMachineName: string,
+    options?: VirtualMachinesReimageOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginReimage(
+      resourceGroupName,
+      labName,
+      virtualMachineName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Action to redeploy a lab virtual machine to a different compute node. For troubleshooting
+   * connectivity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
+   *                in resource URIs.
+   * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
+   *                           containing lab. Used in resource URIs.
+   * @param options The options parameters.
+   */
+  async beginRedeploy(
+    resourceGroupName: string,
+    labName: string,
+    virtualMachineName: string,
+    options?: VirtualMachinesRedeployOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, labName, virtualMachineName, options },
+      redeployOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+  }
+
+  /**
+   * Action to redeploy a lab virtual machine to a different compute node. For troubleshooting
+   * connectivity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
+   *                in resource URIs.
+   * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
+   *                           containing lab. Used in resource URIs.
+   * @param options The options parameters.
+   */
+  async beginRedeployAndWait(
+    resourceGroupName: string,
+    labName: string,
+    virtualMachineName: string,
+    options?: VirtualMachinesRedeployOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginRedeploy(
+      resourceGroupName,
+      labName,
+      virtualMachineName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Resets a lab virtual machine password.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
+   *                in resource URIs.
+   * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
+   *                           containing lab. Used in resource URIs.
    * @param body The request body.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginResetPassword(
     resourceGroupName: string,
     labName: string,
-    body: Lab,
-    options?: LabsCreateOrUpdateOptionalParams
-  ): Promise<LabsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    virtualMachineName: string,
+    body: ResetPasswordBody,
+    options?: VirtualMachinesResetPasswordOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, labName, virtualMachineName, body, options },
+      resetPasswordOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+  }
+
+  /**
+   * Resets a lab virtual machine password.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
+   *                in resource URIs.
+   * @param virtualMachineName The ID of the virtual machine that uniquely identifies it within the
+   *                           containing lab. Used in resource URIs.
+   * @param body The request body.
+   * @param options The options parameters.
+   */
+  async beginResetPasswordAndWait(
+    resourceGroupName: string,
+    labName: string,
+    virtualMachineName: string,
+    body: ResetPasswordBody,
+    options?: VirtualMachinesResetPasswordOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginResetPassword(
       resourceGroupName,
       labName,
+      virtualMachineName,
       body,
       options
     );
@@ -284,415 +602,57 @@ export class LabsImpl implements Labs {
   }
 
   /**
-   * Operation to update a lab resource.
+   * ListByLabNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
    *                in resource URIs.
-   * @param body The request body.
+   * @param nextLink The nextLink from the previous successful call to the ListByLab method.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  private _listByLabNext(
     resourceGroupName: string,
     labName: string,
-    body: LabUpdate,
-    options?: LabsUpdateOptionalParams
-  ): Promise<
-    PollerLike<PollOperationState<LabsUpdateResponse>, LabsUpdateResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<LabsUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, body, options },
-      updateOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
-    });
-  }
-
-  /**
-   * Operation to update a lab resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
-   * @param body The request body.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    labName: string,
-    body: LabUpdate,
-    options?: LabsUpdateOptionalParams
-  ): Promise<LabsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      labName,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Operation to delete a lab resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    labName: string,
-    options?: LabsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, options },
-      deleteOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
-    });
-  }
-
-  /**
-   * Operation to delete a lab resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    labName: string,
-    options?: LabsDeleteOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDelete(resourceGroupName, labName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Publish or re-publish a lab. This will create or update all lab resources, such as virtual machines.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
-   * @param options The options parameters.
-   */
-  async beginPublish(
-    resourceGroupName: string,
-    labName: string,
-    options?: LabsPublishOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, options },
-      publishOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
-    });
-  }
-
-  /**
-   * Publish or re-publish a lab. This will create or update all lab resources, such as virtual machines.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
-   * @param options The options parameters.
-   */
-  async beginPublishAndWait(
-    resourceGroupName: string,
-    labName: string,
-    options?: LabsPublishOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginPublish(resourceGroupName, labName, options);
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Action used to manually kick off an AAD group sync job.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
-   * @param options The options parameters.
-   */
-  async beginSyncGroup(
-    resourceGroupName: string,
-    labName: string,
-    options?: LabsSyncGroupOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, labName, options },
-      syncGroupOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
-    });
-  }
-
-  /**
-   * Action used to manually kick off an AAD group sync job.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
-   * @param options The options parameters.
-   */
-  async beginSyncGroupAndWait(
-    resourceGroupName: string,
-    labName: string,
-    options?: LabsSyncGroupOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginSyncGroup(
-      resourceGroupName,
-      labName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  private _listBySubscriptionNext(
     nextLink: string,
-    options?: LabsListBySubscriptionNextOptionalParams
-  ): Promise<LabsListBySubscriptionNextResponse> {
+    options?: VirtualMachinesListByLabNextOptionalParams
+  ): Promise<VirtualMachinesListByLabNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: LabsListByResourceGroupNextOptionalParams
-  ): Promise<LabsListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      { resourceGroupName, labName, nextLink, options },
+      listByLabNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.LabServices/labs",
+const listByLabOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/virtualMachines",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PagedLabs
+      bodyMapper: Mappers.PagedVirtualMachines
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PagedLabs
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.labName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/virtualMachines/{virtualMachineName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Lab
+      bodyMapper: Mappers.VirtualMachine
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -703,103 +663,15 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.virtualMachineName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+const startOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Lab
-    },
-    201: {
-      bodyMapper: Mappers.Lab
-    },
-    202: {
-      bodyMapper: Mappers.Lab
-    },
-    204: {
-      bodyMapper: Mappers.Lab
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body5,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.labName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Lab
-    },
-    201: {
-      bodyMapper: Mappers.Lab
-    },
-    202: {
-      bodyMapper: Mappers.Lab
-    },
-    204: {
-      bodyMapper: Mappers.Lab
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body6,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.labName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.labName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const publishOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/publish",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/virtualMachines/{virtualMachineName}/start",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -815,14 +687,15 @@ const publishOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.virtualMachineName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const syncGroupOperationSpec: coreClient.OperationSpec = {
+const stopOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/syncGroup",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/virtualMachines/{virtualMachineName}/stop",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -838,17 +711,92 @@ const syncGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.virtualMachineName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
+const reimageOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/virtualMachines/{virtualMachineName}/reimage",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName,
+    Parameters.virtualMachineName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const redeployOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/virtualMachines/{virtualMachineName}/redeploy",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName,
+    Parameters.virtualMachineName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const resetPasswordOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/virtualMachines/{virtualMachineName}/resetPassword",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body12,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName,
+    Parameters.virtualMachineName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const listByLabNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PagedLabs
+      bodyMapper: Mappers.PagedVirtualMachines
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -858,28 +806,9 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PagedLabs
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.labName
   ],
   headerParameters: [Parameters.accept],
   serializer

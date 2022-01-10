@@ -7,26 +7,26 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Operations } from "../operationsInterfaces";
+import { Skus } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { LabServicesClient } from "../labServicesClient";
 import {
-  Operation,
-  OperationsListNextOptionalParams,
-  OperationsListOptionalParams,
-  OperationsListResponse,
-  OperationsListNextResponse
+  LabServicesSku,
+  SkusListNextOptionalParams,
+  SkusListOptionalParams,
+  SkusListResponse,
+  SkusListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Operations operations. */
-export class OperationsImpl implements Operations {
+/** Class containing Skus operations. */
+export class SkusImpl implements Skus {
   private readonly client: LabServicesClient;
 
   /**
-   * Initialize a new instance of the class Operations class.
+   * Initialize a new instance of the class Skus class.
    * @param client Reference to the service client
    */
   constructor(client: LabServicesClient) {
@@ -34,12 +34,12 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Returns a list of all operations.
+   * Returns a list of all the Azure Lab Services resource SKUs.
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation> {
+    options?: SkusListOptionalParams
+  ): PagedAsyncIterableIterator<LabServicesSku> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -55,8 +55,8 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingPage(
-    options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<Operation[]> {
+    options?: SkusListOptionalParams
+  ): AsyncIterableIterator<LabServicesSku[]> {
     let result = await this._list(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -68,20 +68,18 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<Operation> {
+    options?: SkusListOptionalParams
+  ): AsyncIterableIterator<LabServicesSku> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Returns a list of all operations.
+   * Returns a list of all the Azure Lab Services resource SKUs.
    * @param options The options parameters.
    */
-  private _list(
-    options?: OperationsListOptionalParams
-  ): Promise<OperationsListResponse> {
+  private _list(options?: SkusListOptionalParams): Promise<SkusListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -92,8 +90,8 @@ export class OperationsImpl implements Operations {
    */
   private _listNext(
     nextLink: string,
-    options?: OperationsListNextOptionalParams
-  ): Promise<OperationsListNextResponse> {
+    options?: SkusListNextOptionalParams
+  ): Promise<SkusListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -104,18 +102,18 @@ export class OperationsImpl implements Operations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.LabServices/operations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.LabServices/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.PagedLabServicesSkus
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -124,14 +122,18 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.PagedLabServicesSkus
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.nextLink],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
