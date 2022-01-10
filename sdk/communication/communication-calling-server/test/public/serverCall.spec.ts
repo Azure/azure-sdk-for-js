@@ -6,7 +6,11 @@ import { isLiveMode, env, record, Recorder } from "@azure-tools/test-recorder";
 import { CallingServerClient, GroupCallLocator, PlayAudioOptions, CallConnection } from "../../src";
 import * as Constants from "./utils/constants";
 import { TestUtils } from "./utils/testUtils";
-import { environmentSetup, createCallingServerClientWithToken, createCallingServerClient } from "./utils/recordedClient";
+import {
+  environmentSetup,
+  createCallingServerClientWithToken,
+  createCallingServerClient
+} from "./utils/recordedClient";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
@@ -44,11 +48,16 @@ matrix([[true, false]], async function(useAad) {
         const fromUser = await TestUtils.getUserId("fromUser", connectionString);
         const toUser = await TestUtils.getUserId("toUser", connectionString);
         const callingServer = new CallingServerClient(connectionString);
-        let connections : CallConnection[] = [];
+        let connections: CallConnection[] = [];
 
         // create GroupCalls
         try {
-          connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
+          connections = await TestUtils.createCallConnections(
+            callingServer,
+            groupId,
+            fromUser,
+            toUser
+          );
         } finally {
           // Hangup call
           await TestUtils.delayIfLive();
@@ -188,7 +197,7 @@ describe("Server Call Live Test", function() {
       const fromUser = await TestUtils.getUserId("fromUser", connectionString);
       const toUser = await TestUtils.getUserId("toUser", connectionString);
       const callingServer = new CallingServerClient(connectionString);
-      let connections : CallConnection[] = [];
+      let connections: CallConnection[] = [];
 
       // create GroupCalls
       connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
@@ -227,7 +236,7 @@ describe("Server Call Live Test", function() {
       const fromUser = await TestUtils.getUserId("fromUser", connectionString);
       const toUser = await TestUtils.getUserId("toUser", connectionString);
       const callingServer = new CallingServerClient(connectionString);
-      let connections : CallConnection[] = [];
+      let connections: CallConnection[] = [];
 
       // create GroupCalls
       connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
