@@ -8629,7 +8629,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-2JRBKRkzXpd8Za+0QN3is3v5bIxolziCAWRULRkA5xxAKzjY/UBJPht5UzWOHKNVxMi2Fr0pDnlXiHnvleVAGA==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-B799VwkrNiyXYwO50wx8MUAixrwU14vIOD/zW01n/i2Dxa8nYggsoGMFbqk8itwj35VpaoZ3u542uzhkqzubbw==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -8638,6 +8638,7 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@types/node': 12.20.40
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
