@@ -7,7 +7,7 @@ import { LocalCryptographyUnsupportedError } from "./models";
  * @internal
  * Use the platform-local hashing functionality
  */
-export async function createHash(_algorithm: string, _data: Uint8Array): Promise<Buffer> {
+export function createHash(_algorithm: string, _data: Uint8Array): never {
   throw new LocalCryptographyUnsupportedError(
     "Our libraries don't currently support browser hashing"
   );
@@ -27,7 +27,7 @@ export function createVerify(_algorithm: string, _data: Uint8Array): never {
  * @internal
  * Use the platform-local randomBytes functionality
  */
-export function randomBytes(_length: number): Uint8Array {
+export function randomBytes(_length: number): never {
   throw new LocalCryptographyUnsupportedError(
     "Our libraries don't currently support browser crypto"
   );

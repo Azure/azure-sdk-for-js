@@ -28,13 +28,21 @@ const algorithmToHashAlgorithm: { [s: string]: string } = {
 
 /**
  * @internal
+ */
+export interface CreateHashResult {
+  digest: Uint8Array;
+  hashAlgorithm: string;
+}
+
+/**
+ * @internal
  * Use the platform-local hashing functionality
  */
-export async function createHash(
+export function createHash(
   algorithm: string,
   data: Uint8Array,
   hashAlgorithm?: string
-): Promise<{ digest: Buffer; hashAlgorithm: string }> {
+): CreateHashResult {
   hashAlgorithm ||= algorithmToHashAlgorithm[algorithm];
   if (!hashAlgorithm) {
     throw new Error(
@@ -51,13 +59,21 @@ export async function createHash(
 
 /**
  * @internal
+ */
+export interface CreateVerifyResult {
+  verifier: Verify;
+  hashAlgorithm: string;
+}
+
+/**
+ * @internal
  * Use the platform-local verify functionality
  */
 export function createVerify(
   algorithm: string,
   data: Uint8Array,
   hashAlgorithm?: string
-): { verifier: Verify; hashAlgorithm: string } {
+): CreateVerifyResult {
   hashAlgorithm ||= algorithmToHashAlgorithm[algorithm];
   if (!hashAlgorithm) {
     throw new Error(

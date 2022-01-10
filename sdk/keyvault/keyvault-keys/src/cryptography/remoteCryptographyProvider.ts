@@ -217,7 +217,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     options: VerifyDataOptions = {}
   ): Promise<VerifyDataResult> {
     return withTrace("verifyData", options, async (updatedOptions) => {
-      const { digest, hashAlgorithm } = await createHash(algorithm, data, options.hashAlgorithm);
+      const { digest, hashAlgorithm } = createHash(algorithm, data, options.hashAlgorithm);
       const verifyResult = await this.verify(algorithm, digest, signature, updatedOptions);
       return { ...verifyResult, hashAlgorithm };
     });
@@ -252,7 +252,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     options: SignDataOptions = {}
   ): Promise<SignDataResult> {
     return withTrace("signData", options, async (updatedOptions) => {
-      const { digest, hashAlgorithm } = await createHash(algorithm, data, options.hashAlgorithm);
+      const { digest, hashAlgorithm } = createHash(algorithm, data, options.hashAlgorithm);
       const signResult = await this.sign(algorithm, digest, updatedOptions);
       return { ...signResult, hashAlgorithm };
     });
