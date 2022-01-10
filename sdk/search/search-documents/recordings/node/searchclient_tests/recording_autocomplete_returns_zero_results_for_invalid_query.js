@@ -1,13 +1,13 @@
 let nock = require('nock');
 
-module.exports.hash = "545ca4d63064d240615e80556c4d4407";
+module.exports.hash = "24d5222a36c4b91ba2f86374fb2fb30a";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post(`/indexes('hotel-live-test1')/docs/search.post.search`, {"count":true,"search":"garbxyz","skip":0,"top":5})
+  .post(`/indexes('hotel-live-test1')/docs/search.post.autocomplete`, {"search":"garbxyz","suggesterName":"sg"})
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cadd6cbf6a3473ba38f2eb3729d7ff4e87bdfff25ff0f36f0f25c1d000000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef1479759b9ce3f7af4bdefff92ff0742ea40440c000000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -21,9 +21,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '6c36a44f-1803-47ec-aa3d-eb2c5b5ec276',
+  '89237a00-faa9-4bfe-b35f-be0c4773b63c',
   'elapsed-time',
-  '17',
+  '18',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -31,7 +31,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Tue, 28 Sep 2021 05:52:16 GMT',
+  'Fri, 07 Jan 2022 23:38:56 GMT',
   'Content-Length',
-  '149'
+  '133'
 ]);

@@ -76,15 +76,13 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
   /**
    *  The service version to use when communicating with the service.
    */
-  public readonly serviceVersion: string = "2020-06-30-Preview";
+  public readonly serviceVersion: string = utils.defaultServiceVersion;
 
   /**
    * The API version to use when communicating with the service.
    * @deprecated use {@Link serviceVersion} instead
    */
-  public get apiVersion(): string {
-    return this.serviceVersion;
-  }
+  public readonly apiVersion: string = utils.defaultServiceVersion;
 
   /**
    * The endpoint of the search service
@@ -158,14 +156,14 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     };
 
     if (options.apiVersion) {
-      if (!["2020-06-30", "2021-04-30-Preview"].includes(options.apiVersion)) {
+      if (!utils.serviceVersions.includes(options.apiVersion)) {
         throw new Error(`Invalid Api Version: ${options.apiVersion}`);
       }
       this.serviceVersion = options.apiVersion;
     }
 
     if (options.serviceVersion) {
-      if (!["2020-06-30", "2021-04-30-Preview"].includes(options.serviceVersion)) {
+      if (!utils.serviceVersions.includes(options.serviceVersion)) {
         throw new Error(`Invalid Service Version: ${options.serviceVersion}`);
       }
       this.serviceVersion = options.serviceVersion;
