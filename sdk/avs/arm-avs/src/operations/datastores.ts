@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Authorizations } from "../operationsInterfaces";
+import { Datastores } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,25 +15,25 @@ import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  ExpressRouteAuthorization,
-  AuthorizationsListNextOptionalParams,
-  AuthorizationsListOptionalParams,
-  AuthorizationsListResponse,
-  AuthorizationsGetOptionalParams,
-  AuthorizationsGetResponse,
-  AuthorizationsCreateOrUpdateOptionalParams,
-  AuthorizationsCreateOrUpdateResponse,
-  AuthorizationsDeleteOptionalParams,
-  AuthorizationsListNextResponse
+  Datastore,
+  DatastoresListNextOptionalParams,
+  DatastoresListOptionalParams,
+  DatastoresListResponse,
+  DatastoresGetOptionalParams,
+  DatastoresGetResponse,
+  DatastoresCreateOrUpdateOptionalParams,
+  DatastoresCreateOrUpdateResponse,
+  DatastoresDeleteOptionalParams,
+  DatastoresListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Authorizations operations. */
-export class AuthorizationsImpl implements Authorizations {
+/** Class containing Datastores operations. */
+export class DatastoresImpl implements Datastores {
   private readonly client: AzureVMwareSolutionAPI;
 
   /**
-   * Initialize a new instance of the class Authorizations class.
+   * Initialize a new instance of the class Datastores class.
    * @param client Reference to the service client
    */
   constructor(client: AzureVMwareSolutionAPI) {
@@ -41,19 +41,22 @@ export class AuthorizationsImpl implements Authorizations {
   }
 
   /**
-   * List ExpressRoute Circuit Authorizations in a private cloud
+   * List datastores in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
+   * @param clusterName Name of the cluster in the private cloud
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AuthorizationsListOptionalParams
-  ): PagedAsyncIterableIterator<ExpressRouteAuthorization> {
+    clusterName: string,
+    options?: DatastoresListOptionalParams
+  ): PagedAsyncIterableIterator<Datastore> {
     const iter = this.listPagingAll(
       resourceGroupName,
       privateCloudName,
+      clusterName,
       options
     );
     return {
@@ -67,6 +70,7 @@ export class AuthorizationsImpl implements Authorizations {
         return this.listPagingPage(
           resourceGroupName,
           privateCloudName,
+          clusterName,
           options
         );
       }
@@ -76,15 +80,22 @@ export class AuthorizationsImpl implements Authorizations {
   private async *listPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AuthorizationsListOptionalParams
-  ): AsyncIterableIterator<ExpressRouteAuthorization[]> {
-    let result = await this._list(resourceGroupName, privateCloudName, options);
+    clusterName: string,
+    options?: DatastoresListOptionalParams
+  ): AsyncIterableIterator<Datastore[]> {
+    let result = await this._list(
+      resourceGroupName,
+      privateCloudName,
+      clusterName,
+      options
+    );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
         privateCloudName,
+        clusterName,
         continuationToken,
         options
       );
@@ -96,11 +107,13 @@ export class AuthorizationsImpl implements Authorizations {
   private async *listPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AuthorizationsListOptionalParams
-  ): AsyncIterableIterator<ExpressRouteAuthorization> {
+    clusterName: string,
+    options?: DatastoresListOptionalParams
+  ): AsyncIterableIterator<Datastore> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       privateCloudName,
+      clusterName,
       options
     )) {
       yield* page;
@@ -108,65 +121,77 @@ export class AuthorizationsImpl implements Authorizations {
   }
 
   /**
-   * List ExpressRoute Circuit Authorizations in a private cloud
+   * List datastores in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
+   * @param clusterName Name of the cluster in the private cloud
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AuthorizationsListOptionalParams
-  ): Promise<AuthorizationsListResponse> {
+    clusterName: string,
+    options?: DatastoresListOptionalParams
+  ): Promise<DatastoresListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, options },
+      { resourceGroupName, privateCloudName, clusterName, options },
       listOperationSpec
     );
   }
 
   /**
-   * Get an ExpressRoute Circuit Authorization by name in a private cloud
+   * Get a datastore in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
+   * @param clusterName Name of the cluster in the private cloud
+   * @param datastoreName Name of the datastore in the private cloud cluster
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    options?: AuthorizationsGetOptionalParams
-  ): Promise<AuthorizationsGetResponse> {
+    clusterName: string,
+    datastoreName: string,
+    options?: DatastoresGetOptionalParams
+  ): Promise<DatastoresGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, authorizationName, options },
+      {
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        datastoreName,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update an ExpressRoute Circuit Authorization in a private cloud
+   * Create or update a datastore in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
-   * @param authorization An ExpressRoute Circuit Authorization
+   * @param privateCloudName Name of the private cloud
+   * @param clusterName Name of the cluster in the private cloud
+   * @param datastoreName Name of the datastore in the private cloud cluster
+   * @param datastore A datastore in a private cloud cluster
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    authorization: ExpressRouteAuthorization,
-    options?: AuthorizationsCreateOrUpdateOptionalParams
+    clusterName: string,
+    datastoreName: string,
+    datastore: Datastore,
+    options?: DatastoresCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AuthorizationsCreateOrUpdateResponse>,
-      AuthorizationsCreateOrUpdateResponse
+      PollOperationState<DatastoresCreateOrUpdateResponse>,
+      DatastoresCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AuthorizationsCreateOrUpdateResponse> => {
+    ): Promise<DatastoresCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -207,8 +232,9 @@ export class AuthorizationsImpl implements Authorizations {
       {
         resourceGroupName,
         privateCloudName,
-        authorizationName,
-        authorization,
+        clusterName,
+        datastoreName,
+        datastore,
         options
       },
       createOrUpdateOperationSpec
@@ -220,42 +246,47 @@ export class AuthorizationsImpl implements Authorizations {
   }
 
   /**
-   * Create or update an ExpressRoute Circuit Authorization in a private cloud
+   * Create or update a datastore in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
-   * @param authorization An ExpressRoute Circuit Authorization
+   * @param privateCloudName Name of the private cloud
+   * @param clusterName Name of the cluster in the private cloud
+   * @param datastoreName Name of the datastore in the private cloud cluster
+   * @param datastore A datastore in a private cloud cluster
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    authorization: ExpressRouteAuthorization,
-    options?: AuthorizationsCreateOrUpdateOptionalParams
-  ): Promise<AuthorizationsCreateOrUpdateResponse> {
+    clusterName: string,
+    datastoreName: string,
+    datastore: Datastore,
+    options?: DatastoresCreateOrUpdateOptionalParams
+  ): Promise<DatastoresCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       privateCloudName,
-      authorizationName,
-      authorization,
+      clusterName,
+      datastoreName,
+      datastore,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete an ExpressRoute Circuit Authorization in a private cloud
+   * Delete a datastore in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
+   * @param clusterName Name of the cluster in the private cloud
+   * @param datastoreName Name of the datastore in the private cloud cluster
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    options?: AuthorizationsDeleteOptionalParams
+    clusterName: string,
+    datastoreName: string,
+    options?: DatastoresDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -298,7 +329,13 @@ export class AuthorizationsImpl implements Authorizations {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, privateCloudName, authorizationName, options },
+      {
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        datastoreName,
+        options
+      },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -308,22 +345,25 @@ export class AuthorizationsImpl implements Authorizations {
   }
 
   /**
-   * Delete an ExpressRoute Circuit Authorization in a private cloud
+   * Delete a datastore in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
+   * @param clusterName Name of the cluster in the private cloud
+   * @param datastoreName Name of the datastore in the private cloud cluster
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    options?: AuthorizationsDeleteOptionalParams
+    clusterName: string,
+    datastoreName: string,
+    options?: DatastoresDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       privateCloudName,
-      authorizationName,
+      clusterName,
+      datastoreName,
       options
     );
     return poller.pollUntilDone();
@@ -333,17 +373,19 @@ export class AuthorizationsImpl implements Authorizations {
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
+   * @param clusterName Name of the cluster in the private cloud
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     privateCloudName: string,
+    clusterName: string,
     nextLink: string,
-    options?: AuthorizationsListNextOptionalParams
-  ): Promise<AuthorizationsListNextResponse> {
+    options?: DatastoresListNextOptionalParams
+  ): Promise<DatastoresListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, nextLink, options },
+      { resourceGroupName, privateCloudName, clusterName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -353,11 +395,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/datastores",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteAuthorizationList
+      bodyMapper: Mappers.DatastoreList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -368,18 +410,19 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
+    Parameters.clusterName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations/{authorizationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/datastores/{datastoreName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.Datastore
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -391,40 +434,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.authorizationName
+    Parameters.clusterName,
+    Parameters.datastoreName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations/{authorizationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/datastores/{datastoreName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.Datastore
     },
     201: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.Datastore
     },
     202: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.Datastore
     },
     204: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.Datastore
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.authorization,
+  requestBody: Parameters.datastore,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.authorizationName
+    Parameters.clusterName,
+    Parameters.datastoreName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -432,7 +477,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations/{authorizationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/datastores/{datastoreName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -449,7 +494,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.authorizationName
+    Parameters.clusterName,
+    Parameters.datastoreName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -459,7 +505,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteAuthorizationList
+      bodyMapper: Mappers.DatastoreList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -471,7 +517,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
+    Parameters.clusterName
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Authorizations } from "../operationsInterfaces";
+import { GlobalReachConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,25 +15,25 @@ import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  ExpressRouteAuthorization,
-  AuthorizationsListNextOptionalParams,
-  AuthorizationsListOptionalParams,
-  AuthorizationsListResponse,
-  AuthorizationsGetOptionalParams,
-  AuthorizationsGetResponse,
-  AuthorizationsCreateOrUpdateOptionalParams,
-  AuthorizationsCreateOrUpdateResponse,
-  AuthorizationsDeleteOptionalParams,
-  AuthorizationsListNextResponse
+  GlobalReachConnection,
+  GlobalReachConnectionsListNextOptionalParams,
+  GlobalReachConnectionsListOptionalParams,
+  GlobalReachConnectionsListResponse,
+  GlobalReachConnectionsGetOptionalParams,
+  GlobalReachConnectionsGetResponse,
+  GlobalReachConnectionsCreateOrUpdateOptionalParams,
+  GlobalReachConnectionsCreateOrUpdateResponse,
+  GlobalReachConnectionsDeleteOptionalParams,
+  GlobalReachConnectionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Authorizations operations. */
-export class AuthorizationsImpl implements Authorizations {
+/** Class containing GlobalReachConnections operations. */
+export class GlobalReachConnectionsImpl implements GlobalReachConnections {
   private readonly client: AzureVMwareSolutionAPI;
 
   /**
-   * Initialize a new instance of the class Authorizations class.
+   * Initialize a new instance of the class GlobalReachConnections class.
    * @param client Reference to the service client
    */
   constructor(client: AzureVMwareSolutionAPI) {
@@ -41,7 +41,7 @@ export class AuthorizationsImpl implements Authorizations {
   }
 
   /**
-   * List ExpressRoute Circuit Authorizations in a private cloud
+   * List global reach connections in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -49,8 +49,8 @@ export class AuthorizationsImpl implements Authorizations {
   public list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AuthorizationsListOptionalParams
-  ): PagedAsyncIterableIterator<ExpressRouteAuthorization> {
+    options?: GlobalReachConnectionsListOptionalParams
+  ): PagedAsyncIterableIterator<GlobalReachConnection> {
     const iter = this.listPagingAll(
       resourceGroupName,
       privateCloudName,
@@ -76,8 +76,8 @@ export class AuthorizationsImpl implements Authorizations {
   private async *listPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AuthorizationsListOptionalParams
-  ): AsyncIterableIterator<ExpressRouteAuthorization[]> {
+    options?: GlobalReachConnectionsListOptionalParams
+  ): AsyncIterableIterator<GlobalReachConnection[]> {
     let result = await this._list(resourceGroupName, privateCloudName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -96,8 +96,8 @@ export class AuthorizationsImpl implements Authorizations {
   private async *listPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AuthorizationsListOptionalParams
-  ): AsyncIterableIterator<ExpressRouteAuthorization> {
+    options?: GlobalReachConnectionsListOptionalParams
+  ): AsyncIterableIterator<GlobalReachConnection> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       privateCloudName,
@@ -108,7 +108,7 @@ export class AuthorizationsImpl implements Authorizations {
   }
 
   /**
-   * List ExpressRoute Circuit Authorizations in a private cloud
+   * List global reach connections in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -116,8 +116,8 @@ export class AuthorizationsImpl implements Authorizations {
   private _list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AuthorizationsListOptionalParams
-  ): Promise<AuthorizationsListResponse> {
+    options?: GlobalReachConnectionsListOptionalParams
+  ): Promise<GlobalReachConnectionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, options },
       listOperationSpec
@@ -125,48 +125,53 @@ export class AuthorizationsImpl implements Authorizations {
   }
 
   /**
-   * Get an ExpressRoute Circuit Authorization by name in a private cloud
+   * Get a global reach connection by name in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
+   * @param globalReachConnectionName Name of the global reach connection in the private cloud
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    options?: AuthorizationsGetOptionalParams
-  ): Promise<AuthorizationsGetResponse> {
+    globalReachConnectionName: string,
+    options?: GlobalReachConnectionsGetOptionalParams
+  ): Promise<GlobalReachConnectionsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, authorizationName, options },
+      {
+        resourceGroupName,
+        privateCloudName,
+        globalReachConnectionName,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update an ExpressRoute Circuit Authorization in a private cloud
+   * Create or update a global reach connection in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName The name of the private cloud.
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
-   * @param authorization An ExpressRoute Circuit Authorization
+   * @param globalReachConnectionName Name of the global reach connection in the private cloud
+   * @param globalReachConnection A global reach connection in the private cloud
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    authorization: ExpressRouteAuthorization,
-    options?: AuthorizationsCreateOrUpdateOptionalParams
+    globalReachConnectionName: string,
+    globalReachConnection: GlobalReachConnection,
+    options?: GlobalReachConnectionsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AuthorizationsCreateOrUpdateResponse>,
-      AuthorizationsCreateOrUpdateResponse
+      PollOperationState<GlobalReachConnectionsCreateOrUpdateResponse>,
+      GlobalReachConnectionsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AuthorizationsCreateOrUpdateResponse> => {
+    ): Promise<GlobalReachConnectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -207,8 +212,8 @@ export class AuthorizationsImpl implements Authorizations {
       {
         resourceGroupName,
         privateCloudName,
-        authorizationName,
-        authorization,
+        globalReachConnectionName,
+        globalReachConnection,
         options
       },
       createOrUpdateOperationSpec
@@ -220,42 +225,42 @@ export class AuthorizationsImpl implements Authorizations {
   }
 
   /**
-   * Create or update an ExpressRoute Circuit Authorization in a private cloud
+   * Create or update a global reach connection in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName The name of the private cloud.
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
-   * @param authorization An ExpressRoute Circuit Authorization
+   * @param globalReachConnectionName Name of the global reach connection in the private cloud
+   * @param globalReachConnection A global reach connection in the private cloud
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    authorization: ExpressRouteAuthorization,
-    options?: AuthorizationsCreateOrUpdateOptionalParams
-  ): Promise<AuthorizationsCreateOrUpdateResponse> {
+    globalReachConnectionName: string,
+    globalReachConnection: GlobalReachConnection,
+    options?: GlobalReachConnectionsCreateOrUpdateOptionalParams
+  ): Promise<GlobalReachConnectionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       privateCloudName,
-      authorizationName,
-      authorization,
+      globalReachConnectionName,
+      globalReachConnection,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete an ExpressRoute Circuit Authorization in a private cloud
+   * Delete a global reach connection in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
+   * @param globalReachConnectionName Name of the global reach connection in the private cloud
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    options?: AuthorizationsDeleteOptionalParams
+    globalReachConnectionName: string,
+    options?: GlobalReachConnectionsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -298,7 +303,12 @@ export class AuthorizationsImpl implements Authorizations {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, privateCloudName, authorizationName, options },
+      {
+        resourceGroupName,
+        privateCloudName,
+        globalReachConnectionName,
+        options
+      },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -308,22 +318,22 @@ export class AuthorizationsImpl implements Authorizations {
   }
 
   /**
-   * Delete an ExpressRoute Circuit Authorization in a private cloud
+   * Delete a global reach connection in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
+   * @param globalReachConnectionName Name of the global reach connection in the private cloud
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    options?: AuthorizationsDeleteOptionalParams
+    globalReachConnectionName: string,
+    options?: GlobalReachConnectionsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       privateCloudName,
-      authorizationName,
+      globalReachConnectionName,
       options
     );
     return poller.pollUntilDone();
@@ -340,8 +350,8 @@ export class AuthorizationsImpl implements Authorizations {
     resourceGroupName: string,
     privateCloudName: string,
     nextLink: string,
-    options?: AuthorizationsListNextOptionalParams
-  ): Promise<AuthorizationsListNextResponse> {
+    options?: GlobalReachConnectionsListNextOptionalParams
+  ): Promise<GlobalReachConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, nextLink, options },
       listNextOperationSpec
@@ -353,11 +363,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/globalReachConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteAuthorizationList
+      bodyMapper: Mappers.GlobalReachConnectionList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -375,11 +385,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations/{authorizationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/globalReachConnections/{globalReachConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.GlobalReachConnection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -391,40 +401,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.authorizationName
+    Parameters.globalReachConnectionName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations/{authorizationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/globalReachConnections/{globalReachConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.GlobalReachConnection
     },
     201: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.GlobalReachConnection
     },
     202: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.GlobalReachConnection
     },
     204: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.GlobalReachConnection
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.authorization,
+  requestBody: Parameters.globalReachConnection,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.authorizationName
+    Parameters.globalReachConnectionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -432,7 +442,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations/{authorizationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/globalReachConnections/{globalReachConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -449,7 +459,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.authorizationName
+    Parameters.globalReachConnectionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -459,7 +469,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteAuthorizationList
+      bodyMapper: Mappers.GlobalReachConnectionList
     },
     default: {
       bodyMapper: Mappers.CloudError

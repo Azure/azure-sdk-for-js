@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Authorizations } from "../operationsInterfaces";
+import { Addons } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,25 +15,25 @@ import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  ExpressRouteAuthorization,
-  AuthorizationsListNextOptionalParams,
-  AuthorizationsListOptionalParams,
-  AuthorizationsListResponse,
-  AuthorizationsGetOptionalParams,
-  AuthorizationsGetResponse,
-  AuthorizationsCreateOrUpdateOptionalParams,
-  AuthorizationsCreateOrUpdateResponse,
-  AuthorizationsDeleteOptionalParams,
-  AuthorizationsListNextResponse
+  Addon,
+  AddonsListNextOptionalParams,
+  AddonsListOptionalParams,
+  AddonsListResponse,
+  AddonsGetOptionalParams,
+  AddonsGetResponse,
+  AddonsCreateOrUpdateOptionalParams,
+  AddonsCreateOrUpdateResponse,
+  AddonsDeleteOptionalParams,
+  AddonsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Authorizations operations. */
-export class AuthorizationsImpl implements Authorizations {
+/** Class containing Addons operations. */
+export class AddonsImpl implements Addons {
   private readonly client: AzureVMwareSolutionAPI;
 
   /**
-   * Initialize a new instance of the class Authorizations class.
+   * Initialize a new instance of the class Addons class.
    * @param client Reference to the service client
    */
   constructor(client: AzureVMwareSolutionAPI) {
@@ -41,7 +41,7 @@ export class AuthorizationsImpl implements Authorizations {
   }
 
   /**
-   * List ExpressRoute Circuit Authorizations in a private cloud
+   * List addons in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -49,8 +49,8 @@ export class AuthorizationsImpl implements Authorizations {
   public list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AuthorizationsListOptionalParams
-  ): PagedAsyncIterableIterator<ExpressRouteAuthorization> {
+    options?: AddonsListOptionalParams
+  ): PagedAsyncIterableIterator<Addon> {
     const iter = this.listPagingAll(
       resourceGroupName,
       privateCloudName,
@@ -76,8 +76,8 @@ export class AuthorizationsImpl implements Authorizations {
   private async *listPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AuthorizationsListOptionalParams
-  ): AsyncIterableIterator<ExpressRouteAuthorization[]> {
+    options?: AddonsListOptionalParams
+  ): AsyncIterableIterator<Addon[]> {
     let result = await this._list(resourceGroupName, privateCloudName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -96,8 +96,8 @@ export class AuthorizationsImpl implements Authorizations {
   private async *listPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AuthorizationsListOptionalParams
-  ): AsyncIterableIterator<ExpressRouteAuthorization> {
+    options?: AddonsListOptionalParams
+  ): AsyncIterableIterator<Addon> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       privateCloudName,
@@ -108,7 +108,7 @@ export class AuthorizationsImpl implements Authorizations {
   }
 
   /**
-   * List ExpressRoute Circuit Authorizations in a private cloud
+   * List addons in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The options parameters.
@@ -116,8 +116,8 @@ export class AuthorizationsImpl implements Authorizations {
   private _list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: AuthorizationsListOptionalParams
-  ): Promise<AuthorizationsListResponse> {
+    options?: AddonsListOptionalParams
+  ): Promise<AddonsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, options },
       listOperationSpec
@@ -125,48 +125,48 @@ export class AuthorizationsImpl implements Authorizations {
   }
 
   /**
-   * Get an ExpressRoute Circuit Authorization by name in a private cloud
+   * Get an addon by name in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
+   * @param addonName Name of the addon for the private cloud
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    options?: AuthorizationsGetOptionalParams
-  ): Promise<AuthorizationsGetResponse> {
+    addonName: string,
+    options?: AddonsGetOptionalParams
+  ): Promise<AddonsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, authorizationName, options },
+      { resourceGroupName, privateCloudName, addonName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update an ExpressRoute Circuit Authorization in a private cloud
+   * Create or update a addon in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName The name of the private cloud.
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
-   * @param authorization An ExpressRoute Circuit Authorization
+   * @param addonName Name of the addon for the private cloud
+   * @param addon A addon in the private cloud
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    authorization: ExpressRouteAuthorization,
-    options?: AuthorizationsCreateOrUpdateOptionalParams
+    addonName: string,
+    addon: Addon,
+    options?: AddonsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AuthorizationsCreateOrUpdateResponse>,
-      AuthorizationsCreateOrUpdateResponse
+      PollOperationState<AddonsCreateOrUpdateResponse>,
+      AddonsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AuthorizationsCreateOrUpdateResponse> => {
+    ): Promise<AddonsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -204,13 +204,7 @@ export class AuthorizationsImpl implements Authorizations {
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        resourceGroupName,
-        privateCloudName,
-        authorizationName,
-        authorization,
-        options
-      },
+      { resourceGroupName, privateCloudName, addonName, addon, options },
       createOrUpdateOperationSpec
     );
     return new LroEngine(lro, {
@@ -220,42 +214,42 @@ export class AuthorizationsImpl implements Authorizations {
   }
 
   /**
-   * Create or update an ExpressRoute Circuit Authorization in a private cloud
+   * Create or update a addon in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName The name of the private cloud.
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
-   * @param authorization An ExpressRoute Circuit Authorization
+   * @param addonName Name of the addon for the private cloud
+   * @param addon A addon in the private cloud
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    authorization: ExpressRouteAuthorization,
-    options?: AuthorizationsCreateOrUpdateOptionalParams
-  ): Promise<AuthorizationsCreateOrUpdateResponse> {
+    addonName: string,
+    addon: Addon,
+    options?: AddonsCreateOrUpdateOptionalParams
+  ): Promise<AddonsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       privateCloudName,
-      authorizationName,
-      authorization,
+      addonName,
+      addon,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete an ExpressRoute Circuit Authorization in a private cloud
+   * Delete a addon in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
+   * @param addonName Name of the addon for the private cloud
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    options?: AuthorizationsDeleteOptionalParams
+    addonName: string,
+    options?: AddonsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -298,7 +292,7 @@ export class AuthorizationsImpl implements Authorizations {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, privateCloudName, authorizationName, options },
+      { resourceGroupName, privateCloudName, addonName, options },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -308,22 +302,22 @@ export class AuthorizationsImpl implements Authorizations {
   }
 
   /**
-   * Delete an ExpressRoute Circuit Authorization in a private cloud
+   * Delete a addon in a private cloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param authorizationName Name of the ExpressRoute Circuit Authorization in the private cloud
+   * @param addonName Name of the addon for the private cloud
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
-    authorizationName: string,
-    options?: AuthorizationsDeleteOptionalParams
+    addonName: string,
+    options?: AddonsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       privateCloudName,
-      authorizationName,
+      addonName,
       options
     );
     return poller.pollUntilDone();
@@ -340,8 +334,8 @@ export class AuthorizationsImpl implements Authorizations {
     resourceGroupName: string,
     privateCloudName: string,
     nextLink: string,
-    options?: AuthorizationsListNextOptionalParams
-  ): Promise<AuthorizationsListNextResponse> {
+    options?: AddonsListNextOptionalParams
+  ): Promise<AddonsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, privateCloudName, nextLink, options },
       listNextOperationSpec
@@ -353,11 +347,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteAuthorizationList
+      bodyMapper: Mappers.AddonList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -375,11 +369,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations/{authorizationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.Addon
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -391,40 +385,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.authorizationName
+    Parameters.addonName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations/{authorizationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.Addon
     },
     201: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.Addon
     },
     202: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.Addon
     },
     204: {
-      bodyMapper: Mappers.ExpressRouteAuthorization
+      bodyMapper: Mappers.Addon
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.authorization,
+  requestBody: Parameters.addon,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.authorizationName
+    Parameters.addonName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -432,7 +426,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/authorizations/{authorizationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/addons/{addonName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -449,7 +443,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.authorizationName
+    Parameters.addonName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -459,7 +453,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRouteAuthorizationList
+      bodyMapper: Mappers.AddonList
     },
     default: {
       bodyMapper: Mappers.CloudError
