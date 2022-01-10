@@ -21,7 +21,7 @@ export class NockRecorder extends BaseRecorder {
   public record(recorderEnvironmentSetup: RecorderEnvironmentSetup): void {
     super.init(recorderEnvironmentSetup);
     nock.recorder.rec({
-      dont_print: true
+      dont_print: true,
     });
   }
 
@@ -76,7 +76,7 @@ export class NockRecorder extends BaseRecorder {
       }
 
       const file = fs.createWriteStream("./recordings/" + this.relativeTestRecordingFilePath, {
-        flags: "w"
+        flags: "w",
       });
 
       // Some tests expect errors to happen and, if a writing error is thrown in one of these tests, it may be captured in a catch block by accident,

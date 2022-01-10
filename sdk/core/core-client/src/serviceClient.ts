@@ -190,12 +190,17 @@ export class ServiceClient {
         options.onResponse(rawResponse, flatResponse);
       }
       return flatResponse;
-    } catch (error) {
-      if (error.response) {
-        error.details = flattenResponse(
-          error.response,
+    } catch (error: any) {
+      if (typeof error === "object" && error?.response) {
+        const rawResponse = error.response;
+        const flatResponse = flattenResponse(
+          rawResponse,
           operationSpec.responses[error.statusCode] || operationSpec.responses["default"]
         );
+        error.details = flatResponse;
+        if (options?.onResponse) {
+          options.onResponse(rawResponse, flatResponse, error);
+        }
       }
       throw error;
     }

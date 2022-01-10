@@ -7,7 +7,7 @@ import {
   env,
   filterSecretsRecursivelyFromJSON,
   generateTestRecordingFilePath,
-  isHex
+  isHex,
 } from "../src/utils";
 import { setEnvironmentVariables } from "../src/baseRecorder";
 
@@ -36,7 +36,7 @@ describe("utils", () => {
         "%2B",
         "%2C",
         "%3B",
-        "%3D"
+        "%3D",
       ]);
     });
 
@@ -51,7 +51,7 @@ describe("utils", () => {
   describe("applyReplacementMap", () => {
     it("Should filter URI encoded secrets", () => {
       const env: NodeJS.ProcessEnv = {
-        SECRET: "(SECRET)"
+        SECRET: "(SECRET)",
       };
 
       const replacementMap: ReplacementMap = new Map();
@@ -65,7 +65,7 @@ describe("utils", () => {
 
     it("Should filter hostname of the plain URI", () => {
       const env: NodeJS.ProcessEnv = {
-        ENDPOINT: "https://azureaccount.net/"
+        ENDPOINT: "https://azureaccount.net/",
       };
 
       const replacementMap: ReplacementMap = new Map();
@@ -79,7 +79,7 @@ describe("utils", () => {
 
     it("Should filter hostname of the URI irrespective of `/` at the end", () => {
       const env: NodeJS.ProcessEnv = {
-        ENDPOINT: "https://azureaccount.net/"
+        ENDPOINT: "https://azureaccount.net/",
       };
 
       const replacementMap: ReplacementMap = new Map();
@@ -93,7 +93,7 @@ describe("utils", () => {
 
     it("Should filter hostname of the URI irrespective of the content succeeding the hostname", () => {
       const env: NodeJS.ProcessEnv = {
-        ENDPOINT: "https://azureaccount.net/queue/"
+        ENDPOINT: "https://azureaccount.net/queue/",
       };
 
       const replacementMap: ReplacementMap = new Map();
@@ -107,7 +107,7 @@ describe("utils", () => {
 
     it("Should filter raw secrets", () => {
       const env: NodeJS.ProcessEnv = {
-        ENDPOINT: "azure.com/url/"
+        ENDPOINT: "azure.com/url/",
       };
 
       const replacementMap: ReplacementMap = new Map();
@@ -122,7 +122,7 @@ describe("utils", () => {
     it("Should filter both, raw and URI encoded secrets", () => {
       const env: NodeJS.ProcessEnv = {
         SECRET: "(SECRET)",
-        ENDPOINT: "azure.com/url/"
+        ENDPOINT: "azure.com/url/",
       };
 
       const replacementMap: ReplacementMap = new Map();
@@ -137,7 +137,7 @@ describe("utils", () => {
 
     it("Should not apply unnecessary repeated replacements", () => {
       const env: NodeJS.ProcessEnv = {
-        AZURE_USERNAME: "username"
+        AZURE_USERNAME: "username",
       };
 
       const replacementMap: ReplacementMap = new Map();
@@ -155,7 +155,7 @@ describe("utils", () => {
     it("Should work with recordings of several lines", () => {
       const env: NodeJS.ProcessEnv = {
         SECRET: "(SECRET)",
-        ENDPOINT: "azure.com/url/"
+        ENDPOINT: "azure.com/url/",
       };
 
       const replacementMap: ReplacementMap = new Map();
@@ -188,7 +188,7 @@ ultramarine.com/url/PUBLIC
       const replacements: Array<(content: string) => string> = [
         (source: string): string => {
           return source.replace(/banana/i, "Bonobo's");
-        }
+        },
       ];
       const recording = "Banana Split";
       const appliedFunctions = applyReplacementFunctions(replacements, recording);
@@ -202,7 +202,7 @@ ultramarine.com/url/PUBLIC
         },
         (source: string): string => {
           return source.replace(/split/i, "Flex");
-        }
+        },
       ];
       const recording = "Banana Split";
       const appliedFunctions = applyReplacementFunctions(replacements, recording);
@@ -216,7 +216,7 @@ ultramarine.com/url/PUBLIC
         },
         (source: string): string => {
           return source.replace(/%28SECRET%29/g, "HIDDEN_SECRET");
-        }
+        },
       ];
       const recording = `
 All the combinations:
@@ -273,15 +273,15 @@ ultramarine.com/url/PUBLIC
               url: "https://azureaccount.net",
               query: {
                 marker: "/azureaccount/queue156816850373302116x2",
-                maxresults: "1"
+                maxresults: "1",
               },
               response:
                 '<?xml version="1.0" encoding="utf-8"?><EnumerationResults ServiceEndpoint="https://azureaccount.queue.core.windows.net/"><Prefix>queue156816850373302116</Prefix><Marker>/azureaccount/queue156816850373302116x2</Marker><MaxResults>1</MaxResults><Queues><Queue><Name>queue156816850373302116x2</Name><Metadata><key>val</key></Metadata></Queue></Queues><NextMarker /></EnumerationResults>',
               responseHeaders: {
-                server: "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0"
-              }
-            }
-          ]
+                server: "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+              },
+            },
+          ],
         },
         replaceableVariables,
         [],
@@ -292,15 +292,15 @@ ultramarine.com/url/PUBLIC
               url: "https://fakestorageaccount.net",
               query: {
                 marker: "/fakestorageaccount/queue156816850373302116x2",
-                maxresults: "1"
+                maxresults: "1",
               },
               response:
                 '<?xml version="1.0" encoding="utf-8"?><EnumerationResults ServiceEndpoint="https://fakestorageaccount.queue.core.windows.net/"><Prefix>queue156816850373302116</Prefix><Marker>/fakestorageaccount/queue156816850373302116x2</Marker><MaxResults>1</MaxResults><Queues><Queue><Name>queue156816850373302116x2</Name><Metadata><key>val</key></Metadata></Queue></Queues><NextMarker /></EnumerationResults>',
               responseHeaders: {
-                server: "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0"
-              }
-            }
-          ]
+                server: "Windows-Azure-Queue/1.0 Microsoft-HTTPAPI/2.0",
+              },
+            },
+          ],
         }
       );
     });
@@ -311,22 +311,22 @@ ultramarine.com/url/PUBLIC
           recording: [
             {
               response:
-                '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiwN"}'
-            }
-          ]
+                '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiwN"}',
+            },
+          ],
         },
         {},
         [
           (recording: any): any =>
-            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
         ],
         {
           recording: [
             {
               response:
-                '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}'
-            }
-          ]
+                '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}',
+            },
+          ],
         }
       );
     });
@@ -338,23 +338,23 @@ ultramarine.com/url/PUBLIC
         [
           {
             response:
-              '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiwN"}'
+              '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiwN"}',
           },
           { url: "http://bing.com" },
-          { ACCOUNT_NAME: "azureaccount" }
+          { ACCOUNT_NAME: "azureaccount" },
         ],
         replaceableVariables,
         [
           (recording: any): any =>
-            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
         ],
         [
           {
             response:
-              '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}'
+              '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}',
           },
           { url: "http://bing.com" },
-          { ACCOUNT_NAME: "fakestorageaccount" }
+          { ACCOUNT_NAME: "fakestorageaccount" },
         ]
       );
     });
@@ -363,16 +363,16 @@ ultramarine.com/url/PUBLIC
       verifyFilterFunctionForJson(
         {
           response:
-            '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiwN"}'
+            '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiwN"}',
         },
         {},
         [
           (recording: any): any =>
-            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
         ],
         {
           response:
-            '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}'
+            '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}',
         }
       );
     });
@@ -383,7 +383,7 @@ ultramarine.com/url/PUBLIC
         {},
         [
           (recording: any): any =>
-            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
         ],
         { access_token: "access_token" }
       );
@@ -395,7 +395,7 @@ ultramarine.com/url/PUBLIC
         {},
         [
           (recording: any): any =>
-            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
         ],
         JSON.stringify({ access_token: "access_token" })
       );
@@ -404,15 +404,15 @@ ultramarine.com/url/PUBLIC
     it("Should work for JSON content #7 - JSON.stringify-ed content - regex to be replaced is present as a key-value pair somewhere inside the tree in the JSON content", () => {
       verifyFilterFunctionForJson(
         JSON.stringify({
-          recording: [{ access_token: "eyJ0eXA75E_Q" }]
+          recording: [{ access_token: "eyJ0eXA75E_Q" }],
         }),
         {},
         [
           (recording: any): any =>
-            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
         ],
         JSON.stringify({
-          recording: [{ access_token: "access_token" }]
+          recording: [{ access_token: "access_token" }],
         })
       );
     });
@@ -443,7 +443,7 @@ ultramarine.com/url/PUBLIC
   });
 
   describe("generateTestRecordingFilePath", () => {
-    it("Should generate a properly formatted path on platform: Node", function() {
+    it("Should generate a properly formatted path on platform: Node", function () {
       const platform = "node";
       const testSuiteTitle = this.test!.parent!.fullTitle();
       const testTitle = this.test!.title;
@@ -453,7 +453,7 @@ ultramarine.com/url/PUBLIC
       );
     });
 
-    it("Should generate a properly formatted path on platform: Browsers", function() {
+    it("Should generate a properly formatted path on platform: Browsers", function () {
       const platform = "browsers";
       const testSuiteTitle = this.test!.parent!.fullTitle();
       const testTitle = this.test!.title;

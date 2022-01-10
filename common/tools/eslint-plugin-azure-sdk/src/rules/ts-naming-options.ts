@@ -55,7 +55,7 @@ export = {
                     const prefixKind = method.kind === "constructor" ? "class" : "method";
                     context.report({
                       node: param,
-                      message: `options parameter type is not prefixed with the ${prefixKind} name`
+                      message: `options parameter type is not prefixed with the ${prefixKind} name`,
                     });
                   }
                 }
@@ -63,7 +63,7 @@ export = {
             }
           });
         });
-      }
+      },
     } as Rule.RuleListener;
-  }
+  },
 };
