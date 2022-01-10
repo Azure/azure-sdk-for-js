@@ -19,7 +19,6 @@ import { ClientSecretCredential } from "@azure/identity";
 import { ImageBuilderClient } from "../src/imageBuilderClient";
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { ManagedServiceIdentityClient } from "@azure/arm-msi";
-import { string } from "yargs";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
