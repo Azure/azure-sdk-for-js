@@ -1215,6 +1215,16 @@
       "packageName": "@azure/arm-containerinstance",
       "projectFolder": "sdk/containerinstance/arm-containerinstance",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-confluent",
+      "projectFolder": "sdk/confluent/arm-confluent",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-imagebuilder",
+      "projectFolder": "sdk/imagebuilder/arm-imagebuilder",
+      "versionPolicyName": "management"
     }
   ]
 }
