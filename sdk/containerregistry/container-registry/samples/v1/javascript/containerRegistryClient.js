@@ -58,5 +58,3 @@ async function deleteRepository(client, repositoryName) {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };
