@@ -1,7 +1,7 @@
 **Checklists** 
-- [ ] Added impacted library name to the issue description
+- [ ] Added impacted package name to the issue description
 
-**Library(ies) impacted by this PR:**
+**Package(es) impacted by this PR:**
 
 
 **Issue(s) associated with this PR:**
