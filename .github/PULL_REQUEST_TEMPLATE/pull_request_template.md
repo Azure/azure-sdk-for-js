@@ -10,7 +10,7 @@
 **Describe the problem that is addressed by this PR:**
 
 
-**What are the possible designs available to address the problem(s)**
+**What are the possible designs available to address the problem**
 
 
 **If there are more than one possible design, why did you choose the one in this PR?**
