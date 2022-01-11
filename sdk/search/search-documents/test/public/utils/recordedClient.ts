@@ -57,7 +57,6 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: [],
 };
 
-export function createClients<IndexModel>(
   indexName: string,
   serviceVersion: string
 ): Clients<IndexModel> {
