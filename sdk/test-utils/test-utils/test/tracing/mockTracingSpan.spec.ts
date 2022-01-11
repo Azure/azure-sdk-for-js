@@ -8,11 +8,7 @@ describe("TestTracingSpan", function () {
   let subject: MockTracingSpan;
 
   beforeEach(() => {
-    subject = new MockTracingSpan("test", {
-      spanId: "spanId",
-      traceId: "traceId",
-      traceFlags: 0,
-    });
+    subject = new MockTracingSpan("test", "traceId", "spanId");
   });
 
   it("records status correctly", function () {

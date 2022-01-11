@@ -6,7 +6,6 @@ import {
   InstrumenterSpanOptions,
   TracingContext,
   TracingSpan,
-  TracingSpanContext,
 } from "@azure/core-tracing";
 import { MockContext, spanKey } from "./mockContext";
 import { MockTracingSpan } from "./mockTracingSpan";
@@ -41,7 +40,7 @@ export class MockInstrumenter implements Instrumenter {
     spanOptions?: InstrumenterSpanOptions
   ): { span: TracingSpan; tracingContext: TracingContext } {
     const tracingContext = spanOptions?.tracingContext || this.currentContext();
-    const parentSpan = tracingContext.getValue(spanKey) as TracingSpan | undefined;
+    const parentSpan = tracingContext.getValue(spanKey) as MockTracingSpan | undefined;
     let traceId;
     if (parentSpan) {
       traceId = parentSpan.spanContext().traceId;
@@ -54,7 +53,13 @@ export class MockInstrumenter implements Instrumenter {
       traceId: traceId,
       traceFlags: 0,
     };
-    const span = new MockTracingSpan(name, spanContext, tracingContext, spanOptions);
+    const span = new MockTracingSpan(
+      name,
+      spanContext.traceId,
+      spanContext.spanId,
+      tracingContext,
+      spanOptions
+    );
     let context: TracingContext = new MockContext(tracingContext);
     context = context.setValue(spanKey, span);
 
@@ -76,7 +81,7 @@ export class MockInstrumenter implements Instrumenter {
     }) as ReturnType<Callback>;
   }
 
-  parseTraceparentHeader(_traceparentHeader: string): TracingSpanContext | undefined {
+  parseTraceparentHeader(_traceparentHeader: string): TracingContext | undefined {
     return;
   }
 

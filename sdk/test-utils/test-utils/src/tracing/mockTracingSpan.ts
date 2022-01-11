@@ -6,7 +6,6 @@ import {
   SpanStatus,
   TracingSpanOptions,
   TracingSpanKind,
-  TracingSpanContext,
   TracingContext,
 } from "@azure/core-tracing";
 import { spanKey } from "./mockContext";
@@ -28,23 +27,29 @@ export class MockTracingSpan implements TracingSpan {
    */
   tracingContext?: TracingContext;
 
+  private _spanContext: { spanId: string; traceId: string };
+
   /**
    *
    * @param name - Name of the current span
-   * @param spanContext - A unique, serializable identifier for a span {@link TracingSpanContext}
+   * @param spanContext - A unique, serializable identifier for a span
    * @param tracingContext - Existing or parent tracing context
    * @param spanOptions - Options to configure the newly created span {@link TracingSpanOptions}
    */
   constructor(
     name: string,
-    spanContext: TracingSpanContext,
+    traceId: string,
+    spanId: string,
     tracingContext?: TracingContext,
     spanOptions?: TracingSpanOptions
   ) {
     this.name = name;
     this.spanKind = spanOptions?.spanKind;
     this.tracingContext = tracingContext;
-    this._spanContext = spanContext;
+    this._spanContext = {
+      spanId,
+      traceId,
+    };
   }
 
   spanStatus?: SpanStatus;
@@ -72,8 +77,7 @@ export class MockTracingSpan implements TracingSpan {
     return this.tracingContext?.getValue(spanKey) as MockTracingSpan;
   }
 
-  private _spanContext: TracingSpanContext;
-  spanContext() {
+  spanContext(): { spanId: string; traceId: string } {
     return this._spanContext;
   }
 }

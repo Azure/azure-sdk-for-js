@@ -4,6 +4,7 @@
 import { OperationTracingOptions, useInstrumenter } from "@azure/core-tracing";
 import { assert } from "chai";
 import { MockInstrumenter } from "./mockInstrumenter";
+import { MockTracingSpan } from "./mockTracingSpan";
 import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
 
 /**
@@ -68,7 +69,7 @@ async function supportsTracing<
   } as Options;
   await callback.call(thisArg, newOptions);
   rootSpan.end();
-  const spanGraph = getSpanGraph(rootSpan.spanContext().traceId, instrumenter);
+  const spanGraph = getSpanGraph((rootSpan as MockTracingSpan).spanContext().traceId, instrumenter);
   assert.equal(spanGraph.roots.length, 1, "There should be just one root span");
   assert.equal(spanGraph.roots[0].name, "root");
   assert.strictEqual(
