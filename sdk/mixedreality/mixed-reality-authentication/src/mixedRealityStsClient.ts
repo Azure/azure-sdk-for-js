@@ -142,7 +142,7 @@ export class MixedRealityStsClient {
    * @param options - Operation options.
    */
   public async getToken(options: GetTokenOptions = {}): Promise<AccessToken> {
-    let internalOptions: GetTokenOptionalParams = {
+    const internalOptions: GetTokenOptionalParams = {
       ...options,
       tokenRequestOptions: {
         clientRequestId: generateCvBase(),
