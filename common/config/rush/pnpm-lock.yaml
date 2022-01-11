@@ -344,7 +344,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.6
       '@azure/core-paging': 1.2.0
-      '@azure/core-rest-pipeline': 1.3.2
+      '@azure/core-rest-pipeline': 1.4.0
       tslib: 2.3.1
     transitivePeerDependencies:
       - supports-color
@@ -355,7 +355,7 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       '@azure/core-auth': 1.3.2
-      '@azure/core-rest-pipeline': 1.3.2
+      '@azure/core-rest-pipeline': 1.4.0
       tslib: 2.3.1
     transitivePeerDependencies:
       - supports-color
@@ -366,7 +366,7 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       '@azure/core-auth': 1.3.2
-      '@azure/core-rest-pipeline': 1.3.2
+      '@azure/core-rest-pipeline': 1.4.0
       '@azure/core-util': 1.0.0-beta.1
       tslib: 2.3.1
     transitivePeerDependencies:
@@ -378,7 +378,7 @@ packages:
     engines: {node: '>=12.0.0'}
     dependencies:
       '@azure/core-auth': 1.3.2
-      '@azure/core-rest-pipeline': 1.3.2
+      '@azure/core-rest-pipeline': 1.4.0
       '@azure/core-util': 1.0.0-beta.1
       tslib: 2.3.1
     transitivePeerDependencies:
@@ -429,7 +429,7 @@ packages:
       '@azure/core-client': 1.3.2
       '@azure/core-lro': 2.2.1
       '@azure/core-paging': 1.2.0
-      '@azure/core-rest-pipeline': 1.3.2
+      '@azure/core-rest-pipeline': 1.4.0
       '@azure/core-tracing': 1.0.0-preview.12
       '@azure/logger': 1.0.3
       tslib: 2.3.1
@@ -483,7 +483,7 @@ packages:
       '@azure/core-client': 1.3.2
       '@azure/core-lro': 2.2.1
       '@azure/core-paging': 1.2.0
-      '@azure/core-rest-pipeline': 1.3.2
+      '@azure/core-rest-pipeline': 1.4.0
       tslib: 2.3.1
     transitivePeerDependencies:
       - supports-color
@@ -514,7 +514,7 @@ packages:
       '@azure/core-client': 1.3.2
       '@azure/core-lro': 2.2.1
       '@azure/core-paging': 1.2.0
-      '@azure/core-rest-pipeline': 1.3.2
+      '@azure/core-rest-pipeline': 1.4.0
       tslib: 2.3.1
     transitivePeerDependencies:
       - supports-color
@@ -568,7 +568,7 @@ packages:
       '@azure/core-auth': 1.3.2
       '@azure/core-client': 1.3.2
       '@azure/core-paging': 1.2.0
-      '@azure/core-rest-pipeline': 1.3.2
+      '@azure/core-rest-pipeline': 1.4.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger': 1.0.3
       tslib: 2.3.1
@@ -613,7 +613,7 @@ packages:
       '@azure/abort-controller': 1.0.4
       '@azure/core-asynciterator-polyfill': 1.0.0
       '@azure/core-auth': 1.3.2
-      '@azure/core-rest-pipeline': 1.3.2
+      '@azure/core-rest-pipeline': 1.4.0
       '@azure/core-tracing': 1.0.0-preview.13
       tslib: 2.3.1
     transitivePeerDependencies:
@@ -729,6 +729,23 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/core-rest-pipeline/1.4.0:
+    resolution: {integrity: sha512-M2uL9PbvhJIEMRoUad3EnXCHWLN/i0W7D7MQJ9rnIDW7iLVCteUiegdqNa2Cr1/7he/ysEXYiwaXiHmfack/6g==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-auth': 1.3.2
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.3
+      form-data: 4.0.0
+      http-proxy-agent: 4.0.1
+      https-proxy-agent: 5.0.0
+      tslib: 2.3.1
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/core-tracing/1.0.0-preview.10:
     resolution: {integrity: sha512-iIwjtMwQnsxB7cYkugMx+s4W1nfy3+pT/ceo+uW1fv4YDgYe84nh+QP0fEC9IH/3UATLSWbIBemdMHzk2APUrw==}
     engines: {node: '>=8.0.0'}
@@ -794,7 +811,7 @@ packages:
       '@azure/core-auth': 1.3.2
       '@azure/core-client': 1.3.2
       '@azure/core-paging': 1.2.0
-      '@azure/core-rest-pipeline': 1.3.2
+      '@azure/core-rest-pipeline': 1.4.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/core-xml': 1.0.0
       '@azure/logger': 1.0.3
@@ -924,7 +941,7 @@ packages:
       '@azure/abort-controller': 1.0.4
       '@azure/core-auth': 1.3.2
       '@azure/core-client': 1.3.2
-      '@azure/core-rest-pipeline': 1.3.2
+      '@azure/core-rest-pipeline': 1.4.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/core-util': 1.0.0-beta.1
       '@azure/logger': 1.0.3
@@ -1659,6 +1676,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -3155,7 +3173,7 @@ packages:
 
   /core-js/2.6.12:
     resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==}
-    deprecated: core-js@<3.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
+    deprecated: core-js@<3.4 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
     requiresBuild: true
     dev: false
 
@@ -7213,6 +7231,7 @@ packages:
 
   /source-map-resolve/0.5.3:
     resolution: {integrity: sha512-Htz+RnsXWk5+P2slx5Jh3Q66vhQj1Cllm0zvnaY98+NFx+Dv2CF/f5O/t8x+KaNdrdIAsruNzoh/KpialbqAnw==}
+    deprecated: See https://github.com/lydell/source-map-resolve#deprecated
     dependencies:
       atob: 2.1.2
       decode-uri-component: 0.2.0
@@ -7230,6 +7249,7 @@ packages:
 
   /source-map-url/0.4.1:
     resolution: {integrity: sha512-cPiFOTLUKvJFIg4SKVScy4ilPPW6rFgMgfuZJPNoDuMs3nC1HbMUycBoJw77xFIp6z1UJQJOfx6C9GMH80DiTw==}
+    deprecated: See https://github.com/lydell/source-map-url#deprecated
     dev: false
 
   /source-map/0.5.7:
@@ -9202,7 +9222,7 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-2ZTazs3FCqlUoZm0svStZ0fihgqOREebNXNXOQguP/IYxVa+LdmNM7UkouVO0WbVDo6c3yWByJkhJopxXadTcw==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-t3TXBd/Fxm80E+cWuS3tQiUdSUeaEtul7+exkY4rNj9ecjK93FsfYTQ4a5FpR2WcEecOKQYXLYBfz4JgODQlbw==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
@@ -12172,10 +12192,11 @@ packages:
     dev: false
 
   file:projects/mixed-reality-authentication.tgz:
-    resolution: {integrity: sha512-w2qqeee2O2OvZ9g7vJUYsPsFVIb2Cg0cMMIbdClkyiFSaffz2naAKkmkulR5FDfzoK3Eka/J4sAb5RugzoEQXw==, tarball: file:projects/mixed-reality-authentication.tgz}
+    resolution: {integrity: sha512-SH4cOGbw+tfLopwdoSKmEUqgqN4F4AOffPyvlDwfvLFdAEUghpmPuFs2CsS2vQ2noYOPag3pwwBAATTD9ycn4g==, tarball: file:projects/mixed-reality-authentication.tgz}
     name: '@rush-temp/mixed-reality-authentication'
     version: 0.0.0
     dependencies:
+      '@azure/core-rest-pipeline': 1.4.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@microsoft/api-extractor': 7.18.19
       '@types/chai': 4.2.22
