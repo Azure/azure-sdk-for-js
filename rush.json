@@ -1225,6 +1225,11 @@
       "packageName": "@azure/arm-imagebuilder",
       "projectFolder": "sdk/imagebuilder/arm-imagebuilder",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-communication",
+      "projectFolder": "sdk/communication/arm-communication",
+      "versionPolicyName": "management"
     }
   ]
 }
