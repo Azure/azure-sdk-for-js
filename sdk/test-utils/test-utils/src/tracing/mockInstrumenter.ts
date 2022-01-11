@@ -43,7 +43,7 @@ export class MockInstrumenter implements Instrumenter {
     const parentSpan = tracingContext.getValue(spanKey) as MockTracingSpan | undefined;
     let traceId;
     if (parentSpan) {
-      traceId = parentSpan.spanContext().traceId;
+      traceId = parentSpan.traceId;
     } else {
       traceId = this.getNextTraceId();
     }

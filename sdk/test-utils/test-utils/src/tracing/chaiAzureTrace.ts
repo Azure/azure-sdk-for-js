@@ -69,7 +69,7 @@ async function supportsTracing<
   } as Options;
   await callback.call(thisArg, newOptions);
   rootSpan.end();
-  const spanGraph = getSpanGraph((rootSpan as MockTracingSpan).spanContext().traceId, instrumenter);
+  const spanGraph = getSpanGraph((rootSpan as MockTracingSpan).traceId, instrumenter);
   assert.equal(spanGraph.roots.length, 1, "There should be just one root span");
   assert.equal(spanGraph.roots[0].name, "root");
   assert.strictEqual(
@@ -96,22 +96,22 @@ async function supportsTracing<
  */
 function getSpanGraph(traceId: string, instrumenter: MockInstrumenter): SpanGraph {
   const traceSpans = instrumenter.startedSpans.filter((span) => {
-    return span.spanContext().traceId === traceId;
+    return span.traceId === traceId;
   });
 
   const roots: SpanGraphNode[] = [];
   const nodeMap: Map<string, SpanGraphNode> = new Map<string, SpanGraphNode>();
 
   for (const span of traceSpans) {
-    const spanId = span.spanContext().spanId;
+    const spanId = span.spanId;
     const node: SpanGraphNode = {
       name: span.name,
       children: [],
     };
     nodeMap.set(spanId, node);
 
-    if (span.parentSpan()?.spanContext().spanId) {
-      const parentSpan = span.parentSpan()?.spanContext().spanId;
+    if (span.parentSpan()?.spanId) {
+      const parentSpan = span.parentSpan()?.spanId;
       const parent = nodeMap.get(parentSpan!);
       if (!parent) {
         throw new Error(

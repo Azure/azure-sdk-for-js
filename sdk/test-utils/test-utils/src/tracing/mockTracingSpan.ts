@@ -27,7 +27,15 @@ export class MockTracingSpan implements TracingSpan {
    */
   tracingContext?: TracingContext;
 
-  private _spanContext: { spanId: string; traceId: string };
+  /**
+   * The generated ID of the span within a given trace
+   */
+  spanId: string;
+
+  /**
+   * The ID of the trace this span belongs to
+   */
+  traceId: string;
 
   /**
    *
@@ -46,10 +54,8 @@ export class MockTracingSpan implements TracingSpan {
     this.name = name;
     this.spanKind = spanOptions?.spanKind;
     this.tracingContext = tracingContext;
-    this._spanContext = {
-      spanId,
-      traceId,
-    };
+    this.traceId = traceId;
+    this.spanId = spanId;
   }
 
   spanStatus?: SpanStatus;
@@ -75,9 +81,5 @@ export class MockTracingSpan implements TracingSpan {
 
   parentSpan(): MockTracingSpan | undefined {
     return this.tracingContext?.getValue(spanKey) as MockTracingSpan;
-  }
-
-  spanContext(): { spanId: string; traceId: string } {
-    return this._spanContext;
   }
 }
