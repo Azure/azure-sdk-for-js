@@ -13,6 +13,9 @@ import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type ArtifactManifestOrder = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
+
+// @public
 export interface ArtifactManifestPlatform {
     readonly architecture?: string;
     readonly digest: string;
@@ -33,9 +36,12 @@ export interface ArtifactManifestProperties {
     readonly registryLoginServer: string;
     readonly relatedArtifacts: ArtifactManifestPlatform[];
     readonly repositoryName: string;
-    readonly size?: number;
+    readonly sizeInBytes?: number;
     readonly tags: string[];
 }
+
+// @public
+export type ArtifactTagOrder = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
 // @public
 export interface ArtifactTagProperties {
@@ -162,7 +168,7 @@ export enum KnownContainerRegistryAudience {
 
 // @public
 export interface ListManifestPropertiesOptions extends OperationOptions {
-    orderBy?: ManifestOrderBy;
+    order?: ArtifactManifestOrder;
 }
 
 // @public
@@ -171,11 +177,8 @@ export interface ListRepositoriesOptions extends OperationOptions {
 
 // @public
 export interface ListTagPropertiesOptions extends OperationOptions {
-    orderBy?: TagOrderBy;
+    order?: ArtifactTagOrder;
 }
-
-// @public
-export type ManifestOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
 // @public
 export interface ManifestPageResponse extends Array<ArtifactManifestProperties> {
@@ -200,9 +203,6 @@ export interface RegistryArtifact {
 export interface RepositoryPageResponse extends Array<string> {
     continuationToken?: string;
 }
-
-// @public
-export type TagOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
 // @public
 export interface TagPageResponse extends Array<ArtifactTagProperties> {
