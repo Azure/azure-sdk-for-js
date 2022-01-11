@@ -13,7 +13,7 @@
 **What are the possible designs available to address the problem**
 
 
-**If there are more than one possible design, why did you choose the one in this PR?**
+**If there are more than one possible design, why was the one in this PR chosen?**
 
 
 **Does this PR needs any fixes in the SDK Generator?** _(If so, create an Issue in the [Autorest/typescript](https://github.com/Azure/autorest.typescript) repository and link it here)_
