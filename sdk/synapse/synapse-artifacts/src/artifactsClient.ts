@@ -10,6 +10,7 @@ import * as coreAuth from "@azure/core-auth";
 import {
   KqlScriptsImpl,
   KqlScriptOperationsImpl,
+  MetastoreImpl,
   SparkConfigurationOperationsImpl,
   BigDataPoolsImpl,
   DataFlowOperationsImpl,
@@ -33,6 +34,7 @@ import {
 import {
   KqlScripts,
   KqlScriptOperations,
+  Metastore,
   SparkConfigurationOperations,
   BigDataPools,
   DataFlowOperations,
@@ -72,6 +74,7 @@ export class ArtifactsClient extends ArtifactsClientContext {
     super(credentials, endpoint, options);
     this.kqlScripts = new KqlScriptsImpl(this);
     this.kqlScriptOperations = new KqlScriptOperationsImpl(this);
+    this.metastore = new MetastoreImpl(this);
     this.sparkConfigurationOperations = new SparkConfigurationOperationsImpl(
       this
     );
@@ -99,6 +102,7 @@ export class ArtifactsClient extends ArtifactsClientContext {
 
   kqlScripts: KqlScripts;
   kqlScriptOperations: KqlScriptOperations;
+  metastore: Metastore;
   sparkConfigurationOperations: SparkConfigurationOperations;
   bigDataPools: BigDataPools;
   dataFlowOperations: DataFlowOperations;
