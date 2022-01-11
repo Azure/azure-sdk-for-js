@@ -5,10 +5,10 @@ languages:
 products:
   - azure
   - azure-container-registry
-urlFragment: container-registry-typescript-beta
+urlFragment: container-registry-typescript
 ---
 
-# Azure Container Registry client library samples for TypeScript (Beta)
+# Azure Container Registry client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure Container Registry in some common scenarios.
 
@@ -72,11 +72,11 @@ npx cross-env CONTAINER_REGISTRY_ENDPOINT="<container registry endpoint>" node d
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[containerregistryclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/containerRegistryClient.ts
-[anonymouslisttags]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/anonymousListTags.ts
-[deleteimages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/deleteImages.ts
-[repositoryandartifact]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/repositoryAndArtifact.ts
-[setimageproperties]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1-beta/typescript/src/setImageProperties.ts
+[containerregistryclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1/typescript/src/containerRegistryClient.ts
+[anonymouslisttags]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1/typescript/src/anonymousListTags.ts
+[deleteimages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1/typescript/src/deleteImages.ts
+[repositoryandartifact]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1/typescript/src/repositoryAndArtifact.ts
+[setimageproperties]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/samples/v1/typescript/src/setImageProperties.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/container-registry
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecontainerregistry]: https://docs.microsoft.com/azure/container-registry/container-registry-get-started-portal
