@@ -27,10 +27,7 @@ export async function main() {
   );
 
   const changeFeedEvents: BlobChangeFeedEvent[] = [];
-  const firstPage = await changeFeedClient
-    .listChanges()
-    .byPage({ maxPageSize: 10 })
-    .next();
+  const firstPage = await changeFeedClient.listChanges().byPage({ maxPageSize: 10 }).next();
   for (const event of firstPage.value.events) {
     changeFeedEvents.push(event);
   }

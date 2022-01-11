@@ -43,7 +43,7 @@ async function main() {
     "prefix1/b2",
     "prefix2/sub1/c",
     "prefix2/sub1/d",
-    "prefix2/sub1/e"
+    "prefix2/sub1/e",
   ]) {
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     const { requestId } = await blockBlobClient.upload(content, contentByteLength);

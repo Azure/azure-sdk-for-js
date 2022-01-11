@@ -34,8 +34,8 @@ async function main() {
     userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" }, // Customized telemetry string
     keepAliveOptions: {
       // Keep alive is enabled by default, disable keep alive by setting false
-      enable: false
-    }
+      enable: false,
+    },
   });
 
   const blobServiceClient = new BlobServiceClient(
@@ -64,7 +64,7 @@ async function main() {
     await blockBlobClient.uploadFile(localFilePath, {
       blockSize: 4 * 1024 * 1024, // 4MB block size
       concurrency: 20, // 20 concurrency
-      onProgress: (ev) => console.log(ev)
+      onProgress: (ev) => console.log(ev),
     });
     console.log("Successfully uploaded file:", blockBlobClient.name);
   } catch (err) {
@@ -78,7 +78,7 @@ async function main() {
   try {
     await blockBlobClient.uploadStream(fs.createReadStream(localFilePath), 4 * 1024 * 1024, 20, {
       abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-      onProgress: (ev) => console.log(ev)
+      onProgress: (ev) => console.log(ev),
     });
     console.log("uploadStream succeeds");
   } catch (err) {
@@ -107,7 +107,7 @@ async function main() {
       abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
       blockSize: 4 * 1024 * 1024, // 4MB block size
       concurrency: 20, // 20 concurrency
-      onProgress: (ev) => console.log(ev)
+      onProgress: (ev) => console.log(ev),
     });
     console.log("downloadToBuffer succeeds");
   } catch (err) {

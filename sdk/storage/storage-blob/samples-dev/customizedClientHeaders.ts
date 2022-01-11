@@ -20,7 +20,7 @@ import {
   BaseRequestPolicy,
   WebResource,
   RequestPolicy,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "@azure/storage-blob";
 
 // Load the .env file if it exists
@@ -83,10 +83,7 @@ async function main() {
     pipeline
   );
 
-  const result = await blobServiceClient
-    .listContainers()
-    .byPage()
-    .next();
+  const result = await blobServiceClient.listContainers().byPage().next();
 
   if (result.done) {
     throw new Error("Expected at least one page of containers.");

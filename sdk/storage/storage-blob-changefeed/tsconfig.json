@@ -25,5 +25,10 @@
     }
   },
   "compileOnSave": true,
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts", "../storage-internal-avro/**/*.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts",
+    "../storage-internal-avro/**/*.ts"
+  ]
 }

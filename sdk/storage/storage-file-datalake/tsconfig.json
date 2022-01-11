@@ -9,5 +9,10 @@
       "@azure/storage-file-datalake": ["./src/index"]
     }
   },
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "./samples-dev/**/*.ts", "../storage-common/**/*.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.ts",
+    "./samples-dev/**/*.ts",
+    "../storage-common/**/*.ts"
+  ]
 }

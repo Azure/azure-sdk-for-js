@@ -25,7 +25,7 @@ async function main() {
   const pipeline = newPipeline(sharedKeyCredential, {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     retryOptions: { maxTries: 4 }, // Retry options
-    userAgentOptions: { userAgentPrefix: "Sample V1.0.0" } // Customized telemetry string
+    userAgentOptions: { userAgentPrefix: "Sample V1.0.0" }, // Customized telemetry string
   });
 
   // List containers
