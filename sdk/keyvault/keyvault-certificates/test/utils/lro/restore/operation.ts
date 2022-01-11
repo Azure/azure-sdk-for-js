@@ -95,7 +95,7 @@ async function cancel(this: RestoreCertificateBackupPollOperation): Promise<neve
  */
 function toString(this: RestoreCertificateBackupPollOperation): string {
   return JSON.stringify({
-    state: this.state
+    state: this.state,
   });
 }
 
@@ -108,10 +108,10 @@ export function makeRestoreCertificateBackupPollOperation(
 ): RestoreCertificateBackupPollOperation {
   return {
     state: {
-      ...state
+      ...state,
     },
     update,
     cancel,
-    toString
+    toString,
   };
 }

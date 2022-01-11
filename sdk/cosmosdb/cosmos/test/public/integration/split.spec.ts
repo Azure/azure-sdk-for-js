@@ -12,9 +12,7 @@ const splitError = new Error("Fake Partition Split") as any;
 splitError.code = 410;
 splitError.substatus = SubStatusCodes.PartitionKeyRangeGone;
 
-const generateDocuments = function(
-  docSize: number
-): {
+const generateDocuments = function (docSize: number): {
   id: string;
 }[] {
   const docs = [];
@@ -29,7 +27,7 @@ const documentDefinitions = generateDocuments(20);
 describe("Partition Splits", () => {
   let container: Container;
 
-  before(async function() {
+  before(async function () {
     await removeAllDatabases();
     container = await getTestContainer(
       "Partition Splits",
@@ -37,8 +35,8 @@ describe("Partition Splits", () => {
       {
         id: "partitionSplits",
         partitionKey: {
-          paths: ["/id"]
-        }
+          paths: ["/id"],
+        },
       },
       { offerThroughput: 25100 }
     );
@@ -66,13 +64,13 @@ describe("Partition Splits", () => {
             partitionKeyRanges.add(partitionKeyRangeId);
           }
           return next(context);
-        }
-      }
+        },
+      },
     ];
     const client = new CosmosClient({
       ...options,
       plugins,
-      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false },
     } as any);
     const { resources } = await client
       .database(container.database.id)
@@ -101,13 +99,13 @@ describe("Partition Splits", () => {
             throw error;
           }
           return next(context);
-        }
-      }
+        },
+      },
     ];
     const client = new CosmosClient({
       ...options,
       plugins,
-      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false },
     } as any);
 
     // fetchAll()

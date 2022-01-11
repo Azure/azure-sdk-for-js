@@ -7,7 +7,7 @@ import {
   ServiceBusMessage,
   delay,
   ProcessErrorArgs,
-  ServiceBusSender
+  ServiceBusSender,
 } from "../../src";
 import { TestClientType } from "../public/utils/testUtils";
 import chai from "chai";
@@ -15,7 +15,7 @@ import chaiAsPromised from "chai-as-promised";
 import { getEntityNameFromConnectionString } from "../../src/constructorHelpers";
 import {
   ServiceBusClientForTests,
-  createServiceBusClientForTests
+  createServiceBusClientForTests,
 } from "../public/utils/testutils2";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -70,7 +70,7 @@ describe("Smoke tests", () => {
         },
         async processError(args: ProcessErrorArgs): Promise<void> {
           errors.push(args.error.message);
-        }
+        },
       });
 
       await waitAndValidate("Queue, peek/lock", receivedBodies, errors, receiver);
@@ -142,7 +142,7 @@ describe("Smoke tests", () => {
         },
         async processError(args: ProcessErrorArgs): Promise<void> {
           errors.push(args.error.message);
-        }
+        },
       });
 
       await waitAndValidate("Queue, receiveAndDelete", receivedBodies, errors, receiver);
@@ -225,7 +225,7 @@ describe("Smoke tests", () => {
         },
         async processError(args: ProcessErrorArgs): Promise<void> {
           errors.push(args.error.message);
-        }
+        },
       });
 
       await waitAndValidate("Subscription, peek/lock", receivedBodies, errors, receiver);
@@ -249,7 +249,7 @@ describe("Smoke tests", () => {
         },
         async processError(args: ProcessErrorArgs): Promise<void> {
           errors.push(args.error.message);
-        }
+        },
       });
 
       await waitAndValidate("Subscription, receive and delete", receivedBodies, errors, receiver);
@@ -362,7 +362,7 @@ describe("Smoke tests", () => {
         },
         async processError(args: ProcessErrorArgs): Promise<void> {
           errors.push(args.error.message);
-        }
+        },
       });
 
       await waitAndValidate(
@@ -377,7 +377,7 @@ describe("Smoke tests", () => {
       const sessionId = Date.now().toString();
       const receiver = serviceBusClient.test.addToCleanup(
         await serviceBusClient.acceptSession(queue, sessionId, {
-          receiveMode: "receiveAndDelete"
+          receiveMode: "receiveAndDelete",
         })
       );
 
@@ -398,7 +398,7 @@ describe("Smoke tests", () => {
         },
         async processError(args: ProcessErrorArgs): Promise<void> {
           errors.push(args.error.message);
-        }
+        },
       });
 
       await waitAndValidate(
@@ -442,7 +442,7 @@ describe("Smoke tests", () => {
     method: "single" | "array" | "batch" = "single"
   ): Promise<void> {
     const message: ServiceBusMessage = {
-      body
+      body,
     };
 
     if (sessionId) {

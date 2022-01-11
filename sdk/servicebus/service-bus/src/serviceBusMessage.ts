@@ -9,7 +9,7 @@ import {
   DeliveryAnnotations,
   MessageAnnotations,
   uuid_to_string,
-  Message as RheaMessage
+  Message as RheaMessage,
 } from "rhea-promise";
 import { defaultDataTransformer } from "./dataTransformer";
 import { messageLogger as logger } from "./log";
@@ -24,7 +24,7 @@ export enum DispositionType {
   complete = "complete",
   deadletter = "deadletter",
   abandon = "abandon",
-  defer = "defer"
+  defer = "defer",
 }
 
 /**
@@ -286,7 +286,7 @@ export function toRheaMessage(
   if (isAmqpAnnotatedMessage(msg)) {
     amqpMsg = {
       ...AmqpAnnotatedMessage.toRheaMessage(msg),
-      body: encoder.encode(msg.body, msg.bodyType ?? "data")
+      body: encoder.encode(msg.body, msg.bodyType ?? "data"),
     };
   } else {
     let bodyType: "data" | "sequence" | "value" = "data";
@@ -318,7 +318,7 @@ export function toRheaMessage(
 
     amqpMsg = {
       body: encoder.encode(msg.body, bodyType),
-      message_annotations: {}
+      message_annotations: {},
     };
 
     amqpMsg.ttl = msg.timeToLive;
@@ -522,7 +522,7 @@ export function fromRheaMessage(
 ): ServiceBusReceivedMessage {
   if (!rheaMessage) {
     rheaMessage = {
-      body: undefined
+      body: undefined,
     };
   }
 
@@ -532,7 +532,7 @@ export function fromRheaMessage(
   );
 
   const sbmsg: ServiceBusMessage = {
-    body: body
+    body: body,
   };
 
   if (rheaMessage.application_properties != null) {
@@ -582,11 +582,9 @@ export function fromRheaMessage(
     }
   }
 
-  type PartialWritable<T> = Partial<
-    {
-      -readonly [P in keyof T]: T[P];
-    }
-  >;
+  type PartialWritable<T> = Partial<{
+    -readonly [P in keyof T]: T[P];
+  }>;
   const props: PartialWritable<ServiceBusReceivedMessage> & {
     state: "active" | "deferred" | "scheduled";
   } = { state: "active" };
@@ -666,7 +664,7 @@ export function fromRheaMessage(
     deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason as string | undefined,
     deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription as
       | string
-      | undefined
+      | undefined,
   };
 
   logger.verbose("AmqpMessage to ServiceBusReceivedMessage: %O", rcvdsbmsg);
@@ -940,7 +938,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
       sessionId: this.sessionId,
       timeToLive: this.timeToLive,
       to: this.to,
-      applicationProperties: this.applicationProperties
+      applicationProperties: this.applicationProperties,
       // Will be required later for implementing Transactions
       // viaPartitionKey: this.viaPartitionKey
     };
@@ -972,7 +970,7 @@ function convertDatesToNumbers<T = unknown>(thing: T): T {
     [0, 'foo', new Date(), { nested: new Date()}]
   */
   if (Array.isArray(thing)) {
-    return (thing.map(convertDatesToNumbers) as unknown) as T;
+    return thing.map(convertDatesToNumbers) as unknown as T;
   }
 
   /*

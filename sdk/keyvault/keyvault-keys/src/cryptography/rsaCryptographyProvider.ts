@@ -21,13 +21,13 @@ import {
   SignOptions,
   SignResult,
   UnwrapResult,
-  WrapResult
+  WrapResult,
 } from "..";
 import { convertJWKtoPEM } from "./conversions";
 import {
   CryptographyProvider,
   CryptographyProviderOperation,
-  LocalCryptographyUnsupportedError
+  LocalCryptographyUnsupportedError,
 } from "./models";
 
 /**
@@ -57,7 +57,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
       result: publicEncrypt(
         { key: keyPEM, padding: padding },
         Buffer.from(encryptParameters.plaintext)
-      )
+      ),
     });
   }
 
@@ -83,7 +83,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     return Promise.resolve({
       algorithm: algorithm as KeyWrapAlgorithm,
       result: publicEncrypt({ key: keyPEM, padding }, Buffer.from(keyToWrap)),
-      keyID: this.key.kid
+      keyID: this.key.kid,
     });
   }
 
@@ -140,7 +140,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     const verifier = createVerify(algorithm, data);
     return Promise.resolve({
       result: verifier.verify(keyPEM, Buffer.from(signature)),
-      keyID: this.key.kid
+      keyID: this.key.kid,
     });
   }
 
@@ -160,7 +160,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     "PS384",
     "RS384",
     "PS512",
-    "RS512"
+    "RS512",
   ];
 
   /**
@@ -169,7 +169,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
   private applicableOperations: CryptographyProviderOperation[] = [
     "encrypt",
     "wrapKey",
-    "verifyData"
+    "verifyData",
   ];
 
   /**
@@ -182,7 +182,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     PS384: "SHA384",
     RS384: "SHA384",
     PS512: "SHA512",
-    RS512: "SHA512"
+    RS512: "SHA512",
   };
 
   private ensureValid(): void {

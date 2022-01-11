@@ -18,7 +18,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
       setTestMode(mode);
     });
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       recorder = new Recorder(this.currentTest);
       client = new ServiceClient({ baseUri: getTestServerUrl() });
       recorder.configureClient(client);
@@ -47,7 +47,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             "random-1",
             `random-${Math.ceil(Math.random() * 1000 + 1000)}`
           )}`,
-          method: "GET"
+          method: "GET",
         },
         { val: "I am the answer!" }
       );
@@ -55,7 +55,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         client,
         {
           path: `/sample_response/${recorder.variable("random-2", "known-string")}`,
-          method: "GET"
+          method: "GET",
         },
         { val: "I am the answer!" }
       );
@@ -77,7 +77,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             path: `/sample_response`,
             body,
             method: "GET",
-            headers: [{ headerName: "Content-Type", value: "text/plain" }]
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
           { val: "abc" }
         );
@@ -89,7 +89,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
 
         const testHeader = {
           headerName: `X-Test-Header-${isPlaybackMode() ? "Playback" : "Record"}`,
-          value: isPlaybackMode() ? "playback" : "record"
+          value: isPlaybackMode() ? "playback" : "record",
         };
 
         await makeRequestAndVerifyResponse(
@@ -98,7 +98,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             path: `/sample_response`,
             body: "body",
             method: "GET",
-            headers: [{ headerName: "Content-Type", value: "text/plain" }, testHeader]
+            headers: [{ headerName: "Content-Type", value: "text/plain" }, testHeader],
           },
           { val: "abc" }
         );

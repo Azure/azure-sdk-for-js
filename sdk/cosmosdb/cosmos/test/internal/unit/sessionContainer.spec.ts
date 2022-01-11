@@ -6,11 +6,11 @@ import { CosmosHeaders } from "../../../src/queryExecutionContext/CosmosHeaders"
 import { SessionContainer } from "../../../src/session/sessionContainer";
 import { SessionContext } from "../../../src/session/SessionContext";
 
-describe("SessionContainer", function() {
+describe("SessionContainer", function () {
   const collectionLink = "dbs/testDatabase/colls/testCollection";
   const collectionRid = "-EdBAKsiRLM=";
 
-  it("set/get/delete", function() {
+  it("set/get/delete", function () {
     const sc = new SessionContainer();
 
     const tokenString = "1:1#100#1=20#2=5#3=30";
@@ -20,7 +20,7 @@ describe("SessionContainer", function() {
       resourceId: collectionRid,
       resourceAddress: "/" + collectionLink + "/",
       resourceType: ResourceType.item,
-      operationType: OperationType.Create
+      operationType: OperationType.Create,
     };
 
     const resHeadersNameBased: CosmosHeaders = {};

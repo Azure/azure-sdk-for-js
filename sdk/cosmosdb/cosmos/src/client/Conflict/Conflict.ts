@@ -46,7 +46,7 @@ export class Conflict {
       path,
       resourceType: ResourceType.user,
       resourceId: id,
-      options
+      options,
     });
     return new ConflictResponse(response.result, response.headers, response.code, this);
   }
@@ -56,9 +56,8 @@ export class Conflict {
    */
   public async delete(options?: RequestOptions): Promise<ConflictResponse> {
     if (this.partitionKey === undefined) {
-      const {
-        resource: partitionKeyDefinition
-      } = await this.container.readPartitionKeyDefinition();
+      const { resource: partitionKeyDefinition } =
+        await this.container.readPartitionKeyDefinition();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
     const path = getPathFromLink(this.url);
@@ -69,7 +68,7 @@ export class Conflict {
       resourceType: ResourceType.conflicts,
       resourceId: id,
       options,
-      partitionKey: this.partitionKey
+      partitionKey: this.partitionKey,
     });
     return new ConflictResponse(response.result, response.headers, response.code, this);
   }

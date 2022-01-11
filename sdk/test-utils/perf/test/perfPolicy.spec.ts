@@ -7,7 +7,7 @@ import {
   WebResource,
   HttpOperationResponse,
   HttpHeaders,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "@azure/core-http";
 
 interface PerfPolicyOptions {
@@ -17,7 +17,7 @@ interface PerfPolicyOptions {
 const defaultResponse = {
   status: 200,
   request: new WebResource(),
-  headers: new HttpHeaders()
+  headers: new HttpHeaders(),
 };
 
 /**
@@ -29,8 +29,8 @@ export class PerfPolicyTest extends PerfTest<PerfPolicyOptions> {
     url: {
       required: true,
       description: "URL that will replace any request's original targeted URL",
-      shortName: "u"
-    }
+      shortName: "u",
+    },
   };
   async run(): Promise<void> {
     const urlOption = this.parsedOptions.url.value;
@@ -65,7 +65,7 @@ export class PerfPolicyTest extends PerfTest<PerfPolicyOptions> {
         }
 
         return defaultResponse;
-      }
+      },
     };
 
     const policy = new PerfPolicy(

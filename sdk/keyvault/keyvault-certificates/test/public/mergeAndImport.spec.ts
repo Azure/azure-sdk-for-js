@@ -25,7 +25,7 @@ describe("Certificates client - merge and import certificates", () => {
   let credential: ClientSecretCredential;
   let secretClient: SecretClient;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     const authentication = await authenticate(this);
     suffix = authentication.suffix;
     client = authentication.client;
@@ -36,20 +36,20 @@ describe("Certificates client - merge and import certificates", () => {
     secretClient = new SecretClient(keyVaultUrl, credential);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("can import a certificate from a certificate's non base64 secret value", async function(this: Context) {
+  it("can import a certificate from a certificate's non base64 secret value", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     const createPoller = await client.beginCreateCertificate(
       certificateNames[0],
       {
         issuerName: "Self",
-        subject: "cn=MyCert"
+        subject: "cn=MyCert",
       },
       testPollerProperties
     );
@@ -62,14 +62,14 @@ describe("Certificates client - merge and import certificates", () => {
     await client.importCertificate(certificateNames[1], buffer);
   });
 
-  it("can import a certificate from a certificate's base64 secret value", async function(this: Context) {
+  it("can import a certificate from a certificate's base64 secret value", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     const createPoller = await client.beginCreateCertificate(
       certificateNames[0],
       {
         issuerName: "Self",
-        subject: "cn=MyCert"
+        subject: "cn=MyCert",
       },
       testPollerProperties
     );
@@ -81,14 +81,14 @@ describe("Certificates client - merge and import certificates", () => {
 
     await client.importCertificate(certificateNames[1], buffer, {
       policy: {
-        contentType: "application/x-pem-file"
-      }
+        contentType: "application/x-pem-file",
+      },
     });
   });
 
   // The signed certificate will never be the same, so we can't play it back.
   // This test is only designed to work on NodeJS, since we use child_process to interact with openssl.
-  it("can merge a self signed certificate", async function(this: Context): Promise<void> {
+  it("can merge a self signed certificate", async function (this: Context): Promise<void> {
     recorder.skip(
       undefined,
       "The signed certificate will never be the same, so we can't play it back."
@@ -104,7 +104,7 @@ describe("Certificates client - merge and import certificates", () => {
       {
         issuerName: "Unknown",
         certificateTransparency: false,
-        subject: "cn=MyCert"
+        subject: "cn=MyCert",
       },
       testPollerProperties
     );
@@ -123,12 +123,7 @@ ${base64Csr}
     childProcess.execSync(
       "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt"
     );
-    const base64Crt = fs
-      .readFileSync("test.crt")
-      .toString()
-      .split("\n")
-      .slice(1, -1)
-      .join("");
+    const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
 
     await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);
   });

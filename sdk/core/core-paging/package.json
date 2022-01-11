@@ -2,7 +2,7 @@
   "name": "@azure/core-paging",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "Core types for paging async iterable iterators",
   "tags": [
     "microsoft",
@@ -98,5 +98,13 @@
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "typescript": "~4.2.0"
+  },
+  "//sampleConfiguration": {
+    "skipFolder": true,
+    "disableDocsMs": true,
+    "productName": "Azure SDK Core",
+    "productSlugs": [
+      "azure"
+    ]
   }
 }

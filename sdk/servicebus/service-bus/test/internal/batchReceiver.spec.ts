@@ -15,13 +15,13 @@ import {
   getRandomTestClientTypeWithNoSessions,
   EntityName,
   getRandomTestClientType,
-  getRandomTestClientTypeWithSessions
+  getRandomTestClientTypeWithSessions,
 } from "../public/utils/testutils2";
 import { AbortController } from "@azure/abort-controller";
 import { Receiver } from "rhea-promise";
 import {
   ServiceBusSessionReceiver,
-  ServiceBusSessionReceiverImpl
+  ServiceBusSessionReceiverImpl,
 } from "../../src/receivers/sessionReceiver";
 import { LinkEntity } from "../../src/core/linkEntity";
 import { Constants, StandardAbortMessage } from "@azure/core-amqp";
@@ -65,7 +65,7 @@ function afterEachTest(): Promise<void> {
 }
 
 describe("Batching Receiver", () => {
-  describe("Batch Receiver - Settle message", function(): void {
+  describe("Batch Receiver - Settle message", function (): void {
     const maxDeliveryCount = 10;
 
     before(() => {
@@ -110,15 +110,18 @@ describe("Batching Receiver", () => {
       await testPeekMsgsLength(receiver, 0);
     }
 
-    it(noSessionTestClientType + ": complete() removes message", async function(): Promise<void> {
+    it(noSessionTestClientType + ": complete() removes message", async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testComplete();
     });
 
-    it(withSessionTestClientType + ": complete() removes message", async function(): Promise<void> {
-      await beforeEachTest(withSessionTestClientType);
-      await testComplete();
-    });
+    it(
+      withSessionTestClientType + ": complete() removes message",
+      async function (): Promise<void> {
+        await beforeEachTest(withSessionTestClientType);
+        await testComplete();
+      }
+    );
 
     async function testAbandon(): Promise<void> {
       const testMessages = entityNames.usesSessions
@@ -146,7 +149,7 @@ describe("Batching Receiver", () => {
 
     it(
       noSessionTestClientType + ": abandon() retains message with incremented deliveryCount",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testAbandon();
       }
@@ -154,7 +157,7 @@ describe("Batching Receiver", () => {
 
     it(
       withSessionTestClientType + ": abandon() retains message with incremented deliveryCount",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testAbandon();
       }
@@ -214,7 +217,7 @@ describe("Batching Receiver", () => {
 
     it(
       noSessionTestClientType + ": Multiple abandons until maxDeliveryCount.",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testAbandonMsgsTillMaxDeliveryCount();
       }
@@ -222,7 +225,7 @@ describe("Batching Receiver", () => {
 
     it(
       withSessionTestClientType + ": Multiple abandons until maxDeliveryCount.",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testAbandonMsgsTillMaxDeliveryCount();
       }
@@ -259,7 +262,7 @@ describe("Batching Receiver", () => {
 
     it(
       noSessionTestClientType + ": defer() moves message to deferred queue",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testDefer();
       }
@@ -267,7 +270,7 @@ describe("Batching Receiver", () => {
 
     it(
       withSessionTestClientType + ": defer() moves message to deferred queue",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testDefer();
       }
@@ -308,7 +311,7 @@ describe("Batching Receiver", () => {
 
     it(
       noSessionTestClientType + ": deadLetter() moves message to deadletter queue",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testDeadletter();
       }
@@ -316,7 +319,7 @@ describe("Batching Receiver", () => {
 
     it(
       withSessionTestClientType + ": deadLetter() moves message to deadletter queue",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testDeadletter();
       }
@@ -372,20 +375,24 @@ describe("Batching Receiver", () => {
       await testPeekMsgsLength(receiver, 0);
     }
 
-    it(noSessionTestClientType + ": cannot settle peeked message", async function(): Promise<void> {
-      await beforeEachTest(noSessionTestClientType);
-      await testPeek();
-    });
+    it(
+      noSessionTestClientType + ": cannot settle peeked message",
+      async function (): Promise<void> {
+        await beforeEachTest(noSessionTestClientType);
+        await testPeek();
+      }
+    );
 
-    it(withSessionTestClientType + ": cannot settle peeked message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(withSessionTestClientType);
-      await testPeek();
-    });
+    it(
+      withSessionTestClientType + ": cannot settle peeked message",
+      async function (): Promise<void> {
+        await beforeEachTest(withSessionTestClientType);
+        await testPeek();
+      }
+    );
   });
 
-  describe("Batch Receiver - Settle deadlettered message", function(): void {
+  describe("Batch Receiver - Settle deadlettered message", function (): void {
     before(() => {
       serviceBusClient = createServiceBusClientForTests();
     });
@@ -486,7 +493,7 @@ describe("Batching Receiver", () => {
 
     it(
       anyRandomTestClientType + ": Throws error when dead lettering a dead lettered message",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(anyRandomTestClientType);
         await testDeadletter();
       }
@@ -505,7 +512,7 @@ describe("Batching Receiver", () => {
 
     it(
       anyRandomTestClientType + ": Abandon a message received from dead letter queue",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(anyRandomTestClientType);
         await testAbandon();
       }
@@ -547,14 +554,14 @@ describe("Batching Receiver", () => {
     // So, testing for non sessions at the moment, more investigation needed from service side.
     it(
       noSessionTestClientType + ": Defer a message received from dead letter queue",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testDefer();
       }
     );
   });
 
-  describe("Batch Receiver - Multiple Receiver Operations", function(): void {
+  describe("Batch Receiver - Multiple Receiver Operations", function (): void {
     before(() => {
       serviceBusClient = createServiceBusClientForTests();
     });
@@ -571,25 +578,25 @@ describe("Batching Receiver", () => {
       {
         body: "hello1",
         messageId: `test message ${Math.random()}`,
-        partitionKey: "dummy" // partitionKey is only for partitioned queue/subscription, Unpartitioned queue/subscription do not care about partitionKey.
+        partitionKey: "dummy", // partitionKey is only for partitioned queue/subscription, Unpartitioned queue/subscription do not care about partitionKey.
       },
       {
         body: "hello2",
         messageId: `test message ${Math.random()}`,
-        partitionKey: "dummy" // partitionKey is only for partitioned queue/subscription, Unpartitioned queue/subscription do not care about partitionKey.
-      }
+        partitionKey: "dummy", // partitionKey is only for partitioned queue/subscription, Unpartitioned queue/subscription do not care about partitionKey.
+      },
     ];
     const messageWithSessions: ServiceBusMessage[] = [
       {
         body: "hello1",
         messageId: `test message ${Math.random()}`,
-        sessionId: TestMessage.sessionId
+        sessionId: TestMessage.sessionId,
       },
       {
         body: "hello2",
         messageId: `test message ${Math.random()}`,
-        sessionId: TestMessage.sessionId
-      }
+        sessionId: TestMessage.sessionId,
+      },
     ];
 
     // We test for multiple receiveMessages specifically to ensure that batchingReceiver on a client is reused
@@ -629,7 +636,7 @@ describe("Batching Receiver", () => {
 
     it(
       noSessionTestClientType + ": Multiple sequential receiveMessages calls",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testSequentialReceiveBatchCalls();
       }
@@ -637,14 +644,14 @@ describe("Batching Receiver", () => {
 
     it(
       withSessionTestClientType + ":  Multiple sequential receiveMessages calls",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testSequentialReceiveBatchCalls();
       }
     );
   });
 
-  describe("Batch Receiver - Others", function(): void {
+  describe("Batch Receiver - Others", function (): void {
     before(() => {
       serviceBusClient = createServiceBusClientForTests();
     });
@@ -671,12 +678,12 @@ describe("Batching Receiver", () => {
           entityNames,
           testMessages.sessionId!,
           {
-            maxAutoLockRenewalDurationInMs: 0
+            maxAutoLockRenewalDurationInMs: 0,
           }
         );
       } else {
         receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames, {
-          maxAutoLockRenewalDurationInMs: 0
+          maxAutoLockRenewalDurationInMs: 0,
         });
       }
 
@@ -700,7 +707,7 @@ describe("Batching Receiver", () => {
           entityNames,
           testMessages.sessionId!,
           {
-            maxAutoLockRenewalDurationInMs: 0
+            maxAutoLockRenewalDurationInMs: 0,
           }
         );
       }
@@ -721,7 +728,7 @@ describe("Batching Receiver", () => {
     it(
       noSessionTestClientType +
         ": No settlement of the message is retained with incremented deliveryCount",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         await testNoSettlement();
       }
@@ -730,7 +737,7 @@ describe("Batching Receiver", () => {
     it(
       withSessionTestClientType +
         ": No settlement of the message is retained with incremented deliveryCount",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         await testNoSettlement();
       }
@@ -758,7 +765,7 @@ describe("Batching Receiver", () => {
 
     it(
       noSessionTestClientType + ": Receive n messages but queue only has m messages, where m < n",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
 
         await testAskForMore();
@@ -768,7 +775,7 @@ describe("Batching Receiver", () => {
     it(
       withSessionTestClientType +
         ": Receive n messages but subscription only has m messages, where m < n",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
 
         await testAskForMore();
@@ -777,13 +784,13 @@ describe("Batching Receiver", () => {
 
     it(
       noSessionTestClientType + ": Abort receiveDeferredMessages request on the receiver",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 1);
         try {
           await receiver.receiveDeferredMessages([Long.ZERO], {
-            abortSignal: controller.signal
+            abortSignal: controller.signal,
           });
           throw new Error(`Test failure`);
         } catch (err) {
@@ -794,13 +801,13 @@ describe("Batching Receiver", () => {
 
     it(
       withSessionTestClientType + ": Abort receiveDeferredMessages request on the receiver",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachTest(withSessionTestClientType);
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 1);
         try {
           await receiver.receiveDeferredMessages([Long.ZERO], {
-            abortSignal: controller.signal
+            abortSignal: controller.signal,
           });
           throw new Error(`Test failure`);
         } catch (err) {
@@ -811,7 +818,7 @@ describe("Batching Receiver", () => {
   });
 
   describe("Batch Receiver - disconnects", () => {
-    describe("Batch Receiver - disconnects (non-session)", function(): void {
+    describe("Batch Receiver - disconnects (non-session)", function (): void {
       before(() => {
         console.log(`Entity type: ${noSessionTestClientType}`);
         serviceBusClient = createServiceBusClientForTests();
@@ -825,7 +832,7 @@ describe("Batching Receiver", () => {
         await afterEachTest();
       });
 
-      it("can receive and settle messages after a disconnect", async function(): Promise<void> {
+      it("can receive and settle messages after a disconnect", async function (): Promise<void> {
         // Create the sender and receiver.
         await beforeEachTest(noSessionTestClientType);
 
@@ -845,7 +852,7 @@ describe("Batching Receiver", () => {
         const connectionContext = (receiver as any)["_context"];
         const refreshConnection = connectionContext.refreshConnection;
         let refreshConnectionCalled = 0;
-        connectionContext.refreshConnection = function(...args: any) {
+        connectionContext.refreshConnection = function (...args: any) {
           refreshConnectionCalled++;
           refreshConnection.apply(this, args);
         };
@@ -866,9 +873,7 @@ describe("Batching Receiver", () => {
         refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
       });
 
-      it("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
-        void
-      > {
+      it("returns messages if drain is in progress (receiveAndDelete)", async function (): Promise<void> {
         // Create the sender and receiver.
 
         testLogger.info("Before the test");
@@ -913,7 +918,7 @@ describe("Batching Receiver", () => {
             undefined,
             undefined,
             "ondetachednevercalled"
-          )
+          ),
         ]);
 
         if (typeof result === "string" && result === "ondetachednevercalled") {
@@ -947,7 +952,7 @@ describe("Batching Receiver", () => {
         );
       });
 
-      it("throws an error if drain is in progress (peekLock)", async function(): Promise<void> {
+      it("throws an error if drain is in progress (peekLock)", async function (): Promise<void> {
         // Create the sender and receiver.
         await beforeEachTest(noSessionTestClientType);
 
@@ -971,7 +976,7 @@ describe("Batching Receiver", () => {
         } catch (err) {
           assert.deepNestedInclude(err, {
             name: "Error",
-            message: "Test: fake connection failure"
+            message: "Test: fake connection failure",
           });
         }
 
@@ -987,9 +992,7 @@ describe("Batching Receiver", () => {
         messages.length.should.equal(1, "Unexpected number of messages received.");
       });
 
-      it("returns messages if receive in progress (receiveAndDelete)", async function(): Promise<
-        void
-      > {
+      it("returns messages if receive in progress (receiveAndDelete)", async function (): Promise<void> {
         // Create the sender and receiver.
         await beforeEachTest(noSessionTestClientType, "receiveAndDelete");
 
@@ -1008,7 +1011,7 @@ describe("Batching Receiver", () => {
         await sender.sendMessages(TestMessage.getSample());
 
         // Simulate a disconnect after a message has been received.
-        batchingReceiver["link"]!.once("message", function() {
+        batchingReceiver["link"]!.once("message", function () {
           setTimeout(() => {
             // Simulate a disconnect being called with a non-retryable error.
             receiverContext.connection["_connection"].idle();
@@ -1031,7 +1034,7 @@ describe("Batching Receiver", () => {
         messages2.length.should.equal(1, "Unexpected number of messages received.");
       });
 
-      it("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {
+      it("throws an error if receive is in progress (peekLock)", async function (): Promise<void> {
         // Create the sender and receiver.
         await beforeEachTest(noSessionTestClientType);
 
@@ -1071,7 +1074,7 @@ describe("Batching Receiver", () => {
       });
     });
 
-    describe("Session Batch Receiver - disconnects (sessions)", function(): void {
+    describe("Session Batch Receiver - disconnects (sessions)", function (): void {
       let sessionSender: ServiceBusSender;
       let sessionReceiver: ServiceBusSessionReceiver;
 
@@ -1106,7 +1109,7 @@ describe("Batching Receiver", () => {
         }
       });
 
-      it(`throws "session lock has expired" after a disconnect`, async function(): Promise<void> {
+      it(`throws "session lock has expired" after a disconnect`, async function (): Promise<void> {
         // Create the sender and receiver.
         await beforeEachTestInner();
 
@@ -1127,7 +1130,7 @@ describe("Batching Receiver", () => {
         const connectionContext = (sessionReceiver as any)["_context"];
         const refreshConnection = connectionContext.refreshConnection;
         let refreshConnectionCalled = 0;
-        connectionContext.refreshConnection = function(...args: any) {
+        connectionContext.refreshConnection = function (...args: any) {
           refreshConnectionCalled++;
           refreshConnection.apply(this, args);
         };
@@ -1151,9 +1154,7 @@ describe("Batching Receiver", () => {
         refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
       });
 
-      it("returns messages if drain is in progress (receiveAndDelete)", async function(): Promise<
-        void
-      > {
+      it("returns messages if drain is in progress (receiveAndDelete)", async function (): Promise<void> {
         // Create the sender and receiver.
         await beforeEachTestInner("receiveAndDelete");
 
@@ -1213,7 +1214,7 @@ describe("Batching Receiver", () => {
         }
       });
 
-      it("throws an error if drain is in progress (peekLock)", async function(): Promise<void> {
+      it("throws an error if drain is in progress (peekLock)", async function (): Promise<void> {
         // Create the sender and receiver.
         await beforeEachTestInner();
 
@@ -1234,9 +1235,8 @@ describe("Batching Receiver", () => {
         // Send a message so we have something to receive.
         await sessionSender.sendMessages(TestMessage.getSessionSample());
 
-        const { onDetachedCalledPromise: drainRequestedPromise } = causeDisconnectDuringDrain(
-          batchingReceiver
-        );
+        const { onDetachedCalledPromise: drainRequestedPromise } =
+          causeDisconnectDuringDrain(batchingReceiver);
 
         // Purposefully request more messages than what's available
         // so that the receiver will have to drain.
@@ -1247,16 +1247,14 @@ describe("Batching Receiver", () => {
         } catch (err) {
           assert.deepNestedInclude(err, {
             name: "Error",
-            message: "Test: fake connection failure"
+            message: "Test: fake connection failure",
           });
         }
 
         await drainRequestedPromise;
       });
 
-      it("returns messages if receive in progress (receiveAndDelete)", async function(): Promise<
-        void
-      > {
+      it("returns messages if receive in progress (receiveAndDelete)", async function (): Promise<void> {
         // Create the sender and receiver.
         await beforeEachTestInner("receiveAndDelete");
 
@@ -1279,7 +1277,7 @@ describe("Batching Receiver", () => {
         await sessionSender.sendMessages(TestMessage.getSessionSample());
 
         // Simulate a disconnect after a message has been received.
-        batchingReceiver["link"]!.once("message", function() {
+        batchingReceiver["link"]!.once("message", function () {
           setTimeout(() => {
             // Simulate a disconnect being called with a non-retryable error.
             receiverContext.connection["_connection"].idle();
@@ -1321,7 +1319,7 @@ describe("Batching Receiver", () => {
         }
       });
 
-      it("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {
+      it("throws an error if receive is in progress (peekLock)", async function (): Promise<void> {
         // Create the sender and receiver.
         await beforeEachTestInner();
 
@@ -1344,7 +1342,7 @@ describe("Batching Receiver", () => {
         await sessionSender.sendMessages(TestMessage.getSessionSample());
 
         // Simulate a disconnect after a message has been received.
-        batchingReceiver["link"]!.once("message", function() {
+        batchingReceiver["link"]!.once("message", function () {
           setTimeout(() => {
             // Simulate a disconnect being called with a non-retryable error.
             receiverContext.connection["_connection"].idle();
@@ -1360,7 +1358,7 @@ describe("Batching Receiver", () => {
         } catch (err) {
           assert.deepNestedInclude(err, {
             name: "ServiceBusError",
-            code: "SessionLockLost"
+            code: "SessionLockLost",
           });
         }
       });
@@ -1411,6 +1409,6 @@ function causeDisconnectDuringDrain(
   };
 
   return {
-    onDetachedCalledPromise
+    onDetachedCalledPromise,
   };
 }

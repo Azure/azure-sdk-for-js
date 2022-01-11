@@ -20,15 +20,15 @@ export async function authenticate(
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
       KEYVAULT_NAME: "keyvault_name",
-      KEYVAULT_URI: "https://keyvault_name.vault.azure.net/"
+      KEYVAULT_URI: "https://keyvault_name.vault.azure.net/",
     },
     customizationsOnRecordings: [
       (recording: any): any =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
       (recording: any): any =>
-        secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), "")
+        secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), ""),
     ],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
   };
   const recorder = record(that, recorderEnvSetup);
   const credential = new ClientSecretCredential(
@@ -36,7 +36,7 @@ export async function authenticate(
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET,
     {
-      authorityHost: env.AZURE_AUTHORITY_HOST
+      authorityHost: env.AZURE_AUTHORITY_HOST,
     }
   );
 

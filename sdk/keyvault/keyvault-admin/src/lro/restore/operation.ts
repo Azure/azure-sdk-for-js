@@ -3,13 +3,13 @@
 
 import {
   KeyVaultAdminPollOperation,
-  KeyVaultAdminPollOperationState
+  KeyVaultAdminPollOperationState,
 } from "../keyVaultAdminPoller";
 import { KeyVaultBeginRestoreOptions, KeyVaultRestoreResult } from "../../backupClientModels";
 import {
   KeyVaultClientFullRestoreOperationOptionalParams,
   KeyVaultClientRestoreStatusResponse,
-  RestoreOperation
+  RestoreOperation,
 } from "../../generated/models";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
@@ -62,7 +62,7 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
     private requestOptions: KeyVaultBeginRestoreOptions = {}
   ) {
     super(state, {
-      cancelMessage: "Cancelling the restoration full Key Vault backup is not supported."
+      cancelMessage: "Cancelling the restoration full Key Vault backup is not supported.",
     });
   }
 
@@ -112,9 +112,9 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
           folderToRestore: folderName,
           sasTokenParameters: {
             storageResourceUri: folderUri,
-            token: sasToken
-          }
-        }
+            token: sasToken,
+          },
+        },
       });
 
       this.mapState(serviceOperation);
@@ -155,7 +155,7 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
     if (state.isCompleted) {
       state.result = {
         startTime,
-        endTime
+        endTime,
       };
     }
   }

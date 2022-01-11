@@ -4,16 +4,16 @@ import { assert } from "chai";
 
 import {
   convertEventGridEventToModelType,
-  convertCloudEventToModelType
+  convertCloudEventToModelType,
 } from "../../src/eventGridClient";
 
-describe("convertEventGridEventToModelType", function() {
+describe("convertEventGridEventToModelType", function () {
   it("sets a default ID if one is not provided", () => {
     const convertedEvent = convertEventGridEventToModelType({
       dataVersion: "1.0",
       eventType: "Azure.Sdk.TestEvent",
       subject: "Test Event",
-      data: { hello: "world " }
+      data: { hello: "world " },
     });
 
     assert.isDefined(convertedEvent.id);
@@ -24,7 +24,7 @@ describe("convertEventGridEventToModelType", function() {
       dataVersion: "1.0",
       eventType: "Azure.Sdk.TestEvent",
       subject: "Test Event",
-      data: { hello: "world " }
+      data: { hello: "world " },
     });
 
     assert.isDefined(convertedEvent.eventTime);
@@ -40,7 +40,7 @@ describe("convertEventGridEventToModelType", function() {
       dataVersion: "1.0",
       eventType: "Azure.Sdk.TestEvent",
       subject: "Test Event",
-      data: { hello: "world " }
+      data: { hello: "world " },
     });
 
     assert.strictEqual(convertedEvent.id, id);
@@ -48,11 +48,11 @@ describe("convertEventGridEventToModelType", function() {
   });
 });
 
-describe("convertCloudEventToModelType", function() {
+describe("convertCloudEventToModelType", function () {
   it("sets a default ID if one is not provided", () => {
     const convertedEvent = convertCloudEventToModelType({
       source: "/azure/sdk/tests",
-      type: "Azure.Sdk.TestEvent"
+      type: "Azure.Sdk.TestEvent",
     });
 
     assert.isDefined(convertedEvent.id);
@@ -61,7 +61,7 @@ describe("convertCloudEventToModelType", function() {
   it("sets a default event time if one is not provided", () => {
     const convertedEvent = convertCloudEventToModelType({
       source: "/azure/sdk/tests",
-      type: "Azure.Sdk.TestEvent"
+      type: "Azure.Sdk.TestEvent",
     });
 
     assert.isDefined(convertedEvent.time);
@@ -75,7 +75,7 @@ describe("convertCloudEventToModelType", function() {
       id: id,
       time: time,
       source: "/azure/sdk/tests",
-      type: "Azure.Sdk.TestEvent"
+      type: "Azure.Sdk.TestEvent",
     });
 
     assert.strictEqual(convertedEvent.id, id);
@@ -92,8 +92,8 @@ describe("convertCloudEventToModelType", function() {
       type: "Azure.Sdk.TestEvent",
       extensionAttributes: {
         traceparent,
-        tracestate
-      }
+        tracestate,
+      },
     });
 
     // When converted to a model type to send over the wire, the extension attributes are promoted to be
@@ -112,7 +112,7 @@ describe("convertCloudEventToModelType", function() {
       source: "/azure/sdk/tests",
       type: "Azure.Sdk.TestEvent",
       data: binaryData,
-      datacontenttype: "application/binary"
+      datacontenttype: "application/binary",
     });
 
     assert.isUndefined(convertedEvent.data);
@@ -129,7 +129,7 @@ describe("convertCloudEventToModelType", function() {
       convertCloudEventToModelType({
         source: "/azure/sdk/tests",
         type: "Azure.Sdk.TestEvent",
-        data: binaryData
+        data: binaryData,
       });
     }, /data content type/);
   });
@@ -145,8 +145,8 @@ describe("convertCloudEventToModelType", function() {
         source: "/azure/sdk/tests",
         type: "Azure.Sdk.TestEvent",
         extensionAttributes: {
-          source: "this-is-not-allowed"
-        }
+          source: "this-is-not-allowed",
+        },
       });
     }, /invalid extension attribute name: source/);
 
@@ -155,8 +155,8 @@ describe("convertCloudEventToModelType", function() {
         source: "/azure/sdk/tests",
         type: "Azure.Sdk.TestEvent",
         extensionAttributes: {
-          MiXedCasE: "this-is-not-allowed"
-        }
+          MiXedCasE: "this-is-not-allowed",
+        },
       });
     }, /invalid extension attribute name: MiXedCasE/);
 
@@ -165,8 +165,8 @@ describe("convertCloudEventToModelType", function() {
         source: "/azure/sdk/tests",
         type: "Azure.Sdk.TestEvent",
         extensionAttributes: {
-          data_base64: "this-is-not-allowed"
-        }
+          data_base64: "this-is-not-allowed",
+        },
       });
     }, /invalid extension attribute name: data_base64/);
   });

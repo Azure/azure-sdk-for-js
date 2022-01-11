@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import { matrix } from "@azure/test-utils";
+import { matrix, getYieldedValue } from "@azure/test-utils";
 
 import { env, Recorder } from "@azure-tools/test-recorder";
 
@@ -190,9 +190,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
         it("old-style iteration with next model info", async () => {
           const iter = client.listModels();
-          const item = await iter.next();
+          const item = getYieldedValue(await iter.next());
           assert.ok(item, `Expecting a model but got ${item}`);
-          assert.ok(item.value.modelId, `Expecting a model id but got ${item.value.modelId}`);
+          assert.ok(item.modelId, `Expecting a model id but got ${item.modelId}`);
         });
 
         it("delete models from the account", async () => {

@@ -8,7 +8,7 @@ import {
   EventContext,
   OnAmqpEvent,
   Message as RheaMessage,
-  message
+  message,
 } from "rhea-promise";
 import {
   ErrorNameConditionMapper,
@@ -18,7 +18,7 @@ import {
   defaultCancellableLock,
   delay,
   retry,
-  translate
+  translate,
 } from "@azure/core-amqp";
 import { EventData, toRheaMessage } from "./eventData";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
@@ -78,7 +78,7 @@ export class EventHubSender extends LinkEntity {
   constructor(context: ConnectionContext, partitionId?: string) {
     super(context, {
       name: context.config.getSenderAddress(partitionId),
-      partitionId: partitionId
+      partitionId: partitionId,
     });
     this.address = context.config.getSenderAddress(partitionId);
     this.audience = context.config.getSenderAudience(partitionId);
@@ -258,7 +258,7 @@ export class EventHubSender extends LinkEntity {
         }
         // Encode every amqp message and then convert every encoded message to amqp data section
         const batchMessage: RheaMessage = {
-          body: message.data_sections(messages.map(message.encode))
+          body: message.data_sections(messages.map(message.encode)),
         };
 
         // Set message_annotations of the first message as
@@ -302,12 +302,12 @@ export class EventHubSender extends LinkEntity {
     const srOptions: AwaitableSenderOptions = {
       name: this.name,
       target: {
-        address: this.address
+        address: this.address,
       },
       onError: this._onAmqpError,
       onClose: this._onAmqpClose,
       onSessionError: this._onSessionError,
-      onSessionClose: this._onSessionClose
+      onSessionClose: this._onSessionClose,
     };
     logger.verbose("Creating sender with options: %O", srOptions);
     return srOptions;
@@ -372,7 +372,7 @@ export class EventHubSender extends LinkEntity {
         logger.warning(msg);
         const amqpError: AmqpError = {
           condition: ErrorNameConditionMapper.SenderBusyError,
-          description: msg
+          description: msg,
         };
         throw translate(amqpError);
       }
@@ -390,7 +390,7 @@ export class EventHubSender extends LinkEntity {
         logger.warning(desc);
         const e: AmqpError = {
           condition: ErrorNameConditionMapper.ServiceUnavailableError,
-          description: desc
+          description: desc,
         };
         throw translate(e);
       }
@@ -399,7 +399,7 @@ export class EventHubSender extends LinkEntity {
         const delivery = await sender.send(rheaMessage, {
           format: 0x80013700,
           timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000,
-          abortSignal
+          abortSignal,
         });
         logger.info(
           "[%s] Sender '%s', sent message with delivery id: %d",
@@ -417,7 +417,7 @@ export class EventHubSender extends LinkEntity {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
       abortSignal: abortSignal,
-      retryOptions: retryOptions
+      retryOptions: retryOptions,
     };
 
     try {
@@ -459,7 +459,7 @@ export class EventHubSender extends LinkEntity {
           return this._init({
             ...senderOptions,
             abortSignal: options.abortSignal,
-            timeoutInMs: taskTimeoutInMs
+            timeoutInMs: taskTimeoutInMs,
           });
         },
         { abortSignal: options.abortSignal, timeoutInMs: timeoutInMs }
@@ -471,7 +471,7 @@ export class EventHubSender extends LinkEntity {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.senderLink,
       abortSignal: options.abortSignal,
-      retryOptions: retryOptions
+      retryOptions: retryOptions,
     };
 
     try {
@@ -506,7 +506,7 @@ export class EventHubSender extends LinkEntity {
         await this._negotiateClaim({
           setTokenRenewal: false,
           abortSignal: options.abortSignal,
-          timeoutInMs: options.timeoutInMs
+          timeoutInMs: options.timeoutInMs,
         });
 
         logger.verbose(

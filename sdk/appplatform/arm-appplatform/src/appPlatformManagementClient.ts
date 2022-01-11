@@ -11,6 +11,12 @@ import * as coreAuth from "@azure/core-auth";
 import {
   ServicesImpl,
   ConfigServersImpl,
+  ConfigurationServicesImpl,
+  ServiceRegistriesImpl,
+  BuildServiceOperationsImpl,
+  BuildpackBindingImpl,
+  BuildServiceBuilderImpl,
+  BuildServiceAgentPoolImpl,
   MonitoringSettingsImpl,
   AppsImpl,
   BindingsImpl,
@@ -20,11 +26,22 @@ import {
   DeploymentsImpl,
   OperationsImpl,
   RuntimeVersionsImpl,
-  SkusImpl
+  SkusImpl,
+  GatewaysImpl,
+  GatewayRouteConfigsImpl,
+  GatewayCustomDomainsImpl,
+  ApiPortalsImpl,
+  ApiPortalCustomDomainsImpl
 } from "./operations";
 import {
   Services,
   ConfigServers,
+  ConfigurationServices,
+  ServiceRegistries,
+  BuildServiceOperations,
+  BuildpackBinding,
+  BuildServiceBuilder,
+  BuildServiceAgentPool,
   MonitoringSettings,
   Apps,
   Bindings,
@@ -34,7 +51,12 @@ import {
   Deployments,
   Operations,
   RuntimeVersions,
-  Skus
+  Skus,
+  Gateways,
+  GatewayRouteConfigs,
+  GatewayCustomDomains,
+  ApiPortals,
+  ApiPortalCustomDomains
 } from "./operationsInterfaces";
 import { AppPlatformManagementClientOptionalParams } from "./models";
 
@@ -71,7 +93,7 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appplatform/2.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-appplatform/2.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -94,9 +116,15 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-09-01-preview";
+    this.apiVersion = options.apiVersion || "2022-01-01-preview";
     this.services = new ServicesImpl(this);
     this.configServers = new ConfigServersImpl(this);
+    this.configurationServices = new ConfigurationServicesImpl(this);
+    this.serviceRegistries = new ServiceRegistriesImpl(this);
+    this.buildServiceOperations = new BuildServiceOperationsImpl(this);
+    this.buildpackBinding = new BuildpackBindingImpl(this);
+    this.buildServiceBuilder = new BuildServiceBuilderImpl(this);
+    this.buildServiceAgentPool = new BuildServiceAgentPoolImpl(this);
     this.monitoringSettings = new MonitoringSettingsImpl(this);
     this.apps = new AppsImpl(this);
     this.bindings = new BindingsImpl(this);
@@ -107,10 +135,21 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     this.operations = new OperationsImpl(this);
     this.runtimeVersions = new RuntimeVersionsImpl(this);
     this.skus = new SkusImpl(this);
+    this.gateways = new GatewaysImpl(this);
+    this.gatewayRouteConfigs = new GatewayRouteConfigsImpl(this);
+    this.gatewayCustomDomains = new GatewayCustomDomainsImpl(this);
+    this.apiPortals = new ApiPortalsImpl(this);
+    this.apiPortalCustomDomains = new ApiPortalCustomDomainsImpl(this);
   }
 
   services: Services;
   configServers: ConfigServers;
+  configurationServices: ConfigurationServices;
+  serviceRegistries: ServiceRegistries;
+  buildServiceOperations: BuildServiceOperations;
+  buildpackBinding: BuildpackBinding;
+  buildServiceBuilder: BuildServiceBuilder;
+  buildServiceAgentPool: BuildServiceAgentPool;
   monitoringSettings: MonitoringSettings;
   apps: Apps;
   bindings: Bindings;
@@ -121,4 +160,9 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
   operations: Operations;
   runtimeVersions: RuntimeVersions;
   skus: Skus;
+  gateways: Gateways;
+  gatewayRouteConfigs: GatewayRouteConfigs;
+  gatewayCustomDomains: GatewayCustomDomains;
+  apiPortals: ApiPortals;
+  apiPortalCustomDomains: ApiPortalCustomDomains;
 }

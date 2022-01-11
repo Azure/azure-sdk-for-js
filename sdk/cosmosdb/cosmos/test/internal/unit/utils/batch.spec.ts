@@ -4,22 +4,22 @@
 import assert from "assert";
 import { deepFind } from "../../../../src/utils/batch";
 
-describe("batch utils", function() {
-  it("deep finds nested partition key values in objects", function() {
+describe("batch utils", function () {
+  it("deep finds nested partition key values in objects", function () {
     const testTwiceNested = {
       nested: {
         nested2: {
-          key: "value"
-        }
-      }
+          key: "value",
+        },
+      },
     };
     const testNested = {
       nested: {
-        key: "value"
-      }
+        key: "value",
+      },
     };
     const testBase = {
-      key: "value"
+      key: "value",
     };
     assert.equal(deepFind(testNested, "nested/key"), "value");
     assert.equal(deepFind(testBase, "key"), "value");

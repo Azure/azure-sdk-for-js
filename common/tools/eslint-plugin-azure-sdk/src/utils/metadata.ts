@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
 import { JSONSchema4 } from "json-schema";
+import { Rule } from "eslint";
 
 export const getRuleMetaData = (
   ruleName: string,
@@ -21,9 +21,9 @@ export const getRuleMetaData = (
       description: ruleDescription,
       category: "Best Practices",
       recommended: true,
-      url: `https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/eslint-plugin-azure-sdk/docs/rules/${ruleName}.md`
+      url: `https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/eslint-plugin-azure-sdk/docs/rules/${ruleName}.md`,
     },
-    schema: schema || []
+    schema: schema || [],
   };
   return (fix !== undefined ? { ...required, fixable: fix } : required) as Rule.RuleMetaData;
 };

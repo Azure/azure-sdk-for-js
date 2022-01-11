@@ -10,11 +10,11 @@ import path from "path";
 import fs from "fs";
 
 describe("Secrets client's user agent (only in Node, because of fs)", () => {
-  it("SDK_VERSION and packageVersion should match", async function() {
+  it("SDK_VERSION and packageVersion should match", async function () {
     assert.equal(SDK_VERSION, packageVersion);
   });
 
-  it("the version should also match with the one available in the package.json  (only in Node, because of fs)", async function(this: Context) {
+  it("the version should also match with the one available in the package.json  (only in Node, because of fs)", async function (this: Context) {
     if (!isNode) {
       this.skip();
       return;

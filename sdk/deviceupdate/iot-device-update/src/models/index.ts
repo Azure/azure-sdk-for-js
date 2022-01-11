@@ -429,7 +429,7 @@ export const enum KnownOperationStatus {
   /** Background operation finished with success. */
   Succeeded = "Succeeded",
   /** Background operation finished with failure. */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -456,7 +456,7 @@ export const enum KnownDeviceDeploymentState {
   /** Deployment was canceled. */
   Canceled = "Canceled",
   /** Deployment is not compatible with the device. */
-  Incompatible = "Incompatible"
+  Incompatible = "Incompatible",
 }
 
 /**
@@ -475,7 +475,7 @@ export type DeviceDeploymentState = string;
 /** Known values of {@link GroupType} that the service accepts. */
 export const enum KnownGroupType {
   /** IoT Hub tag based group. */
-  IoTHubTag = "IoTHubTag"
+  IoTHubTag = "IoTHubTag",
 }
 
 /**
@@ -494,7 +494,7 @@ export const enum KnownDeploymentType {
   /** A download-only deployment that does not include any install or apply actions. Not currently supported. */
   Download = "Download",
   /** An install-only rollout that does not include any download actions, only install and complete. Not currently supported. */
-  Install = "Install"
+  Install = "Install",
 }
 
 /**
@@ -515,7 +515,7 @@ export const enum KnownDeviceGroupType {
   /** The deployment should be sent to the list of devices in the device group definition. */
   Devices = "Devices",
   /** The deployment should be sent to the list of devices returned by the union of all the device group definition queries. */
-  DeviceGroupDefinitions = "DeviceGroupDefinitions"
+  DeviceGroupDefinitions = "DeviceGroupDefinitions",
 }
 
 /**
@@ -536,7 +536,7 @@ export const enum KnownDeploymentState {
   /** A newer deployment with the same targeting exists and no devices will receive this deployment. */
   Superseded = "Superseded",
   /** The deployment has been canceled and no devices will receive it. */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -553,7 +553,7 @@ export type DeploymentState = string;
 /** Known values of {@link OperationFilterStatus} that the service accepts. */
 export const enum KnownOperationFilterStatus {
   Running = "Running",
-  NotStarted = "NotStarted"
+  NotStarted = "NotStarted",
 }
 
 /**
@@ -581,7 +581,7 @@ export const enum KnownDeviceState {
   /** Deployment failed. */
   Failed = "Failed",
   /** Deployment completed successfully. */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
 }
 
 /**

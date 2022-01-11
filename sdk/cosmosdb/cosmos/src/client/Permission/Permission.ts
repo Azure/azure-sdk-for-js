@@ -6,7 +6,7 @@ import {
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
-  ResourceType
+  ResourceType,
 } from "../../common";
 import { RequestOptions } from "../../request/RequestOptions";
 import { User } from "../User";
@@ -48,7 +48,7 @@ export class Permission {
       path,
       resourceType: ResourceType.permission,
       resourceId: id,
-      options
+      options,
     });
     return new PermissionResponse(response.result, response.headers, response.code, this);
   }
@@ -74,7 +74,7 @@ export class Permission {
       path,
       resourceType: ResourceType.permission,
       resourceId: id,
-      options
+      options,
     });
     return new PermissionResponse(response.result, response.headers, response.code, this);
   }
@@ -90,7 +90,7 @@ export class Permission {
       path,
       resourceType: ResourceType.permission,
       resourceId: id,
-      options
+      options,
     });
     return new PermissionResponse(response.result, response.headers, response.code, this);
   }

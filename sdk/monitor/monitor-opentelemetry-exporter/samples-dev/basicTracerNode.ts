@@ -21,14 +21,14 @@ dotenv.config();
 
 const provider = new BasicTracerProvider({
   resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service"
-  })
+    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+  }),
 });
 
 // Configure span processor to send spans to the exporter
 const exporter = new AzureMonitorTraceExporter({
   connectionString:
-    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>"
+    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
 });
 provider.addSpanProcessor(new SimpleSpanProcessor(exporter as any));
 

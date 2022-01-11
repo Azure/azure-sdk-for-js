@@ -6,7 +6,7 @@ import {
   StoragePipelineOptions,
   StorageSharedKeyCredential,
   AnonymousCredential,
-  Pipeline
+  Pipeline,
 } from "@azure/storage-blob";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
@@ -192,7 +192,7 @@ export class BlobChangeFeedClient {
     while (changeFeed.hasNext()) {
       const event = await changeFeed.getChange({
         abortSignal: options.abortSignal,
-        tracingOptions: options.tracingOptions
+        tracingOptions: options.tracingOptions,
       });
       if (event) {
         yield event;
@@ -222,7 +222,7 @@ export class BlobChangeFeedClient {
       while (changeFeed.hasNext() && eventPage.events.length < maxPageSize) {
         const event = await changeFeed.getChange({
           abortSignal: options.abortSignal,
-          tracingOptions: options.tracingOptions
+          tracingOptions: options.tracingOptions,
         });
         if (event) {
           eventPage.events.push(event);
@@ -333,7 +333,7 @@ export class BlobChangeFeedClient {
        */
       byPage: (settings: PageSettings = {}) => {
         return this.getPage(settings.continuationToken, settings.maxPageSize, options);
-      }
+      },
     };
   }
 }

@@ -10,12 +10,12 @@ import {
   RecorderEnvironmentSetup,
   windowLens,
   isRecordMode,
-  isPlaybackMode
+  isPlaybackMode,
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 import {
   applyRequestBodyTransformations,
-  applyRequestBodyTransformationsOnFixture
+  applyRequestBodyTransformationsOnFixture,
 } from "./utils/requestBodyTransform";
 
 // To better understand how this class works, it's necessary to comprehend how HTTP async requests are made:
@@ -69,7 +69,7 @@ export class NiseRecorder extends BaseRecorder {
       status: request.status,
       response:
         request.response instanceof Blob ? await blobToString(request.response) : request.response,
-      responseHeaders: responseHeaders
+      responseHeaders: responseHeaders,
     });
   }
 
@@ -130,21 +130,21 @@ export class NiseRecorder extends BaseRecorder {
     // Our intent is to override the request's 'onreadystatechange' function so we can create a recording once the response is ready
     // We can only override 'onreadystatechange' AFTER the 'send' function is called because we need to make sure our implementation won't be overridden by the client
     // But we can only override 'send' AFTER the 'open' function is called because the filter we set above makes Nise override it in 'open' body
-    xhr.onCreate = function(req: any) {
+    xhr.onCreate = function (req: any) {
       // We'll override the 'open' function, so we need to store a handle to its original implementation
       const reqOpen = req.open;
-      req.open = function() {
+      req.open = function () {
         // Here we are calling the original 'open' function to make sure everything is set up correctly (HTTP method, url, filters)
         reqOpen.apply(req, arguments);
 
         // We'll override the 'send' function, so we need to store a handle to its original implementation
         // We can already override it because we know 'open' has already been called
         const reqSend = req.send;
-        req.send = function(data: any) {
+        req.send = function (data: any) {
           // We'll override the 'onreadystatechange' function, so we need to store a handle to its original implementation
           // Now we can finally override 'onreadystatechange' because 'send' has already been called
           const reqStateChange = req.onreadystatechange;
-          req.onreadystatechange = function() {
+          req.onreadystatechange = function () {
             // .readyState property returns the state an XMLHttpRequest client is in
             // readyState = 4 refers to the completion of the operation.
             // This could mean that either the data transfer has been completed successfully or failed.
@@ -178,19 +178,19 @@ export class NiseRecorder extends BaseRecorder {
     this.recordings = windowLens.get([
       "__json__",
       "recordings/" + this.relativeTestRecordingFilePath,
-      "recordings"
+      "recordings",
     ]);
     this.uniqueTestInfo = windowLens.get([
       "__json__",
       "recordings/" + this.relativeTestRecordingFilePath,
-      "uniqueTestInfo"
+      "uniqueTestInfo",
     ]);
 
     // 'onCreate' function is called when a new fake XMLHttpRequest object (req) is created
-    xhr.onCreate = function(req: any) {
+    xhr.onCreate = function (req: any) {
       // We'll override the 'send' function, so we need to store a handle to its original implementation
       const reqSend = req.send;
-      req.send = async function(data: any) {
+      req.send = async function (data: any) {
         // Here we're calling the original send method. Nise will make the request wait for a mock response that we'll send later
         reqSend.call(req, data);
 
@@ -200,7 +200,7 @@ export class NiseRecorder extends BaseRecorder {
           method: req.method,
           url: parsedUrl.url,
           query: parsedUrl.query,
-          requestBody: data instanceof Blob ? await blobToString(data) : data
+          requestBody: data instanceof Blob ? await blobToString(data) : data,
         };
 
         // We look through our recordings to find a match to the current request
@@ -259,8 +259,8 @@ export class NiseRecorder extends BaseRecorder {
           content: {
             recordings: this.recordings,
             uniqueTestInfo: this.uniqueTestInfo,
-            hash: this.hash
-          }
+            hash: this.hash,
+          },
         })
       );
     } else if (isPlaybackMode()) {

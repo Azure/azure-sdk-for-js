@@ -9,5 +9,5 @@ import { createSpanFunction } from "@azure/core-tracing";
  */
 export const createSpan = createSpanFunction({
   packagePrefix: "DigitalTwinsClient",
-  namespace: "Microsoft.DigitalTwins"
+  namespace: "Microsoft.DigitalTwins",
 });

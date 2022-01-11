@@ -28,7 +28,7 @@ import {
   DeploymentsCancelDeploymentResponse,
   DeploymentsRetryDeploymentResponse,
   DeploymentsGetAllDeploymentsNextResponse,
-  DeploymentsGetDeploymentDevicesNextResponse
+  DeploymentsGetDeploymentDevicesNextResponse,
 } from "../models";
 
 /** Class representing a Deployments. */
@@ -60,7 +60,7 @@ export class Deployments {
       },
       byPage: () => {
         return this.getAllDeploymentsPagingPage(options);
-      }
+      },
     };
   }
 
@@ -105,7 +105,7 @@ export class Deployments {
       },
       byPage: () => {
         return this.getDeploymentDevicesPagingPage(deploymentId, options);
-      }
+      },
     };
   }
 
@@ -144,7 +144,7 @@ export class Deployments {
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -155,7 +155,7 @@ export class Deployments {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -178,7 +178,7 @@ export class Deployments {
     );
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -189,7 +189,7 @@ export class Deployments {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -215,7 +215,7 @@ export class Deployments {
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
       deployment,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -226,7 +226,7 @@ export class Deployments {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -249,7 +249,7 @@ export class Deployments {
     );
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -260,7 +260,7 @@ export class Deployments {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -284,7 +284,7 @@ export class Deployments {
     );
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -295,7 +295,7 @@ export class Deployments {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -319,7 +319,7 @@ export class Deployments {
     );
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -330,7 +330,7 @@ export class Deployments {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -353,7 +353,7 @@ export class Deployments {
     );
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -364,7 +364,7 @@ export class Deployments {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -387,7 +387,7 @@ export class Deployments {
     );
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -398,7 +398,7 @@ export class Deployments {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -421,7 +421,7 @@ export class Deployments {
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -432,7 +432,7 @@ export class Deployments {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -458,7 +458,7 @@ export class Deployments {
     const operationArguments: coreHttp.OperationArguments = {
       deploymentId,
       nextLink,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -469,7 +469,7 @@ export class Deployments {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -485,45 +485,45 @@ const getAllDeploymentsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfDeployments
-    }
+      bodyMapper: Mappers.PageableListOfDeployments,
+    },
   },
   queryParameters: [Parameters.filter],
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDeploymentOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/deployments/{deploymentId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Deployment
+      bodyMapper: Mappers.Deployment,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.deploymentId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateDeploymentOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/deployments/{deploymentId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Deployment
+      bodyMapper: Mappers.Deployment,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   requestBody: Parameters.deployment,
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.deploymentId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteDeploymentOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/deployments/{deploymentId}",
@@ -531,106 +531,106 @@ const deleteDeploymentOperationSpec: coreHttp.OperationSpec = {
   responses: {
     200: {},
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.deploymentId],
-  serializer
+  serializer,
 };
 const getDeploymentStatusOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/deployments/{deploymentId}/status",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentStatus
+      bodyMapper: Mappers.DeploymentStatus,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.deploymentId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDeploymentDevicesOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/deployments/{deploymentId}/devicestates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfDeploymentDeviceStates
+      bodyMapper: Mappers.PageableListOfDeploymentDeviceStates,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   queryParameters: [Parameters.filter],
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.deploymentId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelDeploymentOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/deployments/{deploymentId}",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Deployment
+      bodyMapper: Mappers.Deployment,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   queryParameters: [Parameters.action1],
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.deploymentId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const retryDeploymentOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/deployments/{deploymentId}",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Deployment
+      bodyMapper: Mappers.Deployment,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   queryParameters: [Parameters.action2],
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.deploymentId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAllDeploymentsNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfDeployments
-    }
+      bodyMapper: Mappers.PageableListOfDeployments,
+    },
   },
   queryParameters: [Parameters.filter],
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDeploymentDevicesNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfDeploymentDeviceStates
+      bodyMapper: Mappers.PageableListOfDeploymentDeviceStates,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   queryParameters: [Parameters.filter],
   urlParameters: [
     Parameters.accountEndpoint,
     Parameters.instanceId,
     Parameters.nextLink,
-    Parameters.deploymentId
+    Parameters.deploymentId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

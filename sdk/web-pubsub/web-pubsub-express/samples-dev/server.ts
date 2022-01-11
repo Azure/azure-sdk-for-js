@@ -27,7 +27,7 @@ const handler = new WebPubSubEventHandler("chat", {
     res.setState("calledTime", calledTime);
     res.success("Hello", "text");
   },
-  allowedEndpoints: ["https://xxx.webpubsub.azure.com"]
+  allowedEndpoints: ["https://xxx.webpubsub.azure.com"],
 });
 
 const app = express();

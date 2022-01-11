@@ -364,6 +364,7 @@ describe("NodeHttpClient", function () {
       setTimeout(() => {
         streamResponse.destroy(e);
       }, 0);
+      return clientRequest;
     };
     streamResponse.headers = {};
     streamResponse.statusCode = 200;

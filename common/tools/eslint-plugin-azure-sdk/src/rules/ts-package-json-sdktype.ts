@@ -7,9 +7,9 @@
  * @author Ben Zhang
  */
 
-import { Rule } from "eslint";
-import { Property } from "estree";
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { Property } from "estree";
+import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -23,41 +23,41 @@ export = {
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
-      outer: "sdk-type"
+      outer: "sdk-type",
     });
     return stripPath(context.getFilename()) === "package.json"
       ? ({
-        // callback functions
+          // callback functions
 
-        // check to see if package.json includes 'sdk-type'
-        "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
+          // check to see if package.json includes 'sdk-type'
+          "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
 
-        // check the node corresponding to sdk-type to see if its value contains "client" or "mgmt"
-        "ExpressionStatement > ObjectExpression > Property[key.value='sdk-type']": (
-          node: Property
-        ): void => {
-          const { value } = node;
+          // check the node corresponding to sdk-type to see if its value contains "client" or "mgmt"
+          "ExpressionStatement > ObjectExpression > Property[key.value='sdk-type']": (
+            node: Property
+          ): void => {
+            const { value } = node;
 
-          // check for valid type
-          if (value.type !== "Literal" || typeof value.value !== "string") {
-            context.report({
-              node: node.value,
-              message: "sdk-type is not set to a string"
-            });
-            return;
-          }
+            // check for valid type
+            if (value.type !== "Literal" || typeof value.value !== "string") {
+              context.report({
+                node: node.value,
+                message: "sdk-type is not set to a string",
+              });
+              return;
+            }
 
-          const strValue = stripPath(value.value);
+            const strValue = stripPath(value.value);
 
-          if (!["client", "mgmt", "utility"].includes(strValue)) {
-            context.report({
-              node: node.value,
-              message: `unrecognized sdk-type value: ${strValue}. Expected either "client", "mgmt", or "utility."`
-            });
-            return;
-          }
-        }
-      } as Rule.RuleListener)
+            if (!["client", "mgmt", "utility"].includes(strValue)) {
+              context.report({
+                node: node.value,
+                message: `unrecognized sdk-type value: ${strValue}. Expected either "client", "mgmt", or "utility."`,
+              });
+              return;
+            }
+          },
+        } as Rule.RuleListener)
       : {};
-  }
+  },
 };

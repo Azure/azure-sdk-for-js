@@ -146,7 +146,7 @@
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^2.0.0",
     "nyc": "^15.0.0",
-    "prettier": "^1.16.4",
+    "prettier": "^2.5.1",
     "puppeteer": "^10.2.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",

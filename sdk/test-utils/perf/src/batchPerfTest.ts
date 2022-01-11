@@ -5,7 +5,7 @@ import { AbortSignalLike, AbortController } from "@azure/abort-controller";
 import {
   TestProxyHttpClient,
   TestProxyHttpClientV1,
-  testProxyHttpPolicy
+  testProxyHttpPolicy,
 } from "./testProxyHttpClient";
 import { HttpClient } from "@azure/core-http";
 import { Pipeline } from "@azure/core-rest-pipeline";
@@ -15,9 +15,9 @@ import { PerfParallel } from "./parallel";
 /**
  * Enables writing perf tests where the number of operations are dynamic for the method/call being tested.
  */
-export abstract class BatchPerfTest<TOptions = Record<string, unknown>> extends PerfTestBase<
-  TOptions
-> {
+export abstract class BatchPerfTest<
+  TOptions = Record<string, unknown>
+> extends PerfTestBase<TOptions> {
   private readonly testProxy!: string;
   public testProxyHttpClient!: TestProxyHttpClient;
   public testProxyHttpClientV1!: TestProxyHttpClientV1;

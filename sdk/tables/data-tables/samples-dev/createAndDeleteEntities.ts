@@ -31,7 +31,7 @@ async function createSimpleDateEntity() {
   const entity = {
     partitionKey: "p1",
     rowKey: "r1",
-    date: new Date()
+    date: new Date(),
   };
 
   await client.createEntity(entity);
@@ -55,7 +55,7 @@ async function createComplexDateEntity() {
   const entity = {
     partitionKey: "p2",
     rowKey: "r2",
-    date
+    date,
   };
 
   await client.createEntity(entity);
@@ -81,7 +81,7 @@ async function createAndDeleteEntities() {
     rowKey: "A1",
     name: "Marker Set",
     price: 5.0,
-    quantity: 21
+    quantity: 21,
   };
 
   // Create the new entity

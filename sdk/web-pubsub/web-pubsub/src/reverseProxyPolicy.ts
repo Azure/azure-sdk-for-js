@@ -5,7 +5,7 @@ import {
   PipelineResponse,
   PipelineRequest,
   SendRequest,
-  PipelinePolicy
+  PipelinePolicy,
 } from "@azure/core-rest-pipeline";
 
 export const webPubSubReverseProxyPolicyName = "webPubSubReverseProxyPolicy";
@@ -24,6 +24,6 @@ export function webPubSubReverseProxyPolicy(endpoint: string): PipelinePolicy {
       parsedUrl.host = rpEndpointUrl.host;
       request.url = parsedUrl.toString();
       return next(request);
-    }
+    },
   };
 }

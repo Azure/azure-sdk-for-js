@@ -1190,6 +1190,41 @@
       "packageName": "@azure/arm-hdinsight",
       "projectFolder": "sdk/hdinsight/arm-hdinsight",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-attestation",
+      "projectFolder": "sdk/attestation/arm-attestation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-azurestack",
+      "projectFolder": "sdk/azurestack/arm-azurestack",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-changeanalysis",
+      "projectFolder": "sdk/changeanalysis/arm-changeanalysis",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-billing",
+      "projectFolder": "sdk/billing/arm-billing",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerinstance",
+      "projectFolder": "sdk/containerinstance/arm-containerinstance",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-confluent",
+      "projectFolder": "sdk/confluent/arm-confluent",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-imagebuilder",
+      "projectFolder": "sdk/imagebuilder/arm-imagebuilder",
+      "versionPolicyName": "management"
     }
   ]
 }

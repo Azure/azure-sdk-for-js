@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import rule from "../../src/rules/ts-modules-only-named";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-modules-only-named";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -18,11 +18,11 @@ const ruleTester = new RuleTester({
   parserOptions: {
     createDefaultProgram: true,
     project: "./tsconfig.json",
-    sourceType: "module"
+    sourceType: "module",
   },
   settings: {
-    main: "test.ts"
-  }
+    main: "test.ts",
+  },
 });
 
 ruleTester.run("ts-modules-only-named", rule, {
@@ -30,21 +30,21 @@ ruleTester.run("ts-modules-only-named", rule, {
     // different non-default exports
     {
       code: 'export = {test: "test"}',
-      filename: "test.ts"
+      filename: "test.ts",
     },
     {
       code: 'const foo = {test: "test"}; export {foo}',
-      filename: "test.ts"
+      filename: "test.ts",
     },
     {
       code: 'export const foo = {test: "test"}',
-      filename: "test.ts"
+      filename: "test.ts",
     },
     // invalid but in a file we dont care about
     {
       code: 'export default {test: "test"}',
-      filename: "notTest.ts"
-    }
+      filename: "notTest.ts",
+    },
   ],
   invalid: [
     {
@@ -52,18 +52,18 @@ ruleTester.run("ts-modules-only-named", rule, {
       filename: "test.ts",
       errors: [
         {
-          message: "default exports exist at top level"
-        }
-      ]
+          message: "default exports exist at top level",
+        },
+      ],
     },
     {
       code: 'const foo = {test: "test"}; export default foo',
       filename: "test.ts",
       errors: [
         {
-          message: "default exports exist at top level"
-        }
-      ]
-    }
-  ]
+          message: "default exports exist at top level",
+        },
+      ],
+    },
+  ],
 });

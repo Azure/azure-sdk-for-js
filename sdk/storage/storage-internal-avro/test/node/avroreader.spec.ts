@@ -53,7 +53,7 @@ describe("AvroReader", () => {
         for (const [key, value] of expectedEntries) {
           assert.deepStrictEqual(actualMap.get(key), value);
         }
-      }) // record
+      }), // record
     ];
 
     for (const testcase of testCases) {

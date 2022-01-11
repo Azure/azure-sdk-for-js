@@ -29,7 +29,7 @@ testWithServiceTypes((serviceVersion) => {
   describe("Cancellation via AbortSignal", () => {
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]
+      path: env[EnvVarKeys.EVENTHUB_NAME],
     };
     before("validate environment", () => {
       should.exist(
@@ -51,7 +51,7 @@ testWithServiceTypes((serviceVersion) => {
           const controller = new AbortController();
           controller.abort();
           return controller.signal;
-        }
+        },
       },
       {
         type: "aborted after timeout",
@@ -61,8 +61,8 @@ testWithServiceTypes((serviceVersion) => {
             controller.abort();
           }, 0);
           return controller.signal;
-        }
-      }
+        },
+      },
     ];
 
     describe("EventHubConsumerClient", () => {
