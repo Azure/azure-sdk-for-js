@@ -97,7 +97,7 @@
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "downlevel-dts": "~0.4.0",
+    "downlevel-dts": "^0.8.0",
     "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "inherits": "^2.0.3",
