@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
-  TokenCredential,
-  InternalPipelineOptions
-} from "@azure/core-http";
+import { InternalClientPipelineOptions } from "@azure/core-client";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
 import {
   MixedRealityStsRestClient,
-  MixedRealityStsRestClientGetTokenOptionalParams,
-  MixedRealityStsRestClientOptionalParams
+  MixedRealityStsRestClientOptionalParams,
+  GetTokenOptionalParams
 } from "./generated";
 import { logger } from "./logger";
 import { MixedRealityStsClientOptions, GetTokenOptions } from "./models/options";
@@ -106,14 +103,14 @@ export class MixedRealityStsClient {
       userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...{ ...options, userAgentOptions },
       ...{
         loggingOptions: {
           logger: logger.info,
           // This array contains header names we want to log that are not already
           // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-          allowedHeaderNames: ["X-MRC-CV", "MS-CV"]
+          additionalAllowedHeaderNames: ["X-MRC-CV", "MS-CV"]
         }
       }
     };
@@ -126,19 +123,19 @@ export class MixedRealityStsClient {
       tokenCredential = credential;
     }
 
-    const authPolicy = bearerTokenAuthenticationPolicy(
-      tokenCredential,
-      `${this.endpointUrl}/.default`
-    );
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-
     const clientOptions: MixedRealityStsRestClientOptionalParams = {
-      ...internalPipelineOptions,
-      ...pipeline,
+      ...internalClientPipelineOptions,
       endpoint: this.endpointUrl
     };
 
     this.restClient = new MixedRealityStsRestClient(clientOptions);
+
+    const authPolicy = bearerTokenAuthenticationPolicy({
+      credential: tokenCredential,
+      scopes: `${this.endpointUrl}/.default`
+    });
+
+    this.restClient.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -146,7 +143,7 @@ export class MixedRealityStsClient {
    * @param options Operation options.
    */
   public async getToken(options: GetTokenOptions = {}): Promise<AccessToken> {
-    let internalOptions: MixedRealityStsRestClientGetTokenOptionalParams = {
+    let internalOptions: GetTokenOptionalParams = {
       ...options,
       tokenRequestOptions: {
         clientRequestId: generateCvBase()
