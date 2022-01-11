@@ -2,7 +2,7 @@
   "name": "@azure-rest/iot-device-update",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "description": "Sample description.",
+  "description": "Device Update for IoT Hub is a service that enables you to deploy over-the-air updates (OTA) for your IoT devices.",
   "version": "1.0.0-beta.1",
   "keywords": [
     "node",

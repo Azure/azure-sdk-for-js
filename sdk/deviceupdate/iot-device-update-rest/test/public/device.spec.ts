@@ -29,4 +29,4 @@ describe("device test", () => {
       );
     }
   });
-}).timeout(60000000000);
+}).timeout(600000);
