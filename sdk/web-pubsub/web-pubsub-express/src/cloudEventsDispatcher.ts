@@ -16,14 +16,14 @@ import {
   ConnectionContext,
   ConnectResponseHandler,
   UserEventResponseHandler,
-  WebPubSubEventHandlerOptions
+  WebPubSubEventHandlerOptions,
 } from "./cloudEventsProtocols";
 
 enum EventType {
   Connect,
   Connected,
   Disconnected,
-  UserEvent
+  UserEvent,
 }
 
 function getConnectResponseHandler(
@@ -52,7 +52,7 @@ function getConnectResponseHandler(
     fail(code: 400 | 401 | 500, detail?: string): void {
       response.statusCode = code;
       response.end(detail ?? "");
-    }
+    },
   };
 
   return handler;
@@ -91,7 +91,7 @@ function getUserEventResponseHandler(
     fail(code: 400 | 401 | 500, detail?: string): void {
       response.statusCode = code;
       response.end(detail ?? "");
-    }
+    },
   };
   return handler;
 }
@@ -104,7 +104,7 @@ function getContext(ce: CloudEvent, origin: string): ConnectionContext {
     connectionId: ce["connectionid"] as string,
     eventName: ce["eventname"] as string,
     origin: origin,
-    states: utils.fromBase64JsonString(ce["connectionstate"] as string)
+    states: utils.fromBase64JsonString(ce["connectionstate"] as string),
   };
 
   // TODO: validation
@@ -267,13 +267,13 @@ export class CloudEventsDispatcher {
           userRequest = {
             context: getContext(receivedEvent, origin),
             data: Buffer.from(receivedEvent.data_base64, "base64"),
-            dataType: "binary"
+            dataType: "binary",
           };
         } else if (receivedEvent.data !== undefined) {
           userRequest = {
             context: getContext(receivedEvent, origin),
             data: receivedEvent.data as string,
-            dataType: utils.isJsonData(receivedEvent) ? "json" : "text"
+            dataType: utils.isJsonData(receivedEvent) ? "json" : "text",
           };
         } else {
           throw new Error("Unexpected data.");

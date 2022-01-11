@@ -34,16 +34,16 @@ function mockBody(req: IncomingMessage, body: string): void {
   req.emit("end");
 }
 
-describe("Can handle user event", function() {
+describe("Can handle user event", function () {
   let req: IncomingMessage;
   let res: ServerResponse;
 
-  beforeEach(function() {
+  beforeEach(function () {
     req = new IncomingMessage(new Socket());
     res = new ServerResponse(req);
   });
 
-  it("Should not handle the request if request is not cloud events", async function() {
+  it("Should not handle the request if request is not cloud events", async function () {
     const endSpy = sinon.spy(res, "end");
     const dispatcher = new CloudEventsDispatcher("hub1");
     const result = await dispatcher.handleRequest(req, res);
@@ -51,7 +51,7 @@ describe("Can handle user event", function() {
     assert.isTrue(endSpy.notCalled);
   });
 
-  it("Should not handle the request if hub does not match", async function() {
+  it("Should not handle the request if hub does not match", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -61,7 +61,7 @@ describe("Can handle user event", function() {
     assert.isTrue(endSpy.notCalled);
   });
 
-  it("Should handle number requests", async function() {
+  it("Should handle number requests", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -71,7 +71,7 @@ describe("Can handle user event", function() {
         assert.equal(typeof request.data, "number");
         assert.strictEqual(1, request.data);
         response.success();
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify(1));
@@ -82,7 +82,7 @@ describe("Can handle user event", function() {
     assert.isTrue(endSpy.calledOnce);
   });
 
-  it("Should handle boolean requests", async function() {
+  it("Should handle boolean requests", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -92,7 +92,7 @@ describe("Can handle user event", function() {
         assert.equal(typeof request.data, "boolean");
         assert.strictEqual(true, request.data);
         response.success();
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify(true));
@@ -103,7 +103,7 @@ describe("Can handle user event", function() {
     assert.isTrue(endSpy.calledOnce);
   });
 
-  it("Should handle complex object requests", async function() {
+  it("Should handle complex object requests", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -113,7 +113,7 @@ describe("Can handle user event", function() {
         assert.equal(typeof request.data, "object");
         assert.equal((<{ a: number }>request.data).a, 1);
         response.success();
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({ a: 1 }));
@@ -123,7 +123,7 @@ describe("Can handle user event", function() {
     assert.isTrue(endSpy.calledOnce);
   });
 
-  it("Should handle complex array requests", async function() {
+  it("Should handle complex array requests", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -134,7 +134,7 @@ describe("Can handle user event", function() {
         assert.isTrue(Array.isArray(request.data));
         assert.deepEqual(request.data, [1, 2, 3]);
         response.success();
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify([1, 2, 3]));
@@ -144,7 +144,7 @@ describe("Can handle user event", function() {
     assert.isTrue(endSpy.calledOnce);
   });
 
-  it("Should response with 200 when option is not specified", async function() {
+  it("Should response with 200 when option is not specified", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -155,7 +155,7 @@ describe("Can handle user event", function() {
     assert.equal(200, res.statusCode, "should be 200");
   });
 
-  it("Should response with 200 when handler is not specified", async function() {
+  it("Should response with 200 when handler is not specified", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -166,14 +166,14 @@ describe("Can handle user event", function() {
     assert.equal(200, res.statusCode, "should be 200");
   });
 
-  it("Should response with error when handler returns error", async function() {
+  it("Should response with error when handler returns error", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
       handleUserEvent: async (_, response) => {
         response.fail(500);
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
@@ -183,14 +183,14 @@ describe("Can handle user event", function() {
     assert.equal(500, res.statusCode, "should be error");
   });
 
-  it("Should response with success when handler returns success", async function() {
+  it("Should response with success when handler returns success", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
       handleUserEvent: async (_, response) => {
         response.success();
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
@@ -200,14 +200,14 @@ describe("Can handle user event", function() {
     assert.equal(200, res.statusCode, "should be success");
   });
 
-  it("Should response with success when returns success binary", async function() {
+  it("Should response with success when returns success binary", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
       handleUserEvent: async (_, response) => {
         response.success("a");
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
@@ -218,14 +218,14 @@ describe("Can handle user event", function() {
     assert.equal("application/octet-stream", res.getHeader("content-type"), "should be binary");
   });
 
-  it("Should response with success when returns success text", async function() {
+  it("Should response with success when returns success text", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
       handleUserEvent: async (_, response) => {
         response.success("a", "text");
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
@@ -236,14 +236,14 @@ describe("Can handle user event", function() {
     assert.equal("text/plain; charset=utf-8", res.getHeader("content-type"), "should be text");
   });
 
-  it("Should response with success when returns success json", async function() {
+  it("Should response with success when returns success json", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
       handleUserEvent: async (_, response) => {
         response.success("a", "json");
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
@@ -258,7 +258,7 @@ describe("Can handle user event", function() {
     );
   });
 
-  it("Should be able to set connection state", async function() {
+  it("Should be able to set connection state", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -269,7 +269,7 @@ describe("Can handle user event", function() {
         response.setState("key1", "val3");
         response.setState("key3", "");
         response.success();
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
@@ -283,7 +283,7 @@ describe("Can handle user event", function() {
         JSON.stringify({
           key1: "val3",
           key2: "val2",
-          key3: ""
+          key3: "",
         })
       ).toString("base64"),
       res.getHeader("ce-connectionState"),
