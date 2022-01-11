@@ -1,7 +1,7 @@
 **Checklists** 
 - [ ] Added impacted package name to the issue description
 
-**Package(es) impacted by this PR:**
+**Packages impacted by this PR:**
 
 
 **Issue(s) associated with this PR:**
