@@ -125,7 +125,7 @@ export interface ArtifactManifestProperties {
    * Image size
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly size?: number;
+  readonly sizeInBytes?: number;
   /**
    * Created time
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -167,22 +167,22 @@ export interface ArtifactManifestProperties {
 }
 
 /**
- * Defines values for TagOrderBy.
+ * Defines values for ArtifactTagOrder.
  *  this contains the known values that the service supports.
  * ### Know values supported by the service
  * **LastUpdatedOnDescending**: Order tags by LastUpdatedOn field, from most recently updated to least recently updated.
  * **LastUpdatedOnAscending**: Order tags by LastUpdatedOn field, from least recently updated to most recently updated.
  */
-export type TagOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
+export type ArtifactTagOrder = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
 /**
- * Defines values for RegistryArtifactOrderBy.
+ * Defines values for ArtifactManifestOrder.
  *  this contains the known values that the service supports.
  * ### Know values supported by the service
  * **LastUpdatedOnDescending**: Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated.
  * **LastUpdatedOnAscending**: Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated.
  */
-export type ManifestOrderBy = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
+export type ArtifactManifestOrder = "LastUpdatedOnDescending" | "LastUpdatedOnAscending";
 
 /**
  * Contains response data for the listRepositoryNames operation.
