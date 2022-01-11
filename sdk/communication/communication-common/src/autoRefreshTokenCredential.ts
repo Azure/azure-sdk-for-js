@@ -54,13 +54,12 @@ export class AutoRefreshTokenCredential implements TokenCredential {
   }
 
   public async getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken> {
-    if (!this.isCurrentTokenExpiringSoon) {
+    if (!this.isTokenExpiringSoon(this.currentToken)) {
       return this.currentToken;
     }
 
-    const updatePromise = this.updateTokenAndReschedule(options?.abortSignal);
-
-    if (!this.isCurrentTokenValid) {
+    if (!this.isTokenValid(this.currentToken)) {
+      const updatePromise = this.updateTokenAndReschedule(options?.abortSignal);
       await updatePromise;
     }
 
@@ -90,7 +89,13 @@ export class AutoRefreshTokenCredential implements TokenCredential {
   }
 
   private async refreshTokenAndReschedule(abortSignal?: AbortSignalLike): Promise<void> {
-    this.currentToken = await this.refreshToken(abortSignal);
+    let newToken = await this.refreshToken(abortSignal);
+
+    if (!this.isTokenValid(newToken)) {
+      throw new Error("The token returned from the tokenRefresher is expired.");
+    }
+
+    this.currentToken = newToken;
     if (this.refreshProactively) {
       this.scheduleRefresh();
     }
@@ -114,19 +119,23 @@ export class AutoRefreshTokenCredential implements TokenCredential {
     if (this.activeTimeout) {
       clearTimeout(this.activeTimeout);
     }
-    const timespanInMs =
-      this.currentToken.expiresOnTimestamp - Date.now() - this.refreshingIntervalInMs;
+    let tokenTtl = this.currentToken.expiresOnTimestamp - Date.now();
+    let timespanInMs = null;
+
+    if (this.isTokenExpiringSoon(this.currentToken)) {
+      timespanInMs = tokenTtl / 2; //TODO: make this configurable
+    } else {
+      timespanInMs = tokenTtl - this.refreshingIntervalInMs;
+    }
+
     this.activeTimeout = setTimeout(() => this.updateTokenAndReschedule(), timespanInMs);
   }
 
-  private get isCurrentTokenValid(): boolean {
-    return this.currentToken && Date.now() < this.currentToken.expiresOnTimestamp;
+  private isTokenValid(token: AccessToken): boolean {
+    return token && Date.now() < token.expiresOnTimestamp;
   }
 
-  private get isCurrentTokenExpiringSoon(): boolean {
-    return (
-      !this.currentToken ||
-      Date.now() >= this.currentToken.expiresOnTimestamp - this.refreshingIntervalInMs
-    );
+  private isTokenExpiringSoon(token: AccessToken): boolean {
+    return !token || Date.now() >= token.expiresOnTimestamp - this.refreshingIntervalInMs;
   }
 }
