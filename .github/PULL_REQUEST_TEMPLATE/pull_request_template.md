@@ -4,16 +4,13 @@
 **Packages impacted by this PR:**
 
 
-**Issue(s) associated with this PR:**
+**Issues associated with this PR:**
 
 
-**Describe the problem(s) that is addressed by this PR:**
+**Describe the problem that is addressed by this PR:**
 
 
-**Command used to generate this PR:**_(Applicable only to SDK release request PRs)_
-
-
-**What are the possible design(s) available to address the problem(s)**
+**What are the possible designs available to address the problem(s)**
 
 
 **If there are more than one possible design, why did you choose the one in this PR?**
@@ -26,3 +23,6 @@
 
 
 **Provide a list of related PRs**_(if any)_
+
+
+**Command used to generate this PR:**_(Applicable only to SDK release request PRs)_
