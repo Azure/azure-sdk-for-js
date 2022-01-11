@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Clusters } from "../operationsInterfaces";
+import { PlacementPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,28 +15,28 @@ import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  Cluster,
-  ClustersListNextOptionalParams,
-  ClustersListOptionalParams,
-  ClustersListResponse,
-  ClustersGetOptionalParams,
-  ClustersGetResponse,
-  ClustersCreateOrUpdateOptionalParams,
-  ClustersCreateOrUpdateResponse,
-  ClusterUpdate,
-  ClustersUpdateOptionalParams,
-  ClustersUpdateResponse,
-  ClustersDeleteOptionalParams,
-  ClustersListNextResponse
+  PlacementPolicy,
+  PlacementPoliciesListNextOptionalParams,
+  PlacementPoliciesListOptionalParams,
+  PlacementPoliciesListResponse,
+  PlacementPoliciesGetOptionalParams,
+  PlacementPoliciesGetResponse,
+  PlacementPoliciesCreateOrUpdateOptionalParams,
+  PlacementPoliciesCreateOrUpdateResponse,
+  PlacementPolicyUpdate,
+  PlacementPoliciesUpdateOptionalParams,
+  PlacementPoliciesUpdateResponse,
+  PlacementPoliciesDeleteOptionalParams,
+  PlacementPoliciesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Clusters operations. */
-export class ClustersImpl implements Clusters {
+/** Class containing PlacementPolicies operations. */
+export class PlacementPoliciesImpl implements PlacementPolicies {
   private readonly client: AzureVMwareSolutionAPI;
 
   /**
-   * Initialize a new instance of the class Clusters class.
+   * Initialize a new instance of the class PlacementPolicies class.
    * @param client Reference to the service client
    */
   constructor(client: AzureVMwareSolutionAPI) {
@@ -44,19 +44,22 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * List clusters in a private cloud
+   * List placement policies in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
+   * @param clusterName Name of the cluster in the private cloud
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ClustersListOptionalParams
-  ): PagedAsyncIterableIterator<Cluster> {
+    clusterName: string,
+    options?: PlacementPoliciesListOptionalParams
+  ): PagedAsyncIterableIterator<PlacementPolicy> {
     const iter = this.listPagingAll(
       resourceGroupName,
       privateCloudName,
+      clusterName,
       options
     );
     return {
@@ -70,6 +73,7 @@ export class ClustersImpl implements Clusters {
         return this.listPagingPage(
           resourceGroupName,
           privateCloudName,
+          clusterName,
           options
         );
       }
@@ -79,15 +83,22 @@ export class ClustersImpl implements Clusters {
   private async *listPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ClustersListOptionalParams
-  ): AsyncIterableIterator<Cluster[]> {
-    let result = await this._list(resourceGroupName, privateCloudName, options);
+    clusterName: string,
+    options?: PlacementPoliciesListOptionalParams
+  ): AsyncIterableIterator<PlacementPolicy[]> {
+    let result = await this._list(
+      resourceGroupName,
+      privateCloudName,
+      clusterName,
+      options
+    );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
         privateCloudName,
+        clusterName,
         continuationToken,
         options
       );
@@ -99,11 +110,13 @@ export class ClustersImpl implements Clusters {
   private async *listPagingAll(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ClustersListOptionalParams
-  ): AsyncIterableIterator<Cluster> {
+    clusterName: string,
+    options?: PlacementPoliciesListOptionalParams
+  ): AsyncIterableIterator<PlacementPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       privateCloudName,
+      clusterName,
       options
     )) {
       yield* page;
@@ -111,160 +124,79 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * List clusters in a private cloud
+   * List placement policies in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
+   * @param clusterName Name of the cluster in the private cloud
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: ClustersListOptionalParams
-  ): Promise<ClustersListResponse> {
+    clusterName: string,
+    options?: PlacementPoliciesListOptionalParams
+  ): Promise<PlacementPoliciesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, options },
+      { resourceGroupName, privateCloudName, clusterName, options },
       listOperationSpec
     );
   }
 
   /**
-   * Get a cluster by name in a private cloud
+   * Get a placement policy by name in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
+   * @param placementPolicyName Name of the VMware vSphere Distributed Resource Scheduler (DRS) placement
+   *                            policy
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
-    options?: ClustersGetOptionalParams
-  ): Promise<ClustersGetResponse> {
+    placementPolicyName: string,
+    options?: PlacementPoliciesGetOptionalParams
+  ): Promise<PlacementPoliciesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, clusterName, options },
+      {
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        placementPolicyName,
+        options
+      },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update a cluster in a private cloud
+   * Create or update a placement policy in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
+   * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
-   * @param cluster A cluster in the private cloud
+   * @param placementPolicyName Name of the VMware vSphere Distributed Resource Scheduler (DRS) placement
+   *                            policy
+   * @param placementPolicy A placement policy in the private cloud cluster
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
-    cluster: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    placementPolicyName: string,
+    placementPolicy: PlacementPolicy,
+    options?: PlacementPoliciesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<ClustersCreateOrUpdateResponse>,
-      ClustersCreateOrUpdateResponse
+      PollOperationState<PlacementPoliciesCreateOrUpdateResponse>,
+      PlacementPoliciesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ClustersCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, privateCloudName, clusterName, cluster, options },
-      createOrUpdateOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-  }
-
-  /**
-   * Create or update a cluster in a private cloud
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName The name of the private cloud.
-   * @param clusterName Name of the cluster in the private cloud
-   * @param cluster A cluster in the private cloud
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    privateCloudName: string,
-    clusterName: string,
-    cluster: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
-  ): Promise<ClustersCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      privateCloudName,
-      clusterName,
-      cluster,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Update a cluster in a private cloud
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateCloudName Name of the private cloud
-   * @param clusterName Name of the cluster in the private cloud
-   * @param clusterUpdate The cluster properties to be updated
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    privateCloudName: string,
-    clusterName: string,
-    clusterUpdate: ClusterUpdate,
-    options?: ClustersUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<ClustersUpdateResponse>,
-      ClustersUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ClustersUpdateResponse> => {
+    ): Promise<PlacementPoliciesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -306,7 +238,117 @@ export class ClustersImpl implements Clusters {
         resourceGroupName,
         privateCloudName,
         clusterName,
-        clusterUpdate,
+        placementPolicyName,
+        placementPolicy,
+        options
+      },
+      createOrUpdateOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Create or update a placement policy in a private cloud cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param clusterName Name of the cluster in the private cloud
+   * @param placementPolicyName Name of the VMware vSphere Distributed Resource Scheduler (DRS) placement
+   *                            policy
+   * @param placementPolicy A placement policy in the private cloud cluster
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    privateCloudName: string,
+    clusterName: string,
+    placementPolicyName: string,
+    placementPolicy: PlacementPolicy,
+    options?: PlacementPoliciesCreateOrUpdateOptionalParams
+  ): Promise<PlacementPoliciesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      privateCloudName,
+      clusterName,
+      placementPolicyName,
+      placementPolicy,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Update a placement policy in a private cloud cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param clusterName Name of the cluster in the private cloud
+   * @param placementPolicyName Name of the VMware vSphere Distributed Resource Scheduler (DRS) placement
+   *                            policy
+   * @param placementPolicyUpdate The placement policy properties that may be updated
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    privateCloudName: string,
+    clusterName: string,
+    placementPolicyName: string,
+    placementPolicyUpdate: PlacementPolicyUpdate,
+    options?: PlacementPoliciesUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PlacementPoliciesUpdateResponse>,
+      PlacementPoliciesUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PlacementPoliciesUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        placementPolicyName,
+        placementPolicyUpdate,
         options
       },
       updateOperationSpec
@@ -318,42 +360,49 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Update a cluster in a private cloud
+   * Update a placement policy in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
-   * @param clusterUpdate The cluster properties to be updated
+   * @param placementPolicyName Name of the VMware vSphere Distributed Resource Scheduler (DRS) placement
+   *                            policy
+   * @param placementPolicyUpdate The placement policy properties that may be updated
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
-    clusterUpdate: ClusterUpdate,
-    options?: ClustersUpdateOptionalParams
-  ): Promise<ClustersUpdateResponse> {
+    placementPolicyName: string,
+    placementPolicyUpdate: PlacementPolicyUpdate,
+    options?: PlacementPoliciesUpdateOptionalParams
+  ): Promise<PlacementPoliciesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       privateCloudName,
       clusterName,
-      clusterUpdate,
+      placementPolicyName,
+      placementPolicyUpdate,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a cluster in a private cloud
+   * Delete a placement policy in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
+   * @param placementPolicyName Name of the VMware vSphere Distributed Resource Scheduler (DRS) placement
+   *                            policy
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    placementPolicyName: string,
+    options?: PlacementPoliciesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -396,7 +445,13 @@ export class ClustersImpl implements Clusters {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, privateCloudName, clusterName, options },
+      {
+        resourceGroupName,
+        privateCloudName,
+        clusterName,
+        placementPolicyName,
+        options
+      },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -406,22 +461,26 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Delete a cluster in a private cloud
+   * Delete a placement policy in a private cloud cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
+   * @param placementPolicyName Name of the VMware vSphere Distributed Resource Scheduler (DRS) placement
+   *                            policy
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     privateCloudName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    placementPolicyName: string,
+    options?: PlacementPoliciesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       privateCloudName,
       clusterName,
+      placementPolicyName,
       options
     );
     return poller.pollUntilDone();
@@ -431,17 +490,19 @@ export class ClustersImpl implements Clusters {
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
+   * @param clusterName Name of the cluster in the private cloud
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     privateCloudName: string,
+    clusterName: string,
     nextLink: string,
-    options?: ClustersListNextOptionalParams
-  ): Promise<ClustersListNextResponse> {
+    options?: PlacementPoliciesListNextOptionalParams
+  ): Promise<PlacementPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, privateCloudName, nextLink, options },
+      { resourceGroupName, privateCloudName, clusterName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -451,11 +512,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterList
+      bodyMapper: Mappers.PlacementPoliciesList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -466,18 +527,19 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
+    Parameters.clusterName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.PlacementPolicy
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -489,40 +551,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.clusterName
+    Parameters.clusterName,
+    Parameters.placementPolicyName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.PlacementPolicy
     },
     201: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.PlacementPolicy
     },
     202: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.PlacementPolicy
     },
     204: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.PlacementPolicy
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.cluster,
+  requestBody: Parameters.placementPolicy,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.clusterName
+    Parameters.clusterName,
+    Parameters.placementPolicyName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -530,33 +594,34 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.PlacementPolicy
     },
     201: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.PlacementPolicy
     },
     202: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.PlacementPolicy
     },
     204: {
-      bodyMapper: Mappers.Cluster
+      bodyMapper: Mappers.PlacementPolicy
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.clusterUpdate,
+  requestBody: Parameters.placementPolicyUpdate,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.clusterName
+    Parameters.clusterName,
+    Parameters.placementPolicyName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -564,7 +629,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies/{placementPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -581,7 +646,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
-    Parameters.clusterName
+    Parameters.clusterName,
+    Parameters.placementPolicyName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -591,7 +657,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ClusterList
+      bodyMapper: Mappers.PlacementPoliciesList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -603,7 +669,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.privateCloudName
+    Parameters.privateCloudName,
+    Parameters.clusterName
   ],
   headerParameters: [Parameters.accept],
   serializer

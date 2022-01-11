@@ -16,6 +16,7 @@ specifiers:
   '@rush-temp/arm-appservice': file:./projects/arm-appservice.tgz
   '@rush-temp/arm-attestation': file:./projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
+  '@rush-temp/arm-avs': file:./projects/arm-avs.tgz
   '@rush-temp/arm-azurestack': file:./projects/arm-azurestack.tgz
   '@rush-temp/arm-batch': file:./projects/arm-batch.tgz
   '@rush-temp/arm-billing': file:./projects/arm-billing.tgz
@@ -200,6 +201,7 @@ dependencies:
   '@rush-temp/arm-appservice': file:projects/arm-appservice.tgz
   '@rush-temp/arm-attestation': file:projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
+  '@rush-temp/arm-avs': file:projects/arm-avs.tgz
   '@rush-temp/arm-azurestack': file:projects/arm-azurestack.tgz
   '@rush-temp/arm-batch': file:projects/arm-batch.tgz
   '@rush-temp/arm-billing': file:projects/arm-billing.tgz
@@ -8114,6 +8116,27 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       mkdirp: 1.0.4
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
+  file:projects/arm-avs.tgz:
+    resolution: {integrity: sha512-ZVT73iZjn66o9nf93/mdkPypd8ugF5FG6pSAiI2DTRZjavBhEPi+BkQ4mbz1yQ8gxgGV5divZ/dBGYYefDranw==, tarball: file:projects/arm-avs.tgz}
+    name: '@rush-temp/arm-avs'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
