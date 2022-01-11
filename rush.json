@@ -1230,6 +1230,11 @@
       "packageName": "@azure/arm-avs",
       "projectFolder": "sdk/avs/arm-avs",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-communication",
+      "projectFolder": "sdk/communication/arm-communication",
+      "versionPolicyName": "management"
     }
   ]
 }

@@ -12,3 +12,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-confluent?view=azure-node-p
 https://docs.microsoft.com/javascript/api/@azure/arm-imagebuilder
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/imagebuilder/arm-imagebuilder
 https://docs.microsoft.com/javascript/api/@azure/arm-avs
+https://docs.microsoft.com/javascript/api/@azure/arm-communication
