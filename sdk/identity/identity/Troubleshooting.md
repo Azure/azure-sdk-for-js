@@ -83,7 +83,7 @@ To utilize the desired authentication type via `EnvironmentCredential`, ensure t
 ##### ClientCertificate credential
 
 | Variable name                   | Value                                                                                       |
-| ------------------------------- | ------------------------------------------------------------------------------------------- |
+| ----------------------------- | ------------------------------------------------------------------------------------------- |
 | `AZURE_CLIENT_ID`               | ID of an Azure AD app.                                                                      |
 | `AZURE_TENANT_ID`               | ID of the app's Azure AD tenant.                                                            |
 | `AZURE_CLIENT_CERTIFICATE_PATH` | Path to a PEM-encoded certificate file including private key (without password protection). |
