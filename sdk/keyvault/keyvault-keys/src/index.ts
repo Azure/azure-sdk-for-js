@@ -380,7 +380,7 @@ export class KeyClient {
   }
 
   /**
-   * The createOkpKey method creates a new OKP key in Azure Key Vault. If the named key
+   * The `createOkpKey` method creates a new OKP (Octet Key Pair) key in Azure Key Vault. If the named key
    * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
    * permission.
    *
