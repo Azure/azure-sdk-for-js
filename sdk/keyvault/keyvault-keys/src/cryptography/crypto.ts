@@ -41,9 +41,9 @@ export interface CreateHashResult {
 export function createHash(
   algorithm: string,
   data: Uint8Array,
-  hashAlgorithm?: string
+  requestedHashAlgorithm?: string
 ): CreateHashResult {
-  hashAlgorithm ||= algorithmToHashAlgorithm[algorithm];
+  const hashAlgorithm = requestedHashAlgorithm ?? algorithmToHashAlgorithm[algorithm];
   if (!hashAlgorithm) {
     throw new Error(
       `Invalid algorithm ${algorithm} passed to createHash. Supported algorithms: ${Object.keys(
@@ -72,9 +72,9 @@ export interface CreateVerifyResult {
 export function createVerify(
   algorithm: string,
   data: Uint8Array,
-  hashAlgorithm?: string
+  requestedHashAlgorithm?: string
 ): CreateVerifyResult {
-  hashAlgorithm ||= algorithmToHashAlgorithm[algorithm];
+  const hashAlgorithm = requestedHashAlgorithm ?? algorithmToHashAlgorithm[algorithm];
   if (!hashAlgorithm) {
     throw new Error(
       `Invalid algorithm ${algorithm} passed to createHash. Supported algorithms: ${Object.keys(

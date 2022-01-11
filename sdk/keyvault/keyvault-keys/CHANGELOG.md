@@ -5,7 +5,7 @@
 ### Features Added
 
 - Added support for [OKP](https://datatracker.ietf.org/doc/html/rfc8037) key types as well as `sign`, `verify`, `signData`, and `verifyData` cryptography operations when using OKP keys.
-  - `signData` and `verifyData` will now return the hash algorithms used to create a digest from the supplied data.
+  - `signDataResult` and `verifyDataResult` will now return the hash algorithms used to create a digest from the supplied data.
   - `signData` now accepts an optional `hashAlgorithm` parameter allowing the caller to override the default hashing algorithm used when creating a message digest.
 
 ### Breaking Changes
