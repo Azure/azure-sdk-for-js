@@ -133,9 +133,10 @@ export type UserEventRequest =
       context: ConnectionContext;
 
       /**
-       * The content data.
+       * The content data, when data type is `json`, the data is the result of JSON.parse, so the type of the data depends on user scenarios
        */
-      data: any;
+      data: unknown;
+
       /**
        * The type of the data.
        */

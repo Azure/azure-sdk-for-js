@@ -65,7 +65,7 @@ export type UserEventRequest = {
     dataType: "text";
 } | {
     context: ConnectionContext;
-    data: any;
+    data: unknown;
     dataType: "json";
 } | {
     context: ConnectionContext;
