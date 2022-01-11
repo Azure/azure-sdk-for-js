@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./arcSettings";
-export * from "./clusters";
-export * from "./extensions";
-export * from "./operations";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { AzureStackHCIClient } from "./azureStackHCIClient";
+export * from "./operationsInterfaces";
