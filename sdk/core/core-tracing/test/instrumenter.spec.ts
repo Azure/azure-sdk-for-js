@@ -72,11 +72,6 @@ describe("Instrumenter", () => {
       span.setStatus({ status: "success" });
       span.setAttribute("foo", "bar");
       span.recordException(new Error("test"));
-      assert.deepEqual(span.spanContext(), {
-        spanId: "00000000-0000-0000-0000-000000000000",
-        traceId: "00000000-0000-0000-0000-000000000000",
-        traceFlags: 0x0,
-      });
       span.end();
       assert.isFalse(span.isRecording());
     });

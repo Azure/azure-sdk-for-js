@@ -1,27 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Instrumenter,
-  InstrumenterSpanOptions,
-  TracingContext,
-  TracingSpan,
-  TracingSpanContext,
-} from "./interfaces";
+import { Instrumenter, InstrumenterSpanOptions, TracingContext, TracingSpan } from "./interfaces";
 import { createTracingContext } from "./tracingContext";
 
 export function createDefaultTracingSpan(): TracingSpan {
   return {
     end: () => {
       // noop
-    },
-    spanContext() {
-      // The world could always use more zeroes.
-      return {
-        spanId: "00000000-0000-0000-0000-000000000000",
-        traceId: "00000000-0000-0000-0000-000000000000",
-        traceFlags: 0x0,
-      };
     },
     isRecording: () => false,
     recordException: () => {
@@ -41,7 +27,7 @@ export function createDefaultInstrumenter(): Instrumenter {
     createRequestHeaders: (): Record<string, string> => {
       return {};
     },
-    parseTraceparentHeader: (): TracingSpanContext | undefined => {
+    parseTraceparentHeader: (): TracingContext | undefined => {
       return undefined;
     },
     startSpan: (

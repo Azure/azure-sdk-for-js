@@ -90,10 +90,4 @@ describe("OpenTelemetrySpanWrapper", () => {
       assert.equal(span.isRecording(), otSpan.isRecording());
     });
   });
-
-  describe("#spanContext", () => {
-    it("returns the wrapped span context", () => {
-      assert.deepEqual(span.spanContext(), otSpan.spanContext());
-    });
-  });
 });

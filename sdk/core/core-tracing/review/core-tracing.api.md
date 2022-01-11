@@ -10,7 +10,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
 // @public
 export interface Instrumenter {
     createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
-    parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined;
+    parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
     startSpan(name: string, spanOptions: InstrumenterSpanOptions): {
         span: TracingSpan;
         tracingContext: TracingContext;
@@ -41,7 +41,7 @@ export type SpanStatus = {
 // @public
 export interface TracingClient {
     createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
-    parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined;
+    parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
     startSpan<Options extends {
         tracingOptions?: OperationTracingOptions;
     }>(name: string, operationOptions?: Options, spanOptions?: TracingSpanOptions): {
@@ -75,15 +75,6 @@ export interface TracingSpan {
     recordException(exception: Error | string): void;
     setAttribute(name: string, value: unknown): void;
     setStatus(status: SpanStatus): void;
-    spanContext(): TracingSpanContext;
-}
-
-// @public
-export interface TracingSpanContext {
-    spanId: string;
-    traceFlags: number;
-    traceId: string;
-    traceState?: unknown;
 }
 
 // @public
@@ -94,7 +85,7 @@ export interface TracingSpanLink {
     attributes?: {
         [key: string]: unknown;
     };
-    spanContext: TracingSpanContext;
+    tracingContext: TracingContext;
 }
 
 // @public

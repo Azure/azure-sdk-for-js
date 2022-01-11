@@ -10,7 +10,6 @@ export {
   TracingClientOptions,
   TracingContext,
   TracingSpan,
-  TracingSpanContext,
   TracingSpanKind,
   TracingSpanLink,
   TracingSpanOptions,

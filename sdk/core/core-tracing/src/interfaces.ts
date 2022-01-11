@@ -76,7 +76,7 @@ export interface TracingClient {
    * @param traceparentHeader - The traceparent header to parse.
    * @returns An implementation-specific identifier for the span.
    */
-  parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined;
+  parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
 
   /**
    * Creates a set of request headers to propagate tracing information to a backend.
@@ -114,28 +114,10 @@ export interface TracingSpanOptions {
 
 /** A pointer from the current {@link TracingSpan} to another span in the same or a different trace. */
 export interface TracingSpanLink {
-  /** The {@link TracingSpanContext} to link to. */
-  spanContext: TracingSpanContext;
+  /** The {@link TracingContext} containing the span context to link to. */
+  tracingContext: TracingContext;
   /** A set of attributes on the link. */
   attributes?: { [key: string]: unknown };
-}
-
-/**
- * A unique, serializable identifier for a span.
- */
-export interface TracingSpanContext {
-  /** The span UUID within the trace. */
-  spanId: string;
-  /** The trace UUID. */
-  traceId: string;
-  /**
-   * https://www.w3.org/TR/trace-context/#trace-flags
-   */
-  traceFlags: number;
-  /**
-   * An implementation-specific value representing system-specific trace info to serialize.
-   */
-  traceState?: unknown;
 }
 
 /**
@@ -174,7 +156,7 @@ export interface Instrumenter {
    * Provides an implementation-specific method to parse a {@link https://www.w3.org/TR/trace-context/#traceparent-header}
    * into a {@link TracingSpanContext} which can be used to link non-parented spans together.
    */
-  parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined;
+  parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
   /**
    * Provides an implementation-specific method to serialize a {@link TracingSpan} to a set of headers.
    * @param tracingContext - The context containing the span to serialize.
@@ -248,9 +230,6 @@ export interface TracingSpan {
    * Depending on the span implementation, this may return false if the span is not being sampled.
    */
   isRecording(): boolean;
-
-  /** Returns the {@link TracingSpanContext} - an immutable, serializable span identifier. */
-  spanContext(): TracingSpanContext;
 }
 
 /** An immutable context bag of tracing values for the current operation. */

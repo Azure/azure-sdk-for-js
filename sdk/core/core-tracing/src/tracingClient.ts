@@ -7,7 +7,6 @@ import {
   TracingClientOptions,
   TracingContext,
   TracingSpan,
-  TracingSpanContext,
   TracingSpanOptions,
 } from "./interfaces";
 import { getInstrumenter } from "./instrumenter";
@@ -98,7 +97,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
    * @param traceparentHeader - The traceparent header to parse.
    * @returns An implementation-specific identifier for the span.
    */
-  function parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined {
+  function parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined {
     return getInstrumenter().parseTraceparentHeader(traceparentHeader);
   }
 

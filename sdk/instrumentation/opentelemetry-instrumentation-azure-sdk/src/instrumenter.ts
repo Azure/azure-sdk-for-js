@@ -6,7 +6,6 @@ import {
   InstrumenterSpanOptions,
   TracingContext,
   TracingSpan,
-  TracingSpanContext,
 } from "@azure/core-tracing";
 
 import { trace, context, defaultTextMapGetter, defaultTextMapSetter } from "@opentelemetry/api";
@@ -50,19 +49,17 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     );
   }
 
-  parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined {
-    const newContext = propagator.extract(
+  parseTraceparentHeader(traceparentHeader: string): TracingContext {
+    return propagator.extract(
       context.active(),
       { traceparent: traceparentHeader },
       defaultTextMapGetter
     );
-    return trace.getSpanContext(newContext);
   }
 
   createRequestHeaders(tracingContext?: TracingContext): Record<string, string> {
     const headers: Record<string, string> = {};
     propagator.inject(tracingContext || context.active(), headers, defaultTextMapSetter);
-
     return headers;
   }
 }

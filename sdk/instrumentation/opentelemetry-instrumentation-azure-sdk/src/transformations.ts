@@ -8,7 +8,7 @@ import {
   SpanAttributes,
   SpanKind,
   SpanOptions,
-  TraceState,
+  trace,
 } from "@opentelemetry/api";
 
 /**
@@ -43,15 +43,16 @@ type SpanKindMapping = {
  * @returns A set of {@link Link}s
  */
 function toOpenTelemetryLinks(spanLinks: TracingSpanLink[] = []): Link[] {
-  return spanLinks.map((tracingSpanLink) => {
-    return {
-      context: {
-        ...tracingSpanLink.spanContext,
-        traceState: tracingSpanLink.spanContext.traceState as TraceState,
-      },
-      attributes: toOpenTelemetrySpanAttributes(tracingSpanLink.attributes),
-    };
-  });
+  return spanLinks.reduce((acc, tracingSpanLink) => {
+    const spanContext = trace.getSpanContext(tracingSpanLink.tracingContext);
+    if (spanContext) {
+      acc.push({
+        context: spanContext,
+        attributes: toOpenTelemetrySpanAttributes(tracingSpanLink.attributes),
+      });
+    }
+    return acc;
+  }, [] as Link[]);
 }
 
 /**

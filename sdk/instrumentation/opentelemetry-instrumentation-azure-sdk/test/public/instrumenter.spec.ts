@@ -12,6 +12,10 @@ import sinon from "sinon";
 import { Context } from "mocha";
 import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper";
 
+function unwrap(span: TracingSpan): TestSpan {
+  return (span as OpenTelemetrySpanWrapper).unwrap() as TestSpan;
+}
+
 describe("OpenTelemetryInstrumenter", () => {
   const instrumenter = new OpenTelemetryInstrumenter();
 
@@ -39,9 +43,6 @@ describe("OpenTelemetryInstrumenter", () => {
   // TODO: the following still uses existing test support for OTel.
   // Once the new APIs are available we should move away from those.
   describe("#startSpan", () => {
-    function unwrap(span: TracingSpan): TestSpan {
-      return (span as OpenTelemetrySpanWrapper).unwrap() as TestSpan;
-    }
     let tracer: TestTracer;
     const packageName = "test-package";
     const packageVersion = "test-version";
@@ -150,12 +151,15 @@ describe("OpenTelemetryInstrumenter", () => {
       });
 
       it("supports spanLinks", () => {
-        const { span: linkedSpan } = instrumenter.startSpan("linked", { packageName });
+        const { tracingContext: linkedSpanContext } = instrumenter.startSpan("linked", {
+          packageName,
+        });
+
         const { span } = instrumenter.startSpan("test", {
           packageName,
           spanLinks: [
             {
-              spanContext: linkedSpan.spanContext(),
+              tracingContext: linkedSpanContext,
               attributes: {
                 attr1: "value1",
               },
@@ -165,16 +169,23 @@ describe("OpenTelemetryInstrumenter", () => {
 
         const links = unwrap(span).links;
         assert.equal(links.length, 1);
+        assert.deepEqual(links[0].attributes, { attr1: "value1" });
+        assert.deepEqual(links[0].context, trace.getSpan(linkedSpanContext)?.spanContext());
+      });
 
-        assert.deepEqual(links[0], {
-          attributes: {
-            attr1: "value1",
-          },
-          context: {
-            ...linkedSpan.spanContext(),
-            traceState: undefined,
-          },
+      it("supports spanLinks from traceparentHeader", () => {
+        const linkedContext = instrumenter.parseTraceparentHeader(
+          "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+        );
+
+        const { span } = instrumenter.startSpan("test", {
+          packageName,
+          spanLinks: [{ tracingContext: linkedContext! }],
         });
+
+        const links = unwrap(span).links;
+        assert.equal(links.length, 1);
+        assert.deepEqual(links[0].context, trace.getSpan(linkedContext!)?.spanContext());
       });
     });
   });
@@ -217,6 +228,17 @@ describe("OpenTelemetryInstrumenter", () => {
     it("Returns the value of the callback", () => {
       const result = instrumenter.withContext(context.active(), () => 42);
       assert.equal(result, 42);
+    });
+  });
+
+  describe("#parseTraceparentHeader", () => {
+    it("returns a new context with spanContext set", () => {
+      const validTraceparentHeader = "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01";
+      const updatedContext = instrumenter.parseTraceparentHeader(validTraceparentHeader);
+      assert.exists(updatedContext);
+      const spanContext = trace.getSpanContext(updatedContext!);
+      assert.equal(spanContext?.spanId, "00f067aa0ba902b7");
+      assert.equal(spanContext?.traceId, "4bf92f3577b34da6a3ce929d0e0e4736");
     });
   });
 });

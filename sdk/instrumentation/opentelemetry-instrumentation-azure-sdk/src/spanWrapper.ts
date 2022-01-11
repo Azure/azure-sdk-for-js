@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanStatus, TracingSpan, TracingSpanContext } from "@azure/core-tracing";
+import { SpanStatus, TracingSpan } from "@azure/core-tracing";
 import { Span, SpanStatusCode, SpanAttributeValue } from "@opentelemetry/api";
 
 export class OpenTelemetrySpanWrapper implements TracingSpan {
@@ -40,10 +40,6 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
 
   isRecording(): boolean {
     return this._span.isRecording();
-  }
-
-  spanContext(): TracingSpanContext {
-    return this._span.spanContext();
   }
 
   /**
