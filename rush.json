@@ -1240,6 +1240,11 @@
       "packageName": "@azure/arm-appconfiguration",
       "projectFolder": "sdk/appconfiguration/arm-appconfiguration",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-azurestackhci",
+      "projectFolder": "sdk/azurestackhci/arm-azurestackhci",
+      "versionPolicyName": "management"
     }
   ]
 }
