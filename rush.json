@@ -1235,6 +1235,11 @@
       "packageName": "@azure/arm-communication",
       "projectFolder": "sdk/communication/arm-communication",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appconfiguration",
+      "projectFolder": "sdk/appconfiguration/arm-appconfiguration",
+      "versionPolicyName": "management"
     }
   ]
 }

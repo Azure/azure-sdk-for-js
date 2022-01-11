@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PrivateEndpointConnections } from "../operationsInterfaces";
+import { KeyValues } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,26 +15,25 @@ import { AppConfigurationManagementClient } from "../appConfigurationManagementC
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionsListByConfigurationStoreNextOptionalParams,
-  PrivateEndpointConnectionsListByConfigurationStoreOptionalParams,
-  PrivateEndpointConnectionsListByConfigurationStoreResponse,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsGetResponse,
-  PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
-  PrivateEndpointConnectionsCreateOrUpdateResponse,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsListByConfigurationStoreNextResponse
+  KeyValue,
+  KeyValuesListByConfigurationStoreNextOptionalParams,
+  KeyValuesListByConfigurationStoreOptionalParams,
+  KeyValuesListByConfigurationStoreResponse,
+  KeyValuesGetOptionalParams,
+  KeyValuesGetResponse,
+  KeyValuesCreateOrUpdateOptionalParams,
+  KeyValuesCreateOrUpdateResponse,
+  KeyValuesDeleteOptionalParams,
+  KeyValuesListByConfigurationStoreNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections {
+/** Class containing KeyValues operations. */
+export class KeyValuesImpl implements KeyValues {
   private readonly client: AppConfigurationManagementClient;
 
   /**
-   * Initialize a new instance of the class PrivateEndpointConnections class.
+   * Initialize a new instance of the class KeyValues class.
    * @param client Reference to the service client
    */
   constructor(client: AppConfigurationManagementClient) {
@@ -42,7 +41,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Lists all private endpoint connections for a configuration store.
+   * Lists the key-values for a given configuration store.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param options The options parameters.
@@ -50,8 +49,8 @@ export class PrivateEndpointConnectionsImpl
   public listByConfigurationStore(
     resourceGroupName: string,
     configStoreName: string,
-    options?: PrivateEndpointConnectionsListByConfigurationStoreOptionalParams
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
+    options?: KeyValuesListByConfigurationStoreOptionalParams
+  ): PagedAsyncIterableIterator<KeyValue> {
     const iter = this.listByConfigurationStorePagingAll(
       resourceGroupName,
       configStoreName,
@@ -77,8 +76,8 @@ export class PrivateEndpointConnectionsImpl
   private async *listByConfigurationStorePagingPage(
     resourceGroupName: string,
     configStoreName: string,
-    options?: PrivateEndpointConnectionsListByConfigurationStoreOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
+    options?: KeyValuesListByConfigurationStoreOptionalParams
+  ): AsyncIterableIterator<KeyValue[]> {
     let result = await this._listByConfigurationStore(
       resourceGroupName,
       configStoreName,
@@ -101,8 +100,8 @@ export class PrivateEndpointConnectionsImpl
   private async *listByConfigurationStorePagingAll(
     resourceGroupName: string,
     configStoreName: string,
-    options?: PrivateEndpointConnectionsListByConfigurationStoreOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
+    options?: KeyValuesListByConfigurationStoreOptionalParams
+  ): AsyncIterableIterator<KeyValue> {
     for await (const page of this.listByConfigurationStorePagingPage(
       resourceGroupName,
       configStoreName,
@@ -113,7 +112,7 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Lists all private endpoint connections for a configuration store.
+   * Lists the key-values for a given configuration store.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param options The options parameters.
@@ -121,8 +120,8 @@ export class PrivateEndpointConnectionsImpl
   private _listByConfigurationStore(
     resourceGroupName: string,
     configStoreName: string,
-    options?: PrivateEndpointConnectionsListByConfigurationStoreOptionalParams
-  ): Promise<PrivateEndpointConnectionsListByConfigurationStoreResponse> {
+    options?: KeyValuesListByConfigurationStoreOptionalParams
+  ): Promise<KeyValuesListByConfigurationStoreResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, options },
       listByConfigurationStoreOperationSpec
@@ -130,144 +129,58 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Gets the specified private endpoint connection associated with the configuration store.
+   * Gets the properties of the specified key-value.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
-   * @param privateEndpointConnectionName Private endpoint connection name
+   * @param keyValueName Identifier of key and label combination. Key and label are joined by $
+   *                     character. Label is optional.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     configStoreName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
-  ): Promise<PrivateEndpointConnectionsGetResponse> {
+    keyValueName: string,
+    options?: KeyValuesGetOptionalParams
+  ): Promise<KeyValuesGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        configStoreName,
-        privateEndpointConnectionName,
-        options
-      },
+      { resourceGroupName, configStoreName, keyValueName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Update the state of the specified private endpoint connection associated with the configuration
-   * store.
+   * Creates a key-value.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
-   * @param privateEndpointConnectionName Private endpoint connection name
-   * @param privateEndpointConnection The private endpoint connection properties.
+   * @param keyValueName Identifier of key and label combination. Key and label are joined by $
+   *                     character. Label is optional.
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  createOrUpdate(
     resourceGroupName: string,
     configStoreName: string,
-    privateEndpointConnectionName: string,
-    privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
-      PrivateEndpointConnectionsCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        configStoreName,
-        privateEndpointConnectionName,
-        privateEndpointConnection,
-        options
-      },
+    keyValueName: string,
+    options?: KeyValuesCreateOrUpdateOptionalParams
+  ): Promise<KeyValuesCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, configStoreName, keyValueName, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
   }
 
   /**
-   * Update the state of the specified private endpoint connection associated with the configuration
-   * store.
+   * Deletes a key-value.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
-   * @param privateEndpointConnectionName Private endpoint connection name
-   * @param privateEndpointConnection The private endpoint connection properties.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    configStoreName: string,
-    privateEndpointConnectionName: string,
-    privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
-  ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      configStoreName,
-      privateEndpointConnectionName,
-      privateEndpointConnection,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Deletes a private endpoint connection.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
-   * @param configStoreName The name of the configuration store.
-   * @param privateEndpointConnectionName Private endpoint connection name
+   * @param keyValueName Identifier of key and label combination. Key and label are joined by $
+   *                     character. Label is optional.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     configStoreName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    keyValueName: string,
+    options?: KeyValuesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -310,12 +223,7 @@ export class PrivateEndpointConnectionsImpl
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        resourceGroupName,
-        configStoreName,
-        privateEndpointConnectionName,
-        options
-      },
+      { resourceGroupName, configStoreName, keyValueName, options },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -325,22 +233,23 @@ export class PrivateEndpointConnectionsImpl
   }
 
   /**
-   * Deletes a private endpoint connection.
+   * Deletes a key-value.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
-   * @param privateEndpointConnectionName Private endpoint connection name
+   * @param keyValueName Identifier of key and label combination. Key and label are joined by $
+   *                     character. Label is optional.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     configStoreName: string,
-    privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    keyValueName: string,
+    options?: KeyValuesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       configStoreName,
-      privateEndpointConnectionName,
+      keyValueName,
       options
     );
     return poller.pollUntilDone();
@@ -358,8 +267,8 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     configStoreName: string,
     nextLink: string,
-    options?: PrivateEndpointConnectionsListByConfigurationStoreNextOptionalParams
-  ): Promise<PrivateEndpointConnectionsListByConfigurationStoreNextResponse> {
+    options?: KeyValuesListByConfigurationStoreNextOptionalParams
+  ): Promise<KeyValuesListByConfigurationStoreNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, nextLink, options },
       listByConfigurationStoreNextOperationSpec
@@ -371,17 +280,17 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByConfigurationStoreOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.KeyValueListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -393,11 +302,11 @@ const listByConfigurationStoreOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues/{keyValueName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.KeyValue
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -409,40 +318,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.privateEndpointConnectionName
+    Parameters.keyValueName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues/{keyValueName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
-    },
-    201: {
-      bodyMapper: Mappers.PrivateEndpointConnection
-    },
-    202: {
-      bodyMapper: Mappers.PrivateEndpointConnection
-    },
-    204: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.KeyValue
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.privateEndpointConnection,
+  requestBody: Parameters.keyValueParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.privateEndpointConnectionName
+    Parameters.keyValueName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -450,7 +350,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues/{keyValueName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -467,7 +367,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.privateEndpointConnectionName
+    Parameters.keyValueName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -477,13 +377,13 @@ const listByConfigurationStoreNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.KeyValueListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
