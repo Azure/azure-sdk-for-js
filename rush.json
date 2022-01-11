@@ -557,11 +557,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/event-processor-host",
-      "projectFolder": "sdk/eventhub/event-processor-host",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/mock-hub",
       "projectFolder": "sdk/eventhub/mock-hub",
       "versionPolicyName": "utility"
@@ -719,6 +714,11 @@
     {
       "packageName": "@azure-tools/test-recorder-new",
       "projectFolder": "sdk/test-utils/recorder-new",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure-tools/test-credential",
+      "projectFolder": "sdk/test-utils/test-credential",
       "versionPolicyName": "utility"
     },
     {
@@ -1149,6 +1149,101 @@
     {
       "packageName": "@azure/arm-cognitiveservices",
       "projectFolder": "sdk/cognitiveservices/arm-cognitiveservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-loadtestservice",
+      "projectFolder": "sdk/loadtestservice/arm-loadtestservice",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-relay",
+      "projectFolder": "sdk/relay/arm-relay",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iothub",
+      "projectFolder": "sdk/iothub/arm-iothub",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-msi",
+      "projectFolder": "sdk/msi/arm-msi",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-monitor",
+      "projectFolder": "sdk/monitor/arm-monitor",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-subscriptions",
+      "projectFolder": "sdk/subscription/arm-subscriptions",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-advisor",
+      "projectFolder": "sdk/advisor/arm-advisor",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hdinsight",
+      "projectFolder": "sdk/hdinsight/arm-hdinsight",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-attestation",
+      "projectFolder": "sdk/attestation/arm-attestation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-azurestack",
+      "projectFolder": "sdk/azurestack/arm-azurestack",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-changeanalysis",
+      "projectFolder": "sdk/changeanalysis/arm-changeanalysis",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-billing",
+      "projectFolder": "sdk/billing/arm-billing",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerinstance",
+      "projectFolder": "sdk/containerinstance/arm-containerinstance",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-confluent",
+      "projectFolder": "sdk/confluent/arm-confluent",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-imagebuilder",
+      "projectFolder": "sdk/imagebuilder/arm-imagebuilder",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-avs",
+      "projectFolder": "sdk/avs/arm-avs",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-communication",
+      "projectFolder": "sdk/communication/arm-communication",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appconfiguration",
+      "projectFolder": "sdk/appconfiguration/arm-appconfiguration",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-azurestackhci",
+      "projectFolder": "sdk/azurestackhci/arm-azurestackhci",
       "versionPolicyName": "management"
     }
   ]

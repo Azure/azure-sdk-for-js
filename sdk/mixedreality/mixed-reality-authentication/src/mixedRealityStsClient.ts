@@ -3,22 +3,21 @@
 
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import { TokenCredential, AccessToken, AzureKeyCredential } from "@azure/core-auth";
 import {
   MixedRealityStsRestClient,
   MixedRealityStsRestClientOptionalParams,
   GetTokenOptionalParams
 } from "./generated";
-import { logger } from "./logger";
-import { MixedRealityStsClientOptions, GetTokenOptions } from "./models/options";
-import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { SDK_VERSION } from "./constants";
-import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint";
-import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
+import { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
 import { MixedRealityAccountKeyCredential } from "./models/auth";
-import { mapToAccessToken } from "./models/mappers";
+import { SDK_VERSION } from "./constants";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint";
+import { createSpan } from "./tracing";
 import { generateCvBase } from "./util/cv";
+import { logger } from "./logger";
+import { mapToAccessToken } from "./models/mappers";
 
 /**
  * Represents the Mixed Reality STS client for retrieving STS tokens used to access Mixed Reality services.
@@ -38,10 +37,10 @@ export class MixedRealityStsClient {
 
   /**
    * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param keyCredential The Mixed Reality service account primary or secondary key credential.
-   * @param options Additional client options.
+   * @param accountId - The Mixed Reality service account identifier.
+   * @param accountDomain - The Mixed Reality service account domain.
+   * @param keyCredential - The Mixed Reality service account primary or secondary key credential.
+   * @param options - Additional client options.
    */
   constructor(
     accountId: string,
@@ -52,10 +51,10 @@ export class MixedRealityStsClient {
 
   /**
    * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param credential The credential used to access the Mixed Reality service.
-   * @param options Additional client options.
+   * @param accountId - The Mixed Reality service account identifier.
+   * @param accountDomain - The Mixed Reality service account domain.
+   * @param credential - The credential used to access the Mixed Reality service.
+   * @param options - Additional client options.
    */
   constructor(
     accountId: string,
@@ -66,10 +65,10 @@ export class MixedRealityStsClient {
 
   /**
    * Creates an instance of a MixedRealityStsClient.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountDomain The Mixed Reality service account domain.
-   * @param credential The credential used to access the Mixed Reality service.
-   * @param options Additional client options.
+   * @param accountId - The Mixed Reality service account identifier.
+   * @param accountDomain - The Mixed Reality service account domain.
+   * @param credential - The credential used to access the Mixed Reality service.
+   * @param options - Additional client options.
    */
   constructor(
     accountId: string,
@@ -140,14 +139,14 @@ export class MixedRealityStsClient {
 
   /**
    * Retrieve a token from the STS service.
-   * @param options Operation options.
+   * @param options - Operation options.
    */
   public async getToken(options: GetTokenOptions = {}): Promise<AccessToken> {
     let internalOptions: GetTokenOptionalParams = {
       ...options,
       tokenRequestOptions: {
-        clientRequestId: generateCvBase()
-      }
+        clientRequestId: generateCvBase(),
+      },
     };
 
     const { span, updatedOptions } = createSpan("MixedRealityStsClient-GetToken", internalOptions);
@@ -161,7 +160,7 @@ export class MixedRealityStsClient {
       // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
 
       throw e;

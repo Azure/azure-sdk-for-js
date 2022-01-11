@@ -6,7 +6,7 @@ import { Poller } from "@azure/core-lro";
 import {
   RestoreCertificateBackupPollOperationState,
   makeRestoreCertificateBackupPollOperation,
-  TestCertificateClientInterface
+  TestCertificateClientInterface,
 } from "./operation";
 import { KeyVaultCertificate } from "../../../../src/certificatesModels";
 
@@ -43,7 +43,7 @@ export class RestoreCertificateBackupPoller extends Poller<
       ...state,
       backup,
       operationOptions,
-      client
+      client,
     });
 
     super(operation);

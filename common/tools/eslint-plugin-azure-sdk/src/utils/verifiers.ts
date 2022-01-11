@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
 import { ArrayExpression, Literal, ObjectExpression, Property, SpreadElement } from "estree";
+import { Rule } from "eslint";
 
 interface StructureData {
   outer: string;
@@ -74,7 +74,7 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
     ) {
       context.report({
         node: node,
-        message: `${outer} does not exist at the outermost level`
+        message: `${outer} does not exist at the outermost level`,
       });
     }
   },
@@ -92,7 +92,7 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
     if (node.value.type !== "Literal") {
       context.report({
         node: node.value,
-        message: `${outer} is not set to a literal (string | boolean | null | number | RegExp)`
+        message: `${outer} is not set to a literal (string | boolean | null | number | RegExp)`,
       });
     }
 
@@ -107,7 +107,7 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
           fixer.replaceText(
             nodeValue,
             typeof expected === "string" ? `"${expected}"` : (expected as string)
-          )
+          ),
       });
     }
   },
@@ -135,7 +135,7 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
     ) {
       context.report({
         node: value,
-        message: `${inner} is not a member of ${outer}`
+        message: `${inner} is not a member of ${outer}`,
       });
     }
   },
@@ -154,7 +154,7 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
     if (node.value.type !== "Literal") {
       context.report({
         node: node.value,
-        message: `${outer}.${inner} is not set to a literal (string | boolean | null | number | RegExp)`
+        message: `${outer}.${inner} is not set to a literal (string | boolean | null | number | RegExp)`,
       });
     }
 
@@ -169,7 +169,7 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
           fixer.replaceText(
             nodeValue,
             typeof expected === "string" ? `"${expected}"` : (expected as string)
-          )
+          ),
       });
     }
   },
@@ -186,7 +186,7 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
     if (node.value.type !== "ArrayExpression") {
       context.report({
         node: node.value,
-        message: `${outer} is not set to an array`
+        message: `${outer} is not set to an array`,
       });
     }
 
@@ -199,7 +199,7 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
     if (nonLiteral !== undefined && nonLiteral !== null) {
       context.report({
         node: nonLiteral,
-        message: `${outer} contains non-literal (string | boolean | null | number | RegExp) elements`
+        message: `${outer} contains non-literal (string | boolean | null | number | RegExp) elements`,
       });
     }
 
@@ -215,7 +215,7 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
             fix: (fixer: Rule.RuleFixer): Rule.Fix => {
               candidateValues.push(value);
               return fixer.replaceText(nodeValue, arrayToString(candidateValues));
-            }
+            },
           });
         }
       });
@@ -227,9 +227,9 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
           fix: (fixer: Rule.RuleFixer): Rule.Fix => {
             candidateValues.push(expected);
             return fixer.replaceText(nodeValue, arrayToString(candidateValues));
-          }
+          },
         });
       }
     }
-  }
+  },
 });

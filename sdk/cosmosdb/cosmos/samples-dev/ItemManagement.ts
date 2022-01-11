@@ -5,10 +5,8 @@
  * @summary Demonstrates item creation, read, delete and reading all items belonging to a container.
  */
 
-import path from "path";
-
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 import { CosmosClient, PatchOperation } from "@azure/cosmos";
@@ -52,7 +50,7 @@ async function run(): Promise<void> {
 
   logStep("Read item with AccessCondition and no change to _etag");
   const { resource: item2, headers } = await item.read({
-    accessCondition: { type: "IfNoneMatch", condition: readDoc._etag }
+    accessCondition: { type: "IfNoneMatch", condition: readDoc._etag },
   });
   if (!item2 && headers["content-length"] === 0) {
     console.log(
@@ -65,7 +63,7 @@ async function run(): Promise<void> {
   readDoc.foo = "bar";
   await item.replace(readDoc);
   const { resource: item3, headers: headers3 } = await item.read({
-    accessCondition: { type: "IfNoneMatch", condition: readDoc._etag }
+    accessCondition: { type: "IfNoneMatch", condition: readDoc._etag },
   });
   if (!item3 && headers3["content-length"] === 0) {
     throw "Expected item this time. Something is wrong!";
@@ -80,9 +78,9 @@ async function run(): Promise<void> {
     parameters: [
       {
         name: "@lastName",
-        value: "Andersen"
-      }
-    ]
+        value: "Andersen",
+      },
+    ],
   };
 
   logStep("Query items in container '" + container.id + "'");
@@ -103,7 +101,7 @@ async function run(): Promise<void> {
     firstName: "Newborn",
     gender: "unknown",
     fingers: 10,
-    toes: 10
+    toes: 10,
   };
 
   person.children.push(childDef);
@@ -144,8 +142,9 @@ async function run(): Promise<void> {
 
   const upsertSource = itemDefList[1];
   logStep(
-    `Upserting person ${upsertSource && upsertSource.id} with id ${upsertSource &&
-      upsertSource.id}...`
+    `Upserting person ${upsertSource && upsertSource.id} with id ${
+      upsertSource && upsertSource.id
+    }...`
   );
 
   // a non-identity change will cause an update on upsert
@@ -173,8 +172,8 @@ async function run(): Promise<void> {
     {
       op: "replace",
       path: "/lastName",
-      value: "Martin"
-    }
+      value: "Martin",
+    },
   ];
   if (patchSource) {
     const patchId = patchSource && patchSource.id;
@@ -189,27 +188,27 @@ async function run(): Promise<void> {
       {
         op: "add",
         path: "/aka",
-        value: "MeFamily"
+        value: "MeFamily",
       },
       {
         op: "replace",
         path: "/lastName",
-        value: "Jose"
+        value: "Jose",
       },
       {
         op: "remove",
-        path: "/parents"
+        path: "/parents",
       },
       {
         op: "set",
         path: "/address/zip",
-        value: 90211
+        value: 90211,
       },
       {
         op: "incr",
         path: "/address/zip",
-        value: 5
-      }
+        value: 5,
+      },
     ];
     const { resource: patchSource2 } = await container.item(patchId!).patch(multipleOperations);
     if (patchSource2) {
@@ -221,8 +220,8 @@ async function run(): Promise<void> {
       {
         op: "add",
         path: "/newImproved",
-        value: "it works"
-      }
+        value: "it works",
+      },
     ];
     const condition = "from c where NOT IS_DEFINED(c.newImproved)";
     const { resource: patchSource3 } = await container

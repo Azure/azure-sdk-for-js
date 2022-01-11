@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpHeaders } from "../httpHeaders";
 import * as base64 from "../util/base64";
 import { Constants } from "../util/constants";
-import { WebResourceLike } from "../webResource";
+import { HttpHeaders } from "../httpHeaders";
 import { ServiceClientCredentials } from "./serviceClientCredentials";
+import { WebResourceLike } from "../webResource";
+
 const HeaderConstants = Constants.HeaderConstants;
 const DEFAULT_AUTHORIZATION_SCHEME = "Basic";
 

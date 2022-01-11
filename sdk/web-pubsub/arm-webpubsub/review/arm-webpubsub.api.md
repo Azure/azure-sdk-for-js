@@ -17,13 +17,6 @@ export type ACLAction = string;
 export type CreatedByType = string;
 
 // @public
-export interface DiagnosticConfiguration {
-    enableConnectivityLogs?: string;
-    enableLiveTrace?: string;
-    enableMessagingLogs?: string;
-}
-
-// @public
 export interface Dimension {
     displayName?: string;
     internalName?: string;
@@ -52,16 +45,9 @@ export interface ErrorResponse {
 }
 
 // @public
-export interface EventHandlerSettings {
-    items?: {
-        [propertyName: string]: EventHandlerTemplate[];
-    };
-}
-
-// @public
-export interface EventHandlerTemplate {
+export interface EventHandler {
     auth?: UpstreamAuthSettings;
-    systemEventPattern?: string;
+    systemEvents?: string[];
     urlTemplate: string;
     userEventPattern?: string;
 }
@@ -94,6 +80,8 @@ export enum KnownCreatedByType {
 export enum KnownKeyType {
     // (undocumented)
     Primary = "Primary",
+    // (undocumented)
+    Salt = "Salt",
     // (undocumented)
     Secondary = "Secondary"
 }
@@ -143,6 +131,16 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownScaleType {
+    // (undocumented)
+    Automatic = "Automatic",
+    // (undocumented)
+    Manual = "Manual",
+    // (undocumented)
+    None = "None"
+}
+
+// @public
 export enum KnownSharedPrivateLinkResourceStatus {
     // (undocumented)
     Approved = "Approved",
@@ -186,6 +184,18 @@ export enum KnownWebPubSubSkuTier {
     Premium = "Premium",
     // (undocumented)
     Standard = "Standard"
+}
+
+// @public
+export interface LiveTraceCategory {
+    enabled?: string;
+    name?: string;
+}
+
+// @public
+export interface LiveTraceConfiguration {
+    categories?: LiveTraceCategory[];
+    enabled?: string;
 }
 
 // @public
@@ -305,6 +315,7 @@ export type PrivateEndpointConnection = ProxyResource & {
     readonly systemData?: SystemData;
     readonly provisioningState?: ProvisioningState;
     privateEndpoint?: PrivateEndpoint;
+    readonly groupIds?: string[];
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
 };
 
@@ -357,6 +368,17 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceLogCategory {
+    enabled?: string;
+    name?: string;
+}
+
+// @public
+export interface ResourceLogConfiguration {
+    categories?: ResourceLogCategory[];
+}
+
+// @public
 export interface ResourceSku {
     capacity?: number;
     readonly family?: string;
@@ -364,6 +386,9 @@ export interface ResourceSku {
     readonly size?: string;
     tier?: WebPubSubSkuTier;
 }
+
+// @public
+export type ScaleType = string;
 
 // @public
 export interface ServiceSpecification {
@@ -422,6 +447,28 @@ export interface SignalRServiceUsageList {
 export interface SignalRServiceUsageName {
     localizedValue?: string;
     value?: string;
+}
+
+// @public
+export interface Sku {
+    readonly capacity?: SkuCapacity;
+    readonly resourceType?: string;
+    readonly sku?: ResourceSku;
+}
+
+// @public
+export interface SkuCapacity {
+    readonly allowedValues?: number[];
+    readonly default?: number;
+    readonly maximum?: number;
+    readonly minimum?: number;
+    readonly scaleType?: ScaleType;
+}
+
+// @public
+export interface SkuList {
+    readonly nextLink?: string;
+    readonly value?: Sku[];
 }
 
 // @public
@@ -493,6 +540,7 @@ export interface WebPubSub {
     listByResourceGroup(resourceGroupName: string, options?: WebPubSubListByResourceGroupOptionalParams): PagedAsyncIterableIterator<WebPubSubResource>;
     listBySubscription(options?: WebPubSubListBySubscriptionOptionalParams): PagedAsyncIterableIterator<WebPubSubResource>;
     listKeys(resourceGroupName: string, resourceName: string, options?: WebPubSubListKeysOptionalParams): Promise<WebPubSubListKeysResponse>;
+    listSkus(resourceGroupName: string, resourceName: string, options?: WebPubSubListSkusOptionalParams): Promise<WebPubSubListSkusResponse>;
 }
 
 // @public
@@ -523,6 +571,70 @@ export interface WebPubSubGetOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type WebPubSubGetResponse = WebPubSubResource;
+
+// @public
+export type WebPubSubHub = ProxyResource & {
+    readonly systemData?: SystemData;
+    properties: WebPubSubHubProperties;
+};
+
+// @public
+export interface WebPubSubHubList {
+    readonly nextLink?: string;
+    value?: WebPubSubHub[];
+}
+
+// @public
+export interface WebPubSubHubProperties {
+    anonymousConnectPolicy?: string;
+    eventHandlers?: EventHandler[];
+}
+
+// @public
+export interface WebPubSubHubs {
+    beginCreateOrUpdate(hubName: string, resourceGroupName: string, resourceName: string, parameters: WebPubSubHub, options?: WebPubSubHubsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WebPubSubHubsCreateOrUpdateResponse>, WebPubSubHubsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(hubName: string, resourceGroupName: string, resourceName: string, parameters: WebPubSubHub, options?: WebPubSubHubsCreateOrUpdateOptionalParams): Promise<WebPubSubHubsCreateOrUpdateResponse>;
+    beginDelete(hubName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubHubsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(hubName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubHubsDeleteOptionalParams): Promise<void>;
+    get(hubName: string, resourceGroupName: string, resourceName: string, options?: WebPubSubHubsGetOptionalParams): Promise<WebPubSubHubsGetResponse>;
+    list(resourceGroupName: string, resourceName: string, options?: WebPubSubHubsListOptionalParams): PagedAsyncIterableIterator<WebPubSubHub>;
+}
+
+// @public
+export interface WebPubSubHubsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WebPubSubHubsCreateOrUpdateResponse = WebPubSubHub;
+
+// @public
+export interface WebPubSubHubsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface WebPubSubHubsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebPubSubHubsGetResponse = WebPubSubHub;
+
+// @public
+export interface WebPubSubHubsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebPubSubHubsListNextResponse = WebPubSubHubList;
+
+// @public
+export interface WebPubSubHubsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebPubSubHubsListResponse = WebPubSubHubList;
 
 // @public
 export interface WebPubSubKeys {
@@ -567,32 +679,36 @@ export interface WebPubSubListKeysOptionalParams extends coreClient.OperationOpt
 // @public
 export type WebPubSubListKeysResponse = WebPubSubKeys;
 
-// @public (undocumented)
-export class WebPubSubManagementClient extends WebPubSubManagementClientContext {
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: WebPubSubManagementClientOptionalParams);
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    usages: Usages;
-    // (undocumented)
-    webPubSub: WebPubSub;
-    // (undocumented)
-    webPubSubPrivateEndpointConnections: WebPubSubPrivateEndpointConnections;
-    // (undocumented)
-    webPubSubPrivateLinkResources: WebPubSubPrivateLinkResources;
-    // (undocumented)
-    webPubSubSharedPrivateLinkResources: WebPubSubSharedPrivateLinkResources;
+// @public
+export interface WebPubSubListSkusOptionalParams extends coreClient.OperationOptions {
 }
 
+// @public
+export type WebPubSubListSkusResponse = SkuList;
+
 // @public (undocumented)
-export class WebPubSubManagementClientContext extends coreClient.ServiceClient {
+export class WebPubSubManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: WebPubSubManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    operations: Operations;
+    // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    usages: Usages;
+    // (undocumented)
+    webPubSub: WebPubSub;
+    // (undocumented)
+    webPubSubHubs: WebPubSubHubs;
+    // (undocumented)
+    webPubSubPrivateEndpointConnections: WebPubSubPrivateEndpointConnections;
+    // (undocumented)
+    webPubSubPrivateLinkResources: WebPubSubPrivateLinkResources;
+    // (undocumented)
+    webPubSubSharedPrivateLinkResources: WebPubSubSharedPrivateLinkResources;
 }
 
 // @public
@@ -697,8 +813,9 @@ export type WebPubSubResource = TrackedResource & {
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     tls?: WebPubSubTlsSettings;
-    diagnosticConfiguration?: DiagnosticConfiguration;
-    eventHandler?: EventHandlerSettings;
+    readonly hostNamePrefix?: string;
+    liveTraceConfiguration?: LiveTraceConfiguration;
+    resourceLogConfiguration?: ResourceLogConfiguration;
     networkACLs?: WebPubSubNetworkACLs;
     publicNetworkAccess?: string;
     disableLocalAuth?: boolean;

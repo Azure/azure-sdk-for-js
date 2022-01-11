@@ -12,7 +12,7 @@ import {
   SpanContext,
   SpanKind,
   context as otContext,
-  setSpanContext
+  setSpanContext,
 } from "@azure/core-tracing";
 import { ServiceBusMessage } from "../serviceBusMessage";
 import { TryAddOptions } from "../modelsToBeSharedWithEventHubs";
@@ -23,7 +23,7 @@ import { TryAddOptions } from "../modelsToBeSharedWithEventHubs";
  */
 export const createSpan = createSpanFunction({
   packagePrefix: "Azure.ServiceBus",
-  namespace: "Microsoft.ServiceBus"
+  namespace: "Microsoft.ServiceBus",
 });
 
 /**
@@ -35,7 +35,7 @@ export function createMessageSpan(
   host: string
 ): ReturnType<typeof createServiceBusSpan> {
   return createServiceBusSpan("message", operationOptions, entityPath, host, {
-    kind: SpanKind.PRODUCER
+    kind: SpanKind.PRODUCER,
   });
 }
 
@@ -57,9 +57,9 @@ export function createServiceBusSpan(
       spanOptions: {
         // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
         ...(operationOptions?.tracingOptions as any)?.spanOptions,
-        ...additionalSpanOptions
-      }
-    }
+        ...additionalSpanOptions,
+      },
+    },
   });
 
   span.setAttribute("message_bus.destination", entityPath);
@@ -67,7 +67,7 @@ export function createServiceBusSpan(
 
   return {
     span,
-    updatedOptions
+    updatedOptions,
   };
 }
 
@@ -117,7 +117,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
   if (previouslyInstrumented) {
     return {
       message,
-      spanContext: undefined
+      spanContext: undefined,
     };
   }
 
@@ -127,7 +127,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
     if (!messageSpan.isRecording()) {
       return {
         message,
-        spanContext: undefined
+        spanContext: undefined,
       };
     }
 
@@ -139,14 +139,14 @@ export function instrumentMessage<T extends InstrumentableMessage>(
         ...message,
         applicationProperties: {
           ...message.applicationProperties,
-          [TRACEPARENT_PROPERTY]: traceParent
-        }
+          [TRACEPARENT_PROPERTY]: traceParent,
+        },
       };
     }
 
     return {
       message,
-      spanContext: messageSpan.spanContext()
+      spanContext: messageSpan.spanContext(),
     };
   } finally {
     messageSpan.end();
@@ -225,8 +225,8 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
     tracingOptions: {
       tracingContext: isSpan(legacyParentSpanOrSpanContext)
         ? setSpan(otContext.active(), legacyParentSpanOrSpanContext)
-        : setSpanContext(otContext.active(), legacyParentSpanOrSpanContext)
-    }
+        : setSpanContext(otContext.active(), legacyParentSpanOrSpanContext),
+    },
   };
 
   return convertedOptions;

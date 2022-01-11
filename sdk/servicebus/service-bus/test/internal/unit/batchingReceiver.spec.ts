@@ -12,7 +12,7 @@ import { EventEmitter } from "events";
 import {
   BatchingReceiver,
   getRemainingWaitTimeInMsFn,
-  BatchingReceiverLite
+  BatchingReceiverLite,
 } from "../../../src/core/batchingReceiver";
 import { defer, createConnectionContextForTests } from "./unittestUtils";
 import { createAbortSignalForTest } from "../../public/utils/abortSignalTestUtils";
@@ -23,7 +23,7 @@ import {
   ReceiverEvents,
   SessionEvents,
   EventContext,
-  Message as RheaMessage
+  Message as RheaMessage,
 } from "rhea-promise";
 import { ConnectionContext } from "../../../src/connectionContext";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
@@ -53,7 +53,8 @@ describe("BatchingReceiver unit tests", () => {
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock",
-        1
+        1,
+        false
       );
       let wasCalled = false;
 
@@ -68,13 +69,13 @@ describe("BatchingReceiver unit tests", () => {
             assert.equal(options?.abortSignal, origAbortSignal);
             wasCalled = true;
             return [];
-          }
+          },
         } as BatchingReceiver;
       };
 
       await receiver.receiveMessages(1000, {
         maxWaitTimeInMs: 60 * 1000,
-        abortSignal: origAbortSignal
+        abortSignal: origAbortSignal,
       });
 
       assert.isTrue(wasCalled, "Expected a call to BatchingReceiver.receive()");
@@ -86,12 +87,13 @@ describe("BatchingReceiver unit tests", () => {
 
       const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
         receiveMode: "peekLock",
-        lockRenewer: undefined
+        lockRenewer: undefined,
+        skipParsingBodyAsJson: false,
       });
 
       try {
         await receiver.receive(1, 60 * 1000, 60 * 1000, {
-          abortSignal: abortController.signal
+          abortSignal: abortController.signal,
         });
         assert.fail("Should have thrown");
       } catch (err) {
@@ -105,7 +107,8 @@ describe("BatchingReceiver unit tests", () => {
 
       const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
         receiveMode: "peekLock",
-        lockRenewer: undefined
+        lockRenewer: undefined,
+        skipParsingBodyAsJson: false,
       });
       closeables.push(receiver);
 
@@ -115,9 +118,9 @@ describe("BatchingReceiver unit tests", () => {
       receiver["_init"] = async () => {
         // just enough of a Receiver to validate that cleanup actions
         // are being run on abort.
-        receiver["_link"] = ({
+        receiver["_link"] = {
           connection: {
-            id: "connection id"
+            id: "connection id",
           },
           removeListener: (eventType: ReceiverEvents) => {
             listeners.add(eventType.toString());
@@ -144,9 +147,9 @@ describe("BatchingReceiver unit tests", () => {
               // we definitely shouldn't be registering any new handlers if we've aborted.
               callsDoneAfterAbort.push(eventType);
               listeners.add(eventType);
-            }
-          }
-        } as any) as RheaPromiseReceiver;
+            },
+          },
+        } as any as RheaPromiseReceiver;
 
         abortController.abort();
       };
@@ -193,7 +196,8 @@ describe("BatchingReceiver unit tests", () => {
           "dummyEntityPath",
           {
             receiveMode: lockMode,
-            lockRenewer: undefined
+            lockRenewer: undefined,
+            skipParsingBodyAsJson: false,
           }
         );
         closeables.push(batchingReceiver);
@@ -205,7 +209,7 @@ describe("BatchingReceiver unit tests", () => {
 
         // batch fulfillment is checked when we receive a message...
         rheaReceiver.emit(ReceiverEvents.message, {
-          message: { body: "the message" } as RheaMessage
+          message: { body: "the message" } as RheaMessage,
         } as EventContext);
 
         const messages = await receivePromise;
@@ -225,7 +229,8 @@ describe("BatchingReceiver unit tests", () => {
           "dummyEntityPath",
           {
             receiveMode: lockMode,
-            lockRenewer: undefined
+            lockRenewer: undefined,
+            skipParsingBodyAsJson: false,
           }
         );
         closeables.push(receiver);
@@ -257,7 +262,8 @@ describe("BatchingReceiver unit tests", () => {
             "dummyEntityPath",
             {
               receiveMode: lockMode,
-              lockRenewer: undefined
+              lockRenewer: undefined,
+              skipParsingBodyAsJson: false,
             }
           );
           closeables.push(batchingReceiver);
@@ -269,7 +275,7 @@ describe("BatchingReceiver unit tests", () => {
 
           // batch fulfillment is checked when we receive a message...
           rheaReceiver.emit(ReceiverEvents.message, {
-            message: { body: "the first message" } as RheaMessage
+            message: { body: "the first message" } as RheaMessage,
           } as EventContext);
 
           // advance the timeout to _just_ before the expiration of the first one (which must have been set
@@ -279,7 +285,7 @@ describe("BatchingReceiver unit tests", () => {
           // now emit a second message - this second message should _not_ change any existing timers
           // or start new ones.
           rheaReceiver.emit(ReceiverEvents.message, {
-            message: { body: "the second message" } as RheaMessage
+            message: { body: "the second message" } as RheaMessage,
           } as EventContext);
 
           // now we'll advance the clock to 'littleTimeout' which should now fire off our timer.
@@ -305,7 +311,8 @@ describe("BatchingReceiver unit tests", () => {
           "dummyEntityPath",
           {
             receiveMode: lockMode,
-            lockRenewer: undefined
+            lockRenewer: undefined,
+            skipParsingBodyAsJson: false,
           }
         );
         closeables.push(batchingReceiver);
@@ -318,8 +325,8 @@ describe("BatchingReceiver unit tests", () => {
         // batch fulfillment is checked when we receive a message...
         rheaReceiver.emit(ReceiverEvents.message, {
           message: {
-            body: "the first message"
-          } as RheaMessage
+            body: "the first message",
+          } as RheaMessage,
         } as EventContext);
 
         // In the peekLock algorithm we would've resolved the promise here but_ we disable
@@ -330,8 +337,8 @@ describe("BatchingReceiver unit tests", () => {
         // the time all the way....
         rheaReceiver.emit(ReceiverEvents.message, {
           message: {
-            body: "the second message"
-          } as RheaMessage
+            body: "the second message",
+          } as RheaMessage,
         } as EventContext);
 
         clock.tick(bigTimeout);
@@ -359,7 +366,8 @@ describe("BatchingReceiver unit tests", () => {
             "dummyEntityPath",
             {
               receiveMode: lockMode,
-              lockRenewer: undefined
+              lockRenewer: undefined,
+              skipParsingBodyAsJson: false,
             }
           );
           closeables.push(batchingReceiver);
@@ -394,8 +402,8 @@ describe("BatchingReceiver unit tests", () => {
 
           emitter.emit(ReceiverEvents.message, {
             message: {
-              body: "the second message"
-            } as RheaMessage
+              body: "the second message",
+            } as RheaMessage,
           } as EventContext);
 
           // and just to be _really_ sure we'll only tick the `arbitraryAmountOfTimeInMs`.
@@ -425,7 +433,7 @@ describe("BatchingReceiver unit tests", () => {
 
         batchingReceiver["_batchingReceiverLite"]["_createServiceBusMessage"] = (eventContext) => {
           return {
-            body: eventContext.message?.body
+            body: eventContext.message?.body,
           } as ServiceBusMessageImpl;
         };
 
@@ -433,7 +441,7 @@ describe("BatchingReceiver unit tests", () => {
 
         return {
           receiveIsReady,
-          rheaReceiver
+          rheaReceiver,
         };
       }
     });
@@ -462,11 +470,11 @@ describe("BatchingReceiver unit tests", () => {
     };
 
     Object.defineProperty(fakeRheaReceiver, "credit", {
-      get: () => credit
+      get: () => credit,
     });
 
     (fakeRheaReceiver as any)["connection"] = {
-      id: "connection-id"
+      id: "connection-id",
     };
 
     return fakeRheaReceiver;
@@ -526,7 +534,8 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock"
+        "peekLock",
+        false
       );
 
       assert.isFalse(batchingReceiver.isReceivingMessages);
@@ -535,13 +544,13 @@ describe("BatchingReceiver unit tests", () => {
       const prm = batchingReceiver.receiveMessages({
         maxMessageCount: 1,
         maxTimeAfterFirstMessageInMs: 20,
-        maxWaitTimeInMs: 10
+        maxWaitTimeInMs: 10,
       });
 
       assert.isTrue(batchingReceiver.isReceivingMessages);
 
       await receiveIsReady;
-      await clock.tick(10 + 1);
+      clock.tick(10 + 1);
 
       await prm;
       assert.isFalse(batchingReceiver.isReceivingMessages);
@@ -556,7 +565,8 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock"
+        "peekLock",
+        false
       );
 
       assert.notExists(batchingReceiver["_closeHandler"]);
@@ -566,13 +576,13 @@ describe("BatchingReceiver unit tests", () => {
       const receiveMessagesPromise = batchingReceiver.receiveMessages({
         maxMessageCount: 1,
         maxTimeAfterFirstMessageInMs: 1,
-        maxWaitTimeInMs: 1
+        maxWaitTimeInMs: 1,
       });
 
       await receiveIsReady;
       assert.exists(batchingReceiver["_closeHandler"]);
 
-      await batchingReceiver.terminate(new Error("actual error"));
+      batchingReceiver.terminate(new Error("actual error"));
 
       try {
         await receiveMessagesPromise;
@@ -591,7 +601,8 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock"
+        "peekLock",
+        false
       );
 
       assert.notExists(batchingReceiver["_closeHandler"]);
@@ -604,7 +615,7 @@ describe("BatchingReceiver unit tests", () => {
         {
           maxMessageCount: 1,
           maxTimeAfterFirstMessageInMs: 1,
-          maxWaitTimeInMs: 1
+          maxWaitTimeInMs: 1,
         },
         () => {
           resolveWasCalled = true;
@@ -644,7 +655,8 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        "peekLock"
+        "peekLock",
+        false
       );
 
       batchingReceiverLite["_receiveMessagesImpl"](
@@ -652,7 +664,7 @@ describe("BatchingReceiver unit tests", () => {
         {
           maxMessageCount: 2,
           maxTimeAfterFirstMessageInMs: 1,
-          maxWaitTimeInMs: 1
+          maxWaitTimeInMs: 1,
         },
         () => {
           /* empty body */
@@ -705,7 +717,8 @@ describe("BatchingReceiver unit tests", () => {
       async () => {
         return fakeRheaReceiver;
       },
-      "peekLock"
+      "peekLock",
+      false
     );
 
     const receiveIsReady = getReceiveIsReadyPromise(batchingReceiverLite);
@@ -714,7 +727,7 @@ describe("BatchingReceiver unit tests", () => {
       .receiveMessages({
         maxMessageCount: 3,
         maxTimeAfterFirstMessageInMs: 5000,
-        maxWaitTimeInMs: 5000
+        maxWaitTimeInMs: 5000,
       })
       .then((messages) => {
         return [...messages];
@@ -758,9 +771,9 @@ describe("BatchingReceiver unit tests", () => {
         message: {
           body: "the first message",
           message_annotations: {
-            [Constants.enqueuedTime]: 0
-          }
-        } as RheaMessage
+            [Constants.enqueuedTime]: 0,
+          },
+        } as RheaMessage,
       } as EventContext);
     });
 
@@ -797,7 +810,7 @@ function assertListenersRemoved(rheaReceiver: RheaPromiseReceiver): void {
     SessionEvents.sessionClose,
     SessionEvents.sessionError,
     SessionEvents.sessionOpen,
-    SessionEvents.settled
+    SessionEvents.settled,
   ];
 
   // we add a little credit remover for our tests. Ignore it.

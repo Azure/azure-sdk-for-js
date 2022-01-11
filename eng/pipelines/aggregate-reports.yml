@@ -1,5 +1,5 @@
 trigger: none
-hbadershy: haberdashery
+
 pr:
   branches:
     include:

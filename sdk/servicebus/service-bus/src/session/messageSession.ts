@@ -6,7 +6,7 @@ import {
   ErrorNameConditionMapper,
   MessagingError,
   RetryOptions,
-  StandardAbortMessage
+  StandardAbortMessage,
 } from "@azure/core-amqp";
 import {
   AmqpError,
@@ -14,7 +14,7 @@ import {
   OnAmqpEvent,
   Receiver,
   ReceiverEvents,
-  ReceiverOptions
+  ReceiverOptions,
 } from "rhea-promise";
 import { ConnectionContext } from "../connectionContext";
 import { LinkEntity } from "../core/linkEntity";
@@ -32,7 +32,7 @@ import {
   ServiceBusSessionReceiverOptions,
   ProcessErrorArgs,
   ReceiveMode,
-  SubscribeOptions
+  SubscribeOptions,
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
@@ -62,6 +62,7 @@ export type MessageSessionOptions = Pick<
 > & {
   receiveMode?: ReceiveMode;
   retryOptions: RetryOptions | undefined;
+  skipParsingBodyAsJson: boolean;
 };
 
 /**
@@ -180,6 +181,11 @@ export class MessageSession extends LinkEntity<Receiver> {
 
   private _totalAutoLockRenewDuration: number;
 
+  /**
+   * Whether to prevent the client from running JSON.parse() on the message body when receiving the message.
+   */
+  private skipParsingBodyAsJson: boolean;
+
   public get receiverHelper(): ReceiverHelper {
     return this._receiverHelper;
   }
@@ -209,7 +215,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             .getManagementClient(this.entityPath)
             .renewSessionLock(this.sessionId, {
               associatedLinkName: this.name,
-              timeoutInMs: 10000
+              timeoutInMs: 10000,
             });
           logger.verbose(
             "%s Successfully renewed the session lock for MessageSession '%s' " + "with name '%s'.",
@@ -281,7 +287,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       if (errorMessage) {
         const error = translateServiceBusError({
           description: errorMessage,
-          condition: ErrorNameConditionMapper.SessionCannotBeLockedError
+          condition: ErrorNameConditionMapper.SessionCannotBeLockedError,
         });
         logger.logError(error, this.logPrefix);
         throw error;
@@ -327,7 +333,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       this.receiveMode,
       {
         address: this.address,
-        filter: { [Constants.sessionFilterName]: this.sessionId }
+        filter: { [Constants.sessionFilterName]: this.sessionId },
       },
       {
         onClose: (context) =>
@@ -340,7 +346,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           }),
         onError: this._onAmqpError,
         onSessionError: this._onSessionError,
-        onSettled: this._onSettled
+        onSettled: this._onSettled,
       }
     );
 
@@ -365,16 +371,17 @@ export class MessageSession extends LinkEntity<Receiver> {
   ) {
     super(entityPath, entityPath, connectionContext, "session", logger, {
       address: entityPath,
-      audience: `${connectionContext.config.endpoint}${entityPath}`
+      audience: `${connectionContext.config.endpoint}${entityPath}`,
     });
     this._receiverHelper = new ReceiverHelper(() => ({
       receiver: this.link,
-      logPrefix: this.logPrefix
+      logPrefix: this.logPrefix,
     }));
     this._retryOptions = options.retryOptions;
     this.autoComplete = false;
     if (isDefined(this._providedSessionId)) this.sessionId = this._providedSessionId;
     this.receiveMode = options.receiveMode || "peekLock";
+    this.skipParsingBodyAsJson = options.skipParsingBodyAsJson;
     this.maxAutoRenewDurationInMs =
       options.maxAutoLockRenewalDurationInMs != null
         ? options.maxAutoLockRenewalDurationInMs
@@ -389,7 +396,8 @@ export class MessageSession extends LinkEntity<Receiver> {
       async (_abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
         return this.link!;
       },
-      this.receiveMode
+      this.receiveMode,
+      this.skipParsingBodyAsJson
     );
 
     // setting all the handlers
@@ -421,7 +429,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           error: sbError,
           errorSource: "receive",
           entityPath: this.entityPath,
-          fullyQualifiedNamespace: this._context.config.host
+          fullyQualifiedNamespace: this._context.config.host,
         });
       }
     };
@@ -442,7 +450,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           error: sbError,
           errorSource: "receive",
           entityPath: this.entityPath,
-          fullyQualifiedNamespace: this._context.config.host
+          fullyQualifiedNamespace: this._context.config.host,
         });
       }
     };
@@ -628,7 +636,8 @@ export class MessageSession extends LinkEntity<Receiver> {
           context.message!,
           context.delivery!,
           true,
-          this.receiveMode
+          this.receiveMode,
+          this.skipParsingBodyAsJson
         );
 
         try {
@@ -645,7 +654,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             error: err,
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
-            fullyQualifiedNamespace: this._context.config.host
+            fullyQualifiedNamespace: this._context.config.host,
           });
 
           const error = translateServiceBusError(err);
@@ -683,7 +692,7 @@ export class MessageSession extends LinkEntity<Receiver> {
                 error: translatedError,
                 errorSource: "abandon",
                 entityPath: this.entityPath,
-                fullyQualifiedNamespace: this._context.config.host
+                fullyQualifiedNamespace: this._context.config.host,
               });
             }
           }
@@ -724,7 +733,7 @@ export class MessageSession extends LinkEntity<Receiver> {
               error: translatedError,
               errorSource: "complete",
               entityPath: this.entityPath,
-              fullyQualifiedNamespace: this._context.config.host
+              fullyQualifiedNamespace: this._context.config.host,
             });
           }
         }
@@ -757,7 +766,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         // If any of these becomes untrue you'll probably want to re-evaluate this classification.
         errorSource: "receive",
         entityPath: this.entityPath,
-        fullyQualifiedNamespace: this._context.config.host
+        fullyQualifiedNamespace: this._context.config.host,
       });
     }
   }
@@ -780,7 +789,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       error,
       errorSource: "processMessageCallback",
       entityPath: this.entityPath,
-      fullyQualifiedNamespace: this._context.config.host
+      fullyQualifiedNamespace: this._context.config.host,
     });
   }
 
@@ -804,7 +813,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         maxMessageCount,
         maxWaitTimeInMs,
         maxTimeAfterFirstMessageInMs,
-        ...options
+        ...options,
       });
     } catch (error) {
       logger.logError(error, `${this.logPrefix} Rejecting receiveMessages() with error`);
@@ -827,7 +836,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         entityPath: this.entityPath,
         fullyQualifiedNamespace: this._context.config.host,
         error: translateServiceBusError(connectionError),
-        errorSource: "receive"
+        errorSource: "receive",
       });
     } catch (error) {
       logger.error(
@@ -872,26 +881,26 @@ export class MessageSession extends LinkEntity<Receiver> {
           condition: ErrorNameConditionMapper.ServiceUnavailableError,
           description:
             "Operation to settle the message has timed out. The disposition of the " +
-            "message may or may not be successful"
+            "message may or may not be successful",
         };
         return reject(translateServiceBusError(e));
       }, Constants.defaultOperationTimeoutInMs);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,
-        timer: timer
+        timer: timer,
       });
       if (operation === DispositionType.complete) {
         delivery.accept();
       } else if (operation === DispositionType.abandon) {
         const params: any = {
-          undeliverable_here: false
+          undeliverable_here: false,
         };
         if (options.propertiesToModify) params.message_annotations = options.propertiesToModify;
         delivery.modified(params);
       } else if (operation === DispositionType.defer) {
         const params: any = {
-          undeliverable_here: true
+          undeliverable_here: true,
         };
         if (options.propertiesToModify) params.message_annotations = options.propertiesToModify;
         delivery.modified(params);
@@ -901,8 +910,8 @@ export class MessageSession extends LinkEntity<Receiver> {
           info: {
             ...options.propertiesToModify,
             DeadLetterReason: options.deadLetterReason,
-            DeadLetterErrorDescription: options.deadLetterDescription
-          }
+            DeadLetterErrorDescription: options.deadLetterDescription,
+          },
         };
         delivery.reject(error);
       }

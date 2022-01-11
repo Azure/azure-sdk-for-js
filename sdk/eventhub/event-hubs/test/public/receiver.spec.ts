@@ -1,24 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:receiver-spec");
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import {
   EventData,
-  ReceivedEventData,
-  latestEventPosition,
-  earliestEventPosition,
   EventHubConsumerClient,
   EventHubProducerClient,
-  Subscription
+  ReceivedEventData,
+  Subscription,
+  earliestEventPosition,
+  latestEventPosition,
 } from "../../src";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "./utils/mockService";
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import debugModule from "debug";
 import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
+const debug = debugModule("azure:event-hubs:receiver-spec");
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
@@ -33,15 +34,15 @@ testWithServiceTypes((serviceVersion) => {
       return service?.stop();
     });
   }
-  describe("EventHubConsumerClient", function(): void {
+  describe("EventHubConsumerClient", function (): void {
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]
+      path: env[EnvVarKeys.EVENTHUB_NAME],
     };
     let producerClient: EventHubProducerClient;
     let consumerClient: EventHubConsumerClient;
     let partitionIds: string[];
-    before("validate environment", async function(): Promise<void> {
+    before("validate environment", async function (): Promise<void> {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -67,8 +68,8 @@ testWithServiceTypes((serviceVersion) => {
       await consumerClient.close();
     });
 
-    describe("subscribe() with partitionId 0 as number", function(): void {
-      it("should not throw an error", async function(): Promise<void> {
+    describe("subscribe() with partitionId 0 as number", function (): void {
+      it("should not throw an error", async function (): Promise<void> {
         let subscription: Subscription | undefined;
         await new Promise<void>((resolve, reject) => {
           subscription = consumerClient.subscribe(
@@ -80,11 +81,11 @@ testWithServiceTypes((serviceVersion) => {
               },
               processError: async (err) => {
                 reject(err);
-              }
+              },
             },
             {
               startPosition: latestEventPosition,
-              maxWaitTimeInSeconds: 0 // Set timeout of 0 to resolve the promise ASAP
+              maxWaitTimeInSeconds: 0, // Set timeout of 0 to resolve the promise ASAP
             }
           );
         });
@@ -92,7 +93,7 @@ testWithServiceTypes((serviceVersion) => {
       });
     });
 
-    describe("subscribe() with EventPosition specified as", function(): void {
+    describe("subscribe() with EventPosition specified as", function (): void {
       let partitionId: string;
       let eventSentBeforeSubscribe: EventData;
       let eventsSentAfterSubscribe: EventData[];
@@ -101,7 +102,7 @@ testWithServiceTypes((serviceVersion) => {
         partitionId = partitionIds[0];
 
         eventSentBeforeSubscribe = {
-          body: "Hello awesome world " + Math.random()
+          body: "Hello awesome world " + Math.random(),
         };
         await producerClient.sendBatch([eventSentBeforeSubscribe], { partitionId });
 
@@ -110,13 +111,13 @@ testWithServiceTypes((serviceVersion) => {
           eventsSentAfterSubscribe.push({
             body: "Hello awesome world " + Math.random(),
             properties: {
-              stamp: Math.random()
-            }
+              stamp: Math.random(),
+            },
           });
         }
       });
 
-      it("'from end of stream' should receive messages correctly", async function(): Promise<void> {
+      it("'from end of stream' should receive messages correctly", async function (): Promise<void> {
         let subscription: Subscription | undefined;
         let processEventsCalled = false;
         const eventsReceived: ReceivedEventData[] = [];
@@ -139,11 +140,11 @@ testWithServiceTypes((serviceVersion) => {
               },
               processError: async (err) => {
                 reject(err);
-              }
+              },
             },
             {
               startPosition: latestEventPosition,
-              maxWaitTimeInSeconds: 30
+              maxWaitTimeInSeconds: 30,
             }
           );
         });
@@ -166,9 +167,7 @@ testWithServiceTypes((serviceVersion) => {
         }
       });
 
-      it("'after a particular sequence number' should receive messages correctly", async function(): Promise<
-        void
-      > {
+      it("'after a particular sequence number' should receive messages correctly", async function (): Promise<void> {
         const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
         let subscription: Subscription | undefined;
         let processEventsCalled = false;
@@ -192,11 +191,11 @@ testWithServiceTypes((serviceVersion) => {
               },
               processError: async (err) => {
                 reject(err);
-              }
+              },
             },
             {
               startPosition: { sequenceNumber: partitionInfo.lastEnqueuedSequenceNumber },
-              maxWaitTimeInSeconds: 30
+              maxWaitTimeInSeconds: 30,
             }
           );
         });
@@ -219,9 +218,7 @@ testWithServiceTypes((serviceVersion) => {
         }
       });
 
-      it("'after a particular sequence number' with isInclusive should receive messages correctly", async function(): Promise<
-        void
-      > {
+      it("'after a particular sequence number' with isInclusive should receive messages correctly", async function (): Promise<void> {
         const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
         let subscription: Subscription | undefined;
         let processEventsCalled = false;
@@ -256,14 +253,14 @@ testWithServiceTypes((serviceVersion) => {
               },
               processError: async (err) => {
                 reject(err);
-              }
+              },
             },
             {
               startPosition: {
                 sequenceNumber: partitionInfo.lastEnqueuedSequenceNumber,
-                isInclusive: true
+                isInclusive: true,
               },
-              maxWaitTimeInSeconds: 30
+              maxWaitTimeInSeconds: 30,
             }
           );
         });
@@ -283,9 +280,7 @@ testWithServiceTypes((serviceVersion) => {
         }
       });
 
-      it("'after a particular offset' should receive messages correctly", async function(): Promise<
-        void
-      > {
+      it("'after a particular offset' should receive messages correctly", async function (): Promise<void> {
         const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
         let subscription: Subscription | undefined;
         let processEventsCalled = false;
@@ -309,11 +304,11 @@ testWithServiceTypes((serviceVersion) => {
               },
               processError: async (err) => {
                 reject(err);
-              }
+              },
             },
             {
               startPosition: { offset: partitionInfo.lastEnqueuedOffset },
-              maxWaitTimeInSeconds: 30
+              maxWaitTimeInSeconds: 30,
             }
           );
         });
@@ -336,9 +331,7 @@ testWithServiceTypes((serviceVersion) => {
         }
       });
 
-      it("'after a particular offset' with isInclusive should receive messages correctly", async function(): Promise<
-        void
-      > {
+      it("'after a particular offset' with isInclusive should receive messages correctly", async function (): Promise<void> {
         const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
         let subscription: Subscription | undefined;
         let processEventsCalled = false;
@@ -363,7 +356,7 @@ testWithServiceTypes((serviceVersion) => {
                   );
 
                   await producerClient.sendBatch(eventsSentAfterSubscribe, {
-                    partitionId
+                    partitionId,
                   });
                   return;
                 }
@@ -375,14 +368,14 @@ testWithServiceTypes((serviceVersion) => {
               },
               processError: async (err) => {
                 reject(err);
-              }
+              },
             },
             {
               startPosition: {
                 offset: partitionInfo.lastEnqueuedOffset,
-                isInclusive: true
+                isInclusive: true,
               },
-              maxWaitTimeInSeconds: 30
+              maxWaitTimeInSeconds: 30,
             }
           );
         });
@@ -402,9 +395,7 @@ testWithServiceTypes((serviceVersion) => {
         }
       });
 
-      it("'after a particular enqueued time' should receive messages correctly", async function(): Promise<
-        void
-      > {
+      it("'after a particular enqueued time' should receive messages correctly", async function (): Promise<void> {
         const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
         let subscription: Subscription | undefined;
         let processEventsCalled = false;
@@ -419,7 +410,7 @@ testWithServiceTypes((serviceVersion) => {
                   processEventsCalled = true;
                   should.equal(data.length, 0, "Received events when none were sent yet.");
                   await producerClient.sendBatch(eventsSentAfterSubscribe, {
-                    partitionId
+                    partitionId,
                   });
                   return;
                 }
@@ -431,11 +422,11 @@ testWithServiceTypes((serviceVersion) => {
               },
               processError: async (err) => {
                 reject(err);
-              }
+              },
             },
             {
               startPosition: { enqueuedOn: partitionInfo.lastEnqueuedOnUtc },
-              maxWaitTimeInSeconds: 30
+              maxWaitTimeInSeconds: 30,
             }
           );
         });
@@ -459,8 +450,8 @@ testWithServiceTypes((serviceVersion) => {
       });
     });
 
-    describe("subscribe() with trackLastEnqueuedEventProperties", function(): void {
-      it("should have lastEnqueuedEventProperties populated", async function(): Promise<void> {
+    describe("subscribe() with trackLastEnqueuedEventProperties", function (): void {
+      it("should have lastEnqueuedEventProperties populated", async function (): Promise<void> {
         const partitionId = partitionIds[0];
 
         const eventData = { body: "Hello awesome world " + Math.random() };
@@ -493,12 +484,12 @@ testWithServiceTypes((serviceVersion) => {
               },
               processError: async (err) => {
                 reject(err);
-              }
+              },
             },
             {
               startPosition: earliestEventPosition,
               maxBatchSize: 1,
-              trackLastEnqueuedEventProperties: true
+              trackLastEnqueuedEventProperties: true,
             }
           );
         });

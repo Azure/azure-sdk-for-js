@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import * as dotenv from "dotenv";
-import { loggerForTest } from "./logHelpers";
-import { delay } from "@azure/core-amqp";
 import { EventHubConsumerClient, EventHubProducerClient, EventPosition } from "../../../src";
-import { TestTracer, setTracer, resetTracer } from "@azure/test-utils";
+import { TestTracer, resetTracer, setTracer } from "@azure/test-utils";
+import { delay } from "@azure/core-amqp";
+import { loggerForTest } from "./logHelpers";
 
 dotenv.config();
 
@@ -20,7 +20,7 @@ export enum EnvVarKeys {
   AZURE_TENANT_ID = "AZURE_TENANT_ID",
   AZURE_CLIENT_ID = "AZURE_CLIENT_ID",
   AZURE_CLIENT_SECRET = "AZURE_CLIENT_SECRET",
-  TEST_TARGET = "TEST_TARGET"
+  TEST_TARGET = "TEST_TARGET",
 }
 
 export function getEnvVarValue(name: string): string | undefined {
@@ -50,7 +50,7 @@ export function getEnvVars(): Omit<{ [key in EnvVarKeys]: any }, EnvVarKeys.TEST
       [EnvVarKeys.EVENTHUB_NAME]: "mock-hub",
       [EnvVarKeys.AZURE_TENANT_ID]: "AzureTenantId",
       [EnvVarKeys.AZURE_CLIENT_ID]: "AzureClientId",
-      [EnvVarKeys.AZURE_CLIENT_SECRET]: "AzureClientSecret"
+      [EnvVarKeys.AZURE_CLIENT_SECRET]: "AzureClientSecret",
     });
   }
 
@@ -59,7 +59,7 @@ export function getEnvVars(): Omit<{ [key in EnvVarKeys]: any }, EnvVarKeys.TEST
     [EnvVarKeys.EVENTHUB_NAME]: getEnvVarValue(EnvVarKeys.EVENTHUB_NAME),
     [EnvVarKeys.AZURE_TENANT_ID]: getEnvVarValue(EnvVarKeys.AZURE_TENANT_ID),
     [EnvVarKeys.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_ID),
-    [EnvVarKeys.AZURE_CLIENT_SECRET]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_SECRET)
+    [EnvVarKeys.AZURE_CLIENT_SECRET]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_SECRET),
   };
 }
 
@@ -98,7 +98,7 @@ export async function getStartingPositionsForTests(
 
   for (const partitionId of eventHubProperties.partitionIds) {
     startingPositions[partitionId] = {
-      sequenceNumber: (await client.getPartitionProperties(partitionId)).lastEnqueuedSequenceNumber
+      sequenceNumber: (await client.getPartitionProperties(partitionId)).lastEnqueuedSequenceNumber,
     };
   }
 
@@ -113,6 +113,6 @@ export function setTracerForTest<T extends TestTracer>(
 
   return {
     tracer,
-    resetTracer
+    resetTracer,
   };
 }

@@ -1,34 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
-import * as dotenv from "dotenv";
+import { assert } from "chai";
 import { QueueServiceClient } from "../src/QueueServiceClient";
 import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { record, delay, Recorder } from "@azure-tools/test-recorder";
+import { getYieldedValue } from "@azure/test-utils";
 import { recorderEnvSetup } from "./utils/index.browser";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("QueueServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   it("listQueues with default parameters", async () => {
     const queueServiceClient = getQSU();
-    const result = (
-      await queueServiceClient
-        .listQueues()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await queueServiceClient.listQueues().byPage().next()).value;
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(result.clientRequestId);
@@ -46,12 +40,7 @@ describe("QueueServiceClient", () => {
 
   it("listQueues with default parameters - empty prefix should not cause an error", async () => {
     const queueServiceClient = getQSU();
-    const result = (
-      await queueServiceClient
-        .listQueues({ prefix: "" })
-        .byPage()
-        .next()
-    ).value;
+    const result = (await queueServiceClient.listQueues({ prefix: "" }).byPage().next()).value;
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
     assert.ok(result.clientRequestId);
@@ -82,7 +71,7 @@ describe("QueueServiceClient", () => {
       await queueServiceClient
         .listQueues({
           includeMetadata: true,
-          prefix: queueNamePrefix
+          prefix: queueNamePrefix,
         })
         .byPage({ maxPageSize: 1 })
         .next()
@@ -97,7 +86,7 @@ describe("QueueServiceClient", () => {
       await queueServiceClient
         .listQueues({
           includeMetadata: true,
-          prefix: queueNamePrefix
+          prefix: queueNamePrefix,
         })
         .byPage({ continuationToken: result1.continuationToken, maxPageSize: 1 })
         .next()
@@ -126,7 +115,7 @@ describe("QueueServiceClient", () => {
 
     for await (const item of queueServiceClient.listQueues({
       includeMetadata: true,
-      prefix: queueNamePrefix
+      prefix: queueNamePrefix,
     })) {
       assert.ok(item.name.startsWith(queueNamePrefix));
       assert.deepEqual(item.metadata!.key, "val");
@@ -150,15 +139,15 @@ describe("QueueServiceClient", () => {
 
     const iter1 = queueServiceClient.listQueues({
       includeMetadata: true,
-      prefix: queueNamePrefix
+      prefix: queueNamePrefix,
     });
-    let queueItem = await iter1.next();
-    assert.ok(queueItem.value.name.startsWith(queueNamePrefix));
-    assert.deepEqual(queueItem.value.metadata!.key, "val");
+    let queueItem = getYieldedValue(await iter1.next());
+    assert.ok(queueItem.name.startsWith(queueNamePrefix));
+    assert.deepEqual(queueItem.metadata!.key, "val");
 
-    queueItem = await iter1.next();
-    assert.ok(queueItem.value.name.startsWith(queueNamePrefix));
-    assert.deepEqual(queueItem.value.metadata!.key, "val");
+    queueItem = getYieldedValue(await iter1.next());
+    assert.ok(queueItem.name.startsWith(queueNamePrefix));
+    assert.deepEqual(queueItem.metadata!.key, "val");
 
     await queueClient1.delete();
     await queueClient2.delete();
@@ -178,7 +167,7 @@ describe("QueueServiceClient", () => {
     for await (const response of queueServiceClient
       .listQueues({
         includeMetadata: true,
-        prefix: queueNamePrefix
+        prefix: queueNamePrefix,
       })
       .byPage({ maxPageSize: 2 })) {
       for (const queueItem of response.queueItems!) {
@@ -206,7 +195,7 @@ describe("QueueServiceClient", () => {
     let iter = queueServiceClient
       .listQueues({
         includeMetadata: true,
-        prefix: queueNamePrefix
+        prefix: queueNamePrefix,
       })
       .byPage({ maxPageSize: 2 });
     let item = (await iter.next()).value;
@@ -223,7 +212,7 @@ describe("QueueServiceClient", () => {
     iter = queueServiceClient
       .listQueues({
         includeMetadata: true,
-        prefix: queueNamePrefix
+        prefix: queueNamePrefix,
       })
       .byPage({ continuationToken: marker, maxPageSize: 10 });
     item = (await iter.next()).value;
@@ -267,10 +256,10 @@ describe("QueueServiceClient", () => {
       read: true,
       retentionPolicy: {
         days: 5,
-        enabled: true
+        enabled: true,
       },
       version: "1.0",
-      write: true
+      write: true,
     };
 
     serviceProperties.minuteMetrics = {
@@ -278,9 +267,9 @@ describe("QueueServiceClient", () => {
       includeAPIs: true,
       retentionPolicy: {
         days: 4,
-        enabled: true
+        enabled: true,
       },
-      version: "1.0"
+      version: "1.0",
     };
 
     serviceProperties.hourMetrics = {
@@ -288,9 +277,9 @@ describe("QueueServiceClient", () => {
       includeAPIs: true,
       retentionPolicy: {
         days: 3,
-        enabled: true
+        enabled: true,
       },
-      version: "1.0"
+      version: "1.0",
     };
 
     const newCORS = {
@@ -298,7 +287,7 @@ describe("QueueServiceClient", () => {
       allowedMethods: "GET",
       allowedOrigins: "example.com",
       exposedHeaders: "*",
-      maxAgeInSeconds: 8888
+      maxAgeInSeconds: 8888,
     };
     if (!serviceProperties.cors) {
       serviceProperties.cors = [newCORS];
@@ -355,13 +344,11 @@ describe("QueueServiceClient", () => {
     await queueServiceClient.createQueue(queueName);
     const metadata = {
       key0: "val0",
-      keya: "vala"
+      keya: "vala",
     };
     await queueServiceClient.getQueueClient(queueName).setMetadata(metadata);
 
-    const result = await getQSU()
-      .getQueueClient(queueName)
-      .getProperties();
+    const result = await getQSU().getQueueClient(queueName).getProperties();
     assert.deepEqual(result.metadata, metadata);
 
     // deletes the queue

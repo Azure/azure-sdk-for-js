@@ -2,17 +2,11 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import * as dotenv from "dotenv";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { isNode } from "./testUtils";
 
 import { EventGridPublisherClient, InputSchema } from "../../../src";
 import { KeyCredential } from "@azure/core-auth";
-
-if (isNode) {
-  dotenv.config();
-}
 
 export interface RecordedClient<T extends InputSchema> {
   client: EventGridPublisherClient<T>;
@@ -25,13 +19,13 @@ const replaceableVariables: { [k: string]: string } = {
   EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY: "api_key",
   EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT: "https://endpoint/api/events",
   EVENT_GRID_CUSTOM_SCHEMA_API_KEY: "api_key",
-  EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT: "https://endpoint/api/events"
+  EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT: "https://endpoint/api/events",
 };
 
 export const testEnv = new Proxy(replaceableVariables, {
   get: (target, key: string) => {
     return env[key] || target[key];
-  }
+  },
 });
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -48,9 +42,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string => {
       const replaced = recording.replace("endpoint:443", "endpoint");
       return replaced;
-    }
+    },
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export function createRecordedClient<T extends InputSchema>(
@@ -63,6 +57,6 @@ export function createRecordedClient<T extends InputSchema>(
 
   return {
     client: new EventGridPublisherClient(endpoint, eventSchema, credential),
-    recorder
+    recorder,
   };
 }

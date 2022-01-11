@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Edm, TableClient, TableEntity, TableEntityResult, odata } from "../../src";
-import { Context } from "mocha";
-import { assert } from "chai";
-import { Recorder, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import {
   CreateClientMode,
   createTableClient,
-  recordedEnvironmentSetup
+  recordedEnvironmentSetup,
 } from "./utils/recordedClient";
+import { Edm, TableClient, TableEntity, TableEntityResult, odata } from "../../src";
+import { Recorder, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import { isNode, isNode8 } from "@azure/test-utils";
+import { Context } from "mocha";
 import { FullOperationResponse } from "@azure/core-client";
+import { assert } from "chai";
 
 // SASConnectionString and SASToken are supported in both node and browser
 const authModes: CreateClientMode[] = ["TokenCredential", "SASConnectionString"];
@@ -26,7 +26,7 @@ if (isLiveMode()) {
 }
 
 describe("special characters", () => {
-  it("should handle partition and row keys with special chars", async function(this: Context) {
+  it("should handle partition and row keys with special chars", async function (this: Context) {
     if (!isLiveMode()) {
       // Currently the recorder is having issues with the encoding of single qoutes in the
       // query request and generates invalid JS code. Disabling this test on playback mode
@@ -43,7 +43,7 @@ describe("special characters", () => {
       await client.createEntity({
         partitionKey,
         rowKey,
-        test: expectedValue
+        test: expectedValue,
       });
 
       const entity = await client.getEntity(partitionKey, rowKey);
@@ -65,7 +65,7 @@ authModes.forEach((authMode) => {
     const tableName = `tableClientTest${authMode}${suffix}`;
     const listPartitionKey = "listEntitiesTest";
 
-    beforeEach(function(this: Context) {
+    beforeEach(function (this: Context) {
       recorder = record(this, recordedEnvironmentSetup);
 
       client = createTableClient(tableName, authMode);
@@ -78,7 +78,7 @@ authModes.forEach((authMode) => {
       }
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await recorder.stop();
     });
 
@@ -90,20 +90,20 @@ authModes.forEach((authMode) => {
 
     describe("listEntities", () => {
       // Create required entities for testing list operations
-      before(async function(this: Context) {
+      before(async function (this: Context) {
         if (!isPlaybackMode()) {
           this.timeout(10000);
           await client.createEntity({
             partitionKey: listPartitionKey,
             rowKey: "binary1",
-            foo: new Uint8Array([66, 97, 114])
+            foo: new Uint8Array([66, 97, 114]),
           });
 
           for (let i = 0; i < 20; i++) {
             await client.createEntity({
               partitionKey: listPartitionKey,
               rowKey: `${i}`,
-              foo: "testEntity"
+              foo: "testEntity",
             });
           }
         }
@@ -124,10 +124,10 @@ authModes.forEach((authMode) => {
         | TableEntity<Int32Entity>
         | TableEntity<BinaryEntity>;
 
-      it("should list all", async function() {
+      it("should list all", async function () {
         const totalItems = 21;
         const entities = client.listEntities<TestEntity>({
-          queryOptions: { filter: odata`PartitionKey eq ${listPartitionKey}` }
+          queryOptions: { filter: odata`PartitionKey eq ${listPartitionKey}` },
         });
         const all: TestEntity[] = [];
         for await (const entity of entities) {
@@ -137,15 +137,15 @@ authModes.forEach((authMode) => {
         assert.lengthOf(all, totalItems);
       }).timeout(10000);
 
-      it("should list by page", async function() {
+      it("should list by page", async function () {
         const barItems = 20;
         const maxPageSize = 5;
         const entities = client.listEntities<TestEntity>({
-          queryOptions: { filter: odata`PartitionKey eq ${listPartitionKey}` }
+          queryOptions: { filter: odata`PartitionKey eq ${listPartitionKey}` },
         });
         let all: TestEntity[] = [];
         for await (const entity of entities.byPage({
-          maxPageSize
+          maxPageSize,
         })) {
           all = [...all, ...entity];
         }
@@ -162,11 +162,11 @@ authModes.forEach((authMode) => {
         );
       });
 
-      it("should list with filter", async function() {
+      it("should list with filter", async function () {
         const barItems = 20;
         const strValue = "testEntity";
         const entities = client.listEntities<TableEntity<StringEntity>>({
-          queryOptions: { filter: odata`foo eq ${strValue}` }
+          queryOptions: { filter: odata`foo eq ${strValue}` },
         });
         let all: TableEntity<StringEntity>[] = [];
         for await (const entity of entities) {
@@ -181,10 +181,10 @@ authModes.forEach((authMode) => {
         }
       });
 
-      it("should list binary with filter", async function() {
+      it("should list binary with filter", async function () {
         const strValue = "binary1";
         const entities = client.listEntities<TableEntity<BinaryEntity>>({
-          queryOptions: { filter: odata`RowKey eq ${strValue}` }
+          queryOptions: { filter: odata`RowKey eq ${strValue}` },
         });
         let all: TableEntity<BinaryEntity>[] = [];
         for await (const entity of entities) {
@@ -209,14 +209,14 @@ authModes.forEach((authMode) => {
         const testEntity: TableEntity<TestType> = {
           partitionKey: `P2_${suffix}`,
           rowKey: "R1",
-          testField: "testEntity"
+          testField: "testEntity",
         };
         let createResult: FullOperationResponse | undefined;
         let deleteResult: FullOperationResponse | undefined;
         await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
         const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
         await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
-          onResponse: (res) => (deleteResult = res)
+          onResponse: (res) => (deleteResult = res),
         });
 
         assert.equal(deleteResult?.status, 204);
@@ -231,14 +231,14 @@ authModes.forEach((authMode) => {
         const testEntity: TableEntity<TestType> = {
           partitionKey: "",
           rowKey: "",
-          testField: "testEntity"
+          testField: "testEntity",
         };
         let createResult: FullOperationResponse | undefined;
         let deleteResult: FullOperationResponse | undefined;
         await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
         const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
         await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
-          onResponse: (res) => (deleteResult = res)
+          onResponse: (res) => (deleteResult = res),
         });
 
         assert.equal(deleteResult?.status, 204);
@@ -266,8 +266,8 @@ authModes.forEach((authMode) => {
           binary: primitive,
           binaryMetadata: {
             type: "Binary",
-            value: "QmFy"
-          }
+            value: "QmFy",
+          },
         };
 
         await client.createEntity(expected);
@@ -304,14 +304,14 @@ authModes.forEach((authMode) => {
           binary: primitive,
           binaryMetadata: {
             type: "Binary",
-            value: base64Value
-          }
+            value: base64Value,
+          },
         };
 
         await client.createEntity(expected);
 
         const result = await client.getEntity<TestResult>(expected.partitionKey, expected.rowKey, {
-          disableTypeConversion: true
+          disableTypeConversion: true,
         });
 
         assert.deepEqual(result.binary.value, base64Value);
@@ -324,13 +324,13 @@ authModes.forEach((authMode) => {
           rowKey: "R1",
           foo: "testEntity",
           bar: 123,
-          baz: true
+          baz: true,
         };
 
         await client.createEntity(testEntity);
 
         const result = await client.getEntity(testEntity.partitionKey, testEntity.rowKey, {
-          queryOptions: { select: ["baz", "partitionKey", "rowKey", "etag"] }
+          queryOptions: { select: ["baz", "partitionKey", "rowKey", "etag"] },
         });
 
         assert.isDefined(result.etag);
@@ -348,14 +348,14 @@ authModes.forEach((authMode) => {
         const testEntity = {
           partitionKey: `P2_${suffix}`,
           rowKey: "R2",
-          testField: new Date(testDate)
+          testField: new Date(testDate),
         };
         let createResult: FullOperationResponse | undefined;
         let deleteResult: FullOperationResponse | undefined;
         await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
         const result = await client.getEntity(testEntity.partitionKey, testEntity.rowKey);
         await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
-          onResponse: (res) => (deleteResult = res)
+          onResponse: (res) => (deleteResult = res),
         });
 
         assert.equal(deleteResult?.status, 204);
@@ -372,19 +372,19 @@ authModes.forEach((authMode) => {
 
         const testGuid: Edm<"Guid"> = {
           value: "cf8ef051-1b7d-4e93-a1e5-a3944d7e441c",
-          type: "Guid"
+          type: "Guid",
         };
         const testEntity: TableEntity<TestType> = {
           partitionKey: `P3_${suffix}`,
           rowKey: "R3",
-          testField: testGuid
+          testField: testGuid,
         };
         let createResult: FullOperationResponse | undefined;
         let deleteResult: FullOperationResponse | undefined;
         await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
         const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
         await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
-          onResponse: (res) => (deleteResult = res)
+          onResponse: (res) => (deleteResult = res),
         });
 
         assert.equal(deleteResult?.status, 204);
@@ -394,7 +394,7 @@ authModes.forEach((authMode) => {
         assert.deepEqual(result.testField, testGuid);
       });
 
-      it("should createEntity with Int64", async function(this: Mocha.Context) {
+      it("should createEntity with Int64", async function (this: Mocha.Context) {
         if (isNode8) {
           this.skip();
         }
@@ -403,19 +403,19 @@ authModes.forEach((authMode) => {
         };
         const testInt64: Edm<"Int64"> = {
           value: "12345543221",
-          type: "Int64"
+          type: "Int64",
         };
         const testEntity: TableEntity<TestType> = {
           partitionKey: `P4_${suffix}`,
           rowKey: "R4",
-          testField: testInt64
+          testField: testInt64,
         };
         let createResult: FullOperationResponse | undefined;
         let deleteResult: FullOperationResponse | undefined;
         await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
         const result = await client.getEntity(testEntity.partitionKey, testEntity.rowKey);
         await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
-          onResponse: (res) => (deleteResult = res)
+          onResponse: (res) => (deleteResult = res),
         });
 
         assert.equal(deleteResult?.status, 204);
@@ -436,12 +436,12 @@ authModes.forEach((authMode) => {
 
         const testInt32: Edm<"Int32"> = {
           value: 123,
-          type: "Int32"
+          type: "Int32",
         };
         const testEntity: TableEntity<TestType> = {
           partitionKey: `P5_${suffix}`,
           rowKey: "R5",
-          testField: testInt32
+          testField: testInt32,
         };
         let createResult: FullOperationResponse | undefined;
         let deleteResult: FullOperationResponse | undefined;
@@ -451,7 +451,7 @@ authModes.forEach((authMode) => {
           testEntity.rowKey
         );
         await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
-          onResponse: (res) => (deleteResult = res)
+          onResponse: (res) => (deleteResult = res),
         });
 
         assert.equal(deleteResult?.status, 204);
@@ -473,13 +473,13 @@ authModes.forEach((authMode) => {
 
         const testBoolean: Edm<"Boolean"> = {
           value: true,
-          type: "Boolean"
+          type: "Boolean",
         };
         // Check this API interaction!
         const testEntity: TableEntity<TestType> = {
           partitionKey: `P6_${suffix}`,
           rowKey: "R6",
-          testField: testBoolean
+          testField: testBoolean,
         };
         let createResult: FullOperationResponse | undefined;
         let deleteResult: FullOperationResponse | undefined;
@@ -489,7 +489,7 @@ authModes.forEach((authMode) => {
           testEntity.rowKey
         );
         await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
-          onResponse: (res) => (deleteResult = res)
+          onResponse: (res) => (deleteResult = res),
         });
 
         assert.equal(deleteResult?.status, 204);
@@ -505,13 +505,13 @@ authModes.forEach((authMode) => {
         const testDate = "2020-09-17T00:00:00.99999Z";
         const testDateTime: Edm<"DateTime"> = {
           value: testDate,
-          type: "DateTime"
+          type: "DateTime",
         };
         // Check this API interaction!
         const testEntity: TableEntity<TestType> = {
           partitionKey: `P7_${suffix}`,
           rowKey: "R7",
-          testField: testDateTime
+          testField: testDateTime,
         };
         let createResult: FullOperationResponse | undefined;
         let deleteResult: FullOperationResponse | undefined;
@@ -520,11 +520,11 @@ authModes.forEach((authMode) => {
           testEntity.partitionKey,
           testEntity.rowKey,
           {
-            disableTypeConversion: true
+            disableTypeConversion: true,
           }
         );
         await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
-          onResponse: (res) => (deleteResult = res)
+          onResponse: (res) => (deleteResult = res),
         });
 
         assert.equal(deleteResult?.status, 204);
@@ -539,14 +539,14 @@ authModes.forEach((authMode) => {
           partitionKey: `P8_${suffix}`,
           rowKey: "R8",
           integerNumber: 3,
-          floatingPointNumber: 3.14
+          floatingPointNumber: 3.14,
         };
         let createResult: FullOperationResponse | undefined;
         let deleteResult: FullOperationResponse | undefined;
         await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
         const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
         await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
-          onResponse: (res) => (deleteResult = res)
+          onResponse: (res) => (deleteResult = res),
         });
 
         assert.equal(deleteResult?.status, 204);
@@ -561,13 +561,13 @@ authModes.forEach((authMode) => {
         const inputEntity = {
           partitionKey: "doubleSci",
           rowKey: "0",
-          Value: { value: "1.23456789012346e+24", type: "Double" }
+          Value: { value: "1.23456789012346e+24", type: "Double" },
         };
 
         await client.createEntity(inputEntity);
 
         const result = await client.getEntity(inputEntity.partitionKey, inputEntity.rowKey, {
-          disableTypeConversion: true
+          disableTypeConversion: true,
         });
 
         assert.deepEqual(result.Value, inputEntity.Value);
@@ -577,13 +577,13 @@ authModes.forEach((authMode) => {
         const inputEntity = {
           partitionKey: "emptyString",
           rowKey: "0",
-          value: { value: "", type: "String" }
+          value: { value: "", type: "String" },
         };
 
         await client.createEntity(inputEntity);
 
         const result = await client.getEntity(inputEntity.partitionKey, inputEntity.rowKey, {
-          disableTypeConversion: true
+          disableTypeConversion: true,
         });
 
         assert.deepEqual(result.value, inputEntity.value);
@@ -600,18 +600,18 @@ authModes.forEach((authMode) => {
           rowKey: "R8",
           integerNumber: 3,
           floatingPointNumber: 3.14,
-          booleanValue: true
+          booleanValue: true,
         };
         let createResult: FullOperationResponse | undefined;
         let deleteResult: FullOperationResponse | undefined;
         await client.createEntity(testEntity, {
-          onResponse: (res) => (createResult = res)
+          onResponse: (res) => (createResult = res),
         });
         const result = await client.getEntity(testEntity.partitionKey, testEntity.rowKey, {
-          disableTypeConversion: true
+          disableTypeConversion: true,
         });
         await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
-          onResponse: (res) => (deleteResult = res)
+          onResponse: (res) => (deleteResult = res),
         });
 
         assert.equal(deleteResult?.status, 204);
@@ -620,15 +620,15 @@ authModes.forEach((authMode) => {
         assert.equal(result.rowKey, testEntity.rowKey);
         assert.deepEqual(result.integerNumber, {
           value: "3",
-          type: "Int32"
+          type: "Int32",
         });
         assert.deepEqual(result.floatingPointNumber, {
           value: "3.14",
-          type: "Double"
+          type: "Double",
         });
         assert.deepEqual(result.booleanValue, {
           value: "true",
-          type: "Boolean"
+          type: "Boolean",
         });
       });
     });

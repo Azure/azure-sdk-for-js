@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { PurviewManagementClient } from "./purviewManagementClient";
-export { PurviewManagementClientContext } from "./purviewManagementClientContext";
 export * from "./operationsInterfaces";

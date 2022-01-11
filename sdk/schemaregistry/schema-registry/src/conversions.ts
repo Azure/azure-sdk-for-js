@@ -6,7 +6,7 @@ import { SchemaProperties, Schema } from "./models";
 import {
   SchemaGetByIdResponse,
   SchemaRegisterResponse,
-  SchemaQueryIdByContentResponse as SchemaQueryIdByDefinitionResponse
+  SchemaQueryIdByContentResponse as SchemaQueryIdByDefinitionResponse,
 } from "./generated/models";
 import { getSchemaDefinition } from "./getSchemaDefinition";
 
@@ -31,8 +31,8 @@ export async function convertSchemaResponse(response: GeneratedSchemaResponse): 
     definition: schemaDefinition,
     properties: {
       id: response.schemaId!,
-      format: mapContentTypeToFormat(response.contentType!)
-    }
+      format: mapContentTypeToFormat(response.contentType!),
+    },
   };
 }
 
@@ -49,7 +49,7 @@ export function convertSchemaIdResponse(
       // `!`s here because server is required to return these on success, but that
       // is not modeled by the generated client.
       id: response.schemaId!,
-      format: schemaFormat
+      format: schemaFormat,
     };
   };
 }

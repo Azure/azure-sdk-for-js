@@ -12,7 +12,7 @@ import { retrieveJwtExpirationTimestamp } from "../util/jwt";
 export const mapToAccessToken = (tokenResponse: GetTokenResponse): AccessToken => {
   const token: AccessToken = {
     expiresOnTimestamp: 0,
-    token: tokenResponse.accessToken
+    token: tokenResponse.accessToken,
   };
 
   if (token.token) {

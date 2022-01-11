@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
 import {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
   createHttpHeaders,
-  createPipelineRequest
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/test-utils";
-import { assert } from "chai";
-
-import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { Context } from "mocha";
+import { assert } from "chai";
 import { expectedSharedKeyLiteHeader } from "./fakeTestSecrets";
+import { isNode } from "@azure/test-utils";
+import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy";
 
 describe("TablesSharedKeyCredential", () => {
   let originalToUTCString: () => string;
@@ -27,7 +26,7 @@ describe("TablesSharedKeyCredential", () => {
     Date.prototype.toUTCString = originalToUTCString;
   });
 
-  it("It should sign", async function(this: Context) {
+  it("It should sign", async function (this: Context) {
     if (!isNode) {
       // AzureNamedKeyCredential auth is not supported in Browser
       this.skip();
@@ -35,11 +34,11 @@ describe("TablesSharedKeyCredential", () => {
     const url =
       "https://testaccount.table.core.windows.net/tablename(PartitionKey='p1',RowKey='r1')";
     const requestToSign = createPipelineRequest({ url });
-    const next: SendRequest = function(request: PipelineRequest): Promise<PipelineResponse> {
+    const next: SendRequest = function (request: PipelineRequest): Promise<PipelineResponse> {
       return Promise.resolve({
         status: 200,
         request,
-        headers: createHttpHeaders()
+        headers: createHttpHeaders(),
       });
     };
     const cred = new AzureNamedKeyCredential("accountName", "accountKey");

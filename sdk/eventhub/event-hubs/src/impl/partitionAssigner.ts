@@ -33,7 +33,7 @@ export class PartitionAssigner {
    */
   assignPartition({
     partitionId,
-    partitionKey
+    partitionKey,
   }: {
     partitionId?: string;
     partitionKey?: string;

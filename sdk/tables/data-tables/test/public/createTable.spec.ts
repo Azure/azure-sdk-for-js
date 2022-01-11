@@ -2,19 +2,19 @@
 // Licensed under the MIT license.
 
 import { RestError, TableClient, TableServiceClient } from "../../src";
-import { Context } from "mocha";
-import { assert } from "chai";
 import { createTableClient, createTableServiceClient } from "./utils/recordedClient";
-import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { Context } from "mocha";
 import { TableServiceErrorResponse } from "../../src/utils/errorHelpers";
+import { assert } from "chai";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
 describe("TableClient CreationHandling", () => {
   let client: TableClient;
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     client = createTableClient("testTable");
   });
 
-  it("should not thorw if table already exists", async function() {
+  it("should not thorw if table already exists", async function () {
     // Mock core-client throwing on error to verify consistenty that don't throw the error
     client.pipeline.addPolicy({
       name: "TableAlreadyExists",
@@ -26,25 +26,25 @@ describe("TableClient CreationHandling", () => {
           bodyAsText: "",
           parsedBody: {
             odataError: {
-              code: "TableAlreadyExists"
-            }
-          }
+              code: "TableAlreadyExists",
+            },
+          },
         };
         throw new RestError("TableAlreadyExists", {
           statusCode: 409,
-          response: mockedResponse
+          response: mockedResponse,
         });
-      }
+      },
     });
 
     await client.createTable({
       onResponse: (response) => {
         assert.equal(response.status, 409);
-      }
+      },
     });
   });
 
-  it("should throw when 409 and not TableAlreadyExists", async function() {
+  it("should throw when 409 and not TableAlreadyExists", async function () {
     // Mock core-client throwing on error to verify consistenty that we surface the error
     client.pipeline.addPolicy({
       name: "Other409Error",
@@ -54,10 +54,10 @@ describe("TableClient CreationHandling", () => {
           request: req,
           status: 409,
           bodyAsText: "",
-          parsedBody: { odataError: { code: "TableBeingDeleted" } }
+          parsedBody: { odataError: { code: "TableBeingDeleted" } },
         };
         throw new RestError("TableBeingDeleted", { statusCode: 409, response: mockedResponse });
-      }
+      },
     });
 
     try {
@@ -71,11 +71,11 @@ describe("TableClient CreationHandling", () => {
 
 describe("TableServiceClient CreationHandling", () => {
   let client: TableServiceClient;
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     client = createTableServiceClient();
   });
 
-  it("should not thorw if table already exists", async function() {
+  it("should not thorw if table already exists", async function () {
     const tableName = `tableExists`;
     // Mock core-client throwing on error to verify consistenty that don't throw the error
     client.pipeline.addPolicy({
@@ -88,25 +88,25 @@ describe("TableServiceClient CreationHandling", () => {
           bodyAsText: "",
           parsedBody: {
             odataError: {
-              code: "TableAlreadyExists"
-            }
-          }
+              code: "TableAlreadyExists",
+            },
+          },
         };
         throw new RestError("TableAlreadyExists", {
           statusCode: 409,
-          response: mockedResponse
+          response: mockedResponse,
         });
-      }
+      },
     });
 
     await client.createTable(tableName, {
       onResponse: (response) => {
         assert.equal(response.status, 409);
-      }
+      },
     });
   });
 
-  it("should throw when 409 and not TableAlreadyExists", async function() {
+  it("should throw when 409 and not TableAlreadyExists", async function () {
     const tableName = `throwError`;
     // Mock core-client throwing on error to verify consistenty that we surface the error
     client.pipeline.addPolicy({
@@ -119,15 +119,15 @@ describe("TableServiceClient CreationHandling", () => {
           bodyAsText: "",
           parsedBody: {
             odataError: {
-              code: "TableBeingDeleted"
-            }
-          }
+              code: "TableBeingDeleted",
+            },
+          },
         };
         throw new RestError("TableBeingDeleted", {
           statusCode: 409,
-          response: mockedResponse
+          response: mockedResponse,
         });
-      }
+      },
     });
     try {
       await client.createTable(tableName);

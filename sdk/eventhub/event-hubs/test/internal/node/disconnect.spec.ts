@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
 import { EnvVarKeys, getEnvVars } from "../../public/utils/testUtils";
-import { EventHubSender } from "../../../src/eventHubSender";
-import { createConnectionContext } from "../../../src/connectionContext";
-import { stub } from "sinon";
-import { MessagingError } from "@azure/core-amqp";
-import { EventHubReceiver } from "../../../src/eventHubReceiver";
 import { EventHubConsumerClient, latestEventPosition } from "../../../src";
+import { EventHubReceiver } from "../../../src/eventHubReceiver";
+import { EventHubSender } from "../../../src/eventHubSender";
+import { MessagingError } from "@azure/core-amqp";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import { createConnectionContext } from "../../../src/connectionContext";
 import { createMockServer } from "../../public/utils/mockService";
+import { stub } from "sinon";
 import { testWithServiceTypes } from "../../public/utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
@@ -29,13 +30,13 @@ testWithServiceTypes((serviceVersion) => {
     });
   }
 
-  describe("disconnected", function() {
+  describe("disconnected", function () {
     let partitionIds: string[] = [];
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]
+      path: env[EnvVarKeys.EVENTHUB_NAME],
     };
-    before("validate environment", function(): void {
+    before("validate environment", function (): void {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -46,7 +47,7 @@ testWithServiceTypes((serviceVersion) => {
       );
     });
 
-    before("get partition ids", async function() {
+    before("get partition ids", async function () {
       const client = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
@@ -56,7 +57,7 @@ testWithServiceTypes((serviceVersion) => {
       return client.close();
     });
 
-    describe("EventHubSender", function() {
+    describe("EventHubSender", function () {
       /**
        * Test added for issue https://github.com/Azure/azure-sdk-for-js/issues/15002
        * Prior to fixing this issue, a TypeError would be thrown when this test was ran.
@@ -91,8 +92,8 @@ testWithServiceTypes((serviceVersion) => {
       });
     });
 
-    describe("ConnectionContext", function() {
-      describe("onDisconnected", function() {
+    describe("ConnectionContext", function () {
+      describe("onDisconnected", function () {
         it("does not fail when entities are closed concurrently", async () => {
           const context = createConnectionContext(service.connectionString, service.path);
 
@@ -121,16 +122,16 @@ testWithServiceTypes((serviceVersion) => {
           // Initialize receiver links
           await receiver1.initialize({
             abortSignal: undefined,
-            timeoutInMs: 60000
+            timeoutInMs: 60000,
           });
           await receiver2.initialize({
             abortSignal: undefined,
-            timeoutInMs: 60000
+            timeoutInMs: 60000,
           });
 
           // We are going to override sender1's close method so that it also invokes receiver2's close method.
           const sender1Close = sender1.close.bind(sender1);
-          sender1.close = async function() {
+          sender1.close = async function () {
             sender2.close().catch(() => {
               /* no-op */
             });
@@ -139,7 +140,7 @@ testWithServiceTypes((serviceVersion) => {
 
           // We are going to override receiver1's close method so that it also invokes receiver2's close method.
           const receiver1Close = receiver1.close.bind(receiver1);
-          receiver1.close = async function() {
+          receiver1.close = async function () {
             receiver2.close().catch(() => {
               /* no-op */
             });
@@ -152,7 +153,7 @@ testWithServiceTypes((serviceVersion) => {
         });
       });
 
-      describe("close", function() {
+      describe("close", function () {
         it("does not fail when entities are closed concurrently", async () => {
           const context = createConnectionContext(service.connectionString, service.path);
 
@@ -181,16 +182,16 @@ testWithServiceTypes((serviceVersion) => {
           // Initialize receiver links
           await receiver1.initialize({
             abortSignal: undefined,
-            timeoutInMs: 60000
+            timeoutInMs: 60000,
           });
           await receiver2.initialize({
             abortSignal: undefined,
-            timeoutInMs: 60000
+            timeoutInMs: 60000,
           });
 
           // We are going to override sender1's close method so that it also invokes receiver2's close method.
           const sender1Close = sender1.close.bind(sender1);
-          sender1.close = async function() {
+          sender1.close = async function () {
             sender2.close().catch(() => {
               /* no-op */
             });
@@ -199,7 +200,7 @@ testWithServiceTypes((serviceVersion) => {
 
           // We are going to override receiver1's close method so that it also invokes receiver2's close method.
           const originalClose = receiver1.close.bind(receiver1);
-          receiver1.close = async function() {
+          receiver1.close = async function () {
             receiver2.close().catch(() => {
               /* no-op */
             });

@@ -15,6 +15,6 @@ export function cosmosPatchPolicy(): PipelinePolicy {
       }
 
       return next(request);
-    }
+    },
   };
 }

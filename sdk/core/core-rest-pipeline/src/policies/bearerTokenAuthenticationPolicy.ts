@@ -108,7 +108,7 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
   const { scopes, getAccessToken, request } = options;
   const getTokenOptions: GetTokenOptions = {
     abortSignal: request.abortSignal,
-    tracingOptions: request.tracingOptions
+    tracingOptions: request.tracingOptions,
   };
   const accessToken = await getAccessToken(scopes, getTokenOptions);
 
@@ -141,7 +141,7 @@ export function bearerTokenAuthenticationPolicy(
     authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
     authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
     // keep all other properties
-    ...challengeCallbacks
+    ...challengeCallbacks,
   };
 
   // This function encapsulates the entire process of reliably retrieving the token
@@ -178,7 +178,7 @@ export function bearerTokenAuthenticationPolicy(
         scopes: Array.isArray(scopes) ? scopes : [scopes],
         request,
         getAccessToken,
-        logger
+        logger,
       });
 
       let response: PipelineResponse;
@@ -201,7 +201,7 @@ export function bearerTokenAuthenticationPolicy(
           request,
           response,
           getAccessToken,
-          logger
+          logger,
         });
 
         if (shouldSendRequest) {
@@ -214,6 +214,6 @@ export function bearerTokenAuthenticationPolicy(
       } else {
         return response;
       }
-    }
+    },
   };
 }

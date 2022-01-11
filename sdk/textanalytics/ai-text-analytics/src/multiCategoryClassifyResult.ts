@@ -5,7 +5,7 @@ import {
   makeTextAnalyticsSuccessResult,
   TextAnalyticsSuccessResult,
   TextAnalyticsErrorResult,
-  makeTextAnalyticsErrorResult
+  makeTextAnalyticsErrorResult,
 } from "./textAnalyticsResult";
 import { TextAnalyticsError, MultiClassificationDocument } from "./generated/models";
 import { ClassificationCategory } from "./singleCategoryClassifyResult";
@@ -42,7 +42,7 @@ export function makeMultiCategoryClassifyResult(
   const { id, warnings, statistics, classifications } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    classifications
+    classifications,
   };
 }
 

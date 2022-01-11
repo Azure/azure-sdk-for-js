@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
+import {
+  KeyVaultAdminPollOperation,
+  KeyVaultAdminPollOperationState,
+} from "../keyVaultAdminPoller";
+import {
+  KeyVaultBeginSelectiveKeyRestoreOptions,
+  KeyVaultSelectiveKeyRestoreResult,
+} from "../../backupClientModels";
 import {
   KeyVaultClientRestoreStatusResponse,
   KeyVaultClientSelectiveKeyRestoreOperationOptionalParams,
   KeyVaultClientSelectiveKeyRestoreOperationResponse,
-  RestoreOperation
+  RestoreOperation,
 } from "../../generated/models";
-import {
-  KeyVaultAdminPollOperation,
-  KeyVaultAdminPollOperationState
-} from "../keyVaultAdminPoller";
-import {
-  KeyVaultBeginSelectiveKeyRestoreOptions,
-  KeyVaultSelectiveKeyRestoreResult
-} from "../../backupClientModels";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { OperationOptions } from "@azure/core-client";
 import { createTraceFunction } from "../../tracingHelpers";
 
@@ -116,9 +116,9 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
           folder: folderName,
           sasTokenParameters: {
             storageResourceUri: folderUri,
-            token: sasToken
-          }
-        }
+            token: sasToken,
+          },
+        },
       });
       this.mapState(selectiveRestoreOperation);
     } else if (!state.isCompleted) {
@@ -155,7 +155,7 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
     if (state.isCompleted) {
       state.result = {
         startTime,
-        endTime
+        endTime,
       };
     }
   }

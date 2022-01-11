@@ -9,7 +9,7 @@ import {
   DeliveryAnnotations,
   MessageAnnotations,
   uuid_to_string,
-  Message as RheaMessage
+  Message as RheaMessage,
 } from "rhea-promise";
 import { defaultDataTransformer } from "./dataTransformer";
 import { messageLogger as logger } from "./log";
@@ -24,7 +24,7 @@ export enum DispositionType {
   complete = "complete",
   deadletter = "deadletter",
   abandon = "abandon",
-  defer = "defer"
+  defer = "defer",
 }
 
 /**
@@ -286,7 +286,7 @@ export function toRheaMessage(
   if (isAmqpAnnotatedMessage(msg)) {
     amqpMsg = {
       ...AmqpAnnotatedMessage.toRheaMessage(msg),
-      body: encoder.encode(msg.body, msg.bodyType ?? "data")
+      body: encoder.encode(msg.body, msg.bodyType ?? "data"),
     };
   } else {
     let bodyType: "data" | "sequence" | "value" = "data";
@@ -318,7 +318,7 @@ export function toRheaMessage(
 
     amqpMsg = {
       body: encoder.encode(msg.body, bodyType),
-      message_annotations: {}
+      message_annotations: {},
     };
 
     amqpMsg.ttl = msg.timeToLive;
@@ -516,19 +516,23 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
  */
 export function fromRheaMessage(
   rheaMessage: RheaMessage,
+  skipParsingBodyAsJson: boolean,
   delivery?: Delivery,
   shouldReorderLockToken?: boolean
 ): ServiceBusReceivedMessage {
   if (!rheaMessage) {
     rheaMessage = {
-      body: undefined
+      body: undefined,
     };
   }
 
-  const { body, bodyType } = defaultDataTransformer.decodeWithType(rheaMessage.body);
+  const { body, bodyType } = defaultDataTransformer.decodeWithType(
+    rheaMessage.body,
+    skipParsingBodyAsJson
+  );
 
   const sbmsg: ServiceBusMessage = {
-    body: body
+    body: body,
   };
 
   if (rheaMessage.application_properties != null) {
@@ -578,11 +582,9 @@ export function fromRheaMessage(
     }
   }
 
-  type PartialWritable<T> = Partial<
-    {
-      -readonly [P in keyof T]: T[P];
-    }
-  >;
+  type PartialWritable<T> = Partial<{
+    -readonly [P in keyof T]: T[P];
+  }>;
   const props: PartialWritable<ServiceBusReceivedMessage> & {
     state: "active" | "deferred" | "scheduled";
   } = { state: "active" };
@@ -662,7 +664,7 @@ export function fromRheaMessage(
     deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason as string | undefined,
     deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription as
       | string
-      | undefined
+      | undefined,
   };
 
   logger.verbose("AmqpMessage to ServiceBusReceivedMessage: %O", rcvdsbmsg);
@@ -896,13 +898,16 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     msg: RheaMessage,
     delivery: Delivery,
     shouldReorderLockToken: boolean,
-    receiveMode: ReceiveMode
+    receiveMode: ReceiveMode,
+    skipParsingBodyAsJson: boolean
   ) {
     const { _rawAmqpMessage, ...restOfMessageProps } = fromRheaMessage(
       msg,
+      skipParsingBodyAsJson,
       delivery,
       shouldReorderLockToken
     );
+    this._rawAmqpMessage = _rawAmqpMessage; // need to initialize _rawAmqpMessage property to make compiler happy
     Object.assign(this, restOfMessageProps);
     this.state = restOfMessageProps.state; // to suppress error TS2564: Property 'state' has no initializer and is not definitely assigned in the constructor.
 
@@ -911,23 +916,6 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     if (receiveMode === "receiveAndDelete") {
       this.lockToken = undefined;
     }
-
-    let actualBodyType:
-      | ReturnType<typeof defaultDataTransformer["decodeWithType"]>["bodyType"]
-      | undefined = undefined;
-
-    if (msg.body) {
-      try {
-        const result = defaultDataTransformer.decodeWithType(msg.body);
-
-        this.body = result.body;
-        actualBodyType = result.bodyType;
-      } catch (err) {
-        this.body = undefined;
-      }
-    }
-    this._rawAmqpMessage = _rawAmqpMessage;
-    this._rawAmqpMessage.bodyType = actualBodyType;
     this.delivery = delivery;
   }
 
@@ -950,7 +938,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
       sessionId: this.sessionId,
       timeToLive: this.timeToLive,
       to: this.to,
-      applicationProperties: this.applicationProperties
+      applicationProperties: this.applicationProperties,
       // Will be required later for implementing Transactions
       // viaPartitionKey: this.viaPartitionKey
     };
@@ -982,7 +970,7 @@ function convertDatesToNumbers<T = unknown>(thing: T): T {
     [0, 'foo', new Date(), { nested: new Date()}]
   */
   if (Array.isArray(thing)) {
-    return (thing.map(convertDatesToNumbers) as unknown) as T;
+    return thing.map(convertDatesToNumbers) as unknown as T;
   }
 
   /*

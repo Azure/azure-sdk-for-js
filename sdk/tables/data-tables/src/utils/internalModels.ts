@@ -14,13 +14,13 @@ import {
   TableTransactionResponse,
   TransactionAction,
   UpdateMode,
-  UpdateTableEntityOptions
+  UpdateTableEntityOptions,
 } from "../models";
+import { DeleteTableEntityResponse, UpdateEntityResponse, UpsertEntityResponse } from "..";
 import { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
 import { NamedKeyCredential } from "@azure/core-auth";
-import { DeleteTableEntityResponse, UpdateEntityResponse, UpsertEntityResponse } from "..";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { OperationOptions } from "@azure/core-client";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export interface ConnectionString {
   kind: "AccountConnString" | "SASConnString";

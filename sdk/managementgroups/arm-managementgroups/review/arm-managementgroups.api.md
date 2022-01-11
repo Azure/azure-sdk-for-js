@@ -395,8 +395,12 @@ export interface ManagementGroups {
 }
 
 // @public (undocumented)
-export class ManagementGroupsAPI extends ManagementGroupsAPIContext {
+export class ManagementGroupsAPI extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, options?: ManagementGroupsAPIOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     checkNameAvailability(checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: CheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityResponse>;
     // (undocumented)
     entities: Entities;
@@ -410,15 +414,6 @@ export class ManagementGroupsAPI extends ManagementGroupsAPIContext {
     operations: Operations;
     startTenantBackfill(options?: StartTenantBackfillOptionalParams): Promise<StartTenantBackfillResponse>;
     tenantBackfillStatus(options?: TenantBackfillStatusOptionalParams): Promise<TenantBackfillStatusResponse>;
-}
-
-// @public (undocumented)
-export class ManagementGroupsAPIContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: ManagementGroupsAPIOptionalParams);
-    // (undocumented)
-    apiVersion: string;
 }
 
 // @public

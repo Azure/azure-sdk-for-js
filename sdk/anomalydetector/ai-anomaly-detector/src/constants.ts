@@ -12,11 +12,11 @@ export const AnomalyDetectorLoggingAllowedHeaderNames = [
   "Strict-Transport-Security",
   "X-Content-Type-Options",
   "x-envoy-upstream-service-time",
-  "Ocp-Apim-Subscription-Key"
+  "Ocp-Apim-Subscription-Key",
 ];
 
 export const AnomalyDetectorLoggingAllowedQueryParameters = [
   "includeTextDetails",
   "includeKeys",
-  "op"
+  "op",
 ];

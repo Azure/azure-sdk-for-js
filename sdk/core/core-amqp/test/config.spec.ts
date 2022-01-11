@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ConnectionConfig } from "../src";
 import * as chai from "chai";
+import { ConnectionConfig } from "../src";
 import { isSharedAccessSignature } from "../src/connectionConfig/connectionConfig";
+
 const should = chai.should();
 
-describe("ConnectionConfig", function() {
-  describe("Base", function() {
-    it("populates config properties from an Event Hubs connection string", function(done) {
+describe("ConnectionConfig", function () {
+  describe("Base", function () {
+    it("populates config properties from an Event Hubs connection string", function (done) {
       const config = ConnectionConfig.create(
         "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep"
       );
@@ -19,7 +20,7 @@ describe("ConnectionConfig", function() {
       done();
     });
 
-    it("populates path from the path argument if connection string does not have EntityPath", function(done) {
+    it("populates path from the path argument if connection string does not have EntityPath", function (done) {
       const config = ConnectionConfig.create(
         "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak",
         "abc"
@@ -28,7 +29,7 @@ describe("ConnectionConfig", function() {
       done();
     });
 
-    it("should create a connection config when path is not provided and the connectionstring also does not contain EntityPath", function(done) {
+    it("should create a connection config when path is not provided and the connectionstring also does not contain EntityPath", function (done) {
       const connectionString =
         "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak";
       const config = ConnectionConfig.create(connectionString);
@@ -97,7 +98,7 @@ describe("ConnectionConfig", function() {
       done();
     });
 
-    describe("Throws error if required connection config properties are not present", function() {
+    describe("Throws error if required connection config properties are not present", function () {
       const connectionString = `
         Endpoint=sb://hostname.servicebus.windows.net/;
         SharedAccessKeyName=sakName;
@@ -119,7 +120,7 @@ describe("ConnectionConfig", function() {
           endpoint: "",
           host: "hostname.servicebus.windows.net/",
           sharedAccessKeyName: "sakName",
-          sharedAccessKey: "sak"
+          sharedAccessKey: "sak",
         };
 
         should.throw(() => {
@@ -135,7 +136,7 @@ describe("ConnectionConfig", function() {
           endpoint: "sb://hostname.servicebus.windows.net/",
           host: "",
           sharedAccessKeyName: "sakName",
-          sharedAccessKey: "sak"
+          sharedAccessKey: "sak",
         };
 
         should.throw(() => {
@@ -152,7 +153,7 @@ describe("ConnectionConfig", function() {
           host: "hostname.servicebus.windows.net/",
           sharedAccessKeyName: "sakName",
           sharedAccessKey: "sak",
-          entityPath: ""
+          entityPath: "",
         };
 
         should.throw(() => {
@@ -168,7 +169,7 @@ describe("ConnectionConfig", function() {
           endpoint: "sb://hostname.servicebus.windows.net/",
           host: "hostname.servicebus.windows.net/",
           sharedAccessKeyName: "",
-          sharedAccessKey: "sak"
+          sharedAccessKey: "sak",
         };
 
         should.throw(() => {
@@ -184,7 +185,7 @@ describe("ConnectionConfig", function() {
           endpoint: "sb://hostname.servicebus.windows.net/",
           host: "hostname.servicebus.windows.net/",
           sharedAccessKeyName: "sakName",
-          sharedAccessKey: ""
+          sharedAccessKey: "",
         };
 
         should.throw(() => {
@@ -195,7 +196,7 @@ describe("ConnectionConfig", function() {
       });
     });
 
-    describe("EntityPath Validation", function() {
+    describe("EntityPath Validation", function () {
       const connectionString = `
         Endpoint=sb://hostname.servicebus.windows.net/;
         SharedAccessKeyName=sakName;
@@ -207,7 +208,7 @@ describe("ConnectionConfig", function() {
         endpoint: "sb://hostname.servicebus.windows.net/",
         host: "hostname.servicebus.windows.net/",
         sharedAccessKeyName: "sakName",
-        sharedAccessKey: "abcd"
+        sharedAccessKey: "abcd",
       };
 
       it("undefined is not stringified", () => {
@@ -239,7 +240,7 @@ describe("ConnectionConfig", function() {
   describe("SharedAccessSignature", () => {
     [
       "Endpoint=hello;SharedAccessSignature=SharedAccessSignature sr=<resource>&sig=someb64=&se=<expiry>&skn=<keyname>",
-      "SharedAccessSignature=SharedAccessSignature sr=<resource>&sig=someb64=&se=<expiry>&skn=<keyname>"
+      "SharedAccessSignature=SharedAccessSignature sr=<resource>&sig=someb64=&se=<expiry>&skn=<keyname>",
     ].forEach((validCs, i) => {
       it(`Valid shared access signatures[${i}]`, () => {
         should.equal(isSharedAccessSignature(validCs), true);
@@ -248,7 +249,7 @@ describe("ConnectionConfig", function() {
 
     [
       "Endpoint=hello;HaredAccessSignature=SharedAccessSignature sr=<resource>&sig=someb64=&se=<expiry>&skn=<keyname>",
-      "SharedAccessSignature=haredAccessSignature sr=<resource>&sig=someb64=&se=<expiry>&skn=<keyname>;Endpoint=asdfasdf"
+      "SharedAccessSignature=haredAccessSignature sr=<resource>&sig=someb64=&se=<expiry>&skn=<keyname>;Endpoint=asdfasdf",
     ].forEach((invalidCs, i) => {
       it(`Invalid shared access signature[${i}]`, () => {
         should.equal(isSharedAccessSignature(invalidCs), false);
@@ -262,7 +263,7 @@ describe("ConnectionConfig", function() {
         host: "unused for this test",
         sharedAccessKey: "",
         sharedAccessKeyName: "",
-        connectionString: "Endpoint=hello;SharedAccessSignature=SharedAccessSignature hellosig"
+        connectionString: "Endpoint=hello;SharedAccessSignature=SharedAccessSignature hellosig",
       });
     });
   });

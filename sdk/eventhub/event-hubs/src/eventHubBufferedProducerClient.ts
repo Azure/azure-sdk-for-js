@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController } from "@azure/abort-controller";
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import { BatchingPartitionChannel } from "./batchingPartitionChannel";
-import { PartitionAssigner } from "./impl/partitionAssigner";
 import { EventData, EventHubProducerClient, OperationOptions } from "./index";
-import { EventHubProperties, PartitionProperties } from "./managementClient";
 import {
   EventHubClientOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  SendBatchOptions
+  SendBatchOptions,
 } from "./models/public";
+import { EventHubProperties, PartitionProperties } from "./managementClient";
+import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isCredential, isDefined } from "./util/typeGuards";
+import { AbortController } from "@azure/abort-controller";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { BatchingPartitionChannel } from "./batchingPartitionChannel";
+import { PartitionAssigner } from "./impl/partitionAssigner";
 
 /**
  * Contains the events that were successfully sent to the Event Hub,
@@ -332,7 +332,7 @@ export class EventHubBufferedProducerClient {
 
     const partitionId = this._partitionAssigner.assignPartition({
       partitionId: options.partitionId,
-      partitionKey: options.partitionKey
+      partitionKey: options.partitionKey,
     });
 
     const partitionChannel = this._getPartitionChannel(partitionId);
@@ -436,7 +436,7 @@ export class EventHubBufferedProducerClient {
         onSendEventsErrorHandler: this._clientOptions.onSendEventsErrorHandler,
         onSendEventsSuccessHandler: this._clientOptions.onSendEventsSuccessHandler,
         partitionId,
-        producer: this._producer
+        producer: this._producer,
       });
     this._partitionChannels.set(partitionId, partitionChannel);
     return partitionChannel;

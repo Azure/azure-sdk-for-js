@@ -12,12 +12,12 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength,
   //   getRandomTestClientTypeWithSessions,
-  getRandomTestClientTypeWithNoSessions
+  getRandomTestClientTypeWithNoSessions,
 } from "../public/utils/testutils2";
 import {
   DispositionType,
   ServiceBusMessageImpl,
-  ServiceBusReceivedMessage
+  ServiceBusReceivedMessage,
 } from "../../src/serviceBusMessage";
 import { testLogger } from "./utils/misc";
 
@@ -114,7 +114,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     await testPeekMsgsLength(receiver, 0);
   }
 
-  it(noSessionTestClientType + ": complete() removes message", async function(): Promise<void> {
+  it(noSessionTestClientType + ": complete() removes message", async function (): Promise<void> {
     await beforeEachTest(noSessionTestClientType);
     await testComplete();
   });
@@ -170,7 +170,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
 
   it(
     noSessionTestClientType + ": abandon() retains message with incremented deliveryCount",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testAbandon();
     }
@@ -239,7 +239,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
 
   it(
     noSessionTestClientType + ": defer() moves message to deferred queue",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testDefer();
     }
@@ -345,7 +345,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
 
   it(
     noSessionTestClientType + ": deadLetter() moves message to deadletter queue",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testDeadletter();
     }
@@ -411,7 +411,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     await testPeekMsgsLength(receiver, 0);
   }
 
-  it(noSessionTestClientType + ": Lock renewal for a message", async function(): Promise<void> {
+  it(noSessionTestClientType + ": Lock renewal for a message", async function (): Promise<void> {
     await beforeEachTest(noSessionTestClientType);
     await testRenewLock();
   });

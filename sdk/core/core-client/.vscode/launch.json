@@ -1,0 +1,35 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Mocha Test [Without Rollup]",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "-r",
+        "esm",
+        "-r",
+        "ts-node/register",
+        "--timeout",
+        "999999",
+        "--colors",
+        "--exclude",
+        "${workspaceFolder}/test/**/browser/*.spec.ts",
+        "${workspaceFolder}/test/**/*.spec.ts"
+      ],
+      "env": {
+        // "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\"}",
+        "TS_NODE_FILES": "true",
+        "NODE_PATH": "${workspaceFolder}/../../../common/temp/node_modules/.pnpm/node_modules"
+      },
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "protocol": "inspector"
+    }
+  ]
+}

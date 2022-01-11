@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { base64Decode, base64Encode } from "./utils/bufferSerializer";
+
 import { EdmTypes, SignedIdentifier, TableEntityQueryOptions } from "./models";
-import { truncatedISO8061Date } from "./utils/truncateISO8061Date";
 import {
   QueryOptions as GeneratedQueryOptions,
-  SignedIdentifier as GeneratedSignedIdentifier
+  SignedIdentifier as GeneratedSignedIdentifier,
 } from "./generated/models";
+import { base64Decode, base64Encode } from "./utils/bufferSerializer";
+import { truncatedISO8061Date } from "./utils/truncateISO8061Date";
 
 const propertyCaseMap: Map<string, string> = new Map<string, string>([
   ["PartitionKey", "partitionKey"],
   ["RowKey", "rowKey"],
   ["odata.etag", "etag"],
-  ["Timestamp", "timestamp"]
+  ["Timestamp", "timestamp"],
 ]);
 
 const Edm = {
@@ -23,7 +24,7 @@ const Edm = {
   Guid: "Edm.Guid",
   Int32: "Edm.Int32",
   Int64: "Edm.Int64",
-  String: "Edm.String"
+  String: "Edm.String",
 } as const;
 
 type supportedTypes = boolean | string | number | Date | Uint8Array | bigint;
@@ -219,8 +220,8 @@ export function serializeSignedIdentifiers(
       accessPolicy: {
         ...(serializedExpiry && { expiry: serializedExpiry }),
         ...(serializedStart && { start: serializedStart }),
-        ...rest
-      }
+        ...rest,
+      },
     };
   });
 }
@@ -239,8 +240,8 @@ export function deserializeSignedIdentifier(
       accessPolicy: {
         ...(deserializedExpiry && { expiry: deserializedExpiry }),
         ...(deserializedStart && { start: deserializedStart }),
-        ...restAcl
-      }
+        ...restAcl,
+      },
     };
   });
 }

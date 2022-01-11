@@ -5,7 +5,7 @@ import {
   DigitalTwinsClient,
   DigitalTwinsAddOptionalParams,
   DigitalTwinsDeleteOptionalParams,
-  DigitalTwinsUpdateOptionalParams
+  DigitalTwinsUpdateOptionalParams,
 } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -25,27 +25,27 @@ const dtdl_model_building = {
     {
       "@type": "Property",
       name: "AverageTemperature",
-      schema: "double"
+      schema: "double",
     },
     {
       "@type": "Property",
       name: "TemperatureUnit",
-      schema: "string"
-    }
-  ]
+      schema: "string",
+    },
+  ],
 };
 
 describe("DigitalTwins - create, read, update, delete and telemetry operations", () => {
   let client: DigitalTwinsClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Mocha.Context) {
+  beforeEach(async function (this: Mocha.Context) {
     const authentication = await authenticate(this);
     client = authentication.client;
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -86,7 +86,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     }
   }
 
-  it("create a simple digital twin", async function() {
+  it("create a simple digital twin", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "create-simple-digitaltwin");
 
     await setUpModels();
@@ -94,10 +94,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
       AverageTemperature: 68,
-      TemperatureUnit: "Celsius"
+      TemperatureUnit: "Celsius",
     };
     try {
       const createdTwin = await client.upsertDigitalTwin(
@@ -132,17 +132,17 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     }
   });
 
-  it("create digitaltwin without model", async function() {
+  it("create digitaltwin without model", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "create-digitaltwin-without-model");
 
     await deleteDigitalTwin(digitalTwinId);
 
     const buildingTwin = {
       $metadata: {
-        $model: "dtmi:samples:DTTestBuilding;2"
+        $model: "dtmi:samples:DTTestBuilding;2",
       },
       AverageTemperature: 68,
-      TemperatureUnit: "Celsius"
+      TemperatureUnit: "Celsius",
     };
     let errorWasThrown = false;
     try {
@@ -157,16 +157,16 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create invalid digitaltwin", async function() {
+  it("create invalid digitaltwin", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "create-invalid-digitaltwin");
 
     await deleteDigitalTwin(digitalTwinId);
 
     const buildingTwin = {
       $metadata: {
-        $model: "dtmi:samples:DTTestBuilding;2"
+        $model: "dtmi:samples:DTTestBuilding;2",
       },
-      AverageTemperature: 68
+      AverageTemperature: 68,
     };
     let errorWasThrown = false;
     try {
@@ -181,7 +181,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create digitaltwin conditionally if missing", async function() {
+  it("create digitaltwin conditionally if missing", async function () {
     const digitalTwinId = recorder.getUniqueName(
       "digitalTwin",
       "create-digitaltwin-conditionally-if-missing"
@@ -192,13 +192,13 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
       AverageTemperature: 68,
-      TemperatureUnit: "Celsius"
+      TemperatureUnit: "Celsius",
     };
     const options: DigitalTwinsAddOptionalParams = {
-      ifNoneMatch: "*"
+      ifNoneMatch: "*",
     };
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin), options);
 
@@ -220,7 +220,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("update a simple digital twin", async function() {
+  it("update a simple digital twin", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "upsert-simple-digitaltwin");
 
     await setUpModels();
@@ -228,10 +228,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
       AverageTemperature: 68,
-      TemperatureUnit: "Celsius"
+      TemperatureUnit: "Celsius",
     };
     try {
       const createdTwin = await client.upsertDigitalTwin(
@@ -293,7 +293,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     }
   });
 
-  it("upsert digital twin invalid conditions", async function() {
+  it("upsert digital twin invalid conditions", async function () {
     const digitalTwinId = recorder.getUniqueName(
       "digitalTwin",
       "upsert-digitaltwin-invalid-conditions"
@@ -304,13 +304,13 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
       AverageTemperature: 68,
-      TemperatureUnit: "Celsius"
+      TemperatureUnit: "Celsius",
     };
     const options: DigitalTwinsAddOptionalParams = {
-      ifNoneMatch: "XXX"
+      ifNoneMatch: "XXX",
     };
     let errorWasThrown = false;
     try {
@@ -328,7 +328,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("get digitaltwin", async function() {
+  it("get digitaltwin", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "get-digitaltwin");
 
     await setUpModels();
@@ -336,10 +336,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
       AverageTemperature: 68,
-      TemperatureUnit: "Celsius"
+      TemperatureUnit: "Celsius",
     };
     try {
       const createdTwin = await client.upsertDigitalTwin(
@@ -355,7 +355,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     }
   });
 
-  it("get digitaltwin not existing", async function() {
+  it("get digitaltwin not existing", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "get-digitaltwin-not-existing");
 
     await setUpModels();
@@ -374,7 +374,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("delete digitaltwin", async function() {
+  it("delete digitaltwin", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "delete-digitaltwin");
 
     await setUpModels();
@@ -382,10 +382,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
       AverageTemperature: 68,
-      TemperatureUnit: "Celsius"
+      TemperatureUnit: "Celsius",
     };
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 
@@ -413,7 +413,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("delete digitaltwin not existing", async function() {
+  it("delete digitaltwin not existing", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "delete-digitaltwin-not-exisiting");
 
     await setUpModels();
@@ -432,7 +432,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("delete digitaltwin if present", async function() {
+  it("delete digitaltwin if present", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "delete-digitaltwin-if-present");
 
     await setUpModels();
@@ -440,15 +440,15 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
       AverageTemperature: 68,
-      TemperatureUnit: "Celsius"
+      TemperatureUnit: "Celsius",
     };
     const createdTwin = await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 
     const options: DigitalTwinsDeleteOptionalParams = {
-      ifMatch: createdTwin.etag
+      ifMatch: createdTwin.etag,
     };
     let errorWasThrown = false;
     try {
@@ -474,7 +474,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("delete digital twin invalid conditions", async function() {
+  it("delete digital twin invalid conditions", async function () {
     const digitalTwinId = recorder.getUniqueName(
       "digitalTwin",
       "delete-digitaltwin-invalid-conditions"
@@ -485,15 +485,15 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
       AverageTemperature: 68,
-      TemperatureUnit: "Celsius"
+      TemperatureUnit: "Celsius",
     };
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 
     const options: DigitalTwinsDeleteOptionalParams = {
-      ifMatch: "XXX"
+      ifMatch: "XXX",
     };
     let errorWasThrown = false;
     try {
@@ -511,7 +511,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("update digital twin replace", async function() {
+  it("update digital twin replace", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-replace");
 
     await setUpModels();
@@ -519,17 +519,17 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
       AverageTemperature: 68,
-      TemperatureUnit: "Celsius"
+      TemperatureUnit: "Celsius",
     };
     const patch = [
       {
         op: "replace",
         path: "/AverageTemperature",
-        value: 42
-      }
+        value: 42,
+      },
     ];
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
     await client.updateDigitalTwin(digitalTwinId, patch);
@@ -557,7 +557,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, false, "Error was thrown");
   });
 
-  it("update digital twin remove", async function() {
+  it("update digital twin remove", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-remove");
 
     await setUpModels();
@@ -565,16 +565,16 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
       AverageTemperature: 68,
-      TemperatureUnit: "Celsius"
+      TemperatureUnit: "Celsius",
     };
     const patch = [
       {
         op: "remove",
-        path: "/AverageTemperature"
-      }
+        path: "/AverageTemperature",
+      },
     ];
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
     await client.updateDigitalTwin(digitalTwinId, patch);
@@ -602,7 +602,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, false, "Error was thrown");
   });
 
-  it("update digital twin add", async function() {
+  it("update digital twin add", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-add");
 
     await setUpModels();
@@ -610,16 +610,16 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
-      AverageTemperature: 68
+      AverageTemperature: 68,
     };
     const patch = [
       {
         op: "add",
         path: "/TemperatureUnit",
-        value: "Celsius"
-      }
+        value: "Celsius",
+      },
     ];
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
     await client.updateDigitalTwin(digitalTwinId, patch);
@@ -647,7 +647,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, false, "Error was thrown");
   });
 
-  it("update digital twin multiple", async function() {
+  it("update digital twin multiple", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-multiple");
 
     await setUpModels();
@@ -655,21 +655,21 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
-      AverageTemperature: 68
+      AverageTemperature: 68,
     };
     const patch = [
       {
         op: "add",
         path: "/TemperatureUnit",
-        value: "Celsius"
+        value: "Celsius",
       },
       {
         op: "replace",
         path: "/AverageTemperature",
-        value: 42
-      }
+        value: 42,
+      },
     ];
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
     await client.updateDigitalTwin(digitalTwinId, patch);
@@ -697,7 +697,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, false, "Error was thrown");
   });
 
-  it("update digital twin invalid patch", async function() {
+  it("update digital twin invalid patch", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-invalid-patch");
 
     await setUpModels();
@@ -705,16 +705,16 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
-      AverageTemperature: 68
+      AverageTemperature: 68,
     };
     const patch = [
       {
         op: "move",
         path: "/AverageTemperature",
-        value: 42
-      }
+        value: 42,
+      },
     ];
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 
@@ -731,7 +731,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("update digital twin confditionally if present", async function() {
+  it("update digital twin confditionally if present", async function () {
     const digitalTwinId = recorder.getUniqueName(
       "digitalTwin",
       "update-digitaltwin-conditionally-if-present"
@@ -742,20 +742,20 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
-      AverageTemperature: 68
+      AverageTemperature: 68,
     };
     const patch = [
       {
         op: "replace",
         path: "/AverageTemperature",
-        value: 42
-      }
+        value: 42,
+      },
     ];
     const createdTwin = await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
     const options: DigitalTwinsUpdateOptionalParams = {
-      ifMatch: createdTwin.etag
+      ifMatch: createdTwin.etag,
     };
     await client.updateDigitalTwin(digitalTwinId, patch, options);
 
@@ -777,7 +777,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, false, "Error was thrown");
   });
 
-  it("update digital twin invalid conditions", async function() {
+  it("update digital twin invalid conditions", async function () {
     const digitalTwinId = recorder.getUniqueName(
       "digitalTwin",
       "update-digitaltwin-invalid-conditions"
@@ -788,22 +788,22 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
       AverageTemperature: 68,
-      TemperatureUnit: "Celsius"
+      TemperatureUnit: "Celsius",
     };
     const patch = [
       {
         op: "replace",
         path: "/AverageTemperature",
-        value: 42
-      }
+        value: 42,
+      },
     ];
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 
     const options: DigitalTwinsDeleteOptionalParams = {
-      ifMatch: "XXX"
+      ifMatch: "XXX",
     };
     let errorWasThrown = false;
     try {
@@ -821,7 +821,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("update digital twin not existing", async function() {
+  it("update digital twin not existing", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-not-existing");
 
     await setUpModels();
@@ -831,8 +831,8 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       {
         op: "replace",
         path: "/AverageTemperature",
-        value: 42
-      }
+        value: 42,
+      },
     ];
 
     let errorWasThrown = false;
@@ -848,7 +848,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("query digital twin", async function() {
+  it("query digital twin", async function () {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "query-digitaltwin");
 
     await setUpModels();
@@ -856,10 +856,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
       AverageTemperature: 68,
-      TemperatureUnit: "Celsius"
+      TemperatureUnit: "Celsius",
     };
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 
@@ -883,7 +883,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     }
   });
 
-  it("query digital twin invalid expression", async function() {
+  it("query digital twin invalid expression", async function () {
     const digitalTwinId = recorder.getUniqueName(
       "digitalTwin",
       "query-digitaltwin-invalid-expression"
@@ -913,7 +913,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("publish telemetry", async function() {
+  it("publish telemetry", async function () {
     recorder.skip(undefined, "The method creates a unique Id");
 
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "publish-telemetry");
@@ -923,10 +923,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     const buildingTwin = {
       $metadata: {
-        $model: BUILDING_MODEL_ID
+        $model: BUILDING_MODEL_ID,
       },
       AverageTemperature: 68,
-      TemperatureUnit: "Celsius"
+      TemperatureUnit: "Celsius",
     };
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 

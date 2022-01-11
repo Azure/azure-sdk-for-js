@@ -5,7 +5,7 @@ import { TextDocumentBatchStatistics, TextDocumentInput, EntitiesResult } from "
 import {
   RecognizeCategorizedEntitiesResult,
   makeRecognizeCategorizedEntitiesResult,
-  makeRecognizeCategorizedEntitiesErrorResult
+  makeRecognizeCategorizedEntitiesErrorResult,
 } from "./recognizeCategorizedEntitiesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 

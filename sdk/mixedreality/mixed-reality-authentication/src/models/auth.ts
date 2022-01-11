@@ -19,8 +19,8 @@ export class MixedRealityAccountKeyCredential implements TokenCredential {
 
   /**
    * Creates an instance of a MixedRealityAccountKeyCredential.
-   * @param accountId The Mixed Reality service account identifier.
-   * @param accountKey The Mixed Reality service account primary or secondary key.
+   * @param accountId - The Mixed Reality service account identifier.
+   * @param accountKey - The Mixed Reality service account primary or secondary key.
    */
   constructor(public readonly accountId: string, accountKey: string | AzureKeyCredential) {
     if (typeof accountKey === "string") {
@@ -43,7 +43,7 @@ export class MixedRealityAccountKeyCredential implements TokenCredential {
   getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
     const result: AccessToken = {
       expiresOnTimestamp: maxTimestampMs,
-      token: `${this.accountId}:${this.accountKey.key}`
+      token: `${this.accountId}:${this.accountKey.key}`,
     };
 
     return Promise.resolve(result);

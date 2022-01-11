@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { DataLakeAnalyticsAccountManagementClient } from "./dataLakeAnalyticsAccountManagementClient";
-export { DataLakeAnalyticsAccountManagementClientContext } from "./dataLakeAnalyticsAccountManagementClientContext";
 export * from "./operationsInterfaces";

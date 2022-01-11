@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PartitionOwnership } from "../eventProcessor";
 import { LoadBalancingStrategy, listAvailablePartitions } from "./loadBalancingStrategy";
+import { PartitionOwnership } from "../eventProcessor";
 
 /**
  * The BalancedLoadBalancerStrategy is meant to be used when the user

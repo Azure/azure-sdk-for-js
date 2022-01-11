@@ -23,10 +23,10 @@ async function helloWorldRequest(): Promise<string> {
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
-    PATH: "/replaced"
+    PATH: "/replaced",
   },
   customizationsOnRecordings: [],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 /**
@@ -52,7 +52,7 @@ describe("The recorder's public API, on a browser", () => {
     windowLens.set(["__json__"], undefined);
   });
 
-  it("should record a simple test", async function() {
+  it("should record a simple test", async function () {
     // Setting up the record mode, and the PATH environment variable.
     windowLens.set(["__env__", "TEST_MODE"], "record");
     windowLens.set(["__env__", "PATH"], "/to/replace");
@@ -61,7 +61,7 @@ describe("The recorder's public API, on a browser", () => {
     xhrMock.setup();
     xhrMock.get("/to/replace", {
       status: 200,
-      body: expectedHttpResponse
+      body: expectedHttpResponse,
     });
 
     // Before starting the recorder, we need to make a copy of the original XHR object, so that we can
@@ -88,7 +88,7 @@ describe("The recorder's public API, on a browser", () => {
       ...this.currentTest,
       file: "test/recorder.browser.spec.ts",
       // For this test, we don't care what's the content of the recorded function.
-      fn: getNoOpFunction()
+      fn: getNoOpFunction(),
     });
 
     const recorder = record(fakeThis, recorderEnvSetup);
@@ -115,21 +115,20 @@ describe("The recorder's public API, on a browser", () => {
       // TODO: Find a way to capture the complete output.
       JSON.stringify({
         writeFile: true,
-        path:
-          "./recordings/browsers/the_recorders_public_api_on_a_browser/recording_should_record_a_simple_test.json",
+        path: "./recordings/browsers/the_recorders_public_api_on_a_browser/recording_should_record_a_simple_test.json",
         content: {
           recordings: [],
           uniqueTestInfo: {
             uniqueName: {},
-            newDate: {}
+            newDate: {},
           },
-          hash: MD5(getNoOpFunction().toString())
-        }
+          hash: MD5(getNoOpFunction().toString()),
+        },
       })
     );
   });
 
-  it("should playback a simple test", async function() {
+  it("should playback a simple test", async function () {
     // Setting up the playback mode.
     // The PATH environment variable is not needed on playback.
     // The recorder will assume that it is in playback mode by default.
@@ -139,17 +138,17 @@ describe("The recorder's public API, on a browser", () => {
     windowLens.set(
       [
         "__json__",
-        "recordings/browsers/the_recorders_public_api_on_a_browser/recording_should_playback_a_simple_test.json"
+        "recordings/browsers/the_recorders_public_api_on_a_browser/recording_should_playback_a_simple_test.json",
       ],
       {
         recordings: [
           {
             method: "GET",
             url: "/replaced",
-            response: expectedHttpResponse
-          }
+            response: expectedHttpResponse,
+          },
         ],
-        uniqueTestInfo: { uniqueName: {}, newDate: {} }
+        uniqueTestInfo: { uniqueName: {}, newDate: {} },
       }
     );
 
@@ -160,7 +159,7 @@ describe("The recorder's public API, on a browser", () => {
       ...this.currentTest,
       file: "test/recorder.browser.spec.ts",
       // For this test, we don't care what's the content of the recorded function.
-      fn: getNoOpFunction()
+      fn: getNoOpFunction(),
     });
 
     const recorder = record(fakeThis, recorderEnvSetup);
@@ -173,7 +172,7 @@ describe("The recorder's public API, on a browser", () => {
     await recorder.stop();
   });
 
-  it("soft-record should re-record a simple outdated test", async function() {
+  it("soft-record should re-record a simple outdated test", async function () {
     // Setting up the playback mode.
     // The PATH environment variable is not needed on playback.
     windowLens.set(["__env__", "TEST_MODE"], "soft-record");
@@ -183,18 +182,18 @@ describe("The recorder's public API, on a browser", () => {
     windowLens.set(
       [
         "__json__",
-        "recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json"
+        "recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json",
       ],
       {
         recordings: [
           {
             method: "GET",
             url: "/replaced",
-            response: expectedHttpResponse
-          }
+            response: expectedHttpResponse,
+          },
         ],
         uniqueTestInfo: { uniqueName: {}, newDate: {} },
-        hash: "fake old hash"
+        hash: "fake old hash",
       }
     );
 
@@ -202,7 +201,7 @@ describe("The recorder's public API, on a browser", () => {
     xhrMock.setup();
     xhrMock.get("/to/replace", {
       status: 200,
-      body: expectedHttpResponse
+      body: expectedHttpResponse,
     });
 
     // Before starting the recorder, we need to make a copy of the original XHR object, so that we can
@@ -231,7 +230,7 @@ describe("The recorder's public API, on a browser", () => {
       file: "test/recorder.browser.spec.ts",
       // The hash in our expected recording is made out of an empty function.
       // This function has something inside, which means it has changed.
-      fn: getAnotherNoOpFunction()
+      fn: getAnotherNoOpFunction(),
     });
 
     const recorder = record(fakeThis, recorderEnvSetup);
@@ -260,21 +259,20 @@ describe("The recorder's public API, on a browser", () => {
       // TODO: Find a way to capture the complete output.
       JSON.stringify({
         writeFile: true,
-        path:
-          "./recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json",
+        path: "./recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_rerecord_a_simple_outdated_test.json",
         content: {
           recordings: [],
           uniqueTestInfo: {
             uniqueName: {},
-            newDate: {}
+            newDate: {},
           },
-          hash: MD5(getAnotherNoOpFunction().toString())
-        }
+          hash: MD5(getAnotherNoOpFunction().toString()),
+        },
       })
     );
   });
 
-  it("soft-record should skip a simple unchanged test", async function() {
+  it("soft-record should skip a simple unchanged test", async function () {
     // Setting up the playback mode.
     // The PATH environment variable is not needed on playback.
     windowLens.set(["__env__", "TEST_MODE"], "soft-record");
@@ -283,19 +281,19 @@ describe("The recorder's public API, on a browser", () => {
     windowLens.set(
       [
         "__json__",
-        "recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_skip_a_simple_unchanged_test.json"
+        "recordings/browsers/the_recorders_public_api_on_a_browser/recording_softrecord_should_skip_a_simple_unchanged_test.json",
       ],
       {
         recordings: [
           {
             method: "GET",
             url: "/replaced",
-            response: expectedHttpResponse
-          }
+            response: expectedHttpResponse,
+          },
         ],
         uniqueTestInfo: { uniqueName: {}, newDate: {} },
         // This is the expected hash
-        hash: MD5(getNoOpFunction().toString())
+        hash: MD5(getNoOpFunction().toString()),
       }
     );
 
@@ -308,7 +306,7 @@ describe("The recorder's public API, on a browser", () => {
       file: "test/recorder.browser.spec.ts",
       // The hash in our expected recording is made out of an empty function.
       // This function is empty, which means it remains the same.
-      fn: getNoOpFunction()
+      fn: getNoOpFunction(),
     });
 
     // We have to mock this.skip in order to confirm that the recorder has called it.

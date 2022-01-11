@@ -420,6 +420,12 @@ export interface OperationDisplay {
   description?: string;
 }
 
+/** The list tables operation response. */
+export interface TablesListResult {
+  /** A list of data tables. */
+  value?: Table[];
+}
+
 /** The list clusters operation response. */
 export interface ClusterListResult {
   /** The link used to get the next page of recommendations. */
@@ -712,6 +718,24 @@ export type SavedSearch = ProxyResource & {
   version?: number;
   /** The tags attached to the saved search. */
   tags?: Tag[];
+};
+
+/** Workspace data table definition. */
+export type Table = ProxyResource & {
+  /** The data table data retention in days, between 7 and 730. Setting this property to null will default to the workspace retention. */
+  retentionInDays?: number;
+  /**
+   * Specifies if IsTroubleshootingEnabled property can be set for this table.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isTroubleshootingAllowed?: boolean;
+  /** Enable or disable troubleshoot for this table. */
+  isTroubleshootEnabled?: boolean;
+  /**
+   * Last time when troubleshooting was set for this table.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastTroubleshootDate?: string;
 };
 
 /** The top level Log Analytics cluster resource container. */
@@ -1485,6 +1509,33 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
+export interface TablesListByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWorkspace operation. */
+export type TablesListByWorkspaceResponse = TablesListResult;
+
+/** Optional parameters. */
+export interface TablesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type TablesUpdateResponse = Table;
+
+/** Optional parameters. */
+export interface TablesCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type TablesCreateResponse = Table;
+
+/** Optional parameters. */
+export interface TablesGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TablesGetResponse = Table;
+
+/** Optional parameters. */
 export interface ClustersListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1528,7 +1579,12 @@ export type ClustersGetResponse = Cluster;
 
 /** Optional parameters. */
 export interface ClustersUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the update operation. */
 export type ClustersUpdateResponse = Cluster;

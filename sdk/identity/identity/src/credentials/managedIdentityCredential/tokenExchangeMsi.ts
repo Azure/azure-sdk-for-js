@@ -5,7 +5,7 @@ import fs from "fs";
 import {
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions
+  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { promisify } from "util";
@@ -31,7 +31,7 @@ function prepareRequestOptions(
     client_assertion: clientAssertion,
     client_assertion_type: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
     client_id: clientId,
-    grant_type: "client_credentials"
+    grant_type: "client_credentials",
   };
 
   const urlParams = new URLSearchParams(bodyParams);
@@ -45,8 +45,8 @@ function prepareRequestOptions(
     method: "POST",
     body: urlParams.toString(),
     headers: createHttpHeaders({
-      Accept: "application/json"
-    })
+      Accept: "application/json",
+    }),
   };
 }
 
@@ -113,10 +113,10 @@ export function tokenExchangeMsi(): MSI {
         abortSignal: getTokenOptions.abortSignal,
         ...prepareRequestOptions(scopes, assertion, clientId || process.env.AZURE_CLIENT_ID!),
         // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
-        allowInsecureConnection: true
+        allowInsecureConnection: true,
       });
       const tokenResponse = await identityClient.sendTokenRequest(request);
       return (tokenResponse && tokenResponse.accessToken) || null;
-    }
+    },
   };
 }

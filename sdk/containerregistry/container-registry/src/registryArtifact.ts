@@ -11,8 +11,8 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ArtifactTagProperties,
   ArtifactManifestProperties,
-  TagOrderBy,
-  TagPageResponse
+  ArtifactTagOrder,
+  TagPageResponse,
 } from "./models";
 import { URL } from "./utils/url";
 import { createSpan } from "./tracing";
@@ -69,8 +69,8 @@ export interface UpdateManifestPropertiesOptions extends OperationOptions {
  * Options for the `listTagProperties` method of `RegistryArtifact`.
  */
 export interface ListTagPropertiesOptions extends OperationOptions {
-  /** orderby query parameter */
-  orderBy?: TagOrderBy;
+  /** order in which the tags are returned */
+  order?: ArtifactTagOrder;
 }
 
 /**
@@ -367,8 +367,8 @@ export class RegistryArtifactImpl {
         canDelete: options.canDelete,
         canWrite: options.canWrite,
         canList: options.canList,
-        canRead: options.canRead
-      }
+        canRead: options.canRead,
+      },
     });
 
     try {
@@ -446,8 +446,8 @@ export class RegistryArtifactImpl {
         canDelete: options.canDelete,
         canWrite: options.canWrite,
         canList: options.canList,
-        canRead: options.canRead
-      }
+        canRead: options.canRead,
+      },
     });
 
     try {
@@ -519,7 +519,7 @@ export class RegistryArtifactImpl {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listTagsPage(settings, options)
+      byPage: (settings: PageSettings = {}) => this.listTagsPage(settings, options),
     };
   }
 
@@ -535,12 +535,12 @@ export class RegistryArtifactImpl {
     continuationState: PageSettings,
     options: ListTagPropertiesOptions = {}
   ): AsyncIterableIterator<TagPageResponse> {
-    const orderby = toServiceTagOrderBy(options.orderBy);
+    const orderby = toServiceTagOrderBy(options.order);
     if (!continuationState.continuationToken) {
       const optionsComplete = {
         ...options,
         n: continuationState.maxPageSize,
-        orderby
+        orderby,
       };
       const currentPage = await this.client.containerRegistry.getTags(
         this.repositoryName,
@@ -552,12 +552,12 @@ export class RegistryArtifactImpl {
           return {
             registryLoginServer: currentPage.registryLoginServer,
             repositoryName: currentPage.repository,
-            ...t
+            ...t,
           };
         });
         yield Object.defineProperty(array, "continuationToken", {
           value: continuationState.continuationToken,
-          enumerable: true
+          enumerable: true,
         });
       }
     }
@@ -573,12 +573,12 @@ export class RegistryArtifactImpl {
           return {
             registryLoginServer: currentPage.registryLoginServer,
             repositoryName: currentPage.repository,
-            ...t
+            ...t,
           };
         });
         yield Object.defineProperty(array, "continuationToken", {
           value: continuationState.continuationToken,
-          enumerable: true
+          enumerable: true,
         });
       }
     }

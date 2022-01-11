@@ -125,7 +125,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '3',
+  '0',
   'x-ms-request-id',
   'a843242d-b3fc-45e5-a3b2-66bf548cc368',
   'Azure-AsyncOperation',
@@ -169,7 +169,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding',
   'x-ms-request-id',
@@ -249,7 +249,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '3',
+  '0',
   'x-ms-request-id',
   '6568ce7c-67a9-4dad-a66a-dafcd308cbf7',
   'Azure-AsyncOperation',
@@ -395,7 +395,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .put('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex', {"location":"eastus","properties":{"hardwareProfile":{"vmSize":"Standard_D2_v2"},"storageProfile":{"imageReference":{"publisher":"MicrosoftWindowsServer","offer":"WindowsServer","sku":"2016-Datacenter","version":"latest"},"osDisk":{"name":"myVMosdisk","caching":"ReadWrite","createOption":"FromImage","managedDisk":{"storageAccountType":"Standard_LRS"}},"dataDisks":[{"lun":0,"createOption":"Empty","diskSizeGB":1023},{"lun":1,"createOption":"Empty","diskSizeGB":1023}]},"osProfile":{"computerName":"myVM","adminUsername":"testuser","adminPassword":"Aa!1()-xyz","windowsConfiguration":{"enableAutomaticUpdates":true}},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex","properties":{"primary":true}}]}}})
+  .put('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex', {"location":"eastus","properties":{"hardwareProfile":{"vmSize":"Standard_D2_v2"},"storageProfile":{"imageReference":{"publisher":"MicrosoftWindowsServer","offer":"WindowsServer","sku":"2016-Datacenter","version":"latest"},"osDisk":{"name":"myVMosdisk","caching":"ReadWrite","createOption":"FromImage","managedDisk":{"storageAccountType":"Standard_LRS"}},"dataDisks":[{"lun":0,"createOption":"Empty","diskSizeGB":1023},{"lun":1,"createOption":"Empty","diskSizeGB":1023}]},"osProfile":{"computerName":"myVM","adminUsername":"testuser","adminPassword":"SecretPlaceholder","windowsConfiguration":{"enableAutomaticUpdates":true}},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex","properties":{"primary":true}}]}}})
   .query(true)
   .reply(201, {"name":"virtualmachinex","id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex","type":"Microsoft.Compute/virtualMachines","location":"eastus","tags":{"azsecpack":"nonprod","platformsettings.host_environment.service.platform_optedin_for_rootcerts":"true"},"properties":{"vmId":"dda3d25d-485d-4a17-b2ad-900bed0f86a6","hardwareProfile":{"vmSize":"Standard_D2_v2"},"storageProfile":{"imageReference":{"publisher":"MicrosoftWindowsServer","offer":"WindowsServer","sku":"2016-Datacenter","version":"latest","exactVersion":"14393.4905.2111130103"},"osDisk":{"osType":"Windows","name":"myVMosdisk","createOption":"FromImage","caching":"ReadWrite","managedDisk":{"storageAccountType":"Standard_LRS"},"deleteOption":"Detach","diskSizeGB":127},"dataDisks":[{"lun":0,"createOption":"Empty","caching":"None","managedDisk":{"storageAccountType":"Standard_LRS"},"deleteOption":"Detach","diskSizeGB":1023,"toBeDetached":false},{"lun":1,"createOption":"Empty","caching":"None","managedDisk":{"storageAccountType":"Standard_LRS"},"deleteOption":"Detach","diskSizeGB":1023,"toBeDetached":false}]},"osProfile":{"computerName":"myVM","adminUsername":"testuser","windowsConfiguration":{"provisionVMAgent":true,"enableAutomaticUpdates":true,"patchSettings":{"patchMode":"AutomaticByOS","assessmentMode":"ImageDefault"}},"secrets":[],"allowExtensionOperations":true,"requireGuestProvisionSignal":true},"networkProfile":{"networkInterfaces":[{"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex","properties":{"primary":true}}]},"provisioningState":"Creating"}}, [
   'Cache-Control',
@@ -409,7 +409,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Azure-AsyncOperation',
   'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Compute/locations/eastus/operations/02342c55-5767-4cfb-9bc5-2951d69507d3?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7&api-version=2021-07-01',
   'Azure-AsyncNotification',
@@ -453,7 +453,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '50',
+  '0',
   'Vary',
   'Accept-Encoding',
   'x-ms-ratelimit-remaining-resource',

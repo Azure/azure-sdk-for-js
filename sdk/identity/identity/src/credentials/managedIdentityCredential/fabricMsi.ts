@@ -5,7 +5,7 @@ import https from "https";
 import {
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions
+  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { TokenResponseParsedBody } from "../../client/identityClient";
@@ -50,7 +50,7 @@ function prepareRequestOptions(
 
   const queryParameters: Record<string, string> = {
     resource,
-    "api-version": azureFabricVersion
+    "api-version": azureFabricVersion,
   };
 
   if (clientId) {
@@ -72,8 +72,8 @@ function prepareRequestOptions(
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",
-      secret: process.env.IDENTITY_HEADER
-    })
+      secret: process.env.IDENTITY_HEADER,
+    }),
   };
 }
 
@@ -110,13 +110,13 @@ export const fabricMsi: MSI = {
         "Using the endpoint and the secret coming from the environment variables:",
         `IDENTITY_ENDPOINT=${process.env.IDENTITY_ENDPOINT},`,
         "IDENTITY_HEADER=[REDACTED] and",
-        "IDENTITY_SERVER_THUMBPRINT=[REDACTED]."
+        "IDENTITY_SERVER_THUMBPRINT=[REDACTED].",
       ].join(" ")
     );
 
     const request = createPipelineRequest({
       abortSignal: getTokenOptions.abortSignal,
-      ...prepareRequestOptions(scopes, clientId)
+      ...prepareRequestOptions(scopes, clientId),
       // The service fabric MSI endpoint will be HTTPS (however, the certificate will be self-signed).
       // allowInsecureConnection: true
     });
@@ -124,10 +124,10 @@ export const fabricMsi: MSI = {
     request.agent = new https.Agent({
       // This is necessary because Service Fabric provides a self-signed certificate.
       // The alternative path is to verify the certificate using the IDENTITY_SERVER_THUMBPRINT env variable.
-      rejectUnauthorized: false
+      rejectUnauthorized: false,
     });
 
     const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
     return (tokenResponse && tokenResponse.accessToken) || null;
-  }
+  },
 };

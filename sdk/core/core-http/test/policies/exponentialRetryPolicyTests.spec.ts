@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { ExponentialRetryPolicy } from "../../src/policies/exponentialRetryPolicy";
-import { WebResource } from "../../src/webResource";
-import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
+import { ExponentialRetryPolicy } from "../../src/policies/exponentialRetryPolicy";
+import { HttpOperationResponse } from "../../src/httpOperationResponse";
+import { WebResource } from "../../src/webResource";
+import { assert } from "chai";
 
 describe("ExponentialRetryPolicy", () => {
   class PassThroughPolicy {
@@ -13,7 +13,7 @@ describe("ExponentialRetryPolicy", () => {
     public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       const response = {
         ...this._response,
-        request: request
+        request: request,
       };
 
       return Promise.resolve(response);
@@ -30,7 +30,7 @@ describe("ExponentialRetryPolicy", () => {
         const res = {
           status: this.statusCode,
           request: request,
-          headers: new HttpHeaders()
+          headers: new HttpHeaders(),
         };
         return Promise.resolve(res);
       }
@@ -42,7 +42,7 @@ describe("ExponentialRetryPolicy", () => {
   const defaultResponse = {
     status: 200,
     request: new WebResource(),
-    headers: new HttpHeaders()
+    headers: new HttpHeaders(),
   };
 
   function createDefaultExponentialRetryPolicy(
@@ -63,7 +63,7 @@ describe("ExponentialRetryPolicy", () => {
         sendRequest: (requestToSend: WebResource): Promise<HttpOperationResponse> => {
           assert(request !== requestToSend);
           return Promise.resolve(defaultResponse);
-        }
+        },
       };
       const policy = new ExponentialRetryPolicy(nextPolicy, new RequestPolicyOptions());
       await policy.sendRequest(request);
@@ -91,7 +91,7 @@ describe("ExponentialRetryPolicy", () => {
         const mockResponse = {
           status: 200,
           headers: new HttpHeaders(),
-          request: request
+          request: request,
         };
 
         const faultyPolicy = new FailFirstRequestPolicy(mockResponse, code);
@@ -117,7 +117,7 @@ describe("ExponentialRetryPolicy", () => {
         const response = {
           status: code,
           request: request,
-          headers: new HttpHeaders()
+          headers: new HttpHeaders(),
         };
         const faultyPolicy = new FailFirstRequestPolicy(response, code);
         const policy = new ExponentialRetryPolicy(
@@ -144,7 +144,7 @@ describe("ExponentialRetryPolicy", () => {
             const response = {
               status: this.statusCode,
               request: new WebResource(),
-              headers: new HttpHeaders()
+              headers: new HttpHeaders(),
             };
             return Promise.resolve(response);
           }

@@ -13,5 +13,5 @@ export enum DataType {
   /** Represents a polygon data type. */
   Polygon = "Polygon",
   /** Represents a multi-polygon data type. */
-  MultiPolygon = "MultiPolygon"
+  MultiPolygon = "MultiPolygon",
 }

@@ -3,22 +3,21 @@
 
 /* eslint-disable no-unused-expressions */
 
-import { assert } from "chai";
 import "chai/register-should";
-import * as sinon from "sinon";
 import * as http from "http";
-import { createReadStream, ReadStream } from "fs";
-
-import { DefaultHttpClient } from "../src/defaultHttpClient";
-import { WebResource, TransferProgressEvent } from "../src/webResource";
-import { getHttpMock, HttpMockFacade } from "./mockHttp";
-import { PassThrough, Readable } from "stream";
-import { ReportTransform, CommonResponse } from "../src/nodeFetchHttpClient";
+import * as sinon from "sinon";
+import { CommonResponse, ReportTransform } from "../src/nodeFetchHttpClient";
 import { CompositeMapper, Serializer } from "../src/serializer";
-import { OperationSpec } from "../src/operationSpec";
+import { HttpMockFacade, getHttpMock } from "./mockHttp";
+import { PassThrough, Readable } from "stream";
+import { ReadStream, createReadStream } from "fs";
+import { TransferProgressEvent, WebResource } from "../src/webResource";
 import { AbortController } from "@azure/abort-controller";
+import { DefaultHttpClient } from "../src/defaultHttpClient";
+import { OperationSpec } from "../src/operationSpec";
+import { assert } from "chai";
 
-describe("defaultHttpClient (node)", function() {
+describe("defaultHttpClient (node)", function () {
   let httpMock: HttpMockFacade;
   beforeEach(() => {
     httpMock = getHttpMock();
@@ -31,25 +30,25 @@ describe("defaultHttpClient (node)", function() {
     const httpClient = new DefaultHttpClient();
     sinon.stub(httpClient, "fetch").callsFake(async (input, init) => {
       const response = await httpMock.getFetch()!(input, init);
-      return (response as unknown) as CommonResponse;
+      return response as unknown as CommonResponse;
     });
 
     return httpClient;
   }
 
-  it("should not overwrite a user-provided cookie (nodejs only)", async function() {
+  it("should not overwrite a user-provided cookie (nodejs only)", async function () {
     // Cookie is only allowed to be set by the browser based on an actual response Set-Cookie header
     httpMock.get("http://my.fake.domain/set-cookie", {
       status: 200,
       headers: {
-        "Set-Cookie": "data=123456"
-      }
+        "Set-Cookie": "data=123456",
+      },
     });
 
     httpMock.get("http://my.fake.domain/cookie", async (_url, _method, _body, headers) => {
       return {
         status: 200,
-        headers: headers
+        headers: headers,
       };
     });
 
@@ -64,17 +63,17 @@ describe("defaultHttpClient (node)", function() {
     response2.headers.get("Cookie")!.should.equal("data=123456");
 
     const request3 = new WebResource("http://my.fake.domain/cookie", "GET", undefined, undefined, {
-      Cookie: "data=abcdefg"
+      Cookie: "data=abcdefg",
     });
     const response3 = await client.sendRequest(request3);
     response3.headers.get("Cookie")!.should.equal("data=abcdefg");
   });
 
-  it("should send HTTP requests", async function() {
+  it("should send HTTP requests", async function () {
     const localPort = 32293;
     const responseContent = "<html><body><marquee>Under Construction</marquee></body></html>";
     const localServer = http
-      .createServer(function(_req, res) {
+      .createServer(function (_req, res) {
         res.writeHead(200, { "Content-Type": "text/html" });
         res.write(responseContent);
         res.end();
@@ -100,7 +99,7 @@ describe("defaultHttpClient (node)", function() {
     httpMock.teardown();
   });
 
-  it("should set readableStreamBody for streamming response", async function() {
+  it("should set readableStreamBody for streamming response", async function () {
     const serializer = new Serializer(undefined, true);
     const StorageError: CompositeMapper = {
       serializedName: "StorageError",
@@ -112,18 +111,18 @@ describe("defaultHttpClient (node)", function() {
             xmlName: "Message",
             serializedName: "Message",
             type: {
-              name: "String"
-            }
+              name: "String",
+            },
           },
           code: {
             xmlName: "Code",
             serializedName: "Code",
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
+              name: "String",
+            },
+          },
+        },
+      },
     };
     const operationSpec: OperationSpec = {
       httpMethod: "GET",
@@ -132,25 +131,25 @@ describe("defaultHttpClient (node)", function() {
           bodyMapper: {
             serializedName: "parsedResponse",
             type: {
-              name: "Stream"
-            }
-          }
+              name: "Stream",
+            },
+          },
         },
         default: {
-          bodyMapper: StorageError
-        }
+          bodyMapper: StorageError,
+        },
       },
       isXML: true,
       baseUrl: "httpbin.org",
-      serializer
+      serializer,
     };
     httpMock.get("http://my.fake.domain/non-existing-blob", {
       status: 200,
       headers: {
         "Content-Type": "application/xml",
-        "Content-Length": 215
+        "Content-Length": 215,
       },
-      body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+      body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`,
     });
     const client = getMockedHttpClient();
 
@@ -163,7 +162,7 @@ describe("defaultHttpClient (node)", function() {
     assert.strictEqual(response.bodyAsText, undefined);
   });
 
-  it("should not treat non-streaming default response body as stream", async function() {
+  it("should not treat non-streaming default response body as stream", async function () {
     const serializer = new Serializer(undefined, true);
     const StorageError: CompositeMapper = {
       serializedName: "StorageError",
@@ -175,18 +174,18 @@ describe("defaultHttpClient (node)", function() {
             xmlName: "Message",
             serializedName: "Message",
             type: {
-              name: "String"
-            }
+              name: "String",
+            },
           },
           code: {
             xmlName: "Code",
             serializedName: "Code",
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
+              name: "String",
+            },
+          },
+        },
+      },
     };
     const operationSpec: OperationSpec = {
       httpMethod: "GET",
@@ -195,25 +194,25 @@ describe("defaultHttpClient (node)", function() {
           bodyMapper: {
             serializedName: "parsedResponse",
             type: {
-              name: "Stream"
-            }
-          }
+              name: "Stream",
+            },
+          },
         },
         default: {
-          bodyMapper: StorageError
-        }
+          bodyMapper: StorageError,
+        },
       },
       isXML: true,
       baseUrl: "httpbin.org",
-      serializer
+      serializer,
     };
     httpMock.get("http://my.fake.domain/non-existing-blob", {
       status: 404,
       headers: {
         "Content-Type": "application/xml",
-        "Content-Length": 215
+        "Content-Length": 215,
       },
-      body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+      body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`,
     });
     const client = getMockedHttpClient();
 
@@ -229,7 +228,7 @@ describe("defaultHttpClient (node)", function() {
     );
   });
 
-  it("should respect deprecated streamResponseBody", async function() {
+  it("should respect deprecated streamResponseBody", async function () {
     const serializer = new Serializer(undefined, true);
     const StorageError: CompositeMapper = {
       serializedName: "StorageError",
@@ -241,18 +240,18 @@ describe("defaultHttpClient (node)", function() {
             xmlName: "Message",
             serializedName: "Message",
             type: {
-              name: "String"
-            }
+              name: "String",
+            },
           },
           code: {
             xmlName: "Code",
             serializedName: "Code",
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
+              name: "String",
+            },
+          },
+        },
+      },
     };
     const operationSpec: OperationSpec = {
       httpMethod: "GET",
@@ -261,25 +260,25 @@ describe("defaultHttpClient (node)", function() {
           bodyMapper: {
             serializedName: "parsedResponse",
             type: {
-              name: "Stream"
-            }
-          }
+              name: "Stream",
+            },
+          },
         },
         default: {
-          bodyMapper: StorageError
-        }
+          bodyMapper: StorageError,
+        },
       },
       isXML: true,
       baseUrl: "httpbin.org",
-      serializer
+      serializer,
     };
     httpMock.get("http://my.fake.domain/non-existing-blob", {
       status: 404,
       headers: {
         "Content-Type": "application/xml",
-        "Content-Length": 215
+        "Content-Length": 215,
       },
-      body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`
+      body: `<?xml version="1.0" encoding="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.</Message></Error>`,
     });
     const client = getMockedHttpClient();
 
@@ -303,7 +302,7 @@ describe("defaultHttpClient (node)", function() {
       ev.loadedBytes.should.be.a("Number");
     };
 
-    it("for stream bodies", async function() {
+    it("for stream bodies", async function () {
       const payload = (): ReadStream => createReadStream(__filename);
 
       const size = payload.toString().length;
@@ -312,7 +311,7 @@ describe("defaultHttpClient (node)", function() {
         return {
           status: 250,
           body: payload,
-          headers: { "Content-Type": "text/javascript", "Content-length": size }
+          headers: { "Content-Type": "text/javascript", "Content-length": size },
         };
       });
 
@@ -355,12 +354,12 @@ describe("defaultHttpClient (node)", function() {
     });
   });
 
-  it("should use cached agent for requests with the same proxy settings", async function() {
+  it("should use cached agent for requests with the same proxy settings", async function () {
     const proxySettings = {
       host: "host1",
       port: 8001,
       username: "user1",
-      password: "SecretPlaceholder"
+      password: "SecretPlaceholder",
     };
     const request1 = new WebResource("/url");
     request1.proxySettings = proxySettings;
@@ -377,13 +376,13 @@ describe("defaultHttpClient (node)", function() {
     assert.deepStrictEqual(requestInit1.agent, requestInit2.agent);
   });
 
-  it("should use different agents for requests with different proxy settings", async function() {
+  it("should use different agents for requests with different proxy settings", async function () {
     const request1 = new WebResource("/url");
     request1.proxySettings = {
       host: "host1",
       port: 8001,
       username: "user1",
-      password: "SecretPlaceholder"
+      password: "SecretPlaceholder",
     };
     const request2 = new WebResource("/url");
     request2.proxySettings = { host: "host2", port: 8002, username: "user2", password: "p@55wOrd" };
@@ -404,13 +403,13 @@ describe("defaultHttpClient (node)", function() {
     );
   });
 
-  it("should use different agents for requests with different proxy settings of same url but different credentials", async function() {
+  it("should use different agents for requests with different proxy settings of same url but different credentials", async function () {
     const request1 = new WebResource("/url");
     request1.proxySettings = {
       host: "host1",
       port: 8001,
       username: "user1",
-      password: "SecretPlaceholder"
+      password: "SecretPlaceholder",
     };
     const request2 = new WebResource("/url");
     request2.proxySettings = { host: "host1", port: 8001 };
@@ -429,7 +428,7 @@ describe("defaultHttpClient (node)", function() {
     );
   });
 
-  it("should abort connection when download stream is closed", async function() {
+  it("should abort connection when download stream is closed", async function () {
     const payload = new PassThrough();
     const b = new PassThrough();
     b.pipe(payload, { end: false });
@@ -437,7 +436,7 @@ describe("defaultHttpClient (node)", function() {
     const response = {
       status: 200,
       headers: [],
-      body: payload
+      body: payload,
     };
 
     let signal: AbortSignal | undefined;
@@ -445,7 +444,7 @@ describe("defaultHttpClient (node)", function() {
     sinon.stub(client, "fetch").callsFake(async (_input, init) => {
       assert.ok(init, "expecting valid request initialization");
       signal = init!.signal;
-      return (response as unknown) as CommonResponse;
+      return response as unknown as CommonResponse;
     });
 
     const ac = new AbortController();
@@ -475,8 +474,8 @@ describe("defaultHttpClient (node)", function() {
   });
 });
 
-describe("ReportTransform", function() {
-  it("should not modify the stream data", function() {
+describe("ReportTransform", function () {
+  it("should not modify the stream data", function () {
     const a = new PassThrough();
     const b = new PassThrough();
     const callback = (): void => {

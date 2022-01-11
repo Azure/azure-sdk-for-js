@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+import { RequestOptionsBase, TransferProgressEvent } from "./webResource";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationTracingOptions } from "@azure/core-tracing";
-import { TransferProgressEvent, RequestOptionsBase } from "./webResource";
 import { HttpOperationResponse } from "./httpOperationResponse";
+import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * The base options type for all operations.

@@ -30,9 +30,8 @@ const isProduction = process.env.NODE_ENV === "production";
 // may also have other development environments. You can customize this logic to
 // suit your needs.
 if (!isProduction) {
-  const {
-    vsCodePlugin
-  } = require("@azure/identity-vscode") as typeof import("@azure/identity-vscode");
+  const { vsCodePlugin } =
+    require("@azure/identity-vscode") as typeof import("@azure/identity-vscode");
   useIdentityPlugin(vsCodePlugin);
 }
 

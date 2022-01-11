@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NamedKeyCredential } from "@azure/core-auth";
-import { computeHMACSHA256 } from "../utils/computeHMACSHA256";
-import { SERVICE_VERSION } from "../utils/constants";
-import { truncatedISO8061Date } from "../utils/truncateISO8061Date";
 import { AccountSasPermissions, accountSasPermissionsToString } from "./accountSasPermissions";
-import {
-  accountSasResourceTypesFromString,
-  accountSasResourceTypesToString
-} from "./accountSasResourceTypes";
-import { accountSasServicesFromString, accountSasServicesToString } from "./accountSasServices";
 import { SasIPRange, ipRangeToString } from "./sasIPRange";
 import { SasProtocol, SasQueryParameters } from "./sasQueryParameters";
+import {
+  accountSasResourceTypesFromString,
+  accountSasResourceTypesToString,
+} from "./accountSasResourceTypes";
+import { accountSasServicesFromString, accountSasServicesToString } from "./accountSasServices";
+import { NamedKeyCredential } from "@azure/core-auth";
+import { SERVICE_VERSION } from "../utils/constants";
+import { computeHMACSHA256 } from "../utils/computeHMACSHA256";
+import { truncatedISO8061Date } from "../utils/truncateISO8061Date";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -114,7 +114,7 @@ export function generateAccountSasQueryParameters(
     accountSasSignatureValues.ipRange ? ipRangeToString(accountSasSignatureValues.ipRange) : "",
     accountSasSignatureValues.protocol ? accountSasSignatureValues.protocol : "",
     version,
-    "" // Account SAS requires an additional newline character
+    "", // Account SAS requires an additional newline character
   ].join("\n");
 
   const signature: string = computeHMACSHA256(stringToSign, credential.key);
@@ -126,6 +126,6 @@ export function generateAccountSasQueryParameters(
     protocol: accountSasSignatureValues.protocol,
     startsOn: accountSasSignatureValues.startsOn,
     expiresOn: accountSasSignatureValues.expiresOn,
-    ipRange: accountSasSignatureValues.ipRange
+    ipRange: accountSasSignatureValues.ipRange,
   });
 }

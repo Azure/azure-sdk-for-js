@@ -42,6 +42,22 @@ export type DeliveryAttributeMappingUnion =
   | StaticDeliveryAttributeMapping
   | DynamicDeliveryAttributeMapping;
 
+/** PrivateEndpoint information. */
+export interface PrivateEndpoint {
+  /** The ARM identifier for Private Endpoint. */
+  id?: string;
+}
+
+/** ConnectionState information. */
+export interface ConnectionState {
+  /** Status of the connection. */
+  status?: PersistedConnectionStatus;
+  /** Description of the connection state. */
+  description?: string;
+  /** Actions required (if any). */
+  actionsRequired?: string;
+}
+
 /** Definition of a Resource. */
 export interface Resource {
   /**
@@ -59,22 +75,6 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-}
-
-/** PrivateEndpoint information. */
-export interface PrivateEndpoint {
-  /** The ARM identifier for Private Endpoint. */
-  id?: string;
-}
-
-/** ConnectionState information. */
-export interface ConnectionState {
-  /** Status of the connection. */
-  status?: PersistedConnectionStatus;
-  /** Description of the connection state. */
-  description?: string;
-  /** Actions required (if any). */
-  actionsRequired?: string;
 }
 
 /** By default, Event Grid expects events to be in the Event Grid event schema. Specifying an input schema mapping enables publishing to Event Grid using a custom input schema. Currently, the only supported type of InputSchemaMapping is 'JsonInputSchemaMapping'. */
@@ -502,14 +502,6 @@ export interface JsonFieldWithDefault {
   defaultValue?: string;
 }
 
-/** Definition of a Tracked Resource. */
-export type TrackedResource = Resource & {
-  /** Location of the resource. */
-  location: string;
-  /** Tags of the resource. */
-  tags?: { [propertyName: string]: string };
-};
-
 export type PrivateEndpointConnection = Resource & {
   /** The Private Endpoint resource for this Connection. */
   privateEndpoint?: PrivateEndpoint;
@@ -519,6 +511,14 @@ export type PrivateEndpointConnection = Resource & {
   privateLinkServiceConnectionState?: ConnectionState;
   /** Provisioning state of the Private Endpoint Connection. */
   provisioningState?: ResourceProvisioningState;
+};
+
+/** Definition of a Tracked Resource. */
+export type TrackedResource = Resource & {
+  /** Location of the resource. */
+  location: string;
+  /** Tags of the resource. */
+  tags?: { [propertyName: string]: string };
 };
 
 /** Domain Topic. */

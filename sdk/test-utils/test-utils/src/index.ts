@@ -6,11 +6,12 @@ export {
   versionsToTest,
   SupportedVersions,
   MultiVersionTestOptions,
-  TestFunctionWrapper
+  TestFunctionWrapper,
 } from "./multiVersion";
 
 export { matrix } from "./matrix";
 export { isNode, isNode8 } from "./utils";
+export { getYieldedValue } from "./getYieldedValue";
 
 export { TestSpan } from "./tracing/testSpan";
 export * from "./tracing/testTracer";

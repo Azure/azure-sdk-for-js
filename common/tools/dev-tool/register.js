@@ -24,7 +24,8 @@ const { name: hostPackageName } = main.require("./package.json");
 
 // We need to use whatever version of TypeScript the calling package uses to inspect syntax nodes, because
 // that is what the ts-node invocation will use, and we need to agree with it on syntax brands.
-const ts = hostPackageName === "@azure/dev-tool"
+const ts =
+  hostPackageName === "@azure/dev-tool"
     ? require(path.join(cwd, "node_modules", "typescript"))
     : main.require("typescript");
 
@@ -78,8 +79,8 @@ const makeTransformers = () => ({
           return node;
         },
         transformationContext
-      )
-  ]
+      ),
+  ],
 });
 
 require("ts-node").register({
@@ -87,13 +88,13 @@ require("ts-node").register({
   transpileOnly: true,
   compilerOptions: {
     ...require("../../../tsconfig.json").compilerOptions,
-    target: "es6",
+    target: "es2019",
     module: "commonjs",
     allowJs: true,
     esModuleInterop: true,
     paths: {
-      [packageNameToPatch]: ["./src/index"]
-    }
+      [packageNameToPatch]: ["./src/index"],
+    },
   },
-  transformers: makeTransformers()
+  transformers: makeTransformers(),
 });

@@ -11,7 +11,7 @@ import { Certificates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AppPlatformManagementClientContext } from "../appPlatformManagementClientContext";
+import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -30,13 +30,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Certificates operations. */
 export class CertificatesImpl implements Certificates {
-  private readonly client: AppPlatformManagementClientContext;
+  private readonly client: AppPlatformManagementClient;
 
   /**
    * Initialize a new instance of the class Certificates class.
    * @param client Reference to the service client
    */
-  constructor(client: AppPlatformManagementClientContext) {
+  constructor(client: AppPlatformManagementClient) {
     this.client = client;
   }
 

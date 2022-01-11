@@ -9,19 +9,19 @@ import {
   CertificatePolicy,
   GetCertificateOptions,
   GetPlainCertificateOperationOptions,
-  CancelCertificateOperationOptions
+  CancelCertificateOperationOptions,
 } from "../../certificatesModels";
 import { CertificateOperation } from "../../generated/models";
 import {
   KeyVaultCertificatePollOperation,
-  KeyVaultCertificatePollOperationState
+  KeyVaultCertificatePollOperationState,
 } from "../keyVaultCertificatePoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   getCertificateOperationFromCoreOperation,
   getCertificateWithPolicyFromCertificateBundle,
   toCoreAttributes,
-  toCorePolicy
+  toCorePolicy,
 } from "../../transformations";
 import { createTraceFunction } from "../../../../keyvault-common/src";
 
@@ -33,9 +33,8 @@ const withTrace = createTraceFunction("Azure.KeyVault.Certificates.CreateCertifi
 /**
  * The public representation of the CreateCertificatePoller operation state.
  */
-export type CreateCertificateState = KeyVaultCertificatePollOperationState<
-  KeyVaultCertificateWithPolicy
->;
+export type CreateCertificateState =
+  KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy>;
 
 /**
  * An interface representing the state of a create certificate's poll operation
@@ -87,7 +86,7 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
       const result = await this.client.createCertificate(this.vaultUrl, certificateName, {
         ...updatedOptions,
         certificatePolicy: corePolicy,
-        certificateAttributes
+        certificateAttributes,
       });
 
       return getCertificateWithPolicyFromCertificateBundle(result);

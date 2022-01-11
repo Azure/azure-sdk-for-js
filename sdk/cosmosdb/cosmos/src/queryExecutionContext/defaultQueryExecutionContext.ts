@@ -15,7 +15,7 @@ export type FetchFunctionCallback = (options: FeedOptions) => Promise<Response<a
 enum STATES {
   start = "start",
   inProgress = "inProgress",
-  ended = "ended"
+  ended = "ended",
 }
 
 /** @hidden */
@@ -72,7 +72,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     if (this.currentIndex < this.resources.length) {
       return {
         result: this.resources[this.currentIndex],
-        headers: getInitialHeader()
+        headers: getInitialHeader(),
       };
     }
 
