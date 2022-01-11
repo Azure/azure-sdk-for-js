@@ -1,6 +1,7 @@
 # Release History
 
 ## 13.0.1 (2022-01-11)
+
 ### Bugs Fixed
 
 - Fix issue where custom HTTP Client passed in client options was being ignored in transactions. [#19470](https://github.com/Azure/azure-sdk-for-js/pull/19470)
