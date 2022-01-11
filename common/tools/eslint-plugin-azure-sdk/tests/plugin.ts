@@ -45,7 +45,7 @@ const ruleList = [
   "ts-pagination-list",
   "ts-use-interface-parameters",
   "ts-use-promises",
-  "ts-versioning-semver"
+  "ts-versioning-semver",
 ];
 
 /**

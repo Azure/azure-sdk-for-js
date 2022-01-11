@@ -7,14 +7,14 @@ import {
   SDK_VERSION,
   DEFAULT_COGNITIVE_SCOPE,
   AnomalyDetectorLoggingAllowedHeaderNames,
-  AnomalyDetectorLoggingAllowedQueryParameters
+  AnomalyDetectorLoggingAllowedQueryParameters,
 } from "./constants";
 import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   InternalPipelineOptions,
   createPipelineFromOptions,
-  PipelineOptions
+  PipelineOptions,
 } from "@azure/core-http";
 import { createAnomalyDetectorAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { logger } from "./logger";
@@ -67,9 +67,9 @@ export class AnomalyDetectorClient extends AnomalyDetector {
         loggingOptions: {
           logger: logger.info,
           allowedHeaderNames: AnomalyDetectorLoggingAllowedHeaderNames,
-          allowedQueryParameters: AnomalyDetectorLoggingAllowedQueryParameters
-        }
-      }
+          allowedQueryParameters: AnomalyDetectorLoggingAllowedQueryParameters,
+        },
+      },
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);

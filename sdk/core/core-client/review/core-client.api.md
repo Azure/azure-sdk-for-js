@@ -269,7 +269,7 @@ export interface PolymorphicDiscriminator {
 export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
 
 // @public
-export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown) => void;
+export type RawResponseCallback = (rawResponse: FullOperationResponse, flatResponse: unknown, error?: unknown) => void;
 
 // @public
 export interface SequenceMapper extends BaseMapper {

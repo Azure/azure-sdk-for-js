@@ -27,7 +27,7 @@ const bannedPrefixes = [
   "pop",
   "getAll",
   "erase",
-  "fetch"
+  "fetch",
 ];
 
 export = {
@@ -52,10 +52,10 @@ export = {
           if (usedPrefix !== undefined) {
             context.report({
               node: method,
-              message: `method ${methodName} uses the banned prefix ${usedPrefix}, use one of the approved prefixes instead`
+              message: `method ${methodName} uses the banned prefix ${usedPrefix}, use one of the approved prefixes instead`,
             });
           }
         });
-      }
-    } as Rule.RuleListener)
+      },
+    } as Rule.RuleListener),
 };

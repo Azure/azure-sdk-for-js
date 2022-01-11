@@ -1215,6 +1215,36 @@
       "packageName": "@azure/arm-containerinstance",
       "projectFolder": "sdk/containerinstance/arm-containerinstance",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-confluent",
+      "projectFolder": "sdk/confluent/arm-confluent",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-imagebuilder",
+      "projectFolder": "sdk/imagebuilder/arm-imagebuilder",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-avs",
+      "projectFolder": "sdk/avs/arm-avs",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-communication",
+      "projectFolder": "sdk/communication/arm-communication",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appconfiguration",
+      "projectFolder": "sdk/appconfiguration/arm-appconfiguration",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-azurestackhci",
+      "projectFolder": "sdk/azurestackhci/arm-azurestackhci",
+      "versionPolicyName": "management"
     }
   ]
 }

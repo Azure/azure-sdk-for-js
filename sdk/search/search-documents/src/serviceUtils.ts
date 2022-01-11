@@ -705,3 +705,7 @@ export function getRandomIntegerInclusive(min: number, max: number): number {
 export function delay(timeInMs: number): Promise<void> {
   return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }
+
+export const serviceVersions = ["2020-06-30", "2021-04-30-Preview"];
+
+export const defaultServiceVersion = "2021-04-30-Preview";

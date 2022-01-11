@@ -316,13 +316,35 @@ export interface ResourceWriteSuccessEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
+}
+
+/** The details of the authorization for the resource. */
+export interface ResourceAuthorization {
+  /** The scope of the authorization. */
+  scope: string;
+  /** The action being requested. */
+  action: string;
+  /** The evidence for the authorization. */
+  evidence: { [propertyName: string]: string };
+}
+
+/** The details of the HTTP request. */
+export interface ResourceHttpRequest {
+  /** The client request ID. */
+  clientRequestId: string;
+  /** The client IP address. */
+  clientIpAddress: string;
+  /** The request method. */
+  method: string;
+  /** The url used in the request. */
+  url: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceWriteFailure event. This is raised when a resource create or update operation fails. */
@@ -342,13 +364,13 @@ export interface ResourceWriteFailureEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceWriteCancel event. This is raised when a resource create or update operation is canceled. */
@@ -368,13 +390,13 @@ export interface ResourceWriteCancelEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceDeleteSuccess event. This is raised when a resource delete operation succeeds. */
@@ -394,13 +416,13 @@ export interface ResourceDeleteSuccessEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceDeleteFailure event. This is raised when a resource delete operation fails. */
@@ -420,13 +442,13 @@ export interface ResourceDeleteFailureEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceDeleteCancel event. This is raised when a resource delete operation is canceled. */
@@ -446,13 +468,13 @@ export interface ResourceDeleteCancelEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceActionSuccess event. This is raised when a resource action operation succeeds. */
@@ -472,13 +494,13 @@ export interface ResourceActionSuccessEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceActionFailure event. This is raised when a resource action operation fails. */
@@ -498,13 +520,13 @@ export interface ResourceActionFailureEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceActionCancel event. This is raised when a resource action operation is canceled. */
@@ -524,13 +546,13 @@ export interface ResourceActionCancelEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventGrid.SubscriptionValidationEvent event. */
@@ -664,6 +686,8 @@ export interface ContainerRegistryEventData {
   timestamp: string;
   /** The action that encompasses the provided event. */
   action: string;
+  /** The location of the event. */
+  location: string;
   /** The target of the event. */
   target: ContainerRegistryEventTarget;
   /** The request that generated the event. */
@@ -672,6 +696,8 @@ export interface ContainerRegistryEventData {
   actor: ContainerRegistryEventActor;
   /** The registry node that generated the event. Put differently, while the actor initiates the event, the source generates it. */
   source: ContainerRegistryEventSource;
+  /** The connected registry information if the event is generated by a connected registry. */
+  connectedRegistry: ContainerRegistryEventConnectedRegistry;
 }
 
 /** The target of the event. */
@@ -720,6 +746,12 @@ export interface ContainerRegistryEventSource {
   instanceID: string;
 }
 
+/** The connected registry information if the event is generated by a connected registry. */
+export interface ContainerRegistryEventConnectedRegistry {
+  /** The name of the connected registry that generated this event. */
+  name: string;
+}
+
 /** The content of the event request message. */
 export interface ContainerRegistryArtifactEventData {
   /** The event ID. */
@@ -728,8 +760,12 @@ export interface ContainerRegistryArtifactEventData {
   timestamp: string;
   /** The action that encompasses the provided event. */
   action: string;
+  /** The location of the event. */
+  location: string;
   /** The target of the event. */
   target: ContainerRegistryArtifactEventTarget;
+  /** The connected registry information if the event is generated by a connected registry. */
+  connectedRegistry: ContainerRegistryEventConnectedRegistry;
 }
 
 /** The target of the event. */
@@ -1261,7 +1297,7 @@ export interface MediaLiveEventTrackDiscontinuityDetectedEventData {
   readonly discontinuityGap: string;
 }
 
-/** Channel Archive heartbeat event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventChannelArchiveHeartbeatEventData event. */
+/** Channel Archive heartbeat event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventChannelArchiveHeartbeat event. */
 export interface MediaLiveEventChannelArchiveHeartbeatEventData {
   /**
    * Gets the channel latency in ms.
@@ -2013,6 +2049,12 @@ export interface AcsRecordingFileStatusUpdatedEventData {
   recordingStartTime: string;
   /** The recording duration in milliseconds */
   recordingDurationMs: number;
+  /** The recording content type- AudioVideo, or Audio */
+  recordingContentType: RecordingContentType;
+  /** The recording  channel type - Mixed, Unmixed */
+  recordingChannelType: RecordingChannelType;
+  /** The recording format type - Mp4, Mp3, Wav */
+  recordingFormatType: RecordingFormatType;
   /** The reason for ending recording session */
   sessionEndReason: string;
 }
@@ -2035,6 +2077,8 @@ export interface AcsRecordingChunkInfo {
   metadataLocation: string;
   /** The location of the content for this chunk */
   contentLocation: string;
+  /** The location to delete all chunk storage */
+  deleteLocation: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.PolicyInsights.PolicyStateCreated event. */
@@ -2604,6 +2648,56 @@ export const enum KnownCommunicationCloudEnvironmentModel {
  * **gcch**
  */
 export type CommunicationCloudEnvironmentModel = string;
+
+/** Known values of {@link RecordingContentType} that the service accepts. */
+export const enum KnownRecordingContentType {
+  AudioVideo = "AudioVideo",
+  Audio = "Audio"
+}
+
+/**
+ * Defines values for RecordingContentType. \
+ * {@link KnownRecordingContentType} can be used interchangeably with RecordingContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AudioVideo** \
+ * **Audio**
+ */
+export type RecordingContentType = string;
+
+/** Known values of {@link RecordingChannelType} that the service accepts. */
+export const enum KnownRecordingChannelType {
+  Mixed = "Mixed",
+  Unmixed = "Unmixed"
+}
+
+/**
+ * Defines values for RecordingChannelType. \
+ * {@link KnownRecordingChannelType} can be used interchangeably with RecordingChannelType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Mixed** \
+ * **Unmixed**
+ */
+export type RecordingChannelType = string;
+
+/** Known values of {@link RecordingFormatType} that the service accepts. */
+export const enum KnownRecordingFormatType {
+  Wav = "Wav",
+  Mp3 = "Mp3",
+  Mp4 = "Mp4"
+}
+
+/**
+ * Defines values for RecordingFormatType. \
+ * {@link KnownRecordingFormatType} can be used interchangeably with RecordingFormatType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Wav** \
+ * **Mp3** \
+ * **Mp4**
+ */
+export type RecordingFormatType = string;
 /** Defines values for MediaJobState. */
 export type MediaJobState =
   | "Canceled"

@@ -9,7 +9,7 @@ import {
   RecorderError,
   RegexSanitizer,
   sanitizerKeywordMapping,
-  SanitizerOptions
+  SanitizerOptions,
 } from "./utils/utils";
 
 /**
@@ -37,7 +37,7 @@ export class Sanitizer {
       }
       const rsp = await this.httpClient.sendRequest({
         ...req,
-        allowInsecureConnection: true
+        allowInsecureConnection: true,
       });
       if (rsp.status !== 200) {
         throw new RecorderError("Info request failed.");
@@ -65,14 +65,16 @@ export class Sanitizer {
     }
 
     await Promise.all(
-      ([
-        // The following sanitizers have similar request bodies and this abstraction avoids duplication
-        "generalRegexSanitizers",
-        "bodyKeySanitizers",
-        "bodyRegexSanitizers",
-        "headerRegexSanitizers",
-        "uriRegexSanitizers"
-      ] as const).map((prop) => {
+      (
+        [
+          // The following sanitizers have similar request bodies and this abstraction avoids duplication
+          "generalRegexSanitizers",
+          "bodyKeySanitizers",
+          "bodyRegexSanitizers",
+          "headerRegexSanitizers",
+          "uriRegexSanitizers",
+        ] as const
+      ).map((prop) => {
         const replacers = options[prop];
         if (replacers) {
           return Promise.all(
@@ -83,7 +85,7 @@ export class Sanitizer {
                   "bodyKeySanitizers",
                   "bodyRegexSanitizers",
                   "generalRegexSanitizers",
-                  "uriRegexSanitizers"
+                  "uriRegexSanitizers",
                 ].includes(prop) &&
                 !replacer.regex
               ) {
@@ -94,7 +96,7 @@ export class Sanitizer {
               }
               return this.addSanitizer({
                 sanitizer: sanitizerKeywordMapping[prop],
-                body: JSON.stringify(replacer)
+                body: JSON.stringify(replacer),
               });
             })
           );
@@ -103,16 +105,18 @@ export class Sanitizer {
     );
 
     await Promise.all(
-      ([
-        // The following sanitizers have similar request bodies and this abstraction avoids duplication
-        "resetSanitizer",
-        "oAuthResponseSanitizer"
-      ] as const).map((prop) => {
+      (
+        [
+          // The following sanitizers have similar request bodies and this abstraction avoids duplication
+          "resetSanitizer",
+          "oAuthResponseSanitizer",
+        ] as const
+      ).map((prop) => {
         // TODO: Test
         if (options[prop]) {
           return this.addSanitizer({
             sanitizer: sanitizerKeywordMapping[prop],
-            body: undefined
+            body: undefined,
           });
         } else return;
       })
@@ -122,8 +126,8 @@ export class Sanitizer {
       this.addSanitizer({
         sanitizer: "RemoveHeaderSanitizer",
         body: JSON.stringify({
-          headersForRemoval: options.removeHeaderSanitizer.headersForRemoval.toString()
-        })
+          headersForRemoval: options.removeHeaderSanitizer.headersForRemoval.toString(),
+        }),
       });
     }
 
@@ -135,8 +139,8 @@ export class Sanitizer {
             sanitizer: "ContinuationSanitizer",
             body: JSON.stringify({
               ...replacer,
-              resetAfterFirst: replacer.resetAfterFirst.toString()
-            })
+              resetAfterFirst: replacer.resetAfterFirst.toString(),
+            }),
           })
         )
       );
@@ -145,7 +149,7 @@ export class Sanitizer {
     if (options.uriSubscriptionIdSanitizer) {
       await this.addSanitizer({
         sanitizer: "UriSubscriptionIdSanitizer",
-        body: JSON.stringify(options.uriSubscriptionIdSanitizer)
+        body: JSON.stringify(options.uriSubscriptionIdSanitizer),
       });
     }
   }
@@ -165,7 +169,7 @@ export class Sanitizer {
       throw new RecorderError(
         `Attempted to add an invalid sanitizer - ${JSON.stringify({
           actualConnString: actualConnString,
-          fakeConnString: fakeConnString
+          fakeConnString: fakeConnString,
         })}`
       );
     }
@@ -174,7 +178,7 @@ export class Sanitizer {
     await this.addSanitizers({
       generalRegexSanitizers: Object.entries(pairsMatched).map(([key, value]) => {
         return { value, regex: key };
-      })
+      }),
     });
   }
 
@@ -201,7 +205,7 @@ export class Sanitizer {
       }
       const rsp = await this.httpClient.sendRequest({
         ...req,
-        allowInsecureConnection: true
+        allowInsecureConnection: true,
       });
       if (rsp.status !== 200) {
         throw new RecorderError("addSanitizer request failed.");

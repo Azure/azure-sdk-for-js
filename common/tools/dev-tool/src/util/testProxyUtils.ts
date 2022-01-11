@@ -29,10 +29,10 @@ export async function startProxyTool(): Promise<void> {
 
 export async function stopProxyTool(): Promise<void> {
   log.info("Attempting to stop the test proxy if it is running");
-  
+
   const stopProcess = spawn(`docker stop ${CONTAINER_NAME}`, [], { shell: true });
-  return new Promise(resolve => stopProcess.on("close", resolve));
-};
+  return new Promise((resolve) => stopProcess.on("close", resolve));
+}
 
 async function getDockerRunCommand() {
   const repoRoot = await resolveRoot(); // /workspaces/azure-sdk-for-js/

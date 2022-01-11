@@ -21,7 +21,7 @@ import fs from "fs-extra";
  *   content: string;
  * }} browserRecordingJsonObject
  */
-export const jsonRecordingFilterFunction = function(browserRecordingJsonObject: {
+export const jsonRecordingFilterFunction = function (browserRecordingJsonObject: {
   writeFile: boolean;
   path: string;
   content: string;
