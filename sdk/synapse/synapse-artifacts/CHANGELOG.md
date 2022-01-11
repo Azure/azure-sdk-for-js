@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.8 (Unreleased)
+## 1.0.0-beta.8 (2021-01-01)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+Added `MetastoreOperations`
 
 ## 1.0.0-beta.7 (2021-11-09)
 
