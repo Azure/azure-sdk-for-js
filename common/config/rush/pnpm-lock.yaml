@@ -12,17 +12,21 @@ specifiers:
   '@rush-temp/arm-advisor': file:./projects/arm-advisor.tgz
   '@rush-temp/arm-analysisservices': file:./projects/arm-analysisservices.tgz
   '@rush-temp/arm-apimanagement': file:./projects/arm-apimanagement.tgz
+  '@rush-temp/arm-appconfiguration': file:./projects/arm-appconfiguration.tgz
   '@rush-temp/arm-appplatform': file:./projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:./projects/arm-appservice.tgz
   '@rush-temp/arm-attestation': file:./projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
+  '@rush-temp/arm-avs': file:./projects/arm-avs.tgz
   '@rush-temp/arm-azurestack': file:./projects/arm-azurestack.tgz
+  '@rush-temp/arm-azurestackhci': file:./projects/arm-azurestackhci.tgz
   '@rush-temp/arm-batch': file:./projects/arm-batch.tgz
   '@rush-temp/arm-billing': file:./projects/arm-billing.tgz
   '@rush-temp/arm-botservice': file:./projects/arm-botservice.tgz
   '@rush-temp/arm-cdn': file:./projects/arm-cdn.tgz
   '@rush-temp/arm-changeanalysis': file:./projects/arm-changeanalysis.tgz
   '@rush-temp/arm-cognitiveservices': file:./projects/arm-cognitiveservices.tgz
+  '@rush-temp/arm-communication': file:./projects/arm-communication.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
   '@rush-temp/arm-confluent': file:./projects/arm-confluent.tgz
   '@rush-temp/arm-consumption': file:./projects/arm-consumption.tgz
@@ -195,17 +199,21 @@ dependencies:
   '@rush-temp/arm-advisor': file:projects/arm-advisor.tgz
   '@rush-temp/arm-analysisservices': file:projects/arm-analysisservices.tgz
   '@rush-temp/arm-apimanagement': file:projects/arm-apimanagement.tgz
+  '@rush-temp/arm-appconfiguration': file:projects/arm-appconfiguration.tgz
   '@rush-temp/arm-appplatform': file:projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:projects/arm-appservice.tgz
   '@rush-temp/arm-attestation': file:projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
+  '@rush-temp/arm-avs': file:projects/arm-avs.tgz
   '@rush-temp/arm-azurestack': file:projects/arm-azurestack.tgz
+  '@rush-temp/arm-azurestackhci': file:projects/arm-azurestackhci.tgz
   '@rush-temp/arm-batch': file:projects/arm-batch.tgz
   '@rush-temp/arm-billing': file:projects/arm-billing.tgz
   '@rush-temp/arm-botservice': file:projects/arm-botservice.tgz
   '@rush-temp/arm-cdn': file:projects/arm-cdn.tgz
   '@rush-temp/arm-changeanalysis': file:projects/arm-changeanalysis.tgz
   '@rush-temp/arm-cognitiveservices': file:projects/arm-cognitiveservices.tgz
+  '@rush-temp/arm-communication': file:projects/arm-communication.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-confluent': file:projects/arm-confluent.tgz
   '@rush-temp/arm-consumption': file:projects/arm-consumption.tgz
@@ -6570,6 +6578,7 @@ packages:
 
   /source-map-resolve/0.5.3:
     resolution: {integrity: sha512-Htz+RnsXWk5+P2slx5Jh3Q66vhQj1Cllm0zvnaY98+NFx+Dv2CF/f5O/t8x+KaNdrdIAsruNzoh/KpialbqAnw==}
+    deprecated: See https://github.com/lydell/source-map-resolve#deprecated
     dependencies:
       atob: 2.1.2
       decode-uri-component: 0.2.0
@@ -6587,6 +6596,7 @@ packages:
 
   /source-map-url/0.4.1:
     resolution: {integrity: sha512-cPiFOTLUKvJFIg4SKVScy4ilPPW6rFgMgfuZJPNoDuMs3nC1HbMUycBoJw77xFIp6z1UJQJOfx6C9GMH80DiTw==}
+    deprecated: See https://github.com/lydell/source-map-url#deprecated
     dev: false
 
   /source-map/0.5.7:
@@ -8034,6 +8044,27 @@ packages:
       uglify-js: 3.14.5
     dev: false
 
+  file:projects/arm-appconfiguration.tgz:
+    resolution: {integrity: sha512-uPEV3pZMXMZQyQ7wCpm16uQfLLjAW/JOVzRX/HOU4VfHw3YPpj0U09oo9jt0ihSuYD28/Jb8hyphiAoQyc4jvw==, tarball: file:projects/arm-appconfiguration.tgz}
+    name: '@rush-temp/arm-appconfiguration'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
   file:projects/arm-appplatform.tgz:
     resolution: {integrity: sha512-Pel4tu/SIfuYKVrehY87LfAoYBiwyuraQp2/PdUzhmuX6p0wXK6BUGEjZj7vC2IAAaI4k/Cnh4QLdMLvRdZUuw==, tarball: file:projects/arm-appplatform.tgz}
     name: '@rush-temp/arm-appplatform'
@@ -8115,9 +8146,51 @@ packages:
       uglify-js: 3.14.5
     dev: false
 
+  file:projects/arm-avs.tgz:
+    resolution: {integrity: sha512-ZVT73iZjn66o9nf93/mdkPypd8ugF5FG6pSAiI2DTRZjavBhEPi+BkQ4mbz1yQ8gxgGV5divZ/dBGYYefDranw==, tarball: file:projects/arm-avs.tgz}
+    name: '@rush-temp/arm-avs'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
   file:projects/arm-azurestack.tgz:
     resolution: {integrity: sha512-nx1zmEvcREyoaIZ/93bbMgWvGE7yOL/imhdnkRkyHyHm3ek5MjE8jW4PeY3WwhVx9ZvHqYmnQqk53QgYbhlFjw==, tarball: file:projects/arm-azurestack.tgz}
     name: '@rush-temp/arm-azurestack'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
+  file:projects/arm-azurestackhci.tgz:
+    resolution: {integrity: sha512-fS7YNoGtj+meNXuUKFvQds/Ug+ZLwwjH742j9eUfULcEgcTzKZv747pSGTQzPT+V9xT+psO6E4d/zHdLfdsQEw==, tarball: file:projects/arm-azurestackhci.tgz}
+    name: '@rush-temp/arm-azurestackhci'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.19.2
@@ -8244,6 +8317,27 @@ packages:
   file:projects/arm-cognitiveservices.tgz:
     resolution: {integrity: sha512-nhXO2X6wsidbD/bRFm7geAnKOO7NFBrM7vNIOi5uSAzpGPhfWpqBwQBp4QvLeAtBXEnfjWJuRSvQwRa/9bzXWg==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
+  file:projects/arm-communication.tgz:
+    resolution: {integrity: sha512-ey0KF76WOY3EWT1lfVsD2F2UjW973Du8mxTdDFAyjmX3ifgXfHdNljvJjQNS9aDJx0aWIv4QanT8i+45OAtMhQ==, tarball: file:projects/arm-communication.tgz}
+    name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.19.2
@@ -12539,7 +12633,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-I6kFqKY744occjIC9lcpQPR/+nuOMbO60AL2wPVl6HOxxyulw07zh/AImKLDiY2/v3iAVQ9LvJ2BHnHUQNuNtw==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-ER3tN8wTUDV1MyrXM0YHcbDxBYzFvtM4LSr0nLtx2yDRiaEthfkXy9lD0kQLVQDTIDaDhZa0xLNZa7DJORiwNg==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -13295,7 +13389,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-hecRUmioDdXR3xbI3Fq/yZNNL/HxXI/AjeiuReX89cMxpJuWyqZ/ddOIMKxXgAPi17Fn6u8F9d9hNyWFvNEeQA==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-bDy20Y4xQvxey3RMED4DOcnIVa4ctjL1tdNxzJXsFqxE1/IYsRFma/p1K6k5peob4Q0Axj+bZIZHfQR7pSuK4w==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
