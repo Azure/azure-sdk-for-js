@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./configurationStores";
-export * from "./operations";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./keyValues";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { AppConfigurationManagementClient } from "./appConfigurationManagementClient";
+export * from "./operationsInterfaces";
