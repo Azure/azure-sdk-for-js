@@ -6,7 +6,7 @@ Azure Feature Exposure Control (AFEC) provides a mechanism for the resource prov
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/features/arm-features) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-features) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-features) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-features?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

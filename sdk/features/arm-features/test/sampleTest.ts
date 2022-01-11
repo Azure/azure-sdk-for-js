@@ -10,13 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder,
-  delay,
-  isPlaybackMode
+  Recorder
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
-import { ClientSecretCredential } from "@azure/identity";
-import { FeatureClient } from "../src/featureClient";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -35,58 +31,18 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export const testPollingOptions = {
-  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
-};
-
-describe("Features test", () => {
+describe("My test", () => {
   let recorder: Recorder;
-  let subscriptionId: string;
-  let client: FeatureClient;
-  let location: string;
-  let resourceGroup: string;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
-    // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new FeatureClient(credential, subscriptionId);
-    location = "eastus";
-    resourceGroup = "myjstest";
   });
 
   afterEach(async function() {
     await recorder.stop();
   });
 
-  it("features listall test", async function() {
-    const arrayList = [];
-    for await (const item of client.features.listAll()) {
-      arrayList.push(item);
-    }
-    assert.notEqual(arrayList.length,0);
-  });
-
-  it("features list test", async function() {
-    const arrayList = [];
-    for await (const item of client.features.list("Microsoft.Compute")) {
-      arrayList.push(item);
-    }
-    assert.notEqual(arrayList.length,0);
-  });
-
-  it("features get test", async function() {
-    const arrayList = new Array();
-    for await (const item of client.features.list("Microsoft.Compute")) {
-      arrayList.push(item);
-    }
-    const featureName = arrayList[0].name.split("/")[1];
-    const feature = await client.features.get("Microsoft.Compute", featureName);
-    assert.equal(feature.name,"Microsoft.Compute/"+featureName);
+  it("sample test", async function() {
+    console.log("Hi, I'm a test!");
   });
 });
