@@ -49,29 +49,17 @@ export class OpenTelemetryInstrumenter implements Instrumenter {
     );
   }
 
-<<<<<<< HEAD
   parseTraceparentHeader(traceparentHeader: string): TracingContext {
     return propagator.extract(
       context.active(),
       { traceparent: traceparentHeader },
       defaultTextMapGetter
     );
-=======
-  parseTraceparentHeader(traceparentHeader: string): TracingSpanContext | undefined {
-    const newContext = propagation.extract(context.active(), { traceparent: traceparentHeader });
-    console.log("parseTraceparentHeader", trace.getSpanContext(newContext), traceparentHeader);
-    return trace.getSpanContext(newContext);
->>>>>>> 130571e16... wip
   }
 
   createRequestHeaders(tracingContext?: TracingContext): Record<string, string> {
     const headers: Record<string, string> = {};
-<<<<<<< HEAD
     propagator.inject(tracingContext || context.active(), headers, defaultTextMapSetter);
-=======
-    propagation.inject(tracingContext || context.active(), headers);
-    console.log("createRequestHeaders", headers);
->>>>>>> 130571e16... wip
     return headers;
   }
 }
