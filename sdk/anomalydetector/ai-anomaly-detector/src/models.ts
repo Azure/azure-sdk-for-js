@@ -44,7 +44,7 @@ export enum KnownTimeGranularity {
   /**
    * None
    */
-  none = "none"
+  none = "none",
 }
 
 export {
@@ -88,5 +88,5 @@ export {
   AnomalyDetectorDetectAnomalyHeaders,
   AnomalyDetectorExportModelHeaders,
   AnomalyDetectorTrainMultivariateModelHeaders,
-  TimeGranularity
+  TimeGranularity,
 } from "./generated/models";

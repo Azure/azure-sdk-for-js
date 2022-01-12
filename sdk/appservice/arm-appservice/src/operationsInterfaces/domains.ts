@@ -36,7 +36,9 @@ import {
   DomainsDeleteOwnershipIdentifierOptionalParams,
   DomainsUpdateOwnershipIdentifierOptionalParams,
   DomainsUpdateOwnershipIdentifierResponse,
-  DomainsRenewOptionalParams
+  DomainsRenewOptionalParams,
+  DomainsTransferOutOptionalParams,
+  DomainsTransferOutResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -227,4 +229,15 @@ export interface Domains {
     domainName: string,
     options?: DomainsRenewOptionalParams
   ): Promise<void>;
+  /**
+   * Transfer out domain to another registrar
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param domainName Name of domain.
+   * @param options The options parameters.
+   */
+  transferOut(
+    resourceGroupName: string,
+    domainName: string,
+    options?: DomainsTransferOutOptionalParams
+  ): Promise<DomainsTransferOutResponse>;
 }

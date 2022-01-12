@@ -35,7 +35,7 @@ import {
   UpdatesGetNamesNextResponse,
   UpdatesGetVersionsNextResponse,
   UpdatesGetFilesNextResponse,
-  UpdatesGetOperationsNextResponse
+  UpdatesGetOperationsNextResponse,
 } from "../models";
 
 /** Class representing a Updates. */
@@ -65,7 +65,7 @@ export class Updates {
       },
       byPage: () => {
         return this.getProvidersPagingPage(options);
-      }
+      },
     };
   }
 
@@ -109,7 +109,7 @@ export class Updates {
       },
       byPage: () => {
         return this.getNamesPagingPage(provider, options);
-      }
+      },
     };
   }
 
@@ -157,7 +157,7 @@ export class Updates {
       },
       byPage: () => {
         return this.getVersionsPagingPage(provider, name, options);
-      }
+      },
     };
   }
 
@@ -209,7 +209,7 @@ export class Updates {
       },
       byPage: () => {
         return this.getFilesPagingPage(provider, name, version, options);
-      }
+      },
     };
   }
 
@@ -258,7 +258,7 @@ export class Updates {
       },
       byPage: () => {
         return this.getOperationsPagingPage(options);
-      }
+      },
     };
   }
 
@@ -298,7 +298,7 @@ export class Updates {
     );
     const operationArguments: coreHttp.OperationArguments = {
       updateToImport,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -309,7 +309,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -338,7 +338,7 @@ export class Updates {
       provider,
       name,
       version,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -349,7 +349,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -378,7 +378,7 @@ export class Updates {
       provider,
       name,
       version,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -389,7 +389,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -409,7 +409,7 @@ export class Updates {
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -420,7 +420,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -443,7 +443,7 @@ export class Updates {
     );
     const operationArguments: coreHttp.OperationArguments = {
       provider,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -454,7 +454,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -480,7 +480,7 @@ export class Updates {
     const operationArguments: coreHttp.OperationArguments = {
       provider,
       name,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -491,7 +491,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -520,7 +520,7 @@ export class Updates {
       provider,
       name,
       version,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -531,7 +531,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -563,7 +563,7 @@ export class Updates {
       name,
       version,
       fileId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -574,7 +574,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -595,7 +595,7 @@ export class Updates {
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -606,7 +606,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -629,7 +629,7 @@ export class Updates {
     );
     const operationArguments: coreHttp.OperationArguments = {
       operationId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -640,7 +640,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -663,7 +663,7 @@ export class Updates {
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -674,7 +674,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -700,7 +700,7 @@ export class Updates {
     const operationArguments: coreHttp.OperationArguments = {
       provider,
       nextLink,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -711,7 +711,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -740,7 +740,7 @@ export class Updates {
       provider,
       name,
       nextLink,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -751,7 +751,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -783,7 +783,7 @@ export class Updates {
       name,
       version,
       nextLink,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -794,7 +794,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -817,7 +817,7 @@ export class Updates {
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -828,7 +828,7 @@ export class Updates {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -844,162 +844,33 @@ const importUpdateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     202: {
-      headersMapper: Mappers.UpdatesImportUpdateHeaders
+      headersMapper: Mappers.UpdatesImportUpdateHeaders,
     },
     429: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   requestBody: Parameters.updateToImport,
   queryParameters: [Parameters.action],
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getUpdateOperationSpec: coreHttp.OperationSpec = {
-  path:
-    "/deviceupdate/{instanceId}/v2/updates/providers/{provider}/names/{name}/versions/{version}",
+  path: "/deviceupdate/{instanceId}/v2/updates/providers/{provider}/names/{name}/versions/{version}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Update
+      bodyMapper: Mappers.Update,
     },
     304: {},
     404: {
-      isError: true
+      isError: true,
     },
     429: {
-      isError: true
-    }
-  },
-  urlParameters: [
-    Parameters.accountEndpoint,
-    Parameters.instanceId,
-    Parameters.provider,
-    Parameters.name,
-    Parameters.version
-  ],
-  headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer
-};
-const deleteUpdateOperationSpec: coreHttp.OperationSpec = {
-  path:
-    "/deviceupdate/{instanceId}/v2/updates/providers/{provider}/names/{name}/versions/{version}",
-  httpMethod: "DELETE",
-  responses: {
-    202: {
-      headersMapper: Mappers.UpdatesDeleteUpdateHeaders
+      isError: true,
     },
-    429: {
-      isError: true
-    }
-  },
-  urlParameters: [
-    Parameters.accountEndpoint,
-    Parameters.instanceId,
-    Parameters.provider,
-    Parameters.name,
-    Parameters.version
-  ],
-  serializer
-};
-const getProvidersOperationSpec: coreHttp.OperationSpec = {
-  path: "/deviceupdate/{instanceId}/v2/updates/providers",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PageableListOfStrings
-    },
-    429: {
-      isError: true
-    }
-  },
-  urlParameters: [Parameters.accountEndpoint, Parameters.instanceId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getNamesOperationSpec: coreHttp.OperationSpec = {
-  path: "/deviceupdate/{instanceId}/v2/updates/providers/{provider}/names",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PageableListOfStrings
-    },
-    404: {
-      isError: true
-    },
-    429: {
-      isError: true
-    }
-  },
-  urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.provider],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getVersionsOperationSpec: coreHttp.OperationSpec = {
-  path: "/deviceupdate/{instanceId}/v2/updates/providers/{provider}/names/{name}/versions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PageableListOfStrings
-    },
-    404: {
-      isError: true
-    },
-    429: {
-      isError: true
-    }
-  },
-  urlParameters: [
-    Parameters.accountEndpoint,
-    Parameters.instanceId,
-    Parameters.provider,
-    Parameters.name
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getFilesOperationSpec: coreHttp.OperationSpec = {
-  path:
-    "/deviceupdate/{instanceId}/v2/updates/providers/{provider}/names/{name}/versions/{version}/files",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PageableListOfStrings
-    },
-    404: {
-      isError: true
-    },
-    429: {
-      isError: true
-    }
-  },
-  urlParameters: [
-    Parameters.accountEndpoint,
-    Parameters.instanceId,
-    Parameters.provider,
-    Parameters.name,
-    Parameters.version
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getFileOperationSpec: coreHttp.OperationSpec = {
-  path:
-    "/deviceupdate/{instanceId}/v2/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.File
-    },
-    304: {},
-    404: {
-      isError: true
-    },
-    429: {
-      isError: true
-    }
   },
   urlParameters: [
     Parameters.accountEndpoint,
@@ -1007,26 +878,151 @@ const getFileOperationSpec: coreHttp.OperationSpec = {
     Parameters.provider,
     Parameters.name,
     Parameters.version,
-    Parameters.fileId
   ],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer
+  serializer,
+};
+const deleteUpdateOperationSpec: coreHttp.OperationSpec = {
+  path: "/deviceupdate/{instanceId}/v2/updates/providers/{provider}/names/{name}/versions/{version}",
+  httpMethod: "DELETE",
+  responses: {
+    202: {
+      headersMapper: Mappers.UpdatesDeleteUpdateHeaders,
+    },
+    429: {
+      isError: true,
+    },
+  },
+  urlParameters: [
+    Parameters.accountEndpoint,
+    Parameters.instanceId,
+    Parameters.provider,
+    Parameters.name,
+    Parameters.version,
+  ],
+  serializer,
+};
+const getProvidersOperationSpec: coreHttp.OperationSpec = {
+  path: "/deviceupdate/{instanceId}/v2/updates/providers",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PageableListOfStrings,
+    },
+    429: {
+      isError: true,
+    },
+  },
+  urlParameters: [Parameters.accountEndpoint, Parameters.instanceId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getNamesOperationSpec: coreHttp.OperationSpec = {
+  path: "/deviceupdate/{instanceId}/v2/updates/providers/{provider}/names",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PageableListOfStrings,
+    },
+    404: {
+      isError: true,
+    },
+    429: {
+      isError: true,
+    },
+  },
+  urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.provider],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getVersionsOperationSpec: coreHttp.OperationSpec = {
+  path: "/deviceupdate/{instanceId}/v2/updates/providers/{provider}/names/{name}/versions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PageableListOfStrings,
+    },
+    404: {
+      isError: true,
+    },
+    429: {
+      isError: true,
+    },
+  },
+  urlParameters: [
+    Parameters.accountEndpoint,
+    Parameters.instanceId,
+    Parameters.provider,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getFilesOperationSpec: coreHttp.OperationSpec = {
+  path: "/deviceupdate/{instanceId}/v2/updates/providers/{provider}/names/{name}/versions/{version}/files",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PageableListOfStrings,
+    },
+    404: {
+      isError: true,
+    },
+    429: {
+      isError: true,
+    },
+  },
+  urlParameters: [
+    Parameters.accountEndpoint,
+    Parameters.instanceId,
+    Parameters.provider,
+    Parameters.name,
+    Parameters.version,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getFileOperationSpec: coreHttp.OperationSpec = {
+  path: "/deviceupdate/{instanceId}/v2/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.File,
+    },
+    304: {},
+    404: {
+      isError: true,
+    },
+    429: {
+      isError: true,
+    },
+  },
+  urlParameters: [
+    Parameters.accountEndpoint,
+    Parameters.instanceId,
+    Parameters.provider,
+    Parameters.name,
+    Parameters.version,
+    Parameters.fileId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
+  serializer,
 };
 const getOperationsOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/updates/operations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfOperations
+      bodyMapper: Mappers.PageableListOfOperations,
     },
     429: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   queryParameters: [Parameters.filter, Parameters.top],
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/updates/operations/{operationId}",
@@ -1034,95 +1030,95 @@ const getOperationOperationSpec: coreHttp.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.Operation,
-      headersMapper: Mappers.UpdatesGetOperationHeaders
+      headersMapper: Mappers.UpdatesGetOperationHeaders,
     },
     304: {},
     404: {
-      isError: true
+      isError: true,
     },
     429: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.operationId],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer
+  serializer,
 };
 const getProvidersNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfStrings
+      bodyMapper: Mappers.PageableListOfStrings,
     },
     429: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getNamesNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfStrings
+      bodyMapper: Mappers.PageableListOfStrings,
     },
     404: {
-      isError: true
+      isError: true,
     },
     429: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [
     Parameters.accountEndpoint,
     Parameters.instanceId,
     Parameters.provider,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getVersionsNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfStrings
+      bodyMapper: Mappers.PageableListOfStrings,
     },
     404: {
-      isError: true
+      isError: true,
     },
     429: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [
     Parameters.accountEndpoint,
     Parameters.instanceId,
     Parameters.provider,
     Parameters.name,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getFilesNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfStrings
+      bodyMapper: Mappers.PageableListOfStrings,
     },
     404: {
-      isError: true
+      isError: true,
     },
     429: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [
     Parameters.accountEndpoint,
@@ -1130,24 +1126,24 @@ const getFilesNextOperationSpec: coreHttp.OperationSpec = {
     Parameters.provider,
     Parameters.name,
     Parameters.version,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationsNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfOperations
+      bodyMapper: Mappers.PageableListOfOperations,
     },
     429: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   queryParameters: [Parameters.filter, Parameters.top],
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -5,3 +5,4 @@ variables:
   skipComponentGovernanceDetection: true
   coalesceResultFilter: $[ coalesce(variables['packageGlobFilter'], '**') ]
   ServiceVersion: ""
+  Package.EnableSBOMSigning: true

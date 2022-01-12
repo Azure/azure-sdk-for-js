@@ -51,6 +51,8 @@ import {
   DomainsUpdateOwnershipIdentifierOptionalParams,
   DomainsUpdateOwnershipIdentifierResponse,
   DomainsRenewOptionalParams,
+  DomainsTransferOutOptionalParams,
+  DomainsTransferOutResponse,
   DomainsListNextResponse,
   DomainsListRecommendationsNextResponse,
   DomainsListByResourceGroupNextResponse,
@@ -629,6 +631,23 @@ export class DomainsImpl implements Domains {
   }
 
   /**
+   * Transfer out domain to another registrar
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param domainName Name of domain.
+   * @param options The options parameters.
+   */
+  transferOut(
+    resourceGroupName: string,
+    domainName: string,
+    options?: DomainsTransferOutOptionalParams
+  ): Promise<DomainsTransferOutResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, domainName, options },
+      transferOutOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -1021,6 +1040,31 @@ const renewOperationSpec: coreClient.OperationSpec = {
     200: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.domainName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const transferOutOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/transferOut",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Domain
+    },
+    400: {
+      isError: true
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
