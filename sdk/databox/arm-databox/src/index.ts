@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./jobs";
-export * from "./service";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { DataBoxManagementClient } from "./dataBoxManagementClient";
+export * from "./operationsInterfaces";
