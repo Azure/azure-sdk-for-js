@@ -204,4 +204,10 @@ export {
   StorageAsyncOperationInitiatedEventData,
   StorageBlobTierChangedEventData,
   StorageBlobInventoryPolicyCompletedEventData,
+  RecordingChannelType,
+  RecordingContentType,
+  RecordingFormatType,
+  ResourceAuthorization,
+  ResourceHttpRequest,
+  ContainerRegistryEventConnectedRegistry,
 } from "./generated/models";

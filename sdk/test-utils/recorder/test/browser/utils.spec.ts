@@ -4,12 +4,12 @@ import {
   stripNewLines,
   windowLens,
   isContentTypeInBrowserRecording,
-  maskAccessTokenInBrowserRecording
+  maskAccessTokenInBrowserRecording,
 } from "../../src/utils";
 import { expect } from "chai";
 import {
   applyRequestBodyTransformationsOnFixture,
-  defaultRequestBodyTransforms
+  defaultRequestBodyTransforms,
 } from "../../src/utils/requestBodyTransform";
 
 describe("Browser utils", () => {
@@ -32,7 +32,7 @@ describe("Browser utils", () => {
   });
 
   describe("testHasChanged", () => {
-    it("Should not crash if the recorded file doesn't exist", function() {
+    it("Should not crash if the recorded file doesn't exist", function () {
       const testSuiteTitle = this.test!.parent!.fullTitle();
       const testTitle = this.test!.title;
 
@@ -46,14 +46,14 @@ describe("Browser utils", () => {
       );
     });
 
-    it("Should return true if the older hash doesn't exist", function() {
+    it("Should return true if the older hash doesn't exist", function () {
       const platform = "browsers";
       const testSuiteTitle = this.test!.parent!.fullTitle();
       const testTitle = this.test!.title;
       const filePath = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
 
       windowLens.set(["__json__"], {
-        ["recordings/" + filePath]: {}
+        ["recordings/" + filePath]: {},
       });
 
       // We won't be testing whether MD5 works or not.
@@ -98,9 +98,9 @@ describe("Browser utils", () => {
               "strict-transport-security": "max-age=31536000; includeSubDomains",
               "x-content-type-options": "nosniff",
               "x-ms-ests-server": "2.1.11562.10 - SCUS ProdSlices",
-              "x-ms-request-id": "a81f6417-0fc8-4fd4-80ea-9c9e58f9d600"
-            }
-          }
+              "x-ms-request-id": "a81f6417-0fc8-4fd4-80ea-9c9e58f9d600",
+            },
+          },
         ],
         output: [
           {
@@ -124,10 +124,10 @@ describe("Browser utils", () => {
               "strict-transport-security": "max-age=31536000; includeSubDomains",
               "x-content-type-options": "nosniff",
               "x-ms-ests-server": "2.1.11562.10 - SCUS ProdSlices",
-              "x-ms-request-id": "a81f6417-0fc8-4fd4-80ea-9c9e58f9d600"
-            }
-          }
-        ]
+              "x-ms-request-id": "a81f6417-0fc8-4fd4-80ea-9c9e58f9d600",
+            },
+          },
+        ],
       },
       {
         name: `mask "access_token"s in json response`,
@@ -144,9 +144,9 @@ describe("Browser utils", () => {
             responseHeaders: {
               "content-length": "1315",
               "content-type": "application/json; charset=utf-8",
-              date: "Tue, 16 Feb 2021 18:21:34 GMT"
-            }
-          }
+              date: "Tue, 16 Feb 2021 18:21:34 GMT",
+            },
+          },
         ],
         output: [
           {
@@ -161,10 +161,10 @@ describe("Browser utils", () => {
             responseHeaders: {
               "content-length": "1315",
               "content-type": "application/json; charset=utf-8",
-              date: "Tue, 16 Feb 2021 18:21:34 GMT"
-            }
-          }
-        ]
+              date: "Tue, 16 Feb 2021 18:21:34 GMT",
+            },
+          },
+        ],
       },
       {
         name: `doesn't mask "access_token"s in json response since the content-type is not application/json`,
@@ -181,9 +181,9 @@ describe("Browser utils", () => {
             responseHeaders: {
               "content-length": "1315",
               "content-type": "something; charset=utf-8",
-              date: "Tue, 16 Feb 2021 18:21:34 GMT"
-            }
-          }
+              date: "Tue, 16 Feb 2021 18:21:34 GMT",
+            },
+          },
         ],
         output: [
           {
@@ -198,10 +198,10 @@ describe("Browser utils", () => {
             responseHeaders: {
               "content-length": "1315",
               "content-type": "something; charset=utf-8",
-              date: "Tue, 16 Feb 2021 18:21:34 GMT"
-            }
-          }
-        ]
+              date: "Tue, 16 Feb 2021 18:21:34 GMT",
+            },
+          },
+        ],
       },
       {
         name: `no impact on other recordings`,
@@ -210,27 +210,27 @@ describe("Browser utils", () => {
             method: "PUT",
             url: "https://fakestorageaccount.blob.core.windows.net/container159218753534504901",
             query: {
-              restype: "container"
+              restype: "container",
             },
             requestBody: null,
             status: 201,
             response: "",
-            responseHeaders: {}
-          }
+            responseHeaders: {},
+          },
         ],
         output: [
           {
             method: "PUT",
             url: "https://fakestorageaccount.blob.core.windows.net/container159218753534504901",
             query: {
-              restype: "container"
+              restype: "container",
             },
             requestBody: null,
             status: 201,
             response: "",
-            responseHeaders: {}
-          }
-        ]
+            responseHeaders: {},
+          },
+        ],
       },
       {
         name: `no impact on the recording with json content type but no json response`,
@@ -245,9 +245,9 @@ describe("Browser utils", () => {
             responseHeaders: {
               "content-security-policy": "default-src 'self'",
               "content-type": "application/json; charset=utf-8",
-              "strict-transport-security": "max-age=31536000; includeSubDomains"
-            }
-          }
+              "strict-transport-security": "max-age=31536000; includeSubDomains",
+            },
+          },
         ],
         output: [
           {
@@ -260,11 +260,11 @@ describe("Browser utils", () => {
             responseHeaders: {
               "content-security-policy": "default-src 'self'",
               "content-type": "application/json; charset=utf-8",
-              "strict-transport-security": "max-age=31536000; includeSubDomains"
-            }
-          }
-        ]
-      }
+              "strict-transport-security": "max-age=31536000; includeSubDomains",
+            },
+          },
+        ],
+      },
     ].forEach((test) => {
       it(test.name, () => {
         expect(maskAccessTokenInBrowserRecording(test.input as any)).to.deep.equal(
@@ -291,11 +291,11 @@ describe("Browser utils", () => {
           responseHeaders: {
             "content-length": "1315",
             "content-type": "avro/binary",
-            date: "Tue, 16 Feb 2021 18:21:34 GMT"
-          }
+            date: "Tue, 16 Feb 2021 18:21:34 GMT",
+          },
         },
         expectedContentTypes: ["avro/binary"],
-        output: true
+        output: true,
       },
       {
         name: `"avro/binary" matches with an array of expected content types`,
@@ -311,11 +311,11 @@ describe("Browser utils", () => {
           responseHeaders: {
             "content-length": "1315",
             "content-type": "avro/binary",
-            date: "Tue, 16 Feb 2021 18:21:34 GMT"
-          }
+            date: "Tue, 16 Feb 2021 18:21:34 GMT",
+          },
         },
         expectedContentTypes: ["avro/binary", "application/xml"],
-        output: true
+        output: true,
       },
       {
         name: `"text/plain" should not match with an array of different content types`,
@@ -331,11 +331,11 @@ describe("Browser utils", () => {
           responseHeaders: {
             "content-length": "1315",
             "content-type": "text/plain",
-            date: "Tue, 16 Feb 2021 18:21:34 GMT"
-          }
+            date: "Tue, 16 Feb 2021 18:21:34 GMT",
+          },
         },
         expectedContentTypes: ["avro/binary", "application/xml"],
-        output: false
+        output: false,
       },
       {
         name: "application/json; charset=utf-8",
@@ -351,12 +351,12 @@ describe("Browser utils", () => {
           responseHeaders: {
             "content-length": "1315",
             "content-type": "application/json; charset=utf-8",
-            date: "Tue, 16 Feb 2021 18:21:34 GMT"
-          }
+            date: "Tue, 16 Feb 2021 18:21:34 GMT",
+          },
         },
         expectedContentTypes: ["application/json;charset=utf-8"],
-        output: true
-      }
+        output: true,
+      },
     ].forEach((test) => {
       it(test.name, () => {
         expect(isContentTypeInBrowserRecording(test.input, test.expectedContentTypes)).to.equal(
@@ -381,11 +381,11 @@ describe("Browser utils", () => {
           response: '{"token_type":"Bearer","access_token":"access_token"}',
           responseHeaders: {
             "content-length": "1317",
-            date: "Fri, 21 May 2021 20:27:39 GMT"
-          }
+            date: "Fri, 21 May 2021 20:27:39 GMT",
+          },
         },
         finalRequestBody:
-          "response_type=token&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F"
+          "response_type=token&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
       },
       {
         title: "scope at the middle of the request body gets replaced",
@@ -397,11 +397,11 @@ describe("Browser utils", () => {
           response: '{"token_type":"Bearer","access_token":"access_token"}',
           responseHeaders: {
             "content-length": "1317",
-            date: "Fri, 21 May 2021 20:27:39 GMT"
-          }
+            date: "Fri, 21 May 2021 20:27:39 GMT",
+          },
         },
         finalRequestBody:
-          "response_type=token&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F&abc=123"
+          "response_type=token&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F&abc=123",
       },
       {
         title: "unchanged for body with no scope",
@@ -412,11 +412,11 @@ describe("Browser utils", () => {
           response: '{"token_type":"Bearer","access_token":"access_token"}',
           responseHeaders: {
             "content-length": "1317",
-            date: "Fri, 21 May 2021 20:27:39 GMT"
-          }
+            date: "Fri, 21 May 2021 20:27:39 GMT",
+          },
         },
-        finalRequestBody: "response_type=token&client_secret=azure_client_secret"
-      }
+        finalRequestBody: "response_type=token&client_secret=azure_client_secret",
+      },
     ].forEach((testCase) => {
       it(`${testCase.title}`, () => {
         expect(

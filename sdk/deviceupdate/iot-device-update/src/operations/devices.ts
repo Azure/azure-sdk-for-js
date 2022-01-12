@@ -44,7 +44,7 @@ import {
   DevicesGetAllDevicesNextResponse,
   DevicesGetAllDeviceTagsNextResponse,
   DevicesGetAllGroupsNextResponse,
-  DevicesGetGroupBestUpdatesNextResponse
+  DevicesGetGroupBestUpdatesNextResponse,
 } from "../models";
 
 /** Class representing a Devices. */
@@ -77,7 +77,7 @@ export class Devices {
       },
       byPage: () => {
         return this.getAllDeviceClassesPagingPage(options);
-      }
+      },
     };
   }
 
@@ -121,7 +121,7 @@ export class Devices {
       },
       byPage: () => {
         return this.getDeviceClassDeviceIdsPagingPage(deviceClassId, options);
-      }
+      },
     };
   }
 
@@ -167,7 +167,7 @@ export class Devices {
       },
       byPage: () => {
         return this.getDeviceClassInstallableUpdatesPagingPage(deviceClassId, options);
-      }
+      },
     };
   }
 
@@ -218,7 +218,7 @@ export class Devices {
       },
       byPage: () => {
         return this.getAllDevicesPagingPage(options);
-      }
+      },
     };
   }
 
@@ -260,7 +260,7 @@ export class Devices {
       },
       byPage: () => {
         return this.getAllDeviceTagsPagingPage(options);
-      }
+      },
     };
   }
 
@@ -300,7 +300,7 @@ export class Devices {
       },
       byPage: () => {
         return this.getAllGroupsPagingPage(options);
-      }
+      },
     };
   }
 
@@ -344,7 +344,7 @@ export class Devices {
       },
       byPage: () => {
         return this.getGroupBestUpdatesPagingPage(groupId, options);
-      }
+      },
     };
   }
 
@@ -384,7 +384,7 @@ export class Devices {
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -395,7 +395,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -418,7 +418,7 @@ export class Devices {
     );
     const operationArguments: coreHttp.OperationArguments = {
       deviceClassId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -429,7 +429,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -452,7 +452,7 @@ export class Devices {
     );
     const operationArguments: coreHttp.OperationArguments = {
       deviceClassId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -463,7 +463,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -486,7 +486,7 @@ export class Devices {
     );
     const operationArguments: coreHttp.OperationArguments = {
       deviceClassId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -497,7 +497,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -517,7 +517,7 @@ export class Devices {
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -528,7 +528,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -552,7 +552,7 @@ export class Devices {
     );
     const operationArguments: coreHttp.OperationArguments = {
       deviceId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -563,7 +563,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -584,7 +584,7 @@ export class Devices {
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -595,7 +595,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -615,7 +615,7 @@ export class Devices {
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -626,7 +626,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -649,7 +649,7 @@ export class Devices {
     );
     const operationArguments: coreHttp.OperationArguments = {
       tagName,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -660,7 +660,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -680,7 +680,7 @@ export class Devices {
       coreHttp.operationOptionsToRequestOptionsBase(options || {})
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -691,7 +691,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -714,7 +714,7 @@ export class Devices {
     );
     const operationArguments: coreHttp.OperationArguments = {
       groupId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -725,7 +725,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -751,7 +751,7 @@ export class Devices {
     const operationArguments: coreHttp.OperationArguments = {
       groupId,
       group,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -762,7 +762,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -785,7 +785,7 @@ export class Devices {
     );
     const operationArguments: coreHttp.OperationArguments = {
       groupId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -796,7 +796,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -820,7 +820,7 @@ export class Devices {
     );
     const operationArguments: coreHttp.OperationArguments = {
       groupId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -831,7 +831,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -854,7 +854,7 @@ export class Devices {
     );
     const operationArguments: coreHttp.OperationArguments = {
       groupId,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -865,7 +865,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -888,7 +888,7 @@ export class Devices {
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -899,7 +899,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -926,7 +926,7 @@ export class Devices {
     const operationArguments: coreHttp.OperationArguments = {
       deviceClassId,
       nextLink,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -937,7 +937,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -964,7 +964,7 @@ export class Devices {
     const operationArguments: coreHttp.OperationArguments = {
       deviceClassId,
       nextLink,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -975,7 +975,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -998,7 +998,7 @@ export class Devices {
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -1009,7 +1009,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -1032,7 +1032,7 @@ export class Devices {
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -1043,7 +1043,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -1066,7 +1066,7 @@ export class Devices {
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -1077,7 +1077,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -1103,7 +1103,7 @@ export class Devices {
     const operationArguments: coreHttp.OperationArguments = {
       groupId,
       nextLink,
-      options: updatedOptions
+      options: updatedOptions,
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -1114,7 +1114,7 @@ export class Devices {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -1130,317 +1130,317 @@ const getAllDeviceClassesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfDeviceClasses
-    }
+      bodyMapper: Mappers.PageableListOfDeviceClasses,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDeviceClassOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/deviceclasses/{deviceClassId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeviceClass
+      bodyMapper: Mappers.DeviceClass,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.deviceClassId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDeviceClassDeviceIdsOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/deviceclasses/{deviceClassId}/deviceids",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfStrings
+      bodyMapper: Mappers.PageableListOfStrings,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.deviceClassId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDeviceClassInstallableUpdatesOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/deviceclasses/{deviceClassId}/installableupdates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfUpdateIds
+      bodyMapper: Mappers.PageableListOfUpdateIds,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.deviceClassId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAllDevicesOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/devices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfDevices
-    }
+      bodyMapper: Mappers.PageableListOfDevices,
+    },
   },
   queryParameters: [Parameters.filter],
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDeviceOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/devices/{deviceId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Device
+      bodyMapper: Mappers.Device,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.deviceId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getUpdateComplianceOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/updatecompliance",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UpdateCompliance
-    }
+      bodyMapper: Mappers.UpdateCompliance,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAllDeviceTagsOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/devicetags",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfDeviceTags
-    }
+      bodyMapper: Mappers.PageableListOfDeviceTags,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDeviceTagOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/devicetags/{tagName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeviceTag
+      bodyMapper: Mappers.DeviceTag,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.tagName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAllGroupsOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/groups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfGroups
-    }
+      bodyMapper: Mappers.PageableListOfGroups,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getGroupOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/groups/{groupId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Group
+      bodyMapper: Mappers.Group,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.groupId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateGroupOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/groups/{groupId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Group
+      bodyMapper: Mappers.Group,
     },
     400: {
-      isError: true
+      isError: true,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   requestBody: Parameters.group,
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.groupId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteGroupOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/groups/{groupId}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {} },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.groupId],
-  serializer
+  serializer,
 };
 const getGroupUpdateComplianceOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/groups/{groupId}/updateCompliance",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UpdateCompliance
+      bodyMapper: Mappers.UpdateCompliance,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.groupId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getGroupBestUpdatesOperationSpec: coreHttp.OperationSpec = {
   path: "/deviceupdate/{instanceId}/v2/management/groups/{groupId}/bestUpdates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfUpdatableDevices
+      bodyMapper: Mappers.PageableListOfUpdatableDevices,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   queryParameters: [Parameters.filter],
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.groupId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAllDeviceClassesNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfDeviceClasses
-    }
+      bodyMapper: Mappers.PageableListOfDeviceClasses,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDeviceClassDeviceIdsNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfStrings
+      bodyMapper: Mappers.PageableListOfStrings,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [
     Parameters.accountEndpoint,
     Parameters.instanceId,
     Parameters.nextLink,
-    Parameters.deviceClassId
+    Parameters.deviceClassId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getDeviceClassInstallableUpdatesNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfUpdateIds
+      bodyMapper: Mappers.PageableListOfUpdateIds,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   urlParameters: [
     Parameters.accountEndpoint,
     Parameters.instanceId,
     Parameters.nextLink,
-    Parameters.deviceClassId
+    Parameters.deviceClassId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAllDevicesNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfDevices
-    }
+      bodyMapper: Mappers.PageableListOfDevices,
+    },
   },
   queryParameters: [Parameters.filter],
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAllDeviceTagsNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfDeviceTags
-    }
+      bodyMapper: Mappers.PageableListOfDeviceTags,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAllGroupsNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfGroups
-    }
+      bodyMapper: Mappers.PageableListOfGroups,
+    },
   },
   urlParameters: [Parameters.accountEndpoint, Parameters.instanceId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getGroupBestUpdatesNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PageableListOfUpdatableDevices
+      bodyMapper: Mappers.PageableListOfUpdatableDevices,
     },
     404: {
-      isError: true
-    }
+      isError: true,
+    },
   },
   queryParameters: [Parameters.filter],
   urlParameters: [
     Parameters.accountEndpoint,
     Parameters.instanceId,
     Parameters.nextLink,
-    Parameters.groupId
+    Parameters.groupId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

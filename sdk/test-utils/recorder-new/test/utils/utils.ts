@@ -44,7 +44,7 @@ export async function makeRequestAndVerifyResponse(
     url: request.url ?? getTestServerUrl() + request.path,
     body: request.body,
     method: request.method,
-    allowInsecureConnection: isLiveMode()
+    allowInsecureConnection: isLiveMode(),
   });
   request.headers?.forEach(({ headerName, value }) => {
     req.headers.set(headerName, value);

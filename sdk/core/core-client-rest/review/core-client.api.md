@@ -82,6 +82,7 @@ export type RequestParameters = {
     allowInsecureConnection?: boolean;
     skipUrlEncoding?: boolean;
     binaryResponse?: boolean;
+    pathParameters?: Record<string, any>;
 };
 
 // @public

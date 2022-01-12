@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 7.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 7.0.0 (2021-12-24)
 
 The package of @azure/arm-batch is using our next generation design principles since version 7.0.0, which contains breaking changes.

@@ -2677,6 +2677,8 @@ export interface CreationData {
   uploadSizeBytes?: number;
   /** Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default. */
   logicalSectorSize?: number;
+  /** If createOption is ImportSecure, this is the URI of a blob to be imported into VM guest state. */
+  securityDataUri?: string;
 }
 
 /** The source image used for creating the disk. */
@@ -2753,6 +2755,8 @@ export interface PropertyUpdatesInProgress {
 export interface DiskSecurityProfile {
   /** Specifies the SecurityType of the VM. Applicable for OS disks only. */
   securityType?: DiskSecurityTypes;
+  /** ResourceId of the disk encryption set associated to Confidential VM supported disk encrypted with customer managed key */
+  secureVMDiskEncryptionSetId?: string;
 }
 
 /** Disk update resource. */
@@ -2815,6 +2819,8 @@ export interface GrantAccessData {
   access: AccessLevel;
   /** Time duration in seconds until the SAS access expires. */
   durationInSeconds: number;
+  /** Set this flag to true to get additional SAS for VM guest state */
+  getSecureVMGuestStateSAS?: boolean;
 }
 
 /** A disk access SAS uri. */
@@ -2824,6 +2830,11 @@ export interface AccessUri {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly accessSAS?: string;
+  /**
+   * A SAS uri for accessing a VM guest state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly securityDataAccessSAS?: string;
 }
 
 /** The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot */
@@ -2859,6 +2870,8 @@ export interface SnapshotUpdate {
   supportsHibernation?: boolean;
   /** Policy for controlling export on the disk. */
   publicNetworkAccess?: PublicNetworkAccess;
+  /** List of supported capabilities (like accelerated networking) for the image from which the OS disk was created. */
+  supportedCapabilities?: SupportedCapabilities;
 }
 
 /** The List Snapshots operation response. */
@@ -4809,6 +4822,8 @@ export type Snapshot = Resource & {
   networkAccessPolicy?: NetworkAccessPolicy;
   /** ARM id of the DiskAccess resource for using private endpoints on disks. */
   diskAccessId?: string;
+  /** Contains the security related information for the resource. */
+  securityProfile?: DiskSecurityProfile;
   /** Indicates the OS on a snapshot supports hibernation. */
   supportsHibernation?: boolean;
   /** Policy for controlling export on the disk. */
@@ -5521,7 +5536,7 @@ export type DiskRestorePoint = ProxyOnlyResource & {
    */
   readonly timeCreated?: Date;
   /**
-   * arm id of source disk
+   * arm id of source disk or source disk restore point.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sourceResourceId?: string;
@@ -5559,8 +5574,18 @@ export type DiskRestorePoint = ProxyOnlyResource & {
   publicNetworkAccess?: PublicNetworkAccess;
   /** ARM id of the DiskAccess resource for using private endpoints on disks. */
   diskAccessId?: string;
-  /** Percentage complete for the background copy when a resource is created via the CopyStart operation. */
+  /** Percentage complete for the background copy of disk restore point when source resource is from a different region. */
   completionPercent?: number;
+  /**
+   * Replication state of disk restore point when source resource is from a different region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationState?: string;
+  /**
+   * Location of source disk or source disk restore point when source resource is from a different region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceResourceLocation?: string;
 };
 
 /** Specifies information about the Shared Image Gallery that you want to update. */
@@ -7000,7 +7025,11 @@ export enum KnownDiskCreateOption {
   /** Create a new disk by obtaining a write token and using it to directly upload the contents of the disk. */
   Upload = "Upload",
   /** Create a new disk by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source. */
-  CopyStart = "CopyStart"
+  CopyStart = "CopyStart",
+  /** Similar to Import create option. Create a new Trusted Launch VM or Confidential VM supported disk by importing additional blob for VM guest state specified by securityDataUri in storage account specified by storageAccountId */
+  ImportSecure = "ImportSecure",
+  /** Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state */
+  UploadPreparedSecure = "UploadPreparedSecure"
 }
 
 /**
@@ -7015,7 +7044,9 @@ export enum KnownDiskCreateOption {
  * **Copy**: Create a new disk or snapshot by copying from a disk or snapshot specified by the given sourceResourceId. \
  * **Restore**: Create a new disk by copying from a backup recovery point. \
  * **Upload**: Create a new disk by obtaining a write token and using it to directly upload the contents of the disk. \
- * **CopyStart**: Create a new disk by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source.
+ * **CopyStart**: Create a new disk by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source. \
+ * **ImportSecure**: Similar to Import create option. Create a new Trusted Launch VM or Confidential VM supported disk by importing additional blob for VM guest state specified by securityDataUri in storage account specified by storageAccountId \
+ * **UploadPreparedSecure**: Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state
  */
 export type DiskCreateOption = string;
 
@@ -7100,7 +7131,13 @@ export type NetworkAccessPolicy = string;
 /** Known values of {@link DiskSecurityTypes} that the service accepts. */
 export enum KnownDiskSecurityTypes {
   /** Trusted Launch provides security features such as secure boot and virtual Trusted Platform Module (vTPM) */
-  TrustedLaunch = "TrustedLaunch"
+  TrustedLaunch = "TrustedLaunch",
+  /** Indicates Confidential VM disk with only VM guest state encrypted */
+  ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
+  /** Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a platform managed key */
+  ConfidentialVMDiskEncryptedWithPlatformKey = "ConfidentialVM_DiskEncryptedWithPlatformKey",
+  /** Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a customer managed key */
+  ConfidentialVMDiskEncryptedWithCustomerKey = "ConfidentialVM_DiskEncryptedWithCustomerKey"
 }
 
 /**
@@ -7108,7 +7145,10 @@ export enum KnownDiskSecurityTypes {
  * {@link KnownDiskSecurityTypes} can be used interchangeably with DiskSecurityTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **TrustedLaunch**: Trusted Launch provides security features such as secure boot and virtual Trusted Platform Module (vTPM)
+ * **TrustedLaunch**: Trusted Launch provides security features such as secure boot and virtual Trusted Platform Module (vTPM) \
+ * **ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey**: Indicates Confidential VM disk with only VM guest state encrypted \
+ * **ConfidentialVM_DiskEncryptedWithPlatformKey**: Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a platform managed key \
+ * **ConfidentialVM_DiskEncryptedWithCustomerKey**: Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a customer managed key
  */
 export type DiskSecurityTypes = string;
 
@@ -7190,7 +7230,9 @@ export enum KnownDiskEncryptionSetType {
   /** Resource using diskEncryptionSet would be encrypted at rest with Customer managed key that can be changed and revoked by a customer. */
   EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
   /** Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed. */
-  EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys"
+  EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys",
+  /** Confidential VM supported disk and VM guest state would be encrypted with customer managed key. */
+  ConfidentialVmEncryptedWithCustomerKey = "ConfidentialVmEncryptedWithCustomerKey"
 }
 
 /**
@@ -7199,7 +7241,8 @@ export enum KnownDiskEncryptionSetType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **EncryptionAtRestWithCustomerKey**: Resource using diskEncryptionSet would be encrypted at rest with Customer managed key that can be changed and revoked by a customer. \
- * **EncryptionAtRestWithPlatformAndCustomerKeys**: Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed.
+ * **EncryptionAtRestWithPlatformAndCustomerKeys**: Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed. \
+ * **ConfidentialVmEncryptedWithCustomerKey**: Confidential VM supported disk and VM guest state would be encrypted with customer managed key.
  */
 export type DiskEncryptionSetType = string;
 

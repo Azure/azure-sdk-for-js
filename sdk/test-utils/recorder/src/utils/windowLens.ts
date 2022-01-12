@@ -27,5 +27,5 @@ export const windowLens: {
       root[propertyPath[0]] = {};
     }
     return this.set(propertyPath.slice(1), propertyValue, root[propertyPath[0]]);
-  }
+  },
 };

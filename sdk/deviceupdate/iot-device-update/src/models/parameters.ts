@@ -9,12 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-http";
 import {
   ImportUpdateInput as ImportUpdateInputMapper,
   Group as GroupMapper,
-  Deployment as DeploymentMapper
+  Deployment as DeploymentMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -24,14 +24,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const updateToImport: OperationParameter = {
   parameterPath: "updateToImport",
-  mapper: ImportUpdateInputMapper
+  mapper: ImportUpdateInputMapper,
 };
 
 export const accountEndpoint: OperationURLParameter = {
@@ -40,10 +40,10 @@ export const accountEndpoint: OperationURLParameter = {
     serializedName: "accountEndpoint",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const instanceId: OperationURLParameter = {
@@ -52,10 +52,10 @@ export const instanceId: OperationURLParameter = {
     serializedName: "instanceId",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const action: OperationQueryParameter = {
@@ -65,9 +65,9 @@ export const action: OperationQueryParameter = {
     isConstant: true,
     serializedName: "action",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accept: OperationParameter = {
@@ -77,9 +77,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const provider: OperationURLParameter = {
@@ -88,9 +88,9 @@ export const provider: OperationURLParameter = {
     serializedName: "provider",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const name: OperationURLParameter = {
@@ -99,9 +99,9 @@ export const name: OperationURLParameter = {
     serializedName: "name",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const version: OperationURLParameter = {
@@ -110,9 +110,9 @@ export const version: OperationURLParameter = {
     serializedName: "version",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifNoneMatch: OperationParameter = {
@@ -120,9 +120,9 @@ export const ifNoneMatch: OperationParameter = {
   mapper: {
     serializedName: "If-None-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fileId: OperationURLParameter = {
@@ -131,9 +131,9 @@ export const fileId: OperationURLParameter = {
     serializedName: "fileId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const filter: OperationQueryParameter = {
@@ -141,9 +141,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -151,9 +151,9 @@ export const top: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const operationId: OperationURLParameter = {
@@ -162,9 +162,9 @@ export const operationId: OperationURLParameter = {
     serializedName: "operationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -173,10 +173,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const deviceClassId: OperationURLParameter = {
@@ -185,9 +185,9 @@ export const deviceClassId: OperationURLParameter = {
     serializedName: "deviceClassId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const deviceId: OperationURLParameter = {
@@ -196,9 +196,9 @@ export const deviceId: OperationURLParameter = {
     serializedName: "deviceId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const tagName: OperationURLParameter = {
@@ -207,9 +207,9 @@ export const tagName: OperationURLParameter = {
     serializedName: "tagName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const groupId: OperationURLParameter = {
@@ -218,14 +218,14 @@ export const groupId: OperationURLParameter = {
     serializedName: "groupId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const group: OperationParameter = {
   parameterPath: "group",
-  mapper: GroupMapper
+  mapper: GroupMapper,
 };
 
 export const deploymentId: OperationURLParameter = {
@@ -234,14 +234,14 @@ export const deploymentId: OperationURLParameter = {
     serializedName: "deploymentId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const deployment: OperationParameter = {
   parameterPath: "deployment",
-  mapper: DeploymentMapper
+  mapper: DeploymentMapper,
 };
 
 export const action1: OperationQueryParameter = {
@@ -251,9 +251,9 @@ export const action1: OperationQueryParameter = {
     isConstant: true,
     serializedName: "action",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const action2: OperationQueryParameter = {
@@ -263,7 +263,7 @@ export const action2: OperationQueryParameter = {
     isConstant: true,
     serializedName: "action",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

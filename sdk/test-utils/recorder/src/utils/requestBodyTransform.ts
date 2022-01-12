@@ -18,7 +18,7 @@ export type RequestBodyTransformsType = {
  */
 export const defaultRequestBodyTransforms: Required<RequestBodyTransformsType> = {
   stringTransforms: [(body: string) => (isBrowser() ? sanitizeScopeUrl(body) : body)],
-  jsonTransforms: []
+  jsonTransforms: [],
 };
 
 /**
@@ -122,7 +122,7 @@ export function applyRequestBodyTransformationsOnFixture(
           requestBody: applyRequestBodyTransformations(
             fixture.requestBody,
             requestBodyTransformations
-          )
+          ),
         };
         return updatedFixture;
       } else {
