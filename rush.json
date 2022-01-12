@@ -1245,6 +1245,11 @@
       "packageName": "@azure/arm-azurestackhci",
       "projectFolder": "sdk/azurestackhci/arm-azurestackhci",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-customerinsights",
+      "projectFolder": "sdk/customer-insights/arm-customerinsights",
+      "versionPolicyName": "management"
     }
   ]
 }
