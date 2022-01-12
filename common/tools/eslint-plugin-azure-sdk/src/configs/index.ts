@@ -18,7 +18,7 @@ export = {
   recommended: {
     plugins: ["@azure/azure-sdk"],
     env: {
-      node: true
+      node: true,
     },
     parser: "@typescript-eslint/parser",
     rules: {
@@ -53,11 +53,11 @@ export = {
       "@azure/azure-sdk/ts-pagination-list": "error",
       "@azure/azure-sdk/ts-use-interface-parameters": "warn",
       "@azure/azure-sdk/ts-use-promises": "error",
-      "@azure/azure-sdk/ts-versioning-semver": "error"
+      "@azure/azure-sdk/ts-versioning-semver": "error",
     },
     settings: {
-      main: "src/index.ts"
-    }
+      main: "src/index.ts",
+    },
   },
-  "azure-sdk-base": rootConfig
+  "azure-sdk-base": rootConfig,
 };

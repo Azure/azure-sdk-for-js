@@ -5,7 +5,7 @@ import { AppConfigurationClient } from "../../src";
 import {
   startRecorder,
   getTokenAuthenticationCredential,
-  CredsAndEndpoint
+  CredsAndEndpoint,
 } from "./utils/testHelpers";
 import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -15,15 +15,15 @@ describe("Authentication", () => {
   let credsAndEndpoint: CredsAndEndpoint;
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = startRecorder(this);
     credsAndEndpoint = getTokenAuthenticationCredential() || this.skip();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
-  it("token authentication works", async function() {
+  it("token authentication works", async function () {
     const client = new AppConfigurationClient(
       credsAndEndpoint.endpoint,
       credsAndEndpoint.credential
@@ -33,7 +33,7 @@ describe("Authentication", () => {
     // able to connect and call the service
     await client.addConfigurationSetting({
       key: `token-authentication-test-${recorder.newDate("label-1").valueOf()}`,
-      value: "hello"
+      value: "hello",
     });
   });
 });

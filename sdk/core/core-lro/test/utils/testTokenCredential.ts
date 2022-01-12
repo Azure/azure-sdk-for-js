@@ -18,7 +18,7 @@ export class TestTokenCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     return {
       token: this.token,
-      expiresOnTimestamp: this.expiresOn
+      expiresOnTimestamp: this.expiresOn,
     };
   }
 }

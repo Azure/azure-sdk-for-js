@@ -180,7 +180,11 @@ export function makeConfig(
     ],
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
+<<<<<<< HEAD
     plugins: [sourcemaps(), nodeResolve(), cjs(), json()],
+=======
+    plugins: [sourcemaps(), nodeResolve(), cjs()],
+>>>>>>> upstream/main
   };
 
   const config: RollupOptions[] = [baseConfig as RollupOptions];

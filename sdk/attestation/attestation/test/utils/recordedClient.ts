@@ -9,13 +9,13 @@ import {
   Recorder,
   record,
   RecorderEnvironmentSetup,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 
 import {
   AttestationClient,
   AttestationClientOptions,
-  AttestationAdministrationClient
+  AttestationAdministrationClient,
 } from "../../src/";
 import "./env";
 import { pemFromBase64 } from "../utils/helpers";
@@ -31,7 +31,7 @@ const replaceableVariables: { [k: string]: string } = {
   policySigningCertificate1: "policy_signing_certificate1",
   policySigningCertificate2: "policy_signing_certificate2",
   ATTESTATION_ISOLATED_SIGNING_CERTIFICATE: "isolated_signing_certificate",
-  ATTESTATION_ISOLATED_SIGNING_KEY: "isolated_signing_key"
+  ATTESTATION_ISOLATED_SIGNING_KEY: "isolated_signing_key",
 };
 
 const environmentSetup: RecorderEnvironmentSetup = {
@@ -48,9 +48,9 @@ const environmentSetup: RecorderEnvironmentSetup = {
         .replace("aad_attestation_url:443", "aad_attestation_url")
         .replace("isolated_attestation_url:443", "isolated_attestation_url");
       return replaced;
-    }
+    },
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export function createRecorder(context: Context): Recorder {
@@ -109,8 +109,8 @@ export function createRecordedClient(
         validateNotBeforeTime: !isPlaybackMode(),
         validateIssuer: !isPlaybackMode(),
         timeValidationSlack: 10, // 10 seconds slack in validation time.
-        expectedIssuer: getAttestationUri(endpointType)
-      }
+        expectedIssuer: getAttestationUri(endpointType),
+      },
     };
   }
   if (authenticatedClient !== undefined && authenticatedClient) {
@@ -144,8 +144,8 @@ export function createRecordedAdminClient(
         validateNotBeforeTime: !isPlaybackMode(),
         timeValidationSlack: 10, // 10 seconds slack in validation time.
         validateIssuer: !isPlaybackMode(),
-        expectedIssuer: getAttestationUri(endpointType)
-      }
+        expectedIssuer: getAttestationUri(endpointType),
+      },
     };
   }
   return new AttestationAdministrationClient(getAttestationUri(endpointType), credential, options);

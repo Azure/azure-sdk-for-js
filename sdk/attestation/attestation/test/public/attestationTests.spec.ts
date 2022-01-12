@@ -12,20 +12,20 @@ import {
   createRecordedAdminClient,
   createRecordedClient,
   createRecorder,
-  EndpointType
+  EndpointType,
 } from "../utils/recordedClient";
 import * as base64url from "../utils/base64url";
 
 import { KnownAttestationType } from "../../src";
 
-describe("[AAD] Attestation Client", function() {
+describe("[AAD] Attestation Client", function () {
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = createRecorder(this);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -201,7 +201,7 @@ describe("[AAD] Attestation Client", function() {
       await expect(
         client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
           runTimeData: binaryRuntimeData,
-          runTimeJson: binaryRuntimeData
+          runTimeJson: binaryRuntimeData,
         })
       ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
     }
@@ -210,7 +210,7 @@ describe("[AAD] Attestation Client", function() {
       const attestationResult = await client.attestOpenEnclave(
         base64url.decodeString(_openEnclaveReport),
         {
-          runTimeData: binaryRuntimeData
+          runTimeData: binaryRuntimeData,
         }
       );
 
@@ -226,7 +226,7 @@ describe("[AAD] Attestation Client", function() {
       const attestationResult = await client.attestOpenEnclave(
         base64url.decodeString(_openEnclaveReport),
         {
-          runTimeJson: binaryRuntimeData
+          runTimeJson: binaryRuntimeData,
         }
       );
 
@@ -255,7 +255,7 @@ describe("[AAD] Attestation Client", function() {
       await expect(
         client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
           runTimeData: binaryRuntimeData,
-          runTimeJson: binaryRuntimeData
+          runTimeJson: binaryRuntimeData,
         })
       ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
     }
@@ -267,7 +267,7 @@ describe("[AAD] Attestation Client", function() {
       const attestationResult = await client.attestSgxEnclave(
         base64url.decodeString(_openEnclaveReport).subarray(0x10),
         {
-          runTimeData: binaryRuntimeData
+          runTimeData: binaryRuntimeData,
         }
       );
 
@@ -285,7 +285,7 @@ describe("[AAD] Attestation Client", function() {
       const attestationResult = await client.attestSgxEnclave(
         base64url.decodeString(_openEnclaveReport).subarray(0x10),
         {
-          runTimeJson: binaryRuntimeData
+          runTimeJson: binaryRuntimeData,
         }
       );
 

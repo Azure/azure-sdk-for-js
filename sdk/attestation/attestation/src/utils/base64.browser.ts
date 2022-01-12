@@ -34,10 +34,7 @@ export function base64UrlEncodeByteArray(value: Uint8Array): string {
   }
   const base64 = btoa(str);
   // Convert the base64 buffer to base64url.
-  return base64
-    .replace(/\+/g, "-")
-    .replace(/\//, "_")
-    .split("=")[0];
+  return base64.replace(/\+/g, "-").replace(/\//, "_").split("=")[0];
 }
 
 /**

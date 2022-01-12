@@ -41,7 +41,7 @@ export async function main() {
   let index = 1;
   let asyncIter = containerClient.listBlobsFlat();
 
-  function printBlob(result: { done?: boolean; value: BlobItem }) {
+  function printBlob(result: IteratorResult<BlobItem>): void {
     if (!result.done) {
       console.log("Blob " + index++ + ": " + result.value.name);
       asyncIter.next().then(printBlob);

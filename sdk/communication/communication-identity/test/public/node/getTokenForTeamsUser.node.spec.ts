@@ -8,23 +8,23 @@ import { UsernamePasswordCredential } from "@azure/identity";
 import { CommunicationAccessToken, CommunicationIdentityClient } from "../../../src";
 import {
   createRecordedCommunicationIdentityClient,
-  createRecordedCommunicationIdentityClientWithToken
+  createRecordedCommunicationIdentityClientWithToken,
 } from "../utils/recordedClient";
 import { Context } from "mocha";
 
-matrix([[true, false]], async function(useAad) {
-  describe(`Get Token For Teams User [Playback/Live]${useAad ? " [AAD]" : ""}`, function() {
+matrix([[true, false]], async function (useAad) {
+  describe(`Get Token For Teams User [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
 
-    before(function(this: Context) {
+    before(function (this: Context) {
       const skipTests = env.SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST === "true";
       if (skipTests) {
         this.skip();
       }
     });
 
-    beforeEach(async function(this: Context) {
+    beforeEach(async function (this: Context) {
       if (useAad) {
         ({ client, recorder } = createRecordedCommunicationIdentityClientWithToken(this));
       } else {
@@ -32,13 +32,13 @@ matrix([[true, false]], async function(useAad) {
       }
     });
 
-    afterEach(async function(this: Context) {
+    afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
     });
 
-    it("successfully exchanges a Teams User AAD token for a Communication access token", async function() {
+    it("successfully exchanges a Teams User AAD token for a Communication access token", async function () {
       let teamsToken = "";
       if (isPlaybackMode()) {
         teamsToken = "sanitized";
@@ -61,7 +61,7 @@ matrix([[true, false]], async function(useAad) {
       assert.instanceOf(expiresOn, Date);
     }).timeout(5000);
 
-    it("throws an error when attempting to exchange an empty Teams User AAD token", async function() {
+    it("throws an error when attempting to exchange an empty Teams User AAD token", async function () {
       try {
         let emptyToken = "";
         if (isPlaybackMode()) {
@@ -76,7 +76,7 @@ matrix([[true, false]], async function(useAad) {
       assert.fail("Should have thrown an error");
     });
 
-    it("throws an error when attempting to exchange an invalid Teams User AAD token", async function() {
+    it("throws an error when attempting to exchange an invalid Teams User AAD token", async function () {
       try {
         let invalidToken = "invalid";
         if (isPlaybackMode()) {
@@ -91,7 +91,7 @@ matrix([[true, false]], async function(useAad) {
       assert.fail("Should have thrown an error");
     });
 
-    it("throws an error when attempting to exchange an expired Teams User AAD token", async function() {
+    it("throws an error when attempting to exchange an expired Teams User AAD token", async function () {
       try {
         let expiredToken = env.COMMUNICATION_EXPIRED_TEAMS_TOKEN;
         if (isPlaybackMode()) {

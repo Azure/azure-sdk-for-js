@@ -6,9 +6,9 @@
  * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
 import { Literal, Property } from "estree";
 import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -61,7 +61,7 @@ export = {
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
-      outer: "files"
+      outer: "files",
     });
     return stripPath(context.getFilename()) === "package.json"
       ? ({
@@ -77,7 +77,7 @@ export = {
             if (node.value.type !== "ArrayExpression") {
               context.report({
                 node: node.value,
-                message: "files is not set to an array"
+                message: "files is not set to an array",
               });
               return;
             }
@@ -148,11 +148,11 @@ export = {
                 node: nodeValue,
                 message: errorMessage,
                 fix: (fixer: Rule.RuleFixer): Rule.Fix =>
-                  fixer.replaceText(nodeValue, arrayToString(filesList))
+                  fixer.replaceText(nodeValue, arrayToString(filesList)),
               });
             }
-          }
+          },
         } as Rule.RuleListener)
       : {};
-  }
+  },
 };

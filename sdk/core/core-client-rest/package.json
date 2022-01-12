@@ -86,7 +86,7 @@
     "karma": "^6.2.0",
     "mocha-junit-reporter": "^2.0.0",
     "mocha": "^7.1.1",
-    "prettier": "2.2.1",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "rollup": "^2.0.0",
     "sinon": "^9.0.2",

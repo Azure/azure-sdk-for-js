@@ -189,10 +189,10 @@ async function runDockerContainer(
     "-v",
     `${dockerContextDirectory}:${containerWorkspace}`,
     dockerImageName,
-    "./run_samples.sh"
+    "./run_samples.sh",
   ];
   const dockerContainerRunProcess = pr.spawn("docker", args, {
-    cwd: dockerContextDirectory
+    cwd: dockerContextDirectory,
   });
   log.info(`Started running the docker container ${dockerContainerName}`);
   dockerContainerRunProcess.stdout.on("data", stdoutListener);
@@ -214,56 +214,56 @@ export const commandInfo = makeCommandInfo(
   {
     "artifact-path": {
       kind: "string",
-      description: "The URL/path to the artifact built by the release pipeline"
+      description: "The URL/path to the artifact built by the release pipeline",
     },
     directory: {
       kind: "string",
       description: "Base dir, default is process.cwd()",
-      default: process.cwd()
+      default: process.cwd(),
     },
     "node-versions": {
       kind: "string",
       description: "A comma separated list of node versions to use",
-      default: "12,14,16,17"
+      default: "12,14,16,17",
     },
     "node-version": {
       kind: "string",
       description:
         "A node version to use. You can specify multiple versions by having multiple arguments",
       default: "",
-      allowMultiple: true
+      allowMultiple: true,
     },
     "context-directory-path": {
       kind: "string",
       description: "Absolute path to a directory used for mounting inside docker containers",
-      default: ""
+      default: "",
     },
     "keep-docker-context": {
       kind: "boolean",
       description: "Boolean to indicate whether to keep the current docker context directory",
-      default: false
+      default: false,
     },
     "log-in-file": {
       kind: "boolean",
       description:
         "Boolean to indicate whether to save the the stdout and sterr for npm commands to the log.txt log file",
-      default: true
+      default: true,
     },
     "use-existing-docker-containers": {
       kind: "boolean",
       description: "Boolean to indicate whether to use existing docker containers if any",
-      default: false
+      default: false,
     },
     "keep-docker-containers": {
       kind: "boolean",
       description: "Boolean to indicate whether to keep docker containers",
-      default: false
+      default: false,
     },
     "keep-docker-images": {
       kind: "boolean",
       description: "Boolean to indicate whether to keep the downloaded docker images",
-      default: false
-    }
+      default: false,
+    },
   }
 );
 
@@ -274,7 +274,7 @@ export default leafCommand(commandInfo, async (options) => {
         ?.split(",")
         .concat(options["node-version"])
         .filter((ver) => ver !== "" && !isNaN(parseInt(ver)))
-    )
+    ),
   ];
   const dockerContextDirectory: string =
     options["context-directory-path"] === ""
@@ -321,15 +321,16 @@ export default leafCommand(commandInfo, async (options) => {
     );
   }
   async function runContainers(): Promise<void> {
-    const containerRuns = dockerImageNames.map((imageName, containerIndex) => () =>
-      runDockerContainer(
-        dockerContextDirectory,
-        imageName,
-        dockerContainerNames[containerIndex],
-        containerWorkspace,
-        stdoutListener,
-        stderrListener
-      )
+    const containerRuns = dockerImageNames.map(
+      (imageName, containerIndex) => () =>
+        runDockerContainer(
+          dockerContextDirectory,
+          imageName,
+          dockerContainerNames[containerIndex],
+          containerWorkspace,
+          stdoutListener,
+          stderrListener
+        )
     );
     for (const run of containerRuns) {
       await run();

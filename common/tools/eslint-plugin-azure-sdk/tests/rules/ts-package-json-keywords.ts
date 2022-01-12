@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import rule from "../../src/rules/ts-package-json-keywords";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-package-json-keywords";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -78,7 +78,7 @@ const examplePackageGood = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -186,7 +186,7 @@ const examplePackageBad = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -294,7 +294,7 @@ const examplePackageBadFixed = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -348,8 +348,8 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 
 ruleTester.run("ts-package-json-keywords", rule, {
@@ -357,18 +357,18 @@ ruleTester.run("ts-package-json-keywords", rule, {
     {
       // only the fields we care about
       code: '{"keywords": ["azure", "cloud"]}',
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // incorrect format but in a file we don't care about
       code: '{"keywords": []}',
-      filename: "not_package.json"
-    }
+      filename: "not_package.json",
+    },
   ],
   invalid: [
     {
@@ -376,9 +376,9 @@ ruleTester.run("ts-package-json-keywords", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "keywords does not exist at the outermost level"
-        }
-      ]
+          message: "keywords does not exist at the outermost level",
+        },
+      ],
     },
     {
       // keywords is in a nested object
@@ -386,9 +386,9 @@ ruleTester.run("ts-package-json-keywords", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "keywords does not exist at the outermost level"
-        }
-      ]
+          message: "keywords does not exist at the outermost level",
+        },
+      ],
     },
     {
       // both missing
@@ -396,13 +396,13 @@ ruleTester.run("ts-package-json-keywords", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "keywords does not contain azure"
+          message: "keywords does not contain azure",
         },
         {
-          message: "keywords does not contain cloud"
-        }
+          message: "keywords does not contain cloud",
+        },
       ],
-      output: '{"keywords": ["azure"]}'
+      output: '{"keywords": ["azure"]}',
     },
     {
       // azure missing
@@ -410,10 +410,10 @@ ruleTester.run("ts-package-json-keywords", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "keywords does not contain azure"
-        }
+          message: "keywords does not contain azure",
+        },
       ],
-      output: '{"keywords": ["cloud", "azure"]}'
+      output: '{"keywords": ["cloud", "azure"]}',
     },
     {
       // cloud missing
@@ -421,10 +421,10 @@ ruleTester.run("ts-package-json-keywords", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "keywords does not contain cloud"
-        }
+          message: "keywords does not contain cloud",
+        },
       ],
-      output: '{"keywords": ["azure", "cloud"]}'
+      output: '{"keywords": ["azure", "cloud"]}',
     },
     {
       // example file with keywords not containing azure or cloud
@@ -432,13 +432,13 @@ ruleTester.run("ts-package-json-keywords", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "keywords does not contain azure"
+          message: "keywords does not contain azure",
         },
         {
-          message: "keywords does not contain cloud"
-        }
+          message: "keywords does not contain cloud",
+        },
       ],
-      output: examplePackageBadFixed
-    }
-  ]
+      output: examplePackageBadFixed,
+    },
+  ],
 });

@@ -7,7 +7,7 @@
  * This differs from ordinary Queues in that `shift` returns a Promise for a value.
  * This allows a consumer of the queue to request an item that the queue does not yet have.
  *
- * @hidden
+ * @internal
  */
 export class AwaitableQueue<T> {
   private readonly _items: T[];

@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import rule from "../../src/rules/ts-package-json-name";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-package-json-name";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -80,7 +80,7 @@ const examplePackageGood = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -193,7 +193,7 @@ const examplePackageBad = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -247,8 +247,8 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 
 ruleTester.run("ts-package-json-name", rule, {
@@ -256,23 +256,23 @@ ruleTester.run("ts-package-json-name", rule, {
     {
       // only the fields we care about
       code: '{"name": "@azure/service-bus"}',
-      filename: "service-bus/package.json"
+      filename: "service-bus/package.json",
     },
     {
       // subscope
       code: '{"name": "@azure-rest/service-bus"}',
-      filename: "service-bus-rest/package.json"
+      filename: "service-bus-rest/package.json",
     },
     {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
-      filename: "service-bus/package.json"
+      filename: "service-bus/package.json",
     },
     {
       // incorrect format but in a file we don't care about
       code: '{"name": "service-bus"}',
-      filename: "service-bus/not_package.json"
-    }
+      filename: "service-bus/not_package.json",
+    },
   ],
   invalid: [
     {
@@ -280,9 +280,9 @@ ruleTester.run("ts-package-json-name", rule, {
       filename: "service-bus/package.json",
       errors: [
         {
-          message: "name does not exist at the outermost level"
-        }
-      ]
+          message: "name does not exist at the outermost level",
+        },
+      ],
     },
     {
       // name is in a nested object
@@ -290,9 +290,9 @@ ruleTester.run("ts-package-json-name", rule, {
       filename: "service-bus/package.json",
       errors: [
         {
-          message: "name does not exist at the outermost level"
-        }
-      ]
+          message: "name does not exist at the outermost level",
+        },
+      ],
     },
     {
       // forgot the @azure/
@@ -300,9 +300,9 @@ ruleTester.run("ts-package-json-name", rule, {
       filename: "service-bus/package.json",
       errors: [
         {
-          message: "name is not set to @azure[-<subscope>]/<service>"
-        }
-      ]
+          message: "name is not set to @azure[-<subscope>]/<service>",
+        },
+      ],
     },
     {
       // not kebab-case
@@ -310,9 +310,9 @@ ruleTester.run("ts-package-json-name", rule, {
       filename: "service-bus/package.json",
       errors: [
         {
-          message: "service name is not in kebab-case (lowercase and separated by hyphens)"
-        }
-      ]
+          message: "service name is not in kebab-case (lowercase and separated by hyphens)",
+        },
+      ],
     },
     {
       // not kebab-case
@@ -320,9 +320,9 @@ ruleTester.run("ts-package-json-name", rule, {
       filename: "service-bus/package.json",
       errors: [
         {
-          message: "service name is not in kebab-case (lowercase and separated by hyphens)"
-        }
-      ]
+          message: "service name is not in kebab-case (lowercase and separated by hyphens)",
+        },
+      ],
     },
     {
       // not kebab-case
@@ -330,9 +330,9 @@ ruleTester.run("ts-package-json-name", rule, {
       filename: "service-bus/package.json",
       errors: [
         {
-          message: "service name is not in kebab-case (lowercase and separated by hyphens)"
-        }
-      ]
+          message: "service name is not in kebab-case (lowercase and separated by hyphens)",
+        },
+      ],
     },
     {
       // not kebab-case
@@ -341,9 +341,9 @@ ruleTester.run("ts-package-json-name", rule, {
       errors: [
         {
           message:
-            "service should be named '@azure-rest/not-service-bus' or should be moved to a directory called 'service-bus-rest'"
-        }
-      ]
+            "service should be named '@azure-rest/not-service-bus' or should be moved to a directory called 'service-bus-rest'",
+        },
+      ],
     },
     {
       // example file with name set to service-bus
@@ -351,9 +351,9 @@ ruleTester.run("ts-package-json-name", rule, {
       filename: "service-bus/package.json",
       errors: [
         {
-          message: "name is not set to @azure[-<subscope>]/<service>"
-        }
-      ]
+          message: "name is not set to @azure[-<subscope>]/<service>",
+        },
+      ],
     },
     {
       // name does not match package directory
@@ -362,9 +362,9 @@ ruleTester.run("ts-package-json-name", rule, {
       errors: [
         {
           message:
-            "service should be named '@azure/not-service-bus' or should be moved to a directory called 'service-bus'"
-        }
-      ]
+            "service should be named '@azure/not-service-bus' or should be moved to a directory called 'service-bus'",
+        },
+      ],
     },
     {
       // name matches package directory, but both are not in kebab-case
@@ -372,13 +372,13 @@ ruleTester.run("ts-package-json-name", rule, {
       filename: "serviceBus/package.json",
       errors: [
         {
-          message: "service name is not in kebab-case (lowercase and separated by hyphens)"
+          message: "service name is not in kebab-case (lowercase and separated by hyphens)",
         },
         {
           message:
-            "service name matches directory name, but the directory is not kebab case (lowercase and separated by hyphens)"
-        }
-      ]
-    }
-  ]
+            "service name matches directory name, but the directory is not kebab case (lowercase and separated by hyphens)",
+        },
+      ],
+    },
+  ],
 });

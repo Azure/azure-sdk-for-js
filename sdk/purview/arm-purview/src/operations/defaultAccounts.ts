@@ -10,7 +10,7 @@ import { DefaultAccounts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { PurviewManagementClientContext } from "../purviewManagementClientContext";
+import { PurviewManagementClient } from "../purviewManagementClient";
 import {
   ScopeType,
   DefaultAccountsGetOptionalParams,
@@ -23,13 +23,13 @@ import {
 
 /** Class containing DefaultAccounts operations. */
 export class DefaultAccountsImpl implements DefaultAccounts {
-  private readonly client: PurviewManagementClientContext;
+  private readonly client: PurviewManagementClient;
 
   /**
    * Initialize a new instance of the class DefaultAccounts class.
    * @param client Reference to the service client
    */
-  constructor(client: PurviewManagementClientContext) {
+  constructor(client: PurviewManagementClient) {
     this.client = client;
   }
 

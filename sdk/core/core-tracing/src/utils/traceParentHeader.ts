@@ -30,7 +30,7 @@ export function extractSpanContextFromTraceParentHeader(
   const spanContext: SpanContext = {
     spanId,
     traceId,
-    traceFlags
+    traceFlags,
   };
 
   return spanContext;

@@ -71,7 +71,7 @@ export function reorderLockToken(lockTokenBytes: Buffer): Buffer {
     lockTokenBytes[12],
     lockTokenBytes[13],
     lockTokenBytes[14],
-    lockTokenBytes[15]
+    lockTokenBytes[15],
   ]);
 }
 
@@ -113,10 +113,7 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
 export function convertTicksToDate(buf: number[]): Date {
   const epochMicroDiff: number = 621355968000000000;
   const longValue: Long = Long.fromBytesBE(buf);
-  const timeInMS = longValue
-    .sub(epochMicroDiff)
-    .div(10000)
-    .toNumber();
+  const timeInMS = longValue.sub(epochMicroDiff).div(10000).toNumber();
   const result = new Date(timeInMS);
   logger.verbose("The converted date is: %s", result.toString());
   return result;
@@ -246,12 +243,7 @@ export function getBooleanOrUndefined(value: any): boolean | undefined {
   if (!isDefined(value)) {
     return undefined;
   }
-  return (
-    value
-      .toString()
-      .trim()
-      .toLowerCase() === "true"
-  );
+  return value.toString().trim().toLowerCase() === "true";
 }
 
 /**
@@ -297,7 +289,7 @@ export function getMessageCountDetails(value: any): MessageCountDetails {
     scheduledMessageCount: parseInt(value[`${xmlnsPrefix}:ScheduledMessageCount`]) || 0,
     transferMessageCount: parseInt(value[`${xmlnsPrefix}:TransferMessageCount`]) || 0,
     transferDeadLetterMessageCount:
-      parseInt(value[`${xmlnsPrefix}:TransferDeadLetterMessageCount`]) || 0
+      parseInt(value[`${xmlnsPrefix}:TransferDeadLetterMessageCount`]) || 0,
   };
 }
 
@@ -423,7 +415,7 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
     accessRights,
     keyName: value["KeyName"],
     primaryKey: value["PrimaryKey"],
-    secondaryKey: value["SecondaryKey"]
+    secondaryKey: value["SecondaryKey"],
   };
 
   if (authorizationRule.accessRights && !Array.isArray(authorizationRule.accessRights)) {
@@ -480,15 +472,15 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
     // ClaimValue is not settable by the users, but service expects the value for PUT requests
     ClaimValue: "None",
     Rights: {
-      AccessRights: authorizationRule.accessRights
+      AccessRights: authorizationRule.accessRights,
     },
     KeyName: authorizationRule.keyName,
     PrimaryKey: authorizationRule.primaryKey,
-    SecondaryKey: authorizationRule.secondaryKey
+    SecondaryKey: authorizationRule.secondaryKey,
   };
   rawAuthorizationRule[Constants.XML_METADATA_MARKER] = {
     "p5:type": "SharedAccessAuthorizationRule",
-    "xmlns:p5": "http://www.w3.org/2001/XMLSchema-instance"
+    "xmlns:p5": "http://www.w3.org/2001/XMLSchema-instance",
   };
   return rawAuthorizationRule;
 }
@@ -643,11 +635,11 @@ export function formatUserAgentPrefix(prefix?: string): string {
 export const getHttpResponseOnly = ({
   request,
   status,
-  headers
+  headers,
 }: HttpOperationResponse): HttpResponse => ({
   request,
   status,
-  headers
+  headers,
 });
 
 /**

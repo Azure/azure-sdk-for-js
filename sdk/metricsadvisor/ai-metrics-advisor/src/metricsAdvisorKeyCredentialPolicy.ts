@@ -8,7 +8,7 @@ import {
   BaseRequestPolicy,
   HttpOperationResponse,
   RequestPolicyOptionsLike,
-  WebResourceLike
+  WebResourceLike,
 } from "@azure/core-http";
 
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
@@ -98,7 +98,7 @@ export function createMetricsAdvisorKeyCredentialPolicy(
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new MetricsAdvisorKeyCredentialPolicy(nextPolicy, options, credential);
-    }
+    },
   };
 }
 

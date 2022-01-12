@@ -59,7 +59,7 @@ export const defaultCredentials: DefaultCredentialConstructor[] = [
   DefaultManagedIdentityCredential,
   VisualStudioCodeCredential,
   AzureCliCredential,
-  AzurePowerShellCredential
+  AzurePowerShellCredential,
 ];
 
 /**

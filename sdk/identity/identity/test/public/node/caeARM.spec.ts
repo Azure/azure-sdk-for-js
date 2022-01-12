@@ -10,7 +10,7 @@ import {
   AccessToken,
   DeviceCodeCredential,
   TokenCredential,
-  UsernamePasswordCredential
+  UsernamePasswordCredential,
 } from "../../../src";
 import { Context } from "mocha";
 import { IdentityClient } from "../../../src/client/identityClient";
@@ -18,7 +18,7 @@ import {
   bearerTokenAuthenticationPolicy,
   createDefaultHttpClient,
   createEmptyPipeline,
-  createPipelineRequest
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
 import { DeveloperSignOnClientId } from "../../../src/constants";
@@ -52,8 +52,8 @@ async function graphChallengeFlow(credential: TokenCredential): Promise<AccessTo
   while (count < 100) {
     const subscriptionsRequest = await client.sendPostRequestAsync(revokeUrl, {
       headers: {
-        Authorization: `Bearer ${graphToken!.token}`
-      }
+        Authorization: `Bearer ${graphToken!.token}`,
+      },
     });
     if (subscriptionsRequest.status !== 200) {
       break;
@@ -77,8 +77,8 @@ async function graphChallengeFlow(credential: TokenCredential): Promise<AccessTo
         async authorizeRequest({ request }): Promise<void> {
           request.headers.set("Authorization", `Bearer ${graphToken!.token}`);
         },
-        authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge
-      }
+        authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge,
+      },
     })
   );
   const httpClient = createDefaultHttpClient();
@@ -92,7 +92,7 @@ async function graphChallengeFlow(credential: TokenCredential): Promise<AccessTo
     httpClient,
     createPipelineRequest({
       url: revokeUrl,
-      method: "POST"
+      method: "POST",
     })
   );
   assert.equal(finalResponse.status, 200, "Final response failed.");
@@ -107,16 +107,16 @@ async function graphChallengeFlow(credential: TokenCredential): Promise<AccessTo
   return resultingAccessTokens;
 }
 
-describe("CAE", function() {
+describe("CAE", function () {
   let cleanup: MsalTestCleanup;
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     cleanup = msalNodeTestSetup(this).cleanup;
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
-  it("DeviceCodeCredential", async function(this: Context) {
+  it("DeviceCodeCredential", async function (this: Context) {
     // Important: Recording this test may only work in certain tenants.
 
     // Improtant:
@@ -141,7 +141,7 @@ describe("CAE", function() {
     }
   });
 
-  it("UsernamePasswordCredential", async function(this: Context) {
+  it("UsernamePasswordCredential", async function (this: Context) {
     // Important: Recording this test may only work in certain tenants.
 
     if (!isPlaybackMode()) {

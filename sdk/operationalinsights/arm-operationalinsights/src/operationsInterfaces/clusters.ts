@@ -112,7 +112,25 @@ export interface Clusters {
    * @param parameters The parameters required to patch a Log Analytics cluster.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: ClusterPatch,
+    options?: ClustersUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ClustersUpdateResponse>,
+      ClustersUpdateResponse
+    >
+  >;
+  /**
+   * Updates a Log Analytics cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of the Log Analytics Cluster.
+   * @param parameters The parameters required to patch a Log Analytics cluster.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterPatch,

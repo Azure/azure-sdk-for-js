@@ -9,7 +9,7 @@ import {
   LroStatus,
   PollerConfig,
   RawResponse,
-  ResumablePollOperationState
+  ResumablePollOperationState,
 } from "./models";
 import { PollOperation, PollOperationState } from "../pollOperation";
 import { createGetLroStatusFromResponse, createInitializeState, createPoll } from "./stateMachine";
@@ -18,7 +18,8 @@ import { getPollingUrl } from "./requestUtils";
 import { logger } from "./logger";
 
 export class GenericPollOperation<TResult, TState extends PollOperationState<TResult>>
-  implements PollOperation<TState, TResult> {
+  implements PollOperation<TState, TResult>
+{
   private poll?: (
     pollingURL: string,
     pollerConfig: PollerConfig,
@@ -82,7 +83,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
         this.getLroStatusFromResponse = isDone
           ? (response: LroResponse<TResult>) => ({
               ...response,
-              done: isDone(response.flatResponse, this.state)
+              done: isDone(response.flatResponse, this.state),
             })
           : createGetLroStatusFromResponse(this.lro, state.config, this.lroResourceLocationConfig);
         this.poll = createPoll(this.lro);
@@ -129,7 +130,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
    */
   public toString(): string {
     return JSON.stringify({
-      state: this.state
+      state: this.state,
     });
   }
 }

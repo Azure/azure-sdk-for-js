@@ -44,5 +44,5 @@ export {
   ServiceListQueuesSegmentResponse,
   ServiceSetPropertiesHeaders,
   ServiceSetPropertiesResponse,
-  SignedIdentifier as SignedIdentifierModel
+  SignedIdentifier as SignedIdentifierModel,
 } from "./generated/src/models";

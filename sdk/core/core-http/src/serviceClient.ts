@@ -6,7 +6,7 @@ import { CompositeMapper, DictionaryMapper, Mapper, MapperType, Serializer } fro
 import {
   DefaultDeserializationOptions,
   DeserializationContentTypes,
-  deserializationPolicy
+  deserializationPolicy,
 } from "./policies/deserializationPolicy";
 import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import { DefaultRedirectOptions, redirectPolicy } from "./policies/redirectPolicy";
@@ -17,7 +17,7 @@ import {
   OperationParameter,
   ParameterPath,
   getPathStringFromParameter,
-  getPathStringFromParameterPath
+  getPathStringFromParameterPath,
 } from "./operationParameter";
 import { OperationSpec, getStreamResponseStatusCodes } from "./operationSpec";
 import {
@@ -25,12 +25,12 @@ import {
   RequestPrepareOptions,
   WebResource,
   WebResourceLike,
-  isWebResourceLike
+  isWebResourceLike,
 } from "./webResource";
 import {
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./policies/requestPolicy";
 import { SerializerOptions, XML_ATTRKEY, XML_CHARKEY } from "./util/serializer.common";
 import { ServiceCallback, isNode } from "./util/utils";
@@ -38,7 +38,7 @@ import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   getDefaultUserAgentHeaderName,
   getDefaultUserAgentValue,
-  userAgentPolicy
+  userAgentPolicy,
 } from "./policies/userAgentPolicy";
 import { HttpClient } from "./httpClient";
 import { HttpPipelineLogger } from "./httpPipelineLogger";
@@ -245,7 +245,7 @@ export class ServiceClient {
               }
 
               return bearerTokenPolicyFactory.create(nextPolicy, createOptions);
-            }
+            },
           };
         };
 
@@ -262,9 +262,8 @@ export class ServiceClient {
       if (options.requestPolicyFactories) {
         // options.requestPolicyFactories can also be a function that manipulates
         // the default requestPolicyFactories array
-        const newRequestPolicyFactories:
-          | void
-          | RequestPolicyFactory[] = options.requestPolicyFactories(requestPolicyFactories);
+        const newRequestPolicyFactories: void | RequestPolicyFactory[] =
+          options.requestPolicyFactories(requestPolicyFactories);
         if (newRequestPolicyFactories) {
           requestPolicyFactories = newRequestPolicyFactories;
         }
@@ -562,7 +561,7 @@ export function serializeRequestBody(
   const updatedOptions: Required<SerializerOptions> = {
     rootName: serializerOptions.rootName ?? "",
     includeRoot: serializerOptions.includeRoot ?? false,
-    xmlCharKey: serializerOptions.xmlCharKey ?? XML_CHARKEY
+    xmlCharKey: serializerOptions.xmlCharKey ?? XML_CHARKEY,
   };
 
   const xmlCharKey = serializerOptions.xmlCharKey;
@@ -575,14 +574,8 @@ export function serializeRequestBody(
     );
 
     const bodyMapper = operationSpec.requestBody.mapper;
-    const {
-      required,
-      xmlName,
-      xmlElementName,
-      serializedName,
-      xmlNamespace,
-      xmlNamespacePrefix
-    } = bodyMapper;
+    const { required, xmlName, xmlElementName, serializedName, xmlNamespace, xmlNamespacePrefix } =
+      bodyMapper;
     const typeName = bodyMapper.type.name;
 
     try {
@@ -618,13 +611,13 @@ export function serializeRequestBody(
               ),
               {
                 rootName: xmlName || serializedName,
-                xmlCharKey
+                xmlCharKey,
               }
             );
           } else if (!isStream) {
             httpRequest.body = stringifyXML(value, {
               rootName: xmlName || serializedName,
-              xmlCharKey
+              xmlCharKey,
             });
           }
         } else if (
@@ -786,17 +779,17 @@ export function createPipelineFromOptions(
 
   const keepAliveOptions = {
     ...DefaultKeepAliveOptions,
-    ...pipelineOptions.keepAliveOptions
+    ...pipelineOptions.keepAliveOptions,
   };
 
   const retryOptions = {
     ...DefaultRetryOptions,
-    ...pipelineOptions.retryOptions
+    ...pipelineOptions.retryOptions,
   };
 
   const redirectOptions = {
     ...DefaultRedirectOptions,
-    ...pipelineOptions.redirectOptions
+    ...pipelineOptions.redirectOptions,
   };
 
   if (isNode) {
@@ -805,11 +798,11 @@ export function createPipelineFromOptions(
 
   const deserializationOptions = {
     ...DefaultDeserializationOptions,
-    ...pipelineOptions.deserializationOptions
+    ...pipelineOptions.deserializationOptions,
   };
 
   const loggingOptions: LogPolicyOptions = {
-    ...pipelineOptions.loggingOptions
+    ...pipelineOptions.loggingOptions,
   };
 
   requestPolicyFactories.push(
@@ -843,7 +836,7 @@ export function createPipelineFromOptions(
 
   return {
     httpClient: pipelineOptions.httpClient,
-    requestPolicyFactories
+    requestPolicyFactories,
   };
 }
 
@@ -1003,7 +996,7 @@ export function flattenResponse(
     _response: HttpOperationResponse;
   } => {
     return Object.defineProperty(obj, "_response", {
-      value: _response
+      value: _response,
     });
   };
 
@@ -1013,7 +1006,7 @@ export function flattenResponse(
       return addOperationResponse({
         ...parsedHeaders,
         blobBody: _response.blobBody,
-        readableStreamBody: _response.readableStreamBody
+        readableStreamBody: _response.readableStreamBody,
       });
     }
 
@@ -1043,7 +1036,7 @@ export function flattenResponse(
     if (typeName === "Composite" || typeName === "Dictionary") {
       return addOperationResponse({
         ...parsedHeaders,
-        ..._response.parsedBody
+        ..._response.parsedBody,
       });
     }
   }
@@ -1056,13 +1049,13 @@ export function flattenResponse(
     // primitive body types and HEAD booleans
     return addOperationResponse({
       ...parsedHeaders,
-      body: _response.parsedBody
+      body: _response.parsedBody,
     });
   }
 
   return addOperationResponse({
     ...parsedHeaders,
-    ..._response.parsedBody
+    ..._response.parsedBody,
   });
 }
 

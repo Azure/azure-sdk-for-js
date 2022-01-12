@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="esnext.asynciterable" />
-
-import "@azure/core-asynciterator-polyfill";
-
 export { AzureKeyCredential } from "@azure/core-auth";
 
 export {
@@ -37,26 +33,26 @@ export {
   KnownSummarySentencesSortBy as KnownSummarySentencesOrderBy,
   RecognizeCustomEntitiesAction,
   SingleCategoryClassifyAction,
-  MultiCategoryClassifyAction
+  MultiCategoryClassifyAction,
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
   DetectLanguageResult,
   DetectLanguageErrorResult,
-  DetectLanguageSuccessResult
+  DetectLanguageSuccessResult,
 } from "./detectLanguageResult";
 export { DetectLanguageResultArray } from "./detectLanguageResultArray";
 export {
   CategorizedEntity,
   RecognizeCategorizedEntitiesResult,
   RecognizeCategorizedEntitiesErrorResult,
-  RecognizeCategorizedEntitiesSuccessResult
+  RecognizeCategorizedEntitiesSuccessResult,
 } from "./recognizeCategorizedEntitiesResult";
 export {
   PiiEntity,
   RecognizePiiEntitiesResult,
   RecognizePiiEntitiesErrorResult,
-  RecognizePiiEntitiesSuccessResult
+  RecognizePiiEntitiesSuccessResult,
 } from "./recognizePiiEntitiesResult";
 export { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
 export { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
@@ -67,45 +63,45 @@ export {
   SentenceSentiment,
   Opinion,
   TargetSentiment,
-  AssessmentSentiment
+  AssessmentSentiment,
 } from "./analyzeSentimentResult";
 export { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
 export {
   ExtractKeyPhrasesResult,
   ExtractKeyPhrasesErrorResult,
-  ExtractKeyPhrasesSuccessResult
+  ExtractKeyPhrasesSuccessResult,
 } from "./extractKeyPhrasesResult";
 export { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
 export {
   ExtractSummaryResult,
   ExtractSummaryErrorResult,
   ExtractSummarySuccessResult,
-  SummarySentence
+  SummarySentence,
 } from "./extractSummaryResult";
 export { ExtractSummaryResultArray } from "./extractSummaryResultArray";
 export {
   RecognizeCustomEntitiesErrorResult,
   RecognizeCustomEntitiesResult,
-  RecognizeCustomEntitiesSuccessResult
+  RecognizeCustomEntitiesSuccessResult,
 } from "./recognizeCustomEntitiesResult";
 export { RecognizeCustomEntitiesResultArray } from "./recognizeCustomEntitiesResultArray";
 export {
   SingleCategoryClassifyErrorResult,
   SingleCategoryClassifyResult,
   SingleCategoryClassifySuccessResult,
-  ClassificationCategory
+  ClassificationCategory,
 } from "./singleCategoryClassifyResult";
 export { SingleCategoryClassifyResultArray } from "./singleCategoryClassifyResultArray";
 export {
   MultiCategoryClassifyErrorResult,
   MultiCategoryClassifyResult,
-  MultiCategoryClassifySuccessResult
+  MultiCategoryClassifySuccessResult,
 } from "./multiCategoryClassifyResult";
 export { MultiCategoryClassifyResultArray } from "./multiCategoryClassifyResultArray";
 export {
   RecognizeLinkedEntitiesResult,
   RecognizeLinkedEntitiesErrorResult,
-  RecognizeLinkedEntitiesSuccessResult
+  RecognizeLinkedEntitiesSuccessResult,
 } from "./recognizeLinkedEntitiesResult";
 export { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
 export {
@@ -119,7 +115,7 @@ export {
   EntityDataSource,
   HealthcareEntityRelation,
   HealthcareEntityRelationRole,
-  HealthcareEntityRelationRoleType
+  HealthcareEntityRelationRoleType,
 } from "./analyzeHealthcareEntitiesResult";
 export {
   PagedAnalyzeActionsResult,
@@ -154,13 +150,13 @@ export {
   MultiCategoryClassifyActionSuccessResult,
   SingleCategoryClassifyActionErrorResult,
   SingleCategoryClassifyActionResult,
-  SingleCategoryClassifyActionSuccessResult
+  SingleCategoryClassifyActionSuccessResult,
 } from "./analyzeActionsResult";
 export {
   ErrorCode,
   TextAnalyticsError,
   TextAnalyticsErrorResult,
-  TextAnalyticsSuccessResult
+  TextAnalyticsSuccessResult,
 } from "./textAnalyticsResult";
 
 export { TextAnalyticsAction, CustomTextAnalyticsAction } from "./textAnalyticsAction";
@@ -196,5 +192,5 @@ export {
   RelationType as HealthcareEntityRelationType,
   KnownHealthcareEntityCategory,
   HealthcareEntityCategory,
-  ClassificationResult
+  ClassificationResult,
 } from "./generated/models";

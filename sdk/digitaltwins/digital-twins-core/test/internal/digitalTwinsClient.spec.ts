@@ -9,7 +9,7 @@ import {
   HttpOperationResponse,
   HttpResponse,
   WebResource,
-  HttpHeaders
+  HttpHeaders,
 } from "@azure/core-http";
 import {
   DigitalTwinsUpdateOptionalParams,
@@ -29,7 +29,7 @@ import {
   DigitalTwinsGetRelationshipByIdOptionalParams,
   DigitalTwinsGetComponentOptionalParams,
   DigitalTwinsAddOptionalParams,
-  DigitalTwinsGetByIdOptionalParams
+  DigitalTwinsGetByIdOptionalParams,
 } from "../../src/generated/models";
 import { DigitalTwinsClient } from "../../src/index";
 import { createSpan } from "../../src/tracing";
@@ -60,20 +60,20 @@ describe("DigitalTwinsClient", () => {
   let testError: Error;
   let decommissionPatch: any[];
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     operationOptions = {
       requestOptions: {
         customHeaders: { ["x-ms-parameter-location"]: "client" },
-        timeout: 42
-      }
+        timeout: 42,
+      },
     };
     url = "https://aaa.xxx.azure.net";
     tokenCredential = {
       getToken: () =>
         Promise.resolve({
           token: "token",
-          expiresOnTimestamp: 12345
-        })
+          expiresOnTimestamp: 12345,
+        }),
     };
     testFilter = "*.*";
     testIfMatch = "test_ifmatch";
@@ -81,12 +81,12 @@ describe("DigitalTwinsClient", () => {
     testDefaultOperationalResponse = {
       status: 200,
       request: new WebResource(),
-      headers: new HttpHeaders()
+      headers: new HttpHeaders(),
     };
     testDefaultResponse = {
       status: 200,
       request: new WebResource(),
-      headers: new HttpHeaders()
+      headers: new HttpHeaders(),
     };
     testClient = new DigitalTwinsClient(url, tokenCredential);
     testTwinId = "test_twin_id";
@@ -101,17 +101,17 @@ describe("DigitalTwinsClient", () => {
     testEventRouteId = "test_event_route_id";
     testBody = "test_body";
     testHeaders = {
-      etag: testIfMatch
+      etag: testIfMatch,
     };
     testError = new Error("Promise Rejected");
     decommissionPatch = [{ op: "replace", path: "/decommissioned", value: true }];
   });
 
-  it(`Constructor creates an instance of the DigitalTwinsClient`, function() {
+  it(`Constructor creates an instance of the DigitalTwinsClient`, function () {
     assert.instanceOf(testClient, DigitalTwinsClient);
   });
 
-  it("getDigitalTwin calls the getById method with twinId on the generated client if there is no option defined", function() {
+  it("getDigitalTwin calls the getById method with twinId on the generated client if there is no option defined", function () {
     const stub = sinon.stub(testClient["client"].digitalTwins, "getById");
     const digitalTwinsGetByIdOptionalParams: DigitalTwinsGetByIdOptionalParams = {};
     const { span, updatedOptions } = createSpan(
@@ -125,7 +125,7 @@ describe("DigitalTwinsClient", () => {
     assert.isNotNull(span);
   });
 
-  it("getDigitalTwin calls the getById method with twinId and converted options on the generated client", function() {
+  it("getDigitalTwin calls the getById method with twinId and converted options on the generated client", function () {
     const stub = sinon.stub(testClient["client"].digitalTwins, "getById");
     const digitalTwinsGetByIdOptionalParams: DigitalTwinsGetByIdOptionalParams = operationOptions;
     const { span, updatedOptions } = createSpan(
@@ -153,7 +153,7 @@ describe("DigitalTwinsClient", () => {
     });
   });
 
-  it("upsertDigitalTwin calls the add method with twinId and twinJson on the generated client if there is no option defined", function() {
+  it("upsertDigitalTwin calls the add method with twinId and twinJson on the generated client if there is no option defined", function () {
     const stub = sinon.stub(testClient["client"].digitalTwins, "add");
     const digitalTwinsAddOptionalParams: DigitalTwinsAddOptionalParams = {};
     const { span, updatedOptions } = createSpan(
@@ -185,7 +185,7 @@ describe("DigitalTwinsClient", () => {
       });
   });
 
-  it("updateDigitalTwin calls the update method with twinId, jsonPatch and converted options on the generated client", function() {
+  it("updateDigitalTwin calls the update method with twinId, jsonPatch and converted options on the generated client", function () {
     const digitalTwinsUpdateOptionalParams: DigitalTwinsUpdateOptionalParams = operationOptions;
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-updateDigitalTwin",
@@ -215,7 +215,7 @@ describe("DigitalTwinsClient", () => {
     });
   });
 
-  it("deleteDigitalTwin calls the deleteMethod method with twinId and converted options on the generated client", function() {
+  it("deleteDigitalTwin calls the deleteMethod method with twinId and converted options on the generated client", function () {
     const digitalTwinsDeleteOptionalParams: DigitalTwinsDeleteOptionalParams = operationOptions;
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-deleteDigitalTwin",
@@ -231,7 +231,7 @@ describe("DigitalTwinsClient", () => {
 
   it("deleteDigitalTwin returns a promise of the generated code return value", async () => {
     const testReturn = {
-      _response: testDefaultOperationalResponse
+      _response: testDefaultOperationalResponse,
     };
     sinon.stub(testClient["client"].digitalTwins, "delete").resolves(testReturn);
     const retVal = await testClient.deleteDigitalTwin(testTwinId);
@@ -245,9 +245,10 @@ describe("DigitalTwinsClient", () => {
     });
   });
 
-  it("getComponent calls the getComponent method with twinId, componentPath and converted options on the generated client", function() {
+  it("getComponent calls the getComponent method with twinId, componentPath and converted options on the generated client", function () {
     const stub = sinon.stub(testClient["client"].digitalTwins, "getComponent");
-    const digitalTwinsGetComponentOptionalParams: DigitalTwinsGetComponentOptionalParams = operationOptions;
+    const digitalTwinsGetComponentOptionalParams: DigitalTwinsGetComponentOptionalParams =
+      operationOptions;
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-getComponent",
       digitalTwinsGetComponentOptionalParams
@@ -275,8 +276,9 @@ describe("DigitalTwinsClient", () => {
     });
   });
 
-  it("updateComponent calls the updateComponent method with twinId, componentPath, jsonPatch and converted options on the generated client", function() {
-    const digitalTwinsUpdateComponentOptionalParams: DigitalTwinsUpdateComponentOptionalParams = operationOptions;
+  it("updateComponent calls the updateComponent method with twinId, componentPath, jsonPatch and converted options on the generated client", function () {
+    const digitalTwinsUpdateComponentOptionalParams: DigitalTwinsUpdateComponentOptionalParams =
+      operationOptions;
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-updateComponent",
       digitalTwinsUpdateComponentOptionalParams
@@ -312,9 +314,10 @@ describe("DigitalTwinsClient", () => {
       });
   });
 
-  it("getRelationship calls the getRelationshipById method with twinId and relationshipId on the generated client if there is no option defined", function() {
+  it("getRelationship calls the getRelationshipById method with twinId and relationshipId on the generated client if there is no option defined", function () {
     const stub = sinon.stub(testClient["client"].digitalTwins, "getRelationshipById");
-    const digitalTwinsGetRelationshipByIdOptionalParams: DigitalTwinsGetRelationshipByIdOptionalParams = {};
+    const digitalTwinsGetRelationshipByIdOptionalParams: DigitalTwinsGetRelationshipByIdOptionalParams =
+      {};
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-getRelationship",
       digitalTwinsGetRelationshipByIdOptionalParams
@@ -328,9 +331,10 @@ describe("DigitalTwinsClient", () => {
     assert.isNotNull(span);
   });
 
-  it("getRelationship calls the getRelationshipById method with twinId, relationshipId and options on the generated client", function() {
+  it("getRelationship calls the getRelationshipById method with twinId, relationshipId and options on the generated client", function () {
     const stub = sinon.stub(testClient["client"].digitalTwins, "getRelationshipById");
-    const digitalTwinsGetRelationshipByIdOptionalParams: DigitalTwinsGetRelationshipByIdOptionalParams = operationOptions;
+    const digitalTwinsGetRelationshipByIdOptionalParams: DigitalTwinsGetRelationshipByIdOptionalParams =
+      operationOptions;
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-getRelationship",
       digitalTwinsGetRelationshipByIdOptionalParams
@@ -358,9 +362,10 @@ describe("DigitalTwinsClient", () => {
     });
   });
 
-  it("upsertRelationship calls the addRelationship method with twinId, relationshipId, relationshipJson and converted options on the generated client", function() {
+  it("upsertRelationship calls the addRelationship method with twinId, relationshipId, relationshipJson and converted options on the generated client", function () {
     const stub = sinon.stub(testClient["client"].digitalTwins, "addRelationship");
-    const digitalTwinsAddRelationshipOptionalParams: DigitalTwinsAddRelationshipOptionalParams = operationOptions;
+    const digitalTwinsAddRelationshipOptionalParams: DigitalTwinsAddRelationshipOptionalParams =
+      operationOptions;
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-upsertRelationship",
       digitalTwinsAddRelationshipOptionalParams
@@ -399,8 +404,9 @@ describe("DigitalTwinsClient", () => {
       });
   });
 
-  it("updateRelationship calls the updateRelationship method with twinId, jsonPatch and converted options on the generated client", function() {
-    const digitalTwinsUpdateRelationshipOptionalParams: DigitalTwinsUpdateRelationshipOptionalParams = operationOptions;
+  it("updateRelationship calls the updateRelationship method with twinId, jsonPatch and converted options on the generated client", function () {
+    const digitalTwinsUpdateRelationshipOptionalParams: DigitalTwinsUpdateRelationshipOptionalParams =
+      operationOptions;
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-updateRelationship",
       digitalTwinsUpdateRelationshipOptionalParams
@@ -440,8 +446,9 @@ describe("DigitalTwinsClient", () => {
       });
   });
 
-  it("deleteRelationship calls the deleteRelationship method with twinId, relationshipId and converted options on the generated client", function() {
-    const digitalTwinsDeleteRelationshipOptionalParams: DigitalTwinsDeleteRelationshipOptionalParams = operationOptions;
+  it("deleteRelationship calls the deleteRelationship method with twinId, relationshipId and converted options on the generated client", function () {
+    const digitalTwinsDeleteRelationshipOptionalParams: DigitalTwinsDeleteRelationshipOptionalParams =
+      operationOptions;
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-deleteRelationship",
       digitalTwinsDeleteRelationshipOptionalParams
@@ -458,7 +465,7 @@ describe("DigitalTwinsClient", () => {
 
   it("deleteRelationship returns a promise of the generated code return value", async () => {
     const testReturn = {
-      _response: testDefaultOperationalResponse
+      _response: testDefaultOperationalResponse,
     };
     sinon.stub(testClient["client"].digitalTwins, "deleteRelationship").resolves(testReturn);
     const retVal = await testClient.deleteRelationship(testTwinId, testRelationshipId);
@@ -474,7 +481,7 @@ describe("DigitalTwinsClient", () => {
 
   it("publishTelemetry returns a promise of the generated code return value", async () => {
     const testReturn = {
-      _response: testDefaultOperationalResponse
+      _response: testDefaultOperationalResponse,
     };
     sinon.stub(testClient["client"].digitalTwins, "sendTelemetry").resolves(testReturn);
     const retVal = await testClient.publishTelemetry(testTwinId, testPayload, testMessageId);
@@ -490,7 +497,7 @@ describe("DigitalTwinsClient", () => {
 
   it("publishComponentTelemetry returns a promise of the generated code return value", async () => {
     const testReturn = {
-      _response: testDefaultOperationalResponse
+      _response: testDefaultOperationalResponse,
     };
     sinon.stub(testClient["client"].digitalTwins, "sendComponentTelemetry").resolves(testReturn);
     const retVal = await testClient.publishComponentTelemetry(
@@ -511,9 +518,10 @@ describe("DigitalTwinsClient", () => {
       });
   });
 
-  it("getModel calls the getById method with twinId and converted options on the generated client", function() {
+  it("getModel calls the getById method with twinId and converted options on the generated client", function () {
     const includeModelDefinition: boolean = true;
-    const digitalTwinModelsGetByIdOptionalParams: DigitalTwinModelsGetByIdOptionalParams = operationOptions;
+    const digitalTwinModelsGetByIdOptionalParams: DigitalTwinModelsGetByIdOptionalParams =
+      operationOptions;
     digitalTwinModelsGetByIdOptionalParams.includeModelDefinition = includeModelDefinition;
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-getModel",
@@ -539,7 +547,7 @@ describe("DigitalTwinsClient", () => {
     });
   });
 
-  it("createModels calls the add method with converted options on the generated client", function() {
+  it("createModels calls the add method with converted options on the generated client", function () {
     const stub = sinon.stub(testClient["client"].digitalTwinModels, "add");
     const digitalTwinModelsAddOptionalParams: DigitalTwinModelsAddOptionalParams = operationOptions;
     digitalTwinModelsAddOptionalParams.models = testModels;
@@ -561,9 +569,10 @@ describe("DigitalTwinsClient", () => {
     });
   });
 
-  it("decomissionModel calls the update method with modelId, patchJson and options on the generated client", function() {
+  it("decomissionModel calls the update method with modelId, patchJson and options on the generated client", function () {
     const stub = sinon.stub(testClient["client"].digitalTwinModels, "update");
-    const digitalTwinModelsUpdateOptionalParams: DigitalTwinModelsUpdateOptionalParams = operationOptions;
+    const digitalTwinModelsUpdateOptionalParams: DigitalTwinModelsUpdateOptionalParams =
+      operationOptions;
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-decomissionModel",
       digitalTwinModelsUpdateOptionalParams
@@ -579,7 +588,7 @@ describe("DigitalTwinsClient", () => {
 
   it("decomissionModel returns a promise of the generated code return value", async () => {
     const testReturn = {
-      _response: testDefaultOperationalResponse
+      _response: testDefaultOperationalResponse,
     };
     sinon.stub(testClient["client"].digitalTwinModels, "update").resolves(testReturn);
     const retVal = await testClient.decomissionModel(testModelId);
@@ -593,9 +602,10 @@ describe("DigitalTwinsClient", () => {
     });
   });
 
-  it("deleteModel calls the deleteMethod method with modelId and options on the generated client", function() {
+  it("deleteModel calls the deleteMethod method with modelId and options on the generated client", function () {
     const stub = sinon.stub(testClient["client"].digitalTwinModels, "delete");
-    const digitalTwinModelsDeleteOptionalParams: DigitalTwinModelsDeleteOptionalParams = operationOptions;
+    const digitalTwinModelsDeleteOptionalParams: DigitalTwinModelsDeleteOptionalParams =
+      operationOptions;
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-deleteModel",
       digitalTwinModelsDeleteOptionalParams
@@ -609,7 +619,7 @@ describe("DigitalTwinsClient", () => {
 
   it("deleteModel returns a promise of the generated code return value", async () => {
     const testReturn = {
-      _response: testDefaultOperationalResponse
+      _response: testDefaultOperationalResponse,
     };
     sinon.stub(testClient["client"].digitalTwinModels, "delete").resolves(testReturn);
     const retVal = await testClient.deleteModel(testModelId);
@@ -623,14 +633,14 @@ describe("DigitalTwinsClient", () => {
     });
   });
 
-  it("getEventRoute calls the getById method with modelId on the generated client if there is no option defined", function() {
+  it("getEventRoute calls the getById method with modelId on the generated client if there is no option defined", function () {
     const stub = sinon.stub(testClient["client"].eventRoutes, "getById");
     testClient.getEventRoute(testEventRouteId);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testEventRouteId));
   });
 
-  it("getEventRoute calls the getById method with twinId and converted options on the generated client", function() {
+  it("getEventRoute calls the getById method with twinId and converted options on the generated client", function () {
     const stub = sinon.stub(testClient["client"].eventRoutes, "getById");
     const eventRoutesGetByIdOptionalParams: EventRoutesGetByIdOptionalParams = operationOptions;
     const { span, updatedOptions } = createSpan(
@@ -652,14 +662,14 @@ describe("DigitalTwinsClient", () => {
     });
   });
 
-  it("upsertEventRoute calls the add method with eventRouteId on the generated client if there is no option defined", function() {
+  it("upsertEventRoute calls the add method with eventRouteId on the generated client if there is no option defined", function () {
     const stub = sinon.stub(testClient["client"].eventRoutes, "add");
     testClient.upsertEventRoute(testEventRouteId, testJsonString, "");
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testEventRouteId));
   });
 
-  it("upsertEventRoute calls the add method with eventRouteId and converted options on the generated client", function() {
+  it("upsertEventRoute calls the add method with eventRouteId and converted options on the generated client", function () {
     const eventRoutesAddOptionalParams: EventRoutesAddOptionalParams = operationOptions;
     const { span, updatedOptions } = createSpan(
       "DigitalTwinsClient-upsertEventRoute",
@@ -667,7 +677,7 @@ describe("DigitalTwinsClient", () => {
     );
     const eventRoute: EventRoute = {
       endpointName: testEndpointName,
-      filter: testFilter
+      filter: testFilter,
     };
     updatedOptions.eventRoute = eventRoute;
 
@@ -699,7 +709,7 @@ describe("DigitalTwinsClient", () => {
       });
   });
 
-  it("deleteEventRoute calls the deleteMethod method with eventRouteId and options on the generated client", function() {
+  it("deleteEventRoute calls the deleteMethod method with eventRouteId and options on the generated client", function () {
     const stub = sinon.stub(testClient["client"].eventRoutes, "delete");
     const eventRoutesDeleteOptionalParams: EventRoutesDeleteOptionalParams = operationOptions;
     const { span, updatedOptions } = createSpan(
@@ -719,7 +729,7 @@ describe("DigitalTwinsClient", () => {
 
   it("deleteEventRoute returns a promise of the generated code return value", async () => {
     const testReturn = {
-      _response: testDefaultOperationalResponse
+      _response: testDefaultOperationalResponse,
     };
     sinon.stub(testClient["client"].eventRoutes, "delete").resolves(testReturn);
     const retVal = await testClient.deleteEventRoute(testEventRouteId);
@@ -760,8 +770,8 @@ function operationOptionsSinonMatcher<T extends OperationOptions>(
         ..._expectedOptions.tracingOptions,
         // we verified this above. Adding it in here just to make deep equal comparison
         // simpler.
-        tracingContext: actualOptions.tracingOptions!.tracingContext
-      }
+        tracingContext: actualOptions.tracingOptions!.tracingContext,
+      },
     };
 
     assert.deepEqual(expectedOptions, actualOptions);

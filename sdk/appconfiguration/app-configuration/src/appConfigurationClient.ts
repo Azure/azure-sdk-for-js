@@ -14,7 +14,7 @@ import {
   ServiceClientCredentials,
   UserAgentOptions,
   getDefaultUserAgentValue as getCoreHttpDefaultUserAgentValue,
-  userAgentPolicy
+  userAgentPolicy,
 } from "@azure/core-http";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { TokenCredential } from "@azure/core-auth";
@@ -41,7 +41,7 @@ import {
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
   SetReadOnlyOptions,
-  SetReadOnlyResponse
+  SetReadOnlyResponse,
 } from "./models";
 import {
   checkAndFormatIfAndIfNoneMatch,
@@ -53,13 +53,13 @@ import {
   transformKeyValue,
   formatAcceptDateTime,
   formatFieldsForSelect,
-  serializeAsConfigurationSettingParam
+  serializeAsConfigurationSettingParam,
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
 import { trace as traceFromTracingHelpers } from "./internal/tracingHelpers";
 import {
   AppConfigurationGetKeyValuesResponse,
-  AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions
+  AppConfigurationOptionalParams as GeneratedAppConfigurationClientOptions,
 } from "./generated/src/models";
 import { syncTokenPolicy, SyncTokens } from "./internal/synctokenpolicy";
 import { FeatureFlagValue } from "./featureFlag";
@@ -72,7 +72,7 @@ const packageName = "azsdk-js-app-configuration";
  * User - Agent header. There's a unit test that makes sure it always stays in sync.
  * @internal
  */
-export const packageVersion = "1.3.1";
+export const packageVersion = "1.3.2";
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -81,8 +81,8 @@ const deserializationContentTypes = {
     "application/vnd.microsoft.appconfig.kv+json",
     "application/vnd.microsoft.appconfig.kvs+json",
     "application/vnd.microsoft.appconfig.keyset+json",
-    "application/vnd.microsoft.appconfig.revs+json"
-  ]
+    "application/vnd.microsoft.appconfig.revs+json",
+  ],
 };
 
 /**
@@ -207,7 +207,7 @@ export class AppConfigurationClient {
         ifNoneMatch: "*",
         label: configurationSetting.label,
         entity: keyValue,
-        ...newOptions
+        ...newOptions,
       });
       return transformKeyValueResponse(originalResponse);
     });
@@ -231,7 +231,7 @@ export class AppConfigurationClient {
       const originalResponse = await this.client.deleteKeyValue(id.key, {
         label: id.label,
         ...newOptions,
-        ...checkAndFormatIfAndIfNoneMatch(id, options)
+        ...checkAndFormatIfAndIfNoneMatch(id, options),
       });
 
       return transformKeyValueResponseWithStatusCode(originalResponse);
@@ -258,12 +258,11 @@ export class AppConfigurationClient {
         label: id.label,
         select: formatFieldsForSelect(options.fields),
         ...formatAcceptDateTime(options),
-        ...checkAndFormatIfAndIfNoneMatch(id, options)
+        ...checkAndFormatIfAndIfNoneMatch(id, options),
       });
 
-      const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
-        originalResponse
-      );
+      const response: GetConfigurationSettingResponse =
+        transformKeyValueResponseWithStatusCode(originalResponse);
 
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
@@ -307,9 +306,9 @@ export class AppConfigurationClient {
         // so we're ignoring their setting for now.
         return this.listConfigurationSettingsByPage({
           ...options,
-          continuationToken: settings.continuationToken
+          continuationToken: settings.continuationToken,
         });
-      }
+      },
     };
   }
 
@@ -334,7 +333,7 @@ export class AppConfigurationClient {
           ...newOptions,
           ...formatAcceptDateTime(options),
           ...formatFiltersAndSelect(options),
-          after: options.continuationToken
+          after: options.continuationToken,
         });
 
         return response;
@@ -353,7 +352,7 @@ export class AppConfigurationClient {
             ...newOptions,
             ...formatAcceptDateTime(options),
             ...formatFiltersAndSelect(options),
-            after: extractAfterTokenFromNextLink(currentResponse.nextLink!)
+            after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
           });
 
           return response;
@@ -376,7 +375,7 @@ export class AppConfigurationClient {
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
       continuationToken: currentResponse.nextLink
         ? extractAfterTokenFromNextLink(currentResponse.nextLink)
-        : undefined
+        : undefined,
     };
   }
 
@@ -407,9 +406,9 @@ export class AppConfigurationClient {
         // so we're ignoring their setting for now.
         return this.listRevisionsByPage({
           ...options,
-          continuationToken: settings.continuationToken
+          continuationToken: settings.continuationToken,
         });
-      }
+      },
     };
   }
 
@@ -431,7 +430,7 @@ export class AppConfigurationClient {
         ...newOptions,
         ...formatAcceptDateTime(options),
         ...formatFiltersAndSelect(newOptions),
-        after: options.continuationToken
+        after: options.continuationToken,
       });
 
       return response;
@@ -445,7 +444,7 @@ export class AppConfigurationClient {
           ...newOptions,
           ...formatAcceptDateTime(options),
           ...formatFiltersAndSelect(options),
-          after: extractAfterTokenFromNextLink(currentResponse.nextLink!)
+          after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
         });
       });
 
@@ -465,7 +464,7 @@ export class AppConfigurationClient {
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
       continuationToken: currentResponse.nextLink
         ? extractAfterTokenFromNextLink(currentResponse.nextLink)
-        : undefined
+        : undefined,
     };
   }
 
@@ -493,7 +492,7 @@ export class AppConfigurationClient {
         ...newOptions,
         label: configurationSetting.label,
         entity: keyValue,
-        ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options)
+        ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
       });
 
       return transformKeyValueResponse(response);
@@ -514,7 +513,7 @@ export class AppConfigurationClient {
         const response = await this.client.putLock(id.key, {
           ...newOptions,
           label: id.label,
-          ...checkAndFormatIfAndIfNoneMatch(id, options)
+          ...checkAndFormatIfAndIfNoneMatch(id, options),
         });
 
         return transformKeyValueResponse(response);
@@ -522,7 +521,7 @@ export class AppConfigurationClient {
         const response = await this.client.deleteLock(id.key, {
           ...newOptions,
           label: id.label,
-          ...checkAndFormatIfAndIfNoneMatch(id, options)
+          ...checkAndFormatIfAndIfNoneMatch(id, options),
         });
 
         return transformKeyValueResponse(response);
@@ -551,7 +550,7 @@ export function getGeneratedClientOptions(
   const retryPolicies = [
     exponentialRetryPolicy(),
     systemErrorRetryPolicy(),
-    throttlingRetryPolicy(internalAppConfigOptions.retryOptions)
+    throttlingRetryPolicy(internalAppConfigOptions.retryOptions),
   ];
 
   const userAgent = getUserAgentPrefix(
@@ -569,9 +568,9 @@ export function getGeneratedClientOptions(
       syncTokenPolicy(syncTokens),
       userAgentPolicy({ value: userAgent }),
       ...retryPolicies,
-      ...defaults
+      ...defaults,
     ],
-    generateClientRequestIdHeader: true
+    generateClientRequestIdHeader: true,
   };
 }
 

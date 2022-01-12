@@ -8,7 +8,7 @@ import {
   Message,
   ReceiverEvents,
   Sender,
-  SenderEvents
+  SenderEvents,
 } from "rhea";
 import {
   ConnectionCloseEvent,
@@ -17,16 +17,16 @@ import {
   OnMessagesEvent,
   ReceiverOpenEvent,
   SenderCloseEvent,
-  SenderOpenEvent
+  SenderOpenEvent,
 } from "../server/mockServer";
 import {
   generateBadPartitionInfoResponse,
   generatePartitionInfoResponse,
-  isPartitionInfo
+  isPartitionInfo,
 } from "../messages/event-hubs/partitionInfo";
 import {
   generateHubRuntimeInfoResponse,
-  isHubRuntimeInfo
+  isHubRuntimeInfo,
 } from "../messages/event-hubs/runtimeInfo";
 import { MessageStore } from "../storage/messageStore";
 import { StreamingPartitionSender } from "../sender/streamingPartitionSender";
@@ -185,7 +185,7 @@ export class MockEventHub implements IMockEventHub {
     const forceCloseConnection = (): void => {
       connection.close({
         condition: "amqp:connection:forced",
-        description: `The connection was inactive for more than the allowed ${this._connectionInactivityTimeoutInMs} milliseconds and is closed by the service.`
+        description: `The connection was inactive for more than the allowed ${this._connectionInactivityTimeoutInMs} milliseconds and is closed by the service.`,
       });
     };
 
@@ -228,7 +228,7 @@ export class MockEventHub implements IMockEventHub {
         return event.receiver.close({
           condition: "com.microsoft:argument-out-of-range",
           description:
-            "The specified partition is invalid for an EventHub partition sender or receiver."
+            "The specified partition is invalid for an EventHub partition sender or receiver.",
         });
       }
     }
@@ -306,7 +306,7 @@ export class MockEventHub implements IMockEventHub {
         // Probably should close the sender at this point.
         event.sender.close({
           condition: "amqp:internal-error",
-          description: err?.message ?? ""
+          description: err?.message ?? "",
         });
       }
     }
@@ -425,14 +425,14 @@ export class MockEventHub implements IMockEventHub {
         application_properties: {
           "status-code": 404,
           "status-description": `The messaging entity '${message.application_properties?.name}' could not be found.`,
-          "error-condition": "amqp:not-found"
+          "error-condition": "amqp:not-found",
         },
-        body: undefined
+        body: undefined,
       };
     } else {
       outgoingMessage = createCbsAccepted({
         correlationId: message.message_id as string,
-        toLinkName: message.reply_to
+        toLinkName: message.reply_to,
       });
     }
     event.context.delivery?.accept();
@@ -449,7 +449,7 @@ export class MockEventHub implements IMockEventHub {
       partitions: this.partitionIds,
       targetLinkName: message.reply_to,
       createdOn: this._createdOn,
-      eventHubName: this._name
+      eventHubName: this._name,
     });
     event.context.delivery?.accept();
     event.sendMessage(outgoingMessage);
@@ -465,7 +465,7 @@ export class MockEventHub implements IMockEventHub {
     if (!this.partitionIds.includes(partitionId)) {
       outgoingMessage = generateBadPartitionInfoResponse({
         correlationId: message.message_id?.toString(),
-        targetLinkName: message.reply_to
+        targetLinkName: message.reply_to,
       });
     } else {
       const partitionInfo = this._messageStore.getPartitionInfo(partitionId);
@@ -473,7 +473,7 @@ export class MockEventHub implements IMockEventHub {
         ...partitionInfo,
         correlationId: message.message_id?.toString(),
         targetLinkName: message.reply_to,
-        eventHubName: this._name
+        eventHubName: this._name,
       });
     }
     event.context.delivery?.accept();
@@ -500,8 +500,9 @@ export class MockEventHub implements IMockEventHub {
         condition: "amqp:link:message-size-exceeded",
         description: `The received message (delivery-id:${
           delivery.id
-        }, size:${deliverySize} bytes) exceeds the limit (${maxMessageSize ??
-          1024 * 1024} bytes) currently allowed on the link.`
+        }, size:${deliverySize} bytes) exceeds the limit (${
+          maxMessageSize ?? 1024 * 1024
+        } bytes) currently allowed on the link.`,
       });
       return;
     }
@@ -601,7 +602,7 @@ export class MockEventHub implements IMockEventHub {
           condition: "amqp:link:stolen",
           description:
             `At least one receiver for the endpoint is created with epoch of '${maxOwnerLevel}', and so non-epoch receiver is not allowed. ` +
-            `Either reconnect with a higher epoch, or make sure all epoch receivers are closed or disconnected.`
+            `Either reconnect with a higher epoch, or make sure all epoch receivers are closed or disconnected.`,
         });
         return false;
       }
@@ -615,9 +616,10 @@ export class MockEventHub implements IMockEventHub {
         partitionSender.close({
           condition: "amqp:link:stolen",
           description:
-            `New receiver 'nil' with higher epoch of '${ownerLevel}' is created hence current receiver 'nil' with epoch '${senderOwnerLevel ??
-              ""}' is getting disconnected. ` +
-            `If you are recreating the receiver, make sure a higher epoch is used.`
+            `New receiver 'nil' with higher epoch of '${ownerLevel}' is created hence current receiver 'nil' with epoch '${
+              senderOwnerLevel ?? ""
+            }' is getting disconnected. ` +
+            `If you are recreating the receiver, make sure a higher epoch is used.`,
         });
       }
       return true;
@@ -629,7 +631,7 @@ export class MockEventHub implements IMockEventHub {
       description:
         `Receiver 'nil' with a higher epoch '${maxOwnerLevel}' already exists. ` +
         `Receiver 'nil' with epoch ${ownerLevel} cannot be created. ` +
-        `Make sure you are creating receiver with increasing epoch value to ensure connectivity, or ensure all old epoch receivers are closed or disconnected.`
+        `Make sure you are creating receiver with increasing epoch value to ensure connectivity, or ensure all old epoch receivers are closed or disconnected.`,
     });
     return false;
   }
@@ -694,7 +696,7 @@ export class MockEventHub implements IMockEventHub {
       sender.close({
         condition: "com.microsoft:argument-out-of-range",
         description:
-          "The specified partition is invalid for an EventHub partition sender or receiver."
+          "The specified partition is invalid for an EventHub partition sender or receiver.",
       });
       return false;
     }
@@ -702,7 +704,7 @@ export class MockEventHub implements IMockEventHub {
       const host = (context.connection.hostname ?? "").split(".")[0];
       sender.close({
         condition: "amqp-not-found",
-        description: `The messaging entity '${host}:eventhub:${eventHubName}~0|${consumerGroup}' could not be found.`
+        description: `The messaging entity '${host}:eventhub:${eventHubName}~0|${consumerGroup}' could not be found.`,
       });
       return false;
     }
@@ -738,7 +740,7 @@ export class MockEventHub implements IMockEventHub {
     const [eventHubName, , partitionId] = parts;
     return {
       eventHubName,
-      partitionId
+      partitionId,
     };
   }
 
@@ -754,7 +756,7 @@ export class MockEventHub implements IMockEventHub {
     return {
       eventHubName,
       consumerGroup,
-      partitionId
+      partitionId,
     };
   }
 

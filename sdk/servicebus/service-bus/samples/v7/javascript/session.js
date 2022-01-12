@@ -35,7 +35,7 @@ const listOfScientists = [
   { lastName: "Faraday", firstName: "Michael" },
   { lastName: "Galilei", firstName: "Galileo" },
   { lastName: "Kepler", firstName: "Johannes" },
-  { lastName: "Kopernikus", firstName: "Nikolaus" }
+  { lastName: "Kopernikus", firstName: "Nikolaus" },
 ];
 
 async function main() {
@@ -70,7 +70,7 @@ async function sendMessage(sbClient, scientist, sessionId) {
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,
     subject: "Scientist",
-    sessionId: sessionId
+    sessionId: sessionId,
   };
 
   console.log(`Sending message: "${message.body}" to "${sessionId}"`);
@@ -98,7 +98,7 @@ async function receiveMessages(sbClient, sessionId) {
 
       receiver.subscribe({
         processMessage,
-        processError
+        processError,
       });
     });
 

@@ -26,7 +26,7 @@ export * from "./utils/DataLakeAclChangeFailedError";
 
 export {
   BlobServiceProperties as DataLakeServiceProperties,
-  ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse
+  ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
 } from "@azure/storage-blob";
 
 export { CommonOptions } from "./StorageClient";

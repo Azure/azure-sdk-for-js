@@ -99,7 +99,7 @@
 # PRLabel: %EngSys
 /sdk/template/ @praveenkuttappan @mikeharder @weshaggard @benbp
 
-/sdk/test-utils/ @HarshaNalluru @sadasant
+/sdk/test-utils/ @HarshaNalluru @sadasant @timovv
 
 # PRLabel: %Cognitive - Text Analytics
 /sdk/textanalytics/ @deyaaeldeen @witemple-msft
@@ -639,6 +639,9 @@ sdk/portal/arm-portal @qiaozha @dw511214992
 
 # PRLabel: %Mgmt
 sdk/loadtestservice/arm-loadtestservice @qiaozha @dw511214992
+
+# PRLabel: %Mgmt
+sdk/purview/arm-purview @qiaozha @dw511214992
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners

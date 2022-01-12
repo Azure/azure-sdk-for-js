@@ -22,23 +22,26 @@ async function shouldRunProxyTool(): Promise<boolean> {
   }
 }
 
-export async function runTestsWithProxyTool(testCommandObj: concurrently.CommandObj): Promise<boolean> {
+export async function runTestsWithProxyTool(
+  testCommandObj: concurrently.CommandObj
+): Promise<boolean> {
   if (
     await shouldRunProxyTool() // Boolean to figure out if we need to run just the mocha command or the test-proxy too
   ) {
-    const testProxyCMD = "dev-tool test-proxy start";
+    const testProxyStartCMD = "dev-tool test-proxy start";
+    const testProxyStopCMD = "dev-tool test-proxy stop";
     const waitForProxyEndpointCMD = "dev-tool test-proxy wait-for-proxy-endpoint";
     await concurrently(
       [
-        { command: testProxyCMD },
+        { command: testProxyStartCMD },
         {
-          command: `${waitForProxyEndpointCMD} && ${testCommandObj.command}`, // Waits for the proxy endpoint to be active and then starts running the tests
-          name: testCommandObj.name
-        }
+          command: `${waitForProxyEndpointCMD} && ${testCommandObj.command} && ${testProxyStopCMD}`, // Waits for the proxy endpoint to be active and then starts running the tests
+          name: testCommandObj.name,
+        },
       ],
       {
         killOthers: ["failure", "success"],
-        successCondition: "first"
+        successCondition: "first",
       }
     );
   } else {

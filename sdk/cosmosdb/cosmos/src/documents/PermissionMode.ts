@@ -9,5 +9,5 @@ export enum PermissionMode {
   /** Permission applicable for read operations only. */
   Read = "read",
   /** Permission applicable for all operations. */
-  All = "all"
+  All = "all",
 }

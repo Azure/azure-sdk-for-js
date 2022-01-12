@@ -3,17 +3,17 @@
 
 import {
   KeyVaultAdminPollOperation,
-  KeyVaultAdminPollOperationState
+  KeyVaultAdminPollOperationState,
 } from "../keyVaultAdminPoller";
 import {
   KeyVaultBeginSelectiveKeyRestoreOptions,
-  KeyVaultSelectiveKeyRestoreResult
+  KeyVaultSelectiveKeyRestoreResult,
 } from "../../backupClientModels";
 import {
   KeyVaultClientRestoreStatusResponse,
   KeyVaultClientSelectiveKeyRestoreOperationOptionalParams,
   KeyVaultClientSelectiveKeyRestoreOperationResponse,
-  RestoreOperation
+  RestoreOperation,
 } from "../../generated/models";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
@@ -116,9 +116,9 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
           folder: folderName,
           sasTokenParameters: {
             storageResourceUri: folderUri,
-            token: sasToken
-          }
-        }
+            token: sasToken,
+          },
+        },
       });
       this.mapState(selectiveRestoreOperation);
     } else if (!state.isCompleted) {
@@ -155,7 +155,7 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
     if (state.isCompleted) {
       state.result = {
         startTime,
-        endTime
+        endTime,
       };
     }
   }

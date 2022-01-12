@@ -28,7 +28,7 @@ export const commandInfo = makeCommandInfo(
     },
     "browser-test": {
       kind: "boolean",
-      default: false,
+      default: true,
       description: "build a bundle for browser testing"
     }
   }

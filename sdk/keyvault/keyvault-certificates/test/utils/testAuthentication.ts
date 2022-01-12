@@ -16,7 +16,7 @@ export async function authenticate(that: Context): Promise<any> {
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
       KEYVAULT_NAME: "keyvault_name",
-      KEYVAULT_URI: "https://keyvault_name.vault.azure.net/"
+      KEYVAULT_URI: "https://keyvault_name.vault.azure.net/",
     },
     customizationsOnRecordings: [
       (recording: string): string =>
@@ -26,9 +26,9 @@ export async function authenticate(that: Context): Promise<any> {
       (recording: string): string => {
         // replace pkcs12 certificate value with base64 encoding of "base64_placeholder"
         return recording.replace(/"value":"MII[^"]+"/g, `"value":"YmFzZTY0X3BsYWNlaG9sZGVy"`);
-      }
+      },
     ],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
   };
   const recorder = record(that, recorderEnvSetup);
   const credential = new ClientSecretCredential(
@@ -36,7 +36,7 @@ export async function authenticate(that: Context): Promise<any> {
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET,
     {
-      authorityHost: env.AZURE_AUTHORITY_HOST
+      authorityHost: env.AZURE_AUTHORITY_HOST,
     }
   );
 

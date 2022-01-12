@@ -3,5 +3,5 @@
 
 export {
   SchemaRegistryAvroSerializer,
-  SchemaRegistryAvroSerializerOptions
+  SchemaRegistryAvroSerializerOptions,
 } from "./schemaRegistryAvroSerializer";

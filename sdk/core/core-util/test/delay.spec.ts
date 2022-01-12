@@ -5,12 +5,12 @@ import * as sinon from "sinon";
 import { assert } from "chai";
 import { delay } from "../src";
 
-describe("delay", function() {
-  afterEach(function() {
+describe("delay", function () {
+  afterEach(function () {
     sinon.restore();
   });
 
-  it("should resolve after the given number of ms", async function() {
+  it("should resolve after the given number of ms", async function () {
     const clock = sinon.useFakeTimers();
     const delayTime = 2500;
     const delayPromise = delay(delayTime);
