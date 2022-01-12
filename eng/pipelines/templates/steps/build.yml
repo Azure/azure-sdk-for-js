@@ -25,7 +25,7 @@ steps:
       npm install ./eng/tools/versioning
       node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
       node common/scripts/install-run-rush.js update
-    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+    condition: and(succeeded(), or(eq(variables['SetDevVersion'],'true'), eq(variables['Build.Reason'],'Schedule')))
     displayName: "Update package versions for dev build"
 
   - task: Powershell@2
@@ -38,7 +38,7 @@ steps:
       pwsh: true
       workingDirectory: $(Pipeline.Workspace)
     displayName: Update package properties with dev version
-    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+    condition: and(succeeded(), or(eq(variables['SetDevVersion'],'true'), eq(variables['Build.Reason'],'Schedule')))
 
   - script: |
       node common/scripts/install-run-rush.js install
@@ -87,16 +87,16 @@ steps:
           Copy-Item $(Build.SourcesDirectory)/docGen/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
         }
       }
-    displayName: 'Copy Packages'
+    displayName: "Copy Packages"
 
   - pwsh: |
       eng/scripts/stage-api-review-file.ps1 -PackageInfoPath $(Build.ArtifactStagingDirectory)/PackageInfo -StagingDirectory $(Build.ArtifactStagingDirectory)
-    displayName: 'Copy API extracted files'
+    displayName: "Copy API extracted files"
 
   - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
     parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'packages'
+      ArtifactPath: "$(Build.ArtifactStagingDirectory)"
+      ArtifactName: "packages"
 
   - template: /eng/common/pipelines/templates/steps/create-apireview.yml
     parameters:
