@@ -21,7 +21,6 @@ use-extension:
 hide-clients: true
 package-version: 1.0.0-beta.1
 v3: true
-use-core-v2: true
 ```
 
 ## Customizations for Track 2 Generator
