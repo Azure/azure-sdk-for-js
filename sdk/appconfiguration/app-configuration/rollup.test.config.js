@@ -14,7 +14,7 @@ import { makeConfig, makeBrowserTestConfig } from "@azure/dev-tool/shared-config
 const inputs = makeConfig(require("./package.json"));
 
 if (!process.env.ONLY_NODE) {
-  // service-bus has many dependencies that we do not
+  // app-configuration has dependencies that we do not
   // want to bring into the shared rollup config, so
   // replace the original test config with a patched one
   inputs[1] = makeBrowserTestConfigPatch();
