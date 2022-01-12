@@ -64,25 +64,26 @@ class FetchHttpClient implements HttpClient {
  */
 async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> {
   const { abortController, abortControllerCleanup } = setupAbortSignal(request);
-  const headers = buildFetchHeaders(request.headers);
 
-  const requestBody = buildRequestBody(request);
+  try {
+    const headers = buildFetchHeaders(request.headers);
+    const requestBody = buildRequestBody(request);
 
-  const response = await fetch(request.url, {
-    body: requestBody,
-    method: request.method,
-    headers: headers,
-    signal: abortController.signal,
-    credentials: request.withCredentials ? "include" : "same-origin",
-    redirect: "manual",
-    cache: "no-store",
-  });
-
-  if (abortControllerCleanup) {
-    abortControllerCleanup();
+    const response = await fetch(request.url, {
+      body: requestBody,
+      method: request.method,
+      headers: headers,
+      signal: abortController.signal,
+      credentials: request.withCredentials ? "include" : "same-origin",
+      redirect: "manual",
+      cache: "no-store",
+    });
+    return buildPipelineResponse(response, request);
+  } finally {
+    if (abortControllerCleanup) {
+      abortControllerCleanup();
+    }
   }
-
-  return buildPipelineResponse(response, request);
 }
 
 /**
@@ -106,7 +107,7 @@ async function buildPipelineResponse(httpResponse: Response, request: PipelineRe
     request.streamResponseStatusCodes?.has(response.status)
   ) {
     if (request.enableBrowserStreams) {
-      response.browserStreamBody = bodyStream;
+      response.browserStreamBody = bodyStream ?? undefined;
     } else {
       const responseStream = new Response(bodyStream);
       response.blobBody = responseStream.blob();

@@ -229,7 +229,7 @@ export interface PipelineResponse {
    * The response body as a browser ReadableStream.
    * Always undefined in node.js.
    */
-  browserStreamBody?: ReadableStream<Uint8Array> | null;
+  browserStreamBody?: ReadableStream<Uint8Array>;
 
   /**
    * NODEJS ONLY

@@ -245,7 +245,7 @@ export interface PipelineRequestOptions {
 export interface PipelineResponse {
     blobBody?: Promise<Blob>;
     bodyAsText?: string | null;
-    browserStreamBody?: ReadableStream<Uint8Array> | null;
+    browserStreamBody?: ReadableStream<Uint8Array>;
     headers: HttpHeaders;
     readableStreamBody?: NodeJS.ReadableStream;
     request: PipelineRequest;

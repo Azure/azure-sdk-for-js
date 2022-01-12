@@ -71,8 +71,9 @@ export interface PipelineRequestOptions {
   /**
    * BROWSER ONLY
    *
-   * A browser only option to enable browser Streams. If this option is set and a response is a stream
-   * the response will have a property `browserStream` instead of `blobBody` which will be undefined.
+   * A browser only option to enable use of the Streams API. If this option is set and streaming is used
+   * (see `streamResponseStatusCodes`), the response will have a property `browserStream` instead of
+   * `blobBody` which will be undefined.
    *
    * Default value is false
    */

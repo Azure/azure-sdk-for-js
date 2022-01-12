@@ -68,32 +68,8 @@ export async function prepareIdentityTests({
    * Sets up a fake server that will be used to answer any outgoing request.
    */
   const server = sandbox.useFakeServer();
-  const fetch = sandbox.stub(self, "fetch");
-  const requests: TrackedRequest[] = [];
+  const requests: sinon.SinonFakeXMLHttpRequest[] = [];
   const responses: RawTestResponse[] = [];
-
-  type TrackedRequest = {
-    url: string;
-    body: string;
-    method: string;
-    headers: Record<string, string>;
-  };
-
-  function trackRequest(url: RequestInfo, request?: RequestInit) {
-    const headers = new Headers(request?.headers);
-    const rawHeaders: Record<string, string> = {};
-
-    headers.forEach((key, value) => {
-      rawHeaders[key] = value;
-    });
-
-    requests.push({
-      url: url.toString(),
-      body: request?.body?.toString() ?? "",
-      method: request?.method ?? "GET",
-      headers: rawHeaders,
-    });
-  }
 
   /**
    * Wraps a credential's getToken in a mocked environment, then returns the results from the request,
@@ -107,13 +83,9 @@ export async function prepareIdentityTests({
      * Both keeps track of the outgoing requests,
      * and ensures each request answers with each received response, in order.
      */
-    fetch.callsFake(async (url, request) => {
-      trackRequest(url, request);
-
-      return new Response(response.body, {
-        headers: response.headers,
-        status: response.statusCode,
-      });
+    server.respondWith((xhr) => {
+      requests.push(xhr);
+      xhr.respond(response.statusCode, response.headers, response.body);
     });
     const promise = sendPromise();
     server.respond();
@@ -142,22 +114,16 @@ export async function prepareIdentityTests({
     secureResponses = [],
   }) => {
     responses.push(...[...insecureResponses, ...secureResponses]);
-    fetch.callsFake(async (url, request) => {
-      trackRequest(url, request);
+    server.respondWith((xhr) => {
+      requests.push(xhr);
       if (!responses.length) {
         throw new Error("No responses to send");
       }
       const { response, error } = responses.shift()!;
       if (response) {
-        return new Response(response.body, {
-          headers: response.headers,
-          status: response.statusCode,
-        });
+        xhr.respond(response.statusCode, response.headers, response.body);
       } else if (error) {
-        return new Response(error.message, {
-          headers: {},
-          status: error.statusCode,
-        });
+        xhr.respond(error.statusCode!, {}, error.message);
       } else {
         throw new Error("No response or error to send");
       }
@@ -181,7 +147,14 @@ export async function prepareIdentityTests({
     return {
       result,
       error,
-      requests,
+      requests: requests.map((request) => {
+        return {
+          url: request.url,
+          body: request.requestBody,
+          method: request.method,
+          headers: request.requestHeaders,
+        };
+      }),
     };
   };
 
