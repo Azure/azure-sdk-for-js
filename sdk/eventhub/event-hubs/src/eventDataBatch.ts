@@ -3,10 +3,12 @@
 
 import { EventData, toRheaMessage } from "./eventData";
 import { MessageAnnotations, Message as RheaMessage, message } from "rhea-promise";
+import { Span, SpanContext } from "@azure/core-tracing";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
-import { OperationTracingOptions, TracingSpan, TracingSpanContext } from "@azure/core-tracing";
+import { OperationTracingOptions } from "@azure/core-tracing";
+import { convertTryAddOptionsForCompatibility } from "./diagnostics/tracing";
 import { instrumentEventData } from "./diagnostics/instrumentEventData";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 
@@ -49,7 +51,7 @@ export interface TryAddOptions {
   /**
    * @deprecated Tracing options have been moved to the `tracingOptions` property.
    */
-  parentSpan?: TracingSpan | TracingSpanContext;
+  parentSpan?: Span | SpanContext;
 }
 
 /**
@@ -123,7 +125,7 @@ export interface EventDataBatch {
    * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
    * @internal
    */
-  readonly _messageSpanContexts: TracingSpanContext[];
+  readonly _messageSpanContexts: SpanContext[];
 }
 
 /**
@@ -166,7 +168,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   /**
    * List of 'message' span contexts.
    */
-  private _spanContexts: TracingSpanContext[] = [];
+  private _spanContexts: SpanContext[] = [];
   /**
    * The message annotations to apply on the batch envelope.
    * This will reflect the message annotations on the first event
@@ -241,7 +243,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    * Gets the "message" span contexts that were created when adding events to the batch.
    * @internal
    */
-  get _messageSpanContexts(): TracingSpanContext[] {
+  get _messageSpanContexts(): SpanContext[] {
     return this._spanContexts;
   }
 
@@ -284,6 +286,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    */
   public tryAdd(eventData: EventData | AmqpAnnotatedMessage, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "tryAdd", "eventData", eventData);
+    options = convertTryAddOptionsForCompatibility(options);
 
     const { entityPath, host } = this._context.config;
     const { event: instrumentedEvent, spanContext } = instrumentEventData(

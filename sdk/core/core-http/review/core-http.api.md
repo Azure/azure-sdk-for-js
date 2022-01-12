@@ -8,13 +8,14 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
+import { Context } from '@azure/core-tracing';
 import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
+import { Span } from '@azure/core-tracing';
+import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
-import { TracingContext } from '@azure/core-tracing';
-import { TracingSpan } from '@azure/core-tracing';
 
 export { AbortSignalLike }
 
@@ -167,8 +168,8 @@ export const Constants: {
 export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptions, authPolicyFactory?: RequestPolicyFactory): ServiceClientOptions;
 
 // @public @deprecated
-export function createSpanFunction(_args: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
-    span: TracingSpan;
+export function createSpanFunction(args: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
+    span: Span;
     updatedOptions: T;
 };
 
@@ -581,7 +582,7 @@ export interface RequestOptionsBase {
     serializerOptions?: SerializerOptions;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
     timeout?: number;
-    tracingContext?: TracingContext;
+    tracingContext?: Context;
 }
 
 // @public
@@ -636,7 +637,8 @@ export interface RequestPrepareOptions {
         [key: string]: any | ParameterValue;
     };
     serializationMapper?: Mapper;
-    tracingContext?: TracingContext;
+    spanOptions?: SpanOptions;
+    tracingContext?: Context;
     url?: string;
 }
 
@@ -869,11 +871,12 @@ export class WebResource implements WebResourceLike {
     };
     requestId: string;
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
+    spanOptions?: SpanOptions;
     // @deprecated
     streamResponseBody?: boolean;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
-    tracingContext?: TracingContext;
+    tracingContext?: Context;
     url: string;
     validateRequestProperties(): void;
     withCredentials: boolean;
@@ -904,7 +907,7 @@ export interface WebResourceLike {
     streamResponseBody?: boolean;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
-    tracingContext?: TracingContext;
+    tracingContext?: Context;
     url: string;
     validateRequestProperties(): void;
     withCredentials: boolean;

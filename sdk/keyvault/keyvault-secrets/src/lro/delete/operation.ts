@@ -10,15 +10,12 @@ import {
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getSecretFromSecretBundle } from "../../transformations";
 import { OperationOptions } from "@azure/core-http";
-import { createTracingClient } from "@azure/core-tracing";
+import { createTraceFunction } from "../../../../keyvault-common/src";
 
 /**
  * @internal
  */
-const withTrace = createTracingClient({
-  namespace: "Microsoft.KeyVault.Delete",
-  packageName: "@azure/keyvault-secrets",
-}).withSpan;
+const withTrace = createTraceFunction("Azure.KeyVault.Secrets.DeleteSecretPoller");
 
 /**
  * An interface representing the state of a delete secret's poll operation
@@ -46,10 +43,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
    * Sends a delete request for the given Key Vault Key's name to the Key Vault service.
    * Since the Key Vault Key won't be immediately deleted, we have {@link beginDeleteKey}.
    */
-  private async deleteSecret(
-    name: string,
-    options: DeleteSecretOptions = {}
-  ): Promise<DeletedSecret> {
+  private deleteSecret(name: string, options: DeleteSecretOptions = {}): Promise<DeletedSecret> {
     return withTrace("deleteSecret", options, async (updatedOptions) => {
       const response = await this.client.deleteSecret(this.vaultUrl, name, updatedOptions);
       return getSecretFromSecretBundle(response);
@@ -60,7 +54,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
    * The getDeletedSecret method returns the specified deleted secret along with its properties.
    * This operation requires the secrets/get permission.
    */
-  private async getDeletedSecret(
+  private getDeletedSecret(
     name: string,
     options: GetDeletedSecretOptions = {}
   ): Promise<DeletedSecret> {

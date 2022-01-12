@@ -8,15 +8,22 @@ import {
   RequestPolicyOptions,
 } from "./requestPolicy";
 import {
-  createTracingClient,
-  TracingClient,
-  TracingContext,
-  TracingSpan,
+  Span,
+  SpanKind,
+  SpanStatusCode,
+  createSpanFunction,
+  getTraceParentHeader,
+  isSpanContextValid,
 } from "@azure/core-tracing";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { URLBuilder } from "../url";
 import { WebResourceLike } from "../webResource";
 import { logger } from "../log";
+
+const createSpan = createSpanFunction({
+  packagePrefix: "",
+  namespace: "",
+});
 
 /**
  * Options to customize the tracing policy.
@@ -46,7 +53,6 @@ export function tracingPolicy(tracingOptions: TracingPolicyOptions = {}): Reques
  */
 export class TracingPolicy extends BaseRequestPolicy {
   private userAgent?: string;
-  private tracingClient: TracingClient;
 
   constructor(
     nextPolicy: RequestPolicy,
@@ -55,11 +61,6 @@ export class TracingPolicy extends BaseRequestPolicy {
   ) {
     super(nextPolicy, options);
     this.userAgent = tracingOptions.userAgent;
-    this.tracingClient = createTracingClient({
-      namespace: "Microsoft.CoreHttp",
-      packageName: "@azure/core-http",
-      packageVersion: "foo",
-    });
   }
 
   public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
@@ -67,16 +68,14 @@ export class TracingPolicy extends BaseRequestPolicy {
       return this._nextPolicy.sendRequest(request);
     }
 
-    const { span, context } = this.tryCreateSpan(request);
+    const span = this.tryCreateSpan(request);
 
     if (!span) {
       return this._nextPolicy.sendRequest(request);
     }
 
     try {
-      const response = await this.tracingClient.withContext(context!, () =>
-        this._nextPolicy.sendRequest(request)
-      );
+      const response = await this._nextPolicy.sendRequest(request);
       this.tryProcessResponse(span, response);
       return response;
     } catch (err) {
@@ -85,20 +84,17 @@ export class TracingPolicy extends BaseRequestPolicy {
     }
   }
 
-  tryCreateSpan(request: WebResourceLike): {
-    span: TracingSpan | undefined;
-    context: TracingContext | undefined;
-  } {
+  tryCreateSpan(request: WebResourceLike): Span | undefined {
     try {
       const path = URLBuilder.parse(request.url).getPath() || "/";
 
       // Passing spanOptions as part of tracingOptions to maintain compatibility @azure/core-tracing@preview.13 and earlier.
       // We can pass this as a separate parameter once we upgrade to the latest core-tracing.
-      const { span, updatedOptions } = this.tracingClient.startSpan(path, {
+      const { span } = createSpan(path, {
         tracingOptions: {
           spanOptions: {
             ...(request as any).spanOptions,
-            spanKind: "client",
+            kind: SpanKind.CLIENT,
           },
           tracingContext: request.tracingContext,
         },
@@ -107,7 +103,7 @@ export class TracingPolicy extends BaseRequestPolicy {
       // If the span is not recording, don't do any more work.
       if (!span.isRecording()) {
         span.end();
-        return { context: updatedOptions.tracingOptions.tracingContext, span: undefined };
+        return undefined;
       }
 
       const namespaceFromContext = request.tracingContext?.getValue(Symbol.for("az.namespace"));
@@ -116,33 +112,39 @@ export class TracingPolicy extends BaseRequestPolicy {
         span.setAttribute("az.namespace", namespaceFromContext);
       }
 
-      span.setAttribute("http.method", request.method);
-      span.setAttribute("http.url", request.url);
-      span.setAttribute("requestId", request.requestId);
+      span.setAttributes({
+        "http.method": request.method,
+        "http.url": request.url,
+        requestId: request.requestId,
+      });
 
       if (this.userAgent) {
         span.setAttribute("http.user_agent", this.userAgent);
       }
 
       // set headers
-      const headers = this.tracingClient.createRequestHeaders(
-        updatedOptions.tracingOptions?.tracingContext
-      );
-      for (const header in headers) {
-        request.headers.set(header, headers[header]);
+      const spanContext = span.spanContext();
+      const traceParentHeader = getTraceParentHeader(spanContext);
+      if (traceParentHeader && isSpanContextValid(spanContext)) {
+        request.headers.set("traceparent", traceParentHeader);
+        const traceState = spanContext.traceState && spanContext.traceState.serialize();
+        // if tracestate is set, traceparent MUST be set, so only set tracestate after traceparent
+        if (traceState) {
+          request.headers.set("tracestate", traceState);
+        }
       }
-      return { span, context: updatedOptions.tracingOptions.tracingContext };
+      return span;
     } catch (error) {
       logger.warning(`Skipping creating a tracing span due to an error: ${error.message}`);
-      return { context: undefined, span: undefined };
+      return undefined;
     }
   }
 
-  private tryProcessError(span: TracingSpan, err: any): void {
+  private tryProcessError(span: Span, err: any): void {
     try {
       span.setStatus({
-        status: "error",
-        error: err,
+        code: SpanStatusCode.ERROR,
+        message: err.message,
       });
 
       if (err.statusCode) {
@@ -154,7 +156,7 @@ export class TracingPolicy extends BaseRequestPolicy {
     }
   }
 
-  private tryProcessResponse(span: TracingSpan, response: HttpOperationResponse): void {
+  private tryProcessResponse(span: Span, response: HttpOperationResponse): void {
     try {
       span.setAttribute("http.status_code", response.status);
       const serviceRequestId = response.headers.get("x-ms-request-id");
@@ -162,7 +164,7 @@ export class TracingPolicy extends BaseRequestPolicy {
         span.setAttribute("serviceRequestId", serviceRequestId);
       }
       span.setStatus({
-        status: "success",
+        code: SpanStatusCode.OK,
       });
       span.end();
     } catch (error) {

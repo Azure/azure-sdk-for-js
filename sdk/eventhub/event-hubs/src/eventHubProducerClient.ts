@@ -12,7 +12,7 @@ import {
 } from "./models/public";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
-import { TracingSpan, TracingSpanContext, TracingSpanLink } from "@azure/core-tracing";
+import { Link, Span, SpanContext, SpanKind, SpanStatusCode } from "@azure/core-tracing";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isCredential, isDefined } from "./util/typeGuards";
 import { logErrorStackTrace, logger } from "./log";
@@ -284,7 +284,7 @@ export class EventHubProducerClient {
     let partitionKey: string | undefined;
 
     // link message span contexts
-    let spanContextsToLink: TracingSpanContext[] = [];
+    let spanContextsToLink: SpanContext[] = [];
 
     if (isEventDataBatch(batch)) {
       // For batches, partitionId and partitionKey would be set on the batch.
@@ -350,12 +350,12 @@ export class EventHubProducerClient {
         partitionKey,
         retryOptions: this._clientOptions.retryOptions,
       });
-      sendSpan.setStatus({ status: "success" });
+      sendSpan.setStatus({ code: SpanStatusCode.OK });
       return result;
     } catch (error) {
       sendSpan.setStatus({
-        status: "error",
-        error,
+        code: SpanStatusCode.ERROR,
+        message: error.message,
       });
       throw error;
     } finally {
@@ -431,17 +431,17 @@ export class EventHubProducerClient {
 
   private _createSendSpan(
     operationOptions: OperationOptions,
-    spanContextsToLink: TracingSpanContext[] = []
-  ): TracingSpan {
-    const spanLinks: TracingSpanLink[] = spanContextsToLink.map((context) => {
+    spanContextsToLink: SpanContext[] = []
+  ): Span {
+    const links: Link[] = spanContextsToLink.map((context) => {
       return {
-        spanContext: context,
+        context,
       };
     });
 
     const { span } = createEventHubSpan("send", operationOptions, this._context.config, {
-      spanKind: "client",
-      spanLinks,
+      kind: SpanKind.CLIENT,
+      links,
     });
 
     return span;

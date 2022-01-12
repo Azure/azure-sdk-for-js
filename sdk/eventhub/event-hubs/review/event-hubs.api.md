@@ -15,9 +15,9 @@ import { OperationTracingOptions } from '@azure/core-tracing';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { SASCredential } from '@azure/core-auth';
+import { Span } from '@azure/core-tracing';
+import { SpanContext } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
-import { TracingSpan } from '@azure/core-tracing';
-import { TracingSpanContext } from '@azure/core-tracing';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
@@ -86,7 +86,7 @@ export interface EventDataBatch {
     _generateMessage(): Buffer;
     readonly maxSizeInBytes: number;
     // @internal
-    readonly _messageSpanContexts: TracingSpanContext[];
+    readonly _messageSpanContexts: SpanContext[];
     // @internal
     readonly partitionId?: string;
     // @internal
@@ -354,7 +354,7 @@ export { TokenCredential }
 // @public
 export interface TryAddOptions {
     // @deprecated (undocumented)
-    parentSpan?: TracingSpan | TracingSpanContext;
+    parentSpan?: Span | SpanContext;
     tracingOptions?: OperationTracingOptions;
 }
 

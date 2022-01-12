@@ -5,7 +5,7 @@
 // were a part of the GA'd library and can't be removed until the next major
 // release. They currently get called always, even if tracing is not enabled.
 
-import { createTracingClient, TracingSpan } from "@azure/core-tracing";
+import { Span, createSpanFunction as coreTracingCreateSpanFunction } from "@azure/core-tracing";
 import { OperationOptions } from "./operationOptions";
 
 /**
@@ -35,14 +35,10 @@ export interface SpanConfig {
  * @param tracingOptions - The options for the underlying http request.
  */
 export function createSpanFunction(
-  _args: SpanConfig
+  args: SpanConfig
 ): <T extends OperationOptions>(
   operationName: string,
   operationOptions: T
-) => { span: TracingSpan; updatedOptions: T } {
-  return createTracingClient({
-    namespace: "Microsoft.CoreHttp",
-    packageName: "@azure/core-http",
-    packageVersion: "foo",
-  }).startSpan;
+) => { span: Span; updatedOptions: T } {
+  return coreTracingCreateSpanFunction(args);
 }
