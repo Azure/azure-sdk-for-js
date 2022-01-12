@@ -8,8 +8,6 @@
 - Fix issue where optionality of expiresOn and permissions is not respected when signedIdentifier is provided.
 - Fix `createTable` not calling `onResponse` callback when the service returns `TableAlreadyExists`. [#18914](https://github.com/Azure/azure-sdk-for-js/pull/18914)
 
-### Other Changes
-
 ## 13.0.0 (2021-11-11)
 
 ### Acknowledgments
