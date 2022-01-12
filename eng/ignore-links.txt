@@ -14,3 +14,4 @@ https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/imagebuilder/arm-imagebu
 https://docs.microsoft.com/javascript/api/@azure/arm-avs
 https://docs.microsoft.com/javascript/api/@azure/arm-communication
 https://docs.microsoft.com/javascript/api/@azure/arm-appconfiguration
+https://docs.microsoft.com/javascript/api/@azure/arm-customerinsights
