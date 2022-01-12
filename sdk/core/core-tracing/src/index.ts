@@ -6,6 +6,8 @@ export {
   InstrumenterSpanOptions,
   OperationTracingOptions,
   SpanStatus,
+  SpanStatusError,
+  SpanStatusSuccess,
   TracingClient,
   TracingClientOptions,
   TracingContext,

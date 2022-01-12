@@ -177,18 +177,21 @@ export interface InstrumenterSpanOptions extends TracingSpanOptions {
 }
 
 /**
+ * Status representing a successful operation that can be sent to {@link TracingSpan.setStatus}
+ */
+export type SpanStatusSuccess = { status: "success" };
+
+/**
+ * Status representing an error that can be sent to {@link TracingSpan.setStatus}
+ */
+export type SpanStatusError = { status: "error"; error?: Error | string };
+
+/**
  * Represents the statuses that can be passed to {@link TracingSpan.setStatus}.
  *
  * By default, all spans will be created with status "unset".
  */
-export type SpanStatus =
-  | {
-      status: "success";
-    }
-  | {
-      status: "error";
-      error?: Error | string;
-    };
+export type SpanStatus = SpanStatusSuccess | SpanStatusError;
 
 /**
  * Represents an implementation agnostic tracing span.

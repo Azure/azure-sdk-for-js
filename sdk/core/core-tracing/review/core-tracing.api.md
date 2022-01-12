@@ -31,11 +31,17 @@ export interface OperationTracingOptions {
 }
 
 // @public
-export type SpanStatus = {
-    status: "success";
-} | {
+export type SpanStatus = SpanStatusSuccess | SpanStatusError;
+
+// @public
+export type SpanStatusError = {
     status: "error";
     error?: Error | string;
+};
+
+// @public
+export type SpanStatusSuccess = {
+    status: "success";
 };
 
 // @public
