@@ -62,7 +62,8 @@
       "NodeTestVersion": "12.x",
       "DependencyVersion": [
         "max",
-        "min"
+        "min",
+        "same"
       ],
       "TestResultsFiles": "**/test-results.xml"
     }
