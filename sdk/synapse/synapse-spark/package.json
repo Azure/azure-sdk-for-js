@@ -33,7 +33,6 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
     "rimraf": "^3.0.0",
-    "rollup": "^2.0.0",
     "uglify-js": "^3.4.9",
     "@microsoft/api-extractor": "^7.18.11",
     "@azure-tools/test-recorder": "^1.0.0",
@@ -93,11 +92,10 @@
     "esm/**/*.d.ts.map",
     "types/synapse-spark.d.ts",
     "README.md",
-    "rollup.config.js",
     "tsconfig.json"
   ],
   "scripts": {
-    "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
+    "build": "tsc && dev-tool run bundle && npm run minify && npm run extract-api",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "build:test": "tsc -p . && dev-tool run bundle",
