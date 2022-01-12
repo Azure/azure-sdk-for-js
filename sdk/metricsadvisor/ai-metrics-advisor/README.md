@@ -33,7 +33,7 @@ If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resour
 ```bash
 az cognitiveservices account create --kind MetricsAdvisor --resource-group <your-resource-group-name> --name <your-resource-name> --sku <sku level> --location <location>
 ```
-
+- Existing data sources and [set up datafeeds to onboard data][onboard_data_feed]
 ### Install the `@azure/ai-metrics-advisor` package
 
 Install the Azure Metrics Advisor client library for JavaScript with `npm`:
@@ -512,3 +512,4 @@ the code.
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [metrics_advisor_glossary]: https://docs.microsoft.com/azure/cognitive-services/metrics-advisor/glossary
+[onboard_data_feed]: https://docs.microsoft.com/en-us/azure/applied-ai-services/metrics-advisor/how-tos/onboard-your-data
