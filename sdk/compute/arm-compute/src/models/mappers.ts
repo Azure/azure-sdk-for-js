@@ -6927,6 +6927,12 @@ export const CreationData: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      securityDataUri: {
+        serializedName: "securityDataUri",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -7134,6 +7140,12 @@ export const DiskSecurityProfile: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      secureVMDiskEncryptionSetId: {
+        serializedName: "secureVMDiskEncryptionSetId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -7322,6 +7334,12 @@ export const GrantAccessData: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      getSecureVMGuestStateSAS: {
+        serializedName: "getSecureVMGuestStateSAS",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -7334,6 +7352,13 @@ export const AccessUri: coreClient.CompositeMapper = {
     modelProperties: {
       accessSAS: {
         serializedName: "accessSAS",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      securityDataAccessSAS: {
+        serializedName: "securityDataAccessSAS",
         readOnly: true,
         type: {
           name: "String"
@@ -7433,6 +7458,13 @@ export const SnapshotUpdate: coreClient.CompositeMapper = {
         serializedName: "properties.publicNetworkAccess",
         type: {
           name: "String"
+        }
+      },
+      supportedCapabilities: {
+        serializedName: "properties.supportedCapabilities",
+        type: {
+          name: "Composite",
+          className: "SupportedCapabilities"
         }
       }
     }
@@ -12420,6 +12452,13 @@ export const Snapshot: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      securityProfile: {
+        serializedName: "properties.securityProfile",
+        type: {
+          name: "Composite",
+          className: "DiskSecurityProfile"
+        }
+      },
       supportsHibernation: {
         serializedName: "properties.supportsHibernation",
         type: {
@@ -14342,6 +14381,20 @@ export const DiskRestorePoint: coreClient.CompositeMapper = {
         serializedName: "properties.completionPercent",
         type: {
           name: "Number"
+        }
+      },
+      replicationState: {
+        serializedName: "properties.replicationState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      sourceResourceLocation: {
+        serializedName: "properties.sourceResourceLocation",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
