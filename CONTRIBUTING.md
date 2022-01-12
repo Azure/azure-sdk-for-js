@@ -53,7 +53,7 @@ Rush provides many benefits:
 
 Not every library in the repository is managed by Rush yet, only those listed in the `projects` property in [rush.json](https://github.com/Azure/azure-sdk-for-js/blob/main/rush.json). Packages not managed by Rush can still be managed using `npm`.
 
-Check out our [wiki page](https://github.com/Azure/azure-sdk-for-js/wiki/Rush) for more information on
+Check out our [wiki page on using rush](https://github.com/Azure/azure-sdk-for-js/wiki/Rush) for more information on
 - running `rush update` command
 - How to update to a newer version of Rush or PNPM.
 
