@@ -194,34 +194,34 @@ export type CancelAllMediaOperationsOptions = OperationOptions;
 export type KeepAliveOptions = OperationOptions;
 
 /**
- * Options to create audio routing group in a call.
+ * Options to create audio group in a call.
  */
-export type CreateAudioRoutingGroupOptions = OperationOptions;
+export type CreateAudioGroupOptions = OperationOptions;
 
 /**
- * Options to delete audio routing group from a call.
+ * Options to delete audio group from a call.
  */
-export type DeleteAudioRoutingGroupOptions = OperationOptions;
+export type DeleteAudioGroupOptions = OperationOptions;
 
 /**
- * Options to list audio routing groups in a call.
+ * Options to list audio groups in a call.
  */
-export type GetAudioRoutingGroupsOptions = OperationOptions;
+export type GetAudioGroupsOptions = OperationOptions;
 
 /**
- * Options to update audio routing group in a call.
+ * Options to update audio group in a call.
  */
-export type UpdateAudioRoutingGroupOptions = OperationOptions;
+export type UpdateAudioGroupOptions = OperationOptions;
 
 /**
- * Options to hold participant meeting audio in a call.
+ * Options to remove participant meeting audio in a call.
  */
-export type HoldParticipantMeetingAudioOptions = OperationOptions;
+export type RemoveFromDefaultAudioGroupOptions = OperationOptions;
 
 /**
- * Options to hold participant meeting audio in a call.
+ * Options to add participant meeting audio in a call.
  */
-export type ResumeParticipantMeetingAudioOptions = OperationOptions;
+export type AddToDefaultAudioGroupOptions = OperationOptions;
 
 /**
  * Options to get call.
