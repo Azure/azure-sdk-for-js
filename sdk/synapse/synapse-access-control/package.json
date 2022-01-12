@@ -105,7 +105,7 @@
     "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
-    "build:test": "tsc -p . && rollup -c 2>&1",
+    "build:test": "tsc -p . && dev-tool run bundle",
     "lint": "echo skip",
     "format": "echo skip format as this package has only auto generated code",
     "check-format": "echo skip format check as this package has only auto generated code",
