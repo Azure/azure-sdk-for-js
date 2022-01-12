@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary use `DataLakeServiceClient` to create and read filesystems and files
+ * @summary use `DataLakeServiceClient` to create and read file systems and files
  */
 
 import { DataLakeServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-datalake";
@@ -47,31 +47,31 @@ export async function main() {
     sharedKeyCredential
   );
 
-  console.log("Filesystems:");
-  for await (const filesystem of serviceClient.listFileSystems()) {
-    console.log(`- ${filesystem.name}`);
+  console.log("File Systems:");
+  for await (const fileSystem of serviceClient.listFileSystems()) {
+    console.log(`- ${fileSystem.name}`);
   }
 
-  // Create a filesystem
-  const filesystemName = `newfilesystem${new Date().getTime()}`;
-  const filesystemClient = serviceClient.getFileSystemClient(filesystemName);
+  // Create a file system
+  const fileSystemName = `newFileSystem${new Date().getTime()}`;
+  const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
 
-  const filesystemResponse = await filesystemClient.create();
+  const fileSystemResponse = await fileSystemClient.create();
   console.log(
-    `Created filesystem ${filesystemClient.name} successfully, request ID: ${filesystemResponse.requestId}`
+    `Created file system ${fileSystemClient.name} successfully, request ID: ${fileSystemResponse.requestId}`
   );
 
   // Create a file
   const content = "hello";
   const fileName = "newfile" + new Date().getTime();
-  const fileClient = filesystemClient.getFileClient(fileName);
+  const fileClient = fileSystemClient.getFileClient(fileName);
   await fileClient.create();
   await fileClient.append(content, 0, content.length);
   const flushFileResponse = await fileClient.flush(content.length);
   console.log(`Uploaded file ${fileClient.name} successfully`, flushFileResponse.requestId);
 
-  console.log(`Paths in ${filesystemClient.name}:`);
-  for await (const path of filesystemClient.listPaths()) {
+  console.log(`Paths in ${fileSystemClient.name}:`);
+  for await (const path of fileSystemClient.listPaths()) {
     console.log(`- ${path.name} (isDirectory = ${path.isDirectory})`);
   }
 
@@ -88,10 +88,10 @@ export async function main() {
 
   console.log(`Downloaded file content: ${readFileContent}`);
 
-  // Finally, delete the example filesystem.
-  await filesystemClient.delete();
+  // Finally, delete the example file system.
+  await fileSystemClient.delete();
 
-  console.log(`Deleted filesystem ${filesystemClient.name}.`);
+  console.log(`Deleted file system ${fileSystemClient.name}.`);
 }
 
 // A helper method used to read a Node.js readable stream into a Buffer

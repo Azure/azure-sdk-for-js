@@ -12,9 +12,9 @@ urlFragment: storage-file-datalake-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Data Lake Storage in some common scenarios.
 
-| **File Name**                                     | **Description**                                                      |
-| ------------------------------------------------- | -------------------------------------------------------------------- |
-| [dataLakeServiceClient.ts][datalakeserviceclient] | use `DataLakeServiceClient` to create and read filesystems and files |
+| **File Name**                                     | **Description**                                                       |
+| ------------------------------------------------- | --------------------------------------------------------------------- |
+| [dataLakeServiceClient.ts][datalakeserviceclient] | use `DataLakeServiceClient` to create and read file systems and files |
 
 ## Prerequisites
 

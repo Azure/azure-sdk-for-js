@@ -12,9 +12,9 @@ urlFragment: storage-file-datalake-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Data Lake Storage in some common scenarios.
 
-| **File Name**                                     | **Description**                                                      |
-| ------------------------------------------------- | -------------------------------------------------------------------- |
-| [dataLakeServiceClient.js][datalakeserviceclient] | use `DataLakeServiceClient` to create and read filesystems and files |
+| **File Name**                                     | **Description**                                                       |
+| ------------------------------------------------- | --------------------------------------------------------------------- |
+| [dataLakeServiceClient.js][datalakeserviceclient] | use `DataLakeServiceClient` to create and read file systems and files |
 
 ## Prerequisites
 
