@@ -25,6 +25,16 @@ const exposeInternalTimeout = (
   return ((tokenCredential as any).tokenCredential as any).activeTimeout;
 };
 
+const getDivisionCountWithoutFraction = (dividend: number, divisor: number): number => {
+  let i = dividend;
+  let result = 0;
+  while (i >= divisor) {
+    i = Math.round(i / divisor);
+    result++;
+  }
+  return result;
+};
+
 const exposeInternalUpdatePromise = async (
   tokenCredential: AzureCommunicationTokenCredential
 ): Promise<void> => {
@@ -56,7 +66,7 @@ describe("CommunicationTokenCredential", () => {
   it("throws if non-JWT passed as lambda", async () => {
     await assert.isRejected(
       new AzureCommunicationTokenCredential({
-        tokenRefresher: async () => "IAmNotAToken",
+        tokenRefresher: async () => "IAmNotAToken"
       }).getToken()
     );
   });
@@ -72,7 +82,7 @@ describe("CommunicationTokenCredential", () => {
     const token = generateToken(60);
     const tokenRefresher = sinon.stub().resolves(token);
     const tokenCredential = new AzureCommunicationTokenCredential({
-      tokenRefresher,
+      tokenRefresher
     });
     const tokenResult = (await tokenCredential.getToken()).token;
     assert.strictEqual(tokenResult, token);
@@ -85,7 +95,7 @@ describe("CommunicationTokenCredential", () => {
     const tokenCredential = new AzureCommunicationTokenCredential({
       tokenRefresher,
       token,
-      refreshProactively: true,
+      refreshProactively: true
     });
     const tokenResult = (await tokenCredential.getToken()).token;
     assert.strictEqual(tokenResult, token);
@@ -95,7 +105,7 @@ describe("CommunicationTokenCredential", () => {
   it("no proactive refresh, accepts expired token", async () => {
     const tokenRefresher = sinon.stub().resolves(generateToken(-1));
     new AzureCommunicationTokenCredential({
-      tokenRefresher,
+      tokenRefresher
     });
     clock.tick(5 * 60 * 1000);
     sinon.assert.notCalled(tokenRefresher);
@@ -105,7 +115,7 @@ describe("CommunicationTokenCredential", () => {
     const tokenRefresher = sinon.stub().resolves(generateToken(-1));
     new AzureCommunicationTokenCredential({
       tokenRefresher,
-      refreshProactively: true,
+      refreshProactively: true
     });
     clock.tick(5 * 60 * 1000);
     sinon.assert.calledOnce(tokenRefresher);
@@ -121,7 +131,7 @@ describe("CommunicationTokenCredential", () => {
   it("passes abortSignal through to tokenRefresher", async () => {
     const tokenRefresher = sinon.stub().resolves(generateToken(60));
     const tokenCredential = new AzureCommunicationTokenCredential({
-      tokenRefresher,
+      tokenRefresher
     });
     const options = { abortSignal: AbortSignal.none };
     tokenCredential.getToken(options);
@@ -131,7 +141,7 @@ describe("CommunicationTokenCredential", () => {
   it("throws if disposed", async () => {
     const withStatic = new AzureCommunicationTokenCredential(generateToken(60));
     const withLambda = new AzureCommunicationTokenCredential({
-      tokenRefresher: async () => generateToken(60),
+      tokenRefresher: async () => generateToken(60)
     });
     withStatic.dispose();
     withLambda.dispose();
@@ -142,7 +152,7 @@ describe("CommunicationTokenCredential", () => {
   it("doesn't swallow error from tokenrefresher", async () => {
     const tokenRefresher = sinon.stub().throws(new Error("No token for you!"));
     const tokenCredential = new AzureCommunicationTokenCredential({
-      tokenRefresher,
+      tokenRefresher
     });
     await assert.isRejected(tokenCredential.getToken());
   });
@@ -157,7 +167,7 @@ describe("CommunicationTokenCredential", () => {
     assert.strictEqual(tokenResult.token, token);
 
     tokenRefresher.resolves(newToken);
-    // go into soon to expire window
+    // go into the soon-to-expire window
     clock.tick(19 * 60 * 1000);
     const secondTokenResult = await tokenCredential.getToken();
 
@@ -178,10 +188,10 @@ describe("CommunicationTokenCredential", () => {
     new AzureCommunicationTokenCredential({
       tokenRefresher,
       refreshProactively: true,
-      token: token(),
+      token: token()
     });
 
-    // go into soon to expire window
+    // go into the soon-to-expire window
     clock.tick(19 * 60 * 1000);
     sinon.assert.calledOnce(tokenRefresher);
   });
@@ -192,11 +202,11 @@ describe("CommunicationTokenCredential", () => {
     const tokenCredential = new AzureCommunicationTokenCredential({
       tokenRefresher,
       refreshProactively: true,
-      token: token(),
+      token: token()
     });
 
     const internalTimeout = exposeInternalTimeout(tokenCredential);
-    // go into soon to expire window
+    // go into the soon-to-expire window
     clock.tick(19 * 60 * 1000);
 
     await exposeInternalUpdatePromise(tokenCredential);
@@ -213,11 +223,11 @@ describe("CommunicationTokenCredential", () => {
     const tokenCredential = new AzureCommunicationTokenCredential({
       tokenRefresher,
       refreshProactively: true,
-      token: token(),
+      token: token()
     });
 
     tokenCredential.dispose();
-    // go into soon to expire window
+    // go into the soon-to-expire window
     clock.tick(19 * 60 * 1000);
     sinon.assert.notCalled(tokenRefresher);
   });
@@ -237,12 +247,58 @@ describe("CommunicationTokenCredential", () => {
     const tokenRefresher = sinon.stub().resolves(generateToken(20));
     const tokenCredential = new AzureCommunicationTokenCredential({
       tokenRefresher,
-      refreshProactively: true,
+      refreshProactively: true
     });
 
-    // go into soon to expire window
+    // go into the soon-to-expire window
     clock.tick(19 * 60 * 1000);
     await tokenCredential.getToken();
     sinon.assert.calledOnce(tokenRefresher);
+  });
+
+  it("throws if token_refresher returns an expired token", async () => {
+    const credential = new AzureCommunicationTokenCredential({
+      tokenRefresher: async () => generateToken(-5)
+    });
+    await assert.isRejected(
+      credential.getToken(),
+      Error,
+      "The token returned from the tokenRefresher is expired."
+    );
+  });
+
+  it("fractional backoff", async () => {
+    const defaultRefreshAfterLifetimePercentage = 0.5;
+    const tokenExpiration = 20;
+    const staticToken = generateToken(tokenExpiration);
+    const tokenRefresher = sinon.stub().resolves(((): string => staticToken)()); // keep returning the same token for the duration of the test
+    const tokenCredential = new AzureCommunicationTokenCredential({
+      tokenRefresher,
+      refreshProactively: true,
+      token: staticToken
+    });
+
+    let newToken = await tokenCredential.getToken();
+
+    // go into the soon-to-expire window
+    clock.tick(10 * 60 * 1000);
+
+    let initialCallCount = tokenRefresher.callCount;
+
+    // iterate until the token expiration
+    while (newToken.expiresOnTimestamp - Date.now() > 0) {
+      // perform token refreshing & scheduling
+      await exposeInternalUpdatePromise(tokenCredential);
+      clock.tick(1);
+    }
+
+    sinon.assert.callCount(
+      tokenRefresher,
+      initialCallCount +
+        getDivisionCountWithoutFraction(
+          tokenExpiration * 60 * 1000,
+          1 / defaultRefreshAfterLifetimePercentage
+        )
+    );
   });
 });

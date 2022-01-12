@@ -28,12 +28,14 @@ export interface CommunicationTokenRefreshOptions {
 
 const expiredToken = { token: "", expiresOnTimestamp: -10 };
 const minutesToMs = (minutes: number): number => minutes * 1000 * 60;
-const defaultRefreshingInterval = minutesToMs(10);
+const defaultExpiringSoonInterval = minutesToMs(10);
+const defaultRefreshAfterLifetimePercentage = 0.5;
 
 export class AutoRefreshTokenCredential implements TokenCredential {
   private readonly refresh: (abortSignal?: AbortSignalLike) => Promise<string>;
   private readonly refreshProactively: boolean;
-  private readonly refreshingIntervalInMs: number = defaultRefreshingInterval;
+  private readonly expiringSoonIntervalInMs: number = defaultExpiringSoonInterval;
+  private readonly refreshAfterLifetimePercentage = defaultRefreshAfterLifetimePercentage;
 
   private currentToken: AccessToken;
   private activeTimeout: ReturnType<typeof setTimeout> | undefined;
@@ -123,9 +125,11 @@ export class AutoRefreshTokenCredential implements TokenCredential {
     let timespanInMs = null;
 
     if (this.isTokenExpiringSoon(this.currentToken)) {
-      timespanInMs = tokenTtl / 2; //TODO: make this configurable
+      // Schedule the next refresh for when it reaches a certain percentage of the remaining lifetime.
+      timespanInMs = tokenTtl * this.refreshAfterLifetimePercentage;
     } else {
-      timespanInMs = tokenTtl - this.refreshingIntervalInMs;
+      // Schedule the next refresh for when it gets in to the soon-to-expire window.
+      timespanInMs = tokenTtl - this.expiringSoonIntervalInMs;
     }
 
     this.activeTimeout = setTimeout(() => this.updateTokenAndReschedule(), timespanInMs);
@@ -136,6 +140,6 @@ export class AutoRefreshTokenCredential implements TokenCredential {
   }
 
   private isTokenExpiringSoon(token: AccessToken): boolean {
-    return !token || Date.now() >= token.expiresOnTimestamp - this.refreshingIntervalInMs;
+    return !token || Date.now() >= token.expiresOnTimestamp - this.expiringSoonIntervalInMs;
   }
 }
