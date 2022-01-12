@@ -7,7 +7,7 @@ import { TokenCredential, AccessToken, AzureKeyCredential } from "@azure/core-au
 import {
   MixedRealityStsRestClient,
   MixedRealityStsRestClientOptionalParams,
-  GetTokenOptionalParams
+  GetTokenOptionalParams,
 } from "./generated";
 import { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
 import { MixedRealityAccountKeyCredential } from "./models/auth";
@@ -109,9 +109,9 @@ export class MixedRealityStsClient {
           logger: logger.info,
           // This array contains header names we want to log that are not already
           // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-          additionalAllowedHeaderNames: ["X-MRC-CV", "MS-CV"]
-        }
-      }
+          additionalAllowedHeaderNames: ["X-MRC-CV", "MS-CV"],
+        },
+      },
     };
 
     let tokenCredential: TokenCredential;
@@ -124,14 +124,14 @@ export class MixedRealityStsClient {
 
     const clientOptions: MixedRealityStsRestClientOptionalParams = {
       ...internalClientPipelineOptions,
-      endpoint: this.endpointUrl
+      endpoint: this.endpointUrl,
     };
 
     this.restClient = new MixedRealityStsRestClient(clientOptions);
 
     const authPolicy = bearerTokenAuthenticationPolicy({
       credential: tokenCredential,
-      scopes: `${this.endpointUrl}/.default`
+      scopes: `${this.endpointUrl}/.default`,
     });
 
     this.restClient.pipeline.addPolicy(authPolicy);

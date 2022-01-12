@@ -5,7 +5,7 @@ import {
   AzureKeyCredential,
   AccessToken,
   GetTokenOptions,
-  TokenCredential
+  TokenCredential,
 } from "@azure/core-auth";
 
 const maxTimestampMs = 8640000000000000;
