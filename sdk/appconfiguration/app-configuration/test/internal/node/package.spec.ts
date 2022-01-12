@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { isNode } from "@azure/core-http";
 
-import { packageVersion } from "../../src/appConfigurationClient";
+import { packageVersion } from "../../../src/appConfigurationClient";
 import { Context } from "mocha";
 import path from "path";
 import fs from "fs";
@@ -13,10 +12,6 @@ describe("packagejson related tests", () => {
   // if this test is failing you need to update the contant `packageVersion` referenced above
   // in the generated code.
   it("user agent string matches the package version", function (this: Context) {
-    if (!isNode) {
-      this.skip();
-    }
-
     let packageJsonContents: {
       [property: string]: string;
     };
@@ -29,7 +24,7 @@ describe("packagejson related tests", () => {
     } catch (e) {
       // For unit tests
       packageJsonContents = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "../package.json"), { encoding: "utf-8" })
+        fs.readFileSync(path.join(__dirname, "../../package.json"), { encoding: "utf-8" })
       );
     }
 
