@@ -32,11 +32,11 @@
   ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
-    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:browser": "npm run build",
+    "build:node": "npm run build",
     "build:samples": "dev-tool samples prep && cd dist-samples && tsc",
-    "build:test": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "build:test": "npm run build",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* typings *.tgz *.log",
     "execute:samples": "echo skipped",
@@ -108,7 +108,6 @@
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "rollup": "^2.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~4.2.0",
     "ws": "^8.2.0"
