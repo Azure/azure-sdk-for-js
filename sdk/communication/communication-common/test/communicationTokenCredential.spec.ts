@@ -25,7 +25,7 @@ const exposeInternalTimeout = (
   return ((tokenCredential as any).tokenCredential as any).activeTimeout;
 };
 
-const getDivisionCountWithoutFraction = (dividend: number, divisor: number): number => {
+const getDivisionWithoutFractionCount = (dividend: number, divisor: number): number => {
   let i = dividend;
   let result = 0;
   while (i >= divisor) {
@@ -267,9 +267,16 @@ describe("CommunicationTokenCredential", () => {
     );
   });
 
-  it("fractional backoff", async () => {
+  it("applies fractional backoff when the token is about to expire", async () => {
     const defaultRefreshAfterLifetimePercentage = 0.5;
     const tokenExpiration = 20;
+    const expectedPreBackOffCallCount = 1;
+    const expectedTotalCallCount =
+      expectedPreBackOffCallCount +
+      getDivisionWithoutFractionCount(
+        tokenExpiration * 60 * 1000,
+        1 / defaultRefreshAfterLifetimePercentage
+      );
     const staticToken = generateToken(tokenExpiration);
     const tokenRefresher = sinon.stub().resolves(((): string => staticToken)()); // keep returning the same token for the duration of the test
     const tokenCredential = new AzureCommunicationTokenCredential({
@@ -281,9 +288,13 @@ describe("CommunicationTokenCredential", () => {
     let newToken = await tokenCredential.getToken();
 
     // go into the soon-to-expire window
-    clock.tick(10 * 60 * 1000);
+    for (var i = 0; i < 10 * 60 * 1000; i++) {
+      // perform token refreshing & scheduling
+      await exposeInternalUpdatePromise(tokenCredential);
+      clock.tick(1);
+    }
 
-    let initialCallCount = tokenRefresher.callCount;
+    sinon.assert.callCount(tokenRefresher, expectedPreBackOffCallCount);
 
     // iterate until the token expiration
     while (newToken.expiresOnTimestamp - Date.now() > 0) {
@@ -292,13 +303,6 @@ describe("CommunicationTokenCredential", () => {
       clock.tick(1);
     }
 
-    sinon.assert.callCount(
-      tokenRefresher,
-      initialCallCount +
-        getDivisionCountWithoutFraction(
-          tokenExpiration * 60 * 1000,
-          1 / defaultRefreshAfterLifetimePercentage
-        )
-    );
+    sinon.assert.callCount(tokenRefresher, expectedTotalCallCount);
   });
 });
