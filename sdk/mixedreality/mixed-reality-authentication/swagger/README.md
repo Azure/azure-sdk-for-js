@@ -19,7 +19,7 @@ add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-beta.15"
 hide-clients: true
-package-version: 1.0.0-beta.1
+package-version: 1.0.0-beta.2
 v3: true
 ```
 
