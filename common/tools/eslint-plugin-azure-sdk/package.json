@@ -37,7 +37,7 @@
     "dist/"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json && prettier --write dist/**/*.{js,json,md}",
+    "build": "tsc -p tsconfig.build.json",
     "build:samples": "echo Skipped.",
     "build:test": "npm run clean && tsc -p tsconfig.json",
     "clean": "rimraf dist/",
@@ -89,7 +89,7 @@
     "chai": "^4.2.0",
     "eslint": "^7.15.0",
     "mocha": "^7.1.1",
-    "prettier": "^1.16.4",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
     "mocha-junit-reporter": "^2.0.0",

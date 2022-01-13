@@ -10,12 +10,12 @@ export {
   EventGridPublisherClientOptions,
   SendOptions,
   InputSchema,
-  InputSchemaToInputTypeMap
+  InputSchemaToInputTypeMap,
 } from "./eventGridClient";
 
 export {
   generateSharedAccessSignature,
-  GenerateSharedAccessSignatureOptions
+  GenerateSharedAccessSignatureOptions,
 } from "./generateSharedAccessSignature";
 
 export { EventGridDeserializer } from "./consumer";
@@ -203,5 +203,11 @@ export {
   PolicyInsightsPolicyStateDeletedEventData,
   StorageAsyncOperationInitiatedEventData,
   StorageBlobTierChangedEventData,
-  StorageBlobInventoryPolicyCompletedEventData
+  StorageBlobInventoryPolicyCompletedEventData,
+  RecordingChannelType,
+  RecordingContentType,
+  RecordingFormatType,
+  ResourceAuthorization,
+  ResourceHttpRequest,
+  ContainerRegistryEventConnectedRegistry,
 } from "./generated/models";

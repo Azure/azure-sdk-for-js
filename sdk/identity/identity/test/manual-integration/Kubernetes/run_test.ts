@@ -14,32 +14,32 @@ const HELM_APP_NAME = "test";
 const argv = yargs
   .option("client-id", {
     description: "managed identity's client ID",
-    type: "string"
+    type: "string",
   })
   .option("resource-id", {
     description: "managed identity's ARM ID",
-    type: "string"
+    type: "string",
   })
   .option("vault-url", {
     description: "URL of a vault whose secrets the managed identity may manage",
-    type: "string"
+    type: "string",
   })
   .option("repository", {
     description: "repository holding the test image",
-    type: "string"
+    type: "string",
   })
   .option("image-name", {
     description: "name of the test image",
-    type: "string"
+    type: "string",
   })
   .option("image-tag", {
     description: "test image tag",
-    type: "string"
+    type: "string",
   })
   .option("verbose", {
     alias: "v",
     description: "print all executed commands and their output",
-    type: "boolean"
+    type: "boolean",
   })
   .demandOption(
     ["client-id", "resource-id", "vault-url", "repository", "image-name", "image-tag"],
@@ -84,7 +84,7 @@ async function main(): Promise<void> {
     "--set",
     `vaultUrl=${argv["vault-url"]}`,
     "--set",
-    `image.repository=${argv.repository},image.name=${argv["image-name"]},image.tag=${argv["image-tag"]}`
+    `image.repository=${argv.repository},image.name=${argv["image-name"]},image.tag=${argv["image-tag"]}`,
   ];
 
   runCommand(helm_install);
@@ -95,7 +95,7 @@ async function main(): Promise<void> {
     "get",
     "pods",
     "--selector=job-name=" + JOB_NAME,
-    "--output=jsonpath='{.items[*].metadata.name}'"
+    "--output=jsonpath='{.items[*].metadata.name}'",
   ]) as string;
 
   if (podName[0] == "'") {
@@ -110,7 +110,7 @@ async function main(): Promise<void> {
     "get",
     "job",
     JOB_NAME,
-    "--output=jsonpath='{.status.active}'"
+    "--output=jsonpath='{.status.active}'",
   ];
   for (let x = 0; x < 10; ++x) {
     // kubectl will return '' when there are no active pods
@@ -135,7 +135,7 @@ async function main(): Promise<void> {
     "azureassignedidentities.aadpodidentity.k8s.io",
     "azureidentities.aadpodidentity.k8s.io",
     "azureidentitybindings.aadpodidentity.k8s.io",
-    "azurepodidentityexceptions.aadpodidentity.k8s.io"
+    "azurepodidentityexceptions.aadpodidentity.k8s.io",
   ];
   runCommand(["kubectl", "delete", "crd"].concat(pod_identity_CRDs));
 }

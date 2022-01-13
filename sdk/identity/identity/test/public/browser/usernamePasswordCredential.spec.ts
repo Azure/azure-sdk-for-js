@@ -7,19 +7,19 @@ import { UsernamePasswordCredential } from "../../../src";
 import {
   createResponse,
   IdentityTestContext,
-  SendCredentialRequests
+  SendCredentialRequests,
 } from "../../httpRequestsCommon";
 import { prepareIdentityTests } from "../../httpRequests";
 
-describe("UsernamePasswordCredential", function() {
+describe("UsernamePasswordCredential", function () {
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     testContext = await prepareIdentityTests({});
     sendCredentialRequests = testContext.sendCredentialRequests;
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await testContext.restore();
   });
 
@@ -32,9 +32,9 @@ describe("UsernamePasswordCredential", function() {
       secureResponses: [
         createResponse(200, {
           access_token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00"
-        })
-      ]
+          expires_on: "06/20/2019 02:57:58 +00:00",
+        }),
+      ],
     });
 
     const authRequest = authDetails.requests[0];

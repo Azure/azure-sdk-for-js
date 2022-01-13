@@ -16,195 +16,195 @@ const QueueDescription: CompositeMapper = {
         xmlName: "LockDuration",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "TimeSpan"
-        }
+          name: "TimeSpan",
+        },
       },
       maxSizeInMegabytes: {
         serializedName: "maxSizeInMegabytes",
         xmlName: "MaxSizeInMegabytes",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       requiresDuplicateDetection: {
         serializedName: "requiresDuplicateDetection",
         xmlName: "RequiresDuplicateDetection",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       requiresSession: {
         serializedName: "requiresSession",
         xmlName: "RequiresSession",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       defaultMessageTimeToLive: {
         serializedName: "defaultMessageTimeToLive",
         xmlName: "DefaultMessageTimeToLive",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "TimeSpan"
-        }
+          name: "TimeSpan",
+        },
       },
       deadLetteringOnMessageExpiration: {
         serializedName: "deadLetteringOnMessageExpiration",
         xmlName: "DeadLetteringOnMessageExpiration",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       duplicateDetectionHistoryTimeWindow: {
         serializedName: "duplicateDetectionHistoryTimeWindow",
         xmlName: "DuplicateDetectionHistoryTimeWindow",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "TimeSpan"
-        }
+          name: "TimeSpan",
+        },
       },
       maxDeliveryCount: {
         serializedName: "maxDeliveryCount",
         xmlName: "MaxDeliveryCount",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       enableBatchedOperations: {
         serializedName: "enableBatchedOperations",
         xmlName: "EnableBatchedOperations",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       sizeInBytes: {
         serializedName: "sizeInBytes",
         xmlName: "SizeInBytes",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       messageCount: {
         serializedName: "messageCount",
         xmlName: "MessageCount",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       isAnonymousAccessible: {
         serializedName: "isAnonymousAccessible",
         xmlName: "IsAnonymousAccessible",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       status: {
         serializedName: "status",
         xmlName: "Status",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       forwardTo: {
         serializedName: "forwardTo",
         xmlName: "ForwardTo",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       userMetadata: {
         serializedName: "userMetadata",
         xmlName: "UserMetadata",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       createdAt: {
         serializedName: "createdAt",
         xmlName: "CreatedAt",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       updatedAt: {
         serializedName: "updatedAt",
         xmlName: "UpdatedAt",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       accessedAt: {
         serializedName: "accessedAt",
         xmlName: "AccessedAt",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       supportOrdering: {
         serializedName: "supportOrdering",
         xmlName: "SupportOrdering",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       autoDeleteOnIdle: {
         serializedName: "autoDeleteOnIdle",
         xmlName: "AutoDeleteOnIdle",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "TimeSpan"
-        }
+          name: "TimeSpan",
+        },
       },
       enablePartitioning: {
         serializedName: "enablePartitioning",
         xmlName: "EnablePartitioning",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       entityAvailabilityStatus: {
         serializedName: "entityAvailabilityStatus",
         xmlName: "EntityAvailabilityStatus",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       enableExpress: {
         serializedName: "enableExpress",
         xmlName: "EnableExpress",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       forwardDeadLetteredMessagesTo: {
         serializedName: "forwardDeadLetteredMessagesTo",
         xmlName: "ForwardDeadLetteredMessagesTo",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 const CreateQueueBodyContent: CompositeMapper = {
@@ -220,19 +220,19 @@ const CreateQueueBodyContent: CompositeMapper = {
         xmlName: "type",
         xmlIsAttribute: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       queueDescription: {
         serializedName: "queueDescription",
         xmlName: "QueueDescription",
         xmlNamespace: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
-          ...QueueDescription.type
-        }
-      }
-    }
-  }
+          ...QueueDescription.type,
+        },
+      },
+    },
+  },
 };
 
 const CreateQueueBody: CompositeMapper = {
@@ -248,24 +248,24 @@ const CreateQueueBody: CompositeMapper = {
         xmlName: "updated",
         xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       content: {
         serializedName: "content",
         xmlName: "content",
         xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
-          ...CreateQueueBodyContent.type
-        }
-      }
-    }
-  }
+          ...CreateQueueBodyContent.type,
+        },
+      },
+    },
+  },
 };
 
 export const requestBody1: OperationParameter = {
   parameterPath: "requestBody",
-  mapper: CreateQueueBody
+  mapper: CreateQueueBody,
 };
 
 export const TelemetryItem: CompositeMapper = {
@@ -277,61 +277,61 @@ export const TelemetryItem: CompositeMapper = {
         defaultValue: 1,
         serializedName: "ver",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       time: {
         serializedName: "time",
         required: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       sampleRate: {
         defaultValue: 100,
         serializedName: "sampleRate",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       sequence: {
         constraints: {
-          MaxLength: 64
+          MaxLength: 64,
         },
         serializedName: "seq",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       instrumentationKey: {
         serializedName: "iKey",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       data: {
         serializedName: "data",
         type: {
           name: "Composite",
-          className: "MonitorBase"
-        }
-      }
-    }
-  }
+          className: "MonitorBase",
+        },
+      },
+    },
+  },
 };
 
 export const MonitorBase: CompositeMapper = {
@@ -342,18 +342,18 @@ export const MonitorBase: CompositeMapper = {
       baseType: {
         serializedName: "baseType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       baseData: {
         serializedName: "baseData",
         type: {
           name: "Composite",
-          className: "MonitorDomain"
-        }
-      }
-    }
-  }
+          className: "MonitorDomain",
+        },
+      },
+    },
+  },
 };
 
 export const MonitorDomain: CompositeMapper = {
@@ -365,11 +365,11 @@ export const MonitorDomain: CompositeMapper = {
       test: {
         serializedName: "test",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const body: OperationParameter = {
@@ -379,7 +379,7 @@ export const body: OperationParameter = {
     required: true,
     type: {
       name: "Sequence",
-      element: { type: { name: "Composite", className: "TelemetryItem" } }
-    }
-  }
+      element: { type: { name: "Composite", className: "TelemetryItem" } },
+    },
+  },
 };

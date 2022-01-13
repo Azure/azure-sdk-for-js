@@ -19,13 +19,13 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "azure_tenant_id",
   ANOMALY_DETECTOR_API_KEY: "api_key",
-  ANOMALY_DETECTOR_ENDPOINT: "https://endpoint/"
+  ANOMALY_DETECTOR_ENDPOINT: "https://endpoint/",
 };
 
 export const testEnv = new Proxy(replaceableVariables, {
   get: (target, key: string) => {
     return env[key] || target[key];
-  }
+  },
 });
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -52,9 +52,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
       return recording
         .replace(/\?sv[^"]*"/, `?sastoken"`)
         .replace(/\?sv[^\\"]*\\"/, `?sastoken\\"`);
-    }
+    },
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export function createRecordedAnomalyDetectorClient(
@@ -72,6 +72,6 @@ export function createRecordedAnomalyDetectorClient(
           testEnv.AZURE_CLIENT_SECRET
         )
     ),
-    recorder
+    recorder,
   };
 }

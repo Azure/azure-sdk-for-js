@@ -7,7 +7,8 @@ import {
   testHasChanged,
   isContentTypeInNockFixture,
   decodeHexEncodingIfExistsInNockFixture,
-  handleSingleQuotesInUrlPath
+  handleSingleQuotesInUrlPath,
+  setDefaultRetryAfterIntervalInNockFixture,
 } from "../../src/utils";
 import { nodeRequireRecordingIfExists, findRecordingsFolderPath } from "../../src/utils/recordings";
 import chai, { expect } from "chai";
@@ -15,7 +16,7 @@ import { defaultCustomizationsOnRecordings } from "../../src/defaultCustomizatio
 
 describe("NodeJS utils", () => {
   describe("nodeRequireRecordingIfExists", () => {
-    it("should be able to load the contents of a recording file if the file exists", function() {
+    it("should be able to load the contents of a recording file if the file exists", function () {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
 
@@ -25,7 +26,7 @@ describe("NodeJS utils", () => {
         "recordings/recording.json": "",
         "test/myTest.spec.ts": "",
         "../../sdk/": {},
-        "../../../rush.json": ""
+        "../../../rush.json": "",
       });
 
       const path = require("path");
@@ -33,12 +34,12 @@ describe("NodeJS utils", () => {
 
       // If rollup bundle is used to execute the tests - `dist-test/index.node.js`, `recordings` folder is present one level above.
       mockRequire("../recordings/recording.json", {
-        property: "value"
+        property: "value",
       });
 
       // If the dist-esm files are used to execute the tests - `dist-esm/test/node/utils.spec.js`, `recordings` folder is present three levels above.
       mockRequire("../../../recordings/recording.json", {
-        property: "value"
+        property: "value",
       });
 
       expect(nodeRequireRecordingIfExists("recording.json", testAbsolutePath).property).to.equal(
@@ -49,7 +50,7 @@ describe("NodeJS utils", () => {
       mockRequire.stopAll();
     });
 
-    it("should throw if the file at a given recording path doesn't exist", function() {
+    it("should throw if the file at a given recording path doesn't exist", function () {
       if (isBrowser()) {
         this.skip();
       }
@@ -63,7 +64,7 @@ describe("NodeJS utils", () => {
         recordings: {},
         "test/myTest.spec.ts": "",
         "../../sdk/": {},
-        "../../../rush.json": ""
+        "../../../rush.json": "",
       });
 
       const path = require("path");
@@ -88,7 +89,7 @@ describe("NodeJS utils", () => {
   });
 
   describe("testHasChanged", () => {
-    it("should not crash if the recorded file doesn't exist", function() {
+    it("should not crash if the recorded file doesn't exist", function () {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
       const testSuiteTitle = this.test!.parent!.fullTitle();
@@ -100,7 +101,7 @@ describe("NodeJS utils", () => {
         recordings: {},
         "test/myTest.spec.ts": "",
         "../../sdk/": {},
-        "../../../rush.json": ""
+        "../../../rush.json": "",
       });
 
       // We won't be testing whether MD5 works or not.
@@ -115,7 +116,7 @@ describe("NodeJS utils", () => {
       mockRequire.stopAll();
     });
 
-    it("should return true if the older hash doesn't exist", function() {
+    it("should return true if the older hash doesn't exist", function () {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
       const platform = "node";
@@ -129,7 +130,7 @@ describe("NodeJS utils", () => {
         [`recordings/${filePath}`]: "",
         "test/myTest.spec.ts": "",
         "../../sdk/": {},
-        "../../../rush.json": ""
+        "../../../rush.json": "",
       });
 
       mockRequire(`../recordings/${filePath}`, {});
@@ -146,7 +147,7 @@ describe("NodeJS utils", () => {
       mockRequire.stopAll();
     });
 
-    it("should return false if the older hash is the same as the new hash", function() {
+    it("should return false if the older hash is the same as the new hash", function () {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
       const platform = "node";
@@ -160,19 +161,19 @@ describe("NodeJS utils", () => {
         [`recordings/${filePath}`]: "",
         "test/myTest.spec.ts": "",
         "../../sdk/": {},
-        "../../../rush.json": ""
+        "../../../rush.json": "",
       });
 
       // If rollup bundle is used to execute the tests - `dist-test/index.node.js`, `recordings` folder is present one level above.
       mockRequire(`../recordings/${filePath}`, {
         // We won't be testing whether MD5 works or not.
-        hash: "same old hash"
+        hash: "same old hash",
       });
 
       // If the dist-esm files are used to execute the tests - `dist-esm/test/node/utils.spec.js`, `recordings` folder is present three levels above.
       mockRequire(`../../../recordings/${filePath}`, {
         // We won't be testing whether MD5 works or not.
-        hash: "same old hash"
+        hash: "same old hash",
       });
 
       // We won't be testing whether MD5 works or not.
@@ -187,7 +188,7 @@ describe("NodeJS utils", () => {
       mockRequire.stopAll();
     });
 
-    it("should return true if the older hash is different than the new hash", function() {
+    it("should return true if the older hash is different than the new hash", function () {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
       const platform = "node";
@@ -201,12 +202,12 @@ describe("NodeJS utils", () => {
         [`recordings/${filePath}`]: "",
         "test/myTest.spec.ts": "",
         "../../sdk/": {},
-        "../../../rush.json": ""
+        "../../../rush.json": "",
       });
 
       mockRequire(`../recordings/${filePath}`, {
         // We won't be testing whether MD5 works or not.
-        hash: "old hash"
+        hash: "old hash",
       });
 
       // We won't be testing whether MD5 works or not.
@@ -247,7 +248,7 @@ describe("NodeJS utils", () => {
   'avro/binary',
   'Last-Modified',
   'Thu, 20 Aug 2020 09:22:11 GMT',
-]);`
+]);`,
       },
       {
         name: `Hex encoding is not decoded for "something/else" content type`,
@@ -272,7 +273,7 @@ describe("NodeJS utils", () => {
   'something/else',
   'Last-Modified',
   'Thu, 20 Aug 2020 09:22:11 GMT',
-]);`
+]);`,
       },
       {
         name: `Hex encoding decodes for "avro/binary" content type even for partial success(status code 206)`,
@@ -297,7 +298,7 @@ describe("NodeJS utils", () => {
   'avro/binary',
   'Last-Modified',
   'Thu, 20 Aug 2020 09:22:11 GMT',
-]);`
+]);`,
       },
       {
         name: `Hex encoding is not decoded for non-successful status codes`,
@@ -322,8 +323,8 @@ describe("NodeJS utils", () => {
   'avro/binary',
   'Last-Modified',
   'Thu, 20 Aug 2020 09:22:11 GMT',
-]);`
-      }
+]);`,
+      },
     ].forEach((test) => {
       it(test.name, () => {
         chai.assert.equal(
@@ -351,7 +352,7 @@ describe("NodeJS utils", () => {
   'Thu, 20 Aug 2020 09:22:11 GMT',
 ]);`,
         expectedContentTypes: ["avro/binary"],
-        output: true
+        output: true,
       },
       {
         name: `"avro/binary" matches with an array of expected content types`,
@@ -367,7 +368,7 @@ describe("NodeJS utils", () => {
           'Thu, 20 Aug 2020 09:22:11 GMT',
         ]);`,
         expectedContentTypes: ["avro/binary", "application/xml"],
-        output: true
+        output: true,
       },
       {
         name: `"text/plain" should not match with an array of different content types`,
@@ -383,8 +384,8 @@ describe("NodeJS utils", () => {
           'Thu, 20 Aug 2020 09:22:11 GMT',
         ]);`,
         expectedContentTypes: ["avro/binary", "application/xml"],
-        output: false
-      }
+        output: false,
+      },
     ].forEach((test) => {
       it(test.name, () => {
         chai.assert.equal(
@@ -435,7 +436,7 @@ describe("NodeJS utils", () => {
           'Strict-Transport-Security',
           'max-age=31536000; includeSubDomains',
           'X-Content-Type-Options'
-        ]);`
+        ]);`,
       },
       {
         name: `modify scope url and do nothing else for json response without access_token`,
@@ -472,7 +473,7 @@ describe("NodeJS utils", () => {
           'Strict-Transport-Security',
           'max-age=31536000; includeSubDomains',
           'X-Content-Type-Options'
-        ]);`
+        ]);`,
       },
       {
         name: `do nothing for (unrelated) non JSON response`,
@@ -497,7 +498,7 @@ describe("NodeJS utils", () => {
           'text/plain',
           'Last-Modified',
           'Thu, 20 Aug 2020 09:22:11 GMT',
-        ]);`
+        ]);`,
       },
       {
         name: "do nothing for unrelated XML response",
@@ -536,8 +537,8 @@ describe("NodeJS utils", () => {
           '2019-02-02',
           'Date',
           'Tue, 03 Dec 2019 05:06:39 GMT' ]);
-        `
-      }
+        `,
+      },
     ].forEach((test) => {
       it(test.name, () => {
         let updatedFixture = test.input;
@@ -548,6 +549,147 @@ describe("NodeJS utils", () => {
           updatedFixture,
           test.output,
           `Unexpected result - updatedFixture is not as expected`
+        );
+      });
+    });
+  });
+
+  describe("setDefaultRetryAfterIntervalInNockFixture", () => {
+    [
+      {
+        name: `Default RetryAfter interval is set if retry-after is > 0`,
+        input: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  '60',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+        output: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  '0',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+      },
+      {
+        name: `has no effect if retry-after is absent`,
+        input: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+        output: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+      },
+      {
+        name: `unchanged if retry-after is 0 already`,
+        input: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  '0',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+        output: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  '0',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+      },
+      {
+        name: `unchanged if the value after the retry-after is not a number`,
+        input: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  'AB-CD',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+        output: `nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy2/operationresults/ZWFzdHVzOm15c2VydmljZXl5eTJfQWN0X2M5ZTUxY2Ri')
+  .query(true)
+  .reply(202, "", [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Retry-After',
+  'AB-CD',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-request-id',
+  '8fc80de9-0d11-4570-a62b-3e90ae6fd07c',
+]);`,
+      },
+    ].forEach((test) => {
+      it(test.name, () => {
+        chai.assert.equal(
+          setDefaultRetryAfterIntervalInNockFixture(test.input),
+          test.output,
+          `Output from "setDefaultRetryAfterIntervalInNockFixture" did not match the expected output`
         );
       });
     });
@@ -587,7 +729,7 @@ describe("NodeJS utils", () => {
                   .reply(200, "4f626a0131c2", [
                   'Transfer-Encoding',
                   'chunked'
-                ]);`
+                ]);`,
       },
       {
         name: `single quotes in delete request in the fixture with no request body`,
@@ -604,7 +746,7 @@ describe("NodeJS utils", () => {
                   .reply(200, "4f626a0131c2", [
                   'Transfer-Encoding',
                   'chunked'
-                ]);`
+                ]);`,
       },
       {
         name: `no single quotes in get request in the fixture`,
@@ -621,7 +763,7 @@ describe("NodeJS utils", () => {
                   .reply(200, "4f626a0131c2", [
                   'Transfer-Encoding',
                   'chunked'
-                ]);`
+                ]);`,
       },
       {
         name: `more than two single quotes in delete request in the fixture`,
@@ -638,8 +780,8 @@ describe("NodeJS utils", () => {
                   .reply(200, "4f626a0131c2", [
                   'Transfer-Encoding',
                   'chunked'
-                ]);`
-      }
+                ]);`,
+      },
       // {
       //   name: `no single quotes in the path and single quotes in the request body should not affect`,
       //   input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})

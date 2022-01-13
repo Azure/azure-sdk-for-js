@@ -99,7 +99,7 @@ export class ChangeFeed {
           undefined,
           {
             abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions
+            tracingOptions: updatedOptions.tracingOptions,
           }
         );
       }
@@ -113,7 +113,7 @@ export class ChangeFeed {
           this.end,
           {
             abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions
+            tracingOptions: updatedOptions.tracingOptions,
           }
         );
 
@@ -124,7 +124,7 @@ export class ChangeFeed {
             undefined,
             {
               abortSignal: options.abortSignal,
-              tracingOptions: updatedOptions.tracingOptions
+              tracingOptions: updatedOptions.tracingOptions,
             }
           );
         } else {
@@ -134,7 +134,7 @@ export class ChangeFeed {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -164,18 +164,18 @@ export class ChangeFeed {
       while (event === undefined && this.hasNext()) {
         event = await this.currentSegment!.getChange({
           abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions
+          tracingOptions: updatedOptions.tracingOptions,
         });
         await this.advanceSegmentIfNecessary({
           abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions
+          tracingOptions: updatedOptions.tracingOptions,
         });
       }
       return event;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -192,7 +192,7 @@ export class ChangeFeed {
       CursorVersion: 1,
       UrlHost: getHost(this.containerClient!.url)!,
       EndTime: this.endTime?.toJSON(),
-      CurrentSegmentCursor: this.currentSegment!.getCursor()
+      CurrentSegmentCursor: this.currentSegment!.getCursor(),
     };
   }
 }

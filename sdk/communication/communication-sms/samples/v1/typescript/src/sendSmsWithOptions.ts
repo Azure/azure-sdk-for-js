@@ -24,12 +24,20 @@ export async function main() {
   const client = new SmsClient(connectionString);
 
   // construct send request
+  let phoneNumbers: string[];
+  if (process.env.TO_PHONE_NUMBERS !== undefined) {
+    phoneNumbers = process.env.TO_PHONE_NUMBERS.split(",")
+  }
+  else if (process.env.AZURE_PHONE_NUMBER !== undefined) {
+    phoneNumbers = [process.env.AZURE_PHONE_NUMBER]
+  }
+  else {
+    phoneNumbers = ["<to-phone-number-1>", "<to-phone-number-2>"]
+  }
+
   const sendRequest: SmsSendRequest = {
     from: process.env.FROM_PHONE_NUMBER || process.env.AZURE_PHONE_NUMBER || "<from-phone-number>",
-    to: process.env.TO_PHONE_NUMBERS?.split(",") || [process.env.AZURE_PHONE_NUMBER!] || [
-        "<to-phone-number-1>",
-        "<to-phone-number-2>"
-      ],
+    to: phoneNumbers,
     message: "Hello World via SMS!"
   };
 

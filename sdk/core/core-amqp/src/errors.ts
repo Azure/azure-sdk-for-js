@@ -7,12 +7,6 @@ import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 import { isNode, isNumber, isString } from "../src/util/utils";
 
 /**
- * The standard error message accompanying an AbortError.
- * @hidden
- */
-export const StandardAbortMessage = "The operation was aborted.";
-
-/**
  * Maps the conditions to the numeric AMQP Response status codes.
  * @internal
  */
@@ -36,7 +30,7 @@ export enum ConditionStatusMapper {
   "amqp:link:stolen" = AmqpResponseStatusCode.Gone,
   "amqp:not-allowed" = AmqpResponseStatusCode.BadRequest,
   "amqp:unauthorized-access" = AmqpResponseStatusCode.Unauthorized,
-  "amqp:resource-limit-exceeded" = AmqpResponseStatusCode.Forbidden
+  "amqp:resource-limit-exceeded" = AmqpResponseStatusCode.Forbidden,
 }
 
 /**
@@ -241,7 +235,7 @@ export enum ConditionErrorNameMapper {
    * Error is thrown when a low level system error is thrown by node.js.
    * {@link https://nodejs.org/dist/latest-v8.x/docs/api/all.html#errors_class_system_error}
    */
-  "system:error" = "SystemError"
+  "system:error" = "SystemError",
 }
 
 /**
@@ -438,7 +432,7 @@ export enum ErrorNameConditionMapper {
    * Error is thrown when a low level system error is thrown by node.js.
    * {@link https://nodejs.org/api/errors.html#errors_class_systemerror}
    */
-  SystemError = "system:error"
+  SystemError = "system:error",
 }
 
 /**
@@ -468,7 +462,7 @@ const systemErrorFieldsToCopy: (keyof Omit<NetworkSystemError, "name" | "message
   "info",
   "port",
   "stack",
-  "syscall"
+  "syscall",
 ];
 
 /**
@@ -570,7 +564,7 @@ export const retryableErrors: string[] = [
 
   // InsufficientCreditError occurs when the number of credits available on Rhea link is insufficient.
   // Since reasons for such shortage can be transient such as for pending delivery of messages, this is treated as a retryable error.
-  "InsufficientCreditError"
+  "InsufficientCreditError",
 ];
 
 /**
@@ -586,7 +580,7 @@ export enum SystemErrorConditionMapper {
   EHOSTDOWN = "com.microsoft:timeout",
   ENETRESET = "com.microsoft:timeout",
   ENETUNREACH = "com.microsoft:timeout",
-  ENONET = "com.microsoft:timeout"
+  ENONET = "com.microsoft:timeout",
 }
 
 /**
@@ -635,7 +629,7 @@ const rheaPromiseErrors = [
   "InsufficientCreditError",
 
   // Defines the error that occurs when the Sender fails to send a message.
-  "SendOperationFailedError"
+  "SendOperationFailedError",
 ];
 
 /**

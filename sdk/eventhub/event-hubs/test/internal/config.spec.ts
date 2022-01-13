@@ -7,9 +7,9 @@ import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 const should = chai.should();
 
 testWithServiceTypes(() => {
-  describe("ConnectionConfig", function() {
-    describe("EventHub", function() {
-      it("should fail if connection config does not contain path and the connectionstring also does not contain EntityPath", function(done) {
+  describe("ConnectionConfig", function () {
+    describe("EventHub", function () {
+      it("should fail if connection config does not contain path and the connectionstring also does not contain EntityPath", function (done) {
         const connectionString =
           "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak";
         try {
@@ -21,7 +21,7 @@ testWithServiceTypes(() => {
         done();
       });
 
-      it("should correctly populate config properties from an EventHubs connection string and the helper methods should work as expected", function(done) {
+      it("should correctly populate config properties from an EventHubs connection string and the helper methods should work as expected", function (done) {
         const config = EventHubConnectionConfig.create(
           "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep"
         );

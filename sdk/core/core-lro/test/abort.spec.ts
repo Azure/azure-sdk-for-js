@@ -14,42 +14,42 @@ const basicResponseStructure = {
   headers: testHttpHeaders,
   parsedBody: {},
   request: testHttpRequest,
-  status: 200
+  status: 200,
 };
 const initialResponse = {
   ...basicResponseStructure,
   parsedBody: {
-    started: true
-  }
+    started: true,
+  },
 };
 const doFinalResponse = {
   ...basicResponseStructure,
   parsedBody: {
-    doFinalResponse: true
-  }
+    doFinalResponse: true,
+  },
 };
 const finalResponse = {
   ...basicResponseStructure,
   parsedBody: {
-    finished: true
-  }
+    finished: true,
+  },
 };
 
-describe("Long Running Operations - working with abort signals", function() {
-  it("should support an abort signal sent through the constructor", async function() {
+describe("Long Running Operations - working with abort signals", function () {
+  it("should support an abort signal sent through the constructor", async function () {
     const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
       ...Array(20).fill(basicResponseStructure),
       doFinalResponse,
-      finalResponse
+      finalResponse,
     ]);
 
     const abortController = new AbortController();
     const poller = await client.startLRO({
       requestOptions: {
-        abortSignal: abortController.signal
-      }
+        abortSignal: abortController.signal,
+      },
     });
 
     // Testing subscriptions to the poll errors
@@ -71,13 +71,13 @@ describe("Long Running Operations - working with abort signals", function() {
     assert.equal(client.totalSentRequests, 11);
   });
 
-  it("should support an abort signal sent through the parameters of poll()", async function() {
+  it("should support an abort signal sent through the parameters of poll()", async function () {
     const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
       ...Array(20).fill(basicResponseStructure),
       doFinalResponse,
-      finalResponse
+      finalResponse,
     ]);
 
     const abortController = new AbortController();
@@ -93,7 +93,7 @@ describe("Long Running Operations - working with abort signals", function() {
     let pollError: Error | undefined;
     try {
       await poller.poll({
-        abortSignal: abortController.signal
+        abortSignal: abortController.signal,
       });
     } catch (e) {
       pollError = e;
@@ -112,20 +112,20 @@ describe("Long Running Operations - working with abort signals", function() {
     assert.ok(poller.isDone());
   });
 
-  it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent from the constructor", async function() {
+  it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent from the constructor", async function () {
     const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
       ...Array(20).fill(basicResponseStructure),
       doFinalResponse,
-      finalResponse
+      finalResponse,
     ]);
 
     const abortController = new AbortController();
     const poller = await client.startLRO({
       requestOptions: {
-        abortSignal: abortController.signal
-      }
+        abortSignal: abortController.signal,
+      },
     });
 
     // Waiting for 10 poller loops
@@ -147,13 +147,13 @@ describe("Long Running Operations - working with abort signals", function() {
     assert.equal(cancelError!.message, "The operation was aborted.");
   });
 
-  it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent as a parameter to cancelOperation()", async function() {
+  it("can abort the cancel method (when cancellation is supported) by with an abortSignal sent as a parameter to cancelOperation()", async function () {
     const client = new TestClient(new TestTokenCredential("my-test-token"));
     client.setResponses([
       initialResponse,
       ...Array(20).fill(basicResponseStructure),
       doFinalResponse,
-      finalResponse
+      finalResponse,
     ]);
 
     const poller = await client.startLRO();
@@ -179,7 +179,7 @@ describe("Long Running Operations - working with abort signals", function() {
     let cancelError: Error | undefined;
     try {
       await poller.cancelOperation({
-        abortSignal: abortController.signal
+        abortSignal: abortController.signal,
       });
     } catch (e) {
       cancelError = e;

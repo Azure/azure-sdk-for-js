@@ -9,7 +9,7 @@ import {
   TelemetryItem as Envelope,
   ApplicationInsightsClient,
   ApplicationInsightsClientOptionalParams,
-  ApplicationInsightsClientTrackOptionalParams
+  ApplicationInsightsClientTrackOptionalParams,
 } from "../../generated";
 import { AzureExporterInternalConfig } from "../../config";
 
@@ -24,11 +24,11 @@ export class HttpSender implements Sender {
   constructor(private _exporterOptions: AzureExporterInternalConfig) {
     // Build endpoint using provided configuration or default values
     this._appInsightsClientOptions = {
-      host: this._exporterOptions.endpointUrl
+      host: this._exporterOptions.endpointUrl,
     };
 
     this._appInsightsClient = new ApplicationInsightsClient({
-      ...this._appInsightsClientOptions
+      ...this._appInsightsClientOptions,
     });
 
     this._appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
@@ -50,7 +50,7 @@ export class HttpSender implements Sender {
       }
       await this._appInsightsClient.track(envelopes, {
         ...options,
-        onResponse
+        onResponse,
       });
 
       return { statusCode: response?.status, result: response?.bodyAsText ?? "" };

@@ -10,7 +10,7 @@ import {
   TextAnalyticsWarning,
   DocumentError,
   TextDocumentBatchStatistics,
-  TextDocumentInput
+  TextDocumentInput,
 } from "./generated/models";
 import { sortResponseIdObjects } from "./util";
 
@@ -178,7 +178,7 @@ export function intoTextAnalyticsError(
   return {
     code: errorModel.code,
     message: errorModel.message,
-    target: errorModel.target
+    target: errorModel.target,
   };
 }
 
@@ -193,7 +193,7 @@ export function makeTextAnalyticsSuccessResult(
   return {
     id,
     statistics,
-    warnings
+    warnings,
   };
 }
 
@@ -206,7 +206,7 @@ export function makeTextAnalyticsErrorResult(
 ): TextAnalyticsErrorResult {
   return {
     id,
-    error: intoTextAnalyticsError(error)
+    error: intoTextAnalyticsError(error),
   };
 }
 
@@ -231,9 +231,8 @@ export function processAndCombineSuccessfulAndErroneousDocuments<
   processSuccess: (successResult: TSuccessService) => TSuccessSDK,
   processError: (id: string, error: GeneratedTextAnalyticsErrorModel) => TError
 ): (TSuccessSDK | TextAnalyticsErrorResult)[] {
-  const successResults: (TSuccessSDK | TextAnalyticsErrorResult)[] = response.documents.map(
-    processSuccess
-  );
+  const successResults: (TSuccessSDK | TextAnalyticsErrorResult)[] =
+    response.documents.map(processSuccess);
   const unsortedResults = successResults.concat(
     response.errors.map((error) => processError(error.id, error.error))
   );
@@ -267,7 +266,7 @@ export function combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVers
   );
   return Object.assign(sorted, {
     statistics: response.statistics,
-    modelVersion: response.modelVersion
+    modelVersion: response.modelVersion,
   });
 }
 
@@ -298,6 +297,6 @@ export function combineSuccessfulAndErroneousDocumentsWithStatisticsAndCustomPro
   return Object.assign(sorted, {
     statistics: response.statistics,
     projectName: response.projectName,
-    deploymentName: response.deploymentName
+    deploymentName: response.deploymentName,
   });
 }

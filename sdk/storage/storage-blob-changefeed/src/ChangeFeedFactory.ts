@@ -12,7 +12,7 @@ import {
   getSegmentsInYear,
   minDate,
   getHost,
-  parseDateFromSegmentPath
+  parseDateFromSegmentPath,
 } from "./utils/utils.common";
 import { bodyToString } from "./utils/utils.node";
 import { SegmentFactory } from "./SegmentFactory";
@@ -82,7 +82,7 @@ export class ChangeFeedFactory {
       // Check if Change Feed has been enabled for this account.
       const changeFeedContainerExists = await containerClient.exists({
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
       if (!changeFeedContainerExists) {
         throw new Error(
@@ -98,7 +98,7 @@ export class ChangeFeedFactory {
       const blobClient = containerClient.getBlobClient(CHANGE_FEED_META_SEGMENT_PATH);
       const blobDownloadRes = await blobClient.download(undefined, undefined, {
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
       const lastConsumable = new Date(
         (JSON.parse(await bodyToString(blobDownloadRes)) as MetaSegments).lastConsumable
@@ -107,7 +107,7 @@ export class ChangeFeedFactory {
       // Get year paths
       const years: number[] = await getYearsPaths(containerClient, {
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
 
       // Dequeue any years that occur before start time.
@@ -130,7 +130,7 @@ export class ChangeFeedFactory {
           minDate(lastConsumable, options.end),
           {
             abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions
+            tracingOptions: updatedOptions.tracingOptions,
           }
         );
       }
@@ -143,7 +143,7 @@ export class ChangeFeedFactory {
         cursor?.CurrentSegmentCursor,
         {
           abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions
+          tracingOptions: updatedOptions.tracingOptions,
         }
       );
 
@@ -160,7 +160,7 @@ export class ChangeFeedFactory {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

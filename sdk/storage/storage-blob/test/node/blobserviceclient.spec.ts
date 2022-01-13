@@ -1,23 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
-import * as dotenv from "dotenv";
 import { BlobServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
 import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("BlobServiceClient Node.js only", () => {
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -41,8 +39,8 @@ describe("BlobServiceClient Node.js only", () => {
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new BlobServiceClient(serviceClient.url, credential, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const result = await newClient.getProperties();
@@ -80,8 +78,8 @@ describe("BlobServiceClient Node.js only", () => {
   it("can be created from a connection string and an option bag", async () => {
     const newClient = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment(), {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const result = await newClient.getProperties();

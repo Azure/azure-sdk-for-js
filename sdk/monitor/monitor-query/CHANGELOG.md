@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed the `timeInterval` field of `MetricsQueryResult` object to correctly return all the fields of `QueryTimeInterval`.
+
 ### Other Changes
 
 ## 1.0.0 (2021-10-07)

@@ -19,6 +19,8 @@ import {
   AppServiceEnvironmentsImpl,
   AppServicePlansImpl,
   CertificatesImpl,
+  ContainerAppsImpl,
+  ContainerAppsRevisionsImpl,
   DeletedWebAppsImpl,
   DiagnosticsImpl,
   GlobalImpl,
@@ -39,6 +41,8 @@ import {
   AppServiceEnvironments,
   AppServicePlans,
   Certificates,
+  ContainerApps,
+  ContainerAppsRevisions,
   DeletedWebApps,
   Diagnostics,
   Global,
@@ -59,6 +63,9 @@ import {
   BillingMeter,
   ListBillingMetersNextOptionalParams,
   ListBillingMetersOptionalParams,
+  CustomHostnameSites,
+  ListCustomHostNameSitesNextOptionalParams,
+  ListCustomHostNameSitesOptionalParams,
   GeoRegion,
   ListGeoRegionsNextOptionalParams,
   ListGeoRegionsOptionalParams,
@@ -83,6 +90,7 @@ import {
   CheckNameResourceTypes,
   CheckNameAvailabilityOptionalParams,
   CheckNameAvailabilityResponse,
+  ListCustomHostNameSitesResponse,
   GetSubscriptionDeploymentLocationsOptionalParams,
   GetSubscriptionDeploymentLocationsResponse,
   ListGeoRegionsResponse,
@@ -101,6 +109,7 @@ import {
   ValidateMoveOptionalParams,
   ListSourceControlsNextResponse,
   ListBillingMetersNextResponse,
+  ListCustomHostNameSitesNextResponse,
   ListGeoRegionsNextResponse,
   ListSiteIdentifiersAssignedToHostNameNextResponse,
   ListPremierAddOnOffersNextResponse
@@ -140,7 +149,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/10.0.0`;
+    const packageDetails = `azsdk-js-arm-appservice/11.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -163,7 +172,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-02-01";
+    this.apiVersion = options.apiVersion || "2021-03-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this
     );
@@ -179,6 +188,8 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     this.appServiceEnvironments = new AppServiceEnvironmentsImpl(this);
     this.appServicePlans = new AppServicePlansImpl(this);
     this.certificates = new CertificatesImpl(this);
+    this.containerApps = new ContainerAppsImpl(this);
+    this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
     this.deletedWebApps = new DeletedWebAppsImpl(this);
     this.diagnostics = new DiagnosticsImpl(this);
     this.global = new GlobalImpl(this);
@@ -272,6 +283,51 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     options?: ListBillingMetersOptionalParams
   ): AsyncIterableIterator<BillingMeter> {
     for await (const page of this.listBillingMetersPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get custom hostnames under this subscription
+   * @param options The options parameters.
+   */
+  public listCustomHostNameSites(
+    options?: ListCustomHostNameSitesOptionalParams
+  ): PagedAsyncIterableIterator<CustomHostnameSites> {
+    const iter = this.listCustomHostNameSitesPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listCustomHostNameSitesPagingPage(options);
+      }
+    };
+  }
+
+  private async *listCustomHostNameSitesPagingPage(
+    options?: ListCustomHostNameSitesOptionalParams
+  ): AsyncIterableIterator<CustomHostnameSites[]> {
+    let result = await this._listCustomHostNameSites(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listCustomHostNameSitesNext(
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listCustomHostNameSitesPagingAll(
+    options?: ListCustomHostNameSitesOptionalParams
+  ): AsyncIterableIterator<CustomHostnameSites> {
+    for await (const page of this.listCustomHostNameSitesPagingPage(options)) {
       yield* page;
     }
   }
@@ -529,6 +585,19 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
+   * Get custom hostnames under this subscription
+   * @param options The options parameters.
+   */
+  private _listCustomHostNameSites(
+    options?: ListCustomHostNameSitesOptionalParams
+  ): Promise<ListCustomHostNameSitesResponse> {
+    return this.sendOperationRequest(
+      { options },
+      listCustomHostNameSitesOperationSpec
+    );
+  }
+
+  /**
    * Description for Gets list of available geo regions plus ministamps
    * @param options The options parameters.
    */
@@ -685,6 +754,22 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
+   * ListCustomHostNameSitesNext
+   * @param nextLink The nextLink from the previous successful call to the ListCustomHostNameSites
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listCustomHostNameSitesNext(
+    nextLink: string,
+    options?: ListCustomHostNameSitesNextOptionalParams
+  ): Promise<ListCustomHostNameSitesNextResponse> {
+    return this.sendOperationRequest(
+      { nextLink, options },
+      listCustomHostNameSitesNextOperationSpec
+    );
+  }
+
+  /**
    * ListGeoRegionsNext
    * @param nextLink The nextLink from the previous successful call to the ListGeoRegions method.
    * @param options The options parameters.
@@ -741,6 +826,8 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   appServiceEnvironments: AppServiceEnvironments;
   appServicePlans: AppServicePlans;
   certificates: Certificates;
+  containerApps: ContainerApps;
+  containerAppsRevisions: ContainerAppsRevisions;
   deletedWebApps: DeletedWebApps;
   diagnostics: Diagnostics;
   global: Global;
@@ -882,6 +969,23 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const listCustomHostNameSitesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Web/customhostnameSites",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomHostnameSitesCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getSubscriptionDeploymentLocationsOperationSpec: coreClient.OperationSpec = {
@@ -1091,6 +1195,26 @@ const listBillingMetersNextOperationSpec: coreClient.OperationSpec = {
     Parameters.billingLocation,
     Parameters.osType
   ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listCustomHostNameSitesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomHostnameSitesCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

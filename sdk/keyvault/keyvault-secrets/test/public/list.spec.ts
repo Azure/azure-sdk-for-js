@@ -22,7 +22,7 @@ describe("Secret client - list secrets in various ways", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     const authentication = await authenticate(this, getServiceVersion());
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
@@ -30,7 +30,7 @@ describe("Secret client - list secrets in various ways", () => {
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -39,7 +39,7 @@ describe("Secret client - list secrets in various ways", () => {
   // Use this while recording to make sure the target keyvault is clean.
   // The next tests will produce a more consistent output.
   // This test is only useful while developing locally.
-  it("can purge all secrets", async function(this: Context): Promise<void> {
+  it("can purge all secrets", async function (this: Context): Promise<void> {
     // WARNING: When TEST_MODE equals "record", all of the secrets in the indicated KEYVAULT_URI will be deleted as part of this test.
     if (!isRecordMode()) {
       return this.skip();
@@ -60,7 +60,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  it("can list secret properties", async function(this: Context) {
+  it("can list secret properties", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -80,17 +80,17 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can get secret properties with requestOptions timeout", async function(this: Context) {
+  it("can get secret properties with requestOptions timeout", async function (this: Context) {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const iter = client.listPropertiesOfSecrets({
-      requestOptions: { timeout: 1 }
+      requestOptions: { timeout: 1 },
     });
     await assertThrowsAbortError(async () => {
       await iter.next();
     });
   });
 
-  it("can list deleted secrets", async function(this: Context) {
+  it("can list deleted secrets", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -114,18 +114,18 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can get the deleted secrets with requestOptions timeout", async function() {
+  it("can get the deleted secrets with requestOptions timeout", async function () {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
 
     const iter = client.listDeletedSecrets({
-      requestOptions: { timeout: 1 }
+      requestOptions: { timeout: 1 },
     });
     await assertThrowsAbortError(async () => {
       await iter.next();
     });
   });
 
-  it("can retrieve all versions of a secret", async function(this: Context) {
+  it("can retrieve all versions of a secret", async function (this: Context) {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
@@ -157,17 +157,17 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can get versions of a secret with requestOptions timeout", async function() {
+  it("can get versions of a secret with requestOptions timeout", async function () {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const iter = client.listPropertiesOfSecretVersions("doesntmatter", {
-      requestOptions: { timeout: 1 }
+      requestOptions: { timeout: 1 },
     });
     await assertThrowsAbortError(async () => {
       await iter.next();
     });
   });
 
-  it("can list secret versions (non existing)", async function(this: Context) {
+  it("can list secret versions (non existing)", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -183,7 +183,7 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(totalVersions, 0, `Unexpected total versions for secret ${secretName}`);
   });
 
-  it("can list secrets by page", async function(this: Context) {
+  it("can list secrets by page", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -202,7 +202,7 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
   });
 
-  it("can list deleted secrets by page", async function(this: Context) {
+  it("can list deleted secrets by page", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -226,7 +226,7 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(found, 2, "Unexpected number of secrets found by getDeletedSecrets.");
   });
 
-  it("can retrieve all versions of a secret by page", async function(this: Context) {
+  it("can retrieve all versions of a secret by page", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -258,7 +258,7 @@ describe("Secret client - list secrets in various ways", () => {
     expect(results).to.deep.equal(versions);
   });
 
-  it("can list secret versions by page (non existing)", async function(this: Context) {
+  it("can list secret versions by page (non existing)", async function (this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );

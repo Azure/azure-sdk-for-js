@@ -14,15 +14,15 @@ export async function authenticate(that: Mocha.Context): Promise<any> {
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
-      AZURE_DIGITALTWINS_URL: "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net"
+      AZURE_DIGITALTWINS_URL: "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net",
     },
     customizationsOnRecordings: [
       (recording: any): any =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
       (recording: any): any =>
-        keySuffix === "" ? recording : recording.replace(new RegExp(keySuffix, "g"), "")
+        keySuffix === "" ? recording : recording.replace(new RegExp(keySuffix, "g"), ""),
     ],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
   };
   const recorder = record(that, recorderEnvSetup);
   const credential = new ClientSecretCredential(

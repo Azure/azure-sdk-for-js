@@ -11,7 +11,7 @@ import { ChildResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MicrosoftResourceHealthContext } from "../microsoftResourceHealthContext";
+import { MicrosoftResourceHealth } from "../microsoftResourceHealth";
 import {
   AvailabilityStatus,
   ChildResourcesListNextOptionalParams,
@@ -23,13 +23,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ChildResources operations. */
 export class ChildResourcesImpl implements ChildResources {
-  private readonly client: MicrosoftResourceHealthContext;
+  private readonly client: MicrosoftResourceHealth;
 
   /**
    * Initialize a new instance of the class ChildResources class.
    * @param client Reference to the service client
    */
-  constructor(client: MicrosoftResourceHealthContext) {
+  constructor(client: MicrosoftResourceHealth) {
     this.client = client;
   }
 

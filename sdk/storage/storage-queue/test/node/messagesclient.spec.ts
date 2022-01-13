@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../src/QueueClient";
@@ -19,7 +19,7 @@ describe("QueueClient message methods, Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
@@ -27,7 +27,7 @@ describe("QueueClient message methods, Node.js only", () => {
     await queueClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await queueClient.delete();
     await recorder.stop();
   });
@@ -42,7 +42,7 @@ describe("QueueClient message methods, Node.js only", () => {
 
     const eResult = await queueClient.sendMessage(newMessageContent, {
       messageTimeToLive: 40,
-      visibilityTimeout: 0
+      visibilityTimeout: 0,
     });
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
@@ -68,7 +68,7 @@ describe("QueueClient message methods, Node.js only", () => {
 
     const dResult = await queueClient.receiveMessages({
       visibilityTimeout: 10,
-      numberOfMessages: 2
+      numberOfMessages: 2,
     });
     assert.ok(dResult.date);
     assert.ok(dResult.requestId);
@@ -127,8 +127,8 @@ describe("QueueClient message methods, Node.js only", () => {
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new QueueClient(queueClient.url, credential, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const eResult = await newClient.sendMessage(messageContent);
@@ -173,8 +173,8 @@ describe("QueueClient message methods, Node.js only", () => {
   it("can be created with a connection string and a queue name and an option bag", async () => {
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const eResult = await newClient.sendMessage(messageContent);
@@ -190,8 +190,8 @@ describe("QueueClient message methods, Node.js only", () => {
       getToken: () =>
         Promise.resolve({
           token: "token",
-          expiresOnTimestamp: 12345
-        })
+          expiresOnTimestamp: 12345,
+        }),
     };
     const newClient = new QueueClient(
       `https://myaccount.queue.core.windows.net/` + queueName,

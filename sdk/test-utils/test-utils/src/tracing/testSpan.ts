@@ -10,7 +10,7 @@ import {
   SpanAttributes,
   SpanStatusCode,
   SpanAttributeValue,
-  Span
+  Span,
 } from "@azure/core-tracing";
 
 /**
@@ -79,7 +79,7 @@ export class TestSpan implements Span {
     this.startTime = startTime;
     this.parentSpanId = parentSpanId;
     this.status = {
-      code: SpanStatusCode.OK
+      code: SpanStatusCode.OK,
     };
     this.endCalled = false;
     this._context = context;

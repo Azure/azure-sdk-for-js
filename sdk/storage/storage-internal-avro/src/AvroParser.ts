@@ -237,7 +237,7 @@ enum AvroComplex {
   ARRAY = "array",
   MAP = "map",
   UNION = "union",
-  FIXED = "fixed"
+  FIXED = "fixed",
 }
 
 interface ObjectSchema {
@@ -345,7 +345,7 @@ enum AvroPrimitive {
   FLOAT = "float",
   DOUBLE = "double",
   BYTES = "bytes",
-  STRING = "string"
+  STRING = "string",
 }
 
 class AvroPrimitiveType extends AvroType {

@@ -4,8 +4,8 @@
 import { assert } from "chai";
 import { isNode } from "../../src";
 
-describe("isNode (browser)", function() {
-  it("should return false", async function() {
+describe("isNode (browser)", function () {
+  it("should return false", async function () {
     assert.isFalse(isNode);
   });
 });

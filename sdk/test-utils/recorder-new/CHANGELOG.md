@@ -2,6 +2,31 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2021-12-27
+
+- Allows passing `undefined` as keys in the sanitizer options so that devs don't have to add additional checks if a certain env variable exists in playback.
+- Exports `delay`
+  - waits for expected time in record/live modes
+  - no-op in playback
+
+[#19561](https://github.com/Azure/azure-sdk-for-js/pull/19561)
+
+## 2021-12-17
+
+- Refactoring the test proxy http clients for better clarity for the end users [#19446](https://github.com/Azure/azure-sdk-for-js/pull/19446)
+
+  - Client rename `TestProxyHttpClient` -> `Recorder`
+  - Removing the separate `TestProxyHttpClientCoreV1`
+    - Instead of passing the whole client as the `httpClient` for core-v1 sdks, users are now expected to call `recorder.configureClientOptionsCoreV1` on the client options while passing to the respective client(where `recorder` is an instantiation of `Recorder`). This modifies the httpClient in the options to allow redirecting the requests to the test-proxy tool.
+  - Duplicated helpers from old recorder to not depend on old recorder package.. with an intention to replace the recorder package as 2.0 and not merge since the old recorder is published already
+  - Makes the following members of `Recorder` private
+    - `httpClient`
+    - `redirectRequest`
+    - `recorderHttpPolicy`
+    - `createHttpClientCoreV1`
+
+- Moving `NoOpCredential` to the new `@azure-tools/test-credential` package.
+
 ## 2021-12-15
 
 - Change the API for using variables. Variables can now be accessed using the syntax:

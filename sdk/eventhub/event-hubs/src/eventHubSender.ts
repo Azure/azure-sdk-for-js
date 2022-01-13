@@ -8,7 +8,7 @@ import {
   EventContext,
   OnAmqpEvent,
   Message as RheaMessage,
-  message
+  message,
 } from "rhea-promise";
 import {
   ErrorNameConditionMapper,
@@ -18,7 +18,7 @@ import {
   defaultCancellableLock,
   delay,
   retry,
-  translate
+  translate,
 } from "@azure/core-amqp";
 import { EventData, toRheaMessage } from "./eventData";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
@@ -71,7 +71,6 @@ export class EventHubSender extends LinkEntity {
 
   /**
    * Creates a new EventHubSender instance.
-   * @hidden
    * @param context - The connection context.
    * @param partitionId - The EventHub partition id to which the sender
    * wants to send the event data.
@@ -79,7 +78,7 @@ export class EventHubSender extends LinkEntity {
   constructor(context: ConnectionContext, partitionId?: string) {
     super(context, {
       name: context.config.getSenderAddress(partitionId),
-      partitionId: partitionId
+      partitionId: partitionId,
     });
     this.address = context.config.getSenderAddress(partitionId);
     this.audience = context.config.getSenderAudience(partitionId);
@@ -163,7 +162,6 @@ export class EventHubSender extends LinkEntity {
 
   /**
    * Deletes the sender from the context. Clears the token renewal timer. Closes the sender link.
-   * @hidden
    * @returns Promise<void>
    */
   async close(): Promise<void> {
@@ -188,7 +186,6 @@ export class EventHubSender extends LinkEntity {
 
   /**
    * Determines whether the AMQP sender link is open. If open then returns true else returns false.
-   * @hidden
    * @returns boolean
    */
   isOpen(): boolean {
@@ -224,7 +221,6 @@ export class EventHubSender extends LinkEntity {
    * Send a batch of EventData to the EventHub. The "message_annotations",
    * "application_properties" and "properties" of the first message will be set as that
    * of the envelope (batch message).
-   * @hidden
    * @param events -  An array of EventData objects to be sent in a Batch message.
    * @param options - Options to control the way the events are batched along with request options
    */
@@ -262,7 +258,7 @@ export class EventHubSender extends LinkEntity {
         }
         // Encode every amqp message and then convert every encoded message to amqp data section
         const batchMessage: RheaMessage = {
-          body: message.data_sections(messages.map(message.encode))
+          body: message.data_sections(messages.map(message.encode)),
         };
 
         // Set message_annotations of the first message as
@@ -306,12 +302,12 @@ export class EventHubSender extends LinkEntity {
     const srOptions: AwaitableSenderOptions = {
       name: this.name,
       target: {
-        address: this.address
+        address: this.address,
       },
       onError: this._onAmqpError,
       onClose: this._onAmqpClose,
       onSessionError: this._onSessionError,
-      onSessionClose: this._onSessionClose
+      onSessionClose: this._onSessionClose,
     };
     logger.verbose("Creating sender with options: %O", srOptions);
     return srOptions;
@@ -323,7 +319,6 @@ export class EventHubSender extends LinkEntity {
    *
    * We have implemented a synchronous send over here in the sense that we shall be waiting
    * for the message to be accepted or rejected and accordingly resolve or reject the promise.
-   * @hidden
    * @param rheaMessage - The message to be sent to EventHub.
    * @returns Promise<void>
    */
@@ -377,7 +372,7 @@ export class EventHubSender extends LinkEntity {
         logger.warning(msg);
         const amqpError: AmqpError = {
           condition: ErrorNameConditionMapper.SenderBusyError,
-          description: msg
+          description: msg,
         };
         throw translate(amqpError);
       }
@@ -395,7 +390,7 @@ export class EventHubSender extends LinkEntity {
         logger.warning(desc);
         const e: AmqpError = {
           condition: ErrorNameConditionMapper.ServiceUnavailableError,
-          description: desc
+          description: desc,
         };
         throw translate(e);
       }
@@ -404,7 +399,7 @@ export class EventHubSender extends LinkEntity {
         const delivery = await sender.send(rheaMessage, {
           format: 0x80013700,
           timeoutInSeconds: (timeoutInMs - timeTakenByInit - waitTimeForSendable) / 1000,
-          abortSignal
+          abortSignal,
         });
         logger.info(
           "[%s] Sender '%s', sent message with delivery id: %d",
@@ -422,7 +417,7 @@ export class EventHubSender extends LinkEntity {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.sendMessage,
       abortSignal: abortSignal,
-      retryOptions: retryOptions
+      retryOptions: retryOptions,
     };
 
     try {
@@ -464,7 +459,7 @@ export class EventHubSender extends LinkEntity {
           return this._init({
             ...senderOptions,
             abortSignal: options.abortSignal,
-            timeoutInMs: taskTimeoutInMs
+            timeoutInMs: taskTimeoutInMs,
           });
         },
         { abortSignal: options.abortSignal, timeoutInMs: timeoutInMs }
@@ -476,7 +471,7 @@ export class EventHubSender extends LinkEntity {
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.senderLink,
       abortSignal: options.abortSignal,
-      retryOptions: retryOptions
+      retryOptions: retryOptions,
     };
 
     try {
@@ -497,7 +492,6 @@ export class EventHubSender extends LinkEntity {
   /**
    * Initializes the sender session on the connection.
    * Should only be called from _createLinkIfNotOpen
-   * @hidden
    */
   private async _init(
     options: AwaitableSenderOptions & {
@@ -512,7 +506,7 @@ export class EventHubSender extends LinkEntity {
         await this._negotiateClaim({
           setTokenRenewal: false,
           abortSignal: options.abortSignal,
-          timeoutInMs: options.timeoutInMs
+          timeoutInMs: options.timeoutInMs,
         });
 
         logger.verbose(
@@ -562,7 +556,6 @@ export class EventHubSender extends LinkEntity {
   /**
    * Creates a new sender to the given event hub, and optionally to a given partition if it is
    * not present in the context or returns the one present in the context.
-   * @hidden
    * @param partitionId - Partition ID to which it will send event data.
    */
   static create(context: ConnectionContext, partitionId?: string): EventHubSender {

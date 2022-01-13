@@ -6,5 +6,5 @@ export * from "./models";
 export * from "./metricsAdvisorAdministrationClient";
 export {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorKeys
+  MetricsAdvisorKeys,
 } from "./metricsAdvisorKeyCredentialPolicy";

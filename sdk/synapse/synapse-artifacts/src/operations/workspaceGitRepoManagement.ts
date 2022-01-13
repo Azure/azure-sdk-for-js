@@ -74,7 +74,7 @@ const getGitHubAccessTokenOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.gitHubAccessTokenRequest,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
     Parameters.accept,

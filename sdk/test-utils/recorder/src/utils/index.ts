@@ -93,11 +93,7 @@ export function isPlaybackMode() {
 export function encodeRFC3986(str: string): string {
   return encodeURIComponent(str).replace(
     /[!'()*]/g,
-    (x) =>
-      `%${x
-        .charCodeAt(0)
-        .toString(16)
-        .toUpperCase()}`
+    (x) => `%${x.charCodeAt(0).toString(16).toUpperCase()}`
   );
 }
 
@@ -328,7 +324,7 @@ export function parseUrl(url: string): any {
   }, {});
   return {
     url: cleanUrl,
-    query
+    query,
   };
 }
 
@@ -467,6 +463,24 @@ export function handleSingleQuotesInUrlPath(fixture: string): string {
     // TODO: To handle the presence of request bodies
   }
   return updatedFixture;
+}
+
+/**
+ * Meant for node recordings only!
+ *
+ * Manipulates the `retry-after` header to have "0" value so that playback tests run faster.
+ */
+export function setDefaultRetryAfterIntervalInNockFixture(fixture: string) {
+  if (isBrowser()) {
+    throw new Error(
+      `"setDefaultRetryAfterIntervalInNockFixture" method is not meant to be used in the browsers`
+    );
+  }
+  const matches = fixture.match(/'Retry-After',\n\s*'([0-9]*)',\n/);
+  if (!matches) {
+    return fixture;
+  }
+  return fixture.replace(matches[0], `'Retry-After',\n  '0',\n`);
 }
 
 /**

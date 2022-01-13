@@ -18,9 +18,9 @@ testWithServiceTypes(() => {
           fromRheaMessage(
             {
               message_annotations: {
-                [Constants.enqueuedTime]: Date.now()
+                [Constants.enqueuedTime]: Date.now(),
               },
-              body: undefined
+              body: undefined,
             },
             false
           )
@@ -32,9 +32,9 @@ testWithServiceTypes(() => {
           fromRheaMessage(
             {
               message_annotations: {
-                [Constants.enqueuedTime]: Date.now()
+                [Constants.enqueuedTime]: Date.now(),
               },
-              body: undefined
+              body: undefined,
             },
             false
           ).getRawAmqpMessage()
@@ -44,26 +44,26 @@ testWithServiceTypes(() => {
       assert.isTrue(
         isAmqpAnnotatedMessage({
           body: "hello world",
-          bodyType: "sequence"
+          bodyType: "sequence",
         })
       );
       assert.isTrue(
         isAmqpAnnotatedMessage({
           body: "hello world",
-          bodyType: "value"
+          bodyType: "value",
         })
       );
       assert.isTrue(
         isAmqpAnnotatedMessage({
           body: "hello world",
-          bodyType: "data"
+          bodyType: "data",
         })
       );
 
       assert.isTrue(
         isAmqpAnnotatedMessage({
           body: "hello world",
-          bodyType: undefined // the property _must_ exist, but undefined is fine. We'll default to 'data'
+          bodyType: undefined, // the property _must_ exist, but undefined is fine. We'll default to 'data'
         })
       );
     });

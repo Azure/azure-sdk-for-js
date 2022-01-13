@@ -8,10 +8,10 @@ import { prepareIdentityTests } from "../../httpRequests";
 import {
   createResponse,
   IdentityTestContext,
-  SendCredentialRequests
+  SendCredentialRequests,
 } from "../../httpRequestsCommon";
 
-describe("AzureApplicationCredential testing Managed Identity (internal)", function() {
+describe("AzureApplicationCredential testing Managed Identity (internal)", function () {
   let envCopy: string = "";
   let testContext: IdentityTestContext;
   let sendCredentialRequests: SendCredentialRequests;
@@ -34,7 +34,7 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
     await testContext.restore();
   });
 
-  it("returns error when no MSI is available", async function() {
+  it("returns error when no MSI is available", async function () {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const { error } = await sendCredentialRequests({
@@ -42,9 +42,9 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
       credential: new AzureApplicationCredential(),
       insecureResponses: [
         {
-          error: new RestError("Request Timeout", { code: "REQUEST_SEND_ERROR", statusCode: 408 })
-        }
-      ]
+          error: new RestError("Request Timeout", { code: "REQUEST_SEND_ERROR", statusCode: 408 }),
+        },
+      ],
     });
     assert.ok(
       error!.message!.indexOf("No MSI credential available") > -1,
@@ -52,7 +52,7 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
     );
   });
 
-  it("an unexpected error bubbles all the way up", async function() {
+  it("an unexpected error bubbles all the way up", async function () {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const errorMessage = "ManagedIdentityCredential authentication failed.";
@@ -62,18 +62,18 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
       credential: new AzureApplicationCredential(),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
-        { error: new RestError(errorMessage, { statusCode: 500 }) }
-      ]
+        { error: new RestError(errorMessage, { statusCode: 500 }) },
+      ],
     });
     assert.ok(error?.message.startsWith(errorMessage));
   });
 
-  it("returns expected error when the network was unreachable", async function() {
+  it("returns expected error when the network was unreachable", async function () {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const netError: RestError = new RestError("Request Timeout", {
       code: "ENETUNREACH",
-      statusCode: 408
+      statusCode: 408,
     });
 
     const { error } = await sendCredentialRequests({
@@ -81,8 +81,8 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
       credential: new AzureApplicationCredential(),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
-        { error: netError }
-      ]
+        { error: netError },
+      ],
     });
     assert.ok(error!.message!.indexOf("Network unreachable.") > -1);
   });
@@ -99,9 +99,9 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
       secureResponses: [
         createResponse(200, {
           access_token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00"
-        })
-      ]
+          expires_on: "06/20/2019 02:57:58 +00:00",
+        }),
+      ],
     });
 
     const authRequest = authDetails.requests[0];

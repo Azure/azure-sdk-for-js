@@ -11,7 +11,7 @@ import {
   testPointSeries1,
   expectedEntireResult,
   testTrendPointseries,
-  changeExpectedResult
+  changeExpectedResult,
 } from "./testData";
 import { DetectLastPointResponse, DetectChangePointResponse } from "../src";
 
@@ -20,11 +20,11 @@ describe("AnomalyDetectorClient", () => {
   let recorder: Recorder;
   const apiKey = new AzureKeyCredential(testEnv.ANOMALY_DETECTOR_API_KEY);
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     ({ recorder, client } = createRecordedAnomalyDetectorClient(this, apiKey));
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     if (recorder) {
       await recorder.stop();
     }
@@ -45,7 +45,7 @@ describe("AnomalyDetectorClient", () => {
       period: 12,
       suggestedWindow: 49,
       upperMargin: 40.47829008465612,
-      severity: 0
+      severity: 0,
     };
 
     const result = await client.detectLastPoint(testPointSeries1);

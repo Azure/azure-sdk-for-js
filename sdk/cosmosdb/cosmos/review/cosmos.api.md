@@ -83,7 +83,7 @@ export class ChangeFeedResponse<T> {
 export class ClientContext {
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager);
     // (undocumented)
-    batch<T>({ body, path, partitionKey, resourceId, options }: {
+    batch<T>({ body, path, partitionKey, resourceId, options, }: {
         body: T;
         path: string;
         partitionKey: string;
@@ -91,7 +91,7 @@ export class ClientContext {
         options?: RequestOptions;
     }): Promise<Response_2<any>>;
     // (undocumented)
-    bulk<T>({ body, path, partitionKeyRangeId, resourceId, bulkOptions, options }: {
+    bulk<T>({ body, path, partitionKeyRangeId, resourceId, bulkOptions, options, }: {
         body: T;
         path: string;
         partitionKeyRangeId: string;
@@ -102,7 +102,7 @@ export class ClientContext {
     // (undocumented)
     clearSessionToken(path: string): void;
     // (undocumented)
-    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
         body: T;
         path: string;
         resourceType: ResourceType;
@@ -111,7 +111,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response_2<T & U & Resource>>;
     // (undocumented)
-    delete<T>({ path, resourceType, resourceId, options, partitionKey }: {
+    delete<T>({ path, resourceType, resourceId, options, partitionKey, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -119,7 +119,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    execute<T>({ sprocLink, params, options, partitionKey }: {
+    execute<T>({ sprocLink, params, options, partitionKey, }: {
         sprocLink: string;
         params?: any[];
         options?: RequestOptions;
@@ -141,7 +141,7 @@ export class ClientContext {
         [containerUrl: string]: any;
     };
     // (undocumented)
-    patch<T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+    patch<T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
         body: any;
         path: string;
         resourceType: ResourceType;
@@ -150,7 +150,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey }: {
+    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -165,7 +165,7 @@ export class ClientContext {
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
     // (undocumented)
-    read<T>({ path, resourceType, resourceId, options, partitionKey }: {
+    read<T>({ path, resourceType, resourceId, options, partitionKey, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -173,7 +173,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    replace<T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+    replace<T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
         body: any;
         path: string;
         resourceType: ResourceType;
@@ -182,7 +182,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
         body: T;
         path: string;
         resourceType: ResourceType;

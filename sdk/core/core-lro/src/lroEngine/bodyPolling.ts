@@ -7,7 +7,7 @@ import {
   LroStatus,
   RawResponse,
   failureStates,
-  successStates
+  successStates,
 } from "./models";
 import { isUnexpectedPollingResponse } from "./requestUtils";
 
@@ -34,6 +34,6 @@ export function processBodyPollingOperationResult<TResult>(
 ): LroStatus<TResult> {
   return {
     ...response,
-    done: isBodyPollingDone(response.rawResponse)
+    done: isBodyPollingDone(response.rawResponse),
   };
 }

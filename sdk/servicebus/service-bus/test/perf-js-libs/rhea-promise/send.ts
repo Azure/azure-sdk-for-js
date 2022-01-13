@@ -70,15 +70,15 @@ async function RunTest(
     password: password,
     port: port,
     reconnect: false,
-    rejectUnauthorized: !allowUnauthorized
+    rejectUnauthorized: !allowUnauthorized,
   } as ConnectionOptions);
   await connection.open();
 
   const sender = connection.createSender({
     name: "sender-1",
     target: {
-      address: entityPath
-    }
+      address: entityPath,
+    },
   });
 
   function sendMessages(): void {

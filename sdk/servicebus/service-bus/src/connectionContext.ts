@@ -7,7 +7,7 @@ import {
   ConnectionConfig,
   ConnectionContextBase,
   CreateConnectionContextBaseParameters,
-  SasTokenProvider
+  SasTokenProvider,
 } from "@azure/core-amqp";
 import { TokenCredential } from "@azure/core-auth";
 import { ServiceBusClientOptions } from "./constructorHelpers";
@@ -17,7 +17,7 @@ import {
   ConnectionError,
   ConnectionEvents,
   EventContext,
-  OnAmqpEvent
+  OnAmqpEvent,
 } from "rhea-promise";
 import { MessageSender } from "./core/messageSender";
 import { MessageSession } from "./session/messageSession";
@@ -263,8 +263,8 @@ export namespace ConnectionContext {
       connectionProperties: {
         product: "MSJSClient",
         userAgent,
-        version: packageJsonInfo.version
-      }
+        version: packageJsonInfo.version,
+      },
     };
     // Let us create the base context and then add ServiceBus specific ConnectionContext properties.
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
@@ -359,11 +359,11 @@ export namespace ConnectionContext {
       getManagementClient(entityPath: string): ManagementClient {
         if (!this.managementClients[entityPath]) {
           this.managementClients[entityPath] = new ManagementClient(this, entityPath, {
-            address: `${entityPath}/$management`
+            address: `${entityPath}/$management`,
           });
         }
         return this.managementClients[entityPath];
-      }
+      },
     });
 
     // Define listeners to be added to the connection object for
@@ -412,7 +412,7 @@ export namespace ConnectionContext {
         numSenders: Object.keys(connectionContext.senders).length,
         numReceivers:
           Object.keys(connectionContext.messageReceivers).length +
-          Object.keys(connectionContext.messageSessions).length
+          Object.keys(connectionContext.messageSessions).length,
       };
 
       // Clear internal map maintained by rhea to avoid reconnecting of old links once the
@@ -630,7 +630,7 @@ export namespace ConnectionContext {
         ...senderNames.map((n) => context.senders[n].close()),
         ...messageReceiverNames.map((n) => context.messageReceivers[n].close()),
         ...messageSessionNames.map((n) => context.messageSessions[n].close()),
-        ...managementClientsEntityPaths.map((p) => context.managementClients[p].close())
+        ...managementClientsEntityPaths.map((p) => context.managementClients[p].close()),
       ]);
 
       logger.verbose(`${logPrefix} Permanently closing cbsSession`);

@@ -123,7 +123,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Location',
   'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Network/locations/eastus/operationResults/a2332068-7b56-4894-bd61-dcbb819dab5e?api-version=2021-05-01',
   'Retry-After',
-  '10',
+  '0',
   'x-ms-request-id',
   'a2332068-7b56-4894-bd61-dcbb819dab5e',
   'Azure-AsyncOperation',

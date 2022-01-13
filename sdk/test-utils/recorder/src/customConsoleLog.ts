@@ -46,7 +46,7 @@ export function customConsoleLog() {
       window.console.hasOwnProperty(method) &&
       typeof (window.console as any)[method] === "function"
     ) {
-      (window.console as any)[method] = function(obj: any) {
+      (window.console as any)[method] = function (obj: any) {
         try {
           if (!JSON.parse(obj).writeFile) {
             // If the JSON string doesn't contain `.writeFile` property,
