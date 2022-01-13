@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as sinon from "sinon";
+import Sinon, * as sinon from "sinon";
 import * as https from "https";
 import * as http from "http";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { PassThrough } from "stream";
 import { RestError } from "@azure/core-rest-pipeline";
-import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
+import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel, Debugger } from "@azure/logger";
 import { getError } from "./authTestUtils";
 import {
   createResponse,
@@ -16,7 +16,7 @@ import {
   SendCredentialRequests,
   TestResponse,
 } from "./httpRequestsCommon";
-import { AccessToken } from "../src";
+import { AccessToken, GetTokenOptions, TokenCredential } from "../src";
 import { openIdConfigurationResponse } from "./msalTestUtils";
 
 /**
@@ -96,38 +96,52 @@ export function prepareMSALResponses(): RawTestResponse[] {
  * that may expect more than one response (or error) from more than one endpoint.
  * @internal
  */
-export async function prepareIdentityTests({
-  replaceLogger,
-  logLevel,
-}: {
-  replaceLogger?: boolean;
-  logLevel?: AzureLogLevel;
-}): Promise<IdentityTestContext> {
-  const sandbox = sinon.createSandbox();
-  const clock = sandbox.useFakeTimers();
-  const oldLogLevel = getLogLevel();
-  const oldLogger = AzureLogger.log;
-  const logMessages: string[] = [];
+export class IdentityTest implements IdentityTestContext {
+  public sandbox: Sinon.SinonSandbox;
+  public clock: Sinon.SinonFakeTimers
+  public oldLogLevel: AzureLogLevel | undefined;
+  public oldLogger: any;
+  public logMessages: string[];
 
-  if (logLevel) {
-    setLogLevel(logLevel);
+  constructor({
+    replaceLogger,
+    logLevel,
+  }: {
+    replaceLogger?: boolean;
+    logLevel?: AzureLogLevel;
+  }) {
+    this.sandbox = sinon.createSandbox();
+    this.clock = this.sandbox.useFakeTimers();
+    this.oldLogLevel = getLogLevel();
+    this.oldLogger = AzureLogger.log;
+    this.logMessages = [];
+
+    if (logLevel) {
+      setLogLevel(logLevel);
+    }
+
+    if (replaceLogger) {
+      AzureLogger.log = (...args) => {
+        this.logMessages.push(args.join(" "));
+      };
+    }
   }
 
-  if (replaceLogger) {
-    AzureLogger.log = (...args) => {
-      logMessages.push(args.join(" "));
-    };
+  async restore() {
+    this.sandbox.restore();
+    AzureLogger.log = this.oldLogger;
+    setLogLevel(this.oldLogLevel);
   }
 
   /**
    * Wraps the outgoing request in a mocked environment, then returns the result of the request.
    */
-  async function sendIndividualRequest<T>(
+  async sendIndividualRequest<T>(
     sendPromise: () => Promise<T | null>,
     { response }: { response: TestResponse }
   ): Promise<T | null> {
     const request = createRequest();
-    sandbox.replace(
+    this.sandbox.replace(
       https,
       "request",
       (_options: string | URL | http.RequestOptions, resolve: any) => {
@@ -135,31 +149,46 @@ export async function prepareIdentityTests({
         return request;
       }
     );
-    clock.runAllAsync();
+    this.clock.runAllAsync();
     return sendPromise();
   }
 
   /**
    * Wraps the outgoing request in a mocked environment, then returns the error that results from the request.
    */
-  async function sendIndividualRequestAndGetError<T>(
+  async sendIndividualRequestAndGetError<T>(
     sendPromise: () => Promise<T | null>,
     response: { response: TestResponse }
   ): Promise<Error> {
-    return getError(sendIndividualRequest(sendPromise, response));
+    return getError(this.sendIndividualRequest(sendPromise, response));
   }
 
   /**
-   * Wraps a credential's getToken in a mocked environment, then returns the results from the request,
-   * including potentially an AccessToken, an error and the list of outgoing requests in a simplified format.
-   */
-  const sendCredentialRequests: SendCredentialRequests = async ({
+ * Wraps a credential's getToken in a mocked environment, then returns the results from the request,
+ * including potentially an AccessToken, an error and the list of outgoing requests in a simplified format.
+ */
+  async sendCredentialRequests({
     scopes,
     getTokenOptions,
     credential,
     insecureResponses = [],
     secureResponses = [],
-  }) => {
+  }: {
+    scopes: string | string[];
+    getTokenOptions?: GetTokenOptions;
+    credential: TokenCredential;
+    insecureResponses?: RawTestResponse[];
+    secureResponses?: RawTestResponse[];
+  }): Promise<{
+    result: AccessToken | null;
+    error?: RestError;
+    requests: {
+      url: string;
+      body: string;
+      method: string;
+      headers: Record<string, string>;
+    }[];
+  }> {
     /**
      * Helps replace the <provider>.request() method with one we can control.
      */
@@ -182,11 +211,11 @@ export async function prepareIdentityTests({
             resolve(responseToIncomingMessage(response!));
           }
           const request = createRequest();
-          spies.push(sandbox.spy(request, "end"));
+          spies.push(this.sandbox.spy(request, "end"));
           return request;
         };
-        sandbox.replace(providerObject, "request", fakeRequest);
-        sandbox.replace(providerObject.Agent.prototype as any, "request", fakeRequest);
+        this.sandbox.replace(providerObject, "request", fakeRequest);
+        this.sandbox.replace(providerObject.Agent.prototype as any, "request", fakeRequest);
       } catch (e) {
         console.debug(
           "Failed to replace the request. This might be expected if you're running multiple sendCredentialRequests() calls."
@@ -217,7 +246,7 @@ export async function prepareIdentityTests({
       // So loosely tell Sinon's clock to advance the time,
       // and then we trigger our main getToken request, and wait for it.
       // All the errors will be safely be caught by the try surrounding the getToken request.
-      clock.runAllAsync();
+      this.clock.runAllAsync();
       result = await credential.getToken(scopes, getTokenOptions);
     } catch (e) {
       error = e;
@@ -263,21 +292,5 @@ export async function prepareIdentityTests({
         ...extractRequests(secureOptions, secureSpies, "https"),
       ],
     };
-  };
-
-  return {
-    clock,
-    logMessages,
-    oldLogLevel,
-    sandbox,
-    oldLogger,
-    async restore() {
-      sandbox.restore();
-      AzureLogger.log = oldLogger;
-      setLogLevel(oldLogLevel);
-    },
-    sendIndividualRequest,
-    sendIndividualRequestAndGetError,
-    sendCredentialRequests,
   };
 }
