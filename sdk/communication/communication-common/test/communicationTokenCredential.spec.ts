@@ -285,10 +285,10 @@ describe("CommunicationTokenCredential", () => {
       token: staticToken
     });
 
-    let newToken = await tokenCredential.getToken();
+    const newToken = await tokenCredential.getToken();
 
     // go into the soon-to-expire window
-    for (var i = 0; i < 10 * 60 * 1000; i++) {
+    for (let i = 0; i < 10 * 60 * 1000; i++) {
       // perform token refreshing & scheduling
       await exposeInternalUpdatePromise(tokenCredential);
       clock.tick(1);

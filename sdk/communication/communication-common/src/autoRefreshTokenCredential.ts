@@ -91,7 +91,7 @@ export class AutoRefreshTokenCredential implements TokenCredential {
   }
 
   private async refreshTokenAndReschedule(abortSignal?: AbortSignalLike): Promise<void> {
-    let newToken = await this.refreshToken(abortSignal);
+    const newToken = await this.refreshToken(abortSignal);
 
     if (!this.isTokenValid(newToken)) {
       throw new Error("The token returned from the tokenRefresher is expired.");
@@ -121,7 +121,7 @@ export class AutoRefreshTokenCredential implements TokenCredential {
     if (this.activeTimeout) {
       clearTimeout(this.activeTimeout);
     }
-    let tokenTtl = this.currentToken.expiresOnTimestamp - Date.now();
+    const tokenTtl = this.currentToken.expiresOnTimestamp - Date.now();
     let timespanInMs = null;
 
     if (this.isTokenExpiringSoon(this.currentToken)) {
