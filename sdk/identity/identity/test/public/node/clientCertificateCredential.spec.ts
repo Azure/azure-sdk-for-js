@@ -107,6 +107,7 @@ describe("ClientCertificateCredential", function () {
     } catch (e) {
       error = e;
     }
+    console.log("ERROR DETAILS", error);
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.ok(error?.message.includes("could not resolve endpoints"));
   });
