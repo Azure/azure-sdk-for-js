@@ -15,3 +15,9 @@ https://docs.microsoft.com/javascript/api/@azure/arm-avs
 https://docs.microsoft.com/javascript/api/@azure/arm-communication
 https://docs.microsoft.com/javascript/api/@azure/arm-appconfiguration
 https://docs.microsoft.com/javascript/api/@azure/arm-customerinsights
+https://docs.microsoft.com/javascript/api/@azure/arm-databoxedge
+https://docs.microsoft.com/javascript/api/@azure/arm-datadog
+https://docs.microsoft.com/javascript/api/@azure/arm-deviceprovisioningservices
+https://docs.microsoft.com/javascript/api/@azure/arm-dns
+https://docs.microsoft.com/javascript/api/@azure/arm-digitaltwins
+https://docs.microsoft.com/javascript/api/@azure/arm-devspaces
