@@ -47,11 +47,14 @@ specifiers:
   '@rush-temp/arm-devtestlabs': file:./projects/arm-devtestlabs.tgz
   '@rush-temp/arm-digitaltwins': file:./projects/arm-digitaltwins.tgz
   '@rush-temp/arm-dns': file:./projects/arm-dns.tgz
+  '@rush-temp/arm-domainservices': file:./projects/arm-domainservices.tgz
   '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
   '@rush-temp/arm-extendedlocation': file:./projects/arm-extendedlocation.tgz
   '@rush-temp/arm-features': file:./projects/arm-features.tgz
+  '@rush-temp/arm-frontdoor': file:./projects/arm-frontdoor.tgz
   '@rush-temp/arm-hdinsight': file:./projects/arm-hdinsight.tgz
+  '@rush-temp/arm-healthbot': file:./projects/arm-healthbot.tgz
   '@rush-temp/arm-imagebuilder': file:./projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
@@ -242,11 +245,14 @@ dependencies:
   '@rush-temp/arm-devtestlabs': file:projects/arm-devtestlabs.tgz
   '@rush-temp/arm-digitaltwins': file:projects/arm-digitaltwins.tgz
   '@rush-temp/arm-dns': file:projects/arm-dns.tgz
+  '@rush-temp/arm-domainservices': file:projects/arm-domainservices.tgz
   '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
   '@rush-temp/arm-extendedlocation': file:projects/arm-extendedlocation.tgz
   '@rush-temp/arm-features': file:projects/arm-features.tgz
+  '@rush-temp/arm-frontdoor': file:projects/arm-frontdoor.tgz
   '@rush-temp/arm-hdinsight': file:projects/arm-hdinsight.tgz
+  '@rush-temp/arm-healthbot': file:projects/arm-healthbot.tgz
   '@rush-temp/arm-imagebuilder': file:projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iothub': file:projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
@@ -8791,6 +8797,27 @@ packages:
       uglify-js: 3.14.5
     dev: false
 
+  file:projects/arm-domainservices.tgz:
+    resolution: {integrity: sha512-bOBRwhgeKkMAJ2uokx31agEtZTBcL3L9c//ZFpsirUk0UkoY97OXW3g/d0I/rsRj29SVkwiBRjwJQBQQImW3hg==, tarball: file:projects/arm-domainservices.tgz}
+    name: '@rush-temp/arm-domainservices'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
   file:projects/arm-eventgrid.tgz:
     resolution: {integrity: sha512-26uyTQ6UX9N1i+BWqT3Ga154/45qazjGOcYOuleDzv7+gERljkMNe6dHkAbeLpwr8k/Tt9mdHY/1dLHrcRIa+w==, tarball: file:projects/arm-eventgrid.tgz}
     name: '@rush-temp/arm-eventgrid'
@@ -8874,9 +8901,51 @@ packages:
       uglify-js: 3.14.5
     dev: false
 
+  file:projects/arm-frontdoor.tgz:
+    resolution: {integrity: sha512-hNt0BJ4jsmT/jxeLaPZMOHZbguaxFSM7F+/NpmmV+dTHaK9A8/Usg+FJBAsuqV3NiRKhaM2SVBxqqdcCtBZN4w==, tarball: file:projects/arm-frontdoor.tgz}
+    name: '@rush-temp/arm-frontdoor'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
   file:projects/arm-hdinsight.tgz:
     resolution: {integrity: sha512-MxGX73BGBcYHfMjJFjOMYtx6Z/hU8PsFZyudN1LPg+kjlghRCdfOpsSLkSl9YmekZEVGxkR9/DyeFQBfg5/+IA==, tarball: file:projects/arm-hdinsight.tgz}
     name: '@rush-temp/arm-hdinsight'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
+  file:projects/arm-healthbot.tgz:
+    resolution: {integrity: sha512-13CL73gb1gRzed9C1GqCtScDQm2BpwAj1ValTXbFYGxxOtbmJUtjJmw9g0xnwsAxuHr1qIMrMs48IPMoXdoilA==, tarball: file:projects/arm-healthbot.tgz}
+    name: '@rush-temp/arm-healthbot'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.19.2
