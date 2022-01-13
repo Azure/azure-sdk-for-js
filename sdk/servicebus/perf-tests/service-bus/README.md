@@ -13,7 +13,7 @@ To test sending messages in batches
 
 > `npm run perf-test:node -- BatchSendTest --warmup 2 --duration 7 --parallel 2`
 
-> `npm run perf-test:node -- BatchSendTest --warmup 1 --duration 25 --iterations 2 --parallel 32 --messageBodySize 10240 --numberOfMessages 10`
+> `npm run perf-test:node -- BatchSendTest --warmup 1 --duration 25 --iterations 2 --parallel 32 --size 10240 --numberOfMessages 10`
 
 To test `receiveMessages` - receiving messages in batches
 
