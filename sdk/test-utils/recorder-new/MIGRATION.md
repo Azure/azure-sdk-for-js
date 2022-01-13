@@ -22,12 +22,12 @@ For the unified recorder client library to work, the [test proxy server] must be
 
 Update your test scripts based on the following examples:
 
-| Script                     | Before migration                                                                                                                                                                              | After migration                                                                                                               |
-| :------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
-| `unit-test:browser`        | `karma start --single-run`                                                                                                                                                                    | `dev-tool run test:browser`                                                                                                   |
-| `unit-test:node`           | `mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"`      | `dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'` |
-| `integration-test:browser` | `karma start --single-run`                                                                                                                                                                    | `dev-tool run test:browser`                                                                                                   |
-| `integration-test:node`    | `nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 \"dist-esm/test/{,!(browser)/**/}*.spec.js\"` | `dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'`                                           |
+| Script                     | Before migration                                                                                                                                                                         | After migration                                                                                                  |
+| :------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------- |
+| `unit-test:browser`        | `karma start --single-run`                                                                                                                                                               | `dev-tool run test:browser`                                                                                      |
+| `unit-test:node`           | `mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"` | `dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'` |
+| `integration-test:browser` | `karma start --single-run`                                                                                                                                                               | `dev-tool run test:browser`                                                                                      |
+| `integration-test:node`    | `nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 \"dist-esm/test/{,!(browser)/**/}*.spec.js\"`         | `dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'`                              |
 
 Note the difference between the dev-tool `node-ts-input` and `node-js-input` commands:
 
@@ -54,7 +54,7 @@ beforeEach(function (this: Context) {
 });
 ```
 
-To enable the recorder, you should then initialize your SDK client as normal and use the recorder's `configureClient` method. This method will attach the necessary policies to the client for recording to be enabled.
+To enable the recorder, you should then initialize your SDK client as normal and use the recorder's `configureClient` method. This method will attach the necessary policies to the client for recording to be enabled. Note that for this method to work, the `pipeline` object must be exposed as a property on the client.
 
 ```ts
 const client = /* ... initialize your client as normal ... */;
