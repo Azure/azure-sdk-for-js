@@ -1270,6 +1270,21 @@
       "packageName": "@azure/arm-databox",
       "projectFolder": "sdk/databox/arm-databox",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dns",
+      "projectFolder": "sdk/dns/arm-dns",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-digitaltwins",
+      "projectFolder": "sdk/digitaltwins/arm-digitaltwins",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devspaces",
+      "projectFolder": "sdk/devspaces/arm-devspaces",
+      "versionPolicyName": "management"
     }
   ]
 }

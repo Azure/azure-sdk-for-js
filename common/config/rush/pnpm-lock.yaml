@@ -43,7 +43,10 @@ specifiers:
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:./projects/arm-deviceprovisioningservices.tgz
+  '@rush-temp/arm-devspaces': file:./projects/arm-devspaces.tgz
   '@rush-temp/arm-devtestlabs': file:./projects/arm-devtestlabs.tgz
+  '@rush-temp/arm-digitaltwins': file:./projects/arm-digitaltwins.tgz
+  '@rush-temp/arm-dns': file:./projects/arm-dns.tgz
   '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
   '@rush-temp/arm-extendedlocation': file:./projects/arm-extendedlocation.tgz
@@ -235,7 +238,10 @@ dependencies:
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:projects/arm-deviceprovisioningservices.tgz
+  '@rush-temp/arm-devspaces': file:projects/arm-devspaces.tgz
   '@rush-temp/arm-devtestlabs': file:projects/arm-devtestlabs.tgz
+  '@rush-temp/arm-digitaltwins': file:projects/arm-digitaltwins.tgz
+  '@rush-temp/arm-dns': file:projects/arm-dns.tgz
   '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
   '@rush-temp/arm-extendedlocation': file:projects/arm-extendedlocation.tgz
@@ -8701,9 +8707,72 @@ packages:
       uglify-js: 3.14.5
     dev: false
 
+  file:projects/arm-devspaces.tgz:
+    resolution: {integrity: sha512-Eh3IEnQUI62Nm7NiX1P93xdOkB7vAQc6HPSIIo8UvJFYFhtkXMUoBZNqoGu5qkaVLFcD+rsCY2oGIsatuAgTyg==, tarball: file:projects/arm-devspaces.tgz}
+    name: '@rush-temp/arm-devspaces'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
   file:projects/arm-devtestlabs.tgz:
     resolution: {integrity: sha512-Da7OLti0yE0tUlnxlxMEF2r/WEXJbp1hpjEWjPZuyxtAo1ueSJrJgyDJo82zdyzdrc6C0NbuU/xA0vliNtAp0g==, tarball: file:projects/arm-devtestlabs.tgz}
     name: '@rush-temp/arm-devtestlabs'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
+  file:projects/arm-digitaltwins.tgz:
+    resolution: {integrity: sha512-fJw3Lem9lNeRFFW9akRsVx6jUxVLqilkTGeTZK1OLVCERqNsl0DIgW49BgMUgob/DITGPGAj1/kgmCmD5sJ1jA==, tarball: file:projects/arm-digitaltwins.tgz}
+    name: '@rush-temp/arm-digitaltwins'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
+  file:projects/arm-dns.tgz:
+    resolution: {integrity: sha512-iTkokjSSWrYz6+DTYquJPKfNupoCM6dz6LNvozORK9hyp68ZcQLPlF6c0+ug8zf5QU4X2SNYJSu6I+3RkRTyuQ==, tarball: file:projects/arm-dns.tgz}
+    name: '@rush-temp/arm-dns'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.19.2
