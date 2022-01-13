@@ -16,7 +16,7 @@ import {
  * Sanitizer class to handle communication with the proxy-tool relating to the sanitizers adding/resetting, etc.
  */
 export class Sanitizer {
-  constructor(private url: string, private httpClient: HttpClient) {}
+  constructor(private url: string, private httpClient: HttpClient) { }
   private recordingId: string | undefined;
 
   setRecordingId(recordingId: string): void {
@@ -190,13 +190,13 @@ export class Sanitizer {
     body: string | undefined;
   }): Promise<void> {
     if (this.recordingId !== undefined) {
-      const uri = `${this.url}${paths.admin}${
-        options.sanitizer !== "Reset" ? paths.addSanitizer : paths.reset
-      }`;
+      const uri = `${this.url}${paths.admin}${options.sanitizer !== "Reset" ? paths.addSanitizer : paths.reset
+        }`;
       const req = this._createRecordingRequest(uri);
       if (options.sanitizer !== "Reset") {
         req.headers.set("x-abstraction-identifier", options.sanitizer);
       }
+      req.headers.set("Content-Type", "application/json");
       req.body = options.body;
       if (!this.httpClient) {
         throw new RecorderError(
