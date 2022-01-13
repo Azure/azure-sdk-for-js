@@ -190,9 +190,9 @@ function buildFetchHeaders(pipelineHeaders: PipelineHeaders) {
 
 function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
   const responseHeaders = createHttpHeaders();
-  httpResponse.headers.forEach((value, key) => {
-    responseHeaders.set(key, value);
-  });
+  for (const [name, value] of httpResponse.headers) {
+    responseHeaders.set(name, value);
+  }
 
   return responseHeaders;
 }
