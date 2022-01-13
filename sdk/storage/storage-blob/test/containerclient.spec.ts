@@ -775,7 +775,7 @@ describe("ContainerClient", () => {
                   name: "Azure.Storage.Blob.BlockBlobClient-upload",
                   children: [
                     {
-                      name: "HTTPS PUT",
+                      name: "HTTP PUT",
                       children: [],
                     },
                   ],

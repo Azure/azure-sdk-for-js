@@ -741,7 +741,6 @@ describe("DirectoryClient", () => {
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
     const subDirPath = URLBuilder.parse(subDirClient.url).getPath() || "";
-    const filePath = URLBuilder.parse(fileClient.url).getPath() || "";
 
     const expectedGraph: SpanGraph = {
       roots: [
@@ -769,7 +768,7 @@ describe("DirectoryClient", () => {
                   name: "Azure.Storage.File.ShareFileClient-create",
                   children: [
                     {
-                      name: filePath,
+                      name: "HTTP POST",
                       children: [],
                     },
                   ],
@@ -780,7 +779,7 @@ describe("DirectoryClient", () => {
               name: "Azure.Storage.File.ShareFileClient-getProperties",
               children: [
                 {
-                  name: filePath,
+                  name: "HTTP GET",
                   children: [],
                 },
               ],
@@ -792,7 +791,7 @@ describe("DirectoryClient", () => {
                   name: "Azure.Storage.File.ShareFileClient-delete",
                   children: [
                     {
-                      name: filePath,
+                      name: "HTTP DELETE",
                       children: [],
                     },
                   ],
@@ -803,7 +802,7 @@ describe("DirectoryClient", () => {
               name: "Azure.Storage.File.ShareFileClient-getProperties",
               children: [
                 {
-                  name: filePath,
+                  name: "HTTP GET",
                   children: [],
                 },
               ],
@@ -812,7 +811,7 @@ describe("DirectoryClient", () => {
               name: "Azure.Storage.File.ShareDirectoryClient-delete",
               children: [
                 {
-                  name: subDirPath,
+                  name: "HTTP DELETE",
                   children: [],
                 },
               ],

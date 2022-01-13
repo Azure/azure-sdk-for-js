@@ -737,7 +737,7 @@ describe("BlobClient", () => {
               name: "Azure.Storage.Blob.BlobClient-download",
               children: [
                 {
-                  name: "HTTPS GET",
+                  name: "HTTP GET",
                   children: [],
                 },
               ],
