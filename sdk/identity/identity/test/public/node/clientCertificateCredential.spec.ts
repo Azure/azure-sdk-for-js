@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import * as path from "path";
-import fs from "fs";
 import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
 import { env, isPlaybackMode, delay, isLiveMode } from "@azure-tools/test-recorder";
@@ -12,6 +11,7 @@ import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestU
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
 import { readFileSync } from "fs";
+import { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 
 const ASSET_PATH = "assets";
 
@@ -84,14 +84,21 @@ describe("ClientCertificateCredential", function () {
   });
 
   it("allows cancelling the authentication", async function () {
-    if (!fs.existsSync(certificatePath)) {
-      // In min-max tests, the certificate file can't be found.
-      console.log("Failed to locate the certificate file. Skipping.");
-      this.skip();
-    }
-    const credential = new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, {
-      certificatePath,
-    });
+    const credential = new ClientCertificateCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      {
+        certificatePath,
+      },
+      {
+        httpClient: {
+          async sendRequest(_request: PipelineRequest): Promise<PipelineResponse> {
+            await delay(100);
+            throw new Error("Fake HTTP client.");
+          },
+        },
+      }
+    );
 
     const controller = new AbortController();
     const getTokenPromise = credential.getToken(scope, {
