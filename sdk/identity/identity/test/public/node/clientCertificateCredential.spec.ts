@@ -84,7 +84,7 @@ describe("ClientCertificateCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("allows cancelling the authentication", async function () {
+  it("allows cancelling the authentication", async function (this: Context) {
     if (!fs.existsSync(certificatePath)) {
       // In min-max tests, the certificate file can't be found.
       console.log("Failed to locate the certificate file. Skipping.");
