@@ -10,6 +10,7 @@ Use the client libraries in this package to:
 - Create/Read/List/Update/Delete Paths, Directories and Files
 
 key links:
+
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake)
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-datalake)
 - [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-file-datalake)
@@ -28,7 +29,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Prerequisites
 
-- An [Azure subscription](https://azure.microsoft.com/free/) 
+- An [Azure subscription](https://azure.microsoft.com/free/)
 - A [Storage Account](https://docs.microsoft.com/azure/storage/common/storage-account-create)
 
 ### Install the package
@@ -215,7 +216,7 @@ const datalakeServiceClient = new DataLakeServiceClient(
 );
 ```
 
-See the [Azure AD Auth sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/javascript/azureAdAuth.js) for a complete example using this method.
+See the [Azure AD Auth sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/v12/javascript/azureAdAuth.js) for a complete example using this method.
 
 [Note - Above steps are only for Node.js]
 
@@ -573,8 +574,8 @@ setLogLevel("info");
 
 More code samples:
 
-- [DataLake Storage Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake/samples/javascript)
-- [DataLake Storage Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake/samples/typescript)
+- [DataLake Storage Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake/samples/v12/javascript)
+- [DataLake Storage Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake/samples/v12/typescript)
 - [DataLake Storage Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake/test/)
 
 ## Contributing
