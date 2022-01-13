@@ -10,18 +10,17 @@
 // older than a certain date.
 const {
   ContainerRegistryClient,
-  KnownContainerRegistryAudience
+  KnownContainerRegistryAudience,
 } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // Get the service endpoint from the environment
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   // Create a new ContainerRegistryClient
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential(), {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
   });
 
   // Iterate through repositories
@@ -30,7 +29,7 @@ async function main() {
     const repository = client.getRepository(repositoryName);
     // Obtain the images ordered from newest to oldest
     const imageManifests = repository.listManifestProperties({
-      orderBy: "LastUpdatedOnDescending"
+      order: "LastUpdatedOnDescending",
     });
     const imagesToKeep = 3;
     let imageCount = 0;

@@ -1,28 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import { SpanStatusCode, Link, Span, SpanContext, SpanKind } from "@azure/core-tracing";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
-import { instrumentEventData } from "./diagnostics/instrumentEventData";
-import { EventData } from "./eventData";
-import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
-import { EventHubSender } from "./eventHubSender";
-import { logErrorStackTrace, logger } from "./log";
-import { EventHubProperties, PartitionProperties } from "./managementClient";
 import {
   CreateBatchOptions,
   EventHubClientOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  SendBatchOptions
+  SendBatchOptions,
 } from "./models/public";
-import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
+import { EventHubProperties, PartitionProperties } from "./managementClient";
+import { Link, Span, SpanContext, SpanKind, SpanStatusCode } from "@azure/core-tracing";
+import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isCredential, isDefined } from "./util/typeGuards";
+import { logErrorStackTrace, logger } from "./log";
+import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { EventData } from "./eventData";
+import { EventHubSender } from "./eventHubSender";
 import { OperationOptions } from "./util/operationOptions";
 import { createEventHubSpan } from "./diagnostics/tracing";
+import { instrumentEventData } from "./diagnostics/instrumentEventData";
 
 /**
  * The `EventHubProducerClient` class is used to send events to an Event Hub.
@@ -195,7 +195,7 @@ export class EventHubProducerClient {
 
     let maxMessageSize = await sender.getMaxMessageSize({
       retryOptions: this._clientOptions.retryOptions,
-      abortSignal: options.abortSignal
+      abortSignal: options.abortSignal,
     });
 
     if (options.maxSizeInBytes) {
@@ -348,14 +348,14 @@ export class EventHubProducerClient {
         ...options,
         partitionId,
         partitionKey,
-        retryOptions: this._clientOptions.retryOptions
+        retryOptions: this._clientOptions.retryOptions,
       });
       sendSpan.setStatus({ code: SpanStatusCode.OK });
       return result;
     } catch (error) {
       sendSpan.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -388,7 +388,7 @@ export class EventHubProducerClient {
   getEventHubProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     return this._context.managementSession!.getEventHubProperties({
       ...options,
-      retryOptions: this._clientOptions.retryOptions
+      retryOptions: this._clientOptions.retryOptions,
     });
   }
 
@@ -404,7 +404,7 @@ export class EventHubProducerClient {
     return this._context
       .managementSession!.getEventHubProperties({
         ...options,
-        retryOptions: this._clientOptions.retryOptions
+        retryOptions: this._clientOptions.retryOptions,
       })
       .then((eventHubProperties) => {
         return eventHubProperties.partitionIds;
@@ -425,7 +425,7 @@ export class EventHubProducerClient {
   ): Promise<PartitionProperties> {
     return this._context.managementSession!.getPartitionProperties(partitionId, {
       ...options,
-      retryOptions: this._clientOptions.retryOptions
+      retryOptions: this._clientOptions.retryOptions,
     });
   }
 
@@ -435,13 +435,13 @@ export class EventHubProducerClient {
   ): Span {
     const links: Link[] = spanContextsToLink.map((context) => {
       return {
-        context
+        context,
       };
     });
 
     const { span } = createEventHubSpan("send", operationOptions, this._context.config, {
       kind: SpanKind.CLIENT,
-      links
+      links,
     });
 
     return span;

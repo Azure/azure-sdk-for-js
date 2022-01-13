@@ -18,7 +18,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'ETag',
   '"CB8FBF9A3D8400AA4D3EB0110E3326A55B1FAB2687669E272DA4FF14FA88FE59"',
   'Retry-After',
-  '1',
+  '0',
   'Vary',
   'Accept-Encoding',
   'X-RequestId',

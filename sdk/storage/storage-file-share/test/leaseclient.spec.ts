@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { getBSU, recorderEnvSetup, bodyToString } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
-dotenv.config();
 
 // for file
 describe("LeaseClient", () => {
@@ -23,7 +21,7 @@ describe("LeaseClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -39,7 +37,7 @@ describe("LeaseClient", () => {
     await fileClient.create(content.length);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await shareClient.delete();
     await recorder.stop();
   });
@@ -233,7 +231,7 @@ describe("LeaseClient", () => {
       assert.equal(err.statusCode, 412);
     }
     await fileClient.uploadRange(content, 0, content.length, {
-      leaseAccessConditions: { leaseId: guid }
+      leaseAccessConditions: { leaseId: guid },
     });
   });
 
@@ -250,7 +248,7 @@ describe("LeaseClient", () => {
       assert.equal(err.statusCode, 412);
     }
     await fileClient.startCopyFromURL(newFileClient.url, {
-      leaseAccessConditions: { leaseId: guid }
+      leaseAccessConditions: { leaseId: guid },
     });
   });
 
@@ -306,7 +304,7 @@ describe("LeaseClient", () => {
     }
 
     await fileClient.download(0, undefined, {
-      leaseAccessConditions: { leaseId: leaseClient.leaseId }
+      leaseAccessConditions: { leaseId: leaseClient.leaseId },
     });
   });
 

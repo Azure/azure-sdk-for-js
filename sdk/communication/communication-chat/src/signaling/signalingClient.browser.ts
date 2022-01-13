@@ -12,6 +12,6 @@ export const getSignalingClient = (
   options?: SignalingClientOptions
 ): SignalingClient | undefined => {
   return new CommunicationSignalingClient(credential, logger, {
-    environment: options?.environment ?? undefined
+    environment: options?.environment ?? undefined,
   });
 };

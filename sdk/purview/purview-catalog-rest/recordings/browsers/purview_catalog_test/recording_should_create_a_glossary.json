@@ -1,0 +1,62 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1318",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 18 Nov 2021 01:14:57 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.12249.11 - NCUS ProdSlices",
+    "x-ms-request-id": "a5af3d65-78e3-4128-a73b-1e0d47062a00"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/catalog/api/atlas/v2/glossary",
+   "query": {
+    "api-version": "2021-05-01-preview"
+   },
+   "requestBody": "{\"name\":\"jssdkGlossary9Browser\",\"shortDescription\":\"Example Short Description\",\"longDescription\":\"Example Long Description\",\"language\":\"en\",\"usage\":\"Example Glossary\"}",
+   "status": 200,
+   "response": "{\"guid\":\"4e0dd4c7-c04a-4f0c-90aa-11f839238576\",\"qualifiedName\":\"jssdkGlossary9Browser\",\"name\":\"jssdkGlossary9Browser\",\"shortDescription\":\"Example Short Description\",\"longDescription\":\"Example Long Description\",\"lastModifiedTS\":\"1\",\"language\":\"en\",\"usage\":\"Example Glossary\"}",
+   "responseHeaders": {
+    "access-control-allow-headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts",
+    "access-control-allow-methods": "GET,OPTIONS,HEAD,PUT,POST,DELETE,PATCH",
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "x-ms-request-id,lastmodifiedts",
+    "cache-control": "no-store, must-revalidate, no-cache, max-age=0",
+    "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 18 Nov 2021 01:14:58 GMT",
+    "expires": "0",
+    "pragma": "no-cache",
+    "server": "AzurePurview",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff, nosniff",
+    "x-frame-options": "DENY",
+    "x-ms-correlation-request-id": "4b997fcc-200d-45c5-a8e5-9e5060d64007",
+    "x-ms-request-id": "e3eb9e4e-dd97-4fbc-bbd2-14e424aff286",
+    "x-xss-protection": "1; mode=block"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "28d2af7d811b1fae153eabaf8fb6c5e6"
+}

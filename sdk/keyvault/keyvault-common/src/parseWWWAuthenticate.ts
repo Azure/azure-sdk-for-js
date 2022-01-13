@@ -11,7 +11,7 @@ const validParsedWWWAuthenticateProperties = [
   "authorization_url",
   "resource",
   "scope",
-  "tenantId"
+  "tenantId",
 ] as const;
 
 /**

@@ -106,13 +106,6 @@ export interface AuthorizationOperationsListNextOptionalParams
 export type AuthorizationOperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface AuthorizationOperationsListNextNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNextNext operation. */
-export type AuthorizationOperationsListNextNextResponse = OperationListResult;
-
-/** Optional parameters. */
 export interface ManagementLocksCreateOrUpdateAtResourceGroupLevelOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -263,46 +256,6 @@ export interface ManagementLocksListByScopeNextOptionalParams
 
 /** Contains response data for the listByScopeNext operation. */
 export type ManagementLocksListByScopeNextResponse = ManagementLockListResult;
-
-/** Optional parameters. */
-export interface ManagementLocksListAtResourceGroupLevelNextNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
-
-/** Contains response data for the listAtResourceGroupLevelNextNext operation. */
-export type ManagementLocksListAtResourceGroupLevelNextNextResponse = ManagementLockListResult;
-
-/** Optional parameters. */
-export interface ManagementLocksListAtResourceLevelNextNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
-
-/** Contains response data for the listAtResourceLevelNextNext operation. */
-export type ManagementLocksListAtResourceLevelNextNextResponse = ManagementLockListResult;
-
-/** Optional parameters. */
-export interface ManagementLocksListAtSubscriptionLevelNextNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
-
-/** Contains response data for the listAtSubscriptionLevelNextNext operation. */
-export type ManagementLocksListAtSubscriptionLevelNextNextResponse = ManagementLockListResult;
-
-/** Optional parameters. */
-export interface ManagementLocksListByScopeNextNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
-
-/** Contains response data for the listByScopeNextNext operation. */
-export type ManagementLocksListByScopeNextNextResponse = ManagementLockListResult;
 
 /** Optional parameters. */
 export interface ManagementLockClientOptionalParams

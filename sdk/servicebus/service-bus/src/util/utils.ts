@@ -71,7 +71,7 @@ export function reorderLockToken(lockTokenBytes: Buffer): Buffer {
     lockTokenBytes[12],
     lockTokenBytes[13],
     lockTokenBytes[14],
-    lockTokenBytes[15]
+    lockTokenBytes[15],
   ]);
 }
 
@@ -113,10 +113,7 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
 export function convertTicksToDate(buf: number[]): Date {
   const epochMicroDiff: number = 621355968000000000;
   const longValue: Long = Long.fromBytesBE(buf);
-  const timeInMS = longValue
-    .sub(epochMicroDiff)
-    .div(10000)
-    .toNumber();
+  const timeInMS = longValue.sub(epochMicroDiff).div(10000).toNumber();
   const result = new Date(timeInMS);
   logger.verbose("The converted date is: %s", result.toString());
   return result;
@@ -176,6 +173,7 @@ export function getString(value: unknown, nameOfProperty: string): string {
  * Helper utility to retrieve `string` value from given input,
  * or undefined if not passed in.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getStringOrUndefined(value: any): string | undefined {
   if (!isDefined(value)) {
     return undefined;
@@ -203,6 +201,7 @@ export function getInteger(value: unknown, nameOfProperty: string): number {
  * Helper utility to retrieve `integer` value from given string,
  * or undefined if not passed in.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getIntegerOrUndefined(value: any): number | undefined {
   if (!isDefined(value)) {
     return undefined;
@@ -239,16 +238,12 @@ export function getBoolean(value: unknown, nameOfProperty: string): boolean {
  * Helper utility to retrieve `boolean` value from given string,
  * or undefined if not passed in.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getBooleanOrUndefined(value: any): boolean | undefined {
   if (!isDefined(value)) {
     return undefined;
   }
-  return (
-    value
-      .toString()
-      .trim()
-      .toLowerCase() === "true"
-  );
+  return value.toString().trim().toLowerCase() === "true";
 }
 
 /**
@@ -261,6 +256,7 @@ const EMPTY_JSON_OBJECT_CONSTRUCTOR = {}.constructor;
  * @internal
  * Returns `true` if given input is a JSON like object.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function isJSONLikeObject(value: any): boolean {
   // `value.constructor === {}.constructor` differentiates among the "object"s,
   //    would filter the JSON objects and won't match any array or other kinds of objects
@@ -281,6 +277,7 @@ export function isJSONLikeObject(value: any): boolean {
  * @internal
  * Helper utility to retrieve message count details from given input,
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getMessageCountDetails(value: any): MessageCountDetails {
   const xmlnsPrefix = getXMLNSPrefix(value);
   if (!isDefined(value)) {
@@ -292,7 +289,7 @@ export function getMessageCountDetails(value: any): MessageCountDetails {
     scheduledMessageCount: parseInt(value[`${xmlnsPrefix}:ScheduledMessageCount`]) || 0,
     transferMessageCount: parseInt(value[`${xmlnsPrefix}:TransferMessageCount`]) || 0,
     transferDeadLetterMessageCount:
-      parseInt(value[`${xmlnsPrefix}:TransferDeadLetterMessageCount`]) || 0
+      parseInt(value[`${xmlnsPrefix}:TransferDeadLetterMessageCount`]) || 0,
   };
 }
 
@@ -300,6 +297,7 @@ export function getMessageCountDetails(value: any): MessageCountDetails {
  * @internal
  * Gets the xmlns prefix from the root of the objects that are part of the parsed response body.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getXMLNSPrefix(value: any): string {
   if (!value[Constants.XML_METADATA_MARKER]) {
     throw new Error(
@@ -378,6 +376,7 @@ export interface AuthorizationRule {
  * Helper utility to retrieve array of `AuthorizationRule` from given input,
  * or undefined if not passed in.
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[] | undefined {
   const authorizationRules: AuthorizationRule[] = [];
 
@@ -416,7 +415,7 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
     accessRights,
     keyName: value["KeyName"],
     primaryKey: value["PrimaryKey"],
-    secondaryKey: value["SecondaryKey"]
+    secondaryKey: value["SecondaryKey"],
   };
 
   if (authorizationRule.accessRights && !Array.isArray(authorizationRule.accessRights)) {
@@ -473,15 +472,15 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
     // ClaimValue is not settable by the users, but service expects the value for PUT requests
     ClaimValue: "None",
     Rights: {
-      AccessRights: authorizationRule.accessRights
+      AccessRights: authorizationRule.accessRights,
     },
     KeyName: authorizationRule.keyName,
     PrimaryKey: authorizationRule.primaryKey,
-    SecondaryKey: authorizationRule.secondaryKey
+    SecondaryKey: authorizationRule.secondaryKey,
   };
   rawAuthorizationRule[Constants.XML_METADATA_MARKER] = {
     "p5:type": "SharedAccessAuthorizationRule",
-    "xmlns:p5": "http://www.w3.org/2001/XMLSchema-instance"
+    "xmlns:p5": "http://www.w3.org/2001/XMLSchema-instance",
   };
   return rawAuthorizationRule;
 }
@@ -636,11 +635,11 @@ export function formatUserAgentPrefix(prefix?: string): string {
 export const getHttpResponseOnly = ({
   request,
   status,
-  headers
+  headers,
 }: HttpOperationResponse): HttpResponse => ({
   request,
   status,
-  headers
+  headers,
 });
 
 /**

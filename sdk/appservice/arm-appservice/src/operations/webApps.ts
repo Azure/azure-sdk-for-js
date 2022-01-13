@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { WebApps } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { WebSiteManagementClientContext } from "../webSiteManagementClientContext";
+import { WebSiteManagementClient } from "../webSiteManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -212,6 +211,8 @@ import {
   WebAppsUpdateAuthSettingsResponse,
   WebAppsGetAuthSettingsOptionalParams,
   WebAppsGetAuthSettingsResponse,
+  WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams,
+  WebAppsGetAuthSettingsV2WithoutSecretsResponse,
   SiteAuthSettingsV2,
   WebAppsUpdateAuthSettingsV2OptionalParams,
   WebAppsUpdateAuthSettingsV2Response,
@@ -897,15 +898,15 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a WebApps. */
+/** Class containing WebApps operations. */
 export class WebAppsImpl implements WebApps {
-  private readonly client: WebSiteManagementClientContext;
+  private readonly client: WebSiteManagementClient;
 
   /**
    * Initialize a new instance of the class WebApps class.
    * @param client Reference to the service client
    */
-  constructor(client: WebSiteManagementClientContext) {
+  constructor(client: WebSiteManagementClient) {
     this.client = client;
   }
 
@@ -6285,6 +6286,23 @@ export class WebAppsImpl implements WebApps {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
       getAuthSettingsOperationSpec
+    );
+  }
+
+  /**
+   * Description for Gets site's Authentication / Authorization settings for apps via the V2 format
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The options parameters.
+   */
+  getAuthSettingsV2WithoutSecrets(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams
+  ): Promise<WebAppsGetAuthSettingsV2WithoutSecretsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      getAuthSettingsV2WithoutSecretsOperationSpec
     );
   }
 
@@ -17797,7 +17815,7 @@ const backupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -17890,7 +17908,7 @@ const listBackupStatusSecretsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -17916,7 +17934,7 @@ const restoreOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.request3,
+  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -18157,6 +18175,28 @@ const getAuthSettingsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const getAuthSettingsV2WithoutSecretsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/authsettingsV2",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SiteAuthSettingsV2
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const updateAuthSettingsV2OperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/authsettingsV2",
@@ -18261,7 +18301,7 @@ const updateBackupConfigurationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -19089,7 +19129,7 @@ const discoverBackupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.request3,
+  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -21526,7 +21566,7 @@ const restoreFromBackupBlobOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.request3,
+  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -21895,7 +21935,7 @@ const backupSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -21992,7 +22032,7 @@ const listBackupStatusSecretsSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -22019,7 +22059,7 @@ const restoreSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.request3,
+  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -22379,7 +22419,7 @@ const updateBackupConfigurationSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -23195,7 +23235,7 @@ const discoverBackupSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.request3,
+  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -25660,7 +25700,7 @@ const restoreFromBackupBlobSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.request3,
+  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

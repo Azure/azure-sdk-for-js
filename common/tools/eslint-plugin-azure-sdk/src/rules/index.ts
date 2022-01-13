@@ -10,20 +10,7 @@ import githubSourceHeaders from "./github-source-headers";
 import tsApiExtractorPublicTypes from "./ts-apiextractor-json-types";
 import tsApisurfaceStandardizedVerbs from "./ts-apisurface-standardized-verbs";
 import tsApisurfaceSupportcancellation from "./ts-apisurface-supportcancellation";
-import tsConfigAllowSyntheticDefaultImports from "./ts-config-allowsyntheticdefaultimports";
-import tsConfigDeclaration from "./ts-config-declaration";
-import tsConfigEsModuleInterop from "./ts-config-esmoduleinterop";
-import tsConfigExclude from "./ts-config-exclude";
-import tsConfigForceConsistentCasingInFileNames from "./ts-config-forceconsistentcasinginfilenames";
-import tsConfigImportHelpers from "./ts-config-importhelpers";
 import tsConfigInclude from "./ts-config-include";
-import tsConfigLib from "./ts-config-lib";
-import tsConfigModule from "./ts-config-module";
-import tsConfigModuleResolution from "./ts-config-moduleresolution";
-import tsConfigNoExperimentalDecorators from "./ts-config-no-experimentaldecorators";
-import tsConfigSourceMap from "./ts-config-sourcemap";
-import tsConfigStrict from "./ts-config-strict";
-import tsConfigTarget from "./ts-config-target";
 import tsDocInternal from "./ts-doc-internal";
 import tsErrorHandling from "./ts-error-handling";
 import tsModulesOnlyNamed from "./ts-modules-only-named";
@@ -60,20 +47,7 @@ export = {
   "ts-apiextractor-json-types": tsApiExtractorPublicTypes,
   "ts-apisurface-standardized-verbs": tsApisurfaceStandardizedVerbs,
   "ts-apisurface-supportcancellation": tsApisurfaceSupportcancellation,
-  "ts-config-allowsyntheticdefaultimports": tsConfigAllowSyntheticDefaultImports,
-  "ts-config-declaration": tsConfigDeclaration,
-  "ts-config-esmoduleinterop": tsConfigEsModuleInterop,
-  "ts-config-exclude": tsConfigExclude,
-  "ts-config-forceconsistentcasinginfilenames": tsConfigForceConsistentCasingInFileNames,
-  "ts-config-importhelpers": tsConfigImportHelpers,
   "ts-config-include": tsConfigInclude,
-  "ts-config-lib": tsConfigLib,
-  "ts-config-module": tsConfigModule,
-  "ts-config-moduleresolution": tsConfigModuleResolution,
-  "ts-config-no-experimentaldecorators": tsConfigNoExperimentalDecorators,
-  "ts-config-sourcemap": tsConfigSourceMap,
-  "ts-config-strict": tsConfigStrict,
-  "ts-config-target": tsConfigTarget,
   "ts-doc-internal": tsDocInternal,
   "ts-error-handling": tsErrorHandling,
   "ts-modules-only-named": tsModulesOnlyNamed,
@@ -100,5 +74,5 @@ export = {
   "ts-pagination-list": tsPaginationList,
   "ts-use-interface-parameters": tsUseInterfaceParameters,
   "ts-use-promises": tsUsePromises,
-  "ts-versioning-semver": tsVersioningSemver
+  "ts-versioning-semver": tsVersioningSemver,
 };

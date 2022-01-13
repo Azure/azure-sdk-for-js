@@ -10,13 +10,9 @@ if (isNode) {
 }
 
 export function uniqueString(): string {
-  return isPlaybackMode()
-    ? ""
-    : Math.random()
-        .toString()
-        .slice(2);
+  return isPlaybackMode() ? "" : Math.random().toString().slice(2);
 }
 
 export const testPollerProperties = {
-  intervalInMs: isPlaybackMode() ? 0 : undefined
+  intervalInMs: isPlaybackMode() ? 0 : undefined,
 };

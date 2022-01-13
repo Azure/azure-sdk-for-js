@@ -9,14 +9,14 @@ import { FullOperationResponse } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 /* eslint-disable @typescript-eslint/no-invalid-this */
 
-describe("Group client working with a group", function() {
+describe("Group client working with a group", function () {
   let recorder: Recorder;
   let client: WebPubSubGroup;
   let lastResponse: FullOperationResponse | undefined;
   function onResponse(response: FullOperationResponse) {
     lastResponse = response;
   }
-  beforeEach(function() {
+  beforeEach(function () {
     recorder = record(this, environmentSetup);
     const hubClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "simplechat");
     client = hubClient.group("group");
@@ -64,7 +64,7 @@ describe("Group client working with a group", function() {
     await client.removeUser("brian");
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     if (recorder) {
       recorder.stop();
     }

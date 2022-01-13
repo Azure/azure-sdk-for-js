@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { QueueServiceClient } from "../../src/QueueServiceClient";
@@ -15,11 +15,11 @@ import { Context } from "mocha";
 describe("QueueServiceClient Node.js only", () => {
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -43,8 +43,8 @@ describe("QueueServiceClient Node.js only", () => {
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new QueueServiceClient(queueServiceClient.url, credential, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const result = await newClient.getProperties();
@@ -84,8 +84,8 @@ describe("QueueServiceClient Node.js only", () => {
       getToken: () =>
         Promise.resolve({
           token: "token",
-          expiresOnTimestamp: 12345
-        })
+          expiresOnTimestamp: 12345,
+        }),
     };
     const newClient = new QueueServiceClient(
       "https://accountname.queue.core.windows.net",

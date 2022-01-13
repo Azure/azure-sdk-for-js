@@ -46,14 +46,14 @@ async function helloWorldRequest(): Promise<string> {
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
-    SERVER_ADDRESS: "http://127.0.0.1:1337"
+    SERVER_ADDRESS: "http://127.0.0.1:1337",
   },
   customizationsOnRecordings: [],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 describe("The recorder's public API, on NodeJS", () => {
-  beforeEach(function() {
+  beforeEach(function () {
     // These tests do make files in the recordings folder.
     // For that reason, we make sure these files are deleted before testing.
     const fs = require("fs");
@@ -72,13 +72,13 @@ describe("The recorder's public API, on NodeJS", () => {
     delete process.env.SERVER_ADDRESS;
   });
 
-  it("should record a simple test", async function() {
+  it("should record a simple test", async function () {
     process.env.TEST_MODE = "record";
     process.env.SERVER_ADDRESS = "http://127.0.0.1:8080";
 
     // We create a very simple HTTP server that serves some content at a specific port.
     const http = require("http");
-    const server = http.createServer(function(_: any, res: any) {
+    const server = http.createServer(function (_: any, res: any) {
       res.write(expectedHttpResponse);
       res.end();
     });
@@ -90,7 +90,7 @@ describe("The recorder's public API, on NodeJS", () => {
     const fakeThis: TestContextInterface = new TestContext(this.test! as TestContextTest, {
       ...this.currentTest,
       file: __filename,
-      fn: emptyFunction
+      fn: emptyFunction,
     });
 
     const recorder = record(fakeThis, recorderEnvSetup);
@@ -122,7 +122,7 @@ describe("The recorder's public API, on NodeJS", () => {
     );
   });
 
-  it("should playback a simple test", async function() {
+  it("should playback a simple test", async function () {
     // The recorder will assume that it is in playback mode by default.
     // process.env.TEST_MODE = "playback";
 
@@ -139,7 +139,7 @@ describe("The recorder's public API, on NodeJS", () => {
     const fakeThis: TestContextInterface = new TestContext(this.test! as TestContextTest, {
       ...this.currentTest,
       file: __filename,
-      fn: emptyFunction
+      fn: emptyFunction,
     });
 
     const recorder = record(fakeThis, recorderEnvSetup);
@@ -151,7 +151,7 @@ describe("The recorder's public API, on NodeJS", () => {
     await recorder.stop();
   });
 
-  it("soft-record should re-record a simple outdated test", async function() {
+  it("soft-record should re-record a simple outdated test", async function () {
     process.env.TEST_MODE = "soft-record";
     process.env.SERVER_ADDRESS = "http://127.0.0.1:8080";
 
@@ -164,7 +164,7 @@ describe("The recorder's public API, on NodeJS", () => {
 
     // We create a very simple HTTP server that serves some content at a specific port.
     const http = require("http");
-    const server = http.createServer(function(_: any, res: any) {
+    const server = http.createServer(function (_: any, res: any) {
       res.write(expectedHttpResponse);
       res.end();
     });
@@ -181,7 +181,7 @@ describe("The recorder's public API, on NodeJS", () => {
     const fakeThis: TestContextInterface = new TestContext(this.test! as TestContextTest, {
       ...this.currentTest,
       file: __filename,
-      fn: changedTestFunction
+      fn: changedTestFunction,
     });
 
     const recorder = record(fakeThis, recorderEnvSetup);
@@ -217,7 +217,7 @@ describe("The recorder's public API, on NodeJS", () => {
     expect(recordingWithoutDate).to.equal(expectedRecordingWithUpdatedHash);
   });
 
-  it("soft-record should skip a simple unchanged test", async function() {
+  it("soft-record should skip a simple unchanged test", async function () {
     process.env.TEST_MODE = "soft-record";
 
     // Making sure the expected recording actually exists before running playback.
@@ -236,7 +236,7 @@ describe("The recorder's public API, on NodeJS", () => {
       file: __filename,
       // The hash in our expected recording is made out of an empty function.
       // This function is empty, which means it remains the same.
-      fn: emptyFunction
+      fn: emptyFunction,
     });
 
     // We have to mock this.skip in order to confirm that the recorder has called it.

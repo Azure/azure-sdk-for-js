@@ -10,10 +10,10 @@ const environmentSetup: RecorderEnvironmentSetup = {
     REVERSE_PROXY_ENDPOINT: "https://rp-endpoint",
     AZURE_CLIENT_ID: "azure_client_id",
     AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "azuretenantid"
+    AZURE_TENANT_ID: "azuretenantid",
   },
   customizationsOnRecordings: [],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export default environmentSetup;

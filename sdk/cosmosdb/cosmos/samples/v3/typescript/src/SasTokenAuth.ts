@@ -5,9 +5,8 @@
  * @summary Demonstrates using SasTokens for granting scoped access to Cosmos resources. *Private feature*
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import {
   CosmosClient,
@@ -23,7 +22,7 @@ const sasToken = "your-sas-token";
 async function run() {
   logStep("Create a SasToken object");
 
-  const sasTokenProperties = <SasTokenProperties>{
+  const sasTokenProperties = {
     user: "your-user",
     userTag: "your-userTag",
     databaseName: "your-databaseName",
@@ -37,7 +36,7 @@ async function run() {
     controlPlaneWriterScope: 0,
     dataPlaneReaderScope: SasTokenPermissionKind.ContainerFullAccess,
     dataPlaneWriterScope: 0
-  };
+  } as SasTokenProperties;
 
   const key = await createAuthorizationSasToken(masterKey, sasTokenProperties);
 

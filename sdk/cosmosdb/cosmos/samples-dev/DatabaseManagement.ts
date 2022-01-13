@@ -5,9 +5,8 @@
  * @summary Demonstrates database create, read, delete and reading all databases.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { handleError, logStep, logSampleHeader, finish } from "./Shared/handleError";
 import { CosmosClient } from "@azure/cosmos";
@@ -40,8 +39,9 @@ async function run(): Promise<void> {
   assert.equal(dbDef && dbDef.id, alsoDbDef && alsoDbDef.id); // The bodies will also almost be equal, _ts will defer based on the read time
   // This applies for all response types, not just DatabaseResponse.
 
-  console.log("Database with id of " + dbDef && dbDef.id + "' was found");
-
+  if (dbDef) {
+    console.log(`Database with id of ${dbDef.id}' was found`);
+  }
   logStep("delete database with id '" + databaseId + "'");
   await finish();
 }

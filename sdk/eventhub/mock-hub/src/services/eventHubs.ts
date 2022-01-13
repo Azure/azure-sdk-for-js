@@ -1,38 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { URL } from "url";
 import {
   Connection,
   ConnectionEvents,
   EventContext,
-  Sender,
   Message,
+  ReceiverEvents,
+  Sender,
   SenderEvents,
-  ReceiverEvents
 } from "rhea";
 import {
+  ConnectionCloseEvent,
   MockServer,
   MockServerOptions,
-  SenderOpenEvent,
-  ReceiverOpenEvent,
   OnMessagesEvent,
+  ReceiverOpenEvent,
   SenderCloseEvent,
-  ConnectionCloseEvent
+  SenderOpenEvent,
 } from "../server/mockServer";
-import { MessageStore } from "../storage/messageStore";
-import { createCbsAccepted } from "../messages/cbs/cbsAccepted";
 import {
-  isHubRuntimeInfo,
-  generateHubRuntimeInfoResponse
-} from "../messages/event-hubs/runtimeInfo";
-import { StreamingPartitionSender } from "../sender/streamingPartitionSender";
-import { getEventPosition } from "../utils/eventPosition";
-import {
-  isPartitionInfo,
+  generateBadPartitionInfoResponse,
   generatePartitionInfoResponse,
-  generateBadPartitionInfoResponse
+  isPartitionInfo,
 } from "../messages/event-hubs/partitionInfo";
+import {
+  generateHubRuntimeInfoResponse,
+  isHubRuntimeInfo,
+} from "../messages/event-hubs/runtimeInfo";
+import { MessageStore } from "../storage/messageStore";
+import { StreamingPartitionSender } from "../sender/streamingPartitionSender";
+import { URL } from "url";
+import { createCbsAccepted } from "../messages/cbs/cbsAccepted";
+import { getEventPosition } from "../utils/eventPosition";
 
 export interface IMockEventHub {
   readonly partitionIds: string[];
@@ -154,7 +154,7 @@ export class MockEventHub implements IMockEventHub {
 
   /**
    * Instantiates a `MockEventHub` using the provided options.
-   * @param options
+   * @param options - The options to instantiate the MockEventHub with.
    */
   constructor(options: MockEventHubOptions) {
     this._partitionCount = options.partitionCount ?? 2;
@@ -177,22 +177,22 @@ export class MockEventHub implements IMockEventHub {
     });
   }
 
-  private _handleConnectionInactivity = (connection: Connection) => {
+  private _handleConnectionInactivity = (connection: Connection): void => {
     if (!this._connectionInactivityTimeoutInMs) {
       return;
     }
 
-    const forceCloseConnection = () => {
+    const forceCloseConnection = (): void => {
       connection.close({
         condition: "amqp:connection:forced",
-        description: `The connection was inactive for more than the allowed ${this._connectionInactivityTimeoutInMs} milliseconds and is closed by the service.`
+        description: `The connection was inactive for more than the allowed ${this._connectionInactivityTimeoutInMs} milliseconds and is closed by the service.`,
       });
     };
 
     let tid = setTimeout(forceCloseConnection, this._connectionInactivityTimeoutInMs);
     this._clearableTimeouts.add(tid);
 
-    const bounceTimeout = () => {
+    const bounceTimeout = (): void => {
       clearTimeout(tid);
       this._clearableTimeouts.delete(tid);
       tid = setTimeout(forceCloseConnection, this._connectionInactivityTimeoutInMs);
@@ -210,9 +210,9 @@ export class MockEventHub implements IMockEventHub {
    * The event handler for when the service creates a `Receiver` link.
    *
    * This is done in response to the client opening a `Sender` link.
-   * @param event
+   * @param event -
    */
-  private _handleReceiverOpen = (event: ReceiverOpenEvent) => {
+  private _handleReceiverOpen = (event: ReceiverOpenEvent): void => {
     event.receiver.set_source(event.receiver.source);
     event.receiver.set_target(event.receiver.target);
     if (this._isReceiverPartitionEntityPath(event.entityPath)) {
@@ -228,7 +228,7 @@ export class MockEventHub implements IMockEventHub {
         return event.receiver.close({
           condition: "com.microsoft:argument-out-of-range",
           description:
-            "The specified partition is invalid for an EventHub partition sender or receiver."
+            "The specified partition is invalid for an EventHub partition sender or receiver.",
         });
       }
     }
@@ -238,9 +238,9 @@ export class MockEventHub implements IMockEventHub {
    * The event handler for when the service creates a `Sender` link.
    *
    * This is done in response to the client opening a `Receiver` link.
-   * @param event
+   * @param event -
    */
-  private _handleSenderOpen = (event: SenderOpenEvent) => {
+  private _handleSenderOpen = (event: SenderOpenEvent): void => {
     event.sender.set_source(event.sender.source);
     event.sender.set_target(event.sender.target);
     if (event.entityPath === "$cbs") {
@@ -306,7 +306,7 @@ export class MockEventHub implements IMockEventHub {
         // Probably should close the sender at this point.
         event.sender.close({
           condition: "amqp:internal-error",
-          description: (err as any)?.message ?? ""
+          description: err?.message ?? "",
         });
       }
     }
@@ -317,9 +317,9 @@ export class MockEventHub implements IMockEventHub {
    *
    * This is done in response to the client closing a `Receiver` link,
    * or the service closing the `Sender` link.
-   * @param event
+   * @param event -
    */
-  private _handleSenderClose = (event: SenderCloseEvent) => {
+  private _handleSenderClose = (event: SenderCloseEvent): void => {
     if (this._isSenderPartitionEntityPath(event.entityPath)) {
       // Handles partition-specific senders.
       const entityComponents = this._parseSenderPartitionEntityPath(event.entityPath);
@@ -342,13 +342,13 @@ export class MockEventHub implements IMockEventHub {
    * The event handler for when the service closes a connection.
    *
    * This is done when a client explicitly closes or is disconnected.
-   * @param event
+   * @param event -
    */
-  private _handleConnectionClose = (event: ConnectionCloseEvent) => {
+  private _handleConnectionClose = (event: ConnectionCloseEvent): void => {
     // Cleanup the partition senders we might have for this connection.
     // We'll just do brute force for now and optimize later.
-    for (const [consumerGroup, partitionMap] of this._consumerGroupPartitionSenderMap) {
-      for (const [partitionId, senders] of partitionMap) {
+    for (const [, partitionMap] of this._consumerGroupPartitionSenderMap) {
+      for (const [, senders] of partitionMap) {
         for (const sender of senders) {
           if (sender.connection === event.context.connection) {
             senders.delete(sender);
@@ -372,9 +372,9 @@ export class MockEventHub implements IMockEventHub {
    * The event handler for when the service receives a message.
    *
    * Messages are not automatically accepted/rejected.
-   * @param event
+   * @param event -
    */
-  private _handleOnMessages = (event: OnMessagesEvent) => {
+  private _handleOnMessages = (event: OnMessagesEvent): void => {
     // Handle batched messages first.
     if (event.entityPath === this._name) {
       // received a message without a partition id
@@ -414,80 +414,85 @@ export class MockEventHub implements IMockEventHub {
 
   /**
    * Handles responding to CBS messages.
-   * @param event
+   * @param event -
    */
-  private _handleCbsMessage(event: OnMessagesEvent, message: Message) {
+  private _handleCbsMessage(event: OnMessagesEvent, message: Message): void {
     let outgoingMessage: Message;
     if (!this.isValidCbsAuth(message)) {
       outgoingMessage = {
-        correlation_id: message.message_id!.toString(),
+        correlation_id: message.message_id?.toString(),
         to: message.reply_to,
         application_properties: {
           "status-code": 404,
           "status-description": `The messaging entity '${message.application_properties?.name}' could not be found.`,
-          "error-condition": "amqp:not-found"
+          "error-condition": "amqp:not-found",
         },
-        body: undefined
+        body: undefined,
       };
     } else {
       outgoingMessage = createCbsAccepted({
         correlationId: message.message_id as string,
-        toLinkName: message.reply_to
+        toLinkName: message.reply_to,
       });
     }
     event.context.delivery?.accept();
-    return event.sendMessage(outgoingMessage);
+    event.sendMessage(outgoingMessage);
   }
 
   /**
    * Handles responding to Management READ EventHubs messages.
-   * @param event
+   * @param event -
    */
-  private _handleHubRuntimeInfoMessage(event: OnMessagesEvent, message: Message) {
+  private _handleHubRuntimeInfoMessage(event: OnMessagesEvent, message: Message): void {
     const outgoingMessage = generateHubRuntimeInfoResponse({
       correlationId: message.message_id?.toString(),
       partitions: this.partitionIds,
       targetLinkName: message.reply_to,
       createdOn: this._createdOn,
-      eventHubName: this._name
+      eventHubName: this._name,
     });
     event.context.delivery?.accept();
-    return event.sendMessage(outgoingMessage);
+    event.sendMessage(outgoingMessage);
   }
 
   /**
    * Handles responding to Management READ Partition messages.
-   * @param event
+   * @param event -
    */
-  private _handlePartitionInfoMessage(event: OnMessagesEvent, message: Message) {
+  private _handlePartitionInfoMessage(event: OnMessagesEvent, message: Message): void {
     const partitionId = message.application_properties?.partition;
     let outgoingMessage: Message;
     if (!this.partitionIds.includes(partitionId)) {
       outgoingMessage = generateBadPartitionInfoResponse({
-        correlationId: message.message_id!.toString(),
-        targetLinkName: message.reply_to
+        correlationId: message.message_id?.toString(),
+        targetLinkName: message.reply_to,
       });
     } else {
       const partitionInfo = this._messageStore.getPartitionInfo(partitionId);
       outgoingMessage = generatePartitionInfoResponse({
         ...partitionInfo,
-        correlationId: message.message_id!.toString(),
+        correlationId: message.message_id?.toString(),
         targetLinkName: message.reply_to,
-        eventHubName: this._name
+        eventHubName: this._name,
       });
     }
     event.context.delivery?.accept();
-    return event.sendMessage(outgoingMessage);
+    event.sendMessage(outgoingMessage);
   }
 
   /**
    * Handles storing and accepting/rejecting messages sent from a client to a partition.
-   * @param event
-   * @param partitionId
+   * @param event -
+   * @param partitionId -
    */
-  private _handleReceivedMessage(event: OnMessagesEvent, partitionId?: string) {
-    const delivery = event.context.delivery!;
-    const deliverySize = (delivery as any)["data"]?.length ?? 0;
+  private _handleReceivedMessage(event: OnMessagesEvent, partitionId?: string): void {
+    const delivery = event.context.delivery;
+
+    if (!delivery) {
+      throw new Error("event.context.delivery must be defined");
+    }
+
+    const deliverySize = (delivery as { data?: unknown[] })["data"]?.length ?? 0;
     const maxMessageSize =
       event.context.receiver?.get_option("max_message_size", 1024 * 1024) ?? 1024 * 1024;
     if (deliverySize >= maxMessageSize) {
@@ -495,8 +500,9 @@ export class MockEventHub implements IMockEventHub {
         condition: "amqp:link:message-size-exceeded",
         description: `The received message (delivery-id:${
           delivery.id
-        }, size:${deliverySize} bytes) exceeds the limit (${maxMessageSize ??
-          1024 * 1024} bytes) currently allowed on the link.`
+        }, size:${deliverySize} bytes) exceeds the limit (${
+          maxMessageSize ?? 1024 * 1024
+        } bytes) currently allowed on the link.`,
       });
       return;
     }
@@ -506,7 +512,7 @@ export class MockEventHub implements IMockEventHub {
 
   /**
    * Gets the Sender's `ownerLevel`, if it has one.
-   * @param sender
+   * @param sender -
    */
   private _getSenderOwnerLevel(sender: Sender): number | undefined {
     const ownerLevel: number | undefined = sender.properties?.["com.microsoft:epoch"];
@@ -518,11 +524,11 @@ export class MockEventHub implements IMockEventHub {
    *
    * Note: Partition senders are used to send messages to a client receiver that
    * is listening on a consumerGroup/partitionId combination.
-   * @param consumerGroup
-   * @param partitionId
-   * @param sender
+   * @param consumerGroup -
+   * @param partitionId -
+   * @param sender -
    */
-  private _storePartitionSender(consumerGroup: string, partitionId: string, sender: Sender) {
+  private _storePartitionSender(consumerGroup: string, partitionId: string, sender: Sender): void {
     // Ensure we have an entry for the consumer group.
     const consumerGroupPartitionMap =
       this._consumerGroupPartitionSenderMap.get(consumerGroup) ?? new Map<string, Set<Sender>>();
@@ -538,11 +544,11 @@ export class MockEventHub implements IMockEventHub {
   /**
    * Removes the partition sender based on its consumerGroup and partitionId.
    *
-   * @param consumerGroup
-   * @param partitionId
-   * @param sender
+   * @param consumerGroup -
+   * @param partitionId -
+   * @param sender -
    */
-  private _deletePartitionSender(consumerGroup: string, partitionId: string, sender: Sender) {
+  private _deletePartitionSender(consumerGroup: string, partitionId: string, sender: Sender): void {
     const partitionSenders = this._consumerGroupPartitionSenderMap
       .get(consumerGroup)
       ?.get(partitionId);
@@ -559,9 +565,9 @@ export class MockEventHub implements IMockEventHub {
    *
    * If the `Sender` is allowed to be created and does have an `ownerLevel`,
    * any existing `Sender`s with the same consumerGroup/partitionId will be closed.
-   * @param consumerGroup
-   * @param partitionId
-   * @param sender
+   * @param consumerGroup -
+   * @param partitionId -
+   * @param sender -
    */
   private _handleSenderOwnerLevel(
     consumerGroup: string,
@@ -596,7 +602,7 @@ export class MockEventHub implements IMockEventHub {
           condition: "amqp:link:stolen",
           description:
             `At least one receiver for the endpoint is created with epoch of '${maxOwnerLevel}', and so non-epoch receiver is not allowed. ` +
-            `Either reconnect with a higher epoch, or make sure all epoch receivers are closed or disconnected.`
+            `Either reconnect with a higher epoch, or make sure all epoch receivers are closed or disconnected.`,
         });
         return false;
       }
@@ -610,9 +616,10 @@ export class MockEventHub implements IMockEventHub {
         partitionSender.close({
           condition: "amqp:link:stolen",
           description:
-            `New receiver 'nil' with higher epoch of '${ownerLevel}' is created hence current receiver 'nil' with epoch '${senderOwnerLevel ??
-              ""}' is getting disconnected. ` +
-            `If you are recreating the receiver, make sure a higher epoch is used.`
+            `New receiver 'nil' with higher epoch of '${ownerLevel}' is created hence current receiver 'nil' with epoch '${
+              senderOwnerLevel ?? ""
+            }' is getting disconnected. ` +
+            `If you are recreating the receiver, make sure a higher epoch is used.`,
         });
       }
       return true;
@@ -624,7 +631,7 @@ export class MockEventHub implements IMockEventHub {
       description:
         `Receiver 'nil' with a higher epoch '${maxOwnerLevel}' already exists. ` +
         `Receiver 'nil' with epoch ${ownerLevel} cannot be created. ` +
-        `Make sure you are creating receiver with increasing epoch value to ensure connectivity, or ensure all old epoch receivers are closed or disconnected.`
+        `Make sure you are creating receiver with increasing epoch value to ensure connectivity, or ensure all old epoch receivers are closed or disconnected.`,
     });
     return false;
   }
@@ -634,10 +641,10 @@ export class MockEventHub implements IMockEventHub {
    *
    * If a `partitionId` is not provided, a partition will be assigned
    * either based on the `partitionKey` if it is available, or at random.
-   * @param message
-   * @param partitionId
+   * @param message -
+   * @param partitionId -
    */
-  private _storeMessage(messages: Message[], partitionId?: string) {
+  private _storeMessage(messages: Message[], partitionId?: string): void {
     if (!messages.length) {
       return;
     }
@@ -662,7 +669,7 @@ export class MockEventHub implements IMockEventHub {
 
   /**
    * A very hacky 'hash' function to calculate a `partitionId` from a `partitionKey`.
-   * @param partitionKey
+   * @param partitionKey -
    */
   private _partitionIdFromKey(partitionKey: string): string {
     let hash = 0;
@@ -675,9 +682,9 @@ export class MockEventHub implements IMockEventHub {
   /**
    * Validates whether the partition sender can be created.
    *
-   * @param entityComponents
-   * @param sender
-   * @param context
+   * @param entityComponents -
+   * @param sender -
+   * @param context -
    */
   private _handlePartitionSenderOpenValidation(
     entityComponents: PartionSenderEntityComponents,
@@ -689,7 +696,7 @@ export class MockEventHub implements IMockEventHub {
       sender.close({
         condition: "com.microsoft:argument-out-of-range",
         description:
-          "The specified partition is invalid for an EventHub partition sender or receiver."
+          "The specified partition is invalid for an EventHub partition sender or receiver.",
       });
       return false;
     }
@@ -697,7 +704,7 @@ export class MockEventHub implements IMockEventHub {
       const host = (context.connection.hostname ?? "").split(".")[0];
       sender.close({
         condition: "amqp-not-found",
-        description: `The messaging entity '${host}:eventhub:${eventHubName}~0|${consumerGroup}' could not be found.`
+        description: `The messaging entity '${host}:eventhub:${eventHubName}~0|${consumerGroup}' could not be found.`,
       });
       return false;
     }
@@ -707,14 +714,14 @@ export class MockEventHub implements IMockEventHub {
   /**
    * Starts the service.
    */
-  start() {
+  start(): Promise<void> {
     return this._mockServer.start();
   }
 
   /**
    * Stops the service.
    */
-  stop() {
+  stop(): Promise<void> {
     for (const tid of this._clearableTimeouts.values()) {
       clearTimeout(tid);
     }
@@ -730,10 +737,10 @@ export class MockEventHub implements IMockEventHub {
       return;
     }
 
-    const [eventHubName, _1, partitionId] = parts;
+    const [eventHubName, , partitionId] = parts;
     return {
       eventHubName,
-      partitionId
+      partitionId,
     };
   }
 
@@ -745,15 +752,15 @@ export class MockEventHub implements IMockEventHub {
       return;
     }
 
-    const [eventHubName, _1, consumerGroup, _2, partitionId] = parts;
+    const [eventHubName, , consumerGroup, , partitionId] = parts;
     return {
       eventHubName,
       consumerGroup,
-      partitionId
+      partitionId,
     };
   }
 
-  private isValidCbsAuth(message: Message) {
+  private isValidCbsAuth(message: Message): boolean | undefined {
     const name = message.application_properties?.name as string | undefined;
     if (!name) {
       return;

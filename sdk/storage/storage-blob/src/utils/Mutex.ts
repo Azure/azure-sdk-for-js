@@ -3,7 +3,7 @@
 
 enum MutexLockStatus {
   LOCKED,
-  UNLOCKED
+  UNLOCKED,
 }
 
 type Callback = (...args: any[]) => any;

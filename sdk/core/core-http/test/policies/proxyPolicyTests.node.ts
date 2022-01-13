@@ -2,26 +2,26 @@
 // Licensed under the MIT license.
 
 import "chai/register-should";
-import { should } from "chai";
-import { ProxySettings } from "../../src/serviceClient";
-import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
-import { WebResource } from "../../src/webResource";
-import { HttpHeaders } from "../../src/httpHeaders";
 import {
-  proxyPolicy,
   ProxyPolicy,
   getDefaultProxySettings,
   globalNoProxyList,
-  loadNoProxy
+  loadNoProxy,
+  proxyPolicy,
 } from "../../src/policies/proxyPolicy";
 import { Constants } from "../../src/coreHttp";
+import { HttpHeaders } from "../../src/httpHeaders";
+import { ProxySettings } from "../../src/serviceClient";
+import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
+import { WebResource } from "../../src/webResource";
+import { should } from "chai";
 
-describe("ProxyPolicy (node)", function() {
+describe("ProxyPolicy (node)", function () {
   const proxySettings: ProxySettings = {
     host: "https://example.com",
     port: 3030,
     username: "admin",
-    password: "SecretPlaceholder"
+    password: "SecretPlaceholder",
   };
 
   const emptyRequestPolicy = {
@@ -29,14 +29,14 @@ describe("ProxyPolicy (node)", function() {
       Promise.resolve({
         request: new WebResource(),
         status: 404,
-        headers: new HttpHeaders(undefined)
-      })
+        headers: new HttpHeaders(undefined),
+      }),
   };
 
   const emptyPolicyOptions = new RequestPolicyOptions();
 
-  describe("for Node.js", function() {
-    it("factory passes correct proxy settings", function(done) {
+  describe("for Node.js", function () {
+    it("factory passes correct proxy settings", function (done) {
       const factory = proxyPolicy(proxySettings);
       const policy = factory.create(emptyRequestPolicy, emptyPolicyOptions) as ProxyPolicy;
 
@@ -44,7 +44,7 @@ describe("ProxyPolicy (node)", function() {
       done();
     });
 
-    it("sets correct proxy settings through constructor", function(done) {
+    it("sets correct proxy settings through constructor", function (done) {
       const policy = new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings);
       policy.proxySettings.should.be.deep.equal(proxySettings);
       done();
@@ -129,7 +129,7 @@ describe("ProxyPolicy (node)", function() {
 
         const request = new WebResource();
         const policy1 = new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings, [
-          "test.com"
+          "test.com",
         ]);
         request.url = "http://foo.com";
         await policy1.sendRequest(request);
@@ -146,7 +146,7 @@ describe("ProxyPolicy (node)", function() {
         request.proxySettings!.should.be.deep.equal(proxySettings);
 
         const policy2 = new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings, [
-          "foo.com"
+          "foo.com",
         ]);
         request.url = "http://foo.com";
         request.proxySettings = undefined;
@@ -175,7 +175,7 @@ describe("getDefaultProxySettings", () => {
   const proxyUrl = "https://proxy.microsoft.com";
   const defaultPort = 80;
 
-  describe("for Node.js", function() {
+  describe("for Node.js", function () {
     it("should return settings with passed address", () => {
       const proxySettings: ProxySettings = getDefaultProxySettings(proxyUrl)!;
       proxySettings.host.should.equal(proxyUrl);
@@ -200,38 +200,38 @@ describe("getDefaultProxySettings", () => {
         proxyUrl: "prot://user:pass@proxy.microsoft.com",
         proxyUrlWithoutAuth: "prot://proxy.microsoft.com",
         username: "user",
-        password: "pass"
+        password: "pass",
       },
       {
         proxyUrl: "prot://user@proxy.microsoft.com",
         proxyUrlWithoutAuth: "prot://proxy.microsoft.com",
         username: "user",
-        password: undefined
+        password: undefined,
       },
       {
         proxyUrl: "prot://:pass@proxy.microsoft.com",
         proxyUrlWithoutAuth: "prot://proxy.microsoft.com",
         username: undefined,
-        password: "pass"
+        password: "pass",
       },
       {
         proxyUrl: "prot://proxy.microsoft.com",
         proxyUrlWithoutAuth: "prot://proxy.microsoft.com",
         username: undefined,
-        password: undefined
+        password: undefined,
       },
       {
         proxyUrl: "user:pass@proxy.microsoft.com",
         proxyUrlWithoutAuth: "proxy.microsoft.com",
         username: "user",
-        password: "pass"
+        password: "pass",
       },
       {
         proxyUrl: "proxy.microsoft.com",
         proxyUrlWithoutAuth: "proxy.microsoft.com",
         username: undefined,
-        password: undefined
-      }
+        password: undefined,
+      },
     ].forEach((testCase) => {
       it(`should return settings with passed proxyUrl : ${testCase.proxyUrl}`, () => {
         const proxySettings: ProxySettings = getDefaultProxySettings(testCase.proxyUrl)!;
@@ -274,7 +274,7 @@ describe("getDefaultProxySettings", () => {
       describe("should load setting from ALL_PROXY(all_proxy) environmental variable when no proxy passed and one of HTTPS proxy and HTTP proxy is not set ", () => {
         [
           { name: "lower case", func: (envVar: string) => envVar.toLowerCase() },
-          { name: "upper case", func: (envVar: string) => envVar.toUpperCase() }
+          { name: "upper case", func: (envVar: string) => envVar.toUpperCase() },
         ].forEach((testCase) => {
           it(`with ${testCase.name}`, () => {
             const allProxy = "https://proxy.azure.com";
@@ -292,7 +292,7 @@ describe("getDefaultProxySettings", () => {
       describe("should prefer HTTPS proxy over HTTP proxy", () => {
         [
           { name: "lower case", func: (envVar: string) => envVar.toLowerCase() },
-          { name: "upper case", func: (envVar: string) => envVar.toUpperCase() }
+          { name: "upper case", func: (envVar: string) => envVar.toUpperCase() },
         ].forEach((testCase) => {
           it(`with ${testCase.name}`, () => {
             const httpProxy = "http://proxy.microsoft.com";

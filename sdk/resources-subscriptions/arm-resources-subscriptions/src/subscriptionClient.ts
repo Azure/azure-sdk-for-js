@@ -12,14 +12,16 @@ import { SubscriptionsImpl, TenantsImpl } from "./operations";
 import { Subscriptions, Tenants } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { SubscriptionClientContext } from "./subscriptionClientContext";
 import {
   SubscriptionClientOptionalParams,
-  SubscriptionClientCheckResourceNameOptionalParams,
-  SubscriptionClientCheckResourceNameResponse
+  CheckResourceNameOptionalParams,
+  CheckResourceNameResponse
 } from "./models";
 
-export class SubscriptionClient extends SubscriptionClientContext {
+export class SubscriptionClient extends coreClient.ServiceClient {
+  $host: string;
+  apiVersion: string;
+
   /**
    * Initializes a new instance of the SubscriptionClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -29,7 +31,41 @@ export class SubscriptionClient extends SubscriptionClientContext {
     credentials: coreAuth.TokenCredential,
     options?: SubscriptionClientOptionalParams
   ) {
-    super(credentials, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: SubscriptionClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-resources-subscriptions/2.0.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2021-01-01";
     this.subscriptions = new SubscriptionsImpl(this);
     this.tenants = new TenantsImpl(this);
   }
@@ -40,8 +76,8 @@ export class SubscriptionClient extends SubscriptionClientContext {
    * @param options The options parameters.
    */
   checkResourceName(
-    options?: SubscriptionClientCheckResourceNameOptionalParams
-  ): Promise<SubscriptionClientCheckResourceNameResponse> {
+    options?: CheckResourceNameOptionalParams
+  ): Promise<CheckResourceNameResponse> {
     return this.sendOperationRequest(
       { options },
       checkResourceNameOperationSpec

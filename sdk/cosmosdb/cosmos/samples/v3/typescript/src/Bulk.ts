@@ -5,12 +5,17 @@
  * @summary Shows a simple bulk call with each BulkOperation type.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { handleError, finish, logStep } from "./Shared/handleError";
-import { BulkOperationType, CosmosClient } from "@azure/cosmos";
+import {
+  BulkOperationType,
+  CosmosClient,
+  OperationInput,
+  PatchOperation,
+  PatchOperationType
+} from "@azure/cosmos";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -43,26 +48,35 @@ async function run() {
   const readItemId = addEntropy("item1");
   const deleteItemId = addEntropy("item2");
   const replaceItemId = addEntropy("item3");
+  const patchItemId = addEntropy("item4");
   logStep(
-    `Create items ${readItemId}, ${deleteItemId}, ${replaceItemId} for reading, deleting and replacing`
+    `Create items ${readItemId}, ${deleteItemId}, ${replaceItemId},${patchItemId} for reading, deleting, replacing and patching`
   );
   await v2Container.items.create({
     id: readItemId,
     key: true,
     class: "2010"
   });
+
   await v2Container.items.create({
     id: deleteItemId,
     key: {},
     class: "2011"
   });
+
   await v2Container.items.create({
     id: replaceItemId,
     key: 5,
     class: "2012"
   });
 
-  const operations = [
+  await v2Container.items.create({
+    id: patchItemId,
+    key: 5,
+    class: "2019"
+  });
+
+  const operations: OperationInput[] = [
     {
       operationType: BulkOperationType.Create,
       partitionKey: "A",
@@ -88,9 +102,19 @@ async function run() {
       partitionKey: 5,
       id: replaceItemId,
       resourceBody: { id: replaceItemId, name: "nice", key: 5 }
+    },
+    {
+      operationType: BulkOperationType.Patch,
+      partitionKey: 5,
+      id: patchItemId,
+      resourceBody: {
+        operations: [{ op: PatchOperationType.add, path: "/great", value: "goodValue" }]
+      }
     }
   ];
-  logStep(`Execute a simple bulk request with 5 operations: Create, Upsert, Read, Delete, Replace`);
+  logStep(
+    `Execute a simple bulk request with 5 operations: Create, Upsert, Read, Delete, Replace , Patch`
+  );
   logStep("Bulk Operations Input to 'container.items.bulk(operations):'");
   console.log(operations);
   const response = await v2Container.items.bulk(operations);

@@ -24,7 +24,7 @@ describe("#createMessageSpan()", () => {
     assert.deepStrictEqual((span as any).attributes, {
       "az.namespace": "Microsoft.ServiceBus",
       "message_bus.destination": "entity path",
-      "peer.address": "host address"
+      "peer.address": "host address",
     });
 
     span.end();

@@ -8,7 +8,7 @@ import {
   DefaultPerfOptions,
   defaultPerfOptions,
   validateOptions,
-  ParsedPerfOptions
+  ParsedPerfOptions,
 } from "./options";
 import { AbortController } from "@azure/abort-controller";
 
@@ -17,8 +17,8 @@ import { AbortController } from "@azure/abort-controller";
  */
 export interface PerfTestConstructor<
   TOptions extends Record<string, unknown> = Record<string, unknown>
-> {
-  new (): PerfTestBase<TOptions>;
+  > {
+  new(): PerfTestBase<TOptions>;
 }
 
 /**
@@ -44,17 +44,21 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
     if (this.options) {
       validateOptions({
         ...this.options,
-        ...defaultPerfOptions
+        ...defaultPerfOptions,
       });
     }
 
     // This cast is needed because TS thinks
+    //   ```ts
     //   PerfOptionDictionary<TOptions & DefaultPerfOptions>
-    //   is different from
-    //   PerfOptionDictionary<TOptions> & PerfOptionDictionary<DefaultPerfOptions>
+    //   ```
+    //    is different from
+    //   ```ts
+    //    PerfOptionDictionary<TOptions> & PerfOptionDictionary<DefaultPerfOptions>
+    //   ```
     return parsePerfOption({
       ...this.options,
-      ...defaultPerfOptions
+      ...defaultPerfOptions,
     } as PerfOptionDictionary<TOptions & DefaultPerfOptions>);
   }
 
@@ -82,7 +86,7 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
 /**
  * Picks a specific test case by comparing the first command line paramter to the names of the
  * given classes, all of which must extend PerfTest.
- * @param tests An array of classes that extend PerfTest
+ * 
  */
 export function selectPerfTest(tests: PerfTestConstructor[]): PerfTestConstructor {
   const testsNames: string[] = tests.map((test) => test.name);

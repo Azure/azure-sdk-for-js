@@ -11,7 +11,7 @@ import { Clusters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClientContext } from "../operationalInsightsManagementClientContext";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -37,13 +37,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Clusters operations. */
 export class ClustersImpl implements Clusters {
-  private readonly client: OperationalInsightsManagementClientContext;
+  private readonly client: OperationalInsightsManagementClient;
 
   /**
    * Initialize a new instance of the class Clusters class.
    * @param client Reference to the service client
    */
-  constructor(client: OperationalInsightsManagementClientContext) {
+  constructor(client: OperationalInsightsManagementClient) {
     this.client = client;
   }
 
@@ -361,16 +361,87 @@ export class ClustersImpl implements Clusters {
    * @param parameters The parameters required to patch a Log Analytics cluster.
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    parameters: ClusterPatch,
+    options?: ClustersUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ClustersUpdateResponse>,
+      ClustersUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ClustersUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, clusterName, parameters, options },
+      updateOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Updates a Log Analytics cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Name of the Log Analytics Cluster.
+   * @param parameters The parameters required to patch a Log Analytics cluster.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterPatch,
     options?: ClustersUpdateOptionalParams
   ): Promise<ClustersUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, parameters, options },
-      updateOperationSpec
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      clusterName,
+      parameters,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -467,7 +538,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
@@ -532,11 +603,20 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.Cluster
     },
+    201: {
+      bodyMapper: Mappers.Cluster
+    },
+    202: {
+      bodyMapper: Mappers.Cluster
+    },
+    204: {
+      bodyMapper: Mappers.Cluster
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,

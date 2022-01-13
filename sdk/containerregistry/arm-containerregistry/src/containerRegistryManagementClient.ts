@@ -6,18 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
-  ConnectedRegistriesImpl,
-  ExportPipelinesImpl,
   RegistriesImpl,
-  ImportPipelinesImpl,
   OperationsImpl,
-  PipelineRunsImpl,
   PrivateEndpointConnectionsImpl,
   ReplicationsImpl,
-  ScopeMapsImpl,
-  TokensImpl,
   WebhooksImpl,
   AgentPoolsImpl,
   RunsImpl,
@@ -25,26 +20,22 @@ import {
   TasksImpl
 } from "./operations";
 import {
-  ConnectedRegistries,
-  ExportPipelines,
   Registries,
-  ImportPipelines,
   Operations,
-  PipelineRuns,
   PrivateEndpointConnections,
   Replications,
-  ScopeMaps,
-  Tokens,
   Webhooks,
   AgentPools,
   Runs,
   TaskRuns,
   Tasks
 } from "./operationsInterfaces";
-import { ContainerRegistryManagementClientContext } from "./containerRegistryManagementClientContext";
 import { ContainerRegistryManagementClientOptionalParams } from "./models";
 
-export class ContainerRegistryManagementClient extends ContainerRegistryManagementClientContext {
+export class ContainerRegistryManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the ContainerRegistryManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -56,17 +47,49 @@ export class ContainerRegistryManagementClient extends ContainerRegistryManageme
     subscriptionId: string,
     options?: ContainerRegistryManagementClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
-    this.connectedRegistries = new ConnectedRegistriesImpl(this);
-    this.exportPipelines = new ExportPipelinesImpl(this);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: ContainerRegistryManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-containerregistry/10.0.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
     this.registries = new RegistriesImpl(this);
-    this.importPipelines = new ImportPipelinesImpl(this);
     this.operations = new OperationsImpl(this);
-    this.pipelineRuns = new PipelineRunsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.replications = new ReplicationsImpl(this);
-    this.scopeMaps = new ScopeMapsImpl(this);
-    this.tokens = new TokensImpl(this);
     this.webhooks = new WebhooksImpl(this);
     this.agentPools = new AgentPoolsImpl(this);
     this.runs = new RunsImpl(this);
@@ -74,16 +97,10 @@ export class ContainerRegistryManagementClient extends ContainerRegistryManageme
     this.tasks = new TasksImpl(this);
   }
 
-  connectedRegistries: ConnectedRegistries;
-  exportPipelines: ExportPipelines;
   registries: Registries;
-  importPipelines: ImportPipelines;
   operations: Operations;
-  pipelineRuns: PipelineRuns;
   privateEndpointConnections: PrivateEndpointConnections;
   replications: Replications;
-  scopeMaps: ScopeMaps;
-  tokens: Tokens;
   webhooks: Webhooks;
   agentPools: AgentPools;
   runs: Runs;

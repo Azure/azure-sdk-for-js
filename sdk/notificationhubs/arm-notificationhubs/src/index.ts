@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { NotificationHubsManagementClient } from "./notificationHubsManagementClient";
-export { NotificationHubsManagementClientContext } from "./notificationHubsManagementClientContext";
 export * from "./operationsInterfaces";

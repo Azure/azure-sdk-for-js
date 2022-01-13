@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableClient } from "../../src";
+import { Recorder, isPlaybackMode, record } from "@azure-tools/test-recorder";
+import { createTableClient, recordedEnvironmentSetup } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { record, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
-import { isNode } from "@azure/test-utils";
+import { TableClient } from "../../src";
 import { assert } from "chai";
+import { isNode } from "@azure/test-utils";
 
 describe(`Access Policy operations`, () => {
   let client: TableClient;
   let recorder: Recorder;
   const tableName = `AccessPolicy`;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recordedEnvironmentSetup);
 
     if (!isNode) {
@@ -31,7 +31,7 @@ describe(`Access Policy operations`, () => {
     }
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -45,13 +45,13 @@ describe(`Access Policy operations`, () => {
     }
   });
 
-  it("should send a null AP", async function() {
+  it("should send a null AP", async function () {
     const date = new Date("2021-07-08T09:10:09Z");
     await client.setAccessPolicy([
       { id: "null" },
       { id: "empty", accessPolicy: {} },
       { id: "partial", accessPolicy: { permission: "r" } },
-      { id: "full", accessPolicy: { start: date, expiry: date, permission: "r" } }
+      { id: "full", accessPolicy: { start: date, expiry: date, permission: "r" } },
     ]);
 
     const acl = await client.getAccessPolicy();

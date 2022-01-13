@@ -1,6 +1,6 @@
 # Release History
 
-## 12.9.0-beta.2 (Unreleased)
+## 12.9.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,14 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 12.9.0-beta.2 (2021-12-03)
+
+### Features Added
+
+- Added support for service version 2021-02-12
+- Added support for listing system containers with `BlobServiceClient.listContainers()`.
+- Added support for blob names container invalid XML characters.
 
 ## 12.9.0-beta.1 (2021-11-09)
 
@@ -406,7 +414,7 @@
   - Connection string method is supported only in Node.js (not browsers).
 - Creation/Deletion of child resources are duplicated to parent client type.
 - HTTP proxy support is added (Node.js only).
-  - Please refer to the `proxyAuth.ts` sample in the `samples/typescript` folder.
+  - Please refer to the `proxyAuth.ts` sample in the `samples/v12/typescript` folder.
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 - `downloadToFile()` is added to `BlobClient`.
 - Exported `HttpRequestBody` type to allow implementation of a customized HTTP client.

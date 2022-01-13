@@ -5,9 +5,8 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { BatchPerfTest } from "./batchPerfTest";
 
 /**
- * Extends BatchPerfTest.
- * 
- * This is helpful when the method being tested in the "run" method counts as one operation for one call.
+ *
+ * The `PerfTest` class helps build performance test cases where the functionality being tested in the `run` method consists of a single operation.
  */
 export abstract class PerfTest<TOptions = Record<string, unknown>> extends BatchPerfTest<TOptions> {
   public abstract run(abortSignal?: AbortSignalLike): Promise<void>;

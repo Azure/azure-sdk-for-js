@@ -9,9 +9,9 @@ function generateValidBytes(): Uint8Array {
   return bytes.map((_, index) => index);
 }
 
-describe("Hex", function() {
-  describe("bufferToHex", function() {
-    it("encodes a byte", function() {
+describe("Hex", function () {
+  describe("bufferToHex", function () {
+    it("encodes a byte", function () {
       const bytes = generateValidBytes();
       bytes.forEach((_, index) => {
         const hex = bufferToHex(bytes.buffer.slice(index, index + 1));
@@ -20,7 +20,7 @@ describe("Hex", function() {
       });
     });
 
-    it("encodes bytes", function() {
+    it("encodes bytes", function () {
       const bytes = new Uint8Array([97, 122, 117, 114, 101]); // 'azure' in utf8
       const hex = bufferToHex(bytes.buffer);
       assert.equal(hex, "617a757265", "Unexpected hex value.");

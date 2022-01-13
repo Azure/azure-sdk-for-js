@@ -15,6 +15,7 @@ export {
   LargePersonGroup,
   MetaDataContract,
   NameAndUserDataContract,
+  NonNullableNameAndNullableUserDataContract,
   PersistedFace,
   Person,
   PersonGroup

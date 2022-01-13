@@ -2,22 +2,22 @@
 // Licensed under the MIT license.
 
 import {
-  createSpanFunction,
+  Span,
   SpanContext,
+  SpanKind,
   SpanOptions,
+  context,
+  createSpanFunction,
   setSpan,
   setSpanContext,
-  Span,
-  SpanKind,
-  context
 } from "@azure/core-tracing";
-import { TryAddOptions } from "../eventDataBatch";
 import { EventHubConnectionConfig } from "../eventhubConnectionConfig";
 import { OperationOptions } from "../util/operationOptions";
+import { TryAddOptions } from "../eventDataBatch";
 
 const _createSpan = createSpanFunction({
   namespace: "Microsoft.EventHub",
-  packagePrefix: "Azure.EventHubs"
+  packagePrefix: "Azure.EventHubs",
 });
 
 /**
@@ -37,9 +37,9 @@ export function createEventHubSpan(
       spanOptions: {
         // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
         ...(operationOptions?.tracingOptions as any)?.spanOptions,
-        ...additionalSpanOptions
-      }
-    }
+        ...additionalSpanOptions,
+      },
+    },
   });
 
   span.setAttribute("message_bus.destination", connectionConfig.entityPath);
@@ -47,7 +47,7 @@ export function createEventHubSpan(
 
   return {
     span,
-    updatedOptions
+    updatedOptions,
   };
 }
 
@@ -59,7 +59,7 @@ export function createMessageSpan(
   eventHubConfig: Pick<EventHubConnectionConfig, "entityPath" | "host">
 ): ReturnType<typeof createEventHubSpan> {
   return createEventHubSpan("message", operationOptions, eventHubConfig, {
-    kind: SpanKind.PRODUCER
+    kind: SpanKind.PRODUCER,
   });
 }
 
@@ -86,8 +86,8 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
     }
 
     function takeSomeOptionsFromSomewhere(someOptionsPassedIntoTheirFunction) {
-      
-      batch.tryAddMessage(message, { 
+
+      batch.tryAddMessage(message, {
         // "runtime" blend of options from some other part of their app
         ...someOptionsPassedIntoTheirFunction,      // parentSpan comes along for the ride...
 
@@ -102,9 +102,9 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
 
     And now they've accidentally been opted into the legacy code path even though they think
     they're using the modern code path.
-    
+
     This does kick the can down the road a bit - at some point we will be putting them in this
-    situation where things looked okay but their spans are becoming unparented but we can 
+    situation where things looked okay but their spans are becoming unparented but we can
     try to announce this (and other changes related to tracing) in our next big rev.
   */
 
@@ -119,8 +119,8 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
     tracingOptions: {
       tracingContext: isSpan(legacyParentSpanOrSpanContext)
         ? setSpan(context.active(), legacyParentSpanOrSpanContext)
-        : setSpanContext(context.active(), legacyParentSpanOrSpanContext)
-    }
+        : setSpanContext(context.active(), legacyParentSpanOrSpanContext),
+    },
   };
 
   return convertedOptions;

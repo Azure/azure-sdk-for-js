@@ -19,33 +19,33 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
       description: "Total number of messages to send",
       shortName: "max",
       longName: "maximum",
-      defaultValue: 10000
+      defaultValue: 10000,
     },
     "message-body-size-in-bytes": {
       required: true,
       description: "Size of each message body in bytes",
       shortName: "size",
       longName: "size-in-bytes",
-      defaultValue: 2000
+      defaultValue: 2000,
     },
     "max-message-count": {
       required: true,
       description: "Max number of messages to receive",
       shortName: "max",
       longName: "maximum",
-      defaultValue: 50
-    }
+      defaultValue: 50,
+    },
   };
 
   constructor() {
     super();
     this.receiver = ServiceBusTest.sbClient.createReceiver(BatchReceiveTest.queueName, {
-      receiveMode: "receiveAndDelete"
+      receiveMode: "receiveAndDelete",
     });
   }
 
   /**
-   * sends the messages to be received later
+   * Sends the messages to be received later.
    */
   public async globalSetup(): Promise<void> {
     await super.globalSetup();
@@ -53,10 +53,9 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
 
     const {
       "number-of-messages": { value: numberOfMessages },
-      "message-body-size-in-bytes": { value: messageBodySize }
+      "message-body-size-in-bytes": { value: messageBodySize },
     } = this.parsedOptions;
 
-    // Send messages to be able to receive as part of the test
     await sendMessages(sender, numberOfMessages, messageBodySize);
   }
 
@@ -68,13 +67,10 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for (const _ in messages) {
-      // empty block
+      // This is to represent the bare minimum user scenario where one would
+      // iterate over the messages and process them
     }
     return messages.length;
-  }
-
-  public run(): Promise<void> {
-    throw new Error("run not defined - not needed");
   }
 }
 

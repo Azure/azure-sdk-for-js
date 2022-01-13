@@ -10,13 +10,16 @@ if (isNode) {
 }
 
 export function uniqueString(): string {
-  return isPlaybackMode()
-    ? ""
-    : Math.random()
-        .toString()
-        .slice(2);
+  return isPlaybackMode() ? "" : Math.random().toString().slice(2);
 }
 
+/**
+ * Properties that are used to configure our polling operations
+ * in tests. During playback mode we don't want any delays. During
+ * live mode we can safely increase the default polling interval (currently 2s)
+ * to 10s in order to reduce calls to the service. The service sends a retry-after
+ * of 10s here anyway.
+ */
 export const testPollerProperties = {
-  intervalInMs: isPlaybackMode() ? 0 : undefined
+  intervalInMs: isPlaybackMode() ? 0 : 10 * 1000,
 };

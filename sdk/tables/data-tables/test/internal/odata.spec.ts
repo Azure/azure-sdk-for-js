@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { odata } from "../../src";
 import { assert } from "chai";
+import { odata } from "../../src";
 
 describe("odata", () => {
   it("should handle empty string", () => {

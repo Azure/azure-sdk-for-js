@@ -18,13 +18,13 @@ export const commandInfo = makeCommandInfo(
     directory: {
       kind: "string",
       description: "Base dir, default is process.cwd()",
-      default: process.cwd()
+      default: process.cwd(),
     },
     "use-packages": {
       kind: "boolean",
       description: "Use package dependencies in samples",
-      default: false
-    }
+      default: false,
+    },
   }
 );
 
@@ -66,7 +66,7 @@ async function enableLocalRun(
     // that can escape both linux and windows path separators
     const depth = relativeDir.length - relativeDir.split(path.sep).join("").length;
 
-    let relativePath = new Array(depth).fill("..").join("/");
+    const relativePath = new Array(depth).fill("..").join("/");
 
     outputContent = fileContents.replace(
       importRegex,

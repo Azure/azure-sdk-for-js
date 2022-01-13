@@ -11,7 +11,7 @@ import { Percentile } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { CosmosDBManagementClientContext } from "../cosmosDBManagementClientContext";
+import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   PercentileMetric,
   PercentileListMetricsOptionalParams,
@@ -21,13 +21,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Percentile operations. */
 export class PercentileImpl implements Percentile {
-  private readonly client: CosmosDBManagementClientContext;
+  private readonly client: CosmosDBManagementClient;
 
   /**
    * Initialize a new instance of the class Percentile class.
    * @param client Reference to the service client
    */
-  constructor(client: CosmosDBManagementClientContext) {
+  constructor(client: CosmosDBManagementClient) {
     this.client = client;
   }
 

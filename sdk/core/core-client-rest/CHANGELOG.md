@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Handle Binary and FormData content. [#18753](https://github.com/Azure/azure-sdk-for-js/pull/18753)
+- Support custom base url with path parameters. [#19463](https://github.com/Azure/azure-sdk-for-js/pull/19463)
+
 ### Breaking Changes
 
 ### Bugs Fixed

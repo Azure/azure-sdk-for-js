@@ -1,14 +1,33 @@
 # Release History
 
-## 4.5.1 (Unreleased)
+## 4.6.0 (2022-01-11)
 
 ### Features Added
 
-### Breaking Changes
+- Added a new property to `AcsRecordingChunkInfo` (for the `Microsoft.Communication.RecordingFileStatusUpdated` system event):
+- `deleteLocation`
 
-### Bugs Fixed
+- Added new properties to `ContainerRegistryArtifactEventData` and `ContainerRegistryEventData` (for the `Microsoft.ContainerRegistry.{ChartDeleted|ChartPushed|ImagePushed|ImageDeleted}` system events):
 
-### Other Changes
+  - `connectedRegistry`
+  - `location`
+
+- Added new properties to `AcsRecordingFileStatusUpdatedEventData` (for the `Microsoft.Communication.RecordingFileStatusUpdated` system event):
+
+  - `recordingChannelType`
+  - `recordingContentType`
+  - `recordingFormatType`
+
+### Key Bug Fixes
+
+- The TypeScript typings for events from Azure Resource Manager were incorrect. The following properties had their types changed:
+
+  - `authorization`
+  - `claims`
+  - `httpRequest`
+
+Previously, these properties were typed as `string` but the underlying events from the service actually contained objects. Customers using `isSystemEvent` with TypeScript will
+now see compliation issues if they try to treat these properties as strings (previously, the code would fail at runtime).
 
 ## 4.5.0 (2021-10-05)
 

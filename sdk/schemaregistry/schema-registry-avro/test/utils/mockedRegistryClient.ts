@@ -9,7 +9,7 @@ import {
   SchemaDescription,
   SchemaProperties,
   SchemaRegistry,
-  SchemaRegistryClient
+  SchemaRegistryClient,
 } from "@azure/schema-registry";
 import { ClientSecretCredential } from "@azure/identity";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
@@ -41,8 +41,8 @@ export function createTestRegistry(neverLive = false): SchemaRegistry {
         definition: schema.definition,
         properties: {
           id: newId(),
-          format: schema.format
-        }
+          format: schema.format,
+        },
       };
       mapByContent.set(result.definition, result);
       mapById.set(result.properties.id, result);

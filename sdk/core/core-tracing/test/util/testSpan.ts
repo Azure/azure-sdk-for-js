@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import {
+  Span,
+  SpanAttributeValue,
+  SpanAttributes,
+  SpanContext,
+  SpanKind,
+  SpanOptions,
+  SpanStatus,
+  SpanStatusCode,
   TimeInput,
   Tracer,
-  SpanKind,
-  SpanStatus,
-  SpanContext,
-  SpanAttributes,
-  SpanStatusCode,
-  SpanAttributeValue,
-  Span,
-  SpanOptions
 } from "../../src/interfaces";
 
 /**
@@ -79,7 +79,7 @@ export class TestSpan implements Span {
     this.parentSpanId = parentSpanId;
     this.attributes = options?.attributes || {};
     this.status = {
-      code: SpanStatusCode.OK
+      code: SpanStatusCode.OK,
     };
     this.endCalled = false;
     this._context = context;

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "../util/operationOptions";
 import { RetryOptions, WebSocketOptions } from "@azure/core-amqp";
+import { OperationOptions } from "../util/operationOptions";
 
 /**
  * The set of options to configure the behavior of `getEventHubProperties`.
@@ -83,7 +83,7 @@ export enum CloseReason {
   /**
    * The EventProcessor was shutdown.
    */
-  Shutdown = "Shutdown"
+  Shutdown = "Shutdown",
 }
 
 /**

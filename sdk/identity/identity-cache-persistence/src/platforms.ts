@@ -4,16 +4,14 @@
 /* eslint-disable tsdoc/syntax */
 
 import * as path from "path";
-
 import {
-  KeychainPersistence,
-  FilePersistence,
   DataProtectionScope,
+  FilePersistence,
   FilePersistenceWithDataProtection,
+  KeychainPersistence,
   LibSecretPersistence,
-  IPersistence as Persistence
+  IPersistence as Persistence,
 } from "@azure/msal-node-extensions";
-
 import { TokenCachePersistenceOptions } from "@azure/identity";
 
 /**
@@ -38,7 +36,7 @@ export const defaultMsalValues = {
     // - Darwin: '/Users/user/.IdentityService'
     // - Windows 8+: 'C:\Users\user\AppData\Local\.IdentityService'
     // - Linux: '/home/user/.IdentityService'
-    directory: path.join(localApplicationDataFolder, ".IdentityService")
+    directory: path.join(localApplicationDataFolder, ".IdentityService"),
   },
   keyRing: {
     label: "MSALCache",
@@ -46,15 +44,15 @@ export const defaultMsalValues = {
     collection: "default",
     attributes: {
       MsalClientID: "Microsoft.Developer.IdentityService",
-      "Microsoft.Developer.IdentityService": "1.0.0.0"
+      "Microsoft.Developer.IdentityService": "1.0.0.0",
     },
     service: "Microsoft.Developer.IdentityService",
-    account: "MSALCache"
+    account: "MSALCache",
   },
   keyChain: {
     service: "Microsoft.Developer.IdentityService",
-    account: "MSALCache"
-  }
+    account: "MSALCache",
+  },
 };
 
 /**
@@ -136,5 +134,5 @@ export const msalPersistencePlatforms: Partial<Record<NodeJS.Platform, MsalPersi
       }
       return FilePersistence.create(persistencePath);
     }
-  }
+  },
 };

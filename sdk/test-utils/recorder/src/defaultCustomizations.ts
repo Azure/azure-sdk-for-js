@@ -4,7 +4,8 @@ import {
   isBrowser,
   maskAccessTokenInBrowserRecording,
   maskAccessTokenInNockFixture,
-  sanitizeScopeUrl
+  sanitizeScopeUrl,
+  setDefaultRetryAfterIntervalInNockFixture,
 } from "./utils";
 
 export const defaultCustomizationsForNodeRecordings = [
@@ -17,12 +18,14 @@ export const defaultCustomizationsForNodeRecordings = [
   // Masks "access_token"s in the json response from the recording if any exists.
   maskAccessTokenInNockFixture,
   // Sanitizes the scope url in the request bodies to clean false positives in cred-scan reports
-  sanitizeScopeUrl
+  sanitizeScopeUrl,
+  // Make Retry-After interval to be zero
+  setDefaultRetryAfterIntervalInNockFixture,
 ];
 
 export const defaultCustomizationsForBrowserRecordings = [
   // Masks "access_token"s in the json response from the recording if any exists.
-  maskAccessTokenInBrowserRecording
+  maskAccessTokenInBrowserRecording,
 ];
 
 /**

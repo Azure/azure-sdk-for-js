@@ -7,7 +7,7 @@ import {
   ConnectionConfig,
   ConnectionContextBase,
   CreateConnectionContextBaseParameters,
-  SasTokenProvider
+  SasTokenProvider,
 } from "@azure/core-amqp";
 import { TokenCredential } from "@azure/core-auth";
 import { ServiceBusClientOptions } from "./constructorHelpers";
@@ -17,7 +17,7 @@ import {
   ConnectionError,
   ConnectionEvents,
   EventContext,
-  OnAmqpEvent
+  OnAmqpEvent,
 } from "rhea-promise";
 import { MessageSender } from "./core/messageSender";
 import { MessageSession } from "./session/messageSession";
@@ -114,6 +114,7 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
  * @internal
  * Helper type to get the names of all the functions on an object.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
 /**
  * @internal
@@ -178,7 +179,7 @@ async function callOnDetachedOnSessionReceivers(
   connectionContext: ConnectionContext,
   contextOrConnectionError: Error | ConnectionError | AmqpError | undefined
 ): Promise<void[]> {
-  const getSessionError = (sessionId: string, entityPath: string) => {
+  const getSessionError = (sessionId: string, entityPath: string): ServiceBusError => {
     const sessionInfo =
       `The receiver for session "${sessionId}" in "${entityPath}" has been closed and can no longer be used. ` +
       `Please create a new receiver using the "acceptSession" or "acceptNextSession" method on the ServiceBusClient.`;
@@ -243,6 +244,7 @@ function getNumberOfReceivers(
 /**
  * @internal
  */
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ConnectionContext {
   export function create(
     config: ConnectionConfig,
@@ -261,8 +263,8 @@ export namespace ConnectionContext {
       connectionProperties: {
         product: "MSJSClient",
         userAgent,
-        version: packageJsonInfo.version
-      }
+        version: packageJsonInfo.version,
+      },
     };
     // Let us create the base context and then add ServiceBus specific ConnectionContext properties.
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
@@ -357,11 +359,11 @@ export namespace ConnectionContext {
       getManagementClient(entityPath: string): ManagementClient {
         if (!this.managementClients[entityPath]) {
           this.managementClients[entityPath] = new ManagementClient(this, entityPath, {
-            address: `${entityPath}/$management`
+            address: `${entityPath}/$management`,
           });
         }
         return this.managementClients[entityPath];
-      }
+      },
     });
 
     // Define listeners to be added to the connection object for
@@ -410,7 +412,7 @@ export namespace ConnectionContext {
         numSenders: Object.keys(connectionContext.senders).length,
         numReceivers:
           Object.keys(connectionContext.messageReceivers).length +
-          Object.keys(connectionContext.messageSessions).length
+          Object.keys(connectionContext.messageSessions).length,
       };
 
       // Clear internal map maintained by rhea to avoid reconnecting of old links once the
@@ -575,7 +577,7 @@ export namespace ConnectionContext {
       );
     }
 
-    function addConnectionListeners(connection: Connection) {
+    function addConnectionListeners(connection: Connection): void {
       // Add listeners on the connection object.
       connection.on(ConnectionEvents.connectionOpen, onConnectionOpen);
       connection.on(ConnectionEvents.disconnected, disconnected);
@@ -583,7 +585,7 @@ export namespace ConnectionContext {
       connection.on(ConnectionEvents.error, error);
     }
 
-    async function cleanConnectionContext() {
+    async function cleanConnectionContext(): Promise<void> {
       // Remove listeners from the connection object.
       connectionContext.connection.removeListener(
         ConnectionEvents.connectionOpen,
@@ -628,7 +630,7 @@ export namespace ConnectionContext {
         ...senderNames.map((n) => context.senders[n].close()),
         ...messageReceiverNames.map((n) => context.messageReceivers[n].close()),
         ...messageSessionNames.map((n) => context.messageSessions[n].close()),
-        ...managementClientsEntityPaths.map((p) => context.managementClients[p].close())
+        ...managementClientsEntityPaths.map((p) => context.managementClients[p].close()),
       ]);
 
       logger.verbose(`${logPrefix} Permanently closing cbsSession`);

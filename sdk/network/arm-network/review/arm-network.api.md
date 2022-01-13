@@ -1786,6 +1786,13 @@ export interface BreakOutCategoryPolicies {
 }
 
 // @public
+export interface CheckDnsNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CheckDnsNameAvailabilityResponse = DnsNameAvailabilityResult;
+
+// @public
 export interface CheckPrivateLinkServiceVisibilityRequest {
     privateLinkServiceAlias?: string;
 }
@@ -2498,6 +2505,12 @@ export type Delegation = SubResource & {
 };
 
 // @public
+export interface DeleteBastionShareableLinkOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export type DeleteOptions = string;
 
 // @public
@@ -2527,6 +2540,20 @@ export interface Dimension {
 
 // @public
 export type Direction = string;
+
+// @public
+export interface DisconnectActiveSessionsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DisconnectActiveSessionsNextResponse = BastionSessionDeleteResult;
+
+// @public
+export interface DisconnectActiveSessionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DisconnectActiveSessionsResponse = BastionSessionDeleteResult;
 
 // @public
 export interface DnsNameAvailabilityResult {
@@ -4368,6 +4395,45 @@ export interface GenerateExpressRoutePortsLOARequest {
 export interface GenerateExpressRoutePortsLOAResult {
     encodedContent?: string;
 }
+
+// @public
+export interface GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GeneratevirtualwanvpnserverconfigurationvpnprofileResponse = VpnProfileResponse;
+
+// @public
+export interface GetActiveSessionsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetActiveSessionsNextResponse = BastionActiveSessionListResult;
+
+// @public
+export interface GetActiveSessionsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GetActiveSessionsResponse = BastionActiveSessionListResult;
+
+// @public
+export interface GetBastionShareableLinkNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetBastionShareableLinkNextResponse = BastionShareableLinkListResult;
+
+// @public
+export interface GetBastionShareableLinkOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetBastionShareableLinkResponse = BastionShareableLinkListResult;
 
 // @public
 export interface GetVpnSitesConfigurationRequest {
@@ -8073,7 +8139,9 @@ export interface NetworkInterfaceTapConfigurationsListOptionalParams extends cor
 export type NetworkInterfaceTapConfigurationsListResponse = NetworkInterfaceTapConfigurationListResult;
 
 // @public (undocumented)
-export class NetworkManagementClient extends NetworkManagementClientContext {
+export class NetworkManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: NetworkManagementClientOptionalParams);
     // (undocumented)
     applicationGatewayPrivateEndpointConnections: ApplicationGatewayPrivateEndpointConnections;
@@ -8099,15 +8167,15 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     azureFirewalls: AzureFirewalls;
     // (undocumented)
     bastionHosts: BastionHosts;
-    beginDeleteBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: NetworkManagementClientDeleteBastionShareableLinkOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteBastionShareableLinkAndWait(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: NetworkManagementClientDeleteBastionShareableLinkOptionalParams): Promise<void>;
-    beginGeneratevirtualwanvpnserverconfigurationvpnprofile(resourceGroupName: string, virtualWANName: string, vpnClientParams: VirtualWanVpnProfileParameters, options?: NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams): Promise<PollerLike<PollOperationState<NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileResponse>, NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileResponse>>;
-    beginGeneratevirtualwanvpnserverconfigurationvpnprofileAndWait(resourceGroupName: string, virtualWANName: string, vpnClientParams: VirtualWanVpnProfileParameters, options?: NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams): Promise<NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileResponse>;
-    beginListActiveSessionsAndWait(resourceGroupName: string, bastionHostName: string, options?: NetworkManagementClientGetActiveSessionsOptionalParams): PagedAsyncIterableIterator<BastionActiveSession>;
-    beginListPutBastionShareableLinkAndWait(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: NetworkManagementClientPutBastionShareableLinkOptionalParams): PagedAsyncIterableIterator<BastionShareableLink>;
+    beginDeleteBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: DeleteBastionShareableLinkOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteBastionShareableLinkAndWait(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: DeleteBastionShareableLinkOptionalParams): Promise<void>;
+    beginGeneratevirtualwanvpnserverconfigurationvpnprofile(resourceGroupName: string, virtualWANName: string, vpnClientParams: VirtualWanVpnProfileParameters, options?: GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams): Promise<PollerLike<PollOperationState<GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>, GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>>;
+    beginGeneratevirtualwanvpnserverconfigurationvpnprofileAndWait(resourceGroupName: string, virtualWANName: string, vpnClientParams: VirtualWanVpnProfileParameters, options?: GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams): Promise<GeneratevirtualwanvpnserverconfigurationvpnprofileResponse>;
+    beginListActiveSessionsAndWait(resourceGroupName: string, bastionHostName: string, options?: GetActiveSessionsOptionalParams): PagedAsyncIterableIterator<BastionActiveSession>;
+    beginListPutBastionShareableLinkAndWait(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: PutBastionShareableLinkOptionalParams): PagedAsyncIterableIterator<BastionShareableLink>;
     // (undocumented)
     bgpServiceCommunities: BgpServiceCommunities;
-    checkDnsNameAvailability(location: string, domainNameLabel: string, options?: NetworkManagementClientCheckDnsNameAvailabilityOptionalParams): Promise<NetworkManagementClientCheckDnsNameAvailabilityResponse>;
+    checkDnsNameAvailability(location: string, domainNameLabel: string, options?: CheckDnsNameAvailabilityOptionalParams): Promise<CheckDnsNameAvailabilityResponse>;
     // (undocumented)
     connectionMonitors: ConnectionMonitors;
     // (undocumented)
@@ -8168,8 +8236,8 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     ipAllocations: IpAllocations;
     // (undocumented)
     ipGroups: IpGroups;
-    listBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: NetworkManagementClientGetBastionShareableLinkOptionalParams): PagedAsyncIterableIterator<BastionShareableLink>;
-    listDisconnectActiveSessions(resourceGroupName: string, bastionHostName: string, sessionIds: SessionIds, options?: NetworkManagementClientDisconnectActiveSessionsOptionalParams): PagedAsyncIterableIterator<BastionSessionState>;
+    listBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: GetBastionShareableLinkOptionalParams): PagedAsyncIterableIterator<BastionShareableLink>;
+    listDisconnectActiveSessions(resourceGroupName: string, bastionHostName: string, sessionIds: SessionIds, options?: DisconnectActiveSessionsOptionalParams): PagedAsyncIterableIterator<BastionSessionState>;
     // (undocumented)
     loadBalancerBackendAddressPools: LoadBalancerBackendAddressPools;
     // (undocumented)
@@ -8252,7 +8320,9 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
     serviceTags: ServiceTags;
     // (undocumented)
     subnets: Subnets;
-    supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: NetworkManagementClientSupportedSecurityProvidersOptionalParams): Promise<NetworkManagementClientSupportedSecurityProvidersResponse>;
+    // (undocumented)
+    subscriptionId: string;
+    supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: SupportedSecurityProvidersOptionalParams): Promise<SupportedSecurityProvidersResponse>;
     // (undocumented)
     usages: Usages;
     // (undocumented)
@@ -8312,108 +8382,10 @@ export class NetworkManagementClient extends NetworkManagementClientContext {
 }
 
 // @public
-export interface NetworkManagementClientCheckDnsNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NetworkManagementClientCheckDnsNameAvailabilityResponse = DnsNameAvailabilityResult;
-
-// @public (undocumented)
-export class NetworkManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: NetworkManagementClientOptionalParams);
-    // (undocumented)
-    subscriptionId: string;
-}
-
-// @public
-export interface NetworkManagementClientDeleteBastionShareableLinkOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface NetworkManagementClientDisconnectActiveSessionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NetworkManagementClientDisconnectActiveSessionsNextResponse = BastionSessionDeleteResult;
-
-// @public
-export interface NetworkManagementClientDisconnectActiveSessionsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NetworkManagementClientDisconnectActiveSessionsResponse = BastionSessionDeleteResult;
-
-// @public
-export interface NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type NetworkManagementClientGeneratevirtualwanvpnserverconfigurationvpnprofileResponse = VpnProfileResponse;
-
-// @public
-export interface NetworkManagementClientGetActiveSessionsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NetworkManagementClientGetActiveSessionsNextResponse = BastionActiveSessionListResult;
-
-// @public
-export interface NetworkManagementClientGetActiveSessionsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type NetworkManagementClientGetActiveSessionsResponse = BastionActiveSessionListResult;
-
-// @public
-export interface NetworkManagementClientGetBastionShareableLinkNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NetworkManagementClientGetBastionShareableLinkNextResponse = BastionShareableLinkListResult;
-
-// @public
-export interface NetworkManagementClientGetBastionShareableLinkOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NetworkManagementClientGetBastionShareableLinkResponse = BastionShareableLinkListResult;
-
-// @public
 export interface NetworkManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     endpoint?: string;
 }
-
-// @public
-export interface NetworkManagementClientPutBastionShareableLinkNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NetworkManagementClientPutBastionShareableLinkNextResponse = BastionShareableLinkListResult;
-
-// @public
-export interface NetworkManagementClientPutBastionShareableLinkOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type NetworkManagementClientPutBastionShareableLinkResponse = BastionShareableLinkListResult;
-
-// @public
-export interface NetworkManagementClientSupportedSecurityProvidersOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NetworkManagementClientSupportedSecurityProvidersResponse = VirtualWanSecurityProviders;
 
 // @public
 export type NetworkOperationStatus = string;
@@ -10223,6 +10195,22 @@ export type PublicIPPrefixSkuName = string;
 export type PublicIPPrefixSkuTier = string;
 
 // @public
+export interface PutBastionShareableLinkNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PutBastionShareableLinkNextResponse = BastionShareableLinkListResult;
+
+// @public
+export interface PutBastionShareableLinkOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PutBastionShareableLinkResponse = BastionShareableLinkListResult;
+
+// @public
 export interface QosDefinition {
     destinationIpRanges?: QosIpRange[];
     destinationPortRanges?: QosPortRange[];
@@ -11340,6 +11328,13 @@ export interface SubnetsUnprepareNetworkPoliciesOptionalParams extends coreClien
 export interface SubResource {
     id?: string;
 }
+
+// @public
+export interface SupportedSecurityProvidersOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SupportedSecurityProvidersResponse = VirtualWanSecurityProviders;
 
 // @public
 export type SyncRemoteAddressSpace = string;
@@ -14001,7 +13996,6 @@ export interface WebCategoriesListBySubscriptionOptionalParams extends coreClien
 
 // @public
 export type WebCategoriesListBySubscriptionResponse = AzureWebCategoryListResult;
-
 
 // (No @packageDocumentation comment for this package)
 

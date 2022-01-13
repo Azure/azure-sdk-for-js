@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
+import chai from "chai";
 import { createSasTokenProvider } from "../src/index";
 
-describe("SasTokenProvider", function(): void {
+const should = chai.should();
+
+describe("SasTokenProvider", function (): void {
   describe("createSasTokenProvider", () => {
-    it("should work as expected with AzureNamedKeyCredential", async function(): Promise<void> {
+    it("should work as expected with AzureNamedKeyCredential", async function (): Promise<void> {
       const keyName = "myKeyName";
       const key = "importantValue";
       const tokenProvider = createSasTokenProvider(new AzureNamedKeyCredential(keyName, key));
@@ -20,13 +21,11 @@ describe("SasTokenProvider", function(): void {
       tokenInfo.expiresOnTimestamp.should.equal(now);
     });
 
-    it("should work as expected with `shareAccessKeyName` and `sharedAccessKey`", async function(): Promise<
-      void
-    > {
+    it("should work as expected with `shareAccessKeyName` and `sharedAccessKey`", async function (): Promise<void> {
       // This is how createSasTokenProvider will be called if SAK params are passed through a connection string.
       const tokenProvider = createSasTokenProvider({
         sharedAccessKeyName: "sakName",
-        sharedAccessKey: "sak"
+        sharedAccessKey: "sak",
       });
       const now = Math.floor(Date.now() / 1000) + 3600;
       const tokenInfo = tokenProvider.getToken("sb://hostname.servicebus.windows.net/");
@@ -37,7 +36,7 @@ describe("SasTokenProvider", function(): void {
     });
   });
 
-  it("should work as expected with AzureSASCredential", async function(): Promise<void> {
+  it("should work as expected with AzureSASCredential", async function (): Promise<void> {
     const sasTokenProvider = createSasTokenProvider(
       new AzureSASCredential("SharedAccessSignature se=<blah>")
     );
@@ -56,7 +55,7 @@ describe("SasTokenProvider", function(): void {
     );
   });
 
-  it("should work as expected with `sharedAccessSignature`", async function(): Promise<void> {
+  it("should work as expected with `sharedAccessSignature`", async function (): Promise<void> {
     // This is how createSasTokenProvider will be called if the shared access signature is passed through a connection string.
     const tokenProvider = createSasTokenProvider({ sharedAccessSignature: "<blah>" });
     const tokenInfo = tokenProvider.getToken("sb://hostname.servicebus.windows.net/");

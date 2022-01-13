@@ -10,7 +10,7 @@ import { LivePipelineOperationStatuses } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { VideoAnalyzerContext } from "../videoAnalyzerContext";
+import { VideoAnalyzerManagementClient } from "../videoAnalyzerManagementClient";
 import {
   LivePipelineOperationStatusesGetOptionalParams,
   LivePipelineOperationStatusesGetResponse
@@ -19,13 +19,13 @@ import {
 /** Class containing LivePipelineOperationStatuses operations. */
 export class LivePipelineOperationStatusesImpl
   implements LivePipelineOperationStatuses {
-  private readonly client: VideoAnalyzerContext;
+  private readonly client: VideoAnalyzerManagementClient;
 
   /**
    * Initialize a new instance of the class LivePipelineOperationStatuses class.
    * @param client Reference to the service client
    */
-  constructor(client: VideoAnalyzerContext) {
+  constructor(client: VideoAnalyzerManagementClient) {
     this.client = client;
   }
 

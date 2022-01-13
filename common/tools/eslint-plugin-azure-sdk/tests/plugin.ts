@@ -6,9 +6,9 @@
  * @author Arpan Laha
  */
 
-import plugin from "../src";
 import { describe, it } from "mocha";
 import { assert } from "chai";
+import plugin from "../src";
 
 /**
  * A list of all currently supported rules
@@ -18,20 +18,7 @@ const ruleList = [
   "ts-apiextractor-json-types",
   "ts-apisurface-standardized-verbs",
   "ts-apisurface-supportcancellation",
-  "ts-config-allowsyntheticdefaultimports",
-  "ts-config-declaration",
-  "ts-config-esmoduleinterop",
-  "ts-config-exclude",
-  "ts-config-forceconsistentcasinginfilenames",
-  "ts-config-importhelpers",
   "ts-config-include",
-  "ts-config-lib",
-  "ts-config-module",
-  "ts-config-moduleresolution",
-  "ts-config-no-experimentaldecorators",
-  "ts-config-sourcemap",
-  "ts-config-strict",
-  "ts-config-target",
   "ts-doc-internal",
   "ts-error-handling",
   "ts-modules-only-named",
@@ -58,7 +45,7 @@ const ruleList = [
   "ts-pagination-list",
   "ts-use-interface-parameters",
   "ts-use-promises",
-  "ts-versioning-semver"
+  "ts-versioning-semver",
 ];
 
 /**

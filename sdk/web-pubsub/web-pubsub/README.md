@@ -58,7 +58,7 @@ Or authenticate the `WebPubSubServiceClient` using [Azure Active Directory][aad_
 
 1. Install the `@azure/identity` dependency
 
-```batch
+```bash
 npm install @azure/identity
 ```
 
@@ -66,6 +66,7 @@ npm install @azure/identity
 
 ```js
 const { WebPubSubServiceClient, AzureKeyCredential } = require("@azure/web-pubsub");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 const key = new DefaultAzureCredential();
 const serviceClient = new WebPubSubServiceClient("<Endpoint>", key, "<hubName>");
@@ -192,7 +193,7 @@ const hasConnections = await serviceClient.groupExists("<groupName>");
 ```js
 const { WebPubSubServiceClient } = require("@azure/web-pubsub");
 
-function onResponse(rawResponse: FullOperationResponse): void {
+function onResponse(rawResponse) {
   console.log(rawResponse);
 }
 const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");

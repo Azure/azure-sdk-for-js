@@ -8,7 +8,7 @@ import {
   HTTP_VERSION_1_1,
   HTTP_LINE_ENDING,
   HeaderConstants,
-  HTTPURLConnection
+  HTTPURLConnection,
 } from "./utils/constants";
 import { getBodyAsText } from "./BatchUtils";
 import { BatchSubRequest } from "./BlobBatch";
@@ -176,7 +176,7 @@ export class BatchResponseParser {
     return {
       subResponses: deserializedSubResponses,
       subResponsesSucceededCount: subResponsesSucceededCount,
-      subResponsesFailedCount: subResponsesFailedCount
+      subResponsesFailedCount: subResponsesFailedCount,
     };
   }
 }

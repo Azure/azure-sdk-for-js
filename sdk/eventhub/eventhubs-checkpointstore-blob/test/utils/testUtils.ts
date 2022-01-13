@@ -10,7 +10,7 @@ export const isNode =
   !!process && !!process.version && !!process.versions && !!process.versions.node;
 
 export enum EnvVarKeys {
-  STORAGE_CONNECTION_STRING = "STORAGE_CONNECTION_STRING"
+  STORAGE_CONNECTION_STRING = "STORAGE_CONNECTION_STRING",
 }
 
 function getEnvVarValue(name: string): string | undefined {
@@ -23,6 +23,6 @@ function getEnvVarValue(name: string): string | undefined {
 
 export function getEnvVars(): { [key in EnvVarKeys]: any } {
   return {
-    [EnvVarKeys.STORAGE_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.STORAGE_CONNECTION_STRING)
+    [EnvVarKeys.STORAGE_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.STORAGE_CONNECTION_STRING),
   };
 }

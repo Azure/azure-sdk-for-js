@@ -7,7 +7,7 @@ import {
   getPathFromLink,
   isResourceValid,
   ResourceType,
-  StatusCodes
+  StatusCodes,
 } from "../../common";
 import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
 import { mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
@@ -79,7 +79,7 @@ export class Containers {
         resourceId: id,
         resultFn: (result) => result.DocumentCollections,
         query,
-        options: innerOptions
+        options: innerOptions,
       });
     });
   }
@@ -123,14 +123,14 @@ export class Containers {
           };
         };
       } = {
-        maxThroughput: body.maxThroughput
+        maxThroughput: body.maxThroughput,
       };
       if (body.autoUpgradePolicy) {
         autoscaleParams.autoUpgradePolicy = body.autoUpgradePolicy;
       }
       const autoscaleHeader = JSON.stringify(autoscaleParams);
       options.initialHeaders = Object.assign({}, options.initialHeaders, {
-        [Constants.HttpHeaders.AutoscaleSettings]: autoscaleHeader
+        [Constants.HttpHeaders.AutoscaleSettings]: autoscaleHeader,
       });
       delete body.maxThroughput;
       delete body.autoUpgradePolicy;
@@ -138,7 +138,7 @@ export class Containers {
 
     if (body.throughput) {
       options.initialHeaders = Object.assign({}, options.initialHeaders, {
-        [Constants.HttpHeaders.OfferThroughput]: body.throughput
+        [Constants.HttpHeaders.OfferThroughput]: body.throughput,
       });
       delete body.throughput;
     }
@@ -148,14 +148,14 @@ export class Containers {
         throw new Error("Partition key must start with '/'");
       }
       body.partitionKey = {
-        paths: [body.partitionKey]
+        paths: [body.partitionKey],
       };
     }
 
     // If they don't specify a partition key, use the default path
     if (!body.partitionKey || !body.partitionKey.paths) {
       body.partitionKey = {
-        paths: [DEFAULT_PARTITION_KEY_PATH]
+        paths: [DEFAULT_PARTITION_KEY_PATH],
       };
     }
 
@@ -164,7 +164,7 @@ export class Containers {
       path,
       resourceType: ResourceType.container,
       resourceId: id,
-      options
+      options,
     });
     const ref = new Container(this.database, response.result.id, this.clientContext);
     return new ContainerResponse(response.result, response.headers, response.code, ref);

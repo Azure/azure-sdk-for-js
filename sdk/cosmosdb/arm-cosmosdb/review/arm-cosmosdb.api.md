@@ -732,8 +732,12 @@ export interface CorsPolicy {
 }
 
 // @public (undocumented)
-export class CosmosDBManagementClient extends CosmosDBManagementClientContext {
+export class CosmosDBManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: CosmosDBManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     cassandraClusters: CassandraClusters;
     // (undocumented)
@@ -795,18 +799,9 @@ export class CosmosDBManagementClient extends CosmosDBManagementClientContext {
     // (undocumented)
     sqlResources: SqlResources;
     // (undocumented)
-    tableResources: TableResources;
-}
-
-// @public (undocumented)
-export class CosmosDBManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: CosmosDBManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    tableResources: TableResources;
 }
 
 // @public

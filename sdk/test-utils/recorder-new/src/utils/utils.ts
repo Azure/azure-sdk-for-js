@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-
+import { env } from "./env";
 /**
  * A custom error type for failed pipeline requests.
  */
@@ -84,21 +83,21 @@ export const sanitizerKeywordMapping: Record<
   removeHeaderSanitizer: "RemoveHeaderSanitizer",
   resetSanitizer: "Reset",
   uriRegexSanitizers: "UriRegexSanitizer",
-  uriSubscriptionIdSanitizer: "UriSubscriptionIdSanitizer"
+  uriSubscriptionIdSanitizer: "UriSubscriptionIdSanitizer",
 };
 
 /**
  * This sanitizer offers a general regex replace across request/response Body, Headers, and URI. For the body, this means regex applying to the raw JSON.
  */
-interface RegexSanitizer {
+export interface RegexSanitizer {
   /**
    * The substitution value.
    */
   value: string;
   /**
-   * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation.
+   * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a substitution operation.
    */
-  regex: string;
+  regex?: string;
   /**
    * The capture group that needs to be operated upon. Do not set if you're invoking a simple replacement operation.
    */
@@ -130,15 +129,11 @@ interface BodyKeySanitizer extends RegexSanitizer {
  * 2) To do a simple regex replace operation, define arguments "key", "value", and "regex"
  * 3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"
  */
-interface HeaderRegexSanitizer extends Omit<RegexSanitizer, "regex"> {
+interface HeaderRegexSanitizer extends RegexSanitizer {
   /**
    * The name of the header we're operating against.
    */
   key: string;
-  /**
-   * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a subsitution operation.
-   */
-  regex?: string;
 }
 /**
  * Internally,
@@ -150,7 +145,7 @@ interface ConnectionStringSanitizer {
   /**
    * Real connection string with all the secrets
    */
-  actualConnString: string;
+  actualConnString?: string;
   /**
    * Fake connection string - with all the parts of the connection string mapped to fake values
    */
@@ -182,7 +177,17 @@ export interface SanitizerOptions {
    * Regardless, there are examples present in `recorder-new/test/testProxyTests.spec.ts`.
    */
   bodyRegexSanitizers?: RegexSanitizer[];
-
+  /**
+   * This sanitizer offers regex update of a specific JTokenPath.
+   *
+   * EG: "TableName" within a json response body having its value replaced by whatever substitution is offered.
+   * This simply means that if you are attempting to replace a specific key wholesale, this sanitizer will be simpler
+   * than configuring a BodyRegexSanitizer that has to match against the full "KeyName": "Value" that is part of the json structure.
+   *
+   * Further reading is available [here](https://www.newtonsoft.com/json/help/html/SelectToken.htm#SelectTokenJSONPath).
+   *
+   * If the body is NOT a JSON object, this sanitizer will NOT be applied.
+   */
   bodyKeySanitizers?: BodyKeySanitizer[];
   /**
    * TODO
@@ -257,23 +262,57 @@ export interface RecorderStartOptions {
  *
  * Returns true if the param exists.
  */
-export function ensureExistence<T>(thing: T | undefined, label: string, mode: string): thing is T {
+export function ensureExistence<T>(thing: T | undefined, label: string): thing is T {
   if (!thing) {
     throw new RecorderError(
-      `Something went wrong, ${label} should not have been undefined in ${mode} mode.`
+      `Something went wrong, ${label} should not have been undefined in "${getTestMode()}" mode.`
     );
   }
   return true; // Since we would throw error if undefined
 }
+
+export type TestMode = "record" | "playback" | "live";
 
 /**
  * Returns the test mode.
  *
  * If TEST_MODE is not defined, defaults to playback.
  */
-export function getTestMode(): string {
+export function getTestMode(): TestMode {
   if (isPlaybackMode()) {
     return "playback";
   }
-  return env.TEST_MODE;
+  return env.TEST_MODE as "record" | "live";
+}
+
+/** Make a lazy value that can be deferred and only computed once. */
+export const once = <T>(make: () => T): (() => T) => {
+  let value: T;
+  return () => (value = value ?? make());
+};
+
+export function isRecordMode() {
+  return env.TEST_MODE === "record";
+}
+
+export function isLiveMode() {
+  return env.TEST_MODE === "live";
+}
+
+export function isPlaybackMode() {
+  return !isRecordMode() && !isLiveMode();
+}
+
+/**
+ * Loads the environment variables in both node and browser modes corresponding to the key-value pairs provided.
+ *
+ * Example-
+ *
+ * Suppose `variables` is { ACCOUNT_NAME: "my_account_name", ACCOUNT_KEY: "fake_secret" },
+ * `setEnvironmentVariables` loads the ACCOUNT_NAME and ACCOUNT_KEY in the environment accordingly.
+ */
+export function setEnvironmentVariables(variables: { [key: string]: string }) {
+  for (const [key, value] of Object.entries(variables)) {
+    env[key] = value;
+  }
 }

@@ -9,11 +9,11 @@ import {
   WebNotificationHook,
   EmailNotificationHook,
   EmailNotificationHookPatch,
-  WebNotificationHookPatch
+  WebNotificationHookPatch,
 } from "../../src";
 import { createRecordedAdminClient, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
-import { matrix } from "./util/matrix";
+import { matrix, getYieldedValue } from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -25,7 +25,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let emailHookName: string;
       let webHookName: string;
 
-      beforeEach(function(this: Context) {
+      beforeEach(function (this: Context) {
         ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
         if (recorder && !emailHookName) {
           emailHookName = recorder.getUniqueName("js-test-emailHook-");
@@ -35,7 +35,7 @@ matrix([[true, false]] as const, async (useAad) => {
         }
       });
 
-      afterEach(async function() {
+      afterEach(async function () {
         if (recorder) {
           await recorder.stop();
         }
@@ -47,8 +47,8 @@ matrix([[true, false]] as const, async (useAad) => {
           name: emailHookName,
           description: "description",
           hookParameter: {
-            toList: ["test@example.com"]
-          }
+            toList: ["test@example.com"],
+          },
         };
         const created = await client.createHook(hook);
         assert.ok(created.id, "Expecting valid created.id");
@@ -63,8 +63,8 @@ matrix([[true, false]] as const, async (useAad) => {
           hookParameter: {
             endpoint: "https://httpbin.org/post",
             username: "user",
-            password: "pass"
-          }
+            password: "pass",
+          },
         };
         const created = await client.createHook(hook);
         assert.ok(created.id, "Expecting valid created.id");
@@ -75,15 +75,15 @@ matrix([[true, false]] as const, async (useAad) => {
         const emailPatch: EmailNotificationHookPatch = {
           hookType: "Email",
           hookParameter: {
-            toList: ["test2@example.com", "test3@example.com"]
-          }
+            toList: ["test2@example.com", "test3@example.com"],
+          },
         };
         const updated = await client.updateHook(createdEmailHookId, emailPatch);
         assert.equal(updated.hookType, emailPatch.hookType);
         const emailHook = updated as EmailNotificationHook;
         assert.deepEqual(emailHook.hookParameter?.toList, [
           "test2@example.com",
-          "test3@example.com"
+          "test3@example.com",
         ]);
       });
 
@@ -93,8 +93,8 @@ matrix([[true, false]] as const, async (useAad) => {
           hookParameter: {
             endpoint: "https://httpbin.org/post",
             username: "user1",
-            password: "SecretPlaceholder"
-          }
+            password: "SecretPlaceholder",
+          },
         };
         const updated = await client.updateHook(createdWebHookId, webPatch);
         assert.equal(updated.hookType, webPatch.hookType);
@@ -104,20 +104,20 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(webHook.hookParameter?.password, "SecretPlaceholder");
       });
 
-      it("lists hooks", async function() {
+      it("lists hooks", async function () {
         const iterator = client.listHooks({
-          hookName: "js-test"
+          hookName: "js-test",
         });
-        let result = await iterator.next();
-        assert.ok(result.value.name, "Expecting first definition");
-        result = await iterator.next();
-        assert.ok(result.value.name, "Expecting second definition");
+        let result = getYieldedValue(await iterator.next());
+        assert.ok(result.name, "Expecting first definition");
+        result = getYieldedValue(await iterator.next());
+        assert.ok(result.name, "Expecting second definition");
       });
 
-      it("lists hooks by page", async function() {
+      it("lists hooks by page", async function () {
         const iterator = client
           .listHooks({
-            hookName: "js-test"
+            hookName: "js-test",
           })
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();

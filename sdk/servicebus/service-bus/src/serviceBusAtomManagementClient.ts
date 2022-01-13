@@ -6,7 +6,7 @@ import {
   TokenCredential,
   isTokenCredential,
   NamedKeyCredential,
-  isNamedKeyCredential
+  isNamedKeyCredential,
 } from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
@@ -22,7 +22,7 @@ import {
   URLBuilder,
   WebResource,
   PipelineOptions,
-  HttpResponse
+  HttpResponse,
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CorrelationRuleFilter } from "./core/managementClient";
@@ -30,7 +30,7 @@ import { administrationLogger as logger } from "./log";
 import {
   buildNamespace,
   NamespaceProperties,
-  NamespaceResourceSerializer
+  NamespaceResourceSerializer,
 } from "./serializers/namespaceResourceSerializer";
 import {
   buildQueue,
@@ -40,7 +40,7 @@ import {
   InternalQueueOptions,
   QueueProperties,
   QueueResourceSerializer,
-  QueueRuntimeProperties
+  QueueRuntimeProperties,
 } from "./serializers/queueResourceSerializer";
 import {
   buildRule,
@@ -49,7 +49,7 @@ import {
   RuleProperties,
   RuleResourceSerializer,
   SqlRuleAction,
-  SqlRuleFilter
+  SqlRuleFilter,
 } from "./serializers/ruleResourceSerializer";
 import {
   buildSubscription,
@@ -59,7 +59,7 @@ import {
   InternalSubscriptionOptions,
   SubscriptionProperties,
   SubscriptionResourceSerializer,
-  SubscriptionRuntimeProperties
+  SubscriptionRuntimeProperties,
 } from "./serializers/subscriptionResourceSerializer";
 import {
   buildTopic,
@@ -69,7 +69,7 @@ import {
   InternalTopicOptions,
   TopicProperties,
   TopicResourceSerializer,
-  TopicRuntimeProperties
+  TopicRuntimeProperties,
 } from "./serializers/topicResourceSerializer";
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 import * as Constants from "./util/constants";
@@ -82,7 +82,7 @@ import {
   getHttpResponseOnly,
   isAbsoluteUrl,
   isJSONLikeObject,
-  ServiceBusAtomAPIVersion
+  ServiceBusAtomAPIVersion,
 } from "./util/utils";
 import { SpanStatusCode } from "@azure/core-tracing";
 
@@ -104,6 +104,7 @@ export interface ListRequestOptions {
 /**
  * Represents the returned response of the operation along with the raw response.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type WithResponse<T extends object> = T & {
   /**
    * The underlying HTTP response.
@@ -128,6 +129,7 @@ export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
 /**
  * Represents the result of list operation on entities which also contains the `continuationToken` to start iterating over from.
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type EntitiesResponse<T extends object> = WithResponse<Array<T>> &
   Pick<PageSettings, "continuationToken">;
 
@@ -226,7 +228,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       }
       credentials = new SasServiceClientCredentials({
         key: connectionStringObj.SharedAccessKey,
-        name: connectionStringObj.SharedAccessKeyName
+        name: connectionStringObj.SharedAccessKeyName,
       });
       authPolicy = signingPolicy(credentials);
     }
@@ -236,8 +238,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       {
         ...options,
         userAgentOptions: {
-          userAgentPrefix
-        }
+          userAgentPrefix,
+        },
       },
       authPolicy
     );
@@ -280,7 +282,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -329,7 +331,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -372,7 +374,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -416,7 +418,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -456,7 +458,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -473,7 +475,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getQueues({
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -519,9 +521,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listQueuesPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -559,7 +561,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -576,7 +578,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getQueuesRuntimeProperties({
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -626,9 +628,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listQueuesRuntimePropertiesPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -637,7 +639,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All queue properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use the output from `getQueue()`, update the desired properties in it, and then pass the modified object to `updateQueue()`.
    *
-   * See https://docs.microsoft.com/rest/api/servicebus/update-queue for more details.
+   * The properties that cannot be updated are marked as readonly in the `QueueProperties` interface.
    *
    * @param queue - Object representing the properties of the queue and the raw response.
    * `requiresSession`, `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the queue.
@@ -689,7 +691,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -714,6 +716,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     queueName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
+    // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteQueue",
@@ -731,7 +734,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -763,7 +766,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -812,7 +815,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -855,7 +858,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -899,7 +902,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -939,7 +942,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -956,7 +959,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getTopics({
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -1003,9 +1006,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listTopicsPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -1043,7 +1046,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1060,7 +1063,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getTopicsRuntimeProperties({
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -1113,9 +1116,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listTopicsRuntimePropertiesPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -1124,7 +1127,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All topic properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use the output from `getTopic()`, update the desired properties in it, and then pass the modified object to `updateTopic()`.
    *
-   * See https://docs.microsoft.com/rest/api/servicebus/update-topic for more details.
+   * The properties that cannot be updated are marked as readonly in the `TopicProperties` interface.
    *
    * @param topic - Object representing the properties of the topic and the raw response.
    * `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the topic.
@@ -1176,7 +1179,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1201,6 +1204,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
+    // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteTopic",
@@ -1218,7 +1222,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1250,7 +1254,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1301,7 +1305,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1348,7 +1352,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1394,7 +1398,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1438,7 +1442,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1456,7 +1460,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getSubscriptions(topicName, {
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -1509,9 +1513,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listSubscriptionsPage(topicName, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -1550,7 +1554,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1568,7 +1572,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getSubscriptionsRuntimeProperties(topicName, {
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -1627,9 +1631,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listSubscriptionsRuntimePropertiesPage(topicName, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -1638,6 +1642,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All subscription properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use the output from `getSubscription()`, update the desired properties in it, and then pass the modified object to `updateSubscription()`.
    *
+   * The properties that cannot be updated are marked as readonly in the `SubscriptionProperties` interface.
    * @param subscription - Object representing the properties of the subscription and the raw response.
    * `subscriptionName`, `topicName`, and `requiresSession` can't be updated after creating the subscription.
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
@@ -1695,7 +1700,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1721,6 +1726,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
+    // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteSubscription",
@@ -1741,7 +1747,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1779,7 +1785,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1878,7 +1884,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1923,7 +1929,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1962,7 +1968,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1981,7 +1987,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getRules(topicName, subscriptionName, {
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -2032,9 +2038,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listRulesPage(topicName, subscriptionName, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -2096,7 +2102,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2123,6 +2129,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
+    // eslint-disable-next-line @typescript-eslint/ban-types
   ): Promise<WithResponse<{}>> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteRule",
@@ -2141,7 +2148,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2178,7 +2185,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2234,9 +2241,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
           webResource.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
           if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
-            queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = this.endpointWithProtocol.concat(
-              queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
-            );
+            queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo =
+              this.endpointWithProtocol.concat(
+                queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+              );
           }
         }
       }
@@ -2247,7 +2255,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2288,7 +2296,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2325,7 +2333,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2352,7 +2360,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2388,7 +2396,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return undefined;
     }
     try {
-      return parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip");
+      const value = parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip");
+      return value !== null ? value : undefined;
     } catch (error) {
       throw new Error(
         `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the next-link in the response ` +
@@ -2440,7 +2449,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         queues,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       listQueuesResponse.continuationToken = nextMarker;
@@ -2477,7 +2486,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         queues,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       listQueuesResponse.continuationToken = nextMarker;
@@ -2501,7 +2510,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         queue || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       return queueResponse;
@@ -2526,7 +2535,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         queue || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       return queueResponse;
@@ -2562,7 +2571,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         topics,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       listTopicsResponse.continuationToken = nextMarker;
@@ -2599,7 +2608,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         topics,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       listTopicsResponse.continuationToken = nextMarker;
@@ -2622,7 +2631,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         topic || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       return topicResponse;
@@ -2647,7 +2656,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         topic || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       return topicResponse;
@@ -2679,13 +2688,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: EntitiesResponse<SubscriptionProperties> = Object.defineProperty(
-        subscriptions,
-        "_response",
-        {
-          value: getHttpResponseOnly(response)
-        }
-      );
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionProperties> =
+        Object.defineProperty(subscriptions, "_response", {
+          value: getHttpResponseOnly(response),
+        });
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
@@ -2716,13 +2722,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: EntitiesResponse<SubscriptionRuntimeProperties> = Object.defineProperty(
-        subscriptions,
-        "_response",
-        {
-          value: getHttpResponseOnly(response)
-        }
-      );
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionRuntimeProperties> =
+        Object.defineProperty(subscriptions, "_response", {
+          value: getHttpResponseOnly(response),
+        });
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
@@ -2746,7 +2749,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         subscription || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       return subscriptionResponse;
@@ -2767,13 +2770,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   ): WithResponse<SubscriptionRuntimeProperties> {
     try {
       const subscription = buildSubscriptionRuntimeProperties(response.parsedBody);
-      const subscriptionResponse: WithResponse<SubscriptionRuntimeProperties> = Object.defineProperty(
-        subscription || {},
-        "_response",
-        {
-          value: getHttpResponseOnly(response)
-        }
-      );
+      const subscriptionResponse: WithResponse<SubscriptionRuntimeProperties> =
+        Object.defineProperty(subscription || {}, "_response", {
+          value: getHttpResponseOnly(response),
+        });
       return subscriptionResponse;
     } catch (err) {
       logger.logError(err, "Failure parsing response from service");
@@ -2807,7 +2807,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         rules,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       listRulesResponse.continuationToken = nextMarker;
@@ -2831,7 +2831,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         rule || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
       );
       return ruleResponse;

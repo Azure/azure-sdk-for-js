@@ -11,7 +11,7 @@ import {
   stripRequest,
   stripResponse,
   RequestPrepareOptions,
-  OperationOptions
+  OperationOptions,
 } from "@azure/core-http";
 
 import * as Constants from "./constants";
@@ -27,7 +27,8 @@ import { isDefined } from "./typeGuards";
  * Represents the internal ATOM XML serializer interface
  */
 export interface AtomXmlSerializer {
-  serialize(requestBodyInJson: object): object;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  serialize(requestBodyInJson: object): Record<string, unknown>;
 
   deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse>;
 }
@@ -62,7 +63,7 @@ export async function executeAtomXmlOperation(
     // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
     spanOptions: (operationOptions.tracingOptions as any)?.spanOptions,
     tracingContext: operationOptions.tracingOptions?.tracingContext,
-    disableJsonStringifyOnBody: true
+    disableJsonStringifyOnBody: true,
   };
   webResource = webResource.prepare(reqPrepareOptions);
   webResource.timeout = operationOptions.requestOptions?.timeout || 0;
@@ -102,7 +103,7 @@ export async function executeAtomXmlOperation(
  *
  */
 export function sanitizeSerializableObject(resource: { [key: string]: any }): void {
-  Object.keys(resource).forEach(function(property) {
+  Object.keys(resource).forEach(function (property) {
     if (!isDefined(resource[property])) {
       delete resource[property];
     } else if (isJSONLikeObject(resource[property])) {
@@ -119,7 +120,10 @@ export function sanitizeSerializableObject(resource: { [key: string]: any }): vo
  * @param allowedProperties - The set of properties that are allowed by the service for the
  * associated operation(s);
  */
-export function serializeToAtomXmlRequest(resourceName: string, resource: unknown): object {
+export function serializeToAtomXmlRequest(
+  resourceName: string,
+  resource: unknown
+): Record<string, unknown> {
   const content: any = {};
 
   content[resourceName] = Object.assign({}, resource);
@@ -127,16 +131,16 @@ export function serializeToAtomXmlRequest(resourceName: string, resource: unknow
 
   content[resourceName][Constants.XML_METADATA_MARKER] = {
     xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
-    "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance"
+    "xmlns:i": "http://www.w3.org/2001/XMLSchema-instance",
   };
 
   content[Constants.XML_METADATA_MARKER] = { type: "application/xml" };
-  const requestDetails: any = {
+  const requestDetails: Record<string, unknown> = {
     updated: new Date().toISOString(),
-    content: content
+    content: content,
   };
   requestDetails[Constants.XML_METADATA_MARKER] = {
-    xmlns: "http://www.w3.org/2005/Atom"
+    xmlns: "http://www.w3.org/2005/Atom",
   };
   return requestDetails;
 }
@@ -213,7 +217,7 @@ function parseAtomResult(response: HttpOperationResponse, nameProperties: string
  * @internal
  * Utility to help parse given `entry` result
  */
-function parseEntryResult(entry: any): object | undefined {
+function parseEntryResult(entry: any): Record<string, unknown> | undefined {
   let result: any;
 
   if (
@@ -225,7 +229,7 @@ function parseEntryResult(entry: any): object | undefined {
     return undefined;
   }
 
-  const contentElementNames = Object.keys(entry.content).filter(function(key) {
+  const contentElementNames = Object.keys(entry.content).filter(function (key) {
     return key !== Constants.XML_METADATA_MARKER;
   });
 
@@ -279,8 +283,8 @@ function parseLinkInfo(
  * @internal
  * Utility to help parse given `feed` result
  */
-function parseFeedResult(feed: any): object[] & { nextLink?: string } {
-  const result: object[] & { nextLink?: string } = [];
+function parseFeedResult(feed: any): Record<string, unknown>[] & { nextLink?: string } {
+  const result: Record<string, unknown>[] & { nextLink?: string } = [];
   if (typeof feed === "object" && feed != null && feed.entry) {
     if (Array.isArray(feed.entry)) {
       feed.entry.forEach((entry: any) => {

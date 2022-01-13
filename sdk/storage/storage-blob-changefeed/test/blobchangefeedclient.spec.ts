@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { record, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
@@ -11,9 +11,7 @@ import { Pipeline } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
 import { setSpan, context } from "@azure/core-tracing";
 
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
-dotenv.config();
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
@@ -21,18 +19,18 @@ describe("BlobChangeFeedClient", async () => {
   let recorder: Recorder;
   let changeFeedClient: BlobChangeFeedClient;
 
-  before(async function(this: Context) {
+  before(async function (this: Context) {
     if (process.env.CHANGE_FEED_ENABLED !== "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     changeFeedClient = getBlobChangeFeedClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -150,7 +148,7 @@ describe("BlobChangeFeedClient", async () => {
       blobServiceClient.url,
       blobServiceClient.credential,
       {
-        userAgentOptions: { userAgentPrefix }
+        userAgentOptions: { userAgentPrefix },
       }
     );
     const blobServiceClient2 = (changeFeedClient2 as any).blobServiceClient;
@@ -164,8 +162,8 @@ describe("BlobChangeFeedClient", async () => {
 
     const pageIter = changeFeedClient.listChanges({
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
-      }
+        tracingContext: setSpan(context.active(), rootSpan),
+      },
     });
     await pageIter.next();
 
@@ -180,18 +178,18 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   let recorder: Recorder;
   let changeFeedClient: BlobChangeFeedClient;
 
-  before(async function(this: Context) {
+  before(async function (this: Context) {
     if (process.env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     changeFeedClient = getBlobChangeFeedClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 

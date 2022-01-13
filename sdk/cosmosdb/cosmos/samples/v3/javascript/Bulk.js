@@ -5,11 +5,10 @@
  * @summary Shows a simple bulk call with each BulkOperation type.
  */
 
-const path = require("path");
 require("dotenv").config();
 
 const { handleError, finish, logStep } = require("./Shared/handleError");
-const { BulkOperationType, CosmosClient } = require("@azure/cosmos");
+const { BulkOperationType, CosmosClient, PatchOperationType } = require("@azure/cosmos");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -42,23 +41,32 @@ async function run() {
   const readItemId = addEntropy("item1");
   const deleteItemId = addEntropy("item2");
   const replaceItemId = addEntropy("item3");
+  const patchItemId = addEntropy("item4");
   logStep(
-    `Create items ${readItemId}, ${deleteItemId}, ${replaceItemId} for reading, deleting and replacing`
+    `Create items ${readItemId}, ${deleteItemId}, ${replaceItemId},${patchItemId} for reading, deleting, replacing and patching`
   );
   await v2Container.items.create({
     id: readItemId,
     key: true,
     class: "2010",
   });
+
   await v2Container.items.create({
     id: deleteItemId,
     key: {},
     class: "2011",
   });
+
   await v2Container.items.create({
     id: replaceItemId,
     key: 5,
     class: "2012",
+  });
+
+  await v2Container.items.create({
+    id: patchItemId,
+    key: 5,
+    class: "2019",
   });
 
   const operations = [
@@ -88,8 +96,18 @@ async function run() {
       id: replaceItemId,
       resourceBody: { id: replaceItemId, name: "nice", key: 5 },
     },
+    {
+      operationType: BulkOperationType.Patch,
+      partitionKey: 5,
+      id: patchItemId,
+      resourceBody: {
+        operations: [{ op: PatchOperationType.add, path: "/great", value: "goodValue" }],
+      },
+    },
   ];
-  logStep(`Execute a simple bulk request with 5 operations: Create, Upsert, Read, Delete, Replace`);
+  logStep(
+    `Execute a simple bulk request with 5 operations: Create, Upsert, Read, Delete, Replace , Patch`
+  );
   logStep("Bulk Operations Input to 'container.items.bulk(operations):'");
   console.log(operations);
   const response = await v2Container.items.bulk(operations);

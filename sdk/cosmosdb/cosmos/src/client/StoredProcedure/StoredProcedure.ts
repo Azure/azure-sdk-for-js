@@ -6,7 +6,7 @@ import {
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
-  ResourceType
+  ResourceType,
 } from "../../common";
 import { PartitionKey } from "../../documents/PartitionKey";
 import { undefinedPartitionKey } from "../../extractPartitionKey";
@@ -49,7 +49,7 @@ export class StoredProcedure {
       path,
       resourceType: ResourceType.sproc,
       resourceId: id,
-      options
+      options,
     });
     return new StoredProcedureResponse(response.result, response.headers, response.code, this);
   }
@@ -79,7 +79,7 @@ export class StoredProcedure {
       path,
       resourceType: ResourceType.sproc,
       resourceId: id,
-      options
+      options,
     });
     return new StoredProcedureResponse(response.result, response.headers, response.code, this);
   }
@@ -95,7 +95,7 @@ export class StoredProcedure {
       path,
       resourceType: ResourceType.sproc,
       resourceId: id,
-      options
+      options,
     });
     return new StoredProcedureResponse(response.result, response.headers, response.code, this);
   }
@@ -116,16 +116,15 @@ export class StoredProcedure {
     options?: RequestOptions
   ): Promise<ResourceResponse<T>> {
     if (partitionKey === undefined) {
-      const {
-        resource: partitionKeyDefinition
-      } = await this.container.readPartitionKeyDefinition();
+      const { resource: partitionKeyDefinition } =
+        await this.container.readPartitionKeyDefinition();
       partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
     const response = await this.clientContext.execute<T>({
       sprocLink: this.url,
       params,
       options,
-      partitionKey
+      partitionKey,
     });
     return new ResourceResponse<T>(response.result, response.headers, response.code);
   }

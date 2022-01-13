@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
@@ -138,6 +137,8 @@ import {
   WebAppsUpdateAuthSettingsResponse,
   WebAppsGetAuthSettingsOptionalParams,
   WebAppsGetAuthSettingsResponse,
+  WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams,
+  WebAppsGetAuthSettingsV2WithoutSecretsResponse,
   SiteAuthSettingsV2,
   WebAppsUpdateAuthSettingsV2OptionalParams,
   WebAppsUpdateAuthSettingsV2Response,
@@ -1808,6 +1809,17 @@ export interface WebApps {
     name: string,
     options?: WebAppsGetAuthSettingsOptionalParams
   ): Promise<WebAppsGetAuthSettingsResponse>;
+  /**
+   * Description for Gets site's Authentication / Authorization settings for apps via the V2 format
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The options parameters.
+   */
+  getAuthSettingsV2WithoutSecrets(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams
+  ): Promise<WebAppsGetAuthSettingsV2WithoutSecretsResponse>;
   /**
    * Description for Updates site's Authentication / Authorization settings for apps via the V2 format
    * @param resourceGroupName Name of the resource group to which the resource belongs.

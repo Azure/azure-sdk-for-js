@@ -20,10 +20,10 @@ describe("ReceiverHelper unit tests", () => {
     },
     addCredit: (_credits: number): void => {
       throw new Error("Should never be called");
-    }
+    },
   } as Receiver;
 
-  const openReceiver = () => {
+  const openReceiver = (): Receiver & { _addedCredits: number } => {
     const fakeOpenReceiver = {
       _addedCredits: 0,
       credit: 0,
@@ -32,17 +32,17 @@ describe("ReceiverHelper unit tests", () => {
       },
       addCredit: (credits: number): void => {
         fakeOpenReceiver._addedCredits += credits;
-      }
+      },
     };
 
-    return (fakeOpenReceiver as any) as Receiver & { _addedCredits: number };
+    return fakeOpenReceiver as any as Receiver & { _addedCredits: number };
   };
 
   it("addCredit works with a non-suspended open receiver", () => {
     const receiver = openReceiver();
-    let helper = new ReceiverHelper(() => ({
+    const helper = new ReceiverHelper(() => ({
       receiver,
-      logPrefix: "whatever"
+      logPrefix: "whatever",
     }));
 
     // the one case that should work
@@ -55,32 +55,32 @@ describe("ReceiverHelper unit tests", () => {
     // and now the various failure cases.
     let helper = new ReceiverHelper(() => ({
       receiver: undefined,
-      logPrefix: "whatever"
+      logPrefix: "whatever",
     }));
 
     await assertThrows(async () => helper.addCredit(101), {
       name: "ServiceBusError",
       code: "GeneralError",
       message: "Cannot request messages on the receiver since it is undefined.",
-      retryable: true
+      retryable: true,
     });
 
     helper = new ReceiverHelper(() => ({
       receiver: closedReceiver,
-      logPrefix: "whatever"
+      logPrefix: "whatever",
     }));
 
     await assertThrows(async () => helper.addCredit(101), {
       name: "ServiceBusError",
       code: "GeneralError",
       message: "Cannot request messages on the receiver since it is not open.",
-      retryable: true
+      retryable: true,
     });
 
     const receiver = openReceiver();
     helper = new ReceiverHelper(() => ({
       receiver: receiver,
-      logPrefix: "whatever"
+      logPrefix: "whatever",
     }));
 
     await helper.suspend();
@@ -88,7 +88,7 @@ describe("ReceiverHelper unit tests", () => {
     await assertThrows(async () => helper.addCredit(101), {
       name: "AbortError",
       message: "Cannot request messages on the receiver since it is suspended.",
-      retryable: undefined
+      retryable: undefined,
     });
   });
 

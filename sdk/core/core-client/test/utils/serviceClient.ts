@@ -7,7 +7,7 @@ import {
   createHttpHeaders,
   HttpClient,
   HttpHeaders,
-  HttpMethods
+  HttpMethods,
 } from "@azure/core-rest-pipeline";
 import {
   createSerializer,
@@ -16,7 +16,7 @@ import {
   OperationRequest,
   OperationResponseMap,
   Serializer,
-  ServiceClient
+  ServiceClient,
 } from "../../src";
 
 /**
@@ -49,16 +49,16 @@ export async function assertServiceClientResponse(
         request,
         status: 200,
         headers: testSpec.responseHeaders ?? createHttpHeaders(),
-        bodyAsText: testSpec.responseBodyAsText
+        bodyAsText: testSpec.responseBodyAsText,
       });
-    }
+    },
   };
 
   const pipeline = createEmptyPipeline();
   pipeline.addPolicy(deserializationPolicy());
   const client1 = new ServiceClient({
     httpClient,
-    pipeline
+    pipeline,
   });
 
   let rawResponse: FullOperationResponse | undefined;
@@ -67,16 +67,16 @@ export async function assertServiceClientResponse(
       options: {
         onResponse: (response) => {
           rawResponse = response;
-        }
-      }
+        },
+      },
     },
     {
       serializer: testSpec.requestSerializer ?? createSerializer(),
       httpMethod: testSpec.requestMethod ?? "GET",
       baseUrl: "https://example.com",
       responses: {
-        200: testSpec.responseMapper
-      }
+        200: testSpec.responseMapper,
+      },
     }
   );
 

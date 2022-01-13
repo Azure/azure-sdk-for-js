@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.14.2",
+  "version": "3.15.1",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -19,21 +19,29 @@
   "module": "./dist-esm/src/index.js",
   "react-native": "./dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js",
-    "./dist-esm/utils/atob.js": "./dist-esm/utils/atob.browser.js",
-    "./dist-esm/utils/digest.js": "./dist-esm/utils/digest.browser.js",
-    "./dist-esm/utils/hmac.js": "./dist-esm/utils/hmac.browser.js",
-    "./dist-esm/utils/url.js": "./dist-esm/utils/url.browser.js"
+    "./dist-esm/src/request/defaultAgent.js": "./dist-esm/src/request/defaultAgent.browser.js",
+    "./dist-esm/src/utils/atob.js": "./dist-esm/src/utils/atob.browser.js",
+    "./dist-esm/src/utils/digest.js": "./dist-esm/src/utils/digest.browser.js",
+    "./dist-esm/src/utils/hmac.js": "./dist-esm/src/utils/hmac.browser.js",
+    "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js"
   },
   "files": [
     "changelog.md",
     "dist/",
-    "dist-esm/",
+    "dist-esm/src/",
     "README.md",
     "LICENSE"
   ],
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/cosmos/README.md",
   "sideEffects": false,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/common/constants.ts",
+        "prefix": "SDKVersion"
+      }
+    ]
+  },
   "types": "./dist/types/latest/cosmos.d.ts",
   "typesVersions": {
     "<3.6": {
@@ -52,12 +60,11 @@
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
     "build:test": "tsc",
     "build:types": "downlevel-dts dist/types/latest dist/types/3.1",
-    "build": "npm run clean && npm run extract-api && npm run build:types && node writeSDKVersion.js && npm run bundle",
+    "build": "npm run clean && npm run extract-api && npm run build:types && npm run bundle",
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm temp types *.tgz *.html *.log *.tsbuildinfo test/**/*.{js,js.map,d.ts}",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "npm run check:src:strict && npm run build:src && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -90,7 +97,7 @@
     "debug": "^4.1.1",
     "fast-json-stable-stringify": "^2.1.0",
     "jsbi": "^3.1.3",
-    "node-abort-controller": "^1.2.0",
+    "node-abort-controller": "^3.0.0",
     "priorityqueuejs": "^1.0.0",
     "semaphore": "^1.0.5",
     "tslib": "^2.2.0",
@@ -101,6 +108,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
+    "@azure/logger": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
@@ -114,13 +122,13 @@
     "@types/uuid": "^8.0.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "downlevel-dts": "~0.4.0",
+    "downlevel-dts": "^0.8.0",
     "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "execa": "^5.0.0",
     "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^1.18.0",
-    "prettier": "^1.16.4",
+    "mocha-junit-reporter": "^2.0.0",
+    "prettier": "^2.5.1",
     "requirejs": "^2.3.5",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
@@ -129,7 +137,6 @@
     "snap-shot-it": "^7.9.1",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typedoc": "0.15.2",
     "typescript": "~4.2.0"
   },
   "//sampleConfiguration": {

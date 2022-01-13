@@ -5,7 +5,6 @@
  * @summary Demonstrates database create, read, delete and reading all databases.
  */
 
-const path = require("path");
 require("dotenv").config();
 
 const { handleError, logStep, logSampleHeader, finish } = require("./Shared/handleError");
@@ -39,8 +38,9 @@ async function run() {
   assert.equal(dbDef && dbDef.id, alsoDbDef && alsoDbDef.id); // The bodies will also almost be equal, _ts will defer based on the read time
   // This applies for all response types, not just DatabaseResponse.
 
-  console.log("Database with id of " + dbDef && dbDef.id + "' was found");
-
+  if (dbDef) {
+    console.log(`Database with id of ${dbDef.id}' was found`);
+  }
   logStep("delete database with id '" + databaseId + "'");
   await finish();
 }

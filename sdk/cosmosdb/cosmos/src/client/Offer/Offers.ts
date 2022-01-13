@@ -42,7 +42,7 @@ export class Offers {
         resourceId: "",
         resultFn: (result) => result.Offers,
         query,
-        options: innerOptions
+        options: innerOptions,
       });
     });
   }

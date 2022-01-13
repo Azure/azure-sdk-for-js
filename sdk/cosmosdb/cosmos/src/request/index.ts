@@ -8,7 +8,7 @@ export {
   QueryRange,
   AggregateType,
   GroupByExpressions,
-  GroupByAliasToAggregateType
+  GroupByAliasToAggregateType,
 } from "./ErrorResponse";
 export { FeedOptions } from "./FeedOptions";
 export { RequestOptions } from "./RequestOptions";

@@ -30,8 +30,8 @@ export class TestMessage {
         propOne: 1,
         propTwo: "two",
         propThree: true,
-        propFour: Date()
-      }
+        propFour: Date(),
+      },
     };
   }
 
@@ -52,10 +52,10 @@ export class TestMessage {
         propOne: 1,
         propTwo: "two",
         propThree: true,
-        propFour: Date()
+        propFour: Date(),
       },
       sessionId: TestMessage.sessionId,
-      replyToSessionId: "some-other-session-id"
+      replyToSessionId: "some-other-session-id",
     };
   }
 
@@ -142,7 +142,7 @@ export enum TestClientType {
   PartitionedSubscriptionWithSessions = "PartitionedSubscriptionWithSessions",
   UnpartitionedQueueWithSessions = "UnpartitionedQueueWithSessions",
   UnpartitionedTopicWithSessions = "UnpartitionedTopicWithSessions",
-  UnpartitionedSubscriptionWithSessions = "UnpartitionedSubscriptionWithSessions"
+  UnpartitionedSubscriptionWithSessions = "UnpartitionedSubscriptionWithSessions",
 }
 
 /**
@@ -197,15 +197,15 @@ export enum EntityNames {
   MANAGEMENT_SUBSCRIPTION_2 = "management-subscription-2",
   MANAGEMENT_RULE_2 = "management-rule-2",
   MANAGEMENT_NEW_ENTITY_1 = "management-new-entity-1",
-  MANAGEMENT_NEW_ENTITY_2 = "management-new-entity-2"
+  MANAGEMENT_NEW_ENTITY_2 = "management-new-entity-2",
 }
 
 /**
  * Asserts that `fn` throws an error and assert.deepEqual compares all fields common
  * between `expectedErr` and `err`.
  *
- * @param fn A function to execute.
- * @param expectedErr The error fields you expect.
+ * @param fn - A function to execute.
+ * @param expectedErr - The error fields you expect.
  * @returns The error thrown, if equal to expectedErr.
  */
 export function assertThrows<T>(

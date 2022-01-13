@@ -6,7 +6,7 @@ Batch Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/batch/arm-batch) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-batch) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-batch?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-batch) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

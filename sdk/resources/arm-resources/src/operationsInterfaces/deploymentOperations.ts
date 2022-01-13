@@ -6,19 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   DeploymentOperation,
-  DeploymentOperationsListAtScopeNextOptionalParams,
   DeploymentOperationsListAtScopeOptionalParams,
-  DeploymentOperationsListAtTenantScopeNextOptionalParams,
   DeploymentOperationsListAtTenantScopeOptionalParams,
-  DeploymentOperationsListAtManagementGroupScopeNextOptionalParams,
   DeploymentOperationsListAtManagementGroupScopeOptionalParams,
-  DeploymentOperationsListAtSubscriptionScopeNextOptionalParams,
   DeploymentOperationsListAtSubscriptionScopeOptionalParams,
-  DeploymentOperationsListNextOptionalParams,
   DeploymentOperationsListOptionalParams,
   DeploymentOperationsGetAtScopeOptionalParams,
   DeploymentOperationsGetAtScopeResponse,
@@ -85,69 +79,6 @@ export interface DeploymentOperations {
     resourceGroupName: string,
     deploymentName: string,
     options?: DeploymentOperationsListOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentOperation>;
-  /**
-   * ListAtScopeNext
-   * @param scope The resource scope.
-   * @param deploymentName The name of the deployment.
-   * @param nextLink The nextLink from the previous successful call to the ListAtScope method.
-   * @param options The options parameters.
-   */
-  listAtScopeNext(
-    scope: string,
-    deploymentName: string,
-    nextLink: string,
-    options?: DeploymentOperationsListAtScopeNextOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentOperation>;
-  /**
-   * ListAtTenantScopeNext
-   * @param deploymentName The name of the deployment.
-   * @param nextLink The nextLink from the previous successful call to the ListAtTenantScope method.
-   * @param options The options parameters.
-   */
-  listAtTenantScopeNext(
-    deploymentName: string,
-    nextLink: string,
-    options?: DeploymentOperationsListAtTenantScopeNextOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentOperation>;
-  /**
-   * ListAtManagementGroupScopeNext
-   * @param groupId The management group ID.
-   * @param deploymentName The name of the deployment.
-   * @param nextLink The nextLink from the previous successful call to the ListAtManagementGroupScope
-   *                 method.
-   * @param options The options parameters.
-   */
-  listAtManagementGroupScopeNext(
-    groupId: string,
-    deploymentName: string,
-    nextLink: string,
-    options?: DeploymentOperationsListAtManagementGroupScopeNextOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentOperation>;
-  /**
-   * ListAtSubscriptionScopeNext
-   * @param deploymentName The name of the deployment.
-   * @param nextLink The nextLink from the previous successful call to the ListAtSubscriptionScope
-   *                 method.
-   * @param options The options parameters.
-   */
-  listAtSubscriptionScopeNext(
-    deploymentName: string,
-    nextLink: string,
-    options?: DeploymentOperationsListAtSubscriptionScopeNextOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentOperation>;
-  /**
-   * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of the deployment.
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  listNext(
-    resourceGroupName: string,
-    deploymentName: string,
-    nextLink: string,
-    options?: DeploymentOperationsListNextOptionalParams
   ): PagedAsyncIterableIterator<DeploymentOperation>;
   /**
    * Gets a deployments operation.

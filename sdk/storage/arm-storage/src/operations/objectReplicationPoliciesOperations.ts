@@ -6,35 +6,34 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ObjectReplicationPoliciesOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageManagementClientContext } from "../storageManagementClientContext";
+import { StorageManagementClient } from "../storageManagementClient";
 import {
   ObjectReplicationPolicy,
-  ObjectReplicationPoliciesOperationsListOptionalParams,
-  ObjectReplicationPoliciesOperationsListResponse,
-  ObjectReplicationPoliciesOperationsGetOptionalParams,
-  ObjectReplicationPoliciesOperationsGetResponse,
-  ObjectReplicationPoliciesOperationsCreateOrUpdateOptionalParams,
-  ObjectReplicationPoliciesOperationsCreateOrUpdateResponse,
-  ObjectReplicationPoliciesOperationsDeleteOptionalParams
+  ObjectReplicationPoliciesListOptionalParams,
+  ObjectReplicationPoliciesListResponse,
+  ObjectReplicationPoliciesGetOptionalParams,
+  ObjectReplicationPoliciesGetResponse,
+  ObjectReplicationPoliciesCreateOrUpdateOptionalParams,
+  ObjectReplicationPoliciesCreateOrUpdateResponse,
+  ObjectReplicationPoliciesDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ObjectReplicationPoliciesOperations. */
+/** Class containing ObjectReplicationPoliciesOperations operations. */
 export class ObjectReplicationPoliciesOperationsImpl
   implements ObjectReplicationPoliciesOperations {
-  private readonly client: StorageManagementClientContext;
+  private readonly client: StorageManagementClient;
 
   /**
    * Initialize a new instance of the class ObjectReplicationPoliciesOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageManagementClientContext) {
+  constructor(client: StorageManagementClient) {
     this.client = client;
   }
 
@@ -50,7 +49,7 @@ export class ObjectReplicationPoliciesOperationsImpl
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectReplicationPoliciesOperationsListOptionalParams
+    options?: ObjectReplicationPoliciesListOptionalParams
   ): PagedAsyncIterableIterator<ObjectReplicationPolicy> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
@@ -69,7 +68,7 @@ export class ObjectReplicationPoliciesOperationsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectReplicationPoliciesOperationsListOptionalParams
+    options?: ObjectReplicationPoliciesListOptionalParams
   ): AsyncIterableIterator<ObjectReplicationPolicy[]> {
     let result = await this._list(resourceGroupName, accountName, options);
     yield result.value || [];
@@ -78,7 +77,7 @@ export class ObjectReplicationPoliciesOperationsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectReplicationPoliciesOperationsListOptionalParams
+    options?: ObjectReplicationPoliciesListOptionalParams
   ): AsyncIterableIterator<ObjectReplicationPolicy> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
@@ -101,8 +100,8 @@ export class ObjectReplicationPoliciesOperationsImpl
   private _list(
     resourceGroupName: string,
     accountName: string,
-    options?: ObjectReplicationPoliciesOperationsListOptionalParams
-  ): Promise<ObjectReplicationPoliciesOperationsListResponse> {
+    options?: ObjectReplicationPoliciesListOptionalParams
+  ): Promise<ObjectReplicationPoliciesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
       listOperationSpec
@@ -126,8 +125,8 @@ export class ObjectReplicationPoliciesOperationsImpl
     resourceGroupName: string,
     accountName: string,
     objectReplicationPolicyId: string,
-    options?: ObjectReplicationPoliciesOperationsGetOptionalParams
-  ): Promise<ObjectReplicationPoliciesOperationsGetResponse> {
+    options?: ObjectReplicationPoliciesGetOptionalParams
+  ): Promise<ObjectReplicationPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, objectReplicationPolicyId, options },
       getOperationSpec
@@ -154,8 +153,8 @@ export class ObjectReplicationPoliciesOperationsImpl
     accountName: string,
     objectReplicationPolicyId: string,
     properties: ObjectReplicationPolicy,
-    options?: ObjectReplicationPoliciesOperationsCreateOrUpdateOptionalParams
-  ): Promise<ObjectReplicationPoliciesOperationsCreateOrUpdateResponse> {
+    options?: ObjectReplicationPoliciesCreateOrUpdateOptionalParams
+  ): Promise<ObjectReplicationPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -185,7 +184,7 @@ export class ObjectReplicationPoliciesOperationsImpl
     resourceGroupName: string,
     accountName: string,
     objectReplicationPolicyId: string,
-    options?: ObjectReplicationPoliciesOperationsDeleteOptionalParams
+    options?: ObjectReplicationPoliciesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, objectReplicationPolicyId, options },

@@ -5,7 +5,6 @@
  * @summary Demonstrates using a ChangeFeed.
  */
 
-const path = require("path");
 require("dotenv").config();
 
 const { finish, handleError, logSampleHeader } = require("./Shared/handleError");
@@ -159,7 +158,11 @@ async function run() {
       fromNowResults2.map((v) => parseInt(v.id))
     );
   } catch (err) {
-    handleError(err);
+    if (err) {
+      console.log("Threw, as expected");
+    } else {
+      throw err;
+    }
   } finally {
     await finish();
   }

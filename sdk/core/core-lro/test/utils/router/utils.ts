@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  createHttpHeaders,
   HttpHeaders,
   PipelineRequest,
-  PipelineResponse
+  PipelineResponse,
+  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 
 export function buildResponse(
@@ -18,7 +18,7 @@ export function buildResponse(
     request: request,
     headers: headers ? headers : createHttpHeaders(),
     status: status,
-    bodyAsText: body
+    bodyAsText: body,
   };
 }
 
