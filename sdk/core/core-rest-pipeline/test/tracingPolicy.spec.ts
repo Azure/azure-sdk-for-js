@@ -33,6 +33,7 @@ export class MockSpan implements Span {
   private _attributes: SpanAttributes = {};
 
   constructor(
+    private name: string,
     private traceId: string,
     private spanId: string,
     private flags: TraceFlags,
@@ -85,6 +86,10 @@ export class MockSpan implements Span {
   setAttribute(key: string, value: SpanAttributeValue): this {
     this._attributes[key] = value;
     return this;
+  }
+
+  getName() {
+    return this.name;
   }
 
   getAttribute(key: string): SpanAttributeValue | undefined {
@@ -143,9 +148,9 @@ export class MockTracer implements Tracer {
     return this._startSpanCalled;
   }
 
-  startSpan(_name: string, options?: SpanOptions): MockSpan {
+  startSpan(name: string, options?: SpanOptions): MockSpan {
     this._startSpanCalled = true;
-    const span = new MockSpan(this.traceId, this.spanId, this.flags, this.state, options);
+    const span = new MockSpan(name, this.traceId, this.spanId, this.flags, this.state, options);
     this.spans.push(span);
     return span;
   }
@@ -171,7 +176,7 @@ export class MockTracerProvider implements TracerProvider {
   }
 }
 
-const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
+const ROOT_SPAN = new MockSpan("name", "root", "root", TraceFlags.SAMPLED, "");
 
 describe("tracingPolicy", function () {
   const TRACE_VERSION = "00";
@@ -289,6 +294,7 @@ describe("tracingPolicy", function () {
 
     const request = createPipelineRequest({
       url: "https://bing.com",
+      method: "PUT",
       tracingOptions: {
         tracingContext: setSpan(context.active(), ROOT_SPAN),
       },
@@ -307,6 +313,7 @@ describe("tracingPolicy", function () {
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
     assert.isTrue(span.didEnd());
+    assert.equal(span.getName(), "HTTPS PUT");
     assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
 
     const expectedFlag = "01";
@@ -436,7 +443,7 @@ describe("tracingPolicy", function () {
   it("will not fail the request if response processing fails", async () => {
     const errorTracer = new MockTracer("", "", TraceFlags.SAMPLED, "");
     mockTracerProvider.setTracer(errorTracer);
-    const errorSpan = new MockSpan("", "", TraceFlags.SAMPLED, "");
+    const errorSpan = new MockSpan("", "", "", TraceFlags.SAMPLED, "");
     sinon.stub(errorSpan, "end").throws(new Error("Test Error"));
     sinon.stub(errorTracer, "startSpan").returns(errorSpan);
 

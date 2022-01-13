@@ -86,11 +86,11 @@ export class TracingPolicy extends BaseRequestPolicy {
 
   tryCreateSpan(request: WebResourceLike): Span | undefined {
     try {
-      const path = URLBuilder.parse(request.url).getPath() || "/";
+      const scheme = URLBuilder.parse(request.url).getScheme() || "https";
 
       // Passing spanOptions as part of tracingOptions to maintain compatibility @azure/core-tracing@preview.13 and earlier.
       // We can pass this as a separate parameter once we upgrade to the latest core-tracing.
-      const { span } = createSpan(path, {
+      const { span } = createSpan(`${scheme.toUpperCase()} ${request.method}`, {
         tracingOptions: {
           spanOptions: {
             ...(request as any).spanOptions,
