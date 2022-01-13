@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  discriminators,
-  ErrorDefinition,
-  ErrorResponse,
-  GroupIdInformation,
-  GroupIdInformationProperties,
-  GroupIdInformationPropertiesModel,
-  GroupIdInformationResponse
-} from "../models/mappers";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { DevSpacesManagementClient } from "./devSpacesManagementClient";
+export * from "./operationsInterfaces";
