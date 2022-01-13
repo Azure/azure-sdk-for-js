@@ -117,4 +117,5 @@ export {
   LastDetectionRequest,
   CorrelationChanges,
   AnomalyInterpretation,
+  AnomalyDetectorLastDetectAnomalyOptionalParams,
 } from "./generated/models";
