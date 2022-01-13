@@ -57,7 +57,7 @@
     "tsconfig.json"
   ],
   "scripts": {
-    "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
+    "build": "tsc && rollup -c rollup.config.js 2>&1 && npm run minify && npm run extract-api",
     "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "build:test": "echo skipped",
