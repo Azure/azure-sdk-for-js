@@ -11,7 +11,6 @@ import {
 } from "./generated";
 import { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
 import { MixedRealityAccountKeyCredential } from "./models/auth";
-import { SDK_VERSION } from "./constants";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint";
 import { createSpan } from "./tracing";
@@ -88,22 +87,8 @@ export class MixedRealityStsClient {
     this.endpointUrl =
       options.customEndpointUrl || constructAuthenticationEndpointFromDomain(accountDomain);
 
-    // The below code helps us set a proper User-Agent header on all requests
-    const libInfo = `azsdk-js-mixed-reality-authentication/${SDK_VERSION}`;
-
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-
-    const userAgentOptions = { ...options.userAgentOptions };
-    if (options.userAgentOptions.userAgentPrefix) {
-      userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      userAgentOptions.userAgentPrefix = libInfo;
-    }
-
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
-      ...{ ...options, userAgentOptions },
+      ...{ ...options },
       ...{
         loggingOptions: {
           logger: logger.info,
