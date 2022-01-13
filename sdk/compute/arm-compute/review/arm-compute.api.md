@@ -18,6 +18,7 @@ export type AccessLevel = string;
 // @public
 export interface AccessUri {
     readonly accessSAS?: string;
+    readonly securityDataAccessSAS?: string;
 }
 
 // @public
@@ -1095,6 +1096,7 @@ export interface CreationData {
     galleryImageReference?: ImageDiskReference;
     imageReference?: ImageDiskReference;
     logicalSectorSize?: number;
+    securityDataUri?: string;
     sourceResourceId?: string;
     readonly sourceUniqueId?: string;
     sourceUri?: string;
@@ -1726,6 +1728,8 @@ export type DiskRestorePoint = ProxyOnlyResource & {
     publicNetworkAccess?: PublicNetworkAccess;
     diskAccessId?: string;
     completionPercent?: number;
+    readonly replicationState?: string;
+    readonly sourceResourceLocation?: string;
 };
 
 // @public
@@ -1814,6 +1818,7 @@ export interface DisksDeleteOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export interface DiskSecurityProfile {
+    secureVMDiskEncryptionSetId?: string;
     securityType?: DiskSecurityTypes;
 }
 
@@ -2523,6 +2528,7 @@ export interface GrantAccessData {
     // (undocumented)
     access: AccessLevel;
     durationInSeconds: number;
+    getSecureVMGuestStateSAS?: boolean;
 }
 
 // @public
@@ -2852,8 +2858,10 @@ export enum KnownDiskCreateOption {
     Empty = "Empty",
     FromImage = "FromImage",
     Import = "Import",
+    ImportSecure = "ImportSecure",
     Restore = "Restore",
-    Upload = "Upload"
+    Upload = "Upload",
+    UploadPreparedSecure = "UploadPreparedSecure"
 }
 
 // @public
@@ -2890,12 +2898,16 @@ export enum KnownDiskEncryptionSetIdentityType {
 
 // @public
 export enum KnownDiskEncryptionSetType {
+    ConfidentialVmEncryptedWithCustomerKey = "ConfidentialVmEncryptedWithCustomerKey",
     EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
     EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys"
 }
 
 // @public
 export enum KnownDiskSecurityTypes {
+    ConfidentialVMDiskEncryptedWithCustomerKey = "ConfidentialVM_DiskEncryptedWithCustomerKey",
+    ConfidentialVMDiskEncryptedWithPlatformKey = "ConfidentialVM_DiskEncryptedWithPlatformKey",
+    ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
     TrustedLaunch = "TrustedLaunch"
 }
 
@@ -5079,6 +5091,7 @@ export type Snapshot = Resource & {
     encryption?: Encryption;
     networkAccessPolicy?: NetworkAccessPolicy;
     diskAccessId?: string;
+    securityProfile?: DiskSecurityProfile;
     supportsHibernation?: boolean;
     publicNetworkAccess?: PublicNetworkAccess;
     completionPercent?: number;
@@ -5200,6 +5213,7 @@ export interface SnapshotUpdate {
     osType?: OperatingSystemTypes;
     publicNetworkAccess?: PublicNetworkAccess;
     sku?: SnapshotSku;
+    supportedCapabilities?: SupportedCapabilities;
     supportsHibernation?: boolean;
     tags?: {
         [propertyName: string]: string;

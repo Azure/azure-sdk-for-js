@@ -1245,6 +1245,61 @@
       "packageName": "@azure/arm-azurestackhci",
       "projectFolder": "sdk/azurestackhci/arm-azurestackhci",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-customerinsights",
+      "projectFolder": "sdk/customer-insights/arm-customerinsights",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databoxedge",
+      "projectFolder": "sdk/databoxedge/arm-databoxedge",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datadog",
+      "projectFolder": "sdk/datadog/arm-datadog",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-deviceprovisioningservices",
+      "projectFolder": "sdk/deviceprovisioningservices/arm-deviceprovisioningservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databox",
+      "projectFolder": "sdk/databox/arm-databox",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dns",
+      "projectFolder": "sdk/dns/arm-dns",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-digitaltwins",
+      "projectFolder": "sdk/digitaltwins/arm-digitaltwins",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devspaces",
+      "projectFolder": "sdk/devspaces/arm-devspaces",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-domainservices",
+      "projectFolder": "sdk/domainservices/arm-domainservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-frontdoor",
+      "projectFolder": "sdk/frontdoor/arm-frontdoor",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-healthbot",
+      "projectFolder": "sdk/healthbot/arm-healthbot",
+      "versionPolicyName": "management"
     }
   ]
 }

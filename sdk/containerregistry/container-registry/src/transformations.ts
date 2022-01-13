@@ -7,7 +7,7 @@ import {
   ManifestWriteableProperties as ServiceManifestWritableProperties,
   ArtifactManifestProperties as ServiceArtifactManifestProperties,
 } from "./generated/models";
-import { ArtifactManifestProperties, TagOrderBy, ManifestOrderBy } from "./models";
+import { ArtifactManifestProperties, ArtifactTagOrder, ArtifactManifestOrder } from "./models";
 
 /** Changeable attributes. Filter out `quarantineState` and `quarantineDetails` returned by service */
 interface ManifestWriteableProperties {
@@ -44,7 +44,7 @@ export function toArtifactManifestProperties(
     registryLoginServer,
     repositoryName,
     digest: from.digest,
-    size: from.size,
+    sizeInBytes: from.size,
     createdOn: from.createdOn,
     lastUpdatedOn: from.lastUpdatedOn,
     architecture: from.architecture ?? undefined,
@@ -55,7 +55,7 @@ export function toArtifactManifestProperties(
   };
 }
 
-export function toServiceTagOrderBy(orderBy?: TagOrderBy): ServiceTagOrderBy | undefined {
+export function toServiceTagOrderBy(orderBy?: ArtifactTagOrder): ServiceTagOrderBy | undefined {
   return orderBy === "LastUpdatedOnAscending"
     ? "timeasc"
     : orderBy === "LastUpdatedOnDescending"
@@ -64,7 +64,7 @@ export function toServiceTagOrderBy(orderBy?: TagOrderBy): ServiceTagOrderBy | u
 }
 
 export function toServiceManifestOrderBy(
-  orderBy?: ManifestOrderBy
+  orderBy?: ArtifactManifestOrder
 ): ServiceManifestOrderBy | undefined {
   return orderBy === "LastUpdatedOnAscending"
     ? "timeasc"
