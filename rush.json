@@ -1270,6 +1270,11 @@
       "packageName": "@azure/arm-databox",
       "projectFolder": "sdk/databox/arm-databox",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/webpubsubdemo",
+      "projectFolder": "sdk/webpubsubdemo/webpubsubdemo-rest",
+      "versionPolicyName": "client"
     }
   ]
 }

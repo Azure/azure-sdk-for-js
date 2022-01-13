@@ -1,0 +1,17 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": {
+      "@azure-rest/webpubsubdemo": [
+        "./src/index"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "samples-dev/**/*.ts"
+  ]
+}
