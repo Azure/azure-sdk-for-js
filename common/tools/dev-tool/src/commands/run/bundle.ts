@@ -24,13 +24,13 @@ export const commandInfo = makeCommandInfo(
     production: {
       kind: "boolean",
       default: true,
-      description: "build a CommonJS production bundle"
+      description: "build a CommonJS production bundle",
     },
     "browser-test": {
       kind: "boolean",
       default: true,
-      description: "build a bundle for browser testing"
-    }
+      description: "build a bundle for browser testing",
+    },
   }
 );
 
@@ -44,10 +44,10 @@ export default leafCommand(commandInfo, async ({ production, "browser-test": bro
       external: [
         ...nodeBuiltins,
         ...Object.keys(info.packageJson.dependencies),
-        ...Object.keys(info.packageJson.devDependencies)
+        ...Object.keys(info.packageJson.devDependencies),
       ],
       preserveSymlinks: false,
-      plugins: [sourcemaps(), nodeResolve(), cjs()]
+      plugins: [sourcemaps(), nodeResolve(), cjs()],
     };
 
     const bundle = await rollup.rollup(baseConfig);
@@ -61,25 +61,20 @@ export default leafCommand(commandInfo, async ({ production, "browser-test": bro
     const browserTestConfig = {
       input: {
         include: ["dist-esm/test/**/*.spec.js"],
-        exclude: ["dist-esm/test/**/node/**"]
+        exclude: ["dist-esm/test/**/node/**"],
       },
       preserveSymlinks: false,
       plugins: [
         multiEntry({ exports: false }),
         nodeResolve({
-          mainFields: ["module", "browser"]
+          mainFields: ["module", "browser"],
+          preferBuiltins: false,
         }),
         cjs({
-          dynamicRequireTargets: ["**/*/node_modules/**/chai@*/**/*"]
-          /*namedExports: {
-          // Chai's strange internal architecture makes it impossible to statically
-          // analyze its exports.
-          chai: ["version", "use", "util", "config", "expect", "should", "assert"],
-          ...openTelemetryCommonJs()
-        }*/
+          dynamicRequireTargets: ["**/*/node_modules/**/chai@*/**/*"],
         }),
         json(),
-        sourcemaps()
+        sourcemaps(),
         //viz({ filename: "dist-test/browser-stats.html", sourcemap: true })
       ],
       onwarn: makeOnWarnForTesting(),
@@ -87,7 +82,7 @@ export default leafCommand(commandInfo, async ({ production, "browser-test": bro
       // rollup started respecting the "sideEffects" field in package.json.  Since
       // our package.json sets "sideEffects=false", this also applies to test
       // code, which causes all tests to be removed by tree-shaking.
-      treeshake: false
+      treeshake: false,
     };
 
     const browserBundle = await rollup.rollup(browserTestConfig as any);
@@ -95,7 +90,7 @@ export default leafCommand(commandInfo, async ({ production, "browser-test": bro
     await browserBundle.write({
       file: `dist-test/index.browser.js`,
       format: "umd",
-      sourcemap: true
+      sourcemap: true,
     });
 
     log.success("Created browser testing bundle.");
