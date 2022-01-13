@@ -13,9 +13,10 @@ Use the client libraries in this package to:
 - Create/Read/List/Update/Delete Append Blobs
 
 Key links
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob) 
-- [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/) 
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob) 
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob)
+- [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob)
 - [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-overview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples)
 - [Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)
@@ -31,7 +32,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Prerequisites
 
-- An [Azure subscription](https://azure.microsoft.com/free/) 
+- An [Azure subscription](https://azure.microsoft.com/free/)
 - A [Storage Account](https://docs.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal)
 
 ### Install the package
@@ -192,7 +193,7 @@ const blobServiceClient = new BlobServiceClient(
 );
 ```
 
-See the [Azure AD Auth sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/javascript/azureAdAuth.js) for a complete example using this method.
+See the [Azure AD Auth sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/v12/javascript/azureAdAuth.js) for a complete example using this method.
 
 [Note - Above steps are only for Node.js]
 
@@ -352,7 +353,7 @@ async function main() {
 main();
 ```
 
-For a complete sample on iterating containers please see [samples/src/iterators-containers.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/typescript/src/iterators-containers.ts).
+For a complete sample on iterating containers please see [samples/v12/typescript/src/listContainers.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/v12/typescript/src/listContainers.ts).
 
 ### Create a blob by uploading data
 
@@ -414,7 +415,7 @@ async function main() {
 main();
 ```
 
-For a complete sample on iterating blobs please see [samples/src/iterators-blobs.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/typescript/src/iterators-blobs.ts).
+For a complete sample on iterating blobs please see [samples/v12/typescript/src/listBlobsFlat.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/v12/typescript/src/listBlobsFlat.ts).
 
 ### Download a blob and convert it to a string (Node.js)
 
@@ -503,7 +504,7 @@ async function main() {
 main();
 ```
 
-A complete example of basic scenarios is at [samples/src/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/typescript/src/basic.ts).
+A complete example of simple scenarios is at [samples/v12/typescript/src/sharedKeyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/v12/typescript/src/sharedKeyAuth.ts).
 
 ## Troubleshooting
 
@@ -519,8 +520,8 @@ setLogLevel("info");
 
 More code samples:
 
-- [Blob Storage Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/javascript)
-- [Blob Storage Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/typescript)
+- [Blob Storage Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/v12/javascript)
+- [Blob Storage Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/samples/v12/typescript)
 - [Blob Storage Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/test/)
 
 ## Contributing

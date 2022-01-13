@@ -1,22 +1,18 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "declarationDir": "./typings/latest",
+    "declarationDir": "./types/latest",
     "outDir": "./dist-esm",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"]
+    "lib": ["dom", "es2019"],
+    "paths": {
+      "@azure/storage-blob": ["./src/index"]
+    }
   },
   "compileOnSave": true,
-  "exclude": [
-    "node_modules",
-    "./typings/**/*.d.ts",
-    "../storage-internal-avro/node_modules",
-    "../storage-common/node_modules",
-    "./samples/**",
-    "test/perf/track-1/"
-  ],
   "include": [
     "./src/**/*.ts",
     "./test/**/*.ts",
+    "./samples-dev/**/*.ts",
     "../storage-internal-avro/**/*.ts",
     "../storage-common/**/*.ts"
   ]
