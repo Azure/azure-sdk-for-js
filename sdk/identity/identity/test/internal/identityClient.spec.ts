@@ -12,26 +12,14 @@ import { ClientSecretCredential } from "../../src";
 import { Context } from "mocha";
 import { isExpectedError } from "../authTestUtils";
 import { PlaybackTenantId } from "../msalTestUtils";
-import {
-  createResponse,
-  IdentityTestContext,
-  SendCredentialRequests,
-  SendIndividualRequest,
-  SendIndividualRequestAndGetError,
-} from "../httpRequestsCommon";
-import { prepareIdentityTests, prepareMSALResponses } from "../httpRequests";
+import { createResponse, IdentityTestContextInterface } from "../httpRequestsCommon";
+import { IdentityTestContext, prepareMSALResponses } from "../httpRequests";
 
 describe("IdentityClient", function () {
-  let testContext: IdentityTestContext;
-  let sendIndividualRequest: SendIndividualRequest;
-  let sendIndividualRequestAndGetError: SendIndividualRequestAndGetError;
-  let sendCredentialRequests: SendCredentialRequests;
+  let testContext: IdentityTestContextInterface;
 
   beforeEach(async function () {
-    testContext = await prepareIdentityTests({ replaceLogger: true, logLevel: "verbose" });
-    sendIndividualRequest = testContext.sendIndividualRequest;
-    sendIndividualRequestAndGetError = testContext.sendIndividualRequestAndGetError;
-    sendCredentialRequests = testContext.sendCredentialRequests;
+    testContext = new IdentityTestContext({ replaceLogger: true, logLevel: "verbose" });
   });
   afterEach(async function () {
     if (isNode) {
@@ -41,7 +29,7 @@ describe("IdentityClient", function () {
   });
 
   it("throws an exception if the credential is not available (can't resolve discovery endpoint)", async () => {
-    const { error } = await sendCredentialRequests({
+    const { error } = await testContext.sendCredentialRequests({
       scopes: ["scope"],
       credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret"),
       secureResponses: [
@@ -62,7 +50,7 @@ describe("IdentityClient", function () {
   });
 
   it("throws an exception when an authentication request fails", async () => {
-    const { error } = await sendCredentialRequests({
+    const { error } = await testContext.sendCredentialRequests({
       scopes: ["https://test/.default"],
       credential: new ClientSecretCredential("adfs", "client", "secret"),
       secureResponses: [
@@ -138,7 +126,7 @@ describe("IdentityClient", function () {
 
   it("returns a usable error when the authentication response doesn't contain a body", async () => {
     const credential = new ClientSecretCredential("adfs", "client", "secret");
-    const { error } = await sendCredentialRequests({
+    const { error } = await testContext.sendCredentialRequests({
       scopes: ["scope"],
       credential,
       secureResponses: [...prepareMSALResponses(), createResponse(300)],
@@ -169,7 +157,7 @@ describe("IdentityClient", function () {
       error: "interaction_required",
       error_description: "Interaction required",
     });
-    const tokenResponse = await sendIndividualRequest<TokenResponse>(async () => {
+    const tokenResponse = await testContext.sendIndividualRequest<TokenResponse>(async () => {
       return client.refreshAccessToken("tenant", "client", "scopes", "token", undefined);
     }, response);
 
@@ -200,7 +188,7 @@ describe("IdentityClient", function () {
       error: "unknown_error",
       error_description: "This error shouldn't be happening.",
     });
-    const error = await sendIndividualRequestAndGetError(async () => {
+    const error = await testContext.sendIndividualRequestAndGetError(async () => {
       return client.refreshAccessToken("tenant", "client", "scopes", "token", undefined);
     }, response);
     isExpectedError("unknown_error")(error);

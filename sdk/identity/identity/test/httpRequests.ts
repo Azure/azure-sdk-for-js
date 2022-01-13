@@ -7,13 +7,12 @@ import * as http from "http";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { PassThrough } from "stream";
 import { RestError } from "@azure/core-rest-pipeline";
-import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel, Debugger } from "@azure/logger";
+import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
 import { getError } from "./authTestUtils";
 import {
   createResponse,
-  IdentityTestContext,
+  IdentityTestContextInterface,
   RawTestResponse,
-  SendCredentialRequests,
   TestResponse,
 } from "./httpRequestsCommon";
 import { AccessToken, GetTokenOptions, TokenCredential } from "../src";
@@ -96,7 +95,7 @@ export function prepareMSALResponses(): RawTestResponse[] {
  * that may expect more than one response (or error) from more than one endpoint.
  * @internal
  */
-export class IdentityTest implements IdentityTestContext {
+export class IdentityTestContext implements IdentityTestContextInterface {
   public sandbox: Sinon.SinonSandbox;
   public clock: Sinon.SinonFakeTimers;
   public oldLogLevel: AzureLogLevel | undefined;
@@ -160,7 +159,7 @@ export class IdentityTest implements IdentityTestContext {
   /**
    * Helps replace the <provider>.request() method with one we can control.
    */
-  registerResponses(
+  public registerResponses(
     provider: "http" | "https",
     responses: { response?: TestResponse; error?: RestError }[],
     spies: sinon.SinonSpy[]

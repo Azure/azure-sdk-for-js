@@ -6,7 +6,7 @@ import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/log
 import { RestError } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { getError } from "./authTestUtils";
-import { IdentityTestContext, RawTestResponse, TestResponse } from "./httpRequestsCommon";
+import { IdentityTestContextInterface, RawTestResponse, TestResponse } from "./httpRequestsCommon";
 
 /**
  * Helps specify a different number of responses for Node and for the browser.
@@ -35,7 +35,7 @@ export function prepareMSALResponses(): RawTestResponse[] {
  * that may expect more than one response (or error) from more than one endpoint.
  * @internal
  */
-export class IdentityTest implements IdentityTestContext {
+export class IdentityTestContext implements IdentityTestContextInterface {
   public sandbox: sinon.SinonSandbox;
   public clock: sinon.SinonFakeTimers;
   public oldLogLevel: AzureLogLevel | undefined;
