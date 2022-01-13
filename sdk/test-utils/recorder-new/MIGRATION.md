@@ -140,7 +140,7 @@ const queueName = recorder.variable("queueName", "queue-${Math.floor(Math.random
 await client.createQueue(queueName);
 ```
 
-In this example, the name of the queue used in the recording is randomized. However, in playback, instead of using the value passed into `recorder.variable`, the value will be retrieved from the recording file. This means that the name of the queue will be consistent between recording and playback.
+In this example, the name of the queue used in the recording is randomized. However, in playback, instead of using the value passed into `recorder.variable`, the value will be retrieved from the recording file. This means that the name of the queue will be consistent between record and playback modes.
 
 ## Customizations on recordings
 
