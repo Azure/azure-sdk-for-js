@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import * as path from "path";
+import fs from "fs";
 import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
 import { env, isPlaybackMode, delay, isLiveMode } from "@azure-tools/test-recorder";
@@ -83,6 +84,11 @@ describe("ClientCertificateCredential", function () {
   });
 
   it("allows cancelling the authentication", async function () {
+    if (!fs.existsSync(certificatePath)) {
+      // In min-max tests, the certificate file can't be found.
+      console.log("Failed to locate the certificate file. Skipping.");
+      this.skip();
+    }
     const credential = new ClientCertificateCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, {
       certificatePath,
     });
