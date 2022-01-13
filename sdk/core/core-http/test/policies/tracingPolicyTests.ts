@@ -180,12 +180,13 @@ const ROOT_SPAN = new MockSpan("root", "root", "root", TraceFlags.SAMPLED, "");
 describe("tracingPolicy", function () {
   const TRACE_VERSION = "00";
   const mockTracerProvider = new MockTracerProvider();
+  const mockRequestStatusCode = 200;
 
   const mockPolicy: RequestPolicy = {
     sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       return Promise.resolve({
         request: request,
-        status: 200,
+        status: mockRequestStatusCode,
         headers: new HttpHeaders(),
       });
     },
@@ -208,6 +209,30 @@ describe("tracingPolicy", function () {
     assert.isFalse(mockTracer.startSpanCalled());
   });
 
+  it("will create a span with the correct data", async () => {
+    const mockTraceId = "11111111111111111111111111111111";
+    const mockSpanId = "2222222222222222";
+    const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
+    mockTracerProvider.setTracer(mockTracer);
+
+    const request = new WebResource("https://bing.com/my/path", "POST");
+    request.tracingContext = setSpan(context.active(), ROOT_SPAN).setValue(
+      Symbol.for("az.namespace"),
+      "test"
+    );
+
+    const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
+    await policy.sendRequest(request);
+    assert.lengthOf(mockTracer.getStartedSpans(), 1);
+    const span = mockTracer.getStartedSpans()[0];
+    assert.equal(span.getName(), "HTTPS POST");
+    assert.equal(span.getAttribute("az.namespace"), "test");
+    assert.equal(span.getAttribute("http.method"), "POST");
+    assert.equal(span.getAttribute("http.url"), request.url);
+    assert.equal(span.getAttribute("requestId"), request.requestId);
+    assert.equal(span.getAttribute("http.status_code"), mockRequestStatusCode);
+  });
+
   it("will create a span and correctly set trace headers if tracingContext is available", async () => {
     const mockTraceId = "11111111111111111111111111111111";
     const mockSpanId = "2222222222222222";
@@ -224,7 +249,6 @@ describe("tracingPolicy", function () {
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
     assert.isTrue(span.didEnd());
-    assert.equal("HTTPS POST", span.getName());
 
     const expectedFlag = "01";
 

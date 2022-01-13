@@ -12,7 +12,6 @@ import {
 } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure/test-utils";
-import { URLBuilder } from "@azure/core-http";
 import {
   ContainerClient,
   BlockBlobTier,
@@ -764,7 +763,6 @@ describe("ContainerClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
-    const urlPath = URLBuilder.parse(blockBlobClient.url).getPath() || "";
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -777,7 +775,7 @@ describe("ContainerClient", () => {
                   name: "Azure.Storage.Blob.BlockBlobClient-upload",
                   children: [
                     {
-                      name: urlPath,
+                      name: "HTTPS PUT",
                       children: [],
                     },
                   ],
