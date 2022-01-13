@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { TestSpan } from "./testSpan";
 import {
-  Context as OTContext,
   SpanContext,
+  SpanKind,
   SpanOptions,
   TraceFlags,
+  Context,
+  context,
   Tracer,
-  getSpanContext,
-  context as otContext,
-} from "../../src/interfaces";
-import { TestSpan } from "./testSpan";
+  trace,
+} from "@opentelemetry/api";
 
 /**
  * Simple representation of a Span that only has name and child relationships.
@@ -124,8 +125,8 @@ export class TestTracer implements Tracer {
    * @param name - The name of the span.
    * @param options - The SpanOptions used during Span creation.
    */
-  startSpan(name: string, options?: SpanOptions, context?: OTContext): TestSpan {
-    const parentContext = getSpanContext(context || otContext.active());
+  startSpan(name: string, options?: SpanOptions, currentContext?: Context): TestSpan {
+    const parentContext = trace.getSpanContext(currentContext || context.active());
 
     let traceId: string;
     let isRootSpan = false;
@@ -142,7 +143,16 @@ export class TestTracer implements Tracer {
       spanId: this.getNextSpanId(),
       traceFlags: TraceFlags.NONE,
     };
-    const span = new TestSpan(this, name, spanContext, parentContext?.spanId, options);
+    const span = new TestSpan(
+      this,
+      name,
+      spanContext,
+      options?.kind || SpanKind.INTERNAL,
+      parentContext ? parentContext.spanId : undefined,
+      options?.startTime,
+      options?.attributes,
+      options?.links
+    );
     this.knownSpans.push(span);
     if (isRootSpan) {
       this.rootSpans.push(span);
