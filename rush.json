@@ -1280,6 +1280,21 @@
       "packageName": "@azure/arm-devspaces",
       "projectFolder": "sdk/devspaces/arm-devspaces",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-domainservices",
+      "projectFolder": "sdk/domainservices/arm-domainservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-frontdoor",
+      "projectFolder": "sdk/frontdoor/arm-frontdoor",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-healthbot",
+      "projectFolder": "sdk/healthbot/arm-healthbot",
+      "versionPolicyName": "management"
     }
   ]
 }
