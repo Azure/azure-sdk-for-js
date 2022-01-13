@@ -126,7 +126,7 @@ await recorder.start({
 
 Under the hood, this is powered by the Unified Recorder's sanitizer functionality.
 
-**⚠️Important:** To access environment variables, you must use the `env` export made available from the **new** recorder. This ensures that environment variables are sourced from the correct location (using `process.env` and `dotenv` in Node, and using `window.__env__` via Mocha in the browser), and also means that the environment variables set in `envSetupForPlayback` are used in playback mode.
+**⚠️Important:** To access environment variables, you must use the `env` export made available from the **new** recorder. This ensures that environment variables are sourced from the correct location (using `process.env` and `dotenv` in Node, and using `window.__env__` via karma in the browser), and also means that the environment variables set in `envSetupForPlayback` are used in playback mode.
 
 ## Recorder variables
 
