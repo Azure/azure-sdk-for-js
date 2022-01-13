@@ -88,7 +88,7 @@ export class MockSpan implements Span {
     return this;
   }
 
-  getName() {
+  getName(): string {
     return this.name;
   }
 
