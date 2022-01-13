@@ -80,6 +80,7 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
 
     // Passing spanOptions as part of tracingOptions to maintain compatibility @azure/core-tracing@preview.13 and earlier.
     // We can pass this as a separate parameter once we upgrade to the latest core-tracing.
+    // As per spec, we do not need to differentiate between HTTP and HTTPS in span name.
     const { span } = createSpan(`HTTP ${request.method}`, {
       tracingOptions: { ...request.tracingOptions, spanOptions: createSpanOptions },
     });
