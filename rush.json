@@ -1250,6 +1250,21 @@
       "packageName": "@azure/arm-customerinsights",
       "projectFolder": "sdk/customer-insights/arm-customerinsights",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databoxedge",
+      "projectFolder": "sdk/databoxedge/arm-databoxedge",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datadog",
+      "projectFolder": "sdk/datadog/arm-datadog",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-deviceprovisioningservices",
+      "projectFolder": "sdk/deviceprovisioningservices/arm-deviceprovisioningservices",
+      "versionPolicyName": "management"
     }
   ]
 }
