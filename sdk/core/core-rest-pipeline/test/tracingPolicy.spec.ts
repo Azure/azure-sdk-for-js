@@ -237,7 +237,7 @@ describe("tracingPolicy", function () {
 
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
-    assert.equal(span.getName(), "HTTPS POST");
+    assert.equal(span.getName(), "HTTP POST");
     assert.equal(span.getAttribute("az.namespace"), "test");
     assert.equal(span.getAttribute("http.method"), "POST");
     assert.equal(span.getAttribute("http.url"), request.url);
@@ -350,7 +350,6 @@ describe("tracingPolicy", function () {
     assert.lengthOf(mockTracer.getStartedSpans(), 1);
     const span = mockTracer.getStartedSpans()[0];
     assert.isTrue(span.didEnd());
-    assert.equal(span.getName(), "HTTPS PUT");
     assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
 
     const expectedFlag = "01";

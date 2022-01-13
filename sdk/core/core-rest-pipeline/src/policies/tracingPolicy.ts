@@ -12,7 +12,6 @@ import {
 import { SpanKind } from "@azure/core-tracing";
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { URL } from "../util/url";
 import { getUserAgentValue } from "../util/userAgent";
 import { logger } from "../log";
 
@@ -79,13 +78,9 @@ function tryCreateSpan(request: PipelineRequest, userAgent?: string): Span | und
       kind: SpanKind.CLIENT,
     };
 
-    const url = new URL(request.url);
-    // "https:" => "HTTPS"
-    const protocol = url.protocol.substr(0, url.protocol.length - 1).toUpperCase();
-
     // Passing spanOptions as part of tracingOptions to maintain compatibility @azure/core-tracing@preview.13 and earlier.
     // We can pass this as a separate parameter once we upgrade to the latest core-tracing.
-    const { span } = createSpan(`${protocol} ${request.method}`, {
+    const { span } = createSpan(`HTTP ${request.method}`, {
       tracingOptions: { ...request.tracingOptions, spanOptions: createSpanOptions },
     });
 
