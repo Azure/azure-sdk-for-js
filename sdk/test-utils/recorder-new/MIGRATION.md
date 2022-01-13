@@ -4,7 +4,7 @@ This document outlines key differences between the legacy recorder and the new U
 
 ## Prerequisites
 
-- [Docker] is required, as the [test proxy server] is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient. 
+- [Docker] is required, as the [test proxy server] is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
 
 ## Installing the Unified Recorder
 
@@ -22,10 +22,17 @@ For the unified recorder client library to work, the [test proxy server] must be
 
 Update your test scripts based on the following examples:
 
-| Script              | Before migration                                                                                                                                                                         | After migration                                                                                                               |
-| :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
-| `unit-test:browser` | `karma start --single-run`                                                                                                                                                               | `dev-tool run test:browser`                                                                                                   |
-| `unit-test:node`    | `mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"` | `dev-tool run test:node-ts-input -- --timeout 1200000 --full-trace --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'` |
+| Script                     | Before migration                                                                                                                                                                              | After migration                                                                                                               |
+| :------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| `unit-test:browser`        | `karma start --single-run`                                                                                                                                                                    | `dev-tool run test:browser`                                                                                                   |
+| `unit-test:node`           | `mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"`      | `dev-tool run test:node-ts-input -- --timeout 1200000 --full-trace --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'` |
+| `integration-test:browser` | `karma start --single-run`                                                                                                                                                                    | `dev-tool run test:browser`                                                                                                   |
+| `integration-test:node`    | `nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"` | `dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'`                                           |
+
+Note the difference between the dev-tool `node-ts-input` and `node-js-input` commands:
+
+- `node-ts-input` runs the tests using `ts-node`, without code coverage.
+- `node-js-input` runs the tests using the built JavaScript output, and generates coverage reporting using `nyc`.
 
 ## Initializing the recorder
 
@@ -42,7 +49,7 @@ let recorder: Recorder;
  * Note the use of function() instead of the arrow syntax. We need access to `this` so we
  * can pass test information from Mocha to the recorder.
  */
-beforeEach(function(this: Context) {
+beforeEach(function (this: Context) {
   recorder = new Recorder(this.currentTest);
 });
 ```
@@ -66,7 +73,7 @@ let recorder: Recorder;
  * Note the use of function() instead of the arrow syntax. We need access to `this` so we
  * can pass test information from Mocha to the recorder.
  */
-beforeEach(function(this: Context) {
+beforeEach(function (this: Context) {
   recorder = new Recorder(this.currentTest);
 });
 ```
@@ -90,7 +97,7 @@ The way that the recorder is started and stopped has changed slightly. At the be
 await recorder.start({
   envSetupForPlayback: {
     // Your environment variables (equivalent to the old recorder's replaceableVariables option). See the section on environment variables below for detail
-  }
+  },
   // Other options, e.g. sanitizers (which replace the customizationsOnRecordings option)
 });
 ```
@@ -112,8 +119,8 @@ The Unified Recorder client provides this functionality through the use of the `
 ```ts
 await recorder.start({
   envSetupForPlayback: {
-    TABLES_SAS_CONNECTION_STRING: "fakeConnectionString"
-  }
+    TABLES_SAS_CONNECTION_STRING: "fakeConnectionString",
+  },
 });
 ```
 
@@ -148,10 +155,10 @@ await recorder.addSanitizers({
   generalRegexSanitizers: [
     {
       regex: "find", // This should be a .NET regular expression as it is passed to the .NET proxy tool
-      value: "replace"
-    }
+      value: "replace",
+    },
     // add additional sanitizers here as required
-  ]
+  ],
 });
 ```
 
@@ -179,8 +186,8 @@ recorder.addSanitizers({
 ```ts
 recorder.addSanitizers({
   removeHeaderSanitizer: {
-    headersForRemoval: ["Header1", "Header2" /* ... */]
-  }
+    headersForRemoval: ["Header1", "Header2" /* ... */],
+  },
 });
 ```
 
@@ -218,14 +225,14 @@ process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 And then, again in `karma.conf.js`, add the variable to the list of environment variables:
 
 ```ts
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     /* ... */
 
     envPreprocessor: [
       ,
-      /* ... */ "RECORDINGS_RELATIVE_PATH" // Add this!
-    ]
+      /* ... */ "RECORDINGS_RELATIVE_PATH", // Add this!
+    ],
 
     /* ... */
   });
