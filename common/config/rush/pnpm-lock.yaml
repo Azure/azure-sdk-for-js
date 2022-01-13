@@ -63,6 +63,7 @@ specifiers:
   '@rush-temp/arm-mysql': file:./projects/arm-mysql.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
+  '@rush-temp/arm-oep': file:./projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
   '@rush-temp/arm-operations': file:./projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:./projects/arm-orbital.tgz
@@ -254,6 +255,7 @@ dependencies:
   '@rush-temp/arm-mysql': file:projects/arm-mysql.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
+  '@rush-temp/arm-oep': file:projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
   '@rush-temp/arm-operations': file:projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:projects/arm-orbital.tgz
@@ -9099,6 +9101,27 @@ packages:
   file:projects/arm-notificationhubs.tgz:
     resolution: {integrity: sha512-RhRLMGhot8TQiopddA9dI4GHyIbwzQ9GImrji0Pe+R9PJRLXtsZyhZ62m9ZxSEk4VR8G25QUxBNsHXV2d2H6EQ==, tarball: file:projects/arm-notificationhubs.tgz}
     name: '@rush-temp/arm-notificationhubs'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
+  file:projects/arm-oep.tgz:
+    resolution: {integrity: sha512-njAvwJw2q+zQaLmVOfkEDSp3xIxnooAwO0RY/TSR69xHFSH+rMeR0GDQlTw0sM9UwrCgHiCtLjXcfxTyOvBRlw==, tarball: file:projects/arm-oep.tgz}
+    name: '@rush-temp/arm-oep'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.19.2
