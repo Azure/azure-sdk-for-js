@@ -71,6 +71,7 @@
     "mocha": "^7.1.1",
     "rimraf": "^3.0.0",
     "rollup": "^2.60.2",
+    "rollup-plugin-polyfill-node": "^0.8.0",
     "rollup-plugin-sourcemaps": "^0.6.2",
     "rollup-plugin-visualizer": "^5.5.2"
   }

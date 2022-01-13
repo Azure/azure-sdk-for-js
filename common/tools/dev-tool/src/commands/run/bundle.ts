@@ -7,6 +7,7 @@ import nodeBuiltins from "builtin-modules";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
 import sourcemaps from "rollup-plugin-sourcemaps";
+import nodePolyfills from "rollup-plugin-polyfill-node";
 import json from "@rollup/plugin-json";
 import multiEntry from "@rollup/plugin-multi-entry";
 
@@ -52,7 +53,12 @@ export default leafCommand(commandInfo, async ({ production, "browser-test": bro
 
     const bundle = await rollup.rollup(baseConfig);
 
-    await bundle.write({ file: "dist/index.js", format: "cjs", sourcemap: true });
+    await bundle.write({
+      file: "dist/index.js",
+      format: "cjs",
+      sourcemap: true,
+      exports: "named",
+    });
 
     log.success("Created production CommonJS bundle.");
   }
@@ -70,6 +76,7 @@ export default leafCommand(commandInfo, async ({ production, "browser-test": bro
           mainFields: ["module", "browser"],
           preferBuiltins: false,
         }),
+        nodePolyfills(),
         cjs({
           dynamicRequireTargets: ["**/*/node_modules/**/chai@*/**/*"],
         }),
