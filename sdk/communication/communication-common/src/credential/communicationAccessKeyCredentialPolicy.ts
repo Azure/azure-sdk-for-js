@@ -11,7 +11,7 @@ import {
   RequestPolicyFactory,
   WebResourceLike,
   HttpOperationResponse,
-  BaseRequestPolicy,
+  BaseRequestPolicy
 } from "@azure/core-http";
 import { shaHash, shaHMAC } from "./cryptoUtils";
 
@@ -27,7 +27,7 @@ export const createCommunicationAccessKeyCredentialPolicy = (
   return {
     create: (nextpolicy: RequestPolicy, options: RequestPolicyOptionsLike) => {
       return new CommunicationAccessKeyCredentialPolicy(credential, nextpolicy, options);
-    },
+    }
   };
 };
 
