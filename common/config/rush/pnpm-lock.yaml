@@ -35,11 +35,18 @@ specifiers:
   '@rush-temp/arm-containerservice': file:./projects/arm-containerservice.tgz
   '@rush-temp/arm-cosmosdb': file:./projects/arm-cosmosdb.tgz
   '@rush-temp/arm-customerinsights': file:./projects/arm-customerinsights.tgz
+  '@rush-temp/arm-databox': file:./projects/arm-databox.tgz
+  '@rush-temp/arm-databoxedge': file:./projects/arm-databoxedge.tgz
   '@rush-temp/arm-databricks': file:./projects/arm-databricks.tgz
+  '@rush-temp/arm-datadog': file:./projects/arm-datadog.tgz
   '@rush-temp/arm-datafactory': file:./projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
+  '@rush-temp/arm-deviceprovisioningservices': file:./projects/arm-deviceprovisioningservices.tgz
+  '@rush-temp/arm-devspaces': file:./projects/arm-devspaces.tgz
   '@rush-temp/arm-devtestlabs': file:./projects/arm-devtestlabs.tgz
+  '@rush-temp/arm-digitaltwins': file:./projects/arm-digitaltwins.tgz
+  '@rush-temp/arm-dns': file:./projects/arm-dns.tgz
   '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
   '@rush-temp/arm-extendedlocation': file:./projects/arm-extendedlocation.tgz
@@ -222,11 +229,18 @@ dependencies:
   '@rush-temp/arm-containerservice': file:projects/arm-containerservice.tgz
   '@rush-temp/arm-cosmosdb': file:projects/arm-cosmosdb.tgz
   '@rush-temp/arm-customerinsights': file:projects/arm-customerinsights.tgz
+  '@rush-temp/arm-databox': file:projects/arm-databox.tgz
+  '@rush-temp/arm-databoxedge': file:projects/arm-databoxedge.tgz
   '@rush-temp/arm-databricks': file:projects/arm-databricks.tgz
+  '@rush-temp/arm-datadog': file:projects/arm-datadog.tgz
   '@rush-temp/arm-datafactory': file:projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
+  '@rush-temp/arm-deviceprovisioningservices': file:projects/arm-deviceprovisioningservices.tgz
+  '@rush-temp/arm-devspaces': file:projects/arm-devspaces.tgz
   '@rush-temp/arm-devtestlabs': file:projects/arm-devtestlabs.tgz
+  '@rush-temp/arm-digitaltwins': file:projects/arm-digitaltwins.tgz
+  '@rush-temp/arm-dns': file:projects/arm-dns.tgz
   '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
   '@rush-temp/arm-extendedlocation': file:projects/arm-extendedlocation.tgz
@@ -8621,9 +8635,81 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-databox.tgz:
+    resolution: {integrity: sha512-cmMTMEKWaaWwnOVZXW0N2+/8hBdEXC1DN2AUJGWiUJxyXPFdLGdC7EuQMmNM/P3EjU7FjcSwE9gI0JqgPoy/hw==, tarball: file:projects/arm-databox.tgz}
+    name: '@rush-temp/arm-databox'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-databoxedge.tgz:
+    resolution: {integrity: sha512-wKeWhvRYoBOG95syMuukjt4gtkRe7AaQq8YFZ1zAXpU+GsOpsfHXL9SmCNGde5RpFS8WHqkHoL8vJRK3rZtz5w==, tarball: file:projects/arm-databoxedge.tgz}
+    name: '@rush-temp/arm-databoxedge'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-databricks.tgz:
     resolution: {integrity: sha512-snjLp9Ddb90jQc5iuZaXMveg83D4YZfSmyBFR++XcPN6iRkmWy9BxrRqK0lNBBxOVsQbbzJrqhsZKQau31oQVA==, tarball: file:projects/arm-databricks.tgz}
     name: '@rush-temp/arm-databricks'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-datadog.tgz:
+    resolution: {integrity: sha512-ieKcaxZAw8yaT2wFKzLROyOruNTfQeN26BBkMHkz6JmZDGMYUdzI6dvTak/swksTZAr/prEb7pCaMNKUJ8ZcUA==, tarball: file:projects/arm-datadog.tgz}
+    name: '@rush-temp/arm-datadog'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -8717,9 +8803,105 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-deviceprovisioningservices.tgz:
+    resolution: {integrity: sha512-+wQoCPyQYPHr1E4+Z8wa4FeVfKfzHfeloGUgEOA8IuMt7rp1mpuJGjANjBO0Z4wCj/cAE3aFqF7Xjla6Qyk11Q==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
+    name: '@rush-temp/arm-deviceprovisioningservices'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-devspaces.tgz:
+    resolution: {integrity: sha512-GtCH6Bb15WWmRXSikxmPsofE7ENC8RkOOrf9Pu9c1XCZaA7k947rm9DNS1YtoOAtJArHnqIBKXl5itWjU8o4pw==, tarball: file:projects/arm-devspaces.tgz}
+    name: '@rush-temp/arm-devspaces'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-devtestlabs.tgz:
     resolution: {integrity: sha512-zBD3l8QW1DATs5C3pTZ6LS4GTRhxyXWe3w+WWj+hyTKPmwvEl1N9eYyuHNBXKITphpDtGlboeMhqqhtefwQJ4g==, tarball: file:projects/arm-devtestlabs.tgz}
     name: '@rush-temp/arm-devtestlabs'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-digitaltwins.tgz:
+    resolution: {integrity: sha512-IHsV4MSiLCv6vtX9ctvcD++6W94Tux0LMCV2IR8vbeAYJqcSX60gsFbwWgjmNvfY98CMBdy15am2TGXKwQe7YQ==, tarball: file:projects/arm-digitaltwins.tgz}
+    name: '@rush-temp/arm-digitaltwins'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-dns.tgz:
+    resolution: {integrity: sha512-QaiOCA+H8lihU2t1iOctNFHnflpR68xMyjg4qNq1RnSurk7LM+KYAbPNvBbBbm28XoDe2Mpy+/PGFh1fEl4Nqg==, tarball: file:projects/arm-dns.tgz}
+    name: '@rush-temp/arm-dns'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -13763,7 +13945,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-hyhTSwuHkPE4ewaRniaFnE3v7xduYSH8f9iY7T3d36CKNdEaBr0yxng8nGIFvYxdeFx8VoNF7kxDbIVk/bS2Wg==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-vgdKX2IsLra7Eg/LXwD+aZgicnNL5Nyx7/JEUE+1XP9cmzqtjcPgDQQENdT80Zu0T7VnOeElTvtKfF3rzCxmvA==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
