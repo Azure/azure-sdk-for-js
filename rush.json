@@ -1265,6 +1265,11 @@
       "packageName": "@azure/arm-deviceprovisioningservices",
       "projectFolder": "sdk/deviceprovisioningservices/arm-deviceprovisioningservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databox",
+      "projectFolder": "sdk/databox/arm-databox",
+      "versionPolicyName": "management"
     }
   ]
 }

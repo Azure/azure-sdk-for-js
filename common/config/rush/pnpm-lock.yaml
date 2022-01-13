@@ -35,6 +35,7 @@ specifiers:
   '@rush-temp/arm-containerservice': file:./projects/arm-containerservice.tgz
   '@rush-temp/arm-cosmosdb': file:./projects/arm-cosmosdb.tgz
   '@rush-temp/arm-customerinsights': file:./projects/arm-customerinsights.tgz
+  '@rush-temp/arm-databox': file:./projects/arm-databox.tgz
   '@rush-temp/arm-databoxedge': file:./projects/arm-databoxedge.tgz
   '@rush-temp/arm-databricks': file:./projects/arm-databricks.tgz
   '@rush-temp/arm-datadog': file:./projects/arm-datadog.tgz
@@ -226,6 +227,7 @@ dependencies:
   '@rush-temp/arm-containerservice': file:projects/arm-containerservice.tgz
   '@rush-temp/arm-cosmosdb': file:projects/arm-cosmosdb.tgz
   '@rush-temp/arm-customerinsights': file:projects/arm-customerinsights.tgz
+  '@rush-temp/arm-databox': file:projects/arm-databox.tgz
   '@rush-temp/arm-databoxedge': file:projects/arm-databoxedge.tgz
   '@rush-temp/arm-databricks': file:projects/arm-databricks.tgz
   '@rush-temp/arm-datadog': file:projects/arm-datadog.tgz
@@ -8513,6 +8515,27 @@ packages:
   file:projects/arm-customerinsights.tgz:
     resolution: {integrity: sha512-p8OzTTR9ytYAZ14JFlPSrtMeKAi7VwkcKnpSRrDtU5Aw3FVtjJWx9fYVye/jCgAdSWWc+T/Z2KUZhI0bSSzvfQ==, tarball: file:projects/arm-customerinsights.tgz}
     name: '@rush-temp/arm-customerinsights'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
+  file:projects/arm-databox.tgz:
+    resolution: {integrity: sha512-47bAdlP3IA+sZDyX6lHa/mJPm33/LT8PLcByf5TzJa2XS5zq7+vK+rAcVarOiy1h20saKmAK0/2uDFPxwRemHw==, tarball: file:projects/arm-databox.tgz}
+    name: '@rush-temp/arm-databox'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.19.2
