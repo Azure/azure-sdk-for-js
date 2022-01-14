@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanStatusCode } from "@opentelemetry/api";
-import { assert } from "chai";
 import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper";
+import { SpanStatusCode } from "@opentelemetry/api";
 import { TestSpan } from "./util/testSpan";
 import { TestTracer } from "./util/testTracer";
+import { assert } from "chai";
 
 describe("OpenTelemetrySpanWrapper", () => {
   let otSpan: TestSpan;

@@ -5,12 +5,12 @@ import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter";
 import { SpanKind, context, trace } from "@opentelemetry/api";
 import { TracingSpan, TracingSpanKind } from "@azure/core-tracing";
 import { resetTracer, setTracer } from "./util/testTracerProvider";
-import sinon from "sinon";
-import { assert } from "chai";
-import { TestSpan } from "./util/testSpan";
-import { TestTracer } from "./util/testTracer";
 import { Context } from "mocha";
 import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper";
+import { TestSpan } from "./util/testSpan";
+import { TestTracer } from "./util/testTracer";
+import { assert } from "chai";
+import sinon from "sinon";
 
 function unwrap(span: TracingSpan): TestSpan {
   return (span as OpenTelemetrySpanWrapper).unwrap() as TestSpan;
