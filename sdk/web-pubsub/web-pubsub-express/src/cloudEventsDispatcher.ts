@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HTTP, CloudEvent } from "cloudevents";
+import { CloudEvent } from "cloudevents";
 import { IncomingMessage, ServerResponse } from "http";
 import { URL } from "url";
 import { logger } from "./logger";
@@ -232,9 +232,7 @@ export class CloudEventsDispatcher {
         return false;
     }
 
-    const eventRequest = await utils.convertHttpToEvent(request);
-    const receivedEvent = HTTP.toEvent(eventRequest);
-
+    const receivedEvent = await utils.convertHttpToEvent(request);
     logger.verbose(receivedEvent);
 
     switch (eventType) {
@@ -275,9 +273,7 @@ export class CloudEventsDispatcher {
           userRequest = {
             context: getContext(receivedEvent, origin),
             data: receivedEvent.data as string,
-            dataType: receivedEvent.datacontenttype?.startsWith("application/json;")
-              ? "json"
-              : "text",
+            dataType: utils.isJsonData(receivedEvent) ? "json" : "text",
           };
         } else {
           throw new Error("Unexpected data.");
