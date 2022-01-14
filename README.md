@@ -7,7 +7,7 @@ This repository is for the Azure SDK for JavaScript (Node.js & Browser). It cont
 ## Getting started
 
 A few helpful resources to get started are:
-s
+ss
 - The rseadme for each package contains code samples and package information. This readme can be found in the corresponding package folder under the folder of the service of your choice in the `/sdk` folder of this repository. The same readme file can be found on the landing page for the package in [npm](https://www.npmjs.com/).
 - The API reference documentation of the latest versions of these packages, can be found at our [public developer docs](https://docs.microsoft.com/javascript/azure/).
 - The API reference documentation of older versions, can be found in our [versioned developer docs](https://azure.github.io/azure-sdk-for-js).
