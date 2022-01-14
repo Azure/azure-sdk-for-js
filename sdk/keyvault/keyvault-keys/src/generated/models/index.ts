@@ -50,6 +50,8 @@ export interface Attributes {
 export interface KeyReleasePolicy {
   /** Content type and version of key release policy */
   contentType?: string;
+  /** Defines the mutability state of the policy. Once marked immutable, this flag cannot be reset and the policy cannot be changed under any circumstances. */
+  immutable?: boolean;
   /** Blob encoding the policy rules under which the key can be released. */
   encodedPolicy?: Uint8Array;
 }
@@ -260,20 +262,10 @@ export interface KeyVerifyResult {
   readonly value?: boolean;
 }
 
-/** The export key parameters. */
-export interface KeyExportParameters {
-  /** The export key encryption Json web key. This key MUST be a RSA key that supports encryption. */
-  wrappingKey?: JsonWebKey;
-  /** The export key encryption key identifier. This key MUST be a RSA key that supports encryption. */
-  wrappingKid?: string;
-  /** The encryption algorithm to use to protected the exported key material */
-  enc?: KeyEncryptionAlgorithm;
-}
-
 /** The release key parameters. */
 export interface KeyReleaseParameters {
   /** The attestation assertion for the target of the key release. */
-  target: string;
+  targetAttestationToken: string;
   /** A client provided nonce for freshness. */
   nonce?: string;
   /** The encryption algorithm to use to protected the exported key material */
@@ -326,9 +318,9 @@ export interface LifetimeActions {
 
 /** A condition to be satisfied for an action to be executed. */
 export interface LifetimeActionsTrigger {
-  /** Time after creation to attempt rotate. It will be in ISO 8601 format. Example: 90 days : "P90D" */
+  /** Time after creation to attempt to rotate. It only applies to rotate. It will be in ISO 8601 duration format. Example: 90 days : "P90D" */
   timeAfterCreate?: string;
-  /** Time before expiry to attempt rotate. It will be in ISO 8601 format. Example: 90 days : "P90D" */
+  /** Time before expiry to attempt to rotate or notify. It will be in ISO 8601 duration format. Example: 90 days : "P90D" */
   timeBeforeExpiry?: string;
 }
 
@@ -363,7 +355,7 @@ export interface GetRandomBytesRequest {
 /** The get random bytes response object containing the bytes. */
 export interface RandomBytes {
   /** The bytes encoded as a base64url string. */
-  value?: Uint8Array;
+  value: Uint8Array;
 }
 
 /** Properties of the key pair backing a certificate. */
@@ -378,6 +370,16 @@ export interface KeyProperties {
   reuseKey?: boolean;
   /** Elliptic curve name. For valid values, see JsonWebKeyCurveName. */
   curve?: JsonWebKeyCurveName;
+}
+
+/** The export key parameters. */
+export interface KeyExportParameters {
+  /** The export key encryption Json web key. This key MUST be a RSA key that supports encryption. */
+  wrappingKey?: JsonWebKey;
+  /** The export key encryption key identifier. This key MUST be a RSA key that supports encryption. */
+  wrappingKid?: string;
+  /** The encryption algorithm to use to protected the exported key material */
+  enc?: KeyEncryptionAlgorithm;
 }
 
 /** The attributes of a key managed by the key vault service. */
@@ -1000,29 +1002,6 @@ export type KeyVaultClientUnwrapKeyResponse = KeyOperationResult & {
 
     /** The response body as parsed JSON or XML */
     parsedBody: KeyOperationResult;
-  };
-};
-
-/** Optional parameters. */
-export interface KeyVaultClientExportOptionalParams
-  extends coreHttp.OperationOptions {
-  /** The export key encryption Json web key. This key MUST be a RSA key that supports encryption. */
-  wrappingKey?: JsonWebKey;
-  /** The export key encryption key identifier. This key MUST be a RSA key that supports encryption. */
-  wrappingKid?: string;
-  /** The encryption algorithm to use to protected the exported key material */
-  enc?: KeyEncryptionAlgorithm;
-}
-
-/** Contains response data for the export operation. */
-export type KeyVaultClientExportResponse = KeyBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: KeyBundle;
   };
 };
 

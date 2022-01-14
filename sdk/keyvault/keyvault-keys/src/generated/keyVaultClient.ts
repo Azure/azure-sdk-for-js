@@ -49,8 +49,6 @@ import {
   KeyVaultClientWrapKeyResponse,
   KeyVaultClientUnwrapKeyOptionalParams,
   KeyVaultClientUnwrapKeyResponse,
-  KeyVaultClientExportOptionalParams,
-  KeyVaultClientExportResponse,
   KeyVaultClientReleaseOptionalParams,
   KeyVaultClientReleaseResponse,
   KeyVaultClientGetDeletedKeysOptionalParams,
@@ -567,52 +565,26 @@ export class KeyVaultClient extends KeyVaultClientContext {
   }
 
   /**
-   * The export key operation is applicable to all key types. The target key must be marked exportable.
-   * This operation requires the keys/export permission.
-   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param keyName The name of the key to get.
-   * @param keyVersion Adding the version parameter retrieves a specific version of a key.
-   * @param options The options parameters.
-   */
-  export(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    options?: KeyVaultClientExportOptionalParams
-  ): Promise<KeyVaultClientExportResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      keyName,
-      keyVersion,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.sendOperationRequest(
-      operationArguments,
-      exportOperationSpec
-    ) as Promise<KeyVaultClientExportResponse>;
-  }
-
-  /**
    * The release key operation is applicable to all key types. The target key must be marked exportable.
    * This operation requires the keys/release permission.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key to get.
    * @param keyVersion Adding the version parameter retrieves a specific version of a key.
-   * @param target The attestation assertion for the target of the key release.
+   * @param targetAttestationToken The attestation assertion for the target of the key release.
    * @param options The options parameters.
    */
   release(
     vaultBaseUrl: string,
     keyName: string,
     keyVersion: string,
-    target: string,
+    targetAttestationToken: string,
     options?: KeyVaultClientReleaseOptionalParams
   ): Promise<KeyVaultClientReleaseResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       vaultBaseUrl,
       keyName,
       keyVersion,
-      target,
+      targetAttestationToken,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.sendOperationRequest(
@@ -1246,35 +1218,6 @@ const unwrapKeyOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const exportOperationSpec: coreHttp.OperationSpec = {
-  path: "/keys/{key-name}/{key-version}/export",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.KeyBundle
-    },
-    default: {
-      bodyMapper: Mappers.KeyVaultError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      wrappingKey: ["options", "wrappingKey"],
-      wrappingKid: ["options", "wrappingKid"],
-      enc: ["options", "enc"]
-    },
-    mapper: { ...Mappers.KeyExportParameters, required: true }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.vaultBaseUrl,
-    Parameters.keyName1,
-    Parameters.keyVersion
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
 const releaseOperationSpec: coreHttp.OperationSpec = {
   path: "/keys/{key-name}/{key-version}/release",
   httpMethod: "POST",
@@ -1288,7 +1231,7 @@ const releaseOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: {
     parameterPath: {
-      target: ["target"],
+      targetAttestationToken: ["targetAttestationToken"],
       nonce: ["options", "nonce"],
       enc: ["options", "enc"]
     },
