@@ -171,6 +171,10 @@ export class IdentityTestContext implements IdentityTestContextInterface {
       const fakeRequest = (options: string | URL | http.RequestOptions, resolve: any) => {
         totalOptions.push(options as http.RequestOptions);
 
+        if (!responses.length) {
+          throw new Error("No responses left.");
+        }
+
         const { response, error } = responses.shift()!;
         if (error) {
           throw error;
