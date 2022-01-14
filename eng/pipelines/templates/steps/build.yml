@@ -93,6 +93,11 @@ steps:
       eng/scripts/stage-api-review-file.ps1 -PackageInfoPath $(Build.ArtifactStagingDirectory)/PackageInfo -StagingDirectory $(Build.ArtifactStagingDirectory)
     displayName: 'Copy API extracted files'
 
+  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'packages'
+
   - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
     displayName: 'Upload Package SBOM'
     inputs:
@@ -100,8 +105,8 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
     parameters:
-      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'packages'
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)/_manifest'
+      ArtifactName: 'manifest'
 
   - template: /eng/common/pipelines/templates/steps/create-apireview.yml
     parameters:

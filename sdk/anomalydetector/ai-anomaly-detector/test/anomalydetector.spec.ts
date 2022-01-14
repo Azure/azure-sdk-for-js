@@ -45,6 +45,7 @@ describe("AnomalyDetectorClient", () => {
       period: 12,
       suggestedWindow: 49,
       upperMargin: 40.47829008465612,
+      severity: 0,
     };
 
     const result = await client.detectLastPoint(testPointSeries1);

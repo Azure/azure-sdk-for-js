@@ -607,6 +607,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/opentelemetry-instrumentation-azure-sdk",
+      "projectFolder": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/schema-registry",
       "projectFolder": "sdk/schemaregistry/schema-registry",
       "versionPolicyName": "client"
@@ -1269,6 +1274,41 @@
     {
       "packageName": "@azure/arm-synapse",
       "projectFolder": "sdk/synapse/arm-synapse",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databox",
+      "projectFolder": "sdk/databox/arm-databox",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dns",
+      "projectFolder": "sdk/dns/arm-dns",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-digitaltwins",
+      "projectFolder": "sdk/digitaltwins/arm-digitaltwins",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devspaces",
+      "projectFolder": "sdk/devspaces/arm-devspaces",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-domainservices",
+      "projectFolder": "sdk/domainservices/arm-domainservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-frontdoor",
+      "projectFolder": "sdk/frontdoor/arm-frontdoor",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-healthbot",
+      "projectFolder": "sdk/healthbot/arm-healthbot",
       "versionPolicyName": "management"
     }
   ]

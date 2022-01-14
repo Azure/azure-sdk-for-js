@@ -2,23 +2,21 @@
 
 ## 3.15.1 (Unreleased)
 
-### Features Added
-
-### Breaking Changes
-
 ### Bugs Fixed
 
-### Other Changes
+- Fixed the paths mapped by the `browser` entry in `package.json` to be correct for the package's new output structure. This solves errors with bundling the package for browsers.
 
 ## 3.15.0 (2021-11-22)
 
 ### Features Added
+
 - _GA_ Adds `container.item(itemId).patch()`. `patch()` is an alternative to `replace()` for item updates. https://github.com/Azure/azure-sdk-for-js/pull/16264/files#diff-7caca690c469e2025576523c0377ac71815f001024fde7c48b20cd24adaa6977R561
 - _GA_ support for Bulk operation PATCH.
 - _GA_ support for Batch operation PATCH.
--  Added the `SasTokenProperties` type and a `createAuthorizationSasToken` function to enable scoped access to Cosmos resources with SAS tokens. For an example that demonstrates creating a SAS token and using it to authenticate a `CosmosClient`, see [the `SasTokenAuth` sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/SasTokenAuth.ts).
+- Added the `SasTokenProperties` type and a `createAuthorizationSasToken` function to enable scoped access to Cosmos resources with SAS tokens. For an example that demonstrates creating a SAS token and using it to authenticate a `CosmosClient`, see [the `SasTokenAuth` sample](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v3/typescript/src/SasTokenAuth.ts).
 
 ### Other Changes
+
 - Made several changes to the sample programs to improve code quality and compatibility with Node 12, and upgraded the sample programs' dependencies.
 
 ## 3.14.1 (2021-09-02)
