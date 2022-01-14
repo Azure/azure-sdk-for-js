@@ -301,6 +301,7 @@ export interface KeyProperties {
 export interface KeyReleasePolicy {
     contentType?: string;
     encodedPolicy?: Uint8Array;
+    immutable?: boolean;
 }
 
 // @public

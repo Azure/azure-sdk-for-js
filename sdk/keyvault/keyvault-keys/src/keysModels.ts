@@ -287,6 +287,9 @@ export interface KeyReleasePolicy {
 
   /** Blob encoding the policy rules under which the key can be released. */
   encodedPolicy?: Uint8Array;
+
+  /** Marks a release policy as immutable. An immutable release policy cannot be changed or updated after marked immutable. */
+  immutable?: boolean;
 }
 
 /**
