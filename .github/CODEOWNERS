@@ -69,6 +69,9 @@
 # PRLabel: %KeyVault
 /sdk/keyvault/ @maorleger @sadasant 
 
+# PRLabel: %OpenTelemetryInstrumentation
+/sdk/instrumentation/ @maorleger
+
 # PRLabel: %Service Bus
 /sdk/servicebus/ @deyaaeldeen @jeremymeng @HarshaNalluru @ramya-rao-a @richardpark-msft 
 
