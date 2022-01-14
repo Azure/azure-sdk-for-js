@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 export {
-  SchemaRegistryAvroSerializer,
-  SchemaRegistryAvroSerializerOptions,
-} from "./schemaRegistryAvroSerializer";
+  SchemaRegistryAvroEncoder,
+  SchemaRegistryAvroEncoderOptions,
+} from "./schemaRegistryAvroEncoder";
+
+export * from "./models";
+export * from "./message";

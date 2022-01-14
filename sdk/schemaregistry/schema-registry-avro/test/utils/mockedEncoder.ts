@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import { SchemaRegistry } from "@azure/schema-registry";
-import { SchemaRegistryAvroSerializer } from "../../src/schemaRegistryAvroSerializer";
+import { SchemaRegistryAvroEncoder } from "../../src/schemaRegistryAvroEncoder";
 import { testGroup, testSchema, testSchemaObject } from "./dummies";
 import { createTestRegistry } from "./mockedRegistryClient";
 
-export async function createTestSerializer(
+export async function createTestEncoder(
   autoRegisterSchemas = true,
   registry = createTestRegistry()
-): Promise<SchemaRegistryAvroSerializer> {
+): Promise<SchemaRegistryAvroEncoder> {
   if (!autoRegisterSchemas) {
     await registerTestSchema(registry);
   }
-  return new SchemaRegistryAvroSerializer(registry, { autoRegisterSchemas, groupName: testGroup });
+  return new SchemaRegistryAvroEncoder(registry, { autoRegisterSchemas, groupName: testGroup });
 }
 
 export async function registerTestSchema(registry: SchemaRegistry): Promise<string> {

@@ -4,19 +4,45 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
-export class SchemaRegistryAvroSerializer {
-    constructor(client: SchemaRegistry, options?: SchemaRegistryAvroSerializerOptions);
-    deserialize(input: Buffer | Blob | Uint8Array): Promise<unknown>;
-    serialize(value: unknown, schema: string): Promise<Uint8Array>;
+export interface DecodeMessageDataOptions<MessageT> {
+    messageConsumer?: MessageConsumer<MessageT>;
+    schema?: string;
 }
 
 // @public
-export interface SchemaRegistryAvroSerializerOptions {
+export interface EncodeMessageDataOptions<MessageT> {
+    messageFactory?: MessageFactory<MessageT>;
+}
+
+// @public
+export interface MessageConsumer<MessageT> {
+    getContentType: (message: MessageT) => string;
+    getPayload: (message: MessageT) => any;
+}
+
+// @public
+export interface MessageFactory<MessageT> {
+    createMessage: (binaryData: Uint8Array, contentType: string) => MessageT;
+}
+
+// @public
+export interface MessageWithMetadata {
+    body: Uint8Array;
+    contentType: string;
+}
+
+// @public
+export class SchemaRegistryAvroEncoder {
+    constructor(client: SchemaRegistry, options?: SchemaRegistryAvroEncoderOptions);
+    decodeMessageData<MessageT = MessageWithMetadata>(message: MessageT, options?: DecodeMessageDataOptions<MessageT>): Promise<unknown>;
+    encodeMessageData<MessageT = MessageWithMetadata>(value: unknown, schema: string, options?: EncodeMessageDataOptions<MessageT>): Promise<MessageT>;
+}
+
+// @public
+export interface SchemaRegistryAvroEncoderOptions {
     autoRegisterSchemas?: boolean;
     groupName?: string;
 }
