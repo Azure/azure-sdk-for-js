@@ -5,281 +5,286 @@ import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
 import { Deployment, Group, ImportUpdateInputItem, LogCollectionOperation } from "./models";
 
-export interface UpdatesImportUpdateBodyParam {
+export interface DeviceUpdateImportUpdateBodyParam {
   /** The update to be imported. */
   body: Array<ImportUpdateInputItem>;
 }
 
-export interface UpdatesImportUpdateQueryParamProperties {
+export interface DeviceUpdateImportUpdateQueryParamProperties {
   /** Import update action. */
   action: "import";
 }
 
-export interface UpdatesImportUpdateQueryParam {
-  queryParameters: UpdatesImportUpdateQueryParamProperties;
+export interface DeviceUpdateImportUpdateQueryParam {
+  queryParameters: DeviceUpdateImportUpdateQueryParamProperties;
 }
 
-export interface UpdatesImportUpdateMediaTypesParam {
+export interface DeviceUpdateImportUpdateMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type UpdatesImportUpdateParameters = UpdatesImportUpdateQueryParam &
-  UpdatesImportUpdateMediaTypesParam &
-  UpdatesImportUpdateBodyParam &
+export type DeviceUpdateImportUpdateParameters = DeviceUpdateImportUpdateQueryParam &
+  DeviceUpdateImportUpdateMediaTypesParam &
+  DeviceUpdateImportUpdateBodyParam &
   RequestParameters;
 
-export interface UpdatesListUpdatesQueryParamProperties {
+export interface DeviceUpdateListUpdatesQueryParamProperties {
   /** Request updates matching a free-text search expression. */
   $search?: string;
   /** Filter updates by its properties. */
   $filter?: string;
 }
 
-export interface UpdatesListUpdatesQueryParam {
-  queryParameters?: UpdatesListUpdatesQueryParamProperties;
+export interface DeviceUpdateListUpdatesQueryParam {
+  queryParameters?: DeviceUpdateListUpdatesQueryParamProperties;
 }
 
-export type UpdatesListUpdatesParameters = UpdatesListUpdatesQueryParam & RequestParameters;
+export type DeviceUpdateListUpdatesParameters = DeviceUpdateListUpdatesQueryParam &
+  RequestParameters;
 
-export interface UpdatesGetUpdateHeaders {
+export interface DeviceUpdateGetUpdateHeaders {
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   "If-None-Match"?: string;
 }
 
-export interface UpdatesGetUpdateHeaderParam {
-  headers: RawHttpHeadersInput & UpdatesGetUpdateHeaders;
+export interface DeviceUpdateGetUpdateHeaderParam {
+  headers: RawHttpHeadersInput & DeviceUpdateGetUpdateHeaders;
 }
 
-export type UpdatesGetUpdateParameters = UpdatesGetUpdateHeaderParam & RequestParameters;
-export type UpdatesDeleteUpdateParameters = RequestParameters;
-export type UpdatesListProvidersParameters = RequestParameters;
-export type UpdatesListNamesParameters = RequestParameters;
+export type DeviceUpdateGetUpdateParameters = DeviceUpdateGetUpdateHeaderParam & RequestParameters;
+export type DeviceUpdateDeleteUpdateParameters = RequestParameters;
+export type DeviceUpdateListProvidersParameters = RequestParameters;
+export type DeviceUpdateListNamesParameters = RequestParameters;
 
-export interface UpdatesListVersionsQueryParamProperties {
+export interface DeviceUpdateListVersionsQueryParamProperties {
   /** Filter updates by its properties. */
   $filter?: string;
 }
 
-export interface UpdatesListVersionsQueryParam {
-  queryParameters?: UpdatesListVersionsQueryParamProperties;
+export interface DeviceUpdateListVersionsQueryParam {
+  queryParameters?: DeviceUpdateListVersionsQueryParamProperties;
 }
 
-export type UpdatesListVersionsParameters = UpdatesListVersionsQueryParam & RequestParameters;
-export type UpdatesListFilesParameters = RequestParameters;
+export type DeviceUpdateListVersionsParameters = DeviceUpdateListVersionsQueryParam &
+  RequestParameters;
+export type DeviceUpdateListFilesParameters = RequestParameters;
 
-export interface UpdatesGetFileHeaders {
+export interface DeviceUpdateGetFileHeaders {
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   "If-None-Match"?: string;
 }
 
-export interface UpdatesGetFileHeaderParam {
-  headers: RawHttpHeadersInput & UpdatesGetFileHeaders;
+export interface DeviceUpdateGetFileHeaderParam {
+  headers: RawHttpHeadersInput & DeviceUpdateGetFileHeaders;
 }
 
-export type UpdatesGetFileParameters = UpdatesGetFileHeaderParam & RequestParameters;
+export type DeviceUpdateGetFileParameters = DeviceUpdateGetFileHeaderParam & RequestParameters;
 
-export interface UpdatesListOperationsQueryParamProperties {
+export interface DeviceUpdateListOperationsQueryParamProperties {
   /** Restricts the set of operations returned. Only one specific filter is supported: "status eq 'NotStarted' or status eq 'Running'" */
   $filter?: string;
   /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
   $top?: number;
 }
 
-export interface UpdatesListOperationsQueryParam {
-  queryParameters?: UpdatesListOperationsQueryParamProperties;
+export interface DeviceUpdateListOperationsQueryParam {
+  queryParameters?: DeviceUpdateListOperationsQueryParamProperties;
 }
 
-export type UpdatesListOperationsParameters = UpdatesListOperationsQueryParam & RequestParameters;
+export type DeviceUpdateListOperationsParameters = DeviceUpdateListOperationsQueryParam &
+  RequestParameters;
 
-export interface UpdatesGetOperationHeaders {
+export interface DeviceUpdateGetOperationHeaders {
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   "If-None-Match"?: string;
 }
 
-export interface UpdatesGetOperationHeaderParam {
-  headers: RawHttpHeadersInput & UpdatesGetOperationHeaders;
+export interface DeviceUpdateGetOperationHeaderParam {
+  headers: RawHttpHeadersInput & DeviceUpdateGetOperationHeaders;
 }
 
-export type UpdatesGetOperationParameters = UpdatesGetOperationHeaderParam & RequestParameters;
-export type ManagementListDeviceClassesParameters = RequestParameters;
-export type ManagementGetDeviceClassParameters = RequestParameters;
-export type ManagementListInstallableUpdatesForDeviceClassParameters = RequestParameters;
+export type DeviceUpdateGetOperationParameters = DeviceUpdateGetOperationHeaderParam &
+  RequestParameters;
+export type DeviceManagementListDeviceClassesParameters = RequestParameters;
+export type DeviceManagementGetDeviceClassParameters = RequestParameters;
+export type DeviceManagementListInstallableUpdatesForDeviceClassParameters = RequestParameters;
 
-export interface ManagementListDevicesQueryParamProperties {
+export interface DeviceManagementListDevicesQueryParamProperties {
   /** Restricts the set of devices returned. You can filter on device GroupId or DeviceClassId. */
   $filter?: string;
 }
 
-export interface ManagementListDevicesQueryParam {
-  queryParameters?: ManagementListDevicesQueryParamProperties;
+export interface DeviceManagementListDevicesQueryParam {
+  queryParameters?: DeviceManagementListDevicesQueryParamProperties;
 }
 
-export type ManagementListDevicesParameters = ManagementListDevicesQueryParam & RequestParameters;
+export type DeviceManagementListDevicesParameters = DeviceManagementListDevicesQueryParam &
+  RequestParameters;
 
-export interface ManagementImportDevicesBodyParam {
+export interface DeviceManagementImportDevicesBodyParam {
   /** The types of devices to import. */
   body: "Devices" | "Modules" | "All";
 }
 
-export interface ManagementImportDevicesQueryParamProperties {
+export interface DeviceManagementImportDevicesQueryParamProperties {
   /** Devices action. */
   action: "import";
 }
 
-export interface ManagementImportDevicesQueryParam {
-  queryParameters: ManagementImportDevicesQueryParamProperties;
+export interface DeviceManagementImportDevicesQueryParam {
+  queryParameters: DeviceManagementImportDevicesQueryParamProperties;
 }
 
-export interface ManagementImportDevicesMediaTypesParam {
+export interface DeviceManagementImportDevicesMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type ManagementImportDevicesParameters = ManagementImportDevicesQueryParam &
-  ManagementImportDevicesMediaTypesParam &
-  ManagementImportDevicesBodyParam &
+export type DeviceManagementImportDevicesParameters = DeviceManagementImportDevicesQueryParam &
+  DeviceManagementImportDevicesMediaTypesParam &
+  DeviceManagementImportDevicesBodyParam &
   RequestParameters;
-export type ManagementGetDeviceParameters = RequestParameters;
-export type ManagementGetDeviceModuleParameters = RequestParameters;
-export type ManagementGetUpdateComplianceParameters = RequestParameters;
-export type ManagementListDeviceTagsParameters = RequestParameters;
-export type ManagementGetDeviceTagParameters = RequestParameters;
-export type ManagementListGroupsParameters = RequestParameters;
-export type ManagementGetGroupParameters = RequestParameters;
+export type DeviceManagementGetDeviceParameters = RequestParameters;
+export type DeviceManagementGetDeviceModuleParameters = RequestParameters;
+export type DeviceManagementGetUpdateComplianceParameters = RequestParameters;
+export type DeviceManagementListDeviceTagsParameters = RequestParameters;
+export type DeviceManagementGetDeviceTagParameters = RequestParameters;
+export type DeviceManagementListGroupsParameters = RequestParameters;
+export type DeviceManagementGetGroupParameters = RequestParameters;
 
-export interface ManagementCreateOrUpdateGroupBodyParam {
+export interface DeviceManagementCreateOrUpdateGroupBodyParam {
   /** The group properties. */
   body: Group;
 }
 
-export interface ManagementCreateOrUpdateGroupMediaTypesParam {
+export interface DeviceManagementCreateOrUpdateGroupMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type ManagementCreateOrUpdateGroupParameters = ManagementCreateOrUpdateGroupMediaTypesParam &
-  ManagementCreateOrUpdateGroupBodyParam &
+export type DeviceManagementCreateOrUpdateGroupParameters = DeviceManagementCreateOrUpdateGroupMediaTypesParam &
+  DeviceManagementCreateOrUpdateGroupBodyParam &
   RequestParameters;
-export type ManagementDeleteGroupParameters = RequestParameters;
-export type ManagementGetGroupUpdateComplianceParameters = RequestParameters;
+export type DeviceManagementDeleteGroupParameters = RequestParameters;
+export type DeviceManagementGetGroupUpdateComplianceParameters = RequestParameters;
 
-export interface ManagementListBestUpdatesForGroupQueryParamProperties {
+export interface DeviceManagementListBestUpdatesForGroupQueryParamProperties {
   /** Restricts the set of bestUpdates returned. You can filter on update Provider, Name and Version property. */
   $filter?: string;
 }
 
-export interface ManagementListBestUpdatesForGroupQueryParam {
-  queryParameters?: ManagementListBestUpdatesForGroupQueryParamProperties;
+export interface DeviceManagementListBestUpdatesForGroupQueryParam {
+  queryParameters?: DeviceManagementListBestUpdatesForGroupQueryParamProperties;
 }
 
-export type ManagementListBestUpdatesForGroupParameters = ManagementListBestUpdatesForGroupQueryParam &
+export type DeviceManagementListBestUpdatesForGroupParameters = DeviceManagementListBestUpdatesForGroupQueryParam &
   RequestParameters;
 
-export interface ManagementListDeploymentsForGroupQueryParamProperties {
+export interface DeviceManagementListDeploymentsForGroupQueryParamProperties {
   /** Restricts the set of deployments returned. You can filter on update Provider, Name and Version property. */
   $filter?: string;
 }
 
-export interface ManagementListDeploymentsForGroupQueryParam {
-  queryParameters?: ManagementListDeploymentsForGroupQueryParamProperties;
+export interface DeviceManagementListDeploymentsForGroupQueryParam {
+  queryParameters?: DeviceManagementListDeploymentsForGroupQueryParamProperties;
 }
 
-export type ManagementListDeploymentsForGroupParameters = ManagementListDeploymentsForGroupQueryParam &
+export type DeviceManagementListDeploymentsForGroupParameters = DeviceManagementListDeploymentsForGroupQueryParam &
   RequestParameters;
-export type ManagementGetDeploymentParameters = RequestParameters;
+export type DeviceManagementGetDeploymentParameters = RequestParameters;
 
-export interface ManagementCreateOrUpdateDeploymentBodyParam {
+export interface DeviceManagementCreateOrUpdateDeploymentBodyParam {
   /** The deployment properties. */
   body: Deployment;
 }
 
-export interface ManagementCreateOrUpdateDeploymentMediaTypesParam {
+export interface DeviceManagementCreateOrUpdateDeploymentMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type ManagementCreateOrUpdateDeploymentParameters = ManagementCreateOrUpdateDeploymentMediaTypesParam &
-  ManagementCreateOrUpdateDeploymentBodyParam &
+export type DeviceManagementCreateOrUpdateDeploymentParameters = DeviceManagementCreateOrUpdateDeploymentMediaTypesParam &
+  DeviceManagementCreateOrUpdateDeploymentBodyParam &
   RequestParameters;
-export type ManagementDeleteDeploymentParameters = RequestParameters;
-export type ManagementGetDeploymentStatusParameters = RequestParameters;
+export type DeviceManagementDeleteDeploymentParameters = RequestParameters;
+export type DeviceManagementGetDeploymentStatusParameters = RequestParameters;
 
-export interface ManagementListDeploymentDevicesQueryParamProperties {
+export interface DeviceManagementListDeploymentDevicesQueryParamProperties {
   /** Restricts the set of deployment device states returned. You can filter on deviceId and moduleId and/or deviceState. */
   $filter?: string;
 }
 
-export interface ManagementListDeploymentDevicesQueryParam {
-  queryParameters?: ManagementListDeploymentDevicesQueryParamProperties;
+export interface DeviceManagementListDeploymentDevicesQueryParam {
+  queryParameters?: DeviceManagementListDeploymentDevicesQueryParamProperties;
 }
 
-export type ManagementListDeploymentDevicesParameters = ManagementListDeploymentDevicesQueryParam &
+export type DeviceManagementListDeploymentDevicesParameters = DeviceManagementListDeploymentDevicesQueryParam &
   RequestParameters;
 
-export interface ManagementGetOperationHeaders {
+export interface DeviceManagementGetOperationHeaders {
   /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
   "If-None-Match"?: string;
 }
 
-export interface ManagementGetOperationHeaderParam {
-  headers: RawHttpHeadersInput & ManagementGetOperationHeaders;
+export interface DeviceManagementGetOperationHeaderParam {
+  headers: RawHttpHeadersInput & DeviceManagementGetOperationHeaders;
 }
 
-export type ManagementGetOperationParameters = ManagementGetOperationHeaderParam &
+export type DeviceManagementGetOperationParameters = DeviceManagementGetOperationHeaderParam &
   RequestParameters;
 
-export interface ManagementListOperationsQueryParamProperties {
+export interface DeviceManagementListOperationsQueryParamProperties {
   /** Restricts the set of operations returned. Only one specific filter is supported: "status eq 'NotStarted' or status eq 'Running'" */
   $filter?: string;
   /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
   $top?: number;
 }
 
-export interface ManagementListOperationsQueryParam {
-  queryParameters?: ManagementListOperationsQueryParamProperties;
+export interface DeviceManagementListOperationsQueryParam {
+  queryParameters?: DeviceManagementListOperationsQueryParamProperties;
 }
 
-export type ManagementListOperationsParameters = ManagementListOperationsQueryParam &
+export type DeviceManagementListOperationsParameters = DeviceManagementListOperationsQueryParam &
   RequestParameters;
 
-export interface ManagementCollectLogsBodyParam {
+export interface DeviceManagementCollectLogsBodyParam {
   /** The deployment properties. */
   body: LogCollectionOperation;
 }
 
-export interface ManagementCollectLogsMediaTypesParam {
+export interface DeviceManagementCollectLogsMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type ManagementCollectLogsParameters = ManagementCollectLogsMediaTypesParam &
-  ManagementCollectLogsBodyParam &
+export type DeviceManagementCollectLogsParameters = DeviceManagementCollectLogsMediaTypesParam &
+  DeviceManagementCollectLogsBodyParam &
   RequestParameters;
-export type ManagementGetLogCollectionOperationParameters = RequestParameters;
-export type ManagementListLogCollectionOperationsParameters = RequestParameters;
-export type ManagementGetLogCollectionOperationDetailedStatusParameters = RequestParameters;
+export type DeviceManagementGetLogCollectionOperationParameters = RequestParameters;
+export type DeviceManagementListLogCollectionOperationsParameters = RequestParameters;
+export type DeviceManagementGetLogCollectionOperationDetailedStatusParameters = RequestParameters;
 
-export interface ManagementStopDeploymentQueryParamProperties {
+export interface DeviceManagementStopDeploymentQueryParamProperties {
   /** Cancel deployment action. */
   action: "cancel";
 }
 
-export interface ManagementStopDeploymentQueryParam {
-  queryParameters: ManagementStopDeploymentQueryParamProperties;
+export interface DeviceManagementStopDeploymentQueryParam {
+  queryParameters: DeviceManagementStopDeploymentQueryParamProperties;
 }
 
-export type ManagementStopDeploymentParameters = ManagementStopDeploymentQueryParam &
+export type DeviceManagementStopDeploymentParameters = DeviceManagementStopDeploymentQueryParam &
   RequestParameters;
 
-export interface ManagementRetryDeploymentQueryParamProperties {
+export interface DeviceManagementRetryDeploymentQueryParamProperties {
   /** Retry deployment action. */
   action: "retry";
 }
 
-export interface ManagementRetryDeploymentQueryParam {
-  queryParameters: ManagementRetryDeploymentQueryParamProperties;
+export interface DeviceManagementRetryDeploymentQueryParam {
+  queryParameters: DeviceManagementRetryDeploymentQueryParamProperties;
 }
 
-export type ManagementRetryDeploymentParameters = ManagementRetryDeploymentQueryParam &
+export type DeviceManagementRetryDeploymentParameters = DeviceManagementRetryDeploymentQueryParam &
   RequestParameters;
