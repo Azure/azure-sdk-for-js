@@ -37,23 +37,24 @@ matrix([[true, false]], async function(useAad) {
       await recorder.stop();
     });
 
-    describe("CallingServerClient Live Test", function() {
-      it("Run basic scenario to test client creation", async function(this: Context) {
-        const groupId = TestUtils.getGroupId("Run join_play_cancel_hangup scenario");
-        const fromUser = await TestUtils.getUserId("fromUser", connectionString);
-        const toUser = await TestUtils.getUserId("toUser", connectionString);
-        const callingServer = new CallingServerClient(connectionString);
-        let connections : CallConnection[] = [];
+      describe("CallingServerClient Live Test", function () {
+        it("Run basic scenario to test client creation", async function (this: Context) {
+            this.timeout(0);
+            const groupId = TestUtils.getGroupId("Run join_play_cancel_hangup scenario");
+            const fromUser = await TestUtils.getUserId("fromUser", connectionString);
+            const toUser = await TestUtils.getUserId("toUser", connectionString);
+            const callingServer = new CallingServerClient(connectionString);
+            let connections: CallConnection[] = [];
 
-        // create GroupCalls
-        try {
-          connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
-        } finally {
-          // Hangup call
-          await TestUtils.delayIfLive();
-          await TestUtils.cleanCallConnections(connections);
-        }
-      });
+            // create GroupCalls
+            try {
+                connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
+            } finally {
+                // Hangup call
+                await TestUtils.delayIfLive();
+                await TestUtils.cleanCallConnections(connections);
+            }
+        });
     });
   });
 });
@@ -84,6 +85,7 @@ describe("Server Call Live Test", function() {
     });
 
     it("Run all client recording operations", async function(this: Context) {
+      this.timeout(0);
       const groupId = TestUtils.getGroupId("Run all client recording operations");
       let connections = [];
       let recordingId = "";
@@ -128,6 +130,7 @@ describe("Server Call Live Test", function() {
     });
 
     it("Run start recording fails operations", async function(this: Context) {
+      this.timeout(0)
       try {
         const callLocator: ServerCallLocator = { serverCallId: Constants.InvalidServerId };
 
@@ -142,6 +145,7 @@ describe("Server Call Live Test", function() {
     }).timeout(0);;
 
     it("Start recording with relative url fails", async function(this: Context) {
+      this.timeout(0)
       const groupCallId = TestUtils.getGroupId("Start recording with relative url fails");
       let connections: CallConnection[] = [];
       let recordingId: string | undefined;
@@ -173,6 +177,7 @@ describe("Server Call Live Test", function() {
     }).timeout(0);
 
     it("Delete recording file", async function(this: Context) {
+      this.timeout(0)
       if (isLiveMode()) {
          this.skip();
       }
@@ -184,6 +189,7 @@ describe("Server Call Live Test", function() {
     }).timeout(0);
 
   it("Delete recordingContentNotExist", async function(this: Context) {
+    this.timeout(0)
     try {
       await callingServerClient.deleteRecording(Constants.InvalidDeleteUrl)
     } catch (e) {
@@ -192,6 +198,7 @@ describe("Server Call Live Test", function() {
   }).timeout(0);
 
   it("Delete recordingContentUnauthorized", async function(this: Context) {
+    this.timeout(0)
     try {
       let unauthorizecallingServerClient = new CallingServerClient(Constants.InvalidConnectionString);
       await unauthorizecallingServerClient.deleteRecording(Constants.DeleteUrl)
@@ -205,7 +212,6 @@ describe("Server Call Live Test", function() {
     let recorder: Recorder;
     let connectionString: string;
     let incomingCallContext = ''
-    let participantGuid = ''
 
     beforeEach(async function(this: Context) {
       recorder = record(this, environmentSetup);
@@ -214,7 +220,6 @@ describe("Server Call Live Test", function() {
         env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ||
         "endpoint=https://endpoint/;accesskey=banana";
       incomingCallContext = Constants.IncomingCallContext
-      participantGuid = '0000000e-f44f-6ef4-655d-573a0d0017d1'
     });
 
     afterEach(async function(this: Context) {
@@ -224,6 +229,7 @@ describe("Server Call Live Test", function() {
     });
 
     it("Run join_play_cancel_hangup scenario", async function(this: Context) {
+      this.timeout(0)
       const groupId = TestUtils.getGroupId("Run join_play_cancel_hangup scenario");
       const fromUser = await TestUtils.getUserId("fromUser", connectionString);
       const toUser = await TestUtils.getUserId("toUser", connectionString);
@@ -263,6 +269,7 @@ describe("Server Call Live Test", function() {
     });
 
     it("Run answer_call scenario", async function(this: Context) {
+      this.timeout(0)
       const callingServer = new CallingServerClient(connectionString);
       try {
         await TestUtils.delayIfLive();
@@ -275,8 +282,8 @@ describe("Server Call Live Test", function() {
       }
     });
 
-
     it("Run reject_call scenario", async function(this: Context) {
+      this.timeout(0)
       if (isLiveMode()) {
         this.skip();  // currently skipping because of error
      }
@@ -294,13 +301,14 @@ describe("Server Call Live Test", function() {
     });
 
     it("Run redirect_call scenario", async function(this: Context) {
+      this.timeout(0)
       const callingServer = new CallingServerClient(connectionString);
       try {
 
         await TestUtils.delayIfLive();
         let option:RedirectCallOptions = { }
         const added_participant_id = TestUtils.getFixedUserId(
-          participantGuid
+          Constants.ParticipantGuid
         );
         const target: CommunicationUserIdentifier = {
           communicationUserId: added_participant_id
@@ -312,8 +320,8 @@ describe("Server Call Live Test", function() {
       }
     });
 
-
     it("Run create_add_remove_hangup scenario", async function(this: Context) {
+      this.timeout(0)
       const groupId = TestUtils.getGroupId("Run create_add_remove_hangup scenario");
       const fromUser = await TestUtils.getUserId("fromUser", connectionString);
       const toUser = await TestUtils.getUserId("toUser", connectionString);
@@ -325,7 +333,7 @@ describe("Server Call Live Test", function() {
       try {
         const callLocator: GroupCallLocator = { groupCallId: groupId };
         const added_participant_id = TestUtils.getFixedUserId(
-          participantGuid
+          Constants.ParticipantGuid
         );
         const participant: CommunicationUserIdentifier = {
           communicationUserId: added_participant_id
@@ -337,9 +345,7 @@ describe("Server Call Live Test", function() {
           participant,
           Constants.CALLBACK_URL
         );
-        assert.isNotNull(addParticipantResult.operationContext);
         assert.equal(addParticipantResult.status, "running");
-        assert.isNotNull(addParticipantResult.resultDetails);
 
         // Get all participants
         let allParticipants = await callingServer.getParticipants(callLocator);
@@ -363,6 +369,7 @@ describe("Server Call Live Test", function() {
     });
 
     it("Run play_audio_to_participant scenario", async function(this: Context) {
+      this.timeout(0)
       const groupId = TestUtils.getGroupId("Run create_add_remove_hangup scenario");
       const fromUser = await TestUtils.getUserId("fromUser", connectionString);
       const toUser = await TestUtils.getUserId("toUser", connectionString);
@@ -374,7 +381,7 @@ describe("Server Call Live Test", function() {
       try {
         const callLocator: GroupCallLocator = { groupCallId: groupId };
         const added_participant_id = TestUtils.getFixedUserId(
-           participantGuid
+           Constants.ParticipantGuid
         );
         const participant: CommunicationUserIdentifier = {
           communicationUserId: added_participant_id
@@ -399,11 +406,11 @@ describe("Server Call Live Test", function() {
         // Play Audio to participant
         await TestUtils.delayIfLive();
         const playAudioResult = await callingServer.playAudioToParticipant(callLocator, participant, Constants.Audio_File_Url, playAudioOptions);
-        assert.equal(playAudioResult.status,'running')
+        assert.equal(playAudioResult.status,'running')       
         
         // Cancel Participant Media Operation 
         await TestUtils.delayIfLive();
-        await callingServer.cancelParticipantMediaOperation(callLocator, participant, (playAudioResult.operationId ? playAudioResult.operationId : ""), playAudioOptions);
+        await callingServer.cancelParticipantMediaOperation(callLocator, participant, (playAudioResult.operationId!), playAudioOptions);
 
         // Remove Participant
         await TestUtils.delayIfLive();
