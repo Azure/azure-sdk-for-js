@@ -88,7 +88,7 @@ export class MixedRealityStsClient {
       options.customEndpointUrl || constructAuthenticationEndpointFromDomain(accountDomain);
 
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
-      ...{ ...options },
+      ...options,
       ...{
         loggingOptions: {
           logger: logger.info,
