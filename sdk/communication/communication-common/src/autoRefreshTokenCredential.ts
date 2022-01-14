@@ -121,15 +121,15 @@ export class AutoRefreshTokenCredential implements TokenCredential {
     if (this.activeTimeout) {
       clearTimeout(this.activeTimeout);
     }
-    const tokenTtl = this.currentToken.expiresOnTimestamp - Date.now();
+    const tokenTtlInMs = this.currentToken.expiresOnTimestamp - Date.now();
     let timespanInMs = null;
 
     if (this.isTokenExpiringSoon(this.currentToken)) {
       // Schedule the next refresh for when it reaches a certain percentage of the remaining lifetime.
-      timespanInMs = tokenTtl * this.refreshAfterLifetimePercentage;
+      timespanInMs = tokenTtlInMs * this.refreshAfterLifetimePercentage;
     } else {
       // Schedule the next refresh for when it gets in to the soon-to-expire window.
-      timespanInMs = tokenTtl - this.expiringSoonIntervalInMs;
+      timespanInMs = tokenTtlInMs - this.expiringSoonIntervalInMs;
     }
 
     this.activeTimeout = setTimeout(() => this.updateTokenAndReschedule(), timespanInMs);
