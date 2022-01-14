@@ -9,7 +9,7 @@ const port = 8080;
 const TEST_SERVER_URL = `http://localhost:${port}`;
 app.use(express.json());
 app.use(express.text());
-app.set('etag', false); // turn off
+app.set("etag", false); // turn off
 
 app.get("/", (_, res) => {
   res.send("Hello world!");
