@@ -102,7 +102,7 @@
     "typescript": "~4.2.0",
     "xhr-mock": "^2.4.1",
     "uuid": "^8.3.0",
-    "@azure/data-tables": "^12.1.2",
+    "@azure/data-tables": "^13.0.2",
     "@types/uuid": "^8.0.0"
   }
 }
