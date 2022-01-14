@@ -1045,7 +1045,7 @@ describe("DirectoryClient", () => {
     const result = await dirClient.rename(destDirName, {
       replaceIfExists: true,
       destinationLeaseAccessConditions: {
-        destinationLeaseId: leaseResult.leaseId
+        leaseId: leaseResult.leaseId
       }
     });
 

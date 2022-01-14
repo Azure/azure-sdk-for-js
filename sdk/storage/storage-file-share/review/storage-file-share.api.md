@@ -399,12 +399,12 @@ export interface DirectoryProperties extends FileAndDirectorySetPropertiesCommon
 export interface DirectoryRenameOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     copyFileSmbInfo?: CopyFileSmbInfo;
-    destinationLeaseAccessConditions?: DestinationLeaseAccessConditions;
+    destinationLeaseAccessConditions?: LeaseAccessConditions;
     filePermission?: string;
     filePermissionKey?: string;
     ignoreReadOnly?: boolean;
     replaceIfExists?: boolean;
-    sourceLeaseAccessConditions?: SourceLeaseAccessConditions;
+    sourceLeaseAccessConditions?: LeaseAccessConditions;
     timeoutInSeconds?: number;
 }
 
@@ -873,13 +873,13 @@ export interface FileProperty {
 export interface FileRenameOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     copyFileSmbInfo?: CopyFileSmbInfo;
-    destinationLeaseAccessConditions?: DestinationLeaseAccessConditions;
+    destinationLeaseAccessConditions?: LeaseAccessConditions;
     fileHttpHeaders?: FileHttpHeaders;
     filePermission?: string;
     filePermissionKey?: string;
     ignoreReadOnly?: boolean;
     replaceIfExists?: boolean;
-    sourceLeaseAccessConditions?: SourceLeaseAccessConditions;
+    sourceLeaseAccessConditions?: LeaseAccessConditions;
     timeoutInSeconds?: number;
 }
 

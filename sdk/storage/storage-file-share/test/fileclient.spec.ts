@@ -1019,7 +1019,7 @@ describe("FileClient", () => {
     const result = await sourceFileClient.rename(destFileName, {
       replaceIfExists: true,
       destinationLeaseAccessConditions: {
-        destinationLeaseId: leaseResult.leaseId
+        leaseId: leaseResult.leaseId
       }
     });
 
@@ -1077,7 +1077,7 @@ describe("FileClient", () => {
 
     const result = await sourceFileClient.rename(destFileName, {
       sourceLeaseAccessConditions: {
-        sourceLeaseId: leaseResult.leaseId
+        leaseId: leaseResult.leaseId
       }
     });
 

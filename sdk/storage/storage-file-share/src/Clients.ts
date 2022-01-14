@@ -51,8 +51,6 @@ import {
   ShareAccessTier,
   ShareSetPropertiesResponse,
   ShareRootSquash,
-  SourceLeaseAccessConditions,
-  DestinationLeaseAccessConditions,
   FileRenameResponse,
   DirectoryRenameResponse,
 } from "./generatedModels";
@@ -2807,7 +2805,17 @@ export class ShareDirectoryClient extends StorageClient {
 
     try {
       const response = await destDirectory.context.rename(this.url, {
-        ...updatedOptions
+        ...updatedOptions,
+        sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
+          ? {
+              sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId
+            }
+          : undefined,
+        destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
+          ? {
+              destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId
+            }
+          : undefined
       });
 
       return {
@@ -3441,12 +3449,12 @@ export interface FileRenameOptions extends CommonOptions {
   /**
    * Lease access condition for source file. Required if the source file has an active infinite lease.
    */
-  sourceLeaseAccessConditions?: SourceLeaseAccessConditions;
+  sourceLeaseAccessConditions?: LeaseAccessConditions;
 
   /**
    * Lease access condition for destination file. Required if the destination file has an active infinite lease.
    */
-  destinationLeaseAccessConditions?: DestinationLeaseAccessConditions;
+  destinationLeaseAccessConditions?: LeaseAccessConditions;
 
   /**
    * Optional.
@@ -3504,12 +3512,12 @@ export interface DirectoryRenameOptions extends CommonOptions {
   /**
    * Lease access condition for source file. Required if the source file has an active infinite lease.
    */
-  sourceLeaseAccessConditions?: SourceLeaseAccessConditions;
+  sourceLeaseAccessConditions?: LeaseAccessConditions;
 
   /**
    * Lease access condition for destination file. Required if the destination file has an active infinite lease.
    */
-  destinationLeaseAccessConditions?: DestinationLeaseAccessConditions;
+  destinationLeaseAccessConditions?: LeaseAccessConditions;
 
   /**
    * Optional.
@@ -5348,7 +5356,17 @@ export class ShareFileClient extends StorageClient {
 
     try {
       const response = await destFile.context.rename(this.url, {
-        ...updatedOptions
+        ...updatedOptions,
+        sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
+          ? {
+              sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId
+            }
+          : undefined,
+        destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
+          ? {
+              destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId
+            }
+          : undefined
       });
 
       return {
