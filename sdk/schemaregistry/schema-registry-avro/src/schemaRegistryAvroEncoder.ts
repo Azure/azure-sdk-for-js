@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import * as avro from "avsc";
-import { defaultMessageConsumer } from "./defaultMessage";
+import { DecodeMessageDataOptions, EncodeMessageDataOptions, MessageWithMetadata } from "./models";
+import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import { MessageConsumer } from "./message";
-import {
-  DecodeMessageDataOptions,
-  EncodeMessageDataOptions,
-  MessageWithMetadata,
-} from "./models";
+import { defaultMessageConsumer } from "./defaultMessage";
 import { isMessageWithMetadata } from "./utility";
 
 interface CacheEntry {
@@ -114,11 +110,11 @@ export class SchemaRegistryAvroEncoder {
     message: MessageT,
     options: DecodeMessageDataOptions<MessageT> = {}
   ): Promise<unknown> {
-    const { schema, messageConsumer: inputMessageConsumer } = options;
+    const { schema: readerSchema, messageConsumer: inputMessageConsumer } = options;
     const { body, contentType } = getPayloadAndContent(message, inputMessageConsumer);
     const buffer = Buffer.from(body);
-    if (schema) {
-      return this.getAvroTypeForSchema(schema).fromBuffer(buffer);
+    if (readerSchema) {
+      return this.getAvroTypeForSchema(readerSchema).fromBuffer(buffer);
     } else {
       const schemaId = getSchemaId(contentType);
       const schema = await this.getSchema(schemaId);

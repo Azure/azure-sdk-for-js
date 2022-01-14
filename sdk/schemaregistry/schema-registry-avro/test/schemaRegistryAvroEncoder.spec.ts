@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 import { assert, use as chaiUse } from "chai";
-import chaiPromises from "chai-as-promised";
-import { testAvroType, testGroup, testSchema, testSchemaIds, testValue } from "./utils/dummies";
-import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { createTestEncoder, registerTestSchema } from "./utils/mockedEncoder";
+import { testAvroType, testGroup, testSchema, testSchemaIds, testValue } from "./utils/dummies";
+import { MessageWithMetadata } from "../src/models";
+import chaiPromises from "chai-as-promised";
+import { createTestRegistry } from "./utils/mockedRegistryClient";
 
 chaiUse(chaiPromises);
 
@@ -14,9 +15,9 @@ describe("SchemaRegistryAvroEncoder", function () {
     const encoder = await createTestEncoder();
     await assert.isRejected(
       encoder.decodeMessageData({
-        data: Buffer.alloc(1),
+        body: Buffer.alloc(1),
         contentType: "application/json+1234",
-      }),
+      } as MessageWithMetadata),
       /application\/json.*avro\/binary/
     );
   });
@@ -39,9 +40,9 @@ describe("SchemaRegistryAvroEncoder", function () {
 
     await assert.isRejected(
       encoder.decodeMessageData({
-        data: Buffer.alloc(1),
+        body: Buffer.alloc(1),
         contentType: `avro/binary+${schema.id}`,
-      }),
+      } as MessageWithMetadata),
       new RegExp(`${schema.id}.*NotAvro.*avro`)
     );
   });
@@ -62,9 +63,9 @@ describe("SchemaRegistryAvroEncoder", function () {
     const payload = testAvroType.toBuffer(testValue);
     await assert.isRejected(
       encoder.decodeMessageData({
-        data: payload,
+        body: payload,
         contentType: `avro/binary+${testSchemaIds[1]}`,
-      }),
+      } as MessageWithMetadata),
       /not found/
     );
   });
@@ -87,9 +88,9 @@ describe("SchemaRegistryAvroEncoder", function () {
     const payload = testAvroType.toBuffer(testValue);
     assert.deepStrictEqual(
       await encoder.decodeMessageData({
-        data: payload,
+        body: payload,
         contentType: `avro/binary+${schemaId}`,
-      }),
+      } as MessageWithMetadata),
       testValue
     );
   });

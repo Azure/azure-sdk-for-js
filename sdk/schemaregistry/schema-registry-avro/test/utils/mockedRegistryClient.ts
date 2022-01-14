@@ -11,8 +11,8 @@ import {
   SchemaRegistry,
   SchemaRegistryClient,
 } from "@azure/schema-registry";
-import { ClientSecretCredential } from "@azure/identity";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
+import { ClientSecretCredential } from "@azure/identity";
 import { testSchemaIds } from "./dummies";
 
 export function createTestRegistry(neverLive = false): SchemaRegistry {

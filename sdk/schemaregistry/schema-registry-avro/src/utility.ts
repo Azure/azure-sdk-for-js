@@ -3,6 +3,7 @@
 
 import { MessageWithMetadata } from "./models";
 
-export function isMessageWithMetadata(message: any): message is MessageWithMetadata {
-  return message.body !== undefined && message.contentType !== undefined;
+export function isMessageWithMetadata(message: unknown): message is MessageWithMetadata {
+  const castMessage = message as MessageWithMetadata;
+  return castMessage.body !== undefined && castMessage.contentType !== undefined;
 }
