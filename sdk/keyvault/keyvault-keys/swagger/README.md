@@ -16,7 +16,7 @@ disable-async-iterators: true
 api-version-parameter: choice
 package-version: 4.4.0-beta.4
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.5"
+  "@autorest/typescript": "6.0.0-beta.15"
 ```
 
 ## Customizations for Track 2 Generator
