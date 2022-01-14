@@ -86,7 +86,8 @@ export default leafCommand(commandInfo, async (options) => {
         process.cwd(),
         path.join(await resolveRoot(), "common", "temp", "node_modules", ".pnpm")
       )
-      .replace(new RegExp(path.sep, "g"), "/");
+      .split(path.sep)
+      .join("/");
 
     log.debug("Computed PNPM store relative path:", pnpmStore);
 
