@@ -93,6 +93,7 @@ specifiers:
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
   '@rush-temp/arm-streamanalytics': file:./projects/arm-streamanalytics.tgz
   '@rush-temp/arm-subscriptions': file:./projects/arm-subscriptions.tgz
+  '@rush-temp/arm-synapse': file:./projects/arm-synapse.tgz
   '@rush-temp/arm-templatespecs': file:./projects/arm-templatespecs.tgz
   '@rush-temp/arm-videoanalyzer': file:./projects/arm-videoanalyzer.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
@@ -291,6 +292,7 @@ dependencies:
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
   '@rush-temp/arm-streamanalytics': file:projects/arm-streamanalytics.tgz
   '@rush-temp/arm-subscriptions': file:projects/arm-subscriptions.tgz
+  '@rush-temp/arm-synapse': file:projects/arm-synapse.tgz
   '@rush-temp/arm-templatespecs': file:projects/arm-templatespecs.tgz
   '@rush-temp/arm-videoanalyzer': file:projects/arm-videoanalyzer.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
@@ -10498,6 +10500,30 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-synapse.tgz:
+    resolution: {integrity: sha512-pXWYvHxQV3L/tE5ZPje6k/4e3OB5Ubn1EoyRvRcPA45fKArYudHUfF6+3ifuDJg9pmuGSZBs98wNFOXtElP90A==, tarball: file:projects/arm-synapse.tgz}
+    name: '@rush-temp/arm-synapse'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-templatespecs.tgz:
     resolution: {integrity: sha512-r1KzXFTfAwSRaLKrPywoEtLobNOhPsp+wwWta65dk3Yp27sLhJthf1JqNo33+ivhPluWGOOge6h5bI3JGGJBGg==, tarball: file:projects/arm-templatespecs.tgz}
     name: '@rush-temp/arm-templatespecs'
@@ -13084,7 +13110,7 @@ packages:
     dev: false
 
   file:projects/perf-data-tables.tgz:
-    resolution: {integrity: sha512-PgjuJKqYgdWR6o7kB/EjjXwR5RMIYgjZMHBwucULF8XfMytM6SBiWpqG72edRxEFo66OxmlLR3ByLfsjUNr+Xg==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-0HnabFIBko9eTEkMSRH34JvoRtKba6Av18Q/4bbi+k31s2M8mBVXSjIrjlwJYWHP7Y69kS6J3kbV94L7SYf6Kg==, tarball: file:projects/perf-data-tables.tgz}
     name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
@@ -14672,7 +14698,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-2jRazzf9Vlhxjak/7gq7R1PPcaleaoZi0jwsdJKY2xjmQf4Q+fv+4AAfIbMJ+dnNgXHry8+W0y6Nxn6opp2AgA==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-dBKlhKpFsSOTnRvrJrSOvqoEoEfTrrYS1W2JnAZNEg9KhbVzo8bPqryUlo5NiXw7sAUokaubzM2PVm9OXwRlbA==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:
