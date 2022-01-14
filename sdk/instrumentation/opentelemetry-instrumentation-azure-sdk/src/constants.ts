@@ -1,5 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-interface Window {}
-declare let self: Window & typeof globalThis;
+export const SDK_VERSION: string = "1.0.0-beta.1";

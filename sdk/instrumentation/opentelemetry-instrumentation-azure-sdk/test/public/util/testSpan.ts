@@ -2,17 +2,17 @@
 // Licensed under the MIT license.
 
 import {
-  Span,
-  SpanAttributeValue,
-  SpanAttributes,
-  SpanContext,
-  SpanKind,
-  SpanOptions,
-  SpanStatus,
-  SpanStatusCode,
   TimeInput,
   Tracer,
-} from "../../src/interfaces";
+  SpanKind,
+  SpanStatus,
+  SpanContext,
+  SpanAttributes,
+  SpanStatusCode,
+  SpanAttributeValue,
+  Span,
+  Link,
+} from "@opentelemetry/api";
 
 /**
  * A mock span useful for testing.
@@ -57,6 +57,16 @@ export class TestSpan implements Span {
   private readonly _tracer: Tracer;
 
   /**
+   * The recorded exception, if any.
+   */
+  exception?: Error;
+
+  /**
+   * Any links provided when creating this span.
+   */
+  links: Link[];
+
+  /**
    * Starts a new Span.
    * @param parentTracer-  The tracer that created this Span
    * @param name - The name of the span.
@@ -69,20 +79,24 @@ export class TestSpan implements Span {
     parentTracer: Tracer,
     name: string,
     context: SpanContext,
+    kind: SpanKind,
     parentSpanId?: string,
-    options?: SpanOptions
+    startTime: TimeInput = Date.now(),
+    attributes: SpanAttributes = {},
+    links: Link[] = []
   ) {
     this._tracer = parentTracer;
     this.name = name;
-    this.kind = options?.kind || SpanKind.INTERNAL;
-    this.startTime = options?.startTime || Date.now();
+    this.kind = kind;
+    this.startTime = startTime;
     this.parentSpanId = parentSpanId;
-    this.attributes = options?.attributes || {};
     this.status = {
-      code: SpanStatusCode.OK,
+      code: SpanStatusCode.UNSET,
     };
     this.endCalled = false;
     this._context = context;
+    this.attributes = attributes;
+    this.links = links;
   }
 
   /**
@@ -148,8 +162,8 @@ export class TestSpan implements Span {
   addEvent(): this {
     throw new Error("Method not implemented.");
   }
-  recordException(): void {
-    throw new Error("Method not implemented.");
+  recordException(exception: Error): void {
+    this.exception = exception;
   }
   updateName(): this {
     throw new Error("Method not implemented.");
