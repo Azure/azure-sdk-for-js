@@ -160,6 +160,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         throw new Error(`Invalid Api Version: ${options.apiVersion}`);
       }
       this.serviceVersion = options.apiVersion;
+      this.apiVersion = options.apiVersion;
     }
 
     if (options.serviceVersion) {
@@ -167,6 +168,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         throw new Error(`Invalid Service Version: ${options.serviceVersion}`);
       }
       this.serviceVersion = options.serviceVersion;
+      this.apiVersion = options.serviceVersion;
     }
 
     this.client = new GeneratedClient(

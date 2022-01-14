@@ -1,13 +1,8 @@
-import * as base from "./rollup.base.config";
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
-const inputs = [];
+import { makeConfig } from "@azure/dev-tool/shared-config/rollup";
 
-if (!process.env.ONLY_BROWSER) {
-  inputs.push(base.nodeConfig());
-}
-
-if (!process.env.ONLY_NODE) {
-  inputs.push(base.browserConfig());
-}
-
-export default inputs;
+export default makeConfig(require("./package.json"), {
+  disableBrowserBundle: true,
+});

@@ -46,6 +46,11 @@ export type RequestParameters = {
    * as a binary array UInt8Array
    */
   binaryResponse?: boolean;
+
+  /**
+   * Path parameters for custom the base url
+   */
+  pathParameters?: Record<string, any>;
 };
 
 /**

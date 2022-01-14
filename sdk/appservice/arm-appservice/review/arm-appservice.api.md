@@ -21,6 +21,9 @@ export interface AbnormalTimePeriod {
 }
 
 // @public
+export type ActiveRevisionsMode = string;
+
+// @public
 export interface Address {
     address1: string;
     address2?: string;
@@ -1862,6 +1865,14 @@ export interface CloningInfo {
 export type ComputeModeOptions = "Shared" | "Dedicated" | "Dynamic";
 
 // @public
+export interface Configuration {
+    activeRevisionsMode?: ActiveRevisionsMode;
+    ingress?: Ingress;
+    registries?: RegistryCredentials[];
+    secrets?: Secret[];
+}
+
+// @public
 export type ConnectionStringDictionary = ProxyOnlyResource & {
     properties?: {
         [propertyName: string]: ConnStringValueTypePair;
@@ -1895,6 +1906,162 @@ export interface Contact {
     nameMiddle?: string;
     organization?: string;
     phone: string;
+}
+
+// @public
+export interface Container {
+    args?: string[];
+    command?: string[];
+    env?: EnvironmentVar[];
+    image?: string;
+    name?: string;
+    resources?: ContainerResources;
+}
+
+// @public
+export type ContainerApp = Resource & {
+    readonly provisioningState?: ContainerAppProvisioningState;
+    kubeEnvironmentId?: string;
+    readonly latestRevisionName?: string;
+    readonly latestRevisionFqdn?: string;
+    configuration?: Configuration;
+    template?: Template;
+};
+
+// @public
+export interface ContainerAppCollection {
+    readonly nextLink?: string;
+    value: ContainerApp[];
+}
+
+// @public
+export type ContainerAppProvisioningState = string;
+
+// @public
+export interface ContainerApps {
+    beginCreateOrUpdate(resourceGroupName: string, name: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ContainerAppsCreateOrUpdateResponse>, ContainerAppsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<ContainerAppsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, name: string, options?: ContainerAppsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, name: string, options?: ContainerAppsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, name: string, options?: ContainerAppsGetOptionalParams): Promise<ContainerAppsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: ContainerAppsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ContainerApp>;
+    listBySubscription(options?: ContainerAppsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ContainerApp>;
+    listSecrets(name: string, options?: ContainerAppsListSecretsOptionalParams): Promise<ContainerAppsListSecretsResponse>;
+}
+
+// @public (undocumented)
+export interface ContainerAppsConfiguration {
+    appSubnetResourceId?: string;
+    controlPlaneSubnetResourceId?: string;
+    daprAIInstrumentationKey?: string;
+    dockerBridgeCidr?: string;
+    platformReservedCidr?: string;
+    platformReservedDnsIP?: string;
+}
+
+// @public
+export interface ContainerAppsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ContainerAppsCreateOrUpdateResponse = ContainerApp;
+
+// @public
+export interface ContainerAppsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ContainerAppSecret {
+    readonly name?: string;
+    readonly value?: string;
+}
+
+// @public
+export interface ContainerAppsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsGetResponse = ContainerApp;
+
+// @public
+export interface ContainerAppsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsListByResourceGroupNextResponse = ContainerAppCollection;
+
+// @public
+export interface ContainerAppsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsListByResourceGroupResponse = ContainerAppCollection;
+
+// @public
+export interface ContainerAppsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsListBySubscriptionNextResponse = ContainerAppCollection;
+
+// @public
+export interface ContainerAppsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsListBySubscriptionResponse = ContainerAppCollection;
+
+// @public
+export interface ContainerAppsListSecretsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsListSecretsResponse = SecretsCollection;
+
+// @public
+export interface ContainerAppsRevisions {
+    activateRevision(resourceGroupName: string, containerAppName: string, name: string, options?: ContainerAppsRevisionsActivateRevisionOptionalParams): Promise<void>;
+    deactivateRevision(resourceGroupName: string, containerAppName: string, name: string, options?: ContainerAppsRevisionsDeactivateRevisionOptionalParams): Promise<void>;
+    getRevision(resourceGroupName: string, containerAppName: string, name: string, options?: ContainerAppsRevisionsGetRevisionOptionalParams): Promise<ContainerAppsRevisionsGetRevisionResponse>;
+    listRevisions(resourceGroupName: string, containerAppName: string, options?: ContainerAppsRevisionsListRevisionsOptionalParams): PagedAsyncIterableIterator<Revision>;
+    restartRevision(resourceGroupName: string, containerAppName: string, name: string, options?: ContainerAppsRevisionsRestartRevisionOptionalParams): Promise<void>;
+}
+
+// @public
+export interface ContainerAppsRevisionsActivateRevisionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ContainerAppsRevisionsDeactivateRevisionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ContainerAppsRevisionsGetRevisionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsRevisionsGetRevisionResponse = Revision;
+
+// @public
+export interface ContainerAppsRevisionsListRevisionsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsRevisionsListRevisionsNextResponse = RevisionCollection;
+
+// @public
+export interface ContainerAppsRevisionsListRevisionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsRevisionsListRevisionsResponse = RevisionCollection;
+
+// @public
+export interface ContainerAppsRevisionsRestartRevisionOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public (undocumented)
@@ -1969,6 +2136,12 @@ export interface ContainerNetworkInterfaceStatistics {
     txErrors?: number;
     // (undocumented)
     txPackets?: number;
+}
+
+// @public
+export interface ContainerResources {
+    cpu?: number;
+    memory?: string;
 }
 
 // @public (undocumented)
@@ -2118,10 +2291,55 @@ export type CustomHostnameAnalysisResult = ProxyOnlyResource & {
 export type CustomHostNameDnsRecordType = "CName" | "A";
 
 // @public
+export type CustomHostnameSites = ProxyOnlyResource & {
+    customHostname?: string;
+    region?: string;
+    siteResourceIds?: Identifier[];
+};
+
+// @public
+export interface CustomHostnameSitesCollection {
+    readonly nextLink?: string;
+    value: CustomHostnameSites[];
+}
+
+// @public
 export interface CustomOpenIdConnectProvider {
     enabled?: boolean;
     login?: OpenIdConnectLogin;
     registration?: OpenIdConnectRegistration;
+}
+
+// @public
+export interface CustomScaleRule {
+    auth?: ScaleRuleAuth[];
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    type?: string;
+}
+
+// @public
+export interface Dapr {
+    appId?: string;
+    appPort?: number;
+    components?: DaprComponent[];
+    enabled?: boolean;
+}
+
+// @public
+export interface DaprComponent {
+    metadata?: DaprMetadata[];
+    name?: string;
+    type?: string;
+    version?: string;
+}
+
+// @public
+export interface DaprMetadata {
+    name?: string;
+    secretRef?: string;
+    value?: string;
 }
 
 // @public
@@ -2829,6 +3047,7 @@ export interface Domains {
     listOwnershipIdentifiers(resourceGroupName: string, domainName: string, options?: DomainsListOwnershipIdentifiersOptionalParams): PagedAsyncIterableIterator<DomainOwnershipIdentifier>;
     listRecommendations(parameters: DomainRecommendationSearchParameters, options?: DomainsListRecommendationsOptionalParams): PagedAsyncIterableIterator<NameIdentifier>;
     renew(resourceGroupName: string, domainName: string, options?: DomainsRenewOptionalParams): Promise<void>;
+    transferOut(resourceGroupName: string, domainName: string, options?: DomainsTransferOutOptionalParams): Promise<DomainsTransferOutResponse>;
     update(resourceGroupName: string, domainName: string, domain: DomainPatchResource, options?: DomainsUpdateOptionalParams): Promise<DomainsUpdateResponse>;
     updateOwnershipIdentifier(resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: DomainOwnershipIdentifier, options?: DomainsUpdateOwnershipIdentifierOptionalParams): Promise<DomainsUpdateOwnershipIdentifierResponse>;
 }
@@ -2950,6 +3169,13 @@ export interface DomainsRenewOptionalParams extends coreClient.OperationOptions 
 export type DomainStatus = "Active" | "Awaiting" | "Cancelled" | "Confiscated" | "Disabled" | "Excluded" | "Expired" | "Failed" | "Held" | "Locked" | "Parked" | "Pending" | "Reserved" | "Reverted" | "Suspended" | "Transferred" | "Unknown" | "Unlocked" | "Unparked" | "Updated" | "JsonConverterFailed";
 
 // @public
+export interface DomainsTransferOutOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DomainsTransferOutResponse = Domain;
+
+// @public
 export interface DomainsUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2986,22 +3212,32 @@ export interface EndpointDetail {
 }
 
 // @public
-export type Enum10 = string;
-
-// @public
-export type Enum11 = string;
-
-// @public
-export type Enum12 = string;
-
-// @public
-export type Enum13 = string;
-
-// @public
-export type Enum14 = string;
+export type EnterpriseGradeCdnStatus = string;
 
 // @public
 export type Enum15 = string;
+
+// @public
+export type Enum16 = string;
+
+// @public
+export type Enum17 = string;
+
+// @public
+export type Enum18 = string;
+
+// @public
+export type Enum19 = string;
+
+// @public
+export type Enum20 = string;
+
+// @public
+export interface EnvironmentVar {
+    name?: string;
+    secretRef?: string;
+    value?: string;
+}
 
 // @public
 export interface ErrorEntity {
@@ -3375,6 +3611,14 @@ export interface HttpLogsConfig {
 }
 
 // @public
+export interface HttpScaleRule {
+    auth?: ScaleRuleAuth[];
+    metadata?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export interface HttpSettings {
     forwardProxy?: ForwardProxy;
     requireHttps?: boolean;
@@ -3459,6 +3703,20 @@ export interface InboundEnvironmentEndpointCollection {
 }
 
 // @public
+export interface Ingress {
+    allowInsecure?: boolean;
+    external?: boolean;
+    readonly fqdn?: string;
+    targetPort?: number;
+    // (undocumented)
+    traffic?: TrafficWeight[];
+    transport?: IngressTransportMethod;
+}
+
+// @public
+export type IngressTransportMethod = string;
+
+// @public
 export type InsightStatus = "Critical" | "Warning" | "Info" | "Success" | "None";
 
 // @public
@@ -3504,6 +3762,14 @@ export interface KeyValuePairStringObject {
 
 // @public
 export type KeyVaultSecretStatus = "Initialized" | "WaitingOnCertificateOrder" | "Succeeded" | "CertificateOrderFailed" | "OperationNotPermittedOnKeyVault" | "AzureServiceUnauthorizedToAccessKeyVault" | "KeyVaultDoesNotExist" | "KeyVaultSecretDoesNotExist" | "UnknownError" | "ExternalPrivateKey" | "Unknown";
+
+// @public
+export enum KnownActiveRevisionsMode {
+    // (undocumented)
+    Multiple = "multiple",
+    // (undocumented)
+    Single = "single"
+}
 
 // @public
 export enum KnownAppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem {
@@ -3564,6 +3830,18 @@ export enum KnownCheckNameResourceTypes {
 }
 
 // @public
+export enum KnownContainerAppProvisioningState {
+    // (undocumented)
+    Canceled = "Canceled",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    InProgress = "InProgress",
+    // (undocumented)
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownCustomDomainStatus {
     // (undocumented)
     Adding = "Adding",
@@ -3612,7 +3890,19 @@ export enum KnownDomainPropertiesDomainNotRenewableReasonsItem {
 }
 
 // @public
-export enum KnownEnum10 {
+export enum KnownEnterpriseGradeCdnStatus {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Disabling = "Disabling",
+    // (undocumented)
+    Enabled = "Enabled",
+    // (undocumented)
+    Enabling = "Enabling"
+}
+
+// @public
+export enum KnownEnum15 {
     // (undocumented)
     All = "All",
     // (undocumented)
@@ -3626,7 +3916,7 @@ export enum KnownEnum10 {
 }
 
 // @public
-export enum KnownEnum11 {
+export enum KnownEnum16 {
     // (undocumented)
     All = "All",
     // (undocumented)
@@ -3636,7 +3926,7 @@ export enum KnownEnum11 {
 }
 
 // @public
-export enum KnownEnum12 {
+export enum KnownEnum17 {
     // (undocumented)
     All = "All",
     // (undocumented)
@@ -3646,7 +3936,7 @@ export enum KnownEnum12 {
 }
 
 // @public
-export enum KnownEnum13 {
+export enum KnownEnum18 {
     // (undocumented)
     All = "All",
     // (undocumented)
@@ -3656,7 +3946,7 @@ export enum KnownEnum13 {
 }
 
 // @public
-export enum KnownEnum14 {
+export enum KnownEnum19 {
     // (undocumented)
     All = "All",
     // (undocumented)
@@ -3666,7 +3956,7 @@ export enum KnownEnum14 {
 }
 
 // @public
-export enum KnownEnum15 {
+export enum KnownEnum20 {
     // (undocumented)
     All = "All",
     // (undocumented)
@@ -3695,6 +3985,16 @@ export enum KnownInAvailabilityReasonType {
     AlreadyExists = "AlreadyExists",
     // (undocumented)
     Invalid = "Invalid"
+}
+
+// @public
+export enum KnownIngressTransportMethod {
+    // (undocumented)
+    Auto = "auto",
+    // (undocumented)
+    Http = "http",
+    // (undocumented)
+    Http2 = "http2"
 }
 
 // @public
@@ -3737,6 +4037,30 @@ export enum KnownResourceScopeType {
     Subscription = "Subscription",
     // (undocumented)
     WebSite = "WebSite"
+}
+
+// @public
+export enum KnownRevisionHealthState {
+    // (undocumented)
+    Healthy = "Healthy",
+    // (undocumented)
+    None = "None",
+    // (undocumented)
+    Unhealthy = "Unhealthy"
+}
+
+// @public
+export enum KnownRevisionProvisioningState {
+    // (undocumented)
+    Deprovisioned = "Deprovisioned",
+    // (undocumented)
+    Deprovisioning = "Deprovisioning",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Provisioned = "Provisioned",
+    // (undocumented)
+    Provisioning = "Provisioning"
 }
 
 // @public
@@ -3847,8 +4171,10 @@ export type KubeEnvironment = Resource & {
     internalLoadBalancerEnabled?: boolean;
     readonly defaultDomain?: string;
     staticIp?: string;
+    environmentType?: string;
     arcConfiguration?: ArcConfiguration;
     appLogsConfiguration?: AppLogsConfiguration;
+    containerAppsConfiguration?: ContainerAppsConfiguration;
     aksResourceID?: string;
 };
 
@@ -3867,6 +4193,7 @@ export type KubeEnvironmentPatchResource = ProxyOnlyResource & {
     staticIp?: string;
     arcConfiguration?: ArcConfiguration;
     appLogsConfiguration?: AppLogsConfiguration;
+    containerAppsConfiguration?: ContainerAppsConfiguration;
     aksResourceID?: string;
 };
 
@@ -3986,6 +4313,20 @@ export interface ListBillingMetersOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type ListBillingMetersResponse = BillingMeterCollection;
+
+// @public
+export interface ListCustomHostNameSitesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListCustomHostNameSitesNextResponse = CustomHostnameSitesCollection;
+
+// @public
+export interface ListCustomHostNameSitesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListCustomHostNameSitesResponse = CustomHostnameSitesCollection;
 
 // @public
 export interface ListGeoRegionsNextOptionalParams extends coreClient.OperationOptions {
@@ -4561,7 +4902,7 @@ export interface Provider {
 // @public
 export interface ProviderGetAvailableStacksNextOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum10;
+    osTypeSelected?: Enum15;
 }
 
 // @public
@@ -4570,7 +4911,7 @@ export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
 // @public
 export interface ProviderGetAvailableStacksOnPremNextOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum15;
+    osTypeSelected?: Enum20;
 }
 
 // @public
@@ -4579,7 +4920,7 @@ export type ProviderGetAvailableStacksOnPremNextResponse = ApplicationStackColle
 // @public
 export interface ProviderGetAvailableStacksOnPremOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum15;
+    osTypeSelected?: Enum20;
 }
 
 // @public
@@ -4588,7 +4929,7 @@ export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollectio
 // @public
 export interface ProviderGetAvailableStacksOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum10;
+    osTypeSelected?: Enum15;
 }
 
 // @public
@@ -4596,7 +4937,7 @@ export type ProviderGetAvailableStacksResponse = ApplicationStackCollection;
 
 // @public
 export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum12;
+    stackOsType?: Enum17;
 }
 
 // @public
@@ -4604,7 +4945,7 @@ export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppSta
 
 // @public
 export interface ProviderGetFunctionAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum12;
+    stackOsType?: Enum17;
 }
 
 // @public
@@ -4612,7 +4953,7 @@ export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCo
 
 // @public
 export interface ProviderGetFunctionAppStacksNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum11;
+    stackOsType?: Enum16;
 }
 
 // @public
@@ -4620,7 +4961,7 @@ export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollectio
 
 // @public
 export interface ProviderGetFunctionAppStacksOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum11;
+    stackOsType?: Enum16;
 }
 
 // @public
@@ -4628,7 +4969,7 @@ export type ProviderGetFunctionAppStacksResponse = FunctionAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum13;
+    stackOsType?: Enum18;
 }
 
 // @public
@@ -4636,7 +4977,7 @@ export type ProviderGetWebAppStacksForLocationNextResponse = WebAppStackCollecti
 
 // @public
 export interface ProviderGetWebAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum13;
+    stackOsType?: Enum18;
 }
 
 // @public
@@ -4644,7 +4985,7 @@ export type ProviderGetWebAppStacksForLocationResponse = WebAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum14;
+    stackOsType?: Enum19;
 }
 
 // @public
@@ -4652,7 +4993,7 @@ export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum14;
+    stackOsType?: Enum19;
 }
 
 // @public
@@ -4726,6 +5067,13 @@ export interface QueryUtterancesResult {
 export interface QueryUtterancesResults {
     query?: string;
     results?: QueryUtterancesResult[];
+}
+
+// @public
+export interface QueueScaleRule {
+    auth?: ScaleRuleAuth[];
+    queueLength?: number;
+    queueName?: string;
 }
 
 // @public
@@ -4951,6 +5299,13 @@ export interface RecommendationsResetAllFiltersOptionalParams extends coreClient
 
 // @public
 export type RedundancyMode = "None" | "Manual" | "Failover" | "ActiveActive" | "GeoRedundant";
+
+// @public
+export interface RegistryCredentials {
+    passwordSecretRef?: string;
+    server?: string;
+    username?: string;
+}
 
 // @public
 export type ReissueCertificateOrderRequest = ProxyOnlyResource & {
@@ -5202,6 +5557,31 @@ export type RestoreRequest = ProxyOnlyResource & {
 };
 
 // @public
+export type Revision = Resource & {
+    readonly createdTime?: Date;
+    readonly fqdn?: string;
+    readonly template?: Template;
+    readonly active?: boolean;
+    readonly replicas?: number;
+    readonly trafficWeight?: number;
+    readonly provisioningError?: string;
+    readonly healthState?: RevisionHealthState;
+    readonly provisioningState?: RevisionProvisioningState;
+};
+
+// @public
+export interface RevisionCollection {
+    readonly nextLink?: string;
+    value: Revision[];
+}
+
+// @public
+export type RevisionHealthState = string;
+
+// @public
+export type RevisionProvisioningState = string;
+
+// @public
 export type RouteType = string;
 
 // @public
@@ -5212,7 +5592,39 @@ export interface SampleUtterance {
 }
 
 // @public
+export interface Scale {
+    maxReplicas?: number;
+    minReplicas?: number;
+    rules?: ScaleRule[];
+}
+
+// @public
+export interface ScaleRule {
+    azureQueue?: QueueScaleRule;
+    custom?: CustomScaleRule;
+    http?: HttpScaleRule;
+    name?: string;
+}
+
+// @public
+export interface ScaleRuleAuth {
+    secretRef?: string;
+    triggerParameter?: string;
+}
+
+// @public
 export type ScmType = string;
+
+// @public
+export interface Secret {
+    name?: string;
+    value?: string;
+}
+
+// @public
+export interface SecretsCollection {
+    value: ContainerAppSecret[];
+}
 
 // @public
 export interface ServiceSpecification {
@@ -5857,7 +6269,8 @@ export type StaticSiteARMResource = Resource & {
     readonly contentDistributionEndpoint?: string;
     readonly keyVaultReferenceIdentity?: string;
     readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
-    readonly provider?: string;
+    provider?: string;
+    enterpriseGradeCdnStatus?: EnterpriseGradeCdnStatus;
 };
 
 // @public
@@ -5943,7 +6356,8 @@ export type StaticSitePatchResource = ProxyOnlyResource & {
     readonly contentDistributionEndpoint?: string;
     readonly keyVaultReferenceIdentity?: string;
     readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
-    readonly provider?: string;
+    provider?: string;
+    enterpriseGradeCdnStatus?: EnterpriseGradeCdnStatus;
 };
 
 // @public
@@ -6570,6 +6984,14 @@ export type SwiftVirtualNetwork = ProxyOnlyResource & {
 };
 
 // @public
+export interface Template {
+    containers?: Container[];
+    dapr?: Dapr;
+    revisionSuffix?: string;
+    scale?: Scale;
+}
+
+// @public
 export interface TldLegalAgreement {
     agreementKey: string;
     content: string;
@@ -6649,6 +7071,13 @@ export interface TopLevelDomainsListOptionalParams extends coreClient.OperationO
 
 // @public
 export type TopLevelDomainsListResponse = TopLevelDomainCollection;
+
+// @public
+export interface TrafficWeight {
+    latestRevision?: boolean;
+    revisionName?: string;
+    weight?: number;
+}
 
 // @public
 export type TriggeredJobHistory = ProxyOnlyResource & {
@@ -7117,6 +7546,7 @@ export interface WebApps {
     getAuthSettingsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsSlotOptionalParams): Promise<WebAppsGetAuthSettingsSlotResponse>;
     getAuthSettingsV2(resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2OptionalParams): Promise<WebAppsGetAuthSettingsV2Response>;
     getAuthSettingsV2Slot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsV2SlotOptionalParams): Promise<WebAppsGetAuthSettingsV2SlotResponse>;
+    getAuthSettingsV2WithoutSecrets(resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams): Promise<WebAppsGetAuthSettingsV2WithoutSecretsResponse>;
     getBackupConfiguration(resourceGroupName: string, name: string, options?: WebAppsGetBackupConfigurationOptionalParams): Promise<WebAppsGetBackupConfigurationResponse>;
     getBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetBackupConfigurationSlotOptionalParams): Promise<WebAppsGetBackupConfigurationSlotResponse>;
     getBackupStatus(resourceGroupName: string, name: string, backupId: string, options?: WebAppsGetBackupStatusOptionalParams): Promise<WebAppsGetBackupStatusResponse>;
@@ -8004,6 +8434,13 @@ export interface WebAppsGetAuthSettingsV2SlotOptionalParams extends coreClient.O
 
 // @public
 export type WebAppsGetAuthSettingsV2SlotResponse = SiteAuthSettingsV2;
+
+// @public
+export interface WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsGetAuthSettingsV2WithoutSecretsResponse = SiteAuthSettingsV2;
 
 // @public
 export interface WebAppsGetBackupConfigurationOptionalParams extends coreClient.OperationOptions {
@@ -10535,6 +10972,10 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     certificates: Certificates;
     checkNameAvailability(name: string, typeParam: CheckNameResourceTypes, options?: CheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityResponse>;
     // (undocumented)
+    containerApps: ContainerApps;
+    // (undocumented)
+    containerAppsRevisions: ContainerAppsRevisions;
+    // (undocumented)
     deletedWebApps: DeletedWebApps;
     // (undocumented)
     diagnostics: Diagnostics;
@@ -10550,6 +10991,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     kubeEnvironments: KubeEnvironments;
     listBillingMeters(options?: ListBillingMetersOptionalParams): PagedAsyncIterableIterator<BillingMeter>;
+    listCustomHostNameSites(options?: ListCustomHostNameSitesOptionalParams): PagedAsyncIterableIterator<CustomHostnameSites>;
     listGeoRegions(options?: ListGeoRegionsOptionalParams): PagedAsyncIterableIterator<GeoRegion>;
     listPremierAddOnOffers(options?: ListPremierAddOnOffersOptionalParams): PagedAsyncIterableIterator<PremierAddOnOffer>;
     listSiteIdentifiersAssignedToHostName(nameIdentifier: NameIdentifier, options?: ListSiteIdentifiersAssignedToHostNameOptionalParams): PagedAsyncIterableIterator<Identifier>;

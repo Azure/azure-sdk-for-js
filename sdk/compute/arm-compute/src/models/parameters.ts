@@ -898,7 +898,7 @@ export const diskName: OperationURLParameter = {
 export const apiVersion1: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-04-01",
+    defaultValue: "2021-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

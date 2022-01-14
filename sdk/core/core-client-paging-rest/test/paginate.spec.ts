@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Client, getClient, PathUncheckedResponse } from "@azure-rest/core-client";
 import { paginateResponse } from "../src/paginate";
-import { PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { URL } from "../src/url";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -228,7 +228,7 @@ function mockResponse(client: Client, responses: MockResponse[]): void {
 
   client.pipeline.addPolicy({
     name: "mockClient",
-    sendRequest: async (request, _next): Promise<PipelineResponse> => {
+    sendRequest: async (request, _next) => {
       if (count < responses.length) {
         count++;
       }

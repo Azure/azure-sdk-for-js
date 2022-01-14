@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { buildRequestUrl } from "../src/urlHelpers";
+import { buildBaseUrl, buildRequestUrl } from "../src/urlHelpers";
 import { assert } from "chai";
 
 describe("urlHelpers", () => {
@@ -73,5 +73,33 @@ describe("urlHelpers", () => {
       skipUrlEncoding: true,
     });
     assert.equal(result, `https://example.org/foo%bar`);
+  });
+
+  it("should handle custom base url", () => {
+    const result = buildRequestUrl("https://{accountName}.org", "/foo", [], {
+      pathParameters: {
+        accountName: "example",
+      },
+    });
+    assert.equal(result, `https://example.org/foo`);
+  });
+
+  it("should build base url when enable path parameter encoding", () => {
+    const result = buildBaseUrl("https://{accountName}.org", {
+      pathParameters: {
+        accountName: "foo bar",
+      },
+    });
+    assert.equal(result, "https://foo%20bar.org");
+  });
+
+  it("should build base url when skip path parameter encoding", () => {
+    const result = buildBaseUrl("https://{accountName}.org", {
+      pathParameters: {
+        accountName: "foo%bar",
+      },
+      skipUrlEncoding: true,
+    });
+    assert.equal(result, "https://foo%bar.org");
   });
 });
