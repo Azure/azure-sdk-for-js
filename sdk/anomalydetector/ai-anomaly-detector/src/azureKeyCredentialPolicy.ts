@@ -9,7 +9,7 @@ import {
   BaseRequestPolicy,
   HttpOperationResponse,
   RequestPolicyOptionsLike,
-  WebResourceLike
+  WebResourceLike,
 } from "@azure/core-http";
 
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
@@ -24,7 +24,7 @@ export function createAnomalyDetectorAzureKeyCredentialPolicy(
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new AnomalyDetectorAzureKeyCredentialPolicy(nextPolicy, options, credential);
-    }
+    },
   };
 }
 

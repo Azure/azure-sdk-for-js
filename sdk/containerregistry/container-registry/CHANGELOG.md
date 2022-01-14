@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.7 (Unreleased)
+## 1.0.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0 (2022-01-11)
+
+This release marks the general availability release of Azure Container Registry client SDK library.
+
+### Breaking Changes
+
+- `TagOrderBy` is renamed to `ArtifactTagOrder`.
+- `ManifestOrderBy` is renamed to `ArtifactManifestOrder`.
+- `size` property in `ArtifactManifestProperties` is renamed to `sizeInBytes`.
 
 ## 1.0.0-beta.6 (2021-11-09)
 

@@ -19,7 +19,7 @@ async function main() {
 
   // Create a new ContainerRegistryClient for anonymous access
   const client = new ContainerRegistryClient(endpoint, {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
   });
 
   // Obtain a RegistryArtifact object to get access to image operations

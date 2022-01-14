@@ -78,7 +78,7 @@
     "@types/xml2js": "^0.4.3",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "chai": "^4.2.0",
-    "downlevel-dts": "~0.4.0",
+    "downlevel-dts": "^0.8.0",
     "cross-env": "^7.0.2",
     "eslint": "^7.15.0",
     "inherits": "^2.0.3",

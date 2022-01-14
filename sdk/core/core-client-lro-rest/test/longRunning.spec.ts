@@ -4,12 +4,7 @@
 import { assert } from "chai";
 import { Client, getClient } from "@azure-rest/core-client";
 import { getLongRunningPoller } from "../src/getLongRunningHelper";
-import {
-  PipelineResponse,
-  createHttpHeaders,
-  HttpHeaders,
-  HttpMethods,
-} from "@azure/core-rest-pipeline";
+import { createHttpHeaders, HttpHeaders, HttpMethods } from "@azure/core-rest-pipeline";
 import { URL } from "./utils/url";
 
 describe("LRO helper", () => {
@@ -251,7 +246,7 @@ function mockResponse(client: Client, responses: MockResponse[]) {
 
   client.pipeline.addPolicy({
     name: "mockClient",
-    sendRequest: async (request, _next): Promise<PipelineResponse> => {
+    sendRequest: async (request, _next) => {
       if (count < responses.length) {
         count++;
       }
