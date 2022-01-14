@@ -93,6 +93,7 @@ specifiers:
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
   '@rush-temp/arm-streamanalytics': file:./projects/arm-streamanalytics.tgz
   '@rush-temp/arm-subscriptions': file:./projects/arm-subscriptions.tgz
+  '@rush-temp/arm-synapse': file:./projects/arm-synapse.tgz
   '@rush-temp/arm-templatespecs': file:./projects/arm-templatespecs.tgz
   '@rush-temp/arm-videoanalyzer': file:./projects/arm-videoanalyzer.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
@@ -292,6 +293,7 @@ dependencies:
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
   '@rush-temp/arm-streamanalytics': file:projects/arm-streamanalytics.tgz
   '@rush-temp/arm-subscriptions': file:projects/arm-subscriptions.tgz
+  '@rush-temp/arm-synapse': file:projects/arm-synapse.tgz
   '@rush-temp/arm-templatespecs': file:projects/arm-templatespecs.tgz
   '@rush-temp/arm-videoanalyzer': file:projects/arm-videoanalyzer.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
@@ -10231,6 +10233,27 @@ packages:
       uglify-js: 3.14.5
     dev: false
 
+  file:projects/arm-synapse.tgz:
+    resolution: {integrity: sha512-k5LYmIg1eWN/BaoTjMTS9oNqNXJZ0jY5pFLxhD85g6HUkz81Ay1FOXp0RR6Om6Wflhxk/rHJoEaKUCR+KeTV0g==, tarball: file:projects/arm-synapse.tgz}
+    name: '@rush-temp/arm-synapse'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    dev: false
+
   file:projects/arm-templatespecs.tgz:
     resolution: {integrity: sha512-PsUhG3/DdSL17PowykaRCmgY50iuzawFwrM+wyKMoxzhOY/W4saWMWRz+ggnc8OyaAX19fZuTq56vOZrQyb9Qw==, tarball: file:projects/arm-templatespecs.tgz}
     name: '@rush-temp/arm-templatespecs'
@@ -11291,7 +11314,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-Mwy1YwcjkhlwfWXP1fCnxg10PvTaWrOfBdbG1OMb9wGL1IYju3j2xUAaUv1XQ1OBDz/xhy8AcefOsRg+Ot1svQ==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-HHFyXxUt5FDSrIn8kfb/WRUzgo3pp9zSURDrdfPzHO+EcqvCevzP5qlzUu4KGXK3hRdrvXM6oKNJpFn0r1iV2w==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:

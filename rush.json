@@ -1272,6 +1272,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-synapse",
+      "projectFolder": "sdk/synapse/arm-synapse",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-databox",
       "projectFolder": "sdk/databox/arm-databox",
       "versionPolicyName": "management"
