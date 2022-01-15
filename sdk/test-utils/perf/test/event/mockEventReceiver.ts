@@ -55,7 +55,7 @@ export class MockEventReceiver {
     return {
       close: async () => {
         this.closeCalled = true;
-      }
+      },
     };
   }
 

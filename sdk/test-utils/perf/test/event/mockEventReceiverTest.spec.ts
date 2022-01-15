@@ -40,7 +40,7 @@ export class MockEventReceiverTest extends EventPerfTest<
         },
         processError: async (error: Error) => {
           await this.processError({ error });
-        }
+        },
       },
       { raiseErrorAfterInSeconds: 10 }
     );

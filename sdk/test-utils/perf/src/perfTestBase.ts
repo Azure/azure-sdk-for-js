@@ -17,8 +17,8 @@ import { AbortController } from "@azure/abort-controller";
  */
 export interface PerfTestConstructor<
   TOptions extends Record<string, unknown> = Record<string, unknown>
-  > {
-  new(): PerfTestBase<TOptions>;
+> {
+  new (): PerfTestBase<TOptions>;
 }
 
 /**
@@ -86,7 +86,7 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
 /**
  * Picks a specific test case by comparing the first command line paramter to the names of the
  * given classes, all of which must extend PerfTest.
- * 
+ *
  */
 export function selectPerfTest(tests: PerfTestConstructor[]): PerfTestConstructor {
   const testsNames: string[] = tests.map((test) => test.name);
