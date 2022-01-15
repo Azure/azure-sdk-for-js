@@ -197,6 +197,7 @@ export class Sanitizer {
       if (options.sanitizer !== "Reset") {
         req.headers.set("x-abstraction-identifier", options.sanitizer);
       }
+      req.headers.set("Content-Type", "application/json");
       req.body = options.body;
       if (!this.httpClient) {
         throw new RecorderError(
