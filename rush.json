@@ -607,6 +607,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/opentelemetry-instrumentation-azure-sdk",
+      "projectFolder": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/schema-registry",
       "projectFolder": "sdk/schemaregistry/schema-registry",
       "versionPolicyName": "client"
@@ -709,11 +714,6 @@
     {
       "packageName": "@azure-tools/test-recorder",
       "projectFolder": "sdk/test-utils/recorder",
-      "versionPolicyName": "utility"
-    },
-    {
-      "packageName": "@azure-tools/test-recorder-new",
-      "projectFolder": "sdk/test-utils/recorder-new",
       "versionPolicyName": "utility"
     },
     {
@@ -1264,6 +1264,11 @@
     {
       "packageName": "@azure/arm-deviceprovisioningservices",
       "projectFolder": "sdk/deviceprovisioningservices/arm-deviceprovisioningservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-synapse",
+      "projectFolder": "sdk/synapse/arm-synapse",
       "versionPolicyName": "management"
     },
     {

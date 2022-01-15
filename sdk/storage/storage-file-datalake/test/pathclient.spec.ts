@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder, delay } from "@azure/core-http";
+import { isNode, delay } from "@azure/core-http";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { setSpan, context } from "@azure/core-tracing";
@@ -164,7 +164,6 @@ describe("DataLakePathClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
-    const urlPath = URLBuilder.parse(fileClient.url).getPath() || "";
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -177,7 +176,7 @@ describe("DataLakePathClient", () => {
                   name: "Azure.Storage.Blob.BlobClient-download",
                   children: [
                     {
-                      name: urlPath,
+                      name: "HTTP GET",
                       children: [],
                     },
                   ],

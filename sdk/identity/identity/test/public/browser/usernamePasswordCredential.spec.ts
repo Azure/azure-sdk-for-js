@@ -4,20 +4,14 @@
 import { assert } from "chai";
 import { assertClientCredentials } from "../../authTestUtils";
 import { UsernamePasswordCredential } from "../../../src";
-import {
-  createResponse,
-  IdentityTestContext,
-  SendCredentialRequests,
-} from "../../httpRequestsCommon";
-import { prepareIdentityTests } from "../../httpRequests";
+import { createResponse, IdentityTestContextInterface } from "../../httpRequestsCommon";
+import { IdentityTestContext } from "../../httpRequests";
 
 describe("UsernamePasswordCredential", function () {
-  let testContext: IdentityTestContext;
-  let sendCredentialRequests: SendCredentialRequests;
+  let testContext: IdentityTestContextInterface;
 
   beforeEach(async function () {
-    testContext = await prepareIdentityTests({});
-    sendCredentialRequests = testContext.sendCredentialRequests;
+    testContext = new IdentityTestContext({});
   });
   afterEach(async function () {
     await testContext.restore();
@@ -26,7 +20,7 @@ describe("UsernamePasswordCredential", function () {
   it("sends an authorization request with the given username and password", async () => {
     const password = "p@55wOrd";
 
-    const authDetails = await sendCredentialRequests({
+    const authDetails = await testContext.sendCredentialRequests({
       scopes: ["scope"],
       credential: new UsernamePasswordCredential("tenant", "client", "user@domain.com", password),
       secureResponses: [
