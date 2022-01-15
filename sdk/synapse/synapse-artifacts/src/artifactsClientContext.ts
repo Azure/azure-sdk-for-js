@@ -41,7 +41,7 @@ export class ArtifactsClientContext extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.8`;
+    const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.9`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
