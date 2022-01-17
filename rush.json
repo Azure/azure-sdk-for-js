@@ -1325,6 +1325,11 @@
       "packageName": "@azure/arm-labservices",
       "projectFolder": "sdk/labservices/arm-labservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appinsights",
+      "projectFolder": "sdk/applicationinsights/arm-appinsights",
+      "versionPolicyName": "management"
     }
   ]
 }
