@@ -15,6 +15,6 @@ https://docs.microsoft.com/javascript/api/@azure/arm-communication
 https://docs.microsoft.com/javascript/api/@azure/arm-databoxedge
 https://docs.microsoft.com/javascript/api/@azure/arm-datadog
 https://docs.microsoft.com/javascript/api/@azure/arm-healthbot
-https://docs.microsoft.com/javascript/api/@azure/arm-deploymentmanager
-https://docs.microsoft.com/javascript/api/@azure/arm-hanaonazure
-https://docs.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration
+https://docs.microsoft.com/javascript/api/@azure/arm-deploymentmanager?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-hanaonazure?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration?view=azure-node-preview
