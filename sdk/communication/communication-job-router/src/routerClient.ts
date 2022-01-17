@@ -60,7 +60,7 @@ import {
   JobStateSelector,
   WorkerStateSelector,
   CreateClassificationPolicyRequest,
-  ReleaseAssignmentRequest
+  ReleaseAssignmentRequest, RegisterWorkerRequest
 } from "./generated/src";
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -70,7 +70,6 @@ import {
   parseClientArguments
 } from "@azure/communication-common";
 import { createSetHeadersPolicy } from "./policies";
-import { RestRegisterWorkerRequest } from "../types/src";
 
 /**
  * Checks whether the type of a value is {@link RouterClientOptions} or not.
@@ -250,7 +249,10 @@ export class RouterClient {
     updatedModel?: DistributionPolicy,
     options: UpdateDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
-    options.patch = updatedModel;
+    if (updatedModel) {
+      options.patch = updatedModel;
+    }
+
     return this.client.jobRouter.patchDistributionPolicy(distributionPolicyId, options);
   }
 
@@ -315,7 +317,10 @@ export class RouterClient {
     updatedModel?: ExceptionPolicy,
     options: UpdateExceptionPolicyOptions = {}
   ): Promise<ExceptionPolicy> {
-    options.patchExceptionPolicy = updatedModel;
+    if (updatedModel) {
+      options.patchExceptionPolicy = updatedModel;
+    }
+
     return this.client.jobRouter.patchExceptionPolicyV2(exceptionPolicyId, options);
   }
 
@@ -583,7 +588,7 @@ export class RouterClient {
    */
   public async registerWorker(
     workerId: string,
-    request: RestRegisterWorkerRequest,
+    request: RegisterWorkerRequest,
     options: RegisterWorkerOptions = {}
   ): Promise<RouterWorker> {
     return this.client.jobRouter.registerWorkerV2(workerId, request, options);
