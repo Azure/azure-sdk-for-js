@@ -11,7 +11,7 @@ description: JobRouter Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: V2021_04_07_preview1
+tag: V2021_10_20_preview2
 input-file: swagger.json
 model-date-time-as-string: false
 optional-response-headers: true
@@ -31,23 +31,23 @@ use-core-v2: false
 
 # Change imcompatible TimeSpan type to String which can be parsed by .Net Core TimeSpan system class
 
+# Keep current definition of CommunicationErrorResponse in swagger.json
+
+# Manually add type for repeatabilityHeaders in generated index.ts, should try to find auto solution in future
+
 ```yaml
 directive:
-  - from: swagger-document
-    where: "$.definitions.UpsertDistributionPolicyRequest.properties.mode"
-    transform: >
-      $["$ref"] = "#/definitions/DistributionMode";
-
-  - from: swagger-document
-    where: "$.definitions.UpsertDistributionPolicyResponse.properties.mode"
-    transform: >
-      $["$ref"] = "#/definitions/DistributionMode";
 
   - from: swagger-document
     where: "$.definitions.DistributionPolicy.properties.mode"
     transform: >
       $["$ref"] = "#/definitions/DistributionMode";
 
+  - from: swagger-document
+    where: "$.definitions.PagedDistributionPolicy.properties.mode"
+    transform: >
+      $["$ref"] = "#/definitions/DistributionMode";
+      
   - from: swagger-document
     where: "$.definitions.CompositeModeIteration.properties.mode"
     transform: >
@@ -56,22 +56,21 @@ directive:
   - from: swagger-document
     where: "$.definitions.ClassificationPolicy.properties"
     transform: >
-      $.queueSelector["$ref"] = "#/definitions/QueueSelector";
+      $.queueSelectors.items["$ref"] = "#/definitions/LabelSelectorAttachment";
+      $.workerSelectors.items["$ref"] = "#/definitions/LabelSelectorAttachment";
+      $.prioritizationRule["$ref"] = "#/definitions/RouterRule";
+      
+  - from: swagger-document
+    where: "$.definitions.CreateClassificationPolicyRequest.properties"
+    transform: >
+      $.queueSelectors.items["$ref"] = "#/definitions/LabelSelectorAttachment";
       $.workerSelectors.items["$ref"] = "#/definitions/LabelSelectorAttachment";
       $.prioritizationRule["$ref"] = "#/definitions/RouterRule";
 
   - from: swagger-document
-    where: "$.definitions.UpsertClassificationPolicyRequest.properties"
+    where: "$.definitions.PagedClassificationPolicy.properties"
     transform: >
-      $.queueSelector["$ref"] = "#/definitions/QueueSelector";
-      $.workerSelectors.items["$ref"] = "#/definitions/LabelSelectorAttachment";
-      $.prioritizationRule["$ref"] = "#/definitions/RouterRule";
-
-  - from: swagger-document
-    where: "$.definitions.UpsertClassificationPolicyResponse.properties"
-    transform: >
-
-      $.queueSelector["$ref"] = "#/definitions/QueueSelector";
+      $.queueSelectors.items["$ref"] = "#/definitions/LabelSelectorAttachment";
       $.workerSelectors.items["$ref"] = "#/definitions/LabelSelectorAttachment";
       $.prioritizationRule["$ref"] = "#/definitions/RouterRule";
 

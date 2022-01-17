@@ -14,11 +14,11 @@ import { JobRouterApiClientOptionalParams } from "./models";
 export class JobRouterApiClient extends JobRouterApiClientContext {
   /**
    * Initializes a new instance of the JobRouterApiClient class.
-   * @param endpoint The endpoint of the Azure Communication resource.
+   * @param $host server parameter
    * @param options The parameter options
    */
-  constructor(endpoint: string, options?: JobRouterApiClientOptionalParams) {
-    super(endpoint, options);
+  constructor($host: string, options?: JobRouterApiClientOptionalParams) {
+    super($host, options);
     this.jobRouter = new JobRouterImpl(this);
   }
 

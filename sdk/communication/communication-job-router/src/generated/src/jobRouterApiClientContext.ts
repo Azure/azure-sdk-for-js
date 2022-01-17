@@ -13,17 +13,17 @@ const packageName = "azure-communication-jobrouter";
 const packageVersion = "1.0.0-beta.1";
 
 export class JobRouterApiClientContext extends coreHttp.ServiceClient {
-  endpoint: string;
+  $host: string;
   apiVersion?: string;
 
   /**
    * Initializes a new instance of the JobRouterApiClientContext class.
-   * @param endpoint The endpoint of the Azure Communication resource.
+   * @param $host server parameter
    * @param options The parameter options
    */
-  constructor(endpoint: string, options?: JobRouterApiClientOptionalParams) {
-    if (endpoint === undefined) {
-      throw new Error("'endpoint' cannot be null");
+  constructor($host: string, options?: JobRouterApiClientOptionalParams) {
+    if ($host === undefined) {
+      throw new Error("'$host' cannot be null");
     }
 
     // Initializing default values for options
@@ -44,11 +44,11 @@ export class JobRouterApiClientContext extends coreHttp.ServiceClient {
     });
 
     this.requestContentType = "application/json; charset=utf-8";
-    this.baseUri = options.endpoint || "{endpoint}";
+    this.baseUri = options.endpoint || "{$host}";
     // Parameter assignments
-    this.endpoint = endpoint;
+    this.$host = $host;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-04-07-preview1";
+    this.apiVersion = options.apiVersion || "2021-10-20-preview2";
   }
 }
