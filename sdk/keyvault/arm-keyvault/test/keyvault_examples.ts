@@ -147,6 +147,9 @@ describe("Keyvault test", () => {
   });
 
   it("vaults list test", async function() {
+    if(isPlaybackMode()) { 
+      this.skip() 
+    }
     const resArray = new Array();
     for await (let item of client.vaults.listByResourceGroup(resourceGroup)){
       resArray.push(item)
