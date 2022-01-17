@@ -15,11 +15,11 @@
     "os": false,
     "process": false
   },
-  "types": "./typings/latest/storage-file-share.d.ts",
+  "types": "./types/latest/storage-file-share.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "./typings/3.1/storage-file-share.d.ts"
+        "./types/3.1/storage-file-share.d.ts"
       ]
     }
   },
@@ -31,17 +31,16 @@
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:samples": "npm run build && npm run build:prep-samples",
-    "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
+    "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c 2>&1",
-    "build:types": "downlevel-dts typings/latest typings/3.1",
+    "build:types": "downlevel-dts types/latest types/3.1",
     "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-* typings temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
-    "clean:samples": "rimraf samples/javascript/node_modules samples/typescript/node_modules samples/typescript/dist samples/typescript/package-lock.json samples/javascript/package-lock.json",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "clean:samples": "rimraf samples/v12/javascript/node_modules samples/v12/typescript/node_modules samples/v12/typescript/dist samples/v12/typescript/package-lock.json samples/v12/javascript/package-lock.json",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/src/",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  \"dist-esm/test/*.spec.js\" \"dist-esm/test/node/*.spec.js\"",
@@ -61,8 +60,8 @@
     "ThirdPartyNotices.txt",
     "dist/",
     "dist-esm/src/",
-    "typings/latest/storage-file-share.d.ts",
-    "typings/3.1/storage-file-share.d.ts",
+    "types/latest/storage-file-share.d.ts",
+    "types/3.1/storage-file-share.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -102,14 +101,22 @@
   },
   "//sampleConfiguration": {
     "skip": [
-      "advanced.js",
-      "anonymousCred.js",
-      "basic.js",
+      "advancedRequestOptions.js",
+      "anonymousAuth.js",
+      "shareServiceClient.js",
       "customPipeline.js",
-      "iterators-files-and-directories.js",
-      "iterators-shares.js",
-      "sharedKeyCred.js"
-    ]
+      "listFilesAndDirectories.js",
+      "listShares.js",
+      "sharedKeyAuth.js"
+    ],
+    "productName": "Azure Storage File Share",
+    "productSlugs": [
+      "azure",
+      "azure-storage"
+    ],
+    "requiredResources": {
+      "Azure Storage Account": "https://docs.microsoft.com/azure/storage/common/storage-account-overview"
+    }
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
