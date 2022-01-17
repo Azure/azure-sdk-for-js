@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Subscription } from "../operationsInterfaces";
+import { SubscriptionOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -28,12 +28,12 @@ import {
   SubscriptionAcceptOwnershipStatusResponse
 } from "../models";
 
-/** Class containing Subscription operations. */
-export class SubscriptionImpl implements Subscription {
+/** Class containing SubscriptionOperations operations. */
+export class SubscriptionOperationsImpl implements SubscriptionOperations {
   private readonly client: SubscriptionClient;
 
   /**
-   * Initialize a new instance of the class Subscription class.
+   * Initialize a new instance of the class SubscriptionOperations class.
    * @param client Reference to the service client
    */
   constructor(client: SubscriptionClient) {
@@ -202,7 +202,7 @@ const cancelOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -220,7 +220,7 @@ const renameOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -238,13 +238,14 @@ const enableOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
 };
 const acceptOwnershipOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.Subscription/{subscriptionId}/acceptOwnership",
+  path:
+    "/providers/Microsoft.Subscription/subscriptions/{subscriptionId}/acceptOwnership",
   httpMethod: "POST",
   responses: {
     200: {
@@ -264,7 +265,7 @@ const acceptOwnershipOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body1,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -272,7 +273,7 @@ const acceptOwnershipOperationSpec: coreClient.OperationSpec = {
 };
 const acceptOwnershipStatusOperationSpec: coreClient.OperationSpec = {
   path:
-    "/providers/Microsoft.Subscription/{subscriptionId}/acceptOwnershipStatus",
+    "/providers/Microsoft.Subscription/subscriptions/{subscriptionId}/acceptOwnershipStatus",
   httpMethod: "GET",
   responses: {
     200: {
@@ -282,7 +283,7 @@ const acceptOwnershipStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseBody
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
