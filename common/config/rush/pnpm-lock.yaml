@@ -41,6 +41,7 @@ specifiers:
   '@rush-temp/arm-datadog': file:./projects/arm-datadog.tgz
   '@rush-temp/arm-datafactory': file:./projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
+  '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:./projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-devspaces': file:./projects/arm-devspaces.tgz
@@ -53,11 +54,13 @@ specifiers:
   '@rush-temp/arm-extendedlocation': file:./projects/arm-extendedlocation.tgz
   '@rush-temp/arm-features': file:./projects/arm-features.tgz
   '@rush-temp/arm-frontdoor': file:./projects/arm-frontdoor.tgz
+  '@rush-temp/arm-hanaonazure': file:./projects/arm-hanaonazure.tgz
   '@rush-temp/arm-hdinsight': file:./projects/arm-hdinsight.tgz
   '@rush-temp/arm-healthbot': file:./projects/arm-healthbot.tgz
   '@rush-temp/arm-imagebuilder': file:./projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
+  '@rush-temp/arm-kubernetesconfiguration': file:./projects/arm-kubernetesconfiguration.tgz
   '@rush-temp/arm-links': file:./projects/arm-links.tgz
   '@rush-temp/arm-loadtestservice': file:./projects/arm-loadtestservice.tgz
   '@rush-temp/arm-locks': file:./projects/arm-locks.tgz
@@ -240,6 +243,7 @@ dependencies:
   '@rush-temp/arm-datadog': file:projects/arm-datadog.tgz
   '@rush-temp/arm-datafactory': file:projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
+  '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-devspaces': file:projects/arm-devspaces.tgz
@@ -252,11 +256,13 @@ dependencies:
   '@rush-temp/arm-extendedlocation': file:projects/arm-extendedlocation.tgz
   '@rush-temp/arm-features': file:projects/arm-features.tgz
   '@rush-temp/arm-frontdoor': file:projects/arm-frontdoor.tgz
+  '@rush-temp/arm-hanaonazure': file:projects/arm-hanaonazure.tgz
   '@rush-temp/arm-hdinsight': file:projects/arm-hdinsight.tgz
   '@rush-temp/arm-healthbot': file:projects/arm-healthbot.tgz
   '@rush-temp/arm-imagebuilder': file:projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iothub': file:projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
+  '@rush-temp/arm-kubernetesconfiguration': file:projects/arm-kubernetesconfiguration.tgz
   '@rush-temp/arm-links': file:projects/arm-links.tgz
   '@rush-temp/arm-loadtestservice': file:projects/arm-loadtestservice.tgz
   '@rush-temp/arm-locks': file:projects/arm-locks.tgz
@@ -1502,7 +1508,6 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
-    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -9255,6 +9260,30 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-deploymentmanager.tgz:
+    resolution: {integrity: sha512-oKfp0AxchyfalWPQxopm1Zxk3mq4swFzztUippp2M00HPOBT1OuascfFtT7feAs6Dw8KJOHLBzjAxSzdVP+QOw==, tarball: file:projects/arm-deploymentmanager.tgz}
+    name: '@rush-temp/arm-deploymentmanager'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-desktopvirtualization.tgz:
     resolution: {integrity: sha512-Z2PAETG9cB4D5QoMn06A6fQnvMr7WVfPTLZSgSpQyJlGjYUI+sfLGPdScWpCCUYMHRrwCrRSGFj1cvO/Uzd3ww==, tarball: file:projects/arm-desktopvirtualization.tgz}
     name: '@rush-temp/arm-desktopvirtualization'
@@ -9542,6 +9571,30 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-hanaonazure.tgz:
+    resolution: {integrity: sha512-Vs1fIf+RssgOEhl6Nq/RUT0M+G7k8Kx/6zaoSWKV2IvUXZJq+tmyeyC9QXgMf/IHz8T3znLOxKojjkIHdJGgBw==, tarball: file:projects/arm-hanaonazure.tgz}
+    name: '@rush-temp/arm-hanaonazure'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-hdinsight.tgz:
     resolution: {integrity: sha512-J2Mt65iyBDMU6iMXq0nc4EXzX3OTHtEokWVJJ/tWfEVVlcE7EuR1NCOlFNBxIWiF/ItnTZNILGK2R7lLAmvIWw==, tarball: file:projects/arm-hdinsight.tgz}
     name: '@rush-temp/arm-hdinsight'
@@ -9656,6 +9709,30 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.14.5
+    dev: false
+
+  file:projects/arm-kubernetesconfiguration.tgz:
+    resolution: {integrity: sha512-4gFtl9oX7B/yLUTK8hmzpZGCkTsuyeO0NPO5vfGk2QPWWOOk+2PsIlkO0rzLm53vCDvBoa3sibrpTQGZVSYF9g==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
+    name: '@rush-temp/arm-kubernetesconfiguration'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/arm-links.tgz:
