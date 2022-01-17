@@ -18,7 +18,9 @@ describe("Call Connection Live Test", function() {
     let connectionString: string;
     beforeEach(async function(this: Context) {
       recorder = record(this, environmentSetup);
-      connectionString = env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING;
+      connectionString = 
+        env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ||
+        "endpoint=https://endpoint/;accesskey=banana";
     });
 
     afterEach(async function(this: Context) {
@@ -33,18 +35,18 @@ describe("Call Connection Live Test", function() {
       try {
         // create PlayAudio option
         const playAudioOptions: PlayAudioOptions = {
-          loop: true,
+          loop: Constants.PlayAudioOptionsLoop,
           audioFileId: recorder.getUniqueName("audioFileId"),
           callbackUrl: Constants.CALLBACK_URL,
           operationContext: recorder.getUniqueName("operationContext")
         };
 
         // Play Audio
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callConnection.playAudio(Constants.Audio_File_Url, playAudioOptions);
 
         // Cancel Media
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callConnection.cancelAllMediaOperations();
       }
       catch(e)
@@ -53,7 +55,7 @@ describe("Call Connection Live Test", function() {
       }
       finally {
         // Hangup call
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callConnection.hangUp();
       }
     });
@@ -69,21 +71,21 @@ describe("Call Connection Live Test", function() {
           communicationUserId: added_participant_id
         };
         // Add Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         const addParticipantResult = await callConnection.addParticipant(participant);
         assert.isNotNull(addParticipantResult.operationContext);
         assert.equal(addParticipantResult.status, "running");
         assert.isNotNull(addParticipantResult.resultDetails);
 
          //List participants 
-         await TestUtils.delayIfLive();
+         await TestUtils.waitForOperationCompletion();
          const listParticipantsResult = await callConnection.getParticipants()
          assert.isTrue(listParticipantsResult.length >= 2)
  
 
         // create PlayAudio option
         const playAudioOptions: PlayAudioOptions = {
-          loop: true,
+          loop: Constants.PlayAudioOptionsLoop,
           audioFileId: recorder.getUniqueName("audioFileId"),
           callbackUrl: Constants.CALLBACK_URL,
           operationContext: recorder.getUniqueName("operationContext")
@@ -91,11 +93,11 @@ describe("Call Connection Live Test", function() {
         const audioResult = await callConnection.playAudioToParticipant(participant, Constants.Audio_File_Url, playAudioOptions);
         const operationId = audioResult.operationId != undefined ? audioResult.operationId : ''
         // Remove Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callConnection.cancelParticipantMediaOperation(participant, operationId);
 
        // Remove Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callConnection.removeParticipant(participant);
       }
       catch(e){
@@ -103,7 +105,7 @@ describe("Call Connection Live Test", function() {
       }
       finally {
         // Hangup call
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callConnection.hangUp();
       }
     });
@@ -119,30 +121,30 @@ describe("Call Connection Live Test", function() {
           communicationUserId: added_participant_id
         };
         // Add Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         const addParticipantResult = await callConnection.addParticipant(participant);
         assert.equal(addParticipantResult.status, "running");
 
         // Mute participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callConnection.muteParticipant(participant)
 
         // Get Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         let mutedParticipant = await callConnection.getParticipant(participant)
         assert.isTrue(mutedParticipant.isMuted)
 
         // Unmute Participant  not working currently
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callConnection.unmuteParticipant(participant)
 
         // Get Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         let unmutedParticipant = await callConnection.getParticipant(participant)
         assert.isFalse(unmutedParticipant.isMuted)
 
         // Remove Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callConnection.removeParticipant(participant);
       }
       catch(e){
@@ -150,7 +152,7 @@ describe("Call Connection Live Test", function() {
       }
       finally {
         // Hangup call
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callConnection.hangUp();
       }
     });
@@ -166,12 +168,12 @@ describe("Call Connection Live Test", function() {
           communicationUserId: added_participant_id
         };
         // Add Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         const addParticipantResult = await callConnection.addParticipant(participant);
         assert.equal(addParticipantResult.status, "running");
 
         // Create audio group
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         let participantList = [];
         participantList[0] = participant
         const option: CreateAudioGroupOptions = {
@@ -196,7 +198,7 @@ describe("Call Connection Live Test", function() {
            communicationUserId: added_another_participant_id
         };
 
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         const addAnotherParticipantResult = await callConnection.addParticipant(anotherParticipant);
         assert.equal(addAnotherParticipantResult.status, "running");
 
@@ -207,10 +209,10 @@ describe("Call Connection Live Test", function() {
         await callConnection.deleteAudioGroup(createAudioGroupResult.audioGroupId!, option)
 
         // Resume/Add to group Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
 
         // Remove Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callConnection.removeParticipant(participant);
         await callConnection.removeParticipant(anotherParticipant);
       }
@@ -219,7 +221,7 @@ describe("Call Connection Live Test", function() {
       }
       finally {
         // Hangup call
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callConnection.hangUp();
       }
     });
@@ -235,7 +237,7 @@ describe("Call Connection Live Test", function() {
           communicationUserId: target_participant_id
         };
         // Transfer to Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         const transferParticipantResult = await callConnection.transferToParticipant(participant);
         assert.isTrue(transferParticipantResult.status == 'running');
       }
@@ -249,7 +251,7 @@ describe("Call Connection Live Test", function() {
       const callConnection = await SetupCall();
       try {
         // Transfer to call
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         let option:TransferToCallOptions = {userToUserInformation : ''}
         const transferParticipantResult = await callConnection.transferToCall('95201300-2190-4dfd-a254-f0ff7d55af05', option);
         assert.notEqual(transferParticipantResult.status, 'running');
@@ -265,10 +267,10 @@ describe("Call Connection Live Test", function() {
       try {
         await callConnection.keepAlive();
 
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         callConnection.delete();
 
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         try{
           await callConnection.keepAlive();
         }
@@ -312,7 +314,7 @@ describe("Call Connection Live Test", function() {
           communicationUserId: added_participant_id
         };
         // Add Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         const addParticipantResult = await callConnection.addParticipant(participant);
         assert.isNotNull(addParticipantResult.operationContext);
         assert.equal(addParticipantResult.status, "running");
@@ -327,14 +329,14 @@ describe("Call Connection Live Test", function() {
         await callConnection.addToDefaultAudioGroup(participant, resumeOption)
 
         // Remove Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callConnection.removeParticipant(participant);
       }
       catch(e){
         console.log(e)
       } finally {
         // Hangup call
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callConnection.hangUp();
       }
     });
