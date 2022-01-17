@@ -104,7 +104,7 @@ export interface BillingAccountPoliciesResponseProperties {
 
 // @public
 export interface CanceledSubscriptionId {
-    readonly value?: string;
+    readonly subscriptionId?: string;
 }
 
 // @public
@@ -112,7 +112,7 @@ export type CreatedByType = string;
 
 // @public
 export interface EnabledSubscriptionId {
-    readonly value?: string;
+    readonly subscriptionId?: string;
 }
 
 // @public
@@ -181,6 +181,22 @@ export enum KnownWorkload {
     DevTest = "DevTest",
     // (undocumented)
     Production = "Production"
+}
+
+// @public
+interface Location_2 {
+    readonly displayName?: string;
+    readonly id?: string;
+    readonly latitude?: string;
+    readonly longitude?: string;
+    readonly name?: string;
+    readonly subscriptionId?: string;
+}
+export { Location_2 as Location }
+
+// @public
+export interface LocationListResult {
+    value?: Location_2[];
 }
 
 // @public
@@ -260,7 +276,7 @@ export interface PutTenantPolicyRequestProperties {
 
 // @public
 export interface RenamedSubscriptionId {
-    readonly value?: string;
+    readonly subscriptionId?: string;
 }
 
 // @public
@@ -270,13 +286,16 @@ export interface ServiceTenantResponse {
 }
 
 // @public
+export type SpendingLimit = "On" | "Off" | "CurrentPeriodOff";
+
+// @public
 export interface Subscription {
-    acceptOwnershipStatus(subscriptionId: string, options?: SubscriptionAcceptOwnershipStatusOptionalParams): Promise<SubscriptionAcceptOwnershipStatusResponse>;
-    beginAcceptOwnership(subscriptionId: string, body: AcceptOwnershipRequest, options?: SubscriptionAcceptOwnershipOptionalParams): Promise<PollerLike<PollOperationState<SubscriptionAcceptOwnershipResponse>, SubscriptionAcceptOwnershipResponse>>;
-    beginAcceptOwnershipAndWait(subscriptionId: string, body: AcceptOwnershipRequest, options?: SubscriptionAcceptOwnershipOptionalParams): Promise<SubscriptionAcceptOwnershipResponse>;
-    cancel(subscriptionId: string, options?: SubscriptionCancelOptionalParams): Promise<SubscriptionCancelResponse>;
-    enable(subscriptionId: string, options?: SubscriptionEnableOptionalParams): Promise<SubscriptionEnableResponse>;
-    rename(subscriptionId: string, body: SubscriptionName, options?: SubscriptionRenameOptionalParams): Promise<SubscriptionRenameResponse>;
+    authorizationSource?: string;
+    readonly displayName?: string;
+    readonly id?: string;
+    readonly state?: SubscriptionState;
+    readonly subscriptionId?: string;
+    subscriptionPolicies?: SubscriptionPolicies;
 }
 
 // @public
@@ -321,6 +340,7 @@ export interface SubscriptionAliasResponseProperties {
     readonly acceptOwnershipState?: AcceptOwnership;
     readonly acceptOwnershipUrl?: string;
     billingScope?: string;
+    createdTime?: string;
     displayName?: string;
     managementGroupId?: string;
     provisioningState?: ProvisioningState;
@@ -348,21 +368,22 @@ export class SubscriptionClient extends coreClient.ServiceClient {
     // (undocumented)
     alias: Alias;
     // (undocumented)
-    apiVersion: string;
-    // (undocumented)
     billingAccount: BillingAccount;
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    subscription: Subscription;
+    subscriptionOperations: SubscriptionOperations;
     // (undocumented)
     subscriptionPolicy: SubscriptionPolicy;
+    // (undocumented)
+    subscriptions: Subscriptions;
+    // (undocumented)
+    tenants: Tenants;
 }
 
 // @public
 export interface SubscriptionClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -374,8 +395,31 @@ export interface SubscriptionEnableOptionalParams extends coreClient.OperationOp
 export type SubscriptionEnableResponse = EnabledSubscriptionId;
 
 // @public
+export interface SubscriptionListResult {
+    nextLink: string;
+    value?: Subscription[];
+}
+
+// @public
 export interface SubscriptionName {
     subscriptionName?: string;
+}
+
+// @public
+export interface SubscriptionOperations {
+    acceptOwnershipStatus(subscriptionId: string, options?: SubscriptionAcceptOwnershipStatusOptionalParams): Promise<SubscriptionAcceptOwnershipStatusResponse>;
+    beginAcceptOwnership(subscriptionId: string, body: AcceptOwnershipRequest, options?: SubscriptionAcceptOwnershipOptionalParams): Promise<PollerLike<PollOperationState<SubscriptionAcceptOwnershipResponse>, SubscriptionAcceptOwnershipResponse>>;
+    beginAcceptOwnershipAndWait(subscriptionId: string, body: AcceptOwnershipRequest, options?: SubscriptionAcceptOwnershipOptionalParams): Promise<SubscriptionAcceptOwnershipResponse>;
+    cancel(subscriptionId: string, options?: SubscriptionCancelOptionalParams): Promise<SubscriptionCancelResponse>;
+    enable(subscriptionId: string, options?: SubscriptionEnableOptionalParams): Promise<SubscriptionEnableResponse>;
+    rename(subscriptionId: string, body: SubscriptionName, options?: SubscriptionRenameOptionalParams): Promise<SubscriptionRenameResponse>;
+}
+
+// @public
+export interface SubscriptionPolicies {
+    readonly locationPlacementId?: string;
+    readonly quotaId?: string;
+    readonly spendingLimit?: SpendingLimit;
 }
 
 // @public
@@ -421,6 +465,44 @@ export interface SubscriptionRenameOptionalParams extends coreClient.OperationOp
 export type SubscriptionRenameResponse = RenamedSubscriptionId;
 
 // @public
+export interface Subscriptions {
+    get(subscriptionId: string, options?: SubscriptionsGetOptionalParams): Promise<SubscriptionsGetResponse>;
+    list(options?: SubscriptionsListOptionalParams): PagedAsyncIterableIterator<Subscription>;
+    listLocations(subscriptionId: string, options?: SubscriptionsListLocationsOptionalParams): PagedAsyncIterableIterator<Location_2>;
+}
+
+// @public
+export interface SubscriptionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionsGetResponse = Subscription;
+
+// @public
+export interface SubscriptionsListLocationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionsListLocationsResponse = LocationListResult;
+
+// @public
+export interface SubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionsListNextResponse = SubscriptionListResult;
+
+// @public
+export interface SubscriptionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionsListResponse = SubscriptionListResult;
+
+// @public
+export type SubscriptionState = "Enabled" | "Warned" | "PastDue" | "Disabled" | "Deleted";
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -431,12 +513,43 @@ export interface SystemData {
 }
 
 // @public
+export interface TenantIdDescription {
+    readonly id?: string;
+    readonly tenantId?: string;
+}
+
+// @public
+export interface TenantListResult {
+    nextLink: string;
+    value?: TenantIdDescription[];
+}
+
+// @public
 export interface TenantPolicy {
     blockSubscriptionsIntoTenant?: boolean;
     blockSubscriptionsLeavingTenant?: boolean;
     exemptedPrincipals?: string[];
     readonly policyId?: string;
 }
+
+// @public
+export interface Tenants {
+    list(options?: TenantsListOptionalParams): PagedAsyncIterableIterator<TenantIdDescription>;
+}
+
+// @public
+export interface TenantsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TenantsListNextResponse = TenantListResult;
+
+// @public
+export interface TenantsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TenantsListResponse = TenantListResult;
 
 // @public
 export type Workload = string;
