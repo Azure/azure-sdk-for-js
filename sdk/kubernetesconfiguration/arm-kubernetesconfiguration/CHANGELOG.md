@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 5.0.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 5.0.0-beta.1 (2022-01-17)
 
 The package of @azure/arm-kubernetesconfiguration is using our next generation design principles since version 5.0.0-beta.1, which contains breaking changes.
