@@ -138,6 +138,10 @@ describe("Keyvault test", () => {
   });
 
   it("vaults get test", async function() {
+    if(isPlaybackMode()) { 
+      this.skip() 
+    }
+
     const res = await client.vaults.get(resourceGroup,vaultName);
     assert.equal(res.name,vaultName);
   });
