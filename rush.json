@@ -1320,6 +1320,11 @@
       "packageName": "@azure/arm-kubernetesconfiguration",
       "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-labservices",
+      "projectFolder": "sdk/labservices/arm-labservices",
+      "versionPolicyName": "management"
     }
   ]
 }
