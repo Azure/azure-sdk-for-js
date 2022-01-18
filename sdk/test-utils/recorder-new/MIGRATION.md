@@ -278,6 +278,24 @@ Once you have made the necessary code changes, it is time to re-record your test
 
 If everything succeeds, the new recordings will be made available in the `recordings` directory. Inspect them to make sure everything looks OK (no secrets present, etc.), and then run the tests in playback mode to ensure everything is passing. If you're running into issues, check out the [Troubleshooting section](#troubleshooting).
 
+## Troubleshooting
+
+If you run into issues while migrating your package, some of the following troubleshooting steps may help:
+
+### Viewing test proxy log output
+
+`dev-tool` by default outputs logs from the test proxy to `test-proxy-output.log` in your package's root directory. These logs can be inspected to see what requests were made to the proxy tool.
+
+### Viewing more detailed logs by running the proxy tool manually
+
+If you desire, you can run the proxy tool docker image manually before running your tests. This allows you to specify a different log level (debug in the below example), allowing for more detailed logs to be viewed. Do this by running:
+
+```bash
+docker run -v <your azure-sdk-for-js repository root>:/srv/testproxy -p 5001:5001 -p 5000:5000 -e Logging__LogLevel__Microsoft=Debug azsdkengsys.azurecr.io/engsys/testproxy-lin:latest
+```
+
+Once you've done this, you can run your tests in a separate terminal. `dev-tool` will detect that a test proxy container is already running and will point requests to the Docker container you started.
+
 [docker]: https://docker.com/
 [`core-rest-pipeline`]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-rest-pipeline
 [`core-http`]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-http
