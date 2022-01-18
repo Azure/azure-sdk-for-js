@@ -717,6 +717,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure-tools/test-recorder-new",
+      "projectFolder": "sdk/test-utils/recorder-new",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure-tools/test-credential",
       "projectFolder": "sdk/test-utils/test-credential",
       "versionPolicyName": "utility"
@@ -1334,6 +1339,11 @@
     {
       "packageName": "@azure/arm-machinelearningexperimentation",
       "projectFolder": "sdk/machinelearningexperimentation/arm-machinelearningexperimentation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-kusto",
+      "projectFolder": "sdk/kusto/arm-kusto",
       "versionPolicyName": "management"
     }
   ]

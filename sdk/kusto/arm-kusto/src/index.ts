@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  discriminators,
-  CloudError,
-  Operation,
-  OperationDisplay,
-  OperationListResult
-} from "../models/mappers";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { KustoManagementClient } from "./kustoManagementClient";
+export * from "./operationsInterfaces";

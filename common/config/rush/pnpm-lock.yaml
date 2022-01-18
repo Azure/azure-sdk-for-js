@@ -61,6 +61,7 @@ specifiers:
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
   '@rush-temp/arm-kubernetesconfiguration': file:./projects/arm-kubernetesconfiguration.tgz
+  '@rush-temp/arm-kusto': file:./projects/arm-kusto.tgz
   '@rush-temp/arm-labservices': file:./projects/arm-labservices.tgz
   '@rush-temp/arm-links': file:./projects/arm-links.tgz
   '@rush-temp/arm-loadtestservice': file:./projects/arm-loadtestservice.tgz
@@ -198,6 +199,7 @@ specifiers:
   '@rush-temp/template': file:./projects/template.tgz
   '@rush-temp/test-credential': file:./projects/test-credential.tgz
   '@rush-temp/test-recorder': file:./projects/test-recorder.tgz
+  '@rush-temp/test-recorder-new': file:./projects/test-recorder-new.tgz
   '@rush-temp/test-utils': file:./projects/test-utils.tgz
   '@rush-temp/test-utils-perf': file:./projects/test-utils-perf.tgz
   '@rush-temp/testing-recorder-new': file:./projects/testing-recorder-new.tgz
@@ -521,6 +523,21 @@ packages:
       '@azure/core-rest-pipeline': 1.3.2
       '@azure/core-tracing': 1.0.0-preview.12
       '@azure/logger': 1.0.3
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/arm-compute/17.1.0:
+    resolution: {integrity: sha512-zLc/bgbNAIZlSgePz9SmGkmqs3VU7U0hO6vQfau03Ni9aOYeoWRiStIv/xCxxvflnJFVcwj5fPm5AeyGjTTNow==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.3.3
+      '@azure/core-lro': 2.2.2
+      '@azure/core-paging': 1.2.0
+      '@azure/core-rest-pipeline': 1.3.2
       tslib: 2.3.1
     transitivePeerDependencies:
       - supports-color
@@ -1514,6 +1531,7 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.3:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -9771,6 +9789,32 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-kusto.tgz:
+    resolution: {integrity: sha512-bBzSvuaICpQ/P8BRFuMCR/4sD6orz94aBlVfdGfVWuLSSD6eFRDWm+ubeMCg94Xiin2CzX8ZyS3+as315fOFEg==, tarball: file:projects/arm-kusto.tgz}
+    name: '@rush-temp/arm-kusto'
+    version: 0.0.0
+    dependencies:
+      '@azure/arm-compute': 17.1.0
+      '@azure/core-lro': 1.0.5
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-node-resolve: 3.4.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-links.tgz:
     resolution: {integrity: sha512-FxAd5v0wUR9NU1MKlW1sDzDX2mliIrqCRdlmSHSf0u/NYd0PJrmkEXJcZ8u4pfLmyragf8OhKeH2junip+DK+g==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
@@ -14666,7 +14710,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-dr7idlS3XhlJfHn9dU7ISFa/mI5LL0lCHDU/2TkSuQADpj7725wptg7GxiJy+hDjN+wueaxEsiXiuFavHSs8ow==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-X5CgGBgZJMA3ZEyVpECUT5jQTbIKpHW/KId6sV1VHAXWAwuxifeOY+7JpJZcnpuHcVKfbXb+b/2+ZzSsrvzr0w==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -14755,6 +14799,65 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       express: 4.17.2
+      karma: 6.3.9
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.1.0
+      karma-edge-launcher: 0.4.2_karma@6.3.9
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.9
+      karma-json-preprocessor: 0.3.3_karma@6.3.9
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.9
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.9
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      mock-fs: 5.1.2
+      mock-require: 3.0.3
+      npm-run-all: 4.1.5
+      nyc: 15.1.0
+      prettier: 2.5.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-shim: 1.0.0
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
+      ts-node: 9.1.1_typescript@4.2.4
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uuid: 8.3.2
+      xhr-mock: 2.5.1
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/test-recorder.tgz:
+    resolution: {integrity: sha512-YVTZKhc57wqPtdwdRvUNEeT7fWFV9Z8biRjF+DNywqCbCLC6QY/gIy7+Cb7Lw9B+MVCPDxqW4r0dU4aFd4rBjA==, tarball: file:projects/test-recorder.tgz}
+    name: '@rush-temp/test-recorder'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/chai': 4.3.0
+      '@types/fs-extra': 8.1.2
+      '@types/md5': 2.3.1
+      '@types/mocha': 7.0.2
+      '@types/mock-fs': 4.13.1
+      '@types/mock-require': 2.0.0
+      '@types/nise': 1.4.0
+      '@types/node': 12.20.40
+      chai: 4.3.4
+      dotenv: 8.6.0
+      eslint: 7.32.0
       fs-extra: 8.1.0
       karma: 6.3.9
       karma-chrome-launcher: 3.1.0
