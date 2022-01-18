@@ -4,7 +4,7 @@ module.exports.hash = "9d22e91b3c0859e19eebf021b89a898f";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint', {"encodedQueryParams":false})
+nock('https://endpoint', {"encodedQueryParams":true})
   .patch('/phoneNumbers/%2B14155550100/capabilities', {"calling":"none","sms":"outbound"})
   .query(true)
   .reply(404, {"error":{"code":"InternalError","message":"The server encountered an internal error."}}, [
@@ -15,15 +15,15 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'QdMD7Y75oUuEz/OnGua9RA.0',
+  '02JA3AYOPkWV6WK90oakLg.0',
   'api-supported-versions',
-  '2021-03-07',
+  '2021-03-07, 2022-01-11-preview2',
   'X-Processing-Time',
-  '301ms',
+  '71ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0FMzMYAAAAAAJQcr/2q+HTrABQAGhIAtoWVZSMzBFREdFMDQxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0/ATeYQAAAACnKhumoeuaRbRjWxOe6KuoUklPMDFFREdFMDUxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Fri, 18 Jun 2021 16:38:43 GMT'
+  'Tue, 11 Jan 2022 22:30:20 GMT'
 ]);

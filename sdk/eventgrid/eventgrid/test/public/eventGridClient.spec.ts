@@ -239,7 +239,6 @@ describe("EventGridPublisherClient", function (this: Suite) {
       assert.equal(spans.length, 3);
       assert.equal(spans[0].name, "root");
       assert.equal(spans[1].name, "Azure.Data.EventGrid.EventGridPublisherClient-send");
-      assert.equal(spans[2].name, "/api/events");
 
       resetTracer();
     });

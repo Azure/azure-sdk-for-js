@@ -1,0 +1,30 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+            
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/machinelearningexperimentation/
+
+pr:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/machinelearningexperimentation/
+
+extends:
+  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: machinelearningexperimentation
+    Artifacts:
+      - name: azure-arm-machinelearningexperimentation
+        safeName: azurearmmachinelearningexperimentation
+        

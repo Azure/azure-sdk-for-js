@@ -7,11 +7,10 @@ import {
   TracingContext,
   TracingSpan,
 } from "@azure/core-tracing";
+import { context, defaultTextMapGetter, defaultTextMapSetter, trace } from "@opentelemetry/api";
 
-import { trace, context, defaultTextMapGetter, defaultTextMapSetter } from "@opentelemetry/api";
-import { W3CTraceContextPropagator } from "@opentelemetry/core";
 import { OpenTelemetrySpanWrapper } from "./spanWrapper";
-
+import { W3CTraceContextPropagator } from "@opentelemetry/core";
 import { toSpanOptions } from "./transformations";
 
 // While default propagation is user-configurable, Azure services always use the W3C implementation.
