@@ -10,7 +10,8 @@ import { TokenCredential, CommunicationGetTokenOptions } from "./communicationTo
  */
 export interface CommunicationTokenRefreshOptions {
   /**
-   * Function that returns a token acquired from the Communication configuration SDK.
+   * Callback function that returns a token acquired from the Communication Identity API.
+   * The returned token must be valid (expiration date must be in the future).
    */
   tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
 

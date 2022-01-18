@@ -27,13 +27,15 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 A `CommunicationTokenCredential` authenticates a user with Communication Services, such as Chat or Calling. It optionally provides an auto-refresh mechanism to ensure a continuously stable authentication state during communications.
 
-It is up to you the developer to first create valid user tokens with the Azure Communication Administration library. Then you use these tokens to create a `AzureCommunicationTokenCredential`.
+It is up to you the developer to first create valid user tokens with the Azure Communication Identity library. Then you use these tokens to create an `AzureCommunicationTokenCredential`.
 
 `CommunicationTokenCredential` is only the interface, please always use the `AzureCommunicationTokenCredential` constructor to create a credential and take advantage of the built-in refresh logic.
 
 ## Examples
 
 ### Create a credential with a static token
+
+For a short-lived clients, refreshing the token upon expiry is not necessary and the `AzureCommunicationTokenCredential` may be instantiated with a static token.
 
 ```typescript
 const tokenCredential = new AzureCommunicationTokenCredential(
@@ -43,11 +45,11 @@ const tokenCredential = new AzureCommunicationTokenCredential(
 
 ### Create a credential with a callback
 
-Here we assume that we have a function `fetchTokenFromMyServerForUser` that makes a network request to retrieve a token string for a user. We pass it into the credential to fetch a token for Bob from our own server. Our server would use the Azure Communication Administration library to issue tokens.
+Here we assume that we have a function `fetchTokenFromMyServerForUser` that makes a network request to retrieve a token string for a user. We pass it into the credential to fetch a token for Bob from our own server. Our server would use the Azure Communication Identity library to issue tokens. It's necessary that the `fetchTokenFromMyServerForUser` function returns a valid token (with an expiration date set in the future) at all times.
 
 ```typescript
 const tokenCredential = new AzureCommunicationTokenCredential({
-  tokenRefresher: async () => fetchTokenFromMyServerForUser("bob@contoso.com")
+  tokenRefresher: async () => fetchTokenFromMyServerForUser("bob@contoso.com"),
 });
 ```
 
@@ -58,7 +60,7 @@ Setting `refreshProactively` to true will call your `tokenRefresher` function wh
 ```typescript
 const tokenCredential = new AzureCommunicationTokenCredential({
   tokenRefresher: async () => fetchTokenFromMyServerForUser("bob@contoso.com"),
-  refreshProactively: true
+  refreshProactively: true,
 });
 ```
 
@@ -71,7 +73,7 @@ const tokenCredential = new AzureCommunicationTokenCredential({
   tokenRefresher: async () => fetchTokenFromMyServerForUser("bob@contoso.com"),
   refreshProactively: true,
   token:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs"
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
 });
 ```
 
