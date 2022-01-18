@@ -1325,6 +1325,16 @@
       "packageName": "@azure/arm-labservices",
       "projectFolder": "sdk/labservices/arm-labservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-machinelearningcompute",
+      "projectFolder": "sdk/machinelearningcompute/arm-machinelearningcompute",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-machinelearningexperimentation",
+      "projectFolder": "sdk/machinelearningexperimentation/arm-machinelearningexperimentation",
+      "versionPolicyName": "management"
     }
   ]
 }

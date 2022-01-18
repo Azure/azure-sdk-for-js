@@ -66,6 +66,8 @@ specifiers:
   '@rush-temp/arm-loadtestservice': file:./projects/arm-loadtestservice.tgz
   '@rush-temp/arm-locks': file:./projects/arm-locks.tgz
   '@rush-temp/arm-logic': file:./projects/arm-logic.tgz
+  '@rush-temp/arm-machinelearningcompute': file:./projects/arm-machinelearningcompute.tgz
+  '@rush-temp/arm-machinelearningexperimentation': file:./projects/arm-machinelearningexperimentation.tgz
   '@rush-temp/arm-managedapplications': file:./projects/arm-managedapplications.tgz
   '@rush-temp/arm-managementgroups': file:./projects/arm-managementgroups.tgz
   '@rush-temp/arm-mediaservices': file:./projects/arm-mediaservices.tgz
@@ -269,6 +271,8 @@ dependencies:
   '@rush-temp/arm-loadtestservice': file:projects/arm-loadtestservice.tgz
   '@rush-temp/arm-locks': file:projects/arm-locks.tgz
   '@rush-temp/arm-logic': file:projects/arm-logic.tgz
+  '@rush-temp/arm-machinelearningcompute': file:projects/arm-machinelearningcompute.tgz
+  '@rush-temp/arm-machinelearningexperimentation': file:projects/arm-machinelearningexperimentation.tgz
   '@rush-temp/arm-managedapplications': file:projects/arm-managedapplications.tgz
   '@rush-temp/arm-managementgroups': file:projects/arm-managementgroups.tgz
   '@rush-temp/arm-mediaservices': file:projects/arm-mediaservices.tgz
@@ -9842,6 +9846,54 @@ packages:
   file:projects/arm-logic.tgz:
     resolution: {integrity: sha512-DJ/Dk2yD4GDkHKbprdNE/d2V8132hmWq0RBIc74T4hPvuQsB4IJVtpVReZpVaKwwWuqBj2qRfuDqAdPoVrkoYg==, tarball: file:projects/arm-logic.tgz}
     name: '@rush-temp/arm-logic'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-machinelearningcompute.tgz:
+    resolution: {integrity: sha512-MASxoXTGPlsyS9vTB2LQkDGH9XAv1ex3a2A2GrU/T35OX6DXyLrnyZwLfxhdoGuNLoUN1AiZaMNzxusu3G9dqQ==, tarball: file:projects/arm-machinelearningcompute.tgz}
+    name: '@rush-temp/arm-machinelearningcompute'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-machinelearningexperimentation.tgz:
+    resolution: {integrity: sha512-4wPXhneS7lXw2+23j715k1lKUvHwEfe3a/LqYGlJb42+RK57JAzojgxPyhBpDeDgJniYIT3jT6nzkzjM071FqA==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
+    name: '@rush-temp/arm-machinelearningexperimentation'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
