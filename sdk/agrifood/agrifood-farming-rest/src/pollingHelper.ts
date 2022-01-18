@@ -7,50 +7,21 @@ import {
   LroEngine,
   LroEngineOptions,
   LroResponse,
-  PollOperationState,
   PollerLike,
+  PollOperationState,
 } from "@azure/core-lro";
 
 /**
- * Options for the poller
- */
-export interface PollerOptions {
-  /**
-   * Defines how much time the poller is going to wait before making a new request to the service.
-   */
-  updateIntervalInMs?: number;
-  /**
-   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
-   */
-  resumeFrom?: string;
-}
-
-/**
  * Helper function that builds a Poller object to help polling a long running operation.
  * @param client - Client to use for sending the request to get additional pages.
  * @param initialResponse - The initial response.
- * @returns - A poller object to poll for operation state updates and eventually get the final response.
- */
-export function getLongRunningPoller<TResult extends HttpResponse>(
-  client: Client,
-  initialResponse: TResult
-): PollerLike<PollOperationState<TResult>, TResult>;
-/**
- * Helper function that builds a Poller object to help polling a long running operation.
- * @param client - Client to use for sending the request to get additional pages.
- * @param initialResponse - The initial response.
- * @param pollerOptions - Options to set a resume state or custom polling interval.
+ * @param options - Options to set a resume state or custom polling interval.
  * @returns - A poller object to poll for operation state updates and eventually get the final response.
  */
 export function getLongRunningPoller<TResult extends HttpResponse>(
   client: Client,
   initialResponse: TResult,
-  pollerOptions: LroEngineOptions<TResult, PollOperationState<TResult>>
-): PollerLike<PollOperationState<TResult>, TResult>;
-export function getLongRunningPoller<TResult extends HttpResponse>(
-  client: Client,
-  initialResponse: TResult,
-  pollerOptions?: LroEngineOptions<TResult, PollOperationState<TResult>>
+  options: LroEngineOptions<TResult, PollOperationState<TResult>> = {}
 ): PollerLike<PollOperationState<TResult>, TResult> {
   const poller: LongRunningOperation<TResult> = {
     requestMethod: initialResponse.request.method,
@@ -71,7 +42,7 @@ export function getLongRunningPoller<TResult extends HttpResponse>(
     },
   };
 
-  return new LroEngine(poller, pollerOptions);
+  return new LroEngine(poller, options);
 }
 
 /**

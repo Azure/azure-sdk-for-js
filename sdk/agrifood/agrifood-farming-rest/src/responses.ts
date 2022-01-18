@@ -1,1258 +1,3023 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  ApplicationDataListResponse,
-  ErrorResponse,
-  ApplicationData,
-  AttachmentListResponse,
-  Attachment,
-  BoundaryListResponse,
-  CascadeDeleteJob,
-  Boundary,
-  BoundaryOverlapResponse,
-  CropListResponse,
-  Crop,
-  CropVarietyListResponse,
-  CropVariety,
-  FarmerListResponse,
-  Farmer,
-  FarmOperationDataIngestionJob,
-  FarmListResponse,
-  Farm,
-  FieldListResponse,
-  Field,
-  HarvestDataListResponse,
-  HarvestData,
-  ImageProcessingRasterizeJob,
-  OAuthProviderListResponse,
-  OAuthProvider,
-  OAuthTokenListResponse,
-  PlantingDataListResponse,
-  PlantingData,
-  SceneListResponse,
-  SatelliteDataIngestionJob,
-  SeasonalFieldListResponse,
-  SeasonalField,
-  SeasonListResponse,
-  Season,
-  TillageDataListResponse,
-  TillageData,
-  WeatherDataListResponse,
-  WeatherDataIngestionJob,
-  WeatherDataDeleteJob,
-} from "./models";
 import { HttpResponse } from "@azure-rest/core-client";
+import {
+  ApplicationDataListResponseOutput,
+  ErrorResponseOutput,
+  ApplicationDataOutput,
+  CascadeDeleteJobOutput,
+  AttachmentListResponseOutput,
+  AttachmentOutput,
+  BoundaryListResponseOutput,
+  BoundaryOutput,
+  BoundaryOverlapResponseOutput,
+  CropListResponseOutput,
+  CropOutput,
+  CropVarietyListResponseOutput,
+  CropVarietyOutput,
+  FarmerListResponseOutput,
+  FarmerOutput,
+  FarmOperationDataIngestionJobOutput,
+  FarmListResponseOutput,
+  FarmOutput,
+  FieldListResponseOutput,
+  FieldOutput,
+  HarvestDataListResponseOutput,
+  HarvestDataOutput,
+  ImageProcessingRasterizeJobOutput,
+  OAuthProviderListResponseOutput,
+  OAuthProviderOutput,
+  OAuthProviderCascadeDeleteJobOutput,
+  OAuthTokenListResponseOutput,
+  PlantingDataListResponseOutput,
+  PlantingDataOutput,
+  SceneListResponseOutput,
+  SatelliteDataIngestionJobOutput,
+  SeasonalFieldListResponseOutput,
+  SeasonalFieldOutput,
+  SeasonListResponseOutput,
+  SeasonOutput,
+  TillageDataListResponseOutput,
+  TillageDataOutput,
+  WeatherDataListResponseOutput,
+  WeatherDataIngestionJobOutput,
+  WeatherDataDeleteJobOutput,
+} from "./outputModels";
 
-/** Returns a paginated list of application data resources under a particular farm. */
+/**
+ * Get a paginated list of application data resources for a given farmer and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface ApplicationDataListByFarmerId200Response extends HttpResponse {
   status: "200";
-  body: ApplicationDataListResponse;
+  body: ApplicationDataListResponseOutput;
 }
 
-/** Returns a paginated list of application data resources under a particular farm. */
+/**
+ * Get a paginated list of application data resources for a given farmer and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface ApplicationDataListByFarmerIddefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of application data resources across all farmers. */
+/**
+ * Get a paginated list of application data resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface ApplicationDataList200Response extends HttpResponse {
   status: "200";
-  body: ApplicationDataListResponse;
+  body: ApplicationDataListResponseOutput;
 }
 
-/** Returns a paginated list of application data resources across all farmers. */
+/**
+ * Get a paginated list of application data resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface ApplicationDataListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get a specified application data resource under a particular farmer. */
+/**
+ * Get a specified application data resource for a given farmer.
+ *
+ *
+ */
 export interface ApplicationDataGet200Response extends HttpResponse {
   status: "200";
-  body: ApplicationData;
+  body: ApplicationDataOutput;
 }
 
-/** Get a specified application data resource under a particular farmer. */
+/**
+ * Get a specified application data resource for a given farmer.
+ *
+ *
+ */
 export interface ApplicationDataGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Creates or updates an application data resource under a particular farmer. */
+/**
+ * Create or update an application data resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface ApplicationDataCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: ApplicationData;
+  body: ApplicationDataOutput;
 }
 
-/** Creates or updates an application data resource under a particular farmer. */
+/**
+ * Create or update an application data resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface ApplicationDataCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: ApplicationData;
+  body: ApplicationDataOutput;
 }
 
-/** Creates or updates an application data resource under a particular farmer. */
+/**
+ * Create or update an application data resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface ApplicationDataCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Deletes a specified application data resource under a particular farmer. */
+/**
+ * Delete a specified application data resource for a given farmer.
+ *
+ *
+ */
 export interface ApplicationDataDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
-/** Deletes a specified application data resource under a particular farmer. */
+/**
+ * Delete a specified application data resource for a given farmer.
+ *
+ *
+ */
 export interface ApplicationDataDeletedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of attachment resources under a particular farmer. */
+/**
+ * Get details of a cascade delete job for application data resource.
+ *
+ *
+ */
+export interface ApplicationDataGetCascadeDeleteJobDetails200Response extends HttpResponse {
+  status: "200";
+  body: CascadeDeleteJobOutput;
+}
+
+/**
+ * Get details of a cascade delete job for application data resource.
+ *
+ *
+ */
+export interface ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+  status: "500";
+  body: ErrorResponseOutput;
+}
+
+/**
+ * Create cascade delete job for application data resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
+export interface ApplicationDataCreateCascadeDeleteJob202Response extends HttpResponse {
+  status: "202";
+  body: CascadeDeleteJobOutput;
+}
+
+/**
+ * Create cascade delete job for application data resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
+export interface ApplicationDataCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+  status: "500";
+  body: ErrorResponseOutput;
+}
+
+/**
+ * Get a paginated list of attachment resources for a given farmer and search criteria.
+ *
+ *
+ */
 export interface AttachmentsListByFarmerId200Response extends HttpResponse {
   status: "200";
-  body: AttachmentListResponse;
+  body: AttachmentListResponseOutput;
 }
 
-/** Returns a paginated list of attachment resources under a particular farmer. */
+/**
+ * Get a paginated list of attachment resources for a given farmer and search criteria.
+ *
+ *
+ */
 export interface AttachmentsListByFarmerIddefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Gets a specified attachment resource under a particular farmer. */
+/**
+ * Get a specified attachment resource for a given farmer.
+ *
+ *
+ */
 export interface AttachmentsGet200Response extends HttpResponse {
   status: "200";
-  body: Attachment;
+  body: AttachmentOutput;
 }
 
-/** Gets a specified attachment resource under a particular farmer. */
+/**
+ * Get a specified attachment resource for a given farmer.
+ *
+ *
+ */
 export interface AttachmentsGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Creates or updates an attachment resource under a particular farmer. */
+/**
+ * Create or update an attachment resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface AttachmentsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: Attachment;
+  body: AttachmentOutput;
 }
 
-/** Creates or updates an attachment resource under a particular farmer. */
+/**
+ * Create or update an attachment resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface AttachmentsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: Attachment;
+  body: AttachmentOutput;
 }
 
-/** Creates or updates an attachment resource under a particular farmer. */
+/**
+ * Create or update an attachment resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface AttachmentsCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Deletes a specified attachment resource under a particular farmer. */
+/**
+ * Delete a specified attachment resource for a given farmer.
+ *
+ *
+ */
 export interface AttachmentsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
-/** Deletes a specified attachment resource under a particular farmer. */
+/**
+ * Delete a specified attachment resource for a given farmer.
+ *
+ *
+ */
 export interface AttachmentsDeletedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Downloads and returns attachment as response for the given input filePath. */
+/**
+ * Return attachment as a file stream for a given input filePath.
+ *
+ *
+ */
 export interface AttachmentsDownload200Response extends HttpResponse {
   status: "200";
+  /** Value may contain any sequence of octets */
+  body: Uint8Array;
 }
 
-/** Downloads and returns attachment as response for the given input filePath. */
+/**
+ * Return attachment as a file stream for a given input filePath.
+ *
+ *
+ */
 export interface AttachmentsDownloaddefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of boundary resources under a particular farmer. */
+/**
+ * Get a paginated list of boundary resources for a given farmer and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface BoundariesListByFarmerId200Response extends HttpResponse {
   status: "200";
-  body: BoundaryListResponse;
+  body: BoundaryListResponseOutput;
 }
 
-/** Returns a paginated list of boundary resources under a particular farmer. */
+/**
+ * Get a paginated list of boundary resources for a given farmer and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface BoundariesListByFarmerIddefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Search for boundaries by fields and intersecting geometry. */
+/**
+ * Search for boundaries of a farmer intersecting with a given geometry.
+ * This API is expected to be used when users want to find boundaries that intersect with a given geometry. Otherwise, this is functionally same as 'List by Farmer Id' API for boundaries.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface BoundariesSearchByFarmerId200Response extends HttpResponse {
   status: "200";
-  body: BoundaryListResponse;
+  body: BoundaryListResponseOutput;
 }
 
-/** Search for boundaries by fields and intersecting geometry. */
+/**
+ * Search for boundaries of a farmer intersecting with a given geometry.
+ * This API is expected to be used when users want to find boundaries that intersect with a given geometry. Otherwise, this is functionally same as 'List by Farmer Id' API for boundaries.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface BoundariesSearchByFarmerIddefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of boundary resources across all farmers. */
+/**
+ * Get a paginated list of boundary resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface BoundariesList200Response extends HttpResponse {
   status: "200";
-  body: BoundaryListResponse;
+  body: BoundaryListResponseOutput;
 }
 
-/** Returns a paginated list of boundary resources across all farmers. */
+/**
+ * Get a paginated list of boundary resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface BoundariesListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Search for boundaries across all farmers by fields and intersecting geometry. */
+/**
+ * Search for boundaries across all the farmers intersecting with a given geometry.
+ * This API is expected to be used when users want to find boundaries that intersect with a given geometry. Otherwise, this is functionally same as 'List' API for boundaries.
+ *
+ *
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘Search by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface BoundariesSearch200Response extends HttpResponse {
   status: "200";
-  body: BoundaryListResponse;
+  body: BoundaryListResponseOutput;
 }
 
-/** Search for boundaries across all farmers by fields and intersecting geometry. */
+/**
+ * Search for boundaries across all the farmers intersecting with a given geometry.
+ * This API is expected to be used when users want to find boundaries that intersect with a given geometry. Otherwise, this is functionally same as 'List' API for boundaries.
+ *
+ *
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘Search by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface BoundariesSearchdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get cascade delete job for specified boundary. */
+/**
+ * Get details of cascade delete job for a specified boundary.
+ *
+ *
+ */
 export interface BoundariesGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
-  body: CascadeDeleteJob;
+  body: CascadeDeleteJobOutput;
 }
 
-/** Get cascade delete job for specified boundary. */
+/**
+ * Get details of cascade delete job for a specified boundary.
+ *
+ *
+ */
 export interface BoundariesGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Create a cascade delete job for specified boundary. */
+/**
+ * Create a cascade delete job for a specified boundary.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface BoundariesCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
-  body: CascadeDeleteJob;
+  body: CascadeDeleteJobOutput;
 }
 
-/** Create a cascade delete job for specified boundary. */
+/**
+ * Create a cascade delete job for a specified boundary.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface BoundariesCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Gets a specified boundary resource under a particular farmer. */
+/**
+ * Get a specified boundary resource for a given farmer.
+ *
+ *
+ */
 export interface BoundariesGet200Response extends HttpResponse {
   status: "200";
-  body: Boundary;
+  body: BoundaryOutput;
 }
 
-/** Gets a specified boundary resource under a particular farmer. */
+/**
+ * Get a specified boundary resource for a given farmer.
+ *
+ *
+ */
 export interface BoundariesGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Creates or updates a boundary resource. */
+/**
+ * Create or update a boundary resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface BoundariesCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: Boundary;
+  body: BoundaryOutput;
 }
 
-/** Creates or updates a boundary resource. */
+/**
+ * Create or update a boundary resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface BoundariesCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: Boundary;
+  body: BoundaryOutput;
 }
 
-/** Creates or updates a boundary resource. */
+/**
+ * Create or update a boundary resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface BoundariesCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Deletes a specified boundary resource under a particular farmer. */
+/**
+ * Delete a specified boundary resource for a given farmer. It can only be deleted if it has no linked attachments, satellite or weather data.
+ *
+ *
+ */
 export interface BoundariesDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
-/** Deletes a specified boundary resource under a particular farmer. */
+/**
+ * Delete a specified boundary resource for a given farmer. It can only be deleted if it has no linked attachments, satellite or weather data.
+ *
+ *
+ */
 export interface BoundariesDeletedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns overlapping acreage between two boundary Ids. */
+/**
+ * Get overlapping (intersecting) acreage between two boundaries.
+ *
+ *
+ */
 export interface BoundariesGetOverlap200Response extends HttpResponse {
   status: "200";
-  body: BoundaryOverlapResponse;
+  body: BoundaryOverlapResponseOutput;
 }
 
-/** Returns overlapping acreage between two boundary Ids. */
+/**
+ * Get overlapping (intersecting) acreage between two boundaries.
+ *
+ *
+ */
 export interface BoundariesGetOverlapdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of crop resources. */
+/**
+ * Get a paginated list of crop resources.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface CropsList200Response extends HttpResponse {
   status: "200";
-  body: CropListResponse;
+  body: CropListResponseOutput;
 }
 
-/** Returns a paginated list of crop resources. */
+/**
+ * Get a paginated list of crop resources.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface CropsListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Gets a specified crop resource. */
+/**
+ * Get a specified crop resource.
+ *
+ *
+ */
 export interface CropsGet200Response extends HttpResponse {
   status: "200";
-  body: Crop;
+  body: CropOutput;
 }
 
-/** Gets a specified crop resource. */
+/**
+ * Get a specified crop resource.
+ *
+ *
+ */
 export interface CropsGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Creates or updates a crop resource. */
+/**
+ * Create or update a crop resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface CropsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: Crop;
+  body: CropOutput;
 }
 
-/** Creates or updates a crop resource. */
+/**
+ * Create or update a crop resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface CropsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: Crop;
+  body: CropOutput;
 }
 
-/** Creates or updates a crop resource. */
+/**
+ * Create or update a crop resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface CropsCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Deletes Crop for given crop id. */
+/**
+ * Delete a specified crop resource.
+ *
+ *
+ */
 export interface CropsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
-/** Deletes Crop for given crop id. */
+/**
+ * Delete a specified crop resource.
+ *
+ *
+ */
 export interface CropsDeletedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of crop variety resources under a particular crop. */
+/**
+ * Get a paginated list of crop variety resources for a given crop and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface CropVarietiesListByCropId200Response extends HttpResponse {
   status: "200";
-  body: CropVarietyListResponse;
+  body: CropVarietyListResponseOutput;
 }
 
-/** Returns a paginated list of crop variety resources under a particular crop. */
+/**
+ * Get a paginated list of crop variety resources for a given crop and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface CropVarietiesListByCropIddefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of crop variety resources across all crops. */
+/**
+ * Get a paginated list of crop variety resources across all the crops for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the crop Id is available, it is strongly recommended to use **‘List by Crop Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface CropVarietiesList200Response extends HttpResponse {
   status: "200";
-  body: CropVarietyListResponse;
+  body: CropVarietyListResponseOutput;
 }
 
-/** Returns a paginated list of crop variety resources across all crops. */
+/**
+ * Get a paginated list of crop variety resources across all the crops for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the crop Id is available, it is strongly recommended to use **‘List by Crop Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface CropVarietiesListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Gets a specified crop variety resource under a particular crop. */
+/**
+ * Get a specified crop variety resource for a given crop.
+ *
+ *
+ */
 export interface CropVarietiesGet200Response extends HttpResponse {
   status: "200";
-  body: CropVariety;
+  body: CropVarietyOutput;
 }
 
-/** Gets a specified crop variety resource under a particular crop. */
+/**
+ * Get a specified crop variety resource for a given crop.
+ *
+ *
+ */
 export interface CropVarietiesGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Creates or updates a crop variety resource. */
+/**
+ * Create or update a crop variety resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface CropVarietiesCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: CropVariety;
+  body: CropVarietyOutput;
 }
 
-/** Creates or updates a crop variety resource. */
+/**
+ * Create or update a crop variety resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface CropVarietiesCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: CropVariety;
+  body: CropVarietyOutput;
 }
 
-/** Creates or updates a crop variety resource. */
+/**
+ * Create or update a crop variety resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface CropVarietiesCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Deletes a specified crop variety resource under a particular crop. */
+/**
+ * Delete a specified crop variety resource for a given crop.
+ *
+ *
+ */
 export interface CropVarietiesDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
-/** Deletes a specified crop variety resource under a particular crop. */
+/**
+ * Delete a specified crop variety resource for a given crop.
+ *
+ *
+ */
 export interface CropVarietiesDeletedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of farmer resources. */
+/**
+ * Get a paginated list of farmer resources for a given search criteria.
+ *
+ *
+ */
 export interface FarmersList200Response extends HttpResponse {
   status: "200";
-  body: FarmerListResponse;
+  body: FarmerListResponseOutput;
 }
 
-/** Returns a paginated list of farmer resources. */
+/**
+ * Get a paginated list of farmer resources for a given search criteria.
+ *
+ *
+ */
 export interface FarmersListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Gets a specified farmer resource. */
+/**
+ * Get a specified farmer resource.
+ *
+ *
+ */
 export interface FarmersGet200Response extends HttpResponse {
   status: "200";
-  body: Farmer;
+  body: FarmerOutput;
 }
 
-/** Gets a specified farmer resource. */
+/**
+ * Get a specified farmer resource.
+ *
+ *
+ */
 export interface FarmersGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Creates or updates a farmer resource. */
+/**
+ * Create or update a farmer resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface FarmersCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: Farmer;
+  body: FarmerOutput;
 }
 
-/** Creates or updates a farmer resource. */
+/**
+ * Create or update a farmer resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface FarmersCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: Farmer;
+  body: FarmerOutput;
 }
 
-/** Creates or updates a farmer resource. */
+/**
+ * Create or update a farmer resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface FarmersCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Deletes a specified farmer resource. */
+/**
+ * Delete a specified farmer resource. It can only be deleted if it has no linked attachments or farms.
+ *
+ *
+ */
 export interface FarmersDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
-/** Deletes a specified farmer resource. */
+/**
+ * Delete a specified farmer resource. It can only be deleted if it has no linked attachments or farms.
+ *
+ *
+ */
 export interface FarmersDeletedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get a cascade delete job for specified farmer. */
+/**
+ * Get details of a cascade delete job for a specified farmer.
+ *
+ *
+ */
 export interface FarmersGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
-  body: CascadeDeleteJob;
+  body: CascadeDeleteJobOutput;
 }
 
-/** Get a cascade delete job for specified farmer. */
+/**
+ * Get details of a cascade delete job for a specified farmer.
+ *
+ *
+ */
 export interface FarmersGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Create a cascade delete job for specified farmer. */
+/**
+ * Create a cascade delete job for a specified farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface FarmersCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
-  body: CascadeDeleteJob;
+  body: CascadeDeleteJobOutput;
 }
 
-/** Create a cascade delete job for specified farmer. */
+/**
+ * Create a cascade delete job for a specified farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface FarmersCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Create a farm operation data ingestion job. */
+/**
+ * Create a farm operation data ingestion job.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface FarmOperationsCreateDataIngestionJob202Response extends HttpResponse {
   status: "202";
-  body: FarmOperationDataIngestionJob;
+  body: FarmOperationDataIngestionJobOutput;
 }
 
-/** Create a farm operation data ingestion job. */
+/**
+ * Create a farm operation data ingestion job.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface FarmOperationsCreateDataIngestionJobdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get a farm operation data ingestion job. */
+/**
+ * Get details of a farm operation data ingestion job.
+ *
+ *
+ */
 export interface FarmOperationsGetDataIngestionJobDetails200Response extends HttpResponse {
   status: "200";
-  body: FarmOperationDataIngestionJob;
+  body: FarmOperationDataIngestionJobOutput;
 }
 
-/** Get a farm operation data ingestion job. */
+/**
+ * Get details of a farm operation data ingestion job.
+ *
+ *
+ */
 export interface FarmOperationsGetDataIngestionJobDetailsdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of farm resources under a particular farmer. */
+/**
+ * Get a paginated list of farm resources for a given farmer and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface FarmsListByFarmerId200Response extends HttpResponse {
   status: "200";
-  body: FarmListResponse;
+  body: FarmListResponseOutput;
 }
 
-/** Returns a paginated list of farm resources under a particular farmer. */
+/**
+ * Get a paginated list of farm resources for a given farmer and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface FarmsListByFarmerIddefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of farm resources across all farmers. */
+/**
+ * Get a paginated list of farm resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface FarmsList200Response extends HttpResponse {
   status: "200";
-  body: FarmListResponse;
+  body: FarmListResponseOutput;
 }
 
-/** Returns a paginated list of farm resources across all farmers. */
+/**
+ * Get a paginated list of farm resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface FarmsListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Gets a specified farm resource under a particular farmer. */
+/**
+ * Get a specified farm resource for a given farmer.
+ *
+ *
+ */
 export interface FarmsGet200Response extends HttpResponse {
   status: "200";
-  body: Farm;
+  body: FarmOutput;
 }
 
-/** Gets a specified farm resource under a particular farmer. */
+/**
+ * Get a specified farm resource for a given farmer.
+ *
+ *
+ */
 export interface FarmsGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Creates or updates a farm resource under a particular farmer. */
+/**
+ * Create or update a farm resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface FarmsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: Farm;
+  body: FarmOutput;
 }
 
-/** Creates or updates a farm resource under a particular farmer. */
+/**
+ * Create or update a farm resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface FarmsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: Farm;
+  body: FarmOutput;
 }
 
-/** Creates or updates a farm resource under a particular farmer. */
+/**
+ * Create or update a farm resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface FarmsCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Deletes a specified farm resource under a particular farmer. */
+/**
+ * Delete a specified farm resource for a given farmer. It can only be deleted if it has no linked attachments, fields or seasonal fields.
+ *
+ *
+ */
 export interface FarmsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
-/** Deletes a specified farm resource under a particular farmer. */
+/**
+ * Delete a specified farm resource for a given farmer. It can only be deleted if it has no linked attachments, fields or seasonal fields.
+ *
+ *
+ */
 export interface FarmsDeletedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get a cascade delete job for specified farm. */
+/**
+ * Get details of cascade delete job for a specified farm.
+ *
+ *
+ */
 export interface FarmsGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
-  body: CascadeDeleteJob;
+  body: CascadeDeleteJobOutput;
 }
 
-/** Get a cascade delete job for specified farm. */
+/**
+ * Get details of cascade delete job for a specified farm.
+ *
+ *
+ */
 export interface FarmsGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Create a cascade delete job for specified farm. */
+/**
+ * Create a cascade delete job for a specified farm.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface FarmsCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
-  body: CascadeDeleteJob;
+  body: CascadeDeleteJobOutput;
 }
 
-/** Create a cascade delete job for specified farm. */
+/**
+ * Create a cascade delete job for a specified farm.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface FarmsCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of field resources under a particular farmer. */
+/**
+ * Get a paginated list of field resources for a given farmer and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface FieldsListByFarmerId200Response extends HttpResponse {
   status: "200";
-  body: FieldListResponse;
+  body: FieldListResponseOutput;
 }
 
-/** Returns a paginated list of field resources under a particular farmer. */
+/**
+ * Get a paginated list of field resources for a given farmer and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface FieldsListByFarmerIddefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of field resources across all farmers. */
+/**
+ * Get a paginated list of field resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface FieldsList200Response extends HttpResponse {
   status: "200";
-  body: FieldListResponse;
+  body: FieldListResponseOutput;
 }
 
-/** Returns a paginated list of field resources across all farmers. */
+/**
+ * Get a paginated list of field resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface FieldsListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Gets a specified field resource under a particular farmer. */
+/**
+ * Get a specified field resource for a given farmer.
+ *
+ *
+ */
 export interface FieldsGet200Response extends HttpResponse {
   status: "200";
-  body: Field;
+  body: FieldOutput;
 }
 
-/** Gets a specified field resource under a particular farmer. */
+/**
+ * Get a specified field resource for a given farmer.
+ *
+ *
+ */
 export interface FieldsGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Creates or Updates a field resource under a particular farmer. */
+/**
+ * Create or update a field resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface FieldsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: Field;
+  body: FieldOutput;
 }
 
-/** Creates or Updates a field resource under a particular farmer. */
+/**
+ * Create or update a field resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface FieldsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: Field;
+  body: FieldOutput;
 }
 
-/** Creates or Updates a field resource under a particular farmer. */
+/**
+ * Create or update a field resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface FieldsCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Deletes a specified field resource under a particular farmer. */
+/**
+ * Delete a specified field resource for a given farmer. It can only be deleted if it has no linked attachments, boundaries or seasonal fields.
+ *
+ *
+ */
 export interface FieldsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
-/** Deletes a specified field resource under a particular farmer. */
+/**
+ * Delete a specified field resource for a given farmer. It can only be deleted if it has no linked attachments, boundaries or seasonal fields.
+ *
+ *
+ */
 export interface FieldsDeletedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get a cascade delete job for specified field. */
+/**
+ * Get details of cascade delete job for a specified field.
+ *
+ *
+ */
 export interface FieldsGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
-  body: CascadeDeleteJob;
+  body: CascadeDeleteJobOutput;
 }
 
-/** Get a cascade delete job for specified field. */
+/**
+ * Get details of cascade delete job for a specified field.
+ *
+ *
+ */
 export interface FieldsGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Create a cascade delete job for specified field. */
+/**
+ * Create a cascade delete job for specified field.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface FieldsCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
-  body: CascadeDeleteJob;
+  body: CascadeDeleteJobOutput;
 }
 
-/** Create a cascade delete job for specified field. */
+/**
+ * Create a cascade delete job for specified field.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface FieldsCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of harvest data resources under a particular farm. */
+/**
+ * Get a paginated list of harvest data resources for a given farmer and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface HarvestDataListByFarmerId200Response extends HttpResponse {
   status: "200";
-  body: HarvestDataListResponse;
+  body: HarvestDataListResponseOutput;
 }
 
-/** Returns a paginated list of harvest data resources under a particular farm. */
+/**
+ * Get a paginated list of harvest data resources for a given farmer and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface HarvestDataListByFarmerIddefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of harvest data resources across all farmers. */
+/**
+ * Get a paginated list of harvest data resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface HarvestDataList200Response extends HttpResponse {
   status: "200";
-  body: HarvestDataListResponse;
+  body: HarvestDataListResponseOutput;
 }
 
-/** Returns a paginated list of harvest data resources across all farmers. */
+/**
+ * Get a paginated list of harvest data resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface HarvestDataListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get a specified harvest data resource under a particular farmer. */
+/**
+ * Get a specified harvest data resource for a given farmer.
+ *
+ *
+ */
 export interface HarvestDataGet200Response extends HttpResponse {
   status: "200";
-  body: HarvestData;
+  body: HarvestDataOutput;
 }
 
-/** Get a specified harvest data resource under a particular farmer. */
+/**
+ * Get a specified harvest data resource for a given farmer.
+ *
+ *
+ */
 export interface HarvestDataGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Creates or updates harvest data resource under a particular farmer. */
+/**
+ * Create or update harvest data resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface HarvestDataCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: HarvestData;
+  body: HarvestDataOutput;
 }
 
-/** Creates or updates harvest data resource under a particular farmer. */
+/**
+ * Create or update harvest data resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface HarvestDataCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: HarvestData;
+  body: HarvestDataOutput;
 }
 
-/** Creates or updates harvest data resource under a particular farmer. */
+/**
+ * Create or update harvest data resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface HarvestDataCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Deletes a specified harvest data resource under a particular farmer. */
+/**
+ * Delete a specified harvest data resource for a given farmer.
+ *
+ *
+ */
 export interface HarvestDataDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
-/** Deletes a specified harvest data resource under a particular farmer. */
+/**
+ * Delete a specified harvest data resource for a given farmer.
+ *
+ *
+ */
 export interface HarvestDataDeletedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Create a ImageProcessing Rasterize job. */
+/**
+ * Get details of a cascade delete job for harvest data resource.
+ *
+ *
+ */
+export interface HarvestDataGetCascadeDeleteJobDetails200Response extends HttpResponse {
+  status: "200";
+  body: CascadeDeleteJobOutput;
+}
+
+/**
+ * Get details of a cascade delete job for harvest data resource.
+ *
+ *
+ */
+export interface HarvestDataGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+  status: "500";
+  body: ErrorResponseOutput;
+}
+
+/**
+ * Create cascade delete job for harvest data resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
+export interface HarvestDataCreateCascadeDeleteJob202Response extends HttpResponse {
+  status: "202";
+  body: CascadeDeleteJobOutput;
+}
+
+/**
+ * Create cascade delete job for harvest data resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
+export interface HarvestDataCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+  status: "500";
+  body: ErrorResponseOutput;
+}
+
+/**
+ * Create a job which converts shape files into raster images.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface ImageProcessingCreateRasterizeJob202Response extends HttpResponse {
   status: "202";
-  body: ImageProcessingRasterizeJob;
+  body: ImageProcessingRasterizeJobOutput;
 }
 
-/** Create a ImageProcessing Rasterize job. */
+/**
+ * Create a job which converts shape files into raster images.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface ImageProcessingCreateRasterizeJobdefaultResponse extends HttpResponse {
   status: "500";
+  body: Record<string, unknown>;
 }
 
-/** Get ImageProcessing Rasterize job's details. */
+/**
+ * Get details of rasterize job. Rasterize job converts shape files into raster images.
+ *
+ *
+ */
 export interface ImageProcessingGetRasterizeJob200Response extends HttpResponse {
   status: "200";
-  body: ImageProcessingRasterizeJob;
+  body: ImageProcessingRasterizeJobOutput;
 }
 
-/** Returns a paginated list of oauthProvider resources. */
+/**
+ * Get a paginated list of OAuth provider resources for a given search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface OAuthProvidersList200Response extends HttpResponse {
   status: "200";
-  body: OAuthProviderListResponse;
+  body: OAuthProviderListResponseOutput;
 }
 
-/** Returns a paginated list of oauthProvider resources. */
+/**
+ * Get a paginated list of OAuth provider resources for a given search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface OAuthProvidersListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get a specified oauthProvider resource. */
+/**
+ * Get a specified OAuth provider resource.
+ *
+ *
+ */
 export interface OAuthProvidersGet200Response extends HttpResponse {
   status: "200";
-  body: OAuthProvider;
+  body: OAuthProviderOutput;
 }
 
-/** Get a specified oauthProvider resource. */
+/**
+ * Get a specified OAuth provider resource.
+ *
+ *
+ */
 export interface OAuthProvidersGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Creates or updates an oauthProvider resource. */
+/**
+ * Create or update an OAuth provider resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface OAuthProvidersCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: OAuthProvider;
+  body: OAuthProviderOutput;
 }
 
-/** Creates or updates an oauthProvider resource. */
+/**
+ * Create or update an OAuth provider resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface OAuthProvidersCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: OAuthProvider;
+  body: OAuthProviderOutput;
 }
 
-/** Creates or updates an oauthProvider resource. */
+/**
+ * Create or update an OAuth provider resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface OAuthProvidersCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Deletes an specified oauthProvider resource. */
+/**
+ * Delete a specified OAuth provider resource.
+ *
+ *
+ */
 export interface OAuthProvidersDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
-/** Deletes an specified oauthProvider resource. */
+/**
+ * Delete a specified OAuth provider resource.
+ *
+ *
+ */
 export interface OAuthProvidersDeletedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a list of OAuthToken documents. */
+/**
+ * Get details of cascade delete job for an OAuth provider resource.
+ *
+ *
+ */
+export interface OAuthProvidersGetCascadeDeleteJobDetails200Response extends HttpResponse {
+  status: "200";
+  body: OAuthProviderCascadeDeleteJobOutput;
+}
+
+/**
+ * Get details of cascade delete job for an OAuth provider resource.
+ *
+ *
+ */
+export interface OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+  status: "500";
+  body: ErrorResponseOutput;
+}
+
+/**
+ * Create cascade delete job for an OAuth provider resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
+export interface OAuthProvidersCreateCascadeDeleteJob202Response extends HttpResponse {
+  status: "202";
+  body: OAuthProviderCascadeDeleteJobOutput;
+}
+
+/**
+ * Create cascade delete job for an OAuth provider resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
+export interface OAuthProvidersCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+  status: "500";
+  body: ErrorResponseOutput;
+}
+
+/**
+ * Get a list of OAuthToken documents for a given search criteria.
+ *
+ *
+ */
 export interface OAuthTokensList200Response extends HttpResponse {
   status: "200";
-  body: OAuthTokenListResponse;
+  body: OAuthTokenListResponseOutput;
 }
 
-/** Returns a list of OAuthToken documents. */
+/**
+ * Get a list of OAuthToken documents for a given search criteria.
+ *
+ *
+ */
 export interface OAuthTokensListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns Connection link needed in the OAuth flow. */
+/**
+ * Get connection link needed in the OAuth flow.
+ *
+ *
+ */
 export interface OAuthTokensGetOAuthConnectionLink200Response extends HttpResponse {
   status: "200";
   body: string;
 }
 
-/** Returns Connection link needed in the OAuth flow. */
+/**
+ * Get connection link needed in the OAuth flow.
+ *
+ *
+ */
 export interface OAuthTokensGetOAuthConnectionLinkdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get cascade delete job details for OAuth tokens for specified job ID. */
+/**
+ * Get details of OAuth token remove job.
+ *
+ *
+ */
 export interface OAuthTokensGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
-  body: CascadeDeleteJob;
+  body: CascadeDeleteJobOutput;
 }
 
-/** Get cascade delete job details for OAuth tokens for specified job ID. */
+/**
+ * Get details of OAuth token remove job.
+ *
+ *
+ */
 export interface OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Create a cascade delete job for OAuth tokens. */
+/**
+ * Create job to remove OAuth token.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface OAuthTokensCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
-  body: CascadeDeleteJob;
+  body: CascadeDeleteJobOutput;
 }
 
-/** Create a cascade delete job for OAuth tokens. */
+/**
+ * Create job to remove OAuth token.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface OAuthTokensCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of planting data resources under a particular farm. */
+/**
+ * Get a paginated list of planting data resources for a given farm and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface PlantingDataListByFarmerId200Response extends HttpResponse {
   status: "200";
-  body: PlantingDataListResponse;
+  body: PlantingDataListResponseOutput;
 }
 
-/** Returns a paginated list of planting data resources under a particular farm. */
+/**
+ * Get a paginated list of planting data resources for a given farm and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface PlantingDataListByFarmerIddefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of planting data resources across all farmers. */
+/**
+ * Get a paginated list of planting data resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface PlantingDataList200Response extends HttpResponse {
   status: "200";
-  body: PlantingDataListResponse;
+  body: PlantingDataListResponseOutput;
 }
 
-/** Returns a paginated list of planting data resources across all farmers. */
+/**
+ * Get a paginated list of planting data resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface PlantingDataListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get a specified planting data resource under a particular farmer. */
+/**
+ * Get a specified planting data resource for a given farmer.
+ *
+ *
+ */
 export interface PlantingDataGet200Response extends HttpResponse {
   status: "200";
-  body: PlantingData;
+  body: PlantingDataOutput;
 }
 
-/** Get a specified planting data resource under a particular farmer. */
+/**
+ * Get a specified planting data resource for a given farmer.
+ *
+ *
+ */
 export interface PlantingDataGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Creates or updates an planting data resource under a particular farmer. */
+/**
+ * Create or update a planting data resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface PlantingDataCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: PlantingData;
+  body: PlantingDataOutput;
 }
 
-/** Creates or updates an planting data resource under a particular farmer. */
+/**
+ * Create or update a planting data resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface PlantingDataCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: PlantingData;
+  body: PlantingDataOutput;
 }
 
-/** Creates or updates an planting data resource under a particular farmer. */
+/**
+ * Create or update a planting data resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface PlantingDataCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Deletes a specified planting data resource under a particular farmer. */
+/**
+ * Delete a specified planting data resource under a particular farmer.
+ *
+ *
+ */
 export interface PlantingDataDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
-/** Deletes a specified planting data resource under a particular farmer. */
+/**
+ * Delete a specified planting data resource under a particular farmer.
+ *
+ *
+ */
 export interface PlantingDataDeletedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of scene resources. */
+/**
+ * Get details of a cascade delete job for planting data resource.
+ *
+ *
+ */
+export interface PlantingDataGetCascadeDeleteJobDetails200Response extends HttpResponse {
+  status: "200";
+  body: CascadeDeleteJobOutput;
+}
+
+/**
+ * Get details of a cascade delete job for planting data resource.
+ *
+ *
+ */
+export interface PlantingDataGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+  status: "500";
+  body: ErrorResponseOutput;
+}
+
+/**
+ * Create cascade delete job for planting data resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
+export interface PlantingDataCreateCascadeDeleteJob202Response extends HttpResponse {
+  status: "202";
+  body: CascadeDeleteJobOutput;
+}
+
+/**
+ * Create cascade delete job for planting data resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
+export interface PlantingDataCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+  status: "500";
+  body: ErrorResponseOutput;
+}
+
+/**
+ * Get a paginated list of scene resources for a given search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ * 2. This API will retrieve scenes present in the FarmBeats datastore and does not ingest new data. Example: a user has ingested satellite data from 1st of Jan 2019 to 30th of June 2019. However, using the current API, the user has asked for data from 1st of Jan 2019 to 31st of December 2019. In such a case, only data for the first 6 months is returned to the user.
+ *
+ *
+ */
 export interface ScenesList200Response extends HttpResponse {
   status: "200";
-  body: SceneListResponse;
+  body: SceneListResponseOutput;
 }
 
-/** Returns a paginated list of scene resources. */
+/**
+ * Get a paginated list of scene resources for a given search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ * 2. This API will retrieve scenes present in the FarmBeats datastore and does not ingest new data. Example: a user has ingested satellite data from 1st of Jan 2019 to 30th of June 2019. However, using the current API, the user has asked for data from 1st of Jan 2019 to 31st of December 2019. In such a case, only data for the first 6 months is returned to the user.
+ *
+ *
+ */
 export interface ScenesListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Create a satellite data ingestion job. */
+/**
+ * Create a satellite data ingestion job.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface ScenesCreateSatelliteDataIngestionJob202Response extends HttpResponse {
   status: "202";
-  body: SatelliteDataIngestionJob;
+  body: SatelliteDataIngestionJobOutput;
 }
 
-/** Create a satellite data ingestion job. */
+/**
+ * Create a satellite data ingestion job.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface ScenesCreateSatelliteDataIngestionJobdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get a satellite data ingestion job. */
+/**
+ * Get details of a satellite data ingestion job.
+ *
+ *
+ */
 export interface ScenesGetSatelliteDataIngestionJobDetails200Response extends HttpResponse {
   status: "200";
-  body: SatelliteDataIngestionJob;
+  body: SatelliteDataIngestionJobOutput;
 }
 
-/** Get a satellite data ingestion job. */
+/**
+ * Get details of a satellite data ingestion job.
+ *
+ *
+ */
 export interface ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Downloads and returns file stream as response for the given input filePath. */
+/**
+ * Return scenes as a file stream for a given input filePath.
+ *
+ *
+ */
 export interface ScenesDownload200Response extends HttpResponse {
   status: "200";
+  /** Value may contain any sequence of octets */
+  body: Uint8Array;
 }
 
-/** Downloads and returns file stream as response for the given input filePath. */
+/**
+ * Return scenes as a file stream for a given input filePath.
+ *
+ *
+ */
 export interface ScenesDownloaddefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of seasonal field resources under a particular farmer. */
+/**
+ * Get a paginated list of seasonal field resources for a given farmer and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface SeasonalFieldsListByFarmerId200Response extends HttpResponse {
   status: "200";
-  body: SeasonalFieldListResponse;
+  body: SeasonalFieldListResponseOutput;
 }
 
-/** Returns a paginated list of seasonal field resources under a particular farmer. */
+/**
+ * Get a paginated list of seasonal field resources for a given farmer and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface SeasonalFieldsListByFarmerIddefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of seasonal field resources across all farmers. */
+/**
+ * Get a paginated list of seasonal field resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface SeasonalFieldsList200Response extends HttpResponse {
   status: "200";
-  body: SeasonalFieldListResponse;
+  body: SeasonalFieldListResponseOutput;
 }
 
-/** Returns a paginated list of seasonal field resources across all farmers. */
+/**
+ * Get a paginated list of seasonal field resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface SeasonalFieldsListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Gets a specified seasonal field resource under a particular farmer. */
+/**
+ * Get a specified seasonal field resource for a given farmer.
+ *
+ *
+ */
 export interface SeasonalFieldsGet200Response extends HttpResponse {
   status: "200";
-  body: SeasonalField;
+  body: SeasonalFieldOutput;
 }
 
-/** Gets a specified seasonal field resource under a particular farmer. */
+/**
+ * Get a specified seasonal field resource for a given farmer.
+ *
+ *
+ */
 export interface SeasonalFieldsGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Creates or Updates a seasonal field resource under a particular farmer. */
+/**
+ * Create or update a seasonal field resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface SeasonalFieldsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: SeasonalField;
+  body: SeasonalFieldOutput;
 }
 
-/** Creates or Updates a seasonal field resource under a particular farmer. */
+/**
+ * Create or update a seasonal field resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface SeasonalFieldsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: SeasonalField;
+  body: SeasonalFieldOutput;
 }
 
-/** Creates or Updates a seasonal field resource under a particular farmer. */
+/**
+ * Create or update a seasonal field resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface SeasonalFieldsCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Deletes a specified seasonal-field resource under a particular farmer. */
+/**
+ * Delete a specified seasonal field resource for a given farmer. It can only be deleted if it has no linked attachments or boundaries.
+ *
+ *
+ */
 export interface SeasonalFieldsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
-/** Deletes a specified seasonal-field resource under a particular farmer. */
+/**
+ * Delete a specified seasonal field resource for a given farmer. It can only be deleted if it has no linked attachments or boundaries.
+ *
+ *
+ */
 export interface SeasonalFieldsDeletedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get cascade delete job for specified seasonal field. */
+/**
+ * Get details of cascade delete job for a specified seasonal field.
+ *
+ *
+ */
 export interface SeasonalFieldsGetCascadeDeleteJobDetails200Response extends HttpResponse {
   status: "200";
-  body: CascadeDeleteJob;
+  body: CascadeDeleteJobOutput;
 }
 
-/** Get cascade delete job for specified seasonal field. */
+/**
+ * Get details of cascade delete job for a specified seasonal field.
+ *
+ *
+ */
 export interface SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Create a cascade delete job for specified seasonal field. */
+/**
+ * Create a cascade delete job for a specified seasonal field.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface SeasonalFieldsCreateCascadeDeleteJob202Response extends HttpResponse {
   status: "202";
-  body: CascadeDeleteJob;
+  body: CascadeDeleteJobOutput;
 }
 
-/** Create a cascade delete job for specified seasonal field. */
+/**
+ * Create a cascade delete job for a specified seasonal field.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
 export interface SeasonalFieldsCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of season resources. */
+/**
+ * Get a paginated list of season resources.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface SeasonsList200Response extends HttpResponse {
   status: "200";
-  body: SeasonListResponse;
+  body: SeasonListResponseOutput;
 }
 
-/** Returns a paginated list of season resources. */
+/**
+ * Get a paginated list of season resources.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface SeasonsListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Gets a specified season resource. */
+/**
+ * Get a specified season resource.
+ *
+ *
+ */
 export interface SeasonsGet200Response extends HttpResponse {
   status: "200";
-  body: Season;
+  body: SeasonOutput;
 }
 
-/** Gets a specified season resource. */
+/**
+ * Get a specified season resource.
+ *
+ *
+ */
 export interface SeasonsGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Creates or updates a season resource. */
+/**
+ * Create or update a season resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface SeasonsCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: Season;
+  body: SeasonOutput;
 }
 
-/** Creates or updates a season resource. */
+/**
+ * Create or update a season resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface SeasonsCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: Season;
+  body: SeasonOutput;
 }
 
-/** Creates or updates a season resource. */
+/**
+ * Create or update a season resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface SeasonsCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Deletes a specified season resource. */
+/**
+ * Delete a specified season resource.
+ *
+ *
+ */
 export interface SeasonsDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
-/** Deletes a specified season resource. */
+/**
+ * Delete a specified season resource.
+ *
+ *
+ */
 export interface SeasonsDeletedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of tillage data resources under a particular farm. */
+/**
+ * Get a paginated list of tillage data resources for a given farmer and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface TillageDataListByFarmerId200Response extends HttpResponse {
   status: "200";
-  body: TillageDataListResponse;
+  body: TillageDataListResponseOutput;
 }
 
-/** Returns a paginated list of tillage data resources under a particular farm. */
+/**
+ * Get a paginated list of tillage data resources for a given farmer and search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface TillageDataListByFarmerIddefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of tillage data resources across all farmers. */
+/**
+ * Get a paginated list of tillage data resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface TillageDataList200Response extends HttpResponse {
   status: "200";
-  body: TillageDataListResponse;
+  body: TillageDataListResponseOutput;
 }
 
-/** Returns a paginated list of tillage data resources across all farmers. */
+/**
+ * Get a paginated list of tillage data resources across all the farmers for a given search criteria.
+ *
+ * 
+###### Note:
+ * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
+ * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ *
+ *
+ */
 export interface TillageDataListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get a specified tillage data resource under a particular farmer. */
+/**
+ * Get a specified tillage data resource for a given farmer.
+ *
+ *
+ */
 export interface TillageDataGet200Response extends HttpResponse {
   status: "200";
-  body: TillageData;
+  body: TillageDataOutput;
 }
 
-/** Get a specified tillage data resource under a particular farmer. */
+/**
+ * Get a specified tillage data resource for a given farmer.
+ *
+ *
+ */
 export interface TillageDataGetdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Creates or updates an tillage data resource under a particular farmer. */
+/**
+ * Create or update a tillage data resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface TillageDataCreateOrUpdate200Response extends HttpResponse {
   status: "200";
-  body: TillageData;
+  body: TillageDataOutput;
 }
 
-/** Creates or updates an tillage data resource under a particular farmer. */
+/**
+ * Create or update a tillage data resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface TillageDataCreateOrUpdate201Response extends HttpResponse {
   status: "201";
-  body: TillageData;
+  body: TillageDataOutput;
 }
 
-/** Creates or updates an tillage data resource under a particular farmer. */
+/**
+ * Create or update a tillage data resource for a given farmer.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
+ * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface TillageDataCreateOrUpdatedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Deletes a specified tillage data resource under a particular farmer. */
+/**
+ * Delete a specified tillage data resource for a given farmer.
+ *
+ *
+ */
 export interface TillageDataDelete204Response extends HttpResponse {
   status: "204";
+  body: Record<string, unknown>;
 }
 
-/** Deletes a specified tillage data resource under a particular farmer. */
+/**
+ * Delete a specified tillage data resource for a given farmer.
+ *
+ *
+ */
 export interface TillageDataDeletedefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Returns a paginated list of weather data. */
+/**
+ * Get details of a cascade delete job for tillage data resource.
+ *
+ *
+ */
+export interface TillageDataGetCascadeDeleteJobDetails200Response extends HttpResponse {
+  status: "200";
+  body: CascadeDeleteJobOutput;
+}
+
+/**
+ * Get details of a cascade delete job for tillage data resource.
+ *
+ *
+ */
+export interface TillageDataGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+  status: "500";
+  body: ErrorResponseOutput;
+}
+
+/**
+ * Create cascade delete job for tillage data resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
+export interface TillageDataCreateCascadeDeleteJob202Response extends HttpResponse {
+  status: "202";
+  body: CascadeDeleteJobOutput;
+}
+
+/**
+ * Create cascade delete job for tillage data resource.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ *
+ *
+ */
+export interface TillageDataCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+  status: "500";
+  body: ErrorResponseOutput;
+}
+
+/**
+ * Get a paginated list of weather data resources for a given search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ * 2. This API will retrieve weather data present in the FarmBeats datastore and does not ingest new data. Example: a user has ingested historical weather data from 1st of Jan 2019 to 30th of June 2019. However, using the current API, the user has asked for historical data from 1st of Jan 2019 to 31st of December 2019. In such a case, only data for the first 6 months is returned to the user.
+ *
+ *
+ */
 export interface WeatherList200Response extends HttpResponse {
   status: "200";
-  body: WeatherDataListResponse;
+  body: WeatherDataListResponseOutput;
 }
 
-/** Returns a paginated list of weather data. */
+/**
+ * Get a paginated list of weather data resources for a given search criteria.
+ *
+ * 
+###### Note: 
+ * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
+ * 2. This API will retrieve weather data present in the FarmBeats datastore and does not ingest new data. Example: a user has ingested historical weather data from 1st of Jan 2019 to 30th of June 2019. However, using the current API, the user has asked for historical data from 1st of Jan 2019 to 31st of December 2019. In such a case, only data for the first 6 months is returned to the user.
+ *
+ *
+ */
 export interface WeatherListdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get weather ingestion job. */
+/**
+ * Get details of a weather data ingestion job.
+ *
+ *
+ */
 export interface WeatherGetDataIngestionJobDetails200Response extends HttpResponse {
   status: "200";
-  body: WeatherDataIngestionJob;
+  body: WeatherDataIngestionJobOutput;
 }
 
-/** Get weather ingestion job. */
+/**
+ * Get details of a weather data ingestion job.
+ *
+ *
+ */
 export interface WeatherGetDataIngestionJobDetailsdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Create a weather data ingestion job. */
+/**
+ * Create a weather data ingestion job.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface WeatherCreateDataIngestionJob202Response extends HttpResponse {
   status: "202";
-  body: WeatherDataIngestionJob;
+  body: WeatherDataIngestionJobOutput;
 }
 
-/** Create a weather data ingestion job. */
+/**
+ * Create a weather data ingestion job.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface WeatherCreateDataIngestionJobdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Get weather data delete job. */
+/**
+ * Get details of a weather data delete job.
+ *
+ *
+ */
 export interface WeatherGetDataDeleteJobDetails200Response extends HttpResponse {
   status: "200";
-  body: WeatherDataDeleteJob;
+  body: WeatherDataDeleteJobOutput;
 }
 
-/** Get weather data delete job. */
+/**
+ * Get details of a weather data delete job.
+ *
+ *
+ */
 export interface WeatherGetDataDeleteJobDetailsdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }
 
-/** Create a weather data delete job. */
+/**
+ * Create a weather data delete job.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface WeatherCreateDataDeleteJob202Response extends HttpResponse {
   status: "202";
-  body: WeatherDataDeleteJob;
+  body: WeatherDataDeleteJobOutput;
 }
 
-/** Create a weather data delete job. */
+/**
+ * Create a weather data delete job.
+ *
+ * 
+###### Note:
+ * 
+1. The **‘contentType’** in the request header should be **'application/json'**.
+ * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
+ * 3. 'Key' and 'value' in 'Properties' can have a maximum of 50 and 150 characters respectively.
+ *
+ *
+ */
 export interface WeatherCreateDataDeleteJobdefaultResponse extends HttpResponse {
   status: "500";
-  body: ErrorResponse;
+  body: ErrorResponseOutput;
 }

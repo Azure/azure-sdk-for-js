@@ -7,42 +7,73 @@
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { PagedAsyncIterableIterator } from '@azure-rest/core-client-paging';
+import { LroEngineOptions } from '@azure/core-lro';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { PollerLike } from '@azure-rest/core-client-lro';
-import { PollerOptions } from '@azure-rest/core-client-lro';
-import { PollOperationState } from '@azure-rest/core-client-lro';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface ApplicationData {
-    applicationProductDetails?: ApplicationProductDetail[];
+    applicationProductDetails?: Array<ApplicationProductDetail>;
     area?: Measure;
     associatedBoundaryId?: string;
     attachmentsLink?: string;
     avgMaterial?: Measure;
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     description?: string;
     eTag?: string;
     farmerId?: string;
     id?: string;
-    modifiedDateTime?: Date;
+    modifiedDateTime?: Date | string;
     name?: string;
     operationBoundaryId?: string;
-    operationEndDateTime?: Date;
-    operationModifiedDateTime?: Date;
-    operationStartDateTime?: Date;
-    properties?: ApplicationDataPropertiesDictionary;
+    operationEndDateTime?: Date | string;
+    operationModifiedDateTime?: Date | string;
+    operationStartDateTime?: Date | string;
+    properties?: Record<string, Record<string, unknown>>;
     source?: string;
     status?: string;
     totalMaterial?: Measure;
 }
 
 // @public
+export interface ApplicationDataCreateCascadeDeleteJob202Response extends HttpResponse {
+    // (undocumented)
+    body: CascadeDeleteJobOutput;
+    // (undocumented)
+    status: "202";
+}
+
+// @public
+export interface ApplicationDataCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type ApplicationDataCreateCascadeDeleteJobParameters = ApplicationDataCreateCascadeDeleteJobQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface ApplicationDataCreateCascadeDeleteJobQueryParam {
+    // (undocumented)
+    queryParameters: ApplicationDataCreateCascadeDeleteJobQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface ApplicationDataCreateCascadeDeleteJobQueryParamProperties {
+    applicationDataId: string;
+    farmerId: string;
+}
+
+// @public
 export interface ApplicationDataCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: ApplicationData;
+    body: ApplicationDataOutput;
     // (undocumented)
     status: "200";
 }
@@ -50,37 +81,36 @@ export interface ApplicationDataCreateOrUpdate200Response extends HttpResponse {
 // @public
 export interface ApplicationDataCreateOrUpdate201Response extends HttpResponse {
     // (undocumented)
-    body: ApplicationData;
+    body: ApplicationDataOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface ApplicationDataCreateOrUpdateBodyParam {
-    // (undocumented)
     body?: ApplicationData;
 }
 
 // @public
 export interface ApplicationDataCreateOrUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type ApplicationDataCreateOrUpdateParameters = RequestParameters & ApplicationDataCreateOrUpdateBodyParam;
+export interface ApplicationDataCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
 
 // @public (undocumented)
-export interface ApplicationDataDelete {
-    delete(options?: ApplicationDataDeleteParameters): Promise<ApplicationDataDelete204Response | ApplicationDataDeletedefaultResponse>;
-    get(options?: ApplicationDataGetParameters): Promise<ApplicationDataGet200Response | ApplicationDataGetdefaultResponse>;
-    patch(options?: ApplicationDataCreateOrUpdateParameters): Promise<ApplicationDataCreateOrUpdate200Response | ApplicationDataCreateOrUpdate201Response | ApplicationDataCreateOrUpdatedefaultResponse>;
-}
+export type ApplicationDataCreateOrUpdateParameters = ApplicationDataCreateOrUpdateMediaTypesParam & ApplicationDataCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface ApplicationDataDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -88,7 +118,7 @@ export interface ApplicationDataDelete204Response extends HttpResponse {
 // @public
 export interface ApplicationDataDeletedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -96,18 +126,50 @@ export interface ApplicationDataDeletedefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type ApplicationDataDeleteParameters = RequestParameters;
 
+// @public (undocumented)
+export interface ApplicationDataGet {
+    delete(options?: ApplicationDataDeleteParameters): Promise<ApplicationDataDelete204Response | ApplicationDataDeletedefaultResponse>;
+    get(options?: ApplicationDataGetParameters): Promise<ApplicationDataGet200Response | ApplicationDataGetdefaultResponse>;
+    patch(options?: ApplicationDataCreateOrUpdateParameters): Promise<ApplicationDataCreateOrUpdate200Response | ApplicationDataCreateOrUpdate201Response | ApplicationDataCreateOrUpdatedefaultResponse>;
+}
+
 // @public
 export interface ApplicationDataGet200Response extends HttpResponse {
     // (undocumented)
-    body: ApplicationData;
+    body: ApplicationDataOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ApplicationDataGetCascadeDeleteJobDetails {
+    get(options?: ApplicationDataGetCascadeDeleteJobDetailsParameters): Promise<ApplicationDataGetCascadeDeleteJobDetails200Response | ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse>;
+    put(options: ApplicationDataCreateCascadeDeleteJobParameters): Promise<ApplicationDataCreateCascadeDeleteJob202Response | ApplicationDataCreateCascadeDeleteJobdefaultResponse>;
+}
+
+// @public
+export interface ApplicationDataGetCascadeDeleteJobDetails200Response extends HttpResponse {
+    // (undocumented)
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public
+export interface ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type ApplicationDataGetCascadeDeleteJobDetailsParameters = RequestParameters;
+
+// @public
 export interface ApplicationDataGetdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -123,7 +185,7 @@ export interface ApplicationDataList {
 // @public
 export interface ApplicationDataList200Response extends HttpResponse {
     // (undocumented)
-    body: ApplicationDataListResponse;
+    body: ApplicationDataListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -136,7 +198,7 @@ export interface ApplicationDataListByFarmerId {
 // @public
 export interface ApplicationDataListByFarmerId200Response extends HttpResponse {
     // (undocumented)
-    body: ApplicationDataListResponse;
+    body: ApplicationDataListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -144,13 +206,13 @@ export interface ApplicationDataListByFarmerId200Response extends HttpResponse {
 // @public
 export interface ApplicationDataListByFarmerIddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type ApplicationDataListByFarmerIdParameters = RequestParameters & ApplicationDataListByFarmerIdQueryParam;
+export type ApplicationDataListByFarmerIdParameters = ApplicationDataListByFarmerIdQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface ApplicationDataListByFarmerIdQueryParam {
@@ -162,41 +224,41 @@ export interface ApplicationDataListByFarmerIdQueryParam {
 export interface ApplicationDataListByFarmerIdQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    associatedBoundaryIds?: string[];
-    ids?: string[];
+    associatedBoundaryIds?: Array<string>;
+    ids?: Array<string>;
     maxArea?: number;
     maxAvgMaterial?: number;
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    maxOperationEndDateTime?: Date;
-    maxOperationModifiedDateTime?: Date;
-    maxOperationStartDateTime?: Date;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    maxOperationEndDateTime?: Date | string;
+    maxOperationModifiedDateTime?: Date | string;
+    maxOperationStartDateTime?: Date | string;
     maxTotalMaterial?: number;
     minArea?: number;
     minAvgMaterial?: number;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    minOperationEndDateTime?: Date;
-    minOperationModifiedDateTime?: Date;
-    minOperationStartDateTime?: Date;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    minOperationEndDateTime?: Date | string;
+    minOperationModifiedDateTime?: Date | string;
+    minOperationStartDateTime?: Date | string;
     minTotalMaterial?: number;
-    names?: string[];
-    operationBoundaryIds?: string[];
-    propertyFilters?: string[];
-    sources?: string[];
-    statuses?: string[];
+    names?: Array<string>;
+    operationBoundaryIds?: Array<string>;
+    propertyFilters?: Array<string>;
+    sources?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public
 export interface ApplicationDataListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type ApplicationDataListParameters = RequestParameters & ApplicationDataListQueryParam;
+export type ApplicationDataListParameters = ApplicationDataListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface ApplicationDataListQueryParam {
@@ -208,40 +270,61 @@ export interface ApplicationDataListQueryParam {
 export interface ApplicationDataListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    associatedBoundaryIds?: string[];
-    ids?: string[];
+    associatedBoundaryIds?: Array<string>;
+    ids?: Array<string>;
     maxArea?: number;
     maxAvgMaterial?: number;
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    maxOperationEndDateTime?: Date;
-    maxOperationModifiedDateTime?: Date;
-    maxOperationStartDateTime?: Date;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    maxOperationEndDateTime?: Date | string;
+    maxOperationModifiedDateTime?: Date | string;
+    maxOperationStartDateTime?: Date | string;
     maxTotalMaterial?: number;
     minArea?: number;
     minAvgMaterial?: number;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    minOperationEndDateTime?: Date;
-    minOperationModifiedDateTime?: Date;
-    minOperationStartDateTime?: Date;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    minOperationEndDateTime?: Date | string;
+    minOperationModifiedDateTime?: Date | string;
+    minOperationStartDateTime?: Date | string;
     minTotalMaterial?: number;
-    names?: string[];
-    operationBoundaryIds?: string[];
-    propertyFilters?: string[];
-    sources?: string[];
-    statuses?: string[];
+    names?: Array<string>;
+    operationBoundaryIds?: Array<string>;
+    propertyFilters?: Array<string>;
+    sources?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public (undocumented)
-export interface ApplicationDataListResponse {
+export interface ApplicationDataListResponseOutput {
+    $skipToken?: string;
     nextLink?: string;
-    skipToken?: string;
-    value?: ApplicationData[];
+    value?: Array<ApplicationDataOutput>;
 }
 
 // @public (undocumented)
-export type ApplicationDataPropertiesDictionary = Record<string, unknown>;
+export interface ApplicationDataOutput {
+    applicationProductDetails?: Array<ApplicationProductDetailOutput>;
+    area?: MeasureOutput;
+    associatedBoundaryId?: string;
+    attachmentsLink?: string;
+    avgMaterial?: MeasureOutput;
+    createdDateTime?: string;
+    description?: string;
+    eTag?: string;
+    farmerId?: string;
+    id?: string;
+    modifiedDateTime?: string;
+    name?: string;
+    operationBoundaryId?: string;
+    operationEndDateTime?: string;
+    operationModifiedDateTime?: string;
+    operationStartDateTime?: string;
+    properties?: Record<string, Record<string, unknown>>;
+    source?: string;
+    status?: string;
+    totalMaterial?: MeasureOutput;
+}
 
 // @public (undocumented)
 export interface ApplicationProductDetail {
@@ -252,13 +335,28 @@ export interface ApplicationProductDetail {
 }
 
 // @public (undocumented)
-export interface Attachment {
-    createdDateTime?: Date;
+export interface ApplicationProductDetailOutput {
+    avgMaterial?: MeasureOutput;
+    isCarrier?: boolean;
+    productName?: string;
+    totalMaterial?: MeasureOutput;
+}
+
+// @public (undocumented)
+export interface AttachmentListResponseOutput {
+    $skipToken?: string;
+    nextLink?: string;
+    value?: Array<AttachmentOutput>;
+}
+
+// @public (undocumented)
+export interface AttachmentOutput {
+    createdDateTime?: string;
     description?: string;
     eTag?: string;
     farmerId?: string;
     id?: string;
-    modifiedDateTime?: Date;
+    modifiedDateTime?: string;
     name?: string;
     originalFileName?: string;
     resourceId?: string;
@@ -266,17 +364,10 @@ export interface Attachment {
     status?: string;
 }
 
-// @public (undocumented)
-export interface AttachmentListResponse {
-    nextLink?: string;
-    skipToken?: string;
-    value?: Attachment[];
-}
-
 // @public
 export interface AttachmentsCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: Attachment;
+    body: AttachmentOutput;
     // (undocumented)
     status: "200";
 }
@@ -284,7 +375,7 @@ export interface AttachmentsCreateOrUpdate200Response extends HttpResponse {
 // @public
 export interface AttachmentsCreateOrUpdate201Response extends HttpResponse {
     // (undocumented)
-    body: Attachment;
+    body: AttachmentOutput;
     // (undocumented)
     status: "201";
 }
@@ -292,29 +383,45 @@ export interface AttachmentsCreateOrUpdate201Response extends HttpResponse {
 // @public (undocumented)
 export interface AttachmentsCreateOrUpdateBodyParam {
     // (undocumented)
-    body?: string;
+    body?: AttachmentsCreateOrUpdateFormBody;
 }
 
 // @public
 export interface AttachmentsCreateOrUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type AttachmentsCreateOrUpdateParameters = RequestParameters & AttachmentsCreateOrUpdateBodyParam;
+export interface AttachmentsCreateOrUpdateFormBody {
+    CreatedDateTime?: string;
+    Description?: string;
+    ETag?: string;
+    FarmerId?: string;
+    file?: string | Uint8Array;
+    Id?: string;
+    ModifiedDateTime?: string;
+    Name?: string;
+    OriginalFileName?: string;
+    ResourceId?: string;
+    ResourceType?: string;
+    Status?: string;
+}
 
 // @public (undocumented)
-export interface AttachmentsDelete {
-    delete(options?: AttachmentsDeleteParameters): Promise<AttachmentsDelete204Response | AttachmentsDeletedefaultResponse>;
-    get(options?: AttachmentsGetParameters): Promise<AttachmentsGet200Response | AttachmentsGetdefaultResponse>;
-    patch(options?: AttachmentsCreateOrUpdateParameters): Promise<AttachmentsCreateOrUpdate200Response | AttachmentsCreateOrUpdate201Response | AttachmentsCreateOrUpdatedefaultResponse>;
+export interface AttachmentsCreateOrUpdateMediaTypesParam {
+    contentType?: "multipart/form-data";
 }
+
+// @public (undocumented)
+export type AttachmentsCreateOrUpdateParameters = AttachmentsCreateOrUpdateMediaTypesParam & AttachmentsCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface AttachmentsDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -322,7 +429,7 @@ export interface AttachmentsDelete204Response extends HttpResponse {
 // @public
 export interface AttachmentsDeletedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -337,6 +444,7 @@ export interface AttachmentsDownload {
 
 // @public
 export interface AttachmentsDownload200Response extends HttpResponse {
+    body: Uint8Array;
     // (undocumented)
     status: "200";
 }
@@ -344,7 +452,7 @@ export interface AttachmentsDownload200Response extends HttpResponse {
 // @public
 export interface AttachmentsDownloaddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -352,10 +460,17 @@ export interface AttachmentsDownloaddefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type AttachmentsDownloadParameters = RequestParameters;
 
+// @public (undocumented)
+export interface AttachmentsGet {
+    delete(options?: AttachmentsDeleteParameters): Promise<AttachmentsDelete204Response | AttachmentsDeletedefaultResponse>;
+    get(options?: AttachmentsGetParameters): Promise<AttachmentsGet200Response | AttachmentsGetdefaultResponse>;
+    patch(options?: AttachmentsCreateOrUpdateParameters): Promise<AttachmentsCreateOrUpdate200Response | AttachmentsCreateOrUpdate201Response | AttachmentsCreateOrUpdatedefaultResponse>;
+}
+
 // @public
 export interface AttachmentsGet200Response extends HttpResponse {
     // (undocumented)
-    body: Attachment;
+    body: AttachmentOutput;
     // (undocumented)
     status: "200";
 }
@@ -363,7 +478,7 @@ export interface AttachmentsGet200Response extends HttpResponse {
 // @public
 export interface AttachmentsGetdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -379,7 +494,7 @@ export interface AttachmentsListByFarmerId {
 // @public
 export interface AttachmentsListByFarmerId200Response extends HttpResponse {
     // (undocumented)
-    body: AttachmentListResponse;
+    body: AttachmentListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -387,13 +502,13 @@ export interface AttachmentsListByFarmerId200Response extends HttpResponse {
 // @public
 export interface AttachmentsListByFarmerIddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type AttachmentsListByFarmerIdParameters = RequestParameters & AttachmentsListByFarmerIdQueryParam;
+export type AttachmentsListByFarmerIdParameters = AttachmentsListByFarmerIdQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface AttachmentsListByFarmerIdQueryParam {
@@ -405,28 +520,22 @@ export interface AttachmentsListByFarmerIdQueryParam {
 export interface AttachmentsListByFarmerIdQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    ids?: string[];
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    names?: string[];
-    propertyFilters?: string[];
-    resourceIds?: string[];
-    resourceTypes?: string[];
-    statuses?: string[];
-}
-
-// @public (undocumented)
-export interface BoundariesCreateCascadeDeleteJob {
-    get(options?: BoundariesGetCascadeDeleteJobDetailsParameters): Promise<BoundariesGetCascadeDeleteJobDetails200Response | BoundariesGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options?: BoundariesCreateCascadeDeleteJobParameters): Promise<BoundariesCreateCascadeDeleteJob202Response | BoundariesCreateCascadeDeleteJobdefaultResponse>;
+    ids?: Array<string>;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: Array<string>;
+    propertyFilters?: Array<string>;
+    resourceIds?: Array<string>;
+    resourceTypes?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public
 export interface BoundariesCreateCascadeDeleteJob202Response extends HttpResponse {
     // (undocumented)
-    body: CascadeDeleteJob;
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "202";
 }
@@ -434,13 +543,13 @@ export interface BoundariesCreateCascadeDeleteJob202Response extends HttpRespons
 // @public
 export interface BoundariesCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type BoundariesCreateCascadeDeleteJobParameters = RequestParameters & BoundariesCreateCascadeDeleteJobQueryParam;
+export type BoundariesCreateCascadeDeleteJobParameters = BoundariesCreateCascadeDeleteJobQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface BoundariesCreateCascadeDeleteJobQueryParam {
@@ -457,7 +566,7 @@ export interface BoundariesCreateCascadeDeleteJobQueryParamProperties {
 // @public
 export interface BoundariesCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: Boundary;
+    body: BoundaryOutput;
     // (undocumented)
     status: "200";
 }
@@ -465,37 +574,36 @@ export interface BoundariesCreateOrUpdate200Response extends HttpResponse {
 // @public
 export interface BoundariesCreateOrUpdate201Response extends HttpResponse {
     // (undocumented)
-    body: Boundary;
+    body: BoundaryOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface BoundariesCreateOrUpdateBodyParam {
-    // (undocumented)
     body?: Boundary;
 }
 
 // @public
 export interface BoundariesCreateOrUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type BoundariesCreateOrUpdateParameters = RequestParameters & BoundariesCreateOrUpdateBodyParam;
+export interface BoundariesCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
 
 // @public (undocumented)
-export interface BoundariesDelete {
-    delete(options?: BoundariesDeleteParameters): Promise<BoundariesDelete204Response | BoundariesDeletedefaultResponse>;
-    get(options?: BoundariesGetParameters): Promise<BoundariesGet200Response | BoundariesGetdefaultResponse>;
-    patch(options?: BoundariesCreateOrUpdateParameters): Promise<BoundariesCreateOrUpdate200Response | BoundariesCreateOrUpdate201Response | BoundariesCreateOrUpdatedefaultResponse>;
-}
+export type BoundariesCreateOrUpdateParameters = BoundariesCreateOrUpdateMediaTypesParam & BoundariesCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface BoundariesDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -503,7 +611,7 @@ export interface BoundariesDelete204Response extends HttpResponse {
 // @public
 export interface BoundariesDeletedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -511,18 +619,31 @@ export interface BoundariesDeletedefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type BoundariesDeleteParameters = RequestParameters;
 
+// @public (undocumented)
+export interface BoundariesGet {
+    delete(options?: BoundariesDeleteParameters): Promise<BoundariesDelete204Response | BoundariesDeletedefaultResponse>;
+    get(options?: BoundariesGetParameters): Promise<BoundariesGet200Response | BoundariesGetdefaultResponse>;
+    patch(options?: BoundariesCreateOrUpdateParameters): Promise<BoundariesCreateOrUpdate200Response | BoundariesCreateOrUpdate201Response | BoundariesCreateOrUpdatedefaultResponse>;
+}
+
 // @public
 export interface BoundariesGet200Response extends HttpResponse {
     // (undocumented)
-    body: Boundary;
+    body: BoundaryOutput;
     // (undocumented)
     status: "200";
+}
+
+// @public (undocumented)
+export interface BoundariesGetCascadeDeleteJobDetails {
+    get(options?: BoundariesGetCascadeDeleteJobDetailsParameters): Promise<BoundariesGetCascadeDeleteJobDetails200Response | BoundariesGetCascadeDeleteJobDetailsdefaultResponse>;
+    put(options: BoundariesCreateCascadeDeleteJobParameters): Promise<BoundariesCreateCascadeDeleteJob202Response | BoundariesCreateCascadeDeleteJobdefaultResponse>;
 }
 
 // @public
 export interface BoundariesGetCascadeDeleteJobDetails200Response extends HttpResponse {
     // (undocumented)
-    body: CascadeDeleteJob;
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "200";
 }
@@ -530,7 +651,7 @@ export interface BoundariesGetCascadeDeleteJobDetails200Response extends HttpRes
 // @public
 export interface BoundariesGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -541,20 +662,20 @@ export type BoundariesGetCascadeDeleteJobDetailsParameters = RequestParameters;
 // @public
 export interface BoundariesGetdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
 export interface BoundariesGetOverlap {
-    get(options?: BoundariesGetOverlapParameters): Promise<BoundariesGetOverlap200Response | BoundariesGetOverlapdefaultResponse>;
+    get(options: BoundariesGetOverlapParameters): Promise<BoundariesGetOverlap200Response | BoundariesGetOverlapdefaultResponse>;
 }
 
 // @public
 export interface BoundariesGetOverlap200Response extends HttpResponse {
     // (undocumented)
-    body: BoundaryOverlapResponse;
+    body: BoundaryOverlapResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -562,13 +683,13 @@ export interface BoundariesGetOverlap200Response extends HttpResponse {
 // @public
 export interface BoundariesGetOverlapdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type BoundariesGetOverlapParameters = RequestParameters & BoundariesGetOverlapQueryParam;
+export type BoundariesGetOverlapParameters = BoundariesGetOverlapQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface BoundariesGetOverlapQueryParam {
@@ -585,18 +706,30 @@ export interface BoundariesGetOverlapQueryParamProperties {
 // @public (undocumented)
 export type BoundariesGetParameters = RequestParameters;
 
+// @public (undocumented)
+export interface BoundariesList {
+    get(options?: BoundariesListParameters): Promise<BoundariesList200Response | BoundariesListdefaultResponse>;
+    post(options?: BoundariesSearchParameters): Promise<BoundariesSearch200Response | BoundariesSearchdefaultResponse>;
+}
+
 // @public
 export interface BoundariesList200Response extends HttpResponse {
     // (undocumented)
-    body: BoundaryListResponse;
+    body: BoundaryListResponseOutput;
     // (undocumented)
     status: "200";
+}
+
+// @public (undocumented)
+export interface BoundariesListByFarmerId {
+    get(options?: BoundariesListByFarmerIdParameters): Promise<BoundariesListByFarmerId200Response | BoundariesListByFarmerIddefaultResponse>;
+    post(options?: BoundariesSearchByFarmerIdParameters): Promise<BoundariesSearchByFarmerId200Response | BoundariesSearchByFarmerIddefaultResponse>;
 }
 
 // @public
 export interface BoundariesListByFarmerId200Response extends HttpResponse {
     // (undocumented)
-    body: BoundaryListResponse;
+    body: BoundaryListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -604,13 +737,13 @@ export interface BoundariesListByFarmerId200Response extends HttpResponse {
 // @public
 export interface BoundariesListByFarmerIddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type BoundariesListByFarmerIdParameters = RequestParameters & BoundariesListByFarmerIdQueryParam;
+export type BoundariesListByFarmerIdParameters = BoundariesListByFarmerIdQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface BoundariesListByFarmerIdQueryParam {
@@ -622,31 +755,31 @@ export interface BoundariesListByFarmerIdQueryParam {
 export interface BoundariesListByFarmerIdQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    ids?: string[];
+    ids?: Array<string>;
     isPrimary?: boolean;
     maxAcreage?: number;
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
     minAcreage?: number;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    names?: string[];
-    parentIds?: string[];
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: Array<string>;
+    parentIds?: Array<string>;
     parentType?: string;
-    propertyFilters?: string[];
-    statuses?: string[];
+    propertyFilters?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public
 export interface BoundariesListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type BoundariesListParameters = RequestParameters & BoundariesListQueryParam;
+export type BoundariesListParameters = BoundariesListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface BoundariesListQueryParam {
@@ -658,166 +791,181 @@ export interface BoundariesListQueryParam {
 export interface BoundariesListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    ids?: string[];
+    ids?: Array<string>;
     isPrimary?: boolean;
     maxAcreage?: number;
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
     minAcreage?: number;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    names?: string[];
-    parentIds?: string[];
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: Array<string>;
+    parentIds?: Array<string>;
     parentType?: string;
-    propertyFilters?: string[];
-    statuses?: string[];
-}
-
-// @public (undocumented)
-export interface BoundariesSearch {
-    get(options?: BoundariesListParameters): Promise<BoundariesList200Response | BoundariesListdefaultResponse>;
-    post(options?: BoundariesSearchParameters): Promise<BoundariesSearch200Response | BoundariesSearchdefaultResponse>;
+    propertyFilters?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public
 export interface BoundariesSearch200Response extends HttpResponse {
     // (undocumented)
-    body: BoundaryListResponse;
+    body: BoundaryListResponseOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
 export interface BoundariesSearchBodyParam {
-    // (undocumented)
     body?: SearchBoundaryQuery;
-}
-
-// @public (undocumented)
-export interface BoundariesSearchByFarmerId {
-    get(options?: BoundariesListByFarmerIdParameters): Promise<BoundariesListByFarmerId200Response | BoundariesListByFarmerIddefaultResponse>;
-    post(options?: BoundariesSearchByFarmerIdParameters): Promise<BoundariesSearchByFarmerId200Response | BoundariesSearchByFarmerIddefaultResponse>;
 }
 
 // @public
 export interface BoundariesSearchByFarmerId200Response extends HttpResponse {
     // (undocumented)
-    body: BoundaryListResponse;
+    body: BoundaryListResponseOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
 export interface BoundariesSearchByFarmerIdBodyParam {
-    // (undocumented)
     body?: SearchBoundaryQuery;
 }
 
 // @public
 export interface BoundariesSearchByFarmerIddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type BoundariesSearchByFarmerIdParameters = RequestParameters & BoundariesSearchByFarmerIdBodyParam;
+export interface BoundariesSearchByFarmerIdMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type BoundariesSearchByFarmerIdParameters = BoundariesSearchByFarmerIdMediaTypesParam & BoundariesSearchByFarmerIdBodyParam & RequestParameters;
 
 // @public
 export interface BoundariesSearchdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type BoundariesSearchParameters = RequestParameters & BoundariesSearchBodyParam;
+export interface BoundariesSearchMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type BoundariesSearchParameters = BoundariesSearchMediaTypesParam & BoundariesSearchBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface Boundary {
     acreage?: number;
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     description?: string;
     eTag?: string;
     farmerId?: string;
     geometry?: GeoJsonObject;
     id?: string;
     isPrimary?: boolean;
-    modifiedDateTime?: Date;
+    modifiedDateTime?: Date | string;
     name?: string;
     parentId?: string;
     parentType?: string;
-    properties?: BoundaryPropertiesDictionary;
+    properties?: Record<string, Record<string, unknown>>;
     status?: string;
 }
 
 // @public (undocumented)
-export interface BoundaryListResponse {
+export interface BoundaryListResponseOutput {
+    $skipToken?: string;
     nextLink?: string;
-    skipToken?: string;
-    value?: Boundary[];
+    value?: Array<BoundaryOutput>;
 }
 
 // @public (undocumented)
-export interface BoundaryOverlapResponse {
+export interface BoundaryOutput {
+    acreage?: number;
+    createdDateTime?: string;
+    description?: string;
+    eTag?: string;
+    farmerId?: string;
+    geometry?: GeoJsonObjectOutput;
+    id?: string;
+    isPrimary?: boolean;
+    modifiedDateTime?: string;
+    name?: string;
+    parentId?: string;
+    parentType?: string;
+    properties?: Record<string, Record<string, unknown>>;
+    status?: string;
+}
+
+// @public (undocumented)
+export interface BoundaryOverlapResponseOutput {
     boundaryAcreage?: number;
     intersectingAcreage?: number;
     otherBoundaryAcreage?: number;
 }
 
 // @public (undocumented)
-export type BoundaryPropertiesDictionary = Record<string, unknown>;
-
-// @public (undocumented)
-export interface CascadeDeleteJob {
-    createdDateTime?: Date;
-    description?: string;
+export interface CascadeDeleteJobOutput {
+    createdDateTime?: string;
     durationInSeconds?: number;
-    endTime?: Date;
+    endTime?: string;
     farmerId: string;
     id?: string;
-    lastActionDateTime?: Date;
+    lastActionDateTime?: string;
     message?: string;
-    name?: string;
-    properties?: CascadeDeleteJobPropertiesDictionary;
     resourceId: string;
     resourceType: string;
-    startTime?: Date;
-    status?: string;
+    startTime?: string;
+    status?: "Waiting" | "Running" | "Succeeded" | "Failed" | "Cancelled";
 }
-
-// @public (undocumented)
-export type CascadeDeleteJobPropertiesDictionary = Record<string, unknown>;
 
 // @public (undocumented)
 export interface Crop {
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     description?: string;
     eTag?: string;
     id?: string;
-    modifiedDateTime?: Date;
+    modifiedDateTime?: Date | string;
     name?: string;
     phenotype?: string;
-    properties?: CropPropertiesDictionary;
+    properties?: Record<string, Record<string, unknown>>;
     status?: string;
 }
 
 // @public (undocumented)
-export interface CropListResponse {
+export interface CropListResponseOutput {
+    $skipToken?: string;
     nextLink?: string;
-    skipToken?: string;
-    value?: Crop[];
+    value?: Array<CropOutput>;
 }
 
 // @public (undocumented)
-export type CropPropertiesDictionary = Record<string, unknown>;
+export interface CropOutput {
+    createdDateTime?: string;
+    description?: string;
+    eTag?: string;
+    id?: string;
+    modifiedDateTime?: string;
+    name?: string;
+    phenotype?: string;
+    properties?: Record<string, Record<string, unknown>>;
+    status?: string;
+}
 
 // @public
 export interface CropsCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: Crop;
+    body: CropOutput;
     // (undocumented)
     status: "200";
 }
@@ -825,37 +973,36 @@ export interface CropsCreateOrUpdate200Response extends HttpResponse {
 // @public
 export interface CropsCreateOrUpdate201Response extends HttpResponse {
     // (undocumented)
-    body: Crop;
+    body: CropOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface CropsCreateOrUpdateBodyParam {
-    // (undocumented)
     body?: Crop;
 }
 
 // @public
 export interface CropsCreateOrUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type CropsCreateOrUpdateParameters = RequestParameters & CropsCreateOrUpdateBodyParam;
+export interface CropsCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
 
 // @public (undocumented)
-export interface CropsDelete {
-    delete(options?: CropsDeleteParameters): Promise<CropsDelete204Response | CropsDeletedefaultResponse>;
-    get(options?: CropsGetParameters): Promise<CropsGet200Response | CropsGetdefaultResponse>;
-    patch(options?: CropsCreateOrUpdateParameters): Promise<CropsCreateOrUpdate200Response | CropsCreateOrUpdate201Response | CropsCreateOrUpdatedefaultResponse>;
-}
+export type CropsCreateOrUpdateParameters = CropsCreateOrUpdateMediaTypesParam & CropsCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface CropsDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -863,7 +1010,7 @@ export interface CropsDelete204Response extends HttpResponse {
 // @public
 export interface CropsDeletedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -871,10 +1018,17 @@ export interface CropsDeletedefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type CropsDeleteParameters = RequestParameters;
 
+// @public (undocumented)
+export interface CropsGet {
+    delete(options?: CropsDeleteParameters): Promise<CropsDelete204Response | CropsDeletedefaultResponse>;
+    get(options?: CropsGetParameters): Promise<CropsGet200Response | CropsGetdefaultResponse>;
+    patch(options?: CropsCreateOrUpdateParameters): Promise<CropsCreateOrUpdate200Response | CropsCreateOrUpdate201Response | CropsCreateOrUpdatedefaultResponse>;
+}
+
 // @public
 export interface CropsGet200Response extends HttpResponse {
     // (undocumented)
-    body: Crop;
+    body: CropOutput;
     // (undocumented)
     status: "200";
 }
@@ -882,7 +1036,7 @@ export interface CropsGet200Response extends HttpResponse {
 // @public
 export interface CropsGetdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -898,7 +1052,7 @@ export interface CropsList {
 // @public
 export interface CropsList200Response extends HttpResponse {
     // (undocumented)
-    body: CropListResponse;
+    body: CropListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -906,13 +1060,13 @@ export interface CropsList200Response extends HttpResponse {
 // @public
 export interface CropsListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type CropsListParameters = RequestParameters & CropsListQueryParam;
+export type CropsListParameters = CropsListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface CropsListQueryParam {
@@ -924,21 +1078,21 @@ export interface CropsListQueryParam {
 export interface CropsListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    ids?: string[];
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    names?: string[];
-    phenotypes?: string[];
-    propertyFilters?: string[];
-    statuses?: string[];
+    ids?: Array<string>;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: Array<string>;
+    phenotypes?: Array<string>;
+    propertyFilters?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public
 export interface CropVarietiesCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: CropVariety;
+    body: CropVarietyOutput;
     // (undocumented)
     status: "200";
 }
@@ -946,37 +1100,36 @@ export interface CropVarietiesCreateOrUpdate200Response extends HttpResponse {
 // @public
 export interface CropVarietiesCreateOrUpdate201Response extends HttpResponse {
     // (undocumented)
-    body: CropVariety;
+    body: CropVarietyOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface CropVarietiesCreateOrUpdateBodyParam {
-    // (undocumented)
     body?: CropVariety;
 }
 
 // @public
 export interface CropVarietiesCreateOrUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type CropVarietiesCreateOrUpdateParameters = RequestParameters & CropVarietiesCreateOrUpdateBodyParam;
+export interface CropVarietiesCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
 
 // @public (undocumented)
-export interface CropVarietiesDelete {
-    delete(options?: CropVarietiesDeleteParameters): Promise<CropVarietiesDelete204Response | CropVarietiesDeletedefaultResponse>;
-    get(options?: CropVarietiesGetParameters): Promise<CropVarietiesGet200Response | CropVarietiesGetdefaultResponse>;
-    patch(options?: CropVarietiesCreateOrUpdateParameters): Promise<CropVarietiesCreateOrUpdate200Response | CropVarietiesCreateOrUpdate201Response | CropVarietiesCreateOrUpdatedefaultResponse>;
-}
+export type CropVarietiesCreateOrUpdateParameters = CropVarietiesCreateOrUpdateMediaTypesParam & CropVarietiesCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface CropVarietiesDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -984,7 +1137,7 @@ export interface CropVarietiesDelete204Response extends HttpResponse {
 // @public
 export interface CropVarietiesDeletedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -992,10 +1145,17 @@ export interface CropVarietiesDeletedefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type CropVarietiesDeleteParameters = RequestParameters;
 
+// @public (undocumented)
+export interface CropVarietiesGet {
+    delete(options?: CropVarietiesDeleteParameters): Promise<CropVarietiesDelete204Response | CropVarietiesDeletedefaultResponse>;
+    get(options?: CropVarietiesGetParameters): Promise<CropVarietiesGet200Response | CropVarietiesGetdefaultResponse>;
+    patch(options?: CropVarietiesCreateOrUpdateParameters): Promise<CropVarietiesCreateOrUpdate200Response | CropVarietiesCreateOrUpdate201Response | CropVarietiesCreateOrUpdatedefaultResponse>;
+}
+
 // @public
 export interface CropVarietiesGet200Response extends HttpResponse {
     // (undocumented)
-    body: CropVariety;
+    body: CropVarietyOutput;
     // (undocumented)
     status: "200";
 }
@@ -1003,7 +1163,7 @@ export interface CropVarietiesGet200Response extends HttpResponse {
 // @public
 export interface CropVarietiesGetdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -1019,7 +1179,7 @@ export interface CropVarietiesList {
 // @public
 export interface CropVarietiesList200Response extends HttpResponse {
     // (undocumented)
-    body: CropVarietyListResponse;
+    body: CropVarietyListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -1032,7 +1192,7 @@ export interface CropVarietiesListByCropId {
 // @public
 export interface CropVarietiesListByCropId200Response extends HttpResponse {
     // (undocumented)
-    body: CropVarietyListResponse;
+    body: CropVarietyListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -1040,13 +1200,13 @@ export interface CropVarietiesListByCropId200Response extends HttpResponse {
 // @public
 export interface CropVarietiesListByCropIddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type CropVarietiesListByCropIdParameters = RequestParameters & CropVarietiesListByCropIdQueryParam;
+export type CropVarietiesListByCropIdParameters = CropVarietiesListByCropIdQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface CropVarietiesListByCropIdQueryParam {
@@ -1058,29 +1218,29 @@ export interface CropVarietiesListByCropIdQueryParam {
 export interface CropVarietiesListByCropIdQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    brands?: string[];
-    cropIds?: string[];
-    ids?: string[];
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    names?: string[];
-    products?: string[];
-    propertyFilters?: string[];
-    statuses?: string[];
+    brands?: Array<string>;
+    cropIds?: Array<string>;
+    ids?: Array<string>;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: Array<string>;
+    products?: Array<string>;
+    propertyFilters?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public
 export interface CropVarietiesListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type CropVarietiesListParameters = RequestParameters & CropVarietiesListQueryParam;
+export type CropVarietiesListParameters = CropVarietiesListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface CropVarietiesListQueryParam {
@@ -1092,80 +1252,86 @@ export interface CropVarietiesListQueryParam {
 export interface CropVarietiesListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    brands?: string[];
-    cropIds?: string[];
-    ids?: string[];
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    names?: string[];
-    products?: string[];
-    propertyFilters?: string[];
-    statuses?: string[];
+    brands?: Array<string>;
+    cropIds?: Array<string>;
+    ids?: Array<string>;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: Array<string>;
+    products?: Array<string>;
+    propertyFilters?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public (undocumented)
 export interface CropVariety {
     brand?: string;
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     cropId?: string;
     description?: string;
     eTag?: string;
     id?: string;
-    modifiedDateTime?: Date;
+    modifiedDateTime?: Date | string;
     name?: string;
     product?: string;
-    properties?: CropVarietyPropertiesDictionary;
+    properties?: Record<string, Record<string, unknown>>;
     status?: string;
 }
 
 // @public (undocumented)
-export interface CropVarietyListResponse {
+export interface CropVarietyListResponseOutput {
+    $skipToken?: string;
     nextLink?: string;
-    skipToken?: string;
-    value?: CropVariety[];
+    value?: Array<CropVarietyOutput>;
 }
 
 // @public (undocumented)
-export type CropVarietyPropertiesDictionary = Record<string, unknown>;
+export interface CropVarietyOutput {
+    brand?: string;
+    createdDateTime?: string;
+    cropId?: string;
+    description?: string;
+    eTag?: string;
+    id?: string;
+    modifiedDateTime?: string;
+    name?: string;
+    product?: string;
+    properties?: Record<string, Record<string, unknown>>;
+    status?: string;
+}
 
 // @public (undocumented)
-export type DataProvider = "Microsoft";
-
-// @public (undocumented)
-interface Error_2 {
+export interface ErrorModelOutput {
     code?: string;
-    details?: Error_2[];
-    innererror?: InnerError;
+    details?: Array<ErrorModelOutput>;
+    innererror?: InnerErrorOutput;
     message?: string;
     target?: string;
 }
 
-export { Error_2 as Error }
-
 // @public (undocumented)
-export interface ErrorResponse {
-    error?: Error_2;
+export interface ErrorResponseOutput {
+    error?: ErrorModelOutput;
     traceId?: string;
 }
 
 // @public (undocumented)
 export interface Farm {
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     description?: string;
     eTag?: string;
     farmerId?: string;
     id?: string;
-    modifiedDateTime?: Date;
+    modifiedDateTime?: Date | string;
     name?: string;
-    properties?: FarmPropertiesDictionary;
+    properties?: Record<string, Record<string, unknown>>;
     status?: string;
 }
 
 // @public (undocumented)
-function FarmBeats(Endpoint: string, credentials: TokenCredential, options?: ClientOptions): FarmBeatsRestClient;
-
+function FarmBeats($host: string, credentials: TokenCredential, options?: ClientOptions): FarmBeatsRestClient;
 export default FarmBeats;
 
 // @public (undocumented)
@@ -1175,36 +1341,39 @@ export type FarmBeatsRestClient = Client & {
 
 // @public (undocumented)
 export interface Farmer {
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     description?: string;
     eTag?: string;
     id?: string;
-    modifiedDateTime?: Date;
+    modifiedDateTime?: Date | string;
     name?: string;
-    properties?: FarmerPropertiesDictionary;
+    properties?: Record<string, any>;
     status?: string;
 }
 
 // @public (undocumented)
-export interface FarmerListResponse {
+export interface FarmerListResponseOutput {
+    $skipToken?: string;
     nextLink?: string;
-    skipToken?: string;
-    value?: Farmer[];
+    value?: Array<FarmerOutput>;
 }
 
 // @public (undocumented)
-export type FarmerPropertiesDictionary = Record<string, unknown>;
-
-// @public (undocumented)
-export interface FarmersCreateCascadeDeleteJob {
-    get(options?: FarmersGetCascadeDeleteJobDetailsParameters): Promise<FarmersGetCascadeDeleteJobDetails200Response | FarmersGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options?: FarmersCreateCascadeDeleteJobParameters): Promise<FarmersCreateCascadeDeleteJob202Response | FarmersCreateCascadeDeleteJobdefaultResponse>;
+export interface FarmerOutput {
+    createdDateTime?: string;
+    description?: string;
+    eTag?: string;
+    id?: string;
+    modifiedDateTime?: string;
+    name?: string;
+    properties?: Record<string, any>;
+    status?: string;
 }
 
 // @public
 export interface FarmersCreateCascadeDeleteJob202Response extends HttpResponse {
     // (undocumented)
-    body: CascadeDeleteJob;
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "202";
 }
@@ -1212,13 +1381,13 @@ export interface FarmersCreateCascadeDeleteJob202Response extends HttpResponse {
 // @public
 export interface FarmersCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type FarmersCreateCascadeDeleteJobParameters = RequestParameters & FarmersCreateCascadeDeleteJobQueryParam;
+export type FarmersCreateCascadeDeleteJobParameters = FarmersCreateCascadeDeleteJobQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface FarmersCreateCascadeDeleteJobQueryParam {
@@ -1234,7 +1403,7 @@ export interface FarmersCreateCascadeDeleteJobQueryParamProperties {
 // @public
 export interface FarmersCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: Farmer;
+    body: FarmerOutput;
     // (undocumented)
     status: "200";
 }
@@ -1242,37 +1411,36 @@ export interface FarmersCreateOrUpdate200Response extends HttpResponse {
 // @public
 export interface FarmersCreateOrUpdate201Response extends HttpResponse {
     // (undocumented)
-    body: Farmer;
+    body: FarmerOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface FarmersCreateOrUpdateBodyParam {
-    // (undocumented)
     body?: Farmer;
 }
 
 // @public
 export interface FarmersCreateOrUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type FarmersCreateOrUpdateParameters = RequestParameters & FarmersCreateOrUpdateBodyParam;
+export interface FarmersCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
 
 // @public (undocumented)
-export interface FarmersDelete {
-    delete(options?: FarmersDeleteParameters): Promise<FarmersDelete204Response | FarmersDeletedefaultResponse>;
-    get(options?: FarmersGetParameters): Promise<FarmersGet200Response | FarmersGetdefaultResponse>;
-    patch(options?: FarmersCreateOrUpdateParameters): Promise<FarmersCreateOrUpdate200Response | FarmersCreateOrUpdate201Response | FarmersCreateOrUpdatedefaultResponse>;
-}
+export type FarmersCreateOrUpdateParameters = FarmersCreateOrUpdateMediaTypesParam & FarmersCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface FarmersDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1280,7 +1448,7 @@ export interface FarmersDelete204Response extends HttpResponse {
 // @public
 export interface FarmersDeletedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -1288,18 +1456,31 @@ export interface FarmersDeletedefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type FarmersDeleteParameters = RequestParameters;
 
+// @public (undocumented)
+export interface FarmersGet {
+    delete(options?: FarmersDeleteParameters): Promise<FarmersDelete204Response | FarmersDeletedefaultResponse>;
+    get(options?: FarmersGetParameters): Promise<FarmersGet200Response | FarmersGetdefaultResponse>;
+    patch(options?: FarmersCreateOrUpdateParameters): Promise<FarmersCreateOrUpdate200Response | FarmersCreateOrUpdate201Response | FarmersCreateOrUpdatedefaultResponse>;
+}
+
 // @public
 export interface FarmersGet200Response extends HttpResponse {
     // (undocumented)
-    body: Farmer;
+    body: FarmerOutput;
     // (undocumented)
     status: "200";
+}
+
+// @public (undocumented)
+export interface FarmersGetCascadeDeleteJobDetails {
+    get(options?: FarmersGetCascadeDeleteJobDetailsParameters): Promise<FarmersGetCascadeDeleteJobDetails200Response | FarmersGetCascadeDeleteJobDetailsdefaultResponse>;
+    put(options: FarmersCreateCascadeDeleteJobParameters): Promise<FarmersCreateCascadeDeleteJob202Response | FarmersCreateCascadeDeleteJobdefaultResponse>;
 }
 
 // @public
 export interface FarmersGetCascadeDeleteJobDetails200Response extends HttpResponse {
     // (undocumented)
-    body: CascadeDeleteJob;
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "200";
 }
@@ -1307,7 +1488,7 @@ export interface FarmersGetCascadeDeleteJobDetails200Response extends HttpRespon
 // @public
 export interface FarmersGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -1318,7 +1499,7 @@ export type FarmersGetCascadeDeleteJobDetailsParameters = RequestParameters;
 // @public
 export interface FarmersGetdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -1334,7 +1515,7 @@ export interface FarmersList {
 // @public
 export interface FarmersList200Response extends HttpResponse {
     // (undocumented)
-    body: FarmerListResponse;
+    body: FarmerListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -1342,13 +1523,13 @@ export interface FarmersList200Response extends HttpResponse {
 // @public
 export interface FarmersListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type FarmersListParameters = RequestParameters & FarmersListQueryParam;
+export type FarmersListParameters = FarmersListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface FarmersListQueryParam {
@@ -1360,80 +1541,100 @@ export interface FarmersListQueryParam {
 export interface FarmersListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    ids?: string[];
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    names?: string[];
-    propertyFilters?: string[];
-    statuses?: string[];
+    ids?: Array<string>;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: Array<string>;
+    propertyFilters?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public (undocumented)
-export interface FarmListResponse {
+export interface FarmListResponseOutput {
+    $skipToken?: string;
     nextLink?: string;
-    skipToken?: string;
-    value?: Farm[];
+    value?: Array<FarmOutput>;
 }
 
 // @public (undocumented)
 export interface FarmOperationDataIngestionJob {
     authProviderId: string;
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     description?: string;
     durationInSeconds?: number;
-    endTime?: Date;
+    endTime?: Date | string;
     farmerId: string;
     id?: string;
-    lastActionDateTime?: Date;
+    lastActionDateTime?: Date | string;
     message?: string;
     name?: string;
-    operations?: string[];
-    properties?: FarmOperationDataIngestionJobPropertiesDictionary;
-    startTime?: Date;
+    operations?: Array<string>;
+    properties?: Record<string, Record<string, unknown>>;
+    startTime?: Date | string;
     startYear: number;
     status?: string;
 }
 
 // @public (undocumented)
-export type FarmOperationDataIngestionJobPropertiesDictionary = Record<string, unknown>;
+export interface FarmOperationDataIngestionJobOutput {
+    authProviderId: string;
+    createdDateTime?: string;
+    description?: string;
+    durationInSeconds?: number;
+    endTime?: string;
+    farmerId: string;
+    id?: string;
+    lastActionDateTime?: string;
+    message?: string;
+    name?: string;
+    operations?: Array<string>;
+    properties?: Record<string, Record<string, unknown>>;
+    startTime?: string;
+    startYear: number;
+    status?: string;
+}
+
+// @public (undocumented)
+export interface FarmOperationsCreateDataIngestionJob {
+    get(options?: FarmOperationsGetDataIngestionJobDetailsParameters): Promise<FarmOperationsGetDataIngestionJobDetails200Response | FarmOperationsGetDataIngestionJobDetailsdefaultResponse>;
+    put(options?: FarmOperationsCreateDataIngestionJobParameters): Promise<FarmOperationsCreateDataIngestionJob202Response | FarmOperationsCreateDataIngestionJobdefaultResponse>;
+}
 
 // @public
 export interface FarmOperationsCreateDataIngestionJob202Response extends HttpResponse {
     // (undocumented)
-    body: FarmOperationDataIngestionJob;
+    body: FarmOperationDataIngestionJobOutput;
     // (undocumented)
     status: "202";
 }
 
 // @public (undocumented)
 export interface FarmOperationsCreateDataIngestionJobBodyParam {
-    // (undocumented)
     body?: FarmOperationDataIngestionJob;
 }
 
 // @public
 export interface FarmOperationsCreateDataIngestionJobdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type FarmOperationsCreateDataIngestionJobParameters = RequestParameters & FarmOperationsCreateDataIngestionJobBodyParam;
+export interface FarmOperationsCreateDataIngestionJobMediaTypesParam {
+    contentType?: "application/json";
+}
 
 // @public (undocumented)
-export interface FarmOperationsGetDataIngestionJobDetails {
-    get(options?: FarmOperationsGetDataIngestionJobDetailsParameters): Promise<FarmOperationsGetDataIngestionJobDetails200Response | FarmOperationsGetDataIngestionJobDetailsdefaultResponse>;
-    put(options?: FarmOperationsCreateDataIngestionJobParameters): Promise<FarmOperationsCreateDataIngestionJob202Response | FarmOperationsCreateDataIngestionJobdefaultResponse>;
-}
+export type FarmOperationsCreateDataIngestionJobParameters = FarmOperationsCreateDataIngestionJobMediaTypesParam & FarmOperationsCreateDataIngestionJobBodyParam & RequestParameters;
 
 // @public
 export interface FarmOperationsGetDataIngestionJobDetails200Response extends HttpResponse {
     // (undocumented)
-    body: FarmOperationDataIngestionJob;
+    body: FarmOperationDataIngestionJobOutput;
     // (undocumented)
     status: "200";
 }
@@ -1441,7 +1642,7 @@ export interface FarmOperationsGetDataIngestionJobDetails200Response extends Htt
 // @public
 export interface FarmOperationsGetDataIngestionJobDetailsdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -1450,18 +1651,22 @@ export interface FarmOperationsGetDataIngestionJobDetailsdefaultResponse extends
 export type FarmOperationsGetDataIngestionJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
-export type FarmPropertiesDictionary = Record<string, unknown>;
-
-// @public (undocumented)
-export interface FarmsCreateCascadeDeleteJob {
-    get(options?: FarmsGetCascadeDeleteJobDetailsParameters): Promise<FarmsGetCascadeDeleteJobDetails200Response | FarmsGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options?: FarmsCreateCascadeDeleteJobParameters): Promise<FarmsCreateCascadeDeleteJob202Response | FarmsCreateCascadeDeleteJobdefaultResponse>;
+export interface FarmOutput {
+    createdDateTime?: string;
+    description?: string;
+    eTag?: string;
+    farmerId?: string;
+    id?: string;
+    modifiedDateTime?: string;
+    name?: string;
+    properties?: Record<string, Record<string, unknown>>;
+    status?: string;
 }
 
 // @public
 export interface FarmsCreateCascadeDeleteJob202Response extends HttpResponse {
     // (undocumented)
-    body: CascadeDeleteJob;
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "202";
 }
@@ -1469,13 +1674,13 @@ export interface FarmsCreateCascadeDeleteJob202Response extends HttpResponse {
 // @public
 export interface FarmsCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type FarmsCreateCascadeDeleteJobParameters = RequestParameters & FarmsCreateCascadeDeleteJobQueryParam;
+export type FarmsCreateCascadeDeleteJobParameters = FarmsCreateCascadeDeleteJobQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface FarmsCreateCascadeDeleteJobQueryParam {
@@ -1492,7 +1697,7 @@ export interface FarmsCreateCascadeDeleteJobQueryParamProperties {
 // @public
 export interface FarmsCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: Farm;
+    body: FarmOutput;
     // (undocumented)
     status: "200";
 }
@@ -1500,37 +1705,36 @@ export interface FarmsCreateOrUpdate200Response extends HttpResponse {
 // @public
 export interface FarmsCreateOrUpdate201Response extends HttpResponse {
     // (undocumented)
-    body: Farm;
+    body: FarmOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface FarmsCreateOrUpdateBodyParam {
-    // (undocumented)
     body?: Farm;
 }
 
 // @public
 export interface FarmsCreateOrUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type FarmsCreateOrUpdateParameters = RequestParameters & FarmsCreateOrUpdateBodyParam;
+export interface FarmsCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
 
 // @public (undocumented)
-export interface FarmsDelete {
-    delete(options?: FarmsDeleteParameters): Promise<FarmsDelete204Response | FarmsDeletedefaultResponse>;
-    get(options?: FarmsGetParameters): Promise<FarmsGet200Response | FarmsGetdefaultResponse>;
-    patch(options?: FarmsCreateOrUpdateParameters): Promise<FarmsCreateOrUpdate200Response | FarmsCreateOrUpdate201Response | FarmsCreateOrUpdatedefaultResponse>;
-}
+export type FarmsCreateOrUpdateParameters = FarmsCreateOrUpdateMediaTypesParam & FarmsCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface FarmsDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1538,7 +1742,7 @@ export interface FarmsDelete204Response extends HttpResponse {
 // @public
 export interface FarmsDeletedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -1546,18 +1750,31 @@ export interface FarmsDeletedefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type FarmsDeleteParameters = RequestParameters;
 
+// @public (undocumented)
+export interface FarmsGet {
+    delete(options?: FarmsDeleteParameters): Promise<FarmsDelete204Response | FarmsDeletedefaultResponse>;
+    get(options?: FarmsGetParameters): Promise<FarmsGet200Response | FarmsGetdefaultResponse>;
+    patch(options?: FarmsCreateOrUpdateParameters): Promise<FarmsCreateOrUpdate200Response | FarmsCreateOrUpdate201Response | FarmsCreateOrUpdatedefaultResponse>;
+}
+
 // @public
 export interface FarmsGet200Response extends HttpResponse {
     // (undocumented)
-    body: Farm;
+    body: FarmOutput;
     // (undocumented)
     status: "200";
+}
+
+// @public (undocumented)
+export interface FarmsGetCascadeDeleteJobDetails {
+    get(options?: FarmsGetCascadeDeleteJobDetailsParameters): Promise<FarmsGetCascadeDeleteJobDetails200Response | FarmsGetCascadeDeleteJobDetailsdefaultResponse>;
+    put(options: FarmsCreateCascadeDeleteJobParameters): Promise<FarmsCreateCascadeDeleteJob202Response | FarmsCreateCascadeDeleteJobdefaultResponse>;
 }
 
 // @public
 export interface FarmsGetCascadeDeleteJobDetails200Response extends HttpResponse {
     // (undocumented)
-    body: CascadeDeleteJob;
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "200";
 }
@@ -1565,7 +1782,7 @@ export interface FarmsGetCascadeDeleteJobDetails200Response extends HttpResponse
 // @public
 export interface FarmsGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -1576,7 +1793,7 @@ export type FarmsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 // @public
 export interface FarmsGetdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -1592,7 +1809,7 @@ export interface FarmsList {
 // @public
 export interface FarmsList200Response extends HttpResponse {
     // (undocumented)
-    body: FarmListResponse;
+    body: FarmListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -1605,7 +1822,7 @@ export interface FarmsListByFarmerId {
 // @public
 export interface FarmsListByFarmerId200Response extends HttpResponse {
     // (undocumented)
-    body: FarmListResponse;
+    body: FarmListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -1613,13 +1830,13 @@ export interface FarmsListByFarmerId200Response extends HttpResponse {
 // @public
 export interface FarmsListByFarmerIddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type FarmsListByFarmerIdParameters = RequestParameters & FarmsListByFarmerIdQueryParam;
+export type FarmsListByFarmerIdParameters = FarmsListByFarmerIdQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface FarmsListByFarmerIdQueryParam {
@@ -1631,26 +1848,26 @@ export interface FarmsListByFarmerIdQueryParam {
 export interface FarmsListByFarmerIdQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    ids?: string[];
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    names?: string[];
-    propertyFilters?: string[];
-    statuses?: string[];
+    ids?: Array<string>;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: Array<string>;
+    propertyFilters?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public
 export interface FarmsListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type FarmsListParameters = RequestParameters & FarmsListQueryParam;
+export type FarmsListParameters = FarmsListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface FarmsListQueryParam {
@@ -1662,52 +1879,59 @@ export interface FarmsListQueryParam {
 export interface FarmsListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    ids?: string[];
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    names?: string[];
-    propertyFilters?: string[];
-    statuses?: string[];
+    ids?: Array<string>;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: Array<string>;
+    propertyFilters?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public (undocumented)
 export interface Field {
-    boundaryIds?: string[];
-    createdDateTime?: Date;
+    boundaryIds?: Array<string>;
+    createdDateTime?: Date | string;
     description?: string;
     eTag?: string;
     farmerId?: string;
     farmId?: string;
     id?: string;
-    modifiedDateTime?: Date;
+    modifiedDateTime?: Date | string;
     name?: string;
     primaryBoundaryId?: string;
-    properties?: FieldPropertiesDictionary;
+    properties?: Record<string, Record<string, unknown>>;
     status?: string;
 }
 
 // @public (undocumented)
-export interface FieldListResponse {
+export interface FieldListResponseOutput {
+    $skipToken?: string;
     nextLink?: string;
-    skipToken?: string;
-    value?: Field[];
+    value?: Array<FieldOutput>;
 }
 
 // @public (undocumented)
-export type FieldPropertiesDictionary = Record<string, unknown>;
-
-// @public (undocumented)
-export interface FieldsCreateCascadeDeleteJob {
-    get(options?: FieldsGetCascadeDeleteJobDetailsParameters): Promise<FieldsGetCascadeDeleteJobDetails200Response | FieldsGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options?: FieldsCreateCascadeDeleteJobParameters): Promise<FieldsCreateCascadeDeleteJob202Response | FieldsCreateCascadeDeleteJobdefaultResponse>;
+export interface FieldOutput {
+    boundaryIds?: Array<string>;
+    createdDateTime?: string;
+    description?: string;
+    eTag?: string;
+    farmerId?: string;
+    farmId?: string;
+    id?: string;
+    modifiedDateTime?: string;
+    name?: string;
+    primaryBoundaryId?: string;
+    properties?: Record<string, Record<string, unknown>>;
+    status?: string;
 }
 
 // @public
 export interface FieldsCreateCascadeDeleteJob202Response extends HttpResponse {
     // (undocumented)
-    body: CascadeDeleteJob;
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "202";
 }
@@ -1715,13 +1939,13 @@ export interface FieldsCreateCascadeDeleteJob202Response extends HttpResponse {
 // @public
 export interface FieldsCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type FieldsCreateCascadeDeleteJobParameters = RequestParameters & FieldsCreateCascadeDeleteJobQueryParam;
+export type FieldsCreateCascadeDeleteJobParameters = FieldsCreateCascadeDeleteJobQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface FieldsCreateCascadeDeleteJobQueryParam {
@@ -1738,7 +1962,7 @@ export interface FieldsCreateCascadeDeleteJobQueryParamProperties {
 // @public
 export interface FieldsCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: Field;
+    body: FieldOutput;
     // (undocumented)
     status: "200";
 }
@@ -1746,37 +1970,36 @@ export interface FieldsCreateOrUpdate200Response extends HttpResponse {
 // @public
 export interface FieldsCreateOrUpdate201Response extends HttpResponse {
     // (undocumented)
-    body: Field;
+    body: FieldOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface FieldsCreateOrUpdateBodyParam {
-    // (undocumented)
     body?: Field;
 }
 
 // @public
 export interface FieldsCreateOrUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type FieldsCreateOrUpdateParameters = RequestParameters & FieldsCreateOrUpdateBodyParam;
+export interface FieldsCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
 
 // @public (undocumented)
-export interface FieldsDelete {
-    delete(options?: FieldsDeleteParameters): Promise<FieldsDelete204Response | FieldsDeletedefaultResponse>;
-    get(options?: FieldsGetParameters): Promise<FieldsGet200Response | FieldsGetdefaultResponse>;
-    patch(options?: FieldsCreateOrUpdateParameters): Promise<FieldsCreateOrUpdate200Response | FieldsCreateOrUpdate201Response | FieldsCreateOrUpdatedefaultResponse>;
-}
+export type FieldsCreateOrUpdateParameters = FieldsCreateOrUpdateMediaTypesParam & FieldsCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface FieldsDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1784,7 +2007,7 @@ export interface FieldsDelete204Response extends HttpResponse {
 // @public
 export interface FieldsDeletedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -1792,18 +2015,31 @@ export interface FieldsDeletedefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type FieldsDeleteParameters = RequestParameters;
 
+// @public (undocumented)
+export interface FieldsGet {
+    delete(options?: FieldsDeleteParameters): Promise<FieldsDelete204Response | FieldsDeletedefaultResponse>;
+    get(options?: FieldsGetParameters): Promise<FieldsGet200Response | FieldsGetdefaultResponse>;
+    patch(options?: FieldsCreateOrUpdateParameters): Promise<FieldsCreateOrUpdate200Response | FieldsCreateOrUpdate201Response | FieldsCreateOrUpdatedefaultResponse>;
+}
+
 // @public
 export interface FieldsGet200Response extends HttpResponse {
     // (undocumented)
-    body: Field;
+    body: FieldOutput;
     // (undocumented)
     status: "200";
+}
+
+// @public (undocumented)
+export interface FieldsGetCascadeDeleteJobDetails {
+    get(options?: FieldsGetCascadeDeleteJobDetailsParameters): Promise<FieldsGetCascadeDeleteJobDetails200Response | FieldsGetCascadeDeleteJobDetailsdefaultResponse>;
+    put(options: FieldsCreateCascadeDeleteJobParameters): Promise<FieldsCreateCascadeDeleteJob202Response | FieldsCreateCascadeDeleteJobdefaultResponse>;
 }
 
 // @public
 export interface FieldsGetCascadeDeleteJobDetails200Response extends HttpResponse {
     // (undocumented)
-    body: CascadeDeleteJob;
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "200";
 }
@@ -1811,7 +2047,7 @@ export interface FieldsGetCascadeDeleteJobDetails200Response extends HttpRespons
 // @public
 export interface FieldsGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -1822,7 +2058,7 @@ export type FieldsGetCascadeDeleteJobDetailsParameters = RequestParameters;
 // @public
 export interface FieldsGetdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -1838,7 +2074,7 @@ export interface FieldsList {
 // @public
 export interface FieldsList200Response extends HttpResponse {
     // (undocumented)
-    body: FieldListResponse;
+    body: FieldListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -1851,7 +2087,7 @@ export interface FieldsListByFarmerId {
 // @public
 export interface FieldsListByFarmerId200Response extends HttpResponse {
     // (undocumented)
-    body: FieldListResponse;
+    body: FieldListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -1859,13 +2095,13 @@ export interface FieldsListByFarmerId200Response extends HttpResponse {
 // @public
 export interface FieldsListByFarmerIddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type FieldsListByFarmerIdParameters = RequestParameters & FieldsListByFarmerIdQueryParam;
+export type FieldsListByFarmerIdParameters = FieldsListByFarmerIdQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface FieldsListByFarmerIdQueryParam {
@@ -1877,27 +2113,27 @@ export interface FieldsListByFarmerIdQueryParam {
 export interface FieldsListByFarmerIdQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    farmIds?: string[];
-    ids?: string[];
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    names?: string[];
-    propertyFilters?: string[];
-    statuses?: string[];
+    farmIds?: Array<string>;
+    ids?: Array<string>;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: Array<string>;
+    propertyFilters?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public
 export interface FieldsListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type FieldsListParameters = RequestParameters & FieldsListQueryParam;
+export type FieldsListParameters = FieldsListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface FieldsListQueryParam {
@@ -1909,28 +2145,46 @@ export interface FieldsListQueryParam {
 export interface FieldsListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    farmIds?: string[];
-    ids?: string[];
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    names?: string[];
-    propertyFilters?: string[];
-    statuses?: string[];
+    farmIds?: Array<string>;
+    ids?: Array<string>;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: Array<string>;
+    propertyFilters?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public (undocumented)
-export type GeoJsonObject = Polygon | MultiPolygon | Point;
+export type GeoJsonObject = MultiPolygon | Point | Polygon;
 
 // @public (undocumented)
-export type GeoJsonObjectType = "Point" | "Polygon" | "MultiPolygon";
+export interface GeoJsonObjectBase {
+    // (undocumented)
+    type: "MultiPolygon" | "Point" | "Polygon";
+}
+
+// @public (undocumented)
+export type GeoJsonObjectOutput = MultiPolygonOutput | PointOutput | PolygonOutput;
+
+// @public (undocumented)
+export interface GeoJsonObjectOutputBase {
+    // (undocumented)
+    type: "MultiPolygon" | "Point" | "Polygon";
+}
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public
-export function getPoller<TResult extends HttpResponse>(client: FarmBeatsRestClient, initialResponse: TResult, options?: PollerOptions): PollerLike<PollOperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: LroEngineOptions<TResult, PollOperationState<TResult>>): PollerLike<PollOperationState<TResult>, TResult>;
+
+// @public
+export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+    page: TPage;
+    nextPageLink?: string;
+}>;
 
 // @public (undocumented)
 export interface HarvestData {
@@ -1941,19 +2195,19 @@ export interface HarvestData {
     avgSpeed?: Measure;
     avgWetMass?: Measure;
     avgYield?: Measure;
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     description?: string;
     eTag?: string;
     farmerId?: string;
-    harvestProductDetails?: HarvestProductDetail[];
+    harvestProductDetails?: Array<HarvestProductDetail>;
     id?: string;
-    modifiedDateTime?: Date;
+    modifiedDateTime?: Date | string;
     name?: string;
     operationBoundaryId?: string;
-    operationEndDateTime?: Date;
-    operationModifiedDateTime?: Date;
-    operationStartDateTime?: Date;
-    properties?: HarvestDataPropertiesDictionary;
+    operationEndDateTime?: Date | string;
+    operationModifiedDateTime?: Date | string;
+    operationStartDateTime?: Date | string;
+    properties?: Record<string, Record<string, unknown>>;
     source?: string;
     status?: string;
     totalWetMass?: Measure;
@@ -1961,9 +2215,40 @@ export interface HarvestData {
 }
 
 // @public
+export interface HarvestDataCreateCascadeDeleteJob202Response extends HttpResponse {
+    // (undocumented)
+    body: CascadeDeleteJobOutput;
+    // (undocumented)
+    status: "202";
+}
+
+// @public
+export interface HarvestDataCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type HarvestDataCreateCascadeDeleteJobParameters = HarvestDataCreateCascadeDeleteJobQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface HarvestDataCreateCascadeDeleteJobQueryParam {
+    // (undocumented)
+    queryParameters: HarvestDataCreateCascadeDeleteJobQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface HarvestDataCreateCascadeDeleteJobQueryParamProperties {
+    farmerId: string;
+    harvestDataId: string;
+}
+
+// @public
 export interface HarvestDataCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: HarvestData;
+    body: HarvestDataOutput;
     // (undocumented)
     status: "200";
 }
@@ -1971,37 +2256,36 @@ export interface HarvestDataCreateOrUpdate200Response extends HttpResponse {
 // @public
 export interface HarvestDataCreateOrUpdate201Response extends HttpResponse {
     // (undocumented)
-    body: HarvestData;
+    body: HarvestDataOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface HarvestDataCreateOrUpdateBodyParam {
-    // (undocumented)
     body?: HarvestData;
 }
 
 // @public
 export interface HarvestDataCreateOrUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type HarvestDataCreateOrUpdateParameters = RequestParameters & HarvestDataCreateOrUpdateBodyParam;
+export interface HarvestDataCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
 
 // @public (undocumented)
-export interface HarvestDataDelete {
-    delete(options?: HarvestDataDeleteParameters): Promise<HarvestDataDelete204Response | HarvestDataDeletedefaultResponse>;
-    get(options?: HarvestDataGetParameters): Promise<HarvestDataGet200Response | HarvestDataGetdefaultResponse>;
-    patch(options?: HarvestDataCreateOrUpdateParameters): Promise<HarvestDataCreateOrUpdate200Response | HarvestDataCreateOrUpdate201Response | HarvestDataCreateOrUpdatedefaultResponse>;
-}
+export type HarvestDataCreateOrUpdateParameters = HarvestDataCreateOrUpdateMediaTypesParam & HarvestDataCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface HarvestDataDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -2009,7 +2293,7 @@ export interface HarvestDataDelete204Response extends HttpResponse {
 // @public
 export interface HarvestDataDeletedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -2017,18 +2301,50 @@ export interface HarvestDataDeletedefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type HarvestDataDeleteParameters = RequestParameters;
 
+// @public (undocumented)
+export interface HarvestDataGet {
+    delete(options?: HarvestDataDeleteParameters): Promise<HarvestDataDelete204Response | HarvestDataDeletedefaultResponse>;
+    get(options?: HarvestDataGetParameters): Promise<HarvestDataGet200Response | HarvestDataGetdefaultResponse>;
+    patch(options?: HarvestDataCreateOrUpdateParameters): Promise<HarvestDataCreateOrUpdate200Response | HarvestDataCreateOrUpdate201Response | HarvestDataCreateOrUpdatedefaultResponse>;
+}
+
 // @public
 export interface HarvestDataGet200Response extends HttpResponse {
     // (undocumented)
-    body: HarvestData;
+    body: HarvestDataOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface HarvestDataGetCascadeDeleteJobDetails {
+    get(options?: HarvestDataGetCascadeDeleteJobDetailsParameters): Promise<HarvestDataGetCascadeDeleteJobDetails200Response | HarvestDataGetCascadeDeleteJobDetailsdefaultResponse>;
+    put(options: HarvestDataCreateCascadeDeleteJobParameters): Promise<HarvestDataCreateCascadeDeleteJob202Response | HarvestDataCreateCascadeDeleteJobdefaultResponse>;
+}
+
+// @public
+export interface HarvestDataGetCascadeDeleteJobDetails200Response extends HttpResponse {
+    // (undocumented)
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public
+export interface HarvestDataGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type HarvestDataGetCascadeDeleteJobDetailsParameters = RequestParameters;
+
+// @public
 export interface HarvestDataGetdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -2044,7 +2360,7 @@ export interface HarvestDataList {
 // @public
 export interface HarvestDataList200Response extends HttpResponse {
     // (undocumented)
-    body: HarvestDataListResponse;
+    body: HarvestDataListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -2057,7 +2373,7 @@ export interface HarvestDataListByFarmerId {
 // @public
 export interface HarvestDataListByFarmerId200Response extends HttpResponse {
     // (undocumented)
-    body: HarvestDataListResponse;
+    body: HarvestDataListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -2065,13 +2381,13 @@ export interface HarvestDataListByFarmerId200Response extends HttpResponse {
 // @public
 export interface HarvestDataListByFarmerIddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type HarvestDataListByFarmerIdParameters = RequestParameters & HarvestDataListByFarmerIdQueryParam;
+export type HarvestDataListByFarmerIdParameters = HarvestDataListByFarmerIdQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface HarvestDataListByFarmerIdQueryParam {
@@ -2083,18 +2399,18 @@ export interface HarvestDataListByFarmerIdQueryParam {
 export interface HarvestDataListByFarmerIdQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    associatedBoundaryIds?: string[];
-    ids?: string[];
+    associatedBoundaryIds?: Array<string>;
+    ids?: Array<string>;
     maxArea?: number;
     maxAvgMoisture?: number;
     maxAvgSpeed?: number;
     maxAvgWetMass?: number;
     maxAvgYield?: number;
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    maxOperationEndDateTime?: Date;
-    maxOperationModifiedDateTime?: Date;
-    maxOperationStartDateTime?: Date;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    maxOperationEndDateTime?: Date | string;
+    maxOperationModifiedDateTime?: Date | string;
+    maxOperationStartDateTime?: Date | string;
     maxTotalWetMass?: number;
     maxTotalYield?: number;
     minArea?: number;
@@ -2102,30 +2418,30 @@ export interface HarvestDataListByFarmerIdQueryParamProperties {
     minAvgSpeed?: number;
     minAvgWetMass?: number;
     minAvgYield?: number;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    minOperationEndDateTime?: Date;
-    minOperationModifiedDateTime?: Date;
-    minOperationStartDateTime?: Date;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    minOperationEndDateTime?: Date | string;
+    minOperationModifiedDateTime?: Date | string;
+    minOperationStartDateTime?: Date | string;
     minTotalWetMass?: number;
     minTotalYield?: number;
-    names?: string[];
-    operationBoundaryIds?: string[];
-    propertyFilters?: string[];
-    sources?: string[];
-    statuses?: string[];
+    names?: Array<string>;
+    operationBoundaryIds?: Array<string>;
+    propertyFilters?: Array<string>;
+    sources?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public
 export interface HarvestDataListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type HarvestDataListParameters = RequestParameters & HarvestDataListQueryParam;
+export type HarvestDataListParameters = HarvestDataListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface HarvestDataListQueryParam {
@@ -2137,18 +2453,18 @@ export interface HarvestDataListQueryParam {
 export interface HarvestDataListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    associatedBoundaryIds?: string[];
-    ids?: string[];
+    associatedBoundaryIds?: Array<string>;
+    ids?: Array<string>;
     maxArea?: number;
     maxAvgMoisture?: number;
     maxAvgSpeed?: number;
     maxAvgWetMass?: number;
     maxAvgYield?: number;
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    maxOperationEndDateTime?: Date;
-    maxOperationModifiedDateTime?: Date;
-    maxOperationStartDateTime?: Date;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    maxOperationEndDateTime?: Date | string;
+    maxOperationModifiedDateTime?: Date | string;
+    maxOperationStartDateTime?: Date | string;
     maxTotalWetMass?: number;
     maxTotalYield?: number;
     minArea?: number;
@@ -2156,29 +2472,54 @@ export interface HarvestDataListQueryParamProperties {
     minAvgSpeed?: number;
     minAvgWetMass?: number;
     minAvgYield?: number;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    minOperationEndDateTime?: Date;
-    minOperationModifiedDateTime?: Date;
-    minOperationStartDateTime?: Date;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    minOperationEndDateTime?: Date | string;
+    minOperationModifiedDateTime?: Date | string;
+    minOperationStartDateTime?: Date | string;
     minTotalWetMass?: number;
     minTotalYield?: number;
-    names?: string[];
-    operationBoundaryIds?: string[];
-    propertyFilters?: string[];
-    sources?: string[];
-    statuses?: string[];
+    names?: Array<string>;
+    operationBoundaryIds?: Array<string>;
+    propertyFilters?: Array<string>;
+    sources?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public (undocumented)
-export interface HarvestDataListResponse {
+export interface HarvestDataListResponseOutput {
+    $skipToken?: string;
     nextLink?: string;
-    skipToken?: string;
-    value?: HarvestData[];
+    value?: Array<HarvestDataOutput>;
 }
 
 // @public (undocumented)
-export type HarvestDataPropertiesDictionary = Record<string, unknown>;
+export interface HarvestDataOutput {
+    area?: MeasureOutput;
+    associatedBoundaryId?: string;
+    attachmentsLink?: string;
+    avgMoisture?: MeasureOutput;
+    avgSpeed?: MeasureOutput;
+    avgWetMass?: MeasureOutput;
+    avgYield?: MeasureOutput;
+    createdDateTime?: string;
+    description?: string;
+    eTag?: string;
+    farmerId?: string;
+    harvestProductDetails?: Array<HarvestProductDetailOutput>;
+    id?: string;
+    modifiedDateTime?: string;
+    name?: string;
+    operationBoundaryId?: string;
+    operationEndDateTime?: string;
+    operationModifiedDateTime?: string;
+    operationStartDateTime?: string;
+    properties?: Record<string, Record<string, unknown>>;
+    source?: string;
+    status?: string;
+    totalWetMass?: MeasureOutput;
+    totalYield?: MeasureOutput;
+}
 
 // @public (undocumented)
 export interface HarvestProductDetail {
@@ -2192,49 +2533,63 @@ export interface HarvestProductDetail {
 }
 
 // @public (undocumented)
-export interface ImageFile {
+export interface HarvestProductDetailOutput {
+    area?: MeasureOutput;
+    avgMoisture?: MeasureOutput;
+    avgWetMass?: MeasureOutput;
+    avgYield?: MeasureOutput;
+    productName?: string;
+    totalWetMass?: MeasureOutput;
+    totalYield?: MeasureOutput;
+}
+
+// @public (undocumented)
+export interface ImageFileOutput {
     fileLink?: string;
-    imageFormat?: ImageFormat;
+    imageFormat?: "TIF";
     name: string;
     resolution?: number;
 }
 
 // @public (undocumented)
-export type ImageFormat = "TIF";
+export interface ImageProcessingCreateRasterizeJob {
+    get(options?: ImageProcessingGetRasterizeJobParameters): Promise<ImageProcessingGetRasterizeJob200Response>;
+    put(options?: ImageProcessingCreateRasterizeJobParameters): Promise<ImageProcessingCreateRasterizeJob202Response | ImageProcessingCreateRasterizeJobdefaultResponse>;
+}
 
 // @public
 export interface ImageProcessingCreateRasterizeJob202Response extends HttpResponse {
     // (undocumented)
-    body: ImageProcessingRasterizeJob;
+    body: ImageProcessingRasterizeJobOutput;
     // (undocumented)
     status: "202";
 }
 
 // @public (undocumented)
 export interface ImageProcessingCreateRasterizeJobBodyParam {
-    // (undocumented)
     body?: ImageProcessingRasterizeJob;
 }
 
 // @public
 export interface ImageProcessingCreateRasterizeJobdefaultResponse extends HttpResponse {
     // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type ImageProcessingCreateRasterizeJobParameters = RequestParameters & ImageProcessingCreateRasterizeJobBodyParam;
+export interface ImageProcessingCreateRasterizeJobMediaTypesParam {
+    contentType?: "application/json";
+}
 
 // @public (undocumented)
-export interface ImageProcessingGetRasterizeJob {
-    get(options?: ImageProcessingGetRasterizeJobParameters): Promise<ImageProcessingGetRasterizeJob200Response>;
-    put(options?: ImageProcessingCreateRasterizeJobParameters): Promise<ImageProcessingCreateRasterizeJob202Response | ImageProcessingCreateRasterizeJobdefaultResponse>;
-}
+export type ImageProcessingCreateRasterizeJobParameters = ImageProcessingCreateRasterizeJobMediaTypesParam & ImageProcessingCreateRasterizeJobBodyParam & RequestParameters;
 
 // @public
 export interface ImageProcessingGetRasterizeJob200Response extends HttpResponse {
     // (undocumented)
-    body: ImageProcessingRasterizeJob;
+    body: ImageProcessingRasterizeJobOutput;
     // (undocumented)
     status: "200";
 }
@@ -2244,39 +2599,48 @@ export type ImageProcessingGetRasterizeJobParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ImageProcessingRasterizeJob {
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     description?: string;
     durationInSeconds?: number;
-    endTime?: Date;
+    endTime?: Date | string;
     farmerId: string;
     id?: string;
-    lastActionDateTime?: Date;
+    lastActionDateTime?: Date | string;
     message?: string;
     name?: string;
-    properties?: ImageProcessingRasterizeJobPropertiesDictionary;
+    properties?: Record<string, Record<string, unknown>>;
     shapefileAttachmentId: string;
-    shapefileColumnNames: string[];
-    startTime?: Date;
+    shapefileColumnNames: Array<string>;
+    startTime?: Date | string;
     status?: string;
 }
 
 // @public (undocumented)
-export type ImageProcessingRasterizeJobPropertiesDictionary = Record<string, unknown>;
-
-// @public (undocumented)
-export type InnerError = InnerErrorBase & InnerErrorDictionary;
-
-// @public (undocumented)
-export interface InnerErrorBase {
-    code?: string;
-    innererror?: InnerError;
+export interface ImageProcessingRasterizeJobOutput {
+    createdDateTime?: string;
+    description?: string;
+    durationInSeconds?: number;
+    endTime?: string;
+    farmerId: string;
+    id?: string;
+    lastActionDateTime?: string;
+    message?: string;
+    name?: string;
+    properties?: Record<string, Record<string, unknown>>;
+    shapefileAttachmentId: string;
+    shapefileColumnNames: Array<string>;
+    startTime?: string;
+    status?: string;
 }
 
 // @public (undocumented)
-export type InnerErrorDictionary = Record<string, unknown>;
+export interface InnerErrorOutput extends Record<string, unknown> {
+    code?: string;
+    innererror?: InnerErrorOutput;
+}
 
 // @public (undocumented)
-export interface Location {
+export interface LocationOutput {
     latitude: number;
     longitude: number;
 }
@@ -2288,17 +2652,31 @@ export interface Measure {
 }
 
 // @public (undocumented)
-export type MultiPolygon = MultiPolygonBase & MultiPolygonCoordinates & {
-    type: "MultiPolygon";
-};
+export interface MeasureOutput {
+    unit?: string;
+    value?: number;
+}
 
 // @public (undocumented)
-export interface MultiPolygonBase {
+export interface MultiPolygon extends GeoJsonObjectBase, MultiPolygonCoordinates {
+    // (undocumented)
+    type: "MultiPolygon";
 }
 
 // @public (undocumented)
 export interface MultiPolygonCoordinates {
-    coordinates: number[][][][];
+    coordinates: Array<Array<Array<Array<number>>>>;
+}
+
+// @public (undocumented)
+export interface MultiPolygonCoordinatesOutput {
+    coordinates: Array<Array<Array<Array<number>>>>;
+}
+
+// @public (undocumented)
+export interface MultiPolygonOutput extends GeoJsonObjectOutputBase, MultiPolygonCoordinatesOutput {
+    // (undocumented)
+    type: "MultiPolygon";
 }
 
 // @public (undocumented)
@@ -2314,30 +2692,88 @@ export interface OAuthProvider {
     apiKey?: string;
     appId?: string;
     appSecret?: string;
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     description?: string;
     eTag?: string;
     id?: string;
     isProductionApp?: boolean;
-    modifiedDateTime?: Date;
+    modifiedDateTime?: Date | string;
     name?: string;
-    properties?: OAuthProviderPropertiesDictionary;
+    properties?: Record<string, Record<string, unknown>>;
 }
 
 // @public (undocumented)
-export interface OAuthProviderListResponse {
+export interface OAuthProviderCascadeDeleteJobOutput {
+    createdDateTime?: string;
+    description?: string;
+    durationInSeconds?: number;
+    endTime?: string;
+    id?: string;
+    lastActionDateTime?: string;
+    message?: string;
+    name?: string;
+    oauthProviderId: string;
+    properties?: Record<string, Record<string, unknown>>;
+    startTime?: string;
+    status?: string;
+}
+
+// @public (undocumented)
+export interface OAuthProviderListResponseOutput {
+    $skipToken?: string;
     nextLink?: string;
-    skipToken?: string;
-    value?: OAuthProvider[];
+    value?: Array<OAuthProviderOutput>;
 }
 
 // @public (undocumented)
-export type OAuthProviderPropertiesDictionary = Record<string, unknown>;
+export interface OAuthProviderOutput {
+    apiKey?: string;
+    appId?: string;
+    appSecret?: string;
+    createdDateTime?: string;
+    description?: string;
+    eTag?: string;
+    id?: string;
+    isProductionApp?: boolean;
+    modifiedDateTime?: string;
+    name?: string;
+    properties?: Record<string, Record<string, unknown>>;
+}
+
+// @public
+export interface OAuthProvidersCreateCascadeDeleteJob202Response extends HttpResponse {
+    // (undocumented)
+    body: OAuthProviderCascadeDeleteJobOutput;
+    // (undocumented)
+    status: "202";
+}
+
+// @public
+export interface OAuthProvidersCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type OAuthProvidersCreateCascadeDeleteJobParameters = OAuthProvidersCreateCascadeDeleteJobQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface OAuthProvidersCreateCascadeDeleteJobQueryParam {
+    // (undocumented)
+    queryParameters: OAuthProvidersCreateCascadeDeleteJobQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface OAuthProvidersCreateCascadeDeleteJobQueryParamProperties {
+    oauthProviderId: string;
+}
 
 // @public
 export interface OAuthProvidersCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: OAuthProvider;
+    body: OAuthProviderOutput;
     // (undocumented)
     status: "200";
 }
@@ -2345,37 +2781,36 @@ export interface OAuthProvidersCreateOrUpdate200Response extends HttpResponse {
 // @public
 export interface OAuthProvidersCreateOrUpdate201Response extends HttpResponse {
     // (undocumented)
-    body: OAuthProvider;
+    body: OAuthProviderOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface OAuthProvidersCreateOrUpdateBodyParam {
-    // (undocumented)
     body?: OAuthProvider;
 }
 
 // @public
 export interface OAuthProvidersCreateOrUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type OAuthProvidersCreateOrUpdateParameters = RequestParameters & OAuthProvidersCreateOrUpdateBodyParam;
+export interface OAuthProvidersCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
 
 // @public (undocumented)
-export interface OAuthProvidersDelete {
-    delete(options?: OAuthProvidersDeleteParameters): Promise<OAuthProvidersDelete204Response | OAuthProvidersDeletedefaultResponse>;
-    get(options?: OAuthProvidersGetParameters): Promise<OAuthProvidersGet200Response | OAuthProvidersGetdefaultResponse>;
-    patch(options?: OAuthProvidersCreateOrUpdateParameters): Promise<OAuthProvidersCreateOrUpdate200Response | OAuthProvidersCreateOrUpdate201Response | OAuthProvidersCreateOrUpdatedefaultResponse>;
-}
+export type OAuthProvidersCreateOrUpdateParameters = OAuthProvidersCreateOrUpdateMediaTypesParam & OAuthProvidersCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface OAuthProvidersDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -2383,7 +2818,7 @@ export interface OAuthProvidersDelete204Response extends HttpResponse {
 // @public
 export interface OAuthProvidersDeletedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -2391,18 +2826,50 @@ export interface OAuthProvidersDeletedefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type OAuthProvidersDeleteParameters = RequestParameters;
 
+// @public (undocumented)
+export interface OAuthProvidersGet {
+    delete(options?: OAuthProvidersDeleteParameters): Promise<OAuthProvidersDelete204Response | OAuthProvidersDeletedefaultResponse>;
+    get(options?: OAuthProvidersGetParameters): Promise<OAuthProvidersGet200Response | OAuthProvidersGetdefaultResponse>;
+    patch(options?: OAuthProvidersCreateOrUpdateParameters): Promise<OAuthProvidersCreateOrUpdate200Response | OAuthProvidersCreateOrUpdate201Response | OAuthProvidersCreateOrUpdatedefaultResponse>;
+}
+
 // @public
 export interface OAuthProvidersGet200Response extends HttpResponse {
     // (undocumented)
-    body: OAuthProvider;
+    body: OAuthProviderOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface OAuthProvidersGetCascadeDeleteJobDetails {
+    get(options?: OAuthProvidersGetCascadeDeleteJobDetailsParameters): Promise<OAuthProvidersGetCascadeDeleteJobDetails200Response | OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse>;
+    put(options: OAuthProvidersCreateCascadeDeleteJobParameters): Promise<OAuthProvidersCreateCascadeDeleteJob202Response | OAuthProvidersCreateCascadeDeleteJobdefaultResponse>;
+}
+
+// @public
+export interface OAuthProvidersGetCascadeDeleteJobDetails200Response extends HttpResponse {
+    // (undocumented)
+    body: OAuthProviderCascadeDeleteJobOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public
+export interface OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type OAuthProvidersGetCascadeDeleteJobDetailsParameters = RequestParameters;
+
+// @public
 export interface OAuthProvidersGetdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -2418,7 +2885,7 @@ export interface OAuthProvidersList {
 // @public
 export interface OAuthProvidersList200Response extends HttpResponse {
     // (undocumented)
-    body: OAuthProviderListResponse;
+    body: OAuthProviderListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -2426,13 +2893,13 @@ export interface OAuthProvidersList200Response extends HttpResponse {
 // @public
 export interface OAuthProvidersListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type OAuthProvidersListParameters = RequestParameters & OAuthProvidersListQueryParam;
+export type OAuthProvidersListParameters = OAuthProvidersListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface OAuthProvidersListQueryParam {
@@ -2444,43 +2911,37 @@ export interface OAuthProvidersListQueryParam {
 export interface OAuthProvidersListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    ids?: string[];
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    names?: string[];
-    propertyFilters?: string[];
-    statuses?: string[];
+    ids?: Array<string>;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: Array<string>;
+    propertyFilters?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public (undocumented)
-export interface OAuthToken {
+export interface OAuthTokenListResponseOutput {
+    $skipToken?: string;
+    nextLink?: string;
+    value?: Array<OAuthTokenOutput>;
+}
+
+// @public (undocumented)
+export interface OAuthTokenOutput {
     authProviderId: string;
-    createdDateTime?: Date;
+    createdDateTime?: string;
     eTag?: string;
     farmerId: string;
     isValid?: boolean;
-    modifiedDateTime?: Date;
-}
-
-// @public (undocumented)
-export interface OAuthTokenListResponse {
-    nextLink?: string;
-    skipToken?: string;
-    value?: OAuthToken[];
-}
-
-// @public (undocumented)
-export interface OAuthTokensCreateCascadeDeleteJob {
-    get(options?: OAuthTokensGetCascadeDeleteJobDetailsParameters): Promise<OAuthTokensGetCascadeDeleteJobDetails200Response | OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options?: OAuthTokensCreateCascadeDeleteJobParameters): Promise<OAuthTokensCreateCascadeDeleteJob202Response | OAuthTokensCreateCascadeDeleteJobdefaultResponse>;
+    modifiedDateTime?: string;
 }
 
 // @public
 export interface OAuthTokensCreateCascadeDeleteJob202Response extends HttpResponse {
     // (undocumented)
-    body: CascadeDeleteJob;
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "202";
 }
@@ -2488,13 +2949,13 @@ export interface OAuthTokensCreateCascadeDeleteJob202Response extends HttpRespon
 // @public
 export interface OAuthTokensCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type OAuthTokensCreateCascadeDeleteJobParameters = RequestParameters & OAuthTokensCreateCascadeDeleteJobQueryParam;
+export type OAuthTokensCreateCascadeDeleteJobParameters = OAuthTokensCreateCascadeDeleteJobQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface OAuthTokensCreateCascadeDeleteJobQueryParam {
@@ -2508,10 +2969,16 @@ export interface OAuthTokensCreateCascadeDeleteJobQueryParamProperties {
     oauthProviderId: string;
 }
 
+// @public (undocumented)
+export interface OAuthTokensGetCascadeDeleteJobDetails {
+    get(options?: OAuthTokensGetCascadeDeleteJobDetailsParameters): Promise<OAuthTokensGetCascadeDeleteJobDetails200Response | OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse>;
+    put(options: OAuthTokensCreateCascadeDeleteJobParameters): Promise<OAuthTokensCreateCascadeDeleteJob202Response | OAuthTokensCreateCascadeDeleteJobdefaultResponse>;
+}
+
 // @public
 export interface OAuthTokensGetCascadeDeleteJobDetails200Response extends HttpResponse {
     // (undocumented)
-    body: CascadeDeleteJob;
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "200";
 }
@@ -2519,7 +2986,7 @@ export interface OAuthTokensGetCascadeDeleteJobDetails200Response extends HttpRe
 // @public
 export interface OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -2542,20 +3009,24 @@ export interface OAuthTokensGetOAuthConnectionLink200Response extends HttpRespon
 
 // @public (undocumented)
 export interface OAuthTokensGetOAuthConnectionLinkBodyParam {
-    // (undocumented)
     body?: OAuthConnectRequest;
 }
 
 // @public
 export interface OAuthTokensGetOAuthConnectionLinkdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type OAuthTokensGetOAuthConnectionLinkParameters = RequestParameters & OAuthTokensGetOAuthConnectionLinkBodyParam;
+export interface OAuthTokensGetOAuthConnectionLinkMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type OAuthTokensGetOAuthConnectionLinkParameters = OAuthTokensGetOAuthConnectionLinkMediaTypesParam & OAuthTokensGetOAuthConnectionLinkBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface OAuthTokensList {
@@ -2565,7 +3036,7 @@ export interface OAuthTokensList {
 // @public
 export interface OAuthTokensList200Response extends HttpResponse {
     // (undocumented)
-    body: OAuthTokenListResponse;
+    body: OAuthTokenListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -2573,13 +3044,13 @@ export interface OAuthTokensList200Response extends HttpResponse {
 // @public
 export interface OAuthTokensListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type OAuthTokensListParameters = RequestParameters & OAuthTokensListQueryParam;
+export type OAuthTokensListParameters = OAuthTokensListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface OAuthTokensListQueryParam {
@@ -2591,17 +3062,17 @@ export interface OAuthTokensListQueryParam {
 export interface OAuthTokensListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    authProviderIds?: string[];
-    farmerIds?: string[];
+    authProviderIds?: Array<string>;
+    farmerIds?: Array<string>;
     isValid?: boolean;
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
 }
 
 // @public
-export function paginate<TReturn extends PathUncheckedResponse>(client: Client, initialResponse: TReturn): PagedAsyncIterableIterator<PaginateReturn<TReturn>, PaginateReturn<TReturn>[]>;
+export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
 
 // @public
 export type PaginateReturn<TResult> = TResult extends {
@@ -2610,20 +3081,9 @@ export type PaginateReturn<TResult> = TResult extends {
     };
 } ? GetArrayType<TPage> : Array<unknown>;
 
-// @public (undocumented)
-export interface Paths1LxjoxzFarmersFarmeridAttachmentsAttachmentidPatchRequestbodyContentMultipartFormDataSchema {
-    createdDateTime?: string;
-    description?: string;
-    eTag?: string;
-    farmerId?: string;
-    file?: string;
-    id?: string;
-    modifiedDateTime?: string;
-    name?: string;
-    originalFileName?: string;
-    resourceId?: string;
-    resourceType?: string;
-    status?: string;
+// @public
+export interface PagingOptions<TResponse> {
+    customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
 }
 
 // @public (undocumented)
@@ -2633,28 +3093,59 @@ export interface PlantingData {
     attachmentsLink?: string;
     avgMaterial?: Measure;
     avgPlantingRate?: Measure;
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     description?: string;
     eTag?: string;
     farmerId?: string;
     id?: string;
-    modifiedDateTime?: Date;
+    modifiedDateTime?: Date | string;
     name?: string;
     operationBoundaryId?: string;
-    operationEndDateTime?: Date;
-    operationModifiedDateTime?: Date;
-    operationStartDateTime?: Date;
-    plantingProductDetails?: PlantingProductDetail[];
-    properties?: PlantingDataPropertiesDictionary;
+    operationEndDateTime?: Date | string;
+    operationModifiedDateTime?: Date | string;
+    operationStartDateTime?: Date | string;
+    plantingProductDetails?: Array<PlantingProductDetail>;
+    properties?: Record<string, Record<string, unknown>>;
     source?: string;
     status?: string;
     totalMaterial?: Measure;
 }
 
 // @public
+export interface PlantingDataCreateCascadeDeleteJob202Response extends HttpResponse {
+    // (undocumented)
+    body: CascadeDeleteJobOutput;
+    // (undocumented)
+    status: "202";
+}
+
+// @public
+export interface PlantingDataCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type PlantingDataCreateCascadeDeleteJobParameters = PlantingDataCreateCascadeDeleteJobQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface PlantingDataCreateCascadeDeleteJobQueryParam {
+    // (undocumented)
+    queryParameters: PlantingDataCreateCascadeDeleteJobQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface PlantingDataCreateCascadeDeleteJobQueryParamProperties {
+    farmerId: string;
+    plantingDataId: string;
+}
+
+// @public
 export interface PlantingDataCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: PlantingData;
+    body: PlantingDataOutput;
     // (undocumented)
     status: "200";
 }
@@ -2662,37 +3153,36 @@ export interface PlantingDataCreateOrUpdate200Response extends HttpResponse {
 // @public
 export interface PlantingDataCreateOrUpdate201Response extends HttpResponse {
     // (undocumented)
-    body: PlantingData;
+    body: PlantingDataOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface PlantingDataCreateOrUpdateBodyParam {
-    // (undocumented)
     body?: PlantingData;
 }
 
 // @public
 export interface PlantingDataCreateOrUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type PlantingDataCreateOrUpdateParameters = RequestParameters & PlantingDataCreateOrUpdateBodyParam;
+export interface PlantingDataCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
 
 // @public (undocumented)
-export interface PlantingDataDelete {
-    delete(options?: PlantingDataDeleteParameters): Promise<PlantingDataDelete204Response | PlantingDataDeletedefaultResponse>;
-    get(options?: PlantingDataGetParameters): Promise<PlantingDataGet200Response | PlantingDataGetdefaultResponse>;
-    patch(options?: PlantingDataCreateOrUpdateParameters): Promise<PlantingDataCreateOrUpdate200Response | PlantingDataCreateOrUpdate201Response | PlantingDataCreateOrUpdatedefaultResponse>;
-}
+export type PlantingDataCreateOrUpdateParameters = PlantingDataCreateOrUpdateMediaTypesParam & PlantingDataCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface PlantingDataDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -2700,7 +3190,7 @@ export interface PlantingDataDelete204Response extends HttpResponse {
 // @public
 export interface PlantingDataDeletedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -2708,18 +3198,50 @@ export interface PlantingDataDeletedefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type PlantingDataDeleteParameters = RequestParameters;
 
+// @public (undocumented)
+export interface PlantingDataGet {
+    delete(options?: PlantingDataDeleteParameters): Promise<PlantingDataDelete204Response | PlantingDataDeletedefaultResponse>;
+    get(options?: PlantingDataGetParameters): Promise<PlantingDataGet200Response | PlantingDataGetdefaultResponse>;
+    patch(options?: PlantingDataCreateOrUpdateParameters): Promise<PlantingDataCreateOrUpdate200Response | PlantingDataCreateOrUpdate201Response | PlantingDataCreateOrUpdatedefaultResponse>;
+}
+
 // @public
 export interface PlantingDataGet200Response extends HttpResponse {
     // (undocumented)
-    body: PlantingData;
+    body: PlantingDataOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface PlantingDataGetCascadeDeleteJobDetails {
+    get(options?: PlantingDataGetCascadeDeleteJobDetailsParameters): Promise<PlantingDataGetCascadeDeleteJobDetails200Response | PlantingDataGetCascadeDeleteJobDetailsdefaultResponse>;
+    put(options: PlantingDataCreateCascadeDeleteJobParameters): Promise<PlantingDataCreateCascadeDeleteJob202Response | PlantingDataCreateCascadeDeleteJobdefaultResponse>;
+}
+
+// @public
+export interface PlantingDataGetCascadeDeleteJobDetails200Response extends HttpResponse {
+    // (undocumented)
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public
+export interface PlantingDataGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type PlantingDataGetCascadeDeleteJobDetailsParameters = RequestParameters;
+
+// @public
 export interface PlantingDataGetdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -2735,7 +3257,7 @@ export interface PlantingDataList {
 // @public
 export interface PlantingDataList200Response extends HttpResponse {
     // (undocumented)
-    body: PlantingDataListResponse;
+    body: PlantingDataListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -2748,7 +3270,7 @@ export interface PlantingDataListByFarmerId {
 // @public
 export interface PlantingDataListByFarmerId200Response extends HttpResponse {
     // (undocumented)
-    body: PlantingDataListResponse;
+    body: PlantingDataListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -2756,13 +3278,13 @@ export interface PlantingDataListByFarmerId200Response extends HttpResponse {
 // @public
 export interface PlantingDataListByFarmerIddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type PlantingDataListByFarmerIdParameters = RequestParameters & PlantingDataListByFarmerIdQueryParam;
+export type PlantingDataListByFarmerIdParameters = PlantingDataListByFarmerIdQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface PlantingDataListByFarmerIdQueryParam {
@@ -2774,43 +3296,43 @@ export interface PlantingDataListByFarmerIdQueryParam {
 export interface PlantingDataListByFarmerIdQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    associatedBoundaryIds?: string[];
-    ids?: string[];
+    associatedBoundaryIds?: Array<string>;
+    ids?: Array<string>;
     maxArea?: number;
     maxAvgMaterial?: number;
     maxAvgPlantingRate?: number;
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    maxOperationEndDateTime?: Date;
-    maxOperationModifiedDateTime?: Date;
-    maxOperationStartDateTime?: Date;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    maxOperationEndDateTime?: Date | string;
+    maxOperationModifiedDateTime?: Date | string;
+    maxOperationStartDateTime?: Date | string;
     maxTotalMaterial?: number;
     minArea?: number;
     minAvgMaterial?: number;
     minAvgPlantingRate?: number;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    minOperationEndDateTime?: Date;
-    minOperationModifiedDateTime?: Date;
-    minOperationStartDateTime?: Date;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    minOperationEndDateTime?: Date | string;
+    minOperationModifiedDateTime?: Date | string;
+    minOperationStartDateTime?: Date | string;
     minTotalMaterial?: number;
-    names?: string[];
-    operationBoundaryIds?: string[];
-    propertyFilters?: string[];
-    sources?: string[];
-    statuses?: string[];
+    names?: Array<string>;
+    operationBoundaryIds?: Array<string>;
+    propertyFilters?: Array<string>;
+    sources?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public
 export interface PlantingDataListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type PlantingDataListParameters = RequestParameters & PlantingDataListQueryParam;
+export type PlantingDataListParameters = PlantingDataListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface PlantingDataListQueryParam {
@@ -2822,42 +3344,64 @@ export interface PlantingDataListQueryParam {
 export interface PlantingDataListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    associatedBoundaryIds?: string[];
-    ids?: string[];
+    associatedBoundaryIds?: Array<string>;
+    ids?: Array<string>;
     maxArea?: number;
     maxAvgMaterial?: number;
     maxAvgPlantingRate?: number;
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    maxOperationEndDateTime?: Date;
-    maxOperationModifiedDateTime?: Date;
-    maxOperationStartDateTime?: Date;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    maxOperationEndDateTime?: Date | string;
+    maxOperationModifiedDateTime?: Date | string;
+    maxOperationStartDateTime?: Date | string;
     maxTotalMaterial?: number;
     minArea?: number;
     minAvgMaterial?: number;
     minAvgPlantingRate?: number;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    minOperationEndDateTime?: Date;
-    minOperationModifiedDateTime?: Date;
-    minOperationStartDateTime?: Date;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    minOperationEndDateTime?: Date | string;
+    minOperationModifiedDateTime?: Date | string;
+    minOperationStartDateTime?: Date | string;
     minTotalMaterial?: number;
-    names?: string[];
-    operationBoundaryIds?: string[];
-    propertyFilters?: string[];
-    sources?: string[];
-    statuses?: string[];
+    names?: Array<string>;
+    operationBoundaryIds?: Array<string>;
+    propertyFilters?: Array<string>;
+    sources?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public (undocumented)
-export interface PlantingDataListResponse {
+export interface PlantingDataListResponseOutput {
+    $skipToken?: string;
     nextLink?: string;
-    skipToken?: string;
-    value?: PlantingData[];
+    value?: Array<PlantingDataOutput>;
 }
 
 // @public (undocumented)
-export type PlantingDataPropertiesDictionary = Record<string, unknown>;
+export interface PlantingDataOutput {
+    area?: MeasureOutput;
+    associatedBoundaryId?: string;
+    attachmentsLink?: string;
+    avgMaterial?: MeasureOutput;
+    avgPlantingRate?: MeasureOutput;
+    createdDateTime?: string;
+    description?: string;
+    eTag?: string;
+    farmerId?: string;
+    id?: string;
+    modifiedDateTime?: string;
+    name?: string;
+    operationBoundaryId?: string;
+    operationEndDateTime?: string;
+    operationModifiedDateTime?: string;
+    operationStartDateTime?: string;
+    plantingProductDetails?: Array<PlantingProductDetailOutput>;
+    properties?: Record<string, Record<string, unknown>>;
+    source?: string;
+    status?: string;
+    totalMaterial?: MeasureOutput;
+}
 
 // @public (undocumented)
 export interface PlantingProductDetail {
@@ -2868,179 +3412,245 @@ export interface PlantingProductDetail {
 }
 
 // @public (undocumented)
-export type Point = PointBase & PointCoordinates & {
-    type: "Point";
-};
+export interface PlantingProductDetailOutput {
+    area?: MeasureOutput;
+    avgMaterial?: MeasureOutput;
+    productName?: string;
+    totalMaterial?: MeasureOutput;
+}
 
 // @public (undocumented)
-export interface PointBase {
+export interface Point extends GeoJsonObjectBase, PointCoordinates {
+    // (undocumented)
+    type: "Point";
 }
 
 // @public (undocumented)
 export interface PointCoordinates {
-    coordinates: number[];
+    coordinates: Array<number>;
 }
 
 // @public (undocumented)
-export type Polygon = PolygonBase & PolygonCoordinates & {
-    type: "Polygon";
-};
+export interface PointCoordinatesOutput {
+    coordinates: Array<number>;
+}
 
 // @public (undocumented)
-export interface PolygonBase {
+export interface PointOutput extends GeoJsonObjectOutputBase, PointCoordinatesOutput {
+    // (undocumented)
+    type: "Point";
+}
+
+// @public (undocumented)
+export interface Polygon extends GeoJsonObjectBase, PolygonCoordinates {
+    // (undocumented)
+    type: "Polygon";
 }
 
 // @public (undocumented)
 export interface PolygonCoordinates {
-    coordinates: number[][][];
+    coordinates: Array<Array<Array<number>>>;
+}
+
+// @public (undocumented)
+export interface PolygonCoordinatesOutput {
+    coordinates: Array<Array<Array<number>>>;
+}
+
+// @public (undocumented)
+export interface PolygonOutput extends GeoJsonObjectOutputBase, PolygonCoordinatesOutput {
+    // (undocumented)
+    type: "Polygon";
 }
 
 // @public (undocumented)
 export interface Routes {
     (path: "/farmers/{farmerId}/application-data", farmerId: string): ApplicationDataListByFarmerId;
     (path: "/application-data"): ApplicationDataList;
-    (path: "/farmers/{farmerId}/application-data/{applicationDataId}", farmerId: string, applicationDataId: string): ApplicationDataDelete;
+    (path: "/farmers/{farmerId}/application-data/{applicationDataId}", farmerId: string, applicationDataId: string): ApplicationDataGet;
+    (path: "/application-data/cascade-delete/{jobId}", jobId: string): ApplicationDataGetCascadeDeleteJobDetails;
     (path: "/farmers/{farmerId}/attachments", farmerId: string): AttachmentsListByFarmerId;
-    (path: "/farmers/{farmerId}/attachments/{attachmentId}", farmerId: string, attachmentId: string): AttachmentsDelete;
+    (path: "/farmers/{farmerId}/attachments/{attachmentId}", farmerId: string, attachmentId: string): AttachmentsGet;
     (path: "/farmers/{farmerId}/attachments/{attachmentId}/file", farmerId: string, attachmentId: string): AttachmentsDownload;
-    (path: "/farmers/{farmerId}/boundaries", farmerId: string): BoundariesSearchByFarmerId;
-    (path: "/boundaries"): BoundariesSearch;
-    (path: "/boundaries/cascade-delete/{jobId}", jobId: string): BoundariesCreateCascadeDeleteJob;
-    (path: "/farmers/{farmerId}/boundaries/{boundaryId}", farmerId: string, boundaryId: string): BoundariesDelete;
+    (path: "/farmers/{farmerId}/boundaries", farmerId: string): BoundariesListByFarmerId;
+    (path: "/boundaries"): BoundariesList;
+    (path: "/boundaries/cascade-delete/{jobId}", jobId: string): BoundariesGetCascadeDeleteJobDetails;
+    (path: "/farmers/{farmerId}/boundaries/{boundaryId}", farmerId: string, boundaryId: string): BoundariesGet;
     (path: "/farmers/{farmerId}/boundaries/{boundaryId}/overlap", farmerId: string, boundaryId: string): BoundariesGetOverlap;
     (path: "/crops"): CropsList;
-    (path: "/crops/{cropId}", cropId: string): CropsDelete;
+    (path: "/crops/{cropId}", cropId: string): CropsGet;
     (path: "/crops/{cropId}/crop-varieties", cropId: string): CropVarietiesListByCropId;
     (path: "/crop-varieties"): CropVarietiesList;
-    (path: "/crops/{cropId}/crop-varieties/{cropVarietyId}", cropId: string, cropVarietyId: string): CropVarietiesDelete;
+    (path: "/crops/{cropId}/crop-varieties/{cropVarietyId}", cropId: string, cropVarietyId: string): CropVarietiesGet;
     (path: "/farmers"): FarmersList;
-    (path: "/farmers/{farmerId}", farmerId: string): FarmersDelete;
-    (path: "/farmers/cascade-delete/{jobId}", jobId: string): FarmersCreateCascadeDeleteJob;
-    (path: "/farm-operations/ingest-data/{jobId}", jobId: string): FarmOperationsGetDataIngestionJobDetails;
+    (path: "/farmers/{farmerId}", farmerId: string): FarmersGet;
+    (path: "/farmers/cascade-delete/{jobId}", jobId: string): FarmersGetCascadeDeleteJobDetails;
+    (path: "/farm-operations/ingest-data/{jobId}", jobId: string): FarmOperationsCreateDataIngestionJob;
     (path: "/farmers/{farmerId}/farms", farmerId: string): FarmsListByFarmerId;
     (path: "/farms"): FarmsList;
-    (path: "/farmers/{farmerId}/farms/{farmId}", farmerId: string, farmId: string): FarmsDelete;
-    (path: "/farms/cascade-delete/{jobId}", jobId: string): FarmsCreateCascadeDeleteJob;
+    (path: "/farmers/{farmerId}/farms/{farmId}", farmerId: string, farmId: string): FarmsGet;
+    (path: "/farms/cascade-delete/{jobId}", jobId: string): FarmsGetCascadeDeleteJobDetails;
     (path: "/farmers/{farmerId}/fields", farmerId: string): FieldsListByFarmerId;
     (path: "/fields"): FieldsList;
-    (path: "/farmers/{farmerId}/fields/{fieldId}", farmerId: string, fieldId: string): FieldsDelete;
-    (path: "/fields/cascade-delete/{jobId}", jobId: string): FieldsCreateCascadeDeleteJob;
+    (path: "/farmers/{farmerId}/fields/{fieldId}", farmerId: string, fieldId: string): FieldsGet;
+    (path: "/fields/cascade-delete/{jobId}", jobId: string): FieldsGetCascadeDeleteJobDetails;
     (path: "/farmers/{farmerId}/harvest-data", farmerId: string): HarvestDataListByFarmerId;
     (path: "/harvest-data"): HarvestDataList;
-    (path: "/farmers/{farmerId}/harvest-data/{harvestDataId}", farmerId: string, harvestDataId: string): HarvestDataDelete;
-    (path: "/image-processing/rasterize/{jobId}", jobId: string): ImageProcessingGetRasterizeJob;
+    (path: "/farmers/{farmerId}/harvest-data/{harvestDataId}", farmerId: string, harvestDataId: string): HarvestDataGet;
+    (path: "/harvest-data/cascade-delete/{jobId}", jobId: string): HarvestDataGetCascadeDeleteJobDetails;
+    (path: "/image-processing/rasterize/{jobId}", jobId: string): ImageProcessingCreateRasterizeJob;
     (path: "/oauth/providers"): OAuthProvidersList;
-    (path: "/oauth/providers/{oauthProviderId}", oauthProviderId: string): OAuthProvidersDelete;
+    (path: "/oauth/providers/{oauthProviderId}", oauthProviderId: string): OAuthProvidersGet;
+    (path: "/oauth/providers/cascade-delete/{jobId}", jobId: string): OAuthProvidersGetCascadeDeleteJobDetails;
     (path: "/oauth/tokens"): OAuthTokensList;
     (path: "/oauth/tokens/:connect"): OAuthTokensGetOAuthConnectionLink;
-    (path: "/oauth/tokens/remove/{jobId}", jobId: string): OAuthTokensCreateCascadeDeleteJob;
+    (path: "/oauth/tokens/remove/{jobId}", jobId: string): OAuthTokensGetCascadeDeleteJobDetails;
     (path: "/farmers/{farmerId}/planting-data", farmerId: string): PlantingDataListByFarmerId;
     (path: "/planting-data"): PlantingDataList;
-    (path: "/farmers/{farmerId}/planting-data/{plantingDataId}", farmerId: string, plantingDataId: string): PlantingDataDelete;
+    (path: "/farmers/{farmerId}/planting-data/{plantingDataId}", farmerId: string, plantingDataId: string): PlantingDataGet;
+    (path: "/planting-data/cascade-delete/{jobId}", jobId: string): PlantingDataGetCascadeDeleteJobDetails;
     (path: "/scenes"): ScenesList;
-    (path: "/scenes/satellite/ingest-data/{jobId}", jobId: string): ScenesGetSatelliteDataIngestionJobDetails;
+    (path: "/scenes/satellite/ingest-data/{jobId}", jobId: string): ScenesCreateSatelliteDataIngestionJob;
     (path: "/scenes/downloadFiles"): ScenesDownload;
     (path: "/farmers/{farmerId}/seasonal-fields", farmerId: string): SeasonalFieldsListByFarmerId;
     (path: "/seasonal-fields"): SeasonalFieldsList;
-    (path: "/farmers/{farmerId}/seasonal-fields/{seasonalFieldId}", farmerId: string, seasonalFieldId: string): SeasonalFieldsDelete;
-    (path: "/seasonal-fields/cascade-delete/{jobId}", jobId: string): SeasonalFieldsCreateCascadeDeleteJob;
+    (path: "/farmers/{farmerId}/seasonal-fields/{seasonalFieldId}", farmerId: string, seasonalFieldId: string): SeasonalFieldsGet;
+    (path: "/seasonal-fields/cascade-delete/{jobId}", jobId: string): SeasonalFieldsGetCascadeDeleteJobDetails;
     (path: "/seasons"): SeasonsList;
-    (path: "/seasons/{seasonId}", seasonId: string): SeasonsDelete;
+    (path: "/seasons/{seasonId}", seasonId: string): SeasonsGet;
     (path: "/farmers/{farmerId}/tillage-data", farmerId: string): TillageDataListByFarmerId;
     (path: "/tillage-data"): TillageDataList;
-    (path: "/farmers/{farmerId}/tillage-data/{tillageDataId}", farmerId: string, tillageDataId: string): TillageDataDelete;
+    (path: "/farmers/{farmerId}/tillage-data/{tillageDataId}", farmerId: string, tillageDataId: string): TillageDataGet;
+    (path: "/tillage-data/cascade-delete/{jobId}", jobId: string): TillageDataGetCascadeDeleteJobDetails;
     (path: "/weather"): WeatherList;
-    (path: "/weather/ingest-data/{jobId}", jobId: string): WeatherCreateDataIngestionJob;
-    (path: "/weather/delete-data/{jobId}", jobId: string): WeatherCreateDataDeleteJob;
+    (path: "/weather/ingest-data/{jobId}", jobId: string): WeatherGetDataIngestionJobDetails;
+    (path: "/weather/delete-data/{jobId}", jobId: string): WeatherGetDataDeleteJobDetails;
 }
 
 // @public (undocumented)
 export interface SatelliteData {
-    imageFormats?: string[];
-    imageNames?: string[];
-    imageResolutions?: number[];
+    imageFormats?: Array<string>;
+    imageNames?: Array<string>;
+    imageResolutions?: Array<number>;
 }
 
 // @public (undocumented)
 export interface SatelliteDataIngestionJob {
     boundaryId: string;
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     data?: SatelliteData;
     description?: string;
     durationInSeconds?: number;
-    endDateTime: Date;
-    endTime?: Date;
+    endDateTime: Date | string;
+    endTime?: Date | string;
     farmerId: string;
     id?: string;
-    lastActionDateTime?: Date;
+    lastActionDateTime?: Date | string;
     message?: string;
     name?: string;
-    properties?: SatelliteDataIngestionJobPropertiesDictionary;
-    provider?: DataProvider;
-    source?: Source;
-    startDateTime: Date;
-    startTime?: Date;
+    properties?: Record<string, Record<string, unknown>>;
+    provider?: "Microsoft";
+    source?: "Sentinel_2_L2A";
+    startDateTime: Date | string;
+    startTime?: Date | string;
     status?: string;
 }
 
 // @public (undocumented)
-export type SatelliteDataIngestionJobPropertiesDictionary = Record<string, unknown>;
+export interface SatelliteDataIngestionJobOutput {
+    boundaryId: string;
+    createdDateTime?: string;
+    data?: SatelliteDataOutput;
+    description?: string;
+    durationInSeconds?: number;
+    endDateTime: string;
+    endTime?: string;
+    farmerId: string;
+    id?: string;
+    lastActionDateTime?: string;
+    message?: string;
+    name?: string;
+    properties?: Record<string, Record<string, unknown>>;
+    provider?: "Microsoft";
+    source?: "Sentinel_2_L2A";
+    startDateTime: string;
+    startTime?: string;
+    status?: string;
+}
 
 // @public (undocumented)
-export interface Scene {
+export interface SatelliteDataOutput {
+    imageFormats?: Array<string>;
+    imageNames?: Array<string>;
+    imageResolutions?: Array<number>;
+}
+
+// @public (undocumented)
+export interface SceneListResponseOutput {
+    $skipToken?: string;
+    nextLink?: string;
+    value?: Array<SceneOutput>;
+}
+
+// @public (undocumented)
+export interface SceneOutput {
     boundaryId?: string;
     cloudCoverPercentage?: number;
     darkPixelPercentage?: number;
     eTag?: string;
     farmerId?: string;
     id?: string;
-    imageFiles?: ImageFile[];
-    imageFormat?: ImageFormat;
+    imageFiles?: Array<ImageFileOutput>;
+    imageFormat?: "TIF";
     ndviMedianValue?: number;
     provider?: string;
-    sceneDateTime?: Date;
+    sceneDateTime?: string;
     source?: string;
 }
 
 // @public (undocumented)
-export interface SceneListResponse {
-    nextLink?: string;
-    skipToken?: string;
-    value?: Scene[];
+export interface ScenesCreateSatelliteDataIngestionJob {
+    get(options?: ScenesGetSatelliteDataIngestionJobDetailsParameters): Promise<ScenesGetSatelliteDataIngestionJobDetails200Response | ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse>;
+    put(options?: ScenesCreateSatelliteDataIngestionJobParameters): Promise<ScenesCreateSatelliteDataIngestionJob202Response | ScenesCreateSatelliteDataIngestionJobdefaultResponse>;
 }
 
 // @public
 export interface ScenesCreateSatelliteDataIngestionJob202Response extends HttpResponse {
     // (undocumented)
-    body: SatelliteDataIngestionJob;
+    body: SatelliteDataIngestionJobOutput;
     // (undocumented)
     status: "202";
 }
 
 // @public (undocumented)
 export interface ScenesCreateSatelliteDataIngestionJobBodyParam {
-    // (undocumented)
     body?: SatelliteDataIngestionJob;
 }
 
 // @public
 export interface ScenesCreateSatelliteDataIngestionJobdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type ScenesCreateSatelliteDataIngestionJobParameters = RequestParameters & ScenesCreateSatelliteDataIngestionJobBodyParam;
+export interface ScenesCreateSatelliteDataIngestionJobMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type ScenesCreateSatelliteDataIngestionJobParameters = ScenesCreateSatelliteDataIngestionJobMediaTypesParam & ScenesCreateSatelliteDataIngestionJobBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface ScenesDownload {
-    get(options?: ScenesDownloadParameters): Promise<ScenesDownload200Response | ScenesDownloaddefaultResponse>;
+    get(options: ScenesDownloadParameters): Promise<ScenesDownload200Response | ScenesDownloaddefaultResponse>;
 }
 
 // @public
 export interface ScenesDownload200Response extends HttpResponse {
+    body: Uint8Array;
     // (undocumented)
     status: "200";
 }
@@ -3048,13 +3658,13 @@ export interface ScenesDownload200Response extends HttpResponse {
 // @public
 export interface ScenesDownloaddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type ScenesDownloadParameters = RequestParameters & ScenesDownloadQueryParam;
+export type ScenesDownloadParameters = ScenesDownloadQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface ScenesDownloadQueryParam {
@@ -3067,16 +3677,10 @@ export interface ScenesDownloadQueryParamProperties {
     filePath: string;
 }
 
-// @public (undocumented)
-export interface ScenesGetSatelliteDataIngestionJobDetails {
-    get(options?: ScenesGetSatelliteDataIngestionJobDetailsParameters): Promise<ScenesGetSatelliteDataIngestionJobDetails200Response | ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse>;
-    put(options?: ScenesCreateSatelliteDataIngestionJobParameters): Promise<ScenesCreateSatelliteDataIngestionJob202Response | ScenesCreateSatelliteDataIngestionJobdefaultResponse>;
-}
-
 // @public
 export interface ScenesGetSatelliteDataIngestionJobDetails200Response extends HttpResponse {
     // (undocumented)
-    body: SatelliteDataIngestionJob;
+    body: SatelliteDataIngestionJobOutput;
     // (undocumented)
     status: "200";
 }
@@ -3084,7 +3688,7 @@ export interface ScenesGetSatelliteDataIngestionJobDetails200Response extends Ht
 // @public
 export interface ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -3094,13 +3698,13 @@ export type ScenesGetSatelliteDataIngestionJobDetailsParameters = RequestParamet
 
 // @public (undocumented)
 export interface ScenesList {
-    get(options?: ScenesListParameters): Promise<ScenesList200Response | ScenesListdefaultResponse>;
+    get(options: ScenesListParameters): Promise<ScenesList200Response | ScenesListdefaultResponse>;
 }
 
 // @public
 export interface ScenesList200Response extends HttpResponse {
     // (undocumented)
-    body: SceneListResponse;
+    body: SceneListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -3108,13 +3712,13 @@ export interface ScenesList200Response extends HttpResponse {
 // @public
 export interface ScenesListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type ScenesListParameters = RequestParameters & ScenesListQueryParam;
+export type ScenesListParameters = ScenesListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface ScenesListQueryParam {
@@ -3127,49 +3731,49 @@ export interface ScenesListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
     boundaryId: string;
-    endDateTime?: Date;
+    endDateTime?: Date | string;
     farmerId: string;
-    imageFormats?: string[];
-    imageNames?: string[];
-    imageResolutions?: number[];
+    imageFormats?: Array<string>;
+    imageNames?: Array<string>;
+    imageResolutions?: Array<number>;
     maxCloudCoveragePercentage?: number;
     maxDarkPixelCoveragePercentage?: number;
     provider: string;
     source?: string;
-    startDateTime?: Date;
+    startDateTime?: Date | string;
 }
 
 // @public (undocumented)
 export interface SearchBoundaryQuery {
-    ids?: string[];
+    $maxPageSize?: number;
+    $skipToken?: string;
+    ids?: Array<string>;
     intersectsWithGeometry?: GeoJsonObject;
     isPrimary?: boolean;
     maxAcreage?: number;
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    maxPageSize?: number;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
     minAcreage?: number;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    names?: string[];
-    parentIds?: string[];
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    names?: Array<string>;
+    parentIds?: Array<string>;
     parentType?: string;
-    propertyFilters?: string[];
-    skipToken?: string;
-    statuses?: string[];
+    propertyFilters?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public (undocumented)
 export interface Season {
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     description?: string;
-    endDateTime?: Date;
+    endDateTime?: Date | string;
     eTag?: string;
     id?: string;
-    modifiedDateTime?: Date;
+    modifiedDateTime?: Date | string;
     name?: string;
-    properties?: SeasonPropertiesDictionary;
-    startDateTime?: Date;
+    properties?: Record<string, Record<string, unknown>>;
+    startDateTime?: Date | string;
     status?: string;
     year?: number;
 }
@@ -3180,45 +3784,61 @@ export interface SeasonalField {
     avgSeedPopulationValue?: number;
     avgYieldUnit?: string;
     avgYieldValue?: number;
-    boundaryIds?: string[];
-    createdDateTime?: Date;
+    boundaryIds?: Array<string>;
+    createdDateTime?: Date | string;
     cropId?: string;
-    cropVarietyIds?: string[];
+    cropVarietyIds?: Array<string>;
     description?: string;
     eTag?: string;
     farmerId?: string;
     farmId?: string;
     fieldId?: string;
     id?: string;
-    modifiedDateTime?: Date;
+    modifiedDateTime?: Date | string;
     name?: string;
-    plantingDateTime?: Date;
+    plantingDateTime?: Date | string;
     primaryBoundaryId?: string;
-    properties?: SeasonalFieldPropertiesDictionary;
+    properties?: Record<string, Record<string, unknown>>;
     seasonId?: string;
     status?: string;
 }
 
 // @public (undocumented)
-export interface SeasonalFieldListResponse {
+export interface SeasonalFieldListResponseOutput {
+    $skipToken?: string;
     nextLink?: string;
-    skipToken?: string;
-    value?: SeasonalField[];
+    value?: Array<SeasonalFieldOutput>;
 }
 
 // @public (undocumented)
-export type SeasonalFieldPropertiesDictionary = Record<string, unknown>;
-
-// @public (undocumented)
-export interface SeasonalFieldsCreateCascadeDeleteJob {
-    get(options?: SeasonalFieldsGetCascadeDeleteJobDetailsParameters): Promise<SeasonalFieldsGetCascadeDeleteJobDetails200Response | SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse>;
-    put(options?: SeasonalFieldsCreateCascadeDeleteJobParameters): Promise<SeasonalFieldsCreateCascadeDeleteJob202Response | SeasonalFieldsCreateCascadeDeleteJobdefaultResponse>;
+export interface SeasonalFieldOutput {
+    avgSeedPopulationUnit?: string;
+    avgSeedPopulationValue?: number;
+    avgYieldUnit?: string;
+    avgYieldValue?: number;
+    boundaryIds?: Array<string>;
+    createdDateTime?: string;
+    cropId?: string;
+    cropVarietyIds?: Array<string>;
+    description?: string;
+    eTag?: string;
+    farmerId?: string;
+    farmId?: string;
+    fieldId?: string;
+    id?: string;
+    modifiedDateTime?: string;
+    name?: string;
+    plantingDateTime?: string;
+    primaryBoundaryId?: string;
+    properties?: Record<string, Record<string, unknown>>;
+    seasonId?: string;
+    status?: string;
 }
 
 // @public
 export interface SeasonalFieldsCreateCascadeDeleteJob202Response extends HttpResponse {
     // (undocumented)
-    body: CascadeDeleteJob;
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "202";
 }
@@ -3226,13 +3846,13 @@ export interface SeasonalFieldsCreateCascadeDeleteJob202Response extends HttpRes
 // @public
 export interface SeasonalFieldsCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type SeasonalFieldsCreateCascadeDeleteJobParameters = RequestParameters & SeasonalFieldsCreateCascadeDeleteJobQueryParam;
+export type SeasonalFieldsCreateCascadeDeleteJobParameters = SeasonalFieldsCreateCascadeDeleteJobQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface SeasonalFieldsCreateCascadeDeleteJobQueryParam {
@@ -3249,7 +3869,7 @@ export interface SeasonalFieldsCreateCascadeDeleteJobQueryParamProperties {
 // @public
 export interface SeasonalFieldsCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: SeasonalField;
+    body: SeasonalFieldOutput;
     // (undocumented)
     status: "200";
 }
@@ -3257,37 +3877,36 @@ export interface SeasonalFieldsCreateOrUpdate200Response extends HttpResponse {
 // @public
 export interface SeasonalFieldsCreateOrUpdate201Response extends HttpResponse {
     // (undocumented)
-    body: SeasonalField;
+    body: SeasonalFieldOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface SeasonalFieldsCreateOrUpdateBodyParam {
-    // (undocumented)
     body?: SeasonalField;
 }
 
 // @public
 export interface SeasonalFieldsCreateOrUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type SeasonalFieldsCreateOrUpdateParameters = RequestParameters & SeasonalFieldsCreateOrUpdateBodyParam;
+export interface SeasonalFieldsCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
 
 // @public (undocumented)
-export interface SeasonalFieldsDelete {
-    delete(options?: SeasonalFieldsDeleteParameters): Promise<SeasonalFieldsDelete204Response | SeasonalFieldsDeletedefaultResponse>;
-    get(options?: SeasonalFieldsGetParameters): Promise<SeasonalFieldsGet200Response | SeasonalFieldsGetdefaultResponse>;
-    patch(options?: SeasonalFieldsCreateOrUpdateParameters): Promise<SeasonalFieldsCreateOrUpdate200Response | SeasonalFieldsCreateOrUpdate201Response | SeasonalFieldsCreateOrUpdatedefaultResponse>;
-}
+export type SeasonalFieldsCreateOrUpdateParameters = SeasonalFieldsCreateOrUpdateMediaTypesParam & SeasonalFieldsCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface SeasonalFieldsDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -3295,7 +3914,7 @@ export interface SeasonalFieldsDelete204Response extends HttpResponse {
 // @public
 export interface SeasonalFieldsDeletedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -3303,18 +3922,31 @@ export interface SeasonalFieldsDeletedefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type SeasonalFieldsDeleteParameters = RequestParameters;
 
+// @public (undocumented)
+export interface SeasonalFieldsGet {
+    delete(options?: SeasonalFieldsDeleteParameters): Promise<SeasonalFieldsDelete204Response | SeasonalFieldsDeletedefaultResponse>;
+    get(options?: SeasonalFieldsGetParameters): Promise<SeasonalFieldsGet200Response | SeasonalFieldsGetdefaultResponse>;
+    patch(options?: SeasonalFieldsCreateOrUpdateParameters): Promise<SeasonalFieldsCreateOrUpdate200Response | SeasonalFieldsCreateOrUpdate201Response | SeasonalFieldsCreateOrUpdatedefaultResponse>;
+}
+
 // @public
 export interface SeasonalFieldsGet200Response extends HttpResponse {
     // (undocumented)
-    body: SeasonalField;
+    body: SeasonalFieldOutput;
     // (undocumented)
     status: "200";
+}
+
+// @public (undocumented)
+export interface SeasonalFieldsGetCascadeDeleteJobDetails {
+    get(options?: SeasonalFieldsGetCascadeDeleteJobDetailsParameters): Promise<SeasonalFieldsGetCascadeDeleteJobDetails200Response | SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse>;
+    put(options: SeasonalFieldsCreateCascadeDeleteJobParameters): Promise<SeasonalFieldsCreateCascadeDeleteJob202Response | SeasonalFieldsCreateCascadeDeleteJobdefaultResponse>;
 }
 
 // @public
 export interface SeasonalFieldsGetCascadeDeleteJobDetails200Response extends HttpResponse {
     // (undocumented)
-    body: CascadeDeleteJob;
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "200";
 }
@@ -3322,7 +3954,7 @@ export interface SeasonalFieldsGetCascadeDeleteJobDetails200Response extends Htt
 // @public
 export interface SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -3333,7 +3965,7 @@ export type SeasonalFieldsGetCascadeDeleteJobDetailsParameters = RequestParamete
 // @public
 export interface SeasonalFieldsGetdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -3349,7 +3981,7 @@ export interface SeasonalFieldsList {
 // @public
 export interface SeasonalFieldsList200Response extends HttpResponse {
     // (undocumented)
-    body: SeasonalFieldListResponse;
+    body: SeasonalFieldListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -3362,7 +3994,7 @@ export interface SeasonalFieldsListByFarmerId {
 // @public
 export interface SeasonalFieldsListByFarmerId200Response extends HttpResponse {
     // (undocumented)
-    body: SeasonalFieldListResponse;
+    body: SeasonalFieldListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -3370,13 +4002,13 @@ export interface SeasonalFieldsListByFarmerId200Response extends HttpResponse {
 // @public
 export interface SeasonalFieldsListByFarmerIddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type SeasonalFieldsListByFarmerIdParameters = RequestParameters & SeasonalFieldsListByFarmerIdQueryParam;
+export type SeasonalFieldsListByFarmerIdParameters = SeasonalFieldsListByFarmerIdQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface SeasonalFieldsListByFarmerIdQueryParam {
@@ -3390,37 +4022,37 @@ export interface SeasonalFieldsListByFarmerIdQueryParamProperties {
     $skipToken?: string;
     avgSeedPopulationUnit?: string;
     avgYieldUnit?: string;
-    cropIds?: string[];
-    cropVarietyIds?: string[];
-    farmIds?: string[];
-    fieldIds?: string[];
-    ids?: string[];
+    cropIds?: Array<string>;
+    cropVarietyIds?: Array<string>;
+    farmIds?: Array<string>;
+    fieldIds?: Array<string>;
+    ids?: Array<string>;
     maxAvgSeedPopulationValue?: number;
     maxAvgYieldValue?: number;
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    maxPlantingDateTime?: Date;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    maxPlantingDateTime?: Date | string;
     minAvgSeedPopulationValue?: number;
     minAvgYieldValue?: number;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    minPlantingDateTime?: Date;
-    names?: string[];
-    propertyFilters?: string[];
-    seasonIds?: string[];
-    statuses?: string[];
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    minPlantingDateTime?: Date | string;
+    names?: Array<string>;
+    propertyFilters?: Array<string>;
+    seasonIds?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public
 export interface SeasonalFieldsListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type SeasonalFieldsListParameters = RequestParameters & SeasonalFieldsListQueryParam;
+export type SeasonalFieldsListParameters = SeasonalFieldsListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface SeasonalFieldsListQueryParam {
@@ -3434,41 +4066,53 @@ export interface SeasonalFieldsListQueryParamProperties {
     $skipToken?: string;
     avgSeedPopulationUnit?: string;
     avgYieldUnit?: string;
-    cropIds?: string[];
-    cropVarietyIds?: string[];
-    farmIds?: string[];
-    fieldIds?: string[];
-    ids?: string[];
+    cropIds?: Array<string>;
+    cropVarietyIds?: Array<string>;
+    farmIds?: Array<string>;
+    fieldIds?: Array<string>;
+    ids?: Array<string>;
     maxAvgSeedPopulationValue?: number;
     maxAvgYieldValue?: number;
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    maxPlantingDateTime?: Date;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    maxPlantingDateTime?: Date | string;
     minAvgSeedPopulationValue?: number;
     minAvgYieldValue?: number;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    minPlantingDateTime?: Date;
-    names?: string[];
-    propertyFilters?: string[];
-    seasonIds?: string[];
-    statuses?: string[];
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    minPlantingDateTime?: Date | string;
+    names?: Array<string>;
+    propertyFilters?: Array<string>;
+    seasonIds?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public (undocumented)
-export interface SeasonListResponse {
+export interface SeasonListResponseOutput {
+    $skipToken?: string;
     nextLink?: string;
-    skipToken?: string;
-    value?: Season[];
+    value?: Array<SeasonOutput>;
 }
 
 // @public (undocumented)
-export type SeasonPropertiesDictionary = Record<string, unknown>;
+export interface SeasonOutput {
+    createdDateTime?: string;
+    description?: string;
+    endDateTime?: string;
+    eTag?: string;
+    id?: string;
+    modifiedDateTime?: string;
+    name?: string;
+    properties?: Record<string, Record<string, unknown>>;
+    startDateTime?: string;
+    status?: string;
+    year?: number;
+}
 
 // @public
 export interface SeasonsCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: Season;
+    body: SeasonOutput;
     // (undocumented)
     status: "200";
 }
@@ -3476,37 +4120,36 @@ export interface SeasonsCreateOrUpdate200Response extends HttpResponse {
 // @public
 export interface SeasonsCreateOrUpdate201Response extends HttpResponse {
     // (undocumented)
-    body: Season;
+    body: SeasonOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface SeasonsCreateOrUpdateBodyParam {
-    // (undocumented)
     body?: Season;
 }
 
 // @public
 export interface SeasonsCreateOrUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type SeasonsCreateOrUpdateParameters = RequestParameters & SeasonsCreateOrUpdateBodyParam;
+export interface SeasonsCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
 
 // @public (undocumented)
-export interface SeasonsDelete {
-    delete(options?: SeasonsDeleteParameters): Promise<SeasonsDelete204Response | SeasonsDeletedefaultResponse>;
-    get(options?: SeasonsGetParameters): Promise<SeasonsGet200Response | SeasonsGetdefaultResponse>;
-    patch(options?: SeasonsCreateOrUpdateParameters): Promise<SeasonsCreateOrUpdate200Response | SeasonsCreateOrUpdate201Response | SeasonsCreateOrUpdatedefaultResponse>;
-}
+export type SeasonsCreateOrUpdateParameters = SeasonsCreateOrUpdateMediaTypesParam & SeasonsCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface SeasonsDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -3514,7 +4157,7 @@ export interface SeasonsDelete204Response extends HttpResponse {
 // @public
 export interface SeasonsDeletedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -3522,10 +4165,17 @@ export interface SeasonsDeletedefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type SeasonsDeleteParameters = RequestParameters;
 
+// @public (undocumented)
+export interface SeasonsGet {
+    delete(options?: SeasonsDeleteParameters): Promise<SeasonsDelete204Response | SeasonsDeletedefaultResponse>;
+    get(options?: SeasonsGetParameters): Promise<SeasonsGet200Response | SeasonsGetdefaultResponse>;
+    patch(options?: SeasonsCreateOrUpdateParameters): Promise<SeasonsCreateOrUpdate200Response | SeasonsCreateOrUpdate201Response | SeasonsCreateOrUpdatedefaultResponse>;
+}
+
 // @public
 export interface SeasonsGet200Response extends HttpResponse {
     // (undocumented)
-    body: Season;
+    body: SeasonOutput;
     // (undocumented)
     status: "200";
 }
@@ -3533,7 +4183,7 @@ export interface SeasonsGet200Response extends HttpResponse {
 // @public
 export interface SeasonsGetdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -3549,7 +4199,7 @@ export interface SeasonsList {
 // @public
 export interface SeasonsList200Response extends HttpResponse {
     // (undocumented)
-    body: SeasonListResponse;
+    body: SeasonListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -3557,13 +4207,13 @@ export interface SeasonsList200Response extends HttpResponse {
 // @public
 export interface SeasonsListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type SeasonsListParameters = RequestParameters & SeasonsListQueryParam;
+export type SeasonsListParameters = SeasonsListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface SeasonsListQueryParam {
@@ -3575,41 +4225,38 @@ export interface SeasonsListQueryParam {
 export interface SeasonsListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    ids?: string[];
-    maxCreatedDateTime?: Date;
-    maxEndDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    maxStartDateTime?: Date;
-    minCreatedDateTime?: Date;
-    minEndDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    minStartDateTime?: Date;
-    names?: string[];
-    propertyFilters?: string[];
-    statuses?: string[];
-    years?: number[];
+    ids?: Array<string>;
+    maxCreatedDateTime?: Date | string;
+    maxEndDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    maxStartDateTime?: Date | string;
+    minCreatedDateTime?: Date | string;
+    minEndDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    minStartDateTime?: Date | string;
+    names?: Array<string>;
+    propertyFilters?: Array<string>;
+    statuses?: Array<string>;
+    years?: Array<number>;
 }
-
-// @public (undocumented)
-export type Source = "Sentinel_2_L2A";
 
 // @public (undocumented)
 export interface TillageData {
     area?: Measure;
     associatedBoundaryId?: string;
     attachmentsLink?: string;
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     description?: string;
     eTag?: string;
     farmerId?: string;
     id?: string;
-    modifiedDateTime?: Date;
+    modifiedDateTime?: Date | string;
     name?: string;
     operationBoundaryId?: string;
-    operationEndDateTime?: Date;
-    operationModifiedDateTime?: Date;
-    operationStartDateTime?: Date;
-    properties?: TillageDataPropertiesDictionary;
+    operationEndDateTime?: Date | string;
+    operationModifiedDateTime?: Date | string;
+    operationStartDateTime?: Date | string;
+    properties?: Record<string, Record<string, unknown>>;
     source?: string;
     status?: string;
     tillageDepth?: Measure;
@@ -3617,9 +4264,40 @@ export interface TillageData {
 }
 
 // @public
+export interface TillageDataCreateCascadeDeleteJob202Response extends HttpResponse {
+    // (undocumented)
+    body: CascadeDeleteJobOutput;
+    // (undocumented)
+    status: "202";
+}
+
+// @public
+export interface TillageDataCreateCascadeDeleteJobdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type TillageDataCreateCascadeDeleteJobParameters = TillageDataCreateCascadeDeleteJobQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface TillageDataCreateCascadeDeleteJobQueryParam {
+    // (undocumented)
+    queryParameters: TillageDataCreateCascadeDeleteJobQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface TillageDataCreateCascadeDeleteJobQueryParamProperties {
+    farmerId: string;
+    tillageDataId: string;
+}
+
+// @public
 export interface TillageDataCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
-    body: TillageData;
+    body: TillageDataOutput;
     // (undocumented)
     status: "200";
 }
@@ -3627,37 +4305,36 @@ export interface TillageDataCreateOrUpdate200Response extends HttpResponse {
 // @public
 export interface TillageDataCreateOrUpdate201Response extends HttpResponse {
     // (undocumented)
-    body: TillageData;
+    body: TillageDataOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface TillageDataCreateOrUpdateBodyParam {
-    // (undocumented)
     body?: TillageData;
 }
 
 // @public
 export interface TillageDataCreateOrUpdatedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type TillageDataCreateOrUpdateParameters = RequestParameters & TillageDataCreateOrUpdateBodyParam;
+export interface TillageDataCreateOrUpdateMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
 
 // @public (undocumented)
-export interface TillageDataDelete {
-    delete(options?: TillageDataDeleteParameters): Promise<TillageDataDelete204Response | TillageDataDeletedefaultResponse>;
-    get(options?: TillageDataGetParameters): Promise<TillageDataGet200Response | TillageDataGetdefaultResponse>;
-    patch(options?: TillageDataCreateOrUpdateParameters): Promise<TillageDataCreateOrUpdate200Response | TillageDataCreateOrUpdate201Response | TillageDataCreateOrUpdatedefaultResponse>;
-}
+export type TillageDataCreateOrUpdateParameters = TillageDataCreateOrUpdateMediaTypesParam & TillageDataCreateOrUpdateBodyParam & RequestParameters;
 
 // @public
 export interface TillageDataDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -3665,7 +4342,7 @@ export interface TillageDataDelete204Response extends HttpResponse {
 // @public
 export interface TillageDataDeletedefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -3673,18 +4350,50 @@ export interface TillageDataDeletedefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type TillageDataDeleteParameters = RequestParameters;
 
+// @public (undocumented)
+export interface TillageDataGet {
+    delete(options?: TillageDataDeleteParameters): Promise<TillageDataDelete204Response | TillageDataDeletedefaultResponse>;
+    get(options?: TillageDataGetParameters): Promise<TillageDataGet200Response | TillageDataGetdefaultResponse>;
+    patch(options?: TillageDataCreateOrUpdateParameters): Promise<TillageDataCreateOrUpdate200Response | TillageDataCreateOrUpdate201Response | TillageDataCreateOrUpdatedefaultResponse>;
+}
+
 // @public
 export interface TillageDataGet200Response extends HttpResponse {
     // (undocumented)
-    body: TillageData;
+    body: TillageDataOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TillageDataGetCascadeDeleteJobDetails {
+    get(options?: TillageDataGetCascadeDeleteJobDetailsParameters): Promise<TillageDataGetCascadeDeleteJobDetails200Response | TillageDataGetCascadeDeleteJobDetailsdefaultResponse>;
+    put(options: TillageDataCreateCascadeDeleteJobParameters): Promise<TillageDataCreateCascadeDeleteJob202Response | TillageDataCreateCascadeDeleteJobdefaultResponse>;
+}
+
+// @public
+export interface TillageDataGetCascadeDeleteJobDetails200Response extends HttpResponse {
+    // (undocumented)
+    body: CascadeDeleteJobOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public
+export interface TillageDataGetCascadeDeleteJobDetailsdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type TillageDataGetCascadeDeleteJobDetailsParameters = RequestParameters;
+
+// @public
 export interface TillageDataGetdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -3700,7 +4409,7 @@ export interface TillageDataList {
 // @public
 export interface TillageDataList200Response extends HttpResponse {
     // (undocumented)
-    body: TillageDataListResponse;
+    body: TillageDataListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -3713,7 +4422,7 @@ export interface TillageDataListByFarmerId {
 // @public
 export interface TillageDataListByFarmerId200Response extends HttpResponse {
     // (undocumented)
-    body: TillageDataListResponse;
+    body: TillageDataListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -3721,13 +4430,13 @@ export interface TillageDataListByFarmerId200Response extends HttpResponse {
 // @public
 export interface TillageDataListByFarmerIddefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type TillageDataListByFarmerIdParameters = RequestParameters & TillageDataListByFarmerIdQueryParam;
+export type TillageDataListByFarmerIdParameters = TillageDataListByFarmerIdQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface TillageDataListByFarmerIdQueryParam {
@@ -3739,41 +4448,41 @@ export interface TillageDataListByFarmerIdQueryParam {
 export interface TillageDataListByFarmerIdQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    associatedBoundaryIds?: string[];
-    ids?: string[];
+    associatedBoundaryIds?: Array<string>;
+    ids?: Array<string>;
     maxArea?: number;
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    maxOperationEndDateTime?: Date;
-    maxOperationModifiedDateTime?: Date;
-    maxOperationStartDateTime?: Date;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    maxOperationEndDateTime?: Date | string;
+    maxOperationModifiedDateTime?: Date | string;
+    maxOperationStartDateTime?: Date | string;
     maxTillageDepth?: number;
     maxTillagePressure?: number;
     minArea?: number;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    minOperationEndDateTime?: Date;
-    minOperationModifiedDateTime?: Date;
-    minOperationStartDateTime?: Date;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    minOperationEndDateTime?: Date | string;
+    minOperationModifiedDateTime?: Date | string;
+    minOperationStartDateTime?: Date | string;
     minTillageDepth?: number;
     minTillagePressure?: number;
-    names?: string[];
-    operationBoundaryIds?: string[];
-    propertyFilters?: string[];
-    sources?: string[];
-    statuses?: string[];
+    names?: Array<string>;
+    operationBoundaryIds?: Array<string>;
+    propertyFilters?: Array<string>;
+    sources?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public
 export interface TillageDataListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type TillageDataListParameters = RequestParameters & TillageDataListQueryParam;
+export type TillageDataListParameters = TillageDataListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface TillageDataListQueryParam {
@@ -3785,203 +4494,257 @@ export interface TillageDataListQueryParam {
 export interface TillageDataListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
-    associatedBoundaryIds?: string[];
-    ids?: string[];
+    associatedBoundaryIds?: Array<string>;
+    ids?: Array<string>;
     maxArea?: number;
-    maxCreatedDateTime?: Date;
-    maxLastModifiedDateTime?: Date;
-    maxOperationEndDateTime?: Date;
-    maxOperationModifiedDateTime?: Date;
-    maxOperationStartDateTime?: Date;
+    maxCreatedDateTime?: Date | string;
+    maxLastModifiedDateTime?: Date | string;
+    maxOperationEndDateTime?: Date | string;
+    maxOperationModifiedDateTime?: Date | string;
+    maxOperationStartDateTime?: Date | string;
     maxTillageDepth?: number;
     maxTillagePressure?: number;
     minArea?: number;
-    minCreatedDateTime?: Date;
-    minLastModifiedDateTime?: Date;
-    minOperationEndDateTime?: Date;
-    minOperationModifiedDateTime?: Date;
-    minOperationStartDateTime?: Date;
+    minCreatedDateTime?: Date | string;
+    minLastModifiedDateTime?: Date | string;
+    minOperationEndDateTime?: Date | string;
+    minOperationModifiedDateTime?: Date | string;
+    minOperationStartDateTime?: Date | string;
     minTillageDepth?: number;
     minTillagePressure?: number;
-    names?: string[];
-    operationBoundaryIds?: string[];
-    propertyFilters?: string[];
-    sources?: string[];
-    statuses?: string[];
+    names?: Array<string>;
+    operationBoundaryIds?: Array<string>;
+    propertyFilters?: Array<string>;
+    sources?: Array<string>;
+    statuses?: Array<string>;
 }
 
 // @public (undocumented)
-export interface TillageDataListResponse {
+export interface TillageDataListResponseOutput {
+    $skipToken?: string;
     nextLink?: string;
-    skipToken?: string;
-    value?: TillageData[];
+    value?: Array<TillageDataOutput>;
 }
 
 // @public (undocumented)
-export type TillageDataPropertiesDictionary = Record<string, unknown>;
-
-// @public (undocumented)
-export interface WeatherCreateDataDeleteJob {
-    get(options?: WeatherGetDataDeleteJobDetailsParameters): Promise<WeatherGetDataDeleteJobDetails200Response | WeatherGetDataDeleteJobDetailsdefaultResponse>;
-    put(options?: WeatherCreateDataDeleteJobParameters): Promise<WeatherCreateDataDeleteJob202Response | WeatherCreateDataDeleteJobdefaultResponse>;
+export interface TillageDataOutput {
+    area?: MeasureOutput;
+    associatedBoundaryId?: string;
+    attachmentsLink?: string;
+    createdDateTime?: string;
+    description?: string;
+    eTag?: string;
+    farmerId?: string;
+    id?: string;
+    modifiedDateTime?: string;
+    name?: string;
+    operationBoundaryId?: string;
+    operationEndDateTime?: string;
+    operationModifiedDateTime?: string;
+    operationStartDateTime?: string;
+    properties?: Record<string, Record<string, unknown>>;
+    source?: string;
+    status?: string;
+    tillageDepth?: MeasureOutput;
+    tillagePressure?: MeasureOutput;
 }
 
 // @public
 export interface WeatherCreateDataDeleteJob202Response extends HttpResponse {
     // (undocumented)
-    body: WeatherDataDeleteJob;
+    body: WeatherDataDeleteJobOutput;
     // (undocumented)
     status: "202";
 }
 
 // @public (undocumented)
 export interface WeatherCreateDataDeleteJobBodyParam {
-    // (undocumented)
     body?: WeatherDataDeleteJob;
 }
 
 // @public
 export interface WeatherCreateDataDeleteJobdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type WeatherCreateDataDeleteJobParameters = RequestParameters & WeatherCreateDataDeleteJobBodyParam;
+export interface WeatherCreateDataDeleteJobMediaTypesParam {
+    contentType?: "application/json";
+}
 
 // @public (undocumented)
-export interface WeatherCreateDataIngestionJob {
-    get(options?: WeatherGetDataIngestionJobDetailsParameters): Promise<WeatherGetDataIngestionJobDetails200Response | WeatherGetDataIngestionJobDetailsdefaultResponse>;
-    put(options?: WeatherCreateDataIngestionJobParameters): Promise<WeatherCreateDataIngestionJob202Response | WeatherCreateDataIngestionJobdefaultResponse>;
-}
+export type WeatherCreateDataDeleteJobParameters = WeatherCreateDataDeleteJobMediaTypesParam & WeatherCreateDataDeleteJobBodyParam & RequestParameters;
 
 // @public
 export interface WeatherCreateDataIngestionJob202Response extends HttpResponse {
     // (undocumented)
-    body: WeatherDataIngestionJob;
+    body: WeatherDataIngestionJobOutput;
     // (undocumented)
     status: "202";
 }
 
 // @public (undocumented)
 export interface WeatherCreateDataIngestionJobBodyParam {
-    // (undocumented)
     body?: WeatherDataIngestionJob;
 }
 
 // @public
 export interface WeatherCreateDataIngestionJobdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type WeatherCreateDataIngestionJobParameters = RequestParameters & WeatherCreateDataIngestionJobBodyParam;
+export interface WeatherCreateDataIngestionJobMediaTypesParam {
+    contentType?: "application/json";
+}
 
 // @public (undocumented)
-export interface WeatherData {
-    boundaryId: string;
-    cloudCover?: Measure;
-    createdDateTime?: Date;
-    dateTime: Date;
-    dewPoint?: Measure;
-    eTag?: string;
-    extensionId: string;
-    extensionVersion: string;
-    farmerId: string;
-    granularity: string;
-    growingDegreeDay?: Measure;
-    id?: string;
-    location: Location;
-    modifiedDateTime?: Date;
-    precipitation?: Measure;
-    pressure?: Measure;
-    properties?: WeatherDataPropertiesDictionary;
-    relativeHumidity?: Measure;
-    soilMoisture?: Measure;
-    soilTemperature?: Measure;
-    temperature?: Measure;
-    unitSystemCode?: string;
-    visibility?: Measure;
-    weatherDataType: string;
-    wetBulbTemperature?: Measure;
-    windChill?: Measure;
-    windDirection?: Measure;
-    windGust?: Measure;
-    windSpeed?: Measure;
-}
+export type WeatherCreateDataIngestionJobParameters = WeatherCreateDataIngestionJobMediaTypesParam & WeatherCreateDataIngestionJobBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface WeatherDataDeleteJob {
     boundaryId: string;
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     description?: string;
     durationInSeconds?: number;
-    endDateTime?: Date;
-    endTime?: Date;
+    endDateTime?: Date | string;
+    endTime?: Date | string;
     extensionId: string;
     farmerId: string;
     granularity?: string;
     id?: string;
-    lastActionDateTime?: Date;
+    lastActionDateTime?: Date | string;
     message?: string;
     name?: string;
-    properties?: WeatherDataDeleteJobPropertiesDictionary;
-    startDateTime?: Date;
-    startTime?: Date;
+    properties?: Record<string, Record<string, unknown>>;
+    startDateTime?: Date | string;
+    startTime?: Date | string;
     status?: string;
     weatherDataType?: string;
 }
 
 // @public (undocumented)
-export type WeatherDataDeleteJobPropertiesDictionary = Record<string, unknown>;
+export interface WeatherDataDeleteJobOutput {
+    boundaryId: string;
+    createdDateTime?: string;
+    description?: string;
+    durationInSeconds?: number;
+    endDateTime?: string;
+    endTime?: string;
+    extensionId: string;
+    farmerId: string;
+    granularity?: string;
+    id?: string;
+    lastActionDateTime?: string;
+    message?: string;
+    name?: string;
+    properties?: Record<string, Record<string, unknown>>;
+    startDateTime?: string;
+    startTime?: string;
+    status?: string;
+    weatherDataType?: string;
+}
 
 // @public (undocumented)
 export interface WeatherDataIngestionJob {
     boundaryId: string;
-    createdDateTime?: Date;
+    createdDateTime?: Date | string;
     description?: string;
     durationInSeconds?: number;
-    endTime?: Date;
-    extensionApiInput: WeatherDataIngestionJobExtensionApiInputDictionary;
+    endTime?: Date | string;
+    extensionApiInput: Record<string, Record<string, unknown>>;
     extensionApiName: string;
     extensionDataProviderApiKey?: string;
     extensionDataProviderAppId?: string;
     extensionId: string;
     farmerId: string;
     id?: string;
-    lastActionDateTime?: Date;
+    lastActionDateTime?: Date | string;
     message?: string;
     name?: string;
-    properties?: WeatherDataIngestionJobPropertiesDictionary;
-    startTime?: Date;
+    properties?: Record<string, Record<string, unknown>>;
+    startTime?: Date | string;
     status?: string;
 }
 
 // @public (undocumented)
-export type WeatherDataIngestionJobExtensionApiInputDictionary = Record<string, unknown>;
-
-// @public (undocumented)
-export type WeatherDataIngestionJobPropertiesDictionary = Record<string, unknown>;
-
-// @public (undocumented)
-export interface WeatherDataListResponse {
-    nextLink?: string;
-    skipToken?: string;
-    value?: WeatherData[];
+export interface WeatherDataIngestionJobOutput {
+    boundaryId: string;
+    createdDateTime?: string;
+    description?: string;
+    durationInSeconds?: number;
+    endTime?: string;
+    extensionApiInput: Record<string, Record<string, unknown>>;
+    extensionApiName: string;
+    extensionDataProviderApiKey?: string;
+    extensionDataProviderAppId?: string;
+    extensionId: string;
+    farmerId: string;
+    id?: string;
+    lastActionDateTime?: string;
+    message?: string;
+    name?: string;
+    properties?: Record<string, Record<string, unknown>>;
+    startTime?: string;
+    status?: string;
 }
 
 // @public (undocumented)
-export type WeatherDataPropertiesDictionary = Record<string, unknown>;
+export interface WeatherDataListResponseOutput {
+    $skipToken?: string;
+    nextLink?: string;
+    value?: Array<WeatherDataOutput>;
+}
+
+// @public (undocumented)
+export interface WeatherDataOutput {
+    boundaryId: string;
+    cloudCover?: MeasureOutput;
+    createdDateTime?: string;
+    dateTime: string;
+    dewPoint?: MeasureOutput;
+    eTag?: string;
+    extensionId: string;
+    extensionVersion: string;
+    farmerId: string;
+    granularity: string;
+    growingDegreeDay?: MeasureOutput;
+    id?: string;
+    location: LocationOutput;
+    modifiedDateTime?: string;
+    precipitation?: MeasureOutput;
+    pressure?: MeasureOutput;
+    properties?: Record<string, Record<string, unknown>>;
+    relativeHumidity?: MeasureOutput;
+    soilMoisture?: MeasureOutput;
+    soilTemperature?: MeasureOutput;
+    temperature?: MeasureOutput;
+    unitSystemCode?: string;
+    visibility?: MeasureOutput;
+    weatherDataType: string;
+    wetBulbTemperature?: MeasureOutput;
+    windChill?: MeasureOutput;
+    windDirection?: MeasureOutput;
+    windGust?: MeasureOutput;
+    windSpeed?: MeasureOutput;
+}
+
+// @public (undocumented)
+export interface WeatherGetDataDeleteJobDetails {
+    get(options?: WeatherGetDataDeleteJobDetailsParameters): Promise<WeatherGetDataDeleteJobDetails200Response | WeatherGetDataDeleteJobDetailsdefaultResponse>;
+    put(options?: WeatherCreateDataDeleteJobParameters): Promise<WeatherCreateDataDeleteJob202Response | WeatherCreateDataDeleteJobdefaultResponse>;
+}
 
 // @public
 export interface WeatherGetDataDeleteJobDetails200Response extends HttpResponse {
     // (undocumented)
-    body: WeatherDataDeleteJob;
+    body: WeatherDataDeleteJobOutput;
     // (undocumented)
     status: "200";
 }
@@ -3989,7 +4752,7 @@ export interface WeatherGetDataDeleteJobDetails200Response extends HttpResponse 
 // @public
 export interface WeatherGetDataDeleteJobDetailsdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -3997,10 +4760,16 @@ export interface WeatherGetDataDeleteJobDetailsdefaultResponse extends HttpRespo
 // @public (undocumented)
 export type WeatherGetDataDeleteJobDetailsParameters = RequestParameters;
 
+// @public (undocumented)
+export interface WeatherGetDataIngestionJobDetails {
+    get(options?: WeatherGetDataIngestionJobDetailsParameters): Promise<WeatherGetDataIngestionJobDetails200Response | WeatherGetDataIngestionJobDetailsdefaultResponse>;
+    put(options?: WeatherCreateDataIngestionJobParameters): Promise<WeatherCreateDataIngestionJob202Response | WeatherCreateDataIngestionJobdefaultResponse>;
+}
+
 // @public
 export interface WeatherGetDataIngestionJobDetails200Response extends HttpResponse {
     // (undocumented)
-    body: WeatherDataIngestionJob;
+    body: WeatherDataIngestionJobOutput;
     // (undocumented)
     status: "200";
 }
@@ -4008,7 +4777,7 @@ export interface WeatherGetDataIngestionJobDetails200Response extends HttpRespon
 // @public
 export interface WeatherGetDataIngestionJobDetailsdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
@@ -4018,13 +4787,13 @@ export type WeatherGetDataIngestionJobDetailsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface WeatherList {
-    get(options?: WeatherListParameters): Promise<WeatherList200Response | WeatherListdefaultResponse>;
+    get(options: WeatherListParameters): Promise<WeatherList200Response | WeatherListdefaultResponse>;
 }
 
 // @public
 export interface WeatherList200Response extends HttpResponse {
     // (undocumented)
-    body: WeatherDataListResponse;
+    body: WeatherDataListResponseOutput;
     // (undocumented)
     status: "200";
 }
@@ -4032,13 +4801,13 @@ export interface WeatherList200Response extends HttpResponse {
 // @public
 export interface WeatherListdefaultResponse extends HttpResponse {
     // (undocumented)
-    body: ErrorResponse;
+    body: ErrorResponseOutput;
     // (undocumented)
     status: "500";
 }
 
 // @public (undocumented)
-export type WeatherListParameters = RequestParameters & WeatherListQueryParam;
+export type WeatherListParameters = WeatherListQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface WeatherListQueryParam {
@@ -4051,14 +4820,13 @@ export interface WeatherListQueryParamProperties {
     $maxPageSize?: number;
     $skipToken?: string;
     boundaryId: string;
-    endDateTime?: Date;
+    endDateTime?: Date | string;
     extensionId: string;
     farmerId: string;
     granularity: string;
-    startDateTime?: Date;
+    startDateTime?: Date | string;
     weatherDataType: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 
