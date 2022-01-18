@@ -1325,6 +1325,36 @@
       "packageName": "@azure/arm-labservices",
       "projectFolder": "sdk/labservices/arm-labservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-commerce",
+      "projectFolder": "sdk/commerce/arm-commerce",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datacatalog",
+      "projectFolder": "sdk/datacatalog/arm-datacatalog",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datamigration",
+      "projectFolder": "sdk/datamigration/arm-datamigration",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-healthcareapis",
+      "projectFolder": "sdk/healthcareapis/arm-healthcareapis",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hybridcompute",
+      "projectFolder": "sdk/hybridcompute/arm-hybridcompute",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hybridkubernetes",
+      "projectFolder": "sdk/hybridkubernetes/arm-hybridkubernetes",
+      "versionPolicyName": "management"
     }
   ]
 }
