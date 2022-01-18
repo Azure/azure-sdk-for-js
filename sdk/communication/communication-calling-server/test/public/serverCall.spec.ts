@@ -186,9 +186,9 @@ describe("Server Call Live Test", function() {
   it("Delete recordingContentNotExist", async function(this: Context) {
     this.timeout(0)
     try {
-      await callingServerClient.deleteRecording(Constants.InvalidDeleteUrl)
+       await callingServerClient.deleteRecording(Constants.InvalidDeleteUrl)
     } catch (e) {
-      assert.strictEqual((e as RestError).statusCode, 404);
+      assert.strictEqual(e.name, 'RestError');
     } 
   }).timeout(0);
 
