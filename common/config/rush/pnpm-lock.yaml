@@ -39,7 +39,6 @@ specifiers:
   '@rush-temp/arm-databox': file:./projects/arm-databox.tgz
   '@rush-temp/arm-databoxedge': file:./projects/arm-databoxedge.tgz
   '@rush-temp/arm-databricks': file:./projects/arm-databricks.tgz
-  '@rush-temp/arm-datacatalog': file:./projects/arm-datacatalog.tgz
   '@rush-temp/arm-datadog': file:./projects/arm-datadog.tgz
   '@rush-temp/arm-datafactory': file:./projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
@@ -72,6 +71,8 @@ specifiers:
   '@rush-temp/arm-loadtestservice': file:./projects/arm-loadtestservice.tgz
   '@rush-temp/arm-locks': file:./projects/arm-locks.tgz
   '@rush-temp/arm-logic': file:./projects/arm-logic.tgz
+  '@rush-temp/arm-machinelearningcompute': file:./projects/arm-machinelearningcompute.tgz
+  '@rush-temp/arm-machinelearningexperimentation': file:./projects/arm-machinelearningexperimentation.tgz
   '@rush-temp/arm-managedapplications': file:./projects/arm-managedapplications.tgz
   '@rush-temp/arm-managementgroups': file:./projects/arm-managementgroups.tgz
   '@rush-temp/arm-mediaservices': file:./projects/arm-mediaservices.tgz
@@ -248,7 +249,6 @@ dependencies:
   '@rush-temp/arm-databox': file:projects/arm-databox.tgz
   '@rush-temp/arm-databoxedge': file:projects/arm-databoxedge.tgz
   '@rush-temp/arm-databricks': file:projects/arm-databricks.tgz
-  '@rush-temp/arm-datacatalog': file:projects/arm-datacatalog.tgz
   '@rush-temp/arm-datadog': file:projects/arm-datadog.tgz
   '@rush-temp/arm-datafactory': file:projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
@@ -281,6 +281,8 @@ dependencies:
   '@rush-temp/arm-loadtestservice': file:projects/arm-loadtestservice.tgz
   '@rush-temp/arm-locks': file:projects/arm-locks.tgz
   '@rush-temp/arm-logic': file:projects/arm-logic.tgz
+  '@rush-temp/arm-machinelearningcompute': file:projects/arm-machinelearningcompute.tgz
+  '@rush-temp/arm-machinelearningexperimentation': file:projects/arm-machinelearningexperimentation.tgz
   '@rush-temp/arm-managedapplications': file:projects/arm-managedapplications.tgz
   '@rush-temp/arm-managementgroups': file:projects/arm-managementgroups.tgz
   '@rush-temp/arm-mediaservices': file:projects/arm-mediaservices.tgz
@@ -939,31 +941,6 @@ packages:
       '@opentelemetry/semantic-conventions': 0.22.0
       '@opentelemetry/tracing': 0.22.0_@opentelemetry+api@1.0.3
       tslib: 2.3.1
-    dev: false
-
-  /@azure/ms-rest-azure-js/1.4.0:
-    resolution: {integrity: sha512-ul1wfkzwU9wYg6kFKD/AuQfVRJU4utEjDcfa0hvXqDS99yRuJqUrt/Ojv3duZMwskBIrD3CV5d9TjLBOV7/pQw==}
-    dependencies:
-      '@azure/core-auth': 1.3.2
-      '@azure/ms-rest-js': 1.11.2
-      tslib: 1.14.1
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
-  /@azure/ms-rest-js/1.11.2:
-    resolution: {integrity: sha512-2AyQ1IKmLGKW7DU3/x3TsTBzZLcbC9YRI+yuDPuXAQrv3zar340K9wsxU413kHFIDjkWNCo9T0w5VtwcyWxhbQ==}
-    dependencies:
-      '@azure/core-auth': 1.3.2
-      axios: 0.21.4
-      form-data: 2.5.1
-      tough-cookie: 2.5.0
-      tslib: 1.14.1
-      tunnel: 0.0.6
-      uuid: 3.4.0
-      xml2js: 0.4.23
-    transitivePeerDependencies:
-      - debug
     dev: false
 
   /@azure/ms-rest-js/2.6.0:
@@ -6744,14 +6721,6 @@ packages:
       estree-walker: 0.6.1
     dev: false
 
-  /rollup/0.66.6:
-    resolution: {integrity: sha512-J7/SWanrcb83vfIHqa8+aVVGzy457GcjA6GVZEnD0x2u4OnOd0Q1pCrEoNe8yLwM6z6LZP02zBT2uW0yh5TqOw==}
-    hasBin: true
-    dependencies:
-      '@types/estree': 0.0.39
-      '@types/node': 17.0.1
-    dev: false
-
   /rollup/1.32.1:
     resolution: {integrity: sha512-/2HA0Ec70TvQnXdzynFffkjA6XN+1e2pEv/uKS5Ulca40g2L7KuOE3riasHoNVHOsFD5KKZgDsMk1CP3Tw9s+A==}
     hasBin: true
@@ -7448,14 +7417,6 @@ packages:
   /toidentifier/1.0.1:
     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
-    dev: false
-
-  /tough-cookie/2.5.0:
-    resolution: {integrity: sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==}
-    engines: {node: '>=0.8'}
-    dependencies:
-      psl: 1.8.0
-      punycode: 2.1.1
     dev: false
 
   /tough-cookie/3.0.1:
@@ -9267,33 +9228,6 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/arm-datacatalog.tgz:
-    resolution: {integrity: sha512-ynWi27SHaDQum2ctJW52v6gg1NLDGllJKlNdpna1OmvF/uux++QV4Y2wa7nKwhF7g+1eYCEJGK2unwEItqMxKg==, tarball: file:projects/arm-datacatalog.tgz}
-    name: '@rush-temp/arm-datacatalog'
-    version: 0.0.0
-    dependencies:
-      '@azure-tools/test-recorder': 1.0.2
-      '@azure/ms-rest-azure-js': 1.4.0
-      '@azure/ms-rest-js': 1.11.2
-      '@microsoft/api-extractor': 7.19.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
-      mocha: 7.2.0
-      rimraf: 3.0.2
-      rollup: 0.66.6
-      rollup-plugin-node-resolve: 3.4.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      tslib: 1.14.1
-      typescript: 3.9.10
-      uglify-js: 3.14.5
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   file:projects/arm-datadog.tgz:
     resolution: {integrity: sha512-ieKcaxZAw8yaT2wFKzLROyOruNTfQeN26BBkMHkz6JmZDGMYUdzI6dvTak/swksTZAr/prEb7pCaMNKUJ8ZcUA==, tarball: file:projects/arm-datadog.tgz}
     name: '@rush-temp/arm-datadog'
@@ -10042,6 +9976,54 @@ packages:
   file:projects/arm-logic.tgz:
     resolution: {integrity: sha512-DJ/Dk2yD4GDkHKbprdNE/d2V8132hmWq0RBIc74T4hPvuQsB4IJVtpVReZpVaKwwWuqBj2qRfuDqAdPoVrkoYg==, tarball: file:projects/arm-logic.tgz}
     name: '@rush-temp/arm-logic'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-machinelearningcompute.tgz:
+    resolution: {integrity: sha512-MASxoXTGPlsyS9vTB2LQkDGH9XAv1ex3a2A2GrU/T35OX6DXyLrnyZwLfxhdoGuNLoUN1AiZaMNzxusu3G9dqQ==, tarball: file:projects/arm-machinelearningcompute.tgz}
+    name: '@rush-temp/arm-machinelearningcompute'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.2
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-machinelearningexperimentation.tgz:
+    resolution: {integrity: sha512-4wPXhneS7lXw2+23j715k1lKUvHwEfe3a/LqYGlJb42+RK57JAzojgxPyhBpDeDgJniYIT3jT6nzkzjM071FqA==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
+    name: '@rush-temp/arm-machinelearningexperimentation'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2

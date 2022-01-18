@@ -1327,13 +1327,18 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-commerce",
-      "projectFolder": "sdk/commerce/arm-commerce",
+      "packageName": "@azure/arm-machinelearningcompute",
+      "projectFolder": "sdk/machinelearningcompute/arm-machinelearningcompute",
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-datacatalog",
-      "projectFolder": "sdk/datacatalog/arm-datacatalog",
+      "packageName": "@azure/arm-machinelearningexperimentation",
+      "projectFolder": "sdk/machinelearningexperimentation/arm-machinelearningexperimentation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-commerce",
+      "projectFolder": "sdk/commerce/arm-commerce",
       "versionPolicyName": "management"
     },
     {
