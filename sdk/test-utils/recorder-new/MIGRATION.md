@@ -6,15 +6,21 @@ This document outlines key differences between the legacy recorder and the new U
 
 - [Docker] is required, as the [test proxy server] is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
 
-## Installing the Unified Recorder
+## Upgrading to the Unified Recorder
 
-The first step is to install the unified recorder client library in your package by running
+The new recorder is version 2.0.0 of the `@azure-tools/test-recorder` package. Update the test-recorder dependency in your package.json file as follows:
 
-```bash
-$ rush add --dev --caret -p @azure-tools/test-recorder-new
+```json
+{
+  // ...
+  "devDependencies": {
+    // ...
+    "@azure-tools/test-recorder": "^2.0.0",
+  }
+}
 ```
 
-You will use this library to control the recorder from your tests. The API is similar to the legacy recorder. Differences will be discussed below.
+Once you've updated the dependency version, run `rush update` and you are ready to start using the new recorder. The new recorder's API is similar to the legacy recorder. Differences will be discussed below.
 
 ## Changes to NPM scripts
 
