@@ -2,7 +2,6 @@ import rollup from "rollup";
 import nodeResolve from "rollup-plugin-node-resolve";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import cjs from "@rollup/plugin-commonjs";
-import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 
 const ignoreKnownWarnings = (warning) => {
@@ -50,8 +49,7 @@ const config = {
     sourcemaps(),
     cjs({
       namedExports: {
-        assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "strictEqual"],
-        ...openTelemetryCommonJs()
+        assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "strictEqual"]
       }
     })
   ]
