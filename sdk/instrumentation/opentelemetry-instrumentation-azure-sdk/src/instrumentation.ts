@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import type * as coreTracing from "@azure/core-tracing";
 import {
   Instrumentation,
   InstrumentationBase,
@@ -8,7 +9,6 @@ import {
   InstrumentationModuleDefinition,
   InstrumentationNodeModuleDefinition,
 } from "@opentelemetry/instrumentation";
-import type * as coreTracing from "@azure/core-tracing";
 import { OpenTelemetryInstrumenter } from "./instrumenter";
 import { SDK_VERSION } from "./constants";
 
