@@ -25,11 +25,16 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ### CommunicationTokenCredential and AzureCommunicationTokenCredential
 
-A `CommunicationTokenCredential` authenticates a user with Communication Services, such as Chat or Calling. It optionally provides an auto-refresh mechanism to ensure a continuously stable authentication state during communications.
+The `CommunicationTokenCredential` is an interface used to authenticate a user with Communication Services, such as Chat or Calling.
 
-It is up to you the developer to first create valid user tokens with the Azure Communication Identity library. Then you use these tokens to create an `AzureCommunicationTokenCredential`.
+The `AzureCommunicationTokenCredential` offers a convenient way to create a credential implementing the said interface and allows you to take advantage of the built-in auto-refresh logic.
 
-`CommunicationTokenCredential` is only the interface, please always use the `AzureCommunicationTokenCredential` constructor to create a credential and take advantage of the built-in refresh logic.
+Depending on your scenario, you may want to initialize the `AzureCommunicationTokenCredential` with:
+
+- a static token (suitable for short-lived clients used to e.g. send one-off Chat messages) or
+- a callback function that ensures a continuous authentication state during communications (ideal e.g. for long Calling sessions).
+
+The tokens supplied to the `AzureCommunicationTokenCredential` either through the constructor or via the token refresher callback can be obtained using the Azure Communication Identity library.
 
 ## Examples
 
