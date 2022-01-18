@@ -1916,6 +1916,12 @@ packages:
       '@types/node': 12.20.42
     dev: false
 
+  /@types/fs-extra/9.0.13:
+    resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
+    dependencies:
+      '@types/node': 17.0.1
+    dev: false
+
   /@types/glob/7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
@@ -4085,6 +4091,15 @@ packages:
     resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
     dev: false
 
+  /fs-extra/10.0.0:
+    resolution: {integrity: sha512-C5owb14u9eJwizKGdchcDUQeFtlSHHthBk8pbX9Vc1PFZrLombudjDnNns88aYslCyF6IY5SUw3Roz6xShcEIQ==}
+    engines: {node: '>=12'}
+    dependencies:
+      graceful-fs: 4.2.8
+      jsonfile: 6.1.0
+      universalify: 2.0.0
+    dev: false
+
   /fs-extra/7.0.1:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}
     engines: {node: '>=6 <7 || >=8'}
@@ -5018,6 +5033,14 @@ packages:
     resolution: {integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=}
     optionalDependencies:
       graceful-fs: 4.2.9
+    dev: false
+
+  /jsonfile/6.1.0:
+    resolution: {integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==}
+    dependencies:
+      universalify: 2.0.0
+    optionalDependencies:
+      graceful-fs: 4.2.8
     dev: false
 
   /jsonwebtoken/8.5.1:
@@ -7752,6 +7775,11 @@ packages:
   /universalify/0.1.2:
     resolution: {integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==}
     engines: {node: '>= 4.0.0'}
+    dev: false
+
+  /universalify/2.0.0:
+    resolution: {integrity: sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==}
+    engines: {node: '>= 10.0.0'}
     dev: false
 
   /unpipe/1.0.0:
@@ -12207,7 +12235,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-ApwXE/OmDXT5ngCNLTHs8+RLdLxVl5+xVAxqEngzq5LC0OZNjLdjnsACOTxAbX/9RFD4dxS20xAgWpWIIrH11A==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-vk5KLLc1mRojHsoRqO8yOo0BqaE+vL/oVxQ2gC0OormizXoAX5QU5w5IeDY1grxEwlfieU/DULUPTXoUZQWNPQ==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -12218,7 +12246,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/concurrently': 6.4.0
-      '@types/fs-extra': 8.1.2
+      '@types/fs-extra': 9.0.13
       '@types/minimist': 1.2.2
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
@@ -12230,7 +12258,7 @@ packages:
       concurrently: 6.5.1
       dotenv: 8.6.0
       eslint: 7.32.0
-      fs-extra: 8.1.0
+      fs-extra: 10.0.0
       minimist: 1.2.5
       mocha: 7.2.0
       prettier: 2.5.1
@@ -15031,7 +15059,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-dBKlhKpFsSOTnRvrJrSOvqoEoEfTrrYS1W2JnAZNEg9KhbVzo8bPqryUlo5NiXw7sAUokaubzM2PVm9OXwRlbA==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-GUAVZ9lbydLPmvLcTGyBZZbtstLODgmxuM5m67S6ZKtgOPa4VA5GvAlFj3gYrRSHvgJK2nmWLF72o2l9PQHT+Q==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:

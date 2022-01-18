@@ -66,7 +66,6 @@
     "@azure/storage-queue": "^12.6.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@types/fs-extra": "^8.0.0",
     "@types/chai": "^4.1.6",
     "@types/md5": "^2.2.0",
     "@types/mocha": "^7.0.2",
