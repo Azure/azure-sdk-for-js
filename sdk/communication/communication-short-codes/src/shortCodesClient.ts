@@ -6,7 +6,7 @@ import { parseClientArguments, isKeyCredential } from "@azure/communication-comm
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { logger, createSpan, SDK_VERSION } from "./utils";
+import { logger, createSpan } from "./utils";
 import { ShortCodesClient as ShortCodesGeneratedClient } from "./generated/src";
 import {
   ShortCode,
@@ -63,11 +63,6 @@ export class ShortCodesClient {
     const options = isShortCodesClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
-    const libInfo = `azsdk-js-communication-short-codes/${SDK_VERSION}`;
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-    options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
 
     const internalPipelineOptions: InternalClientPipelineOptions = {
       ...options,
