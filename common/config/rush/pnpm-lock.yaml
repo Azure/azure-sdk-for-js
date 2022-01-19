@@ -26,6 +26,7 @@ specifiers:
   '@rush-temp/arm-cdn': file:./projects/arm-cdn.tgz
   '@rush-temp/arm-changeanalysis': file:./projects/arm-changeanalysis.tgz
   '@rush-temp/arm-cognitiveservices': file:./projects/arm-cognitiveservices.tgz
+  '@rush-temp/arm-commerce': file:./projects/arm-commerce.tgz
   '@rush-temp/arm-communication': file:./projects/arm-communication.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
   '@rush-temp/arm-confluent': file:./projects/arm-confluent.tgz
@@ -41,6 +42,7 @@ specifiers:
   '@rush-temp/arm-datadog': file:./projects/arm-datadog.tgz
   '@rush-temp/arm-datafactory': file:./projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
+  '@rush-temp/arm-datamigration': file:./projects/arm-datamigration.tgz
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:./projects/arm-deviceprovisioningservices.tgz
@@ -57,6 +59,9 @@ specifiers:
   '@rush-temp/arm-hanaonazure': file:./projects/arm-hanaonazure.tgz
   '@rush-temp/arm-hdinsight': file:./projects/arm-hdinsight.tgz
   '@rush-temp/arm-healthbot': file:./projects/arm-healthbot.tgz
+  '@rush-temp/arm-healthcareapis': file:./projects/arm-healthcareapis.tgz
+  '@rush-temp/arm-hybridcompute': file:./projects/arm-hybridcompute.tgz
+  '@rush-temp/arm-hybridkubernetes': file:./projects/arm-hybridkubernetes.tgz
   '@rush-temp/arm-imagebuilder': file:./projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
@@ -231,6 +236,7 @@ dependencies:
   '@rush-temp/arm-cdn': file:projects/arm-cdn.tgz
   '@rush-temp/arm-changeanalysis': file:projects/arm-changeanalysis.tgz
   '@rush-temp/arm-cognitiveservices': file:projects/arm-cognitiveservices.tgz
+  '@rush-temp/arm-commerce': file:projects/arm-commerce.tgz
   '@rush-temp/arm-communication': file:projects/arm-communication.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-confluent': file:projects/arm-confluent.tgz
@@ -246,6 +252,7 @@ dependencies:
   '@rush-temp/arm-datadog': file:projects/arm-datadog.tgz
   '@rush-temp/arm-datafactory': file:projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
+  '@rush-temp/arm-datamigration': file:projects/arm-datamigration.tgz
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:projects/arm-deviceprovisioningservices.tgz
@@ -262,6 +269,9 @@ dependencies:
   '@rush-temp/arm-hanaonazure': file:projects/arm-hanaonazure.tgz
   '@rush-temp/arm-hdinsight': file:projects/arm-hdinsight.tgz
   '@rush-temp/arm-healthbot': file:projects/arm-healthbot.tgz
+  '@rush-temp/arm-healthcareapis': file:projects/arm-healthcareapis.tgz
+  '@rush-temp/arm-hybridcompute': file:projects/arm-hybridcompute.tgz
+  '@rush-temp/arm-hybridkubernetes': file:projects/arm-hybridkubernetes.tgz
   '@rush-temp/arm-imagebuilder': file:projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iothub': file:projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
@@ -4055,8 +4065,8 @@ packages:
     resolution: {integrity: sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=}
     dev: false
 
-  /fast-xml-parser/3.21.1:
-    resolution: {integrity: sha512-FTFVjYoBOZTJekiUsawGsSYV9QL0A+zDYCRj7y34IO6Jg+2IMYEtQa+bbictpdpV8dHxXywqU7C0gRDEOFtBFg==}
+  /fast-xml-parser/4.0.1:
+    resolution: {integrity: sha512-EN1yOXDmMqpHrqkwTlCJDvFjepJBoBxjLRDtDxFmqrBILGV3NyFWpmcsofSKCCzc+YxhvNreB5rcKzG+TlyWpg==}
     hasBin: true
     dependencies:
       strnum: 1.0.5
@@ -9200,6 +9210,30 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-commerce.tgz:
+    resolution: {integrity: sha512-iA9LIw3LVSOlbstfSQ7GhLhr0GjaPZXBANCVCq9doK0yk8Dp6X4y9w3hyYh9o6xUhpQLYMRpiFGlcp7XTs9Mpw==, tarball: file:projects/arm-commerce.tgz}
+    name: '@rush-temp/arm-commerce'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-communication.tgz:
     resolution: {integrity: sha512-e53reTD+lNsFKL9zM0QfPMad4xvgBQbWNOhhSAeeABFngjM4wfVG5M4GJHfNsTTpQXe13LXYpCXNZjUyE4rJ0w==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
@@ -9541,6 +9575,30 @@ packages:
   file:projects/arm-datalake-analytics.tgz:
     resolution: {integrity: sha512-OwqLiwcjD71laV+t8zpNFAuf9ysHxxEKhmHuSQtr0Urb+jkhzP5PIfw1mS/o1hAeIPyrbyA7H0N6/96QV0WUmA==, tarball: file:projects/arm-datalake-analytics.tgz}
     name: '@rush-temp/arm-datalake-analytics'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-datamigration.tgz:
+    resolution: {integrity: sha512-Nqg+FnG/ard/62HuvlkHXnIkcP8D5Gzkb2f1KIed6SAedZn5vnr0R5pKBFhMMdyo6y743pDxn/hw3CBdIrI6+Q==, tarball: file:projects/arm-datamigration.tgz}
+    name: '@rush-temp/arm-datamigration'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -9927,6 +9985,78 @@ packages:
   file:projects/arm-healthbot.tgz:
     resolution: {integrity: sha512-0qVfK/H+gSWbbK5S4KBq9tqsL1fmacuZ+DfD3aVAzUpmyzBrNmmjc9EvZpr0fBwrdF6VvEyLmiCmaybdVbK0iw==, tarball: file:projects/arm-healthbot.tgz}
     name: '@rush-temp/arm-healthbot'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-healthcareapis.tgz:
+    resolution: {integrity: sha512-YKam3Qq8hjIfv1OWKUJO4MY+FFMkm12k/HN6A7KdzzNI3ok/3YrFRVWhaNoIylCqVlJ+dpfagAl3mHc5eEJkqg==, tarball: file:projects/arm-healthcareapis.tgz}
+    name: '@rush-temp/arm-healthcareapis'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-hybridcompute.tgz:
+    resolution: {integrity: sha512-qiEYjve0/XfX1qoQJl7uMMsfP7JFa8ZzbI9O5CH5bRdbJSp9lJrgiELyEI4xN5a3Y+gzGcd7OwFutsA7vrvj5g==, tarball: file:projects/arm-hybridcompute.tgz}
+    name: '@rush-temp/arm-hybridcompute'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.18.19
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.3
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-hybridkubernetes.tgz:
+    resolution: {integrity: sha512-lNdO7Cic4ACTeuWvkj1Yf3BVEqLZypbES9xhP8DuCfI3ofrG0cEKCqG/6OU/0JsH5ABscqZIs2T7snU4XZZj0g==, tarball: file:projects/arm-hybridkubernetes.tgz}
+    name: '@rush-temp/arm-hybridkubernetes'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -12242,7 +12372,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-BLlp886QCP1A0KeLgCqrVbO/wRtOmsBuXL7cOVvcbpWBaKF/2w62fS6hl+d0o5RXXGk2IyXNVJLaFLGo3Fv4iw==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-V2IuzfEt3WddBEJcb8blIT4waWFu/ouN5XmqU0dBRsTmjhCeurXsMARrwClfo2wEbH73A6hkyimxHMiOghM9dQ==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -12256,7 +12386,7 @@ packages:
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 7.32.0
-      fast-xml-parser: 3.21.1
+      fast-xml-parser: 4.0.1
       inherits: 2.0.4
       karma: 6.3.8
       karma-chrome-launcher: 3.1.0
