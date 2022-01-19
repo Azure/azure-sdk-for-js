@@ -2,9 +2,9 @@
 
 These sample programs show how to use the JavaScript client libraries for Azure SDK Core in some common scenarios.
 
-| **File Name**                   | **Description** |
-| ------------------------------- | --------------- |
-| [basicTracing.js][basictracing] | Uses            |
+| **File Name**                   | **Description**                                                                             |
+| ------------------------------- | ------------------------------------------------------------------------------------------- |
+| [basicTracing.js][basictracing] | Uses `@azure/core-tracing` APIs to instrument method calls for a fake Azure client library. |
 
 ## Prerequisites
 

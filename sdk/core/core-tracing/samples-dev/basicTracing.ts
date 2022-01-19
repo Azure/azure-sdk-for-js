@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Uses @azure/core-tracing APIs to instrument method calls for a fake Azure client library.
+ * @summary Uses `@azure/core-tracing` APIs to instrument method calls for a fake Azure client library.
  */
 
 import { createTracingClient, OperationTracingOptions, TracingClient } from "@azure/core-tracing";
