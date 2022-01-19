@@ -64,16 +64,16 @@ This client is one of our REST clients. We highly recommend you read how to use 
 
 ## Examples
 
-The following section shows you how to initialize and authenticate your client, then get all update providers.
+The following section shows you how to initialize and authenticate your client, then get all devices.
 
-- [Get All Type Definitions](#get-all-update-providers "Get All Update Providers")
+- [Get All Devices](#get-all-devices "Get All Devices")
 
 ```typescript
 import DeviceUpdate from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function main() {
-  console.log("== List update providers ==");
+  console.log("== List devices ==");
   const client = DeviceUpdate(endpoint, new DefaultAzureCredential());
 
   const result = await client
