@@ -585,12 +585,55 @@ export interface ArtifactRenameRequest {
   newName?: string;
 }
 
+export interface MetastoreRegisterObject {
+  /** The input folder containing CDM files. */
+  inputFolder: string;
+}
+
+export interface MetastoreRegistrationResponse {
+  /** Enumerates possible request statuses. */
+  status?: RequestStatus;
+}
+
+export interface MetastoreRequestSuccessResponse {
+  /** Enumerates possible Status of the resource. */
+  status?: ResourceStatus;
+}
+
+export interface MetastoreUpdateObject {
+  /** The input folder containing CDM files. */
+  inputFolder: string;
+}
+
+export interface MetastoreUpdationResponse {
+  /** Enumerates possible request statuses. */
+  status?: RequestStatus;
+}
+
 /** A list of sparkconfiguration resources. */
 export interface SparkConfigurationListResponse {
   /** List of sparkconfigurations. */
   value: SparkConfigurationResource[];
   /** The link to the next page of results, if any remaining results exist. */
   nextLink?: string;
+}
+
+/** SparkConfiguration Artifact information */
+export interface SparkConfiguration {
+  /** Description about the SparkConfiguration. */
+  description?: string;
+  /** SparkConfiguration configs. */
+  configs: { [propertyName: string]: string };
+  /** Annotations for SparkConfiguration. */
+  annotations?: string[];
+  /** additional Notes. */
+  notes?: string;
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The timestamp of resource creation. */
+  created?: Date;
+  /** SparkConfiguration configMergeRule. */
+  configMergeRule?: { [propertyName: string]: string };
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -610,24 +653,6 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-}
-
-/** SparkConfiguration Artifact information */
-export interface SparkConfiguration {
-  /** Description about the SparkConfiguration. */
-  description?: string;
-  /** SparkConfiguration configs. */
-  configs: { [propertyName: string]: string };
-  /** Annotations for SparkConfiguration. */
-  annotations?: string[];
-  /** additional Notes. */
-  notes?: string;
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The timestamp of resource creation. */
-  created?: Date;
-  /** SparkConfiguration configMergeRule. */
-  configMergeRule?: { [propertyName: string]: string };
 }
 
 /** The object that defines the structure of an Azure Synapse error response. */
@@ -761,12 +786,6 @@ export interface CreateDataFlowDebugSessionRequest {
   integrationRuntime?: IntegrationRuntimeDebugResource;
 }
 
-/** Azure Synapse nested debug resource. */
-export interface SubResourceDebugResource {
-  /** The resource name. */
-  name?: string;
-}
-
 /** Azure Synapse nested object which serves as a compute resource for activities. */
 export interface IntegrationRuntime {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -775,6 +794,12 @@ export interface IntegrationRuntime {
   [property: string]: any;
   /** Integration runtime description. */
   description?: string;
+}
+
+/** Azure Synapse nested debug resource. */
+export interface SubResourceDebugResource {
+  /** The resource name. */
+  name?: string;
 }
 
 /** Response body structure for creating data flow debug session. */
@@ -3076,6 +3101,14 @@ export interface ImportSettings {
   [property: string]: any;
 }
 
+/** Notebook parameter. */
+export interface NotebookParameter {
+  /** Notebook parameter value. Type: string (or Expression with resultType string). */
+  value?: any;
+  /** Notebook parameter type. */
+  type?: NotebookParameterType;
+}
+
 /** PolyBase settings. */
 export interface PolybaseSettings {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
@@ -3509,30 +3542,6 @@ export type Flowlet = DataFlow & {
   scriptLines?: string[];
 };
 
-/** Integration runtime debug resource. */
-export type IntegrationRuntimeDebugResource = SubResourceDebugResource & {
-  /** Integration runtime properties. */
-  properties: IntegrationRuntimeUnion;
-};
-
-/** Data flow debug resource. */
-export type DataFlowDebugResource = SubResourceDebugResource & {
-  /** Data flow properties. */
-  properties: DataFlowUnion;
-};
-
-/** Dataset debug resource. */
-export type DatasetDebugResource = SubResourceDebugResource & {
-  /** Dataset properties. */
-  properties: DatasetUnion;
-};
-
-/** Linked service debug resource. */
-export type LinkedServiceDebugResource = SubResourceDebugResource & {
-  /** Properties of linked service. */
-  properties: LinkedServiceUnion;
-};
-
 /** Managed integration runtime, including managed elastic and managed dedicated integration runtimes. */
 export type ManagedIntegrationRuntime = IntegrationRuntime & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -3556,6 +3565,30 @@ export type SelfHostedIntegrationRuntime = IntegrationRuntime & {
   type: "SelfHosted";
   /** Linked integration runtime type from data factory */
   linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
+};
+
+/** Integration runtime debug resource. */
+export type IntegrationRuntimeDebugResource = SubResourceDebugResource & {
+  /** Integration runtime properties. */
+  properties: IntegrationRuntimeUnion;
+};
+
+/** Data flow debug resource. */
+export type DataFlowDebugResource = SubResourceDebugResource & {
+  /** Data flow properties. */
+  properties: DataFlowUnion;
+};
+
+/** Dataset debug resource. */
+export type DatasetDebugResource = SubResourceDebugResource & {
+  /** Dataset properties. */
+  properties: DatasetUnion;
+};
+
+/** Linked service debug resource. */
+export type LinkedServiceDebugResource = SubResourceDebugResource & {
+  /** Properties of linked service. */
+  properties: LinkedServiceUnion;
 };
 
 /** A single Amazon Simple Storage Service (S3) object or a set of S3 objects. */
@@ -5277,6 +5310,10 @@ export type AzureBlobFSLinkedService = LinkedService & {
   tenant?: any;
   /** Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud type. Type: string (or Expression with resultType string). */
   azureCloudType?: any;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: any;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
 };
@@ -6442,12 +6479,14 @@ export type OracleServiceCloudLinkedService = LinkedService & {
 export type GoogleAdWordsLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleAdWords";
+  /** Properties used to connect to GoogleAds. It is mutually exclusive with any other properties in the linked service. Type: object. */
+  connectionProperties?: any;
   /** The Client customer ID of the AdWords account that you want to fetch report data for. */
-  clientCustomerID: any;
+  clientCustomerID?: any;
   /** The developer token associated with the manager account that you use to grant access to the AdWords API. */
-  developerToken: SecretBaseUnion;
+  developerToken?: SecretBaseUnion;
   /** The OAuth 2.0 authentication mechanism used for authentication. ServiceAuthentication can only be used on self-hosted IR. */
-  authenticationType: GoogleAdWordsAuthenticationType;
+  authenticationType?: GoogleAdWordsAuthenticationType;
   /** The refresh token obtained from Google for authorizing access to AdWords for UserAuthentication. */
   refreshToken?: SecretBaseUnion;
   /** The client id of the google application used to acquire the refresh token. Type: string (or Expression with resultType string). */
@@ -7089,6 +7128,8 @@ export type FtpReadSettings = StoreReadSettings & {
   fileListPath?: any;
   /** Specify whether to use binary transfer mode for FTP stores. */
   useBinaryTransfer?: boolean;
+  /** If true, disable parallel reading within each file. Default is false. Type: boolean (or Expression with resultType boolean). */
+  disableChunking?: any;
 };
 
 /** Sftp read settings. */
@@ -7113,6 +7154,8 @@ export type SftpReadSettings = StoreReadSettings & {
   modifiedDatetimeStart?: any;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
   modifiedDatetimeEnd?: any;
+  /** If true, disable parallel reading within each file. Default is false. Type: boolean (or Expression with resultType boolean). */
+  disableChunking?: any;
 };
 
 /** Sftp read settings. */
@@ -9050,7 +9093,7 @@ export type SynapseNotebookActivity = ExecutionActivity & {
   /** Synapse notebook reference. */
   notebook: SynapseNotebookReference;
   /** Notebook parameters. */
-  parameters?: { [propertyName: string]: any };
+  parameters?: { [propertyName: string]: NotebookParameter };
 };
 
 /** Execute spark job activity. */
@@ -9792,6 +9835,42 @@ export interface DataFlowDebugSessionExecuteCommandHeaders {
   /** URI to poll for asynchronous operation status. */
   location?: string;
 }
+
+/** Known values of {@link RequestStatus} that the service accepts. */
+export enum KnownRequestStatus {
+  Running = "Running",
+  Completed = "Completed",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for RequestStatus. \
+ * {@link KnownRequestStatus} can be used interchangeably with RequestStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Running** \
+ * **Completed** \
+ * **Failed**
+ */
+export type RequestStatus = string;
+
+/** Known values of {@link ResourceStatus} that the service accepts. */
+export enum KnownResourceStatus {
+  Creating = "Creating",
+  Created = "Created",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for ResourceStatus. \
+ * {@link KnownResourceStatus} can be used interchangeably with ResourceStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Created** \
+ * **Failed**
+ */
+export type ResourceStatus = string;
 
 /** Known values of {@link NodeSize} that the service accepts. */
 export enum KnownNodeSize {
@@ -11045,6 +11124,26 @@ export enum KnownNetezzaPartitionOption {
  */
 export type NetezzaPartitionOption = string;
 
+/** Known values of {@link NotebookParameterType} that the service accepts. */
+export enum KnownNotebookParameterType {
+  String = "string",
+  Int = "int",
+  Float = "float",
+  Bool = "bool"
+}
+
+/**
+ * Defines values for NotebookParameterType. \
+ * {@link KnownNotebookParameterType} can be used interchangeably with NotebookParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **string** \
+ * **int** \
+ * **float** \
+ * **bool**
+ */
+export type NotebookParameterType = string;
+
 /** Known values of {@link SapCloudForCustomerSinkWriteBehavior} that the service accepts. */
 export enum KnownSapCloudForCustomerSinkWriteBehavior {
   Insert = "Insert",
@@ -11752,6 +11851,31 @@ export interface KqlScriptRenameOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface MetastoreRegisterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the register operation. */
+export type MetastoreRegisterResponse = MetastoreRegistrationResponse;
+
+/** Optional parameters. */
+export interface MetastoreGetDatabaseOperationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDatabaseOperations operation. */
+export type MetastoreGetDatabaseOperationsResponse = MetastoreRequestSuccessResponse;
+
+/** Optional parameters. */
+export interface MetastoreUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type MetastoreUpdateResponse = MetastoreUpdationResponse;
+
+/** Optional parameters. */
+export interface MetastoreDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams

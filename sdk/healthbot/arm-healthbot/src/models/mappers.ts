@@ -6,36 +6,153 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export const CloudError = CloudErrorMapper;
-export const BaseResource = BaseResourceMapper;
-
-export const Sku: msRest.CompositeMapper = {
-  serializedName: "Sku",
+export const Sku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Sku",
     modelProperties: {
       name: {
-        required: true,
         serializedName: "name",
+        required: true,
         type: {
           name: "Enum",
-          allowedValues: [
-            "F0",
-            "S1",
-            "C0"
-          ]
+          allowedValues: ["F0", "S1", "C0"]
         }
       }
     }
   }
 };
 
-export const SystemData: msRest.CompositeMapper = {
-  serializedName: "SystemData",
+export const Identity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Identity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None"
+          ]
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const HealthBotProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthBotProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      botManagementPortalLink: {
+        serializedName: "botManagementPortalLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SystemData",
@@ -80,251 +197,7 @@ export const SystemData: msRest.CompositeMapper = {
   }
 };
 
-export const Resource: msRest.CompositeMapper = {
-  serializedName: "Resource",
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      systemData: {
-        readOnly: true,
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
-};
-
-export const TrackedResource: msRest.CompositeMapper = {
-  serializedName: "TrackedResource",
-  type: {
-    name: "Composite",
-    className: "TrackedResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      location: {
-        required: true,
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const HealthBotProperties: msRest.CompositeMapper = {
-  serializedName: "HealthBotProperties",
-  type: {
-    name: "Composite",
-    className: "HealthBotProperties",
-    modelProperties: {
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      botManagementPortalLink: {
-        readOnly: true,
-        serializedName: "botManagementPortalLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const HealthBot: msRest.CompositeMapper = {
-  serializedName: "HealthBot",
-  type: {
-    name: "Composite",
-    className: "HealthBot",
-    modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      sku: {
-        required: true,
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "Sku"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "HealthBotProperties"
-        }
-      }
-    }
-  }
-};
-
-export const HealthBotUpdateParameters: msRest.CompositeMapper = {
-  serializedName: "HealthBotUpdateParameters",
-  type: {
-    name: "Composite",
-    className: "HealthBotUpdateParameters",
-    modelProperties: {
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "Sku"
-        }
-      }
-    }
-  }
-};
-
-export const ValidationResult: msRest.CompositeMapper = {
-  serializedName: "ValidationResult",
-  type: {
-    name: "Composite",
-    className: "ValidationResult",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorAdditionalInfo: msRest.CompositeMapper = {
-  serializedName: "ErrorAdditionalInfo",
-  type: {
-    name: "Composite",
-    className: "ErrorAdditionalInfo",
-    modelProperties: {
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      info: {
-        readOnly: true,
-        serializedName: "info",
-        type: {
-          name: "Object"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorError: msRest.CompositeMapper = {
-  serializedName: "Error_error",
-  type: {
-    name: "Composite",
-    className: "ErrorError",
-    modelProperties: {
-      code: {
-        readOnly: true,
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        readOnly: true,
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        readOnly: true,
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorModel"
-            }
-          }
-        }
-      },
-      additionalInfo: {
-        readOnly: true,
-        serializedName: "additionalInfo",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ErrorModel: msRest.CompositeMapper = {
-  serializedName: "Error",
+export const ErrorModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorModel",
@@ -340,32 +213,114 @@ export const ErrorModel: msRest.CompositeMapper = {
   }
 };
 
-export const OperationDisplay: msRest.CompositeMapper = {
-  serializedName: "OperationDisplay",
+export const ErrorError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationDisplay",
+    className: "ErrorError",
     modelProperties: {
-      provider: {
-        serializedName: "provider",
+      code: {
+        serializedName: "code",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      resource: {
-        serializedName: "resource",
+      message: {
+        serializedName: "message",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      operation: {
-        serializedName: "operation",
+      target: {
+        serializedName: "target",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      description: {
-        serializedName: "description",
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorModel"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const HealthBotUpdateParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthBotUpdateParameters",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "Identity"
+        }
+      },
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }
@@ -374,8 +329,63 @@ export const OperationDisplay: msRest.CompositeMapper = {
   }
 };
 
-export const OperationDetail: msRest.CompositeMapper = {
-  serializedName: "OperationDetail",
+export const BotResponseList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BotResponseList",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HealthBot"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AvailableOperations: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvailableOperations",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OperationDetail"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OperationDetail",
@@ -408,65 +418,111 @@ export const OperationDetail: msRest.CompositeMapper = {
       properties: {
         serializedName: "properties",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
   }
 };
 
-export const BotResponseList: msRest.CompositeMapper = {
-  serializedName: "BotResponseList",
+export const OperationDisplay: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "BotResponseList",
+    className: "OperationDisplay",
     modelProperties: {
-      nextLink: {
-        readOnly: true,
-        serializedName: "nextLink",
+      provider: {
+        serializedName: "provider",
         type: {
           name: "String"
         }
       },
-      value: {
-        readOnly: true,
-        serializedName: "",
+      resource: {
+        serializedName: "resource",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "HealthBot"
-            }
-          }
+          name: "String"
+        }
+      },
+      operation: {
+        serializedName: "operation",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
         }
       }
     }
   }
 };
 
-export const AvailableOperations: msRest.CompositeMapper = {
-  serializedName: "AvailableOperations",
+export const ValidationResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AvailableOperations",
+    className: "ValidationResult",
     modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OperationDetail"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
+      status: {
+        serializedName: "status",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TrackedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrackedResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      location: {
+        serializedName: "location",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const HealthBot: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthBot",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "Identity"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "HealthBotProperties"
         }
       }
     }

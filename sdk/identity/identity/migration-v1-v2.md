@@ -11,7 +11,7 @@ The `@azure/identity` v2 package includes the best parts of v1, plus several imp
 
 - [Update packages](#update-packages)
   - [Update Identity package](#update-identity-package)
-  - [Update dependencies for Visual Studio Code authentication](#update-visual-studio-code-authentication)
+  - [Update dependencies for Visual Studio Code authentication](#update-dependencies-for-visual-studio-code-authentication)
 - [Update error handling](#update-error-handling)
   - [Update authentication error handling](#update-authentication-error-handling)
   - [Update error handling code for getToken calls](#update-error-handling-code-for-gettoken-calls)

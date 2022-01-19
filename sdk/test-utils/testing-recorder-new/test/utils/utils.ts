@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TableEntity } from "@azure/data-tables";
-import { env } from "@azure-tools/test-recorder-new";
+import { env } from "@azure-tools/test-recorder";
 
 const stringValue = "This is a string";
 

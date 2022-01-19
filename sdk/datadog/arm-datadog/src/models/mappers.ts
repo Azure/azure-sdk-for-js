@@ -6,14 +6,80 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export const CloudError = CloudErrorMapper;
-export const BaseResource = BaseResourceMapper;
+export const DatadogAgreementResourceListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogAgreementResourceListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatadogAgreementResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
 
-export const DatadogAgreementProperties: msRest.CompositeMapper = {
-  serializedName: "DatadogAgreementProperties",
+export const DatadogAgreementResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogAgreementResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DatadogAgreementProperties"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const DatadogAgreementProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatadogAgreementProperties",
@@ -70,8 +136,7 @@ export const DatadogAgreementProperties: msRest.CompositeMapper = {
   }
 };
 
-export const SystemData: msRest.CompositeMapper = {
-  serializedName: "systemData",
+export const SystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SystemData",
@@ -116,54 +181,130 @@ export const SystemData: msRest.CompositeMapper = {
   }
 };
 
-export const DatadogAgreementResource: msRest.CompositeMapper = {
-  serializedName: "DatadogAgreementResource",
+export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DatadogAgreementResource",
+    className: "ErrorResponse",
     modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
+      error: {
+        serializedName: "error",
         type: {
           name: "Composite",
-          className: "DatadogAgreementProperties"
-        }
-      },
-      systemData: {
-        readOnly: true,
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
+          className: "ErrorDetail"
         }
       }
     }
   }
 };
 
-export const DatadogApiKey: msRest.CompositeMapper = {
-  serializedName: "DatadogApiKey",
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const DatadogApiKeyListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogApiKeyListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatadogApiKey"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DatadogApiKey: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatadogApiKey",
@@ -181,8 +322,8 @@ export const DatadogApiKey: msRest.CompositeMapper = {
         }
       },
       key: {
-        required: true,
         serializedName: "key",
+        required: true,
         type: {
           name: "String"
         }
@@ -197,26 +338,25 @@ export const DatadogApiKey: msRest.CompositeMapper = {
   }
 };
 
-export const DatadogInstallMethod: msRest.CompositeMapper = {
-  serializedName: "DatadogInstallMethod",
+export const DatadogHostListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DatadogInstallMethod",
+    className: "DatadogHostListResponse",
     modelProperties: {
-      tool: {
-        serializedName: "tool",
+      value: {
+        serializedName: "value",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatadogHost"
+            }
+          }
         }
       },
-      toolVersion: {
-        serializedName: "toolVersion",
-        type: {
-          name: "String"
-        }
-      },
-      installerVersion: {
-        serializedName: "installerVersion",
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }
@@ -225,54 +365,7 @@ export const DatadogInstallMethod: msRest.CompositeMapper = {
   }
 };
 
-export const DatadogLogsAgent: msRest.CompositeMapper = {
-  serializedName: "DatadogLogsAgent",
-  type: {
-    name: "Composite",
-    className: "DatadogLogsAgent",
-    modelProperties: {
-      transport: {
-        serializedName: "transport",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogHostMetadata: msRest.CompositeMapper = {
-  serializedName: "DatadogHostMetadata",
-  type: {
-    name: "Composite",
-    className: "DatadogHostMetadata",
-    modelProperties: {
-      agentVersion: {
-        serializedName: "agentVersion",
-        type: {
-          name: "String"
-        }
-      },
-      installMethod: {
-        serializedName: "installMethod",
-        type: {
-          name: "Composite",
-          className: "DatadogInstallMethod"
-        }
-      },
-      logsAgent: {
-        serializedName: "logsAgent",
-        type: {
-          name: "Composite",
-          className: "DatadogLogsAgent"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogHost: msRest.CompositeMapper = {
-  serializedName: "DatadogHost",
+export const DatadogHost: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatadogHost",
@@ -316,8 +409,105 @@ export const DatadogHost: msRest.CompositeMapper = {
   }
 };
 
-export const LinkedResource: msRest.CompositeMapper = {
-  serializedName: "LinkedResource",
+export const DatadogHostMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogHostMetadata",
+    modelProperties: {
+      agentVersion: {
+        serializedName: "agentVersion",
+        type: {
+          name: "String"
+        }
+      },
+      installMethod: {
+        serializedName: "installMethod",
+        type: {
+          name: "Composite",
+          className: "DatadogInstallMethod"
+        }
+      },
+      logsAgent: {
+        serializedName: "logsAgent",
+        type: {
+          name: "Composite",
+          className: "DatadogLogsAgent"
+        }
+      }
+    }
+  }
+};
+
+export const DatadogInstallMethod: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogInstallMethod",
+    modelProperties: {
+      tool: {
+        serializedName: "tool",
+        type: {
+          name: "String"
+        }
+      },
+      toolVersion: {
+        serializedName: "toolVersion",
+        type: {
+          name: "String"
+        }
+      },
+      installerVersion: {
+        serializedName: "installerVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DatadogLogsAgent: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogLogsAgent",
+    modelProperties: {
+      transport: {
+        serializedName: "transport",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LinkedResourceListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkedResourceListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LinkedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LinkedResource",
@@ -332,8 +522,34 @@ export const LinkedResource: msRest.CompositeMapper = {
   }
 };
 
-export const MonitoredResource: msRest.CompositeMapper = {
-  serializedName: "MonitoredResource",
+export const MonitoredResourceListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitoredResourceListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MonitoredResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MonitoredResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MonitoredResource",
@@ -372,8 +588,62 @@ export const MonitoredResource: msRest.CompositeMapper = {
   }
 };
 
-export const OperationDisplay: msRest.CompositeMapper = {
-  serializedName: "OperationDisplay",
+export const OperationListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OperationResult"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationResult",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      display: {
+        serializedName: "display",
+        type: {
+          name: "Composite",
+          className: "OperationDisplay"
+        }
+      },
+      isDataAction: {
+        serializedName: "isDataAction",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const OperationDisplay: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OperationDisplay",
@@ -406,44 +676,113 @@ export const OperationDisplay: msRest.CompositeMapper = {
   }
 };
 
-export const OperationResult: msRest.CompositeMapper = {
-  serializedName: "OperationResult",
+export const DatadogMonitorResourceListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationResult",
+    className: "DatadogMonitorResourceListResponse",
     modelProperties: {
-      name: {
-        serializedName: "name",
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatadogMonitorResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
-        }
-      },
-      display: {
-        serializedName: "display",
-        type: {
-          name: "Composite",
-          className: "OperationDisplay"
-        }
-      },
-      isDataAction: {
-        serializedName: "isDataAction",
-        type: {
-          name: "Boolean"
         }
       }
     }
   }
 };
 
-export const ResourceSku: msRest.CompositeMapper = {
-  serializedName: "ResourceSku",
+export const DatadogMonitorResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogMonitorResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "ResourceSku"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "MonitorProperties"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityProperties"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      location: {
+        serializedName: "location",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceSku",
     modelProperties: {
       name: {
-        required: true,
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
@@ -452,22 +791,79 @@ export const ResourceSku: msRest.CompositeMapper = {
   }
 };
 
-export const DatadogOrganizationProperties: msRest.CompositeMapper = {
-  serializedName: "DatadogOrganizationProperties",
+export const MonitorProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitorProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      monitoringStatus: {
+        defaultValue: "Enabled",
+        serializedName: "monitoringStatus",
+        type: {
+          name: "String"
+        }
+      },
+      marketplaceSubscriptionStatus: {
+        serializedName: "marketplaceSubscriptionStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      datadogOrganizationProperties: {
+        serializedName: "datadogOrganizationProperties",
+        type: {
+          name: "Composite",
+          className: "DatadogOrganizationProperties"
+        }
+      },
+      userInfo: {
+        serializedName: "userInfo",
+        type: {
+          name: "Composite",
+          className: "UserInfo"
+        }
+      },
+      liftrResourceCategory: {
+        serializedName: "liftrResourceCategory",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      liftrResourcePreference: {
+        serializedName: "liftrResourcePreference",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DatadogOrganizationProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatadogOrganizationProperties",
     modelProperties: {
       name: {
-        readOnly: true,
         serializedName: "name",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       id: {
-        readOnly: true,
         serializedName: "id",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -512,35 +908,36 @@ export const DatadogOrganizationProperties: msRest.CompositeMapper = {
   }
 };
 
-export const UserInfo: msRest.CompositeMapper = {
-  serializedName: "UserInfo",
+export const UserInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UserInfo",
     modelProperties: {
       name: {
-        serializedName: "name",
         constraints: {
           MaxLength: 50
         },
+        serializedName: "name",
         type: {
           name: "String"
         }
       },
       emailAddress: {
-        serializedName: "emailAddress",
         constraints: {
-          Pattern: /^[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\.)+[A-Za-z]{2,}$/
+          Pattern: new RegExp(
+            "^[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$"
+          )
         },
+        serializedName: "emailAddress",
         type: {
           name: "String"
         }
       },
       phoneNumber: {
-        serializedName: "phoneNumber",
         constraints: {
           MaxLength: 40
         },
+        serializedName: "phoneNumber",
         type: {
           name: "String"
         }
@@ -549,78 +946,21 @@ export const UserInfo: msRest.CompositeMapper = {
   }
 };
 
-export const MonitorProperties: msRest.CompositeMapper = {
-  serializedName: "MonitorProperties",
-  type: {
-    name: "Composite",
-    className: "MonitorProperties",
-    modelProperties: {
-      provisioningState: {
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      monitoringStatus: {
-        serializedName: "monitoringStatus",
-        defaultValue: "Enabled",
-        type: {
-          name: "String"
-        }
-      },
-      marketplaceSubscriptionStatus: {
-        serializedName: "marketplaceSubscriptionStatus",
-        type: {
-          name: "String"
-        }
-      },
-      datadogOrganizationProperties: {
-        serializedName: "datadogOrganizationProperties",
-        type: {
-          name: "Composite",
-          className: "DatadogOrganizationProperties"
-        }
-      },
-      userInfo: {
-        serializedName: "userInfo",
-        type: {
-          name: "Composite",
-          className: "UserInfo"
-        }
-      },
-      liftrResourceCategory: {
-        serializedName: "liftrResourceCategory",
-        type: {
-          name: "String"
-        }
-      },
-      liftrResourcePreference: {
-        readOnly: true,
-        serializedName: "liftrResourcePreference",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const IdentityProperties: msRest.CompositeMapper = {
-  serializedName: "IdentityProperties",
+export const IdentityProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IdentityProperties",
     modelProperties: {
       principalId: {
-        readOnly: true,
         serializedName: "principalId",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       tenantId: {
-        readOnly: true,
         serializedName: "tenantId",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -635,103 +975,7 @@ export const IdentityProperties: msRest.CompositeMapper = {
   }
 };
 
-export const DatadogMonitorResource: msRest.CompositeMapper = {
-  serializedName: "DatadogMonitorResource",
-  type: {
-    name: "Composite",
-    className: "DatadogMonitorResource",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "ResourceSku"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "MonitorProperties"
-        }
-      },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "IdentityProperties"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      location: {
-        required: true,
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      systemData: {
-        readOnly: true,
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
-};
-
-export const MonitorUpdateProperties: msRest.CompositeMapper = {
-  serializedName: "MonitorUpdateProperties",
-  type: {
-    name: "Composite",
-    className: "MonitorUpdateProperties",
-    modelProperties: {
-      monitoringStatus: {
-        serializedName: "monitoringStatus",
-        defaultValue: "Enabled",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogMonitorResourceUpdateParameters: msRest.CompositeMapper = {
-  serializedName: "DatadogMonitorResourceUpdateParameters",
+export const DatadogMonitorResourceUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatadogMonitorResourceUpdateParameters",
@@ -747,11 +991,7 @@ export const DatadogMonitorResourceUpdateParameters: msRest.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
+          value: { type: { name: "String" } }
         }
       },
       sku: {
@@ -765,8 +1005,23 @@ export const DatadogMonitorResourceUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
-export const DatadogSetPasswordLink: msRest.CompositeMapper = {
-  serializedName: "DatadogSetPasswordLink",
+export const MonitorUpdateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitorUpdateProperties",
+    modelProperties: {
+      monitoringStatus: {
+        defaultValue: "Enabled",
+        serializedName: "monitoringStatus",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DatadogSetPasswordLink: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatadogSetPasswordLink",
@@ -781,26 +1036,25 @@ export const DatadogSetPasswordLink: msRest.CompositeMapper = {
   }
 };
 
-export const FilteringTag: msRest.CompositeMapper = {
-  serializedName: "FilteringTag",
+export const MonitoringTagRulesListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "FilteringTag",
+    className: "MonitoringTagRulesListResponse",
     modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
       value: {
         serializedName: "value",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MonitoringTagRules"
+            }
+          }
         }
       },
-      action: {
-        serializedName: "action",
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }
@@ -809,8 +1063,81 @@ export const FilteringTag: msRest.CompositeMapper = {
   }
 };
 
-export const LogRules: msRest.CompositeMapper = {
-  serializedName: "LogRules",
+export const MonitoringTagRules: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitoringTagRules",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "MonitoringTagRulesProperties"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const MonitoringTagRulesProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitoringTagRulesProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      logRules: {
+        serializedName: "logRules",
+        type: {
+          name: "Composite",
+          className: "LogRules"
+        }
+      },
+      metricRules: {
+        serializedName: "metricRules",
+        type: {
+          name: "Composite",
+          className: "MetricRules"
+        }
+      }
+    }
+  }
+};
+
+export const LogRules: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LogRules",
@@ -849,8 +1176,34 @@ export const LogRules: msRest.CompositeMapper = {
   }
 };
 
-export const MetricRules: msRest.CompositeMapper = {
-  serializedName: "MetricRules",
+export const FilteringTag: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FilteringTag",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MetricRules: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MetricRules",
@@ -871,59 +1224,55 @@ export const MetricRules: msRest.CompositeMapper = {
   }
 };
 
-export const MonitoringTagRulesProperties: msRest.CompositeMapper = {
-  serializedName: "MonitoringTagRulesProperties",
+export const DatadogSingleSignOnResourceListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MonitoringTagRulesProperties",
+    className: "DatadogSingleSignOnResourceListResponse",
     modelProperties: {
-      provisioningState: {
-        serializedName: "provisioningState",
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatadogSingleSignOnResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
-        }
-      },
-      logRules: {
-        serializedName: "logRules",
-        type: {
-          name: "Composite",
-          className: "LogRules"
-        }
-      },
-      metricRules: {
-        serializedName: "metricRules",
-        type: {
-          name: "Composite",
-          className: "MetricRules"
         }
       }
     }
   }
 };
 
-export const MonitoringTagRules: msRest.CompositeMapper = {
-  serializedName: "MonitoringTagRules",
+export const DatadogSingleSignOnResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MonitoringTagRules",
+    className: "DatadogSingleSignOnResource",
     modelProperties: {
-      name: {
+      id: {
+        serializedName: "id",
         readOnly: true,
-        serializedName: "name",
         type: {
           name: "String"
         }
       },
-      id: {
+      name: {
+        serializedName: "name",
         readOnly: true,
-        serializedName: "id",
         type: {
           name: "String"
         }
       },
       type: {
-        readOnly: true,
         serializedName: "type",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -932,11 +1281,10 @@ export const MonitoringTagRules: msRest.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "MonitoringTagRulesProperties"
+          className: "DatadogSingleSignOnProperties"
         }
       },
       systemData: {
-        readOnly: true,
         serializedName: "systemData",
         type: {
           name: "Composite",
@@ -947,14 +1295,14 @@ export const MonitoringTagRules: msRest.CompositeMapper = {
   }
 };
 
-export const DatadogSingleSignOnProperties: msRest.CompositeMapper = {
-  serializedName: "DatadogSingleSignOnProperties",
+export const DatadogSingleSignOnProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DatadogSingleSignOnProperties",
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -972,404 +1320,8 @@ export const DatadogSingleSignOnProperties: msRest.CompositeMapper = {
         }
       },
       singleSignOnUrl: {
-        readOnly: true,
         serializedName: "singleSignOnUrl",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogSingleSignOnResource: msRest.CompositeMapper = {
-  serializedName: "DatadogSingleSignOnResource",
-  type: {
-    name: "Composite",
-    className: "DatadogSingleSignOnResource",
-    modelProperties: {
-      id: {
         readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "DatadogSingleSignOnProperties"
-        }
-      },
-      systemData: {
-        readOnly: true,
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorAdditionalInfo: msRest.CompositeMapper = {
-  serializedName: "ErrorAdditionalInfo",
-  type: {
-    name: "Composite",
-    className: "ErrorAdditionalInfo",
-    modelProperties: {
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      info: {
-        readOnly: true,
-        serializedName: "info",
-        type: {
-          name: "Object"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorDetail: msRest.CompositeMapper = {
-  serializedName: "ErrorDetail",
-  type: {
-    name: "Composite",
-    className: "ErrorDetail",
-    modelProperties: {
-      code: {
-        readOnly: true,
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        readOnly: true,
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        readOnly: true,
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
-      },
-      additionalInfo: {
-        readOnly: true,
-        serializedName: "additionalInfo",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ErrorResponse: msRest.CompositeMapper = {
-  serializedName: "ErrorResponse",
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogAgreementResourceListResponse: msRest.CompositeMapper = {
-  serializedName: "DatadogAgreementResourceListResponse",
-  type: {
-    name: "Composite",
-    className: "DatadogAgreementResourceListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DatadogAgreementResource"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogApiKeyListResponse: msRest.CompositeMapper = {
-  serializedName: "DatadogApiKeyListResponse",
-  type: {
-    name: "Composite",
-    className: "DatadogApiKeyListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DatadogApiKey"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogHostListResponse: msRest.CompositeMapper = {
-  serializedName: "DatadogHostListResponse",
-  type: {
-    name: "Composite",
-    className: "DatadogHostListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DatadogHost"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LinkedResourceListResponse: msRest.CompositeMapper = {
-  serializedName: "LinkedResourceListResponse",
-  type: {
-    name: "Composite",
-    className: "LinkedResourceListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LinkedResource"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MonitoredResourceListResponse: msRest.CompositeMapper = {
-  serializedName: "MonitoredResourceListResponse",
-  type: {
-    name: "Composite",
-    className: "MonitoredResourceListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MonitoredResource"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogMonitorResourceListResponse: msRest.CompositeMapper = {
-  serializedName: "DatadogMonitorResourceListResponse",
-  type: {
-    name: "Composite",
-    className: "DatadogMonitorResourceListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DatadogMonitorResource"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const OperationListResult: msRest.CompositeMapper = {
-  serializedName: "OperationListResult",
-  type: {
-    name: "Composite",
-    className: "OperationListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OperationResult"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MonitoringTagRulesListResponse: msRest.CompositeMapper = {
-  serializedName: "MonitoringTagRulesListResponse",
-  type: {
-    name: "Composite",
-    className: "MonitoringTagRulesListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MonitoringTagRules"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogSingleSignOnResourceListResponse: msRest.CompositeMapper = {
-  serializedName: "DatadogSingleSignOnResourceListResponse",
-  type: {
-    name: "Composite",
-    className: "DatadogSingleSignOnResourceListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DatadogSingleSignOnResource"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
         type: {
           name: "String"
         }

@@ -31,8 +31,8 @@ The `DefaultAzureCredential` attempts to retrieve an access token by sequentiall
 
 Follow the configuration instructions in the "Credential unavailable error" sections of the troubleshooting guidelines below for the respective credential/authentication type you're looking to use via `DefaultAzureCredential`:
 
-| Credential Type               | Troubleshooting Guide                                                                                      |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Credential Type               | Troubleshooting Guide                                                                      |
+| ----------------------------- | ------------------------------------------------------------------------------------------ |
 | Environment credential        | [Environment credential guide](#troubleshoot-environment-credential-authentication-issues) |
 | Managed Identity credential   | [Managed Identity guide](#troubleshoot-managed-identity-authentication-issues)             |
 | Visual Studio Code credential | [Visual Studio Code guide](#troubleshoot-visual-studio-code-authentication-issues)         |
@@ -74,15 +74,15 @@ To utilize the desired authentication type via `EnvironmentCredential`, ensure t
 
 ##### ClientSecret credential
 
-| Variable Name       | Value                            |
-| ------------------- | -------------------------------- |
+| Variable Name         | Value                            |
+| --------------------- | -------------------------------- |
 | `AZURE_CLIENT_ID`     | ID of an Azure AD app.           |
 | `AZURE_TENANT_ID`     | ID of the app's Azure AD tenant. |
 | `AZURE_CLIENT_SECRET` | One of the app's client secrets. |
 
 ##### ClientCertificate credential
 
-| Variable name                 | Value                                                                                       |
+| Variable name                   | Value                                                                                       |
 | ----------------------------- | ------------------------------------------------------------------------------------------- |
 | `AZURE_CLIENT_ID`               | ID of an Azure AD app.                                                                      |
 | `AZURE_TENANT_ID`               | ID of the app's Azure AD tenant.                                                            |
@@ -90,8 +90,8 @@ To utilize the desired authentication type via `EnvironmentCredential`, ensure t
 
 ##### Username and password
 
-| Variable name   | Value                                           |
-| --------------- | ----------------------------------------------- |
+| Variable name     | Value                                           |
+| ----------------- | ----------------------------------------------- |
 | `AZURE_CLIENT_ID` | ID of an Azure AD app.                          |
 | `AZURE_USERNAME`  | A username (usually an email address).          |
 | `AZURE_PASSWORD`  | The associated password for the given username. |
@@ -101,10 +101,10 @@ To utilize the desired authentication type via `EnvironmentCredential`, ensure t
 The `EnvironmentCredential` supports service principal authentication and username and password authentication.
 Follow the troubleshooting guidelines below for the respective authentication type that failed.
 
-| Authentication Type             | Troubleshooting Guide                                                                                 |
-| ------------------------------- | -------------------------------------------------------------------------------------------------- |
-| ClientSecret/ClientCertificate | [Service principal auth guide](#troubleshoot-service-principal-authentication-issues) |
-| Username and password               | [Username and password auth guide](#troubleshoot-username-password-authentication-issues) |
+| Authentication Type            | Troubleshooting Guide                                                                     |
+| ------------------------------ | ----------------------------------------------------------------------------------------- |
+| ClientSecret/ClientCertificate | [Service principal auth guide](#troubleshoot-service-principal-authentication-issues)     |
+| Username and password          | [Username and password auth guide](#troubleshoot-username-password-authentication-issues) |
 
 ## Troubleshoot username and password authentication issues
 
@@ -164,7 +164,7 @@ The Managed Identity credential runs only on Azure-hosted machines/servers. Ensu
 | [Azure Virtual Machines](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token) | [Configuration Instructions](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/qs-configure-portal-windows-vm)          |
 | [Azure App Service](https://docs.microsoft.com/azure/app-service/overview-managed-identity?tabs=javascript)                        | [Configuration Instructions](https://docs.microsoft.com/azure/app-service/overview-managed-identity?tabs=java)                                             |
 | [Azure Kubernetes Service](https://docs.microsoft.com/azure/aks/use-managed-identity)                                              | [Configuration Instructions](https://docs.microsoft.com/azure/aks/use-managed-identity)                                                                    |
-| [Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/msi-authorization)                                                |                                                                                                                                                            |
+| [Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/msi-authorization)                                                | Not Applicable                                                     |
 | [Azure Arc](https://docs.microsoft.com/azure/azure-arc/servers/managed-identity-authentication)                                    | [Configuration Instructions](https://docs.microsoft.com/azure/azure-arc/servers/security-overview#using-a-managed-identity-with-azure-arc-enabled-servers) |
 | [Azure Service Fabric](https://docs.microsoft.com/azure/service-fabric/concepts-managed-identity)                                  | [Configuration Instructions](https://docs.microsoft.com/azure/service-fabric/configure-existing-cluster-enable-managed-identity-token-service)             |
 

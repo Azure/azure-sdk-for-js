@@ -3,11 +3,8 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
-
 import { ConfigurationClient } from "../../src";
-
-import { env } from "@azure-tools/test-recorder";
-import { Recorder } from "@azure-tools/test-recorder-new";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 // When the recorder observes the values of these environment variables in any
@@ -25,7 +22,7 @@ const replaceableVariables: Record<string, string> = {
 function createConfigurationClient(recorder: Recorder): ConfigurationClient {
   // Retrieve the endpoint from the environment variable
   // we saved to the .env file earlier
-  const endpoint = env.APPCONFIG_ENDPOINT;
+  const endpoint = assertEnvironmentVariable("APPCONFIG_ENDPOINT");
 
   // We use the createTestCredential helper from the test-credential tools package.
   // This function returns the special NoOpCredential in playback mode, which
@@ -73,8 +70,8 @@ describe("[AAD] ConfigurationClient functional tests", function () {
   });
 
   it("predetermined setting has expected value", async () => {
-    const key = env.APPCONFIG_TEST_SETTING_KEY;
-    const expectedValue = env.APPCONFIG_TEST_SETTING_EXPECTED_VALUE;
+    const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
+    const expectedValue = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_EXPECTED_VALUE");
 
     const setting = await client.getConfigurationSetting(key);
 

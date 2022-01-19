@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/synapse/
-
 pr:
   branches:
     include:
@@ -17,10 +16,11 @@ pr:
       - feature/*
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
       - sdk/synapse/
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -38,3 +38,5 @@ extends:
         safeName: azuresynapsemonitoring
       - name: azure-synapse-spark
         safeName: azuresynapsespark
+      - name: azure-arm-synapse
+        safeName: azurearmsynapse

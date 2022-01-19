@@ -607,6 +607,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/opentelemetry-instrumentation-azure-sdk",
+      "projectFolder": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/schema-registry",
       "projectFolder": "sdk/schemaregistry/schema-registry",
       "versionPolicyName": "client"
@@ -709,11 +714,6 @@
     {
       "packageName": "@azure-tools/test-recorder",
       "projectFolder": "sdk/test-utils/recorder",
-      "versionPolicyName": "utility"
-    },
-    {
-      "packageName": "@azure-tools/test-recorder-new",
-      "projectFolder": "sdk/test-utils/recorder-new",
       "versionPolicyName": "utility"
     },
     {
@@ -1224,6 +1224,116 @@
     {
       "packageName": "@azure/arm-imagebuilder",
       "projectFolder": "sdk/imagebuilder/arm-imagebuilder",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-avs",
+      "projectFolder": "sdk/avs/arm-avs",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-communication",
+      "projectFolder": "sdk/communication/arm-communication",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appconfiguration",
+      "projectFolder": "sdk/appconfiguration/arm-appconfiguration",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-azurestackhci",
+      "projectFolder": "sdk/azurestackhci/arm-azurestackhci",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-customerinsights",
+      "projectFolder": "sdk/customer-insights/arm-customerinsights",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databoxedge",
+      "projectFolder": "sdk/databoxedge/arm-databoxedge",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datadog",
+      "projectFolder": "sdk/datadog/arm-datadog",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-deviceprovisioningservices",
+      "projectFolder": "sdk/deviceprovisioningservices/arm-deviceprovisioningservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-synapse",
+      "projectFolder": "sdk/synapse/arm-synapse",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databox",
+      "projectFolder": "sdk/databox/arm-databox",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dns",
+      "projectFolder": "sdk/dns/arm-dns",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-digitaltwins",
+      "projectFolder": "sdk/digitaltwins/arm-digitaltwins",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-devspaces",
+      "projectFolder": "sdk/devspaces/arm-devspaces",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-domainservices",
+      "projectFolder": "sdk/domainservices/arm-domainservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-frontdoor",
+      "projectFolder": "sdk/frontdoor/arm-frontdoor",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-healthbot",
+      "projectFolder": "sdk/healthbot/arm-healthbot",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-deploymentmanager",
+      "projectFolder": "sdk/deploymentmanager/arm-deploymentmanager",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hanaonazure",
+      "projectFolder": "sdk/hanaonazure/arm-hanaonazure",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-kubernetesconfiguration",
+      "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-labservices",
+      "projectFolder": "sdk/labservices/arm-labservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-machinelearningcompute",
+      "projectFolder": "sdk/machinelearningcompute/arm-machinelearningcompute",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-machinelearningexperimentation",
+      "projectFolder": "sdk/machinelearningexperimentation/arm-machinelearningexperimentation",
       "versionPolicyName": "management"
     }
   ]

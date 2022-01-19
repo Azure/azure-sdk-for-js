@@ -15,6 +15,8 @@ export * from "./domainRegistrationProvider";
 export * from "./appServiceEnvironments";
 export * from "./appServicePlans";
 export * from "./certificates";
+export * from "./containerApps";
+export * from "./containerAppsRevisions";
 export * from "./deletedWebApps";
 export * from "./diagnostics";
 export * from "./global";

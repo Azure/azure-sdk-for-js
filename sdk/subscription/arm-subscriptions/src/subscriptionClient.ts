@@ -9,14 +9,18 @@
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
-  SubscriptionImpl,
+  SubscriptionsImpl,
+  TenantsImpl,
+  SubscriptionOperationsImpl,
   OperationsImpl,
   AliasImpl,
   SubscriptionPolicyImpl,
   BillingAccountImpl
 } from "./operations";
 import {
-  Subscription,
+  Subscriptions,
+  Tenants,
+  SubscriptionOperations,
   Operations,
   Alias,
   SubscriptionPolicy,
@@ -26,7 +30,6 @@ import { SubscriptionClientOptionalParams } from "./models";
 
 export class SubscriptionClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
 
   /**
    * Initializes a new instance of the SubscriptionClient class.
@@ -50,7 +53,7 @@ export class SubscriptionClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-subscriptions/4.0.0`;
+    const packageDetails = `azsdk-js-arm-subscriptions/5.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -71,15 +74,18 @@ export class SubscriptionClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-01";
-    this.subscription = new SubscriptionImpl(this);
+    this.subscriptions = new SubscriptionsImpl(this);
+    this.tenants = new TenantsImpl(this);
+    this.subscriptionOperations = new SubscriptionOperationsImpl(this);
     this.operations = new OperationsImpl(this);
     this.alias = new AliasImpl(this);
     this.subscriptionPolicy = new SubscriptionPolicyImpl(this);
     this.billingAccount = new BillingAccountImpl(this);
   }
 
-  subscription: Subscription;
+  subscriptions: Subscriptions;
+  tenants: Tenants;
+  subscriptionOperations: SubscriptionOperations;
   operations: Operations;
   alias: Alias;
   subscriptionPolicy: SubscriptionPolicy;
