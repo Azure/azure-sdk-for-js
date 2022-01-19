@@ -21,12 +21,14 @@ class BasicClient {
   private tracingClient: TracingClient;
 
   constructor() {
-    // Create a tracing client in the constructor, passing to it
-    // the package name, the value for az.namespace attribute, and the
-    // optional package version.
+    // Create a tracing client in the constructor
     this.tracingClient = createTracingClient({
-      packageName: "@azure/core-tracing",
-      namespace: "Microsoft.Core",
+      // The package name and version of your package.
+      packageName: "@azure/some-example-package",
+      packageVersion: "1.0.0",
+      // The Resource Provider, which should normally be one of the values defined here:
+      // https://docs.microsoft.com/azure/azure-resource-manager/management/azure-services-resource-providers
+      namespace: "Microsoft.Sample",
     });
   }
 
