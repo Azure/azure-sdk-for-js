@@ -415,6 +415,7 @@ describe("Certificates client - create, read, update and delete", () => {
         basicCertificatePolicy,
         testPollerProperties
       );
+      await certificatePoller.pollUntilDone();
 
       const deletePoller = await client.beginDeleteCertificate(
         certificateName,
