@@ -4,7 +4,7 @@
 /**
  * This sample demonstrates how get a list of devices
  *
- * @summary gets a list of updates providers
+ * @summary gets a list of devices
  * @azsdk-weight 40
  */
 

@@ -14,7 +14,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 | **File Name**         | **Description**                                                                                                                    |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| [device.js][devices] | Demonstrates the use of a DeviceUpdateClient to list all the update providers that have been imported to Device Update for IoT Hub |
+| [device.js][devices] | Demonstrates the use of a DeviceUpdateClient to list all devices connected to Device Update for IoT Hub. |
 
 ## Prerequisites
 
@@ -49,7 +49,7 @@ node updates.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<account endpoint>" INSTANCE_ID="<instance id>" node device.js
+npx cross-env ENDPOINT="<endpoint>" INSTANCE_ID="<instance id>" node device.js
 ```
 
 ## Next Steps
