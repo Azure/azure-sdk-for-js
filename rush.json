@@ -1377,11 +1377,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-iotspaces",
-      "projectFolder": "sdk/iotspaces/arm-iotspaces",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-commitmentplans",
       "projectFolder": "sdk/machinelearning/arm-commitmentplans",
       "versionPolicyName": "management"
