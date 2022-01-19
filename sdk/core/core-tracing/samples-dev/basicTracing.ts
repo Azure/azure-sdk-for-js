@@ -39,7 +39,7 @@ class BasicClient {
    *
    * @param options - The operation options.
    */
-  async basicOperation(options: OperationOptions = {}) {
+  async basicOperation(options: OperationOptions = {}): Promise<number> {
     return this.tracingClient.withSpan(
       "BasicClient.basicOperation",
       options,
@@ -49,6 +49,8 @@ class BasicClient {
         // normally would.
         //
         // You do not need to close the span.
+        const result = await Promise.resolve({ value: 42 });
+        return result.value;
       }
     );
   }
@@ -59,7 +61,7 @@ class BasicClient {
    * @param traceparentHeader The {@link https://www.w3.org/TR/trace-context/#traceparent-header} header of the remote span.
    * @param options - The Operation Options.
    */
-  async withSpanLinks(traceparentHeader: string, options: OperationOptions = {}) {
+  async withSpanLinks(traceparentHeader: string, options: OperationOptions = {}): Promise<void> {
     const spanLinks = [];
     const linkContext = this.tracingClient.parseTraceparentHeader(traceparentHeader);
     if (linkContext) {
@@ -84,14 +86,18 @@ class BasicClient {
   async withUserCallback<Callback extends (...args: unknown[]) => ReturnType<Callback>>(
     callback: Callback,
     options: OperationOptions = {}
-  ) {
+  ): Promise<ReturnType<Callback>> {
     const { span, updatedOptions } = this.tracingClient.startSpan(
       "BasicClient.withUserCallback",
       options
     );
-    this.tracingClient.withContext(updatedOptions.tracingOptions!.tracingContext!, callback);
+    const result = this.tracingClient.withContext(
+      updatedOptions.tracingOptions!.tracingContext!,
+      callback
+    );
     span.setStatus({ status: "success" });
     span.end();
+    return result;
   }
 }
 

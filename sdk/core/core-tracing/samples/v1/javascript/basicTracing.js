@@ -42,6 +42,8 @@ class BasicClient {
         // normally would.
         //
         // You do not need to close the span.
+        const result = await Promise.resolve({ value: 42 });
+        return result.value;
       }
     );
   }
@@ -79,9 +81,13 @@ class BasicClient {
       "BasicClient.withUserCallback",
       options
     );
-    this.tracingClient.withContext(updatedOptions.tracingOptions.tracingContext, callback);
+    const result = this.tracingClient.withContext(
+      updatedOptions.tracingOptions.tracingContext,
+      callback
+    );
     span.setStatus({ status: "success" });
     span.end();
+    return result;
   }
 }
 
