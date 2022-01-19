@@ -47,7 +47,6 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c 2>&1",
     "build": "npm run clean && tsc -p . && rollup -c 2>&1 && mkdirp ./review && api-extractor run --local",
     "build:debug": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
@@ -69,10 +68,7 @@
     "unit-test:browser": "cross-env karma start --single-run",
     "unit-test:node": "cross-env mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeExternals  --out ./dist/docs ./src",
-    "browser": {
-      "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
-    }
+    "docs": "typedoc --excludePrivate --excludeExternals  --out ./dist/docs ./src"
   },
   "sideEffects": false,
   "autoPublish": false,

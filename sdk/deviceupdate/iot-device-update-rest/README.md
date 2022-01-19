@@ -24,7 +24,7 @@ Key links:
 
 ### Install the `@azure-rest/iot-device-update` package
 
-Install the Azure Purview Catalog client library for JavaScript with `npm`:
+Install the Azure Iot Device Update client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/iot-device-update
@@ -69,22 +69,18 @@ The following section shows you how to initialize and authenticate your client, 
 - [Get All Type Definitions](#get-all-update-providers "Get All Update Providers")
 
 ```typescript
-import DeviceUpdate, { paginate } from "@azure-rest/iot-device-update";
+import DeviceUpdate from "@azure-rest/iot-device-update";
 import { DefaultAzureCredential } from "@azure/identity";
 
 async function main() {
   console.log("== List update providers ==");
-  const client = PurviewCatalog(accountEndpoint, new DefaultAzureCredential());
+  const client = DeviceUpdate(endpoint, new DefaultAzureCredential());
 
   const result = await client
-    .path("/deviceupdate/{instanceId}/updates/providers", instanceId)
+    .path("/deviceupdate/{instanceId}/management/devices", instanceId)
     .get();
 
-  const iter = paginate(client, result);
-
-  for await (const item of iter) {
-    console.log(item);
-  }
+  console.log(result);
 }
 
 main().catch(console.error);
