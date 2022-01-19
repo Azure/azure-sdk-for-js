@@ -1380,6 +1380,11 @@
       "packageName": "@azure/arm-managementpartner",
       "projectFolder": "sdk/managementpartner/arm-managementpartner",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-maps",
+      "projectFolder": "sdk/maps/arm-maps",
+      "versionPolicyName": "management"
     }
   ]
 }
