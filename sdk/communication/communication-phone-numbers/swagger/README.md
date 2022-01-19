@@ -17,12 +17,13 @@ model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210223.1"
+  "@autorest/typescript": "6.0.0-beta.15"
 add-credentials: false
 azure-arm: false
 skip-enum-validation: true
 title: Phone Numbers Client
 v3: true
+use-core-v2: false
 ```
 
 ## Customizations
