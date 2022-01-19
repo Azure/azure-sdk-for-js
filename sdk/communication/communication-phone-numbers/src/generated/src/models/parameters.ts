@@ -164,6 +164,7 @@ export const phoneNumber: OperationURLParameter = {
 export const skip: OperationQueryParameter = {
   parameterPath: ["options", "skip"],
   mapper: {
+    defaultValue: 0,
     serializedName: "skip",
     type: {
       name: "Number"

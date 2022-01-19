@@ -17,16 +17,14 @@ export const PhoneNumberSearchRequest: coreHttp.CompositeMapper = {
         serializedName: "phoneNumberType",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["geographic", "tollFree"]
+          name: "String"
         }
       },
       assignmentType: {
         serializedName: "assignmentType",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["person", "application"]
+          name: "String"
         }
       },
       capabilities: {
@@ -66,16 +64,14 @@ export const PhoneNumberCapabilities: coreHttp.CompositeMapper = {
         serializedName: "calling",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
+          name: "String"
         }
       },
       sms: {
         serializedName: "sms",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
+          name: "String"
         }
       }
     }
@@ -110,16 +106,14 @@ export const PhoneNumberSearchResult: coreHttp.CompositeMapper = {
         serializedName: "phoneNumberType",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["geographic", "tollFree"]
+          name: "String"
         }
       },
       assignmentType: {
         serializedName: "assignmentType",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["person", "application"]
+          name: "String"
         }
       },
       capabilities: {
@@ -268,8 +262,7 @@ export const PhoneNumberOperation: coreHttp.CompositeMapper = {
         serializedName: "status",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["notStarted", "running", "succeeded", "failed"]
+          name: "String"
         }
       },
       resourceLocation: {
@@ -303,13 +296,7 @@ export const PhoneNumberOperation: coreHttp.CompositeMapper = {
         serializedName: "operationType",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "purchase",
-            "releasePhoneNumber",
-            "search",
-            "updatePhoneNumberCapabilities"
-          ]
+          name: "String"
         }
       },
       lastActionDateTime: {
@@ -331,15 +318,13 @@ export const PhoneNumberCapabilitiesRequest: coreHttp.CompositeMapper = {
       calling: {
         serializedName: "calling",
         type: {
-          name: "Enum",
-          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
+          name: "String"
         }
       },
       sms: {
         serializedName: "sms",
         type: {
-          name: "Enum",
-          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
+          name: "String"
         }
       }
     }
@@ -376,8 +361,7 @@ export const PurchasedPhoneNumber: coreHttp.CompositeMapper = {
         serializedName: "phoneNumberType",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["geographic", "tollFree"]
+          name: "String"
         }
       },
       capabilities: {
@@ -391,8 +375,7 @@ export const PurchasedPhoneNumber: coreHttp.CompositeMapper = {
         serializedName: "assignmentType",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["person", "application"]
+          name: "String"
         }
       },
       purchaseDate: {

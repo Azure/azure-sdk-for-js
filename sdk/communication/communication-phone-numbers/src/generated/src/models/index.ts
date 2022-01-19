@@ -7,7 +7,6 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { LROSYM, LROResponseInfo } from "../lro/models";
 
 /** Represents a phone number search request to find phone numbers. Found phone numbers are temporarily held for a following purchase. */
 export interface PhoneNumberSearchRequest {
@@ -231,6 +230,10 @@ export interface PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
   areaCode?: string;
   /** The quantity of desired phone numbers. The default value is 1. */
   quantity?: number;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the searchAvailablePhoneNumbers operation. */
@@ -245,10 +248,12 @@ export type PhoneNumbersSearchAvailablePhoneNumbersResponse = PhoneNumbersSearch
       parsedBody: PhoneNumberSearchResult;
       /** The parsed HTTP response headers. */
       parsedHeaders: PhoneNumbersSearchAvailablePhoneNumbersHeaders;
-      /** The parsed HTTP response headers. */
-      [LROSYM]: LROResponseInfo;
     };
   };
+
+/** Optional parameters. */
+export interface PhoneNumbersGetSearchResultOptionalParams
+  extends coreHttp.OperationOptions {}
 
 /** Contains response data for the getSearchResult operation. */
 export type PhoneNumbersGetSearchResultResponse = PhoneNumberSearchResult & {
@@ -267,6 +272,10 @@ export interface PhoneNumbersPurchasePhoneNumbersOptionalParams
   extends coreHttp.OperationOptions {
   /** The search id. */
   searchId?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the purchasePhoneNumbers operation. */
@@ -275,10 +284,12 @@ export type PhoneNumbersPurchasePhoneNumbersResponse = PhoneNumbersPurchasePhone
   _response: coreHttp.HttpResponse & {
     /** The parsed HTTP response headers. */
     parsedHeaders: PhoneNumbersPurchasePhoneNumbersHeaders;
-    /** The parsed HTTP response headers. */
-    [LROSYM]: LROResponseInfo;
   };
 };
+
+/** Optional parameters. */
+export interface PhoneNumbersGetOperationOptionalParams
+  extends coreHttp.OperationOptions {}
 
 /** Contains response data for the getOperation operation. */
 export type PhoneNumbersGetOperationResponse = PhoneNumbersGetOperationHeaders &
@@ -296,12 +307,20 @@ export type PhoneNumbersGetOperationResponse = PhoneNumbersGetOperationHeaders &
   };
 
 /** Optional parameters. */
+export interface PhoneNumbersCancelOperationOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Optional parameters. */
 export interface PhoneNumbersUpdateCapabilitiesOptionalParams
   extends coreHttp.OperationOptions {
   /** Capability value for calling. */
   calling?: PhoneNumberCapabilityType;
   /** Capability value for SMS. */
   sms?: PhoneNumberCapabilityType;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the updateCapabilities operation. */
@@ -316,10 +335,12 @@ export type PhoneNumbersUpdateCapabilitiesResponse = PhoneNumbersUpdateCapabilit
       parsedBody: PurchasedPhoneNumber;
       /** The parsed HTTP response headers. */
       parsedHeaders: PhoneNumbersUpdateCapabilitiesHeaders;
-      /** The parsed HTTP response headers. */
-      [LROSYM]: LROResponseInfo;
     };
   };
+
+/** Optional parameters. */
+export interface PhoneNumbersGetByNumberOptionalParams
+  extends coreHttp.OperationOptions {}
 
 /** Contains response data for the getByNumber operation. */
 export type PhoneNumbersGetByNumberResponse = PurchasedPhoneNumber & {
@@ -333,14 +354,21 @@ export type PhoneNumbersGetByNumberResponse = PurchasedPhoneNumber & {
   };
 };
 
+/** Optional parameters. */
+export interface PhoneNumbersReleasePhoneNumberOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
 /** Contains response data for the releasePhoneNumber operation. */
 export type PhoneNumbersReleasePhoneNumberResponse = PhoneNumbersReleasePhoneNumberHeaders & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The parsed HTTP response headers. */
     parsedHeaders: PhoneNumbersReleasePhoneNumberHeaders;
-    /** The parsed HTTP response headers. */
-    [LROSYM]: LROResponseInfo;
   };
 };
 
