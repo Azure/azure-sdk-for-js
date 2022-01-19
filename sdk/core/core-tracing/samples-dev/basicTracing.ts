@@ -58,7 +58,7 @@ class BasicClient {
   /**
    * Represents a consumer which receives a message, creates a new span for processing the message, and links
    * the new span to the message span (via traceheader propagation).
-   * @param traceparentHeader The {@link https://www.w3.org/TR/trace-context/#traceparent-header} header of the remote span.
+   * @param traceparentHeader The {@link https://www.w3.org/TR/trace-context/#traceparent-header} header of the remote operation.
    * @param options - The Operation Options.
    */
   async withSpanLinks(traceparentHeader: string, options: OperationOptions = {}): Promise<void> {
