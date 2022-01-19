@@ -12,12 +12,12 @@ import {
   OperationQueryParameter
 } from "@azure/core-http";
 import {
-  UpdateAudioRoutingGroupRequest as UpdateAudioRoutingGroupRequestMapper,
+  UpdateAudioGroupRequest as UpdateAudioGroupRequestMapper,
   CreateCallRequest as CreateCallRequestMapper,
   PlayAudioRequest as PlayAudioRequestMapper,
   TransferToParticipantRequest as TransferToParticipantRequestMapper,
   TransferToCallRequest as TransferToCallRequestMapper,
-  AudioRoutingGroupRequest as AudioRoutingGroupRequestMapper,
+  AudioGroupRequest as AudioGroupRequestMapper,
   AddParticipantRequest as AddParticipantRequestMapper,
   RemoveParticipantRequest as RemoveParticipantRequestMapper,
   GetParticipantRequest as GetParticipantRequestMapper,
@@ -25,8 +25,8 @@ import {
   CancelParticipantMediaOperationRequest as CancelParticipantMediaOperationRequestMapper,
   MuteParticipantRequest as MuteParticipantRequestMapper,
   UnmuteParticipantRequest as UnmuteParticipantRequestMapper,
-  HoldMeetingAudioRequest as HoldMeetingAudioRequestMapper,
-  ResumeMeetingAudioRequest as ResumeMeetingAudioRequestMapper,
+  RemoveFromDefaultAudioGroupRequest as RemoveFromDefaultAudioGroupRequestMapper,
+  AddToDefaultAudioGroupRequest as AddToDefaultAudioGroupRequestMapper,
   GetAllParticipantsWithCallLocatorRequest as GetAllParticipantsWithCallLocatorRequestMapper,
   AddParticipantWithCallLocatorRequest as AddParticipantWithCallLocatorRequestMapper,
   RemoveParticipantWithCallLocatorRequest as RemoveParticipantWithCallLocatorRequestMapper,
@@ -77,10 +77,10 @@ export const callConnectionId: OperationURLParameter = {
   }
 };
 
-export const audioRoutingGroupId: OperationURLParameter = {
-  parameterPath: "audioRoutingGroupId",
+export const audioGroupId: OperationURLParameter = {
+  parameterPath: "audioGroupId",
   mapper: {
-    serializedName: "audioRoutingGroupId",
+    serializedName: "audioGroupId",
     required: true,
     type: {
       name: "String"
@@ -112,9 +112,9 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const updateAudioRoutingGroupRequest: OperationParameter = {
-  parameterPath: "updateAudioRoutingGroupRequest",
-  mapper: UpdateAudioRoutingGroupRequestMapper
+export const updateAudioGroupRequest: OperationParameter = {
+  parameterPath: "updateAudioGroupRequest",
+  mapper: UpdateAudioGroupRequestMapper
 };
 
 export const callRequest: OperationParameter = {
@@ -137,9 +137,9 @@ export const transferToCallRequest: OperationParameter = {
   mapper: TransferToCallRequestMapper
 };
 
-export const audioRoutingGroupRequest: OperationParameter = {
-  parameterPath: "audioRoutingGroupRequest",
-  mapper: AudioRoutingGroupRequestMapper
+export const audioGroupRequest: OperationParameter = {
+  parameterPath: "audioGroupRequest",
+  mapper: AudioGroupRequestMapper
 };
 
 export const addParticipantRequest: OperationParameter = {
@@ -177,14 +177,14 @@ export const unmuteParticipantRequest: OperationParameter = {
   mapper: UnmuteParticipantRequestMapper
 };
 
-export const holdMeetingAudioRequest: OperationParameter = {
-  parameterPath: "holdMeetingAudioRequest",
-  mapper: HoldMeetingAudioRequestMapper
+export const removeFromDefaultAudioGroupRequest: OperationParameter = {
+  parameterPath: "removeFromDefaultAudioGroupRequest",
+  mapper: RemoveFromDefaultAudioGroupRequestMapper
 };
 
-export const resumeMeetingAudioRequest: OperationParameter = {
-  parameterPath: "resumeMeetingAudioRequest",
-  mapper: ResumeMeetingAudioRequestMapper
+export const addToDefaultAudioGroupRequest: OperationParameter = {
+  parameterPath: "addToDefaultAudioGroupRequest",
+  mapper: AddToDefaultAudioGroupRequestMapper
 };
 
 export const getAllParticipantsWithCallLocatorRequest: OperationParameter = {

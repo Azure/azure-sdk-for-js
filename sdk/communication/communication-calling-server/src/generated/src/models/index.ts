@@ -8,11 +8,11 @@
 
 import * as coreHttp from "@azure/core-http";
 
-/** The audio routing group result. */
-export interface AudioRoutingGroupResult {
+/** The audio group result. */
+export interface AudioGroupResult {
   /** The audio routing mode. */
   audioRoutingMode?: AudioRoutingMode;
-  /** The target identities that would be receivers in the audio routing group. */
+  /** The target identities that would be receivers in the audio group. */
   targets?: CommunicationIdentifierModel[];
 }
 
@@ -79,9 +79,9 @@ export interface CommunicationError {
   readonly innerError?: CommunicationError;
 }
 
-/** The update audio routing group request. */
-export interface UpdateAudioRoutingGroupRequest {
-  /** The target identities that would be receivers in the audio routing group. */
+/** The update audio group request. */
+export interface UpdateAudioGroupRequest {
+  /** The target identities that would be receivers in the audio group. */
   targets: CommunicationIdentifierModel[];
 }
 
@@ -215,18 +215,18 @@ export interface TransferToCallRequest {
   operationContext?: string;
 }
 
-/** The audio routing group request. */
-export interface AudioRoutingGroupRequest {
+/** The audio group request. */
+export interface AudioGroupRequest {
   /** The audio routing mode. */
   audioRoutingMode: AudioRoutingMode;
-  /** The target identities that would be receivers in the audio routing group. */
+  /** The target identities that would be receivers in the audio group. */
   targets: CommunicationIdentifierModel[];
 }
 
-/** The response payload of the create audio routing group operation. */
-export interface CreateAudioRoutingGroupResult {
-  /** The audio routing group id. */
-  audioRoutingGroupId?: string;
+/** The response payload of the create audio group operation. */
+export interface CreateAudioGroupResult {
+  /** The audio group id. */
+  audioGroupId?: string;
 }
 
 /** The request payload for get all participants. */
@@ -385,14 +385,14 @@ export interface UnmuteParticipantRequest {
   operationContext?: string;
 }
 
-/** The request payload for holding meeting audio for a participant. */
-export interface HoldMeetingAudioRequest {
+/** The request payload for removing a participant from default audio group. */
+export interface RemoveFromDefaultAudioGroupRequest {
   /** The identifier of the participant. */
   identifier: CommunicationIdentifierModel;
 }
 
-/** The request payload for resuming meeting audio for a participant. */
-export interface ResumeMeetingAudioRequest {
+/** The request payload for adding a participant to default audio group. */
+export interface AddToDefaultAudioGroupRequest {
   /** The identifier of the participant. */
   identifier: CommunicationIdentifierModel;
 }
@@ -534,16 +534,22 @@ export interface CallRecordingStateChangeEvent {
 export interface AddParticipantResultEvent {
   /** The result details. */
   resultDetails?: CallingOperationResultDetails;
+  /** The operation id. */
+  operationId?: string;
   /** The operation context. */
   operationContext?: string;
   /** The status of the operation */
   status: CallingOperationStatus;
+  /** The server call locator. */
+  callLocator?: CallLocatorModel;
 }
 
 /** The participant update event */
 export interface ParticipantsUpdatedEvent {
   /** The call connection id. */
   callConnectionId?: string;
+  /** The server call locator. */
+  callLocator?: CallLocatorModel;
   /** The list of participants. */
   participants?: CallParticipant[];
 }
@@ -552,10 +558,14 @@ export interface ParticipantsUpdatedEvent {
 export interface PlayAudioResultEvent {
   /** The result details. */
   resultDetails?: CallingOperationResultDetails;
+  /** The operation id. */
+  operationId?: string;
   /** The operation context. */
   operationContext?: string;
   /** The status of the operation */
   status: CallingOperationStatus;
+  /** The server call locator. */
+  callLocator?: CallLocatorModel;
 }
 
 /** The subscribe to tone event */
@@ -564,6 +574,8 @@ export interface ToneReceivedEvent {
   toneInfo: ToneInfo;
   /** The call connection id. */
   callConnectionId?: string;
+  /** The server call locator. */
+  callLocator?: CallLocatorModel;
 }
 
 /** The information about the tone. */
@@ -578,10 +590,14 @@ export interface ToneInfo {
 export interface TransferCallResultEvent {
   /** The result details. */
   resultDetails?: CallingOperationResultDetails;
+  /** The operation id. */
+  operationId?: string;
   /** The operation context. */
   operationContext?: string;
   /** The status of the operation */
   status: CallingOperationStatus;
+  /** The server call locator. */
+  callLocator?: CallLocatorModel;
 }
 
 /** Known values of {@link AudioRoutingMode} that the service accepts. */
@@ -620,6 +636,7 @@ export type CommunicationCloudEnvironmentModel = string;
 
 /** Known values of {@link CallConnectionState} that the service accepts. */
 export const enum KnownCallConnectionState {
+  Unknown = "unknown",
   Connecting = "connecting",
   Connected = "connected",
   Transferring = "transferring",
@@ -633,6 +650,7 @@ export const enum KnownCallConnectionState {
  * {@link KnownCallConnectionState} can be used interchangeably with CallConnectionState,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
+ * **unknown** \
  * **connecting** \
  * **connected** \
  * **transferring** \
@@ -798,15 +816,15 @@ export type CallingEventSubscriptionType =
 /** Defines values for CallRejectReason. */
 export type CallRejectReason = "none" | "busy" | "forbidden";
 
-/** Contains response data for the getAudioRoutingGroups operation. */
-export type CallConnectionsGetAudioRoutingGroupsResponse = AudioRoutingGroupResult & {
+/** Contains response data for the getAudioGroups operation. */
+export type CallConnectionsGetAudioGroupsResponse = AudioGroupResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: AudioRoutingGroupResult;
+    parsedBody: AudioGroupResult;
   };
 };
 
@@ -870,15 +888,15 @@ export type CallConnectionsTransferToCallResponse = TransferCallResult & {
   };
 };
 
-/** Contains response data for the createAudioRoutingGroup operation. */
-export type CallConnectionsCreateAudioRoutingGroupResponse = CreateAudioRoutingGroupResult & {
+/** Contains response data for the createAudioGroup operation. */
+export type CallConnectionsCreateAudioGroupResponse = CreateAudioGroupResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: CreateAudioRoutingGroupResult;
+    parsedBody: CreateAudioGroupResult;
   };
 };
 
