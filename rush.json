@@ -1360,6 +1360,11 @@
       "packageName": "@azure/arm-hybridkubernetes",
       "projectFolder": "sdk/hybridkubernetes/arm-hybridkubernetes",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-workspaces",
+      "projectFolder": "sdk/machinelearning/arm-workspaces",
+      "versionPolicyName": "management"
     }
   ]
 }
