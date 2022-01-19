@@ -1305,6 +1305,61 @@
       "packageName": "@azure/arm-healthbot",
       "projectFolder": "sdk/healthbot/arm-healthbot",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-deploymentmanager",
+      "projectFolder": "sdk/deploymentmanager/arm-deploymentmanager",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hanaonazure",
+      "projectFolder": "sdk/hanaonazure/arm-hanaonazure",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-kubernetesconfiguration",
+      "projectFolder": "sdk/kubernetesconfiguration/arm-kubernetesconfiguration",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-labservices",
+      "projectFolder": "sdk/labservices/arm-labservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-machinelearningcompute",
+      "projectFolder": "sdk/machinelearningcompute/arm-machinelearningcompute",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-machinelearningexperimentation",
+      "projectFolder": "sdk/machinelearningexperimentation/arm-machinelearningexperimentation",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-commerce",
+      "projectFolder": "sdk/commerce/arm-commerce",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datamigration",
+      "projectFolder": "sdk/datamigration/arm-datamigration",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-healthcareapis",
+      "projectFolder": "sdk/healthcareapis/arm-healthcareapis",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hybridcompute",
+      "projectFolder": "sdk/hybridcompute/arm-hybridcompute",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hybridkubernetes",
+      "projectFolder": "sdk/hybridkubernetes/arm-hybridkubernetes",
+      "versionPolicyName": "management"
     }
   ]
 }

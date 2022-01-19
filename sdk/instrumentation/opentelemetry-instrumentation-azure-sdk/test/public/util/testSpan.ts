@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import {
-  TimeInput,
-  Tracer,
+  Link,
+  Span,
+  SpanAttributeValue,
+  SpanAttributes,
+  SpanContext,
   SpanKind,
   SpanStatus,
-  SpanContext,
-  SpanAttributes,
   SpanStatusCode,
-  SpanAttributeValue,
-  Span,
-  Link,
+  TimeInput,
+  Tracer,
 } from "@opentelemetry/api";
 
 /**
