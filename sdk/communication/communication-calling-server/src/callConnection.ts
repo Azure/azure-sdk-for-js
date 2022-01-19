@@ -19,12 +19,12 @@ import {
   CallParticipant,
   CallConnectionProperties,
   AudioRoutingMode,
-  AudioRoutingGroupRequest,
-  CreateAudioRoutingGroupResult,
-  AudioRoutingGroupResult,
-  UpdateAudioRoutingGroupRequest,
-  HoldMeetingAudioRequest,
-  ResumeMeetingAudioRequest,
+  AudioGroupRequest,
+  CreateAudioGroupResult,
+  AudioGroupResult,
+  UpdateAudioGroupRequest,
+  RemoveFromDefaultAudioGroupRequest,
+  AddToDefaultAudioGroupRequest,
   TransferCallResult
 } from "./generated/src/models";
 import {
@@ -44,12 +44,12 @@ import {
   TransferToCallOptions,
   KeepAliveOptions,
   GetCallOptions,
-  CreateAudioRoutingGroupOptions,
-  DeleteAudioRoutingGroupOptions,
-  GetAudioRoutingGroupsOptions,
-  UpdateAudioRoutingGroupOptions,
-  HoldParticipantMeetingAudioOptions,
-  ResumeParticipantMeetingAudioOptions
+  CreateAudioGroupOptions,
+  DeleteAudioGroupOptions,
+  GetAudioGroupsOptions,
+  UpdateAudioGroupOptions,
+  RemoveFromDefaultAudioGroupOptions,
+  AddToDefaultAudioGroupOptions
 } from "./models";
 import {
   CommunicationIdentifier,
@@ -224,51 +224,51 @@ export interface CallConnection {
   getCall(options?: GetCallOptions): Promise<CallConnectionProperties>;
 
   /**
-   * Create audio routing group in a call.
+   * Create audio group in a call.
    *
    * @param audioRoutingMode - The audio routing mode.
-   * @param target - The target identities that would be receivers in the audio routing group.
-   * @param options - Additional request options contains createAudioRoutingGroup api options.
+   * @param target - The target identities that would be receivers in the audio group.
+   * @param options - Additional request options contains createAudioGroup api options.
    */
-  createAudioRoutingGroup(
+  createAudioGroup(
     audioRoutingMode: AudioRoutingMode,
     targets: CommunicationIdentifier[],
-    options: CreateAudioRoutingGroupOptions
-  ): Promise<CreateAudioRoutingGroupResult>;
+    options: CreateAudioGroupOptions
+  ): Promise<CreateAudioGroupResult>;
 
   /**
-   * Delete audio routing group from a call.
+   * Delete audio group from a call.
    *
-   * @param audioRoutingGroupId - The audio routing group id.
-   * @param options - Additional request options contains deleteAudioRoutingGroup api options.
+   * @param audioGroupId - The audio group id.
+   * @param options - Additional request options contains deleteAudioGroup api options.
    */
-  deleteAudioRoutingGroup(
-    audioRoutingGroupId: string,
-    options: DeleteAudioRoutingGroupOptions
+  deleteAudioGroup(
+    audioGroupId: string,
+    options: DeleteAudioGroupOptions
   ): Promise<void>;
 
   /**
-   * List audio routing groups in a call.
+   * List audio groups in a call.
    *
-   * @param audioRoutingGroupId - The audio routing group id.
-   * @param options - Additional request options contains getAudioRoutingGroups api options.
+   * @param audioGroupId - The audio group id.
+   * @param options - Additional request options contains getAudioGroups api options.
    */
-  getAudioRoutingGroups(
-    audioRoutingGroupId: string,
-    options: GetAudioRoutingGroupsOptions
-  ): Promise<AudioRoutingGroupResult>;
+  getAudioGroups(
+    audioGroupId: string,
+    options: GetAudioGroupsOptions
+  ): Promise<AudioGroupResult>;
 
   /**
-   * Update audio routing group.
+   * Update audio group.
    *
-   * @param audioRoutingGroupId - The audio routing group id.
-   * @param targets - The target identities that would be receivers in the audio routing group.
-   * @param options - Additional request options contains updateAudioRoutingGroup api options.
+   * @param audioGroupId - The audio group id.
+   * @param targets - The target identities that would be receivers in the audio group.
+   * @param options - Additional request options contains updateAudioGroup api options.
    */
-  updateAudioRoutingGroup(
-    audioRoutingGroupId: string,
+  updateAudioGroup(
+    audioGroupId: string,
     targets: CommunicationIdentifier[],
-    options: UpdateAudioRoutingGroupOptions
+    options: UpdateAudioGroupOptions
   ): Promise<void>;
 
   /**
@@ -276,11 +276,11 @@ export interface CallConnection {
    * so the participant does not hear anything from the meeting and cannot add audio into the meeting.
    *
    * @param participant - The identifier of the participant.
-   * @param options - Additional request options contains holdParticipantMeetingAudio api options.
+   * @param options - Additional request options contains removeFromDefaultAudioGroupAudio api options.
    */
-  holdParticipantMeetingAudio(
+   removeFromDefaultAudioGroup(
     participant: CommunicationIdentifier,
-    options: HoldParticipantMeetingAudioOptions
+    options: RemoveFromDefaultAudioGroupOptions
   ): Promise<void>;
 
   /**
@@ -288,11 +288,11 @@ export interface CallConnection {
    * so the participant begins to hear everything from the meeting and can add audio into the meeting.
    *
    * @param participant - The identifier of the participant.
-   * @param options - Additional request options contains resumeParticipantMeetingAudio api options.
+   * @param options - Additional request options contains addToDefaultAudioGroupAudio api options.
    */
-  resumeParticipantMeetingAudio(
+   addToDefaultAudioGroup(
     participant: CommunicationIdentifier,
-    options: ResumeParticipantMeetingAudioOptions
+    options: AddToDefaultAudioGroupOptions
   ): Promise<void>;
 }
 
@@ -860,29 +860,29 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Create audio routing group in a call.
+   * Create audio group in a call.
    *
    * @param audioRoutingMode - The audio routing mode.
-   * @param target - The target identities that would be receivers in the audio routing group.
-   * @param options - Additional request options contains createAudioRoutingGroup api options.
+   * @param target - The target identities that would be receivers in the audio group.
+   * @param options - Additional request options contains createAudioGroup api options.
    */
-  public async createAudioRoutingGroup(
+  public async createAudioGroup(
     audioRoutingMode: AudioRoutingMode,
     targets: CommunicationIdentifier[],
-    options: CreateAudioRoutingGroupOptions = {}
-  ): Promise<CreateAudioRoutingGroupResult> {
+    options: CreateAudioGroupOptions = {}
+  ): Promise<CreateAudioGroupResult> {
     const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-CreateAudioRoutingGroup",
+      "CallConnectionRestClient-CreateAudioGroup",
       options
     );
 
-    const request: AudioRoutingGroupRequest = {
+    const request: AudioGroupRequest = {
       audioRoutingMode: audioRoutingMode,
       targets: targets.map((m) => serializeCommunicationIdentifier(m))
     };
 
     try {
-      const { _response, ...result } = await this.callConnectionRestClient.createAudioRoutingGroup(
+      const { _response, ...result } = await this.callConnectionRestClient.createAudioGroup(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -900,24 +900,24 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Delete audio routing group from a call.
+   * Delete audio group from a call.
    *
-   * @param audioRoutingGroupId - The audio routing group id.
-   * @param options - Additional request options contains deleteAudioRoutingGroup api options.
+   * @param audioGroupId - The audio group id.
+   * @param options - Additional request options contains deleteAudioGroup api options.
    */
-  public async deleteAudioRoutingGroup(
-    audioRoutingGroupId: string,
-    options: DeleteAudioRoutingGroupOptions = {}
+  public async deleteAudioGroup(
+    audioGroupId: string,
+    options: DeleteAudioGroupOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-DeleteAudioRoutingGroup",
+      "CallConnectionRestClient-DeleteAudioGroup",
       options
     );
 
     try {
-      await this.callConnectionRestClient.deleteAudioRoutingGroup(
+      await this.callConnectionRestClient.deleteAudioGroup(
         this.callConnectionId,
-        audioRoutingGroupId,
+        audioGroupId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
     } catch (e) {
@@ -932,24 +932,24 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * List audio routing groups in a call.
+   * List audio groups in a call.
    *
-   * @param audioRoutingGroupId - The audio routing group id.
-   * @param options - Additional request options contains getAudioRoutingGroups api options.
+   * @param audioGroupId - The audio group id.
+   * @param options - Additional request options contains getAudioGroups api options.
    */
-  public async getAudioRoutingGroups(
-    audioRoutingGroupId: string,
-    options: GetAudioRoutingGroupsOptions = {}
-  ): Promise<AudioRoutingGroupResult> {
+  public async getAudioGroups(
+    audioGroupId: string,
+    options: GetAudioGroupsOptions = {}
+  ): Promise<AudioGroupResult> {
     const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-GetAudioRoutingGroups",
+      "CallConnectionRestClient-GetAudioGroups",
       options
     );
 
     try {
-      const { _response, ...result } = await this.callConnectionRestClient.getAudioRoutingGroups(
+      const { _response, ...result } = await this.callConnectionRestClient.getAudioGroups(
         this.callConnectionId,
-        audioRoutingGroupId,
+        audioGroupId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;
@@ -965,30 +965,30 @@ export class CallConnectionImpl implements CallConnection {
   }
 
   /**
-   * Update audio routing group.
+   * Update audio group.
    *
-   * @param audioRoutingGroupId - The audio routing group id.
-   * @param targets - The target identities that would be receivers in the audio routing group.
-   * @param options - Additional request options contains updateAudioRoutingGroup api options.
+   * @param audioGroupId - The audio group id.
+   * @param targets - The target identities that would be receivers in the audio group.
+   * @param options - Additional request options contains updateAudioGroup api options.
    */
-  public async updateAudioRoutingGroup(
-    audioRoutingGroupId: string,
+  public async updateAudioGroup(
+    audioGroupId: string,
     targets: CommunicationIdentifier[],
-    options: UpdateAudioRoutingGroupOptions = {}
+    options: UpdateAudioGroupOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-UpdateAudioRoutingGroup",
+      "CallConnectionRestClient-UpdateAudioGroup",
       options
     );
 
-    const request: UpdateAudioRoutingGroupRequest = {
+    const request: UpdateAudioGroupRequest = {
       targets: targets.map((m) => serializeCommunicationIdentifier(m))
     };
 
     try {
-      await this.callConnectionRestClient.updateAudioRoutingGroup(
+      await this.callConnectionRestClient.updateAudioGroup(
         this.callConnectionId,
-        audioRoutingGroupId,
+        audioGroupId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
@@ -1008,23 +1008,23 @@ export class CallConnectionImpl implements CallConnection {
    * so the participant does not hear anything from the meeting and cannot add audio into the meeting.
    *
    * @param participant - The identifier of the participant.
-   * @param options - Additional request options contains holdParticipantMeetingAudio api options.
+   * @param options - Additional request options contains removeFromDefaultAudioGroupAudio api options.
    */
-  public async holdParticipantMeetingAudio(
+  public async removeFromDefaultAudioGroup(
     participant: CommunicationIdentifier,
-    options: HoldParticipantMeetingAudioOptions = {}
+    options: RemoveFromDefaultAudioGroupOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-UpdateAudioRoutingGroup",
+      "CallConnectionRestClient-UpdateAudioGroup",
       options
     );
 
-    const request: HoldMeetingAudioRequest = {
+    const request: RemoveFromDefaultAudioGroupRequest = {
       identifier: serializeCommunicationIdentifier(participant)
     };
 
     try {
-      await this.callConnectionRestClient.holdParticipantMeetingAudio(
+      await this.callConnectionRestClient.removeParticipantFromDefaultAudioGroup(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -1045,23 +1045,23 @@ export class CallConnectionImpl implements CallConnection {
    * so the participant begins to hear everything from the meeting and can add audio into the meeting.
    *
    * @param participant - The identifier of the participant.
-   * @param options - Additional request options contains resumeParticipantMeetingAudio api options.
+   * @param options - Additional request options contains addToDefaultAudioGroupAudio api options.
    */
-  public async resumeParticipantMeetingAudio(
+  public async addToDefaultAudioGroup(
     participant: CommunicationIdentifier,
-    options: ResumeParticipantMeetingAudioOptions = {}
+    options: AddToDefaultAudioGroupOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-ResumeParticipantMeetingAudio",
+      "CallConnectionRestClient-AddToDefaultAudioGroupAudio",
       options
     );
 
-    const request: ResumeMeetingAudioRequest = {
+    const request: AddToDefaultAudioGroupRequest = {
       identifier: serializeCommunicationIdentifier(participant)
     };
 
     try {
-      await this.callConnectionRestClient.resumeParticipantMeetingAudio(
+      await this.callConnectionRestClient.addParticipantToDefaultAudioGroup(
         this.callConnectionId,
         request,
         operationOptionsToRequestOptionsBase(updatedOptions)

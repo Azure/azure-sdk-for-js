@@ -11,8 +11,8 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CallingServerApiClientContext } from "../callingServerApiClientContext";
 import {
-  CallConnectionsGetAudioRoutingGroupsResponse,
-  UpdateAudioRoutingGroupRequest,
+  CallConnectionsGetAudioGroupsResponse,
+  UpdateAudioGroupRequest,
   CreateCallRequest,
   CallConnectionsCreateCallResponse,
   CallConnectionsGetCallResponse,
@@ -22,8 +22,8 @@ import {
   CallConnectionsTransferToParticipantResponse,
   TransferToCallRequest,
   CallConnectionsTransferToCallResponse,
-  AudioRoutingGroupRequest,
-  CallConnectionsCreateAudioRoutingGroupResponse,
+  AudioGroupRequest,
+  CallConnectionsCreateAudioGroupResponse,
   CallConnectionsGetParticipantsResponse,
   AddParticipantRequest,
   CallConnectionsAddParticipantResponse,
@@ -35,8 +35,8 @@ import {
   CancelParticipantMediaOperationRequest,
   MuteParticipantRequest,
   UnmuteParticipantRequest,
-  HoldMeetingAudioRequest,
-  ResumeMeetingAudioRequest
+  RemoveFromDefaultAudioGroupRequest,
+  AddToDefaultAudioGroupRequest
 } from "../models";
 
 /** Class representing a CallConnections. */
@@ -52,71 +52,71 @@ export class CallConnections {
   }
 
   /**
-   * Get audio routing groups from a call.
+   * Get audio groups from a call.
    * @param callConnectionId The call connection id.
-   * @param audioRoutingGroupId The audio routing group id.
+   * @param audioGroupId The audio group id.
    * @param options The options parameters.
    */
-  getAudioRoutingGroups(
+  getAudioGroups(
     callConnectionId: string,
-    audioRoutingGroupId: string,
+    audioGroupId: string,
     options?: coreHttp.OperationOptions
-  ): Promise<CallConnectionsGetAudioRoutingGroupsResponse> {
+  ): Promise<CallConnectionsGetAudioGroupsResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       callConnectionId,
-      audioRoutingGroupId,
+      audioGroupId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      getAudioRoutingGroupsOperationSpec
-    ) as Promise<CallConnectionsGetAudioRoutingGroupsResponse>;
+      getAudioGroupsOperationSpec
+    ) as Promise<CallConnectionsGetAudioGroupsResponse>;
   }
 
   /**
-   * Delete audio routing group from a call.
+   * Delete audio group from a call.
    * @param callConnectionId The call connection id.
-   * @param audioRoutingGroupId The audio routing group id.
+   * @param audioGroupId The audio group id.
    * @param options The options parameters.
    */
-  deleteAudioRoutingGroup(
+  deleteAudioGroup(
     callConnectionId: string,
-    audioRoutingGroupId: string,
+    audioGroupId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       callConnectionId,
-      audioRoutingGroupId,
+      audioGroupId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      deleteAudioRoutingGroupOperationSpec
+      deleteAudioGroupOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
-   * Update audio routing group.
+   * Update audio group.
    * @param callConnectionId The call connection id.
-   * @param audioRoutingGroupId The audio routing group id.
-   * @param updateAudioRoutingGroupRequest The update audio routing group request.
+   * @param audioGroupId The audio group id.
+   * @param updateAudioGroupRequest The update audio group request.
    * @param options The options parameters.
    */
-  updateAudioRoutingGroup(
+  updateAudioGroup(
     callConnectionId: string,
-    audioRoutingGroupId: string,
-    updateAudioRoutingGroupRequest: UpdateAudioRoutingGroupRequest,
+    audioGroupId: string,
+    updateAudioGroupRequest: UpdateAudioGroupRequest,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       callConnectionId,
-      audioRoutingGroupId,
-      updateAudioRoutingGroupRequest,
+      audioGroupId,
+      updateAudioGroupRequest,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      updateAudioRoutingGroupOperationSpec
+      updateAudioGroupOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
@@ -301,25 +301,25 @@ export class CallConnections {
   }
 
   /**
-   * Create audio routing group in a call.
+   * Create audio group in a call.
    * @param callConnectionId The call connection id.
-   * @param audioRoutingGroupRequest The audio routing group request.
+   * @param audioGroupRequest The audio group request.
    * @param options The options parameters.
    */
-  createAudioRoutingGroup(
+  createAudioGroup(
     callConnectionId: string,
-    audioRoutingGroupRequest: AudioRoutingGroupRequest,
+    audioGroupRequest: AudioGroupRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<CallConnectionsCreateAudioRoutingGroupResponse> {
+  ): Promise<CallConnectionsCreateAudioGroupResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       callConnectionId,
-      audioRoutingGroupRequest,
+      audioGroupRequest,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      createAudioRoutingGroupOperationSpec
-    ) as Promise<CallConnectionsCreateAudioRoutingGroupResponse>;
+      createAudioGroupOperationSpec
+    ) as Promise<CallConnectionsCreateAudioGroupResponse>;
   }
 
   /**
@@ -496,59 +496,61 @@ export class CallConnections {
   }
 
   /**
-   * Hold meeting audio of a participant in the call.
+   * Remove a participant from default audio group.
    * @param callConnectionId The call connection id.
-   * @param holdMeetingAudioRequest The request payload for holding meeting audio for a participant.
+   * @param removeFromDefaultAudioGroupRequest The request payload for removing a participant from
+   *                                           default audio group.
    * @param options The options parameters.
    */
-  holdParticipantMeetingAudio(
+  removeParticipantFromDefaultAudioGroup(
     callConnectionId: string,
-    holdMeetingAudioRequest: HoldMeetingAudioRequest,
+    removeFromDefaultAudioGroupRequest: RemoveFromDefaultAudioGroupRequest,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       callConnectionId,
-      holdMeetingAudioRequest,
+      removeFromDefaultAudioGroupRequest,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      holdParticipantMeetingAudioOperationSpec
+      removeParticipantFromDefaultAudioGroupOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
-   * Resume meeting audio of a participant in the call.
+   * Add a participant to default audio group.
    * @param callConnectionId The call connection id.
-   * @param resumeMeetingAudioRequest The request payload for resuming meeting audio for a participant.
+   * @param addToDefaultAudioGroupRequest The request payload for adding a participant to default audio
+   *                                      group.
    * @param options The options parameters.
    */
-  resumeParticipantMeetingAudio(
+  addParticipantToDefaultAudioGroup(
     callConnectionId: string,
-    resumeMeetingAudioRequest: ResumeMeetingAudioRequest,
+    addToDefaultAudioGroupRequest: AddToDefaultAudioGroupRequest,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       callConnectionId,
-      resumeMeetingAudioRequest,
+      addToDefaultAudioGroupRequest,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      resumeParticipantMeetingAudioOperationSpec
+      addParticipantToDefaultAudioGroupOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 }
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const getAudioRoutingGroupsOperationSpec: coreHttp.OperationSpec = {
+const getAudioGroupsOperationSpec: coreHttp.OperationSpec = {
   path:
-    "/calling/callConnections/{callConnectionId}/audioRoutingGroups/{audioRoutingGroupId}",
+    "/calling/callConnections/{callConnectionId}/audioGroups/{audioGroupId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AudioRoutingGroupResult
+      bodyMapper: Mappers.AudioGroupResult
     },
     400: {
       bodyMapper: Mappers.CommunicationErrorResponse,
@@ -575,17 +577,17 @@ const getAudioRoutingGroupsOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.callConnectionId,
-    Parameters.audioRoutingGroupId
+    Parameters.audioGroupId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const deleteAudioRoutingGroupOperationSpec: coreHttp.OperationSpec = {
+const deleteAudioGroupOperationSpec: coreHttp.OperationSpec = {
   path:
-    "/calling/callConnections/{callConnectionId}/audioRoutingGroups/{audioRoutingGroupId}",
+    "/calling/callConnections/{callConnectionId}/audioGroups/{audioGroupId}",
   httpMethod: "DELETE",
   responses: {
-    202: {},
+    200: {},
     400: {
       bodyMapper: Mappers.CommunicationErrorResponse,
       isError: true
@@ -611,14 +613,14 @@ const deleteAudioRoutingGroupOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.endpoint,
     Parameters.callConnectionId,
-    Parameters.audioRoutingGroupId
+    Parameters.audioGroupId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateAudioRoutingGroupOperationSpec: coreHttp.OperationSpec = {
+const updateAudioGroupOperationSpec: coreHttp.OperationSpec = {
   path:
-    "/calling/callConnections/{callConnectionId}/audioRoutingGroups/{audioRoutingGroupId}",
+    "/calling/callConnections/{callConnectionId}/audioGroups/{audioGroupId}",
   httpMethod: "PATCH",
   responses: {
     200: {},
@@ -643,12 +645,12 @@ const updateAudioRoutingGroupOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
-  requestBody: Parameters.updateAudioRoutingGroupRequest,
+  requestBody: Parameters.updateAudioGroupRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.callConnectionId,
-    Parameters.audioRoutingGroupId
+    Parameters.audioGroupId
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -947,12 +949,12 @@ const transferToCallOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const createAudioRoutingGroupOperationSpec: coreHttp.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}/:createAudioRoutingGroup",
+const createAudioGroupOperationSpec: coreHttp.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/:createAudioGroup",
   httpMethod: "POST",
   responses: {
     201: {
-      bodyMapper: Mappers.CreateAudioRoutingGroupResult
+      bodyMapper: Mappers.CreateAudioGroupResult
     },
     400: {
       bodyMapper: Mappers.CommunicationErrorResponse,
@@ -975,7 +977,7 @@ const createAudioRoutingGroupOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
-  requestBody: Parameters.audioRoutingGroupRequest,
+  requestBody: Parameters.audioGroupRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -1258,9 +1260,9 @@ const unmuteParticipantOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const holdParticipantMeetingAudioOperationSpec: coreHttp.OperationSpec = {
+const removeParticipantFromDefaultAudioGroupOperationSpec: coreHttp.OperationSpec = {
   path:
-    "/calling/callConnections/{callConnectionId}/participants:holdMeetingAudio",
+    "/calling/callConnections/{callConnectionId}/participants:removeFromDefaultAudioGroup",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1285,16 +1287,16 @@ const holdParticipantMeetingAudioOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
-  requestBody: Parameters.holdMeetingAudioRequest,
+  requestBody: Parameters.removeFromDefaultAudioGroupRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const resumeParticipantMeetingAudioOperationSpec: coreHttp.OperationSpec = {
+const addParticipantToDefaultAudioGroupOperationSpec: coreHttp.OperationSpec = {
   path:
-    "/calling/callConnections/{callConnectionId}/participants:resumeMeetingAudio",
+    "/calling/callConnections/{callConnectionId}/participants:addToDefaultAudioGroup",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -1319,7 +1321,7 @@ const resumeParticipantMeetingAudioOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
-  requestBody: Parameters.resumeMeetingAudioRequest,
+  requestBody: Parameters.addToDefaultAudioGroupRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.accept, Parameters.contentType],

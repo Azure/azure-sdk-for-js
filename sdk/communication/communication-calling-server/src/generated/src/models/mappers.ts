@@ -8,10 +8,10 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export const AudioRoutingGroupResult: coreHttp.CompositeMapper = {
+export const AudioGroupResult: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AudioRoutingGroupResult",
+    className: "AudioGroupResult",
     modelProperties: {
       audioRoutingMode: {
         serializedName: "audioRoutingMode",
@@ -197,10 +197,10 @@ export const CommunicationError: coreHttp.CompositeMapper = {
   }
 };
 
-export const UpdateAudioRoutingGroupRequest: coreHttp.CompositeMapper = {
+export const UpdateAudioGroupRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "UpdateAudioRoutingGroupRequest",
+    className: "UpdateAudioGroupRequest",
     modelProperties: {
       targets: {
         serializedName: "targets",
@@ -621,10 +621,10 @@ export const TransferToCallRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const AudioRoutingGroupRequest: coreHttp.CompositeMapper = {
+export const AudioGroupRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AudioRoutingGroupRequest",
+    className: "AudioGroupRequest",
     modelProperties: {
       audioRoutingMode: {
         serializedName: "audioRoutingMode",
@@ -650,13 +650,13 @@ export const AudioRoutingGroupRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const CreateAudioRoutingGroupResult: coreHttp.CompositeMapper = {
+export const CreateAudioGroupResult: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CreateAudioRoutingGroupResult",
+    className: "CreateAudioGroupResult",
     modelProperties: {
-      audioRoutingGroupId: {
-        serializedName: "audioRoutingGroupId",
+      audioGroupId: {
+        serializedName: "audioGroupId",
         type: {
           name: "String"
         }
@@ -1088,10 +1088,10 @@ export const UnmuteParticipantRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const HoldMeetingAudioRequest: coreHttp.CompositeMapper = {
+export const RemoveFromDefaultAudioGroupRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "HoldMeetingAudioRequest",
+    className: "RemoveFromDefaultAudioGroupRequest",
     modelProperties: {
       identifier: {
         serializedName: "identifier",
@@ -1104,10 +1104,10 @@ export const HoldMeetingAudioRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const ResumeMeetingAudioRequest: coreHttp.CompositeMapper = {
+export const AddToDefaultAudioGroupRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ResumeMeetingAudioRequest",
+    className: "AddToDefaultAudioGroupRequest",
     modelProperties: {
       identifier: {
         serializedName: "identifier",
@@ -1521,6 +1521,12 @@ export const AddParticipantResultEvent: coreHttp.CompositeMapper = {
           className: "CallingOperationResultDetails"
         }
       },
+      operationId: {
+        serializedName: "operationId",
+        type: {
+          name: "String"
+        }
+      },
       operationContext: {
         serializedName: "operationContext",
         type: {
@@ -1532,6 +1538,13 @@ export const AddParticipantResultEvent: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      },
+      callLocator: {
+        serializedName: "callLocator",
+        type: {
+          name: "Composite",
+          className: "CallLocatorModel"
         }
       }
     }
@@ -1547,6 +1560,13 @@ export const ParticipantsUpdatedEvent: coreHttp.CompositeMapper = {
         serializedName: "callConnectionId",
         type: {
           name: "String"
+        }
+      },
+      callLocator: {
+        serializedName: "callLocator",
+        type: {
+          name: "Composite",
+          className: "CallLocatorModel"
         }
       },
       participants: {
@@ -1577,6 +1597,12 @@ export const PlayAudioResultEvent: coreHttp.CompositeMapper = {
           className: "CallingOperationResultDetails"
         }
       },
+      operationId: {
+        serializedName: "operationId",
+        type: {
+          name: "String"
+        }
+      },
       operationContext: {
         serializedName: "operationContext",
         type: {
@@ -1588,6 +1614,13 @@ export const PlayAudioResultEvent: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      },
+      callLocator: {
+        serializedName: "callLocator",
+        type: {
+          name: "Composite",
+          className: "CallLocatorModel"
         }
       }
     }
@@ -1610,6 +1643,13 @@ export const ToneReceivedEvent: coreHttp.CompositeMapper = {
         serializedName: "callConnectionId",
         type: {
           name: "String"
+        }
+      },
+      callLocator: {
+        serializedName: "callLocator",
+        type: {
+          name: "Composite",
+          className: "CallLocatorModel"
         }
       }
     }
@@ -1651,6 +1691,12 @@ export const TransferCallResultEvent: coreHttp.CompositeMapper = {
           className: "CallingOperationResultDetails"
         }
       },
+      operationId: {
+        serializedName: "operationId",
+        type: {
+          name: "String"
+        }
+      },
       operationContext: {
         serializedName: "operationContext",
         type: {
@@ -1662,6 +1708,13 @@ export const TransferCallResultEvent: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      },
+      callLocator: {
+        serializedName: "callLocator",
+        type: {
+          name: "Composite",
+          className: "CallLocatorModel"
         }
       }
     }
