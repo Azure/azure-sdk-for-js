@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { matrix } from "@azure/test-utils";
-import { isLiveMode, env, record, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, isPlaybackMode, env, record, Recorder } from "@azure-tools/test-recorder";
 import { CallingServerClient, GroupCallLocator, PlayAudioOptions, CallConnection, ServerCallLocator, AnswerCallOptions, RejectCallOptions, RedirectCallOptions } from "../../src";
 import * as Constants from "./utils/constants";
 import { TestUtils } from "./utils/testUtils";
@@ -22,6 +22,12 @@ matrix([[true, false]], async function(useAad) {
     let connectionString: string;
 
     beforeEach(async function(this: Context) {
+      // because we have only one test case here, "before each" will hook for the test.
+      // hence, need below block to disable beforeEach block.
+      if (isPlaybackMode()) {
+        // tslint:disable-next-line:no-invalid-this
+         this.skip();
+      }
       recorder = record(this, environmentSetup);
       recorder.skip(
         undefined,
@@ -38,29 +44,37 @@ matrix([[true, false]], async function(useAad) {
     });
 
     afterEach(async function(this: Context) {
+      // because we have only one test case here, "after each" will hook for the test.
+      // hence, need below block to disable afterEach block.
+      if (isPlaybackMode()) {
+        // tslint:disable-next-line:no-invalid-this
+         this.skip();
+      }
       await recorder.stop();
     });
 
-      describe("CallingServerClient Live Test", function () {
-        it("Run basic scenario to test client creation", async function (this: Context) {
-            this.timeout(0);
-            const groupId = TestUtils.getGroupId("Run join_play_cancel_hangup scenario");
-            const fromUser = await TestUtils.getUserId("fromUser", connectionString);
-            const toUser = await TestUtils.getUserId("toUser", connectionString);
-            const callingServer = new CallingServerClient(connectionString);
-            let connections: CallConnection[] = [];
+    describe("CallingServerClient Live Test", function () {
+    it("Run basic scenario to test client creation", async function (this: Context) {
+        this.timeout(0);
+        const groupId = TestUtils.getGroupId(
+          `Run basic_scenario_to_test_client_creation ${useAad ? " [AAD]" : ""}`
+        );
+        const fromUser = await TestUtils.getUserId("fromUser", connectionString);
+        const toUser = await TestUtils.getUserId("toUser", connectionString);
+        const callingServer = new CallingServerClient(connectionString);
+        let connections: CallConnection[] = [];
 
-            // create GroupCalls
-            try {
-                connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
-            } finally {
-                // Hangup call
-                await TestUtils.waitForOperationCompletion();
-                await TestUtils.cleanCallConnections(connections);
-            }
-        });
+        // create GroupCalls
+        try {
+            connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
+        } finally {
+            // Hangup call
+            await TestUtils.waitForOperationCompletion();
+            await TestUtils.cleanCallConnections(connections);
+        }
     });
-  });
+    });
+ });
 });
 
 describe("Server Call Live Test", function() {
