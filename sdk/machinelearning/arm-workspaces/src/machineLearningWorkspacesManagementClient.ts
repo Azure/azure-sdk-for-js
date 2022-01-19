@@ -67,7 +67,7 @@ export class MachineLearningWorkspacesManagementClient extends coreClient.Servic
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2016-04-01";
+    this.apiVersion = options.apiVersion || "2019-10-01";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
   }

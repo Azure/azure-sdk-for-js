@@ -146,6 +146,34 @@ export const Resource: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "String" } }
         }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      }
+    }
+  }
+};
+
+export const Sku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Sku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      tier: {
+        serializedName: "tier",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -182,6 +210,13 @@ export const WorkspaceUpdateParameters: coreClient.CompositeMapper = {
         serializedName: "properties.keyVaultIdentifierId",
         type: {
           name: "String"
+        }
+      },
+      sku: {
+        serializedName: "properties.sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
         }
       }
     }

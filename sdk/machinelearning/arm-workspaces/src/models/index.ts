@@ -63,6 +63,16 @@ export interface Resource {
   location: string;
   /** The tags of the resource. */
   tags?: { [propertyName: string]: string };
+  /** The sku of the workspace. */
+  sku?: Sku;
+}
+
+/** Sku of the resource */
+export interface Sku {
+  /** Name of the sku */
+  name?: string;
+  /** Tier of the sku like Basic or Enterprise */
+  tier?: string;
 }
 
 /** The parameters for updating a machine learning workspace. */
@@ -73,6 +83,8 @@ export interface WorkspaceUpdateParameters {
   workspaceState?: WorkspaceState;
   /** The key vault identifier used for encrypted workspaces. */
   keyVaultIdentifierId?: string;
+  /** The sku of the workspace. */
+  sku?: Sku;
 }
 
 /** Workspace authorization keys for a workspace. */

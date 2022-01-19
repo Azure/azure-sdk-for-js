@@ -72,10 +72,17 @@ export interface Resource {
     readonly id?: string;
     location: string;
     readonly name?: string;
+    sku?: Sku;
     tags?: {
         [propertyName: string]: string;
     };
     readonly type?: string;
+}
+
+// @public
+export interface Sku {
+    name?: string;
+    tier?: string;
 }
 
 // @public
@@ -187,6 +194,7 @@ export type WorkspaceType = "Production" | "Free" | "Anonymous" | "PaidStandard"
 // @public
 export interface WorkspaceUpdateParameters {
     keyVaultIdentifierId?: string;
+    sku?: Sku;
     tags?: {
         [propertyName: string]: string;
     };

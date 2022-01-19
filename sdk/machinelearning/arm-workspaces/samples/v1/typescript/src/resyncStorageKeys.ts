@@ -12,7 +12,7 @@
  * This sample demonstrates how to Resync storage keys associated with this workspace.
  *
  * @summary Resync storage keys associated with this workspace.
- * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2016-04-01/examples/ResyncStorageKeys.json
+ * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2019-10-01/examples/ResyncStorageKeys.json
  */
 import { MachineLearningWorkspacesManagementClient } from "@azure/arm-workspaces";
 import { DefaultAzureCredential } from "@azure/identity";

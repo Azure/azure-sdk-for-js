@@ -12,7 +12,7 @@
  * This sample demonstrates how to Deletes a machine learning workspace.
  *
  * @summary Deletes a machine learning workspace.
- * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2016-04-01/examples/DeleteWorkspace.json
+ * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2019-10-01/examples/DeleteWorkspace.json
  */
 const { MachineLearningWorkspacesManagementClient } = require("@azure/arm-workspaces");
 const { DefaultAzureCredential } = require("@azure/identity");

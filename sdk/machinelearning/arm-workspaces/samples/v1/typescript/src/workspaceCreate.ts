@@ -12,7 +12,7 @@
  * This sample demonstrates how to Creates or updates a workspace with the specified parameters.
  *
  * @summary Creates or updates a workspace with the specified parameters.
- * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2016-04-01/examples/CreateWorkspace.json
+ * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2019-10-01/examples/CreateWorkspace.json
  */
 import {
   Workspace,
@@ -27,6 +27,7 @@ async function workspaceCreate() {
   const parameters: Workspace = {
     location: "West Europe",
     ownerEmail: "abc@microsoft.com",
+    sku: { name: "Enterprise", tier: "Enterprise" },
     tags: { tagKey1: "TagValue1" },
     userStorageAccountId:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/teststorage"

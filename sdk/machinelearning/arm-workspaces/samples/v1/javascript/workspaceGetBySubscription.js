@@ -12,7 +12,7 @@
  * This sample demonstrates how to Lists all the available machine learning workspaces under the specified subscription.
  *
  * @summary Lists all the available machine learning workspaces under the specified subscription.
- * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2016-04-01/examples/ListWorkspaces.json
+ * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2019-10-01/examples/ListWorkspaces.json
  */
 const { MachineLearningWorkspacesManagementClient } = require("@azure/arm-workspaces");
 const { DefaultAzureCredential } = require("@azure/identity");
