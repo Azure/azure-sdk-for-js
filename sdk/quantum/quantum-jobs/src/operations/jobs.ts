@@ -7,27 +7,37 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import * as coreHttp from "@azure/core-http";
+import { Jobs } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { QuantumJobClient } from "../quantumJobClient";
+import { QuantumClient } from "../quantumClient";
 import {
   JobDetails,
+  JobsListNextOptionalParams,
+  JobsListOptionalParams,
   JobsListResponse,
+  JobsGetOptionalParams,
   JobsGetResponse,
+  JobsCreateOptionalParams,
   JobsCreateResponse,
+  JobsCancelOptionalParams,
+  JsonPatchDocument,
+  JobsPatchOptionalParams,
+  JobsPatchResponse,
   JobsListNextResponse
 } from "../models";
 
-/** Class representing a Jobs. */
-export class Jobs {
-  private readonly client: QuantumJobClient;
+/// <reference lib="esnext.asynciterable" />
+/** Class containing Jobs operations. */
+export class JobsImpl implements Jobs {
+  private readonly client: QuantumClient;
 
   /**
    * Initialize a new instance of the class Jobs class.
    * @param client Reference to the service client
    */
-  constructor(client: QuantumJobClient) {
+  constructor(client: QuantumClient) {
     this.client = client;
   }
 
@@ -35,7 +45,9 @@ export class Jobs {
    * List jobs.
    * @param options The options parameters.
    */
-  public list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<JobDetails> {
+  public list(
+    options?: JobsListOptionalParams
+  ): PagedAsyncIterableIterator<JobDetails> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -51,7 +63,7 @@ export class Jobs {
   }
 
   private async *listPagingPage(
-    options?: coreHttp.OperationOptions
+    options?: JobsListOptionalParams
   ): AsyncIterableIterator<JobDetails[]> {
     let result = await this._list(options);
     yield result.value || [];
@@ -64,7 +76,7 @@ export class Jobs {
   }
 
   private async *listPagingAll(
-    options?: coreHttp.OperationOptions
+    options?: JobsListOptionalParams
   ): AsyncIterableIterator<JobDetails> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -75,13 +87,8 @@ export class Jobs {
    * List jobs.
    * @param options The options parameters.
    */
-  private _list(options?: coreHttp.OperationOptions): Promise<JobsListResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(operationArguments, listOperationSpec) as Promise<
-      JobsListResponse
-    >;
+  private _list(options?: JobsListOptionalParams): Promise<JobsListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -89,14 +96,14 @@ export class Jobs {
    * @param jobId Id of the job.
    * @param options The options parameters.
    */
-  get(jobId: string, options?: coreHttp.OperationOptions): Promise<JobsGetResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      jobId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(operationArguments, getOperationSpec) as Promise<
-      JobsGetResponse
-    >;
+  get(
+    jobId: string,
+    options?: JobsGetOptionalParams
+  ): Promise<JobsGetResponse> {
+    return this.client.sendOperationRequest(
+      { jobId, options },
+      getOperationSpec
+    );
   }
 
   /**
@@ -108,16 +115,12 @@ export class Jobs {
   create(
     jobId: string,
     job: JobDetails,
-    options?: coreHttp.OperationOptions
+    options?: JobsCreateOptionalParams
   ): Promise<JobsCreateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      jobId,
-      job,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(operationArguments, createOperationSpec) as Promise<
-      JobsCreateResponse
-    >;
+    return this.client.sendOperationRequest(
+      { jobId, job, options },
+      createOperationSpec
+    );
   }
 
   /**
@@ -125,14 +128,28 @@ export class Jobs {
    * @param jobId Id of the job.
    * @param options The options parameters.
    */
-  cancel(jobId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      jobId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(operationArguments, cancelOperationSpec) as Promise<
-      coreHttp.RestResponse
-    >;
+  cancel(jobId: string, options?: JobsCancelOptionalParams): Promise<void> {
+    return this.client.sendOperationRequest(
+      { jobId, options },
+      cancelOperationSpec
+    );
+  }
+
+  /**
+   * Patch a job.
+   * @param jobId Id of the job.
+   * @param patchJob The json patch document containing the patch operations.
+   * @param options The options parameters.
+   */
+  patch(
+    jobId: string,
+    patchJob: JsonPatchDocument[],
+    options?: JobsPatchOptionalParams
+  ): Promise<JobsPatchResponse> {
+    return this.client.sendOperationRequest(
+      { jobId, patchJob, options },
+      patchOperationSpec
+    );
   }
 
   /**
@@ -142,21 +159,18 @@ export class Jobs {
    */
   private _listNext(
     nextLink: string,
-    options?: coreHttp.OperationOptions
+    options?: JobsListNextOptionalParams
   ): Promise<JobsListNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(operationArguments, listNextOperationSpec) as Promise<
-      JobsListNextResponse
-    >;
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreHttp.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/jobs",
   httpMethod: "GET",
@@ -174,7 +188,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getOperationSpec: coreHttp.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/jobs/{jobId}",
   httpMethod: "GET",
@@ -196,7 +210,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path:
     "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/jobs/{jobId}",
   httpMethod: "PUT",
@@ -223,7 +237,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const cancelOperationSpec: coreHttp.OperationSpec = {
+const cancelOperationSpec: coreClient.OperationSpec = {
   path:
     "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/jobs/{jobId}",
   httpMethod: "DELETE",
@@ -243,7 +257,32 @@ const cancelOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listNextOperationSpec: coreHttp.OperationSpec = {
+const patchOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/jobs/{jobId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobDetails
+    },
+    204: {},
+    default: {
+      bodyMapper: Mappers.RestError
+    }
+  },
+  requestBody: Parameters.patchJob,
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.jobId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

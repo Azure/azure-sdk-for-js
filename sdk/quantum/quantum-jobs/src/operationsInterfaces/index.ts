@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-/// <reference lib="esnext.asynciterable" />
-export * from "./models";
-export { QuantumClient } from "./quantumClient";
-export * from "./operationsInterfaces";
+export * from "./jobs";
+export * from "./providers";
+export * from "./storage";
+export * from "./quotas";

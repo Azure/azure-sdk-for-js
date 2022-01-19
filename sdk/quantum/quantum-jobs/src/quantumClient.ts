@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
-import { QuantumJobClientOptionalParams } from "./models";
+import * as coreClient from "@azure/core-client";
+import * as coreAuth from "@azure/core-auth";
+import { JobsImpl, ProvidersImpl, StorageImpl, QuotasImpl } from "./operations";
+import { Jobs, Providers, Storage, Quotas } from "./operationsInterfaces";
+import { QuantumClientOptionalParams } from "./models";
 
-const packageName = "@azure/quantum-jobs";
-const packageVersion = "1.0.0-beta.1";
-
-export class QuantumJobClientContext extends coreHttp.ServiceClient {
+export class QuantumClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
   resourceGroupName: string;
   workspaceName: string;
 
   /**
-   * Initializes a new instance of the QuantumJobClientContext class.
+   * Initializes a new instance of the QuantumClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
    *                       00000000-0000-0000-0000-000000000000)
@@ -28,11 +28,11 @@ export class QuantumJobClientContext extends coreHttp.ServiceClient {
    * @param options The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     resourceGroupName: string,
     workspaceName: string,
-    options?: QuantumJobClientOptionalParams
+    options?: QuantumClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -51,18 +51,26 @@ export class QuantumJobClientContext extends coreHttp.ServiceClient {
     if (!options) {
       options = {};
     }
+    const defaults: QuantumClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const packageDetails = `azsdk-js-quantum-jobs/1.0.0-beta.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
 
-    super(credentials, options);
-
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "https://quantum.azure.com";
-
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://quantum.azure.com"
+    };
+    super(optionsWithDefaults);
     // Parameter assignments
     this.subscriptionId = subscriptionId;
     this.resourceGroupName = resourceGroupName;
@@ -70,5 +78,14 @@ export class QuantumJobClientContext extends coreHttp.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://quantum.azure.com";
+    this.jobs = new JobsImpl(this);
+    this.providers = new ProvidersImpl(this);
+    this.storage = new StorageImpl(this);
+    this.quotas = new QuotasImpl(this);
   }
+
+  jobs: Jobs;
+  providers: Providers;
+  storage: Storage;
+  quotas: Quotas;
 }

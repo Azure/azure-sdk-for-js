@@ -1,213 +1,97 @@
-## Azure Quantum Jobs client library for JavaScript
+# Azure Quantum client library for JavaScript
 
-This package contains an isomorphic SDK for QuantumJobClient.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Quantum client.
 
-Azure Quantum is a Microsoft Azure service that you can use to run quantum computing programs or solve optimization problems in the cloud. Using the Azure Quantum tools and SDKs, you can create quantum programs and run them against different quantum simulators and machines. You can use the `@azure/quantum-jobs` client library to:
+Azure Quantum REST API client
 
-- Create, enumerate, and cancel quantum jobs
-- Enumerate provider status and quotas
-
-Key links:
-- [Source code][source]
-- [API reference documentation](https://docs.microsoft.com/qsharp/api/)
-- [Product documentation](https://docs.microsoft.com/azure/quantum/)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/quantum-jobs) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/quantum-jobs?view=azure-node-preview) |
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/samples)
 
 ## Getting started
 
-This section includes everything a developer needs to install and create their first client connection _very quickly_.
+### Currently supported environments
 
-### Install the package
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
-Install the Azure Quantum Jobs client library for Javascript with `npm`:
+### Prerequisites
+
+- An [Azure subscription][azure_sub].
+
+### Install the `@azure/quantum-jobs` package
+
+Install the Azure Quantum client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/quantum-jobs
 ```
 
-### Prerequisites
+### Create and authenticate a `QuantumClient`
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- [Azure subscription](https://azure.microsoft.com/free/)
-- [Azure Quantum Workspace][workspaces]
+To create a client object to access the Azure Quantum API, you will need the `endpoint` of your Azure Quantum resource and a `credential`. The Azure Quantum client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure Quantum resource in the [Azure Portal][azure_portal].
 
-### Authenticate the client
+You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
-To authenticate with the service, you can use [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential) from the `@azure/identity` library. This will try different authentication mechanisms based on the environment (e.g. Environment Variables, ManagedIdentity, CachedTokens) and finally, it will fallback to InteractiveBrowserCredential.
+To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
-The client also allows the user to override the above behavior by passing their own implementations of the [TokenCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-auth/src/tokenCredential.ts).
+```bash
+npm install @azure/identity
+```
 
-`TokenCredential` is the default Authentication mechanism used by Azure SDKs.
+You will also need to **register a new AAD application and grant access to Azure Quantum** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
+
+For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
+
+```javascript
+const { QuantumClient } = require("@azure/quantum-jobs");
+const { DefaultAzureCredential } = require("@azure/identity");
+const client = new QuantumClient("<endpoint>", new DefaultAzureCredential());
+```
+
+
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
 
-`QuantumJobClient` is the root class to be used to authenticate, and create, enumerate, and cancel jobs.
+### QuantumClient
 
-`JobDetails` contains all the properties of a job.
-
-`ProviderStatus` contains status information for a provider.
-
-`QuantumJobQuota` contains quota properties.
-
-## Examples
-
-### Create the client
-
-Create an instance of the QuantumJobClient by passing in these parameters:
-
-- [Subscription Id][subscriptions] - looks like XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX and can be found in your list of subscriptions on azure
-- [Resource Group Name][resource-groups] - a container that holds related resources for an Azure solution
-- [Workspace Name][workspaces] - a collection of assets associated with running quantum or optimization applications
-- [Location][location] - choose the best data center by geographical region
-- [Storage Container Name][blob-storage] - your blob storage
-- [Credential][credentials] - used to authenticate
-
-```Javascript Snippet
-    const credential = new DefaultAzureCredential();
-
-    // Create a QuantumJobClient
-    const subscriptionId = "your_subscription_id";
-    const resourceGroupName = "your_resource_group_name";
-    const workspaceName = "your_quantum_workspace_name";
-    const storageContainerName = "mycontainer";
-    const location = "westus"; //"your_location";
-    const endpoint = "https://" + location + ".quantum.azure.com";
-
-    const quantumJobClient = new QuantumJobClient(
-      credential,
-      subscriptionId,
-      resourceGroupName,
-      workspaceName,
-      {
-        endpoint: endpoint,
-        credentialScopes: "https://quantum.microsoft.com/.default"
-      }
-    );
-```
-
-### Get Container SAS URI
-
-Create a storage container to put your data.
-
-```Javascript Snippet
-    // Get container Uri with SAS key
-    const containerUri = (
-      await quantumJobClient.storage.sasUri({
-        containerName: storageContainerName
-      })
-    ).sasUri;
-
-    // Create container if not exists
-    const containerClient = new ContainerClient(containerUri);
-    await containerClient.createIfNotExists();
-```
-
-### Upload Input Data
-
-Using the SAS URI, upload the json input data to the blob client.
-This contains the parameters to be used with [Quantum Inspired Optimizations](https://docs.microsoft.com/azure/quantum/optimization-overview-introduction)
-
-```Javascript Snippet
-    // Get input data blob Uri with SAS key
-    const blobName = "myjobinput.json";
-    const inputDataUri = (
-      await quantumJobClient.storage.sasUri({
-        containerName: storageContainerName,
-        blobName: blobName
-      })
-    ).sasUri;
-
-    // Upload input data to blob
-    const blobClient = new BlockBlobClient(inputDataUri);
-    const problemFilename = "problem.json";
-    const fileContent = fs.readFileSync(problemFilename, "utf8");
-    await blobClient.upload(fileContent, Buffer.byteLength(fileContent));
-```
-
-### Create The Job
-
-Now that you've uploaded your problem definition to Azure Storage, you can use `jobs.create` to define an Azure Quantum job.
-
-```Javascript Snippet
-    const randomId = `${Math.floor(Math.random() * 10000 + 1)}`;
-
-    // Submit job
-    const jobId = `job-${randomId}`;
-    const jobName = `jobName-${randomId}`;
-    const inputDataFormat = "microsoft.qio.v2";
-    const outputDataFormat = "microsoft.qio-results.v2";
-    const providerId = "microsoft";
-    const target = "microsoft.paralleltempering-parameterfree.cpu";
-    const createJobDetails = {
-      containerUri: containerUri,
-      inputDataFormat: inputDataFormat,
-      providerId: providerId,
-      target: target,
-      id: jobId,
-      inputDataUri: inputDataUri,
-      name: jobName,
-      outputDataFormat: outputDataFormat
-    };
-    const createdJob = await quantumJobClient.jobs.create(jobId, createJobDetails);
-```
-
-### Get Job
-
-`GetJob` retrieves a specific job by its id.
-
-```Javascript Snippet
-    // Get the job that we've just created based on its jobId
-    const myJob = await quantumJobClient.jobs.get(jobId);
-```
-
-### Get Jobs
-
-To enumerate all the jobs in the workspace, use the `jobs.list` method.
-
-```Javascript Snippet
-    let jobListResult = await quantumJobClient.jobs.list();
-    let listOfJobs = await jobListResult.next();
-    while (!listOfJobs.done) {
-      let job = listOfJobs.value;
-      console.log(`  ${job.name}`);
-      listOfJobs = await jobListResult.next();
-    }
-```
-
-## Next steps
-
-- Visit our [Product documentation](https://docs.microsoft.com/azure/quantum/) to learn more about Azure Quantum.
-
-## Contributing
-
-See the [CONTRIBUTING.md][contributing] for details on building,
-testing, and contributing to this library.
-
-This project welcomes contributions and suggestions. Most contributions require
-you to agree to a Contributor License Agreement (CLA) declaring that you have
-the right to, and actually do, grant us the rights to use your contribution. For
-details, visit [cla.microsoft.com](https://cla.opensource.microsoft.com/).
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/)
-or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any
-additional questions or comments.
+`QuantumClient` is the primary interface for developers using the Azure Quantum client library. Explore the methods on this client object to understand the different features of the Azure Quantum service that you can access.
 
 ## Troubleshooting
 
-All Quantum Jobs service operations will throw a RequestFailedException on failure with helpful ErrorCodes. Many of these errors are recoverable.
+### Logging
 
-<!-- LINKS -->
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-[source]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/src
-[resource-groups]: https://docs.microsoft.com/azure/azure-resource-manager/management/manage-resource-groups-portal
-[workspaces]: https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal
-[location]: https://azure.microsoft.com/global-infrastructure/services/?products=quantum
-[blob-storage]: https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction
-[contributing]: https://github.com/Azure/azure-sdk-for-js/tree/main/CONTRIBUTING.md
-[subscriptions]: https://ms.portal.azure.com/#blade/Microsoft_Azure_Billing/SubscriptionsBlade
-[credentials]: https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest#credentials
-[style-guide-msft]: https://docs.microsoft.com/style-guide/capitalization
-[style-guide-cloud]: https://aka.ms/azsdk/cloud-style-guide
+```javascript
+const { setLogLevel } = require("@azure/logger");
+setLogLevel("info");
+```
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fappconfiguration%2Fapp-configuration%2FREADME.png)
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
+## Next steps
+
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/samples) directory for detailed examples on how to use this library.
+
+## Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
+
+## Related projects
+
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fquantum%2Fquantum-jobs%2FREADME.png)
+
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_portal]: https://portal.azure.com
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

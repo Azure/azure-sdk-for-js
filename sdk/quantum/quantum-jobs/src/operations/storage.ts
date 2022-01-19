@@ -6,21 +6,26 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Storage } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { QuantumJobClient } from "../quantumJobClient";
-import { BlobDetails, StorageSasUriResponse } from "../models";
+import { QuantumClient } from "../quantumClient";
+import {
+  BlobDetails,
+  StorageSasUriOptionalParams,
+  StorageSasUriResponse
+} from "../models";
 
-/** Class representing a Storage. */
-export class Storage {
-  private readonly client: QuantumJobClient;
+/** Class containing Storage operations. */
+export class StorageImpl implements Storage {
+  private readonly client: QuantumClient;
 
   /**
    * Initialize a new instance of the class Storage class.
    * @param client Reference to the service client
    */
-  constructor(client: QuantumJobClient) {
+  constructor(client: QuantumClient) {
     this.client = client;
   }
 
@@ -32,21 +37,18 @@ export class Storage {
    */
   sasUri(
     blobDetails: BlobDetails,
-    options?: coreHttp.OperationOptions
+    options?: StorageSasUriOptionalParams
   ): Promise<StorageSasUriResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      blobDetails,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(operationArguments, sasUriOperationSpec) as Promise<
-      StorageSasUriResponse
-    >;
+    return this.client.sendOperationRequest(
+      { blobDetails, options },
+      sasUriOperationSpec
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const sasUriOperationSpec: coreHttp.OperationSpec = {
+const sasUriOperationSpec: coreClient.OperationSpec = {
   path:
     "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/storage/sasUri",
   httpMethod: "POST",

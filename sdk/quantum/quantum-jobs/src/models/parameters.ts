@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationParameter, OperationURLParameter } from "@azure/core-http";
+import { OperationParameter, OperationURLParameter } from "@azure/core-client";
 import {
   JobDetails as JobDetailsMapper,
   BlobDetails as BlobDetailsMapper
@@ -95,6 +95,23 @@ export const contentType: OperationParameter = {
 export const job: OperationParameter = {
   parameterPath: "job",
   mapper: JobDetailsMapper
+};
+
+export const patchJob: OperationParameter = {
+  parameterPath: "patchJob",
+  mapper: {
+    serializedName: "patchJob",
+    required: true,
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Composite",
+          className: "JsonPatchDocument"
+        }
+      }
+    }
+  }
 };
 
 export const nextLink: OperationURLParameter = {
