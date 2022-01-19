@@ -4,52 +4,52 @@
 import { HttpResponse } from "@azure-rest/core-client";
 import {
   ApplicationDataListResponseOutput,
-  ErrorResponseOutput,
   ApplicationDataOutput,
-  CascadeDeleteJobOutput,
   AttachmentListResponseOutput,
   AttachmentOutput,
   BoundaryListResponseOutput,
   BoundaryOutput,
   BoundaryOverlapResponseOutput,
+  CascadeDeleteJobOutput,
   CropListResponseOutput,
   CropOutput,
   CropVarietyListResponseOutput,
   CropVarietyOutput,
+  ErrorResponseOutput,
+  FarmListResponseOutput,
+  FarmOperationDataIngestionJobOutput,
+  FarmOutput,
   FarmerListResponseOutput,
   FarmerOutput,
-  FarmOperationDataIngestionJobOutput,
-  FarmListResponseOutput,
-  FarmOutput,
   FieldListResponseOutput,
   FieldOutput,
   HarvestDataListResponseOutput,
   HarvestDataOutput,
   ImageProcessingRasterizeJobOutput,
+  OAuthProviderCascadeDeleteJobOutput,
   OAuthProviderListResponseOutput,
   OAuthProviderOutput,
-  OAuthProviderCascadeDeleteJobOutput,
   OAuthTokenListResponseOutput,
   PlantingDataListResponseOutput,
   PlantingDataOutput,
-  SceneListResponseOutput,
   SatelliteDataIngestionJobOutput,
-  SeasonalFieldListResponseOutput,
-  SeasonalFieldOutput,
+  SceneListResponseOutput,
   SeasonListResponseOutput,
   SeasonOutput,
+  SeasonalFieldListResponseOutput,
+  SeasonalFieldOutput,
   TillageDataListResponseOutput,
   TillageDataOutput,
-  WeatherDataListResponseOutput,
-  WeatherDataIngestionJobOutput,
   WeatherDataDeleteJobOutput,
+  WeatherDataIngestionJobOutput,
+  WeatherDataListResponseOutput,
 } from "./outputModels";
 
 /**
  * Get a paginated list of application data resources for a given farmer and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -62,8 +62,8 @@ export interface ApplicationDataListByFarmerId200Response extends HttpResponse {
 /**
  * Get a paginated list of application data resources for a given farmer and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -378,8 +378,8 @@ export interface AttachmentsDownloaddefaultResponse extends HttpResponse {
 /**
  * Get a paginated list of boundary resources for a given farmer and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -392,8 +392,8 @@ export interface BoundariesListByFarmerId200Response extends HttpResponse {
 /**
  * Get a paginated list of boundary resources for a given farmer and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -407,8 +407,8 @@ export interface BoundariesListByFarmerIddefaultResponse extends HttpResponse {
  * Search for boundaries of a farmer intersecting with a given geometry.
  * This API is expected to be used when users want to find boundaries that intersect with a given geometry. Otherwise, this is functionally same as 'List by Farmer Id' API for boundaries.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -422,8 +422,8 @@ export interface BoundariesSearchByFarmerId200Response extends HttpResponse {
  * Search for boundaries of a farmer intersecting with a given geometry.
  * This API is expected to be used when users want to find boundaries that intersect with a given geometry. Otherwise, this is functionally same as 'List by Farmer Id' API for boundaries.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -665,8 +665,8 @@ export interface BoundariesGetOverlapdefaultResponse extends HttpResponse {
 /**
  * Get a paginated list of crop resources.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -679,8 +679,8 @@ export interface CropsList200Response extends HttpResponse {
 /**
  * Get a paginated list of crop resources.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -784,8 +784,8 @@ export interface CropsDeletedefaultResponse extends HttpResponse {
 /**
  * Get a paginated list of crop variety resources for a given crop and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -798,8 +798,8 @@ export interface CropVarietiesListByCropId200Response extends HttpResponse {
 /**
  * Get a paginated list of crop variety resources for a given crop and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -1150,8 +1150,8 @@ export interface FarmOperationsGetDataIngestionJobDetailsdefaultResponse extends
 /**
  * Get a paginated list of farm resources for a given farmer and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -1164,8 +1164,8 @@ export interface FarmsListByFarmerId200Response extends HttpResponse {
 /**
  * Get a paginated list of farm resources for a given farmer and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -1351,8 +1351,8 @@ export interface FarmsCreateCascadeDeleteJobdefaultResponse extends HttpResponse
 /**
  * Get a paginated list of field resources for a given farmer and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -1365,8 +1365,8 @@ export interface FieldsListByFarmerId200Response extends HttpResponse {
 /**
  * Get a paginated list of field resources for a given farmer and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -1550,10 +1550,10 @@ export interface FieldsCreateCascadeDeleteJobdefaultResponse extends HttpRespons
 }
 
 /**
- * Get a paginated list of harvest data resources for a given farmer and search criteria.
+ * Get a paginated list of harvest data resources for a given farmer and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -1564,10 +1564,10 @@ export interface HarvestDataListByFarmerId200Response extends HttpResponse {
 }
 
 /**
- * Get a paginated list of harvest data resources for a given farmer and search criteria.
+ * Get a paginated list of harvest data resources for a given farmer and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -1797,8 +1797,8 @@ export interface ImageProcessingGetRasterizeJob200Response extends HttpResponse 
 /**
  * Get a paginated list of OAuth provider resources for a given search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -1811,8 +1811,8 @@ export interface OAuthProvidersList200Response extends HttpResponse {
 /**
  * Get a paginated list of OAuth provider resources for a given search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -2060,8 +2060,8 @@ export interface OAuthTokensCreateCascadeDeleteJobdefaultResponse extends HttpRe
 /**
  * Get a paginated list of planting data resources for a given farm and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -2074,8 +2074,8 @@ export interface PlantingDataListByFarmerId200Response extends HttpResponse {
 /**
  * Get a paginated list of planting data resources for a given farm and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -2261,8 +2261,8 @@ export interface PlantingDataCreateCascadeDeleteJobdefaultResponse extends HttpR
 /**
  * Get a paginated list of scene resources for a given search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  * 2. This API will retrieve scenes present in the FarmBeats datastore and does not ingest new data. Example: a user has ingested satellite data from 1st of Jan 2019 to 30th of June 2019. However, using the current API, the user has asked for data from 1st of Jan 2019 to 31st of December 2019. In such a case, only data for the first 6 months is returned to the user.
  *
@@ -2276,8 +2276,8 @@ export interface ScenesList200Response extends HttpResponse {
 /**
  * Get a paginated list of scene resources for a given search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  * 2. This API will retrieve scenes present in the FarmBeats datastore and does not ingest new data. Example: a user has ingested satellite data from 1st of Jan 2019 to 30th of June 2019. However, using the current API, the user has asked for data from 1st of Jan 2019 to 31st of December 2019. In such a case, only data for the first 6 months is returned to the user.
  *
@@ -2366,8 +2366,8 @@ export interface ScenesDownloaddefaultResponse extends HttpResponse {
 /**
  * Get a paginated list of seasonal field resources for a given farmer and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -2380,8 +2380,8 @@ export interface SeasonalFieldsListByFarmerId200Response extends HttpResponse {
 /**
  * Get a paginated list of seasonal field resources for a given farmer and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -2567,8 +2567,8 @@ export interface SeasonalFieldsCreateCascadeDeleteJobdefaultResponse extends Htt
 /**
  * Get a paginated list of season resources.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -2581,8 +2581,8 @@ export interface SeasonsList200Response extends HttpResponse {
 /**
  * Get a paginated list of season resources.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -2686,8 +2686,8 @@ export interface SeasonsDeletedefaultResponse extends HttpResponse {
 /**
  * Get a paginated list of tillage data resources for a given farmer and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -2700,8 +2700,8 @@ export interface TillageDataListByFarmerId200Response extends HttpResponse {
 /**
  * Get a paginated list of tillage data resources for a given farmer and search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  *
  *
@@ -2887,8 +2887,8 @@ export interface TillageDataCreateCascadeDeleteJobdefaultResponse extends HttpRe
 /**
  * Get a paginated list of weather data resources for a given search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  * 2. This API will retrieve weather data present in the FarmBeats datastore and does not ingest new data. Example: a user has ingested historical weather data from 1st of Jan 2019 to 30th of June 2019. However, using the current API, the user has asked for historical data from 1st of Jan 2019 to 31st of December 2019. In such a case, only data for the first 6 months is returned to the user.
  *
@@ -2902,8 +2902,8 @@ export interface WeatherList200Response extends HttpResponse {
 /**
  * Get a paginated list of weather data resources for a given search criteria.
  *
- * 
-###### Note: 
+ *
+ * ###### Note:
  * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
  * 2. This API will retrieve weather data present in the FarmBeats datastore and does not ingest new data. Example: a user has ingested historical weather data from 1st of Jan 2019 to 30th of June 2019. However, using the current API, the user has asked for historical data from 1st of Jan 2019 to 31st of December 2019. In such a case, only data for the first 6 months is returned to the user.
  *

@@ -2,133 +2,129 @@
 // Licensed under the MIT license.
 
 import {
-  ApplicationDataListByFarmerIdParameters,
-  ApplicationDataListParameters,
-  ApplicationDataGetParameters,
+  ApplicationDataCreateCascadeDeleteJobParameters,
   ApplicationDataCreateOrUpdateParameters,
   ApplicationDataDeleteParameters,
   ApplicationDataGetCascadeDeleteJobDetailsParameters,
-  ApplicationDataCreateCascadeDeleteJobParameters,
-  AttachmentsListByFarmerIdParameters,
-  AttachmentsGetParameters,
+  ApplicationDataGetParameters,
+  ApplicationDataListByFarmerIdParameters,
+  ApplicationDataListParameters,
   AttachmentsCreateOrUpdateParameters,
   AttachmentsDeleteParameters,
   AttachmentsDownloadParameters,
-  BoundariesListByFarmerIdParameters,
-  BoundariesSearchByFarmerIdParameters,
-  BoundariesListParameters,
-  BoundariesSearchParameters,
-  BoundariesGetCascadeDeleteJobDetailsParameters,
+  AttachmentsGetParameters,
+  AttachmentsListByFarmerIdParameters,
   BoundariesCreateCascadeDeleteJobParameters,
-  BoundariesGetParameters,
   BoundariesCreateOrUpdateParameters,
   BoundariesDeleteParameters,
+  BoundariesGetCascadeDeleteJobDetailsParameters,
   BoundariesGetOverlapParameters,
-  CropsListParameters,
-  CropsGetParameters,
-  CropsCreateOrUpdateParameters,
-  CropsDeleteParameters,
-  CropVarietiesListByCropIdParameters,
-  CropVarietiesListParameters,
-  CropVarietiesGetParameters,
+  BoundariesGetParameters,
+  BoundariesListByFarmerIdParameters,
+  BoundariesListParameters,
+  BoundariesSearchByFarmerIdParameters,
+  BoundariesSearchParameters,
   CropVarietiesCreateOrUpdateParameters,
   CropVarietiesDeleteParameters,
-  FarmersListParameters,
-  FarmersGetParameters,
+  CropVarietiesGetParameters,
+  CropVarietiesListByCropIdParameters,
+  CropVarietiesListParameters,
+  CropsCreateOrUpdateParameters,
+  CropsDeleteParameters,
+  CropsGetParameters,
+  CropsListParameters,
+  FarmOperationsCreateDataIngestionJobParameters,
+  FarmOperationsGetDataIngestionJobDetailsParameters,
+  FarmersCreateCascadeDeleteJobParameters,
   FarmersCreateOrUpdateParameters,
   FarmersDeleteParameters,
   FarmersGetCascadeDeleteJobDetailsParameters,
-  FarmersCreateCascadeDeleteJobParameters,
-  FarmOperationsCreateDataIngestionJobParameters,
-  FarmOperationsGetDataIngestionJobDetailsParameters,
-  FarmsListByFarmerIdParameters,
-  FarmsListParameters,
-  FarmsGetParameters,
+  FarmersGetParameters,
+  FarmersListParameters,
+  FarmsCreateCascadeDeleteJobParameters,
   FarmsCreateOrUpdateParameters,
   FarmsDeleteParameters,
   FarmsGetCascadeDeleteJobDetailsParameters,
-  FarmsCreateCascadeDeleteJobParameters,
-  FieldsListByFarmerIdParameters,
-  FieldsListParameters,
-  FieldsGetParameters,
+  FarmsGetParameters,
+  FarmsListByFarmerIdParameters,
+  FarmsListParameters,
+  FieldsCreateCascadeDeleteJobParameters,
   FieldsCreateOrUpdateParameters,
   FieldsDeleteParameters,
   FieldsGetCascadeDeleteJobDetailsParameters,
-  FieldsCreateCascadeDeleteJobParameters,
-  HarvestDataListByFarmerIdParameters,
-  HarvestDataListParameters,
-  HarvestDataGetParameters,
+  FieldsGetParameters,
+  FieldsListByFarmerIdParameters,
+  FieldsListParameters,
+  HarvestDataCreateCascadeDeleteJobParameters,
   HarvestDataCreateOrUpdateParameters,
   HarvestDataDeleteParameters,
   HarvestDataGetCascadeDeleteJobDetailsParameters,
-  HarvestDataCreateCascadeDeleteJobParameters,
+  HarvestDataGetParameters,
+  HarvestDataListByFarmerIdParameters,
+  HarvestDataListParameters,
   ImageProcessingCreateRasterizeJobParameters,
   ImageProcessingGetRasterizeJobParameters,
-  OAuthProvidersListParameters,
-  OAuthProvidersGetParameters,
+  OAuthProvidersCreateCascadeDeleteJobParameters,
   OAuthProvidersCreateOrUpdateParameters,
   OAuthProvidersDeleteParameters,
   OAuthProvidersGetCascadeDeleteJobDetailsParameters,
-  OAuthProvidersCreateCascadeDeleteJobParameters,
-  OAuthTokensListParameters,
-  OAuthTokensGetOAuthConnectionLinkParameters,
-  OAuthTokensGetCascadeDeleteJobDetailsParameters,
+  OAuthProvidersGetParameters,
+  OAuthProvidersListParameters,
   OAuthTokensCreateCascadeDeleteJobParameters,
-  PlantingDataListByFarmerIdParameters,
-  PlantingDataListParameters,
-  PlantingDataGetParameters,
+  OAuthTokensGetCascadeDeleteJobDetailsParameters,
+  OAuthTokensGetOAuthConnectionLinkParameters,
+  OAuthTokensListParameters,
+  PlantingDataCreateCascadeDeleteJobParameters,
   PlantingDataCreateOrUpdateParameters,
   PlantingDataDeleteParameters,
   PlantingDataGetCascadeDeleteJobDetailsParameters,
-  PlantingDataCreateCascadeDeleteJobParameters,
-  ScenesListParameters,
+  PlantingDataGetParameters,
+  PlantingDataListByFarmerIdParameters,
+  PlantingDataListParameters,
   ScenesCreateSatelliteDataIngestionJobParameters,
-  ScenesGetSatelliteDataIngestionJobDetailsParameters,
   ScenesDownloadParameters,
-  SeasonalFieldsListByFarmerIdParameters,
-  SeasonalFieldsListParameters,
-  SeasonalFieldsGetParameters,
+  ScenesGetSatelliteDataIngestionJobDetailsParameters,
+  ScenesListParameters,
+  SeasonalFieldsCreateCascadeDeleteJobParameters,
   SeasonalFieldsCreateOrUpdateParameters,
   SeasonalFieldsDeleteParameters,
   SeasonalFieldsGetCascadeDeleteJobDetailsParameters,
-  SeasonalFieldsCreateCascadeDeleteJobParameters,
-  SeasonsListParameters,
-  SeasonsGetParameters,
+  SeasonalFieldsGetParameters,
+  SeasonalFieldsListByFarmerIdParameters,
+  SeasonalFieldsListParameters,
   SeasonsCreateOrUpdateParameters,
   SeasonsDeleteParameters,
-  TillageDataListByFarmerIdParameters,
-  TillageDataListParameters,
-  TillageDataGetParameters,
+  SeasonsGetParameters,
+  SeasonsListParameters,
+  TillageDataCreateCascadeDeleteJobParameters,
   TillageDataCreateOrUpdateParameters,
   TillageDataDeleteParameters,
   TillageDataGetCascadeDeleteJobDetailsParameters,
-  TillageDataCreateCascadeDeleteJobParameters,
-  WeatherListParameters,
-  WeatherGetDataIngestionJobDetailsParameters,
+  TillageDataGetParameters,
+  TillageDataListByFarmerIdParameters,
+  TillageDataListParameters,
+  WeatherCreateDataDeleteJobParameters,
   WeatherCreateDataIngestionJobParameters,
   WeatherGetDataDeleteJobDetailsParameters,
-  WeatherCreateDataDeleteJobParameters,
+  WeatherGetDataIngestionJobDetailsParameters,
+  WeatherListParameters,
 } from "./parameters";
 import {
-  ApplicationDataListByFarmerId200Response,
-  ApplicationDataListByFarmerIddefaultResponse,
-  ApplicationDataList200Response,
-  ApplicationDataListdefaultResponse,
-  ApplicationDataGet200Response,
-  ApplicationDataGetdefaultResponse,
+  ApplicationDataCreateCascadeDeleteJob202Response,
+  ApplicationDataCreateCascadeDeleteJobdefaultResponse,
   ApplicationDataCreateOrUpdate200Response,
   ApplicationDataCreateOrUpdate201Response,
   ApplicationDataCreateOrUpdatedefaultResponse,
   ApplicationDataDelete204Response,
   ApplicationDataDeletedefaultResponse,
+  ApplicationDataGet200Response,
   ApplicationDataGetCascadeDeleteJobDetails200Response,
   ApplicationDataGetCascadeDeleteJobDetailsdefaultResponse,
-  ApplicationDataCreateCascadeDeleteJob202Response,
-  ApplicationDataCreateCascadeDeleteJobdefaultResponse,
-  AttachmentsListByFarmerId200Response,
-  AttachmentsListByFarmerIddefaultResponse,
-  AttachmentsGet200Response,
-  AttachmentsGetdefaultResponse,
+  ApplicationDataGetdefaultResponse,
+  ApplicationDataList200Response,
+  ApplicationDataListByFarmerId200Response,
+  ApplicationDataListByFarmerIddefaultResponse,
+  ApplicationDataListdefaultResponse,
   AttachmentsCreateOrUpdate200Response,
   AttachmentsCreateOrUpdate201Response,
   AttachmentsCreateOrUpdatedefaultResponse,
@@ -136,205 +132,209 @@ import {
   AttachmentsDeletedefaultResponse,
   AttachmentsDownload200Response,
   AttachmentsDownloaddefaultResponse,
-  BoundariesListByFarmerId200Response,
-  BoundariesListByFarmerIddefaultResponse,
-  BoundariesSearchByFarmerId200Response,
-  BoundariesSearchByFarmerIddefaultResponse,
-  BoundariesList200Response,
-  BoundariesListdefaultResponse,
-  BoundariesSearch200Response,
-  BoundariesSearchdefaultResponse,
-  BoundariesGetCascadeDeleteJobDetails200Response,
-  BoundariesGetCascadeDeleteJobDetailsdefaultResponse,
+  AttachmentsGet200Response,
+  AttachmentsGetdefaultResponse,
+  AttachmentsListByFarmerId200Response,
+  AttachmentsListByFarmerIddefaultResponse,
   BoundariesCreateCascadeDeleteJob202Response,
   BoundariesCreateCascadeDeleteJobdefaultResponse,
-  BoundariesGet200Response,
-  BoundariesGetdefaultResponse,
   BoundariesCreateOrUpdate200Response,
   BoundariesCreateOrUpdate201Response,
   BoundariesCreateOrUpdatedefaultResponse,
   BoundariesDelete204Response,
   BoundariesDeletedefaultResponse,
+  BoundariesGet200Response,
+  BoundariesGetCascadeDeleteJobDetails200Response,
+  BoundariesGetCascadeDeleteJobDetailsdefaultResponse,
   BoundariesGetOverlap200Response,
   BoundariesGetOverlapdefaultResponse,
-  CropsList200Response,
-  CropsListdefaultResponse,
-  CropsGet200Response,
-  CropsGetdefaultResponse,
-  CropsCreateOrUpdate200Response,
-  CropsCreateOrUpdate201Response,
-  CropsCreateOrUpdatedefaultResponse,
-  CropsDelete204Response,
-  CropsDeletedefaultResponse,
-  CropVarietiesListByCropId200Response,
-  CropVarietiesListByCropIddefaultResponse,
-  CropVarietiesList200Response,
-  CropVarietiesListdefaultResponse,
-  CropVarietiesGet200Response,
-  CropVarietiesGetdefaultResponse,
+  BoundariesGetdefaultResponse,
+  BoundariesList200Response,
+  BoundariesListByFarmerId200Response,
+  BoundariesListByFarmerIddefaultResponse,
+  BoundariesListdefaultResponse,
+  BoundariesSearch200Response,
+  BoundariesSearchByFarmerId200Response,
+  BoundariesSearchByFarmerIddefaultResponse,
+  BoundariesSearchdefaultResponse,
   CropVarietiesCreateOrUpdate200Response,
   CropVarietiesCreateOrUpdate201Response,
   CropVarietiesCreateOrUpdatedefaultResponse,
   CropVarietiesDelete204Response,
   CropVarietiesDeletedefaultResponse,
-  FarmersList200Response,
-  FarmersListdefaultResponse,
-  FarmersGet200Response,
-  FarmersGetdefaultResponse,
+  CropVarietiesGet200Response,
+  CropVarietiesGetdefaultResponse,
+  CropVarietiesList200Response,
+  CropVarietiesListByCropId200Response,
+  CropVarietiesListByCropIddefaultResponse,
+  CropVarietiesListdefaultResponse,
+  CropsCreateOrUpdate200Response,
+  CropsCreateOrUpdate201Response,
+  CropsCreateOrUpdatedefaultResponse,
+  CropsDelete204Response,
+  CropsDeletedefaultResponse,
+  CropsGet200Response,
+  CropsGetdefaultResponse,
+  CropsList200Response,
+  CropsListdefaultResponse,
+  FarmOperationsCreateDataIngestionJob202Response,
+  FarmOperationsCreateDataIngestionJobdefaultResponse,
+  FarmOperationsGetDataIngestionJobDetails200Response,
+  FarmOperationsGetDataIngestionJobDetailsdefaultResponse,
+  FarmersCreateCascadeDeleteJob202Response,
+  FarmersCreateCascadeDeleteJobdefaultResponse,
   FarmersCreateOrUpdate200Response,
   FarmersCreateOrUpdate201Response,
   FarmersCreateOrUpdatedefaultResponse,
   FarmersDelete204Response,
   FarmersDeletedefaultResponse,
+  FarmersGet200Response,
   FarmersGetCascadeDeleteJobDetails200Response,
   FarmersGetCascadeDeleteJobDetailsdefaultResponse,
-  FarmersCreateCascadeDeleteJob202Response,
-  FarmersCreateCascadeDeleteJobdefaultResponse,
-  FarmOperationsCreateDataIngestionJob202Response,
-  FarmOperationsCreateDataIngestionJobdefaultResponse,
-  FarmOperationsGetDataIngestionJobDetails200Response,
-  FarmOperationsGetDataIngestionJobDetailsdefaultResponse,
-  FarmsListByFarmerId200Response,
-  FarmsListByFarmerIddefaultResponse,
-  FarmsList200Response,
-  FarmsListdefaultResponse,
-  FarmsGet200Response,
-  FarmsGetdefaultResponse,
+  FarmersGetdefaultResponse,
+  FarmersList200Response,
+  FarmersListdefaultResponse,
+  FarmsCreateCascadeDeleteJob202Response,
+  FarmsCreateCascadeDeleteJobdefaultResponse,
   FarmsCreateOrUpdate200Response,
   FarmsCreateOrUpdate201Response,
   FarmsCreateOrUpdatedefaultResponse,
   FarmsDelete204Response,
   FarmsDeletedefaultResponse,
+  FarmsGet200Response,
   FarmsGetCascadeDeleteJobDetails200Response,
   FarmsGetCascadeDeleteJobDetailsdefaultResponse,
-  FarmsCreateCascadeDeleteJob202Response,
-  FarmsCreateCascadeDeleteJobdefaultResponse,
-  FieldsListByFarmerId200Response,
-  FieldsListByFarmerIddefaultResponse,
-  FieldsList200Response,
-  FieldsListdefaultResponse,
-  FieldsGet200Response,
-  FieldsGetdefaultResponse,
+  FarmsGetdefaultResponse,
+  FarmsList200Response,
+  FarmsListByFarmerId200Response,
+  FarmsListByFarmerIddefaultResponse,
+  FarmsListdefaultResponse,
+  FieldsCreateCascadeDeleteJob202Response,
+  FieldsCreateCascadeDeleteJobdefaultResponse,
   FieldsCreateOrUpdate200Response,
   FieldsCreateOrUpdate201Response,
   FieldsCreateOrUpdatedefaultResponse,
   FieldsDelete204Response,
   FieldsDeletedefaultResponse,
+  FieldsGet200Response,
   FieldsGetCascadeDeleteJobDetails200Response,
   FieldsGetCascadeDeleteJobDetailsdefaultResponse,
-  FieldsCreateCascadeDeleteJob202Response,
-  FieldsCreateCascadeDeleteJobdefaultResponse,
-  HarvestDataListByFarmerId200Response,
-  HarvestDataListByFarmerIddefaultResponse,
-  HarvestDataList200Response,
-  HarvestDataListdefaultResponse,
-  HarvestDataGet200Response,
-  HarvestDataGetdefaultResponse,
+  FieldsGetdefaultResponse,
+  FieldsList200Response,
+  FieldsListByFarmerId200Response,
+  FieldsListByFarmerIddefaultResponse,
+  FieldsListdefaultResponse,
+  HarvestDataCreateCascadeDeleteJob202Response,
+  HarvestDataCreateCascadeDeleteJobdefaultResponse,
   HarvestDataCreateOrUpdate200Response,
   HarvestDataCreateOrUpdate201Response,
   HarvestDataCreateOrUpdatedefaultResponse,
   HarvestDataDelete204Response,
   HarvestDataDeletedefaultResponse,
+  HarvestDataGet200Response,
   HarvestDataGetCascadeDeleteJobDetails200Response,
   HarvestDataGetCascadeDeleteJobDetailsdefaultResponse,
-  HarvestDataCreateCascadeDeleteJob202Response,
-  HarvestDataCreateCascadeDeleteJobdefaultResponse,
+  HarvestDataGetdefaultResponse,
+  HarvestDataList200Response,
+  HarvestDataListByFarmerId200Response,
+  HarvestDataListByFarmerIddefaultResponse,
+  HarvestDataListdefaultResponse,
   ImageProcessingCreateRasterizeJob202Response,
   ImageProcessingCreateRasterizeJobdefaultResponse,
   ImageProcessingGetRasterizeJob200Response,
-  OAuthProvidersList200Response,
-  OAuthProvidersListdefaultResponse,
-  OAuthProvidersGet200Response,
-  OAuthProvidersGetdefaultResponse,
+  OAuthProvidersCreateCascadeDeleteJob202Response,
+  OAuthProvidersCreateCascadeDeleteJobdefaultResponse,
   OAuthProvidersCreateOrUpdate200Response,
   OAuthProvidersCreateOrUpdate201Response,
   OAuthProvidersCreateOrUpdatedefaultResponse,
   OAuthProvidersDelete204Response,
   OAuthProvidersDeletedefaultResponse,
+  OAuthProvidersGet200Response,
   OAuthProvidersGetCascadeDeleteJobDetails200Response,
   OAuthProvidersGetCascadeDeleteJobDetailsdefaultResponse,
-  OAuthProvidersCreateCascadeDeleteJob202Response,
-  OAuthProvidersCreateCascadeDeleteJobdefaultResponse,
-  OAuthTokensList200Response,
-  OAuthTokensListdefaultResponse,
-  OAuthTokensGetOAuthConnectionLink200Response,
-  OAuthTokensGetOAuthConnectionLinkdefaultResponse,
-  OAuthTokensGetCascadeDeleteJobDetails200Response,
-  OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse,
+  OAuthProvidersGetdefaultResponse,
+  OAuthProvidersList200Response,
+  OAuthProvidersListdefaultResponse,
   OAuthTokensCreateCascadeDeleteJob202Response,
   OAuthTokensCreateCascadeDeleteJobdefaultResponse,
-  PlantingDataListByFarmerId200Response,
-  PlantingDataListByFarmerIddefaultResponse,
-  PlantingDataList200Response,
-  PlantingDataListdefaultResponse,
-  PlantingDataGet200Response,
-  PlantingDataGetdefaultResponse,
+  OAuthTokensGetCascadeDeleteJobDetails200Response,
+  OAuthTokensGetCascadeDeleteJobDetailsdefaultResponse,
+  OAuthTokensGetOAuthConnectionLink200Response,
+  OAuthTokensGetOAuthConnectionLinkdefaultResponse,
+  OAuthTokensList200Response,
+  OAuthTokensListdefaultResponse,
+  PlantingDataCreateCascadeDeleteJob202Response,
+  PlantingDataCreateCascadeDeleteJobdefaultResponse,
   PlantingDataCreateOrUpdate200Response,
   PlantingDataCreateOrUpdate201Response,
   PlantingDataCreateOrUpdatedefaultResponse,
   PlantingDataDelete204Response,
   PlantingDataDeletedefaultResponse,
+  PlantingDataGet200Response,
   PlantingDataGetCascadeDeleteJobDetails200Response,
   PlantingDataGetCascadeDeleteJobDetailsdefaultResponse,
-  PlantingDataCreateCascadeDeleteJob202Response,
-  PlantingDataCreateCascadeDeleteJobdefaultResponse,
-  ScenesList200Response,
-  ScenesListdefaultResponse,
+  PlantingDataGetdefaultResponse,
+  PlantingDataList200Response,
+  PlantingDataListByFarmerId200Response,
+  PlantingDataListByFarmerIddefaultResponse,
+  PlantingDataListdefaultResponse,
   ScenesCreateSatelliteDataIngestionJob202Response,
   ScenesCreateSatelliteDataIngestionJobdefaultResponse,
-  ScenesGetSatelliteDataIngestionJobDetails200Response,
-  ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse,
   ScenesDownload200Response,
   ScenesDownloaddefaultResponse,
-  SeasonalFieldsListByFarmerId200Response,
-  SeasonalFieldsListByFarmerIddefaultResponse,
-  SeasonalFieldsList200Response,
-  SeasonalFieldsListdefaultResponse,
-  SeasonalFieldsGet200Response,
-  SeasonalFieldsGetdefaultResponse,
+  ScenesGetSatelliteDataIngestionJobDetails200Response,
+  ScenesGetSatelliteDataIngestionJobDetailsdefaultResponse,
+  ScenesList200Response,
+  ScenesListdefaultResponse,
+  SeasonalFieldsCreateCascadeDeleteJob202Response,
+  SeasonalFieldsCreateCascadeDeleteJobdefaultResponse,
   SeasonalFieldsCreateOrUpdate200Response,
   SeasonalFieldsCreateOrUpdate201Response,
   SeasonalFieldsCreateOrUpdatedefaultResponse,
   SeasonalFieldsDelete204Response,
   SeasonalFieldsDeletedefaultResponse,
+  SeasonalFieldsGet200Response,
   SeasonalFieldsGetCascadeDeleteJobDetails200Response,
   SeasonalFieldsGetCascadeDeleteJobDetailsdefaultResponse,
-  SeasonalFieldsCreateCascadeDeleteJob202Response,
-  SeasonalFieldsCreateCascadeDeleteJobdefaultResponse,
-  SeasonsList200Response,
-  SeasonsListdefaultResponse,
-  SeasonsGet200Response,
-  SeasonsGetdefaultResponse,
+  SeasonalFieldsGetdefaultResponse,
+  SeasonalFieldsList200Response,
+  SeasonalFieldsListByFarmerId200Response,
+  SeasonalFieldsListByFarmerIddefaultResponse,
+  SeasonalFieldsListdefaultResponse,
   SeasonsCreateOrUpdate200Response,
   SeasonsCreateOrUpdate201Response,
   SeasonsCreateOrUpdatedefaultResponse,
   SeasonsDelete204Response,
   SeasonsDeletedefaultResponse,
-  TillageDataListByFarmerId200Response,
-  TillageDataListByFarmerIddefaultResponse,
-  TillageDataList200Response,
-  TillageDataListdefaultResponse,
-  TillageDataGet200Response,
-  TillageDataGetdefaultResponse,
+  SeasonsGet200Response,
+  SeasonsGetdefaultResponse,
+  SeasonsList200Response,
+  SeasonsListdefaultResponse,
+  TillageDataCreateCascadeDeleteJob202Response,
+  TillageDataCreateCascadeDeleteJobdefaultResponse,
   TillageDataCreateOrUpdate200Response,
   TillageDataCreateOrUpdate201Response,
   TillageDataCreateOrUpdatedefaultResponse,
   TillageDataDelete204Response,
   TillageDataDeletedefaultResponse,
+  TillageDataGet200Response,
   TillageDataGetCascadeDeleteJobDetails200Response,
   TillageDataGetCascadeDeleteJobDetailsdefaultResponse,
-  TillageDataCreateCascadeDeleteJob202Response,
-  TillageDataCreateCascadeDeleteJobdefaultResponse,
-  WeatherList200Response,
-  WeatherListdefaultResponse,
-  WeatherGetDataIngestionJobDetails200Response,
-  WeatherGetDataIngestionJobDetailsdefaultResponse,
+  TillageDataGetdefaultResponse,
+  TillageDataList200Response,
+  TillageDataListByFarmerId200Response,
+  TillageDataListByFarmerIddefaultResponse,
+  TillageDataListdefaultResponse,
+  WeatherCreateDataDeleteJob202Response,
+  WeatherCreateDataDeleteJobdefaultResponse,
   WeatherCreateDataIngestionJob202Response,
   WeatherCreateDataIngestionJobdefaultResponse,
   WeatherGetDataDeleteJobDetails200Response,
   WeatherGetDataDeleteJobDetailsdefaultResponse,
-  WeatherCreateDataDeleteJob202Response,
-  WeatherCreateDataDeleteJobdefaultResponse,
+  WeatherGetDataIngestionJobDetails200Response,
+  WeatherGetDataIngestionJobDetailsdefaultResponse,
+  WeatherList200Response,
+  WeatherListdefaultResponse,
 } from "./responses";
 import { Client } from "@azure-rest/core-client";
 
@@ -342,8 +342,8 @@ export interface ApplicationDataListByFarmerId {
   /**
    * Get a paginated list of application data resources for a given farmer and search criteria.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
    *
@@ -359,8 +359,8 @@ export interface ApplicationDataList {
   /**
    * Get a paginated list of application data resources across all the farmers for a given search criteria.
    *
-   * 
-###### Note:
+   *
+   * ###### Note:
    * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
    * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
@@ -384,7 +384,7 @@ export interface ApplicationDataGet {
    * Create or update an application data resource for a given farmer.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
    * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
@@ -425,7 +425,7 @@ export interface ApplicationDataGetCascadeDeleteJobDetails {
    * Create cascade delete job for application data resource.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -464,7 +464,7 @@ export interface AttachmentsGet {
    * Create or update an attachment resource for a given farmer.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
    * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
@@ -503,8 +503,8 @@ export interface BoundariesListByFarmerId {
   /**
    * Get a paginated list of boundary resources for a given farmer and search criteria.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
    *
@@ -516,8 +516,8 @@ export interface BoundariesListByFarmerId {
    * Search for boundaries of a farmer intersecting with a given geometry.
    * This API is expected to be used when users want to find boundaries that intersect with a given geometry. Otherwise, this is functionally same as 'List by Farmer Id' API for boundaries.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
    *
@@ -531,8 +531,8 @@ export interface BoundariesList {
   /**
    * Get a paginated list of boundary resources across all the farmers for a given search criteria.
    *
-   * 
-###### Note:
+   *
+   * ###### Note:
    * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
    * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
@@ -547,8 +547,8 @@ export interface BoundariesList {
    *
    *
    *
-   * 
-###### Note:
+   *
+   * ###### Note:
    * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘Search by Farmer Id’** API as it is performant.
    * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
@@ -575,7 +575,7 @@ export interface BoundariesGetCascadeDeleteJobDetails {
    * Create a cascade delete job for a specified boundary.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -602,7 +602,7 @@ export interface BoundariesGet {
    * Create or update a boundary resource.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
    * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
@@ -642,8 +642,8 @@ export interface CropsList {
   /**
    * Get a paginated list of crop resources.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
    *
@@ -662,7 +662,7 @@ export interface CropsGet {
    * Create or update a crop resource.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
    * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
@@ -691,8 +691,8 @@ export interface CropVarietiesListByCropId {
   /**
    * Get a paginated list of crop variety resources for a given crop and search criteria.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
    *
@@ -706,8 +706,8 @@ export interface CropVarietiesList {
   /**
    * Get a paginated list of crop variety resources across all the crops for a given search criteria.
    *
-   * 
-###### Note:
+   *
+   * ###### Note:
    * 1. This API does a serial search of the database for the given search criteria. If the crop Id is available, it is strongly recommended to use **‘List by Crop Id’** API as it is performant.
    * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
@@ -731,7 +731,7 @@ export interface CropVarietiesGet {
    * Create or update a crop variety resource.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
    * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
@@ -778,7 +778,7 @@ export interface FarmersGet {
    * Create or update a farmer resource.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
    * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
@@ -818,7 +818,7 @@ export interface FarmersGetCascadeDeleteJobDetails {
    * Create a cascade delete job for a specified farmer.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -837,7 +837,7 @@ export interface FarmOperationsCreateDataIngestionJob {
    * Create a farm operation data ingestion job.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -868,8 +868,8 @@ export interface FarmsListByFarmerId {
   /**
    * Get a paginated list of farm resources for a given farmer and search criteria.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
    *
@@ -883,8 +883,8 @@ export interface FarmsList {
   /**
    * Get a paginated list of farm resources across all the farmers for a given search criteria.
    *
-   * 
-###### Note:
+   *
+   * ###### Note:
    * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
    * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
@@ -904,7 +904,7 @@ export interface FarmsGet {
    * Create or update a farm resource for a given farmer.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
    * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
@@ -944,7 +944,7 @@ export interface FarmsGetCascadeDeleteJobDetails {
    * Create a cascade delete job for a specified farm.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -960,8 +960,8 @@ export interface FieldsListByFarmerId {
   /**
    * Get a paginated list of field resources for a given farmer and search criteria.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
    *
@@ -975,8 +975,8 @@ export interface FieldsList {
   /**
    * Get a paginated list of field resources across all the farmers for a given search criteria.
    *
-   * 
-###### Note:
+   *
+   * ###### Note:
    * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
    * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
@@ -996,7 +996,7 @@ export interface FieldsGet {
    * Create or update a field resource for a given farmer.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
    * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
@@ -1036,7 +1036,7 @@ export interface FieldsGetCascadeDeleteJobDetails {
    * Create a cascade delete job for specified field.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -1050,10 +1050,10 @@ export interface FieldsGetCascadeDeleteJobDetails {
 
 export interface HarvestDataListByFarmerId {
   /**
-   * Get a paginated list of harvest data resources for a given farmer and search criteria.
+   * Get a paginated list of harvest data resources for a given farmer and search criteria.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
    *
@@ -1067,8 +1067,8 @@ export interface HarvestDataList {
   /**
    * Get a paginated list of harvest data resources across all the farmers for a given search criteria.
    *
-   * 
-###### Note:
+   *
+   * ###### Note:
    * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
    * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
@@ -1092,7 +1092,7 @@ export interface HarvestDataGet {
    * Create or update harvest data resource for a given farmer.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
    * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
@@ -1133,7 +1133,7 @@ export interface HarvestDataGetCascadeDeleteJobDetails {
    * Create cascade delete job for harvest data resource.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -1152,7 +1152,7 @@ export interface ImageProcessingCreateRasterizeJob {
    * Create a job which converts shape files into raster images.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -1179,8 +1179,8 @@ export interface OAuthProvidersList {
   /**
    * Get a paginated list of OAuth provider resources for a given search criteria.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
    *
@@ -1203,7 +1203,7 @@ export interface OAuthProvidersGet {
    * Create or update an OAuth provider resource.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
    * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
@@ -1244,7 +1244,7 @@ export interface OAuthProvidersGetCascadeDeleteJobDetails {
    * Create cascade delete job for an OAuth provider resource.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -1299,7 +1299,7 @@ export interface OAuthTokensGetCascadeDeleteJobDetails {
    * Create job to remove OAuth token.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -1317,8 +1317,8 @@ export interface PlantingDataListByFarmerId {
   /**
    * Get a paginated list of planting data resources for a given farm and search criteria.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
    *
@@ -1332,8 +1332,8 @@ export interface PlantingDataList {
   /**
    * Get a paginated list of planting data resources across all the farmers for a given search criteria.
    *
-   * 
-###### Note:
+   *
+   * ###### Note:
    * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
    * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
@@ -1357,7 +1357,7 @@ export interface PlantingDataGet {
    * Create or update a planting data resource for a given farmer.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
    * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
@@ -1398,7 +1398,7 @@ export interface PlantingDataGetCascadeDeleteJobDetails {
    * Create cascade delete job for planting data resource.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -1417,8 +1417,8 @@ export interface ScenesList {
   /**
    * Get a paginated list of scene resources for a given search criteria.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    * 2. This API will retrieve scenes present in the FarmBeats datastore and does not ingest new data. Example: a user has ingested satellite data from 1st of Jan 2019 to 30th of June 2019. However, using the current API, the user has asked for data from 1st of Jan 2019 to 31st of December 2019. In such a case, only data for the first 6 months is returned to the user.
    *
@@ -1432,7 +1432,7 @@ export interface ScenesCreateSatelliteDataIngestionJob {
    * Create a satellite data ingestion job.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -1474,8 +1474,8 @@ export interface SeasonalFieldsListByFarmerId {
   /**
    * Get a paginated list of seasonal field resources for a given farmer and search criteria.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
    *
@@ -1489,8 +1489,8 @@ export interface SeasonalFieldsList {
   /**
    * Get a paginated list of seasonal field resources across all the farmers for a given search criteria.
    *
-   * 
-###### Note:
+   *
+   * ###### Note:
    * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
    * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
@@ -1514,7 +1514,7 @@ export interface SeasonalFieldsGet {
    * Create or update a seasonal field resource for a given farmer.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
    * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
@@ -1555,7 +1555,7 @@ export interface SeasonalFieldsGetCascadeDeleteJobDetails {
    * Create a cascade delete job for a specified seasonal field.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -1574,8 +1574,8 @@ export interface SeasonsList {
   /**
    * Get a paginated list of season resources.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
    *
@@ -1596,7 +1596,7 @@ export interface SeasonsGet {
    * Create or update a season resource.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
    * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
@@ -1625,8 +1625,8 @@ export interface TillageDataListByFarmerId {
   /**
    * Get a paginated list of tillage data resources for a given farmer and search criteria.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
    *
@@ -1640,8 +1640,8 @@ export interface TillageDataList {
   /**
    * Get a paginated list of tillage data resources across all the farmers for a given search criteria.
    *
-   * 
-###### Note:
+   *
+   * ###### Note:
    * 1. This API does a serial search of the database for the given search criteria. If the farmer Id is available, it is strongly recommended to use **‘List by Farmer Id’** API as it is performant.
    * 2. Users will get paginated response with each page containing a link to the next page. Few pages may have **no items (zero results)**. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    *
@@ -1665,7 +1665,7 @@ export interface TillageDataGet {
    * Create or update a tillage data resource for a given farmer.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/merge-patch+json'**.
    * 2. 'Id' of a resource can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of an ‘Id’ is 2 characters and maximum length is 50 characters.
@@ -1706,7 +1706,7 @@ export interface TillageDataGetCascadeDeleteJobDetails {
    * Create cascade delete job for tillage data resource.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -1724,8 +1724,8 @@ export interface WeatherList {
   /**
    * Get a paginated list of weather data resources for a given search criteria.
    *
-   * 
-###### Note: 
+   *
+   * ###### Note:
    * 1. Users will get paginated response with each page containing a link to the next page. Users are expected to iterate over all the pages using ‘nextLink’. The search comes to an end when ‘nextLink’ is null.
    * 2. This API will retrieve weather data present in the FarmBeats datastore and does not ingest new data. Example: a user has ingested historical weather data from 1st of Jan 2019 to 30th of June 2019. However, using the current API, the user has asked for historical data from 1st of Jan 2019 to 31st of December 2019. In such a case, only data for the first 6 months is returned to the user.
    *
@@ -1749,7 +1749,7 @@ export interface WeatherGetDataIngestionJobDetails {
    * Create a weather data ingestion job.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.
@@ -1779,7 +1779,7 @@ export interface WeatherGetDataDeleteJobDetails {
    * Create a weather data delete job.
    *
    * 
-###### Note:
+* ###### Note: 
    * 
 1. The **‘contentType’** in the request header should be **'application/json'**.
    * 2. ‘Job id’ can only contain alphanumeric characters, '-', '_', '~' or '.', and must begin and end with an alphanumeric character. Minimum length of a ‘Job id’ is 2 characters and maximum length is 50 characters.

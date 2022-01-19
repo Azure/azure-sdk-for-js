@@ -10,37 +10,37 @@ export interface ApplicationData {
   totalMaterial?: Measure;
   /** Schema for storing measurement reading and unit. */
   area?: Measure;
-  /** Represents the source from which the application data was obtained. */
+  /** Represents the source from which the application data was obtained. */
   source?: string;
-  /** UTC date-time at which the operation data was modified at the source (format: yyyy-MM-ddTHH:mm:ssZ). This will be specified by the source. */
+  /** UTC date-time at which the operation data was modified at the source (format: yyyy-MM-ddTHH:mm:ssZ). This will be specified by the source. */
   operationModifiedDateTime?: Date | string;
-  /** UTC date-time at which the operation started (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC date-time at which the operation started (format: yyyy-MM-ddTHH:mm:ssZ). */
   operationStartDateTime?: Date | string;
-  /** UTC date-time at which the operation ended (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC date-time at which the operation ended (format: yyyy-MM-ddTHH:mm:ssZ). */
   operationEndDateTime?: Date | string;
-  /** Link to 'Attachments API' that can be used to find shapefiles, raster files or any other attachments associated with this operation. */
+  /** Link to 'Attachments API' that can be used to find shapefiles, raster files or any other attachments associated with this operation. */
   attachmentsLink?: string;
-  /** Id of the boundary of the field/seasonal field on which the application operation was done. */
+  /** Id of the boundary of the field/seasonal field on which the application operation was done. */
   associatedBoundaryId?: string;
-  /** Id of the boundary that is created using the geographical area on which the application operation was carried out. */
+  /** Id of the boundary that is created using the geographical area on which the application operation was carried out. */
   operationBoundaryId?: string;
   /** Id of the associated farmer. */
   farmerId?: string;
-  /** Unique Id of the operation (application). This Id is unique for a given farmer. */
+  /** Unique Id of the operation (application). This Id is unique for a given farmer. */
   id?: string;
-  /** ETag value can be used to implement optimistic concurrency. */
+  /** ETag value can be used to implement optimistic concurrency. */
   eTag?: string;
-  /** User determined status of the resource. */
+  /** User determined status of the resource. */
   status?: string;
-  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
   modifiedDateTime?: Date | string;
-  /** Name of the application operation. */
+  /** Name of the application operation. */
   name?: string;
-  /** Brief description of the application operation. */
+  /** Brief description of the application operation. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
@@ -75,21 +75,21 @@ export interface Boundary {
   acreage?: number;
   /** Indicates if the parent is a field or a seasonal field. Permissible values are 'Field' and 'SeasonalField'. */
   parentType?: string;
-  /** Unique Id of the boundary. This Id is unique for a given farmer. */
+  /** Unique Id of the boundary. This Id is unique for a given farmer. */
   id?: string;
-  /** ETag value can be used to implement optimistic concurrency. */
+  /** ETag value can be used to implement optimistic concurrency. */
   eTag?: string;
-  /** User determined status of the resource. */
+  /** User determined status of the resource. */
   status?: string;
-  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
   modifiedDateTime?: Date | string;
-  /** Name of the boundary. */
+  /** Name of the boundary. */
   name?: string;
-  /** Brief description of the boundary. */
+  /** Brief description of the boundary. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
@@ -109,17 +109,17 @@ export interface SearchBoundaryQuery {
   propertyFilters?: Array<string>;
   /** List of statuses of boundaries to be searched. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
   /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
+  /** Token used in retrieving the next page. If null, there are no additional pages. */
   $skipToken?: string;
   /** If set, search result will contain only primary boundaries. */
   isPrimary?: boolean;
@@ -138,21 +138,21 @@ export interface SearchBoundaryQuery {
 export interface Crop {
   /** Phenotype of the crop. */
   phenotype?: string;
-  /** Unique Id of the crop. */
+  /** Unique Id of the crop. */
   id?: string;
-  /** ETag value can be used to implement optimistic concurrency. */
+  /** ETag value can be used to implement optimistic concurrency. */
   eTag?: string;
-  /** User determined status of the resource. */
+  /** User determined status of the resource. */
   status?: string;
-  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
   modifiedDateTime?: Date | string;
-  /** Name of the crop. */
+  /** Name of the crop. */
   name?: string;
-  /** Brief description of the crop. */
+  /** Brief description of the crop. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
@@ -163,40 +163,40 @@ export interface CropVariety {
   brand?: string;
   /** Commercial name of the crop variety. */
   product?: string;
-  /** Unique Id of the crop variety. This Id is unique for a given crop. */
+  /** Unique Id of the crop variety. This Id is unique for a given crop. */
   id?: string;
-  /** ETag value can be used to implement optimistic concurrency. */
+  /** ETag value can be used to implement optimistic concurrency. */
   eTag?: string;
-  /** User determined status of the resource. */
+  /** User determined status of the resource. */
   status?: string;
-  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
   modifiedDateTime?: Date | string;
-  /** Name of the crop variety. */
+  /** Name of the crop variety. */
   name?: string;
-  /** Brief description of the crop variety. */
+  /** Brief description of the crop variety. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
 export interface Farmer {
-  /** Unique Id of the farmer. */
+  /** Unique Id of the farmer. */
   id?: string;
-  /** ETag value can be used to implement optimistic concurrency. */
+  /** ETag value can be used to implement optimistic concurrency. */
   eTag?: string;
-  /** User determined status of the resource. */
+  /** User determined status of the resource. */
   status?: string;
-  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
   modifiedDateTime?: Date | string;
-  /** Name of the farmer. */
+  /** Name of the farmer. */
   name?: string;
-  /** Brief description of the farmer. */
+  /** Brief description of the farmer. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, any>;
 }
 
@@ -209,30 +209,30 @@ export interface FarmOperationDataIngestionJob {
   operations?: Array<string>;
   /** The beginning year from when the farm operations data needs to be fetched (minimum = 2000, maximum = current year). */
   startYear: number;
-  /** Unique Id of the farm operations data ingestion job. This Id must be unique for a given tenant. */
+  /** Unique Id of the farm operations data ingestion job. This Id must be unique for a given tenant. */
   id?: string;
   /**
    * Status of the job.
    * Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
    */
   status?: string;
-  /** Processing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing. */
+  /** Processing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing. */
   durationInSeconds?: number;
-  /** Brief description of the result of the job. */
+  /** Brief description of the result of the job. */
   message?: string;
-  /** UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ). */
   lastActionDateTime?: Date | string;
-  /** UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ). */
   startTime?: Date | string;
-  /** UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ). */
   endTime?: Date | string;
-  /** Name of the farm operations data ingestion job. */
+  /** Name of the farm operations data ingestion job. */
   name?: string;
-  /** Brief description of the farm operations data ingestion job. */
+  /** Brief description of the farm operations data ingestion job. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
@@ -245,7 +245,7 @@ export interface Farm {
   eTag?: string;
   /** User determined status of the resource. */
   status?: string;
-  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
   /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
   modifiedDateTime?: Date | string;
@@ -253,7 +253,7 @@ export interface Farm {
   name?: string;
   /** Brief description of the farm. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
@@ -266,21 +266,21 @@ export interface Field {
   primaryBoundaryId?: string;
   /** List of Ids of boundaries associated with the field. */
   boundaryIds?: Array<string>;
-  /** Unique Id of the field. This Id is unique for a given farmer. */
+  /** Unique Id of the field. This Id is unique for a given farmer. */
   id?: string;
-  /** ETag value can be used to implement optimistic concurrency. */
+  /** ETag value can be used to implement optimistic concurrency. */
   eTag?: string;
-  /** User determined status of the resource. */
+  /** User determined status of the resource. */
   status?: string;
-  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
   modifiedDateTime?: Date | string;
-  /** Name of the field. */
+  /** Name of the field. */
   name?: string;
-  /** Brief description of the field. */
+  /** Brief description of the field. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
@@ -317,21 +317,21 @@ export interface HarvestData {
   operationBoundaryId?: string;
   /** Id of the associated farmer. */
   farmerId?: string;
-  /** Unique Id of the operation (harvest). This Id is unique for a given farmer. */
+  /** Unique Id of the operation (harvest). This Id is unique for a given farmer. */
   id?: string;
-  /** ETag value can be used to implement optimistic concurrency. */
+  /** ETag value can be used to implement optimistic concurrency. */
   eTag?: string;
-  /** User determined status of the resource. */
+  /** User determined status of the resource. */
   status?: string;
-  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
   modifiedDateTime?: Date | string;
-  /** Name of the harvest operation. */
+  /** Name of the harvest operation. */
   name?: string;
-  /** Brief description of the harvest operation. */
+  /** Brief description of the harvest operation. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
@@ -359,30 +359,30 @@ export interface ImageProcessingRasterizeJob {
   shapefileAttachmentId: string;
   /** List of shapefile column names that must be rasterized. */
   shapefileColumnNames: Array<string>;
-  /** Unique Id of the image processing (rasterize) job. This Id must be unique for a given tenant. */
+  /** Unique Id of the image processing (rasterize) job. This Id must be unique for a given tenant. */
   id?: string;
   /**
    * Status of the job.
    * Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
    */
   status?: string;
-  /** Processing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing. */
+  /** Processing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing. */
   durationInSeconds?: number;
-  /** Brief description of the result of the job. */
+  /** Brief description of the result of the job. */
   message?: string;
-  /** UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ). */
   lastActionDateTime?: Date | string;
-  /** UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ). */
   startTime?: Date | string;
-  /** UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ). */
   endTime?: Date | string;
-  /** Name of the image processing (rasterize) job. */
+  /** Name of the image processing (rasterize) job. */
   name?: string;
-  /** Brief description of the image processing (rasterize) job. */
+  /** Brief description of the image processing (rasterize) job. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
@@ -406,17 +406,17 @@ export interface OAuthProvider {
   isProductionApp?: boolean;
   /** FarmBeats recognized unique Id for the OAuth provider. Valid value: 'JOHNDEERE. */
   id?: string;
-  /** ETag value can be used to implement optimistic concurrency. */
+  /** ETag value can be used to implement optimistic concurrency. */
   eTag?: string;
-  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
   modifiedDateTime?: Date | string;
   /** Name of the OAuth provider. */
   name?: string;
-  /** Brief description of the OAuth provider. */
+  /** Brief description of the OAuth provider. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
@@ -442,37 +442,37 @@ export interface PlantingData {
   plantingProductDetails?: Array<PlantingProductDetail>;
   /** Schema for storing measurement reading and unit. */
   area?: Measure;
-  /** Represents the source from which the planting data was obtained. */
+  /** Represents the source from which the planting data was obtained. */
   source?: string;
-  /** UTC date-time at which the operation data was modified at the source (format: yyyy-MM-ddTHH:mm:ssZ). This will be specified by the source. */
+  /** UTC date-time at which the operation data was modified at the source (format: yyyy-MM-ddTHH:mm:ssZ). This will be specified by the source. */
   operationModifiedDateTime?: Date | string;
-  /** UTC date-time at which the operation started (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC date-time at which the operation started (format: yyyy-MM-ddTHH:mm:ssZ). */
   operationStartDateTime?: Date | string;
-  /** UTC date-time at which the operation ended (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC date-time at which the operation ended (format: yyyy-MM-ddTHH:mm:ssZ). */
   operationEndDateTime?: Date | string;
-  /** Link to 'Attachments API' that can be used to find shapefiles, raster files or any other attachments associated with this operation. */
+  /** Link to 'Attachments API' that can be used to find shapefiles, raster files or any other attachments associated with this operation. */
   attachmentsLink?: string;
-  /** Id of the boundary of the field/seasonal field on which the planting operation was done. */
+  /** Id of the boundary of the field/seasonal field on which the planting operation was done. */
   associatedBoundaryId?: string;
-  /** Id of the boundary that is created using the geographical area on which the planting operation was carried out. */
+  /** Id of the boundary that is created using the geographical area on which the planting operation was carried out. */
   operationBoundaryId?: string;
   /** Id of the associated farmer. */
   farmerId?: string;
-  /** Unique Id of the operation (planting). This Id is unique for a given farmer. */
+  /** Unique Id of the operation (planting). This Id is unique for a given farmer. */
   id?: string;
-  /** ETag value can be used to implement optimistic concurrency. */
+  /** ETag value can be used to implement optimistic concurrency. */
   eTag?: string;
-  /** User determined status of the resource. */
+  /** User determined status of the resource. */
   status?: string;
-  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
   modifiedDateTime?: Date | string;
-  /** Name of the planting operation. */
+  /** Name of the planting operation. */
   name?: string;
-  /** Brief description of the planting operation. */
+  /** Brief description of the planting operation. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
@@ -492,9 +492,9 @@ export interface SatelliteDataIngestionJob {
   farmerId: string;
   /** The id of the boundary for which satellite data is being fetched. */
   boundaryId: string;
-  /** UTC Date-time from when the satellite data has to be fetched (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time from when the satellite data has to be fetched (format: yyyy-MM-ddTHH:mm:ssZ). */
   startDateTime: Date | string;
-  /** UTC Date-time till when the satellite data has to be fetched (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time till when the satellite data has to be fetched (format: yyyy-MM-ddTHH:mm:ssZ). */
   endDateTime: Date | string;
   /** Provider of satellite data. */
   provider?: "Microsoft";
@@ -502,37 +502,37 @@ export interface SatelliteDataIngestionJob {
   source?: "Sentinel_2_L2A";
   /** Data Model for SatelliteIngestionJobRequest. */
   data?: SatelliteData;
-  /** Unique Id of the satellite data ingestion job. This Id must be unique for a given tenant. */
+  /** Unique Id of the satellite data ingestion job. This Id must be unique for a given tenant. */
   id?: string;
   /**
    * Status of the job.
    * Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
    */
   status?: string;
-  /** DProcessing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing. */
+  /** DProcessing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing. */
   durationInSeconds?: number;
-  /** Brief description of the result of the job. */
+  /** Brief description of the result of the job. */
   message?: string;
-  /** UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ). */
   lastActionDateTime?: Date | string;
-  /** UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ). */
   startTime?: Date | string;
-  /** UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ). */
   endTime?: Date | string;
-  /** Name of the satellite data ingestion job. */
+  /** Name of the satellite data ingestion job. */
   name?: string;
-  /** Brief description of the satellite data ingestion job. */
+  /** Brief description of the satellite data ingestion job. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
 export interface SatelliteData {
   /**
-   * List of names of images to be fetched.
-   * For Sentinel-2, allowed values are: 'B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B8A', 'B09', 'B11', 'B12', 'AOT', 'SCL', 'SNW', 'CLD', 'NDVI', 'NDWI', 'EVI', 'LAI', 'LAIMask', 'CLP', 'CLM', and 'dataMask'.
+   * List of names of images to be fetched.
+   * For Sentinel-2, allowed values are: 'B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B8A', 'B09', 'B11', 'B12', 'AOT', 'SCL', 'SNW', 'CLD', 'NDVI', 'NDWI', 'EVI', 'LAI', 'LAIMask', 'CLP', 'CLM', and 'dataMask'.
    */
   imageNames?: Array<string>;
   /** List of formats in which images can be fetched. Available value: TIF. */
@@ -544,9 +544,9 @@ export interface SatelliteData {
 export interface SeasonalField {
   /** Id of the associated farmer. */
   farmerId?: string;
-  /** Id of the primary boundary associated with the seasonal field. At any point in time, a seasonal field can contain a maximum of one primary boundary. */
+  /** Id of the primary boundary associated with the seasonal field. At any point in time, a seasonal field can contain a maximum of one primary boundary. */
   primaryBoundaryId?: string;
-  /** List of Ids of boundaries associated with the seasonal field. */
+  /** List of Ids of boundaries associated with the seasonal field. */
   boundaryIds?: Array<string>;
   /** Id of the associated farm. */
   farmId?: string;
@@ -554,7 +554,7 @@ export interface SeasonalField {
   fieldId?: string;
   /** Id of the season associated with the seasonal field. */
   seasonId?: string;
-  /** List of Ids of crop varieties associated with the seasonal field. All the crop varieties must belong to the same crop. */
+  /** List of Ids of crop varieties associated with the seasonal field. All the crop varieties must belong to the same crop. */
   cropVarietyIds?: Array<string>;
   /** Id of the crop associated with the seasonal field. Seasonal fields are mono crop entities. */
   cropId?: string;
@@ -566,23 +566,23 @@ export interface SeasonalField {
   avgSeedPopulationValue?: number;
   /** Unit to measure average seed population. */
   avgSeedPopulationUnit?: string;
-  /** UTC Date-time at which crops were planted (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which crops were planted (format: yyyy-MM-ddTHH:mm:ssZ). */
   plantingDateTime?: Date | string;
-  /** Unique Id of the seasonal field. This Id is unique for a given farmer. */
+  /** Unique Id of the seasonal field. This Id is unique for a given farmer. */
   id?: string;
-  /** ETag value can be used to implement optimistic concurrency. */
+  /** ETag value can be used to implement optimistic concurrency. */
   eTag?: string;
-  /** User determined status of the resource. */
+  /** User determined status of the resource. */
   status?: string;
-  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
   modifiedDateTime?: Date | string;
-  /** Name of the seasonal field. */
+  /** Name of the seasonal field. */
   name?: string;
-  /** Brief description of the seasonal field. */
+  /** Brief description of the seasonal field. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
@@ -593,21 +593,21 @@ export interface Season {
   endDateTime?: Date | string;
   /** Year associated with the harvest i.e. year of season end date-time. */
   year?: number;
-  /** Unique Id of the season. */
+  /** Unique Id of the season. */
   id?: string;
-  /** ETag value can be used to implement optimistic concurrency. */
+  /** ETag value can be used to implement optimistic concurrency. */
   eTag?: string;
-  /** User determined status of the resource. */
+  /** User determined status of the resource. */
   status?: string;
-  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
   modifiedDateTime?: Date | string;
-  /** Name of the season. */
+  /** Name of the season. */
   name?: string;
-  /** Brief description of the season. */
+  /** Brief description of the season. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
@@ -618,37 +618,37 @@ export interface TillageData {
   tillagePressure?: Measure;
   /** Schema for storing measurement reading and unit. */
   area?: Measure;
-  /** Represents the source from which the tillage data was obtained. */
+  /** Represents the source from which the tillage data was obtained. */
   source?: string;
-  /** UTC date-time at which the operation data was modified at the source (format: yyyy-MM-ddTHH:mm:ssZ). This will be specified by the source. */
+  /** UTC date-time at which the operation data was modified at the source (format: yyyy-MM-ddTHH:mm:ssZ). This will be specified by the source. */
   operationModifiedDateTime?: Date | string;
-  /** UTC date-time at which the operation started (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC date-time at which the operation started (format: yyyy-MM-ddTHH:mm:ssZ). */
   operationStartDateTime?: Date | string;
-  /** UTC date-time at which the operation ended (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC date-time at which the operation ended (format: yyyy-MM-ddTHH:mm:ssZ). */
   operationEndDateTime?: Date | string;
-  /** Link to 'Attachments API' that can be used to find shapefiles, raster files or any other attachments associated with this operation. */
+  /** Link to 'Attachments API' that can be used to find shapefiles, raster files or any other attachments associated with this operation. */
   attachmentsLink?: string;
-  /** Id of the boundary of the field/seasonal field on which the tillage operation was done. */
+  /** Id of the boundary of the field/seasonal field on which the tillage operation was done. */
   associatedBoundaryId?: string;
-  /** Id of the boundary that is created using the geographical area on which the tillage operation was carried out. */
+  /** Id of the boundary that is created using the geographical area on which the tillage operation was carried out. */
   operationBoundaryId?: string;
   /** Id of the associated farmer. */
   farmerId?: string;
-  /** Unique Id of the operation (tillage). This Id is unique for a given farmer. */
+  /** Unique Id of the operation (tillage). This Id is unique for a given farmer. */
   id?: string;
-  /** ETag value can be used to implement optimistic concurrency. */
+  /** ETag value can be used to implement optimistic concurrency. */
   eTag?: string;
-  /** User determined status of the resource. */
+  /** User determined status of the resource. */
   status?: string;
-  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the resource was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
   modifiedDateTime?: Date | string;
-  /** Name of the tillage operation. */
+  /** Name of the tillage operation. */
   name?: string;
-  /** Brief description of the tillage operation. */
+  /** Brief description of the tillage operation. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
@@ -657,7 +657,7 @@ export interface WeatherDataIngestionJob {
   boundaryId: string;
   /** Id of the associated farmer. */
   farmerId: string;
-  /** Id of the weather extension. This signifies the source from where the weather data is fetched (eg. DTN.ClearAg). */
+  /** Id of the weather extension. This signifies the source from where the weather data is fetched (eg. DTN.ClearAg). */
   extensionId: string;
   /** Extension api name to which the request is to be made. */
   extensionApiName: string;
@@ -667,72 +667,72 @@ export interface WeatherDataIngestionJob {
   extensionDataProviderAppId?: string;
   /** Api key of the weather data provider. */
   extensionDataProviderApiKey?: string;
-  /** Unique Id of the weather data ingestion job. This Id must be unique for a given tenant. */
+  /** Unique Id of the weather data ingestion job. This Id must be unique for a given tenant. */
   id?: string;
   /**
    * Status of the job.
    * Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
    */
   status?: string;
-  /** Processing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing. */
+  /** Processing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing. */
   durationInSeconds?: number;
-  /** Brief description of the result of the job. */
+  /** Brief description of the result of the job. */
   message?: string;
-  /** UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ). */
   lastActionDateTime?: Date | string;
-  /** UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ). */
   startTime?: Date | string;
-  /** UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ). */
   endTime?: Date | string;
   /** Name to weather data ingestion job. */
   name?: string;
   /** Brief description of the weather data ingestion job. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 
 export interface WeatherDataDeleteJob {
-  /** Id of the weather extension. This signifies the source from where the weather data was fetched (eg. DTN.ClearAg). */
+  /** Id of the weather extension. This signifies the source from where the weather data was fetched (eg. DTN.ClearAg). */
   extensionId: string;
   /** The Id of the associated farmer. */
   farmerId: string;
   /** The id of the associated boundary. */
   boundaryId: string;
-  /** Type of weather data (forecast/historical). */
+  /** Type of weather data (forecast/historical). */
   weatherDataType?: string;
-  /** Granularity of weather data (daily/hourly). */
+  /** Granularity of weather data (daily/hourly). */
   granularity?: string;
-  /** UTC Date-time from when the weather data has to be deleted (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time from when the weather data has to be deleted (format: yyyy-MM-ddTHH:mm:ssZ). */
   startDateTime?: Date | string;
-  /** UTC Date-time till when the weather data has to be deleted (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time till when the weather data has to be deleted (format: yyyy-MM-ddTHH:mm:ssZ). */
   endDateTime?: Date | string;
-  /** Unique Id of the weather data delete job. This Id must be unique for a given tenant. */
+  /** Unique Id of the weather data delete job. This Id must be unique for a given tenant. */
   id?: string;
   /**
    * Status of the job.
    * Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
    */
   status?: string;
-  /** Processing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing. */
+  /** Processing duration of the job. Can be calculated as min(current time, job succeeded/failed/cancelled time) - job execution start time. This does not include the time spent waiting in the queue for the job to be picked up for processing. */
   durationInSeconds?: number;
-  /** Brief description of the result of the job. */
+  /** Brief description of the result of the job. */
   message?: string;
-  /** UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the job was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   createdDateTime?: Date | string;
-  /** UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the job was last acted upon (format: yyyy-MM-ddTHH:mm:ssZ). */
   lastActionDateTime?: Date | string;
-  /** UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the processing of the job started (format: yyyy-MM-ddTHH:mm:ssZ). */
   startTime?: Date | string;
-  /** UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the processing of the job ended (format: yyyy-MM-ddTHH:mm:ssZ). */
   endTime?: Date | string;
   /** Name of the weather data deletion job. */
   name?: string;
   /** Brief description of the weather data deletion job. */
   description?: string;
-  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
+  /** A collection of key value pairs associated with the resource. A key is a string and a value can be a numeric or a string. A maximum of 25 key value pairs can be associated with a resource. */
   properties?: Record<string, Record<string, unknown>>;
 }
 

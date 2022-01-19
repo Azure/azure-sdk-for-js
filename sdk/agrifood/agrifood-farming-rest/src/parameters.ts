@@ -4,25 +4,25 @@
 import { RequestParameters } from "@azure-rest/core-client";
 import {
   ApplicationData,
-  SearchBoundaryQuery,
   Boundary,
   Crop,
   CropVariety,
-  Farmer,
-  FarmOperationDataIngestionJob,
   Farm,
+  FarmOperationDataIngestionJob,
+  Farmer,
   Field,
   HarvestData,
   ImageProcessingRasterizeJob,
-  OAuthProvider,
   OAuthConnectRequest,
+  OAuthProvider,
   PlantingData,
   SatelliteDataIngestionJob,
-  SeasonalField,
+  SearchBoundaryQuery,
   Season,
+  SeasonalField,
   TillageData,
-  WeatherDataIngestionJob,
   WeatherDataDeleteJob,
+  WeatherDataIngestionJob,
 } from "./models";
 
 export interface ApplicationDataListByFarmerIdQueryParamProperties {
@@ -34,11 +34,11 @@ export interface ApplicationDataListByFarmerIdQueryParamProperties {
   minTotalMaterial?: number;
   /** Application data with total material lesser than or equal to the value specified will be returned. */
   maxTotalMaterial?: number;
-  /** Application data obtained from the given list of sources will be returned. */
+  /** Application data obtained from the given list of sources will be returned. */
   sources?: Array<string>;
-  /** List of boundary Ids of the field/seasonal field on which the application operation was done. */
+  /** List of boundary Ids of the field/seasonal field on which the application operation was done. */
   associatedBoundaryIds?: Array<string>;
-  /** List of the boundary Ids that were created using the geographical area on which the application operation was carried out. */
+  /** List of the boundary Ids that were created using the geographical area on which the application operation was carried out. */
   operationBoundaryIds?: Array<string>;
   /** Application operations that began at or after the given UTC date-time is returned. */
   minOperationStartDateTime?: Date | string;
@@ -61,8 +61,8 @@ export interface ApplicationDataListByFarmerIdQueryParamProperties {
   /** List of names of application operations to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
   /** Application data with only given statuses are returned. */
@@ -75,7 +75,7 @@ export interface ApplicationDataListByFarmerIdQueryParamProperties {
   minLastModifiedDateTime?: Date | string;
   /** Resources last modified at or before the given UTC date-time are returned. */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -89,56 +89,56 @@ export type ApplicationDataListByFarmerIdParameters = ApplicationDataListByFarme
   RequestParameters;
 
 export interface ApplicationDataListQueryParamProperties {
-  /** Application data with average material greater than or equal to the value specified will be returned. */
+  /** Application data with average material greater than or equal to the value specified will be returned. */
   minAvgMaterial?: number;
-  /**  Application data with average material lesser than or equal to the value specified will be returned. */
+  /**  Application data with average material lesser than or equal to the value specified will be returned. */
   maxAvgMaterial?: number;
-  /** Application data with total material greater than or equal to the value specified will be returned. */
+  /** Application data with total material greater than or equal to the value specified will be returned. */
   minTotalMaterial?: number;
-  /** Application data with total material lesser than or equal to the value specified will be returned. */
+  /** Application data with total material lesser than or equal to the value specified will be returned. */
   maxTotalMaterial?: number;
-  /** Application data obtained from the given list of sources will be returned. */
+  /** Application data obtained from the given list of sources will be returned. */
   sources?: Array<string>;
-  /** List of boundary Ids of the field/seasonal field on which the application operation was done. */
+  /** List of boundary Ids of the field/seasonal field on which the application operation was done. */
   associatedBoundaryIds?: Array<string>;
-  /** List of the boundary Ids that were created using the geographical area on which the application operation was carried out. */
+  /** List of the boundary Ids that were created using the geographical area on which the application operation was carried out. */
   operationBoundaryIds?: Array<string>;
-  /** Application operations that began at or after the given UTC date-time is returned. */
+  /** Application operations that began at or after the given UTC date-time is returned. */
   minOperationStartDateTime?: Date | string;
-  /** Application operations that began at or before the given UTC date-time is returned. */
+  /** Application operations that began at or before the given UTC date-time is returned. */
   maxOperationStartDateTime?: Date | string;
-  /** Application operations that ended at or after the given UTC date-time is returned. */
+  /** Application operations that ended at or after the given UTC date-time is returned. */
   minOperationEndDateTime?: Date | string;
-  /** Application operations that ended at or before the given UTC date-time is returned. */
+  /** Application operations that ended at or before the given UTC date-time is returned. */
   maxOperationEndDateTime?: Date | string;
-  /** Application operations that were modified (at source) at or after the given UTC date-time is returned. */
+  /** Application operations that were modified (at source) at or after the given UTC date-time is returned. */
   minOperationModifiedDateTime?: Date | string;
-  /** Application operations that were modified (at source) at or before the given UTC date-time is returned. */
+  /** Application operations that were modified (at source) at or before the given UTC date-time is returned. */
   maxOperationModifiedDateTime?: Date | string;
-  /** Application operations carried over area greater than or equal to the given value is returned. */
+  /** Application operations carried over area greater than or equal to the given value is returned. */
   minArea?: number;
-  /** Application operations carried over area lesser than or equal to the given value is returned. */
+  /** Application operations carried over area lesser than or equal to the given value is returned. */
   maxArea?: number;
-  /** List of Ids of application operations to be returned. */
+  /** List of Ids of application operations to be returned. */
   ids?: Array<string>;
-  /** List of names of application operations to be returned. */
+  /** List of names of application operations to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Application data with only the given statuses are returned. */
+  /** Application data with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -184,28 +184,28 @@ export type ApplicationDataCreateCascadeDeleteJobParameters =
 export interface AttachmentsListByFarmerIdQueryParamProperties {
   /** Attachments belonging to the given list of resources will be returned. */
   resourceIds?: Array<string>;
-  /** Attachments belonging to the resources of the given resource types will be returned. Valid values are Farmer, Farm, Field, SeasonalField, Boundary, ApplicationData, HarvestData, TillageDat and PlantingData. */
+  /** Attachments belonging to the resources of the given resource types will be returned. Valid values are Farmer, Farm, Field, SeasonalField, Boundary, ApplicationData, HarvestData, TillageDat and PlantingData. */
   resourceTypes?: Array<string>;
   /** Ids of the attachments to be returned. */
   ids?: Array<string>;
-  /** List of names of attachments to be returned. */
+  /** List of names of attachments to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Attachments with only the given statuses are returned. */
+  /** Attachments with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Attachments created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Attachments created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Attachments created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Attachments created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Attachments last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Attachments last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Attachments last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Attachments last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -232,25 +232,25 @@ export interface AttachmentsCreateOrUpdateFormBody {
   file?: string | Uint8Array;
   /** Id of the associated farmer. */
   FarmerId?: string;
-  /** This is the Id of the resource to which the attachment belongs. Ids of following entities are valid: Farmer, Farm, Field, Seasonal field, Boundary, Application data, Harvest data, Tillage data and Planting data. */
+  /** This is the Id of the resource to which the attachment belongs. Ids of following entities are valid: Farmer, Farm, Field, Seasonal field, Boundary, Application data, Harvest data, Tillage data and Planting data. */
   ResourceId?: string;
-  /** Indicates the type of resource to which this attachment belongs. Valid values are Farmer, Farm, Field, SeasonalField, Boundary, ApplicationData, HarvestData, TillageDat and PlantingData. */
+  /** Indicates the type of resource to which this attachment belongs. Valid values are Farmer, Farm, Field, SeasonalField, Boundary, ApplicationData, HarvestData, TillageDat and PlantingData. */
   ResourceType?: string;
   /** Original file name of the attachment. */
   OriginalFileName?: string;
-  /** Unique Id of the attachment. This Id is unique for a given farmer. */
+  /** Unique Id of the attachment. This Id is unique for a given farmer. */
   Id?: string;
   /** User provided status of the attachment. */
   Status?: string;
-  /** UTC Date-time at which the attachment was created (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the attachment was created (format: yyyy-MM-ddTHH:mm:ssZ). */
   CreatedDateTime?: string;
-  /** UTC Date-time at which the attachment was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** UTC Date-time at which the attachment was last modified (format: yyyy-MM-ddTHH:mm:ssZ). */
   ModifiedDateTime?: string;
   /** Name of the attachment. */
   Name?: string;
-  /** Brief description of the attachment. */
+  /** Brief description of the attachment. */
   Description?: string;
-  /** ETag value can be used to implement optimistic concurrency. */
+  /** ETag value can be used to implement optimistic concurrency. */
   ETag?: string;
 }
 
@@ -266,9 +266,9 @@ export type AttachmentsDeleteParameters = RequestParameters;
 export type AttachmentsDownloadParameters = RequestParameters;
 
 export interface BoundariesListByFarmerIdQueryParamProperties {
-  /** If set, only primary boundaries are returned. */
+  /** If set, only primary boundaries are returned. */
   isPrimary?: boolean;
-  /** Boundaries with given parent types are returned. VAlid values are 'Field' and 'SeasonalField'. */
+  /** Boundaries with given parent types are returned. VAlid values are 'Field' and 'SeasonalField'. */
   parentType?: string;
   /** Boundaries associated with the given parent Ids are returned. */
   parentIds?: Array<string>;
@@ -276,26 +276,26 @@ export interface BoundariesListByFarmerIdQueryParamProperties {
   minAcreage?: number;
   /** Boundaries with acreage equal to or lesser than the given value are returned. */
   maxAcreage?: number;
-  /** List of Ids of boundaries to be returned. */
+  /** List of Ids of boundaries to be returned. */
   ids?: Array<string>;
-  /** List of names of boundaries to be returned. */
+  /** List of names of boundaries to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Boundaries with only the given statuses are returned. */
+  /** Boundaries with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -325,34 +325,34 @@ export type BoundariesSearchByFarmerIdParameters = BoundariesSearchByFarmerIdMed
 export interface BoundariesListQueryParamProperties {
   /** If set, only primary boundaries are returned. */
   isPrimary?: boolean;
-  /** Boundaries with given parent types are returned. VAlid values are 'Field' and 'SeasonalField'. */
+  /** Boundaries with given parent types are returned. VAlid values are 'Field' and 'SeasonalField'. */
   parentType?: string;
-  /** Boundaries associated with the given parent Ids are returned. */
+  /** Boundaries associated with the given parent Ids are returned. */
   parentIds?: Array<string>;
-  /** Boundaries with acreage equal to or greater than the given value are returned. */
+  /** Boundaries with acreage equal to or greater than the given value are returned. */
   minAcreage?: number;
-  /** Boundaries with acreage equal to or lesser than the given value are returned. */
+  /** Boundaries with acreage equal to or lesser than the given value are returned. */
   maxAcreage?: number;
-  /** List of Ids of boundaries to be returned. */
+  /** List of Ids of boundaries to be returned. */
   ids?: Array<string>;
-  /** List of names of boundaries to be returned. */
+  /** List of names of boundaries to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Boundaries with only the given statuses are returned. */
+  /** Boundaries with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -425,26 +425,26 @@ export type BoundariesGetOverlapParameters = BoundariesGetOverlapQueryParam & Re
 export interface CropsListQueryParamProperties {
   /** Crops with the given list of phenotypes are returned. */
   phenotypes?: Array<string>;
-  /** List of Ids of crops to be returned. */
+  /** List of Ids of crops to be returned. */
   ids?: Array<string>;
-  /** List of names of crops to be returned. */
+  /** List of names of crops to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Crops with only the given statuses are returned. */
+  /** Crops with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -479,26 +479,26 @@ export interface CropVarietiesListByCropIdQueryParamProperties {
   brands?: Array<string>;
   /** Crop varieties associated with the given list of products are returned. */
   products?: Array<string>;
-  /** List of Ids of crop varieties to be returned. */
+  /** List of Ids of crop varieties to be returned. */
   ids?: Array<string>;
-  /** List of names of crop varieties to be returned. */
+  /** List of names of crop varieties to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Crop varieties with only the given statuses are returned. */
+  /** Crop varieties with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -512,32 +512,32 @@ export type CropVarietiesListByCropIdParameters = CropVarietiesListByCropIdQuery
   RequestParameters;
 
 export interface CropVarietiesListQueryParamProperties {
-  /** Crop varieties associated with the given list of crop ids are returned. */
+  /** Crop varieties associated with the given list of crop ids are returned. */
   cropIds?: Array<string>;
-  /** Crop varieties associated with the given list of brands are returned. */
+  /** Crop varieties associated with the given list of brands are returned. */
   brands?: Array<string>;
-  /** Crop varieties associated with the given list of products are returned. */
+  /** Crop varieties associated with the given list of products are returned. */
   products?: Array<string>;
-  /** List of Ids of crop varieties to be returned. */
+  /** List of Ids of crop varieties to be returned. */
   ids?: Array<string>;
-  /** List of names of crop varieties to be returned. */
+  /** List of names of crop varieties to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Crop varieties with only the given statuses are returned. */
+  /** Crop varieties with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -566,26 +566,26 @@ export type CropVarietiesCreateOrUpdateParameters = CropVarietiesCreateOrUpdateM
 export type CropVarietiesDeleteParameters = RequestParameters;
 
 export interface FarmersListQueryParamProperties {
-  /** List of Ids of farmers to be returned. */
+  /** List of Ids of farmers to be returned. */
   ids?: Array<string>;
-  /** List of names of farmers to be returned. */
+  /** List of names of farmers to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Farmers with only the given statuses are returned. */
+  /** Farmers with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -643,26 +643,26 @@ export type FarmOperationsCreateDataIngestionJobParameters =
 export type FarmOperationsGetDataIngestionJobDetailsParameters = RequestParameters;
 
 export interface FarmsListByFarmerIdQueryParamProperties {
-  /** List of Ids of farms to be returned. */
+  /** List of Ids of farms to be returned. */
   ids?: Array<string>;
-  /** List of names of farms to be returned. */
+  /** List of names of farms to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Farms with only the given statuses are returned. */
+  /** Farms with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -675,26 +675,26 @@ export interface FarmsListByFarmerIdQueryParam {
 export type FarmsListByFarmerIdParameters = FarmsListByFarmerIdQueryParam & RequestParameters;
 
 export interface FarmsListQueryParamProperties {
-  /** List of Ids of farms to be returned. */
+  /** List of Ids of farms to be returned. */
   ids?: Array<string>;
-  /** List of names of farms to be returned. */
+  /** List of names of farms to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Farms with only the given statuses are returned. */
+  /** Farms with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -738,28 +738,28 @@ export type FarmsCreateCascadeDeleteJobParameters = FarmsCreateCascadeDeleteJobQ
   RequestParameters;
 
 export interface FieldsListByFarmerIdQueryParamProperties {
-  /** Fields associated with the given list of farms are returned. */
+  /** Fields associated with the given list of farms are returned. */
   farmIds?: Array<string>;
-  /** List of Ids of fields to be returned. */
+  /** List of Ids of fields to be returned. */
   ids?: Array<string>;
-  /** List of names of fields to be returned. */
+  /** List of names of fields to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Fields with only the given statuses are returned. */
+  /** Fields with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -772,28 +772,28 @@ export interface FieldsListByFarmerIdQueryParam {
 export type FieldsListByFarmerIdParameters = FieldsListByFarmerIdQueryParam & RequestParameters;
 
 export interface FieldsListQueryParamProperties {
-  /** Fields associated with the given list of farms are returned. */
+  /** Fields associated with the given list of farms are returned. */
   farmIds?: Array<string>;
-  /** List of Ids of fields to be returned. */
+  /** List of Ids of fields to be returned. */
   ids?: Array<string>;
-  /** List of names of fields to be returned. */
+  /** List of names of fields to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Fields with only the given statuses are returned. */
+  /** Fields with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -837,72 +837,72 @@ export type FieldsCreateCascadeDeleteJobParameters = FieldsCreateCascadeDeleteJo
   RequestParameters;
 
 export interface HarvestDataListByFarmerIdQueryParamProperties {
-  /** Harvest data with total yield greater than or equal to the value specified will be returned. */
+  /** Harvest data with total yield greater than or equal to the value specified will be returned. */
   minTotalYield?: number;
-  /** Harvest data with total yield lesser than or equal to the value specified will be returned. */
+  /** Harvest data with total yield lesser than or equal to the value specified will be returned. */
   maxTotalYield?: number;
-  /** Harvest data with average yield greater than or equal to the value specified will be returned. */
+  /** Harvest data with average yield greater than or equal to the value specified will be returned. */
   minAvgYield?: number;
-  /** Harvest data with average yield lesser than or equal to the value specified will be returned. */
+  /** Harvest data with average yield lesser than or equal to the value specified will be returned. */
   maxAvgYield?: number;
-  /** Harvest data with total wet mass greater than or equal to the value specified will be returned. */
+  /** Harvest data with total wet mass greater than or equal to the value specified will be returned. */
   minTotalWetMass?: number;
-  /** Harvest data with total wet mass lesser than or equal to the value specified will be returned. */
+  /** Harvest data with total wet mass lesser than or equal to the value specified will be returned. */
   maxTotalWetMass?: number;
-  /** Harvest data with average wet mass greater than or equal to the value specified will be returned. */
+  /** Harvest data with average wet mass greater than or equal to the value specified will be returned. */
   minAvgWetMass?: number;
-  /** Harvest data with average wet mass lesser than or equal to the value specified will be returned. */
+  /** Harvest data with average wet mass lesser than or equal to the value specified will be returned. */
   maxAvgWetMass?: number;
-  /** Harvest data with average moisture greater than or equal to the value specified will be returned. */
+  /** Harvest data with average moisture greater than or equal to the value specified will be returned. */
   minAvgMoisture?: number;
-  /** Harvest data with average moisture lesser than or equal to the value specified will be returned. */
+  /** Harvest data with average moisture lesser than or equal to the value specified will be returned. */
   maxAvgMoisture?: number;
-  /** Harvest data with average speed greater than or equal to the value specified will be returned. */
+  /** Harvest data with average speed greater than or equal to the value specified will be returned. */
   minAvgSpeed?: number;
-  /** Harvest data with average speed lesser than or equal to the value specified will be returned. */
+  /** Harvest data with average speed lesser than or equal to the value specified will be returned. */
   maxAvgSpeed?: number;
-  /** Harvest data obtained from the given list of sources will be returned. */
+  /** Harvest data obtained from the given list of sources will be returned. */
   sources?: Array<string>;
-  /** List of boundary Ids of the field/seasonal field on which the harvest operation was done. */
+  /** List of boundary Ids of the field/seasonal field on which the harvest operation was done. */
   associatedBoundaryIds?: Array<string>;
-  /** List of the boundary Ids that were created using the geographical area on which the harvest operation was carried out. */
+  /** List of the boundary Ids that were created using the geographical area on which the harvest operation was carried out. */
   operationBoundaryIds?: Array<string>;
-  /** Harvest operations that began at or after the given UTC date-time is returned. */
+  /** Harvest operations that began at or after the given UTC date-time is returned. */
   minOperationStartDateTime?: Date | string;
-  /** Harvest operations that began at or before the given UTC date-time is returned. */
+  /** Harvest operations that began at or before the given UTC date-time is returned. */
   maxOperationStartDateTime?: Date | string;
-  /** Harvest operations that ended at or after the given UTC date-time is returned. */
+  /** Harvest operations that ended at or after the given UTC date-time is returned. */
   minOperationEndDateTime?: Date | string;
-  /** Harvest operations that ended at or before the given UTC date-time is returned. */
+  /** Harvest operations that ended at or before the given UTC date-time is returned. */
   maxOperationEndDateTime?: Date | string;
-  /** Harvest operations that were modified (at source) at or after the given UTC date-time is returned. */
+  /** Harvest operations that were modified (at source) at or after the given UTC date-time is returned. */
   minOperationModifiedDateTime?: Date | string;
-  /** Harvest operations that were modified (at source) at or before the given UTC date-time is returned. */
+  /** Harvest operations that were modified (at source) at or before the given UTC date-time is returned. */
   maxOperationModifiedDateTime?: Date | string;
-  /** Harvest operations carried over area greater than or equal to the given value is returned. */
+  /** Harvest operations carried over area greater than or equal to the given value is returned. */
   minArea?: number;
-  /** Harvest operations carried over area lesser than or equal to the given value is returned. */
+  /** Harvest operations carried over area lesser than or equal to the given value is returned. */
   maxArea?: number;
-  /** List of Ids of harvest operations to be returned. */
+  /** List of Ids of harvest operations to be returned. */
   ids?: Array<string>;
-  /** List of names of harvest operations to be returned. */
+  /** List of names of harvest operations to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Harvest data with only the given statuses are returned. */
+  /** Harvest data with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -916,72 +916,72 @@ export type HarvestDataListByFarmerIdParameters = HarvestDataListByFarmerIdQuery
   RequestParameters;
 
 export interface HarvestDataListQueryParamProperties {
-  /** Harvest data with total yield greater than or equal to the value specified will be returned. */
+  /** Harvest data with total yield greater than or equal to the value specified will be returned. */
   minTotalYield?: number;
-  /** Harvest data with total yield lesser than or equal to the value specified will be returned. */
+  /** Harvest data with total yield lesser than or equal to the value specified will be returned. */
   maxTotalYield?: number;
-  /** Harvest data with average yield greater than or equal to the value specified will be returned. */
+  /** Harvest data with average yield greater than or equal to the value specified will be returned. */
   minAvgYield?: number;
-  /** Harvest data with average yield lesser than or equal to the value specified will be returned. */
+  /** Harvest data with average yield lesser than or equal to the value specified will be returned. */
   maxAvgYield?: number;
-  /** Harvest data with total wet mass greater than or equal to the value specified will be returned. */
+  /** Harvest data with total wet mass greater than or equal to the value specified will be returned. */
   minTotalWetMass?: number;
-  /** Harvest data with total wet mass lesser than or equal to the value specified will be returned. */
+  /** Harvest data with total wet mass lesser than or equal to the value specified will be returned. */
   maxTotalWetMass?: number;
-  /** Harvest data with average wet mass greater than or equal to the value specified will be returned. */
+  /** Harvest data with average wet mass greater than or equal to the value specified will be returned. */
   minAvgWetMass?: number;
-  /** Harvest data with average wet mass lesser than or equal to the value specified will be returned. */
+  /** Harvest data with average wet mass lesser than or equal to the value specified will be returned. */
   maxAvgWetMass?: number;
-  /** Harvest data with average moisture greater than or equal to the value specified will be returned. */
+  /** Harvest data with average moisture greater than or equal to the value specified will be returned. */
   minAvgMoisture?: number;
-  /** Harvest data with average moisture lesser than or equal to the value specified will be returned. */
+  /** Harvest data with average moisture lesser than or equal to the value specified will be returned. */
   maxAvgMoisture?: number;
-  /** Harvest data with average speed greater than or equal to the value specified will be returned. */
+  /** Harvest data with average speed greater than or equal to the value specified will be returned. */
   minAvgSpeed?: number;
-  /** Harvest data with average speed lesser than or equal to the value specified will be returned. */
+  /** Harvest data with average speed lesser than or equal to the value specified will be returned. */
   maxAvgSpeed?: number;
-  /** Harvest data obtained from the given list of sources will be returned. */
+  /** Harvest data obtained from the given list of sources will be returned. */
   sources?: Array<string>;
-  /** List of boundary Ids of the field/seasonal field on which the harvest operation was done. */
+  /** List of boundary Ids of the field/seasonal field on which the harvest operation was done. */
   associatedBoundaryIds?: Array<string>;
-  /** List of the boundary Ids that were created using the geographical area on which the harvest operation was carried out. */
+  /** List of the boundary Ids that were created using the geographical area on which the harvest operation was carried out. */
   operationBoundaryIds?: Array<string>;
-  /** Harvest operations that began at or after the given UTC date-time is returned. */
+  /** Harvest operations that began at or after the given UTC date-time is returned. */
   minOperationStartDateTime?: Date | string;
-  /** Harvest operations that began at or before the given UTC date-time is returned. */
+  /** Harvest operations that began at or before the given UTC date-time is returned. */
   maxOperationStartDateTime?: Date | string;
-  /** Harvest operations that ended at or after the given UTC date-time is returned. */
+  /** Harvest operations that ended at or after the given UTC date-time is returned. */
   minOperationEndDateTime?: Date | string;
-  /** Harvest operations that ended at or before the given UTC date-time is returned. */
+  /** Harvest operations that ended at or before the given UTC date-time is returned. */
   maxOperationEndDateTime?: Date | string;
-  /** Harvest operations that were modified (at source) at or after the given UTC date-time is returned. */
+  /** Harvest operations that were modified (at source) at or after the given UTC date-time is returned. */
   minOperationModifiedDateTime?: Date | string;
-  /** Harvest operations that were modified (at source) at or before the given UTC date-time is returned. */
+  /** Harvest operations that were modified (at source) at or before the given UTC date-time is returned. */
   maxOperationModifiedDateTime?: Date | string;
-  /** Harvest operations carried over area greater than or equal to the given value is returned. */
+  /** Harvest operations carried over area greater than or equal to the given value is returned. */
   minArea?: number;
-  /** Harvest operations carried over area lesser than or equal to the given value is returned. */
+  /** Harvest operations carried over area lesser than or equal to the given value is returned. */
   maxArea?: number;
-  /** List of Ids of harvest operations to be returned. */
+  /** List of Ids of harvest operations to be returned. */
   ids?: Array<string>;
-  /** List of names of harvest operations to be returned. */
+  /** List of names of harvest operations to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Harvest data with only the given statuses are returned. */
+  /** Harvest data with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -1041,26 +1041,26 @@ export type ImageProcessingCreateRasterizeJobParameters =
 export type ImageProcessingGetRasterizeJobParameters = RequestParameters;
 
 export interface OAuthProvidersListQueryParamProperties {
-  /** List of Ids of OAuth providers to be returned. */
+  /** List of Ids of OAuth providers to be returned. */
   ids?: Array<string>;
-  /** List of names of OAuth providers to be returned. */
+  /** List of names of OAuth providers to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** OAuth providers with only the given statuses are returned. */
+  /** OAuth providers with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -1102,21 +1102,21 @@ export type OAuthProvidersCreateCascadeDeleteJobParameters =
   OAuthProvidersCreateCascadeDeleteJobQueryParam & RequestParameters;
 
 export interface OAuthTokensListQueryParamProperties {
-  /** List of Ids of OAuth providers to be returned. */
+  /** List of Ids of OAuth providers to be returned. */
   authProviderIds?: Array<string>;
   /** List of Ids of associated farmers. */
   farmerIds?: Array<string>;
   /** If set, only valid (non expired) OAuth tokens are returned. */
   isValid?: boolean;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -1159,60 +1159,60 @@ export type OAuthTokensCreateCascadeDeleteJobParameters =
   OAuthTokensCreateCascadeDeleteJobQueryParam & RequestParameters;
 
 export interface PlantingDataListByFarmerIdQueryParamProperties {
-  /** Planting data with average planting rate greater than or equal to the value specified will be returned. */
+  /** Planting data with average planting rate greater than or equal to the value specified will be returned. */
   minAvgPlantingRate?: number;
-  /** Planting data with average planting rate lesser than or equal to the value specified will be returned. */
+  /** Planting data with average planting rate lesser than or equal to the value specified will be returned. */
   maxAvgPlantingRate?: number;
-  /** Planting data with total material greater than or equal to the value specified will be returned. */
+  /** Planting data with total material greater than or equal to the value specified will be returned. */
   minTotalMaterial?: number;
-  /** Planting data with total material lesser than or equal to the value specified will be returned. */
+  /** Planting data with total material lesser than or equal to the value specified will be returned. */
   maxTotalMaterial?: number;
-  /** Planting data with average material greater than or equal to the value specified will be returned. */
+  /** Planting data with average material greater than or equal to the value specified will be returned. */
   minAvgMaterial?: number;
-  /** Planting data with total material lesser than or equal to the value specified will be returned. */
+  /** Planting data with total material lesser than or equal to the value specified will be returned. */
   maxAvgMaterial?: number;
-  /** Planting data obtained from the given list of sources will be returned. */
+  /** Planting data obtained from the given list of sources will be returned. */
   sources?: Array<string>;
-  /** List of boundary Ids of the field/seasonal field on which the planting operation was done. */
+  /** List of boundary Ids of the field/seasonal field on which the planting operation was done. */
   associatedBoundaryIds?: Array<string>;
-  /** List of the boundary Ids that were created using the geographical area on which the planting operation was carried out. */
+  /** List of the boundary Ids that were created using the geographical area on which the planting operation was carried out. */
   operationBoundaryIds?: Array<string>;
-  /** Planting operations that began at or after the given UTC date-time is returned. */
+  /** Planting operations that began at or after the given UTC date-time is returned. */
   minOperationStartDateTime?: Date | string;
-  /** Planting operations that began at or before the given UTC date-time is returned. */
+  /** Planting operations that began at or before the given UTC date-time is returned. */
   maxOperationStartDateTime?: Date | string;
-  /** Planting operations that ended at or after the given UTC date-time is returned. */
+  /** Planting operations that ended at or after the given UTC date-time is returned. */
   minOperationEndDateTime?: Date | string;
-  /** Planting operations that ended at or before the given UTC date-time is returned. */
+  /** Planting operations that ended at or before the given UTC date-time is returned. */
   maxOperationEndDateTime?: Date | string;
-  /** Planting operations that were modified (at source) at or after the given UTC date-time is returned. */
+  /** Planting operations that were modified (at source) at or after the given UTC date-time is returned. */
   minOperationModifiedDateTime?: Date | string;
-  /** Planting operations that were modified (at source) at or before the given UTC date-time is returned. */
+  /** Planting operations that were modified (at source) at or before the given UTC date-time is returned. */
   maxOperationModifiedDateTime?: Date | string;
-  /** Planting operations carried over area greater than or equal to the given value is returned. */
+  /** Planting operations carried over area greater than or equal to the given value is returned. */
   minArea?: number;
-  /** Planting operations carried over area lesser than or equal to the given value is returned. */
+  /** Planting operations carried over area lesser than or equal to the given value is returned. */
   maxArea?: number;
-  /** List of Ids of planting operations to be returned. */
+  /** List of Ids of planting operations to be returned. */
   ids?: Array<string>;
-  /** List of names of planting operations to be returned. */
+  /** List of names of planting operations to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Planting data with only the given statuses are returned. */
+  /** Planting data with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -1226,60 +1226,60 @@ export type PlantingDataListByFarmerIdParameters = PlantingDataListByFarmerIdQue
   RequestParameters;
 
 export interface PlantingDataListQueryParamProperties {
-  /** Planting data with average planting rate greater than or equal to the value specified will be returned. */
+  /** Planting data with average planting rate greater than or equal to the value specified will be returned. */
   minAvgPlantingRate?: number;
-  /** Planting data with average planting rate lesser than or equal to the value specified will be returned. */
+  /** Planting data with average planting rate lesser than or equal to the value specified will be returned. */
   maxAvgPlantingRate?: number;
-  /** Planting data with total material greater than or equal to the value specified will be returned. */
+  /** Planting data with total material greater than or equal to the value specified will be returned. */
   minTotalMaterial?: number;
-  /** Planting data with total material lesser than or equal to the value specified will be returned. */
+  /** Planting data with total material lesser than or equal to the value specified will be returned. */
   maxTotalMaterial?: number;
-  /** Planting data with average material greater than or equal to the value specified will be returned. */
+  /** Planting data with average material greater than or equal to the value specified will be returned. */
   minAvgMaterial?: number;
-  /** Planting data with average material lesser than or equal to the value specified will be returned. */
+  /** Planting data with average material lesser than or equal to the value specified will be returned. */
   maxAvgMaterial?: number;
-  /** Planting data obtained from the given list of sources will be returned. */
+  /** Planting data obtained from the given list of sources will be returned. */
   sources?: Array<string>;
-  /** List of boundary Ids of the field/seasonal field on which the planting operation was done. */
+  /** List of boundary Ids of the field/seasonal field on which the planting operation was done. */
   associatedBoundaryIds?: Array<string>;
-  /** List of the boundary Ids that were created using the geographical area on which the planting operation was carried out. */
+  /** List of the boundary Ids that were created using the geographical area on which the planting operation was carried out. */
   operationBoundaryIds?: Array<string>;
-  /** Planting operations that began at or after the given UTC date-time is returned. */
+  /** Planting operations that began at or after the given UTC date-time is returned. */
   minOperationStartDateTime?: Date | string;
-  /** Planting operations that began at or before the given UTC date-time is returned. */
+  /** Planting operations that began at or before the given UTC date-time is returned. */
   maxOperationStartDateTime?: Date | string;
-  /** Planting operations that ended at or after the given UTC date-time is returned. */
+  /** Planting operations that ended at or after the given UTC date-time is returned. */
   minOperationEndDateTime?: Date | string;
-  /** Planting operations that ended at or before the given UTC date-time is returned. */
+  /** Planting operations that ended at or before the given UTC date-time is returned. */
   maxOperationEndDateTime?: Date | string;
-  /** Planting operations that were modified (at source) at or after the given UTC date-time is returned. */
+  /** Planting operations that were modified (at source) at or after the given UTC date-time is returned. */
   minOperationModifiedDateTime?: Date | string;
-  /** Planting operations that were modified (at source) at or before the given UTC date-time is returned. */
+  /** Planting operations that were modified (at source) at or before the given UTC date-time is returned. */
   maxOperationModifiedDateTime?: Date | string;
-  /** Planting operations carried over area greater than or equal to the given value is returned. */
+  /** Planting operations carried over area greater than or equal to the given value is returned. */
   minArea?: number;
-  /** Planting operations carried over area lesser than or equal to the given value is returned. */
+  /** Planting operations carried over area lesser than or equal to the given value is returned. */
   maxArea?: number;
-  /** List of Ids of planting operations to be returned. */
+  /** List of Ids of planting operations to be returned. */
   ids?: Array<string>;
-  /** List of names of planting operations to be returned. */
+  /** List of names of planting operations to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Planting data with only the given statuses are returned. */
+  /** Planting data with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -1323,32 +1323,32 @@ export type PlantingDataCreateCascadeDeleteJobParameters =
   PlantingDataCreateCascadeDeleteJobQueryParam & RequestParameters;
 
 export interface ScenesListQueryParamProperties {
-  /** Name of the data provider for the scene. For satellite imagery, this refers to the name of the satellite data provider. */
+  /** Name of the data provider for the scene. For satellite imagery, this refers to the name of the satellite data provider. */
   provider: string;
   /** Id of the associated farmer. */
   farmerId: string;
   /** Id of the associated boundary. */
   boundaryId: string;
-  /** Source from where the scene was procured/generated. For satellite imagery, this refers to the name of the satellite constellation. */
+  /** Source from where the scene was procured/generated. For satellite imagery, this refers to the name of the satellite constellation. */
   source?: string;
-  /** Scenes that were captured/made available (at source) at or after this UTC Date-time is returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Scenes that were captured/made available (at source) at or after this UTC Date-time is returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   startDateTime?: Date | string;
-  /** Scenes that were captured/made available (at source) at or before this UTC Date-time is returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Scenes that were captured/made available (at source) at or before this UTC Date-time is returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   endDateTime?: Date | string;
   /** Scenes with cloud cover less than or equal to the given value are returned. Range [0 to 100.0]. */
   maxCloudCoveragePercentage?: number;
   /** Scenes with dark pixel cover less than or equal to the given value are returned. Range [0 to 100.0]. */
   maxDarkPixelCoveragePercentage?: number;
   /**
-   * List of names of images to be fetched.
-   * For Sentinel-2, allowed values are: 'B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B8A', 'B09', 'B11', 'B12', 'AOT', 'SCL', 'SNW', 'CLD', 'NDVI', 'NDWI', 'EVI', 'LAI', 'LAIMask', 'CLP', 'CLM', 'dataMask', sunAzimuthAngles, sunZenithAngles, viewAzimuthMean and viewZenithMean.
+   * List of names of images to be fetched.
+   * For Sentinel-2, allowed values are: 'B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B8A', 'B09', 'B11', 'B12', 'AOT', 'SCL', 'SNW', 'CLD', 'NDVI', 'NDWI', 'EVI', 'LAI', 'LAIMask', 'CLP', 'CLM', 'dataMask', sunAzimuthAngles, sunZenithAngles, viewAzimuthMean and viewZenithMean.
    */
   imageNames?: Array<string>;
-  /** List of image resolutions in meters. For Sentinel-2, available values are: 10, 20, 60. */
+  /** List of image resolutions in meters. For Sentinel-2, available values are: 10, 20, 60. */
   imageResolutions?: Array<number>;
-  /** Format in which the scenes are to be returned. Available value: TIF. */
+  /** Format in which the scenes are to be returned. Available value: TIF. */
   imageFormats?: Array<string>;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -1390,50 +1390,50 @@ export type ScenesDownloadParameters = ScenesDownloadQueryParam & RequestParamet
 export interface SeasonalFieldsListByFarmerIdQueryParamProperties {
   /** Seasonal fields associated with the given farms are returned. */
   farmIds?: Array<string>;
-  /** Seasonal fields associated with the given fields are returned. */
+  /** Seasonal fields associated with the given fields are returned. */
   fieldIds?: Array<string>;
-  /** Seasonal fields associated with the given seasons are returned. */
+  /** Seasonal fields associated with the given seasons are returned. */
   seasonIds?: Array<string>;
-  /** Seasonal fields associated with at least one of the given crop varieties are returned. */
+  /** Seasonal fields associated with at least one of the given crop varieties are returned. */
   cropVarietyIds?: Array<string>;
-  /** Seasonal fields associated with at least one of the given crops are returned. */
+  /** Seasonal fields associated with at least one of the given crops are returned. */
   cropIds?: Array<string>;
-  /** Seasonal fields with average yield greater than or equal to the value specified will be returned. */
+  /** Seasonal fields with average yield greater than or equal to the value specified will be returned. */
   minAvgYieldValue?: number;
-  /** Seasonal fields with average yield lesser than or equal to the value specified will be returned. */
+  /** Seasonal fields with average yield lesser than or equal to the value specified will be returned. */
   maxAvgYieldValue?: number;
   /** Unit of the average yield. */
   avgYieldUnit?: string;
-  /** Seasonal fields with average seed population greater than or equal to the value specified will be returned. */
+  /** Seasonal fields with average seed population greater than or equal to the value specified will be returned. */
   minAvgSeedPopulationValue?: number;
-  /** Seasonal fields with average seed population lesser than or equal to the value specified will be returned. */
+  /** Seasonal fields with average seed population lesser than or equal to the value specified will be returned. */
   maxAvgSeedPopulationValue?: number;
   /** Unit of average seed population. */
   avgSeedPopulationUnit?: string;
-  /** Seasonal fields with planting date at or after the value specified will be returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Seasonal fields with planting date at or after the value specified will be returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minPlantingDateTime?: Date | string;
-  /** Seasonal fields with planting date at or before the value specified will be returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Seasonal fields with planting date at or before the value specified will be returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxPlantingDateTime?: Date | string;
-  /** List of Ids of seasonal fields to be returned. */
+  /** List of Ids of seasonal fields to be returned. */
   ids?: Array<string>;
-  /** List of names of seasonal fields to be returned. */
+  /** List of names of seasonal fields to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Seasonal fields with only the given statuses are returned. */
+  /** Seasonal fields with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -1447,52 +1447,52 @@ export type SeasonalFieldsListByFarmerIdParameters = SeasonalFieldsListByFarmerI
   RequestParameters;
 
 export interface SeasonalFieldsListQueryParamProperties {
-  /** Seasonal fields associated with the given farms are returned. */
+  /** Seasonal fields associated with the given farms are returned. */
   farmIds?: Array<string>;
-  /** Seasonal fields associated with the given fields are returned. */
+  /** Seasonal fields associated with the given fields are returned. */
   fieldIds?: Array<string>;
-  /** Seasonal fields associated with the given seasons are returned. */
+  /** Seasonal fields associated with the given seasons are returned. */
   seasonIds?: Array<string>;
-  /** Seasonal fields associated with at least one of the given crop varieties are returned. */
+  /** Seasonal fields associated with at least one of the given crop varieties are returned. */
   cropVarietyIds?: Array<string>;
-  /** Seasonal fields associated with at least one of the given crops are returned. */
+  /** Seasonal fields associated with at least one of the given crops are returned. */
   cropIds?: Array<string>;
-  /** Seasonal fields with average yield greater than or equal to the value specified will be returned. */
+  /** Seasonal fields with average yield greater than or equal to the value specified will be returned. */
   minAvgYieldValue?: number;
-  /** Seasonal fields with average yield lesser than or equal to the value specified will be returned. */
+  /** Seasonal fields with average yield lesser than or equal to the value specified will be returned. */
   maxAvgYieldValue?: number;
-  /** Unit of the average yield. */
+  /** Unit of the average yield. */
   avgYieldUnit?: string;
-  /** Seasonal fields with average seed population greater than or equal to the value specified will be returned. */
+  /** Seasonal fields with average seed population greater than or equal to the value specified will be returned. */
   minAvgSeedPopulationValue?: number;
-  /** Seasonal fields with average seed population lesser than or equal to the value specified will be returned. */
+  /** Seasonal fields with average seed population lesser than or equal to the value specified will be returned. */
   maxAvgSeedPopulationValue?: number;
-  /** Unit of average seed population. */
+  /** Unit of average seed population. */
   avgSeedPopulationUnit?: string;
-  /** Seasonal fields with planting date at or after the value specified will be returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Seasonal fields with planting date at or after the value specified will be returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minPlantingDateTime?: Date | string;
-  /** Seasonal fields with planting date at or before the value specified will be returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Seasonal fields with planting date at or before the value specified will be returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxPlantingDateTime?: Date | string;
-  /** List of Ids of seasonal fields to be returned. */
+  /** List of Ids of seasonal fields to be returned. */
   ids?: Array<string>;
-  /** List of names of seasonal fields to be returned. */
+  /** List of names of seasonal fields to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Seasonal fields with only the given statuses are returned. */
+  /** Seasonal fields with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -1540,32 +1540,32 @@ export interface SeasonsListQueryParamProperties {
   minStartDateTime?: Date | string;
   /** Seasons which start at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxStartDateTime?: Date | string;
-  /** Seasons which end at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Seasons which end at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minEndDateTime?: Date | string;
-  /** Seasons which end at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Seasons which end at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxEndDateTime?: Date | string;
   /** Seasons with given list of years are returned. */
   years?: Array<number>;
-  /** List of Ids of seasons to be returned. */
+  /** List of Ids of seasons to be returned. */
   ids?: Array<string>;
-  /** List of names of seasons to be returned. */
+  /** List of names of seasons to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Seasons with only the given statuses are returned. */
+  /** Seasons with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -1594,56 +1594,56 @@ export type SeasonsCreateOrUpdateParameters = SeasonsCreateOrUpdateMediaTypesPar
 export type SeasonsDeleteParameters = RequestParameters;
 
 export interface TillageDataListByFarmerIdQueryParamProperties {
-  /** Tillage data with tillage depth greater than or equal to the value specified will be returned. */
+  /** Tillage data with tillage depth greater than or equal to the value specified will be returned. */
   minTillageDepth?: number;
-  /** Tillage data with tillage depth lesser than or equal to the value specified will be returned. */
+  /** Tillage data with tillage depth lesser than or equal to the value specified will be returned. */
   maxTillageDepth?: number;
-  /** Tillage data with tillage pressure greater than or equal to the value specified will be returned. */
+  /** Tillage data with tillage pressure greater than or equal to the value specified will be returned. */
   minTillagePressure?: number;
-  /** Tillage data with tillage pressure lesser than or equal to the value specified will be returned. */
+  /** Tillage data with tillage pressure lesser than or equal to the value specified will be returned. */
   maxTillagePressure?: number;
-  /** Tillage data obtained from the given list of sources will be returned. */
+  /** Tillage data obtained from the given list of sources will be returned. */
   sources?: Array<string>;
-  /** List of boundary Ids of the field/seasonal field on which the tillage operation was done. */
+  /** List of boundary Ids of the field/seasonal field on which the tillage operation was done. */
   associatedBoundaryIds?: Array<string>;
-  /** List of the boundary Ids that were created using the geographical area on which the tillage operation was carried out. */
+  /** List of the boundary Ids that were created using the geographical area on which the tillage operation was carried out. */
   operationBoundaryIds?: Array<string>;
-  /** Tillage operations that began at or after the given UTC date-time is returned. */
+  /** Tillage operations that began at or after the given UTC date-time is returned. */
   minOperationStartDateTime?: Date | string;
-  /** Tillage operations that began at or before the given UTC date-time is returned. */
+  /** Tillage operations that began at or before the given UTC date-time is returned. */
   maxOperationStartDateTime?: Date | string;
-  /** Tillage operations that ended at or after the given UTC date-time is returned. */
+  /** Tillage operations that ended at or after the given UTC date-time is returned. */
   minOperationEndDateTime?: Date | string;
-  /** Tillage operations that ended at or before the given UTC date-time is returned. */
+  /** Tillage operations that ended at or before the given UTC date-time is returned. */
   maxOperationEndDateTime?: Date | string;
-  /** Tillage operations that were modified (at source) at or after the given UTC date-time is returned. */
+  /** Tillage operations that were modified (at source) at or after the given UTC date-time is returned. */
   minOperationModifiedDateTime?: Date | string;
-  /** Tillage operations that were modified (at source) at or before the given UTC date-time is returned. */
+  /** Tillage operations that were modified (at source) at or before the given UTC date-time is returned. */
   maxOperationModifiedDateTime?: Date | string;
-  /** Tillage operations carried over area greater than or equal to the given value is returned. */
+  /** Tillage operations carried over area greater than or equal to the given value is returned. */
   minArea?: number;
-  /** Tillage operations carried over area lesser than or equal to the given value is returned. */
+  /** Tillage operations carried over area lesser than or equal to the given value is returned. */
   maxArea?: number;
-  /** List of Ids of tillage operations to be returned. */
+  /** List of Ids of tillage operations to be returned. */
   ids?: Array<string>;
-  /** List of names of tillage operations to be returned. */
+  /** List of names of tillage operations to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Tillage data with only the given statuses are returned. */
+  /** Tillage data with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -1657,56 +1657,56 @@ export type TillageDataListByFarmerIdParameters = TillageDataListByFarmerIdQuery
   RequestParameters;
 
 export interface TillageDataListQueryParamProperties {
-  /** Tillage data with tillage depth greater than or equal to the value specified will be returned. */
+  /** Tillage data with tillage depth greater than or equal to the value specified will be returned. */
   minTillageDepth?: number;
-  /** Tillage data with tillage depth lesser than or equal to the value specified will be returned. */
+  /** Tillage data with tillage depth lesser than or equal to the value specified will be returned. */
   maxTillageDepth?: number;
-  /** Tillage data with tillage pressure greater than or equal to the value specified will be returned. */
+  /** Tillage data with tillage pressure greater than or equal to the value specified will be returned. */
   minTillagePressure?: number;
-  /** Tillage data with tillage pressure lesser than or equal to the value specified will be returned. */
+  /** Tillage data with tillage pressure lesser than or equal to the value specified will be returned. */
   maxTillagePressure?: number;
-  /** Tillage data obtained from the given list of sources will be returned. */
+  /** Tillage data obtained from the given list of sources will be returned. */
   sources?: Array<string>;
-  /** List of boundary Ids of the field/seasonal field on which the tillage operation was done. */
+  /** List of boundary Ids of the field/seasonal field on which the tillage operation was done. */
   associatedBoundaryIds?: Array<string>;
-  /** List of the boundary Ids that were created using the geographical area on which the tillage operation was carried out. */
+  /** List of the boundary Ids that were created using the geographical area on which the tillage operation was carried out. */
   operationBoundaryIds?: Array<string>;
-  /** Tillage operations that began at or after the given UTC date-time is returned. */
+  /** Tillage operations that began at or after the given UTC date-time is returned. */
   minOperationStartDateTime?: Date | string;
-  /** Tillage operations that began at or before the given UTC date-time is returned. */
+  /** Tillage operations that began at or before the given UTC date-time is returned. */
   maxOperationStartDateTime?: Date | string;
-  /** Tillage operations that ended at or after the given UTC date-time is returned. */
+  /** Tillage operations that ended at or after the given UTC date-time is returned. */
   minOperationEndDateTime?: Date | string;
-  /** Tillage operations that ended at or before the given UTC date-time is returned. */
+  /** Tillage operations that ended at or before the given UTC date-time is returned. */
   maxOperationEndDateTime?: Date | string;
-  /** Tillage operations that were modified (at source) at or after the given UTC date-time is returned. */
+  /** Tillage operations that were modified (at source) at or after the given UTC date-time is returned. */
   minOperationModifiedDateTime?: Date | string;
-  /** Tillage operations that were modified (at source) at or before the given UTC date-time is returned. */
+  /** Tillage operations that were modified (at source) at or before the given UTC date-time is returned. */
   maxOperationModifiedDateTime?: Date | string;
-  /** Tillage operations carried over area greater than or equal to the given value is returned. */
+  /** Tillage operations carried over area greater than or equal to the given value is returned. */
   minArea?: number;
-  /** Tillage operations carried over area lesser than or equal to the given value is returned. */
+  /** Tillage operations carried over area lesser than or equal to the given value is returned. */
   maxArea?: number;
-  /** List of Ids of tillage operations to be returned. */
+  /** List of Ids of tillage operations to be returned. */
   ids?: Array<string>;
-  /** List of names of tillage operations to be returned. */
+  /** List of names of tillage operations to be returned. */
   names?: Array<string>;
   /**
-   * Filters on key-value pairs within 'Properties'.
-   * eg. "{testKey} eq {testValue}".
+   * Filters on key-value pairs within 'Properties'.
+   * eg. "{testKey} eq {testValue}".
    */
   propertyFilters?: Array<string>;
-  /** Tillage data with only the given statuses are returned. */
+  /** Tillage data with only the given statuses are returned. */
   statuses?: Array<string>;
-  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minCreatedDateTime?: Date | string;
-  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources created at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxCreatedDateTime?: Date | string;
-  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or after the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   minLastModifiedDateTime?: Date | string;
-  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Resources last modified at or before the given UTC date-time are returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   maxLastModifiedDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
@@ -1754,17 +1754,17 @@ export interface WeatherListQueryParamProperties {
   farmerId: string;
   /** Id of the associated boundary. */
   boundaryId: string;
-  /** Id of the weather extension. This signifies the source from where the weather data is fetched (eg. DTN.ClearAg). */
+  /** Id of the weather extension. This signifies the source from where the weather data is fetched (eg. DTN.ClearAg). */
   extensionId: string;
   /** Type of weather data (forecast/historical). */
   weatherDataType: string;
   /** Granularity of weather data (daily/hourly). */
   granularity: string;
-  /** Weather data at or after the given UTC Date-time will be returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Weather data at or after the given UTC Date-time will be returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   startDateTime?: Date | string;
-  /** Weather data at or before the given UTC Date-time will be returned (format: yyyy-MM-ddTHH:mm:ssZ). */
+  /** Weather data at or before the given UTC Date-time will be returned (format: yyyy-MM-ddTHH:mm:ssZ). */
   endDateTime?: Date | string;
-  /** Maximum number of items to be returned in a single page. */
+  /** Maximum number of items to be returned in a single page. */
   $maxPageSize?: number;
   /** Skip token for getting next set of results. */
   $skipToken?: string;
