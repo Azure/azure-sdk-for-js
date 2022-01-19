@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TestSpan } from "./testSpan";
 import {
+  Context,
   SpanContext,
   SpanKind,
   SpanOptions,
   TraceFlags,
-  Context,
-  context,
   Tracer,
+  context,
   trace,
 } from "@opentelemetry/api";
+
+import { TestSpan } from "./testSpan";
 
 /**
  * Simple representation of a Span that only has name and child relationships.

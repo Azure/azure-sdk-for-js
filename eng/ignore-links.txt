@@ -15,12 +15,15 @@ https://docs.microsoft.com/javascript/api/@azure/arm-communication
 https://docs.microsoft.com/javascript/api/@azure/arm-databoxedge
 https://docs.microsoft.com/javascript/api/@azure/arm-datadog
 https://docs.microsoft.com/javascript/api/@azure/arm-healthbot
-https://docs.microsoft.com/javascript/api/@azure/arm-frontdoor
-https://docs.microsoft.com/javascript/api/@azure/arm-domainservices
 https://docs.microsoft.com/javascript/api/@azure/arm-deploymentmanager?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-hanaonazure?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration?view=azure-node-preview
 https://docs.microsoft.com/en-us/azure/azure-resource-manager/deployment-manager-overview
+https://docs.microsoft.com/javascript/api/@azure/arm-datamigration?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-healthcareapis?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-hybridkubernetes?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-healthcareapis
+https://docs.microsoft.com/javascript/api/@azure/arm-hybridkubernetes
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdates/iot-device-update-rest
 https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/javascript/devices.js
 https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/typescript/src/devices.ts

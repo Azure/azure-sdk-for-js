@@ -6,9 +6,9 @@ import {
   InstrumentationBase,
   InstrumentationConfig,
 } from "@opentelemetry/instrumentation";
+import { OpenTelemetryInstrumenter } from "./instrumenter";
 import { SDK_VERSION } from "./constants";
 import { useInstrumenter } from "@azure/core-tracing";
-import { OpenTelemetryInstrumenter } from "./instrumenter";
 
 /**
  * Configuration options that can be passed to {@link createAzureSdkInstrumentation} function.

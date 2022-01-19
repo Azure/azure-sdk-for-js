@@ -91,5 +91,12 @@
     "util": "^0.12.1",
     "sinon": "^9.0.2",
     "@types/sinon": "^9.0.4"
+  },
+  "//sampleConfiguration": {
+    "disableDocsMs": true,
+    "productName": "Azure SDK Core",
+    "productSlugs": [
+      "azure"
+    ]
   }
 }
