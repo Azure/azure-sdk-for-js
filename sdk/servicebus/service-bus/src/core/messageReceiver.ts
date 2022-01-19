@@ -204,11 +204,13 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     }
   }
 
-  protected createRheaLink(
+  protected async createRheaLink(
     options: ReceiverOptions,
     _abortSignal?: AbortSignalLike
   ): Promise<Receiver> {
-    return this._context.connection.createReceiver(options);
+    const receiver = await this._context.connection.createReceiver(options);
+    receiver.setMaxListeners(1000);
+    return receiver;
   }
 
   /**
