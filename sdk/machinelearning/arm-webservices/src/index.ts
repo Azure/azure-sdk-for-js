@@ -6,5 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./webServices";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { AzureMLWebServicesManagementClient } from "./azureMLWebServicesManagementClient";
+export * from "./operationsInterfaces";

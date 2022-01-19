@@ -1365,6 +1365,11 @@
       "packageName": "@azure/arm-workspaces",
       "projectFolder": "sdk/machinelearning/arm-workspaces",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-webservices",
+      "projectFolder": "sdk/machinelearning/arm-webservices",
+      "versionPolicyName": "management"
     }
   ]
 }
