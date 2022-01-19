@@ -1615,6 +1615,17 @@ packages:
       '@opentelemetry/semantic-conventions': 0.24.0
     dev: false
 
+  /@opentelemetry/resources/1.0.1_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-p8DevOaAEepPucUtImR4cZKHOE2L1jgQAtkdZporV+XnxPA/HqCHPEESyUVuo4f5M0NUlL6k5Pba75KwNJlTRg==}
+    engines: {node: '>=8.0.0'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.1.0'
+    dependencies:
+      '@opentelemetry/api': 1.0.4
+      '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
+      '@opentelemetry/semantic-conventions': 1.0.1
+    dev: false
+
   /@opentelemetry/semantic-conventions/0.22.0:
     resolution: {integrity: sha512-t4fKikazahwNKmwD+CE/icHyuZldWvNMupJhjxdk9T/KxHFx3zCGjHT3MKavwYP6abzgAAm5WwzD1oHlmj7dyg==}
     engines: {node: '>=8.0.0'}
@@ -13364,7 +13375,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-PEbElpR5ke7sL0M/VM49wjfemWg7LkucQ0Kq+3jq/S3yn5S2DxIdHtIKBnhooo0cZeq0Lkd6Av1NAwMJkbjNMA==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-z2N6u6o9GQ7aYOhevJav6uZxwFSfxiQpnALvKlu/THJRlsudhGLytNffy/0CNxcIdcUC0IFQBc6Uid8f2VnAag==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -13374,7 +13385,7 @@ packages:
       '@opentelemetry/instrumentation': 0.27.0_@opentelemetry+api@1.0.4
       '@opentelemetry/instrumentation-http': 0.27.0_@opentelemetry+api@1.0.4
       '@opentelemetry/node': 0.24.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/resources': 0.24.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/resources': 1.0.1_@opentelemetry+api@1.0.4
       '@opentelemetry/semantic-conventions': 1.0.1
       '@opentelemetry/tracing': 0.24.0_@opentelemetry+api@1.0.4
       '@types/mocha': 7.0.2
