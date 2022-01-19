@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 1.2.0-beta.1 (2022-01-24)
+## 1.2.0-beta.1 (2022-01-18)
 
 - Users can now purchase United Kingdom (GB) toll free and geographic phone numbers for PSTN Calling
 - Users can now purchase Denmark (DK) toll free and geographic phone numbers for PSTN Calling
