@@ -410,7 +410,7 @@ describe("Certificates client - create, read, update and delete", () => {
   describe("can get a deleted certificate", () => {
     it("using beginDeleteCertificate's poller", async function (this: Context) {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-      await client.beginCreateCertificate(
+      const certificatePoller = await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
         testPollerProperties
