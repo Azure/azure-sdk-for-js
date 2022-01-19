@@ -5,14 +5,10 @@ import { PerfOptionDictionary } from "../../src";
 import { EventPerfTest } from "../../src/eventPerfTest";
 import { MockEventReceiver, Event } from "./mockEventReceiver";
 
-interface MockEventReceiverOptions {}
-type ProcessEventArgs = { event: Event };
-type ProcessErrorArgs = { error: Error };
+interface MockEventReceiverOptions { }
 
 export class MockEventReceiverTest extends EventPerfTest<
-  MockEventReceiverOptions,
-  ProcessEventArgs,
-  ProcessErrorArgs
+  MockEventReceiverOptions
 > {
   public client: MockEventReceiver;
   public options: PerfOptionDictionary<MockEventReceiverOptions> = {};
@@ -22,24 +18,17 @@ export class MockEventReceiverTest extends EventPerfTest<
     this.client = new MockEventReceiver();
   }
 
-  public async processEvent(_options: ProcessEventArgs) {
-    await this.eventRaised();
-  }
-
-  public async processError(options: ProcessErrorArgs) {
-    await this.errorRaised(options.error);
-  }
-
   public subscribeCaller(): {
     close: () => Promise<void>;
   } {
     const closeHandler = this.client.subscribe(
       {
-        processEvent: async (event: Event) => {
-          await this.processEvent({ event: event });
+        processEvent: async (_event: Event) => {
+          // { event: event }
+          await this.eventRaised();
         },
         processError: async (error: Error) => {
-          await this.processError({ error });
+          await this.errorRaised(error);
         },
       },
       { raiseErrorAfterInSeconds: 10 }

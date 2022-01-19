@@ -10,9 +10,7 @@ import { isDefined } from "./utils";
  * where the number of operations are dynamic for the method/call being tested.
  */
 export abstract class EventPerfTest<
-  TOptions = Record<string, unknown>,
-  TProcessEventArgs = Record<string, unknown>,
-  TProcessErrorArgs = Record<string, unknown>
+  TOptions = Record<string, unknown>
 > extends PerfTestBase<TOptions> {
   start = process.hrtime();
   private testDuration = 0;
@@ -55,8 +53,6 @@ export abstract class EventPerfTest<
     }
   }
 
-  public abstract processEvent(options: TProcessEventArgs): Promise<void>;
-  public abstract processError(options: TProcessErrorArgs): Promise<void>;
   public abstract subscribeCaller(): { close: () => Promise<void> };
 
   public async eventRaised(): Promise<void> {

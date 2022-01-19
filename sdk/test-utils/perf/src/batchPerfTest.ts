@@ -12,8 +12,7 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 import { PerfTestBase } from "./perfTestBase";
 
 /**
- * Extends PerfTestBase, enables writing perf tests with more flexibility for the methods
- * where the number of operations are dynamic for the method/call being tested.
+ * Enables writing perf tests where the number of operations are dynamic for the method/call being tested.
  */
 export abstract class BatchPerfTest<
   TOptions = Record<string, unknown>
