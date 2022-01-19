@@ -76,6 +76,7 @@ specifiers:
   '@rush-temp/arm-machinelearningservices': file:./projects/arm-machinelearningservices.tgz
   '@rush-temp/arm-managedapplications': file:./projects/arm-managedapplications.tgz
   '@rush-temp/arm-managementgroups': file:./projects/arm-managementgroups.tgz
+  '@rush-temp/arm-managementpartner': file:./projects/arm-managementpartner.tgz
   '@rush-temp/arm-mediaservices': file:./projects/arm-mediaservices.tgz
   '@rush-temp/arm-monitor': file:./projects/arm-monitor.tgz
   '@rush-temp/arm-msi': file:./projects/arm-msi.tgz
@@ -289,6 +290,7 @@ dependencies:
   '@rush-temp/arm-machinelearningservices': file:projects/arm-machinelearningservices.tgz
   '@rush-temp/arm-managedapplications': file:projects/arm-managedapplications.tgz
   '@rush-temp/arm-managementgroups': file:projects/arm-managementgroups.tgz
+  '@rush-temp/arm-managementpartner': file:projects/arm-managementpartner.tgz
   '@rush-temp/arm-mediaservices': file:projects/arm-mediaservices.tgz
   '@rush-temp/arm-monitor': file:projects/arm-monitor.tgz
   '@rush-temp/arm-msi': file:projects/arm-msi.tgz
@@ -10250,6 +10252,31 @@ packages:
   file:projects/arm-managementgroups.tgz:
     resolution: {integrity: sha512-W1CXloYU9yB3ffozven4CugCgSSEziq8lNSrZWdIJBTxtifKLG+aV/n0z1UQFuaZbd80e68TaZ4ADrDBbiUKwQ==, tarball: file:projects/arm-managementgroups.tgz}
     name: '@rush-temp/arm-managementgroups'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-managementpartner.tgz:
+    resolution: {integrity: sha512-4u+vfS2NIClvSYjhEC74JD3j4To4aabOEZqaiyWAYlKRlVvwfeftRkRXNpEFBxm1XBem3JgG6bpn4wInJXpgaA==, tarball: file:projects/arm-managementpartner.tgz}
+    name: '@rush-temp/arm-managementpartner'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2

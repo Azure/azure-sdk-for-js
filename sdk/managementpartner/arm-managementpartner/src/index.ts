@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./partner";
-export * from "./operation";
-export * from "./partners";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { ACEProvisioningManagementPartnerAPI } from "./aCEProvisioningManagementPartnerAPI";
+export * from "./operationsInterfaces";
