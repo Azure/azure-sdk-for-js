@@ -61,6 +61,11 @@ export interface CreateBatchOptions extends OperationOptions {
     partitionKey?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "MessageAdapter" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function createEventDataAdapter(params?: EventDataAdapterParameters): MessageAdapter<EventData>;
+
 // @public
 export const earliestEventPosition: EventPosition;
 
@@ -72,6 +77,15 @@ export interface EnqueueEventOptions extends SendBatchOptions {
 export interface EventData {
     body: any;
     contentType?: string;
+    correlationId?: string | number | Buffer;
+    messageId?: string | number | Buffer;
+    properties?: {
+        [key: string]: any;
+    };
+}
+
+// @public
+export interface EventDataAdapterParameters {
     correlationId?: string | number | Buffer;
     messageId?: string | number | Buffer;
     properties?: {

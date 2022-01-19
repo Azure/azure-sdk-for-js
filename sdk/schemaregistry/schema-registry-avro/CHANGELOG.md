@@ -8,8 +8,8 @@
 
 ### Breaking Changes
 - The `SchemaRegistryAvroSerializer` class has been renamed to `SchemaRegistryAvroEncoder`
-- The `serialize` method has been renamed to `encodeMessageData` and it now returns a `MessageWithMetadata`
-- The `deserialize` method has been renamed to `encodeMessageData` and it now takes a `MessageWithMetadata` as input
+- The `serialize` method has been renamed to `encodeMessageData` and it now returns a message
+- The `deserialize` method has been renamed to `decodeMessageData` and it now takes a message as input
 
 ### Bugs Fixed
 

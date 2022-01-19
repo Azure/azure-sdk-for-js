@@ -7,25 +7,14 @@
 import { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
-export interface DecodeMessageDataOptions<MessageT> {
-    messageConsumer?: MessageConsumer<MessageT>;
+export interface DecodeMessageDataOptions {
     schema?: string;
 }
 
 // @public
-export interface EncodeMessageDataOptions<MessageT> {
-    messageFactory?: MessageFactory<MessageT>;
-}
-
-// @public
-export interface MessageConsumer<MessageT> {
-    getContentType: (message: MessageT) => string;
-    getPayload: (message: MessageT) => any;
-}
-
-// @public
-export interface MessageFactory<MessageT> {
-    createMessage: (binaryData: Uint8Array, contentType: string) => MessageT;
+export interface MessageAdapter<MessageT> {
+    consumeMessage: (message: MessageT) => MessageWithMetadata;
+    produceMessage: (messageWithMetadata: MessageWithMetadata) => MessageT;
 }
 
 // @public
@@ -35,16 +24,17 @@ export interface MessageWithMetadata {
 }
 
 // @public
-export class SchemaRegistryAvroEncoder {
-    constructor(client: SchemaRegistry, options?: SchemaRegistryAvroEncoderOptions);
-    decodeMessageData<MessageT = MessageWithMetadata>(message: MessageT, options?: DecodeMessageDataOptions<MessageT>): Promise<unknown>;
-    encodeMessageData<MessageT = MessageWithMetadata>(value: unknown, schema: string, options?: EncodeMessageDataOptions<MessageT>): Promise<MessageT>;
+export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
+    constructor(client: SchemaRegistry, options?: SchemaRegistryAvroEncoderOptions<MessageT>);
+    decodeMessageData(message: MessageT, options?: DecodeMessageDataOptions): Promise<unknown>;
+    encodeMessageData(value: unknown, schema: string): Promise<MessageT>;
 }
 
 // @public
-export interface SchemaRegistryAvroEncoderOptions {
+export interface SchemaRegistryAvroEncoderOptions<MessageT> {
     autoRegisterSchemas?: boolean;
     groupName?: string;
+    messageAdapter?: MessageAdapter<MessageT>;
 }
 
 // (No @packageDocumentation comment for this package)

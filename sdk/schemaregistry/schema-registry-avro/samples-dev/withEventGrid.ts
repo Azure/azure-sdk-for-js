@@ -9,7 +9,7 @@
 import {
   EventGridPublisherClient,
   AzureKeyCredential,
-  SendCloudEventInput,
+  createCloudEventAdapter,
 } from "@azure/eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
 import { SchemaDescription, SchemaRegistryClient } from "@azure/schema-registry";
@@ -81,6 +81,10 @@ export async function main(): Promise<void> {
   // Create a new encoder backed by the client
   const encoder = new SchemaRegistryAvroEncoder(schemaRegistryClient, {
     groupName,
+    messageAdapter: createCloudEventAdapter({
+      type: "azure.sdk.eventgrid.samples.cloudevent",
+      source: "/azure/sdk/schemaregistry/samples/withEventGrid",
+    }),
   });
   // Create the client used to publish events to the Event Grid Service
   const eventGridPublisherClient = new EventGridPublisherClient(
@@ -91,21 +95,7 @@ export async function main(): Promise<void> {
 
   // Encode an object that matches the schema
   const value: User = { firstName: "Joe", lastName: "Doe" };
-  const message = await encoder.encodeMessageData(value, schema, {
-    messageFactory: {
-      createMessage: (
-        binaryData: Uint8Array,
-        contentType: string
-      ): SendCloudEventInput<{ payload: Uint8Array }> => ({
-        type: "azure.sdk.schemaregistry.samples.cloudevent",
-        source: "/azure/sdk/schemaregistry/samples/withEventGrid",
-        datacontenttype: contentType,
-        data: {
-          payload: binaryData,
-        },
-      }),
-    },
-  });
+  const message = await encoder.encodeMessageData(value, schema);
 
   console.log("Created message:");
   console.log(JSON.stringify(message));

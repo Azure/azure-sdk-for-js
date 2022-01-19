@@ -4,7 +4,6 @@
 import { assert, use as chaiUse } from "chai";
 import { createTestEncoder, registerTestSchema } from "./utils/mockedEncoder";
 import { testAvroType, testGroup, testSchema, testSchemaIds, testValue } from "./utils/dummies";
-import { MessageWithMetadata } from "../src/models";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 
@@ -17,7 +16,7 @@ describe("SchemaRegistryAvroEncoder", function () {
       encoder.decodeMessageData({
         body: Buffer.alloc(1),
         contentType: "application/json+1234",
-      } as MessageWithMetadata),
+      }),
       /application\/json.*avro\/binary/
     );
   });
@@ -42,7 +41,7 @@ describe("SchemaRegistryAvroEncoder", function () {
       encoder.decodeMessageData({
         body: Buffer.alloc(1),
         contentType: `avro/binary+${schema.id}`,
-      } as MessageWithMetadata),
+      }),
       new RegExp(`${schema.id}.*NotAvro.*avro`)
     );
   });
@@ -65,7 +64,7 @@ describe("SchemaRegistryAvroEncoder", function () {
       encoder.decodeMessageData({
         body: payload,
         contentType: `avro/binary+${testSchemaIds[1]}`,
-      } as MessageWithMetadata),
+      }),
       /not found/
     );
   });
@@ -90,7 +89,7 @@ describe("SchemaRegistryAvroEncoder", function () {
       await encoder.decodeMessageData({
         body: payload,
         contentType: `avro/binary+${schemaId}`,
-      } as MessageWithMetadata),
+      }),
       testValue
     );
   });

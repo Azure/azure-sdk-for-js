@@ -8,7 +8,7 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
 import { SchemaRegistryAvroEncoder } from "@azure/schema-registry-avro";
-import { EventHubBufferedProducerClient } from "@azure/event-hubs";
+import { EventHubBufferedProducerClient, createEventDataAdapter } from "@azure/event-hubs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -76,6 +76,7 @@ export async function main() {
   // Create a new encoder backed by the client
   const encoder = new SchemaRegistryAvroEncoder(schemaRegistryClient, {
     groupName,
+    messageAdapter: createEventDataAdapter(),
   });
 
   const eventHubsBufferedProducerClient = new EventHubBufferedProducerClient(

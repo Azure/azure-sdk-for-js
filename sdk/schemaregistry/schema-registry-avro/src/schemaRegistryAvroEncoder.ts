@@ -2,10 +2,13 @@
 // Licensed under the MIT license.
 
 import * as avro from "avsc";
-import { DecodeMessageDataOptions, EncodeMessageDataOptions, MessageWithMetadata } from "./models";
+import {
+  DecodeMessageDataOptions,
+  MessageAdapter,
+  MessageWithMetadata,
+  SchemaRegistryAvroEncoderOptions,
+} from "./models";
 import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
-import { MessageConsumer } from "./message";
-import { defaultMessageConsumer } from "./defaultMessage";
 import { isMessageWithMetadata } from "./utility";
 
 interface CacheEntry {
@@ -16,46 +19,30 @@ interface CacheEntry {
   type: avro.Type;
 }
 
-/**
- * Options for Schema
- */
-export interface SchemaRegistryAvroEncoderOptions {
-  /**
-   * When true, register new schemas passed to encodeMessageData. Otherwise, and by
-   * default, fail if schema has not already been registered.
-   *
-   * Automatic schema registration is NOT recommended for production scenarios.
-   */
-  autoRegisterSchemas?: boolean;
-  /**
-   * The group name to be used when registering/looking up a schema. Must be specified
-   * if you will be calling `encodeMessageData`.
-   */
-  groupName?: string;
-}
-
 const avroMimeType = "avro/binary";
 
 /**
  * Avro encoder that obtains schemas from a schema registry and does not
  * pack schemas into its payloads.
  */
-export class SchemaRegistryAvroEncoder {
+export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
   /**
    * Creates a new encoder.
    *
    * @param client - Schema Registry where schemas are registered and obtained.
    *                 Usually this is a SchemaRegistryClient instance.
    */
-  constructor(client: SchemaRegistry, options?: SchemaRegistryAvroEncoderOptions) {
+  constructor(client: SchemaRegistry, options?: SchemaRegistryAvroEncoderOptions<MessageT>) {
     this.registry = client;
     this.schemaGroup = options?.groupName;
     this.autoRegisterSchemas = options?.autoRegisterSchemas ?? false;
+    this.messageAdapter = options?.messageAdapter;
   }
 
   private readonly schemaGroup?: string;
   private readonly registry: SchemaRegistry;
   private readonly autoRegisterSchemas: boolean;
+  private readonly messageAdapter?: MessageAdapter<MessageT>;
 
   // REVIEW: signature.
   //
@@ -71,22 +58,20 @@ export class SchemaRegistryAvroEncoder {
    * @returns A new message with the encoded value. The structure of message is
    * constrolled by the message factory option.
    */
-  async encodeMessageData<MessageT = MessageWithMetadata>(
-    value: unknown,
-    schema: string,
-    options: EncodeMessageDataOptions<MessageT> = {}
-  ): Promise<MessageT> {
+  async encodeMessageData(value: unknown, schema: string): Promise<MessageT> {
     const entry = await this.getSchemaByDefinition(schema);
     const buffer = entry.type.toBuffer(value);
-    const { messageFactory } = options;
     const payload = new Uint8Array(
       buffer.buffer,
       buffer.byteOffset,
       buffer.byteLength / Uint8Array.BYTES_PER_ELEMENT
     );
     const contentType = `${avroMimeType}+${entry.id}`;
-    return messageFactory
-      ? messageFactory.createMessage(payload, contentType)
+    return this.messageAdapter
+      ? this.messageAdapter.produceMessage({
+          contentType,
+          body: payload,
+        })
       : /**
          * If no message consumer was provided, then a MessageWithMetadata will be
          * returned. This should work because the MessageT type parameter defaults
@@ -106,12 +91,12 @@ export class SchemaRegistryAvroEncoder {
    * @param options - Decoding options.
    * @returns The decoded value.
    */
-  async decodeMessageData<MessageT = MessageWithMetadata>(
+  async decodeMessageData(
     message: MessageT,
-    options: DecodeMessageDataOptions<MessageT> = {}
+    options: DecodeMessageDataOptions = {}
   ): Promise<unknown> {
-    const { schema: readerSchema, messageConsumer: inputMessageConsumer } = options;
-    const { body, contentType } = getPayloadAndContent(message, inputMessageConsumer);
+    const { schema: readerSchema } = options;
+    const { body, contentType } = getPayloadAndContent(message, this.messageAdapter);
     const buffer = Buffer.from(body);
     if (readerSchema) {
       return this.getAvroTypeForSchema(readerSchema).fromBuffer(buffer);
@@ -217,18 +202,13 @@ function getSchemaId(contentType: string): string {
 
 function getPayloadAndContent<MessageT>(
   message: MessageT,
-  messageConsumer?: MessageConsumer<MessageT>
+  messageAdapter?: MessageAdapter<MessageT>
 ): MessageWithMetadata {
+  const messageConsumer = messageAdapter?.consumeMessage;
   if (messageConsumer) {
-    return {
-      body: messageConsumer.getPayload(message),
-      contentType: messageConsumer.getContentType(message),
-    };
+    return messageConsumer(message);
   } else if (isMessageWithMetadata(message)) {
-    return {
-      body: defaultMessageConsumer.getPayload(message),
-      contentType: defaultMessageConsumer.getContentType(message),
-    };
+    return message;
   } else {
     throw new Error(
       `Either the messageConsumer option should be defined or the message should have body and contentType fields`
