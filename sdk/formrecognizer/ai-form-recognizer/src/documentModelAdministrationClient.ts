@@ -32,6 +32,7 @@ import {
   ListModelsOptions,
   ListOperationsOptions,
 } from "./options";
+import { DocumentModelBuildMode } from "./options/BuildModelOptions";
 import { makeServiceClient, Mappers, SERIALIZER } from "./util";
 
 /**
@@ -173,12 +174,14 @@ export class DocumentModelAdministrationClient {
    *
    * @param modelId - the unique ID of the model to create
    * @param containerUrl - SAS-encoded URL to an Azure Storage container holding the training data set
+   * @param buildMode - the mode to use when building the model (see `DocumentModelBuildMode`)
    * @param options - optional settings for the model build operation
    * @returns a long-running operation (poller) that will eventually produce the created model information or an error
    */
   public async beginBuildModel(
     modelId: string,
     containerUrl: string,
+    buildMode: DocumentModelBuildMode,
     options: BuildModelOptions = {}
   ): Promise<TrainingPoller> {
     return this.createTrainingPoller({
@@ -191,6 +194,7 @@ export class DocumentModelAdministrationClient {
             azureBlobSource: {
               containerUrl,
             },
+            buildMode,
           },
           options
         ),

@@ -15,6 +15,7 @@ import {
   PrebuiltModels,
 } from "../../../src";
 import { DocumentDateField, DocumentSelectionMarkField } from "../../../src/models/fields";
+import { DocumentModelBuildMode } from "../../../src/options/BuildModelOptions";
 import { createRecorder, makeCredential, testPollingOptions } from "../../utils/recordedClients";
 
 const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
@@ -230,6 +231,7 @@ matrix([[true, false]] as const, async (useAad) => {
           const poller = await trainingClient.beginBuildModel(
             modelName,
             env.FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL,
+            DocumentModelBuildMode.Template,
             testPollingOptions
           );
           _model = await poller.pollUntilDone();

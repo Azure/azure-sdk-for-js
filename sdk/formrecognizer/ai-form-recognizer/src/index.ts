@@ -16,7 +16,9 @@ export {
   BoundingRegion,
   ContentType,
   CopyAuthorization,
+  CurrencyValue,
   DocTypeInfo,
+  DocumentBuildMode,
   DocumentEntity,
   DocumentFieldSchema,
   DocumentFieldType,
@@ -40,9 +42,6 @@ export {
   CustomDocumentModelsInfo,
   AnalyzeResultOperationStatus,
   SelectionMarkState,
-  // This and its child DocumentField are part of the DocumentModel<Result> type, and can be removed if we hide it
-  Document as GeneratedDocument,
-  DocumentField as GeneratedDocumentField,
 } from "./generated";
 export {
   AnalysisPoller,

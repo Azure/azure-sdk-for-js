@@ -16,6 +16,7 @@ export {
   NumberFieldSchema,
   DateFieldSchema,
   ArrayFieldSchema,
+  ImmediateObjectFieldSchema,
   ObjectFieldSchema,
 } from "./schema";
 

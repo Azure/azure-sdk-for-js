@@ -4,9 +4,9 @@
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   AnalyzeDocumentRequest,
+  AnalyzeResultOperation,
   ContentType,
   GeneratedClient,
-  GeneratedClientGetAnalyzeDocumentResultResponse,
 } from "./generated";
 import { accept1 } from "./generated/models/parameters";
 import {
@@ -20,7 +20,7 @@ import {
   toDocumentAnalysisPollOperationState,
 } from "./lro/analyze";
 import { lro } from "./lro/util/poller";
-import { GenericDocumentResult, toGenericDocumentResult } from "./models/GenericDocumentResult";
+import { GeneralDocumentResult, toGeneralDocumentResult } from "./models/GeneralDocumentResult";
 import { LayoutResult, toLayoutResult } from "./models/LayoutResult";
 import { AnalyzeDocumentsOptions } from "./options/AnalyzeDocumentsOptions";
 import { DocumentAnalysisClientOptions } from "./options/FormRecognizerClientOptions";
@@ -407,7 +407,7 @@ export class DocumentAnalysisClient {
   }
 
   /**
-   * Extracts generic document information from an input file. The generic document result includes the information from
+   * Extracts general document information from an input file. The general document result includes the information from
    * layout analysis (pages, tables, and styles) as well as extracted key-value pairs and entities.
    *
    * ### Examples
@@ -425,7 +425,7 @@ export class DocumentAnalysisClient {
    * // the URL must be publicly accessible
    * const url = "<document url>";
    *
-   * const poller = await client.beginExtractGenericDocument(url);
+   * const poller = await client.beginExtractGeneralDocument(url);
    *
    * // The result is a long-running operation (poller), which must itself be polled until the operation completes
    * const {
@@ -450,7 +450,7 @@ export class DocumentAnalysisClient {
    *
    * const file = fs.createReadStream("path/to/file.pdf");
    *
-   * const poller = await client.beginExtractGenericDocument(file);
+   * const poller = await client.beginExtractGeneralDocument(file);
    *
    * // The result is a long-running operation (poller), which must itself be polled until the operation completes
    * const {
@@ -468,18 +468,18 @@ export class DocumentAnalysisClient {
    * @param input - a URL (string) to an input document accessible from the public internet, or a
    *                {@link FormRecognizerRequestBody} that will be uploaded with the request
    * @param options - optional settings for the analysis operation and poller
-   * @returns a long-running operation (poller) that will eventually produce a generic document result or an error
+   * @returns a long-running operation (poller) that will eventually produce a general document result or an error
    */
-  public async beginExtractGenericDocument(
+  public async beginExtractGeneralDocument(
     input: string | FormRecognizerRequestBody,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: AnalyzeDocumentsOptions<GenericDocumentResult> = {}
-  ): Promise<AnalysisPoller<GenericDocumentResult>> {
+    options: AnalyzeDocumentsOptions<GeneralDocumentResult> = {}
+  ): Promise<AnalysisPoller<GeneralDocumentResult>> {
     return this.createAnalysisPoller(input, {
       initialModelId: "prebuilt-document",
       options,
       transformResult: (res) =>
-        toGenericDocumentResult(toAnalyzeResultFromGenerated(res, identity)),
+        toGeneralDocumentResult(toAnalyzeResultFromGenerated(res, identity)),
     });
   }
 
@@ -503,9 +503,7 @@ export class DocumentAnalysisClient {
     // TODO: what should we do if resumeFrom.modelId is different from initialModelId?
     // And what do we do with the redundant input??
 
-    const getAnalyzeResult = (
-      operationLocation: string
-    ): Promise<GeneratedClientGetAnalyzeDocumentResultResponse> =>
+    const getAnalyzeResult = (operationLocation: string): Promise<AnalyzeResultOperation> =>
       this._restClient.sendOperationRequest(
         {
           options: definition.options,
@@ -521,7 +519,7 @@ export class DocumentAnalysisClient {
               bodyMapper: Mappers.ErrorResponse,
             },
           },
-          // URL is fully-formed, so we don't need any
+          // URL is fully-formed, so we don't need any query parameters
           headerParameters: [accept1],
           serializer: SERIALIZER,
         }

@@ -28,9 +28,11 @@ export interface DocumentModel<Result> {
   modelId: string;
   /**
    * An associated transformation that is used to convert the base (weak) Document type to the strong Result type.
+   *
+   * This is an _internal_ function that is created by `createModelFromSchema`. You do not have to implement it.
    * @hidden
    */
-  [fromDocument]: (input: Document) => Result;
+  [fromDocument]: (input: unknown) => Result;
 }
 
 /**
@@ -93,7 +95,8 @@ function createModelFromSchema<Schema extends ModelSchema>(
 ): DocumentModel<ReifyPrebuiltSchema<Schema>> {
   return {
     modelId: schema.modelId,
-    [fromDocument]: (document: Document): ReifyPrebuiltSchema<Schema> => {
+    [fromDocument]: (documentValue: unknown): ReifyPrebuiltSchema<Schema> => {
+      const document = documentValue as Document;
       const result: Record<string, unknown> = {};
       const model = schema.docTypes[document.docType];
 

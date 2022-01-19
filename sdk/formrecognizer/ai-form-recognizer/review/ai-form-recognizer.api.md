@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import { AzureKeyCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
@@ -13,6 +11,7 @@ import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
+import { RequestBodyType } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -54,7 +53,6 @@ export type AnalyzeResultOperationStatus = "notStarted" | "running" | "failed" |
 // @public
 export interface ArrayFieldSchema<Item extends Readonly<FieldSchema> = Readonly<FieldSchema>> {
     readonly items: Item;
-    // (undocumented)
     readonly type: "array";
 }
 
@@ -69,6 +67,9 @@ export interface BoundingRegion {
 // @public
 export interface BuildModelOptions extends OperationOptions, PollerOptions<TrainingPollOperationState> {
     description?: string;
+    tags?: {
+        [name: string]: string;
+    };
 }
 
 // @public
@@ -206,6 +207,12 @@ export interface CopyModelOptions extends OperationOptions, PollerOptions<Traini
 }
 
 // @public
+export interface CurrencyValue {
+    amount: number;
+    currencySymbol?: string;
+}
+
+// @public
 export interface CustomDocumentModelsInfo {
     count: number;
     limit: number;
@@ -213,7 +220,6 @@ export interface CustomDocumentModelsInfo {
 
 // @public
 export interface DateFieldSchema {
-    // (undocumented)
     readonly type: "date";
 }
 
@@ -223,6 +229,7 @@ export interface DeleteModelOptions extends OperationOptions {
 
 // @public
 export interface DocTypeInfo {
+    buildMode?: DocumentBuildMode;
     description?: string;
     fieldConfidence?: {
         [propertyName: string]: number;
@@ -239,7 +246,7 @@ export class DocumentAnalysisClient {
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentAnalysisClientOptions);
     beginAnalyzeDocuments(modelId: string, input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentsOptions): Promise<AnalysisPoller>;
     beginAnalyzeDocuments<Document>(model: DocumentModel<Document>, input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentsOptions<AnalyzeResult<Document>>): Promise<AnalysisPoller<AnalyzeResult<Document>>>;
-    beginExtractGenericDocument(input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentsOptions<GenericDocumentResult>): Promise<AnalysisPoller<GenericDocumentResult>>;
+    beginExtractGeneralDocument(input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentsOptions<GeneralDocumentResult>): Promise<AnalysisPoller<GeneralDocumentResult>>;
     beginExtractLayout(input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentsOptions<LayoutResult>): Promise<AnalysisPoller<LayoutResult>>;
 }
 
@@ -259,21 +266,27 @@ export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<Analy
 
 // @public
 export interface DocumentArrayField<T = DocumentField> extends DocumentFieldCommon {
-    // (undocumented)
     kind: "array";
     values: T[];
 }
 
 // @public
+export type DocumentBuildMode = string;
+
+// @public
 export interface DocumentCountryRegionField extends DocumentFieldCommon {
-    // (undocumented)
     kind: "countryRegion";
     value?: string;
 }
 
 // @public
+export interface DocumentCurrencyField extends DocumentFieldCommon {
+    kind: "currency";
+    value?: CurrencyValue;
+}
+
+// @public
 export interface DocumentDateField extends DocumentValueField<Date> {
-    // (undocumented)
     kind: "date";
 }
 
@@ -288,7 +301,7 @@ export interface DocumentEntity {
 }
 
 // @public
-export type DocumentField = DocumentStringField | DocumentDateField | DocumentTimeField | DocumentPhoneNumberField | DocumentNumberField | DocumentIntegerField | DocumentSelectionMarkField | DocumentCountryRegionField | DocumentSignatureField | DocumentArrayField | DocumentObjectField;
+export type DocumentField = DocumentStringField | DocumentDateField | DocumentTimeField | DocumentPhoneNumberField | DocumentNumberField | DocumentIntegerField | DocumentSelectionMarkField | DocumentCountryRegionField | DocumentSignatureField | DocumentCurrencyField | DocumentArrayField | DocumentObjectField;
 
 // @public
 export interface DocumentFieldCommon {
@@ -314,7 +327,6 @@ export type DocumentFieldType = string;
 
 // @public
 export interface DocumentIntegerField extends DocumentValueField<number> {
-    // (undocumented)
     kind: "integer";
 }
 
@@ -342,7 +354,7 @@ export interface DocumentLine {
 
 // @public
 export interface DocumentModel<Result> {
-    [fromDocument]: (input: GeneratedDocument) => Result;
+    [fromDocument]: (input: unknown) => Result;
     modelId: string;
 }
 
@@ -351,7 +363,7 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: TokenCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
-    beginBuildModel(modelId: string, containerUrl: string, options?: BuildModelOptions): Promise<TrainingPoller>;
+    beginBuildModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BuildModelOptions): Promise<TrainingPoller>;
     beginComposeModel(modelId: string, componentModels: Iterable<string>, options?: BuildModelOptions): Promise<TrainingPoller>;
     beginCopyModel(sourceModelId: string, authorization: CopyAuthorization, options?: CopyModelOptions): Promise<TrainingPoller>;
     deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void>;
@@ -368,8 +380,16 @@ export interface DocumentModelAdministrationClientOptions extends FormRecognizer
 }
 
 // @public
+export type DocumentModelBuildMode = typeof DocumentModelBuildMode[keyof typeof DocumentModelBuildMode];
+
+// @public
+export const DocumentModelBuildMode: {
+    readonly Template: "template";
+    readonly Neural: "neural";
+};
+
+// @public
 export interface DocumentNumberField extends DocumentValueField<number> {
-    // (undocumented)
     kind: "number";
 }
 
@@ -377,7 +397,6 @@ export interface DocumentNumberField extends DocumentValueField<number> {
 export interface DocumentObjectField<Properties = {
     [k: string]: DocumentField | undefined;
 }> extends DocumentFieldCommon {
-    // (undocumented)
     kind: "object";
     properties: Properties;
 }
@@ -397,7 +416,6 @@ export interface DocumentPage {
 
 // @public
 export interface DocumentPhoneNumberField extends DocumentFieldCommon {
-    // (undocumented)
     kind: "phoneNumber";
     value?: string;
 }
@@ -412,14 +430,12 @@ export interface DocumentSelectionMark {
 
 // @public
 export interface DocumentSelectionMarkField extends DocumentFieldCommon {
-    // (undocumented)
     kind: "selectionMark";
     value?: string;
 }
 
 // @public
 export interface DocumentSignatureField extends DocumentFieldCommon {
-    // (undocumented)
     kind: "signature";
 }
 
@@ -433,8 +449,7 @@ export interface DocumentSpan {
 }
 
 // @public
-export interface DocumentStringField extends DocumentValueField<string> {
-    // (undocumented)
+export interface DocumentStringField<Value extends string = string> extends DocumentValueField<Value> {
     kind: "string";
 }
 
@@ -471,7 +486,6 @@ export type DocumentTableCellKind = string;
 
 // @public
 export interface DocumentTimeField extends DocumentFieldCommon {
-    // (undocumented)
     kind: "time";
     value?: string;
 }
@@ -493,12 +507,11 @@ export interface DocumentWord {
 export type FieldSchema = StringLikeFieldSchema | NumberFieldSchema | DateFieldSchema | ArrayFieldSchema | ObjectFieldSchema | StructuredStringFieldSchema;
 
 // @public
-export type FormRecognizerApiVersion = "2021-09-30-preview";
+export type FormRecognizerApiVersion = "2022-01-30-preview";
 
 // @public
 export const FormRecognizerApiVersion: {
-    readonly Latest: "2021-09-30-preview";
-    readonly Preview: "2021-09-30-preview";
+    readonly Latest: "2022-01-30-preview";
 };
 
 // @public
@@ -507,43 +520,10 @@ export interface FormRecognizerCommonClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type FormRecognizerRequestBody = NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView;
+export type FormRecognizerRequestBody = Exclude<RequestBodyType, string>;
 
 // @public
-export interface GeneratedDocument {
-    boundingRegions?: BoundingRegion[];
-    confidence: number;
-    docType: string;
-    fields: {
-        [propertyName: string]: GeneratedDocumentField;
-    };
-    spans: DocumentSpan[];
-}
-
-// @public
-export interface GeneratedDocumentField {
-    boundingRegions?: BoundingRegion[];
-    confidence?: number;
-    content?: string;
-    spans?: DocumentSpan[];
-    type: DocumentFieldType;
-    valueArray?: GeneratedDocumentField[];
-    valueCountryRegion?: string;
-    valueDate?: Date;
-    valueInteger?: number;
-    valueNumber?: number;
-    valueObject?: {
-        [propertyName: string]: GeneratedDocumentField;
-    };
-    valuePhoneNumber?: string;
-    valueSelectionMark?: SelectionMarkState;
-    valueSignature?: DocumentSignatureType;
-    valueString?: string;
-    valueTime?: string;
-}
-
-// @public
-export interface GenericDocumentResult extends LayoutResult {
+export interface GeneralDocumentResult extends LayoutResult {
     entities: DocumentEntity[];
     keyValuePairs: DocumentKeyValuePair[];
 }
@@ -700,6 +680,11 @@ export const IdentityDocumentSchema: {
         };
     };
 };
+
+// @public
+export interface ImmediateObjectFieldSchema<Type extends "currency" = "currency"> {
+    readonly type: Type;
+}
 
 // @public
 export type Invoice = ReifyPrebuiltSchema<typeof InvoiceSchema>;
@@ -901,7 +886,6 @@ export const InvoiceSchema: {
 
 // @public
 export interface LayoutResult {
-    // (undocumented)
     pages: DocumentPage[];
     styles: DocumentStyle[];
     tables: DocumentTable[];
@@ -939,14 +923,17 @@ export interface ModelSchema {
 
 // @public
 export interface ModelSummary {
+    apiVersion?: string;
     createdDateTime: Date;
     description?: string;
     modelId: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
 export interface NumberFieldSchema<Type extends "number" | "integer" = "number" | "integer"> {
-    // (undocumented)
     readonly type: Type;
 }
 
@@ -957,12 +944,12 @@ export interface ObjectFieldSchema<Properties extends {
     readonly [k: string]: FieldSchema;
 }> {
     readonly properties: Properties;
-    // (undocumented)
     readonly type: "object";
 }
 
 // @public
 export interface OperationInfo {
+    apiVersion?: string;
     createdDateTime: Date;
     kind: OperationKind;
     lastUpdatedDateTime: Date;
@@ -970,6 +957,9 @@ export interface OperationInfo {
     percentCompleted?: number;
     resourceLocation: string;
     status: OperationStatus;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -991,59 +981,59 @@ export const PrebuiltModels: {
         docType: "prebuilt:businesscard";
         fields: {
             contactNames?: DocumentArrayField<DocumentObjectField<    {
-            firstName?: DocumentStringField | undefined;
-            lastName?: DocumentStringField | undefined;
+            firstName?: DocumentStringField<string> | undefined;
+            lastName?: DocumentStringField<string> | undefined;
             }>> | undefined;
-            companyNames?: DocumentArrayField<DocumentStringField> | undefined;
-            jobTitles?: DocumentArrayField<DocumentStringField> | undefined;
-            departments?: DocumentArrayField<DocumentStringField> | undefined;
-            addresses?: DocumentArrayField<DocumentStringField> | undefined;
+            companyNames?: DocumentArrayField<DocumentStringField<string>> | undefined;
+            jobTitles?: DocumentArrayField<DocumentStringField<string>> | undefined;
+            departments?: DocumentArrayField<DocumentStringField<string>> | undefined;
+            addresses?: DocumentArrayField<DocumentStringField<string>> | undefined;
             workPhones?: DocumentArrayField<DocumentPhoneNumberField> | undefined;
             mobilePhones?: DocumentArrayField<DocumentPhoneNumberField> | undefined;
             faxes?: DocumentArrayField<DocumentPhoneNumberField> | undefined;
             otherPhones?: DocumentArrayField<DocumentPhoneNumberField> | undefined;
-            emails?: DocumentArrayField<DocumentStringField> | undefined;
-            websites?: DocumentArrayField<DocumentStringField> | undefined;
+            emails?: DocumentArrayField<DocumentStringField<string>> | undefined;
+            websites?: DocumentArrayField<DocumentStringField<string>> | undefined;
         };
     }>;
     IdentityDocument: DocumentModel<IdentityDocument>;
     Invoice: DocumentModel<{
         docType: "prebuilt:invoice";
         fields: {
-            customerName?: DocumentStringField | undefined;
-            customerId?: DocumentStringField | undefined;
-            purchaseOrder?: DocumentStringField | undefined;
-            invoiceId?: DocumentStringField | undefined;
+            customerName?: DocumentStringField<string> | undefined;
+            customerId?: DocumentStringField<string> | undefined;
+            purchaseOrder?: DocumentStringField<string> | undefined;
+            invoiceId?: DocumentStringField<string> | undefined;
             invoiceDate?: DocumentDateField | undefined;
             dueDate?: DocumentDateField | undefined;
-            vendorName?: DocumentStringField | undefined;
-            vendorAddress?: DocumentStringField | undefined;
-            vendorAddressRecipient?: DocumentStringField | undefined;
-            customerAddress?: DocumentStringField | undefined;
-            customerAddressRecipient?: DocumentStringField | undefined;
-            billingAddress?: DocumentStringField | undefined;
-            billingAddressRecipient?: DocumentStringField | undefined;
-            shippingAddress?: DocumentStringField | undefined;
-            shippingAddressRecipient?: DocumentStringField | undefined;
+            vendorName?: DocumentStringField<string> | undefined;
+            vendorAddress?: DocumentStringField<string> | undefined;
+            vendorAddressRecipient?: DocumentStringField<string> | undefined;
+            customerAddress?: DocumentStringField<string> | undefined;
+            customerAddressRecipient?: DocumentStringField<string> | undefined;
+            billingAddress?: DocumentStringField<string> | undefined;
+            billingAddressRecipient?: DocumentStringField<string> | undefined;
+            shippingAddress?: DocumentStringField<string> | undefined;
+            shippingAddressRecipient?: DocumentStringField<string> | undefined;
             subTotal?: DocumentNumberField | undefined;
             totalTax?: DocumentNumberField | undefined;
             invoiceTotal?: DocumentNumberField | undefined;
             amountDue?: DocumentNumberField | undefined;
             previousUnpaidBalance?: DocumentNumberField | undefined;
-            remittanceAddress?: DocumentStringField | undefined;
-            remittanceAddressRecipient?: DocumentStringField | undefined;
-            serviceAddress?: DocumentStringField | undefined;
-            serviceAddressRecipient?: DocumentStringField | undefined;
+            remittanceAddress?: DocumentStringField<string> | undefined;
+            remittanceAddressRecipient?: DocumentStringField<string> | undefined;
+            serviceAddress?: DocumentStringField<string> | undefined;
+            serviceAddressRecipient?: DocumentStringField<string> | undefined;
             serviceStartDate?: DocumentDateField | undefined;
             serviceEndDate?: DocumentDateField | undefined;
             items?: DocumentArrayField<DocumentObjectField<    {
             date?: DocumentDateField | undefined;
             amount?: DocumentNumberField | undefined;
-            description?: DocumentStringField | undefined;
+            description?: DocumentStringField<string> | undefined;
             quantity?: DocumentNumberField | undefined;
-            productCode?: DocumentStringField | undefined;
+            productCode?: DocumentStringField<string> | undefined;
             tax?: DocumentNumberField | undefined;
-            unit?: DocumentStringField | undefined;
+            unit?: DocumentStringField<string> | undefined;
             unitPrice?: DocumentNumberField | undefined;
             }>> | undefined;
         };
@@ -1053,19 +1043,19 @@ export const PrebuiltModels: {
         fields: {
             items?: DocumentArrayField<DocumentObjectField<    {
             date?: DocumentDateField | undefined;
-            description?: DocumentStringField | undefined;
+            description?: DocumentStringField<string> | undefined;
             quantity?: DocumentNumberField | undefined;
             totalPrice?: DocumentNumberField | undefined;
-            name?: DocumentStringField | undefined;
+            name?: DocumentStringField<string> | undefined;
             price?: DocumentNumberField | undefined;
-            category?: DocumentStringField | undefined;
+            category?: DocumentStringField<string> | undefined;
             }>> | undefined;
             tax?: DocumentNumberField | undefined;
-            locale?: DocumentStringField | undefined;
-            receiptType?: DocumentStringField | undefined;
-            merchantName?: DocumentStringField | undefined;
+            locale?: DocumentStringField<string> | undefined;
+            receiptType?: DocumentStringField<string> | undefined;
+            merchantName?: DocumentStringField<string> | undefined;
             merchantPhoneNumber?: DocumentPhoneNumberField | undefined;
-            merchantAddress?: DocumentStringField | undefined;
+            merchantAddress?: DocumentStringField<string> | undefined;
             total?: DocumentNumberField | undefined;
             transactionDate?: DocumentDateField | undefined;
             transactionTime?: DocumentTimeField | undefined;
@@ -1073,8 +1063,8 @@ export const PrebuiltModels: {
             tip?: DocumentNumberField | undefined;
             arrivalDate?: DocumentDateField | undefined;
             departureDate?: DocumentDateField | undefined;
-            currency?: DocumentStringField | undefined;
-            merchantAliases?: DocumentArrayField<DocumentStringField> | undefined;
+            currency?: DocumentStringField<string> | undefined;
+            merchantAliases?: DocumentArrayField<DocumentStringField<string>> | undefined;
         };
     }>;
 };
@@ -1230,14 +1220,14 @@ export type ReifyFieldSchema<Schema extends Readonly<FieldSchema>> = Schema exte
 }[Type] : Schema extends StringLikeFieldSchema<infer Type> ? {
     string: Schema extends {
         enum: string[];
-    } ? DocumentStringField & {
-        value?: Schema["enum"][number];
-    } : DocumentStringField;
+    } ? DocumentStringField<Schema["enum"][number]> : DocumentStringField;
     countryRegion: DocumentCountryRegionField;
 }[Type] : Schema extends NumberFieldSchema<infer Type> ? {
     number: DocumentNumberField;
     integer: DocumentIntegerField;
-}[Type] : Schema extends DateFieldSchema ? DocumentDateField : Schema extends ArrayFieldSchema<infer Item> ? DocumentArrayField<ReifyFieldSchema<Item>> : Schema extends ObjectFieldSchema<infer Properties> ? DocumentObjectField<{
+}[Type] : Schema extends DateFieldSchema ? DocumentDateField : Schema extends ArrayFieldSchema<infer Item> ? DocumentArrayField<ReifyFieldSchema<Item>> : Schema extends ImmediateObjectFieldSchema<infer Type> ? {
+    currency: DocumentCurrencyField;
+}[Type] : Schema extends ObjectFieldSchema<infer Properties> ? DocumentObjectField<{
     [K in Extract<keyof Properties, string> as Uncapitalize<K>]?: ReifyFieldSchema<Properties[K]>;
 }> : never;
 
@@ -1265,15 +1255,12 @@ export const StringIndexType: {
 
 // @public
 export interface StringLikeFieldSchema<Type extends "string" | "countryRegion" = "string" | "countryRegion"> {
-    // (undocumented)
     readonly enum?: readonly string[];
-    // (undocumented)
     readonly type: Type;
 }
 
 // @public
 export interface StructuredStringFieldSchema<Type extends "time" | "phoneNumber" = "time" | "phoneNumber"> {
-    // (undocumented)
     readonly type: Type;
 }
 
@@ -1282,11 +1269,15 @@ export type TrainingPoller = PollerLike<TrainingPollOperationState, ModelInfo>;
 
 // @public
 export interface TrainingPollOperationState extends PollOperationState<ModelInfo> {
+    apiVersion?: string;
     createdOn: Date;
     lastUpdatedOn: Date;
     operationId: string;
     percentCompleted: number;
     status: OperationStatus;
+    tags?: {
+        [tag: string]: string;
+    };
 }
 
 ```

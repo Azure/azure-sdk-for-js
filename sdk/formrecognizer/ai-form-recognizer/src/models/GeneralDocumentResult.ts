@@ -6,12 +6,13 @@ import { AnalyzeResult } from "../lro/analyze";
 import { LayoutResult, toLayoutResult } from "./LayoutResult";
 
 /**
- * Extract from an AnalyzeResult the fields that are produced from Generic Document extraction.
+ * Extract from an AnalyzeResult the fields that are produced from General Document extraction (`"prebuilt-document"`).
+ *
  * @internal
  */
-export function toGenericDocumentResult(
+export function toGeneralDocumentResult(
   analyzeResult: AnalyzeResult<unknown>
-): GenericDocumentResult {
+): GeneralDocumentResult {
   const { keyValuePairs, entities } = analyzeResult;
   return {
     ...toLayoutResult(analyzeResult),
@@ -21,12 +22,12 @@ export function toGenericDocumentResult(
 }
 
 /**
- * The result of analysis using the prebuilt Generic Document model ("prebuilt-document").
+ * The result of analysis using the prebuilt General Document model (`"prebuilt-document"`).
  *
  * This model produces all of the fields of the layout model (pages, tables, and styles) as well as extracted key-value
  * pairs and entities.
  */
-export interface GenericDocumentResult extends LayoutResult {
+export interface GeneralDocumentResult extends LayoutResult {
   /**
    * Extracted key-value pairs. A key-value pair is a directed association between two page elements.
    *

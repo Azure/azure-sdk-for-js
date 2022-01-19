@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 /**
- * This sample shows how to extract data from a generic document using the `beginExtractGenericDocument` method. This
+ * This sample shows how to extract data from a general document using the `beginExtractGeneralDocument` method. This
  * model produces key-value pairs and entities in addition to the basic layout information.
  *
- * @summary use the prebuilt (generic) document model to extract key-value pairs and entities
+ * @summary use the prebuilt (general) document model to extract key-value pairs and entities
  */
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
@@ -19,12 +19,12 @@ async function main() {
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginExtractGenericDocument(
+  const poller = await client.beginExtractGeneralDocument(
     // The form recognizer service will access the following URL to a receipt image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/selection_mark_form.pdf"
   );
 
-  // Generic Document extraction produces all data from the Layout operation as well as the additional key-value pairs
+  // General Document extraction produces all data from the Layout operation as well as the additional key-value pairs
   // (associations between elements, such as labeled elements), and document entities.
   const { keyValuePairs, entities } = await poller.pollUntilDone();
 

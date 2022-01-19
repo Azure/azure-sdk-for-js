@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AnalyzeDocumentsOptions } from "./AnalyzeDocumentsOptions";
-import { BuildModelOptions } from "./BuildModelOptions";
+import { BuildModelOptions, DocumentModelBuildMode } from "./BuildModelOptions";
 import { CopyModelOptions } from "./CopyModelOptions";
 import { DeleteModelOptions } from "./DeleteModelOptions";
 import {
@@ -24,6 +24,7 @@ export {
   AnalyzeDocumentsOptions,
   BuildModelOptions,
   CopyModelOptions,
+  DocumentModelBuildMode,
   FormRecognizerCommonClientOptions,
   DocumentAnalysisClientOptions,
   DocumentModelAdministrationClientOptions,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { GenericDocumentResult } from "./GenericDocumentResult";
+export { GeneralDocumentResult } from "./GeneralDocumentResult";
 export { LayoutResult } from "./LayoutResult";
 
 export {
@@ -18,5 +18,6 @@ export {
   DocumentValueField,
   DocumentSelectionMarkField,
   DocumentSignatureField,
+  DocumentCurrencyField,
   DocumentField,
 } from "./fields";
