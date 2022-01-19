@@ -10,6 +10,8 @@ import {
   PipelineRequest,
   PipelineOptions,
   HttpClient,
+  PipelinePolicy,
+  PipelinePhase,
 } from "@azure/core-rest-pipeline";
 
 /**
@@ -725,6 +727,24 @@ export interface SpanConfig {
 }
 
 /**
+ * Used to configure additional policies added to the pipeline at construction.
+ */
+export interface AdditionalPolicyConfig {
+  /**
+   * A policy to be added.
+   */
+  policy: PipelinePolicy;
+  /**
+   * The phase that this policy must come after.
+   */
+  afterPhase?: PipelinePhase;
+  /**
+   * The phase this policy belongs to.
+   */
+  phase?: PipelinePhase;
+}
+
+/**
  * The common set of options that high level clients are expected to expose.
  */
 export interface CommonClientOptions extends PipelineOptions {
@@ -736,4 +756,8 @@ export interface CommonClientOptions extends PipelineOptions {
    * Set to true if the request is sent over HTTP instead of HTTPS
    */
   allowInsecureConnection?: boolean;
+  /**
+   * Additional policies to include in the HTTP pipeline.
+   */
+  additionalPolicies?: Array<AdditionalPolicyConfig>;
 }

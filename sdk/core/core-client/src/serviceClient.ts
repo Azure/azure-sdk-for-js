@@ -93,6 +93,11 @@ export class ServiceClient {
     this._httpClient = options.httpClient || getCachedDefaultHttpClient();
 
     this.pipeline = options.pipeline || createDefaultPipeline(options);
+    if (options.additionalPolicies?.length) {
+      for (const { policy, afterPhase, phase } of options.additionalPolicies) {
+        this.pipeline.addPolicy(policy, { afterPhase, phase });
+      }
+    }
   }
 
   /**

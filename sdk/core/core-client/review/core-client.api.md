@@ -12,11 +12,19 @@ import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
+import { PipelinePhase } from '@azure/core-rest-pipeline';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-rest-pipeline';
+
+// @public
+export interface AdditionalPolicyConfig {
+    afterPhase?: PipelinePhase;
+    phase?: PipelinePhase;
+    policy: PipelinePolicy;
+}
 
 // @public
 export function authorizeRequestOnClaimChallenge(onChallengeOptions: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
@@ -41,6 +49,7 @@ export interface BaseMapper {
 
 // @public
 export interface CommonClientOptions extends PipelineOptions {
+    additionalPolicies?: Array<AdditionalPolicyConfig>;
     allowInsecureConnection?: boolean;
     httpClient?: HttpClient;
 }
