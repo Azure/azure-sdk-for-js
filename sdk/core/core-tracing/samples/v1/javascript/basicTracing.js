@@ -37,7 +37,7 @@ class BasicClient {
       "BasicClient.basicOperation",
       options,
       async (_updatedOptions, _span) => {
-        // The `updatedOptions` argument will be returned, containing a new tracing context
+        // The `updatedOptions` argument will be returned, containing a new tracing context.
         // Call the generated client, passing updatedOptions, and handle the response as you
         // normally would.
         //
