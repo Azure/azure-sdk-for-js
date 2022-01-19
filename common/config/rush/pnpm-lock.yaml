@@ -27,6 +27,7 @@ specifiers:
   '@rush-temp/arm-changeanalysis': file:./projects/arm-changeanalysis.tgz
   '@rush-temp/arm-cognitiveservices': file:./projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:./projects/arm-commerce.tgz
+  '@rush-temp/arm-commitmentplans': file:./projects/arm-commitmentplans.tgz
   '@rush-temp/arm-communication': file:./projects/arm-communication.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
   '@rush-temp/arm-confluent': file:./projects/arm-confluent.tgz
@@ -63,7 +64,9 @@ specifiers:
   '@rush-temp/arm-hybridcompute': file:./projects/arm-hybridcompute.tgz
   '@rush-temp/arm-hybridkubernetes': file:./projects/arm-hybridkubernetes.tgz
   '@rush-temp/arm-imagebuilder': file:./projects/arm-imagebuilder.tgz
+  '@rush-temp/arm-iotcentral': file:./projects/arm-iotcentral.tgz
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
+  '@rush-temp/arm-iotspaces': file:./projects/arm-iotspaces.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
   '@rush-temp/arm-kubernetesconfiguration': file:./projects/arm-kubernetesconfiguration.tgz
   '@rush-temp/arm-labservices': file:./projects/arm-labservices.tgz
@@ -81,6 +84,7 @@ specifiers:
   '@rush-temp/arm-mysql': file:./projects/arm-mysql.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
+  '@rush-temp/arm-oep': file:./projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
   '@rush-temp/arm-operations': file:./projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:./projects/arm-orbital.tgz
@@ -97,6 +101,7 @@ specifiers:
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-search': file:./projects/arm-search.tgz
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
+  '@rush-temp/arm-securityinsight': file:./projects/arm-securityinsight.tgz
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:./projects/arm-servicefabric.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
@@ -237,6 +242,7 @@ dependencies:
   '@rush-temp/arm-changeanalysis': file:projects/arm-changeanalysis.tgz
   '@rush-temp/arm-cognitiveservices': file:projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:projects/arm-commerce.tgz
+  '@rush-temp/arm-commitmentplans': file:projects/arm-commitmentplans.tgz
   '@rush-temp/arm-communication': file:projects/arm-communication.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-confluent': file:projects/arm-confluent.tgz
@@ -273,7 +279,9 @@ dependencies:
   '@rush-temp/arm-hybridcompute': file:projects/arm-hybridcompute.tgz
   '@rush-temp/arm-hybridkubernetes': file:projects/arm-hybridkubernetes.tgz
   '@rush-temp/arm-imagebuilder': file:projects/arm-imagebuilder.tgz
+  '@rush-temp/arm-iotcentral': file:projects/arm-iotcentral.tgz
   '@rush-temp/arm-iothub': file:projects/arm-iothub.tgz
+  '@rush-temp/arm-iotspaces': file:projects/arm-iotspaces.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
   '@rush-temp/arm-kubernetesconfiguration': file:projects/arm-kubernetesconfiguration.tgz
   '@rush-temp/arm-labservices': file:projects/arm-labservices.tgz
@@ -291,6 +299,7 @@ dependencies:
   '@rush-temp/arm-mysql': file:projects/arm-mysql.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
+  '@rush-temp/arm-oep': file:projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
   '@rush-temp/arm-operations': file:projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:projects/arm-orbital.tgz
@@ -307,6 +316,7 @@ dependencies:
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-search': file:projects/arm-search.tgz
   '@rush-temp/arm-security': file:projects/arm-security.tgz
+  '@rush-temp/arm-securityinsight': file:projects/arm-securityinsight.tgz
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:projects/arm-servicefabric.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
@@ -863,7 +873,7 @@ packages:
     resolution: {integrity: sha512-Q71Buur3RMcg6lCnisLL8Im562DBw+ybzgm+YQj/FbAaI8ZNu/zl/5z1fE4k3Q9LSIzYrz6HLRzlhdSBXpydlQ==}
     engines: {node: '>=8.0.0'}
     dependencies:
-      '@azure/core-http': 1.2.3
+      '@azure/core-http': 1.2.6
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/logger': 1.0.3
       '@azure/msal-node': 1.0.0-beta.6_debug@4.3.3
@@ -1572,7 +1582,6 @@ packages:
   /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.4:
     resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
     engines: {node: '>=8.0.0'}
-    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
@@ -1929,7 +1938,7 @@ packages:
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 17.0.1
+      '@types/node': 12.20.42
     dev: false
 
   /@types/glob/7.2.0:
@@ -3134,7 +3143,7 @@ packages:
     resolution: {integrity: sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==}
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     dev: false
 
   /debug/3.2.7:
@@ -3356,7 +3365,7 @@ packages:
     dependencies:
       semver: 7.3.5
       shelljs: 0.8.5
-      typescript: 4.2.4
+      typescript: 4.5.4
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -4105,7 +4114,7 @@ packages:
     resolution: {integrity: sha512-C5owb14u9eJwizKGdchcDUQeFtlSHHthBk8pbX9Vc1PFZrLombudjDnNns88aYslCyF6IY5SUw3Roz6xShcEIQ==}
     engines: {node: '>=12'}
     dependencies:
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.9
       jsonfile: 6.1.0
       universalify: 2.0.0
     dev: false
@@ -5050,7 +5059,7 @@ packages:
     dependencies:
       universalify: 2.0.0
     optionalDependencies:
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.9
     dev: false
 
   /jsonwebtoken/8.5.1:
@@ -7952,7 +7961,7 @@ packages:
   /wide-align/1.1.5:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
-      string-width: 1.0.2
+      string-width: 4.2.3
     dev: false
 
   /word-wrap/1.2.3:
@@ -9023,7 +9032,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@microsoft/api-extractor': 7.19.2
+      '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9038,6 +9047,32 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.5
     transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-commitmentplans.tgz:
+    resolution: {integrity: sha512-NRV8GqRYFRYNMB1NA4M/CQGqnyTJfj66wOQ+vccGMaSEMAQvNkV3p1A6XolSlZmzWp+jLSHb074m6jIoxdEfSw==, tarball: file:projects/arm-commitmentplans.tgz}
+    name: '@rush-temp/arm-commitmentplans'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
@@ -9422,7 +9457,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@microsoft/api-extractor': 7.19.2
+      '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9437,6 +9472,7 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.5
     transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
@@ -9845,7 +9881,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@microsoft/api-extractor': 7.19.2
+      '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9860,6 +9896,7 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.5
     transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
@@ -9869,7 +9906,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@microsoft/api-extractor': 7.19.2
+      '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9884,6 +9921,7 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.5
     transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
@@ -9893,7 +9931,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@microsoft/api-extractor': 7.19.2
+      '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9908,6 +9946,7 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.5
     transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
@@ -9937,9 +9976,59 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-iotcentral.tgz:
+    resolution: {integrity: sha512-Q6B2jxYWwYaoLBMIJl//Kf/l+9qmLRU0TZgNcCpBK/ynqvFKKIP2kMfUXYktG3hetsJNMaLav7xFvFOc/Snp0A==, tarball: file:projects/arm-iotcentral.tgz}
+    name: '@rush-temp/arm-iotcentral'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-iothub.tgz:
     resolution: {integrity: sha512-FNymR7VOSktBIh+IkM4gluBtugclvlGiK+jLBbHLyU24SjOXf/wy6dTgKPavFB8r/rLJ6FSdiwqx0Dzdy8g2NQ==, tarball: file:projects/arm-iothub.tgz}
     name: '@rush-temp/arm-iothub'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-iotspaces.tgz:
+    resolution: {integrity: sha512-XvSva5m2yu9HPiV6tNotd9MbmOXDXW/G0t5rdg6Rojrr1KcHoa126nPqdzLGawHpur9/HCm6PpbQjVt/Y4UTQA==, tarball: file:projects/arm-iotspaces.tgz}
+    name: '@rush-temp/arm-iotspaces'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -10143,7 +10232,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@microsoft/api-extractor': 7.19.2
+      '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10158,6 +10247,7 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.5
     transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
@@ -10167,7 +10257,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@microsoft/api-extractor': 7.19.2
+      '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10182,6 +10272,7 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.14.5
     transitivePeerDependencies:
+      - encoding
       - supports-color
     dev: false
 
@@ -10363,6 +10454,31 @@ packages:
   file:projects/arm-notificationhubs.tgz:
     resolution: {integrity: sha512-Fb3UluOHKNygsOZ5zVRCuQgvJiMtbw+zp4e8Z8QD5oGzrB5uBWpo8dB+W2ijmwIsz3n73bQz12AtM7G/dw7bDw==, tarball: file:projects/arm-notificationhubs.tgz}
     name: '@rush-temp/arm-notificationhubs'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-oep.tgz:
+    resolution: {integrity: sha512-d2SXpTfnllsvJbUKmjFQyGYzw8gFBsgy3iapepGDx2+Q2J+pEAJ9rFPdsTcRE9T6sVrOXx1yRBTNXS5rggi9Og==, tarball: file:projects/arm-oep.tgz}
+    name: '@rush-temp/arm-oep'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -10763,6 +10879,31 @@ packages:
   file:projects/arm-security.tgz:
     resolution: {integrity: sha512-X/nlLia9k75M0GhNEY+gfzOYiyQKI6xhf6iaTdMDKCYijqt8UTqiZfGvk3V1DkZzW3aJI6Rr0Uqp/nFs9pAggg==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-securityinsight.tgz:
+    resolution: {integrity: sha512-+lNrTLwSxSagCvWMpZ2amzQEaM2JEL47LMnUwtolKkKw0F/PjY5NG/xSU5Ap9jtNfm2Xedysgyg6LBDYElULiQ==, tarball: file:projects/arm-securityinsight.tgz}
+    name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
