@@ -1385,6 +1385,11 @@
       "packageName": "@azure/arm-maps",
       "projectFolder": "sdk/maps/arm-maps",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mariadb",
+      "projectFolder": "sdk/mariadb/arm-mariadb",
+      "versionPolicyName": "management"
     }
   ]
 }
