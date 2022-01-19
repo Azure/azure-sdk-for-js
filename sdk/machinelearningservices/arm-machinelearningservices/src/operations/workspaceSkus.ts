@@ -7,26 +7,26 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Usages } from "../operationsInterfaces";
+import { WorkspaceSkus } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
 import {
-  Usage,
-  UsagesListNextOptionalParams,
-  UsagesListOptionalParams,
-  UsagesListResponse,
-  UsagesListNextResponse
+  WorkspaceSku,
+  WorkspaceSkusListNextOptionalParams,
+  WorkspaceSkusListOptionalParams,
+  WorkspaceSkusListResponse,
+  WorkspaceSkusListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Usages operations. */
-export class UsagesImpl implements Usages {
+/** Class containing WorkspaceSkus operations. */
+export class WorkspaceSkusImpl implements WorkspaceSkus {
   private readonly client: AzureMachineLearningWorkspaces;
 
   /**
-   * Initialize a new instance of the class Usages class.
+   * Initialize a new instance of the class WorkspaceSkus class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMachineLearningWorkspaces) {
@@ -34,16 +34,13 @@ export class UsagesImpl implements Usages {
   }
 
   /**
-   * Gets the current usage information as well as limits for AML resources for given subscription and
-   * location.
-   * @param location The location for which resource usage is queried.
+   * Lists all skus with associated features
    * @param options The options parameters.
    */
   public list(
-    location: string,
-    options?: UsagesListOptionalParams
-  ): PagedAsyncIterableIterator<Usage> {
-    const iter = this.listPagingAll(location, options);
+    options?: WorkspaceSkusListOptionalParams
+  ): PagedAsyncIterableIterator<WorkspaceSku> {
+    const iter = this.listPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -52,63 +49,53 @@ export class UsagesImpl implements Usages {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(location, options);
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    location: string,
-    options?: UsagesListOptionalParams
-  ): AsyncIterableIterator<Usage[]> {
-    let result = await this._list(location, options);
+    options?: WorkspaceSkusListOptionalParams
+  ): AsyncIterableIterator<WorkspaceSku[]> {
+    let result = await this._list(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listNext(location, continuationToken, options);
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
   private async *listPagingAll(
-    location: string,
-    options?: UsagesListOptionalParams
-  ): AsyncIterableIterator<Usage> {
-    for await (const page of this.listPagingPage(location, options)) {
+    options?: WorkspaceSkusListOptionalParams
+  ): AsyncIterableIterator<WorkspaceSku> {
+    for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Gets the current usage information as well as limits for AML resources for given subscription and
-   * location.
-   * @param location The location for which resource usage is queried.
+   * Lists all skus with associated features
    * @param options The options parameters.
    */
   private _list(
-    location: string,
-    options?: UsagesListOptionalParams
-  ): Promise<UsagesListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec
-    );
+    options?: WorkspaceSkusListOptionalParams
+  ): Promise<WorkspaceSkusListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
    * ListNext
-   * @param location The location for which resource usage is queried.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    location: string,
     nextLink: string,
-    options?: UsagesListNextOptionalParams
-  ): Promise<UsagesListNextResponse> {
+    options?: WorkspaceSkusListNextOptionalParams
+  ): Promise<WorkspaceSkusListNextResponse> {
     return this.client.sendOperationRequest(
-      { location, nextLink, options },
+      { nextLink, options },
       listNextOperationSpec
     );
   }
@@ -118,19 +105,18 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/usages",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/workspaces/skus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListUsagesResult
+      bodyMapper: Mappers.SkuListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -139,15 +125,17 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListUsagesResult
+      bodyMapper: Mappers.SkuListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.location
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
