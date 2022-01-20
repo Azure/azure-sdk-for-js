@@ -12,7 +12,15 @@ import {
   MetricsAdvisorAdministrationClient,
 } from "../../../src";
 import * as dotenv from "dotenv";
-import { isNode } from "@azure/core-http";
+
+/**
+ * A constant that indicates whether the environment is node.js or browser based.
+ */
+export const isNode =
+  typeof process !== "undefined" &&
+  !!process.version &&
+  !!process.versions &&
+  !!process.versions.node;
 
 if (isNode) {
   dotenv.config();

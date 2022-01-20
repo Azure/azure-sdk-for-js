@@ -1362,6 +1362,26 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-oep",
+      "projectFolder": "sdk/oep/arm-oep",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-securityinsight",
+      "projectFolder": "sdk/securityinsight/arm-securityinsight",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iotcentral",
+      "projectFolder": "sdk/iotcentral/arm-iotcentral",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-commitmentplans",
+      "projectFolder": "sdk/machinelearning/arm-commitmentplans",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-workspaces",
       "projectFolder": "sdk/machinelearning/arm-workspaces",
       "versionPolicyName": "management"

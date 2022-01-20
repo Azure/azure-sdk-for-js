@@ -27,6 +27,7 @@ specifiers:
   '@rush-temp/arm-changeanalysis': file:./projects/arm-changeanalysis.tgz
   '@rush-temp/arm-cognitiveservices': file:./projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:./projects/arm-commerce.tgz
+  '@rush-temp/arm-commitmentplans': file:./projects/arm-commitmentplans.tgz
   '@rush-temp/arm-communication': file:./projects/arm-communication.tgz
   '@rush-temp/arm-compute': file:./projects/arm-compute.tgz
   '@rush-temp/arm-confluent': file:./projects/arm-confluent.tgz
@@ -63,6 +64,7 @@ specifiers:
   '@rush-temp/arm-hybridcompute': file:./projects/arm-hybridcompute.tgz
   '@rush-temp/arm-hybridkubernetes': file:./projects/arm-hybridkubernetes.tgz
   '@rush-temp/arm-imagebuilder': file:./projects/arm-imagebuilder.tgz
+  '@rush-temp/arm-iotcentral': file:./projects/arm-iotcentral.tgz
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
   '@rush-temp/arm-kubernetesconfiguration': file:./projects/arm-kubernetesconfiguration.tgz
@@ -85,6 +87,7 @@ specifiers:
   '@rush-temp/arm-mysql': file:./projects/arm-mysql.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
+  '@rush-temp/arm-oep': file:./projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
   '@rush-temp/arm-operations': file:./projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:./projects/arm-orbital.tgz
@@ -101,6 +104,7 @@ specifiers:
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-search': file:./projects/arm-search.tgz
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
+  '@rush-temp/arm-securityinsight': file:./projects/arm-securityinsight.tgz
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:./projects/arm-servicefabric.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
@@ -243,6 +247,7 @@ dependencies:
   '@rush-temp/arm-changeanalysis': file:projects/arm-changeanalysis.tgz
   '@rush-temp/arm-cognitiveservices': file:projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:projects/arm-commerce.tgz
+  '@rush-temp/arm-commitmentplans': file:projects/arm-commitmentplans.tgz
   '@rush-temp/arm-communication': file:projects/arm-communication.tgz
   '@rush-temp/arm-compute': file:projects/arm-compute.tgz
   '@rush-temp/arm-confluent': file:projects/arm-confluent.tgz
@@ -279,6 +284,7 @@ dependencies:
   '@rush-temp/arm-hybridcompute': file:projects/arm-hybridcompute.tgz
   '@rush-temp/arm-hybridkubernetes': file:projects/arm-hybridkubernetes.tgz
   '@rush-temp/arm-imagebuilder': file:projects/arm-imagebuilder.tgz
+  '@rush-temp/arm-iotcentral': file:projects/arm-iotcentral.tgz
   '@rush-temp/arm-iothub': file:projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:projects/arm-keyvault.tgz
   '@rush-temp/arm-kubernetesconfiguration': file:projects/arm-kubernetesconfiguration.tgz
@@ -301,6 +307,7 @@ dependencies:
   '@rush-temp/arm-mysql': file:projects/arm-mysql.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
+  '@rush-temp/arm-oep': file:projects/arm-oep.tgz
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
   '@rush-temp/arm-operations': file:projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:projects/arm-orbital.tgz
@@ -317,6 +324,7 @@ dependencies:
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-search': file:projects/arm-search.tgz
   '@rush-temp/arm-security': file:projects/arm-security.tgz
+  '@rush-temp/arm-securityinsight': file:projects/arm-securityinsight.tgz
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:projects/arm-servicefabric.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
@@ -1472,15 +1480,6 @@ packages:
     engines: {node: '>=6.0'}
     dev: false
 
-  /@opentelemetry/api-metrics/0.22.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-hrErhb+JphdErB1WuBwpCnO1FjiKfKzO9DjhvquzzM8SYL2bBpYEvTpBTU9cenRnRHUbUAfHI1X384vm37HKeQ==}
-    engines: {node: '>=8.0.0'}
-    peerDependencies:
-      '@opentelemetry/api': ^1.0.0
-    dependencies:
-      '@opentelemetry/api': 1.0.4
-    dev: false
-
   /@opentelemetry/api-metrics/0.27.0:
     resolution: {integrity: sha512-tB79288bwjkdhPNpw4UdOEy3bacVwtol6Que7cAu8KEJ9ULjRfSiwpYEwJY/oER3xZ7zNFz0uiJ7N1jSiotpVA==}
     engines: {node: '>=8.0.0'}
@@ -1503,11 +1502,11 @@ packages:
     engines: {node: '>=8.0.0'}
     dev: false
 
-  /@opentelemetry/context-async-hooks/0.22.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-JakZ9NJCiaf8FJ6lcR2Fle9xkBKxSFbXK4mk9gZ14totNh9SOTiUBUk08bAnATWUINrQlN8/5hpGKi5gs+FUxQ==}
+  /@opentelemetry/context-async-hooks/0.24.0_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-Db8AgMByBEFKLJGSUBlNq4Un/Tqzj5W0hTxx3hIic8DvBwqbvUvkMGuiQYLKE2Ay21cLYMT01xK4TEKz0OxADw==}
     engines: {node: '>=8.1.0'}
     peerDependencies:
-      '@opentelemetry/api': ^1.0.0
+      '@opentelemetry/api': ^1.0.1
     dependencies:
       '@opentelemetry/api': 1.0.4
     dev: false
@@ -1528,6 +1527,17 @@ packages:
       semver: 7.3.5
     dev: false
 
+  /@opentelemetry/core/0.24.0_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-KpsfxBbFTZT9zaB4Es/fFLbvSzVl9Io/8UUu/TYl4/HgqkmyVInNlWTgRiKyz9nsHzFpGP1kdZJj+YIut0IFsw==}
+    engines: {node: '>=8.5.0'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.0.1
+    dependencies:
+      '@opentelemetry/api': 1.0.4
+      '@opentelemetry/semantic-conventions': 0.24.0
+      semver: 7.3.5
+    dev: false
+
   /@opentelemetry/core/1.0.1_@opentelemetry+api@1.0.4:
     resolution: {integrity: sha512-90nQ2X6b/8X+xjcLDBYKooAcOsIlwLRYm+1VsxcX5cHl6V4CSVmDpBreQSDH/A21SqROzapk6813008SatmPpQ==}
     engines: {node: '>=8.5.0'}
@@ -1538,31 +1548,17 @@ packages:
       '@opentelemetry/semantic-conventions': 1.0.1
     dev: false
 
-  /@opentelemetry/instrumentation-http/0.22.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-vqM1hqgYtcO8Upq8pl4I+YW0bnodHlUSSKYuOH7m9Aujbi571pU3zFctpiU5pNhj9eLEJ/r7aOTV6O4hCxqOjQ==}
+  /@opentelemetry/instrumentation-http/0.27.0_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-Q1dxUt+5d70rbY6jJAC8nwpIQJontmJW94eIS5CsGngvCRYw6tgjLZp2fpVL1o7Lj7uiLpGigeE4EN5Lr2YDFA==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
       '@opentelemetry/api': 1.0.4
-      '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/instrumentation': 0.22.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/semantic-conventions': 0.22.0
+      '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
+      '@opentelemetry/instrumentation': 0.27.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/semantic-conventions': 1.0.1
       semver: 7.3.5
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@opentelemetry/instrumentation/0.22.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-/NT3+mZO9Bll6UZPjqemrD2VhkI7wRrMto884+wKGK8LIC+EKlg5EKk9y9ym4Vtnlis8/hVxNrFSeaS29N2NLw==}
-    peerDependencies:
-      '@opentelemetry/api': ^1.0.0
-    dependencies:
-      '@opentelemetry/api': 1.0.4
-      '@opentelemetry/api-metrics': 0.22.0_@opentelemetry+api@1.0.4
-      require-in-the-middle: 5.1.0
-      semver: 7.3.5
-      shimmer: 1.2.1
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1581,39 +1577,40 @@ packages:
       - supports-color
     dev: false
 
-  /@opentelemetry/node/0.22.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-+HhGbDruQ7cwejVOIYyxRa28uosnG8W95NiQZ6qE8PXXPsDSyGeftAPbtYpGit0H2f5hrVcMlwmWHeAo9xkSLA==}
+  /@opentelemetry/node/0.24.0_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-Sy8QooZFOeVUcJIKetw5xsq15/1ivZovWg0RnKWtzURMQrcOxmQ3bGrXPORklOJxOtf5snDHgT37Y7dBgr+c+g==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
-      '@opentelemetry/api': ^1.0.0
+      '@opentelemetry/api': ^1.0.1
     dependencies:
       '@opentelemetry/api': 1.0.4
-      '@opentelemetry/context-async-hooks': 0.22.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/propagator-b3': 0.22.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/propagator-jaeger': 0.22.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/tracing': 0.22.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/context-async-hooks': 0.24.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/core': 0.24.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/propagator-b3': 0.24.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/propagator-jaeger': 0.24.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/tracing': 0.24.0_@opentelemetry+api@1.0.4
       semver: 7.3.5
     dev: false
 
-  /@opentelemetry/propagator-b3/0.22.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-7UESJWUUmInXrlux9whSjoIMfpmajKbu2UBU/ux7TVkLTeaJwebLHoqDhuUTS4dbmvg3fnkpfmocyUgby16NwQ==}
+  /@opentelemetry/propagator-b3/0.24.0_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-iV7KSN0LkEAkeVCbhaIJAgTEb7HCnVkprmpgkL6q79rP3vTW4dylwfBYgIwod7y0GT4Ofgomm0NrwwWiuGLbQA==}
     engines: {node: '>=8.0.0'}
     peerDependencies:
-      '@opentelemetry/api': ^1.0.0
+      '@opentelemetry/api': ^1.0.1
     dependencies:
       '@opentelemetry/api': 1.0.4
-      '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/core': 0.24.0_@opentelemetry+api@1.0.4
     dev: false
 
-  /@opentelemetry/propagator-jaeger/0.22.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-Xclq+eLfc0Zk1UAbY6clYjoCZqikk4SzvG8C/ODJ6LfDHnqMr/fKXaHHhh/DdHdi6d73o9S8ytblryc+CaTkrw==}
+  /@opentelemetry/propagator-jaeger/0.24.0_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-QXCxBwuSka+vXbBZdumtF7YKO84gwTyKy3GelZV5BPlgWoge0AbLR3DfsO9Beu13pmD+4PyuwMw3LfYsgG1+3g==}
     engines: {node: '>=8.5.0'}
     peerDependencies:
-      '@opentelemetry/api': ^1.0.0
+      '@opentelemetry/api': ^1.0.1
     dependencies:
       '@opentelemetry/api': 1.0.4
-      '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/core': 0.24.0_@opentelemetry+api@1.0.4
     dev: false
 
   /@opentelemetry/resources/0.22.0_@opentelemetry+api@1.0.4:
@@ -1625,6 +1622,28 @@ packages:
       '@opentelemetry/api': 1.0.4
       '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.0.4
       '@opentelemetry/semantic-conventions': 0.22.0
+    dev: false
+
+  /@opentelemetry/resources/0.24.0_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-uEr2m13IRkjQAjX6fsYqJ21aONCspRvuQunaCl8LbH1NS1Gj82TuRUHF6TM82ulBPK8pU+nrrqXKuky2cMcIzw==}
+    engines: {node: '>=8.0.0'}
+    peerDependencies:
+      '@opentelemetry/api': ^1.0.1
+    dependencies:
+      '@opentelemetry/api': 1.0.4
+      '@opentelemetry/core': 0.24.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/semantic-conventions': 0.24.0
+    dev: false
+
+  /@opentelemetry/resources/1.0.1_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-p8DevOaAEepPucUtImR4cZKHOE2L1jgQAtkdZporV+XnxPA/HqCHPEESyUVuo4f5M0NUlL6k5Pba75KwNJlTRg==}
+    engines: {node: '>=8.0.0'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.1.0'
+    dependencies:
+      '@opentelemetry/api': 1.0.4
+      '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
+      '@opentelemetry/semantic-conventions': 1.0.1
     dev: false
 
   /@opentelemetry/semantic-conventions/0.22.0:
@@ -1653,6 +1672,20 @@ packages:
       '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.0.4
       '@opentelemetry/resources': 0.22.0_@opentelemetry+api@1.0.4
       '@opentelemetry/semantic-conventions': 0.22.0
+      lodash.merge: 4.6.2
+    dev: false
+
+  /@opentelemetry/tracing/0.24.0_@opentelemetry+api@1.0.4:
+    resolution: {integrity: sha512-sTLEs1SIon3xV8vLe53PzfbU0FahoxL9NPY/CYvA1mwGbMu4zHkHAjqy1Tc8JmqRrfa+XrHkmzeSM4hrvloBaA==}
+    engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-base
+    peerDependencies:
+      '@opentelemetry/api': ^1.0.1
+    dependencies:
+      '@opentelemetry/api': 1.0.4
+      '@opentelemetry/core': 0.24.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/resources': 0.24.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/semantic-conventions': 0.24.0
       lodash.merge: 4.6.2
     dev: false
 
@@ -3883,6 +3916,13 @@ packages:
 
   /fast-xml-parser/3.21.1:
     resolution: {integrity: sha512-FTFVjYoBOZTJekiUsawGsSYV9QL0A+zDYCRj7y34IO6Jg+2IMYEtQa+bbictpdpV8dHxXywqU7C0gRDEOFtBFg==}
+    hasBin: true
+    dependencies:
+      strnum: 1.0.5
+    dev: false
+
+  /fast-xml-parser/4.0.1:
+    resolution: {integrity: sha512-EN1yOXDmMqpHrqkwTlCJDvFjepJBoBxjLRDtDxFmqrBILGV3NyFWpmcsofSKCCzc+YxhvNreB5rcKzG+TlyWpg==}
     hasBin: true
     dependencies:
       strnum: 1.0.5
@@ -8447,7 +8487,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-sfUrkxj9hjIvrFbNxRwyh07B3efxRaeFXw3os+08OEsaX2mGFyPXJAV1Gcz0S5noxfOFklCcztw0Y8iXqkz5hQ==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-P8qbH7pqCFdwhx5Rg7NC1MY+ih6J/ONQn9cJjCbkxs5JlCbyJdGb9L6heNfOzLix0bOCFVuOJ2KOmXsNPEs3UQ==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -9031,6 +9071,31 @@ packages:
   file:projects/arm-commerce.tgz:
     resolution: {integrity: sha512-iA9LIw3LVSOlbstfSQ7GhLhr0GjaPZXBANCVCq9doK0yk8Dp6X4y9w3hyYh9o6xUhpQLYMRpiFGlcp7XTs9Mpw==, tarball: file:projects/arm-commerce.tgz}
     name: '@rush-temp/arm-commerce'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-commitmentplans.tgz:
+    resolution: {integrity: sha512-NRV8GqRYFRYNMB1NA4M/CQGqnyTJfj66wOQ+vccGMaSEMAQvNkV3p1A6XolSlZmzWp+jLSHb074m6jIoxdEfSw==, tarball: file:projects/arm-commitmentplans.tgz}
+    name: '@rush-temp/arm-commitmentplans'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -9953,6 +10018,31 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-iotcentral.tgz:
+    resolution: {integrity: sha512-Q6B2jxYWwYaoLBMIJl//Kf/l+9qmLRU0TZgNcCpBK/ynqvFKKIP2kMfUXYktG3hetsJNMaLav7xFvFOc/Snp0A==, tarball: file:projects/arm-iotcentral.tgz}
+    name: '@rush-temp/arm-iotcentral'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-iothub.tgz:
     resolution: {integrity: sha512-FNymR7VOSktBIh+IkM4gluBtugclvlGiK+jLBbHLyU24SjOXf/wy6dTgKPavFB8r/rLJ6FSdiwqx0Dzdy8g2NQ==, tarball: file:projects/arm-iothub.tgz}
     name: '@rush-temp/arm-iothub'
@@ -10503,6 +10593,31 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-oep.tgz:
+    resolution: {integrity: sha512-d2SXpTfnllsvJbUKmjFQyGYzw8gFBsgy3iapepGDx2+Q2J+pEAJ9rFPdsTcRE9T6sVrOXx1yRBTNXS5rggi9Og==, tarball: file:projects/arm-oep.tgz}
+    name: '@rush-temp/arm-oep'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-operationalinsights.tgz:
     resolution: {integrity: sha512-Z1LtfjTTB0gUbhF3V/3tMil95KRu75U+qvrFwfrORaV9OKP2IL64INaBLdZlfgP+BLhpuq94wSyM+euxavx/qA==, tarball: file:projects/arm-operationalinsights.tgz}
     name: '@rush-temp/arm-operationalinsights'
@@ -10881,6 +10996,31 @@ packages:
   file:projects/arm-security.tgz:
     resolution: {integrity: sha512-X/nlLia9k75M0GhNEY+gfzOYiyQKI6xhf6iaTdMDKCYijqt8UTqiZfGvk3V1DkZzW3aJI6Rr0Uqp/nFs9pAggg==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-securityinsight.tgz:
+    resolution: {integrity: sha512-+lNrTLwSxSagCvWMpZ2amzQEaM2JEL47LMnUwtolKkKw0F/PjY5NG/xSU5Ap9jtNfm2Xedysgyg6LBDYElULiQ==, tarball: file:projects/arm-securityinsight.tgz}
+    name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -12378,7 +12518,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-BLlp886QCP1A0KeLgCqrVbO/wRtOmsBuXL7cOVvcbpWBaKF/2w62fS6hl+d0o5RXXGk2IyXNVJLaFLGo3Fv4iw==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-V2IuzfEt3WddBEJcb8blIT4waWFu/ouN5XmqU0dBRsTmjhCeurXsMARrwClfo2wEbH73A6hkyimxHMiOghM9dQ==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -12392,7 +12532,7 @@ packages:
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 7.32.0
-      fast-xml-parser: 3.21.1
+      fast-xml-parser: 4.0.1
       inherits: 2.0.4
       karma: 6.3.11
       karma-chrome-launcher: 3.1.0
@@ -13391,7 +13531,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-authentication.tgz:
-    resolution: {integrity: sha512-/957lA9+0kU7h+wqlphxrYOHnLSJBgbv3+Dn0HvxGS2mLlF2KPOG9ij4ryTjgmw4GuKgAt/J2QE9lGrw3nqsog==, tarball: file:projects/mixed-reality-authentication.tgz}
+    resolution: {integrity: sha512-Hy8/9a4kQzsitHzg5qsdz9vPpe9y+32R/WyUSNceeIaHFLVCrgbffVukC0fYtnfz7p6GSb+s0zXd3d/P+9W0ew==, tarball: file:projects/mixed-reality-authentication.tgz}
     name: '@rush-temp/mixed-reality-authentication'
     version: 0.0.0
     dependencies:
@@ -13439,7 +13579,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-AxE7atwTTZPNNrszrn4Mb8QXWTuDR6+RztTE5poid/Qzua6tbL6ypRJFWTxIJhIe9wxndMQohtDCq1muNNehTA==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-vOjHZKRI9p5fRC/SWGUFtXP7WjM+GmC//lp7NEL1ntYJl+JHChkFgyCFGuUr+gyXWJ3ZBKqT5ZfSImaFovx55w==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
@@ -13505,19 +13645,19 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-ZgJHlXiQ9BsBuPzzO8guFh3+2SiW8Tg88utfw0sH7FB3MXciTahHb2NE/4iIpRibG+V1drIj4fgQ16PXfKmk4A==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-z2N6u6o9GQ7aYOhevJav6uZxwFSfxiQpnALvKlu/THJRlsudhGLytNffy/0CNxcIdcUC0IFQBc6Uid8f2VnAag==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.19.4
       '@opentelemetry/api': 1.0.4
-      '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/instrumentation': 0.22.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/instrumentation-http': 0.22.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/node': 0.22.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/resources': 0.22.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/semantic-conventions': 0.24.0
-      '@opentelemetry/tracing': 0.22.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
+      '@opentelemetry/instrumentation': 0.27.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/instrumentation-http': 0.27.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/node': 0.24.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/resources': 1.0.1_@opentelemetry+api@1.0.4
+      '@opentelemetry/semantic-conventions': 1.0.1
+      '@opentelemetry/tracing': 0.24.0_@opentelemetry+api@1.0.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.42
       dotenv: 8.6.0
@@ -13541,7 +13681,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-IPdN5i0f2LEu5GnDidbvwwrnsDLs9oi/pmR+/XC4tpFX3CZpmlDARk0RL7cVzasJyEzBFOQO+X4TDLAqqGOUIg==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-9zbeICh0OrR3HhmkAF4I0j2SrYxew5d4J1sou6qrSevyYe/XwizXUcHMIKtKQH12V6m250wgx0jC0NQhVB3qHg==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -13550,8 +13690,8 @@ packages:
       '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.4
       '@microsoft/api-extractor': 7.19.4
       '@opentelemetry/api': 1.0.4
-      '@opentelemetry/node': 0.22.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/tracing': 0.22.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/node': 0.24.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/tracing': 0.24.0_@opentelemetry+api@1.0.4
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
       '@types/mocha': 7.0.2

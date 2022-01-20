@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/core-http";
+const isNode =
+  typeof process !== "undefined" && Boolean(process.version) && Boolean(process.versions?.node);
 
 declare global {
   // stub these out for the browser

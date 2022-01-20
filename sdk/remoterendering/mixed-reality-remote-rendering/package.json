@@ -1,6 +1,6 @@
 {
   "name": "@azure/mixed-reality-remote-rendering",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Example project for learning how to build a client library",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -18,6 +18,10 @@
       {
         "path": "src/generated/generatedClientContext.ts",
         "prefix": "packageDetails"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
       }
     ]
   },
@@ -78,7 +82,7 @@
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
-    "@azure/mixed-reality-authentication": "1.0.0-beta.1",
+    "@azure/mixed-reality-authentication": "1.0.0-beta.2",
     "@azure/core-lro": "^2.2.0",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-paging": "^1.1.1",
