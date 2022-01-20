@@ -198,7 +198,7 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return await this.client.releasePhoneNumber(phoneNumber, updatedOptions);
+      return await this.client.beginReleasePhoneNumber(phoneNumber, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -243,7 +243,7 @@ export class PhoneNumbersClient {
 
     try {
       const { countryCode, phoneNumberType, assignmentType, capabilities, ...rest } = search;
-      return this.client.searchAvailablePhoneNumbers(
+      return this.client.beginSearchAvailablePhoneNumbers(
         countryCode,
         phoneNumberType,
         assignmentType,
@@ -297,7 +297,7 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return this.client.purchasePhoneNumbers({ ...updatedOptions, searchId });
+      return this.client.beginPurchasePhoneNumbers({ ...updatedOptions, searchId });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -342,7 +342,7 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return this.client.updateCapabilities(phoneNumber, {
+      return this.client.beginUpdateCapabilities(phoneNumber, {
         ...updatedOptions,
         ...request,
       });
