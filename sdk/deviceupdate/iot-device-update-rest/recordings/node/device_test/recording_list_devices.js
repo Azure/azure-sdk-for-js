@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "f28d96f33a82d81aa63673cd5d92488b";
+module.exports.hash = "bf51cf1649157b9e74d607d846e4a591";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '54d4de93-04fa-42b5-8de4-5f95f0092300',
+  '1f2df8b9-c018-4027-a8cf-837bdaf20000',
   'x-ms-ests-server',
-  '2.1.12249.14 - KRSLR2 ProdSlices',
+  '2.1.12381.18 - SEASLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=Ap2EOAtwytBCmGbjAE6RwV8; expires=Wed, 29-Dec-2021 02:46:25 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AuoP_QOFoklLtQ9zSGZfyeI; expires=Sat, 19-Feb-2022 05:37:00 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrqj0UBnNn4qvCFVSbuIa16KY6pSfXpsCNl8Cxberw6yWZNihypGH2JKinDD4_aYktkCrqHYWY8nbPwWSyB8hVmTHwLJtt4K-epGiMx7_rFz3zpdlPyZPuAi65XuI6uhl6BdeyMsgTgdVcnxvHuy9FNSNQ5hILkfec2fe3-LUXcPEgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrxbSsyAtXkD0BOhUZG7g-ls5Y6pqgIbMfbFf1Xn72jWt8A-IcGreaTwPKgrN9w4WFYqf-kA-Ts1sQfHpfGMuWVjEs4ZwkihxBdSycus4iLDv8KZUc3I60drK44ukXVHloUo6NKPsaVJWBa3R6-uMMtyL3IQtfIIQF7l3ddt2GNwYgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 29 Nov 2021 02:46:25 GMT',
+  'Thu, 20 Jan 2022 05:36:59 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'ea12fb6c-020f-492c-bf02-c8f8960f2000',
+  '7956be68-d9f2-43c8-8066-4ff1b6dd0000',
   'x-ms-ests-server',
-  '2.1.12249.14 - SEASLR2 ProdSlices',
+  '2.1.12381.18 - SEASLR2 ProdSlices',
   'Set-Cookie',
-  'fpc=Ap44ga6uOL9Bu3PrtRospOk; expires=Wed, 29-Dec-2021 02:46:25 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AqlCW07Gq6ZIt67cjAfRtIk; expires=Sat, 19-Feb-2022 05:37:00 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrU3E1x6BHk-F_nBprfuz32ZWUyVmkU-8xrDsy9gcVYHog8BqrXrZJ3qRmWrcY2tQoS6RESukCa35WJsG0zwc-UzjgS7tUv5f63u5iGStel4FiviViVuu2Jr3tCyErs8Hjr2UQsM-akCaXoxsfrSE1TfRsb2DN8fKTYB-F2jhH5cYgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr8-gY9dU1zKGD5pNBf3vjijU7WUpJtEp75JRtYRkicjNjVdd1gar2kmgZyrCGVrufUJwBLH8c0gZU2MSDZZSOrv5pmOIqoTJ1jjYAjQPfpdbA4ZgzDdtrwhhVuVjNbZQdlBlSWqmR85kPlxr9bxyFbZY2FjgczZXGTsQo0MpcX88gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 29 Nov 2021 02:46:25 GMT',
+  'Thu, 20 Jan 2022 05:36:59 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.3&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=0c20927d-a6f5-41e8-a777-1bc5287036bc&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.5.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=11f25e6a-a9ce-49af-af06-ac81b24e370c&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,19 +93,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '5c20cdd3-2e65-4999-871b-c9367a2a2300',
+  '1f2df8b9-c018-4027-a8cf-837be1f20000',
   'x-ms-ests-server',
-  '2.1.12249.14 - SEASLR1 ProdSlices',
+  '2.1.12381.18 - SEASLR1 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=ApafUu64NttMvNVhfssj7BHzixNsAQAAAAE2NtkOAAAA; expires=Wed, 29-Dec-2021 02:46:26 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AtEmtrL26X1HqOSVa-tJ7A_zixNsAQAAAPzretkOAAAA; expires=Sat, 19-Feb-2022 05:37:00 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 29 Nov 2021 02:46:26 GMT',
+  'Thu, 20 Jan 2022 05:37:00 GMT',
   'Content-Length',
   '1701'
 ]);
@@ -113,13 +113,13 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/deviceupdate/sdkinstance/management/devices')
   .query(true)
-  .reply(200, {"value":[{"deviceId":"adu-sdk-test-device-1","deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1","manufacturer":"fabrikam","model":"vacuum","lastAttemptedUpdateId":null,"installedUpdateId":null,"onLatestUpdate":false,"deploymentStatus":"Succeeded","groupId":"testgroup","lastDeploymentId":null,"lastInstallResult":{"updateInstallResult":{"resultCode":700,"extendedResultCode":0,"resultDetails":""},"resultCode":700,"extendedResultCode":0,"resultDetails":""}},{"deviceId":"dpokluda-edgevm","deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1","manufacturer":"fabrikam","model":"vacuum","lastAttemptedUpdateId":null,"installedUpdateId":null,"onLatestUpdate":false,"deploymentStatus":"Succeeded","groupId":"dpokluda-edgevm","lastDeploymentId":null,"lastInstallResult":{"updateInstallResult":{"resultCode":700,"extendedResultCode":0,"resultDetails":""},"resultCode":700,"extendedResultCode":0,"resultDetails":""}},{"deviceId":"joseph-edgevm2","deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1","manufacturer":"fabrikam","model":"vacuum","lastAttemptedUpdateId":null,"installedUpdateId":null,"onLatestUpdate":false,"deploymentStatus":"Succeeded","groupId":"joegroup","lastDeploymentId":null,"lastInstallResult":{"updateInstallResult":{"resultCode":700,"extendedResultCode":0,"resultDetails":""},"resultCode":700,"extendedResultCode":0,"resultDetails":""}}]}, [
+  .reply(200, {"value":[{"deviceId":"adu-sdk-test-device-1","deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1","manufacturer":"fabrikam","model":"vacuum","lastAttemptedUpdateId":null,"installedUpdateId":null,"onLatestUpdate":false,"deploymentStatus":"Succeeded","groupId":"testgroup","lastDeploymentId":null,"lastInstallResult":{"updateInstallResult":{"resultCode":700,"extendedResultCode":0,"resultDetails":""},"resultCode":700,"extendedResultCode":0,"resultDetails":""}},{"deviceId":"joseph-edgevm2","deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1","manufacturer":"fabrikam","model":"vacuum","lastAttemptedUpdateId":{"provider":"fabrikam","name":"vacuum","version":"2022.106.1154.40"},"installedUpdateId":{"provider":"fabrikam","name":"vacuum","version":"2022.106.1154.40"},"onLatestUpdate":false,"deploymentStatus":"Succeeded","groupId":"joegroup","lastDeploymentId":"joegroup-2022-106-1154-40-0106075652","lastInstallResult":{"updateInstallResult":{"resultCode":700,"extendedResultCode":0,"resultDetails":""},"resultCode":700,"extendedResultCode":0,"resultDetails":""}},{"deviceId":"dpokluda-test","deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1","manufacturer":"fabrikam","model":"vacuum","lastAttemptedUpdateId":{"provider":"fabrikam","name":"vacuum","version":"2022.113.1702.54"},"installedUpdateId":{"provider":"fabrikam","name":"vacuum","version":"2022.113.1741.7"},"onLatestUpdate":true,"deploymentStatus":"Succeeded","groupId":"dpokluda-test","lastDeploymentId":"dpokluda-test-2022-113-1702-54-0114010507","lastInstallResult":{"updateInstallResult":{"resultCode":700,"extendedResultCode":0,"resultDetails":""},"resultCode":700,"extendedResultCode":0,"resultDetails":""}}]}, [
   'Date',
-  'Mon, 29 Nov 2021 02:46:27 GMT',
+  'Thu, 20 Jan 2022 05:37:02 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '1374',
+  '1697',
   'traceparent',
-  '00-bf8edc300cf3fa46a257adf154cbc815-2504b9ac7c9a7445-00'
+  '00-7f71ef9267348f439ddea7e3c9fc3d8f-645f57cc01fb094f-00'
 ]);

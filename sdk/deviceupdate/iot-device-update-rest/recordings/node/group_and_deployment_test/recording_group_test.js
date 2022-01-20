@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "3006aff38e96008fd8e6562190d7b0b1";
+module.exports.hash = "de2fa1643a7fd3535be3fadb71a81eac";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '93ef7e08-1935-4d62-bd81-4c4977343700',
+  'df399e25-aea6-4e98-a5fd-c341ebca0000',
   'x-ms-ests-server',
-  '2.1.12249.14 - SEASLR2 ProdSlices',
+  '2.1.12381.18 - SEASLR2 ProdSlices',
   'Set-Cookie',
-  'fpc=Amio4RiOP7hGjf36WhY-elc; expires=Wed, 29-Dec-2021 02:46:28 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AsDTpYNDHe5Ohd5mw2WlY_0; expires=Sat, 19-Feb-2022 05:37:03 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevruy0SMwOCcDKfjAm34as78hnuml0JlR0rO75tE_ccWduOnFttPyB78Oj9TsMjncBcBDkiKWLmbeQ1Y_N9UNEEMfXtmaQz18V6S6J0yxqBxVfhn3MEqi-JElZbCJ23QkNbyqkkZs_dHUnR3WkzR5j3N7RjSgbnYK4E86NFOtGY20IgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr9xA24JnFDoiOGu5rXzOjCvmPgfohKPQeS994zJUaIEokgVXVlNqHQRSiVaA7Fo6dZEMnEekpFXaP3IdffoZAJWJ3ytXOVAjpBd7rCL4JEYltJHchQ-KbFlQ7up-vRlaP2eaWanaz76oao1JEkmUtr8dthx61ZnRIPSqH9-NDNeQgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 29 Nov 2021 02:46:28 GMT',
+  'Thu, 20 Jan 2022 05:37:03 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '93ef7e08-1935-4d62-bd81-4c4978343700',
+  '672166d4-67f5-49e7-9581-a368262b0100',
   'x-ms-ests-server',
-  '2.1.12249.14 - SEASLR2 ProdSlices',
+  '2.1.12381.18 - KRSLR2 ProdSlices',
   'Set-Cookie',
-  'fpc=Aj4Ug1G2KtBKs86NLZv2S6s; expires=Wed, 29-Dec-2021 02:46:29 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhPXT7GMH0ZKoThtcwWgU7o; expires=Sat, 19-Feb-2022 05:37:04 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevre9vXUexmP7SpJ732ipWoNGMqyBvJGkJ2qResEHEESOsucaXXTx48QeB7gpiYb2O778ty32L_ILCkoeCDs6vIGPVExp47yYDso758roDJKq-5jc1pliAPbgzCz_hi4E2OQTt47Kh4ChWzDSrfC-uZEQzBjVaYo1QJlppldaf9ta0gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrC7jpZHSNnpNBBMK2PoP8yZiggy6QTUilYQYhvh-K6jrGeKBR8aeAla33NxxtXQbf-miIb3sGpRcSyQuwhlYtV8mfxiUvFtnbSZ09u_qmx52bzQp9RkgvklYqfOKSqAOP-3x-z0KxePxZJoQ6W7-QmUleePExr03KrR5LylMLHxEgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 29 Nov 2021 02:46:29 GMT',
+  'Thu, 20 Jan 2022 05:37:03 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.3&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=fcb66a17-4c55-4af8-bd0f-d4735299b2b6&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.5.0&x-client-OS=linux&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=16eebf93-7ebb-4f9a-aa1d-2a2998bb485c&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,19 +93,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '7f6f33c0-2e74-490e-8f6c-dc650ed43900',
+  '14e85fe1-341a-4cdf-9dc8-12a73bff0100',
   'x-ms-ests-server',
-  '2.1.12249.14 - SEASLR1 ProdSlices',
+  '2.1.12381.18 - KRSLR1 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AjczoXkrzCJBsmL3UytN8ZfzixNsAQAAAAQ2NtkOAAAA; expires=Wed, 29-Dec-2021 02:46:29 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ApKh4LOMcrNMo1Le5i6WxjjzixNsAQAAAADsetkOAAAA; expires=Sat, 19-Feb-2022 05:37:04 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 29 Nov 2021 02:46:29 GMT',
+  'Thu, 20 Jan 2022 05:37:03 GMT',
   'Content-Length',
   '1701'
 ]);
@@ -113,15 +113,15 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/deviceupdate/sdkinstance/management/groups')
   .query(true)
-  .reply(200, {"value":[{"deploymentId":"test20211117112017","groupId":"testgroup","tags":["testgroup"],"createdDateTime":"2021-11-16T00:49:25.141+00:00","groupType":"DeviceClassIdAndIoTHubTag","deviceCount":2,"deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1"},{"groupId":"Invalidtestgroup","tags":["testgroup"],"createdDateTime":"2021-11-16T00:49:25.141+00:00","groupType":"InvalidDeviceClassIdAndIoTHubTag","deviceCount":0,"deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1"},{"deploymentId":"test1118014304","groupId":"dpokluda-edgevm","tags":["dpokluda-edgevm"],"createdDateTime":"2021-11-17T22:57:28.78+00:00","groupType":"DeviceClassIdAndIoTHubTag","deviceCount":1,"deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1"},{"groupId":"Invaliddpokluda-edgevm","tags":["dpokluda-edgevm"],"createdDateTime":"2021-11-17T22:57:28.78+00:00","groupType":"InvalidDeviceClassIdAndIoTHubTag","deviceCount":0,"deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1"}]}, [
+  .reply(200, {"value":[{"deploymentId":"test20211117112017","groupId":"testgroup","tags":["testgroup"],"createdDateTime":"2021-11-16T00:49:25.141+00:00","groupType":"DeviceClassIdAndIoTHubTag","deviceCount":1,"deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1"},{"deploymentId":"test1118014304","groupId":"dpokluda-edgevm","tags":["dpokluda-edgevm"],"createdDateTime":"2021-11-17T22:57:28.78+00:00","groupType":"DeviceClassIdAndIoTHubTag","deviceCount":0,"deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1"},{"deploymentId":"dpokluda-test-2022-113-1741-7-0114014318","groupId":"dpokluda-test","tags":["dpokluda-test"],"createdDateTime":"2022-01-12T01:10:50.868+00:00","groupType":"DeviceClassIdAndIoTHubTag","deviceCount":1,"deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1"}]}, [
   'Date',
-  'Mon, 29 Nov 2021 02:46:28 GMT',
+  'Thu, 20 Jan 2022 05:37:06 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '1334',
+  '1076',
   'traceparent',
-  '00-e04fd12a49a22949bdbbe255dcaa6326-6ba3cf6a77b1e545-00'
+  '00-f2a3a758db27c140acad0f8749c3e2b7-7f409fc37cc46144-00'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -129,13 +129,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   .query(true)
   .reply(200, {"groupId":"joegroup","tags":["joegroup"],"createdDateTime":"2021-11-17T16:29:56.5770502+00:00","groupType":"DeviceClassIdAndIoTHubTag","deviceCount":1,"deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1"}, [
   'Date',
-  'Mon, 29 Nov 2021 02:46:29 GMT',
+  'Thu, 20 Jan 2022 05:37:06 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
   '253',
   'traceparent',
-  '00-37da8367f8541f4abcc87de17839c177-b7d515862a742348-00'
+  '00-d462ab9f7d4a784986afd1059a0c08df-e6b6c8a14455414a-00'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -143,41 +143,41 @@ nock('https://endpoint', {"encodedQueryParams":true})
   .query(true)
   .reply(200, {"groupId":"joegroup","tags":["joegroup"],"createdDateTime":"2021-11-17T16:29:56.5770502+00:00","groupType":"DeviceClassIdAndIoTHubTag","deviceCount":1,"deviceClassId":"0919e3ae422a2bfa8c84ff905813e60351e456d1"}, [
   'Date',
-  'Mon, 29 Nov 2021 02:46:29 GMT',
+  'Thu, 20 Jan 2022 05:37:07 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
   '253',
   'traceparent',
-  '00-1337056fad4dd146ba596e8813411ae2-14809e9f27707741-00'
+  '00-a7dea86eca119f469f14494ba7576b2c-c4cd68b104a5d14e-00'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .put('/deviceupdate/sdkinstance/management/groups/joegroup/deployments/testdeployment1', {"deploymentId":"testdeployment1","startDateTime":"2021-09-02T16:29:56.5770502Z","groupId":"joegroup","updateId":{"provider":"fabrikam","name":"vacuum","version":" 2021.1117.1036.48"}})
+  .put('/deviceupdate/sdkinstance/management/groups/joegroup/deployments/testdeployment1', {"deploymentId":"testdeployment1","startDateTime":"2021-09-02T16:29:56.5770502Z","groupId":"joegroup","updateId":{"provider":"fabrikam","name":"vacuum","version":"2022.113.1741.7"}})
   .query(true)
-  .reply(200, {"deploymentId":"testdeployment1","startDateTime":"2021-09-02T16:29:56.5770502+00:00","updateId":{"provider":"fabrikam","name":"vacuum","version":"2021.1117.1036.48"},"isCanceled":false,"isRetry":false,"groupId":"joegroup"}, [
+  .reply(200, {"deploymentId":"testdeployment1","startDateTime":"2021-09-02T16:29:56.5770502+00:00","updateId":{"provider":"fabrikam","name":"vacuum","version":"2022.113.1741.7"},"isCanceled":false,"isRetry":false,"groupId":"joegroup"}, [
   'Date',
-  'Mon, 29 Nov 2021 02:46:30 GMT',
+  'Thu, 20 Jan 2022 05:37:07 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '280',
+  '278',
   'traceparent',
-  '00-fa0bf090d758a44389eb8b44b8d02f45-07d33db3c3322f4f-00'
+  '00-5837b917230b1d4ca971048d817dfb40-5b703b431e7af94a-00'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/deviceupdate/sdkinstance/management/groups/joegroup/deployments/testdeployment1')
   .query(true)
-  .reply(200, {"deploymentId":"testdeployment1","startDateTime":"2021-09-02T16:29:56.5770502+00:00","updateId":{"provider":"fabrikam","name":"vacuum","version":"2021.1117.1036.48"},"isCanceled":false,"isRetry":false,"groupId":"joegroup"}, [
+  .reply(200, {"deploymentId":"testdeployment1","startDateTime":"2021-09-02T16:29:56.5770502+00:00","updateId":{"provider":"fabrikam","name":"vacuum","version":"2022.113.1741.7"},"isCanceled":false,"isRetry":false,"groupId":"joegroup"}, [
   'Date',
-  'Mon, 29 Nov 2021 02:46:30 GMT',
+  'Thu, 20 Jan 2022 05:37:07 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Content-Length',
-  '280',
+  '278',
   'traceparent',
-  '00-297d89400066434291f04a09c25082e3-241e96588815084f-00'
+  '00-e3e0e645b49adc478d21d8365b99ea1e-9f2879e64963b645-00'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -185,9 +185,9 @@ nock('https://endpoint', {"encodedQueryParams":true})
   .query(true)
   .reply(204, "", [
   'Date',
-  'Mon, 29 Nov 2021 02:46:30 GMT',
+  'Thu, 20 Jan 2022 05:37:08 GMT',
   'traceparent',
-  '00-482ac3a3c5fc644ea760a06df7f21ad9-9b8939af292d0348-00'
+  '00-ede35fc742fdc745ade35da395b58033-7d63bb695cc5f944-00'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -195,7 +195,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   .query(true)
   .reply(204, "", [
   'Date',
-  'Mon, 29 Nov 2021 02:46:31 GMT',
+  'Thu, 20 Jan 2022 05:37:08 GMT',
   'traceparent',
-  '00-94f1f1a5dde78b47a2b158ad85c11a7d-383a3049e688984e-00'
+  '00-f2f9354e0531aa4d8ec59cd3bda8fd23-6c7ae76162be1e4b-00'
 ]);

@@ -1,49 +1,49 @@
 {
-  "recordings": [
-    {
-      "method": "POST",
-      "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-      "query": {},
-      "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fapi.adu.microsoft.com%2F.default",
-      "status": 200,
-      "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-      "responseHeaders": {
-        "cache-control": "no-store, no-cache",
-        "content-length": "1679",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 29 Nov 2021 02:46:37 GMT",
-        "expires": "-1",
-        "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-        "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-        "pragma": "no-cache",
-        "referrer-policy": "strict-origin-when-cross-origin",
-        "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+krc\"}]}",
-        "strict-transport-security": "max-age=31536000; includeSubDomains",
-        "x-content-type-options": "nosniff",
-        "x-ms-ests-server": "2.1.12249.14 - KRSLR2 ProdSlices",
-        "x-ms-request-id": "54d4de93-04fa-42b5-8de4-5f95750a2300"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://endpoint/deviceupdate/sdkinstance/management/devices",
-      "query": {
-        "api-version": "2021-06-01-preview"
-      },
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"value\":[{\"deviceId\":\"adu-sdk-test-device-1\",\"deviceClassId\":\"0919e3ae422a2bfa8c84ff905813e60351e456d1\",\"manufacturer\":\"fabrikam\",\"model\":\"vacuum\",\"lastAttemptedUpdateId\":null,\"installedUpdateId\":null,\"onLatestUpdate\":false,\"deploymentStatus\":\"Succeeded\",\"groupId\":\"testgroup\",\"lastDeploymentId\":null,\"lastInstallResult\":{\"updateInstallResult\":{\"resultCode\":700,\"extendedResultCode\":0,\"resultDetails\":\"\"},\"resultCode\":700,\"extendedResultCode\":0,\"resultDetails\":\"\"}},{\"deviceId\":\"dpokluda-edgevm\",\"deviceClassId\":\"0919e3ae422a2bfa8c84ff905813e60351e456d1\",\"manufacturer\":\"fabrikam\",\"model\":\"vacuum\",\"lastAttemptedUpdateId\":null,\"installedUpdateId\":null,\"onLatestUpdate\":false,\"deploymentStatus\":\"Succeeded\",\"groupId\":\"dpokluda-edgevm\",\"lastDeploymentId\":null,\"lastInstallResult\":{\"updateInstallResult\":{\"resultCode\":700,\"extendedResultCode\":0,\"resultDetails\":\"\"},\"resultCode\":700,\"extendedResultCode\":0,\"resultDetails\":\"\"}},{\"deviceId\":\"joseph-edgevm2\",\"deviceClassId\":\"0919e3ae422a2bfa8c84ff905813e60351e456d1\",\"manufacturer\":\"fabrikam\",\"model\":\"vacuum\",\"lastAttemptedUpdateId\":null,\"installedUpdateId\":null,\"onLatestUpdate\":false,\"deploymentStatus\":\"Succeeded\",\"groupId\":\"joegroup\",\"lastDeploymentId\":null,\"lastInstallResult\":{\"updateInstallResult\":{\"resultCode\":700,\"extendedResultCode\":0,\"resultDetails\":\"\"},\"resultCode\":700,\"extendedResultCode\":0,\"resultDetails\":\"\"}}]}",
-      "responseHeaders": {
-        "content-length": "1374",
-        "content-type": "application/json; charset=utf-8",
-        "date": "Mon, 29 Nov 2021 02:46:39 GMT",
-        "traceparent": "00-dba126be80cee04f9d3b06675591732b-b7e06296cbff8c47-00"
-      }
-    }
-  ],
-  "uniqueTestInfo": {
-    "uniqueName": {},
-    "newDate": {}
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=Rzh7Q%7E1irMV%7EkGgX8tDpkXPupwtkpHBtA5coA&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1679",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 20 Jan 2022 05:37:14 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+krc\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.12381.18 - SEASLR2 ProdSlices",
+    "x-ms-request-id": "b2bda58b-52c3-4e18-812b-2163dcca0000"
+   }
   },
-  "hash": "afe4ee7c1de1930aeaa79cb9ae28495c"
+  {
+   "method": "GET",
+   "url": "https://endpoint/deviceupdate/sdkinstance/management/devices",
+   "query": {
+    "api-version": "2021-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"deviceId\":\"adu-sdk-test-device-1\",\"deviceClassId\":\"0919e3ae422a2bfa8c84ff905813e60351e456d1\",\"manufacturer\":\"fabrikam\",\"model\":\"vacuum\",\"lastAttemptedUpdateId\":null,\"installedUpdateId\":null,\"onLatestUpdate\":false,\"deploymentStatus\":\"Succeeded\",\"groupId\":\"testgroup\",\"lastDeploymentId\":null,\"lastInstallResult\":{\"updateInstallResult\":{\"resultCode\":700,\"extendedResultCode\":0,\"resultDetails\":\"\"},\"resultCode\":700,\"extendedResultCode\":0,\"resultDetails\":\"\"}},{\"deviceId\":\"joseph-edgevm2\",\"deviceClassId\":\"0919e3ae422a2bfa8c84ff905813e60351e456d1\",\"manufacturer\":\"fabrikam\",\"model\":\"vacuum\",\"lastAttemptedUpdateId\":{\"provider\":\"fabrikam\",\"name\":\"vacuum\",\"version\":\"2022.106.1154.40\"},\"installedUpdateId\":{\"provider\":\"fabrikam\",\"name\":\"vacuum\",\"version\":\"2022.106.1154.40\"},\"onLatestUpdate\":false,\"deploymentStatus\":\"Succeeded\",\"groupId\":\"joegroup\",\"lastDeploymentId\":\"joegroup-2022-106-1154-40-0106075652\",\"lastInstallResult\":{\"updateInstallResult\":{\"resultCode\":700,\"extendedResultCode\":0,\"resultDetails\":\"\"},\"resultCode\":700,\"extendedResultCode\":0,\"resultDetails\":\"\"}},{\"deviceId\":\"dpokluda-test\",\"deviceClassId\":\"0919e3ae422a2bfa8c84ff905813e60351e456d1\",\"manufacturer\":\"fabrikam\",\"model\":\"vacuum\",\"lastAttemptedUpdateId\":{\"provider\":\"fabrikam\",\"name\":\"vacuum\",\"version\":\"2022.113.1702.54\"},\"installedUpdateId\":{\"provider\":\"fabrikam\",\"name\":\"vacuum\",\"version\":\"2022.113.1741.7\"},\"onLatestUpdate\":true,\"deploymentStatus\":\"Succeeded\",\"groupId\":\"dpokluda-test\",\"lastDeploymentId\":\"dpokluda-test-2022-113-1702-54-0114010507\",\"lastInstallResult\":{\"updateInstallResult\":{\"resultCode\":700,\"extendedResultCode\":0,\"resultDetails\":\"\"},\"resultCode\":700,\"extendedResultCode\":0,\"resultDetails\":\"\"}}]}",
+   "responseHeaders": {
+    "content-length": "1697",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 20 Jan 2022 05:37:15 GMT",
+    "traceparent": "00-b5d19d1f0240c3459b32ad2c0712260b-bb4c21dfaae92c4d-00"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "a8a2422a6981fd47425d694be46906e1"
 }

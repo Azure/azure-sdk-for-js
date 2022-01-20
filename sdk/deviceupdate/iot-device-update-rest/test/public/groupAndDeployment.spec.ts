@@ -74,7 +74,7 @@ describe("group and deployment test", () => {
           updateId: {
             provider: "fabrikam",
             name: "vacuum",
-            version: " 2021.1117.1036.48",
+            version: "2022.113.1741.7",
           },
         },
       });
