@@ -83,7 +83,7 @@ export class MockEventReceiver {
   private async concurrentCall(processEvent: (event: Event) => Promise<void>) {
     while (this.closeCalled === false) {
       await this.processFuncWithDelay(
-        async () => processEvent(this.generateRandomEvent()),
+        async () => processEvent({ body: generateUuid() }),
         this.getRandomInteger(this.minDelay, this.maxDelay)
       );
     }
@@ -93,10 +93,6 @@ export class MockEventReceiver {
     return new Promise<void>((resolve) =>
       this.timers.push(setTimeout(async () => resolve(await func()), delayInMilliseconds))
     );
-  }
-
-  private generateRandomEvent() {
-    return { body: generateUuid() };
   }
 
   private getRandomInteger(min: number, max: number): number {
