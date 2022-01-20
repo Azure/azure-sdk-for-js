@@ -1360,6 +1360,56 @@
       "packageName": "@azure/arm-hybridkubernetes",
       "projectFolder": "sdk/hybridkubernetes/arm-hybridkubernetes",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-oep",
+      "projectFolder": "sdk/oep/arm-oep",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-securityinsight",
+      "projectFolder": "sdk/securityinsight/arm-securityinsight",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iotcentral",
+      "projectFolder": "sdk/iotcentral/arm-iotcentral",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-commitmentplans",
+      "projectFolder": "sdk/machinelearning/arm-commitmentplans",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-workspaces",
+      "projectFolder": "sdk/machinelearning/arm-workspaces",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-webservices",
+      "projectFolder": "sdk/machinelearning/arm-webservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-machinelearningservices",
+      "projectFolder": "sdk/machinelearningservices/arm-machinelearningservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managementpartner",
+      "projectFolder": "sdk/managementpartner/arm-managementpartner",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-maps",
+      "projectFolder": "sdk/maps/arm-maps",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mariadb",
+      "projectFolder": "sdk/mariadb/arm-mariadb",
+      "versionPolicyName": "management"
     }
   ]
 }
