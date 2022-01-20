@@ -1440,6 +1440,11 @@
       "packageName": "@azure/arm-recoveryservicesbackup",
       "projectFolder": "sdk/recoveryservicesbackup/arm-recoveryservicesbackup",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-redisenterprisecache",
+      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache",
+      "versionPolicyName": "management"
     }
   ]
 }

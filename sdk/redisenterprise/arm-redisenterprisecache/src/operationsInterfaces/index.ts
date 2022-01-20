@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  ErrorAdditionalInfo,
-  ErrorDetail,
-  ErrorResponse,
-  Operation,
-  OperationDisplay,
-  OperationListResult
-} from "../models/mappers";
+export * from "./operations";
+export * from "./operationsStatus";
+export * from "./redisEnterprise";
+export * from "./databases";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";

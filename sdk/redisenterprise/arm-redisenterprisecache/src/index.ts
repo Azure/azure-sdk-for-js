@@ -6,9 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  ErrorAdditionalInfo,
-  ErrorDetail,
-  ErrorResponse,
-  OperationStatus
-} from "../models/mappers";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { RedisEnterpriseManagementClient } from "./redisEnterpriseManagementClient";
+export * from "./operationsInterfaces";
