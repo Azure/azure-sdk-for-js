@@ -79,7 +79,10 @@ matrix([[true, false]] as const, async (useAad) => {
           await iterator.next();
           assert.fail("Error should have been thrown for invalid date strings");
         } catch (err) {
-          assert.equal(err.message, "Invalid time value");
+          assert.equal(
+            err.message,
+            'Error "Invalid time value" occurred in serializing the payload - undefined.'
+          );
         }
       });
 
