@@ -1385,6 +1385,56 @@
       "packageName": "@azure/arm-commitmentplans",
       "projectFolder": "sdk/machinelearning/arm-commitmentplans",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-workspaces",
+      "projectFolder": "sdk/machinelearning/arm-workspaces",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-webservices",
+      "projectFolder": "sdk/machinelearning/arm-webservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-machinelearningservices",
+      "projectFolder": "sdk/machinelearningservices/arm-machinelearningservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managementpartner",
+      "projectFolder": "sdk/managementpartner/arm-managementpartner",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-maps",
+      "projectFolder": "sdk/maps/arm-maps",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mariadb",
+      "projectFolder": "sdk/mariadb/arm-mariadb",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-marketplaceordering",
+      "projectFolder": "sdk/marketplaceordering/arm-marketplaceordering",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrate",
+      "projectFolder": "sdk/migrate/arm-migrate",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mixedreality",
+      "projectFolder": "sdk/mixedreality/arm-mixedreality",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-netapp",
+      "projectFolder": "sdk/netapp/arm-netapp",
+      "versionPolicyName": "management"
     }
   ]
 }
