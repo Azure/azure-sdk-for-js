@@ -11,7 +11,7 @@ import { isDefined } from "./utils";
  */
 export abstract class EventPerfTest<
   TOptions = Record<string, unknown>
-> extends PerfTestBase<TOptions> {
+  > extends PerfTestBase<TOptions> {
   start = process.hrtime();
   private testDuration = 0;
   private abortController: AbortController | undefined;
@@ -44,16 +44,12 @@ export abstract class EventPerfTest<
     this.lastMillisecondsElapsed = 0;
     this.testDuration = durationMilliseconds;
     this.abortController = abortController;
-    const closeHandler = this.subscribeCaller();
     try {
       await delay(this.testDuration, this.abortController.signal);
-      await closeHandler.close();
     } catch (error) {
       console.warn(error);
     }
   }
-
-  public abstract subscribeCaller(): { close: () => Promise<void> };
 
   public async eventRaised(): Promise<void> {
     this.completedOperations++;

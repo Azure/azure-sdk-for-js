@@ -9,6 +9,7 @@ import { Exception } from "./exception.spec";
 import { PerfPolicyTest } from "./perfPolicy.spec";
 import { SleepTest } from "./sleep.spec";
 import { NodeFetchTest } from "./nodeFetch.spec";
+import { MockEventReceiverTest } from "./event/mockEventReceiverTest.spec";
 
 import { PerfTestConstructor } from "../src";
 
@@ -35,6 +36,7 @@ const tests: TestDefinition[] = [
     testClass: PerfPolicyTest,
     options: "--url http://bing.com/",
   },
+  MockEventReceiverTest
 ];
 
 // Normalize everything in the array above for export.

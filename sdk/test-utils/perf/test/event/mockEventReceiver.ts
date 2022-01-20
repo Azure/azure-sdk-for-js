@@ -37,14 +37,16 @@ export interface EventHandlers {
 export class MockEventReceiver {
   private closeCalled: boolean;
   private maxConcurrentCalls: number;
-  private minDelay: number; // min delay between events
+  private minDelay: number; // min delay between events in milliseconds
   private maxDelay: number;
+  private timers: NodeJS.Timeout[];
 
   constructor() {
     this.closeCalled = false;
-    this.maxConcurrentCalls = 1;
+    this.maxConcurrentCalls = 12;
     this.minDelay = 5;
     this.maxDelay = 10;
+    this.timers = [];
   }
 
   public subscribe(
@@ -55,6 +57,8 @@ export class MockEventReceiver {
     return {
       close: async () => {
         this.closeCalled = true;
+        // just clearing out any leftover timeouts
+        this.timers.forEach((timer) => clearTimeout(timer));
       },
     };
   }
@@ -78,34 +82,16 @@ export class MockEventReceiver {
 
   private async concurrentCall(processEvent: (event: Event) => Promise<void>) {
     while (this.closeCalled === false) {
-      await this.processFuncWithRandomDelay(
-        async () => {
-          await processEvent(this.generateRandomEvent());
-        },
-        this.minDelay,
-        this.maxDelay
+      await this.processFuncWithDelay(
+        async () => processEvent(this.generateRandomEvent()),
+        this.getRandomInteger(this.minDelay, this.maxDelay)
       );
     }
   }
 
-  private async processFuncWithRandomDelay(
-    func: () => Promise<void>,
-    minDelay: number,
-    maxDelay: number
-  ) {
-    const delayDuration = this.getRandomInteger(minDelay, maxDelay);
-    return new Promise(() =>
-      setTimeout(async () => {
-        await func();
-      }, delayDuration)
-    );
-  }
-
   private async processFuncWithDelay(func: () => Promise<void>, delayInMilliseconds: number) {
-    return new Promise(() =>
-      setTimeout(async () => {
-        await func();
-      }, delayInMilliseconds)
+    return new Promise<void>((resolve) =>
+      this.timers.push(setTimeout(async () => resolve(await func()), delayInMilliseconds))
     );
   }
 

@@ -12,16 +12,15 @@ export class MockEventReceiverTest extends EventPerfTest<
 > {
   public client: MockEventReceiver;
   public options: PerfOptionDictionary<MockEventReceiverOptions> = {};
+  public subscriber: { close: () => Promise<void> } | undefined;
 
   constructor() {
     super();
     this.client = new MockEventReceiver();
   }
 
-  public subscribeCaller(): {
-    close: () => Promise<void>;
-  } {
-    const closeHandler = this.client.subscribe(
+  setup() {
+    this.subscriber = this.client.subscribe(
       {
         processEvent: async (_event: Event) => {
           // { event: event }
@@ -33,6 +32,9 @@ export class MockEventReceiverTest extends EventPerfTest<
       },
       { raiseErrorAfterInSeconds: 10 }
     );
-    return closeHandler;
+  }
+
+  async cleanup() {
+    this.subscriber && await this.subscriber.close();
   }
 }
