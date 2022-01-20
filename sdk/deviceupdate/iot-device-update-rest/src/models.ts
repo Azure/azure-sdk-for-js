@@ -59,7 +59,7 @@ export interface Deployment {
   /** The deployment identifier. */
   deploymentId: string;
   /** The deployment start datetime. */
-  startDateTime: Date | string;
+  startDateTime: string;
   /** Update identity. */
   updateId: UpdateId;
   /** The group identity */

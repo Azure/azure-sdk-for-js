@@ -23,7 +23,7 @@ export interface Deployment {
     groupId: string;
     isCanceled?: boolean;
     isRetried?: boolean;
-    startDateTime: Date | string;
+    startDateTime: string;
     updateId: UpdateId;
 }
 
