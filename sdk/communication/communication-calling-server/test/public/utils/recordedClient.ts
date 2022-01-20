@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseConnectionString } from "@azure/communication-common";
-import { isNode } from "@azure/core-http";
 import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import {  RecorderEnvironmentSetup, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { CallingServerClient } from "../../../src";
+import { isNode } from "@azure/core-http";
+import { parseConnectionString } from "@azure/communication-common";
 
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",

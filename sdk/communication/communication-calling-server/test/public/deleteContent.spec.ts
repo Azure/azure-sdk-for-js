@@ -1,17 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  env,
-  isPlaybackMode,
-  record,
-  Recorder,
-  RecorderEnvironmentSetup
-} from "@azure-tools/test-recorder";
-import { assert } from "chai";
+import { Recorder, RecorderEnvironmentSetup, env, isPlaybackMode, record } from "@azure-tools/test-recorder";
 import { CallingServerClient } from "../../src";
 import { Context } from "mocha";
 import { RestError } from "@azure/core-http";
+import { assert } from "chai";
 
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"

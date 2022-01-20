@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, record, Recorder, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { CallingServerClient, CreateCallConnectionOptions, PlayAudioOptions, RemoveFromDefaultAudioGroupOptions, AddToDefaultAudioGroupOptions, TransferToCallOptions, GetAudioGroupsOptions } from "../../src";
-import { TestUtils } from "./utils/testUtils";
-import { environmentSetup } from "./utils/recordedClient";
-import { Context } from "mocha";
-import { assert } from "chai";
 import * as Constants from "./utils/constants";
-import { CommunicationIdentityClient } from "@azure/communication-identity";
+import { AddToDefaultAudioGroupOptions, CallingServerClient, CreateCallConnectionOptions, GetAudioGroupsOptions, PlayAudioOptions, RemoveFromDefaultAudioGroupOptions, TransferToCallOptions } from "../../src";
 import { CommunicationUserIdentifier, PhoneNumberIdentifier } from "@azure/communication-common";
+import { Recorder, env, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
+import { Context } from "mocha";
 import { CreateAudioGroupOptions } from "@azure/communication-calling-server";
+import { TestUtils } from "./utils/testUtils";
+import { assert } from "chai";
+import { environmentSetup } from "./utils/recordedClient";
 
 describe("Call Connection Live Test", function() {
   describe("Call Automation Operations", function() {
@@ -77,7 +77,7 @@ describe("Call Connection Live Test", function() {
         assert.equal(addParticipantResult.status, "running");
         assert.isNotNull(addParticipantResult.resultDetails);
 
-         //List participants 
+         // List participants 
          await TestUtils.waitForOperationCompletion();
          const listParticipantsResult = await callConnection.getParticipants()
          assert.isTrue(listParticipantsResult.length >= 2)
@@ -91,7 +91,7 @@ describe("Call Connection Live Test", function() {
           operationContext: recorder.getUniqueName("operationContext")
         };
         const audioResult = await callConnection.playAudioToParticipant(participant, Constants.Audio_File_Url, playAudioOptions);
-        const operationId = audioResult.operationId != undefined ? audioResult.operationId : ''
+        const operationId = audioResult.operationId !== undefined ? audioResult.operationId : ''
         // Remove Participant
         await TestUtils.waitForOperationCompletion();
         await callConnection.cancelParticipantMediaOperation(participant, operationId);
@@ -131,7 +131,7 @@ describe("Call Connection Live Test", function() {
 
         // Get Participant
         await TestUtils.waitForOperationCompletion();
-        let mutedParticipant = await callConnection.getParticipant(participant)
+        const mutedParticipant = await callConnection.getParticipant(participant)
         assert.isTrue(mutedParticipant.isMuted)
 
         // Unmute Participant  not working currently
@@ -140,7 +140,7 @@ describe("Call Connection Live Test", function() {
 
         // Get Participant
         await TestUtils.waitForOperationCompletion();
-        let unmutedParticipant = await callConnection.getParticipant(participant)
+        const unmutedParticipant = await callConnection.getParticipant(participant)
         assert.isFalse(unmutedParticipant.isMuted)
 
         // Remove Participant
@@ -174,20 +174,20 @@ describe("Call Connection Live Test", function() {
 
         // Create audio group
         await TestUtils.waitForOperationCompletion();
-        let participantList = [];
+        const participantList = [];
         participantList[0] = participant
         const option: CreateAudioGroupOptions = {
         };
      
         // Create audio group
         const createAudioGroupResult = await callConnection.createAudioGroup("multicast", participantList, option);
-        assert.isTrue(createAudioGroupResult.audioGroupId != '');
+        assert.isTrue(createAudioGroupResult.audioGroupId !== '');
 
         // Get Audio Group
-        let getAudioGroupsOptions:GetAudioGroupsOptions = {}
-        let getAudioGroupResult = await callConnection.getAudioGroups(createAudioGroupResult.audioGroupId!, getAudioGroupsOptions)
-        assert.isTrue(getAudioGroupResult.audioRoutingMode! == "multicast")
-        assert.isTrue(getAudioGroupResult.targets![0].communicationUser!.id == participant.communicationUserId)
+        const getAudioGroupsOptions:GetAudioGroupsOptions = {}
+        const getAudioGroupResult = await callConnection.getAudioGroups(createAudioGroupResult.audioGroupId!, getAudioGroupsOptions)
+        assert.isTrue(getAudioGroupResult.audioRoutingMode! === "multicast")
+        assert.isTrue(getAudioGroupResult.targets![0].communicationUser!.id === participant.communicationUserId)
 
         // Add another Participant
 
@@ -239,7 +239,7 @@ describe("Call Connection Live Test", function() {
         // Transfer to Participant
         await TestUtils.waitForOperationCompletion();
         const transferParticipantResult = await callConnection.transferToParticipant(participant);
-        assert.isTrue(transferParticipantResult.status == 'running');
+        assert.isTrue(transferParticipantResult.status === 'running');
       }
       catch(e){
           console.log(e)
@@ -255,7 +255,7 @@ describe("Call Connection Live Test", function() {
       try {
         // Transfer to call
         await TestUtils.waitForOperationCompletion();
-        let option:TransferToCallOptions = {userToUserInformation : ''}
+        const option:TransferToCallOptions = {userToUserInformation : ''}
         const transferParticipantResult = await callConnection.transferToCall('95201300-2190-4dfd-a254-f0ff7d55af05', option);
         assert.notEqual(transferParticipantResult.status, 'running');
       }
@@ -279,7 +279,7 @@ describe("Call Connection Live Test", function() {
         }
         catch(e){
           console.log(e)
-          assert.isTrue(e && e.code == '8522')
+          assert.isTrue(e && e.code === '8522')
         }
       }
       catch(e){

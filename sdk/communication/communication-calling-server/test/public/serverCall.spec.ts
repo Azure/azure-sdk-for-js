@@ -1,20 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { matrix } from "@azure/test-utils";
-import { isLiveMode, isPlaybackMode, env, record, Recorder } from "@azure-tools/test-recorder";
-import { CallingServerClient, GroupCallLocator, PlayAudioOptions, CallConnection, ServerCallLocator, AnswerCallOptions, RejectCallOptions, RedirectCallOptions } from "../../src";
 import * as Constants from "./utils/constants";
-import { TestUtils } from "./utils/testUtils";
-import {
-  environmentSetup,
-  createCallingServerClientWithToken,
-  createCallingServerClient
-} from "./utils/recordedClient";
-import { Context } from "mocha";
-import { assert } from "chai";
+import { AnswerCallOptions, CallConnection, CallingServerClient, GroupCallLocator, PlayAudioOptions, RedirectCallOptions, RejectCallOptions, ServerCallLocator } from "../../src";
+import { Recorder, env, isLiveMode, isPlaybackMode, record } from "@azure-tools/test-recorder";
+import { createCallingServerClient, createCallingServerClientWithToken, environmentSetup } from "./utils/recordedClient";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
+import { Context } from "mocha";
 import { RestError } from "@azure/core-http";
+import { TestUtils } from "./utils/testUtils";
+import { assert } from "chai";
+import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function(useAad) {
   describe(`CallingServer [Live]${useAad ? " [AAD]" : ""}`, async () => {
@@ -213,7 +209,7 @@ describe("Server Call Live Test", function() {
   it("Delete recordingContentUnauthorized", async function(this: Context) {
     this.timeout(0)
     try {
-      let unauthorizecallingServerClient = new CallingServerClient(Constants.InvalidConnectionString);
+      const unauthorizecallingServerClient = new CallingServerClient(Constants.InvalidConnectionString);
       await unauthorizecallingServerClient.deleteRecording(Constants.DeleteUrl)
     } catch (e) {
       assert.strictEqual((e as RestError).statusCode, 401);
@@ -286,9 +282,9 @@ describe("Server Call Live Test", function() {
       const callingServer = new CallingServerClient(connectionString);
       try {
         await TestUtils.waitForOperationCompletion();
-        let option:AnswerCallOptions = {callbackUrl:Constants.CALLBACK_URL, requestedMediaTypes: ['audio'], requestedCallEvents: ['participantsUpdated']}
+        const option:AnswerCallOptions = {callbackUrl:Constants.CALLBACK_URL, requestedMediaTypes: ['audio'], requestedCallEvents: ['participantsUpdated']}
         const answerCallResult = await callingServer.answerCall(incomingCallContext, option);
-        assert.isTrue(answerCallResult.callConnectionId != '')
+        assert.isTrue(answerCallResult.callConnectionId !== '')
       }
       catch(e){
         console.log(e)
@@ -305,7 +301,7 @@ describe("Server Call Live Test", function() {
 
         // answer Audio
         await TestUtils.waitForOperationCompletion();
-        let option:RejectCallOptions = { callRejectReason: 'busy'}
+        const option:RejectCallOptions = { callRejectReason: 'busy'}
         await callingServer.rejectCall(incomingCallContext, option);
       }
       catch(e){
@@ -319,7 +315,7 @@ describe("Server Call Live Test", function() {
       try {
 
         await TestUtils.waitForOperationCompletion();
-        let option:RedirectCallOptions = { }
+        const option:RedirectCallOptions = { }
         const added_participant_id = TestUtils.getFixedUserId(
           Constants.ParticipantGuid
         );
@@ -361,12 +357,12 @@ describe("Server Call Live Test", function() {
         assert.equal(addParticipantResult.status, "running");
 
         // Get all participants
-        let allParticipants = await callingServer.getParticipants(callLocator);
+        const allParticipants = await callingServer.getParticipants(callLocator);
         assert.isTrue(allParticipants.length >= 2)
 
         // Get one participant
-        let participantResult = await callingServer.getParticipant(callLocator, participant);
-        assert.isTrue(participantResult.participantId != '')
+        const participantResult = await callingServer.getParticipant(callLocator, participant);
+        assert.isTrue(participantResult.participantId !== '')
 
         // Remove Participant
         await TestUtils.waitForOperationCompletion();

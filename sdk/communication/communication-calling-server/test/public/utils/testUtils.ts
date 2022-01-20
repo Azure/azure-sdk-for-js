@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as Constants from "../utils/constants";
+import { CallConnection, CallingServerClient, GroupCallLocator, JoinCallOptions } from "../../../src";
 import { env, isLiveMode, isRecordMode } from "@azure-tools/test-recorder";
 import { v4 as uuidv4, v5 as uuidv5 } from "uuid";
-import {
-  CallingServerClient,
-  CallConnection,
-  GroupCallLocator,
-  JoinCallOptions
-} from "../../../src";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
-import * as Constants from "../utils/constants";
 
 export class TestUtils {
   private static delay(ms: number): Promise<NodeJS.Timeout> {
