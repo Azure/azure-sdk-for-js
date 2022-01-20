@@ -1415,6 +1415,11 @@
       "packageName": "@azure/arm-peering",
       "projectFolder": "sdk/peering/arm-peering",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-postgresql-flexible",
+      "projectFolder": "sdk/postgresql/arm-postgresql-flexible",
+      "versionPolicyName": "management"
     }
   ]
 }
