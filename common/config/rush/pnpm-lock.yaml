@@ -150,6 +150,7 @@ specifiers:
   '@rush-temp/identity-cache-persistence': file:./projects/identity-cache-persistence.tgz
   '@rush-temp/identity-vscode': file:./projects/identity-vscode.tgz
   '@rush-temp/iot-device-update': file:./projects/iot-device-update.tgz
+  '@rush-temp/iot-device-update-1': file:./projects/iot-device-update-1.tgz
   '@rush-temp/iot-modelsrepository': file:./projects/iot-modelsrepository.tgz
   '@rush-temp/keyvault-admin': file:./projects/keyvault-admin.tgz
   '@rush-temp/keyvault-certificates': file:./projects/keyvault-certificates.tgz
@@ -364,6 +365,7 @@ dependencies:
   '@rush-temp/identity-cache-persistence': file:projects/identity-cache-persistence.tgz
   '@rush-temp/identity-vscode': file:projects/identity-vscode.tgz
   '@rush-temp/iot-device-update': file:projects/iot-device-update.tgz
+  '@rush-temp/iot-device-update-1': file:projects/iot-device-update-1.tgz
   '@rush-temp/iot-modelsrepository': file:projects/iot-modelsrepository.tgz
   '@rush-temp/keyvault-admin': file:projects/keyvault-admin.tgz
   '@rush-temp/keyvault-certificates': file:projects/keyvault-certificates.tgz
@@ -871,7 +873,7 @@ packages:
     resolution: {integrity: sha512-Q71Buur3RMcg6lCnisLL8Im562DBw+ybzgm+YQj/FbAaI8ZNu/zl/5z1fE4k3Q9LSIzYrz6HLRzlhdSBXpydlQ==}
     engines: {node: '>=8.0.0'}
     dependencies:
-      '@azure/core-http': 1.2.3
+      '@azure/core-http': 1.2.6
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/logger': 1.0.3
       '@azure/msal-node': 1.0.0-beta.6_debug@4.3.3
@@ -1581,6 +1583,7 @@ packages:
   /@opentelemetry/node/0.24.0_@opentelemetry+api@1.0.4:
     resolution: {integrity: sha512-Sy8QooZFOeVUcJIKetw5xsq15/1ivZovWg0RnKWtzURMQrcOxmQ3bGrXPORklOJxOtf5snDHgT37Y7dBgr+c+g==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package renamed to @opentelemetry/sdk-trace-node
     peerDependencies:
       '@opentelemetry/api': ^1.0.1
     dependencies:
@@ -3167,7 +3170,7 @@ packages:
     resolution: {integrity: sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==}
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     dev: false
 
   /debug/3.2.7:
@@ -3389,7 +3392,7 @@ packages:
     dependencies:
       semver: 7.3.5
       shelljs: 0.8.5
-      typescript: 4.2.4
+      typescript: 4.5.4
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -7988,7 +7991,7 @@ packages:
   /wide-align/1.1.5:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
-      string-width: 1.0.2
+      string-width: 4.2.3
     dev: false
 
   /word-wrap/1.2.3:
@@ -13011,9 +13014,9 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-snhjdvouSICvDkA0OFk1WQkpRdqFJCFCCgkf6MIq6fcWw3/bqSMAfyOuortt41olfegAvjpBW957V07pyPcjvA==, tarball: file:projects/iot-device-update.tgz}
-    name: '@rush-temp/iot-device-update'
+  file:projects/iot-device-update-1.tgz:
+    resolution: {integrity: sha512-M+nlZTk1pCT49w5PNYoNqw79/hq+OFTDpptvs8V9e/YI/CSP0RkO49gpQ1kVbZR3ol4eJ9Z9wTDnPKoQDoRx4Q==, tarball: file:projects/iot-device-update-1.tgz}
+    name: '@rush-temp/iot-device-update-1'
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
@@ -13034,6 +13037,58 @@ packages:
       uuid: 8.3.2
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  file:projects/iot-device-update.tgz:
+    resolution: {integrity: sha512-CtQM3jMA0KSIz2TYcsItEy4UwhzlVpDfiS90Ty+2EmiqMr+qeVz4uStj7efrPLzOaypkEb+oNnDVsJ/TOA680w==, tarball: file:projects/iot-device-update.tgz}
+    name: '@rush-temp/iot-device-update'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.7
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@microsoft/api-extractor': 7.19.4
+      '@types/chai': 4.3.0
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.42
+      '@types/uuid': 8.3.4
+      chai: 4.3.4
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      karma: 6.3.11
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.1.0
+      karma-edge-launcher: 0.4.2_karma@6.3.11
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.11
+      karma-json-preprocessor: 0.3.3_karma@6.3.11
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.11
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.11
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 14.1.1
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      source-map-support: 0.5.21
+      tslib: 2.3.1
+      typedoc: 0.15.2
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - encoding
+      - supports-color
+      - utf-8-validate
     dev: false
 
   file:projects/iot-modelsrepository.tgz:
@@ -13414,7 +13469,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-hNcaPrF32vXLQPXiiq18w1YIubvGFUSVLYev1qB5zfymANd614dSqEXA08Phgoa1hEGXpBkmI0CsMHhIpDIogg==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-vOjHZKRI9p5fRC/SWGUFtXP7WjM+GmC//lp7NEL1ntYJl+JHChkFgyCFGuUr+gyXWJ3ZBKqT5ZfSImaFovx55w==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
