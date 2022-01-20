@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusReceiver, ServiceBusSender } from "@azure/service-bus";
+import { ReceiveMode, Receiver, Sender } from "@azure/service-bus";
 import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { ServiceBusTest } from "./sbBase.spec";
 
@@ -11,8 +11,15 @@ interface ReceiverOptions {
   "message-body-size-in-bytes": number;
 }
 
+/**
+ * An underestimate of the true maximum size of a batch send message in bytes.
+ * This number is used to split up the send requests into small enough chunks
+ * to be accepted.
+ */
+const MAX_SEND_BATCH_SIZE_BYTES = 200000;
+
 export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
-  receiver: ServiceBusReceiver;
+  receiver: Receiver;
   public options: PerfOptionDictionary<ReceiverOptions> = {
     "number-of-messages": {
       required: true,
@@ -24,7 +31,6 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
       required: true,
       description: "Size of each message body in bytes",
       shortName: "size",
-      longName: "size-in-bytes",
       defaultValue: 2000,
     },
     "max-message-count": {
@@ -37,9 +43,9 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
 
   constructor() {
     super();
-    this.receiver = ServiceBusTest.sbClient.createReceiver(BatchReceiveTest.queueName, {
-      receiveMode: "receiveAndDelete",
-    });
+    this.receiver = ServiceBusTest.sbClient
+      .createQueueClient(BatchReceiveTest.queueName)
+      .createReceiver(ReceiveMode.receiveAndDelete);
   }
 
   /**
@@ -47,7 +53,9 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
    */
   public async globalSetup(): Promise<void> {
     await super.globalSetup();
-    const sender = ServiceBusTest.sbClient.createSender(BatchReceiveTest.queueName);
+    const sender = ServiceBusTest.sbClient
+      .createQueueClient(BatchReceiveTest.queueName)
+      .createSender();
 
     const {
       "number-of-messages": { value: numberOfMessages },
@@ -60,7 +68,7 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
   public async runBatch(): Promise<number> {
     const messages = await this.receiver.receiveMessages(
       this.parsedOptions["max-message-count"].value,
-      { maxWaitTimeInMs: 500 }
+      0.5
     );
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -72,20 +80,16 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
   }
 }
 
-async function sendMessages(
-  sender: ServiceBusSender,
-  numberOfMessages: number,
-  messageBodySize: number
-) {
-  let count = 0;
-  while (count <= numberOfMessages) {
-    const currentBatch = await sender.createMessageBatch();
-    while (
-      currentBatch.tryAddMessage({ body: Buffer.alloc(messageBodySize) }) &&
-      count + currentBatch.count <= numberOfMessages
+async function sendMessages(sender: Sender, numberOfMessages: number, messageBodySize: number) {
+  let messagesSent = 0;
+
+  while (messagesSent < numberOfMessages) {
+    let messagesThisBatch = Math.min(
+      numberOfMessages - messagesSent,
+      Math.floor(MAX_SEND_BATCH_SIZE_BYTES / messageBodySize)
     );
-    await sender.sendMessages(currentBatch);
-    count = count + currentBatch.count;
-    console.log(`${count} messages sent so far`);
+    await sender.sendBatch(Array(messagesThisBatch).fill({ body: Buffer.alloc(messageBodySize) }));
+    messagesSent += messagesThisBatch;
+    console.log(`${messagesSent} messages sent so far`);
   }
 }
