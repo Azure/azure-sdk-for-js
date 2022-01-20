@@ -121,7 +121,6 @@ module.exports = function (config) {
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
 
-
     client: {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
