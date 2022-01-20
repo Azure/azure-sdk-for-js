@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/devices?api-version=2021-06-01-preview",
+      "RequestUri": "https://adu-sdk-testing.api.adu.microsoft.com/deviceupdate/sdkinstance/management/devices?api-version=2021-06-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -17,7 +17,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "2cacb5e3-1039-44e9-bb9f-ae4b54969789",
+        "x-ms-client-request-id": "671f5739-3011-4cde-afdb-f979f0fcedbb",
         "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
       },
       "RequestBody": null,
@@ -25,8 +25,8 @@
       "ResponseHeaders": {
         "Content-Length": "1697",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 20 Jan 2022 07:39:30 GMT",
-        "traceparent": "00-922b0f12eb667543c6e8a5b9df68108e-6a18efea7b2a2a20-00"
+        "Date": "Thu, 20 Jan 2022 09:09:59 GMT",
+        "traceparent": "00-2c4c097c8234c4ca6fb0e397cbba1302-fbba96f1c7934db1-00"
       },
       "ResponseBody": {
         "value": [

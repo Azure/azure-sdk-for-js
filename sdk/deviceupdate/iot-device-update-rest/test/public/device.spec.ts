@@ -12,8 +12,8 @@ describe("device test", () => {
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
-    client = createRecordedClient(recorder);
     await startRecorder(recorder);
+    client = createRecordedClient(recorder);
   });
 
   afterEach(async function () {

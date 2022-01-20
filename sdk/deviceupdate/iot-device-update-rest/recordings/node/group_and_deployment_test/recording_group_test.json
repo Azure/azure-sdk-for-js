@@ -9,15 +9,15 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "56cde467-9439-49ad-8751-9c99c03affeb"
+        "x-ms-client-request-id": "a873f144-2fd2-4c08-bc1e-415ae5d9a7f6"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "1076",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 20 Jan 2022 07:39:16 GMT",
-        "traceparent": "00-837f073eeb9e02fbbd5fb134654b7d20-a12383f0c8bf80ef-00"
+        "Date": "Thu, 20 Jan 2022 09:09:43 GMT",
+        "traceparent": "00-3ecdc012ce7af0d439fd9a5e1da99f6d-e8df79a1fa9a4844-00"
       },
       "ResponseBody": {
         "value": [
@@ -68,7 +68,7 @@
         "Content-Length": "195",
         "Content-Type": "application/json; charset=UTF-8",
         "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "5256ec27-549e-48c2-b8fe-b57cd9e8a4a7"
+        "x-ms-client-request-id": "0ea71149-76ae-4db4-8a57-dec62ebaeb0f"
       },
       "RequestBody": {
         "groupId": "joegroup",
@@ -83,8 +83,8 @@
       "ResponseHeaders": {
         "Content-Length": "253",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 20 Jan 2022 07:39:17 GMT",
-        "traceparent": "00-fe03087763b35e514a8a686e5efa947e-eb603a310242dd72-00"
+        "Date": "Thu, 20 Jan 2022 09:09:43 GMT",
+        "traceparent": "00-6d15aa4d11baba50f174c5131c4974ec-0b8fc3334550cc4e-00"
       },
       "ResponseBody": {
         "groupId": "joegroup",
@@ -106,15 +106,15 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "e3dda233-f8ee-491c-8e6c-1fc420e46e1c"
+        "x-ms-client-request-id": "17095a9f-59fa-4e29-88f5-c2a0665cd476"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "253",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 20 Jan 2022 07:39:17 GMT",
-        "traceparent": "00-6765377a795c6bc9ba81b01890190af7-d290b2095945f645-00"
+        "Date": "Thu, 20 Jan 2022 09:09:44 GMT",
+        "traceparent": "00-c3879974f633b36b4f3315eb0ad2bb23-0e199aad11037a81-00"
       },
       "ResponseBody": {
         "groupId": "joegroup",
@@ -138,7 +138,7 @@
         "Content-Length": "181",
         "Content-Type": "application/json; charset=UTF-8",
         "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "27128b17-9dd5-4b8f-ad59-7e00b24e9d1c"
+        "x-ms-client-request-id": "b6ccda95-f9c1-4886-bc30-a4c09490adca"
       },
       "RequestBody": {
         "deploymentId": "testdeployment1",
@@ -154,8 +154,8 @@
       "ResponseHeaders": {
         "Content-Length": "278",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 20 Jan 2022 07:39:17 GMT",
-        "traceparent": "00-2e7261e04e05fee3a3bf355ca580f7cf-a7cfbd8c63d3949a-00"
+        "Date": "Thu, 20 Jan 2022 09:09:44 GMT",
+        "traceparent": "00-5eae6b2ba4acb487cedfb5d0faffb1ad-4dd7806c55d96d76-00"
       },
       "ResponseBody": {
         "deploymentId": "testdeployment1",
@@ -179,15 +179,15 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "da509a3f-7950-4c5e-9579-9e404e334d59"
+        "x-ms-client-request-id": "34f3184f-d017-420c-8006-beb19ac4c034"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "278",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 20 Jan 2022 07:39:18 GMT",
-        "traceparent": "00-b8530deced9aef57c3cc533ee4685ae3-7b40073ebf63aa6d-00"
+        "Date": "Thu, 20 Jan 2022 09:09:44 GMT",
+        "traceparent": "00-5e13430cba292b7eb07e39b9b708968d-6f5004fbf5c1263a-00"
       },
       "ResponseBody": {
         "deploymentId": "testdeployment1",
@@ -211,13 +211,13 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "433e5eae-4dc2-496e-b87a-3bc21ceec986"
+        "x-ms-client-request-id": "cb09d908-e5ca-4c6c-b1d6-b110f4f039ed"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
-        "Date": "Thu, 20 Jan 2022 07:39:18 GMT",
-        "traceparent": "00-dfe5700b7b9e5931e7a1b23a732c9aa4-19c12d2027c86617-00"
+        "Date": "Thu, 20 Jan 2022 09:09:45 GMT",
+        "traceparent": "00-64c3db79bf0912a2fa319d7a22f6cd28-166f73afbfc52582-00"
       },
       "ResponseBody": null
     },
@@ -230,13 +230,13 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "6b2c4757-a773-4d9a-b3e7-0a87ec5b96c3"
+        "x-ms-client-request-id": "e537b9d4-079f-4c89-9dd1-b006585dd82c"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
-        "Date": "Thu, 20 Jan 2022 07:39:19 GMT",
-        "traceparent": "00-060345621707092f40285dfa231cab4f-642e66e69a8aac24-00"
+        "Date": "Thu, 20 Jan 2022 09:09:45 GMT",
+        "traceparent": "00-c45da8f8742b4e5ff603ceb521aec625-2ab9ecd5769adf62-00"
       },
       "ResponseBody": null
     }
