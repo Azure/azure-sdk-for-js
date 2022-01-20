@@ -18,7 +18,6 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { logger, createSpan, SDK_VERSION } from "./utils";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
-import { PhoneNumbersImpl as GeneratedClient } from "./generated/src/operations";
 import {
   PurchasedPhoneNumber,
   PhoneNumberCapabilitiesRequest,
@@ -53,7 +52,7 @@ export class PhoneNumbersClient {
   /**
    * A reference to the auto-generated PhoneNumber HTTP client.
    */
-  private readonly client: GeneratedClient;
+  private readonly client: PhoneNumbersGeneratedClient;
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using a connection string.
@@ -112,7 +111,7 @@ export class PhoneNumbersClient {
 
     const authPolicy = createCommunicationAuthPolicy(credential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new PhoneNumbersGeneratedClient(url, pipeline).phoneNumbers;
+    this.client = new PhoneNumbersGeneratedClient(url, pipeline);
   }
 
   /**
@@ -130,7 +129,10 @@ export class PhoneNumbersClient {
       options
     );
     try {
-      const { _response, ...results } = await this.client.getByNumber(phoneNumber, updatedOptions);
+      const { _response, ...results } = await this.client.phoneNumbers.getByNumber(
+        phoneNumber,
+        updatedOptions
+      );
       return results;
     } catch (e) {
       span.setStatus({
@@ -163,7 +165,7 @@ export class PhoneNumbersClient {
       "PhoneNumbersClient-listPurchasedPhoneNumbers",
       options
     );
-    const iter = this.client.listPhoneNumbers(updatedOptions);
+    const iter = this.client.phoneNumbers.listPhoneNumbers(updatedOptions);
     span.end();
     return iter;
   }
@@ -198,7 +200,7 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return await this.client.beginReleasePhoneNumber(phoneNumber, updatedOptions);
+      return await this.client.phoneNumbers.beginReleasePhoneNumber(phoneNumber, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -243,7 +245,7 @@ export class PhoneNumbersClient {
 
     try {
       const { countryCode, phoneNumberType, assignmentType, capabilities, ...rest } = search;
-      return this.client.beginSearchAvailablePhoneNumbers(
+      return this.client.phoneNumbers.beginSearchAvailablePhoneNumbers(
         countryCode,
         phoneNumberType,
         assignmentType,
@@ -297,7 +299,7 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return this.client.beginPurchasePhoneNumbers({ ...updatedOptions, searchId });
+      return this.client.phoneNumbers.beginPurchasePhoneNumbers({ ...updatedOptions, searchId });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -342,7 +344,7 @@ export class PhoneNumbersClient {
     );
 
     try {
-      return this.client.beginUpdateCapabilities(phoneNumber, {
+      return this.client.phoneNumbers.beginUpdateCapabilities(phoneNumber, {
         ...updatedOptions,
         ...request,
       });
