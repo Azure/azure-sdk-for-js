@@ -1385,6 +1385,11 @@
       "packageName": "@azure/arm-marketplaceordering",
       "projectFolder": "sdk/marketplaceordering/arm-marketplaceordering",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrate",
+      "projectFolder": "sdk/migrate/arm-migrate",
+      "versionPolicyName": "management"
     }
   ]
 }
