@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { AnomalyDetectorOptionalParams } from "./models";
 
 const packageName = "@azure/ai-form-recognizer";
-const packageVersion = "3.0.0-beta.4";
+const packageVersion = "3.0.0-beta.5";
 
 export class AnomalyDetectorContext extends coreHttp.ServiceClient {
   endpoint: string;
