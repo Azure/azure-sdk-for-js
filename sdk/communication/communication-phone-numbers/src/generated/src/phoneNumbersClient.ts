@@ -7,6 +7,7 @@
  */
 
 import { PhoneNumbersImpl } from "./operations";
+import { PhoneNumbers } from "./operationsInterfaces";
 import { PhoneNumbersClientContext } from "./phoneNumbersClientContext";
 import { PhoneNumbersClientOptionalParams } from "./models";
 
