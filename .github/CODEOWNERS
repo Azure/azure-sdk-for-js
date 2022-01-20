@@ -649,6 +649,12 @@ sdk/purview/arm-purview @qiaozha @dw511214992
 # PRLabel: %Mgmt
 sdk/imagebuilder/arm-imagebuilder @qiaozha @dw511214992
 
+# PRLabel: %Mgmt
+sdk/securityinsights/arm-securityinsights @qiaozha @dw511214992
+
+# PRLabel: %Mgmt
+sdk/oep/arm-oep @qiaozha @dw511214992
+
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners
 /sdk/monitor/monitor-query @KarishmaGhiya @maorleger
