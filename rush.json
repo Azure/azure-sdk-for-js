@@ -1410,6 +1410,26 @@
       "packageName": "@azure/arm-mariadb",
       "projectFolder": "sdk/mariadb/arm-mariadb",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-marketplaceordering",
+      "projectFolder": "sdk/marketplaceordering/arm-marketplaceordering",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrate",
+      "projectFolder": "sdk/migrate/arm-migrate",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mixedreality",
+      "projectFolder": "sdk/mixedreality/arm-mixedreality",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-netapp",
+      "projectFolder": "sdk/netapp/arm-netapp",
+      "versionPolicyName": "management"
     }
   ]
 }
