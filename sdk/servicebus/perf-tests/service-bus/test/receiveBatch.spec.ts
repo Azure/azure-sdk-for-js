@@ -74,7 +74,7 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
   }
 }
 
-async function sendMessages(
+export async function sendMessages(
   sender: ServiceBusSender,
   numberOfMessages: number,
   messageBodySize: number
