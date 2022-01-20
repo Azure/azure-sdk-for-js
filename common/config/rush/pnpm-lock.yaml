@@ -91,6 +91,7 @@ specifiers:
   '@rush-temp/arm-operationalinsights': file:./projects/arm-operationalinsights.tgz
   '@rush-temp/arm-operations': file:./projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:./projects/arm-orbital.tgz
+  '@rush-temp/arm-peering': file:./projects/arm-peering.tgz
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
   '@rush-temp/arm-portal': file:./projects/arm-portal.tgz
   '@rush-temp/arm-postgresql': file:./projects/arm-postgresql.tgz
@@ -311,6 +312,7 @@ dependencies:
   '@rush-temp/arm-operationalinsights': file:projects/arm-operationalinsights.tgz
   '@rush-temp/arm-operations': file:projects/arm-operations.tgz
   '@rush-temp/arm-orbital': file:projects/arm-orbital.tgz
+  '@rush-temp/arm-peering': file:projects/arm-peering.tgz
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
   '@rush-temp/arm-portal': file:projects/arm-portal.tgz
   '@rush-temp/arm-postgresql': file:projects/arm-postgresql.tgz
@@ -10671,6 +10673,31 @@ packages:
   file:projects/arm-orbital.tgz:
     resolution: {integrity: sha512-pn+iKIy5zwxzCEGeepT4TAnUrty27BDpuJoEePHXN56whuiFspU1FZKVx7HqCCNQ2/UlYhmNHviu8Wf7QJAzDQ==, tarball: file:projects/arm-orbital.tgz}
     name: '@rush-temp/arm-orbital'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-peering.tgz:
+    resolution: {integrity: sha512-1AYxaRBCgByl4UF5XD2NccidtwQAc7PmZEEHcVqWq0MHiOaUypH+tF9VOEMQ/JS4M6tli1inLNvr+yI10ZSKLA==, tarball: file:projects/arm-peering.tgz}
+    name: '@rush-temp/arm-peering'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
