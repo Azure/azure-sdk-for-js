@@ -6,5 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./workspaceCollections";
-export * from "./workspaces";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { PowerBIEmbeddedManagementClient } from "./powerBIEmbeddedManagementClient";
+export * from "./operationsInterfaces";
