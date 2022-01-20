@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CosmosException } from "../client/Diagnostics/Diagnostic";
+
+import { cosmosDiagnosticsToSring } from "../client/Diagnostics/Diagnostic";
 import { Constants } from "../common";
 import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
 import { StatusCode, SubStatusCode } from "./StatusCodes";
@@ -11,8 +12,8 @@ export class ResourceResponse<TResource> {
     public readonly headers: CosmosHeaders,
     public readonly statusCode: StatusCode,
     public readonly substatus?: SubStatusCode,
-    public readonly cosmosException?: CosmosException
-  ) {}
+    public readonly exception = cosmosDiagnosticsToSring()
+    ) {}
   public get requestCharge(): number {
     return Number(this.headers[Constants.HttpHeaders.RequestCharge]) || 0;
   }
