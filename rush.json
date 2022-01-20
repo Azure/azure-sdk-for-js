@@ -1420,6 +1420,11 @@
       "packageName": "@azure/arm-postgresql-flexible",
       "projectFolder": "sdk/postgresql/arm-postgresql-flexible",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-powerbidedicated",
+      "projectFolder": "sdk/powerbidedicated/arm-powerbidedicated",
+      "versionPolicyName": "management"
     }
   ]
 }
