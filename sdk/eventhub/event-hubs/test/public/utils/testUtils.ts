@@ -1,47 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as dotenv from "dotenv";
 import { EventHubConsumerClient, EventHubProducerClient, EventPosition } from "../../../src";
 import { TestTracer, resetTracer, setTracer } from "@azure/test-utils";
 import { delay } from "@azure/core-amqp";
 import { loggerForTest } from "./logHelpers";
+import { getEnvVarValue } from "./getEnvVarValue";
+import { EnvVarKeys } from "./EnvVarKeys";
+import { injectEnvironmentVariables } from "./injectEnvironmentVariables";
 
-dotenv.config();
-
-declare const self: any;
-
-export const isNode =
-  !!process && !!process.version && !!process.versions && !!process.versions.node;
-
-export enum EnvVarKeys {
-  EVENTHUB_CONNECTION_STRING = "EVENTHUB_CONNECTION_STRING",
-  EVENTHUB_NAME = "EVENTHUB_NAME",
-  AZURE_TENANT_ID = "AZURE_TENANT_ID",
-  AZURE_CLIENT_ID = "AZURE_CLIENT_ID",
-  AZURE_CLIENT_SECRET = "AZURE_CLIENT_SECRET",
-  TEST_TARGET = "TEST_TARGET",
-}
-
-export function getEnvVarValue(name: string): string | undefined {
-  if (isNode) {
-    return process.env[name];
-  } else {
-    return self.__env__[name];
-  }
-}
-
-function injectEnvironmentVariables(
-  envVars: Omit<{ [key in EnvVarKeys]: string }, EnvVarKeys.TEST_TARGET>
-): void {
-  for (const key of Object.keys(envVars) as Exclude<EnvVarKeys, EnvVarKeys.TEST_TARGET>[]) {
-    if (isNode) {
-      process.env[key] = envVars[key];
-    } else {
-      self.__env__[key] = envVars[key];
-    }
-  }
-}
+export { getEnvVarValue, EnvVarKeys };
 
 export function getEnvVars(): Omit<{ [key in EnvVarKeys]: any }, EnvVarKeys.TEST_TARGET> {
   if (getEnvVarValue(EnvVarKeys.TEST_TARGET) === "mock") {

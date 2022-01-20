@@ -33,7 +33,10 @@
   },
   "browser": {
     "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js",
-    "./dist-esm/test/public/utils/mockService.js": "./dist-esm/test/public/utils/mockService.browser.js"
+    "./dist-esm/test/public/utils/mockService.js": "./dist-esm/test/public/utils/mockService.browser.js",
+    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js",
+    "./dist-esm/test/public/utils/getEnvVarValue.js": "./dist-esm/test/public/utils/getEnvVarValue.browser.js",
+    "./dist-esm/test/public/utils/injectEnvironmentVariables.js": "./dist-esm/test/public/utils/injectEnvironmentVariables.browser.js"
   },
   "files": [
     "dist/",

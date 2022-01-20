@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvVarKeys, getEnvVars, isNode } from "../public/utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
+import { isNode } from "@azure/test-utils";
 import {
   EventHubConsumerClient,
   EventHubProducerClient,

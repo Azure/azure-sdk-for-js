@@ -4,7 +4,6 @@ import json from "@rollup/plugin-json";
 import multiEntry from "@rollup/plugin-multi-entry";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import replace from "@rollup/plugin-replace";
-import shim from "rollup-plugin-shim";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import { makeConfig, makeBrowserTestConfig } from "@azure/dev-tool/shared-config/rollup";
 
@@ -30,11 +29,6 @@ function makeBrowserTestConfigPatch() {
       "if (isNode)": "if (false)",
       "if (!isNode)": "if (true)",
     }),
-    // fs, net, and tls are used by rhea and need to be shimmed
-    // dotenv doesn't work in the browser, so replace it with a no-op function
-    shim({
-      dotenv: `export function config() { }`,
-    }),
     nodeResolve({
       mainFields: ["module", "browser"],
       preferBuiltins: false,
@@ -49,7 +43,6 @@ function makeBrowserTestConfigPatch() {
     inject({
       modules: {
         Buffer: ["buffer", "Buffer"],
-        process: "process",
       },
       exclude: ["./**/package.json"],
     }),
