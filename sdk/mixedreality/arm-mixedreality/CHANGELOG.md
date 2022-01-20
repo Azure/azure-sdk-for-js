@@ -1,4 +1,10 @@
 # Release History
+
+## 4.0.1 (2022-01-20)
+
+**Feature**
+
+  - Bump version
     
 ## 4.0.0 (2022-01-20)
 
