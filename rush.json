@@ -1395,6 +1395,11 @@
       "packageName": "@azure/arm-mixedreality",
       "projectFolder": "sdk/mixedreality/arm-mixedreality",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-netapp",
+      "projectFolder": "sdk/netapp/arm-netapp",
+      "versionPolicyName": "management"
     }
   ]
 }

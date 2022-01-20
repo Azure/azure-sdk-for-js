@@ -84,6 +84,7 @@ specifiers:
   '@rush-temp/arm-monitor': file:./projects/arm-monitor.tgz
   '@rush-temp/arm-msi': file:./projects/arm-msi.tgz
   '@rush-temp/arm-mysql': file:./projects/arm-mysql.tgz
+  '@rush-temp/arm-netapp': file:./projects/arm-netapp.tgz
   '@rush-temp/arm-network': file:./projects/arm-network.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:./projects/arm-oep.tgz
@@ -301,6 +302,7 @@ dependencies:
   '@rush-temp/arm-monitor': file:projects/arm-monitor.tgz
   '@rush-temp/arm-msi': file:projects/arm-msi.tgz
   '@rush-temp/arm-mysql': file:projects/arm-mysql.tgz
+  '@rush-temp/arm-netapp': file:projects/arm-netapp.tgz
   '@rush-temp/arm-network': file:projects/arm-network.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:projects/arm-oep.tgz
@@ -10488,6 +10490,31 @@ packages:
   file:projects/arm-mysql.tgz:
     resolution: {integrity: sha512-DtoJCFKvCMrFAZH14Zwq83plT5nYv1cfVbAwPa6nDXZUkYORnbTekg75ih3/Q9aSbfYI3PomJMl7NsglOSnH6g==, tarball: file:projects/arm-mysql.tgz}
     name: '@rush-temp/arm-mysql'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-netapp.tgz:
+    resolution: {integrity: sha512-h0aKJCzPOh73MUeUYhaQlpFiQ3Baa33HF30314+foKQIGe4Mjtk/KakQCta1OtuIbOXnwDVI8ClsqfOffovn2w==, tarball: file:projects/arm-netapp.tgz}
+    name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
