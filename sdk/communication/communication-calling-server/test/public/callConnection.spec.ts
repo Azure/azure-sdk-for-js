@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, record, Recorder } from "@azure-tools/test-recorder";
+import { env, record, Recorder, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { CallingServerClient, CreateCallConnectionOptions, PlayAudioOptions, RemoveFromDefaultAudioGroupOptions, AddToDefaultAudioGroupOptions, TransferToCallOptions, GetAudioGroupsOptions } from "../../src";
 import { TestUtils } from "./utils/testUtils";
 import { environmentSetup } from "./utils/recordedClient";
@@ -248,6 +248,9 @@ describe("Call Connection Live Test", function() {
 
     it("Run test_transfer_to_call scenario", async function(this: Context) {
       this.timeout(0);
+      if (isLiveMode() || isPlaybackMode()) {
+        this.skip();
+     }
       const callConnection = await SetupCall();
       try {
         // Transfer to call

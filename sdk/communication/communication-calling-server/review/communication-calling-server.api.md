@@ -30,10 +30,15 @@ export interface AddParticipantResult {
 
 // @public
 export interface AddParticipantResultEvent {
+    callLocator?: CallLocatorModel;
     operationContext?: string;
+    operationId?: string;
     resultDetails?: CallingOperationResultDetails;
     status: CallingOperationStatus;
 }
+
+// @public
+export type AddToDefaultAudioGroupOptions = OperationOptions;
 
 // @public
 export interface AnswerCallOptions extends OperationOptions {
@@ -45,34 +50,34 @@ export interface AnswerCallOptions extends OperationOptions {
 // @public
 export interface CallConnection {
     addParticipant(participant: CommunicationIdentifier, options?: AddParticipantOptions): Promise<AddParticipantResult>;
+    addToDefaultAudioGroup(participant: CommunicationIdentifier, options: AddToDefaultAudioGroupOptions): Promise<void>;
     readonly callConnectionId: string;
     cancelAllMediaOperations(options?: CancelAllMediaOperationsOptions): Promise<void>;
     cancelParticipantMediaOperation(participant: CommunicationIdentifier, mediaOperationId: string, options?: CancelMediaOperationOptions): Promise<void>;
     // Warning: (ae-forgotten-export) The symbol "AudioRoutingMode" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "CreateAudioRoutingGroupResult" needs to be exported by the entry point index.d.ts
-    createAudioRoutingGroup(audioRoutingMode: AudioRoutingMode, targets: CommunicationIdentifier[], options: CreateAudioRoutingGroupOptions): Promise<CreateAudioRoutingGroupResult>;
+    // Warning: (ae-forgotten-export) The symbol "CreateAudioGroupResult" needs to be exported by the entry point index.d.ts
+    createAudioGroup(audioRoutingMode: AudioRoutingMode, targets: CommunicationIdentifier[], options: CreateAudioGroupOptions): Promise<CreateAudioGroupResult>;
     delete(options?: DeleteOptions): Promise<void>;
-    deleteAudioRoutingGroup(audioRoutingGroupId: string, options: DeleteAudioRoutingGroupOptions): Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "AudioRoutingGroupResult" needs to be exported by the entry point index.d.ts
-    getAudioRoutingGroups(audioRoutingGroupId: string, options: GetAudioRoutingGroupsOptions): Promise<AudioRoutingGroupResult>;
+    deleteAudioGroup(audioGroupId: string, options: DeleteAudioGroupOptions): Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "AudioGroupResult" needs to be exported by the entry point index.d.ts
+    getAudioGroups(audioGroupId: string, options: GetAudioGroupsOptions): Promise<AudioGroupResult>;
     // Warning: (ae-forgotten-export) The symbol "CallConnectionProperties" needs to be exported by the entry point index.d.ts
     getCall(options?: GetCallOptions): Promise<CallConnectionProperties>;
     // Warning: (ae-forgotten-export) The symbol "CallParticipant" needs to be exported by the entry point index.d.ts
     getParticipant(participant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
     getParticipants(options?: GetParticipantsOptions): Promise<CallParticipant[]>;
     hangUp(options?: HangUpOptions): Promise<void>;
-    holdParticipantMeetingAudio(participant: CommunicationIdentifier, options: HoldParticipantMeetingAudioOptions): Promise<void>;
     keepAlive(options?: KeepAliveOptions): Promise<void>;
     muteParticipant(participant: CommunicationIdentifier, options?: MuteParticipantOptions): Promise<void>;
     playAudio(audioUrl: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
     playAudioToParticipant(participant: CommunicationIdentifier, audioUrl: string, options: PlayAudioOptions): Promise<PlayAudioResult>;
+    removeFromDefaultAudioGroup(participant: CommunicationIdentifier, options: RemoveFromDefaultAudioGroupOptions): Promise<void>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantOptions): Promise<void>;
-    resumeParticipantMeetingAudio(participant: CommunicationIdentifier, options: ResumeParticipantMeetingAudioOptions): Promise<void>;
     transferToCall(targetCallConnectionId: string, options?: TransferToCallOptions): Promise<TransferCallResult>;
     // Warning: (ae-forgotten-export) The symbol "TransferCallResult" needs to be exported by the entry point index.d.ts
     transferToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferToParticipantOptions): Promise<TransferCallResult>;
     unmuteParticipant(participant: CommunicationIdentifier, options?: UnmuteParticipantOptions): Promise<void>;
-    updateAudioRoutingGroup(audioRoutingGroupId: string, targets: CommunicationIdentifier[], options: UpdateAudioRoutingGroupOptions): Promise<void>;
+    updateAudioGroup(audioGroupId: string, targets: CommunicationIdentifier[], options: UpdateAudioGroupOptions): Promise<void>;
 }
 
 // @public
@@ -199,7 +204,7 @@ export type ContentDownloadResult = ContentDownloadHeaders & {
 };
 
 // @public
-export type CreateAudioRoutingGroupOptions = OperationOptions;
+export type CreateAudioGroupOptions = OperationOptions;
 
 // @public
 export interface CreateCallConnectionOptions extends OperationOptions {
@@ -211,7 +216,7 @@ export interface CreateCallConnectionOptions extends OperationOptions {
 }
 
 // @public
-export type DeleteAudioRoutingGroupOptions = OperationOptions;
+export type DeleteAudioGroupOptions = OperationOptions;
 
 // @public
 export type DeleteOptions = OperationOptions;
@@ -233,7 +238,7 @@ export interface DownloadOptions extends OperationOptions {
 }
 
 // @public
-export type GetAudioRoutingGroupsOptions = OperationOptions;
+export type GetAudioGroupsOptions = OperationOptions;
 
 // @public
 export type GetCallOptions = OperationOptions;
@@ -263,8 +268,6 @@ export interface GroupCallLocatorKind extends GroupCallLocator {
 // @public
 export type HangUpOptions = OperationOptions;
 
-// @public
-export type HoldParticipantMeetingAudioOptions = OperationOptions;
 
 // @public
 export const isGroupCallLocator: (locator: CallLocator) => locator is GroupCallLocator;
@@ -307,7 +310,9 @@ export interface PlayAudioResult {
 
 // @public
 export interface PlayAudioResultEvent {
+    callLocator?: CallLocatorModel;
     operationContext?: string;
+    operationId?: string;
     resultDetails?: CallingOperationResultDetails;
     status: CallingOperationStatus;
 }
@@ -337,10 +342,10 @@ export interface RejectCallOptions extends OperationOptions {
 }
 
 // @public
-export type RemoveParticipantOptions = OperationOptions;
+export type RemoveFromDefaultAudioGroupOptions = OperationOptions;
 
 // @public
-export type ResumeParticipantMeetingAudioOptions = OperationOptions;
+export type RemoveParticipantOptions = OperationOptions;
 
 // @public
 export type ResumeRecordingOptions = OperationOptions;
@@ -381,6 +386,7 @@ export interface ToneInfo {
 // @public
 export interface ToneReceivedEvent {
     callConnectionId?: string;
+    callLocator?: CallLocatorModel;
     toneInfo: ToneInfo;
 }
 
@@ -404,7 +410,7 @@ export interface TransferToParticipantOptions extends OperationOptions {
 export type UnmuteParticipantOptions = OperationOptions;
 
 // @public
-export type UpdateAudioRoutingGroupOptions = OperationOptions;
+export type UpdateAudioGroupOptions = OperationOptions;
 
 
 // (No @packageDocumentation comment for this package)

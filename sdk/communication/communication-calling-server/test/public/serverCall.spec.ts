@@ -191,7 +191,7 @@ describe("Server Call Live Test", function() {
 
     it("Delete recording file", async function(this: Context) {
       this.timeout(0)
-      if (isLiveMode()) {
+      if (isLiveMode() || isPlaybackMode()) {
          this.skip();
       }
       try {
@@ -297,7 +297,7 @@ describe("Server Call Live Test", function() {
 
     it("Run reject_call scenario", async function(this: Context) {
       this.timeout(0)
-      if (isLiveMode()) {
+      if (isLiveMode() || isPlaybackMode()) {
         this.skip();  // currently skipping because of error
      }
       const callingServer = new CallingServerClient(connectionString);
