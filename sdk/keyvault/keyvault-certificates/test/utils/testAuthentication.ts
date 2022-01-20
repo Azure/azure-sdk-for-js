@@ -11,7 +11,7 @@ import { Context } from "mocha";
 
 export async function authenticate(
   that: Context,
-  serviceVersion?: ReturnType<typeof getServiceVersion>
+  serviceVersion: ReturnType<typeof getServiceVersion>
 ): Promise<any> {
   const suffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
