@@ -60,7 +60,8 @@ import {
   JobStateSelector,
   WorkerStateSelector,
   CreateClassificationPolicyRequest,
-  ReleaseAssignmentRequest, RegisterWorkerRequest
+  ReleaseAssignmentRequest,
+  RegisterWorkerRequest
 } from "./generated/src";
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -175,17 +176,18 @@ export class RouterClient {
   /**
    * Updates a classification policy.
    * Returns classification policy with the id of the updated classification policy.
-   * @param classificationPolicyId - The id of the exception policy to get.
    * @param updatedModel - The updating classification policy model.
    * @param options - Operation options.
    */
   public async updateClassificationPolicy(
-    classificationPolicyId: string,
-    updatedModel?: ClassificationPolicy,
+    updatedModel: ClassificationPolicy,
     options: UpdateClassificationPolicyOptions = {}
   ): Promise<ClassificationPolicy> {
     options.patch = updatedModel;
-    return this.client.jobRouter.patchClassificationPolicyV2(classificationPolicyId, options);
+    if (!updatedModel.id) {
+      throw new Error("Updated model must contain id")
+    }
+    return this.client.jobRouter.patchClassificationPolicyV2(updatedModel.id, options);
   }
 
   /**
@@ -240,20 +242,19 @@ export class RouterClient {
   /**
    * Updates a distribution policy.
    * Returns distribution policy with the id of the updated distribution policy.
-   * @param distributionPolicyId - The id of the exception policy to get.
    * @param updatedModel - The updating distribution policy model.
    * @param options - Operation options.
    */
   public async updateDistributionPolicy(
-    distributionPolicyId: string,
-    updatedModel?: DistributionPolicy,
+    updatedModel: DistributionPolicy,
     options: UpdateDistributionPolicyOptions = {}
   ): Promise<DistributionPolicy> {
-    if (updatedModel) {
-      options.patch = updatedModel;
+    options.patch = updatedModel;
+    if (!updatedModel.id) {
+      throw new Error("Updated model must contain id")
     }
 
-    return this.client.jobRouter.patchDistributionPolicy(distributionPolicyId, options);
+    return this.client.jobRouter.patchDistributionPolicy(updatedModel.id, options);
   }
 
   /**
@@ -308,20 +309,19 @@ export class RouterClient {
   /**
    * Updates a exception policy.
    * Returns exception policy with the id of the updated exception policy.
-   * @param exceptionPolicyId - The id of the exception policy to get.
    * @param updatedModel - The updating exception policy.
    * @param options - Operation options.
    */
   public async updateExceptionPolicy(
-    exceptionPolicyId: string,
-    updatedModel?: ExceptionPolicy,
+    updatedModel: ExceptionPolicy,
     options: UpdateExceptionPolicyOptions = {}
   ): Promise<ExceptionPolicy> {
-    if (updatedModel) {
-      options.patchExceptionPolicy = updatedModel;
+    options.patchExceptionPolicy = updatedModel;
+    if (!updatedModel.id) {
+      throw new Error("Updated model must contain id")
     }
 
-    return this.client.jobRouter.patchExceptionPolicyV2(exceptionPolicyId, options);
+    return this.client.jobRouter.patchExceptionPolicyV2(updatedModel.id, options);
   }
 
   /**
@@ -388,25 +388,24 @@ export class RouterClient {
 
   /**
    * Update or insert labels of a job by Id.
-   * @param jobId - The ID of the job to update.
    * @param updatedModel - The updating job
    * @param forceClassification - If forcing classification after update
    * @param options -  Operation options.
    */
   public async updateJobLabels(
-    jobId: string,
-    updatedModel?: RouterJob,
+    updatedModel: RouterJob,
     forceClassification?: boolean,
     options: UpdateJobLabelsOptions = {}
   ): Promise<RouterJob> {
-    if (updatedModel) {
-      options.patch = updatedModel;
+    options.patch = updatedModel;
+    if (!updatedModel.id) {
+      throw new Error("Updated model must contain id")
     }
     if (forceClassification) {
       options.forceClassification = forceClassification;
     }
 
-    return this.client.jobRouter.updateJob(jobId, options);
+    return this.client.jobRouter.updateJob(updatedModel.id, options);
   }
 
   /**
@@ -532,20 +531,19 @@ export class RouterClient {
   /**
    * Updates a queue.
    * Returns queue with the id of the created queue.
-   * @param queueId - The queue id
    * @param updatedModel - The updating queue.
    * @param options - Operation options.
    */
   public async updateQueue(
-    queueId: string,
-    updatedModel?: JobQueue,
+    updatedModel: JobQueue,
     options: UpdateQueueOptions = {}
   ): Promise<JobQueue> {
-    if (updatedModel) {
-      options.patch = updatedModel;
+    options.patch = updatedModel;
+    if (!updatedModel.id) {
+      throw new Error("Updated model must contain id")
     }
 
-    return this.client.jobRouter.updateQueue(queueId, options);
+    return this.client.jobRouter.updateQueue(updatedModel.id, options);
   }
 
   /**

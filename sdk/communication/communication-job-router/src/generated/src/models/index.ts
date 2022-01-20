@@ -71,8 +71,11 @@ export interface RouterRule {
 
 /** A container for the rules that govern how jobs are classified. */
 export interface ClassificationPolicy {
-  /** Unique identifier of this policy. */
-  id: string;
+  /**
+   * The unique identifier of the policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
   /** Friendly name of this policy. */
   name?: string;
   /** The fallback queue to select if the queue selector doesn't find a match. */

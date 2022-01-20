@@ -2,14 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  AcceptJobOfferResponse,
-  CreateJobResponse,
-  UpsertQueueResponse,
-  UpsertChannelResponse,
   JobRouterCreateClassificationPolicyV2Response,
   JobRouterPatchClassificationPolicyV2Response,
-  // JobRouterCreateDistributionPolicyV2Response,
-  // JobRouterPatchDistributionPolicyV2Response,
   JobRouterCreateExceptionPolicyV2Response,
   JobRouterPatchExceptionPolicyV2Response
 } from "../generated/src";
@@ -36,14 +30,4 @@ export interface CreateExceptionPolicyResponse extends JobRouterCreateExceptionP
  */
 export interface PatchExceptionPolicyResponse extends JobRouterPatchExceptionPolicyV2Response {}
 
-// /**
-//  * Options to create a distribution policy.
-//  */
-// export interface CreateDistributionPolicyResponse
-//   extends JobRouterCreateDistributionPolicyV2Response {}
-//
-// /**
-//  * Options to update a distribution policy.
-//  */
-// export interface PatchDistributionPolicyResponse
-//   extends JobRouterPatchDistributionPolicyV2Response {}
+
