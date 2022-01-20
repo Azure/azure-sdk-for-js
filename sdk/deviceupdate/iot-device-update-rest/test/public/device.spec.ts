@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Recorder } from "@azure-tools/test-recorder";
 import { DeviceUpdateRestClient } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { assert } from "chai";
+import { Recorder } from "@azure-tools/test-recorder";
+import { createRecordedClient, startRecorder } from "./utils/recordedClient";
 
 describe("device test", () => {
   let recorder: Recorder;
   let client: DeviceUpdateRestClient;
 
-  beforeEach(function (this: Context) {
-    recorder = createRecorder(this);
-    client = createClient();
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    client = createRecordedClient(recorder);
+    await startRecorder(recorder);
   });
 
   afterEach(async function () {

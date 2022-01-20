@@ -5,28 +5,19 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "04c63fe2-89b7-4ea0-b37b-9f5b220fd08f",
-        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "56cde467-9439-49ad-8751-9c99c03affeb"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "1076",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 20 Jan 2022 07:39:32 GMT",
-        "traceparent": "00-f52b862944f9e2980d0d409e6f63819f-1f044ab8e2cc4a64-00"
+        "Date": "Thu, 20 Jan 2022 07:39:16 GMT",
+        "traceparent": "00-837f073eeb9e02fbbd5fb134654b7d20-a12383f0c8bf80ef-00"
       },
       "ResponseBody": {
         "value": [
@@ -71,22 +62,13 @@
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "195",
         "Content-Type": "application/json; charset=UTF-8",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "bea5fd22-b0ff-4168-857f-5707675154b0",
-        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "5256ec27-549e-48c2-b8fe-b57cd9e8a4a7"
       },
       "RequestBody": {
         "groupId": "joegroup",
@@ -101,8 +83,8 @@
       "ResponseHeaders": {
         "Content-Length": "253",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 20 Jan 2022 07:39:33 GMT",
-        "traceparent": "00-0202244ae9094b55d4fa6f35ab3d627e-45c93a1bbe407688-00"
+        "Date": "Thu, 20 Jan 2022 07:39:17 GMT",
+        "traceparent": "00-fe03087763b35e514a8a686e5efa947e-eb603a310242dd72-00"
       },
       "ResponseBody": {
         "groupId": "joegroup",
@@ -120,28 +102,19 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "9b201c36-e10c-4253-9376-34eec798a61a",
-        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "e3dda233-f8ee-491c-8e6c-1fc420e46e1c"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "253",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 20 Jan 2022 07:39:33 GMT",
-        "traceparent": "00-5d3afdb06a2b40cc6013439fb5229048-6029f235211ea378-00"
+        "Date": "Thu, 20 Jan 2022 07:39:17 GMT",
+        "traceparent": "00-6765377a795c6bc9ba81b01890190af7-d290b2095945f645-00"
       },
       "ResponseBody": {
         "groupId": "joegroup",
@@ -159,22 +132,13 @@
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "181",
         "Content-Type": "application/json; charset=UTF-8",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "2edd9495-3ad6-4426-909e-8a2402c4e2f0",
-        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "27128b17-9dd5-4b8f-ad59-7e00b24e9d1c"
       },
       "RequestBody": {
         "deploymentId": "testdeployment1",
@@ -190,8 +154,8 @@
       "ResponseHeaders": {
         "Content-Length": "278",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 20 Jan 2022 07:39:34 GMT",
-        "traceparent": "00-3a0505d2ee8e17d5d2839f5eb77c2ccd-333890525dacf0d5-00"
+        "Date": "Thu, 20 Jan 2022 07:39:17 GMT",
+        "traceparent": "00-2e7261e04e05fee3a3bf355ca580f7cf-a7cfbd8c63d3949a-00"
       },
       "ResponseBody": {
         "deploymentId": "testdeployment1",
@@ -211,28 +175,19 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "778ee320-2998-47dc-a221-e14244f20d14",
-        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "da509a3f-7950-4c5e-9579-9e404e334d59"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "278",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 20 Jan 2022 07:39:34 GMT",
-        "traceparent": "00-4ce547237c9d20b3aeef912a28d86c58-888b86ce94bf8b84-00"
+        "Date": "Thu, 20 Jan 2022 07:39:18 GMT",
+        "traceparent": "00-b8530deced9aef57c3cc533ee4685ae3-7b40073ebf63aa6d-00"
       },
       "ResponseBody": {
         "deploymentId": "testdeployment1",
@@ -252,26 +207,17 @@
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "311d7359-0be6-4925-8785-49d4c56b24c9",
-        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "433e5eae-4dc2-496e-b87a-3bc21ceec986"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
-        "Date": "Thu, 20 Jan 2022 07:39:35 GMT",
-        "traceparent": "00-60f6d604ac942d858d411d418b5039a9-98e635017e4836f2-00"
+        "Date": "Thu, 20 Jan 2022 07:39:18 GMT",
+        "traceparent": "00-dfe5700b7b9e5931e7a1b23a732c9aa4-19c12d2027c86617-00"
       },
       "ResponseBody": null
     },
@@ -280,26 +226,17 @@
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "528bcbae-7bd2-438d-ad50-a4c6d44a2439",
-        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "6b2c4757-a773-4d9a-b3e7-0a87ec5b96c3"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
-        "Date": "Thu, 20 Jan 2022 07:39:35 GMT",
-        "traceparent": "00-08dc5e5fce53c1820c3746b79d271e80-ef48e3da5ac2461a-00"
+        "Date": "Thu, 20 Jan 2022 07:39:19 GMT",
+        "traceparent": "00-060345621707092f40285dfa231cab4f-642e66e69a8aac24-00"
       },
       "ResponseBody": null
     }
