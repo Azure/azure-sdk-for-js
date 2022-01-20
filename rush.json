@@ -1435,6 +1435,11 @@
       "packageName": "@azure/arm-recoveryservices-siterecovery",
       "projectFolder": "sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-recoveryservicesbackup",
+      "projectFolder": "sdk/recoveryservicesbackup/arm-recoveryservicesbackup",
+      "versionPolicyName": "management"
     }
   ]
 }
