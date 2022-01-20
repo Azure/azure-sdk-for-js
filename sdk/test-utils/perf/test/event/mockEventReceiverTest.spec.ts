@@ -5,13 +5,9 @@ import { PerfOptionDictionary } from "../../src";
 import { EventPerfTest } from "../../src/eventPerfTest";
 import { MockEventReceiver, Event } from "./mockEventReceiver";
 
-interface MockEventReceiverOptions { }
-
-export class MockEventReceiverTest extends EventPerfTest<
-  MockEventReceiverOptions
-> {
+export class MockEventReceiverTest extends EventPerfTest {
   public client: MockEventReceiver;
-  public options: PerfOptionDictionary<MockEventReceiverOptions> = {};
+  public options: PerfOptionDictionary = {};
   public subscriber: { close: () => Promise<void> } | undefined;
 
   constructor() {
