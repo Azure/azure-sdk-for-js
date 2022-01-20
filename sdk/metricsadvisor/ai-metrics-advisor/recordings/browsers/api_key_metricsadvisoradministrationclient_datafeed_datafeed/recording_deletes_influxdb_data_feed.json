@@ -2,37 +2,37 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/81a25364-6eb9-48a2-b8ce-f7bb26def4e5",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/f4d2bc27-bcb6-4f11-ab59-5887de98166d",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "2e2653d7-c120-429c-9601-070f1737dbef",
+    "apim-request-id": "a69ee43d-c4dd-4872-baab-5f4e1e03f365",
     "content-length": "0",
-    "date": "Sat, 08 Jan 2022 02:58:58 GMT",
+    "date": "Thu, 20 Jan 2022 01:05:37 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "304",
-    "x-request-id": "2e2653d7-c120-429c-9601-070f1737dbef"
+    "x-envoy-upstream-service-time": "307",
+    "x-request-id": "a69ee43d-c4dd-4872-baab-5f4e1e03f365"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/81a25364-6eb9-48a2-b8ce-f7bb26def4e5",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/f4d2bc27-bcb6-4f11-ab59-5887de98166d",
    "query": {},
    "requestBody": null,
    "status": 404,
    "response": "{\"code\":\"404 NOT_FOUND\",\"message\":\"datafeedId is invalid.\"}",
    "responseHeaders": {
-    "apim-request-id": "ce4e06bf-51c2-4ef3-900c-af3639c809f8",
+    "apim-request-id": "1a0cb01d-4b9d-43c3-bb88-8acff849e71a",
     "content-length": "59",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 08 Jan 2022 02:58:58 GMT",
+    "date": "Thu, 20 Jan 2022 01:05:37 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "83",
-    "x-request-id": "ce4e06bf-51c2-4ef3-900c-af3639c809f8"
+    "x-envoy-upstream-service-time": "95",
+    "x-request-id": "1a0cb01d-4b9d-43c3-bb88-8acff849e71a"
    }
   }
  ],

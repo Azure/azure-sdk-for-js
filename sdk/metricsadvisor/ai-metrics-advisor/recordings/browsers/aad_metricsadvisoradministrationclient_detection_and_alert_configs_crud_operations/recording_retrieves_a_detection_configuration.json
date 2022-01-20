@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 08 Jan 2022 02:57:54 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:17 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,26 +20,26 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12381.10 - WUS2 ProdSlices",
-    "x-ms-request-id": "a3a2ccfc-f5d2-48ea-bb8e-db956ff00500"
+    "x-ms-ests-server": "2.1.12261.22 - SCUS ProdSlices",
+    "x-ms-request-id": "fdfb7c6d-a2ad-4e05-bf97-eaa8156ab700"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/5662328a-7372-4752-bcb8-9761c759102d",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/85770703-7db4-47eb-b612-3ad7a0df0bfc",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"anomalyDetectionConfigurationId\":\"5662328a-7372-4752-bcb8-9761c759102d\",\"name\":\"new Name\",\"description\":\"new description\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"wholeMetricConfiguration\":{\"conditionOperator\":\"OR\",\"hardThresholdCondition\":{\"upperBound\":500.0,\"anomalyDetectorDirection\":\"Up\",\"suppressCondition\":{\"minNumber\":5,\"minRatio\":5.0}},\"changeThresholdCondition\":{\"changePercentage\":44.0,\"shiftPoint\":2,\"anomalyDetectorDirection\":\"Both\",\"withinRange\":true,\"suppressCondition\":{\"minNumber\":4,\"minRatio\":4.0}}},\"dimensionGroupOverrideConfigurations\":[{\"group\":{\"dimension\":{\"region\":\"Mumbai\"}},\"hardThresholdCondition\":{\"upperBound\":400.0,\"anomalyDetectorDirection\":\"Up\",\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2.0}}}],\"seriesOverrideConfigurations\":[{\"series\":{\"dimension\":{\"region\":\"Kolkata\",\"category\":\"Handmade\"}},\"changeThresholdCondition\":{\"changePercentage\":33.0,\"shiftPoint\":1,\"anomalyDetectorDirection\":\"Both\",\"withinRange\":true,\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2.0}}}]}",
+   "response": "{\"anomalyDetectionConfigurationId\":\"85770703-7db4-47eb-b612-3ad7a0df0bfc\",\"name\":\"new Name\",\"description\":\"new description\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"wholeMetricConfiguration\":{\"conditionOperator\":\"OR\",\"hardThresholdCondition\":{\"upperBound\":500.0,\"anomalyDetectorDirection\":\"Up\",\"suppressCondition\":{\"minNumber\":5,\"minRatio\":5.0}},\"changeThresholdCondition\":{\"changePercentage\":44.0,\"shiftPoint\":2,\"anomalyDetectorDirection\":\"Both\",\"withinRange\":true,\"suppressCondition\":{\"minNumber\":4,\"minRatio\":4.0}}},\"dimensionGroupOverrideConfigurations\":[{\"group\":{\"dimension\":{\"region\":\"Mumbai\"}},\"hardThresholdCondition\":{\"upperBound\":400.0,\"anomalyDetectorDirection\":\"Up\",\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2.0}}}],\"seriesOverrideConfigurations\":[{\"series\":{\"dimension\":{\"region\":\"Kolkata\",\"category\":\"Handmade\"}},\"changeThresholdCondition\":{\"changePercentage\":33.0,\"shiftPoint\":1,\"anomalyDetectorDirection\":\"Both\",\"withinRange\":true,\"suppressCondition\":{\"minNumber\":2,\"minRatio\":2.0}}}]}",
    "responseHeaders": {
-    "apim-request-id": "419f6924-0d3a-421b-b17c-10c180ede649",
+    "apim-request-id": "aa80d5b6-40d5-473a-a49c-424139aae0ad",
     "content-length": "1016",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 08 Jan 2022 02:57:54 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:18 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "144",
-    "x-request-id": "419f6924-0d3a-421b-b17c-10c180ede649"
+    "x-envoy-upstream-service-time": "252",
+    "x-request-id": "aa80d5b6-40d5-473a-a49c-424139aae0ad"
    }
   }
  ],

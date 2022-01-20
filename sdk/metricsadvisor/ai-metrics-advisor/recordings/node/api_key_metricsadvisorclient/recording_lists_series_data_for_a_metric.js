@@ -12,15 +12,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '66dcfda2-186c-4c86-bee6-5ff1996722f7',
+  'dbc923b9-9a34-4b5b-be10-4140bef5d9c9',
   'x-envoy-upstream-service-time',
-  '336',
+  '299',
   'apim-request-id',
-  '66dcfda2-186c-4c86-bee6-5ff1996722f7',
+  'dbc923b9-9a34-4b5b-be10-4140bef5d9c9',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Sat, 08 Jan 2022 02:16:28 GMT'
+  'Thu, 20 Jan 2022 00:58:45 GMT'
 ]);

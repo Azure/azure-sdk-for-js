@@ -5,43 +5,43 @@ module.exports.hash = "923cce575c1a21389e97385aa738e466";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/credentials', {"dataSourceCredentialType":"DataLakeGen2SharedKey","dataSourceCredentialName":"js-test-datalakeCred-164160823668202890","dataSourceCredentialDescription":"used for testing purposes only","parameters":{"accountKey":"account-key"}})
+  .post('/metricsadvisor/v1.0/credentials', {"dataSourceCredentialType":"DataLakeGen2SharedKey","dataSourceCredentialName":"js-test-datalakeCred-164264036985603664","dataSourceCredentialDescription":"used for testing purposes only","parameters":{"accountKey":"account-key"}})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/metricsadvisor/v1.0/credentials/7da36fdb-0164-4165-8d7b-bec00021dc12',
+  'https://endpoint/metricsadvisor/v1.0/credentials/d4348883-7f69-4f3e-9523-bde85ae79abb',
   'x-request-id',
-  'bc392ad9-3af9-4803-9f8c-fab5f0ec04df',
+  'd4f95332-e0a1-41a4-b56b-b85d84684104',
   'x-envoy-upstream-service-time',
-  '339',
+  '219',
   'apim-request-id',
-  'bc392ad9-3af9-4803-9f8c-fab5f0ec04df',
+  'd4f95332-e0a1-41a4-b56b-b85d84684104',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Sat, 08 Jan 2022 02:17:17 GMT'
+  'Thu, 20 Jan 2022 00:59:30 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/credentials/7da36fdb-0164-4165-8d7b-bec00021dc12')
-  .reply(200, {"dataSourceCredentialId":"7da36fdb-0164-4165-8d7b-bec00021dc12","dataSourceCredentialName":"js-test-datalakeCred-164160823668202890","dataSourceCredentialDescription":"used for testing purposes only","dataSourceCredentialType":"DataLakeGen2SharedKey","parameters":{}}, [
+  .get('/metricsadvisor/v1.0/credentials/d4348883-7f69-4f3e-9523-bde85ae79abb')
+  .reply(200, {"dataSourceCredentialId":"d4348883-7f69-4f3e-9523-bde85ae79abb","dataSourceCredentialName":"js-test-datalakeCred-164264036985603664","dataSourceCredentialDescription":"used for testing purposes only","dataSourceCredentialType":"DataLakeGen2SharedKey","parameters":{}}, [
   'Content-Length',
   '268',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'fb15f2e1-e4d7-4f1c-a44f-74be54b9fbe6',
+  '3ae5ff90-ba98-4418-a142-25913eb65175',
   'x-envoy-upstream-service-time',
-  '129',
+  '101',
   'apim-request-id',
-  'fb15f2e1-e4d7-4f1c-a44f-74be54b9fbe6',
+  '3ae5ff90-ba98-4418-a142-25913eb65175',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Sat, 08 Jan 2022 02:17:17 GMT'
+  'Thu, 20 Jan 2022 00:59:30 GMT'
 ]);
