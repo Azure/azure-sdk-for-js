@@ -893,8 +893,7 @@ export interface ItemDefinition {
 
 // @public (undocumented)
 export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T & Resource> {
-    // Warning: (ae-forgotten-export) The symbol "CosmosException" needs to be exported by the entry point index.d.ts
-    constructor(resource: T & Resource, headers: CosmosHeaders, statusCode: number, subsstatusCode: number, item: Item, cosmosException: CosmosException);
+    constructor(resource: T & Resource, headers: CosmosHeaders, statusCode: number, subsstatusCode: number, item: Item);
     readonly item: Item;
 }
 
@@ -1499,13 +1498,13 @@ export interface Resource {
 
 // @public (undocumented)
 export class ResourceResponse<TResource> {
-    constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode, cosmosException?: CosmosException);
+    constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode, exception?: string[]);
     // (undocumented)
     get activityId(): string;
     // (undocumented)
-    readonly cosmosException?: CosmosException;
-    // (undocumented)
     get etag(): string;
+    // (undocumented)
+    readonly exception: string[];
     // (undocumented)
     readonly headers: CosmosHeaders_2;
     // (undocumented)
@@ -1551,7 +1550,7 @@ interface Response_2<T> {
     // (undocumented)
     code?: number;
     // (undocumented)
-    cosmosException?: CosmosException;
+    cosmosException?: [string];
     // (undocumented)
     headers: CosmosHeaders;
     // (undocumented)
