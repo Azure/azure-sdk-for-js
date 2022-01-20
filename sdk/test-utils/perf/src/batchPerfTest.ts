@@ -16,7 +16,7 @@ import { PerfTestBase } from "./perfTestBase";
  */
 export abstract class BatchPerfTest<
   TOptions = Record<string, unknown>
-  > extends PerfTestBase<TOptions> {
+> extends PerfTestBase<TOptions> {
   private readonly testProxy!: string;
   public testProxyHttpClient!: TestProxyHttpClient;
   public testProxyHttpClientV1!: TestProxyHttpClientV1;

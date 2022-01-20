@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ProcessErrorArgs, ServiceBusReceivedMessage, ServiceBusReceiver } from "@azure/service-bus";
+import {
+  ProcessErrorArgs,
+  ServiceBusReceivedMessage,
+  ServiceBusReceiver,
+} from "@azure/service-bus";
 import { PerfOptionDictionary, EventPerfTest } from "@azure/test-utils-perf";
 import { sendMessages } from "./receiveBatch.spec";
 import { ServiceBusTest } from "./sbBase.spec";
@@ -9,7 +13,7 @@ import { ServiceBusTest } from "./sbBase.spec";
 interface ReceiverOptions {
   "number-of-messages": number;
   "message-body-size-in-bytes": number;
-  "max-concurrent-calls": number
+  "max-concurrent-calls": number;
 }
 
 export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
@@ -37,7 +41,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
       shortName: "mcc",
       longName: "max-concurrent-calls",
       defaultValue: 10,
-    }
+    },
   };
 
   constructor() {
@@ -72,12 +76,13 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
         processError: async (args: ProcessErrorArgs) => {
           await this.errorRaised(args.error);
         },
-      }, { maxConcurrentCalls: this.parsedOptions["max-concurrent-calls"].value }
+      },
+      { maxConcurrentCalls: this.parsedOptions["max-concurrent-calls"].value }
     );
   }
 
   async cleanup() {
-    this.subscriber && await this.subscriber.close();
+    this.subscriber && (await this.subscriber.close());
     await this.receiver.close();
   }
 

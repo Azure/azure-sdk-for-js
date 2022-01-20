@@ -11,7 +11,7 @@ import { isDefined } from "./utils";
  */
 export abstract class EventPerfTest<
   TOptions = Record<string, unknown>
-  > extends PerfTestBase<TOptions> {
+> extends PerfTestBase<TOptions> {
   start = process.hrtime();
   private testDuration = 0;
   private abortController: AbortController | undefined;

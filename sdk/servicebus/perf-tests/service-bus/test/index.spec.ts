@@ -8,6 +8,8 @@ import { SubscribeTest } from "./subscribe.spec";
 
 console.log("=== Starting the perf test ===");
 
-const perfProgram = new PerfProgram(selectPerfTest([BatchSendTest, BatchReceiveTest, SubscribeTest]));
+const perfProgram = new PerfProgram(
+  selectPerfTest([BatchSendTest, BatchReceiveTest, SubscribeTest])
+);
 
 perfProgram.run();

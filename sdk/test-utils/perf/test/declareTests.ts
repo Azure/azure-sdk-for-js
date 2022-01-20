@@ -36,7 +36,7 @@ const tests: TestDefinition[] = [
     testClass: PerfPolicyTest,
     options: "--url http://bing.com/",
   },
-  MockEventReceiverTest
+  MockEventReceiverTest,
 ];
 
 // Normalize everything in the array above for export.
