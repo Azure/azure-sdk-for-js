@@ -15,6 +15,11 @@ stages:
           Path: sdk/keyvault/keyvault-admin/platform-matrix.json
           Selection: sparse
           GenerateVMJobs: true
+      AdditionalMatrixConfigs:
+        - Name: Keyvault_live_test_base
+          Path: sdk/keyvault/keyvault-admin/platform-matrix.json
+          Selection: sparse
+          GenerateVMJobs: true
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

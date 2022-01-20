@@ -9,7 +9,13 @@
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "12.x"
+      "NodeTestVersion": "12.x",
+      "ServiceVersion": ["7.0", "7.1", "7.2"]
     }
-  ]
+  ],
+  "displayNames": {
+    "7.0": "service_version_7_0",
+    "7.1": "service_version_7_1",
+    "7.2": "service_version_7_2"
+  }
 }

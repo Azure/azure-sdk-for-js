@@ -3,6 +3,10 @@
 
 import { assert } from "chai";
 import { env } from "@azure-tools/test-recorder";
+import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
+import { LATEST_API_VERSION } from "../../src/constants";
+import { AccessControlClientOptions } from "../../src/accessControlModels";
+import { KeyVaultBackupClientOptions } from "../../src/backupClientModels";
 
 export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
   let passed = false;
@@ -55,4 +59,34 @@ export function getSasToken() {
   const blobSasToken = getEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN");
 
   return { blobStorageUri, blobSasToken };
+}
+
+/**
+ * The known API versions that we support.
+ */
+export const serviceVersions = ["7.0", "7.1", "7.2", "7.3-preview"] as const;
+
+/**
+ * Fetches the service version to test against. This version could be configured as part of CI
+ * and then passed through the environment in order to support testing prior service versions.
+ * @returns - The service version to test
+ */
+export function getServiceVersion(): NonNullable<
+  (AccessControlClientOptions | KeyVaultBackupClientOptions)["serviceVersion"]
+> {
+  return env.SERVICE_VERSION || LATEST_API_VERSION;
+}
+
+/**
+ * A convenience wrapper allowing us to limit service versions without using the `versionsToTest` wrapper.
+ *
+ * @param supportedVersions - The {@link SupportedVersions} to limit this test against.
+ * @param serviceVersion - The service version we want to test support for. If omitted we will default to the version returned from {@link getServiceVersion}.
+ * @returns A Mocha Wrapper which will skip or execute the chained tests depending the currently tested service version and the supported versions.
+ */
+export function onVersions(
+  supportedVersions: SupportedVersions,
+  serviceVersion?: (AccessControlClientOptions | KeyVaultBackupClientOptions)["serviceVersion"]
+): TestFunctionWrapper {
+  return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
 }
