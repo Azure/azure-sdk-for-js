@@ -164,12 +164,12 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
-            // urixSanitizers: [
-            //   {
-            //     regex: secretEndpoint,
-            //     value: fakeEndpoint,
-            //   },
-            // ],
+            uriSanitizers: [
+              {
+                target: secretEndpoint,
+                value: fakeEndpoint,
+              },
+            ],
           },
         });
         const pathToHit = `/api/sample_request_body`;

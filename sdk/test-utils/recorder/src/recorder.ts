@@ -25,7 +25,7 @@ import { Test } from "mocha";
 import { sessionFilePath } from "./utils/sessionFilePath";
 import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
-import { addSanitizers } from "./sanitizer";
+import { addSanitizers, transformsInfo } from "./sanitizer";
 import { handleEnvSetup } from "./utils/envSetupForPlayback";
 import { Matcher, setMatcher } from "./matcher";
 import {
@@ -214,6 +214,18 @@ export class Recorder {
 
       await setMatcher(this.url, this.httpClient, matcher, this.recordingId);
     }
+  }
+
+  async transformsInfo(): Promise<string | null | undefined> {
+    if (isLiveMode()) {
+      throw new RecorderError("Cannot call transformsInfo in live mode");
+    }
+
+    if (ensureExistence(this.httpClient, "this.httpClient")) {
+      return await transformsInfo(this.httpClient, this.url, this.recordingId!);
+    }
+
+    throw new RecorderError("Expected httpClient to be defined");
   }
 
   /**
