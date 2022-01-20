@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-            
+
 trigger:
   branches:
     include:
@@ -25,6 +25,9 @@ extends:
   parameters:
     ServiceDirectory: machinelearning
     Artifacts:
+      - name: azure-arm-workspaces
+        safeName: azurearmworkspaces
+      - name: azure-arm-webservices
+        safeName: azurearmwebservices
       - name: azure-arm-commitmentplans
-        safeName: azurearmcommitmentplans
-        
+        safeName: azurearmcommitmentplans    
