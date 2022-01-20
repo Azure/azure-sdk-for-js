@@ -1435,6 +1435,40 @@
       "packageName": "@azure/arm-netapp",
       "projectFolder": "sdk/netapp/arm-netapp",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-peering",
+      "projectFolder": "sdk/peering/arm-peering",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-postgresql-flexible",
+      "projectFolder": "sdk/postgresql/arm-postgresql-flexible",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-powerbidedicated",
+      "projectFolder": "sdk/powerbidedicated/arm-powerbidedicated",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-powerbiembedded",
+      "projectFolder": "sdk/powerbiembedded/arm-powerbiembedded",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-recoveryservices-siterecovery",
+      "projectFolder": "sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-recoveryservicesbackup",
+      "projectFolder": "sdk/recoveryservicesbackup/arm-recoveryservicesbackup",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-redisenterprisecache",
+      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache",
     }
   ]
 }
