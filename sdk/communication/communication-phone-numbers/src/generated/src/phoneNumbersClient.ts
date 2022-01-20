@@ -23,5 +23,5 @@ export class PhoneNumbersClient extends PhoneNumbersClientContext {
     this.phoneNumbers = new PhoneNumbersImpl(this);
   }
 
-  phoneNumbers: PhoneNumbersImpl;
+  phoneNumbers: PhoneNumbers;
 }
