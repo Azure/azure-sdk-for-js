@@ -114,7 +114,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 [device_update_product_documentation]: https://docs.microsoft.com/azure/iot-hub-device-update/
 [rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md
-[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdates/iot-device-update-rest
+[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdate/iot-device-update-rest
 [npm]: https://www.npmjs.com/org/azure-rest
 [ref_docs]: https://azure.github.io/azure-sdk-for-js
 [azure_subscription]: https://azure.microsoft.com/free/
