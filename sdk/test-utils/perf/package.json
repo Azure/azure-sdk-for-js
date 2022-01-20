@@ -63,7 +63,7 @@
     "@azure/core-http": "^2.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
     "tslib": "^2.2.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.6",
     "minimist": "~1.2.5",
     "@types/minimist": "~1.2.0"
   },
@@ -77,7 +77,7 @@
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
-    "prettier": "^1.16.4",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "typescript": "~4.2.0",
     "ts-node": "^8.3.0"

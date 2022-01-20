@@ -132,7 +132,7 @@ export class BlobQuickQueryStream extends Readable {
               position,
               name,
               isFatal: fatal,
-              description
+              description,
             });
           }
           break;

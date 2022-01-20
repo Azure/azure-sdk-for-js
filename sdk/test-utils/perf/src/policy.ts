@@ -3,7 +3,7 @@ import {
   RequestPolicy,
   RequestPolicyOptions,
   WebResource,
-  HttpOperationResponse
+  HttpOperationResponse,
 } from "@azure/core-http";
 import * as url from "url";
 

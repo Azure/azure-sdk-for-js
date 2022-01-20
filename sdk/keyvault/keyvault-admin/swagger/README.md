@@ -15,7 +15,7 @@ input-file:
   - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7a42f16c75e5005c59b75fe7f0888c1103294d43/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.3-preview/backuprestore.json
 output-folder: ../
 source-code-folder-path: ./src/generated
-package-version: 4.2.0-beta.2
+package-version: 4.2.0-beta.3
 ```
 
 ### Hide LROs

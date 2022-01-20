@@ -90,7 +90,7 @@ credential for your application:
   - **Do you want your application to pick the appropriate credential type based on the
     environment?**
 
-        - Use the `DefaultAzureCredential`
+    - Use the `DefaultAzureCredential`
 
 - **Is the application deployed to a user device or running in the browser?**
 

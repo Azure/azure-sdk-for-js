@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { OperationResponse } from "../operationResponse";
-import { OperationSpec } from "../operationSpec";
-import { RestError } from "../restError";
-import { MapperType } from "../serializer";
-import { parseXML } from "../util/xml";
-import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
-import { XML_CHARKEY, SerializerOptions } from "../util/serializer.common";
+import { SerializerOptions, XML_CHARKEY } from "../util/serializer.common";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { MapperType } from "../serializer";
+import { OperationResponse } from "../operationResponse";
+import { OperationSpec } from "../operationSpec";
+import { RestError } from "../restError";
+import { WebResourceLike } from "../webResource";
+import { parseXML } from "../util/xml";
 
 /**
  * Options to configure API response deserialization.
@@ -61,7 +61,7 @@ export function deserializationPolicy(
         deserializationContentTypes,
         parsingOptions
       );
-    }
+    },
   };
 }
 
@@ -71,8 +71,8 @@ export const defaultXmlContentTypes = ["application/xml", "application/atom+xml"
 export const DefaultDeserializationOptions: DeserializationOptions = {
   expectedContentTypes: {
     json: defaultJsonContentTypes,
-    xml: defaultXmlContentTypes
-  }
+    xml: defaultXmlContentTypes,
+  },
 };
 
 /**
@@ -102,7 +102,7 @@ export class DeserializationPolicy extends BaseRequestPolicy {
   public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     return this._nextPolicy.sendRequest(request).then((response: HttpOperationResponse) =>
       deserializeResponseBody(this.jsonContentTypes, this.xmlContentTypes, response, {
-        xmlCharKey: this.xmlCharKey
+        xmlCharKey: this.xmlCharKey,
       })
     );
   }
@@ -161,7 +161,7 @@ export function deserializeResponseBody(
   const updatedOptions: Required<SerializerOptions> = {
     rootName: options.rootName ?? "",
     includeRoot: options.includeRoot ?? false,
-    xmlCharKey: options.xmlCharKey ?? XML_CHARKEY
+    xmlCharKey: options.xmlCharKey ?? XML_CHARKEY,
   };
   return parse(jsonContentTypes, xmlContentTypes, response, updatedOptions).then(
     (parsedResponse) => {

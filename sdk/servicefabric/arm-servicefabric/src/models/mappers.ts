@@ -8,109 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const Resource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      location: {
-        serializedName: "location",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
 export const ClusterVersionDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -863,6 +760,109 @@ export const NotificationTarget: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -1853,6 +1853,27 @@ export const ApplicationResourceList: coreClient.CompositeMapper = {
   }
 };
 
+export const PartitionSchemeDescription: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PartitionSchemeDescription",
+    uberParent: "PartitionSchemeDescription",
+    polymorphicDiscriminator: {
+      serializedName: "partitionScheme",
+      clientName: "partitionScheme"
+    },
+    modelProperties: {
+      partitionScheme: {
+        serializedName: "partitionScheme",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ServiceResourcePropertiesBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1985,27 +2006,6 @@ export const ServicePlacementPolicyDescription: coreClient.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PartitionSchemeDescription: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PartitionSchemeDescription",
-    uberParent: "PartitionSchemeDescription",
-    polymorphicDiscriminator: {
-      serializedName: "partitionScheme",
-      clientName: "partitionScheme"
-    },
-    modelProperties: {
-      partitionScheme: {
-        serializedName: "partitionScheme",
         required: true,
         type: {
           name: "String"
@@ -2709,84 +2709,6 @@ export const ApplicationResourceProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const ServiceResourceProperties: coreClient.CompositeMapper = {
-  serializedName: "ServiceResourceProperties",
-  type: {
-    name: "Composite",
-    className: "ServiceResourceProperties",
-    uberParent: "ServiceResourcePropertiesBase",
-    polymorphicDiscriminator: {
-      serializedName: "serviceKind",
-      clientName: "serviceKind"
-    },
-    modelProperties: {
-      ...ServiceResourcePropertiesBase.type.modelProperties,
-      provisioningState: {
-        serializedName: "provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      serviceKind: {
-        serializedName: "serviceKind",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      serviceTypeName: {
-        serializedName: "serviceTypeName",
-        type: {
-          name: "String"
-        }
-      },
-      partitionDescription: {
-        serializedName: "partitionDescription",
-        type: {
-          name: "Composite",
-          className: "PartitionSchemeDescription"
-        }
-      },
-      servicePackageActivationMode: {
-        serializedName: "servicePackageActivationMode",
-        type: {
-          name: "String"
-        }
-      },
-      serviceDnsName: {
-        serializedName: "serviceDnsName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ServiceResourceUpdateProperties: coreClient.CompositeMapper = {
-  serializedName: "ServiceResourceUpdateProperties",
-  type: {
-    name: "Composite",
-    className: "ServiceResourceUpdateProperties",
-    uberParent: "ServiceResourcePropertiesBase",
-    polymorphicDiscriminator: {
-      serializedName: "serviceKind",
-      clientName: "serviceKind"
-    },
-    modelProperties: {
-      ...ServiceResourcePropertiesBase.type.modelProperties,
-      serviceKind: {
-        serializedName: "serviceKind",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const NamedPartitionSchemeDescription: coreClient.CompositeMapper = {
   serializedName: "Named",
   type: {
@@ -2860,6 +2782,84 @@ export const UniformInt64RangePartitionSchemeDescription: coreClient.CompositeMa
       },
       highKey: {
         serializedName: "highKey",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceResourceProperties: coreClient.CompositeMapper = {
+  serializedName: "ServiceResourceProperties",
+  type: {
+    name: "Composite",
+    className: "ServiceResourceProperties",
+    uberParent: "ServiceResourcePropertiesBase",
+    polymorphicDiscriminator: {
+      serializedName: "serviceKind",
+      clientName: "serviceKind"
+    },
+    modelProperties: {
+      ...ServiceResourcePropertiesBase.type.modelProperties,
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      serviceKind: {
+        serializedName: "serviceKind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      serviceTypeName: {
+        serializedName: "serviceTypeName",
+        type: {
+          name: "String"
+        }
+      },
+      partitionDescription: {
+        serializedName: "partitionDescription",
+        type: {
+          name: "Composite",
+          className: "PartitionSchemeDescription"
+        }
+      },
+      servicePackageActivationMode: {
+        serializedName: "servicePackageActivationMode",
+        type: {
+          name: "String"
+        }
+      },
+      serviceDnsName: {
+        serializedName: "serviceDnsName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceResourceUpdateProperties: coreClient.CompositeMapper = {
+  serializedName: "ServiceResourceUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "ServiceResourceUpdateProperties",
+    uberParent: "ServiceResourcePropertiesBase",
+    polymorphicDiscriminator: {
+      serializedName: "serviceKind",
+      clientName: "serviceKind"
+    },
+    modelProperties: {
+      ...ServiceResourcePropertiesBase.type.modelProperties,
+      serviceKind: {
+        serializedName: "serviceKind",
         required: true,
         type: {
           name: "String"
@@ -3034,13 +3034,13 @@ export const StatelessServiceUpdateProperties: coreClient.CompositeMapper = {
 };
 
 export let discriminators = {
-  "ServicePlacementPolicyDescription.undefined": ServicePlacementPolicyDescription,
   PartitionSchemeDescription: PartitionSchemeDescription,
-  "ServiceResourcePropertiesBase.ServiceResourceProperties": ServiceResourceProperties,
-  "ServiceResourcePropertiesBase.ServiceResourceUpdateProperties": ServiceResourceUpdateProperties,
+  "ServicePlacementPolicyDescription.undefined": ServicePlacementPolicyDescription,
   "PartitionSchemeDescription.Named": NamedPartitionSchemeDescription,
   "PartitionSchemeDescription.Singleton": SingletonPartitionSchemeDescription,
   "PartitionSchemeDescription.UniformInt64Range": UniformInt64RangePartitionSchemeDescription,
+  "ServiceResourcePropertiesBase.ServiceResourceProperties": ServiceResourceProperties,
+  "ServiceResourcePropertiesBase.ServiceResourceUpdateProperties": ServiceResourceUpdateProperties,
   "ServiceResourcePropertiesBase.Stateful": StatefulServiceUpdateProperties,
   "ServiceResourcePropertiesBase.Stateless": StatelessServiceUpdateProperties
 };

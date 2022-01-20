@@ -10,11 +10,11 @@ import {
   ChallengeCallbacks,
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequest
+  PipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { parseWWWAuthenticate } from "../../../keyvault-common/src";
 
-describe("Challenge based authentication tests", function() {
+describe("Challenge based authentication tests", function () {
   let request: PipelineRequest;
   let challengeCallbacks: ChallengeCallbacks;
 
@@ -32,7 +32,7 @@ describe("Challenge based authentication tests", function() {
           return Promise.resolve({ token: "access_token", expiresOnTimestamp: 1000 });
         },
         request,
-        scopes: []
+        scopes: [],
       };
 
       await challengeCallbacks.authorizeRequest!(options);
@@ -50,7 +50,7 @@ describe("Challenge based authentication tests", function() {
           return Promise.resolve({ token: "access_token", expiresOnTimestamp: 1000 });
         },
         request,
-        scopes: []
+        scopes: [],
       };
 
       // Set up the challenge state to complete by calling authorizeRequestOnChallenge first
@@ -61,12 +61,12 @@ describe("Challenge based authentication tests", function() {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer scope="cae_scope"`
+            "WWW-Authenticate": `Bearer scope="cae_scope"`,
           }),
           request,
-          status: 200
+          status: 200,
         },
-        scopes: []
+        scopes: [],
       });
 
       await challengeCallbacks.authorizeRequest!(options);
@@ -82,9 +82,9 @@ describe("Challenge based authentication tests", function() {
         },
         request: createPipelineRequest({
           url: "https://foo.bar",
-          headers: createHttpHeaders()
+          headers: createHttpHeaders(),
         }),
-        scopes: ["any_scope"]
+        scopes: ["any_scope"],
       };
 
       await challengeCallbacks.authorizeRequest!(options);
@@ -102,9 +102,9 @@ describe("Challenge based authentication tests", function() {
           response: {
             headers: createHttpHeaders(),
             request,
-            status: 200
+            status: 200,
           },
-          scopes: []
+          scopes: [],
         }),
         "Missing challenge"
       );
@@ -120,12 +120,12 @@ describe("Challenge based authentication tests", function() {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer scope="cae_scope"`
+            "WWW-Authenticate": `Bearer scope="cae_scope"`,
           }),
           request,
-          status: 200
+          status: 200,
         },
-        scopes: []
+        scopes: [],
       });
 
       assert.sameMembers(getAccessTokenScopes, ["cae_scope"]);
@@ -144,12 +144,12 @@ describe("Challenge based authentication tests", function() {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer scope="cae_scope" authorization="http://login.windows.net/${expectedTenantId}"`
+            "WWW-Authenticate": `Bearer scope="cae_scope" authorization="http://login.windows.net/${expectedTenantId}"`,
           }),
           request,
-          status: 200
+          status: 200,
         },
-        scopes: []
+        scopes: [],
       });
 
       assert.equal(getAccessTokenTenantId, expectedTenantId);
@@ -163,12 +163,12 @@ describe("Challenge based authentication tests", function() {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer scope="cae_scope"`
+            "WWW-Authenticate": `Bearer scope="cae_scope"`,
           }),
           request,
-          status: 200
+          status: 200,
         },
-        scopes: []
+        scopes: [],
       });
       assert.isTrue(result);
     });
@@ -181,12 +181,12 @@ describe("Challenge based authentication tests", function() {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer scope="cae_scope"`
+            "WWW-Authenticate": `Bearer scope="cae_scope"`,
           }),
           request,
-          status: 200
+          status: 200,
         },
-        scopes: []
+        scopes: [],
       });
       assert.isFalse(result);
     });
@@ -198,14 +198,14 @@ describe("Challenge based authentication tests", function() {
       const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
       assert.deepEqual(parsed1, {
         authorization: "https://login.windows.net",
-        resource: "https://some.url"
+        resource: "https://some.url",
       });
 
       const wwwAuthenticate2 = `Bearer authorization="https://login.windows.net/", scope="https://some.url"`;
       const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
       assert.deepEqual(parsed2, {
         authorization: "https://login.windows.net/",
-        scope: "https://some.url"
+        scope: "https://some.url",
       });
     });
 
@@ -215,7 +215,7 @@ describe("Challenge based authentication tests", function() {
       assert.deepEqual(parsed1, {
         authorization: "https://login.windows.net",
         resource: "https://some.url",
-        scope: "scope"
+        scope: "scope",
       });
     });
 
@@ -225,7 +225,7 @@ describe("Challenge based authentication tests", function() {
       assert.deepEqual(parsed1, {
         authorization: "https://login.windows.net/9999",
         resource: "https://some.url",
-        tenantId: "9999"
+        tenantId: "9999",
       });
     });
   });

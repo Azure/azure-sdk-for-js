@@ -11,7 +11,7 @@ import { Configurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { PostgreSQLManagementClientContext } from "../postgreSQLManagementClientContext";
+import { PostgreSQLManagementClient } from "../postgreSQLManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -27,13 +27,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Configurations operations. */
 export class ConfigurationsImpl implements Configurations {
-  private readonly client: PostgreSQLManagementClientContext;
+  private readonly client: PostgreSQLManagementClient;
 
   /**
    * Initialize a new instance of the class Configurations class.
    * @param client Reference to the service client
    */
-  constructor(client: PostgreSQLManagementClientContext) {
+  constructor(client: PostgreSQLManagementClient) {
     this.client = client;
   }
 

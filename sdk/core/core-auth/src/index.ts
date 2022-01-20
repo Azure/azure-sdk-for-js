@@ -5,7 +5,7 @@ export { AzureKeyCredential, KeyCredential } from "./azureKeyCredential";
 export {
   AzureNamedKeyCredential,
   NamedKeyCredential,
-  isNamedKeyCredential
+  isNamedKeyCredential,
 } from "./azureNamedKeyCredential";
 export { AzureSASCredential, SASCredential, isSASCredential } from "./azureSASCredential";
 
@@ -13,7 +13,7 @@ export {
   TokenCredential,
   GetTokenOptions,
   AccessToken,
-  isTokenCredential
+  isTokenCredential,
 } from "./tokenCredential";
 
-export { Context } from "./tracing";
+export { TracingContext } from "./tracing";

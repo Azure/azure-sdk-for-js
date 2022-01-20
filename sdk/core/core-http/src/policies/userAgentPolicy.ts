@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpHeaders } from "../httpHeaders";
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { Constants } from "../util/constants";
-import { WebResourceLike } from "../webResource";
-import { getDefaultUserAgentKey, getPlatformSpecificData } from "./msRestUserAgentPolicy";
 import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
+import { getDefaultUserAgentKey, getPlatformSpecificData } from "./msRestUserAgentPolicy";
+import { Constants } from "../util/constants";
+import { HttpHeaders } from "../httpHeaders";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResourceLike } from "../webResource";
 
 /**
  * Telemetry information. Key/value pairs to include inside the User-Agent string.
@@ -32,7 +32,7 @@ export interface UserAgentOptions {
 function getRuntimeInfo(): TelemetryInfo[] {
   const msRestRuntime = {
     key: "core-http",
-    value: Constants.coreHttpVersion
+    value: Constants.coreHttpVersion,
   };
 
   return [msRestRuntime];
@@ -82,7 +82,7 @@ export function userAgentPolicy(userAgentData?: TelemetryInfo): RequestPolicyFac
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new UserAgentPolicy(nextPolicy, options, key, value);
-    }
+    },
   };
 }
 

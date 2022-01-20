@@ -17,7 +17,8 @@ describe("ServiceBusReceiver unit tests", () => {
       createConnectionContextForTests(),
       "entityPath",
       "peekLock",
-      0
+      0,
+      false
     );
   });
 
@@ -25,7 +26,7 @@ describe("ServiceBusReceiver unit tests", () => {
 
   const expectedError: Record<string, any> = {
     name: "Error",
-    message: 'The receiver for "entityPath" is already receiving messages.'
+    message: 'The receiver for "entityPath" is already receiving messages.',
   };
 
   it("isAlreadyReceiving (batching first, then streaming)", async () => {
@@ -36,7 +37,7 @@ describe("ServiceBusReceiver unit tests", () => {
       isReceivingMessages: true,
       close: async () => {
         /* empty body */
-      }
+      },
     } as BatchingReceiver;
 
     assert.isTrue(receiver["_isReceivingMessages"](), "Batching receiver is receiving messages");
@@ -48,7 +49,7 @@ describe("ServiceBusReceiver unit tests", () => {
         },
         processMessage: async (_msg) => {
           /* empty body */
-        }
+        },
       });
     };
 
@@ -73,7 +74,7 @@ describe("ServiceBusReceiver unit tests", () => {
       },
       processMessage: async (_msg) => {
         /* empty body */
-      }
+      },
     } as InternalMessageHandlers);
 
     await subscriberInitializedPromise;

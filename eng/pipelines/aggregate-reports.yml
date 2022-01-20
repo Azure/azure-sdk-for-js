@@ -19,10 +19,20 @@ stages:
       - job: GenerateReports
         timeoutInMinutes: 120
         steps:
-          - task: NodeTool@0
-            displayName: 'Use Node 10.x'
+          - template: /eng/pipelines/templates/steps/use-node-version.yml
+            parameters:
+              NodeVersion: 16.x
+
+          - task: PowerShell@2
             inputs:
-              versionSpec: 10.x
+              targetType: 'filePath'
+              filePath: eng/scripts/spell-check-public-api.ps1
+              pwsh: true
+            displayName: Spell check public API
+
+          - template: /eng/pipelines/templates/steps/use-node-version.yml
+            parameters:
+              NodeVersion: 10.x
 
           - template: ../common/pipelines/templates/steps/verify-links.yml
             parameters:

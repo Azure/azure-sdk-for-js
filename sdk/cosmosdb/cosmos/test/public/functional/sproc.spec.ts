@@ -9,24 +9,24 @@ import {
   bulkInsertItems,
   getTestContainer,
   getTestDatabase,
-  removeAllDatabases
+  removeAllDatabases,
 } from "../common/TestHelpers";
 
 // Used for sproc
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", function(this: Suite) {
+describe("NodeJS CRUD Tests", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function() {
+  beforeEach(async function () {
     await removeAllDatabases();
   });
-  describe("Validate sproc CRUD", function() {
+  describe("Validate sproc CRUD", function () {
     let container: Container;
-    beforeEach(async function(this: Context) {
+    beforeEach(async function (this: Context) {
       container = await getTestContainer(this.test.fullTitle());
     });
 
-    it("nativeApi Should do sproc CRUD operations successfully with create/replace", async function() {
+    it("nativeApi Should do sproc CRUD operations successfully with create/replace", async function () {
       // read sprocs
       const { resources: sprocs } = await container.scripts.storedProcedures.readAll().fetchAll();
       assert.equal(sprocs.constructor, Array, "Value should be an array");
@@ -35,7 +35,7 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       const beforeCreateSprocsCount = sprocs.length;
       const sprocDefinition: StoredProcedureDefinition = {
         id: "sample sproc",
-        body: "function () { const x = 10; }"
+        body: "function () { const x = 10; }",
       };
 
       const { resource: sproc } = await container.scripts.storedProcedures.create(sprocDefinition);
@@ -44,9 +44,9 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       assert.equal(sproc.body, "function () { const x = 10; }");
 
       // read sprocs after creation
-      const {
-        resources: sprocsAfterCreation
-      } = await container.scripts.storedProcedures.readAll().fetchAll();
+      const { resources: sprocsAfterCreation } = await container.scripts.storedProcedures
+        .readAll()
+        .fetchAll();
       assert.equal(
         sprocsAfterCreation.length,
         beforeCreateSprocsCount + 1,
@@ -55,7 +55,7 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
 
       // query sprocs
       const querySpec = {
-        query: "SELECT * FROM root r"
+        query: "SELECT * FROM root r",
       };
       const { resources: queriedSprocs } = await container.scripts.storedProcedures
         .query(querySpec)
@@ -92,47 +92,41 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
     });
   });
 
-  describe("Validate stored procedure functionality", function() {
+  describe("Validate stored procedure functionality", function () {
     let container: Container;
-    beforeEach(async function(this: Context) {
+    beforeEach(async function (this: Context) {
       container = await getTestContainer(this.test.fullTitle());
     });
 
-    it("nativeApi should do stored procedure operations successfully with create/replace", async function() {
+    it("nativeApi should do stored procedure operations successfully with create/replace", async function () {
       const sproc1: StoredProcedureDefinition = {
         id: "storedProcedure1",
-        body: function() {
+        body: function () {
           for (let i = 0; i < 1000; i++) {
-            const item = getContext()
-              .getResponse()
-              .getBody();
+            const item = getContext().getResponse().getBody();
             if (i > 0 && item !== i - 1) throw "body mismatch";
-            getContext()
-              .getResponse()
-              .setBody(i);
+            getContext().getResponse().setBody(i);
           }
-        }
+        },
       };
 
       const sproc2: StoredProcedureDefinition = {
         id: "storedProcedure2",
-        body: function() {
+        body: function () {
           for (let i = 0; i < 10; i++) {
-            getContext()
-              .getResponse()
-              .appendValue("Body", i);
+            getContext().getResponse().appendValue("Body", i);
           }
-        }
+        },
       };
 
       const sproc3: StoredProcedureDefinition = {
         id: "storedProcedure3",
         // TODO: I put any in here, but not sure how this will work...
-        body: function(input: any) {
+        body: function (input: any) {
           getContext()
             .getResponse()
             .setBody("a" + input.temp);
-        }
+        },
       };
 
       const { resource: retrievedSproc } = await container.scripts.storedProcedures.create(sproc1);
@@ -154,40 +148,42 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
     });
   });
 
-  it("nativeApi Should execute stored procedure with partition key successfully name based", async function() {
+  it("nativeApi Should execute stored procedure with partition key successfully name based", async function () {
     const database = await getTestDatabase("sproc test database");
     // create container
     const partitionKey = "key";
 
     const containerDefinition = {
       id: "coll1",
-      partitionKey: { paths: ["/" + partitionKey] }
+      partitionKey: { paths: ["/" + partitionKey] },
     };
 
     const { resource: containerResult } = await database.containers.create(containerDefinition, {
-      offerThroughput: 12000
+      offerThroughput: 12000,
     });
     const container = await database.container(containerResult.id);
 
     const querySproc = {
       id: "querySproc",
-      body: function() {
+      body: function () {
         const context = getContext();
         const container2 = context.getCollection();
         const response = context.getResponse();
 
         // query for players
         const query = "SELECT r.id, r.key, r.prop FROM r";
-        const accept = container2.queryDocuments(container2.getSelfLink(), query, {}, function(
-          err: any,
-          documents: any
-        ) {
-          if (err) throw new Error("Error" + err.message);
-          response.setBody(documents);
-        });
+        const accept = container2.queryDocuments(
+          container2.getSelfLink(),
+          query,
+          {},
+          function (err: any, documents: any) {
+            if (err) throw new Error("Error" + err.message);
+            response.setBody(documents);
+          }
+        );
 
         if (!accept) throw "Unable to read player details, abort ";
-      }
+      },
     };
 
     const documents = [
@@ -196,7 +192,7 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
       { id: "document3", key: false, prop: 1 },
       { id: "document4", key: true, prop: 1 },
       { id: "document5", key: 1, prop: 1 },
-      { id: "document6", key: "A", prop: 1 }
+      { id: "document6", key: "A", prop: 1 },
     ];
 
     await bulkInsertItems(container, documents);
@@ -216,31 +212,29 @@ describe("NodeJS CRUD Tests", function(this: Suite) {
     assert.equal(JSON.stringify(result2[0]), JSON.stringify(documents[4]));
   });
 
-  it("nativeApi Should enable/disable script logging while executing stored procedure", async function() {
+  it("nativeApi Should enable/disable script logging while executing stored procedure", async function () {
     // create database
     const database = await getTestDatabase("sproc test database");
     // create container
     const { resource: containerResult } = await database.containers.create({
-      id: "sample container"
+      id: "sample container",
     });
 
     const container = await database.container(containerResult.id);
     const sproc1 = {
       id: "storedProcedure",
-      body: function() {
+      body: function () {
         const mytext = "x";
         const myval = 1;
         try {
           console.log("The value of %s is %s.", mytext, myval);
-          getContext()
-            .getResponse()
-            .setBody("Success!");
+          getContext().getResponse().setBody("Success!");
         } catch (err) {
           getContext()
             .getResponse()
             .setBody("inline err: [" + err.number + "] " + err);
         }
-      }
+      },
     };
 
     const { resource: retrievedSproc } = await container.scripts.storedProcedures.create(sproc1);

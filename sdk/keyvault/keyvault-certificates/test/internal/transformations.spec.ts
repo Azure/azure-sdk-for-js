@@ -5,21 +5,21 @@ import { assert } from "chai";
 import { CertificateOperation as CoreCertificateOperation } from "../../src/generated/models";
 import { getCertificateOperationFromCoreOperation } from "../../src/transformations";
 
-describe("transformations", function() {
-  describe("getCertificateOperationFromCoreOperation", function() {
-    it("transforms null error to undefined", function() {
+describe("transformations", function () {
+  describe("getCertificateOperationFromCoreOperation", function () {
+    it("transforms null error to undefined", function () {
       const input: CoreCertificateOperation = {
-        error: null
+        error: null,
       };
 
       assert.isUndefined(getCertificateOperationFromCoreOperation("", "", input).error);
     });
 
-    it("transforms null inner error to undefined", function() {
+    it("transforms null inner error to undefined", function () {
       const input: CoreCertificateOperation = {
         error: {
-          innerError: null
-        }
+          innerError: null,
+        },
       };
 
       const output = getCertificateOperationFromCoreOperation("", "", input);
@@ -27,7 +27,7 @@ describe("transformations", function() {
       assert.isUndefined(output.error!.innerError);
     });
 
-    it("transforms errors correctly when present", function() {
+    it("transforms errors correctly when present", function () {
       const input: CoreCertificateOperation = {
         error: {
           code: "outer error",
@@ -35,9 +35,9 @@ describe("transformations", function() {
           innerError: {
             code: "inner error",
             innerError: undefined,
-            message: "The inner error message"
-          }
-        }
+            message: "The inner error message",
+          },
+        },
       };
 
       const output = getCertificateOperationFromCoreOperation("", "", input);

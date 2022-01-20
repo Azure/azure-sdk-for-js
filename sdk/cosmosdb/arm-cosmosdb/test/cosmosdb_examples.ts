@@ -60,7 +60,7 @@ describe("Cosmosdb test", () => {
     client = new CosmosDBManagementClient(credential, subscriptionId);
     location = "eastus";
     resourceGroupName = "myjstest";
-    accountName = "myaccountxxx5";
+    accountName = "myaccountxxyy2";
   });
 
   afterEach(async function() {

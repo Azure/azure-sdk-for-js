@@ -21,7 +21,7 @@ export async function registerTestSchema(registry: SchemaRegistry): Promise<stri
     name: `${testSchemaObject.namespace}.${testSchemaObject.name}`,
     groupName: testGroup,
     definition: testSchema,
-    format: "avro"
+    format: "avro",
   });
   return schema.id;
 }

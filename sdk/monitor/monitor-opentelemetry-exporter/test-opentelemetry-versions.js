@@ -9,7 +9,7 @@ const packages = [
   ),
   ...Object.keys(packageJson.devDependencies).filter((package) =>
     package.startsWith("@opentelemetry")
-  )
+  ),
 ];
 
 async function exec(cmd) {

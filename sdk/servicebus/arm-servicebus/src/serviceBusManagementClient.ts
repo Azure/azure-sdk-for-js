@@ -6,41 +6,39 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
   NamespacesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
+  OperationsImpl,
   DisasterRecoveryConfigsImpl,
+  MigrationConfigsImpl,
   QueuesImpl,
   TopicsImpl,
-  EventHubsImpl,
-  MigrationConfigsImpl,
-  PremiumMessagingRegionsOperationsImpl,
-  RegionsImpl,
-  SubscriptionsImpl,
   RulesImpl,
-  OperationsImpl
+  SubscriptionsImpl
 } from "./operations";
 import {
   Namespaces,
   PrivateEndpointConnections,
   PrivateLinkResources,
+  Operations,
   DisasterRecoveryConfigs,
+  MigrationConfigs,
   Queues,
   Topics,
-  EventHubs,
-  MigrationConfigs,
-  PremiumMessagingRegionsOperations,
-  Regions,
-  Subscriptions,
   Rules,
-  Operations
+  Subscriptions
 } from "./operationsInterfaces";
-import { ServiceBusManagementClientContext } from "./serviceBusManagementClientContext";
 import { ServiceBusManagementClientOptionalParams } from "./models";
 
-export class ServiceBusManagementClient extends ServiceBusManagementClientContext {
+export class ServiceBusManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  apiVersion: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -53,35 +51,66 @@ export class ServiceBusManagementClient extends ServiceBusManagementClientContex
     subscriptionId: string,
     options?: ServiceBusManagementClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: ServiceBusManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-servicebus/5.0.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2021-06-01-preview";
     this.namespaces = new NamespacesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.operations = new OperationsImpl(this);
     this.disasterRecoveryConfigs = new DisasterRecoveryConfigsImpl(this);
+    this.migrationConfigs = new MigrationConfigsImpl(this);
     this.queues = new QueuesImpl(this);
     this.topics = new TopicsImpl(this);
-    this.eventHubs = new EventHubsImpl(this);
-    this.migrationConfigs = new MigrationConfigsImpl(this);
-    this.premiumMessagingRegionsOperations = new PremiumMessagingRegionsOperationsImpl(
-      this
-    );
-    this.regions = new RegionsImpl(this);
-    this.subscriptions = new SubscriptionsImpl(this);
     this.rules = new RulesImpl(this);
-    this.operations = new OperationsImpl(this);
+    this.subscriptions = new SubscriptionsImpl(this);
   }
 
   namespaces: Namespaces;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
+  operations: Operations;
   disasterRecoveryConfigs: DisasterRecoveryConfigs;
+  migrationConfigs: MigrationConfigs;
   queues: Queues;
   topics: Topics;
-  eventHubs: EventHubs;
-  migrationConfigs: MigrationConfigs;
-  premiumMessagingRegionsOperations: PremiumMessagingRegionsOperations;
-  regions: Regions;
-  subscriptions: Subscriptions;
   rules: Rules;
-  operations: Operations;
+  subscriptions: Subscriptions;
 }

@@ -14,14 +14,14 @@ import { Recorder } from "@azure-tools/test-recorder";
 
 import { createRecordedClient, createRecorder, getAttestationUri } from "../utils/recordedClient";
 import { AttestationClient } from "../../src";
-describe("TokenCertTests", function() {
+describe("TokenCertTests", function () {
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = createRecorder(this);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 

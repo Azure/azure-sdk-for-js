@@ -6,18 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Table,
-  TableOperationsListOptionalParams,
-  TableOperationsCreateOptionalParams,
-  TableOperationsCreateResponse,
-  TableOperationsUpdateOptionalParams,
-  TableOperationsUpdateResponse,
-  TableOperationsGetOptionalParams,
-  TableOperationsGetResponse,
-  TableOperationsDeleteOptionalParams
+  TableListOptionalParams,
+  TableCreateOptionalParams,
+  TableCreateResponse,
+  TableUpdateOptionalParams,
+  TableUpdateResponse,
+  TableGetOptionalParams,
+  TableGetResponse,
+  TableDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +34,7 @@ export interface TableOperations {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: TableOperationsListOptionalParams
+    options?: TableListOptionalParams
   ): PagedAsyncIterableIterator<Table>;
   /**
    * Creates a new table with the specified table name, under the specified account.
@@ -53,8 +52,8 @@ export interface TableOperations {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableOperationsCreateOptionalParams
-  ): Promise<TableOperationsCreateResponse>;
+    options?: TableCreateOptionalParams
+  ): Promise<TableCreateResponse>;
   /**
    * Creates a new table with the specified table name, under the specified account.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
@@ -71,8 +70,8 @@ export interface TableOperations {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableOperationsUpdateOptionalParams
-  ): Promise<TableOperationsUpdateResponse>;
+    options?: TableUpdateOptionalParams
+  ): Promise<TableUpdateResponse>;
   /**
    * Gets the table with the specified table name, under the specified account if it exists.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
@@ -89,8 +88,8 @@ export interface TableOperations {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableOperationsGetOptionalParams
-  ): Promise<TableOperationsGetResponse>;
+    options?: TableGetOptionalParams
+  ): Promise<TableGetResponse>;
   /**
    * Deletes the table with the specified table name, under the specified account if it exists.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
@@ -107,6 +106,6 @@ export interface TableOperations {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableOperationsDeleteOptionalParams
+    options?: TableDeleteOptionalParams
   ): Promise<void>;
 }

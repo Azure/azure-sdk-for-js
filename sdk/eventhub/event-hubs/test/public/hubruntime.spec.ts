@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:hubruntime-spec");
 import { EnvVarKeys, getEnvVars, setTracerForTest } from "./utils/testUtils";
-import { setSpan, context } from "@azure/core-tracing";
-
-import { SpanGraph } from "@azure/test-utils";
 import {
   EventHubBufferedProducerClient,
-  EventHubProducerClient,
   EventHubConsumerClient,
-  MessagingError
+  EventHubProducerClient,
+  MessagingError,
 } from "../../src";
-import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+import { context, setSpan } from "@azure/core-tracing";
+import { SpanGraph } from "@azure/test-utils";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "./utils/mockService";
+import debugModule from "debug";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
+const debug = debugModule("azure:event-hubs:hubruntime-spec");
 
 type ClientCommonMethods = Pick<
   EventHubProducerClient,
@@ -39,19 +39,19 @@ testWithServiceTypes((serviceVersion) => {
     });
   }
 
-  describe("RuntimeInformation", function(): void {
+  describe("RuntimeInformation", function (): void {
     const clientTypes = [
       "EventHubBufferedProducerClient",
       "EventHubConsumerClient",
-      "EventHubProducerClient"
+      "EventHubProducerClient",
     ] as const;
     const clientMap = new Map<typeof clientTypes[number], ClientCommonMethods>();
 
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]
+      path: env[EnvVarKeys.EVENTHUB_NAME],
     };
-    before("validate environment", function(): void {
+    before("validate environment", function (): void {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -82,7 +82,7 @@ testWithServiceTypes((serviceVersion) => {
       );
     });
 
-    afterEach("close the connection", async function(): Promise<void> {
+    afterEach("close the connection", async function (): Promise<void> {
       for (const client of clientMap.values()) {
         await client?.close();
       }
@@ -111,8 +111,8 @@ testWithServiceTypes((serviceVersion) => {
           const rootSpan = tracer.startSpan("root");
           const ids = await client.getPartitionIds({
             tracingOptions: {
-              tracingContext: setSpan(context.active(), rootSpan)
-            }
+              tracingContext: setSpan(context.active(), rootSpan),
+            },
           });
           ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
           rootSpan.end();
@@ -128,11 +128,11 @@ testWithServiceTypes((serviceVersion) => {
                 children: [
                   {
                     name: "Azure.EventHubs.getEventHubProperties",
-                    children: []
-                  }
-                ]
-              }
-            ]
+                    children: [],
+                  },
+                ],
+              },
+            ],
           };
 
           tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
@@ -153,15 +153,15 @@ testWithServiceTypes((serviceVersion) => {
           hubRuntimeInfo.createdOn.should.be.instanceof(Date);
         });
 
-        it("can be manually traced", async function(): Promise<void> {
+        it("can be manually traced", async function (): Promise<void> {
           const client = clientMap.get(clientType)!;
           const { tracer, resetTracer } = setTracerForTest();
 
           const rootSpan = tracer.startSpan("root");
           const hubRuntimeInfo = await client.getEventHubProperties({
             tracingOptions: {
-              tracingContext: setSpan(context.active(), rootSpan)
-            }
+              tracingContext: setSpan(context.active(), rootSpan),
+            },
           });
           hubRuntimeInfo.partitionIds.should.have.members(
             arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
@@ -179,11 +179,11 @@ testWithServiceTypes((serviceVersion) => {
                 children: [
                   {
                     name: "Azure.EventHubs.getEventHubProperties",
-                    children: []
-                  }
-                ]
-              }
-            ]
+                    children: [],
+                  },
+                ],
+              },
+            ],
           };
 
           tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
@@ -244,8 +244,8 @@ testWithServiceTypes((serviceVersion) => {
           const rootSpan = tracer.startSpan("root");
           const partitionRuntimeInfo = await client.getPartitionProperties("0", {
             tracingOptions: {
-              tracingContext: setSpan(context.active(), rootSpan)
-            }
+              tracingContext: setSpan(context.active(), rootSpan),
+            },
           });
           partitionRuntimeInfo.partitionId.should.equal("0");
           partitionRuntimeInfo.eventHubName.should.equal(service.path);
@@ -265,11 +265,11 @@ testWithServiceTypes((serviceVersion) => {
                 children: [
                   {
                     name: "Azure.EventHubs.getPartitionProperties",
-                    children: []
-                  }
-                ]
-              }
-            ]
+                    children: [],
+                  },
+                ],
+              },
+            ],
           };
 
           tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);

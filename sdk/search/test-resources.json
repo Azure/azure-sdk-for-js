@@ -48,6 +48,14 @@
     "ENDPOINT": {
       "type": "string",
       "value": "[concat('https://', parameters('baseName'), '.search.windows.net')]"
+    },
+    "CHINAENDPOINT": {
+      "type": "string",
+      "value": "[concat('https://', parameters('baseName'), '.search.azure.cn')]"
+    },
+    "USENDPOINT": {
+      "type": "string",
+      "value": "[concat('https://', parameters('baseName'), '.search.azure.us')]"
     }
   }
 }

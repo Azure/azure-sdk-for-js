@@ -50,10 +50,11 @@ export interface HttpHeaders extends Iterable<[string, string]> {
 /**
  * Types of bodies supported on the request.
  * NodeJS.ReadableStream is Node only.
- * Blob is browser only.
+ * Blob and ReadableStream<Uint8Array> are browser only.
  */
 export type RequestBodyType =
   | NodeJS.ReadableStream
+  | ReadableStream<Uint8Array>
   | Blob
   | ArrayBuffer
   | ArrayBufferView
@@ -116,7 +117,7 @@ export interface PipelineRequest {
   timeout: number;
 
   /**
-   * If credentials (cookies) should be sent along during an XHR.
+   * Indicates whether the user agent should send cookies from the other domain in the case of cross-origin requests.
    * Defaults to false.
    */
   withCredentials: boolean;
@@ -180,6 +181,16 @@ export interface PipelineRequest {
    * Does nothing when running in the browser.
    */
   agent?: Agent;
+
+  /**
+   * BROWSER ONLY
+   *
+   * A browser only option to enable browser Streams. If this option is set and a response is a stream
+   * the response will have a property `browserStream` instead of `blobBody` which will be undefined.
+   *
+   * Default value is false
+   */
+  enableBrowserStreams?: boolean;
 }
 
 /**
@@ -211,6 +222,14 @@ export interface PipelineResponse {
    * Always undefined in node.js.
    */
   blobBody?: Promise<Blob>;
+
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser ReadableStream.
+   * Always undefined in node.js.
+   */
+  browserStreamBody?: ReadableStream<Uint8Array>;
 
   /**
    * NODEJS ONLY
@@ -294,3 +313,26 @@ export type FormDataValue = string | Blob;
  * A simple object that provides form data, as if from a browser form.
  */
 export type FormDataMap = { [key: string]: FormDataValue | FormDataValue[] };
+
+/**
+ * Options that control how to retry failed requests.
+ */
+export interface PipelineRetryOptions {
+  /**
+   * The maximum number of retry attempts. Defaults to 3.
+   */
+  maxRetries?: number;
+
+  /**
+   * The amount of delay in milliseconds between retry attempts. Defaults to 1000
+   * (1 second). The delay increases exponentially with each retry up to a maximum
+   * specified by maxRetryDelayInMs.
+   */
+  retryDelayInMs?: number;
+
+  /**
+   * The maximum delay in milliseconds allowed before retrying an operation. Defaults
+   * to 64000 (64 seconds).
+   */
+  maxRetryDelayInMs?: number;
+}

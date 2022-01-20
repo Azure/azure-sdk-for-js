@@ -313,6 +313,7 @@ export const RedisCreateParameters: coreClient.CompositeMapper = {
         }
       },
       enableNonSslPort: {
+        defaultValue: false,
         serializedName: "properties.enableNonSslPort",
         type: {
           name: "Boolean"
@@ -350,6 +351,7 @@ export const RedisCreateParameters: coreClient.CompositeMapper = {
         }
       },
       publicNetworkAccess: {
+        defaultValue: "Enabled",
         serializedName: "properties.publicNetworkAccess",
         type: {
           name: "String"
@@ -386,6 +388,36 @@ export const RedisCreateParameters: coreClient.CompositeMapper = {
   }
 };
 
+export const Sku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Sku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      family: {
+        serializedName: "family",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      capacity: {
+        serializedName: "capacity",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const RedisCommonProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -405,6 +437,7 @@ export const RedisCommonProperties: coreClient.CompositeMapper = {
         }
       },
       enableNonSslPort: {
+        defaultValue: false,
         serializedName: "enableNonSslPort",
         type: {
           name: "Boolean"
@@ -442,6 +475,7 @@ export const RedisCommonProperties: coreClient.CompositeMapper = {
         }
       },
       publicNetworkAccess: {
+        defaultValue: "Enabled",
         serializedName: "publicNetworkAccess",
         type: {
           name: "String"
@@ -519,66 +553,6 @@ export const RedisCommonPropertiesRedisConfiguration: coreClient.CompositeMapper
       },
       maxclients: {
         serializedName: "maxclients",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Sku: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Sku",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      family: {
-        serializedName: "family",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      capacity: {
-        serializedName: "capacity",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const Resource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
         readOnly: true,
         type: {
           name: "String"
@@ -721,6 +695,36 @@ export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
   }
 };
 
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const RedisUpdateParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -747,6 +751,7 @@ export const RedisUpdateParameters: coreClient.CompositeMapper = {
         }
       },
       enableNonSslPort: {
+        defaultValue: false,
         serializedName: "properties.enableNonSslPort",
         type: {
           name: "Boolean"
@@ -784,6 +789,7 @@ export const RedisUpdateParameters: coreClient.CompositeMapper = {
         }
       },
       publicNetworkAccess: {
+        defaultValue: "Enabled",
         serializedName: "properties.publicNetworkAccess",
         type: {
           name: "String"
@@ -1231,30 +1237,6 @@ export const RedisUpdateProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const TrackedResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TrackedResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      location: {
-        serializedName: "location",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PrivateEndpointConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1278,6 +1260,30 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TrackedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrackedResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      location: {
+        serializedName: "location",
+        required: true,
         type: {
           name: "String"
         }
@@ -1468,6 +1474,7 @@ export const RedisResource: coreClient.CompositeMapper = {
         }
       },
       enableNonSslPort: {
+        defaultValue: false,
         serializedName: "properties.enableNonSslPort",
         type: {
           name: "Boolean"
@@ -1505,6 +1512,7 @@ export const RedisResource: coreClient.CompositeMapper = {
         }
       },
       publicNetworkAccess: {
+        defaultValue: "Enabled",
         serializedName: "properties.publicNetworkAccess",
         type: {
           name: "String"

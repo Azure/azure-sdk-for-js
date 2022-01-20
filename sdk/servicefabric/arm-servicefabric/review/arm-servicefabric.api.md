@@ -996,8 +996,12 @@ export interface ServiceCorrelationDescription {
 export type ServiceCorrelationScheme = string;
 
 // @public (undocumented)
-export class ServiceFabricManagementClient extends ServiceFabricManagementClientContext {
+export class ServiceFabricManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ServiceFabricManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     applications: Applications;
     // (undocumented)
@@ -1012,15 +1016,6 @@ export class ServiceFabricManagementClient extends ServiceFabricManagementClient
     operations: Operations;
     // (undocumented)
     services: Services;
-}
-
-// @public (undocumented)
-export class ServiceFabricManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ServiceFabricManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }

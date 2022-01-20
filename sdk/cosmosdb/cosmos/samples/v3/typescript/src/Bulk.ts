@@ -5,12 +5,17 @@
  * @summary Shows a simple bulk call with each BulkOperation type.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { handleError, finish, logStep } from "./Shared/handleError";
-import { BulkOperationType, CosmosClient, OperationInput ,  PatchOperation, PatchOperationType } from "@azure/cosmos";
+import {
+  BulkOperationType,
+  CosmosClient,
+  OperationInput,
+  PatchOperation,
+  PatchOperationType
+} from "@azure/cosmos";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -43,7 +48,7 @@ async function run() {
   const readItemId = addEntropy("item1");
   const deleteItemId = addEntropy("item2");
   const replaceItemId = addEntropy("item3");
-  const patchItemId = addEntropy("item4")
+  const patchItemId = addEntropy("item4");
   logStep(
     `Create items ${readItemId}, ${deleteItemId}, ${replaceItemId},${patchItemId} for reading, deleting, replacing and patching`
   );
@@ -58,7 +63,7 @@ async function run() {
     key: {},
     class: "2011"
   });
-  
+
   await v2Container.items.create({
     id: replaceItemId,
     key: 5,
@@ -107,7 +112,9 @@ async function run() {
       }
     }
   ];
-  logStep(`Execute a simple bulk request with 5 operations: Create, Upsert, Read, Delete, Replace , Patch`);
+  logStep(
+    `Execute a simple bulk request with 5 operations: Create, Upsert, Read, Delete, Replace , Patch`
+  );
   logStep("Bulk Operations Input to 'container.items.bulk(operations):'");
   console.log(operations);
   const response = await v2Container.items.bulk(operations);

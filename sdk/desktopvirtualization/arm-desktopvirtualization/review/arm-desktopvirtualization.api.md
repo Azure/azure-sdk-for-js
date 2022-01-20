@@ -281,8 +281,12 @@ export interface DesktopsUpdateOptionalParams extends coreClient.OperationOption
 export type DesktopsUpdateResponse = Desktop;
 
 // @public (undocumented)
-export class DesktopVirtualizationAPIClient extends DesktopVirtualizationAPIClientContext {
+export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DesktopVirtualizationAPIClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     applicationGroups: ApplicationGroups;
     // (undocumented)
@@ -308,20 +312,11 @@ export class DesktopVirtualizationAPIClient extends DesktopVirtualizationAPIClie
     // (undocumented)
     startMenuItems: StartMenuItems;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     userSessions: UserSessions;
     // (undocumented)
     workspaces: Workspaces;
-}
-
-// @public (undocumented)
-export class DesktopVirtualizationAPIClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DesktopVirtualizationAPIClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public

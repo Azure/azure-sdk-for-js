@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createProcessingSpan, trace } from "../../src/partitionPump";
 import {
-  SpanStatusCode,
+  Context,
   SpanKind,
   SpanOptions,
-  Context,
+  SpanStatusCode,
+  context,
   setSpanContext,
-  context
 } from "@azure/core-tracing";
 import { TestSpan, TestTracer } from "@azure/test-utils";
-import chai from "chai";
+import { createProcessingSpan, trace } from "../../src/partitionPump";
 import { ReceivedEventData } from "../../src/eventData";
+import chai from "chai";
 import { instrumentEventData } from "../../src/diagnostics/instrumentEventData";
 import { setTracerForTest } from "../public/utils/testUtils";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
@@ -24,7 +24,7 @@ testWithServiceTypes(() => {
     describe("telemetry", () => {
       const eventHubProperties = {
         host: "thehost",
-        entityPath: "theeventhubname"
+        entityPath: "theeventhubname",
       };
 
       class TestTracer2 extends TestTracer {
@@ -49,8 +49,8 @@ testWithServiceTypes(() => {
 
         await createProcessingSpan([], eventHubProperties, {
           tracingOptions: {
-            tracingContext: fakeParentSpanContext
-          }
+            tracingContext: fakeParentSpanContext,
+          },
         });
 
         should.equal(tracer.spanName, "Azure.EventHubs.process");
@@ -59,13 +59,14 @@ testWithServiceTypes(() => {
         tracer.spanOptions!.kind!.should.equal(SpanKind.CONSUMER);
         tracer.context!.should.equal(fakeParentSpanContext);
 
-        const attributes = tracer.getActiveSpans().find((s) => s.name === "Azure.EventHubs.process")
-          ?.attributes;
+        const attributes = tracer
+          .getActiveSpans()
+          .find((s) => s.name === "Azure.EventHubs.process")?.attributes;
 
         attributes!.should.deep.equal({
           "az.namespace": "Microsoft.EventHub",
           "message_bus.destination": eventHubProperties.entityPath,
-          "peer.address": eventHubProperties.host
+          "peer.address": eventHubProperties.host,
         });
 
         resetTracer();
@@ -80,7 +81,7 @@ testWithServiceTypes(() => {
           sequenceNumber: 0,
           getRawAmqpMessage() {
             return {} as any;
-          }
+          },
         };
 
         const { tracer, resetTracer } = setTracerForTest(new TestTracer2());
@@ -93,8 +94,8 @@ testWithServiceTypes(() => {
             { ...requiredEventProperties },
             {
               tracingOptions: {
-                tracingContext: setSpanContext(context.active(), firstEvent.spanContext())
-              }
+                tracingContext: setSpanContext(context.active(), firstEvent.spanContext()),
+              },
             },
             "entityPath",
             "host"
@@ -104,12 +105,12 @@ testWithServiceTypes(() => {
             { ...requiredEventProperties },
             {
               tracingOptions: {
-                tracingContext: setSpanContext(context.active(), thirdEvent.spanContext())
-              }
+                tracingContext: setSpanContext(context.active(), thirdEvent.spanContext()),
+              },
             },
             "entityPath",
             "host"
-          ).event as ReceivedEventData
+          ).event as ReceivedEventData,
         ];
 
         await createProcessingSpan(receivedEvents, eventHubProperties, {});

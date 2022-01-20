@@ -6,17 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ManagementLockObject,
-  ManagementLocksListAtResourceGroupLevelNextOptionalParams,
   ManagementLocksListAtResourceGroupLevelOptionalParams,
-  ManagementLocksListAtResourceLevelNextOptionalParams,
   ManagementLocksListAtResourceLevelOptionalParams,
-  ManagementLocksListAtSubscriptionLevelNextOptionalParams,
   ManagementLocksListAtSubscriptionLevelOptionalParams,
-  ManagementLocksListByScopeNextOptionalParams,
   ManagementLocksListByScopeOptionalParams,
   ManagementLocksCreateOrUpdateAtResourceGroupLevelOptionalParams,
   ManagementLocksCreateOrUpdateAtResourceGroupLevelResponse,
@@ -89,63 +84,6 @@ export interface ManagementLocks {
   listByScope(
     scope: string,
     options?: ManagementLocksListByScopeOptionalParams
-  ): PagedAsyncIterableIterator<ManagementLockObject>;
-  /**
-   * ListAtResourceGroupLevelNext
-   * @param resourceGroupName The name of the resource group containing the locks to get.
-   * @param nextLink The nextLink from the previous successful call to the ListAtResourceGroupLevel
-   *                 method.
-   * @param options The options parameters.
-   */
-  listAtResourceGroupLevelNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ManagementLocksListAtResourceGroupLevelNextOptionalParams
-  ): PagedAsyncIterableIterator<ManagementLockObject>;
-  /**
-   * ListAtResourceLevelNext
-   * @param resourceGroupName The name of the resource group containing the locked resource. The name is
-   *                          case insensitive.
-   * @param resourceProviderNamespace The namespace of the resource provider.
-   * @param parentResourcePath The parent resource identity.
-   * @param resourceType The resource type of the locked resource.
-   * @param resourceName The name of the locked resource.
-   * @param nextLink The nextLink from the previous successful call to the ListAtResourceLevel method.
-   * @param options The options parameters.
-   */
-  listAtResourceLevelNext(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    nextLink: string,
-    options?: ManagementLocksListAtResourceLevelNextOptionalParams
-  ): PagedAsyncIterableIterator<ManagementLockObject>;
-  /**
-   * ListAtSubscriptionLevelNext
-   * @param nextLink The nextLink from the previous successful call to the ListAtSubscriptionLevel
-   *                 method.
-   * @param options The options parameters.
-   */
-  listAtSubscriptionLevelNext(
-    nextLink: string,
-    options?: ManagementLocksListAtSubscriptionLevelNextOptionalParams
-  ): PagedAsyncIterableIterator<ManagementLockObject>;
-  /**
-   * ListByScopeNext
-   * @param scope The scope for the lock. When providing a scope for the assignment, use
-   *              '/subscriptions/{subscriptionId}' for subscriptions,
-   *              '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}' for resource groups, and
-   *              '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePathIfPresent}/{resourceType}/{resourceName}'
-   *              for resources.
-   * @param nextLink The nextLink from the previous successful call to the ListByScope method.
-   * @param options The options parameters.
-   */
-  listByScopeNext(
-    scope: string,
-    nextLink: string,
-    options?: ManagementLocksListByScopeNextOptionalParams
   ): PagedAsyncIterableIterator<ManagementLockObject>;
   /**
    * When you apply a lock at a parent scope, all child resources inherit the same lock. To create

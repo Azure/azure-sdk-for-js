@@ -2854,6 +2854,7 @@ export const DataFlow: coreClient.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
@@ -3393,11 +3394,9 @@ export const ManagedVirtualNetworkListResponse: coreClient.CompositeMapper = {
 };
 
 export const ManagedVirtualNetwork: coreClient.CompositeMapper = {
-  serializedName: "ManagedVirtualNetwork",
   type: {
     name: "Composite",
     className: "ManagedVirtualNetwork",
-    uberParent: "ManagedVirtualNetwork",
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       vNetId: {
@@ -3417,8 +3416,6 @@ export const ManagedVirtualNetwork: coreClient.CompositeMapper = {
     }
   }
 };
-ManagedVirtualNetwork.type.polymorphicDiscriminator =
-  ManagedVirtualNetwork.type.polymorphicDiscriminator;
 
 export const ManagedPrivateEndpointListResponse: coreClient.CompositeMapper = {
   type: {
@@ -3449,11 +3446,9 @@ export const ManagedPrivateEndpointListResponse: coreClient.CompositeMapper = {
 };
 
 export const ManagedPrivateEndpoint: coreClient.CompositeMapper = {
-  serializedName: "ManagedPrivateEndpoint",
   type: {
     name: "Composite",
     className: "ManagedPrivateEndpoint",
-    uberParent: "ManagedPrivateEndpoint",
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       connectionState: {
@@ -3503,8 +3498,6 @@ export const ManagedPrivateEndpoint: coreClient.CompositeMapper = {
     }
   }
 };
-ManagedPrivateEndpoint.type.polymorphicDiscriminator =
-  ManagedPrivateEndpoint.type.polymorphicDiscriminator;
 
 export const ConnectionStateProperties: coreClient.CompositeMapper = {
   type: {
@@ -8449,6 +8442,13 @@ export const CosmosDbLinkedService: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "any" } }
         }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference"
+        }
       }
     }
   }
@@ -8548,6 +8548,13 @@ export const DynamicsLinkedService: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference"
         }
       }
     }
@@ -10339,6 +10346,20 @@ export const AzureBlobFSLinkedService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CredentialReference"
+        }
+      },
+      servicePrincipalCredentialType: {
+        serializedName: "typeProperties.servicePrincipalCredentialType",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      servicePrincipalCredential: {
+        serializedName: "typeProperties.servicePrincipalCredential",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
         }
       }
     }
@@ -13920,6 +13941,20 @@ export const AzureDatabricksDeltaLakeLinkedService: coreClient.CompositeMapper =
           name: "Dictionary",
           value: { type: { name: "any" } }
         }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference"
+        }
+      },
+      workspaceResourceId: {
+        serializedName: "typeProperties.workspaceResourceId",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
       }
     }
   }
@@ -14125,9 +14160,15 @@ export const GoogleAdWordsLinkedService: coreClient.CompositeMapper = {
     polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      connectionProperties: {
+        serializedName: "typeProperties.connectionProperties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
       clientCustomerID: {
         serializedName: "typeProperties.clientCustomerID",
-        required: true,
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
@@ -14142,7 +14183,6 @@ export const GoogleAdWordsLinkedService: coreClient.CompositeMapper = {
       },
       authenticationType: {
         serializedName: "typeProperties.authenticationType",
-        required: true,
         type: {
           name: "String"
         }
@@ -18604,6 +18644,13 @@ export const LinkedIntegrationRuntimeRbacAuthorization: coreClient.CompositeMapp
         required: true,
         type: {
           name: "String"
+        }
+      },
+      credential: {
+        serializedName: "credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference"
         }
       }
     }
@@ -23288,6 +23335,36 @@ export const WaitActivity: coreClient.CompositeMapper = {
   }
 };
 
+export const FailActivity: coreClient.CompositeMapper = {
+  serializedName: "Fail",
+  type: {
+    name: "Composite",
+    className: "FailActivity",
+    uberParent: "Activity",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ControlActivity.type.modelProperties,
+      message: {
+        serializedName: "typeProperties.message",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      errorCode: {
+        serializedName: "typeProperties.errorCode",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
 export const UntilActivity: coreClient.CompositeMapper = {
   serializedName: "Until",
   type: {
@@ -26906,8 +26983,6 @@ export let discriminators = {
   Activity: Activity,
   Trigger: Trigger,
   DataFlow: DataFlow,
-  "ManagedVirtualNetwork.ManagedVirtualNetwork": ManagedVirtualNetwork,
-  "ManagedPrivateEndpoint.ManagedPrivateEndpoint": ManagedPrivateEndpoint,
   SecretBase: SecretBase,
   Credential: Credential,
   DatasetLocation: DatasetLocation,
@@ -27293,6 +27368,7 @@ export let discriminators = {
   "Activity.Switch": SwitchActivity,
   "Activity.ForEach": ForEachActivity,
   "Activity.Wait": WaitActivity,
+  "Activity.Fail": FailActivity,
   "Activity.Until": UntilActivity,
   "Activity.Validation": ValidationActivity,
   "Activity.Filter": FilterActivity,

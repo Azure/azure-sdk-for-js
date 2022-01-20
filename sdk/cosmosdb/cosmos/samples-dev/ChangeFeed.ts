@@ -5,9 +5,8 @@
  * @summary Demonstrates using a ChangeFeed.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { finish, handleError, logSampleHeader } from "./Shared/handleError";
 import { CosmosClient } from "@azure/cosmos";
@@ -43,7 +42,7 @@ async function run(): Promise<void> {
   const { database } = await client.databases.createIfNotExists({ id: databaseId });
   const { container } = await database.containers.createIfNotExists({
     id: containerId,
-    partitionKey: { paths: ["/pk"] }
+    partitionKey: { paths: ["/pk"] },
   });
 
   try {
@@ -83,7 +82,7 @@ async function run(): Promise<void> {
     console.log(`  👉 Inserted id=3`);
 
     const specificContinuationIterator = container.items.changeFeed(pk, {
-      continuation: lsn.toString()
+      continuation: lsn.toString(),
     });
     const specificPointInTimeIterator = container.items.changeFeed(pk, { startTime: now });
     const fromBeginningIterator = container.items.changeFeed(pk, { startFromBeginning: true });

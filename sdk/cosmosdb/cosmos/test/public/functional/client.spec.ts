@@ -10,23 +10,23 @@ import {
   getTestDatabase,
   getTestContainer,
   generateDocuments,
-  bulkInsertItems
+  bulkInsertItems,
 } from "../common/TestHelpers";
-import AbortController from "node-abort-controller";
+import { AbortController } from "node-abort-controller";
 import { UsernamePasswordCredential } from "@azure/identity";
 import { defaultConnectionPolicy } from "../../../src/documents";
 
-describe("Client Tests", function(this: Suite) {
+describe("Client Tests", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
-  describe("Validate client request timeout", function() {
-    it("timeout occurs within expected timeframe", async function() {
+  describe("Validate client request timeout", function () {
+    it("timeout occurs within expected timeframe", async function () {
       // making timeout 1 ms to make sure it will throw
       // (create database request takes 10ms-15ms to finish on emulator)
       const client = new CosmosClient({
         endpoint,
         key: masterKey,
-        connectionPolicy: { requestTimeout: 1, enableBackgroundEndpointRefreshing: false }
+        connectionPolicy: { requestTimeout: 1, enableBackgroundEndpointRefreshing: false },
       });
       // create database
       try {
@@ -38,27 +38,27 @@ describe("Client Tests", function(this: Suite) {
     });
   });
 
-  describe("Constructor", function() {
-    it("Accepts node Agent", function() {
+  describe("Constructor", function () {
+    it("Accepts node Agent", function () {
       const client = new CosmosClient({
         endpoint: "https://faaaaaake.com",
         agent: new Agent(),
-        connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+        connectionPolicy: { enableBackgroundEndpointRefreshing: false },
       });
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
     });
-    it("Accepts a connection string", function() {
+    it("Accepts a connection string", function () {
       const client = new CosmosClient(`AccountEndpoint=${endpoint};AccountKey=${masterKey};`);
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
       client.dispose();
     });
-    it("throws on a bad connection string", function() {
+    it("throws on a bad connection string", function () {
       assert.throws(() => new CosmosClient(`bad;Connection=string;`));
     });
-    it("throws on a bad endpoint", function() {
+    it("throws on a bad endpoint", function () {
       assert.throws(() => new CosmosClient({ endpoint: "asda=asda;asada;" }));
     });
-    it("fails to read databases with bad AAD authentication", async function() {
+    it("fails to read databases with bad AAD authentication", async function () {
       try {
         const credentials = new UsernamePasswordCredential(
           "fake-tenant-id",
@@ -69,7 +69,7 @@ describe("Client Tests", function(this: Suite) {
         const client = new CosmosClient({
           endpoint,
           aadCredentials: credentials,
-          connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+          connectionPolicy: { enableBackgroundEndpointRefreshing: false },
         });
         await client.databases.readAll().fetchAll();
       } catch (e) {
@@ -77,8 +77,8 @@ describe("Client Tests", function(this: Suite) {
       }
     });
   });
-  describe("Validate user passed AbortController.signal", function() {
-    it("should throw exception if aborted during the request", async function() {
+  describe("Validate user passed AbortController.signal", function () {
+    it("should throw exception if aborted during the request", async function () {
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {
         const controller = new AbortController();
@@ -92,7 +92,7 @@ describe("Client Tests", function(this: Suite) {
       }
       client.dispose();
     });
-    it("should throw exception if passed an already aborted signal", async function() {
+    it("should throw exception if passed an already aborted signal", async function () {
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {
         const controller = new AbortController();
@@ -105,7 +105,7 @@ describe("Client Tests", function(this: Suite) {
       }
       client.dispose();
     });
-    it("should abort a query", async function() {
+    it("should abort a query", async function () {
       const container = await getTestContainer("abort query");
       await bulkInsertItems(container, generateDocuments(20));
       try {
@@ -121,7 +121,7 @@ describe("Client Tests", function(this: Suite) {
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
     });
-    it("should not abort if abort signal is never called", async function() {
+    it("should not abort if abort signal is never called", async function () {
       // Testing the happy path to prevent this bug https://github.com/Azure/azure-sdk-for-js/issues/9510
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {
@@ -134,9 +134,9 @@ describe("Client Tests", function(this: Suite) {
       client.dispose();
     });
   });
-  describe("Background refresher", async function() {
+  describe("Background refresher", async function () {
     // not async to leverage done() callback inside setTimeout
-    it("should fetch new endpoints", function(done) {
+    it("should fetch new endpoints", function (done) {
       // set refresh rate to 700ms
       const client = new CosmosClient({
         endpoint,
@@ -144,8 +144,8 @@ describe("Client Tests", function(this: Suite) {
         connectionPolicy: {
           ...defaultConnectionPolicy,
           endpointRefreshRateInMs: 700,
-          enableBackgroundEndpointRefreshing: true
-        }
+          enableBackgroundEndpointRefreshing: true,
+        },
       });
 
       // then timeout 1.2s so that we first fetch no endpoints, then after it refreshes we see them

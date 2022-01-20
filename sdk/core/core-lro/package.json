@@ -2,7 +2,7 @@
   "name": "@azure/core-lro",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Isomorphic client library for supporting long-running operations in node.js and browser.",
   "tags": [
     "isomorphic",
@@ -71,7 +71,6 @@
     "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && rollup -c 2>&1",
     "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.log browser statistics.html coverage src/**/*.js test/**/*.js",
     "execute:samples": "echo skipped",
@@ -121,15 +120,14 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^1.18.0",
+    "mocha-junit-reporter": "^2.0.0",
     "npm-run-all": "^4.1.5",
-    "nyc": "^14.0.0",
-    "prettier": "^1.16.4",
+    "nyc": "^15.0.0",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "ts-node": "^10.0.0",
     "typescript": "~4.2.0",
-    "uglify-js": "^3.4.9",
-    "typedoc": "0.15.2"
+    "uglify-js": "^3.4.9"
   }
 }

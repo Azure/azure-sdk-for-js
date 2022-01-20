@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import { AbortController, AbortSignal } from "@azure/abort-controller";
 import { DataLakeFileSystemClient } from "../src";
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
-import * as dotenv from "dotenv";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Aborter", () => {
   let fileSystemName: string;
@@ -17,14 +15,14 @@ describe("Aborter", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("container");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -69,7 +67,7 @@ describe("Aborter", () => {
         AbortController.timeout(10 * 60 * 1000)
       );
       const response = fileSystemClient.create({
-        abortSignal: childAborter.signal
+        abortSignal: childAborter.signal,
       });
       aborter.abort();
       await response;

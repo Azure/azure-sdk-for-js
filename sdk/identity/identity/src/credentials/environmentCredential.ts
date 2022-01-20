@@ -25,7 +25,7 @@ export const AllSupportedEnvironmentVariables = [
   "AZURE_CLIENT_SECRET",
   "AZURE_CLIENT_CERTIFICATE_PATH",
   "AZURE_USERNAME",
-  "AZURE_PASSWORD"
+  "AZURE_PASSWORD",
 ];
 
 const credentialName = "EnvironmentCredential";
@@ -134,10 +134,7 @@ export class EnvironmentCredential implements TokenCredential {
         } catch (err) {
           const authenticationError = new AuthenticationError(400, {
             error: `${credentialName} authentication failed. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.`,
-            error_description: err.message
-              .toString()
-              .split("More details:")
-              .join("")
+            error_description: err.message.toString().split("More details:").join(""),
           });
           logger.getToken.info(formatError(scopes, authenticationError));
           throw authenticationError;

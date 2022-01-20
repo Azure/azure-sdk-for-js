@@ -24,7 +24,7 @@
     "node": ">=12.0.0"
   },
   "main": "./dist/index.js",
-  "module": "./dist-esm/src/index.js",
+  "module": "./dist-esm/index.js",
   "types": "./types/synapse-monitoring.d.ts",
   "devDependencies": {
     "typescript": "~4.2.0",
@@ -37,8 +37,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "@rollup/plugin-commonjs": "11.0.2",
     "uglify-js": "^3.4.9",
-    "@microsoft/api-extractor": "^7.18.11",
-    "typedoc": "0.15.2"
+    "@microsoft/api-extractor": "^7.18.11"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -48,10 +47,10 @@
     "dist/**/*.js.map",
     "dist/**/*.d.ts",
     "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
+    "dist-esm/**/*.js",
+    "dist-esm/**/*.js.map",
+    "dist-esm/**/*.d.ts",
+    "dist-esm/**/*.d.ts.map",
     "types/synapse-monitoring.d.ts",
     "README.md",
     "rollup.config.js",
@@ -71,8 +70,7 @@
     "test": "echo skipped",
     "extract-api": "api-extractor run --local",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
-    "build:samples": "echo Skipped.",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+    "build:samples": "echo Skipped."
   },
   "sideEffects": false,
   "autoPublish": true

@@ -10,7 +10,7 @@ import { FileServices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageManagementClientContext } from "../storageManagementClientContext";
+import { StorageManagementClient } from "../storageManagementClient";
 import {
   FileServicesListOptionalParams,
   FileServicesListResponse,
@@ -21,15 +21,15 @@ import {
   FileServicesGetServicePropertiesResponse
 } from "../models";
 
-/** Class representing a FileServices. */
+/** Class containing FileServices operations. */
 export class FileServicesImpl implements FileServices {
-  private readonly client: StorageManagementClientContext;
+  private readonly client: StorageManagementClient;
 
   /**
    * Initialize a new instance of the class FileServices class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageManagementClientContext) {
+  constructor(client: StorageManagementClient) {
     this.client = client;
   }
 

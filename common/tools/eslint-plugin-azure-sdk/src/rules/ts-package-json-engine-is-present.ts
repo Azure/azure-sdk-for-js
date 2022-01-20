@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { Rule } from "eslint";
 
 /**
  * definition of LTS Node versions
@@ -31,10 +31,10 @@ export = {
           nodeVersionOverride: {
             type: "string",
             default: LTS,
-            description: "Allows specifying a different node version than the current default"
-          }
-        }
-      }
+            description: "Allows specifying a different node version than the current default",
+          },
+        },
+      },
     ]
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
@@ -43,7 +43,7 @@ export = {
     const verifiers = getVerifiers(context, {
       outer: "engines",
       inner: "node",
-      expected: options.nodeVersionOverride || LTS
+      expected: options.nodeVersionOverride || LTS,
     });
     return stripPath(context.getFilename()) === "package.json"
       ? ({
@@ -58,8 +58,8 @@ export = {
 
           // check the node corresponding to engines.node to see if it is set to '>=8.0.0'
           "ExpressionStatement > ObjectExpression > Property[key.value='engines'] > ObjectExpression > Property[key.value='node']":
-            verifiers.innerMatchesExpected
+            verifiers.innerMatchesExpected,
         } as Rule.RuleListener)
       : {};
-  }
+  },
 };

@@ -6,48 +6,47 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ResourceHealthMetadataOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { WebSiteManagementClientContext } from "../webSiteManagementClientContext";
+import { WebSiteManagementClient } from "../webSiteManagementClient";
 import {
   ResourceHealthMetadata,
-  ResourceHealthMetadataOperationsListNextOptionalParams,
-  ResourceHealthMetadataOperationsListOptionalParams,
-  ResourceHealthMetadataOperationsListByResourceGroupNextOptionalParams,
-  ResourceHealthMetadataOperationsListByResourceGroupOptionalParams,
-  ResourceHealthMetadataOperationsListBySiteNextOptionalParams,
-  ResourceHealthMetadataOperationsListBySiteOptionalParams,
-  ResourceHealthMetadataOperationsListBySiteSlotNextOptionalParams,
-  ResourceHealthMetadataOperationsListBySiteSlotOptionalParams,
-  ResourceHealthMetadataOperationsListResponse,
-  ResourceHealthMetadataOperationsListByResourceGroupResponse,
-  ResourceHealthMetadataOperationsListBySiteResponse,
-  ResourceHealthMetadataOperationsGetBySiteOptionalParams,
-  ResourceHealthMetadataOperationsGetBySiteResponse,
-  ResourceHealthMetadataOperationsListBySiteSlotResponse,
-  ResourceHealthMetadataOperationsGetBySiteSlotOptionalParams,
-  ResourceHealthMetadataOperationsGetBySiteSlotResponse,
-  ResourceHealthMetadataOperationsListNextResponse,
-  ResourceHealthMetadataOperationsListByResourceGroupNextResponse,
-  ResourceHealthMetadataOperationsListBySiteNextResponse,
-  ResourceHealthMetadataOperationsListBySiteSlotNextResponse
+  ResourceHealthMetadataListNextOptionalParams,
+  ResourceHealthMetadataListOptionalParams,
+  ResourceHealthMetadataListByResourceGroupNextOptionalParams,
+  ResourceHealthMetadataListByResourceGroupOptionalParams,
+  ResourceHealthMetadataListBySiteNextOptionalParams,
+  ResourceHealthMetadataListBySiteOptionalParams,
+  ResourceHealthMetadataListBySiteSlotNextOptionalParams,
+  ResourceHealthMetadataListBySiteSlotOptionalParams,
+  ResourceHealthMetadataListResponse,
+  ResourceHealthMetadataListByResourceGroupResponse,
+  ResourceHealthMetadataListBySiteResponse,
+  ResourceHealthMetadataGetBySiteOptionalParams,
+  ResourceHealthMetadataGetBySiteResponse,
+  ResourceHealthMetadataListBySiteSlotResponse,
+  ResourceHealthMetadataGetBySiteSlotOptionalParams,
+  ResourceHealthMetadataGetBySiteSlotResponse,
+  ResourceHealthMetadataListNextResponse,
+  ResourceHealthMetadataListByResourceGroupNextResponse,
+  ResourceHealthMetadataListBySiteNextResponse,
+  ResourceHealthMetadataListBySiteSlotNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ResourceHealthMetadataOperations. */
+/** Class containing ResourceHealthMetadataOperations operations. */
 export class ResourceHealthMetadataOperationsImpl
   implements ResourceHealthMetadataOperations {
-  private readonly client: WebSiteManagementClientContext;
+  private readonly client: WebSiteManagementClient;
 
   /**
    * Initialize a new instance of the class ResourceHealthMetadataOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: WebSiteManagementClientContext) {
+  constructor(client: WebSiteManagementClient) {
     this.client = client;
   }
 
@@ -56,7 +55,7 @@ export class ResourceHealthMetadataOperationsImpl
    * @param options The options parameters.
    */
   public list(
-    options?: ResourceHealthMetadataOperationsListOptionalParams
+    options?: ResourceHealthMetadataListOptionalParams
   ): PagedAsyncIterableIterator<ResourceHealthMetadata> {
     const iter = this.listPagingAll(options);
     return {
@@ -73,7 +72,7 @@ export class ResourceHealthMetadataOperationsImpl
   }
 
   private async *listPagingPage(
-    options?: ResourceHealthMetadataOperationsListOptionalParams
+    options?: ResourceHealthMetadataListOptionalParams
   ): AsyncIterableIterator<ResourceHealthMetadata[]> {
     let result = await this._list(options);
     yield result.value || [];
@@ -86,7 +85,7 @@ export class ResourceHealthMetadataOperationsImpl
   }
 
   private async *listPagingAll(
-    options?: ResourceHealthMetadataOperationsListOptionalParams
+    options?: ResourceHealthMetadataListOptionalParams
   ): AsyncIterableIterator<ResourceHealthMetadata> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -101,7 +100,7 @@ export class ResourceHealthMetadataOperationsImpl
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ResourceHealthMetadataOperationsListByResourceGroupOptionalParams
+    options?: ResourceHealthMetadataListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<ResourceHealthMetadata> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -119,7 +118,7 @@ export class ResourceHealthMetadataOperationsImpl
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ResourceHealthMetadataOperationsListByResourceGroupOptionalParams
+    options?: ResourceHealthMetadataListByResourceGroupOptionalParams
   ): AsyncIterableIterator<ResourceHealthMetadata[]> {
     let result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
@@ -137,7 +136,7 @@ export class ResourceHealthMetadataOperationsImpl
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ResourceHealthMetadataOperationsListByResourceGroupOptionalParams
+    options?: ResourceHealthMetadataListByResourceGroupOptionalParams
   ): AsyncIterableIterator<ResourceHealthMetadata> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
@@ -157,7 +156,7 @@ export class ResourceHealthMetadataOperationsImpl
   public listBySite(
     resourceGroupName: string,
     name: string,
-    options?: ResourceHealthMetadataOperationsListBySiteOptionalParams
+    options?: ResourceHealthMetadataListBySiteOptionalParams
   ): PagedAsyncIterableIterator<ResourceHealthMetadata> {
     const iter = this.listBySitePagingAll(resourceGroupName, name, options);
     return {
@@ -176,7 +175,7 @@ export class ResourceHealthMetadataOperationsImpl
   private async *listBySitePagingPage(
     resourceGroupName: string,
     name: string,
-    options?: ResourceHealthMetadataOperationsListBySiteOptionalParams
+    options?: ResourceHealthMetadataListBySiteOptionalParams
   ): AsyncIterableIterator<ResourceHealthMetadata[]> {
     let result = await this._listBySite(resourceGroupName, name, options);
     yield result.value || [];
@@ -196,7 +195,7 @@ export class ResourceHealthMetadataOperationsImpl
   private async *listBySitePagingAll(
     resourceGroupName: string,
     name: string,
-    options?: ResourceHealthMetadataOperationsListBySiteOptionalParams
+    options?: ResourceHealthMetadataListBySiteOptionalParams
   ): AsyncIterableIterator<ResourceHealthMetadata> {
     for await (const page of this.listBySitePagingPage(
       resourceGroupName,
@@ -219,7 +218,7 @@ export class ResourceHealthMetadataOperationsImpl
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: ResourceHealthMetadataOperationsListBySiteSlotOptionalParams
+    options?: ResourceHealthMetadataListBySiteSlotOptionalParams
   ): PagedAsyncIterableIterator<ResourceHealthMetadata> {
     const iter = this.listBySiteSlotPagingAll(
       resourceGroupName,
@@ -249,7 +248,7 @@ export class ResourceHealthMetadataOperationsImpl
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: ResourceHealthMetadataOperationsListBySiteSlotOptionalParams
+    options?: ResourceHealthMetadataListBySiteSlotOptionalParams
   ): AsyncIterableIterator<ResourceHealthMetadata[]> {
     let result = await this._listBySiteSlot(
       resourceGroupName,
@@ -276,7 +275,7 @@ export class ResourceHealthMetadataOperationsImpl
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: ResourceHealthMetadataOperationsListBySiteSlotOptionalParams
+    options?: ResourceHealthMetadataListBySiteSlotOptionalParams
   ): AsyncIterableIterator<ResourceHealthMetadata> {
     for await (const page of this.listBySiteSlotPagingPage(
       resourceGroupName,
@@ -293,8 +292,8 @@ export class ResourceHealthMetadataOperationsImpl
    * @param options The options parameters.
    */
   private _list(
-    options?: ResourceHealthMetadataOperationsListOptionalParams
-  ): Promise<ResourceHealthMetadataOperationsListResponse> {
+    options?: ResourceHealthMetadataListOptionalParams
+  ): Promise<ResourceHealthMetadataListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -306,8 +305,8 @@ export class ResourceHealthMetadataOperationsImpl
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ResourceHealthMetadataOperationsListByResourceGroupOptionalParams
-  ): Promise<ResourceHealthMetadataOperationsListByResourceGroupResponse> {
+    options?: ResourceHealthMetadataListByResourceGroupOptionalParams
+  ): Promise<ResourceHealthMetadataListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -324,8 +323,8 @@ export class ResourceHealthMetadataOperationsImpl
   private _listBySite(
     resourceGroupName: string,
     name: string,
-    options?: ResourceHealthMetadataOperationsListBySiteOptionalParams
-  ): Promise<ResourceHealthMetadataOperationsListBySiteResponse> {
+    options?: ResourceHealthMetadataListBySiteOptionalParams
+  ): Promise<ResourceHealthMetadataListBySiteResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
       listBySiteOperationSpec
@@ -341,8 +340,8 @@ export class ResourceHealthMetadataOperationsImpl
   getBySite(
     resourceGroupName: string,
     name: string,
-    options?: ResourceHealthMetadataOperationsGetBySiteOptionalParams
-  ): Promise<ResourceHealthMetadataOperationsGetBySiteResponse> {
+    options?: ResourceHealthMetadataGetBySiteOptionalParams
+  ): Promise<ResourceHealthMetadataGetBySiteResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
       getBySiteOperationSpec
@@ -361,8 +360,8 @@ export class ResourceHealthMetadataOperationsImpl
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: ResourceHealthMetadataOperationsListBySiteSlotOptionalParams
-  ): Promise<ResourceHealthMetadataOperationsListBySiteSlotResponse> {
+    options?: ResourceHealthMetadataListBySiteSlotOptionalParams
+  ): Promise<ResourceHealthMetadataListBySiteSlotResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, slot, options },
       listBySiteSlotOperationSpec
@@ -380,8 +379,8 @@ export class ResourceHealthMetadataOperationsImpl
     resourceGroupName: string,
     name: string,
     slot: string,
-    options?: ResourceHealthMetadataOperationsGetBySiteSlotOptionalParams
-  ): Promise<ResourceHealthMetadataOperationsGetBySiteSlotResponse> {
+    options?: ResourceHealthMetadataGetBySiteSlotOptionalParams
+  ): Promise<ResourceHealthMetadataGetBySiteSlotResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, slot, options },
       getBySiteSlotOperationSpec
@@ -395,8 +394,8 @@ export class ResourceHealthMetadataOperationsImpl
    */
   private _listNext(
     nextLink: string,
-    options?: ResourceHealthMetadataOperationsListNextOptionalParams
-  ): Promise<ResourceHealthMetadataOperationsListNextResponse> {
+    options?: ResourceHealthMetadataListNextOptionalParams
+  ): Promise<ResourceHealthMetadataListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -412,8 +411,8 @@ export class ResourceHealthMetadataOperationsImpl
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ResourceHealthMetadataOperationsListByResourceGroupNextOptionalParams
-  ): Promise<ResourceHealthMetadataOperationsListByResourceGroupNextResponse> {
+    options?: ResourceHealthMetadataListByResourceGroupNextOptionalParams
+  ): Promise<ResourceHealthMetadataListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -431,8 +430,8 @@ export class ResourceHealthMetadataOperationsImpl
     resourceGroupName: string,
     name: string,
     nextLink: string,
-    options?: ResourceHealthMetadataOperationsListBySiteNextOptionalParams
-  ): Promise<ResourceHealthMetadataOperationsListBySiteNextResponse> {
+    options?: ResourceHealthMetadataListBySiteNextOptionalParams
+  ): Promise<ResourceHealthMetadataListBySiteNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, nextLink, options },
       listBySiteNextOperationSpec
@@ -452,8 +451,8 @@ export class ResourceHealthMetadataOperationsImpl
     name: string,
     slot: string,
     nextLink: string,
-    options?: ResourceHealthMetadataOperationsListBySiteSlotNextOptionalParams
-  ): Promise<ResourceHealthMetadataOperationsListBySiteSlotNextResponse> {
+    options?: ResourceHealthMetadataListBySiteSlotNextOptionalParams
+  ): Promise<ResourceHealthMetadataListBySiteSlotNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, slot, nextLink, options },
       listBySiteSlotNextOperationSpec

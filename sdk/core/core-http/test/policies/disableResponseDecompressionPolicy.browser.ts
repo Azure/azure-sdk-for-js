@@ -2,23 +2,23 @@
 // Licensed under the MIT license.
 
 import "chai/register-should";
+import {
+  DisableResponseDecompressionPolicy,
+  disableResponseDecompressionPolicy,
+} from "../../src/policies/disableResponseDecompressionPolicy";
+import { HttpClient, Serializer, ServiceClient } from "../../src/coreHttp";
+import { HttpHeaders } from "../../src/httpHeaders";
 import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
 import { WebResource } from "../../src/webResource";
-import { HttpHeaders } from "../../src/httpHeaders";
-import {
-  disableResponseDecompressionPolicy,
-  DisableResponseDecompressionPolicy
-} from "../../src/policies/disableResponseDecompressionPolicy";
-import { HttpClient, ServiceClient, Serializer } from "../../src/coreHttp";
 
-describe("DisableResponseDecompressionPolicy (browser)", function() {
+describe("DisableResponseDecompressionPolicy (browser)", function () {
   const emptyRequestPolicy = {
     sendRequest: (_: WebResource) =>
       Promise.resolve({
         request: new WebResource(),
         status: 404,
-        headers: new HttpHeaders(undefined)
-      })
+        headers: new HttpHeaders(undefined),
+      }),
   };
 
   const emptyPolicyOptions = new RequestPolicyOptions();
@@ -39,14 +39,14 @@ describe("DisableResponseDecompressionPolicy (browser)", function() {
             request,
             status: 200,
             headers: new HttpHeaders(),
-            bodyAsText: "[1,2,3]"
+            bodyAsText: "[1,2,3]",
           });
-        }
+        },
       };
 
       const client1 = new ServiceClient(undefined, {
         httpClient,
-        requestPolicyFactories: [disableResponseDecompressionPolicy()]
+        requestPolicyFactories: [disableResponseDecompressionPolicy()],
       });
 
       try {
@@ -63,13 +63,13 @@ describe("DisableResponseDecompressionPolicy (browser)", function() {
                     name: "Sequence",
                     element: {
                       type: {
-                        name: "Number"
-                      }
-                    }
-                  }
-                }
-              }
-            }
+                        name: "Number",
+                      },
+                    },
+                  },
+                },
+              },
+            },
           }
         );
         throw new Error("Error should have been thrown already.");

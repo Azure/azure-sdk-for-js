@@ -28,7 +28,7 @@ const firstSetOfMessages = [
   { body: "Werner Heisenberg" },
   { body: "Marie Curie" },
   { body: "Steven Hawking" },
-  { body: "Isaac Newton" }
+  { body: "Isaac Newton" },
 ];
 
 const secondSetOfMessages = [
@@ -36,7 +36,7 @@ const secondSetOfMessages = [
   { body: "Michael Faraday" },
   { body: "Galileo Galilei" },
   { body: "Johannes Kepler" },
-  { body: "Nikolaus Kopernikus" }
+  { body: "Nikolaus Kopernikus" },
 ];
 
 async function main() {

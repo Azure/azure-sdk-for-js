@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:sender-spec");
+import {
+  EnvVarKeys,
+  getEnvVars,
+  getStartingPositionsForTests,
+  setTracerForTest,
+} from "../public/utils/testUtils";
 import {
   EventData,
   EventHubConsumerClient,
@@ -15,20 +15,21 @@ import {
   OperationOptions,
   ReceivedEventData,
   SendBatchOptions,
-  TryAddOptions
+  TryAddOptions,
 } from "../../src";
-import {
-  EnvVarKeys,
-  getEnvVars,
-  getStartingPositionsForTests,
-  setTracerForTest
-} from "../public/utils/testUtils";
 import { SpanGraph, TestSpan } from "@azure/test-utils";
-import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
+import { context, setSpan } from "@azure/core-tracing";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
-import { setSpan, context } from "@azure/core-tracing";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "../public/utils/mockService";
+import debugModule from "debug";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
+const debug = debugModule("azure:event-hubs:sender-spec");
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
@@ -44,16 +45,16 @@ testWithServiceTypes((serviceVersion) => {
     });
   }
 
-  describe("EventHub Sender", function(): void {
+  describe("EventHub Sender", function (): void {
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]
+      path: env[EnvVarKeys.EVENTHUB_NAME],
     };
     let producerClient: EventHubProducerClient;
     let consumerClient: EventHubConsumerClient;
     let startPosition: { [partitionId: string]: EventPosition };
 
-    before("validate environment", function(): void {
+    before("validate environment", function (): void {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -81,8 +82,8 @@ testWithServiceTypes((serviceVersion) => {
       await consumerClient.close();
     });
 
-    describe("Create batch", function(): void {
-      describe("tryAdd", function() {
+    describe("Create batch", function (): void {
+      describe("tryAdd", function () {
         it("doesn't grow if invalid events are added", async () => {
           const batch = await producerClient.createBatch({ maxSizeInBytes: 20 });
           const event = { body: Buffer.alloc(30).toString() };
@@ -102,7 +103,7 @@ testWithServiceTypes((serviceVersion) => {
 
       it("partitionId is set as expected", async () => {
         const batch = await producerClient.createBatch({
-          partitionId: "0"
+          partitionId: "0",
         });
         should.equal(batch.partitionId, "0");
       });
@@ -110,14 +111,14 @@ testWithServiceTypes((serviceVersion) => {
       it("partitionId is set as expected when it is 0 i.e. falsy", async () => {
         const batch = await producerClient.createBatch({
           // @ts-expect-error Testing the value 0 is not ignored.
-          partitionId: 0
+          partitionId: 0,
         });
         should.equal(batch.partitionId, "0");
       });
 
       it("partitionKey is set as expected", async () => {
         const batch = await producerClient.createBatch({
-          partitionKey: "boo"
+          partitionKey: "boo",
         });
         should.equal(batch.partitionKey, "boo");
       });
@@ -125,7 +126,7 @@ testWithServiceTypes((serviceVersion) => {
       it("partitionKey is set as expected when it is 0 i.e. falsy", async () => {
         const batch = await producerClient.createBatch({
           // @ts-expect-error Testing the value 0 is not ignored.
-          partitionKey: 0
+          partitionKey: 0,
         });
         should.equal(batch.partitionKey, "0");
       });
@@ -135,11 +136,11 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(batch.maxSizeInBytes, 30);
       });
 
-      it("should be sent successfully", async function(): Promise<void> {
+      it("should be sent successfully", async function (): Promise<void> {
         const list = ["Albert", `${Buffer.from("Mike".repeat(1300000))}`, "Marie"];
 
         const batch = await producerClient.createBatch({
-          partitionId: "0"
+          partitionId: "0",
         });
 
         batch.partitionId!.should.equal("0");
@@ -155,7 +156,7 @@ testWithServiceTypes((serviceVersion) => {
         );
 
         const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, {
-          startPosition
+          startPosition,
         });
         await producerClient.sendBatch(batch);
 
@@ -175,14 +176,12 @@ testWithServiceTypes((serviceVersion) => {
         );
       });
 
-      it("should be sent successfully when partitionId is 0 i.e. falsy", async function(): Promise<
-        void
-      > {
+      it("should be sent successfully when partitionId is 0 i.e. falsy", async function (): Promise<void> {
         const list = ["Albert", "Marie"];
 
         const batch = await producerClient.createBatch({
           // @ts-expect-error Testing the value 0 is not ignored.
-          partitionId: 0
+          partitionId: 0,
         });
 
         batch.partitionId!.should.equal("0");
@@ -197,7 +196,7 @@ testWithServiceTypes((serviceVersion) => {
         );
 
         const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, {
-          startPosition
+          startPosition,
         });
         await producerClient.sendBatch(batch);
 
@@ -215,14 +214,12 @@ testWithServiceTypes((serviceVersion) => {
         );
       });
 
-      it("should be sent successfully when partitionKey is 0 i.e. falsy", async function(): Promise<
-        void
-      > {
+      it("should be sent successfully when partitionKey is 0 i.e. falsy", async function (): Promise<void> {
         const list = ["Albert", "Marie"];
 
         const batch = await producerClient.createBatch({
           // @ts-expect-error Testing the value 0 is not ignored.
-          partitionKey: 0
+          partitionKey: 0,
         });
 
         batch.partitionKey!.should.equal("0");
@@ -237,7 +234,7 @@ testWithServiceTypes((serviceVersion) => {
         );
 
         const subscriber = consumerClient.subscribe(subscriptionEventHandler, {
-          startPosition
+          startPosition,
         });
         await producerClient.sendBatch(batch);
 
@@ -255,16 +252,16 @@ testWithServiceTypes((serviceVersion) => {
         );
       });
 
-      it("should be sent successfully with properties", async function(): Promise<void> {
+      it("should be sent successfully with properties", async function (): Promise<void> {
         const properties = { test: "super" };
         const list = [
           { body: "Albert-With-Properties", properties },
           { body: "Mike-With-Properties", properties },
-          { body: "Marie-With-Properties", properties }
+          { body: "Marie-With-Properties", properties },
         ];
 
         const batch = await producerClient.createBatch({
-          partitionId: "0"
+          partitionId: "0",
         });
 
         batch.maxSizeInBytes.should.be.gt(0);
@@ -293,13 +290,13 @@ testWithServiceTypes((serviceVersion) => {
               if (receivedEvents.length >= 3) {
                 waitUntilEventsReceivedResolver();
               }
-            }
+            },
           },
           {
             startPosition: {
-              sequenceNumber
+              sequenceNumber,
             },
-            maxBatchSize: 3
+            maxBatchSize: 3,
           }
         );
 
@@ -315,14 +312,14 @@ testWithServiceTypes((serviceVersion) => {
           receivedEvents.map((event) => {
             return {
               body: event.body,
-              properties: event.properties
+              properties: event.properties,
             };
           }),
           "Received messages should be equal to our sent messages"
         );
       });
 
-      it("can be manually traced", async function(): Promise<void> {
+      it("can be manually traced", async function (): Promise<void> {
         const { tracer, resetTracer } = setTracerForTest();
 
         const rootSpan = tracer.startSpan("root");
@@ -330,7 +327,7 @@ testWithServiceTypes((serviceVersion) => {
         const list = [{ name: "Albert" }, { name: "Marie" }];
 
         const eventDataBatch = await producerClient.createBatch({
-          partitionId: "0"
+          partitionId: "0",
         });
 
         for (let i = 0; i < 2; i++) {
@@ -338,8 +335,8 @@ testWithServiceTypes((serviceVersion) => {
             { body: `${list[i].name}` },
             {
               tracingOptions: {
-                tracingContext: setSpan(context.active(), rootSpan)
-              }
+                tracingContext: setSpan(context.active(), rootSpan),
+              },
             }
           );
         }
@@ -357,15 +354,15 @@ testWithServiceTypes((serviceVersion) => {
               children: [
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
-                }
-              ]
-            }
-          ]
+                  children: [],
+                },
+              ],
+            },
+          ],
         };
 
         tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
@@ -394,28 +391,28 @@ testWithServiceTypes((serviceVersion) => {
         rootSpan: TestSpan
       ): Pick<TryAddOptions, "parentSpan"> {
         return {
-          parentSpan: rootSpan.spanContext()
+          parentSpan: rootSpan.spanContext(),
         };
       }
 
       function legacyOptionsUsingSpan(rootSpan: TestSpan): Pick<TryAddOptions, "parentSpan"> {
         return {
-          parentSpan: rootSpan
+          parentSpan: rootSpan,
         };
       }
 
       function modernOptions(rootSpan: TestSpan): OperationOptions {
         return {
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
-          }
+            tracingContext: setSpan(context.active(), rootSpan),
+          },
         };
       }
 
       [legacyOptionsUsingSpan, legacyOptionsUsingSpanContext, modernOptions].forEach(
         (optionsFn) => {
           describe(`tracing (${optionsFn.name})`, () => {
-            it("will not instrument already instrumented events", async function(): Promise<void> {
+            it("will not instrument already instrumented events", async function (): Promise<void> {
               const { tracer, resetTracer } = setTracerForTest();
 
               const rootSpan = tracer.startSpan("test");
@@ -425,13 +422,13 @@ testWithServiceTypes((serviceVersion) => {
                 {
                   name: "Marie",
                   properties: {
-                    [TRACEPARENT_PROPERTY]: "foo"
-                  }
-                }
+                    [TRACEPARENT_PROPERTY]: "foo",
+                  },
+                },
               ];
 
               const eventDataBatch = await producerClient.createBatch({
-                partitionId: "0"
+                partitionId: "0",
               });
 
               for (let i = 0; i < 2; i++) {
@@ -454,11 +451,11 @@ testWithServiceTypes((serviceVersion) => {
                     children: [
                       {
                         name: "Azure.EventHubs.message",
-                        children: []
-                      }
-                    ]
-                  }
-                ]
+                        children: [],
+                      },
+                    ],
+                  },
+                ],
               };
 
               tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
@@ -468,7 +465,7 @@ testWithServiceTypes((serviceVersion) => {
               resetTracer();
             });
 
-            it("will support tracing batch and send", async function(): Promise<void> {
+            it("will support tracing batch and send", async function (): Promise<void> {
               const { tracer, resetTracer } = setTracerForTest();
 
               const rootSpan = tracer.startSpan("root");
@@ -476,15 +473,15 @@ testWithServiceTypes((serviceVersion) => {
               const list = [{ name: "Albert" }, { name: "Marie" }];
 
               const eventDataBatch = await producerClient.createBatch({
-                partitionId: "0"
+                partitionId: "0",
               });
               for (let i = 0; i < 2; i++) {
                 eventDataBatch.tryAdd({ body: `${list[i].name}` }, optionsFn(rootSpan));
               }
               await producerClient.sendBatch(eventDataBatch, {
                 tracingOptions: {
-                  tracingContext: setSpan(context.active(), rootSpan)
-                }
+                  tracingContext: setSpan(context.active(), rootSpan),
+                },
               });
               rootSpan.end();
 
@@ -499,19 +496,19 @@ testWithServiceTypes((serviceVersion) => {
                     children: [
                       {
                         name: "Azure.EventHubs.message",
-                        children: []
+                        children: [],
                       },
                       {
                         name: "Azure.EventHubs.message",
-                        children: []
+                        children: [],
                       },
                       {
                         name: "Azure.EventHubs.send",
-                        children: []
-                      }
-                    ]
-                  }
-                ]
+                        children: [],
+                      },
+                    ],
+                  },
+                ],
               };
 
               tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
@@ -524,7 +521,7 @@ testWithServiceTypes((serviceVersion) => {
         }
       );
 
-      it("with partition key should be sent successfully.", async function(): Promise<void> {
+      it("with partition key should be sent successfully.", async function (): Promise<void> {
         const eventDataBatch = await producerClient.createBatch({ partitionKey: "1" });
         for (let i = 0; i < 5; i++) {
           eventDataBatch.tryAdd({ body: `Hello World ${i}` });
@@ -532,10 +529,10 @@ testWithServiceTypes((serviceVersion) => {
         await producerClient.sendBatch(eventDataBatch);
       });
 
-      it("with max message size should be sent successfully.", async function(): Promise<void> {
+      it("with max message size should be sent successfully.", async function (): Promise<void> {
         const eventDataBatch = await producerClient.createBatch({
           maxSizeInBytes: 5000,
-          partitionId: "0"
+          partitionId: "0",
         });
         const message = { body: `${Buffer.from("Z".repeat(4096))}` };
         for (let i = 1; i <= 3; i++) {
@@ -550,8 +547,8 @@ testWithServiceTypes((serviceVersion) => {
       });
     });
 
-    describe("Multiple sendBatch calls", function(): void {
-      it("should be sent successfully in parallel", async function(): Promise<void> {
+    describe("Multiple sendBatch calls", function (): void {
+      it("should be sent successfully in parallel", async function (): Promise<void> {
         const { subscriptionEventHandler } = await SubscriptionHandlerForTests.startingFromHere(
           consumerClient
         );
@@ -563,7 +560,7 @@ testWithServiceTypes((serviceVersion) => {
         await Promise.all(promises);
 
         const subscription = await consumerClient.subscribe(subscriptionEventHandler, {
-          startPosition
+          startPosition,
         });
 
         try {
@@ -582,16 +579,14 @@ testWithServiceTypes((serviceVersion) => {
             "Hello World 1",
             "Hello World 2",
             "Hello World 3",
-            "Hello World 4"
+            "Hello World 4",
           ]);
         } finally {
           subscription.close();
         }
       });
 
-      it("should be sent successfully in parallel, even when exceeding max event listener count of 1000", async function(): Promise<
-        void
-      > {
+      it("should be sent successfully in parallel, even when exceeding max event listener count of 1000", async function (): Promise<void> {
         const senderCount = 1200;
         try {
           const promises = [];
@@ -605,9 +600,7 @@ testWithServiceTypes((serviceVersion) => {
         }
       });
 
-      it("should be sent successfully in parallel by multiple clients", async function(): Promise<
-        void
-      > {
+      it("should be sent successfully in parallel by multiple clients", async function (): Promise<void> {
         const senderCount = 3;
         try {
           const promises = [];
@@ -634,11 +627,9 @@ testWithServiceTypes((serviceVersion) => {
         }
       });
 
-      it("should fail when a message greater than 1 MB is sent and succeed when a normal message is sent after that on the same link.", async function(): Promise<
-        void
-      > {
+      it("should fail when a message greater than 1 MB is sent and succeed when a normal message is sent after that on the same link.", async function (): Promise<void> {
         const data: EventData = {
-          body: Buffer.from("Z".repeat(1300000))
+          body: Buffer.from("Z".repeat(1300000)),
         };
         try {
           debug("Sending a message of 300KB...");
@@ -656,7 +647,7 @@ testWithServiceTypes((serviceVersion) => {
         debug("Sent the message successfully on the same link..");
       });
 
-      it("can be manually traced", async function(): Promise<void> {
+      it("can be manually traced", async function (): Promise<void> {
         const { tracer, resetTracer } = setTracerForTest();
 
         const rootSpan = tracer.startSpan("root");
@@ -668,8 +659,8 @@ testWithServiceTypes((serviceVersion) => {
         await producerClient.sendBatch(events, {
           partitionId: "0",
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
-          }
+            tracingContext: setSpan(context.active(), rootSpan),
+          },
         });
         rootSpan.end();
 
@@ -684,31 +675,31 @@ testWithServiceTypes((serviceVersion) => {
               children: [
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.send",
-                  children: []
-                }
-              ]
-            }
-          ]
+                  children: [],
+                },
+              ],
+            },
+          ],
         };
 
         tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
@@ -717,7 +708,7 @@ testWithServiceTypes((serviceVersion) => {
         resetTracer();
       });
 
-      it("skips already instrumented events when manually traced", async function(): Promise<void> {
+      it("skips already instrumented events when manually traced", async function (): Promise<void> {
         const { tracer, resetTracer } = setTracerForTest();
 
         const rootSpan = tracer.startSpan("root");
@@ -730,8 +721,8 @@ testWithServiceTypes((serviceVersion) => {
         await producerClient.sendBatch(events, {
           partitionId: "0",
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
-          }
+            tracingContext: setSpan(context.active(), rootSpan),
+          },
         });
         rootSpan.end();
 
@@ -746,27 +737,27 @@ testWithServiceTypes((serviceVersion) => {
               children: [
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.send",
-                  children: []
-                }
-              ]
-            }
-          ]
+                  children: [],
+                },
+              ],
+            },
+          ],
         };
 
         tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
@@ -776,7 +767,7 @@ testWithServiceTypes((serviceVersion) => {
       });
     });
 
-    describe("Array of events", function() {
+    describe("Array of events", function () {
       it("should be sent successfully", async () => {
         const data: EventData[] = [{ body: "Hello World 1" }, { body: "Hello World 2" }];
         const receivedEvents: ReceivedEventData[] = [];
@@ -791,11 +782,11 @@ testWithServiceTypes((serviceVersion) => {
             async processEvents(events) {
               receivedEvents.push(...events);
               receivingResolver();
-            }
+            },
           },
           {
             startPosition,
-            maxBatchSize: data.length
+            maxBatchSize: data.length,
           }
         );
 
@@ -821,11 +812,11 @@ testWithServiceTypes((serviceVersion) => {
             async processEvents(events) {
               receivedEvents.push(...events);
               receivingResolver();
-            }
+            },
           },
           {
             startPosition,
-            maxBatchSize: data.length
+            maxBatchSize: data.length,
           }
         );
 
@@ -856,11 +847,11 @@ testWithServiceTypes((serviceVersion) => {
             async processEvents(events) {
               receivedEvents.push(...events);
               receivingResolver();
-            }
+            },
           },
           {
             startPosition,
-            maxBatchSize: data.length
+            maxBatchSize: data.length,
           }
         );
 
@@ -876,7 +867,7 @@ testWithServiceTypes((serviceVersion) => {
         }
       });
 
-      it("can be manually traced", async function(): Promise<void> {
+      it("can be manually traced", async function (): Promise<void> {
         const { tracer, resetTracer } = setTracerForTest();
 
         const rootSpan = tracer.startSpan("root");
@@ -887,8 +878,8 @@ testWithServiceTypes((serviceVersion) => {
         }
         await producerClient.sendBatch(events, {
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
-          }
+            tracingContext: setSpan(context.active(), rootSpan),
+          },
         });
         rootSpan.end();
 
@@ -903,31 +894,31 @@ testWithServiceTypes((serviceVersion) => {
               children: [
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.send",
-                  children: []
-                }
-              ]
-            }
-          ]
+                  children: [],
+                },
+              ],
+            },
+          ],
         };
 
         tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
@@ -940,12 +931,12 @@ testWithServiceTypes((serviceVersion) => {
         knownSendSpans[0].attributes.should.deep.equal({
           "az.namespace": "Microsoft.EventHub",
           "message_bus.destination": producerClient.eventHubName,
-          "peer.address": producerClient.fullyQualifiedNamespace
+          "peer.address": producerClient.fullyQualifiedNamespace,
         });
         resetTracer();
       });
 
-      it("skips already instrumented events when manually traced", async function(): Promise<void> {
+      it("skips already instrumented events when manually traced", async function (): Promise<void> {
         const { tracer, resetTracer } = setTracerForTest();
 
         const rootSpan = tracer.startSpan("root");
@@ -957,8 +948,8 @@ testWithServiceTypes((serviceVersion) => {
         events[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
         await producerClient.sendBatch(events, {
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
-          }
+            tracingContext: setSpan(context.active(), rootSpan),
+          },
         });
         rootSpan.end();
 
@@ -973,27 +964,27 @@ testWithServiceTypes((serviceVersion) => {
               children: [
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.message",
-                  children: []
+                  children: [],
                 },
                 {
                   name: "Azure.EventHubs.send",
-                  children: []
-                }
-              ]
-            }
-          ]
+                  children: [],
+                },
+              ],
+            },
+          ],
         };
 
         tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
@@ -1001,14 +992,12 @@ testWithServiceTypes((serviceVersion) => {
         resetTracer();
       });
 
-      it("should throw when partitionId and partitionKey are provided", async function(): Promise<
-        void
-      > {
+      it("should throw when partitionId and partitionKey are provided", async function (): Promise<void> {
         try {
           const data: EventData[] = [
             {
-              body: "Sender paritition id and partition key"
-            }
+              body: "Sender paritition id and partition key",
+            },
           ];
           await producerClient.sendBatch(data, { partitionKey: "1", partitionId: "0" });
           throw new Error("Test Failure");
@@ -1020,8 +1009,8 @@ testWithServiceTypes((serviceVersion) => {
       });
     });
 
-    describe("Validation", function() {
-      describe("createBatch", function() {
+    describe("Validation", function () {
+      describe("createBatch", function () {
         it("throws an error if partitionId and partitionKey are set", async () => {
           try {
             await producerClient.createBatch({ partitionId: "0", partitionKey: "boo" });
@@ -1038,7 +1027,7 @@ testWithServiceTypes((serviceVersion) => {
             await producerClient.createBatch({
               // @ts-expect-error Testing the value 0 is not ignored.
               partitionId: 0,
-              partitionKey: "boo"
+              partitionKey: "boo",
             });
             throw new Error("Test failure");
           } catch (error) {
@@ -1053,7 +1042,7 @@ testWithServiceTypes((serviceVersion) => {
             await producerClient.createBatch({
               partitionId: "1",
               // @ts-expect-error Testing the value 0 is not ignored.
-              partitionKey: 0
+              partitionKey: 0,
             });
             throw new Error("Test failure");
           } catch (error) {
@@ -1063,9 +1052,7 @@ testWithServiceTypes((serviceVersion) => {
           }
         });
 
-        it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function(): Promise<
-          void
-        > {
+        it("should throw when maxMessageSize is greater than maximum message size on the AMQP sender link", async function (): Promise<void> {
           try {
             await producerClient.createBatch({ maxSizeInBytes: 2046528 });
             throw new Error("Test Failure");
@@ -1076,24 +1063,24 @@ testWithServiceTypes((serviceVersion) => {
           }
         });
       });
-      describe("sendBatch with EventDataBatch", function() {
+      describe("sendBatch with EventDataBatch", function () {
         it("works if partitionKeys match", async () => {
           const misconfiguredOptions: SendBatchOptions = {
-            partitionKey: "foo"
+            partitionKey: "foo",
           };
           const batch = await producerClient.createBatch({ partitionKey: "foo" });
           await producerClient.sendBatch(batch, misconfiguredOptions);
         });
         it("works if partitionIds match", async () => {
           const misconfiguredOptions: SendBatchOptions = {
-            partitionId: "0"
+            partitionId: "0",
           };
           const batch = await producerClient.createBatch({ partitionId: "0" });
           await producerClient.sendBatch(batch, misconfiguredOptions);
         });
         it("throws an error if partitionKeys don't match", async () => {
           const badOptions: SendBatchOptions = {
-            partitionKey: "bar"
+            partitionKey: "bar",
           };
           const batch = await producerClient.createBatch({ partitionKey: "foo" });
           try {
@@ -1107,7 +1094,7 @@ testWithServiceTypes((serviceVersion) => {
         });
         it("throws an error if partitionKeys don't match (undefined)", async () => {
           const badOptions: SendBatchOptions = {
-            partitionKey: "bar"
+            partitionKey: "bar",
           };
           const batch = await producerClient.createBatch();
           try {
@@ -1121,7 +1108,7 @@ testWithServiceTypes((serviceVersion) => {
         });
         it("throws an error if partitionIds don't match", async () => {
           const badOptions: SendBatchOptions = {
-            partitionId: "0"
+            partitionId: "0",
           };
           const batch = await producerClient.createBatch({ partitionId: "1" });
           try {
@@ -1135,7 +1122,7 @@ testWithServiceTypes((serviceVersion) => {
         });
         it("throws an error if partitionIds don't match (undefined)", async () => {
           const badOptions: SendBatchOptions = {
-            partitionId: "0"
+            partitionId: "0",
           };
           const batch = await producerClient.createBatch();
           try {
@@ -1149,7 +1136,7 @@ testWithServiceTypes((serviceVersion) => {
         });
         it("throws an error if partitionId and partitionKey are set (create, send)", async () => {
           const badOptions: SendBatchOptions = {
-            partitionKey: "foo"
+            partitionKey: "foo",
           };
           const batch = await producerClient.createBatch({ partitionId: "0" });
           try {
@@ -1161,7 +1148,7 @@ testWithServiceTypes((serviceVersion) => {
         });
         it("throws an error if partitionId and partitionKey are set (send, create)", async () => {
           const badOptions: SendBatchOptions = {
-            partitionId: "0"
+            partitionId: "0",
           };
           const batch = await producerClient.createBatch({ partitionKey: "foo" });
           try {
@@ -1174,7 +1161,7 @@ testWithServiceTypes((serviceVersion) => {
         it("throws an error if partitionId and partitionKey are set (send, send)", async () => {
           const badOptions: SendBatchOptions = {
             partitionKey: "foo",
-            partitionId: "0"
+            partitionId: "0",
           };
           const batch = await producerClient.createBatch();
           try {
@@ -1186,11 +1173,11 @@ testWithServiceTypes((serviceVersion) => {
         });
       });
 
-      describe("sendBatch with EventDataBatch with events array", function() {
+      describe("sendBatch with EventDataBatch with events array", function () {
         it("throws an error if partitionId and partitionKey are set", async () => {
           const badOptions: SendBatchOptions = {
             partitionKey: "foo",
-            partitionId: "0"
+            partitionId: "0",
           };
           const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
           try {
@@ -1206,7 +1193,7 @@ testWithServiceTypes((serviceVersion) => {
           const badOptions: SendBatchOptions = {
             partitionKey: "foo",
             // @ts-expect-error Testing the value 0 is not ignored.
-            partitionId: 0
+            partitionId: 0,
           };
           const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
           try {
@@ -1222,7 +1209,7 @@ testWithServiceTypes((serviceVersion) => {
           const badOptions: SendBatchOptions = {
             // @ts-expect-error Testing the value 0 is not ignored.
             partitionKey: 0,
-            partitionId: "0"
+            partitionId: "0",
           };
           const batch = [{ body: "Hello 1" }, { body: "Hello 2" }];
           try {
@@ -1237,10 +1224,10 @@ testWithServiceTypes((serviceVersion) => {
       });
     });
 
-    describe("Negative scenarios", function(): void {
-      it("a message greater than 1 MB should fail.", async function(): Promise<void> {
+    describe("Negative scenarios", function (): void {
+      it("a message greater than 1 MB should fail.", async function (): Promise<void> {
         const data: EventData = {
-          body: Buffer.from("Z".repeat(1300000))
+          body: Buffer.from("Z".repeat(1300000)),
         };
         try {
           await producerClient.sendBatch([data]);
@@ -1255,15 +1242,15 @@ testWithServiceTypes((serviceVersion) => {
         }
       });
 
-      describe("on invalid partition ids like", function(): void {
+      describe("on invalid partition ids like", function (): void {
         // tslint:disable-next-line: no-null-keyword
         const invalidIds = ["XYZ", "-1", "1000", "-"];
-        invalidIds.forEach(function(id: string | null): void {
-          it(`"${id}" should throw an error`, async function(): Promise<void> {
+        invalidIds.forEach(function (id: string | null): void {
+          it(`"${id}" should throw an error`, async function (): Promise<void> {
             try {
               debug("Created sender and will be sending a message to partition id ...", id);
               await producerClient.sendBatch([{ body: "Hello world!" }], {
-                partitionId: id as any
+                partitionId: id as any,
               });
               debug("sent the message.");
               throw new Error("Test failure");

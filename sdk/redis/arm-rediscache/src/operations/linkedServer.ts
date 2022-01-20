@@ -11,7 +11,7 @@ import { LinkedServer } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { RedisManagementClientContext } from "../redisManagementClientContext";
+import { RedisManagementClient } from "../redisManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -31,13 +31,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LinkedServer operations. */
 export class LinkedServerImpl implements LinkedServer {
-  private readonly client: RedisManagementClientContext;
+  private readonly client: RedisManagementClient;
 
   /**
    * Initialize a new instance of the class LinkedServer class.
    * @param client Reference to the service client
    */
-  constructor(client: RedisManagementClientContext) {
+  constructor(client: RedisManagementClient) {
     this.client = client;
   }
 

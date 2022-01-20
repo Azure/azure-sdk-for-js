@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Poller } from "../poller";
-import { PollOperationState } from "../pollOperation";
 import {
   LongRunningOperation,
   LroEngineOptions,
   PollerConfig,
-  ResumablePollOperationState
+  ResumablePollOperationState,
 } from "./models";
 import { GenericPollOperation } from "./operation";
+import { PollOperationState } from "../pollOperation";
+import { Poller } from "../poller";
 
 function deserializeState<TResult, TState>(
   serializedState: string

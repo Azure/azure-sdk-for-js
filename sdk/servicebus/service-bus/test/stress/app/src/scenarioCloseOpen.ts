@@ -14,14 +14,14 @@ interface ScenarioCloseOptions {
 function sanitizeOptions(args: string[]): Required<ScenarioCloseOptions> {
   const options = parsedArgs<ScenarioCloseOptions>(args, {
     boolean: ["shouldCreateNewClientEachTime"],
-    default: { shouldCreateNewClientEachTime: true }
+    default: { shouldCreateNewClientEachTime: true },
   });
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
     receiveBatchMaxMessageCount: options.receiveBatchMaxMessageCount || 10,
     receiveBatchMaxWaitTimeInMs: options.receiveBatchMaxWaitTimeInMs || 10000,
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
-    delayBeforeCallingCloseInMs: options.delayBeforeCallingCloseInMs || 100
+    delayBeforeCallingCloseInMs: options.delayBeforeCallingCloseInMs || 100,
   };
 }
 
@@ -33,14 +33,14 @@ export async function scenarioClose() {
     receiveBatchMaxMessageCount,
     receiveBatchMaxWaitTimeInMs,
     numberOfMessagesPerSend,
-    delayBeforeCallingCloseInMs
+    delayBeforeCallingCloseInMs,
   } = testOptions;
 
   const startedAt = new Date();
 
   const stressBase = new ServiceBusStressTester({
     testName: "closeOpen",
-    snapshotFocus: ["send-info", "receive-info", "close-info"]
+    snapshotFocus: ["send-info", "receive-info", "close-info"],
   });
 
   const operation = async (sbClient: ServiceBusClient) => {
@@ -63,7 +63,7 @@ export async function scenarioClose() {
   };
 
   return stressBase.runStressTest(operation, {
-    additionalEventProperties: testOptions
+    additionalEventProperties: testOptions,
   });
 }
 

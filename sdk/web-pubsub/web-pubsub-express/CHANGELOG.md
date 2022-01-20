@@ -1,5 +1,22 @@
 # Release History
 
+## 1.0.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.1 (2022-01-11)
+
+### Bugs Fixed
+
+- Fix the `data` definition for `UserEventRequest` when `dataType` is `json`. When `dataType` is `json`, `data` is the JSON parsed result from request body, so the type of `data` depends on the user scenario.
+- Fix the CloudEvents parsing issue that now `data` also can be `boolean` or `number`.
+
 ## 1.0.0 (2021-11-11)
 
 No changes.

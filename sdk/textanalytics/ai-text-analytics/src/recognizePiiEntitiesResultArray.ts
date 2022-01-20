@@ -5,7 +5,7 @@ import { TextDocumentBatchStatistics, TextDocumentInput, PiiResult } from "./gen
 import {
   RecognizePiiEntitiesResult,
   makeRecognizePiiEntitiesResult,
-  makeRecognizePiiEntitiesErrorResult
+  makeRecognizePiiEntitiesErrorResult,
 } from "./recognizePiiEntitiesResult";
 import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 

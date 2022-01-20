@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { EventData, toRheaMessage } from "./eventData";
-import { ConnectionContext } from "./connectionContext";
-import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
-import { throwTypeErrorIfParameterMissing } from "./util/error";
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { MessageAnnotations, Message as RheaMessage, message } from "rhea-promise";
 import { Span, SpanContext } from "@azure/core-tracing";
-import { instrumentEventData } from "./diagnostics/instrumentEventData";
-import { convertTryAddOptionsForCompatibility } from "./diagnostics/tracing";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { ConnectionContext } from "./connectionContext";
 import { OperationTracingOptions } from "@azure/core-tracing";
+import { convertTryAddOptionsForCompatibility } from "./diagnostics/tracing";
+import { instrumentEventData } from "./diagnostics/instrumentEventData";
+import { throwTypeErrorIfParameterMissing } from "./util/error";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -254,7 +254,7 @@ export class EventDataBatchImpl implements EventDataBatch {
    */
   private _generateBatch(encodedEvents: Buffer[], annotations?: MessageAnnotations): Buffer {
     const batchEnvelope: RheaMessage = {
-      body: message.data_sections(encodedEvents)
+      body: message.data_sections(encodedEvents),
     };
     if (annotations) {
       batchEnvelope.message_annotations = annotations;

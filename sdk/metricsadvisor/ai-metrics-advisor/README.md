@@ -1,6 +1,6 @@
 # Azure Metrics Advisor client library for JavaScript
 
-Metrics Advisor is a part of Azure Cognitive Services that uses AI perform data monitoring and anomaly detection in time series data. The service automates the process of applying models to your data, and provides a set of APIs web-based workspace for data ingestion, anomaly detection, and diagnostics - without needing to know machine learning. Use Metrics Advisor to:
+Metrics Advisor is a part of Azure Cognitive Services that uses AI to perform data monitoring and anomaly detection in time series data. The service automates the process of applying models to your data and provides a set of web-based APIs for data ingestion, anomaly detection and diagnostics - without needing to know machine learning. Use Metrics Advisor to:
 
 - Analyze multi-dimensional data from multiple data sources
 - Identify and correlate anomalies
@@ -28,12 +28,12 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 - An [Azure subscription][azure_sub].
 - An existing [Cognitive Services][cognitive_resource] or Metrics Advisor resource. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
 
-If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
+If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names. You can also provide the  pricing tier (or sku) `<sku level>` and an Azure location `<location>`
 
 ```bash
 az cognitiveservices account create --kind MetricsAdvisor --resource-group <your-resource-group-name> --name <your-resource-name> --sku <sku level> --location <location>
 ```
-
+- Existing data sources and [set up datafeeds to onboard data][onboard_data_feed]
 ### Install the `@azure/ai-metrics-advisor` package
 
 Install the Azure Metrics Advisor client library for JavaScript with `npm`:
@@ -57,9 +57,9 @@ az cognitiveservices account show --name <your-resource-name> --resource-group <
 You will need two keys to authenticate the client:
 
 - The subscription key to your Metrics Advisor resource. You can find this in the **Keys and Endpoint** section of your resource in the [Azure Portal][azure_portal].
-- The API key for your Metrics Advisor instance. You can find this in the web portal for Metrics Advisor, in **API keys** on the left navigation menu. The url of your web portal can be found in the **Overview** section of your resource in the [Azure Portal][azure_portal].
+- The API key for your Metrics Advisor instance. Get the web portal url for Metrics Advisor from the **Overview** section of your resource in the [Azure Portal][azure_portal]. After logging into the web portal for Metrics Advisor, click on **API keys** on the left navigation menu to find the API key.
 
-Use the [Azure Portal][azure_portal] to browse to your Metrics Advisor resource and retrieve an subscription key, or use the [Azure CLI][azure_cli] snippet below:
+Use the [Azure Portal][azure_portal] to browse to your Metrics Advisor resource and retrieve an subscription key or use the [Azure CLI][azure_cli] snippet below:
 
 ```PowerShell
 az cognitiveservices account keys list --resource-group <your-resource-group-name> --name <your-resource-name>
@@ -67,7 +67,7 @@ az cognitiveservices account keys list --resource-group <your-resource-group-nam
 
 In addition, you will also need the per-user api key from your Metrics Advisor web portal.
 
-Once you have the two keys and endpoint, you can use the `MetricsAdvisorKeyCredential` class to authenticate the clients as follows:
+Once you have the two keys and the endpoint, you can use the `MetricsAdvisorKeyCredential` class to authenticate the clients as follows:
 
 ```javascript
 const {
@@ -111,7 +111,7 @@ const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credent
 
 ### MetricsAdvisorClient
 
-`MetricsAdvisorClient` is the primary querying interface for developers using the Metrics Advisor client library. It provides asynchronous methods to access a specific use of Metrics Advisor, such as listing incidents, retrive root causes of incidents, retrieving original time series data and time series data enriched by the service.
+`MetricsAdvisorClient` is the primary query interface for developers using the Metrics Advisor client library. It provides asynchronous methods to access a specific use of Metrics Advisor, such as listing incidents, retrive root causes of incidents, retrieving original time series data and time series data enriched by the service.
 
 ### MetricsAdvisorAdministrationClient
 
@@ -127,19 +127,19 @@ A data feed is what Metrics Advisor ingests from your data source, such as Cosmo
 
 ### Metric
 
-A metric is a quantifiable measure that is used to monitor and assess the status of a specific business process. It can be a combination of multiple time series values divided into dimensions. For example a web health metric might contain dimensions for user count and the en-us market.
+A metric is a quantifiable measure that is used to monitor and assess the status of a specific business process. It can be a combination of multiple time series values divided into dimensions. For example a web health metric might contain dimensions for user count and the en-us locale.
 
 ### AnomalyDetectionConfiguration
 
-`AnomalyDetectionConfiguration` is required for every time series, and determines whether a point in the time series is an anomaly.
+`AnomalyDetectionConfiguration` is required for every time series and determines whether a point in the time series is an anomaly.
 
 ### Anomaly & Incident
 
-After a detection configuration is applied to metrics, `AnomalyIncident`s are generated whenever any series within it has an `DataPointAnomaly`.
+After a detection configuration is applied to metrics, `AnomalyIncident`s are generated whenever any series within has an `DataPointAnomaly`.
 
 ### Alert
 
-You can configure which anomalies should trigger an `AnomalyAlert`. You can set multiple alerts with different settings. For example, you could create an alert for anomalies with lower business impact, and another for more important alerts.
+You can configure which anomalies should trigger an `AnomalyAlert`. You can set multiple alerts with different settings. For example, you could create an alert for anomalies with lower business impact and another for more important alerts.
 
 ### Hook
 
@@ -512,3 +512,4 @@ the code.
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [metrics_advisor_glossary]: https://docs.microsoft.com/azure/cognitive-services/metrics-advisor/glossary
+[onboard_data_feed]: https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/how-tos/onboard-your-data

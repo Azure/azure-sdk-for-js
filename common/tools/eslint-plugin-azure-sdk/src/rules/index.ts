@@ -76,5 +76,5 @@ export = {
   "ts-pagination-list": tsPaginationList,
   "ts-use-interface-parameters": tsUseInterfaceParameters,
   "ts-use-promises": tsUsePromises,
-  "ts-versioning-semver": tsVersioningSemver
+  "ts-versioning-semver": tsVersioningSemver,
 };

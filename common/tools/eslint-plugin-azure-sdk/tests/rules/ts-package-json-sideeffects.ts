@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import rule from "../../src/rules/ts-package-json-sideeffects";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-package-json-sideeffects";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -80,7 +80,7 @@ const examplePackageGood = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -193,7 +193,7 @@ const examplePackageBad = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -247,8 +247,8 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 
 ruleTester.run("ts-package-json-sideeffects", rule, {
@@ -256,18 +256,18 @@ ruleTester.run("ts-package-json-sideeffects", rule, {
     {
       // only the fields we care about
       code: '{"sideEffects": false}',
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // incorrect format but in a file we don't care about
       code: '{"sideEffects": true}',
-      filename: "not_package.json"
-    }
+      filename: "not_package.json",
+    },
   ],
   invalid: [
     {
@@ -275,9 +275,9 @@ ruleTester.run("ts-package-json-sideeffects", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "sideEffects does not exist at the outermost level"
-        }
-      ]
+          message: "sideEffects does not exist at the outermost level",
+        },
+      ],
     },
     {
       // sideEffects is in a nested object
@@ -285,9 +285,9 @@ ruleTester.run("ts-package-json-sideeffects", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "sideEffects does not exist at the outermost level"
-        }
-      ]
+          message: "sideEffects does not exist at the outermost level",
+        },
+      ],
     },
     {
       // only the fields we care about
@@ -295,10 +295,10 @@ ruleTester.run("ts-package-json-sideeffects", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "sideEffects is set to true when it should be set to false"
-        }
+          message: "sideEffects is set to true when it should be set to false",
+        },
       ],
-      output: '{"sideEffects": false}'
+      output: '{"sideEffects": false}',
     },
     {
       // example file with sideEffects set to Not Microsoft Corporation
@@ -306,10 +306,10 @@ ruleTester.run("ts-package-json-sideeffects", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "sideEffects is set to true when it should be set to false"
-        }
+          message: "sideEffects is set to true when it should be set to false",
+        },
       ],
-      output: examplePackageGood
-    }
-  ]
+      output: examplePackageGood,
+    },
+  ],
 });

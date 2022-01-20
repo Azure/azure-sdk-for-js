@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NamedKeyCredential, isNamedKeyCredential } from "@azure/core-auth";
 import { AccountSasPermissions, accountSasPermissionsFromString } from "./accountSasPermissions";
 import {
   AccountSasServices,
   accountSasServicesFromString,
-  accountSasServicesToString
+  accountSasServicesToString,
 } from "./accountSasServices";
-import { generateAccountSasQueryParameters } from "./accountSasSignatureValues";
+import { NamedKeyCredential, isNamedKeyCredential } from "@azure/core-auth";
 import { SasIPRange } from "./sasIPRange";
 import { SasProtocol } from "./sasQueryParameters";
+import { generateAccountSasQueryParameters } from "./accountSasSignatureValues";
 
 /**
  * Generates a Table Account Shared Access Signature (SAS) URI based on the client properties
@@ -51,7 +51,7 @@ export function generateAccountSas(
       expiresOn: expiry,
       resourceTypes,
       services: accountSasServicesToString(services),
-      ...rest
+      ...rest,
     },
     credential
   ).toString();

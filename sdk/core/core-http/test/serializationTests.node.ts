@@ -2,13 +2,12 @@
 // Licensed under the MIT license.
 
 import "chai/register-should";
-
-import { TestClient } from "./data/TestClient/src/testClient";
 import { Mappers } from "./data/TestClient/src/models/mappers";
+import { TestClient } from "./data/TestClient/src/testClient";
 
-describe("msrest (node)", function() {
-  describe("deserialize", function() {
-    it("should correctly deserialize without failing when encountering no discriminator", function(done) {
+describe("msrest (node)", function () {
+  describe("deserialize", function () {
+    it("should correctly deserialize without failing when encountering no discriminator", function (done) {
       const client = new TestClient("http://localhost:9090");
       const mapper = Mappers.Fish;
       const responseBody = {
@@ -30,11 +29,11 @@ describe("msrest (node)", function() {
                 "fish.type": "mutatedshark",
                 age: 6,
                 length: 20.0,
-                species: "predator"
-              }
-            ]
-          }
-        ]
+                species: "predator",
+              },
+            ],
+          },
+        ],
       };
       const deserializedSawshark = client.serializer.deserialize(
         mapper,
@@ -53,7 +52,7 @@ describe("msrest (node)", function() {
       done();
     });
 
-    it("should correctly serialize without failing when encountering no discriminator", function(done) {
+    it("should correctly serialize without failing when encountering no discriminator", function (done) {
       const client = new TestClient("http://localhost:9090");
       const mapper = Mappers.SawShark;
       const sawshark = {
@@ -68,7 +67,7 @@ describe("msrest (node)", function() {
             age: 6,
             birthday: new Date("2012-01-05T01:00:00Z"),
             length: 20.0,
-            species: "predator"
+            species: "predator",
           },
           {
             fishtype: "sawshark",
@@ -76,9 +75,9 @@ describe("msrest (node)", function() {
             birthday: new Date("1900-01-05T01:00:00Z"),
             length: 10.0,
             picture: Buffer.from([255, 255, 255, 255, 254]),
-            species: "dangerous"
-          }
-        ]
+            species: "dangerous",
+          },
+        ],
       };
       const serializedSawshark = client.serializer.serialize(mapper, sawshark, "result");
       serializedSawshark.age.should.equal(22);

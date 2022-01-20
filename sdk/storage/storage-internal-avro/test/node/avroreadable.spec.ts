@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as fs from "fs";
-import * as assert from "assert";
+import { assert } from "chai";
 import { AvroReadableFromStream } from "../../src";
 import { AbortController } from "@azure/abort-controller";
 import { Readable } from "stream";

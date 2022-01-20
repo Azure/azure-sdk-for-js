@@ -5,9 +5,8 @@
  * @summary Shows a simple bulk call with each BulkOperation type.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { handleError, finish, logStep } from "./Shared/handleError";
 import {
@@ -15,7 +14,7 @@ import {
   CosmosClient,
   OperationInput,
   PatchOperation,
-  PatchOperationType
+  PatchOperationType,
 } from "@azure/cosmos";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -33,7 +32,7 @@ async function run() {
   const containerId = "bulkContainerV2";
   const client = new CosmosClient({
     key: key,
-    endpoint: endpoint
+    endpoint: endpoint,
   });
   const { database } = await client.databases.create({ id: addEntropy("bulk db") });
   logStep(`Create multi-partition container '${containerId}' with partition key /key`);
@@ -41,9 +40,9 @@ async function run() {
     id: containerId,
     partitionKey: {
       paths: ["/key"],
-      version: 2
+      version: 2,
     },
-    throughput: 25100
+    throughput: 25100,
   });
 
   const readItemId = addEntropy("item1");
@@ -56,62 +55,62 @@ async function run() {
   await v2Container.items.create({
     id: readItemId,
     key: true,
-    class: "2010"
+    class: "2010",
   });
 
   await v2Container.items.create({
     id: deleteItemId,
     key: {},
-    class: "2011"
+    class: "2011",
   });
 
   await v2Container.items.create({
     id: replaceItemId,
     key: 5,
-    class: "2012"
+    class: "2012",
   });
 
   await v2Container.items.create({
     id: patchItemId,
     key: 5,
-    class: "2019"
+    class: "2019",
   });
 
   const operations: OperationInput[] = [
     {
       operationType: BulkOperationType.Create,
       partitionKey: "A",
-      resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" }
+      resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" },
     },
     {
       operationType: BulkOperationType.Upsert,
       partitionKey: "U",
-      resourceBody: { name: "other", key: "U" }
+      resourceBody: { name: "other", key: "U" },
     },
     {
       operationType: BulkOperationType.Read,
       id: readItemId,
-      partitionKey: true
+      partitionKey: true,
     },
     {
       operationType: BulkOperationType.Delete,
       id: deleteItemId,
-      partitionKey: {}
+      partitionKey: {},
     },
     {
       operationType: BulkOperationType.Replace,
       partitionKey: 5,
       id: replaceItemId,
-      resourceBody: { id: replaceItemId, name: "nice", key: 5 }
+      resourceBody: { id: replaceItemId, name: "nice", key: 5 },
     },
     {
       operationType: BulkOperationType.Patch,
       partitionKey: 5,
       id: patchItemId,
       resourceBody: {
-        operations: [{ op: PatchOperationType.add, path: "/great", value: "goodValue" }]
-      }
-    }
+        operations: [{ op: PatchOperationType.add, path: "/great", value: "goodValue" }],
+      },
+    },
   ];
   logStep(
     `Execute a simple bulk request with 5 operations: Create, Upsert, Read, Delete, Replace , Patch`

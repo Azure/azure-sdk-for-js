@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { AbortController } from "@azure/abort-controller";
 
 import { QueueClient } from "../src/QueueClient";
 import { getQSU } from "./utils";
-import * as dotenv from "dotenv";
 import { recorderEnvSetup } from "./utils/testutils.common";
 import { Recorder, record } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Aborter", () => {
   let queueName: string;
@@ -18,14 +16,14 @@ describe("Aborter", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
     queueClient = queueServiceClient.getQueueClient(queueName);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 

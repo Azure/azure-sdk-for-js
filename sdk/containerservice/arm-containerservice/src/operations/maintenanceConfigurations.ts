@@ -11,7 +11,7 @@ import { MaintenanceConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerServiceClientContext } from "../containerServiceClientContext";
+import { ContainerServiceClient } from "../containerServiceClient";
 import {
   MaintenanceConfiguration,
   MaintenanceConfigurationsListByManagedClusterNextOptionalParams,
@@ -29,13 +29,13 @@ import {
 /** Class containing MaintenanceConfigurations operations. */
 export class MaintenanceConfigurationsImpl
   implements MaintenanceConfigurations {
-  private readonly client: ContainerServiceClientContext;
+  private readonly client: ContainerServiceClient;
 
   /**
    * Initialize a new instance of the class MaintenanceConfigurations class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerServiceClientContext) {
+  constructor(client: ContainerServiceClient) {
     this.client = client;
   }
 

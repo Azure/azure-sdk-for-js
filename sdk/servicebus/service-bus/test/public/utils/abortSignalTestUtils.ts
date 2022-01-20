@@ -52,7 +52,7 @@ export function createAbortSignalForTest(
         return isAborted();
       }
       return isAborted;
-    }
+    },
   };
 
   return signal;
