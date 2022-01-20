@@ -1430,6 +1430,11 @@
       "packageName": "@azure/arm-powerbiembedded",
       "projectFolder": "sdk/powerbiembedded/arm-powerbiembedded",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-recoveryservices-siterecovery",
+      "projectFolder": "sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery",
+      "versionPolicyName": "management"
     }
   ]
 }
