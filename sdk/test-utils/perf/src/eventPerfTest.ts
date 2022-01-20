@@ -6,8 +6,8 @@ import { PerfTestBase } from "./perfTestBase";
 import { isDefined } from "./utils";
 
 /**
- * Extends PerfTestBase, enables writing perf tests with more flexibility for the methods
- * where the number of operations are dynamic for the method/call being tested.
+ * Extends PerfTestBase, enables writing perf tests for the APIs that receive events as a stream
+ * - Typically, such APIs("subscribe" method) offered by the AMQP based SDKs - event-hubs/service-bus.
  */
 export abstract class EventPerfTest<
   TOptions = Record<string, unknown>
@@ -24,13 +24,11 @@ export abstract class EventPerfTest<
   }
 
   /**
-   * Runs the test in scope repeatedly, without waiting for any promises to finish,
-   * as many times as possible until durationMilliseconds is reached.
-   * For each test run, it will report one more completedOperations on the PerfParallel given,
-   * as well as the lastMillisecondsElapsed that reports the last test execution's elapsed time in comparison
-   * to the beginning of the execution of runLoop.
+   * Waits for the provided duration, aborts if the signal was received before the duration.
    *
-   * @param parallel Object where to log the results from each execution.
+   * During this, "subscribe" method which is supposed to be called
+   * from the "setup" should be receiving the events as a stream.
+   *
    * @param durationMilliseconds When to abort any execution.
    * @param abortController Allows us to send through a signal determining when to abort any execution.
    */
