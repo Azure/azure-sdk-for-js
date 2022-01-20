@@ -24,22 +24,19 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
     "number-of-messages": {
       required: true,
       description: "Total number of messages to send",
-      shortName: "max",
-      longName: "maximum",
+      shortName: "send",
       defaultValue: 10000,
     },
     "message-body-size-in-bytes": {
       required: true,
       description: "Size of each message body in bytes",
       shortName: "size",
-      longName: "size-in-bytes",
       defaultValue: 2000,
     },
     "max-message-count": {
       required: true,
       description: "Max number of messages to receive",
-      shortName: "max",
-      longName: "maximum",
+      shortName: "max-receive",
       defaultValue: 50,
     },
   };
