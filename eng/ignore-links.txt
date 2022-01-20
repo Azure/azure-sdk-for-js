@@ -24,3 +24,6 @@ https://docs.microsoft.com/javascript/api/@azure/arm-healthcareapis?view=azure-n
 https://docs.microsoft.com/javascript/api/@azure/arm-hybridkubernetes?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-healthcareapis
 https://docs.microsoft.com/javascript/api/@azure/arm-hybridkubernetes
+https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdates/iot-device-update-rest
+https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/javascript/devices.js
+https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/typescript/src/devices.ts
