@@ -24,3 +24,5 @@ https://docs.microsoft.com/javascript/api/@azure/arm-healthcareapis?view=azure-n
 https://docs.microsoft.com/javascript/api/@azure/arm-hybridkubernetes?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-healthcareapis
 https://docs.microsoft.com/javascript/api/@azure/arm-hybridkubernetes
+https://docs.microsoft.com/javascript/api/@azure/arm-oep?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-securityinsight?view=azure-node-preview
