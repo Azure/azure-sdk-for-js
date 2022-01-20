@@ -54,15 +54,17 @@ By default, the encoder will create structured as follows:
 
 Not all messaging services are supporting the same message structure. To enable
 integration with such services, the encoder can act on custom message structures
-using the `messageFactory` and `messageConsumer` options in `encodeMessageData`
-and `decodeMessageData` respectively.
+by setting the `messageAdapter` option in the constructor with a corresponding
+message producer and consumer. Azure messaging client libraries export default
+adapters for their message types.
 
 ## Examples
 
-### Encode and decode
+### Encode and decode an `@azure/event-hubs`'s `EventData`
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
+import { createEventDataAdapter } from "@azure/event-hubs";
 const { SchemaRegistryClient } = require("@azure/schema-registry");
 const { SchemaRegistryAvroEncoder } = require("@azure/schema-registry-avro");
 
@@ -70,7 +72,10 @@ const client = new SchemaRegistryClient(
   "<fully qualified namespace>",
   new DefaultAzureCredential()
 );
-const encoder = new SchemaRegistryAvroEncoder(client, { groupName: "<group>" });
+const encoder = new SchemaRegistryAvroEncoder(client, {
+  groupName: "<group>",
+  messageAdapter: createEventDataAdapter(),
+});
 
 // Example Avro schema
 const schema = JSON.stringify({
@@ -88,52 +93,6 @@ const message = await encoder.encodeMessageData(value, schema);
 
 // Decode a message to value
 const decodedValue = await encoder.decodeMessageData(message);
-```
-
-### Encode and decode with custom message
-
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { SchemaRegistryClient } = require("@azure/schema-registry");
-const { SchemaRegistryAvroEncoder } = require("@azure/schema-registry-avro");
-
-const client = new SchemaRegistryClient(
-  "<fully qualified namespace>",
-  new DefaultAzureCredential()
-);
-const encoder = new SchemaRegistryAvroEncoder(client, { groupName: "<group>" });
-
-// Example Avro schema
-const schema = JSON.stringify({
-  type: "record",
-  name: "Rating",
-  namespace: "my.example",
-  fields: [{ name: "score", type: "int" }],
-});
-
-// Example value that matches the Avro schema above
-const value = { score: 42 };
-
-// Encode value to a message
-const message = await encoder.encodeMessageData(value, schema, {
-  messageFactory: {
-    createMessage: (binaryData, contentType) => ({
-      type: "azure.sdk.schemaregistry.samples.cloudevent",
-      source: "<message source>",
-      datacontenttype: contentType,
-      data: {
-        payload: binaryData,
-      },
-    }),
-  },
-});
-// Decode a message to value
-const decodedValue = await encoder.decodeMessageData(message, {
-  messageConsumer: {
-    getContentType: (message) => message.datacontenttype,
-    getPayload: (message) => message.data,
-  },
-});
 ```
 
 ## Troubleshooting
