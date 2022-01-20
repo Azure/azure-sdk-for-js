@@ -1380,6 +1380,11 @@
       "packageName": "@azure/arm-commitmentplans",
       "projectFolder": "sdk/machinelearning/arm-commitmentplans",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-marketplaceordering",
+      "projectFolder": "sdk/marketplaceordering/arm-marketplaceordering",
+      "versionPolicyName": "management"
     }
   ]
 }
