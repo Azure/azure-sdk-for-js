@@ -21,7 +21,7 @@
 /sdk/core/core-client-rest/ @xirzec @joheredi @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-tracing/ @xirzec @jeremymeng @maorleger
+/sdk/core/core-tracing/ @xirzec @jeremymeng @maorleger @joheredi
 
 # Service teams
 # PRLabel: %App Configuration
@@ -68,6 +68,9 @@
 
 # PRLabel: %KeyVault
 /sdk/keyvault/ @maorleger @sadasant 
+
+# PRLabel: %OpenTelemetryInstrumentation
+/sdk/instrumentation/ @maorleger @joheredi
 
 # PRLabel: %Service Bus
 /sdk/servicebus/ @deyaaeldeen @jeremymeng @HarshaNalluru @ramya-rao-a @richardpark-msft 

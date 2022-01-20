@@ -37,8 +37,6 @@ export interface KeyProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keyUriWithVersion?: string;
-  /** Key rotation policy in response. It will be used for both output and input. Omitted if empty */
-  rotationPolicy?: RotationPolicy;
 }
 
 /** The object attributes managed by the Azure Key Vault service. */
@@ -64,47 +62,8 @@ export interface KeyAttributes {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly recoveryLevel?: DeletionRecoveryLevel;
-}
-
-export interface RotationPolicy {
-  /** The attributes of key rotation policy. */
-  attributes?: KeyRotationPolicyAttributes;
-  /** The lifetimeActions for key rotation action. */
-  lifetimeActions?: LifetimeAction[];
-}
-
-export interface KeyRotationPolicyAttributes {
-  /**
-   * Creation time in seconds since 1970-01-01T00:00:00Z.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly created?: number;
-  /**
-   * Last updated time in seconds since 1970-01-01T00:00:00Z.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly updated?: number;
-  /** The expiration time for the new key version. It should be in ISO8601 format. Eg: 'P90D', 'P1Y'. */
-  expiryTime?: string;
-}
-
-export interface LifetimeAction {
-  /** The trigger of key rotation policy lifetimeAction. */
-  trigger?: Trigger;
-  /** The action of key rotation policy lifetimeAction. */
-  action?: Action;
-}
-
-export interface Trigger {
-  /** The time duration after key creation to rotate the key. It should be in ISO8601 format. Eg: 'P90D', 'P1Y'. */
-  timeAfterCreate?: string;
-  /** The time duration before key expiring to rotate the key. It should be in ISO8601 format. Eg: 'P90D', 'P1Y'. */
-  timeBeforeExpiry?: string;
-}
-
-export interface Action {
-  /** The type of action. */
-  type?: KeyRotationPolicyActionType;
+  /** Indicates if the private key can be exported. */
+  exportable?: boolean;
 }
 
 /** Key Vault resource */
@@ -193,7 +152,7 @@ export interface VaultProperties {
   enableSoftDelete?: boolean;
   /** softDelete data retention days. It accepts >=7 and <=90. */
   softDeleteRetentionInDays?: number;
-  /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored (warning: this is a preview feature). When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with RBAC. */
+  /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with RBAC. */
   enableRbacAuthorization?: boolean;
   /** The vault's create mode to indicate whether the vault need to be recovered or not. */
   createMode?: CreateMode;
@@ -373,7 +332,7 @@ export interface VaultPatchProperties {
   enabledForTemplateDeployment?: boolean;
   /** Property to specify whether the 'soft delete' functionality is enabled for this key vault. Once set to true, it cannot be reverted to false. */
   enableSoftDelete?: boolean;
-  /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored (warning: this is a preview feature). When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the value of this property will not change. */
+  /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the value of this property will not change. */
   enableRbacAuthorization?: boolean;
   /** softDelete data retention days. It accepts >=7 and <=90. */
   softDeleteRetentionInDays?: number;
@@ -539,44 +498,6 @@ export interface PrivateLinkResourceListResult {
   value?: PrivateLinkResource[];
 }
 
-/** Managed HSM resource */
-export interface ManagedHsmResource {
-  /**
-   * The Azure Resource Manager resource ID for the managed HSM Pool.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the managed HSM Pool.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The resource type of the managed HSM Pool.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The supported Azure location where the managed HSM Pool should be created. */
-  location?: string;
-  /** SKU details */
-  sku?: ManagedHsmSku;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Metadata pertaining to creation and last modification of the key vault resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** SKU details */
-export interface ManagedHsmSku {
-  /** SKU Family of the managed HSM Pool */
-  family: ManagedHsmSkuFamily;
-  /** SKU of the managed HSM Pool */
-  name: ManagedHsmSkuName;
-}
-
 /** Properties of the managed HSM Pool */
 export interface ManagedHsmProperties {
   /** The Azure Active Directory tenant ID that should be used for authenticating requests to the managed HSM pool. */
@@ -673,6 +594,44 @@ export interface MhsmPrivateLinkServiceConnectionState {
   description?: string;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
   actionsRequired?: ActionsRequired;
+}
+
+/** Managed HSM resource */
+export interface ManagedHsmResource {
+  /**
+   * The Azure Resource Manager resource ID for the managed HSM Pool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the managed HSM Pool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The resource type of the managed HSM Pool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The supported Azure location where the managed HSM Pool should be created. */
+  location?: string;
+  /** SKU details */
+  sku?: ManagedHsmSku;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Metadata pertaining to creation and last modification of the key vault resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** SKU details */
+export interface ManagedHsmSku {
+  /** SKU Family of the managed HSM Pool */
+  family: ManagedHsmSkuFamily;
+  /** SKU of the managed HSM Pool */
+  name: ManagedHsmSkuName;
 }
 
 /** The error exception. */
@@ -970,8 +929,6 @@ export type Key = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keyUriWithVersion?: string;
-  /** Key rotation policy in response. It will be used for both output and input. Omitted if empty */
-  rotationPolicy?: RotationPolicy;
 };
 
 /** Private endpoint connection resource. */
@@ -1195,9 +1152,7 @@ export enum KnownKeyPermissions {
   Backup = "backup",
   Restore = "restore",
   Recover = "recover",
-  Purge = "purge",
-  Release = "release",
-  Rotate = "rotate"
+  Purge = "purge"
 }
 
 /**
@@ -1221,9 +1176,7 @@ export enum KnownKeyPermissions {
  * **backup** \
  * **restore** \
  * **recover** \
- * **purge** \
- * **release** \
- * **rotate**
+ * **purge**
  */
 export type KeyPermissions = string;
 
@@ -1471,20 +1424,6 @@ export enum KnownIdentityType {
  */
 export type IdentityType = string;
 
-/** Known values of {@link ManagedHsmSkuFamily} that the service accepts. */
-export enum KnownManagedHsmSkuFamily {
-  B = "B"
-}
-
-/**
- * Defines values for ManagedHsmSkuFamily. \
- * {@link KnownManagedHsmSkuFamily} can be used interchangeably with ManagedHsmSkuFamily,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **B**
- */
-export type ManagedHsmSkuFamily = string;
-
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   /** The managed HSM Pool has been full provisioned. */
@@ -1536,8 +1475,20 @@ export enum KnownPublicNetworkAccess {
  * **Disabled**
  */
 export type PublicNetworkAccess = string;
-/** Defines values for KeyRotationPolicyActionType. */
-export type KeyRotationPolicyActionType = "rotate" | "notify";
+
+/** Known values of {@link ManagedHsmSkuFamily} that the service accepts. */
+export enum KnownManagedHsmSkuFamily {
+  B = "B"
+}
+
+/**
+ * Defines values for ManagedHsmSkuFamily. \
+ * {@link KnownManagedHsmSkuFamily} can be used interchangeably with ManagedHsmSkuFamily,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **B**
+ */
+export type ManagedHsmSkuFamily = string;
 /** Defines values for SkuName. */
 export type SkuName = "standard" | "premium";
 /** Defines values for CreateMode. */

@@ -816,8 +816,6 @@ describe("FileClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
-    const urlPath = URLBuilder.parse(fileClient.url).getPath() || "";
-
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -827,7 +825,7 @@ describe("FileClient", () => {
               name: "Azure.Storage.File.ShareFileClient-create",
               children: [
                 {
-                  name: urlPath,
+                  name: "HTTP PUT",
                   children: [],
                 },
               ],

@@ -19,7 +19,6 @@ import {
   getGenericDataLakeServiceClient,
   recorderEnvSetup,
 } from "./utils";
-import { URLBuilder } from "@azure/core-http";
 import { Context } from "mocha";
 
 describe("DataLakeFileSystemClient", () => {
@@ -74,7 +73,6 @@ describe("DataLakeFileSystemClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
-    const urlPath = URLBuilder.parse(fileSystemClient.url).getPath() || "";
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -87,7 +85,7 @@ describe("DataLakeFileSystemClient", () => {
                   name: "Azure.Storage.Blob.ContainerClient-setMetadata",
                   children: [
                     {
-                      name: urlPath,
+                      name: "HTTP PUT",
                       children: [],
                     },
                   ],

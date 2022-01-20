@@ -110,10 +110,9 @@ export default leafCommand(commandInfo, async (options) => {
         ...(options["polyfill-node"] ? [nodePolyfills({ sourceMap: true })] : []),
         cjs({
           dynamicRequireTargets: [globFromStore("chai")],
-          esmExternals: true,
         }),
-        sourcemaps(),
         json(),
+        sourcemaps(),
       ],
       onwarn: makeOnWarnForTesting(),
       // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0,

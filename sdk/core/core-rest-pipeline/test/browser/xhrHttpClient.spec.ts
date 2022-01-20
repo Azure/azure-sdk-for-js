@@ -4,7 +4,8 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import { AbortController } from "@azure/abort-controller";
-import { createDefaultHttpClient, createPipelineRequest } from "../../src";
+import { createXhrHttpClient } from "../../src/xhrHttpClient";
+import { createPipelineRequest } from "../../src/pipelineRequest";
 
 describe("XhrHttpClient", function () {
   let xhrMock: sinon.SinonFakeXMLHttpRequestStatic;
@@ -27,7 +28,7 @@ describe("XhrHttpClient", function () {
   });
 
   it("shouldn't throw on 404", async function () {
-    const client = createDefaultHttpClient();
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({ url: "https://example.com" });
     const promise = client.sendRequest(request);
     assert.equal(requests.length, 1);
@@ -37,7 +38,7 @@ describe("XhrHttpClient", function () {
   });
 
   it("should allow canceling of requests", async function () {
-    const client = createDefaultHttpClient();
+    const client = createXhrHttpClient();
     const controller = new AbortController();
     const request = createPipelineRequest({
       url: "https://example.com",
@@ -54,7 +55,7 @@ describe("XhrHttpClient", function () {
   });
 
   it("should allow canceling of requests before the request is made", async function () {
-    const client = createDefaultHttpClient();
+    const client = createXhrHttpClient();
     const controller = new AbortController();
     controller.abort();
     const request = createPipelineRequest({
@@ -71,7 +72,7 @@ describe("XhrHttpClient", function () {
   });
 
   it("should report upload and download progress", async function () {
-    const client = createDefaultHttpClient();
+    const client = createXhrHttpClient();
     let downloadCalled = false;
     let uploadCalled = false;
     const request = createPipelineRequest({
@@ -97,7 +98,7 @@ describe("XhrHttpClient", function () {
   });
 
   it("should honor timeout", async function () {
-    const client = createDefaultHttpClient();
+    const client = createXhrHttpClient();
 
     const timeoutLength = 2000;
     const request = createPipelineRequest({
@@ -115,7 +116,7 @@ describe("XhrHttpClient", function () {
   });
 
   it("parses headers", async function () {
-    const client = createDefaultHttpClient();
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({ url: "https://example.com" });
     const promise = client.sendRequest(request);
     assert.equal(requests.length, 1);
@@ -127,7 +128,7 @@ describe("XhrHttpClient", function () {
   });
 
   it("parses empty string headers", async function () {
-    const client = createDefaultHttpClient();
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({ url: "https://example.com" });
     const promise = client.sendRequest(request);
     assert.equal(requests.length, 1);
@@ -139,7 +140,7 @@ describe("XhrHttpClient", function () {
   });
 
   it("should stream response body on matching status code", async function () {
-    const client = createDefaultHttpClient();
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({
       url: "https://example.com",
       streamResponseStatusCodes: new Set([200]),
@@ -154,7 +155,7 @@ describe("XhrHttpClient", function () {
   });
 
   it("should stream response body on any status code", async function () {
-    const client = createDefaultHttpClient();
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({
       url: "https://example.com",
       streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
@@ -169,7 +170,7 @@ describe("XhrHttpClient", function () {
   });
 
   it("should not stream response body on non-matching status code", async function () {
-    const client = createDefaultHttpClient();
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({
       url: "https://example.com",
       streamResponseStatusCodes: new Set([200]),
@@ -184,7 +185,7 @@ describe("XhrHttpClient", function () {
   });
 
   it("should throw when accessing HTTP and allowInsecureConnection is false", async function () {
-    const client = createDefaultHttpClient();
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({
       url: "http://example.com",
     });
@@ -198,7 +199,7 @@ describe("XhrHttpClient", function () {
   });
 
   it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function () {
-    const client = createDefaultHttpClient();
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({
       allowInsecureConnection: true,
       url: "http://example.com",
