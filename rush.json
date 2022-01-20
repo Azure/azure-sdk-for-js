@@ -1390,6 +1390,11 @@
       "packageName": "@azure/arm-migrate",
       "projectFolder": "sdk/migrate/arm-migrate",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mixedreality",
+      "projectFolder": "sdk/mixedreality/arm-mixedreality",
+      "versionPolicyName": "management"
     }
   ]
 }

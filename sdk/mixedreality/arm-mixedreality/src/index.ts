@@ -6,14 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export {
-  CloudError,
-  LogSpecification,
-  MetricDimension,
-  MetricSpecification,
-  Operation,
-  OperationDisplay,
-  OperationPage,
-  OperationProperties,
-  ServiceSpecification
-} from "../models/mappers";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { MixedRealityClient } from "./mixedRealityClient";
+export * from "./operationsInterfaces";
