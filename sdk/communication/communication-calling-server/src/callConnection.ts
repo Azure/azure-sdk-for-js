@@ -242,10 +242,7 @@ export interface CallConnection {
    * @param audioGroupId - The audio group id.
    * @param options - Additional request options contains deleteAudioGroup api options.
    */
-  deleteAudioGroup(
-    audioGroupId: string,
-    options: DeleteAudioGroupOptions
-  ): Promise<void>;
+  deleteAudioGroup(audioGroupId: string, options: DeleteAudioGroupOptions): Promise<void>;
 
   /**
    * List audio groups in a call.
@@ -253,10 +250,7 @@ export interface CallConnection {
    * @param audioGroupId - The audio group id.
    * @param options - Additional request options contains getAudioGroups api options.
    */
-  getAudioGroups(
-    audioGroupId: string,
-    options: GetAudioGroupsOptions
-  ): Promise<AudioGroupResult>;
+  getAudioGroups(audioGroupId: string, options: GetAudioGroupsOptions): Promise<AudioGroupResult>;
 
   /**
    * Update audio group.
@@ -278,7 +272,7 @@ export interface CallConnection {
    * @param participant - The identifier of the participant.
    * @param options - Additional request options contains removeFromDefaultAudioGroupAudio api options.
    */
-   removeFromDefaultAudioGroup(
+  removeFromDefaultAudioGroup(
     participant: CommunicationIdentifier,
     options: RemoveFromDefaultAudioGroupOptions
   ): Promise<void>;
@@ -290,7 +284,7 @@ export interface CallConnection {
    * @param participant - The identifier of the participant.
    * @param options - Additional request options contains addToDefaultAudioGroupAudio api options.
    */
-   addToDefaultAudioGroup(
+  addToDefaultAudioGroup(
     participant: CommunicationIdentifier,
     options: AddToDefaultAudioGroupOptions
   ): Promise<void>;
@@ -941,10 +935,7 @@ export class CallConnectionImpl implements CallConnection {
     audioGroupId: string,
     options: GetAudioGroupsOptions = {}
   ): Promise<AudioGroupResult> {
-    const { span, updatedOptions } = createSpan(
-      "CallConnectionRestClient-GetAudioGroups",
-      options
-    );
+    const { span, updatedOptions } = createSpan("CallConnectionRestClient-GetAudioGroups", options);
 
     try {
       const { _response, ...result } = await this.callConnectionRestClient.getAudioGroups(

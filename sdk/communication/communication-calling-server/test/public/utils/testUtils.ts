@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import * as Constants from "../utils/constants";
-import { CallConnection, CallingServerClient, GroupCallLocator, JoinCallOptions } from "../../../src";
+import {
+  CallConnection,
+  CallingServerClient,
+  GroupCallLocator,
+  JoinCallOptions
+} from "../../../src";
 import { env, isLiveMode, isRecordMode } from "@azure-tools/test-recorder";
 import { v4 as uuidv4, v5 as uuidv5 } from "uuid";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
@@ -76,7 +81,7 @@ export class TestUtils {
 
   public static async waitForOperationCompletion(): Promise<void> {
     if (isLiveMode() || isRecordMode()) {
-        await this.delay(15000);
+      await this.delay(15000);
     }
   }
 

@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import * as fs from "fs";
-import { Recorder, RecorderEnvironmentSetup, isPlaybackMode, record } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  RecorderEnvironmentSetup,
+  isPlaybackMode,
+  record
+} from "@azure-tools/test-recorder";
 import { RestError, isNode } from "@azure/core-http";
 import { CallingServerClient } from "../../src";
 import { Context } from "mocha";

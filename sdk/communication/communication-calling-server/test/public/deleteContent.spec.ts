@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, RecorderEnvironmentSetup, env, isPlaybackMode, record } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  RecorderEnvironmentSetup,
+  env,
+  isPlaybackMode,
+  record
+} from "@azure-tools/test-recorder";
 import { CallingServerClient } from "../../src";
 import { Context } from "mocha";
 import { RestError } from "@azure/core-http";
