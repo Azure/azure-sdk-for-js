@@ -1412,6 +1412,26 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-marketplaceordering",
+      "projectFolder": "sdk/marketplaceordering/arm-marketplaceordering",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrate",
+      "projectFolder": "sdk/migrate/arm-migrate",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mixedreality",
+      "projectFolder": "sdk/mixedreality/arm-mixedreality",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-netapp",
+      "projectFolder": "sdk/netapp/arm-netapp",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-peering",
       "projectFolder": "sdk/peering/arm-peering",
       "versionPolicyName": "management"
@@ -1444,7 +1464,6 @@
     {
       "packageName": "@azure/arm-redisenterprisecache",
       "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache",
-      "versionPolicyName": "management"
     }
   ]
 }
