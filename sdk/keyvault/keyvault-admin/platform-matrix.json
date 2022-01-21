@@ -9,7 +9,18 @@
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "12.x",
+      "NodeTestVersion": "12.x"
+    },
+    {
+      "Agent": {
+        "ubuntu-20.04_ManagedHSM": {
+          "OSVmImage": "MMSUbuntu20.04",
+          "Pool": "azsdk-pool-mms-ubuntu-2004-general",
+          "ArmTemplateParameters": "@{ enableHsm = $true }"
+        }
+      },
+      "TestType": "node",
+      "NodeTestVersion": "16.x",
       "ServiceVersion": ["7.2"]
     }
   ],
