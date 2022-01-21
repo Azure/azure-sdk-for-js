@@ -1,4 +1,4 @@
-import { RollupWarning, WarningHandler } from "rollup";
+import { PluginContext, RollupWarning, WarningHandler } from "rollup";
 
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
@@ -17,6 +17,44 @@ interface PackageJson {
   module: string;
   dependencies: Record<string, string>;
   devDependencies: Record<string, string>;
+}
+
+/**
+ * The default sourcemaps plugin does not provide very much information in warnings, so this shim allows us to capture
+ * the active sourcemaps loading context.
+ *
+ * This allows us to selectively disable warnings about missing source maps, for example in core-asynciterator-polyfill.
+ */
+export function sourcemapsExtra() {
+  const _sourcemaps = sourcemaps();
+
+  const load = _sourcemaps.load;
+
+  if (!load) return _sourcemaps;
+
+  return Object.assign(_sourcemaps, {
+    load(this: PluginContext, id: string) {
+      const shim = new Proxy(this, {
+        get(context, p, ...rest) {
+          if (p === "warn") {
+            const warn = context.warn;
+            return (warning: unknown) => {
+              const warningObject = (
+                typeof warning === "string" ? { message: warning } : warning
+              ) as RollupWarning;
+
+              warningObject.id = id;
+
+              warn(warningObject);
+            };
+          }
+          return Reflect.get(context, p, ...rest);
+        },
+      });
+
+      return load.call(shim, id);
+    },
+  });
 }
 
 // #region Warning Handler
@@ -49,10 +87,19 @@ function ignoreOpenTelemetryThisIsUndefined(warning: RollupWarning): boolean {
   );
 }
 
+function ignoreAsyncIteratorPolyfillSourceMaps(warning: RollupWarning): boolean {
+  return (
+    warning.code === "PLUGIN_WARNING" &&
+    warning.plugin === "sourcemaps" &&
+    warning.id?.includes("@azure+core-asynciterator-polyfill@1.0.0") === true
+  );
+}
+
 const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
   ignoreChaiCircularDependency,
   ignoreNiseSinonEval,
   ignoreOpenTelemetryThisIsUndefined,
+  ignoreAsyncIteratorPolyfillSourceMaps,
 ];
 
 /**
@@ -62,7 +109,7 @@ const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
 export function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) => void {
   return (warning, warn) => {
     if (!warningInhibitors.some((inhibited) => inhibited(warning))) {
-      debug("Warning:", warning.code, warning.id);
+      debug("Warning:", warning.code, warning.id, warning.loc);
       warn(warning);
     }
   };
@@ -94,7 +141,7 @@ export function makeBrowserTestConfig(pkg: PackageJson): RollupOptions {
       }),
       cjs(),
       json(),
-      sourcemaps(),
+      sourcemapsExtra(),
       //viz({ filename: "dist-test/browser-stats.html", sourcemap: true })
     ],
     onwarn: makeOnWarnForTesting(),

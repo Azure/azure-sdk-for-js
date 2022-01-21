@@ -16,7 +16,7 @@ import multiEntry from "@rollup/plugin-multi-entry";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject, resolveRoot } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
-import { makeOnWarnForTesting } from "../../config/rollup.base.config";
+import { makeOnWarnForTesting, sourcemapsExtra } from "../../config/rollup.base.config";
 
 const log = createPrinter("bundle");
 
@@ -112,7 +112,7 @@ export default leafCommand(commandInfo, async (options) => {
           dynamicRequireTargets: [globFromStore("chai")],
         }),
         json(),
-        sourcemaps(),
+        sourcemapsExtra(),
       ],
       onwarn: makeOnWarnForTesting(),
       // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0,
