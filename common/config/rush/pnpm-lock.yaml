@@ -141,6 +141,7 @@ specifiers:
   '@rush-temp/arm-timeseriesinsights': file:./projects/arm-timeseriesinsights.tgz
   '@rush-temp/arm-trafficmanager': file:./projects/arm-trafficmanager.tgz
   '@rush-temp/arm-videoanalyzer': file:./projects/arm-videoanalyzer.tgz
+  '@rush-temp/arm-visualstudio': file:./projects/arm-visualstudio.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
   '@rush-temp/arm-webservices': file:./projects/arm-webservices.tgz
   '@rush-temp/arm-workspaces': file:./projects/arm-workspaces.tgz
@@ -388,6 +389,7 @@ dependencies:
   '@rush-temp/arm-timeseriesinsights': file:projects/arm-timeseriesinsights.tgz
   '@rush-temp/arm-trafficmanager': file:projects/arm-trafficmanager.tgz
   '@rush-temp/arm-videoanalyzer': file:projects/arm-videoanalyzer.tgz
+  '@rush-temp/arm-visualstudio': file:projects/arm-visualstudio.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
   '@rush-temp/arm-webservices': file:projects/arm-webservices.tgz
   '@rush-temp/arm-workspaces': file:projects/arm-workspaces.tgz
@@ -11975,6 +11977,31 @@ packages:
   file:projects/arm-videoanalyzer.tgz:
     resolution: {integrity: sha512-9cKpE8i/nJqJxDSzN5MbXRNNE80OH1zbrVCHfE215Wirf+1lY/ZAQUo4Vta/OabkJBwXRPoI7UngYMnh25g/Cw==, tarball: file:projects/arm-videoanalyzer.tgz}
     name: '@rush-temp/arm-videoanalyzer'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-visualstudio.tgz:
+    resolution: {integrity: sha512-NRvggj2tukBv1nHexUoJqD/aDoCyctlF67RvYApwL4mSnQPkQtJ+U4PWqUggx89zr8OSFzN/mTgyijxPl6vRJA==, tarball: file:projects/arm-visualstudio.tgz}
+    name: '@rush-temp/arm-visualstudio'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2

@@ -1544,6 +1544,11 @@
       "packageName": "@azure/arm-trafficmanager",
       "projectFolder": "sdk/trafficmanager/arm-trafficmanager",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-visualstudio",
+      "projectFolder": "sdk/visualstudio/arm-visualstudio",
+      "versionPolicyName": "management"
     }
   ]
 }
