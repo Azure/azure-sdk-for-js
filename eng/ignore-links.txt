@@ -29,3 +29,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-peering?view=azure-node-pre
 https://docs.microsoft.com/javascript/api/@azure/arm-postgresql-flexible
 https://docs.microsoft.com/javascript/api/@azure/arm-postgresql-flexible?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-serialconsole
+https://docs.microsoft.com/javascript/api/@azure-rest/iot-device-update
