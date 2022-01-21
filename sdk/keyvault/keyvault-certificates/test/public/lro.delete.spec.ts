@@ -7,10 +7,10 @@ import { PollerStoppedError } from "@azure/core-lro";
 import { env, Recorder } from "@azure-tools/test-recorder";
 
 import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../../src";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
-import { getServiceVersion } from "../utils/utils.common";
-import TestClient from "../utils/testClient";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { authenticate } from "./utils/testAuthentication";
+import { getServiceVersion } from "./utils/utils.common";
+import TestClient from "./utils/testClient";
 
 describe("Certificates client - lro - delete", () => {
   const certificatePrefix = `lroDelete${env.CERTIFICATE_NAME || "CertificateName"}`;

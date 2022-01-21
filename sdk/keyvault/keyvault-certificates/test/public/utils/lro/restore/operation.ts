@@ -4,12 +4,12 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { OperationOptions } from "@azure/core-http";
-import { KeyVaultCertificate, CertificatePollerOptions } from "../../../../src/certificatesModels";
+import { KeyVaultCertificate, CertificatePollerOptions } from "../../../../../src/certificatesModels";
 
 /**
  * Options sent to the beginRestoreCertificateBackup method.
  */
-export interface BeginRestoreCertificateBackupOptions extends CertificatePollerOptions {}
+export interface BeginRestoreCertificateBackupOptions extends CertificatePollerOptions { }
 
 /**
  * @internal
@@ -49,7 +49,7 @@ export interface RestoreCertificateBackupPollOperationState
  * An interface representing a restore certificate's poll operation
  */
 export interface RestoreCertificateBackupPollOperation
-  extends PollOperation<RestoreCertificateBackupPollOperationState, KeyVaultCertificate> {}
+  extends PollOperation<RestoreCertificateBackupPollOperationState, KeyVaultCertificate> { }
 
 /**
  * Reaches to the service and updates the restore certificate's poll operation.

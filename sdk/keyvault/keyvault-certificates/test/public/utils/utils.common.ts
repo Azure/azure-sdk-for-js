@@ -4,7 +4,7 @@
 import { env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
-import { LATEST_API_VERSION, CertificateClientOptions } from "../../src/certificatesModels";
+import { LATEST_API_VERSION, CertificateClientOptions } from "../../../src/certificatesModels";
 
 export function getKeyvaultName(): string {
   const keyVaultEnvVarName = "KEYVAULT_NAME";

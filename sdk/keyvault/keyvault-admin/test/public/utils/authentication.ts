@@ -6,7 +6,7 @@ import { env, isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure-to
 import { KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuidv4 } from "uuid";
 
-import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
+import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../../src";
 import { uniqueString } from "./recorder";
 import { getEnvironmentVariable } from "./common";
 

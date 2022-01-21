@@ -5,8 +5,8 @@ import { env, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
 import { KeyVaultAccessControlClient } from "../../src";
-import { assertThrowsAbortError } from "../utils/common";
-import { authenticate } from "../utils/authentication";
+import { assertThrowsAbortError } from "./utils/common";
+import { authenticate } from "./utils/authentication";
 
 describe("Aborting KeyVaultAccessControlClient's requests", () => {
   let client: KeyVaultAccessControlClient;
