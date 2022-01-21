@@ -68,7 +68,7 @@ npx cross-env ENDPOINT="<endpoint>" INSTANCE_ID="<instance id>" node dist/device
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[devices]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/typescript/src/devices.ts
+[devices]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/typescript/src/device.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/iot-device-update
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuredeviceupdateforiothubinstance]: https://docs.microsoft.com/azure/iot-hub-device-update/understand-device-update
