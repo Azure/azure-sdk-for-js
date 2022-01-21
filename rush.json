@@ -1519,6 +1519,11 @@
       "packageName": "@azure/arm-datacatalog",
       "projectFolder": "sdk/datacatalog/arm-datacatalog",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storsimple1200series",
+      "projectFolder": "sdk/storsimple1200series/arm-storsimple1200series",
+      "versionPolicyName": "management"
     }
   ]
 }
