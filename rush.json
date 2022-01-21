@@ -1469,6 +1469,11 @@
       "packageName": "@azure/arm-reservations",
       "projectFolder": "sdk/reservations/arm-reservations",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcemover",
+      "projectFolder": "sdk/resourcemover/arm-resourcemover",
+      "versionPolicyName": "management"
     }
   ]
 }
