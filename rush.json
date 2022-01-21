@@ -1479,6 +1479,11 @@
       "packageName": "@azure/arm-serialconsole",
       "projectFolder": "sdk/serialconsole/arm-serialconsole",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicemap",
+      "projectFolder": "sdk/service-map/arm-servicemap",
+      "versionPolicyName": "management"
     }
   ]
 }

@@ -121,6 +121,7 @@ specifiers:
   '@rush-temp/arm-serialconsole': file:./projects/arm-serialconsole.tgz
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:./projects/arm-servicefabric.tgz
+  '@rush-temp/arm-servicemap': file:./projects/arm-servicemap.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:./projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
@@ -355,6 +356,7 @@ dependencies:
   '@rush-temp/arm-serialconsole': file:projects/arm-serialconsole.tgz
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:projects/arm-servicefabric.tgz
+  '@rush-temp/arm-servicemap': file:projects/arm-servicemap.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
@@ -11449,6 +11451,31 @@ packages:
   file:projects/arm-servicefabric.tgz:
     resolution: {integrity: sha512-0tseYT+OiiJ2Q6IiCWBeS3k1wYOPznYIepph3EuH2y5svL5CVV8GlWvuWhk2kbT/8wmm69dQXBFjpx6nUXavSw==, tarball: file:projects/arm-servicefabric.tgz}
     name: '@rush-temp/arm-servicefabric'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-servicemap.tgz:
+    resolution: {integrity: sha512-Y8Q9PXQu+1Piyy9trUSdIgpFJWoPNbyg4HI2WT5Y0Dy2bOIMOGu78n1hSGenwXtBJ4KqX5U6fkZkR0k/X8mZoA==, tarball: file:projects/arm-servicemap.tgz}
+    name: '@rush-temp/arm-servicemap'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
