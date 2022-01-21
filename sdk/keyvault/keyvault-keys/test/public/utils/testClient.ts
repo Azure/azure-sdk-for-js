@@ -4,7 +4,13 @@
 import { testPollerProperties } from "./recorderUtils";
 import { KeyClient } from "../../../src";
 
-export default class TestClient {
+export interface TestClientInterface {
+  client: KeyClient;
+  formatName: (name: string) => string;
+  purgeKey: (keyName: string) => Promise<void>;
+  flushKey: (keyName: string) => Promise<void>;
+}
+export default class TestClient implements TestClientInterface {
   public readonly client: KeyClient;
   constructor(client: KeyClient) {
     this.client = client;

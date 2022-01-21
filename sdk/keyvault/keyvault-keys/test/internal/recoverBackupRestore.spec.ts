@@ -19,7 +19,11 @@ describe("Keys client - restore keys and recover backups", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this, getServiceVersion());
+    const authentication = await authenticate(
+      this,
+      getServiceVersion(),
+      (keyClient) => new InternalTestClient(keyClient)
+    );
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;

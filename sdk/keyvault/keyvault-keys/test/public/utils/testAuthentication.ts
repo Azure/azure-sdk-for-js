@@ -5,7 +5,7 @@ import { ClientSecretCredential } from "@azure/identity";
 import { KeyClient } from "../../../src";
 import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { uniqueString } from "./recorderUtils";
-import TestClient from "./testClient";
+import TestClient, { TestClientInterface } from "./testClient";
 import { Context } from "mocha";
 import { fromBase64url, toBase64url } from "./base64url";
 
@@ -19,7 +19,11 @@ const replaceableVariables = {
   AZURE_KEYVAULT_ATTESTATION_URI: "https://skr_attestation.azure.net/",
 };
 
-export async function authenticate(that: Context, version: string): Promise<any> {
+export async function authenticate(
+  that: Context,
+  version: string,
+  testClientMaker?: (client: KeyClient) => TestClientInterface
+): Promise<any> {
   const keySuffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables,
@@ -62,7 +66,7 @@ export async function authenticate(that: Context, version: string): Promise<any>
   const client = new KeyClient(keyVaultUrl, credential, {
     serviceVersion: version,
   });
-  const testClient = new TestClient(client);
+  const testClient = testClientMaker ? testClientMaker(client) : new TestClient(client);
 
   let hsmClient: KeyClient | undefined = undefined;
   if (env.AZURE_MANAGEDHSM_URI) {
