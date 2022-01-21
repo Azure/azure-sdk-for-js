@@ -1494,6 +1494,11 @@
       "packageName": "@azure/arm-storagecache",
       "projectFolder": "sdk/storagecache/arm-storagecache",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagesync",
+      "projectFolder": "sdk/storagesync/arm-storagesync",
+      "versionPolicyName": "management"
     }
   ]
 }
