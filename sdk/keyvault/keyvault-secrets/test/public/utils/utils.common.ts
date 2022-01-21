@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
 import { env } from "@azure-tools/test-recorder";
-import { LATEST_API_VERSION, SecretClientOptions } from "../../src/secretsModels";
+import { LATEST_API_VERSION, SecretClientOptions } from "../../../src/secretsModels";
 
 export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
   let passed = false;
