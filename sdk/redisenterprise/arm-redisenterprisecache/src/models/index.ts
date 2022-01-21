@@ -6,1313 +6,930 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
-
-/**
- * SKU parameters supplied to the create RedisEnterprise operation.
- */
-export interface Sku {
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
   /**
-   * The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10,
-   * EnterpriseFlash_F300 etc.). Possible values include: 'Enterprise_E10', 'Enterprise_E20',
-   * 'Enterprise_E50', 'Enterprise_E100', 'EnterpriseFlash_F300', 'EnterpriseFlash_F700',
-   * 'EnterpriseFlash_F1500'
+   * List of operations supported by the resource provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  name: SkuName;
+  readonly value?: Operation[];
   /**
-   * The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are
-   * (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  capacity?: number;
+  readonly nextLink?: string;
 }
 
-/**
- * The Private Endpoint resource.
- */
-export interface PrivateEndpoint {
-  /**
-   * The ARM identifier for Private Endpoint
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-}
-
-/**
- * A collection of information about the state of the connection between service consumer and
- * provider.
- */
-export interface PrivateLinkServiceConnectionState {
-  /**
-   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the
-   * service. Possible values include: 'Pending', 'Approved', 'Rejected'
-   */
-  status?: PrivateEndpointServiceConnectionStatus;
-  /**
-   * The reason for approval/rejection of the connection.
-   */
-  description?: string;
-  /**
-   * A message indicating if changes on the service provider require any updates on the consumer.
-   */
-  actionsRequired?: string;
-}
-
-/**
- * Common fields that are returned in the response for all Azure Resource Manager resources
- * @summary Resource
- */
-export interface Resource extends BaseResource {
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The Private Endpoint Connection resource.
- */
-export interface PrivateEndpointConnection extends Resource {
-  /**
-   * The resource of private end point.
-   */
-  privateEndpoint?: PrivateEndpoint;
-  /**
-   * A collection of information about the state of the connection between service consumer and
-   * provider.
-   */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-  /**
-   * The provisioning state of the private endpoint connection resource. Possible values include:
-   * 'Succeeded', 'Creating', 'Deleting', 'Failed'
-   */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
-
-/**
- * The resource model definition for an Azure Resource Manager tracked top level resource which has
- * 'tags' and a 'location'
- * @summary Tracked Resource
- */
-export interface TrackedResource extends Resource {
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location: string;
-}
-
-/**
- * Describes the RedisEnterprise cluster
- */
-export interface Cluster extends TrackedResource {
-  /**
-   * The SKU to create, which affects price, performance, and features.
-   */
-  sku: Sku;
-  /**
-   * The Availability Zones where this cluster will be deployed.
-   */
-  zones?: string[];
-  /**
-   * The minimum TLS version for the cluster to support, e.g. '1.2'. Possible values include:
-   * '1.0', '1.1', '1.2'
-   */
-  minimumTlsVersion?: TlsVersion;
-  /**
-   * DNS name of the cluster endpoint
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly hostName?: string;
-  /**
-   * Current provisioning status of the cluster. Possible values include: 'Succeeded', 'Failed',
-   * 'Canceled', 'Creating', 'Updating', 'Deleting'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Current resource status of the cluster. Possible values include: 'Running', 'Creating',
-   * 'CreateFailed', 'Updating', 'UpdateFailed', 'Deleting', 'DeleteFailed', 'Enabling',
-   * 'EnableFailed', 'Disabling', 'DisableFailed', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceState?: ResourceState;
-  /**
-   * Version of redis the cluster supports, e.g. '6'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly redisVersion?: string;
-  /**
-   * List of private endpoint connections associated with the specified RedisEnterprise cluster
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-}
-
-/**
- * A partial update to the RedisEnterprise cluster
- */
-export interface ClusterUpdate {
-  /**
-   * The SKU to create, which affects price, performance, and features.
-   */
-  sku?: Sku;
-  /**
-   * The minimum TLS version for the cluster to support, e.g. '1.2'. Possible values include:
-   * '1.0', '1.1', '1.2'
-   */
-  minimumTlsVersion?: TlsVersion;
-  /**
-   * DNS name of the cluster endpoint
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly hostName?: string;
-  /**
-   * Current provisioning status of the cluster. Possible values include: 'Succeeded', 'Failed',
-   * 'Canceled', 'Creating', 'Updating', 'Deleting'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Current resource status of the cluster. Possible values include: 'Running', 'Creating',
-   * 'CreateFailed', 'Updating', 'UpdateFailed', 'Deleting', 'DeleteFailed', 'Enabling',
-   * 'EnableFailed', 'Disabling', 'DisableFailed', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceState?: ResourceState;
-  /**
-   * Version of redis the cluster supports, e.g. '6'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly redisVersion?: string;
-  /**
-   * List of private endpoint connections associated with the specified RedisEnterprise cluster
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * Persistence-related configuration for the RedisEnterprise database
- * @summary Persistence settings
- */
-export interface Persistence {
-  /**
-   * Sets whether AOF is enabled.
-   */
-  aofEnabled?: boolean;
-  /**
-   * Sets whether RDB is enabled.
-   */
-  rdbEnabled?: boolean;
-  /**
-   * Sets the frequency at which data is written to disk. Possible values include: '1s', 'always'
-   */
-  aofFrequency?: AofFrequency;
-  /**
-   * Sets the frequency at which a snapshot of the database is created. Possible values include:
-   * '1h', '6h', '12h'
-   */
-  rdbFrequency?: RdbFrequency;
-}
-
-/**
- * Specifies configuration of a redis module
- * @summary Module settings
- */
-export interface Module {
-  /**
-   * The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
-   */
-  name: string;
-  /**
-   * Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'.
-   */
-  args?: string;
-  /**
-   * The version of the module, e.g. '1.0'.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly version?: string;
-}
-
-/**
- * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
- * and a location
- * @summary Proxy Resource
- */
-export interface ProxyResource extends Resource {
-}
-
-/**
- * Describes a database on the RedisEnterprise cluster
- */
-export interface Database extends ProxyResource {
-  /**
-   * Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols.
-   * Default is TLS-encrypted. Possible values include: 'Encrypted', 'Plaintext'
-   */
-  clientProtocol?: Protocol;
-  /**
-   * TCP port of the database endpoint. Specified at create time. Defaults to an available port.
-   */
-  port?: number;
-  /**
-   * Current provisioning status of the database. Possible values include: 'Succeeded', 'Failed',
-   * 'Canceled', 'Creating', 'Updating', 'Deleting'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Current resource status of the database. Possible values include: 'Running', 'Creating',
-   * 'CreateFailed', 'Updating', 'UpdateFailed', 'Deleting', 'DeleteFailed', 'Enabling',
-   * 'EnableFailed', 'Disabling', 'DisableFailed', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceState?: ResourceState;
-  /**
-   * Clustering policy - default is OSSCluster. Specified at create time. Possible values include:
-   * 'EnterpriseCluster', 'OSSCluster'
-   */
-  clusteringPolicy?: ClusteringPolicy;
-  /**
-   * Redis eviction policy - default is VolatileLRU. Possible values include: 'AllKeysLFU',
-   * 'AllKeysLRU', 'AllKeysRandom', 'VolatileLRU', 'VolatileLFU', 'VolatileTTL', 'VolatileRandom',
-   * 'NoEviction'
-   */
-  evictionPolicy?: EvictionPolicy;
-  /**
-   * Persistence settings
-   */
-  persistence?: Persistence;
-  /**
-   * Optional set of redis modules to enable in this database - modules can only be added at
-   * creation time.
-   */
-  modules?: Module[];
-}
-
-/**
- * A partial update to the RedisEnterprise database
- */
-export interface DatabaseUpdate {
-  /**
-   * Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols.
-   * Default is TLS-encrypted. Possible values include: 'Encrypted', 'Plaintext'
-   */
-  clientProtocol?: Protocol;
-  /**
-   * TCP port of the database endpoint. Specified at create time. Defaults to an available port.
-   */
-  port?: number;
-  /**
-   * Current provisioning status of the database. Possible values include: 'Succeeded', 'Failed',
-   * 'Canceled', 'Creating', 'Updating', 'Deleting'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Current resource status of the database. Possible values include: 'Running', 'Creating',
-   * 'CreateFailed', 'Updating', 'UpdateFailed', 'Deleting', 'DeleteFailed', 'Enabling',
-   * 'EnableFailed', 'Disabling', 'DisableFailed', 'Disabled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceState?: ResourceState;
-  /**
-   * Clustering policy - default is OSSCluster. Specified at create time. Possible values include:
-   * 'EnterpriseCluster', 'OSSCluster'
-   */
-  clusteringPolicy?: ClusteringPolicy;
-  /**
-   * Redis eviction policy - default is VolatileLRU. Possible values include: 'AllKeysLFU',
-   * 'AllKeysLRU', 'AllKeysRandom', 'VolatileLRU', 'VolatileLFU', 'VolatileTTL', 'VolatileRandom',
-   * 'NoEviction'
-   */
-  evictionPolicy?: EvictionPolicy;
-  /**
-   * Persistence settings
-   */
-  persistence?: Persistence;
-  /**
-   * Optional set of redis modules to enable in this database - modules can only be added at
-   * creation time.
-   */
-  modules?: Module[];
-}
-
-/**
- * The secret access keys used for authenticating connections to redis
- * @summary Access keys
- */
-export interface AccessKeys {
-  /**
-   * The current primary key that clients can use to authenticate
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly primaryKey?: string;
-  /**
-   * The current secondary key that clients can use to authenticate
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly secondaryKey?: string;
-}
-
-/**
- * Specifies which access keys to reset to a new random value.
- * @summary Regenerate access keys request
- */
-export interface RegenerateKeyParameters {
-  /**
-   * Which access key to regenerate. Possible values include: 'Primary', 'Secondary'
-   */
-  keyType: AccessKeyType;
-}
-
-/**
- * Parameters for a Redis Enterprise import operation.
- * @summary Import an RDB file into a target database
- */
-export interface ImportClusterParameters {
-  /**
-   * SAS URI for the target blob to import from
-   */
-  sasUri: string;
-}
-
-/**
- * Parameters for a Redis Enterprise export operation.
- * @summary Export an RDB file into a target database
- */
-export interface ExportClusterParameters {
-  /**
-   * SAS URI for the target directory to export to
-   */
-  sasUri: string;
-}
-
-/**
- * The resource management error additional info.
- */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly info?: any;
-}
-
-/**
- * The error detail.
- */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/**
- * Common error response for all Azure Resource Manager APIs to return error details for failed
- * operations. (This also follows the OData error response format.).
- * @summary Error response
- */
-export interface ErrorResponse {
-  /**
-   * The error object.
-   */
-  error?: ErrorDetail;
-}
-
-/**
- * The status of a long-running operation.
- */
-export interface OperationStatus {
-  /**
-   * The operation's unique id.
-   */
-  id?: string;
-  /**
-   * The operation's name.
-   */
-  name?: string;
-  /**
-   * The start time of the operation.
-   */
-  startTime?: string;
-  /**
-   * The end time of the operation.
-   */
-  endTime?: string;
-  /**
-   * The current status of the operation.
-   */
-  status?: string;
-  /**
-   * Error response describing why the operation failed.
-   */
-  error?: ErrorResponse;
-}
-
-/**
- * The resource model definition for an Azure Resource Manager resource with an etag.
- * @summary Entity Resource
- */
-export interface AzureEntityResource extends Resource {
-  /**
-   * Resource Etag.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
- * A private link resource
- */
-export interface PrivateLinkResource extends Resource {
-  /**
-   * The private link resource group id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly groupId?: string;
-  /**
-   * The private link resource required member names.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requiredMembers?: string[];
-  /**
-   * The private link resource Private link DNS zone name.
-   */
-  requiredZoneNames?: string[];
-}
-
-/**
- * Localized display information for this particular operation.
- */
-export interface OperationDisplay {
-  /**
-   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring
-   * Insights" or "Microsoft Compute".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provider?: string;
-  /**
-   * The localized friendly name of the resource type related to this operation. E.g. "Virtual
-   * Machines" or "Job Schedule Collections".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resource?: string;
-  /**
-   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create
-   * or Update Virtual Machine", "Restart Virtual Machine".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operation?: string;
-  /**
-   * The short, localized friendly description of the operation; suitable for tool tips and
-   * detailed views.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-}
-
-/**
- * Details of a REST API operation, returned from the Resource Provider Operations API
- * @summary REST API Operation
- */
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /**
-   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
-   * "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Whether the operation applies to data-plane. This is "true" for data-plane operations and
-   * "false" for ARM/control-plane operations.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isDataAction?: boolean;
-  /**
-   * Localized display information for this particular operation.
-   */
+  /** Localized display information for this particular operation. */
   display?: OperationDisplay;
   /**
-   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
-   * logs UX. Default value is "user,system". Possible values include: 'user', 'system',
-   * 'user,system'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly origin?: Origin;
   /**
    * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
-   * Possible values include: 'Internal'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly actionType?: ActionType;
 }
 
-/**
- * An interface representing RedisEnterpriseManagementClientOptions.
- */
-export interface RedisEnterpriseManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
-}
-
-/**
- * @interface
- * A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
- * to get the next set of results.
- * @extends Array<Operation>
- */
-export interface OperationListResult extends Array<Operation> {
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
   /**
-   * URL to get the next set of operation list results (if there are any).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
 }
 
-/**
- * @interface
- * The response of a list-all operation.
- * @extends Array<Cluster>
- */
-export interface ClusterList extends Array<Cluster> {
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** The status of a long-running operation. */
+export interface OperationStatus {
+  /** The operation's unique id. */
+  id?: string;
+  /** The operation's name. */
+  name?: string;
+  /** The start time of the operation. */
+  startTime?: string;
+  /** The end time of the operation. */
+  endTime?: string;
+  /** The current status of the operation. */
+  status?: string;
+  /** Error response describing why the operation failed. */
+  error?: ErrorResponse;
+}
+
+/** SKU parameters supplied to the create RedisEnterprise operation. */
+export interface Sku {
+  /** The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.) */
+  name: SkuName;
+  /** The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs. */
+  capacity?: number;
+}
+
+/** The Private Endpoint resource. */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** A partial update to the RedisEnterprise cluster */
+export interface ClusterUpdate {
+  /** The SKU to create, which affects price, performance, and features. */
+  sku?: Sku;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The minimum TLS version for the cluster to support, e.g. '1.2' */
+  minimumTlsVersion?: TlsVersion;
+  /**
+   * DNS name of the cluster endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostName?: string;
+  /**
+   * Current provisioning status of the cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Current resource status of the cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceState?: ResourceState;
+  /**
+   * Version of redis the cluster supports, e.g. '6'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly redisVersion?: string;
+  /**
+   * List of private endpoint connections associated with the specified RedisEnterprise cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+}
+
+/** The response of a list-all operation. */
+export interface ClusterList {
+  /** List of clusters. */
+  value?: Cluster[];
   /**
    * The URI to fetch the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/**
- * @interface
- * The response of a list-all operation.
- * @extends Array<Database>
- */
-export interface DatabaseList extends Array<Database> {
+/** The response of a list-all operation. */
+export interface DatabaseList {
+  /** List of databases */
+  value?: Database[];
   /**
    * The URI to fetch the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/**
- * @interface
- * List of private endpoint connection associated with the specified storage account
- * @extends Array<PrivateEndpointConnection>
- */
-export interface PrivateEndpointConnectionListResult extends Array<PrivateEndpointConnection> {
+/** Persistence-related configuration for the RedisEnterprise database */
+export interface Persistence {
+  /** Sets whether AOF is enabled. */
+  aofEnabled?: boolean;
+  /** Sets whether RDB is enabled. */
+  rdbEnabled?: boolean;
+  /** Sets the frequency at which data is written to disk. */
+  aofFrequency?: AofFrequency;
+  /** Sets the frequency at which a snapshot of the database is created. */
+  rdbFrequency?: RdbFrequency;
+}
+
+/** Specifies configuration of a redis module */
+export interface Module {
+  /** The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries' */
+  name: string;
+  /** Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'. */
+  args?: string;
+  /**
+   * The version of the module, e.g. '1.0'.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+}
+
+/** A partial update to the RedisEnterprise database */
+export interface DatabaseUpdate {
+  /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
+  clientProtocol?: Protocol;
+  /** TCP port of the database endpoint. Specified at create time. Defaults to an available port. */
+  port?: number;
+  /**
+   * Current provisioning status of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Current resource status of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceState?: ResourceState;
+  /** Clustering policy - default is OSSCluster. Specified at create time. */
+  clusteringPolicy?: ClusteringPolicy;
+  /** Redis eviction policy - default is VolatileLRU */
+  evictionPolicy?: EvictionPolicy;
+  /** Persistence settings */
+  persistence?: Persistence;
+  /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
+  modules?: Module[];
+}
+
+/** The secret access keys used for authenticating connections to redis */
+export interface AccessKeys {
+  /**
+   * The current primary key that clients can use to authenticate
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryKey?: string;
+  /**
+   * The current secondary key that clients can use to authenticate
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondaryKey?: string;
+}
+
+/** Specifies which access keys to reset to a new random value. */
+export interface RegenerateKeyParameters {
+  /** Which access key to regenerate. */
+  keyType: AccessKeyType;
+}
+
+/** Parameters for a Redis Enterprise import operation. */
+export interface ImportClusterParameters {
+  /** SAS URIs for the target blobs to import from */
+  sasUris: string[];
+}
+
+/** Parameters for a Redis Enterprise export operation. */
+export interface ExportClusterParameters {
+  /** SAS URI for the target directory to export to */
+  sasUri: string;
+}
+
+/** List of private endpoint connection associated with the specified storage account */
+export interface PrivateEndpointConnectionListResult {
+  /** Array of private endpoint connections */
+  value?: PrivateEndpointConnection[];
+}
+
+/** A list of private link resources */
+export interface PrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: PrivateLinkResource[];
+}
+
+/** The Private Endpoint Connection resource. */
+export type PrivateEndpointConnection = Resource & {
+  /** The resource of private end point. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+};
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export type TrackedResource = Resource & {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+};
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export type ProxyResource = Resource & {};
+
+/** A private link resource */
+export type PrivateLinkResource = Resource & {
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource Private link DNS zone name. */
+  requiredZoneNames?: string[];
+};
+
+/** Describes the RedisEnterprise cluster */
+export type Cluster = TrackedResource & {
+  /** The SKU to create, which affects price, performance, and features. */
+  sku: Sku;
+  /** The Availability Zones where this cluster will be deployed. */
+  zones?: string[];
+  /** The minimum TLS version for the cluster to support, e.g. '1.2' */
+  minimumTlsVersion?: TlsVersion;
+  /**
+   * DNS name of the cluster endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostName?: string;
+  /**
+   * Current provisioning status of the cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Current resource status of the cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceState?: ResourceState;
+  /**
+   * Version of redis the cluster supports, e.g. '6'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly redisVersion?: string;
+  /**
+   * List of private endpoint connections associated with the specified RedisEnterprise cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+};
+
+/** Describes a database on the RedisEnterprise cluster */
+export type Database = ProxyResource & {
+  /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
+  clientProtocol?: Protocol;
+  /** TCP port of the database endpoint. Specified at create time. Defaults to an available port. */
+  port?: number;
+  /**
+   * Current provisioning status of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Current resource status of the database
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceState?: ResourceState;
+  /** Clustering policy - default is OSSCluster. Specified at create time. */
+  clusteringPolicy?: ClusteringPolicy;
+  /** Redis eviction policy - default is VolatileLRU */
+  evictionPolicy?: EvictionPolicy;
+  /** Persistence settings */
+  persistence?: Persistence;
+  /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
+  modules?: Module[];
+};
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  User = "user",
+  System = "system",
+  UserSystem = "user,system"
 }
 
 /**
- * @interface
- * A list of private link resources
- * @extends Array<PrivateLinkResource>
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
  */
-export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource> {
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  Internal = "Internal"
 }
 
 /**
- * Defines values for SkuName.
- * Possible values include: 'Enterprise_E10', 'Enterprise_E20', 'Enterprise_E50',
- * 'Enterprise_E100', 'EnterpriseFlash_F300', 'EnterpriseFlash_F700', 'EnterpriseFlash_F1500'
- * @readonly
- * @enum {string}
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
  */
-export type SkuName = 'Enterprise_E10' | 'Enterprise_E20' | 'Enterprise_E50' | 'Enterprise_E100' | 'EnterpriseFlash_F300' | 'EnterpriseFlash_F700' | 'EnterpriseFlash_F1500';
+export type ActionType = string;
+
+/** Known values of {@link SkuName} that the service accepts. */
+export enum KnownSkuName {
+  EnterpriseE10 = "Enterprise_E10",
+  EnterpriseE20 = "Enterprise_E20",
+  EnterpriseE50 = "Enterprise_E50",
+  EnterpriseE100 = "Enterprise_E100",
+  EnterpriseFlashF300 = "EnterpriseFlash_F300",
+  EnterpriseFlashF700 = "EnterpriseFlash_F700",
+  EnterpriseFlashF1500 = "EnterpriseFlash_F1500"
+}
 
 /**
- * Defines values for ProvisioningState.
- * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'Creating', 'Updating', 'Deleting'
- * @readonly
- * @enum {string}
+ * Defines values for SkuName. \
+ * {@link KnownSkuName} can be used interchangeably with SkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enterprise_E10** \
+ * **Enterprise_E20** \
+ * **Enterprise_E50** \
+ * **Enterprise_E100** \
+ * **EnterpriseFlash_F300** \
+ * **EnterpriseFlash_F700** \
+ * **EnterpriseFlash_F1500**
  */
-export type ProvisioningState = 'Succeeded' | 'Failed' | 'Canceled' | 'Creating' | 'Updating' | 'Deleting';
+export type SkuName = string;
+
+/** Known values of {@link TlsVersion} that the service accepts. */
+export enum KnownTlsVersion {
+  One0 = "1.0",
+  One1 = "1.1",
+  One2 = "1.2"
+}
 
 /**
- * Defines values for ResourceState.
- * Possible values include: 'Running', 'Creating', 'CreateFailed', 'Updating', 'UpdateFailed',
- * 'Deleting', 'DeleteFailed', 'Enabling', 'EnableFailed', 'Disabling', 'DisableFailed', 'Disabled'
- * @readonly
- * @enum {string}
+ * Defines values for TlsVersion. \
+ * {@link KnownTlsVersion} can be used interchangeably with TlsVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **1.0** \
+ * **1.1** \
+ * **1.2**
  */
-export type ResourceState = 'Running' | 'Creating' | 'CreateFailed' | 'Updating' | 'UpdateFailed' | 'Deleting' | 'DeleteFailed' | 'Enabling' | 'EnableFailed' | 'Disabling' | 'DisableFailed' | 'Disabled';
+export type TlsVersion = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled",
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting"
+}
 
 /**
- * Defines values for TlsVersion.
- * Possible values include: '1.0', '1.1', '1.2'
- * @readonly
- * @enum {string}
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting**
  */
-export type TlsVersion = '1.0' | '1.1' | '1.2';
+export type ProvisioningState = string;
+
+/** Known values of {@link ResourceState} that the service accepts. */
+export enum KnownResourceState {
+  Running = "Running",
+  Creating = "Creating",
+  CreateFailed = "CreateFailed",
+  Updating = "Updating",
+  UpdateFailed = "UpdateFailed",
+  Deleting = "Deleting",
+  DeleteFailed = "DeleteFailed",
+  Enabling = "Enabling",
+  EnableFailed = "EnableFailed",
+  Disabling = "Disabling",
+  DisableFailed = "DisableFailed",
+  Disabled = "Disabled"
+}
 
 /**
- * Defines values for PrivateEndpointServiceConnectionStatus.
- * Possible values include: 'Pending', 'Approved', 'Rejected'
- * @readonly
- * @enum {string}
+ * Defines values for ResourceState. \
+ * {@link KnownResourceState} can be used interchangeably with ResourceState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Running** \
+ * **Creating** \
+ * **CreateFailed** \
+ * **Updating** \
+ * **UpdateFailed** \
+ * **Deleting** \
+ * **DeleteFailed** \
+ * **Enabling** \
+ * **EnableFailed** \
+ * **Disabling** \
+ * **DisableFailed** \
+ * **Disabled**
  */
-export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected';
+export type ResourceState = string;
+
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  Pending = "Pending",
+  Approved = "Approved",
+  Rejected = "Rejected"
+}
 
 /**
- * Defines values for PrivateEndpointConnectionProvisioningState.
- * Possible values include: 'Succeeded', 'Creating', 'Deleting', 'Failed'
- * @readonly
- * @enum {string}
+ * Defines values for PrivateEndpointServiceConnectionStatus. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected**
  */
-export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
+export type PrivateEndpointServiceConnectionStatus = string;
+
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  Succeeded = "Succeeded",
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Failed = "Failed"
+}
 
 /**
- * Defines values for Protocol.
- * Possible values include: 'Encrypted', 'Plaintext'
- * @readonly
- * @enum {string}
+ * Defines values for PrivateEndpointConnectionProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Deleting** \
+ * **Failed**
  */
-export type Protocol = 'Encrypted' | 'Plaintext';
+export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link Protocol} that the service accepts. */
+export enum KnownProtocol {
+  Encrypted = "Encrypted",
+  Plaintext = "Plaintext"
+}
 
 /**
- * Defines values for ClusteringPolicy.
- * Possible values include: 'EnterpriseCluster', 'OSSCluster'
- * @readonly
- * @enum {string}
+ * Defines values for Protocol. \
+ * {@link KnownProtocol} can be used interchangeably with Protocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Encrypted** \
+ * **Plaintext**
  */
-export type ClusteringPolicy = 'EnterpriseCluster' | 'OSSCluster';
+export type Protocol = string;
+
+/** Known values of {@link ClusteringPolicy} that the service accepts. */
+export enum KnownClusteringPolicy {
+  EnterpriseCluster = "EnterpriseCluster",
+  OSSCluster = "OSSCluster"
+}
 
 /**
- * Defines values for EvictionPolicy.
- * Possible values include: 'AllKeysLFU', 'AllKeysLRU', 'AllKeysRandom', 'VolatileLRU',
- * 'VolatileLFU', 'VolatileTTL', 'VolatileRandom', 'NoEviction'
- * @readonly
- * @enum {string}
+ * Defines values for ClusteringPolicy. \
+ * {@link KnownClusteringPolicy} can be used interchangeably with ClusteringPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EnterpriseCluster** \
+ * **OSSCluster**
  */
-export type EvictionPolicy = 'AllKeysLFU' | 'AllKeysLRU' | 'AllKeysRandom' | 'VolatileLRU' | 'VolatileLFU' | 'VolatileTTL' | 'VolatileRandom' | 'NoEviction';
+export type ClusteringPolicy = string;
+
+/** Known values of {@link EvictionPolicy} that the service accepts. */
+export enum KnownEvictionPolicy {
+  AllKeysLFU = "AllKeysLFU",
+  AllKeysLRU = "AllKeysLRU",
+  AllKeysRandom = "AllKeysRandom",
+  VolatileLRU = "VolatileLRU",
+  VolatileLFU = "VolatileLFU",
+  VolatileTTL = "VolatileTTL",
+  VolatileRandom = "VolatileRandom",
+  NoEviction = "NoEviction"
+}
 
 /**
- * Defines values for AofFrequency.
- * Possible values include: '1s', 'always'
- * @readonly
- * @enum {string}
+ * Defines values for EvictionPolicy. \
+ * {@link KnownEvictionPolicy} can be used interchangeably with EvictionPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AllKeysLFU** \
+ * **AllKeysLRU** \
+ * **AllKeysRandom** \
+ * **VolatileLRU** \
+ * **VolatileLFU** \
+ * **VolatileTTL** \
+ * **VolatileRandom** \
+ * **NoEviction**
  */
-export type AofFrequency = '1s' | 'always';
+export type EvictionPolicy = string;
+
+/** Known values of {@link AofFrequency} that the service accepts. */
+export enum KnownAofFrequency {
+  OneS = "1s",
+  Always = "always"
+}
 
 /**
- * Defines values for RdbFrequency.
- * Possible values include: '1h', '6h', '12h'
- * @readonly
- * @enum {string}
+ * Defines values for AofFrequency. \
+ * {@link KnownAofFrequency} can be used interchangeably with AofFrequency,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **1s** \
+ * **always**
  */
-export type RdbFrequency = '1h' | '6h' | '12h';
+export type AofFrequency = string;
+
+/** Known values of {@link RdbFrequency} that the service accepts. */
+export enum KnownRdbFrequency {
+  OneH = "1h",
+  SixH = "6h",
+  TwelveH = "12h"
+}
 
 /**
- * Defines values for AccessKeyType.
- * Possible values include: 'Primary', 'Secondary'
- * @readonly
- * @enum {string}
+ * Defines values for RdbFrequency. \
+ * {@link KnownRdbFrequency} can be used interchangeably with RdbFrequency,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **1h** \
+ * **6h** \
+ * **12h**
  */
-export type AccessKeyType = 'Primary' | 'Secondary';
+export type RdbFrequency = string;
+/** Defines values for AccessKeyType. */
+export type AccessKeyType = "Primary" | "Secondary";
 
-/**
- * Defines values for Origin.
- * Possible values include: 'user', 'system', 'user,system'
- * @readonly
- * @enum {string}
- */
-export type Origin = 'user' | 'system' | 'user,system';
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Defines values for ActionType.
- * Possible values include: 'Internal'
- * @readonly
- * @enum {string}
- */
-export type ActionType = 'Internal';
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
 
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
 
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface OperationsStatusGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
+/** Contains response data for the get operation. */
+export type OperationsStatusGetResponse = OperationStatus;
 
-/**
- * Contains response data for the get operation.
- */
-export type OperationsStatusGetResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface RedisEnterpriseCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
+/** Contains response data for the create operation. */
+export type RedisEnterpriseCreateResponse = Cluster;
 
-/**
- * Contains response data for the create operation.
- */
-export type RedisEnterpriseCreateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface RedisEnterpriseUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
+/** Contains response data for the update operation. */
+export type RedisEnterpriseUpdateResponse = Cluster;
 
-/**
- * Contains response data for the update operation.
- */
-export type RedisEnterpriseUpdateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface RedisEnterpriseDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
+/** Optional parameters. */
+export interface RedisEnterpriseGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the get operation.
- */
-export type RedisEnterpriseGetResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the get operation. */
+export type RedisEnterpriseGetResponse = Cluster;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
+/** Optional parameters. */
+export interface RedisEnterpriseListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type RedisEnterpriseListByResourceGroupResponse = ClusterList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the listByResourceGroup operation. */
+export type RedisEnterpriseListByResourceGroupResponse = ClusterList;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterList;
-    };
-};
+/** Optional parameters. */
+export interface RedisEnterpriseListOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the list operation.
- */
-export type RedisEnterpriseListResponse = ClusterList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the list operation. */
+export type RedisEnterpriseListResponse = ClusterList;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterList;
-    };
-};
+/** Optional parameters. */
+export interface RedisEnterpriseListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the beginCreate operation.
- */
-export type RedisEnterpriseBeginCreateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the listByResourceGroupNext operation. */
+export type RedisEnterpriseListByResourceGroupNextResponse = ClusterList;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
+/** Optional parameters. */
+export interface RedisEnterpriseListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type RedisEnterpriseBeginUpdateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the listNext operation. */
+export type RedisEnterpriseListNextResponse = ClusterList;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
-};
+/** Optional parameters. */
+export interface DatabasesListByClusterOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type RedisEnterpriseListByResourceGroupNextResponse = ClusterList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the listByCluster operation. */
+export type DatabasesListByClusterResponse = DatabaseList;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterList;
-    };
-};
+/** Optional parameters. */
+export interface DatabasesCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the listNext operation.
- */
-export type RedisEnterpriseListNextResponse = ClusterList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the create operation. */
+export type DatabasesCreateResponse = Database;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterList;
-    };
-};
+/** Optional parameters. */
+export interface DatabasesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the listByCluster operation.
- */
-export type DatabasesListByClusterResponse = DatabaseList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the update operation. */
+export type DatabasesUpdateResponse = Database;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseList;
-    };
-};
+/** Optional parameters. */
+export interface DatabasesGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the create operation.
- */
-export type DatabasesCreateResponse = Database & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the get operation. */
+export type DatabasesGetResponse = Database;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Database;
-    };
-};
+/** Optional parameters. */
+export interface DatabasesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the update operation.
- */
-export type DatabasesUpdateResponse = Database & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DatabasesListKeysOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Database;
-    };
-};
+/** Contains response data for the listKeys operation. */
+export type DatabasesListKeysResponse = AccessKeys;
 
-/**
- * Contains response data for the get operation.
- */
-export type DatabasesGetResponse = Database & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DatabasesRegenerateKeyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Database;
-    };
-};
+/** Contains response data for the regenerateKey operation. */
+export type DatabasesRegenerateKeyResponse = AccessKeys;
 
-/**
- * Contains response data for the listKeys operation.
- */
-export type DatabasesListKeysResponse = AccessKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DatabasesImportOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
-};
+/** Optional parameters. */
+export interface DatabasesExportOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the regenerateKey operation.
- */
-export type DatabasesRegenerateKeyResponse = AccessKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface DatabasesListByClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
-};
+/** Contains response data for the listByClusterNext operation. */
+export type DatabasesListByClusterNextResponse = DatabaseList;
 
-/**
- * Contains response data for the beginCreate operation.
- */
-export type DatabasesBeginCreateResponse = Database & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Database;
-    };
-};
+/** Contains response data for the list operation. */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type DatabasesBeginUpdateResponse = Database & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Database;
-    };
-};
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
 
-/**
- * Contains response data for the beginRegenerateKey operation.
- */
-export type DatabasesBeginRegenerateKeyResponse = AccessKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsPutOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AccessKeys;
-    };
-};
+/** Contains response data for the put operation. */
+export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnection;
 
-/**
- * Contains response data for the listByClusterNext operation.
- */
-export type DatabasesListByClusterNextResponse = DatabaseList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseList;
-    };
-};
+/** Optional parameters. */
+export interface PrivateLinkResourcesListByClusterOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the list operation.
- */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the listByCluster operation. */
+export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the put operation.
- */
-export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the beginPut operation.
- */
-export type PrivateEndpointConnectionsBeginPutResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the listByCluster operation.
- */
-export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
-};
+/** Optional parameters. */
+export interface RedisEnterpriseManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
+}

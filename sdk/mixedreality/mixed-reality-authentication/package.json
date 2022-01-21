@@ -1,6 +1,6 @@
 {
   "name": "@azure/mixed-reality-authentication",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Azure client library for Mixed Reality authentication.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -62,7 +62,8 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/core-auth": "^1.3.0",
-    "@azure/core-http": "^2.0.0",
+    "@azure/core-client": "^1.4.0",
+    "@azure/core-rest-pipeline": "^1.4.0",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
@@ -107,7 +108,7 @@
     "constantPaths": [
       {
         "path": "src/generated/mixedRealityStsRestClientContext.ts",
-        "prefix": "packageVersion"
+        "prefix": "packageDetails"
       },
       {
         "path": "src/constants.ts",

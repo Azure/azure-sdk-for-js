@@ -667,6 +667,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/iot-device-update",
+      "projectFolder": "sdk/deviceupdate/iot-device-update-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/synapse-artifacts",
       "projectFolder": "sdk/synapse/synapse-artifacts",
       "versionPolicyName": "client"
@@ -1359,6 +1364,195 @@
     {
       "packageName": "@azure/arm-hybridkubernetes",
       "projectFolder": "sdk/hybridkubernetes/arm-hybridkubernetes",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-oep",
+      "projectFolder": "sdk/oep/arm-oep",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-securityinsight",
+      "projectFolder": "sdk/securityinsight/arm-securityinsight",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iotcentral",
+      "projectFolder": "sdk/iotcentral/arm-iotcentral",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-commitmentplans",
+      "projectFolder": "sdk/machinelearning/arm-commitmentplans",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-workspaces",
+      "projectFolder": "sdk/machinelearning/arm-workspaces",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-webservices",
+      "projectFolder": "sdk/machinelearning/arm-webservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-machinelearningservices",
+      "projectFolder": "sdk/machinelearningservices/arm-machinelearningservices",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-managementpartner",
+      "projectFolder": "sdk/managementpartner/arm-managementpartner",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-maps",
+      "projectFolder": "sdk/maps/arm-maps",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mariadb",
+      "projectFolder": "sdk/mariadb/arm-mariadb",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-marketplaceordering",
+      "projectFolder": "sdk/marketplaceordering/arm-marketplaceordering",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-migrate",
+      "projectFolder": "sdk/migrate/arm-migrate",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-mixedreality",
+      "projectFolder": "sdk/mixedreality/arm-mixedreality",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-netapp",
+      "projectFolder": "sdk/netapp/arm-netapp",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-peering",
+      "projectFolder": "sdk/peering/arm-peering",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-postgresql-flexible",
+      "projectFolder": "sdk/postgresql/arm-postgresql-flexible",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-powerbidedicated",
+      "projectFolder": "sdk/powerbidedicated/arm-powerbidedicated",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-powerbiembedded",
+      "projectFolder": "sdk/powerbiembedded/arm-powerbiembedded",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-recoveryservices-siterecovery",
+      "projectFolder": "sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-recoveryservicesbackup",
+      "projectFolder": "sdk/recoveryservicesbackup/arm-recoveryservicesbackup",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-redisenterprisecache",
+      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache"
+    },
+    {
+      "packageName": "@azure/arm-reservations",
+      "projectFolder": "sdk/reservations/arm-reservations",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcemover",
+      "projectFolder": "sdk/resourcemover/arm-resourcemover",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-serialconsole",
+      "projectFolder": "sdk/serialconsole/arm-serialconsole",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicemap",
+      "projectFolder": "sdk/service-map/arm-servicemap",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-signalr",
+      "projectFolder": "sdk/signalr/arm-signalr",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagecache",
+      "projectFolder": "sdk/storagecache/arm-storagecache",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagesync",
+      "projectFolder": "sdk/storagesync/arm-storagesync",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcegraph",
+      "projectFolder": "sdk/resourcegraph/arm-resourcegraph",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appinsights",
+      "projectFolder": "sdk/applicationinsights/arm-appinsights",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datacatalog",
+      "projectFolder": "sdk/datacatalog/arm-datacatalog",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storsimple1200series",
+      "projectFolder": "sdk/storsimple1200series/arm-storsimple1200series",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storsimple8000series",
+      "projectFolder": "sdk/storsimple8000series/arm-storsimple8000series",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-support",
+      "projectFolder": "sdk/support/arm-support",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-timeseriesinsights",
+      "projectFolder": "sdk/timeseriesinsights/arm-timeseriesinsights",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-trafficmanager",
+      "projectFolder": "sdk/trafficmanager/arm-trafficmanager",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-visualstudio",
+      "projectFolder": "sdk/visualstudio/arm-visualstudio",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-vmwarecloudsimple",
+      "projectFolder": "sdk/vmwarecloudsimple/arm-vmwarecloudsimple",
       "versionPolicyName": "management"
     }
   ]

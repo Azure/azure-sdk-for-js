@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { j2xParser, parse, validate } from "fast-xml-parser";
+import { XMLBuilder, XMLValidator, XMLParser } from "fast-xml-parser";
 import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./xml.common";
 
 function getCommonOptions(options: XmlOptions) {
   return {
-    attrNodeName: XML_ATTRKEY,
+    attributesGroupName: XML_ATTRKEY,
     textNodeName: options.xmlCharKey ?? XML_CHARKEY,
     ignoreAttributes: false,
+    suppressBooleanAttributes: false,
   };
 }
 
@@ -17,7 +18,7 @@ function getSerializerOptions(options: XmlOptions = {}) {
     ...getCommonOptions(options),
     attributeNamePrefix: "@_",
     format: true,
-    supressEmptyNode: true,
+    suppressEmptyNode: true,
     indentBy: "",
     rootNodeName: options.rootName ?? "root",
   };
@@ -27,7 +28,7 @@ function getParserOptions(options: XmlOptions = {}) {
   return {
     ...getCommonOptions(options),
     parseAttributeValue: false,
-    parseNodeValue: false,
+    parseTagValue: false,
     attributeNamePrefix: "",
   };
 }
@@ -39,11 +40,11 @@ function getParserOptions(options: XmlOptions = {}) {
  */
 export function stringifyXML(obj: unknown, opts: XmlOptions = {}): string {
   const parserOptions = getSerializerOptions(opts);
-  const j2x = new j2xParser(parserOptions);
+  const j2x = new XMLBuilder(parserOptions);
 
   const node = { [parserOptions.rootNodeName]: obj };
 
-  const xmlData: string = j2x.parse(node);
+  const xmlData: string = j2x.build(node);
   return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>${xmlData}`.replace(/\n/g, "");
 }
 
@@ -58,13 +59,14 @@ export async function parseXML(str: string, opts: XmlOptions = {}): Promise<any>
     throw new Error("Document is empty");
   }
 
-  const validation = validate(str);
+  const validation = XMLValidator.validate(str);
 
   if (validation !== true) {
     throw validation;
   }
 
-  const parsedXml = parse(unescapeHTML(str), getParserOptions(opts));
+  const parser = new XMLParser(getParserOptions(opts));
+  const parsedXml = parser.parse(unescapeHTML(str));
 
   if (!opts.includeRoot) {
     for (const key of Object.keys(parsedXml)) {

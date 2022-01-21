@@ -13,6 +13,7 @@ import { CertificateClient } from "../../src";
 import { base64ToUint8Array, stringToUint8Array } from "../../src/utils";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
+import { getServiceVersion } from "../utils/utils.common";
 import TestClient from "../utils/testClient";
 
 describe("Certificates client - merge and import certificates", () => {
@@ -26,7 +27,7 @@ describe("Certificates client - merge and import certificates", () => {
   let secretClient: SecretClient;
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     suffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;
