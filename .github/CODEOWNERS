@@ -51,6 +51,9 @@
 # ServiceLabel: %Cosmos %Service Attention
 #/<NotInRepo>/ @sajeetharan @simorenoh
 
+# ServiceLabel: %Device Update for IoT Hub %Service Attention
+/sdk/deviceupdate/ @dpokluda
+
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @johngallardo
 
