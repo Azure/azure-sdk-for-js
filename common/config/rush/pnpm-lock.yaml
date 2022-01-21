@@ -132,6 +132,7 @@ specifiers:
   '@rush-temp/arm-storagecache': file:./projects/arm-storagecache.tgz
   '@rush-temp/arm-storagesync': file:./projects/arm-storagesync.tgz
   '@rush-temp/arm-storsimple1200series': file:./projects/arm-storsimple1200series.tgz
+  '@rush-temp/arm-storsimple8000series': file:./projects/arm-storsimple8000series.tgz
   '@rush-temp/arm-streamanalytics': file:./projects/arm-streamanalytics.tgz
   '@rush-temp/arm-subscriptions': file:./projects/arm-subscriptions.tgz
   '@rush-temp/arm-synapse': file:./projects/arm-synapse.tgz
@@ -375,6 +376,7 @@ dependencies:
   '@rush-temp/arm-storagecache': file:projects/arm-storagecache.tgz
   '@rush-temp/arm-storagesync': file:projects/arm-storagesync.tgz
   '@rush-temp/arm-storsimple1200series': file:projects/arm-storsimple1200series.tgz
+  '@rush-temp/arm-storsimple8000series': file:projects/arm-storsimple8000series.tgz
   '@rush-temp/arm-streamanalytics': file:projects/arm-streamanalytics.tgz
   '@rush-temp/arm-subscriptions': file:projects/arm-subscriptions.tgz
   '@rush-temp/arm-synapse': file:projects/arm-synapse.tgz
@@ -11742,6 +11744,31 @@ packages:
   file:projects/arm-storsimple1200series.tgz:
     resolution: {integrity: sha512-EkcbViBGv0kuKbipmi6LorUxXGjya6yFDhnygTgrS/y/GqpgfLA/IK60jthR3cnZjNj4ErSMIrWzo52h1lY8Jw==, tarball: file:projects/arm-storsimple1200series.tgz}
     name: '@rush-temp/arm-storsimple1200series'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-storsimple8000series.tgz:
+    resolution: {integrity: sha512-hb0DbEaFHq7w4/Js7Jh1ly9B2sDbRINGUyCe+0mf7wBO/1TKaR5xD5AUbJ57VUDUE5iqhj999DNEGw0nn5g1aQ==, tarball: file:projects/arm-storsimple8000series.tgz}
+    name: '@rush-temp/arm-storsimple8000series'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2

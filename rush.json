@@ -1524,6 +1524,11 @@
       "packageName": "@azure/arm-storsimple1200series",
       "projectFolder": "sdk/storsimple1200series/arm-storsimple1200series",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storsimple8000series",
+      "projectFolder": "sdk/storsimple8000series/arm-storsimple8000series",
+      "versionPolicyName": "management"
     }
   ]
 }
