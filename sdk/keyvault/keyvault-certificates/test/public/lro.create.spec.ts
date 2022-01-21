@@ -9,7 +9,7 @@ import { env, Recorder } from "@azure-tools/test-recorder";
 import { CertificateClient, KeyVaultCertificate, DefaultCertificatePolicy } from "../../src";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
-import { getServiceVersion } from "./utils/utils.common";
+import { getServiceVersion } from "./utils/common";
 import TestClient from "./utils/testClient";
 
 describe("Certificates client - LRO - create", () => {

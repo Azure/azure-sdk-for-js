@@ -5,7 +5,7 @@ import { ClientSecretCredential } from "@azure/identity";
 import { CertificateClient } from "../../../src";
 import { uniqueString } from "./recorderUtils";
 import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-import { getServiceVersion } from "./utils.common";
+import { getServiceVersion } from "./common";
 import TestClient from "./testClient";
 import { Context } from "mocha";
 

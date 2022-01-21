@@ -4,12 +4,12 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { OperationOptions } from "@azure/core-http";
-import { SecretPollerOptions, SecretProperties } from "../../../../../src/secretsModels";
+import { SecretPollerOptions, SecretProperties } from "../../../../../src";
 
 /**
  * Options sent to the beginRestoreSecretBackup method.
  */
-export interface BeginRestoreSecretBackupOptions extends SecretPollerOptions { }
+export interface BeginRestoreSecretBackupOptions extends SecretPollerOptions {}
 
 /**
  * @internal
@@ -49,7 +49,7 @@ export interface RestoreSecretBackupPollOperationState
  * An interface representing a restore secret's poll operation
  */
 export interface RestoreSecretBackupPollOperation
-  extends PollOperation<RestoreSecretBackupPollOperationState, SecretProperties> { }
+  extends PollOperation<RestoreSecretBackupPollOperationState, SecretProperties> {}
 
 /**
  * Reaches to the service and updates the restore secret's poll operation.

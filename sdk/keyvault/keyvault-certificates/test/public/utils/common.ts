@@ -1,10 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
 import { env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { LATEST_API_VERSION } from "../../../src/keysModels";
+import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
+import { CertificateClientOptions } from "../../../src";
+
+/**
+ * The latest supported KeyVault service API version
+ */
+export const LATEST_API_VERSION = "7.3-preview";
 
 export function getKeyvaultName(): string {
   const keyVaultEnvVarName = "KEYVAULT_NAME";
@@ -33,18 +38,18 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
 }
 
 /**
+ * The known API versions that we support.
+ */
+export const serviceVersions = ["7.0", "7.1", "7.2", "7.3-preview"] as const;
+
+/**
  * Fetches the service version to test against. This version could be configured as part of CI
  * and then passed through the environment in order to support testing prior service versions.
  * @returns - The service version to test
  */
-export function getServiceVersion(): string {
+export function getServiceVersion(): NonNullable<CertificateClientOptions["serviceVersion"]> {
   return env.SERVICE_VERSION || LATEST_API_VERSION;
 }
-
-/**
- * The known API versions that we support.
- */
-export const serviceVersions = ["7.0", "7.1", "7.2", "7.3-preview"] as const;
 
 /**
  * A convenience wrapper allowing us to limit service versions without using the `versionsToTest` wrapper.
@@ -55,16 +60,7 @@ export const serviceVersions = ["7.0", "7.1", "7.2", "7.3-preview"] as const;
  */
 export function onVersions(
   supportedVersions: SupportedVersions,
-  serviceVersion?: string
+  serviceVersion?: CertificateClientOptions["serviceVersion"]
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
-}
-
-/**
- * Acts as a proxy to check with we're running on public or sovereign cloud.
- *
- * @returns - true if running on public cloud, false otherwise.
- */
-export function isPublicCloud(): boolean {
-  return (env.AZURE_AUTHORITY_HOST ?? "").includes(".microsoftonline.com");
 }

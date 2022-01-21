@@ -18,7 +18,7 @@ import { authenticate } from "../public/utils/testAuthentication";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
 import { ClientSecretCredential } from "@azure/identity";
-import { getServiceVersion } from "../public/utils/utils.common";
+import { getServiceVersion } from "../public/utils/common";
 
 describe("AesCryptographyProvider browser tests", function () {
   it("uses the browser replacement when running in the browser", async function (this: Context) {

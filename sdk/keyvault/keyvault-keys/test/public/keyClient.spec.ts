@@ -22,7 +22,7 @@ import {
   getServiceVersion,
   isPublicCloud,
   onVersions,
-} from "./utils/utils.common";
+} from "./utils/common";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isNode } from "@azure/core-http";
-import { JsonWebKey } from "../../../src/keysModels";
+import { JsonWebKey } from "../../../src";
 
 export function stringToUint8Array(str: string): Uint8Array {
   if (isNode) {

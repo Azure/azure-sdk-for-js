@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { createSandbox } from "sinon";
 import { env, Recorder } from "@azure-tools/test-recorder";
-import { getServiceVersion } from "../public/utils/utils.common";
+import { getServiceVersion } from "../public/utils/common";
 
 import {
   AuthenticationChallengeCache,

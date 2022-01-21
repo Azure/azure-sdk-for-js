@@ -8,9 +8,9 @@ import { isNode } from "@azure/core-http";
 
 import { CertificateClient } from "../../src";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { assertThrowsAbortError } from "./utils/utils.common";
+import { assertThrowsAbortError } from "./utils/common";
 import { authenticate } from "./utils/testAuthentication";
-import { getServiceVersion } from "./utils/utils.common";
+import { getServiceVersion } from "./utils/common";
 import TestClient from "./utils/testClient";
 
 describe("Certificates client - restore certificates and recover backups", () => {

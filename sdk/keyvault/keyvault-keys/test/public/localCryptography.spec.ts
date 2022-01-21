@@ -13,7 +13,7 @@ import TestClient from "./utils/testClient";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
-import { getServiceVersion } from "./utils/utils.common";
+import { getServiceVersion } from "./utils/common";
 const { assert } = chai;
 
 describe("Local cryptography public tests", () => {

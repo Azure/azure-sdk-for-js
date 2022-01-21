@@ -1,10 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
 import { env } from "@azure-tools/test-recorder";
-import { LATEST_API_VERSION, SecretClientOptions } from "../../../src/secretsModels";
+import { assert } from "chai";
+
+/**
+ * The latest supported Key Vault service API version
+ */
+export const LATEST_API_VERSION = "7.3-preview";
+
+export function getKeyvaultName(): string {
+  const keyVaultEnvVarName = "KEYVAULT_NAME";
+  const keyVaultName: string | undefined = env[keyVaultEnvVarName];
+
+  if (!keyVaultName) {
+    throw new Error(`${keyVaultEnvVarName} environment variable not specified.`);
+  }
+
+  return keyVaultName;
+}
 
 export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
   let passed = false;
@@ -16,24 +31,24 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
     assert.equal(e.name, "AbortError");
     assert.equal(e.message, "The operation was aborted.");
   }
-
   if (passed) {
     throw new Error("Expected cb to throw an AbortError");
   }
 }
-/**
- * The known API versions that we support.
- */
-export const serviceVersions = ["7.0", "7.1", "7.2", "7.3-preview"] as const;
 
 /**
  * Fetches the service version to test against. This version could be configured as part of CI
  * and then passed through the environment in order to support testing prior service versions.
  * @returns - The service version to test
  */
-export function getServiceVersion(): NonNullable<SecretClientOptions["serviceVersion"]> {
+export function getServiceVersion(): string {
   return env.SERVICE_VERSION || LATEST_API_VERSION;
 }
+
+/**
+ * The known API versions that we support.
+ */
+export const serviceVersions = ["7.0", "7.1", "7.2", "7.3-preview"] as const;
 
 /**
  * A convenience wrapper allowing us to limit service versions without using the `versionsToTest` wrapper.
@@ -44,7 +59,16 @@ export function getServiceVersion(): NonNullable<SecretClientOptions["serviceVer
  */
 export function onVersions(
   supportedVersions: SupportedVersions,
-  serviceVersion?: SecretClientOptions["serviceVersion"]
+  serviceVersion?: string
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
+}
+
+/**
+ * Acts as a proxy to check with we're running on public or sovereign cloud.
+ *
+ * @returns - true if running on public cloud, false otherwise.
+ */
+export function isPublicCloud(): boolean {
+  return (env.AZURE_AUTHORITY_HOST ?? "").includes(".microsoftonline.com");
 }

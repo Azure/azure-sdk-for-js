@@ -7,7 +7,7 @@ import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorde
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 import { Context } from "mocha";
-import { getServiceVersion } from "./utils.common";
+import { getServiceVersion } from "./common";
 
 export async function authenticate(
   that: Context,

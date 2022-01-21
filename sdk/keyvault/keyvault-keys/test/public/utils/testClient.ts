@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import { testPollerProperties } from "./recorderUtils";
-import { KeyClient, KeyVaultKey } from "../../../src";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { RestoreKeyBackupPoller } from "./lro/restore/poller";
-import { BeginRestoreKeyBackupOptions } from "./lro/restore/operation";
+import { KeyClient } from "../../../src";
 
 export default class TestClient {
   public readonly client: KeyClient;
@@ -24,23 +20,5 @@ export default class TestClient {
     const poller = await that.client.beginDeleteKey(keyName, testPollerProperties);
     await poller.pollUntilDone();
     await this.purgeKey(keyName);
-  }
-  public async beginRestoreKeyBackup(
-    backup: Uint8Array,
-    options: BeginRestoreKeyBackupOptions = {}
-  ): Promise<PollerLike<PollOperationState<KeyVaultKey>, KeyVaultKey>> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const poller = new RestoreKeyBackupPoller({
-      backup,
-      client: this.client,
-      intervalInMs: options.intervalInMs,
-      resumeFrom: options.resumeFrom,
-      requestOptions,
-    });
-
-    // This will initialize the poller's operation (the recovery of the backup).
-    await poller.poll();
-
-    return poller;
   }
 }

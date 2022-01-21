@@ -17,7 +17,7 @@ import { authenticate } from "../public/utils/testAuthentication";
 import TestClient from "../public/utils/testClient";
 import { ClientSecretCredential } from "@azure/identity";
 import { WebResource } from "@azure/core-http";
-import { getServiceVersion } from "../public/utils/utils.common";
+import { getServiceVersion } from "../public/utils/common";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).

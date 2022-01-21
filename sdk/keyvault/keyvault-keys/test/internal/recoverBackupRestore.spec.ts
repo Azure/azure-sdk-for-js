@@ -5,17 +5,17 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { isNode } from "@azure/core-http";
 import { KeyClient } from "../../src";
-import { assertThrowsAbortError, getServiceVersion } from "./utils/utils.common";
-import { testPollerProperties } from "./utils/recorderUtils";
+import { assertThrowsAbortError, getServiceVersion } from "../public/utils/common";
+import { testPollerProperties } from "../public/utils/recorderUtils";
 import { env, Recorder, isRecordMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+import { authenticate } from "../public/utils/testAuthentication";
+import InternalTestClient from "./utils/internalTestClient";
 
 describe("Keys client - restore keys and recover backups", () => {
   const keyPrefix = `backupRestore${env.KEY_NAME || "KeyName"}`;
   let keySuffix: string;
   let client: KeyClient;
-  let testClient: TestClient;
+  let testClient: InternalTestClient;
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {

@@ -8,7 +8,7 @@ import {
   makeRestoreSecretBackupPollOperation,
   TestSecretClientInterface,
 } from "./operation";
-import { SecretProperties } from "../../../../../src/secretsModels";
+import { SecretProperties } from "../../../../../src";
 
 export interface RestoreSecretBackupPollerOptions {
   client: TestSecretClientInterface;

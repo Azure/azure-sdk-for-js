@@ -1,21 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
-import { LATEST_API_VERSION, CertificateClientOptions } from "../../../src/certificatesModels";
+import { env } from "@azure-tools/test-recorder";
+import { SecretClientOptions } from "../../../src";
 
-export function getKeyvaultName(): string {
-  const keyVaultEnvVarName = "KEYVAULT_NAME";
-  const keyVaultName: string | undefined = env[keyVaultEnvVarName];
-
-  if (!keyVaultName) {
-    throw new Error(`${keyVaultEnvVarName} environment variable not specified.`);
-  }
-
-  return keyVaultName;
-}
+/**
+ * The latest supported KeyVault service API version
+ */
+export const LATEST_API_VERSION = "7.3-preview";
 
 export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
   let passed = false;
@@ -27,11 +21,11 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
     assert.equal(e.name, "AbortError");
     assert.equal(e.message, "The operation was aborted.");
   }
+
   if (passed) {
     throw new Error("Expected cb to throw an AbortError");
   }
 }
-
 /**
  * The known API versions that we support.
  */
@@ -42,7 +36,7 @@ export const serviceVersions = ["7.0", "7.1", "7.2", "7.3-preview"] as const;
  * and then passed through the environment in order to support testing prior service versions.
  * @returns - The service version to test
  */
-export function getServiceVersion(): NonNullable<CertificateClientOptions["serviceVersion"]> {
+export function getServiceVersion(): NonNullable<SecretClientOptions["serviceVersion"]> {
   return env.SERVICE_VERSION || LATEST_API_VERSION;
 }
 
@@ -55,7 +49,7 @@ export function getServiceVersion(): NonNullable<CertificateClientOptions["servi
  */
 export function onVersions(
   supportedVersions: SupportedVersions,
-  serviceVersion?: CertificateClientOptions["serviceVersion"]
+  serviceVersion?: SecretClientOptions["serviceVersion"]
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
 }

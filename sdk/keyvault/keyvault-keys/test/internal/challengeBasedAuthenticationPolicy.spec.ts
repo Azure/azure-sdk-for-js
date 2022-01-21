@@ -15,7 +15,7 @@ import {
 import { KeyClient } from "../../src";
 import { authenticate } from "../public/utils/testAuthentication";
 import TestClient from "../public/utils/testClient";
-import { getServiceVersion } from "../public/utils/utils.common";
+import { getServiceVersion } from "../public/utils/common";
 import { HttpHeaders, isNode, WebResource } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 import sinon from "sinon";

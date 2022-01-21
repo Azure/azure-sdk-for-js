@@ -8,7 +8,7 @@ import { env, Recorder } from "@azure-tools/test-recorder";
 import { KeyClient } from "../../src";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { getServiceVersion } from "./utils/utils.common";
+import { getServiceVersion } from "./utils/common";
 import { createRsaKey } from "./utils/crypto";
 
 describe("Keys client - import keys", () => {
