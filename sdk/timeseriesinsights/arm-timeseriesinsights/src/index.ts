@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./environments";
-export * from "./eventSources";
-export * from "./referenceDataSets";
-export * from "./accessPolicies";
+/// <reference lib="esnext.asynciterable" />
+export * from "./models";
+export { TimeSeriesInsightsClient } from "./timeSeriesInsightsClient";
+export * from "./operationsInterfaces";

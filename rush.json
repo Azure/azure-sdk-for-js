@@ -1534,6 +1534,11 @@
       "packageName": "@azure/arm-support",
       "projectFolder": "sdk/support/arm-support",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-timeseriesinsights",
+      "projectFolder": "sdk/timeseriesinsights/arm-timeseriesinsights",
+      "versionPolicyName": "management"
     }
   ]
 }
