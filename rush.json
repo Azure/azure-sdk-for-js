@@ -1484,6 +1484,11 @@
       "packageName": "@azure/arm-servicemap",
       "projectFolder": "sdk/service-map/arm-servicemap",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-signalr",
+      "projectFolder": "sdk/signalr/arm-signalr",
+      "versionPolicyName": "management"
     }
   ]
 }
