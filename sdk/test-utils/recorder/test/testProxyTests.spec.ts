@@ -149,8 +149,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         );
       });
 
-      // Skip until the test-proxy image is updated to include the new HeaderTransform
-      it.skip("HeaderTransform", async () => {
+      it("HeaderTransform", async () => {
         await recorder.start({ envSetupForPlayback: {} });
         await recorder.addTransform({
           type: "HeaderTransform",
