@@ -1539,6 +1539,11 @@
       "packageName": "@azure/arm-timeseriesinsights",
       "projectFolder": "sdk/timeseriesinsights/arm-timeseriesinsights",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-trafficmanager",
+      "projectFolder": "sdk/trafficmanager/arm-trafficmanager",
+      "versionPolicyName": "management"
     }
   ]
 }
