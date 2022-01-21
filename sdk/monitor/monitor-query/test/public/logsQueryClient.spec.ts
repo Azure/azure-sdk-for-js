@@ -477,7 +477,7 @@ describe("LogsQueryClient live tests - server timeout", function () {
   });
   // disabling http retries otherwise we'll waste retries to realize that the
   // query has timed out on purpose.
-  it.only("serverTimeoutInSeconds", async function (this: Context) {
+  it("serverTimeoutInSeconds", async function (this: Context) {
     process.env.AZURE_LOG_LEVEL = "verbose";
     console.log(process.env.AZURE_LOG_LEVEL);
     try {
