@@ -3,13 +3,12 @@
 
 import { ConfigurationSetting, GeneratedClient } from "./generated";
 import {
-  InternalPipelineOptions,
+  InternalClientPipelineOptions,
   OperationOptions,
-  PipelineOptions,
-  TokenCredential,
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
-} from "@azure/core-http";
+  CommonClientOptions,
+} from "@azure/core-client";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./tracing";
@@ -37,7 +36,7 @@ export interface GetConfigurationSettingOptions extends OperationOptions {
 /**
  * Client options used to configure App Configuration API requests.
  */
-export interface ConfigurationClientOptions extends PipelineOptions {
+export interface ConfigurationClientOptions extends CommonClientOptions {
   // Any custom options configured at the client level go here.
 }
 
@@ -82,9 +81,12 @@ export class ConfigurationClient {
 
     // The AAD scope for an API is usually the baseUri + "/.default", but it
     // may be different for your service.
-    const authPolicy = bearerTokenAuthenticationPolicy(credential, `${endpointUrl}/.default`);
+    const authPolicy = bearerTokenAuthenticationPolicy({
+      credential,
+      scopes: `${endpointUrl}/.default`,
+    });
 
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...options,
       deserializationOptions: {
         expectedContentTypes: {
@@ -102,13 +104,12 @@ export class ConfigurationClient {
           logger: logger.info,
           // This array contains header names we want to log that are not already
           // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-          allowedHeaderNames: ["x-ms-correlation-request-id"],
+          additionalAllowedHeaderNames: ["x-ms-correlation-request-id"],
         },
       },
     };
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-
-    this.client = new GeneratedClient(endpointUrl, pipeline);
+    this.client = new GeneratedClient(endpointUrl, internalClientPipelineOptions);
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
