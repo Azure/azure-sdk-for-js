@@ -28,3 +28,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-peering
 https://docs.microsoft.com/javascript/api/@azure/arm-peering?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-postgresql-flexible
 https://docs.microsoft.com/javascript/api/@azure/arm-postgresql-flexible?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-serialconsole
