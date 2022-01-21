@@ -13,18 +13,28 @@ const log = createPrinter("test-proxy");
 const CONTAINER_NAME = "js-azsdk-test-proxy";
 
 export async function startProxyTool(): Promise<void> {
-  log.info(`Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`);
+  return new Promise(async (resolve, reject) => {
+    log.info(`Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`);
 
-  const subprocess = spawn(await getDockerRunCommand(), [], {
-    shell: true,
+    const subprocess = spawn(await getDockerRunCommand(), [], {
+      shell: true,
+    });
+
+    const outFileName = "test-proxy-output.log";
+    const out = fs.createWriteStream(`./${outFileName}`, { flags: "a" });
+    subprocess.stdout.pipe(out);
+    subprocess.stderr.pipe(out);
+
+    log.info(`Check the output file "${outFileName}" for test-proxy logs.`);
+
+    subprocess.on("exit", (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new Error(`Could not start test proxy. See ${outFileName} for details.`));
+      }
+    });
   });
-
-  const outFileName = "test-proxy-output.log";
-  const out = fs.createWriteStream(`./${outFileName}`, { flags: "a" });
-  subprocess.stdout.pipe(out);
-  subprocess.stderr.pipe(out);
-
-  log.info(`Check the output file "${outFileName}" for test-proxy logs.`);
 }
 
 export async function stopProxyTool(): Promise<void> {
