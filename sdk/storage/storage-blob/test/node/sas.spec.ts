@@ -2161,6 +2161,48 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
+  it("ContainerClient.generateSasUrl should work with filtertag permission", async function (this: Context) {
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2",
+    };
+
+    const appendBlobName = recorder.getUniqueName("appendblob");
+    const appendBlobClient = containerClient.getAppendBlobClient(appendBlobName);
+    await appendBlobClient.create({ tags: tags });
+
+    // Wait for indexing tags
+    await sleep(2);
+
+    const sasURL = await containerClient.generateSasUrl({
+      expiresOn: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: ContainerSASPermissions.parse("racwdlf"),
+      protocol: SASProtocol.HttpsAndHttp,
+    });
+
+    const containerClientWithSAS = new ContainerClient(sasURL);
+
+    const expectedTags1: Tags = {
+      tag1: "val1",
+    };
+
+    for await (const blob of containerClientWithSAS.findBlobsByTags(`tag1='val1'`)) {
+      assert.deepStrictEqual(blob.name, appendBlobName);
+      assert.deepStrictEqual(blob.tags, expectedTags1);
+      assert.deepStrictEqual(blob.tagValue, "val1");
+    }
+
+    await containerClient.delete();
+  });
+
   it("BlobClient.generateSasUrl should work for blob", async () => {
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
