@@ -173,11 +173,6 @@ export type DeleteSnapshotsOptionType = "include" | "include-leased";
 export { deserializationPolicy }
 
 // @public
-export interface DestinationLeaseAccessConditions {
-    destinationLeaseId?: string;
-}
-
-// @public
 export interface DirectoryCloseHandlesHeaders {
     date?: Date;
     marker?: string;
@@ -396,6 +391,22 @@ export interface DirectoryProperties extends FileAndDirectorySetPropertiesCommon
 }
 
 // @public
+export interface DirectoryRenameHeaders {
+    date?: Date;
+    etag?: string;
+    fileAttributes?: string;
+    fileChangeTime?: Date;
+    fileCreationTime?: Date;
+    fileId?: string;
+    fileLastWriteTime?: Date;
+    filePermissionKey?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface DirectoryRenameOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     copyFileSmbInfo?: CopyFileSmbInfo;
@@ -408,8 +419,6 @@ export interface DirectoryRenameOptions extends CommonOptions {
     timeoutInSeconds?: number;
 }
 
-// Warning: (ae-forgotten-export) The symbol "DirectoryRenameHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type DirectoryRenameResponse = DirectoryRenameHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -870,6 +879,22 @@ export interface FileProperty {
 }
 
 // @public
+export interface FileRenameHeaders {
+    date?: Date;
+    etag?: string;
+    fileAttributes?: string;
+    fileChangeTime?: Date;
+    fileCreationTime?: Date;
+    fileId?: string;
+    fileLastWriteTime?: Date;
+    filePermissionKey?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface FileRenameOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     copyFileSmbInfo?: CopyFileSmbInfo;
@@ -883,8 +908,6 @@ export interface FileRenameOptions extends CommonOptions {
     timeoutInSeconds?: number;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileRenameHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type FileRenameResponse = FileRenameHeaders & {
     _response: coreHttp.HttpResponse & {
@@ -2060,11 +2083,6 @@ export interface SignedIdentifierModel {
 // @public
 export interface SmbMultichannel {
     enabled?: boolean;
-}
-
-// @public
-export interface SourceLeaseAccessConditions {
-    sourceLeaseId?: string;
 }
 
 // @public

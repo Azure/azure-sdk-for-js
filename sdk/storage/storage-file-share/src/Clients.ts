@@ -2808,24 +2808,24 @@ export class ShareDirectoryClient extends StorageClient {
         ...updatedOptions,
         sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
           ? {
-              sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId
+              sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId,
             }
           : undefined,
         destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
           ? {
-              destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId
+              destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
             }
-          : undefined
+          : undefined,
       });
 
       return {
         destinationDirectoryClient: destDirectory,
-        directoryRenameResponse: response
+        directoryRenameResponse: response,
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5359,24 +5359,24 @@ export class ShareFileClient extends StorageClient {
         ...updatedOptions,
         sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
           ? {
-              sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId
+              sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId,
             }
           : undefined,
         destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
           ? {
-              destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId
+              destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
             }
-          : undefined
+          : undefined,
       });
 
       return {
         destinationFileClient: destFile,
-        fileRenameResponse: response
+        fileRenameResponse: response,
       };
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
