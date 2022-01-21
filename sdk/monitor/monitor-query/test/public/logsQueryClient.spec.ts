@@ -228,7 +228,6 @@ describe("LogsQueryClient live tests", function () {
     }
     if (result[0].status === LogsQueryResultStatus.Success) {
       const table = result[0].tables[0];
-      console.log(JSON.stringify(result[0].tables));
 
       // check the column types all match what we expect.
       assert.deepEqual(
@@ -496,7 +495,6 @@ describe("LogsQueryClient live tests - server timeout", function () {
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
       const { request: _request, response: _response, ...stringizableError }: any = err;
-      const innermostError = getInnermostErrorDetails(err);
 
       assert.deepNestedInclude(
         err as RestError,
@@ -507,17 +505,21 @@ describe("LogsQueryClient live tests - server timeout", function () {
         `Query should throw a RestError. Message: ${JSON.stringify(stringizableError)}`
       );
 
-      assert.deepNestedInclude(
-        innermostError,
-        {
-          code: "GatewayTimeout",
-          // other fields that are not stable, but are interesting:
-          // "message":"Kusto query timed out"
-        },
-        `Should get a code indicating the query timed out. Innermost error: ${JSON.stringify(
-          innermostError
-        )}`
-      );
+      const innermostError = getInnermostErrorDetails(err);
+
+      if (innermostError) {
+        assert.deepNestedInclude(
+          innermostError,
+          {
+            code: "GatewayTimeout",
+            // other fields that are not stable, but are interesting:
+            // "message":"Kusto query timed out"
+          },
+          `Should get a code indicating the query timed out. Innermost error: ${JSON.stringify(
+            innermostError
+          )}`
+        );
+      }
     }
   });
 });
@@ -529,8 +531,12 @@ function getInnermostErrorDetails(thrownError: any): undefined | ErrorInfo {
     typeof thrownError.details.error !== "object"
   ) {
     loggerForTest.error(`Thrown error was incorrect: `, thrownError);
-    throw new Error(
-      `Error does not contain expected "details" property. Thrown error message ${thrownError}`
+    console.log(
+      `Error does not contain expected "details" property. Thrown error message ${JSON.stringify(
+        thrownError,
+        null,
+        2
+      )}`
     );
   }
 
