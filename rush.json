@@ -1463,7 +1463,12 @@
     },
     {
       "packageName": "@azure/arm-redisenterprisecache",
-      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache",
+      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache"
+    },
+    {
+      "packageName": "@azure/arm-reservations",
+      "projectFolder": "sdk/reservations/arm-reservations",
+      "versionPolicyName": "management"
     }
   ]
 }
