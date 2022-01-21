@@ -59,8 +59,8 @@ export async function makeRequestAndVerifyResponse(
     expect(JSON.parse(response.bodyAsText)).to.deep.equal(expectedResponse);
   }
 
-  if(expectedHeaders) {
-    for(const [headerName, headerValue] of Object.entries(expectedHeaders)) {
+  if (expectedHeaders) {
+    for (const [headerName, headerValue] of Object.entries(expectedHeaders)) {
       expect(response.headers.get(headerName)).to.equal(headerValue);
     }
   }

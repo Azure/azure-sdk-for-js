@@ -42,7 +42,7 @@ export async function addTransform(
   request.body = JSON.stringify({
     ...(transform.applyCondition ? { applyCondition: transform.applyCondition } : {}),
     ...((transform as { params?: Record<string, unknown> }).params ?? {}),
-  })
+  });
 
   const { status, bodyAsText } = await httpClient.sendRequest(request);
 

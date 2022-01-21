@@ -120,10 +120,11 @@ export class Recorder {
   }
 
   async addTransform(transform: Transform): Promise<void> {
-    if(isPlaybackMode() 
-      && ensureExistence(this.httpClient, "this.httpClient")
-      && ensureExistence(this.recordingId, "this.recordingId")) {
-
+    if (
+      isPlaybackMode() &&
+      ensureExistence(this.httpClient, "this.httpClient") &&
+      ensureExistence(this.recordingId, "this.recordingId")
+    ) {
       await addTransform(this.url, this.httpClient, transform, this.recordingId);
     }
   }
