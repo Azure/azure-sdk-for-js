@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { testPollerProperties } from "./recorderUtils";
-import { KeyClient, KeyVaultKey } from "../../src";
+import { KeyClient, KeyVaultKey } from "../../../src";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
 import { RestoreKeyBackupPoller } from "./lro/restore/poller";

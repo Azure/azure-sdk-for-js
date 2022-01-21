@@ -4,12 +4,12 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
-import { KeyVaultKey, KeyPollerOptions } from "../../../../src/keysModels";
+import { KeyVaultKey, KeyPollerOptions } from "../../../../../src/keysModels";
 
 /**
  * Options sent to the beginRestoreKeyBackup method.
  */
-export interface BeginRestoreKeyBackupOptions extends KeyPollerOptions {}
+export interface BeginRestoreKeyBackupOptions extends KeyPollerOptions { }
 
 /**
  * @internal
@@ -48,7 +48,7 @@ export interface RestoreKeyBackupPollOperationState extends PollOperationState<K
  * An interface representing a restore key's poll operation
  */
 export interface RestoreKeyBackupPollOperation
-  extends PollOperation<RestoreKeyBackupPollOperationState, KeyVaultKey> {}
+  extends PollOperation<RestoreKeyBackupPollOperationState, KeyVaultKey> { }
 
 /**
  * Reaches to the service and updates the restore key's poll operation.
