@@ -10,15 +10,15 @@ import {
   Message as RheaMessage,
   SenderEvents,
   SenderOptions,
-  generate_uuid,
+  generate_uuid
 } from "rhea-promise";
-import { translate } from "./errors";
-import { StandardAbortMessage } from "./util/constants";
 import { logErrorStackTrace, logger } from "./log";
 import { Constants } from "./util/constants";
 import { RequestResponseLink } from "./requestResponseLink";
+import { StandardAbortMessage } from "./util/constants";
 import { TokenType } from "./auth/token";
 import { defaultCancellableLock } from "./util/utils";
+import { translate } from "./errors";
 
 /**
  * Describes the CBS Response.
