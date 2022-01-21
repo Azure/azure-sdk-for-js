@@ -4,9 +4,7 @@
 import { assert } from "chai";
 import { env } from "@azure-tools/test-recorder";
 import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
-import { LATEST_API_VERSION } from "../../src/constants";
-import { AccessControlClientOptions } from "../../src/accessControlModels";
-import { KeyVaultBackupClientOptions } from "../../src/backupClientModels";
+import { LATEST_API_VERSION, SUPPORTED_API_VERSIONS } from "../../src/constants";
 
 export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
   let passed = false;
@@ -71,9 +69,7 @@ export const serviceVersions = ["7.2"] as const;
  * and then passed through the environment in order to support testing prior service versions.
  * @returns - The service version to test
  */
-export function getServiceVersion(): NonNullable<
-  (AccessControlClientOptions | KeyVaultBackupClientOptions)["serviceVersion"]
-> {
+export function getServiceVersion(): SUPPORTED_API_VERSIONS {
   return env.SERVICE_VERSION || LATEST_API_VERSION;
 }
 
@@ -86,7 +82,7 @@ export function getServiceVersion(): NonNullable<
  */
 export function onVersions(
   supportedVersions: SupportedVersions,
-  serviceVersion?: (AccessControlClientOptions | KeyVaultBackupClientOptions)["serviceVersion"]
+  serviceVersion?: SUPPORTED_API_VERSIONS
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
 }
