@@ -10,7 +10,7 @@ import {
   Message as RheaMessage,
   SenderEvents,
   SenderOptions,
-  generate_uuid
+  generate_uuid,
 } from "rhea-promise";
 import { logErrorStackTrace, logger } from "./log";
 import { Constants } from "./util/constants";

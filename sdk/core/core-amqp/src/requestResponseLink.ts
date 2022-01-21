@@ -14,7 +14,7 @@ import {
   Sender,
   SenderOptions,
   Session,
-  generate_uuid
+  generate_uuid,
 } from "rhea-promise";
 import { Constants, StandardAbortMessage } from "./util/constants";
 import { logErrorStackTrace, logger } from "./log";
