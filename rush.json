@@ -1468,7 +1468,47 @@
     },
     {
       "packageName": "@azure/arm-redisenterprisecache",
-      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache",
+      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache"
+    },
+    {
+      "packageName": "@azure/arm-reservations",
+      "projectFolder": "sdk/reservations/arm-reservations",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcemover",
+      "projectFolder": "sdk/resourcemover/arm-resourcemover",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-serialconsole",
+      "projectFolder": "sdk/serialconsole/arm-serialconsole",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicemap",
+      "projectFolder": "sdk/service-map/arm-servicemap",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-signalr",
+      "projectFolder": "sdk/signalr/arm-signalr",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagecache",
+      "projectFolder": "sdk/storagecache/arm-storagecache",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagesync",
+      "projectFolder": "sdk/storagesync/arm-storagesync",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcegraph",
+      "projectFolder": "sdk/resourcegraph/arm-resourcegraph",
+      "versionPolicyName": "management"
     }
   ]
 }

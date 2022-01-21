@@ -110,17 +110,25 @@ specifiers:
   '@rush-temp/arm-rediscache': file:./projects/arm-rediscache.tgz
   '@rush-temp/arm-redisenterprisecache': file:./projects/arm-redisenterprisecache.tgz
   '@rush-temp/arm-relay': file:./projects/arm-relay.tgz
+  '@rush-temp/arm-reservations': file:./projects/arm-reservations.tgz
+  '@rush-temp/arm-resourcegraph': file:./projects/arm-resourcegraph.tgz
   '@rush-temp/arm-resourcehealth': file:./projects/arm-resourcehealth.tgz
+  '@rush-temp/arm-resourcemover': file:./projects/arm-resourcemover.tgz
   '@rush-temp/arm-resources': file:./projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:./projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-search': file:./projects/arm-search.tgz
   '@rush-temp/arm-security': file:./projects/arm-security.tgz
   '@rush-temp/arm-securityinsight': file:./projects/arm-securityinsight.tgz
+  '@rush-temp/arm-serialconsole': file:./projects/arm-serialconsole.tgz
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:./projects/arm-servicefabric.tgz
+  '@rush-temp/arm-servicemap': file:./projects/arm-servicemap.tgz
+  '@rush-temp/arm-signalr': file:./projects/arm-signalr.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:./projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:./projects/arm-storage.tgz
+  '@rush-temp/arm-storagecache': file:./projects/arm-storagecache.tgz
+  '@rush-temp/arm-storagesync': file:./projects/arm-storagesync.tgz
   '@rush-temp/arm-streamanalytics': file:./projects/arm-streamanalytics.tgz
   '@rush-temp/arm-subscriptions': file:./projects/arm-subscriptions.tgz
   '@rush-temp/arm-synapse': file:./projects/arm-synapse.tgz
@@ -342,17 +350,25 @@ dependencies:
   '@rush-temp/arm-rediscache': file:projects/arm-rediscache.tgz
   '@rush-temp/arm-redisenterprisecache': file:projects/arm-redisenterprisecache.tgz
   '@rush-temp/arm-relay': file:projects/arm-relay.tgz
+  '@rush-temp/arm-reservations': file:projects/arm-reservations.tgz
+  '@rush-temp/arm-resourcegraph': file:projects/arm-resourcegraph.tgz
   '@rush-temp/arm-resourcehealth': file:projects/arm-resourcehealth.tgz
+  '@rush-temp/arm-resourcemover': file:projects/arm-resourcemover.tgz
   '@rush-temp/arm-resources': file:projects/arm-resources.tgz
   '@rush-temp/arm-resources-subscriptions': file:projects/arm-resources-subscriptions.tgz
   '@rush-temp/arm-search': file:projects/arm-search.tgz
   '@rush-temp/arm-security': file:projects/arm-security.tgz
   '@rush-temp/arm-securityinsight': file:projects/arm-securityinsight.tgz
+  '@rush-temp/arm-serialconsole': file:projects/arm-serialconsole.tgz
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:projects/arm-servicefabric.tgz
+  '@rush-temp/arm-servicemap': file:projects/arm-servicemap.tgz
+  '@rush-temp/arm-signalr': file:projects/arm-signalr.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:projects/arm-sqlvirtualmachine.tgz
   '@rush-temp/arm-storage': file:projects/arm-storage.tgz
+  '@rush-temp/arm-storagecache': file:projects/arm-storagecache.tgz
+  '@rush-temp/arm-storagesync': file:projects/arm-storagesync.tgz
   '@rush-temp/arm-streamanalytics': file:projects/arm-streamanalytics.tgz
   '@rush-temp/arm-subscriptions': file:projects/arm-subscriptions.tgz
   '@rush-temp/arm-synapse': file:projects/arm-synapse.tgz
@@ -11190,9 +11206,84 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-reservations.tgz:
+    resolution: {integrity: sha512-3W8+jfJsjrwXC+hllrUv2+vWu1ePqVcZyaVwUck8IQjlQ48QRBrbg8DQRlYUWxEV3jQevqv+qyVnGCkFzza86Q==, tarball: file:projects/arm-reservations.tgz}
+    name: '@rush-temp/arm-reservations'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-resourcegraph.tgz:
+    resolution: {integrity: sha512-76aD1wFiDz2tO2T/G0Mhx95UvRGRI0pOYLQvo7PmCCOhU4LBxF2qG6Q+PsIfxbzbOmufYsMCn8t4TeH0ok/mkA==, tarball: file:projects/arm-resourcegraph.tgz}
+    name: '@rush-temp/arm-resourcegraph'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-resourcehealth.tgz:
     resolution: {integrity: sha512-ssLCh8GgbsVtwLFyE5qlPtC6OjpWdCtYeIbKxvNKerfJOMH/Vb15Osy2TMpWEvUmLPSSeyiRXz5ZBMYg+AKK5g==, tarball: file:projects/arm-resourcehealth.tgz}
     name: '@rush-temp/arm-resourcehealth'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-resourcemover.tgz:
+    resolution: {integrity: sha512-ZIqOtcTkGKQrl2gsE7UibEgBu3B8cRnDRXZrlZu2m5HRd03ULoMPKGDhWeoCot0CZq7rTin3jZ/JM9ueg2DLmQ==, tarball: file:projects/arm-resourcemover.tgz}
+    name: '@rush-temp/arm-resourcemover'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -11340,6 +11431,31 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-serialconsole.tgz:
+    resolution: {integrity: sha512-sDmYrBhQPPUMsQmmkYwAk3uimeBXnxkpCYrNjU1AWuIBMlkEkpLdVoR2t6B/0At7TqvxVJuFRlWjZabYsMKX4g==, tarball: file:projects/arm-serialconsole.tgz}
+    name: '@rush-temp/arm-serialconsole'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-servicebus.tgz:
     resolution: {integrity: sha512-xUyJSlaPZccUpQ99rOf2TIUziaa7K1Ch4vcz0Jp+Dj/eam95rdQFtidaAoubJTI+Wcom0OsKDHWVqLbUyS8GpA==, tarball: file:projects/arm-servicebus.tgz}
     name: '@rush-temp/arm-servicebus'
@@ -11368,6 +11484,56 @@ packages:
   file:projects/arm-servicefabric.tgz:
     resolution: {integrity: sha512-0tseYT+OiiJ2Q6IiCWBeS3k1wYOPznYIepph3EuH2y5svL5CVV8GlWvuWhk2kbT/8wmm69dQXBFjpx6nUXavSw==, tarball: file:projects/arm-servicefabric.tgz}
     name: '@rush-temp/arm-servicefabric'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-servicemap.tgz:
+    resolution: {integrity: sha512-Y8Q9PXQu+1Piyy9trUSdIgpFJWoPNbyg4HI2WT5Y0Dy2bOIMOGu78n1hSGenwXtBJ4KqX5U6fkZkR0k/X8mZoA==, tarball: file:projects/arm-servicemap.tgz}
+    name: '@rush-temp/arm-servicemap'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-signalr.tgz:
+    resolution: {integrity: sha512-MQjQG3zQ9rZktJJr2gdGGF8EMaQGgAntAXTqcwzaQAVbi3J4jDo2DDfvxo5MWP5Ptv2cZlL9TbrReu0GKmMgRg==, tarball: file:projects/arm-signalr.tgz}
+    name: '@rush-temp/arm-signalr'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -11453,6 +11619,56 @@ packages:
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@types/chai': 4.3.0
       chai: 4.3.4
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-storagecache.tgz:
+    resolution: {integrity: sha512-59403AImIIuWQutODkwlYLprQ9XdenZ0r8LGxR+WQUE+41BVpdNp6yYdUh0aX6A9aS7y9aP4b4xYpp/miQprbw==, tarball: file:projects/arm-storagecache.tgz}
+    name: '@rush-temp/arm-storagecache'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-storagesync.tgz:
+    resolution: {integrity: sha512-P6CH4ZGJgS6t6K9jdc72GjLv3HFXrUIYyoax20RTHxe7MMLep6ChwehcKF8RpYH4BUEJTHiMEVRGI0Lt6DP6Gw==, tarball: file:projects/arm-storagesync.tgz}
+    name: '@rush-temp/arm-storagesync'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
