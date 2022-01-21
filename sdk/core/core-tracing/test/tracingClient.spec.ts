@@ -1,16 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import sinon from "sinon";
-import { Instrumenter, TracingClient, TracingContext, TracingSpan } from "../src/interfaces";
+import {
+  Instrumenter,
+  TracingClient,
+  TracingContext,
+  TracingSpan
+} from "../src/interfaces";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
-  useInstrumenter,
+  useInstrumenter
 } from "../src/instrumenter";
-import { createTracingClient } from "../src/tracingClient";
 import { createTracingContext, knownContextKeys } from "../src/tracingContext";
+import { assert } from "chai";
+import { createTracingClient } from "../src/tracingClient";
+import sinon from "sinon";
 
 describe("TracingClient", () => {
   let instrumenter: Instrumenter;

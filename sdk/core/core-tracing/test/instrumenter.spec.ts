@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { Instrumenter, TracingSpan } from "../src/interfaces";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
   getInstrumenter,
-  useInstrumenter,
+  useInstrumenter
 } from "../src/instrumenter";
 import { createTracingContext, knownContextKeys } from "../src/tracingContext";
+import { assert } from "chai";
 
 describe("Instrumenter", () => {
   describe("NoOpInstrumenter", () => {
