@@ -759,5 +759,5 @@ export interface CommonClientOptions extends PipelineOptions {
   /**
    * Additional policies to include in the HTTP pipeline.
    */
-  additionalPolicies?: Array<AdditionalPolicyConfig>;
+  additionalPolicies?: Array<AdditionalPolicyConfig | PipelinePolicy>;
 }

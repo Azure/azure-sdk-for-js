@@ -49,7 +49,7 @@ export interface BaseMapper {
 
 // @public
 export interface CommonClientOptions extends PipelineOptions {
-    additionalPolicies?: Array<AdditionalPolicyConfig>;
+    additionalPolicies?: Array<AdditionalPolicyConfig | PipelinePolicy>;
     allowInsecureConnection?: boolean;
     httpClient?: HttpClient;
 }

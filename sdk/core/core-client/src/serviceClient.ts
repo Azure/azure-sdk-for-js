@@ -8,12 +8,14 @@ import {
   PipelineResponse,
   Pipeline,
   createPipelineRequest,
+  PipelinePolicy,
 } from "@azure/core-rest-pipeline";
 import {
   OperationArguments,
   OperationSpec,
   OperationRequest,
   CommonClientOptions,
+  AdditionalPolicyConfig,
 } from "./interfaces";
 import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
 import { getRequestUrl } from "./urlHelpers";
@@ -94,8 +96,15 @@ export class ServiceClient {
 
     this.pipeline = options.pipeline || createDefaultPipeline(options);
     if (options.additionalPolicies?.length) {
-      for (const { policy, afterPhase, phase } of options.additionalPolicies) {
-        this.pipeline.addPolicy(policy, { afterPhase, phase });
+      for (const entry of options.additionalPolicies) {
+        if (isPolicy(entry)) {
+          this.pipeline.addPolicy(entry);
+        } else {
+          this.pipeline.addPolicy(entry.policy, {
+            afterPhase: entry.afterPhase,
+            phase: entry.phase,
+          });
+        }
       }
     }
   }
@@ -244,4 +253,8 @@ function getCredentialScopes(options: ServiceClientOptions): string | string[] |
   }
 
   return undefined;
+}
+
+function isPolicy(obj: PipelinePolicy | AdditionalPolicyConfig): obj is PipelinePolicy {
+  return obj && typeof (obj as any).name === "string";
 }
