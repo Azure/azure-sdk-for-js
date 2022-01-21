@@ -1499,6 +1499,11 @@
       "packageName": "@azure/arm-storagesync",
       "projectFolder": "sdk/storagesync/arm-storagesync",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcegraph",
+      "projectFolder": "sdk/resourcegraph/arm-resourcegraph",
+      "versionPolicyName": "management"
     }
   ]
 }
