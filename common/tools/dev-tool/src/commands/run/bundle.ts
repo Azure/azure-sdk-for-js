@@ -50,6 +50,11 @@ export default leafCommand(commandInfo, async (options) => {
     return false;
   }
 
+  const basePath = path
+    .relative(process.cwd(), path.dirname(path.parse(info.packageJson.module).dir))
+    .split(path.sep)
+    .join("/");
+
   if (options.production) {
     const baseConfig: rollup.RollupOptions = {
       // Use the package's module field if it has one
@@ -97,8 +102,8 @@ export default leafCommand(commandInfo, async (options) => {
 
     const browserTestConfig = {
       input: {
-        include: ["dist-esm/test/**/*.spec.js"],
-        exclude: ["dist-esm/test/**/node/**"],
+        include: [[basePath, "test", "**", "*.spec.js"].join("/")],
+        exclude: [[basePath, "test", "**", "node", "**"].join("/")],
       },
       preserveSymlinks: false,
       plugins: [

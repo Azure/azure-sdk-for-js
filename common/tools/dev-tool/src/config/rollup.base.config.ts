@@ -87,6 +87,11 @@ function ignoreOpenTelemetryThisIsUndefined(warning: RollupWarning): boolean {
   );
 }
 
+/**
+ * v1.0.0 of @azure/core-asynciterator-polyfill does not provide a source map.
+ *
+ * This was a bug, and this function works around that bug.
+ */
 function ignoreAsyncIteratorPolyfillSourceMaps(warning: RollupWarning): boolean {
   return (
     warning.code === "PLUGIN_WARNING" &&
@@ -95,11 +100,24 @@ function ignoreAsyncIteratorPolyfillSourceMaps(warning: RollupWarning): boolean 
   );
 }
 
+/**
+ * We ignore these warnings because some packages explicitly browser-map node builtins to `false`. Rollup will then
+ * complain that node-resolve's empty module does not export symbols from them, but as long as the package doesn't
+ * actually use those symbols at runtime in the browser tests, it should be fine.
+ */
+function ignoreMissingExportsFromEmpty(warning: RollupWarning): boolean {
+  return (
+    // I absolutely cannot explain why, but node-resolve's internal module ID for empty.js begins with a null byte.
+    warning.code === "MISSING_EXPORT" && warning.exporter?.trim() === "\0node-resolve:empty.js"
+  );
+}
+
 const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
   ignoreChaiCircularDependency,
   ignoreNiseSinonEval,
   ignoreOpenTelemetryThisIsUndefined,
   ignoreAsyncIteratorPolyfillSourceMaps,
+  ignoreMissingExportsFromEmpty,
 ];
 
 /**
