@@ -7,28 +7,28 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ResourcePools } from "../operationsInterfaces";
+import { CustomizationPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { VMwareCloudSimple } from "../vMwareCloudSimple";
 import {
-  ResourcePool,
-  ResourcePoolsListNextOptionalParams,
-  ResourcePoolsListOptionalParams,
-  ResourcePoolsListOperationResponse,
-  ResourcePoolsGetOptionalParams,
-  ResourcePoolsGetResponse,
-  ResourcePoolsListNextResponse
+  CustomizationPolicy,
+  CustomizationPoliciesListNextOptionalParams,
+  CustomizationPoliciesListOptionalParams,
+  CustomizationPoliciesListOperationResponse,
+  CustomizationPoliciesGetOptionalParams,
+  CustomizationPoliciesGetResponse,
+  CustomizationPoliciesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ResourcePools operations. */
-export class ResourcePoolsImpl implements ResourcePools {
+/** Class containing CustomizationPolicies operations. */
+export class CustomizationPoliciesImpl implements CustomizationPolicies {
   private readonly client: VMwareCloudSimple;
 
   /**
-   * Initialize a new instance of the class ResourcePools class.
+   * Initialize a new instance of the class CustomizationPolicies class.
    * @param client Reference to the service client
    */
   constructor(client: VMwareCloudSimple) {
@@ -36,7 +36,7 @@ export class ResourcePoolsImpl implements ResourcePools {
   }
 
   /**
-   * Returns list of resource pools in region for private cloud
+   * Returns list of customization policies in region for private cloud
    * @param regionId The region Id (westus, eastus)
    * @param pcName The private cloud name
    * @param options The options parameters.
@@ -44,8 +44,8 @@ export class ResourcePoolsImpl implements ResourcePools {
   public list(
     regionId: string,
     pcName: string,
-    options?: ResourcePoolsListOptionalParams
-  ): PagedAsyncIterableIterator<ResourcePool> {
+    options?: CustomizationPoliciesListOptionalParams
+  ): PagedAsyncIterableIterator<CustomizationPolicy> {
     const iter = this.listPagingAll(regionId, pcName, options);
     return {
       next() {
@@ -63,8 +63,8 @@ export class ResourcePoolsImpl implements ResourcePools {
   private async *listPagingPage(
     regionId: string,
     pcName: string,
-    options?: ResourcePoolsListOptionalParams
-  ): AsyncIterableIterator<ResourcePool[]> {
+    options?: CustomizationPoliciesListOptionalParams
+  ): AsyncIterableIterator<CustomizationPolicy[]> {
     let result = await this._list(regionId, pcName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -83,15 +83,15 @@ export class ResourcePoolsImpl implements ResourcePools {
   private async *listPagingAll(
     regionId: string,
     pcName: string,
-    options?: ResourcePoolsListOptionalParams
-  ): AsyncIterableIterator<ResourcePool> {
+    options?: CustomizationPoliciesListOptionalParams
+  ): AsyncIterableIterator<CustomizationPolicy> {
     for await (const page of this.listPagingPage(regionId, pcName, options)) {
       yield* page;
     }
   }
 
   /**
-   * Returns list of resource pools in region for private cloud
+   * Returns list of customization policies in region for private cloud
    * @param regionId The region Id (westus, eastus)
    * @param pcName The private cloud name
    * @param options The options parameters.
@@ -99,8 +99,8 @@ export class ResourcePoolsImpl implements ResourcePools {
   private _list(
     regionId: string,
     pcName: string,
-    options?: ResourcePoolsListOptionalParams
-  ): Promise<ResourcePoolsListOperationResponse> {
+    options?: CustomizationPoliciesListOptionalParams
+  ): Promise<CustomizationPoliciesListOperationResponse> {
     return this.client.sendOperationRequest(
       { regionId, pcName, options },
       listOperationSpec
@@ -108,20 +108,20 @@ export class ResourcePoolsImpl implements ResourcePools {
   }
 
   /**
-   * Returns resource pool templates by its name
+   * Returns customization policy by its name
    * @param regionId The region Id (westus, eastus)
    * @param pcName The private cloud name
-   * @param resourcePoolName resource pool id (vsphereId)
+   * @param customizationPolicyName customization policy name
    * @param options The options parameters.
    */
   get(
     regionId: string,
     pcName: string,
-    resourcePoolName: string,
-    options?: ResourcePoolsGetOptionalParams
-  ): Promise<ResourcePoolsGetResponse> {
+    customizationPolicyName: string,
+    options?: CustomizationPoliciesGetOptionalParams
+  ): Promise<CustomizationPoliciesGetResponse> {
     return this.client.sendOperationRequest(
-      { regionId, pcName, resourcePoolName, options },
+      { regionId, pcName, customizationPolicyName, options },
       getOperationSpec
     );
   }
@@ -137,8 +137,8 @@ export class ResourcePoolsImpl implements ResourcePools {
     regionId: string,
     pcName: string,
     nextLink: string,
-    options?: ResourcePoolsListNextOptionalParams
-  ): Promise<ResourcePoolsListNextResponse> {
+    options?: CustomizationPoliciesListNextOptionalParams
+  ): Promise<CustomizationPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       { regionId, pcName, nextLink, options },
       listNextOperationSpec
@@ -150,17 +150,17 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/resourcePools",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/customizationPolicies",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourcePoolsListResponse
+      bodyMapper: Mappers.CustomizationPoliciesListResponse
     },
     default: {
       bodyMapper: Mappers.CsrpError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -172,11 +172,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/resourcePools/{resourcePoolName}",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.VMwareCloudSimple/locations/{regionId}/privateClouds/{pcName}/customizationPolicies/{customizationPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourcePool
+      bodyMapper: Mappers.CustomizationPolicy
     },
     default: {
       bodyMapper: Mappers.CsrpError
@@ -188,7 +188,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.regionId,
     Parameters.pcName,
-    Parameters.resourcePoolName
+    Parameters.customizationPolicyName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -198,13 +198,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourcePoolsListResponse
+      bodyMapper: Mappers.CustomizationPoliciesListResponse
     },
     default: {
       bodyMapper: Mappers.CsrpError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

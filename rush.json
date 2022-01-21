@@ -1549,6 +1549,11 @@
       "packageName": "@azure/arm-visualstudio",
       "projectFolder": "sdk/visualstudio/arm-visualstudio",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-vmwarecloudsimple",
+      "projectFolder": "sdk/vmwarecloudsimple/arm-vmwarecloudsimple",
+      "versionPolicyName": "management"
     }
   ]
 }
