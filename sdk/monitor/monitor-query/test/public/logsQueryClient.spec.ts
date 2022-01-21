@@ -479,7 +479,6 @@ describe("LogsQueryClient live tests - server timeout", function () {
   // query has timed out on purpose.
   it("serverTimeoutInSeconds", async function (this: Context) {
     process.env.AZURE_LOG_LEVEL = "verbose";
-    console.log(process.env.AZURE_LOG_LEVEL);
     try {
       await logsClient.queryWorkspace(
         monitorWorkspaceId,
