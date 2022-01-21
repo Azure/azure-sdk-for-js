@@ -6,4 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./serialPorts";
+export * from "./models";
+export { MicrosoftSerialConsoleClient } from "./microsoftSerialConsoleClient";
+export * from "./operationsInterfaces";

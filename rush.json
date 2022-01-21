@@ -1474,6 +1474,11 @@
       "packageName": "@azure/arm-resourcemover",
       "projectFolder": "sdk/resourcemover/arm-resourcemover",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-serialconsole",
+      "projectFolder": "sdk/serialconsole/arm-serialconsole",
+      "versionPolicyName": "management"
     }
   ]
 }
