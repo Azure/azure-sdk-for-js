@@ -1489,6 +1489,11 @@
       "packageName": "@azure/arm-signalr",
       "projectFolder": "sdk/signalr/arm-signalr",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagecache",
+      "projectFolder": "sdk/storagecache/arm-storagecache",
+      "versionPolicyName": "management"
     }
   ]
 }
