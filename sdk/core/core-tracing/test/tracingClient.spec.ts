@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Instrumenter,
-  TracingClient,
-  TracingContext,
-  TracingSpan
-} from "../src/interfaces";
+import { Instrumenter, TracingClient, TracingContext, TracingSpan } from "../src/interfaces";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
-  useInstrumenter
+  useInstrumenter,
 } from "../src/instrumenter";
 import { createTracingContext, knownContextKeys } from "../src/tracingContext";
 import { assert } from "chai";

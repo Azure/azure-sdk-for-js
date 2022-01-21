@@ -6,7 +6,7 @@ import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
   getInstrumenter,
-  useInstrumenter
+  useInstrumenter,
 } from "../src/instrumenter";
 import { createTracingContext, knownContextKeys } from "../src/tracingContext";
 import { assert } from "chai";
