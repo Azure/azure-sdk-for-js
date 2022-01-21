@@ -496,7 +496,6 @@ describe("LogsQueryClient live tests - server timeout", function () {
     } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
       const { request: _request, response: _response, ...stringizableError }: any = err;
-
       const innermostError = getInnermostErrorDetails(err);
 
       assert.deepNestedInclude(
