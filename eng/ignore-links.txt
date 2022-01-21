@@ -31,3 +31,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-postgresql-flexible?view=az
 https://docs.microsoft.com/javascript/api/@azure/arm-serialconsole
 https://docs.microsoft.com/javascript/api/@azure-rest/iot-device-update
 https://docs.microsoft.com/javascript/api/@azure/arm-vmwarecloudsimple
+https://docs.microsoft.com/en-us/rest/api/index
