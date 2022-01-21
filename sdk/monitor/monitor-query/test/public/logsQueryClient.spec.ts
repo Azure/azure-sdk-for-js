@@ -477,7 +477,9 @@ describe("LogsQueryClient live tests - server timeout", function () {
   });
   // disabling http retries otherwise we'll waste retries to realize that the
   // query has timed out on purpose.
-  it("serverTimeoutInSeconds", async function (this: Context) {
+  it.only("serverTimeoutInSeconds", async function (this: Context) {
+    process.env.AZURE_LOG_LEVEL = "verbose";
+    console.log(process.env.AZURE_LOG_LEVEL);
     try {
       await logsClient.queryWorkspace(
         monitorWorkspaceId,
@@ -496,6 +498,8 @@ describe("LogsQueryClient live tests - server timeout", function () {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
       const { request: _request, response: _response, ...stringizableError }: any = err;
 
+      const innermostError = getInnermostErrorDetails(err);
+
       assert.deepNestedInclude(
         err as RestError,
         {
@@ -505,21 +509,17 @@ describe("LogsQueryClient live tests - server timeout", function () {
         `Query should throw a RestError. Message: ${JSON.stringify(stringizableError)}`
       );
 
-      const innermostError = getInnermostErrorDetails(err);
-
-      if (innermostError) {
-        assert.deepNestedInclude(
-          innermostError,
-          {
-            code: "GatewayTimeout",
-            // other fields that are not stable, but are interesting:
-            // "message":"Kusto query timed out"
-          },
-          `Should get a code indicating the query timed out. Innermost error: ${JSON.stringify(
-            innermostError
-          )}`
-        );
-      }
+      assert.deepNestedInclude(
+        innermostError,
+        {
+          code: "GatewayTimeout",
+          // other fields that are not stable, but are interesting:
+          // "message":"Kusto query timed out"
+        },
+        `Should get a code indicating the query timed out. Innermost error: ${JSON.stringify(
+          innermostError
+        )}`
+      );
     }
   });
 });
@@ -531,13 +531,8 @@ function getInnermostErrorDetails(thrownError: any): undefined | ErrorInfo {
     typeof thrownError.details.error !== "object"
   ) {
     loggerForTest.error(`Thrown error was incorrect: `, thrownError);
-    console.log(
-      `Error does not contain expected "details" property. Thrown error message ${JSON.stringify(
-        thrownError,
-        null,
-        2
-      )}`
-    );
+    console.log(`Thrown error was incorrect: `, thrownError);
+    throw new Error("Error does not contain expected `details` property");
   }
 
   let errorInfo: ErrorInfo = thrownError.details.error;
