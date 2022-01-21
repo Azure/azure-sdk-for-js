@@ -41,6 +41,7 @@ specifiers:
   '@rush-temp/arm-databox': file:./projects/arm-databox.tgz
   '@rush-temp/arm-databoxedge': file:./projects/arm-databoxedge.tgz
   '@rush-temp/arm-databricks': file:./projects/arm-databricks.tgz
+  '@rush-temp/arm-datacatalog': file:./projects/arm-datacatalog.tgz
   '@rush-temp/arm-datadog': file:./projects/arm-datadog.tgz
   '@rush-temp/arm-datafactory': file:./projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
@@ -282,6 +283,7 @@ dependencies:
   '@rush-temp/arm-databox': file:projects/arm-databox.tgz
   '@rush-temp/arm-databoxedge': file:projects/arm-databoxedge.tgz
   '@rush-temp/arm-databricks': file:projects/arm-databricks.tgz
+  '@rush-temp/arm-datacatalog': file:projects/arm-datacatalog.tgz
   '@rush-temp/arm-datadog': file:projects/arm-datadog.tgz
   '@rush-temp/arm-datafactory': file:projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
@@ -9461,6 +9463,31 @@ packages:
   file:projects/arm-databricks.tgz:
     resolution: {integrity: sha512-snjLp9Ddb90jQc5iuZaXMveg83D4YZfSmyBFR++XcPN6iRkmWy9BxrRqK0lNBBxOVsQbbzJrqhsZKQau31oQVA==, tarball: file:projects/arm-databricks.tgz}
     name: '@rush-temp/arm-databricks'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-datacatalog.tgz:
+    resolution: {integrity: sha512-F4XRkHua4jUdxm/TVPFBntRsvcQFKEgaIPJzzxcYsGwNUYwjHR9xHp+NfWskqWg96ievQ/2b3YZrkoCPuhCFqA==, tarball: file:projects/arm-datacatalog.tgz}
+    name: '@rush-temp/arm-datacatalog'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2

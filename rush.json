@@ -1514,6 +1514,11 @@
       "packageName": "@azure/arm-appinsights",
       "projectFolder": "sdk/applicationinsights/arm-appinsights",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datacatalog",
+      "projectFolder": "sdk/datacatalog/arm-datacatalog",
+      "versionPolicyName": "management"
     }
   ]
 }
