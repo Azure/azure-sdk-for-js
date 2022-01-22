@@ -478,7 +478,6 @@ describe("LogsQueryClient live tests - server timeout", function () {
   // disabling http retries otherwise we'll waste retries to realize that the
   // query has timed out on purpose.
   it("serverTimeoutInSeconds", async function (this: Context) {
-    process.env.AZURE_LOG_LEVEL = "verbose";
     try {
       await logsClient.queryWorkspace(
         monitorWorkspaceId,
