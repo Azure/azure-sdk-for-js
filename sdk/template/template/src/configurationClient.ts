@@ -9,7 +9,6 @@ import {
 } from "@azure/core-client";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
-import { SDK_VERSION } from "./constants";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
@@ -68,17 +67,6 @@ export class ConfigurationClient {
     credential: TokenCredential,
     options: ConfigurationClientOptions = {}
   ) {
-    // The below code helps us set a proper User-Agent header on all requests
-    const libInfo = `azsdk-js-template-template/${SDK_VERSION}`;
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
     // The AAD scope for an API is usually the baseUri + "/.default", but it
     // may be different for your service.
     const authPolicy = bearerTokenAuthenticationPolicy({
