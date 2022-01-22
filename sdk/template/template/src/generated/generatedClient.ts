@@ -12,42 +12,42 @@ import * as Mappers from "./models/mappers";
 import { GeneratedClientContext } from "./generatedClientContext";
 import {
   GeneratedClientOptionalParams,
-  GeneratedClientGetKeysOptionalParams,
-  GeneratedClientGetKeysResponse,
-  GeneratedClientCheckKeysOptionalParams,
-  GeneratedClientCheckKeysResponse,
-  GeneratedClientGetKeyValuesOptionalParams,
-  GeneratedClientGetKeyValuesResponse,
-  GeneratedClientCheckKeyValuesOptionalParams,
-  GeneratedClientCheckKeyValuesResponse,
-  GeneratedClientGetKeyValueOptionalParams,
-  GeneratedClientGetKeyValueResponse,
-  GeneratedClientPutKeyValueOptionalParams,
-  GeneratedClientPutKeyValueResponse,
-  GeneratedClientDeleteKeyValueOptionalParams,
-  GeneratedClientDeleteKeyValueResponse,
-  GeneratedClientCheckKeyValueOptionalParams,
-  GeneratedClientCheckKeyValueResponse,
-  GeneratedClientGetLabelsOptionalParams,
-  GeneratedClientGetLabelsResponse,
-  GeneratedClientCheckLabelsOptionalParams,
-  GeneratedClientCheckLabelsResponse,
-  GeneratedClientPutLockOptionalParams,
-  GeneratedClientPutLockResponse,
-  GeneratedClientDeleteLockOptionalParams,
-  GeneratedClientDeleteLockResponse,
-  GeneratedClientGetRevisionsOptionalParams,
-  GeneratedClientGetRevisionsResponse,
-  GeneratedClientCheckRevisionsOptionalParams,
-  GeneratedClientCheckRevisionsResponse,
-  GeneratedClientGetKeysNextOptionalParams,
-  GeneratedClientGetKeysNextResponse,
-  GeneratedClientGetKeyValuesNextOptionalParams,
-  GeneratedClientGetKeyValuesNextResponse,
-  GeneratedClientGetLabelsNextOptionalParams,
-  GeneratedClientGetLabelsNextResponse,
-  GeneratedClientGetRevisionsNextOptionalParams,
-  GeneratedClientGetRevisionsNextResponse
+  GetKeysOptionalParams,
+  GetKeysResponse,
+  CheckKeysOptionalParams,
+  CheckKeysResponse,
+  GetKeyValuesOptionalParams,
+  GetKeyValuesResponse,
+  CheckKeyValuesOptionalParams,
+  CheckKeyValuesResponse,
+  GetKeyValueOptionalParams,
+  GetKeyValueResponse,
+  PutKeyValueOptionalParams,
+  PutKeyValueResponse,
+  DeleteKeyValueOptionalParams,
+  DeleteKeyValueResponse,
+  CheckKeyValueOptionalParams,
+  CheckKeyValueResponse,
+  GetLabelsOptionalParams,
+  GetLabelsResponse,
+  CheckLabelsOptionalParams,
+  CheckLabelsResponse,
+  PutLockOptionalParams,
+  PutLockResponse,
+  DeleteLockOptionalParams,
+  DeleteLockResponse,
+  GetRevisionsOptionalParams,
+  GetRevisionsResponse,
+  CheckRevisionsOptionalParams,
+  CheckRevisionsResponse,
+  GetKeysNextOptionalParams,
+  GetKeysNextResponse,
+  GetKeyValuesNextOptionalParams,
+  GetKeyValuesNextResponse,
+  GetLabelsNextOptionalParams,
+  GetLabelsNextResponse,
+  GetRevisionsNextOptionalParams,
+  GetRevisionsNextResponse
 } from "./models";
 
 /** @internal */
@@ -65,9 +65,7 @@ export class GeneratedClient extends GeneratedClientContext {
    * Gets a list of keys.
    * @param options The options parameters.
    */
-  getKeys(
-    options?: GeneratedClientGetKeysOptionalParams
-  ): Promise<GeneratedClientGetKeysResponse> {
+  getKeys(options?: GetKeysOptionalParams): Promise<GetKeysResponse> {
     return this.sendOperationRequest({ options }, getKeysOperationSpec);
   }
 
@@ -75,9 +73,7 @@ export class GeneratedClient extends GeneratedClientContext {
    * Requests the headers and status of the given resource.
    * @param options The options parameters.
    */
-  checkKeys(
-    options?: GeneratedClientCheckKeysOptionalParams
-  ): Promise<GeneratedClientCheckKeysResponse> {
+  checkKeys(options?: CheckKeysOptionalParams): Promise<CheckKeysResponse> {
     return this.sendOperationRequest({ options }, checkKeysOperationSpec);
   }
 
@@ -86,8 +82,8 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The options parameters.
    */
   getKeyValues(
-    options?: GeneratedClientGetKeyValuesOptionalParams
-  ): Promise<GeneratedClientGetKeyValuesResponse> {
+    options?: GetKeyValuesOptionalParams
+  ): Promise<GetKeyValuesResponse> {
     return this.sendOperationRequest({ options }, getKeyValuesOperationSpec);
   }
 
@@ -96,8 +92,8 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The options parameters.
    */
   checkKeyValues(
-    options?: GeneratedClientCheckKeyValuesOptionalParams
-  ): Promise<GeneratedClientCheckKeyValuesResponse> {
+    options?: CheckKeyValuesOptionalParams
+  ): Promise<CheckKeyValuesResponse> {
     return this.sendOperationRequest({ options }, checkKeyValuesOperationSpec);
   }
 
@@ -108,8 +104,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   getKeyValue(
     key: string,
-    options?: GeneratedClientGetKeyValueOptionalParams
-  ): Promise<GeneratedClientGetKeyValueResponse> {
+    options?: GetKeyValueOptionalParams
+  ): Promise<GetKeyValueResponse> {
     return this.sendOperationRequest(
       { key, options },
       getKeyValueOperationSpec
@@ -123,8 +119,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   putKeyValue(
     key: string,
-    options?: GeneratedClientPutKeyValueOptionalParams
-  ): Promise<GeneratedClientPutKeyValueResponse> {
+    options?: PutKeyValueOptionalParams
+  ): Promise<PutKeyValueResponse> {
     return this.sendOperationRequest(
       { key, options },
       putKeyValueOperationSpec
@@ -138,8 +134,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   deleteKeyValue(
     key: string,
-    options?: GeneratedClientDeleteKeyValueOptionalParams
-  ): Promise<GeneratedClientDeleteKeyValueResponse> {
+    options?: DeleteKeyValueOptionalParams
+  ): Promise<DeleteKeyValueResponse> {
     return this.sendOperationRequest(
       { key, options },
       deleteKeyValueOperationSpec
@@ -153,8 +149,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   checkKeyValue(
     key: string,
-    options?: GeneratedClientCheckKeyValueOptionalParams
-  ): Promise<GeneratedClientCheckKeyValueResponse> {
+    options?: CheckKeyValueOptionalParams
+  ): Promise<CheckKeyValueResponse> {
     return this.sendOperationRequest(
       { key, options },
       checkKeyValueOperationSpec
@@ -165,9 +161,7 @@ export class GeneratedClient extends GeneratedClientContext {
    * Gets a list of labels.
    * @param options The options parameters.
    */
-  getLabels(
-    options?: GeneratedClientGetLabelsOptionalParams
-  ): Promise<GeneratedClientGetLabelsResponse> {
+  getLabels(options?: GetLabelsOptionalParams): Promise<GetLabelsResponse> {
     return this.sendOperationRequest({ options }, getLabelsOperationSpec);
   }
 
@@ -176,8 +170,8 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The options parameters.
    */
   checkLabels(
-    options?: GeneratedClientCheckLabelsOptionalParams
-  ): Promise<GeneratedClientCheckLabelsResponse> {
+    options?: CheckLabelsOptionalParams
+  ): Promise<CheckLabelsResponse> {
     return this.sendOperationRequest({ options }, checkLabelsOperationSpec);
   }
 
@@ -188,8 +182,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   putLock(
     key: string,
-    options?: GeneratedClientPutLockOptionalParams
-  ): Promise<GeneratedClientPutLockResponse> {
+    options?: PutLockOptionalParams
+  ): Promise<PutLockResponse> {
     return this.sendOperationRequest({ key, options }, putLockOperationSpec);
   }
 
@@ -200,8 +194,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   deleteLock(
     key: string,
-    options?: GeneratedClientDeleteLockOptionalParams
-  ): Promise<GeneratedClientDeleteLockResponse> {
+    options?: DeleteLockOptionalParams
+  ): Promise<DeleteLockResponse> {
     return this.sendOperationRequest({ key, options }, deleteLockOperationSpec);
   }
 
@@ -210,8 +204,8 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The options parameters.
    */
   getRevisions(
-    options?: GeneratedClientGetRevisionsOptionalParams
-  ): Promise<GeneratedClientGetRevisionsResponse> {
+    options?: GetRevisionsOptionalParams
+  ): Promise<GetRevisionsResponse> {
     return this.sendOperationRequest({ options }, getRevisionsOperationSpec);
   }
 
@@ -220,8 +214,8 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The options parameters.
    */
   checkRevisions(
-    options?: GeneratedClientCheckRevisionsOptionalParams
-  ): Promise<GeneratedClientCheckRevisionsResponse> {
+    options?: CheckRevisionsOptionalParams
+  ): Promise<CheckRevisionsResponse> {
     return this.sendOperationRequest({ options }, checkRevisionsOperationSpec);
   }
 
@@ -232,8 +226,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   getKeysNext(
     nextLink: string,
-    options?: GeneratedClientGetKeysNextOptionalParams
-  ): Promise<GeneratedClientGetKeysNextResponse> {
+    options?: GetKeysNextOptionalParams
+  ): Promise<GetKeysNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
       getKeysNextOperationSpec
@@ -247,8 +241,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   getKeyValuesNext(
     nextLink: string,
-    options?: GeneratedClientGetKeyValuesNextOptionalParams
-  ): Promise<GeneratedClientGetKeyValuesNextResponse> {
+    options?: GetKeyValuesNextOptionalParams
+  ): Promise<GetKeyValuesNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
       getKeyValuesNextOperationSpec
@@ -262,8 +256,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   getLabelsNext(
     nextLink: string,
-    options?: GeneratedClientGetLabelsNextOptionalParams
-  ): Promise<GeneratedClientGetLabelsNextResponse> {
+    options?: GetLabelsNextOptionalParams
+  ): Promise<GetLabelsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
       getLabelsNextOperationSpec
@@ -277,8 +271,8 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   getRevisionsNext(
     nextLink: string,
-    options?: GeneratedClientGetRevisionsNextOptionalParams
-  ): Promise<GeneratedClientGetRevisionsNextResponse> {
+    options?: GetRevisionsNextOptionalParams
+  ): Promise<GetRevisionsNextResponse> {
     return this.sendOperationRequest(
       { nextLink, options },
       getRevisionsNextOperationSpec
