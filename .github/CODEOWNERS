@@ -51,6 +51,9 @@
 # ServiceLabel: %Cosmos %Service Attention
 #/<NotInRepo>/ @sajeetharan @simorenoh
 
+# ServiceLabel: %Device Update for IoT Hub %Service Attention
+/sdk/deviceupdate/ @dpokluda
+
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @johngallardo
 
@@ -129,7 +132,7 @@
 /sdk/mixedreality/ @craigktreasure 
 
 # PRLabel: %Remote Rendering
-/sdk/remoterendering/ @MalcolmTyrrell
+/sdk/remoterendering/ @FlorianBorn71
 
 # PRLabel: %VideoAnalyzer
 /sdk/videoanalyzer/video-analyzer-edge @hivyas @bterlson

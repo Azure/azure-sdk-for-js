@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -1468,7 +1468,92 @@
     },
     {
       "packageName": "@azure/arm-redisenterprisecache",
-      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache",
+      "projectFolder": "sdk/redisenterprise/arm-redisenterprisecache"
+    },
+    {
+      "packageName": "@azure/arm-reservations",
+      "projectFolder": "sdk/reservations/arm-reservations",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcemover",
+      "projectFolder": "sdk/resourcemover/arm-resourcemover",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-serialconsole",
+      "projectFolder": "sdk/serialconsole/arm-serialconsole",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicemap",
+      "projectFolder": "sdk/service-map/arm-servicemap",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-signalr",
+      "projectFolder": "sdk/signalr/arm-signalr",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagecache",
+      "projectFolder": "sdk/storagecache/arm-storagecache",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagesync",
+      "projectFolder": "sdk/storagesync/arm-storagesync",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-resourcegraph",
+      "projectFolder": "sdk/resourcegraph/arm-resourcegraph",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appinsights",
+      "projectFolder": "sdk/applicationinsights/arm-appinsights",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-datacatalog",
+      "projectFolder": "sdk/datacatalog/arm-datacatalog",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storsimple1200series",
+      "projectFolder": "sdk/storsimple1200series/arm-storsimple1200series",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storsimple8000series",
+      "projectFolder": "sdk/storsimple8000series/arm-storsimple8000series",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-support",
+      "projectFolder": "sdk/support/arm-support",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-timeseriesinsights",
+      "projectFolder": "sdk/timeseriesinsights/arm-timeseriesinsights",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-trafficmanager",
+      "projectFolder": "sdk/trafficmanager/arm-trafficmanager",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-visualstudio",
+      "projectFolder": "sdk/visualstudio/arm-visualstudio",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-vmwarecloudsimple",
+      "projectFolder": "sdk/vmwarecloudsimple/arm-vmwarecloudsimple",
+      "versionPolicyName": "management"
     }
   ]
 }
