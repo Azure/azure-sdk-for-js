@@ -4,12 +4,12 @@
 import {
   DeleteTableEntityOptions,
   TableEntity,
+  TableServiceClientOptions,
   TableTransactionEntityResponse,
   TableTransactionResponse,
   TransactionAction,
   UpdateMode,
-  UpdateTableEntityOptions,
-  TableServiceClientOptions,
+  UpdateTableEntityOptions
 } from "./models";
 import {
   NamedKeyCredential,
@@ -17,14 +17,14 @@ import {
   TokenCredential,
   isNamedKeyCredential,
   isSASCredential,
-  isTokenCredential,
+  isTokenCredential
 } from "@azure/core-auth";
 import {
   OperationOptions,
   ServiceClient,
-  serializationPolicy,
-  serializationPolicyName,
   ServiceClientOptions,
+  serializationPolicy,
+  serializationPolicyName
 } from "@azure/core-client";
 import {
   Pipeline,
@@ -32,18 +32,16 @@ import {
   PipelineResponse,
   RestError,
   createHttpHeaders,
-  createPipelineRequest,
+  createPipelineRequest
 } from "@azure/core-rest-pipeline";
-import {
-  getInitialTransactionBody,
-  getTransactionHttpRequestBody,
-} from "./utils/transactionHelpers";
+import { getInitialTransactionBody, getTransactionHttpRequestBody } from "./utils/transactionHelpers";
 import {
   transactionHeaderFilterPolicy,
   transactionHeaderFilterPolicyName,
   transactionRequestAssemblePolicy,
-  transactionRequestAssemblePolicyName,
+  transactionRequestAssemblePolicyName
 } from "./TablePolicies";
+import { STORAGE_SCOPE } from "./utils/constants";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TableClientLike } from "./utils/internalModels";
 import { TableServiceErrorOdataError } from "./generated";
@@ -53,7 +51,6 @@ import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 import { signURLWithSAS } from "./tablesSASTokenPolicy";
-import { STORAGE_SCOPE } from "./utils/constants";
 
 /**
  * Helper to build a list of transaction actions

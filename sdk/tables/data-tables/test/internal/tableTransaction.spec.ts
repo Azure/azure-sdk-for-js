@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import {
+  HttpClient,
   PipelineResponse,
   createHttpHeaders,
-  createPipelineRequest,
-  HttpClient,
+  createPipelineRequest
 } from "@azure/core-rest-pipeline";
-import { assert } from "chai";
+import { TableTransaction, parseTransactionResponse } from "../../src/TableTransaction";
 import { TableClient } from "../../src/TableClient";
-import { parseTransactionResponse, TableTransaction } from "../../src/TableTransaction";
+import { assert } from "chai";
 
 describe("TableTransaction", () => {
   describe("parseTransactionResponse", () => {
