@@ -5,7 +5,7 @@ import {
   HttpClient,
   PipelineResponse,
   createHttpHeaders,
-  createPipelineRequest
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { TableTransaction, parseTransactionResponse } from "../../src/TableTransaction";
 import { TableClient } from "../../src/TableClient";

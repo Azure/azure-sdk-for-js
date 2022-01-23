@@ -9,7 +9,7 @@ import {
   TableTransactionResponse,
   TransactionAction,
   UpdateMode,
-  UpdateTableEntityOptions
+  UpdateTableEntityOptions,
 } from "./models";
 import {
   NamedKeyCredential,
@@ -17,14 +17,14 @@ import {
   TokenCredential,
   isNamedKeyCredential,
   isSASCredential,
-  isTokenCredential
+  isTokenCredential,
 } from "@azure/core-auth";
 import {
   OperationOptions,
   ServiceClient,
   ServiceClientOptions,
   serializationPolicy,
-  serializationPolicyName
+  serializationPolicyName,
 } from "@azure/core-client";
 import {
   Pipeline,
@@ -32,14 +32,17 @@ import {
   PipelineResponse,
   RestError,
   createHttpHeaders,
-  createPipelineRequest
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { getInitialTransactionBody, getTransactionHttpRequestBody } from "./utils/transactionHelpers";
+import {
+  getInitialTransactionBody,
+  getTransactionHttpRequestBody,
+} from "./utils/transactionHelpers";
 import {
   transactionHeaderFilterPolicy,
   transactionHeaderFilterPolicyName,
   transactionRequestAssemblePolicy,
-  transactionRequestAssemblePolicyName
+  transactionRequestAssemblePolicyName,
 } from "./TablePolicies";
 import { STORAGE_SCOPE } from "./utils/constants";
 import { SpanStatusCode } from "@azure/core-tracing";
