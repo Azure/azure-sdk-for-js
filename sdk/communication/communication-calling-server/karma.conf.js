@@ -126,8 +126,8 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: 1,
 
-    browserNoActivityTimeout: 1000000,
-    browserDisconnectTimeout: 40000,
+    browserNoActivityTimeout: 600000,
+    browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
       terminal: !isRecordMode()
