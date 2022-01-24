@@ -100,6 +100,11 @@ export interface CertificateResponse {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
 /** The description of an X509 CA Certificate. */
@@ -139,6 +144,22 @@ export interface CertificateProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly updated?: Date;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** The JSON-serialized X509 Certificate. */
@@ -182,6 +203,11 @@ export interface IotDpsPropertiesDescription {
   readonly idScope?: string;
   /** List of authorization keys for a provisioning service. */
   authorizationPolicies?: SharedAccessSignatureAuthorizationRuleAccessRightsDescription[];
+  /**
+   * Optional.
+   * Indicates if the DPS instance has Data Residency enabled, removing the cross geo-pair disaster recovery.
+   */
+  enableDataResidency?: boolean;
 }
 
 /** The IP filter rules for a provisioning Service. */
@@ -215,6 +241,11 @@ export interface PrivateEndpointConnection {
   readonly type?: string;
   /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionProperties;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
 /** The properties of a private endpoint connection */
@@ -489,7 +520,32 @@ export type ProvisioningServiceDescription = Resource & {
   properties: IotDpsPropertiesDescription;
   /** Sku info for a provisioning Service. */
   sku: IotDpsSkuInfo;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 };
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link CertificatePurpose} that the service accepts. */
 export enum KnownCertificatePurpose {
