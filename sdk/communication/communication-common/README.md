@@ -50,7 +50,7 @@ const tokenCredential = new AzureCommunicationTokenCredential(
 
 ### Create a credential with a callback
 
-Here we assume that we have a function `fetchTokenFromMyServerForUser` that makes a network request to retrieve a token string for a user. We pass it into the credential to fetch a token for Bob from our own server. Our server would use the Azure Communication Identity library to issue tokens. It's necessary that the `fetchTokenFromMyServerForUser` function returns a valid token (with an expiration date set in the future) at all times.
+Here we assume that we have a function `fetchTokenFromMyServerForUser` that makes a network request to retrieve a JWT token string for a user. We pass it into the credential to fetch a token for Bob from our own server. Our server would use the Azure Communication Identity library to issue tokens. It's necessary that the `fetchTokenFromMyServerForUser` function returns a valid token (with an expiration date set in the future) at all times.
 
 ```typescript
 const tokenCredential = new AzureCommunicationTokenCredential({
@@ -84,6 +84,8 @@ const tokenCredential = new AzureCommunicationTokenCredential({
 
 ## Troubleshooting
 
+- **Invalid token specified**: Make sure the token you are passing to the `AzureCommunicationTokenCredential` constructor or to the `tokenRefresher` callback is a bare JWT token string. E.g. if you're using the [Azure Communication Identity library](invalid_token_sdk) or [REST API](invalid_token_rest) to obtain the token, make sure you're passing just the `token` part of the response object.
+
 ## Next steps
 
 - [Read more about Communication user access tokens](https://docs.microsoft.com/azure/communication-services/concepts/authentication?tabs=javascript)
@@ -100,5 +102,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
+[invalid_token_sdk]: https://docs.microsoft.com/en-us/javascript/api/@azure/communication-identity/communicationaccesstoken#@azure-communication-identity-communicationaccesstoken-token
+[invalid_token_rest]: https://docs.microsoft.com/en-us/rest/api/communication/communicationidentity/communication-identity/issue-access-token#communicationidentityaccesstoken
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-sms%2FREADME.png)

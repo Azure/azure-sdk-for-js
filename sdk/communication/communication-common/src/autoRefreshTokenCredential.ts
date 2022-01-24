@@ -10,7 +10,7 @@ import { TokenCredential, CommunicationGetTokenOptions } from "./communicationTo
  */
 export interface CommunicationTokenRefreshOptions {
   /**
-   * Callback function that returns a token acquired from the Communication Identity API.
+   * Callback function that returns a string JWT token acquired from the Communication Identity API.
    * The returned token must be valid (expiration date must be in the future).
    */
   tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
