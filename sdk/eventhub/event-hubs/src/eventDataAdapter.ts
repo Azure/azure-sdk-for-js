@@ -25,10 +25,6 @@ interface MessageAdapter<MessageT> {
   consumeMessage: (message: MessageT) => MessageWithMetadata;
 }
 
-function isUint8Array(obj: any): obj is Uint8Array {
-  return obj.constructor === Uint8Array;
-}
-
 /**
  * Parameters to the `createEventDataAdapter` function that creates an event data adapter.
  */
@@ -76,7 +72,7 @@ export function createEventDataAdapter(
     },
     consumeMessage: (message: EventData): MessageWithMetadata => {
       const { body, contentType } = message;
-      if (!isUint8Array(body)) {
+      if (body === undefined || !(body instanceof Uint8Array)) {
         throw new Error("Expected the body field to defined and have a Uint8Array");
       }
       if (contentType === undefined) {

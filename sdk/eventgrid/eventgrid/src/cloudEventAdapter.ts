@@ -27,10 +27,6 @@ interface MessageAdapter<MessageT> {
 
 type EncodedCloudEvent = SendCloudEventInput<Uint8Array>;
 
-function isUint8Array(obj: any): obj is Uint8Array {
-  return obj.constructor === Uint8Array;
-}
-
 /**
  * Parameters to the `createCloudEventAdapter` function that creates a cloud event adapter.
  */
@@ -86,7 +82,7 @@ export function createCloudEventAdapter(
     },
     consumeMessage: (message: EncodedCloudEvent): MessageWithMetadata => {
       const { data: body, datacontenttype: contentType } = message;
-      if (!isUint8Array(body)) {
+      if (body === undefined || !(body instanceof Uint8Array)) {
         throw new Error("Expected the data field to defined and have a Uint8Array");
       }
       if (contentType === undefined) {
