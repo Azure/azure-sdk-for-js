@@ -24,5 +24,4 @@ export * from "./myWorkbooks";
 export * from "./workbooks";
 export * from "./components";
 export * from "./componentLinkedStorageAccountsOperations";
-export * from "./operations";
 export * from "./liveToken";
