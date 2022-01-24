@@ -16,7 +16,7 @@
     "build:browser": "echo skipped",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo Skipped.",
-    "build:test": "tsc -p .",
+    "build:test": "tsc -p . && dev-tool run bundle",
     "build": "npm run clean && tsc -p . && dev-tool run bundle",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
