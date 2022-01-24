@@ -55,6 +55,8 @@ export default leafCommand(commandInfo, async (options) => {
     .split(path.sep)
     .join("/");
 
+  log.info("Bundling basePath:", basePath);
+
   if (options.production) {
     const baseConfig: rollup.RollupOptions = {
       // Use the package's module field if it has one
@@ -114,7 +116,7 @@ export default leafCommand(commandInfo, async (options) => {
         }),
         ...(options["polyfill-node"] ? [nodePolyfills({ sourceMap: true })] : []),
         cjs({
-          dynamicRequireTargets: [globFromStore("chai")],
+          //dynamicRequireTargets: [globFromStore("chai")],
         }),
         json(),
         sourcemapsExtra(),
