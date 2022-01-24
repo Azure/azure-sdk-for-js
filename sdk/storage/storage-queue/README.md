@@ -11,6 +11,7 @@ Use the client libraries in this package to:
 - Send/Receive/Peek/Clear/Update/Delete Queue Messages
 
 Key links:
+
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue)
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue)
 - [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-queue)
@@ -29,7 +30,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Prerequisites
 
-- An [Azure subscription](https://azure.microsoft.com/free/) 
+- An [Azure subscription](https://azure.microsoft.com/free/)
 - A [Storage Account](https://docs.microsoft.com/azure/storage/common/storage-account-create)
 
 ### Install the package
@@ -270,7 +271,7 @@ async function main() {
 main();
 ```
 
-For a complete sample on iterating queues please see [samples/typescript/iterators.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/typescript/src/iterators.ts).
+For a complete sample on iterating queues please see [samples/v12/typescript/listQueues.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/v12/typescript/src/listQueues.ts).
 
 ### Create a new queue
 
@@ -428,7 +429,7 @@ async function main() {
 main();
 ```
 
-A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/typescript/src/basic.ts).
+A complete example of simple `QueueServiceClient` scenarios is at [samples/v12/typescript/src/queueClient.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/v12/typescript/src/queueClient.ts).
 
 ## Troubleshooting
 

@@ -1,6 +1,6 @@
 # Release History
 
-## 13.0.1 (Unreleased)
+## 13.0.2 (Unreleased)
 
 ### Features Added
 
@@ -8,10 +8,15 @@
 
 ### Bugs Fixed
 
+### Other Changes
+
+## 13.0.1 (2022-01-12)
+
+### Bugs Fixed
+
+- Fix issue where custom HTTP Client passed in client options was being ignored in transactions. [#19470](https://github.com/Azure/azure-sdk-for-js/pull/19470)
 - Fix issue where optionality of expiresOn and permissions is not respected when signedIdentifier is provided.
 - Fix `createTable` not calling `onResponse` callback when the service returns `TableAlreadyExists`. [#18914](https://github.com/Azure/azure-sdk-for-js/pull/18914)
-
-### Other Changes
 
 ## 13.0.0 (2021-11-11)
 

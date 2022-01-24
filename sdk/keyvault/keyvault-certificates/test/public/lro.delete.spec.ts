@@ -9,6 +9,7 @@ import { env, Recorder } from "@azure-tools/test-recorder";
 import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../../src";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
+import { getServiceVersion } from "../utils/utils.common";
 import TestClient from "../utils/testClient";
 
 describe("Certificates client - lro - delete", () => {
@@ -19,7 +20,7 @@ describe("Certificates client - lro - delete", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     certificateSuffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;

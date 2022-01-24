@@ -1790,6 +1790,254 @@ export interface CertificateCollection {
   readonly nextLink?: string;
 }
 
+/** Container App collection ARM resource. */
+export interface ContainerAppCollection {
+  /** Collection of resources. */
+  value: ContainerApp[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Non versioned Container App configuration properties that define the mutable settings of a Container app */
+export interface Configuration {
+  /** Collection of secrets used by a Container app */
+  secrets?: Secret[];
+  /**
+   * ActiveRevisionsMode controls how active revisions are handled for the Container app:
+   * <list><item>Multiple: multiple revisions can be active. If no value if provided, this is the default</item><item>Single: Only one revision can be active at a time. Revision weights can not be used in this mode</item></list>
+   */
+  activeRevisionsMode?: ActiveRevisionsMode;
+  /** Ingress configurations. */
+  ingress?: Ingress;
+  /** Collection of private container registry credentials for containers used by the Container app */
+  registries?: RegistryCredentials[];
+}
+
+/** Container App Secret. */
+export interface Secret {
+  /** Secret Name. */
+  name?: string;
+  /** Secret Value. */
+  value?: string;
+}
+
+/** Container App Ingress configuration. */
+export interface Ingress {
+  /**
+   * Hostname.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /** Bool indicating if app exposes an external http endpoint */
+  external?: boolean;
+  /** Target Port in containers for traffic from ingress */
+  targetPort?: number;
+  /** Ingress transport protocol */
+  transport?: IngressTransportMethod;
+  traffic?: TrafficWeight[];
+  /** Bool indicating if HTTP connections to is allowed. If set to false HTTP connections are automatically redirected to HTTPS connections */
+  allowInsecure?: boolean;
+}
+
+/** Traffic weight assigned to a revision */
+export interface TrafficWeight {
+  /** Name of a revision */
+  revisionName?: string;
+  /** Traffic weight assigned to a revision */
+  weight?: number;
+  /** Indicates that the traffic weight belongs to a latest stable revision */
+  latestRevision?: boolean;
+}
+
+/** Container App Private Registry */
+export interface RegistryCredentials {
+  /** Container Registry Server */
+  server?: string;
+  /** Container Registry Username */
+  username?: string;
+  /** The name of the Secret that contains the registry login password */
+  passwordSecretRef?: string;
+}
+
+/**
+ * Container App versioned application definition.
+ * Defines the desired state of an immutable revision.
+ * Any changes to this section Will result in a new revision being created
+ */
+export interface Template {
+  /** User friendly suffix that is appended to the revision name */
+  revisionSuffix?: string;
+  /** List of container definitions for the Container App. */
+  containers?: Container[];
+  /** Scaling properties for the Container App. */
+  scale?: Scale;
+  /** Dapr configuration for the Container App. */
+  dapr?: Dapr;
+}
+
+/** Container App container definition. */
+export interface Container {
+  /** Container image tag. */
+  image?: string;
+  /** Custom container name. */
+  name?: string;
+  /** Container start command. */
+  command?: string[];
+  /** Container start command arguments. */
+  args?: string[];
+  /** Container environment variables. */
+  env?: EnvironmentVar[];
+  /** Container resource requirements. */
+  resources?: ContainerResources;
+}
+
+/** Container App container environment variable. */
+export interface EnvironmentVar {
+  /** Environment variable name. */
+  name?: string;
+  /** Non-secret environment variable value. */
+  value?: string;
+  /** Name of the Container App secret from which to pull the environment variable value. */
+  secretRef?: string;
+}
+
+/** Container App container resource requirements. */
+export interface ContainerResources {
+  /** Required CPU in cores, e.g. 0.5 */
+  cpu?: number;
+  /** Required memory, e.g. "250Mb" */
+  memory?: string;
+}
+
+/** Container App scaling configurations. */
+export interface Scale {
+  /** Optional. Minimum number of container replicas. */
+  minReplicas?: number;
+  /** Optional. Maximum number of container replicas. Defaults to 10 if not set. */
+  maxReplicas?: number;
+  /** Scaling rules. */
+  rules?: ScaleRule[];
+}
+
+/** Container App container scaling rule. */
+export interface ScaleRule {
+  /** Scale Rule Name */
+  name?: string;
+  /** Azure Queue based scaling. */
+  azureQueue?: QueueScaleRule;
+  /** Custom scale rule. */
+  custom?: CustomScaleRule;
+  /** HTTP requests based scaling. */
+  http?: HttpScaleRule;
+}
+
+/** Container App container Azure Queue based scaling rule. */
+export interface QueueScaleRule {
+  /** Queue name. */
+  queueName?: string;
+  /** Queue length. */
+  queueLength?: number;
+  /** Authentication secrets for the queue scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Auth Secrets for Container App Scale Rule */
+export interface ScaleRuleAuth {
+  /** Name of the Container App secret from which to pull the auth params. */
+  secretRef?: string;
+  /** Trigger Parameter that uses the secret */
+  triggerParameter?: string;
+}
+
+/** Container App container Custom scaling rule. */
+export interface CustomScaleRule {
+  /**
+   * Type of the custom scale rule
+   * eg: azure-servicebus, redis etc.
+   */
+  type?: string;
+  /** Metadata properties to describe custom scale rule. */
+  metadata?: { [propertyName: string]: string };
+  /** Authentication secrets for the custom scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Container App container Custom scaling rule. */
+export interface HttpScaleRule {
+  /** Metadata properties to describe http scale rule. */
+  metadata?: { [propertyName: string]: string };
+  /** Authentication secrets for the custom scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Container App Dapr configuration. */
+export interface Dapr {
+  /** Boolean indicating if the Dapr side car is enabled */
+  enabled?: boolean;
+  /** Dapr application identifier */
+  appId?: string;
+  /** Port on which the Dapr side car */
+  appPort?: number;
+  /** Collection of Dapr components */
+  components?: DaprComponent[];
+}
+
+/** Dapr component configuration */
+export interface DaprComponent {
+  /** Component name */
+  name?: string;
+  /** Component type */
+  type?: string;
+  /** Component version */
+  version?: string;
+  /** Component metadata */
+  metadata?: DaprMetadata[];
+}
+
+/** Container App Dapr component metadata. */
+export interface DaprMetadata {
+  /** Metadata property name. */
+  name?: string;
+  /** Metadata property value. */
+  value?: string;
+  /** Name of the Container App secret from which to pull the metadata property value. */
+  secretRef?: string;
+}
+
+/** Container App Secrets Collection ARM resource. */
+export interface SecretsCollection {
+  /** Collection of resources. */
+  value: ContainerAppSecret[];
+}
+
+/** Container App Secret. */
+export interface ContainerAppSecret {
+  /**
+   * Secret Name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Secret Value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+}
+
+/** Container App Revisions collection ARM resource. */
+export interface RevisionCollection {
+  /** Collection of resources. */
+  value: Revision[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Collection of deleted apps. */
 export interface DeletedWebAppCollection {
   /** Collection of resources. */
@@ -2005,6 +2253,21 @@ export interface AppLogsConfiguration {
 export interface LogAnalyticsConfiguration {
   customerId?: string;
   sharedKey?: string;
+}
+
+export interface ContainerAppsConfiguration {
+  /** Azure Monitor instrumentation key used by Dapr to export Service to Service communication telemetry */
+  daprAIInstrumentationKey?: string;
+  /** IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. It must not overlap with any other Subnet IP ranges. */
+  platformReservedCidr?: string;
+  /** An IP address from the IP range defined by platformReservedCidr that will be reserved for the internal DNS server */
+  platformReservedDnsIP?: string;
+  /** Resource ID of a subnet for control plane infrastructure components. This subnet must be in the same VNET as the subnet defined in appSubnetResourceId. Must not overlap with the IP range defined in platformReservedCidr, if defined. */
+  controlPlaneSubnetResourceId?: string;
+  /** Resource ID of a subnet for control plane infrastructure components. This subnet must be in the same VNET as the subnet defined in appSubnetResourceId. Must not overlap with the IP range defined in platformReservedCidr, if defined. */
+  appSubnetResourceId?: string;
+  /** CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the IP range defined in platformReservedCidr, if defined. */
+  dockerBridgeCidr?: string;
 }
 
 /** Collection of Application Stacks */
@@ -2548,6 +2811,17 @@ export interface ResourceNameAvailability {
   reason?: InAvailabilityReasonType;
   /** If reason == invalid, provide the user with the reason why the given name is invalid, and provide the resource naming requirements so that the user can select a valid name. If reason == AlreadyExists, explain that resource name is already in use, and direct them to select a different name. */
   message?: string;
+}
+
+/** Collection of custom hostname sites */
+export interface CustomHostnameSitesCollection {
+  /** Collection of resources. */
+  value: CustomHostnameSites[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -4464,6 +4738,83 @@ export type Certificate = Resource & {
   domainValidationMethod?: string;
 };
 
+/** Container App. */
+export type ContainerApp = Resource & {
+  /**
+   * Provisioning state of the Container App.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ContainerAppProvisioningState;
+  /** Resource ID of the Container App's KubeEnvironment. */
+  kubeEnvironmentId?: string;
+  /**
+   * Name of the latest revision of the Container App.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latestRevisionName?: string;
+  /**
+   * Fully Qualified Domain Name of the latest revision of the Container App.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latestRevisionFqdn?: string;
+  /** Non versioned Container App configuration properties. */
+  configuration?: Configuration;
+  /** Container App versioned application definition. */
+  template?: Template;
+};
+
+/** Container App Revision. */
+export type Revision = Resource & {
+  /**
+   * Timestamp describing when the revision was created
+   * by controller
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTime?: Date;
+  /**
+   * Fully qualified domain name of the revision
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /**
+   * Container App Revision Template with all possible settings and the
+   * defaults if user did not provide them. The defaults are populated
+   * as they were at the creation time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly template?: Template;
+  /**
+   * Boolean describing if the Revision is Active
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly active?: boolean;
+  /**
+   * Number of pods currently running for this revision
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicas?: number;
+  /**
+   * Traffic weight assigned to this revision
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trafficWeight?: number;
+  /**
+   * Optional Field - Platform Error Message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningError?: string;
+  /**
+   * Current health State of the revision
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly healthState?: RevisionHealthState;
+  /**
+   * Current provisioning State of the revision
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: RevisionProvisioningState;
+};
+
 /** A Kubernetes cluster specialized for web workloads by Azure App Service */
 export type KubeEnvironment = Resource & {
   /** Extended Location. */
@@ -4487,6 +4838,8 @@ export type KubeEnvironment = Resource & {
   readonly defaultDomain?: string;
   /** Static IP of the KubeEnvironment */
   staticIp?: string;
+  /** Type of Kubernetes Environment. Only supported for Container App Environments with value as Managed */
+  environmentType?: string;
   /**
    * Cluster configuration which determines the ARC cluster
    * components types. Eg: Choosing between BuildService kind,
@@ -4499,6 +4852,8 @@ export type KubeEnvironment = Resource & {
    * supported
    */
   appLogsConfiguration?: AppLogsConfiguration;
+  /** Cluster configuration for Container Apps Environments to configure Dapr Instrumentation Key and VNET Configuration */
+  containerAppsConfiguration?: ContainerAppsConfiguration;
   aksResourceID?: string;
 };
 
@@ -4552,11 +4907,10 @@ export type StaticSiteARMResource = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
-  /**
-   * The provider that submitted the last deployment to the primary environment of the static site.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
+  /** The provider that submitted the last deployment to the primary environment of the static site. */
+  provider?: string;
+  /** State indicating the status of the enterprise grade CDN serving traffic to the static web app. */
+  enterpriseGradeCdnStatus?: EnterpriseGradeCdnStatus;
 };
 
 /** Premier add-on. */
@@ -5446,6 +5800,8 @@ export type KubeEnvironmentPatchResource = ProxyOnlyResource & {
    * supported
    */
   appLogsConfiguration?: AppLogsConfiguration;
+  /** Cluster configuration for Container Apps Environments to configure Dapr Instrumentation Key and VNET Configuration */
+  containerAppsConfiguration?: ContainerAppsConfiguration;
   aksResourceID?: string;
 };
 
@@ -5673,6 +6029,19 @@ export type BillingMeter = ProxyOnlyResource & {
   multiplier?: number;
 };
 
+/** A domain specific resource identifier. */
+export type Identifier = ProxyOnlyResource & {
+  /** String representation of the identity. */
+  value?: string;
+};
+
+/** A hostname and its assigned sites */
+export type CustomHostnameSites = ProxyOnlyResource & {
+  customHostname?: string;
+  region?: string;
+  siteResourceIds?: Identifier[];
+};
+
 /** Geographical region. */
 export type GeoRegion = ProxyOnlyResource & {
   /**
@@ -5690,12 +6059,6 @@ export type GeoRegion = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly orgDomain?: string;
-};
-
-/** A domain specific resource identifier. */
-export type Identifier = ProxyOnlyResource & {
-  /** String representation of the identity. */
-  value?: string;
 };
 
 /** Premier add-on offer. */
@@ -5849,11 +6212,10 @@ export type StaticSitePatchResource = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
-  /**
-   * The provider that submitted the last deployment to the primary environment of the static site.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
+  /** The provider that submitted the last deployment to the primary environment of the static site. */
+  provider?: string;
+  /** State indicating the status of the enterprise grade CDN serving traffic to the static web app. */
+  enterpriseGradeCdnStatus?: EnterpriseGradeCdnStatus;
 };
 
 /** Static Site User ARM resource. */
@@ -7638,99 +8000,99 @@ export enum KnownRouteType {
  */
 export type RouteType = string;
 
-/** Known values of {@link Enum10} that the service accepts. */
-export enum KnownEnum10 {
-  Windows = "Windows",
-  Linux = "Linux",
-  WindowsFunctions = "WindowsFunctions",
-  LinuxFunctions = "LinuxFunctions",
-  All = "All"
+/** Known values of {@link ContainerAppProvisioningState} that the service accepts. */
+export enum KnownContainerAppProvisioningState {
+  InProgress = "InProgress",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled"
 }
 
 /**
- * Defines values for Enum10. \
- * {@link KnownEnum10} can be used interchangeably with Enum10,
+ * Defines values for ContainerAppProvisioningState. \
+ * {@link KnownContainerAppProvisioningState} can be used interchangeably with ContainerAppProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **WindowsFunctions** \
- * **LinuxFunctions** \
- * **All**
+ * **InProgress** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
  */
-export type Enum10 = string;
+export type ContainerAppProvisioningState = string;
 
-/** Known values of {@link Enum11} that the service accepts. */
-export enum KnownEnum11 {
-  Windows = "Windows",
-  Linux = "Linux",
-  All = "All"
+/** Known values of {@link ActiveRevisionsMode} that the service accepts. */
+export enum KnownActiveRevisionsMode {
+  Multiple = "multiple",
+  Single = "single"
 }
 
 /**
- * Defines values for Enum11. \
- * {@link KnownEnum11} can be used interchangeably with Enum11,
+ * Defines values for ActiveRevisionsMode. \
+ * {@link KnownActiveRevisionsMode} can be used interchangeably with ActiveRevisionsMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **All**
+ * **multiple** \
+ * **single**
  */
-export type Enum11 = string;
+export type ActiveRevisionsMode = string;
 
-/** Known values of {@link Enum12} that the service accepts. */
-export enum KnownEnum12 {
-  Windows = "Windows",
-  Linux = "Linux",
-  All = "All"
+/** Known values of {@link IngressTransportMethod} that the service accepts. */
+export enum KnownIngressTransportMethod {
+  Auto = "auto",
+  Http = "http",
+  Http2 = "http2"
 }
 
 /**
- * Defines values for Enum12. \
- * {@link KnownEnum12} can be used interchangeably with Enum12,
+ * Defines values for IngressTransportMethod. \
+ * {@link KnownIngressTransportMethod} can be used interchangeably with IngressTransportMethod,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **All**
+ * **auto** \
+ * **http** \
+ * **http2**
  */
-export type Enum12 = string;
+export type IngressTransportMethod = string;
 
-/** Known values of {@link Enum13} that the service accepts. */
-export enum KnownEnum13 {
-  Windows = "Windows",
-  Linux = "Linux",
-  All = "All"
+/** Known values of {@link RevisionHealthState} that the service accepts. */
+export enum KnownRevisionHealthState {
+  Healthy = "Healthy",
+  Unhealthy = "Unhealthy",
+  None = "None"
 }
 
 /**
- * Defines values for Enum13. \
- * {@link KnownEnum13} can be used interchangeably with Enum13,
+ * Defines values for RevisionHealthState. \
+ * {@link KnownRevisionHealthState} can be used interchangeably with RevisionHealthState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **All**
+ * **Healthy** \
+ * **Unhealthy** \
+ * **None**
  */
-export type Enum13 = string;
+export type RevisionHealthState = string;
 
-/** Known values of {@link Enum14} that the service accepts. */
-export enum KnownEnum14 {
-  Windows = "Windows",
-  Linux = "Linux",
-  All = "All"
+/** Known values of {@link RevisionProvisioningState} that the service accepts. */
+export enum KnownRevisionProvisioningState {
+  Provisioning = "Provisioning",
+  Provisioned = "Provisioned",
+  Failed = "Failed",
+  Deprovisioning = "Deprovisioning",
+  Deprovisioned = "Deprovisioned"
 }
 
 /**
- * Defines values for Enum14. \
- * {@link KnownEnum14} can be used interchangeably with Enum14,
+ * Defines values for RevisionProvisioningState. \
+ * {@link KnownRevisionProvisioningState} can be used interchangeably with RevisionProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **All**
+ * **Provisioning** \
+ * **Provisioned** \
+ * **Failed** \
+ * **Deprovisioning** \
+ * **Deprovisioned**
  */
-export type Enum14 = string;
+export type RevisionProvisioningState = string;
 
 /** Known values of {@link Enum15} that the service accepts. */
 export enum KnownEnum15 {
@@ -7753,6 +8115,100 @@ export enum KnownEnum15 {
  * **All**
  */
 export type Enum15 = string;
+
+/** Known values of {@link Enum16} that the service accepts. */
+export enum KnownEnum16 {
+  Windows = "Windows",
+  Linux = "Linux",
+  All = "All"
+}
+
+/**
+ * Defines values for Enum16. \
+ * {@link KnownEnum16} can be used interchangeably with Enum16,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Windows** \
+ * **Linux** \
+ * **All**
+ */
+export type Enum16 = string;
+
+/** Known values of {@link Enum17} that the service accepts. */
+export enum KnownEnum17 {
+  Windows = "Windows",
+  Linux = "Linux",
+  All = "All"
+}
+
+/**
+ * Defines values for Enum17. \
+ * {@link KnownEnum17} can be used interchangeably with Enum17,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Windows** \
+ * **Linux** \
+ * **All**
+ */
+export type Enum17 = string;
+
+/** Known values of {@link Enum18} that the service accepts. */
+export enum KnownEnum18 {
+  Windows = "Windows",
+  Linux = "Linux",
+  All = "All"
+}
+
+/**
+ * Defines values for Enum18. \
+ * {@link KnownEnum18} can be used interchangeably with Enum18,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Windows** \
+ * **Linux** \
+ * **All**
+ */
+export type Enum18 = string;
+
+/** Known values of {@link Enum19} that the service accepts. */
+export enum KnownEnum19 {
+  Windows = "Windows",
+  Linux = "Linux",
+  All = "All"
+}
+
+/**
+ * Defines values for Enum19. \
+ * {@link KnownEnum19} can be used interchangeably with Enum19,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Windows** \
+ * **Linux** \
+ * **All**
+ */
+export type Enum19 = string;
+
+/** Known values of {@link Enum20} that the service accepts. */
+export enum KnownEnum20 {
+  Windows = "Windows",
+  Linux = "Linux",
+  WindowsFunctions = "WindowsFunctions",
+  LinuxFunctions = "LinuxFunctions",
+  All = "All"
+}
+
+/**
+ * Defines values for Enum20. \
+ * {@link KnownEnum20} can be used interchangeably with Enum20,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Windows** \
+ * **Linux** \
+ * **WindowsFunctions** \
+ * **LinuxFunctions** \
+ * **All**
+ */
+export type Enum20 = string;
 
 /** Known values of {@link ResourceScopeType} that the service accepts. */
 export enum KnownResourceScopeType {
@@ -7871,6 +8327,26 @@ export enum KnownValidateResourceTypes {
  * **Microsoft.Web\/hostingEnvironments**
  */
 export type ValidateResourceTypes = string;
+
+/** Known values of {@link EnterpriseGradeCdnStatus} that the service accepts. */
+export enum KnownEnterpriseGradeCdnStatus {
+  Enabled = "Enabled",
+  Enabling = "Enabling",
+  Disabled = "Disabled",
+  Disabling = "Disabling"
+}
+
+/**
+ * Defines values for EnterpriseGradeCdnStatus. \
+ * {@link KnownEnterpriseGradeCdnStatus} can be used interchangeably with EnterpriseGradeCdnStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Enabling** \
+ * **Disabled** \
+ * **Disabling**
+ */
+export type EnterpriseGradeCdnStatus = string;
 
 /** Known values of {@link BuildStatus} that the service accepts. */
 export enum KnownBuildStatus {
@@ -8630,6 +9106,13 @@ export type DomainsUpdateOwnershipIdentifierResponse = DomainOwnershipIdentifier
 /** Optional parameters. */
 export interface DomainsRenewOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DomainsTransferOutOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the transferOut operation. */
+export type DomainsTransferOutResponse = Domain;
 
 /** Optional parameters. */
 export interface DomainsListNextOptionalParams
@@ -9535,6 +10018,102 @@ export interface CertificatesListByResourceGroupNextOptionalParams
 export type CertificatesListByResourceGroupNextResponse = CertificateCollection;
 
 /** Optional parameters. */
+export interface ContainerAppsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type ContainerAppsListBySubscriptionResponse = ContainerAppCollection;
+
+/** Optional parameters. */
+export interface ContainerAppsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ContainerAppsListByResourceGroupResponse = ContainerAppCollection;
+
+/** Optional parameters. */
+export interface ContainerAppsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ContainerAppsGetResponse = ContainerApp;
+
+/** Optional parameters. */
+export interface ContainerAppsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ContainerAppsCreateOrUpdateResponse = ContainerApp;
+
+/** Optional parameters. */
+export interface ContainerAppsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ContainerAppsListSecretsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSecrets operation. */
+export type ContainerAppsListSecretsResponse = SecretsCollection;
+
+/** Optional parameters. */
+export interface ContainerAppsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type ContainerAppsListBySubscriptionNextResponse = ContainerAppCollection;
+
+/** Optional parameters. */
+export interface ContainerAppsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ContainerAppsListByResourceGroupNextResponse = ContainerAppCollection;
+
+/** Optional parameters. */
+export interface ContainerAppsRevisionsListRevisionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listRevisions operation. */
+export type ContainerAppsRevisionsListRevisionsResponse = RevisionCollection;
+
+/** Optional parameters. */
+export interface ContainerAppsRevisionsGetRevisionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getRevision operation. */
+export type ContainerAppsRevisionsGetRevisionResponse = Revision;
+
+/** Optional parameters. */
+export interface ContainerAppsRevisionsActivateRevisionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ContainerAppsRevisionsDeactivateRevisionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ContainerAppsRevisionsRestartRevisionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ContainerAppsRevisionsListRevisionsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listRevisionsNext operation. */
+export type ContainerAppsRevisionsListRevisionsNextResponse = RevisionCollection;
+
+/** Optional parameters. */
 export interface DeletedWebAppsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -9919,7 +10498,7 @@ export type KubeEnvironmentsListByResourceGroupNextResponse = KubeEnvironmentCol
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum10;
+  osTypeSelected?: Enum15;
 }
 
 /** Contains response data for the getAvailableStacks operation. */
@@ -9929,7 +10508,7 @@ export type ProviderGetAvailableStacksResponse = ApplicationStackCollection;
 export interface ProviderGetFunctionAppStacksOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum11;
+  stackOsType?: Enum16;
 }
 
 /** Contains response data for the getFunctionAppStacks operation. */
@@ -9939,7 +10518,7 @@ export type ProviderGetFunctionAppStacksResponse = FunctionAppStackCollection;
 export interface ProviderGetFunctionAppStacksForLocationOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum12;
+  stackOsType?: Enum17;
 }
 
 /** Contains response data for the getFunctionAppStacksForLocation operation. */
@@ -9949,7 +10528,7 @@ export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCo
 export interface ProviderGetWebAppStacksForLocationOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum13;
+  stackOsType?: Enum18;
 }
 
 /** Contains response data for the getWebAppStacksForLocation operation. */
@@ -9966,7 +10545,7 @@ export type ProviderListOperationsResponse = CsmOperationCollection;
 export interface ProviderGetWebAppStacksOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum14;
+  stackOsType?: Enum19;
 }
 
 /** Contains response data for the getWebAppStacks operation. */
@@ -9975,7 +10554,7 @@ export type ProviderGetWebAppStacksResponse = WebAppStackCollection;
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOnPremOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum15;
+  osTypeSelected?: Enum20;
 }
 
 /** Contains response data for the getAvailableStacksOnPrem operation. */
@@ -9984,7 +10563,7 @@ export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollectio
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksNextOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum10;
+  osTypeSelected?: Enum15;
 }
 
 /** Contains response data for the getAvailableStacksNext operation. */
@@ -9994,7 +10573,7 @@ export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
 export interface ProviderGetFunctionAppStacksNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum11;
+  stackOsType?: Enum16;
 }
 
 /** Contains response data for the getFunctionAppStacksNext operation. */
@@ -10004,7 +10583,7 @@ export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollectio
 export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum12;
+  stackOsType?: Enum17;
 }
 
 /** Contains response data for the getFunctionAppStacksForLocationNext operation. */
@@ -10014,7 +10593,7 @@ export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppSta
 export interface ProviderGetWebAppStacksForLocationNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum13;
+  stackOsType?: Enum18;
 }
 
 /** Contains response data for the getWebAppStacksForLocationNext operation. */
@@ -10031,7 +10610,7 @@ export type ProviderListOperationsNextResponse = CsmOperationCollection;
 export interface ProviderGetWebAppStacksNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum14;
+  stackOsType?: Enum19;
 }
 
 /** Contains response data for the getWebAppStacksNext operation. */
@@ -10040,7 +10619,7 @@ export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection;
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOnPremNextOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum15;
+  osTypeSelected?: Enum20;
 }
 
 /** Contains response data for the getAvailableStacksOnPremNext operation. */
@@ -10350,6 +10929,13 @@ export interface CheckNameAvailabilityOptionalParams
 export type CheckNameAvailabilityResponse = ResourceNameAvailability;
 
 /** Optional parameters. */
+export interface ListCustomHostNameSitesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listCustomHostNameSites operation. */
+export type ListCustomHostNameSitesResponse = CustomHostnameSitesCollection;
+
+/** Optional parameters. */
 export interface GetSubscriptionDeploymentLocationsOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -10430,6 +11016,13 @@ export interface ListBillingMetersNextOptionalParams
 
 /** Contains response data for the listBillingMetersNext operation. */
 export type ListBillingMetersNextResponse = BillingMeterCollection;
+
+/** Optional parameters. */
+export interface ListCustomHostNameSitesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listCustomHostNameSitesNext operation. */
+export type ListCustomHostNameSitesNextResponse = CustomHostnameSitesCollection;
 
 /** Optional parameters. */
 export interface ListGeoRegionsNextOptionalParams
@@ -11081,6 +11674,13 @@ export interface WebAppsGetAuthSettingsOptionalParams
 
 /** Contains response data for the getAuthSettings operation. */
 export type WebAppsGetAuthSettingsResponse = SiteAuthSettings;
+
+/** Optional parameters. */
+export interface WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAuthSettingsV2WithoutSecrets operation. */
+export type WebAppsGetAuthSettingsV2WithoutSecretsResponse = SiteAuthSettingsV2;
 
 /** Optional parameters. */
 export interface WebAppsUpdateAuthSettingsV2OptionalParams

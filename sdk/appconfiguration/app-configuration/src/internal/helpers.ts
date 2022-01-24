@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { featureFlagContentType, ListConfigurationSettingsOptions } from "..";
 import { URLBuilder } from "@azure/core-http";
 import {
+  ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ConfigurationSettingId,
   ConfigurationSetting,
@@ -14,7 +14,7 @@ import {
   ConfigurationSettingParam,
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
-import { FeatureFlagHelper, FeatureFlagValue } from "../featureFlag";
+import { featureFlagContentType, FeatureFlagHelper, FeatureFlagValue } from "../featureFlag";
 import {
   secretReferenceContentType,
   SecretReferenceHelper,

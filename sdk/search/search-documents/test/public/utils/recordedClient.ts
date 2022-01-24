@@ -57,20 +57,34 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: [],
 };
 
-export function createClients<IndexModel>(indexName: string): Clients<IndexModel> {
+export function createClients<IndexModel>(
+  indexName: string,
+  serviceVersion: string
+): Clients<IndexModel> {
+  let endPoint: string = "https://endpoint";
+
   switch (testEnv.AZURE_AUTHORITY_HOST) {
     case "https://login.microsoftonline.us":
-      process.env.ENDPOINT = process.env.ENDPOINT!.toString().replace(".windows.net", ".azure.us");
+      endPoint = process.env.USENDPOINT ?? "https://endpoint";
       break;
     case "https://login.chinacloudapi.cn":
-      process.env.ENDPOINT = process.env.ENDPOINT!.toString().replace(".windows.net", ".azure.cn");
+      endPoint = process.env.CHINAENDPOINT ?? "https://endpoint";
+      break;
+    default:
+      endPoint = process.env.ENDPOINT ?? "https://endpoint";
       break;
   }
 
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
-  const searchClient = new SearchClient<IndexModel>(testEnv.ENDPOINT, indexName, credential);
-  const indexClient = new SearchIndexClient(testEnv.ENDPOINT, credential);
-  const indexerClient = new SearchIndexerClient(testEnv.ENDPOINT, credential);
+  const searchClient = new SearchClient<IndexModel>(endPoint, indexName, credential, {
+    serviceVersion,
+  });
+  const indexClient = new SearchIndexClient(endPoint, credential, {
+    serviceVersion,
+  });
+  const indexerClient = new SearchIndexerClient(endPoint, credential, {
+    serviceVersion,
+  });
 
   return {
     searchClient,

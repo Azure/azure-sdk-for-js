@@ -11,7 +11,7 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ArtifactTagProperties,
   ArtifactManifestProperties,
-  TagOrderBy,
+  ArtifactTagOrder,
   TagPageResponse,
 } from "./models";
 import { URL } from "./utils/url";
@@ -69,8 +69,8 @@ export interface UpdateManifestPropertiesOptions extends OperationOptions {
  * Options for the `listTagProperties` method of `RegistryArtifact`.
  */
 export interface ListTagPropertiesOptions extends OperationOptions {
-  /** orderby query parameter */
-  orderBy?: TagOrderBy;
+  /** order in which the tags are returned */
+  order?: ArtifactTagOrder;
 }
 
 /**
@@ -535,7 +535,7 @@ export class RegistryArtifactImpl {
     continuationState: PageSettings,
     options: ListTagPropertiesOptions = {}
   ): AsyncIterableIterator<TagPageResponse> {
-    const orderby = toServiceTagOrderBy(options.orderBy);
+    const orderby = toServiceTagOrderBy(options.order);
     if (!continuationState.continuationToken) {
       const optionsComplete = {
         ...options,

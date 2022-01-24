@@ -10,6 +10,7 @@ import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from 
 import { assertThrowsAbortError } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
+import { getServiceVersion } from "../utils/utils.common";
 import TestClient from "../utils/testClient";
 
 describe("Certificates client - LRO - recoverDelete", () => {
@@ -20,7 +21,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     certificateSuffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;

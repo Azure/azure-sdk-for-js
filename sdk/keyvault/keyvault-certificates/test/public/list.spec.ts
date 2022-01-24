@@ -11,6 +11,7 @@ import { CertificateClient } from "../../src";
 import { assertThrowsAbortError } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
+import { getServiceVersion } from "../utils/utils.common";
 import TestClient from "../utils/testClient";
 
 const { expect } = chai;
@@ -28,7 +29,7 @@ describe("Certificates client - list certificates in various ways", () => {
   };
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     suffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;
