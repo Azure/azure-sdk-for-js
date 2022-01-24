@@ -43,6 +43,7 @@ function makeBrowserTestConfigPatch() {
     inject({
       modules: {
         Buffer: ["buffer", "Buffer"],
+        process: "process",
       },
       exclude: ["./**/package.json"],
     }),
