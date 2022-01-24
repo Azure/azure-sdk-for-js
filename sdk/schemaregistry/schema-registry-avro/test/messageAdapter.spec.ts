@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { EventData, createEventDataAdapter } from "@azure/event-hubs";
-import { SendCloudEventInput, createCloudEventAdapter } from "@azure/eventgrid";
+import { matrix } from "@azure/test-utils";
 import { MessageAdapter } from "../src/models";
 import { assert } from "chai";
 
@@ -10,70 +10,56 @@ function isMessageAdapter<MessageT>(obj: any): obj is MessageAdapter<MessageT> {
   return typeof obj.produceMessage === "function" && typeof obj.consumeMessage === "function";
 }
 
-type CloudEvent = SendCloudEventInput<Uint8Array>;
+/**
+ * some tests consume messages with well-formed Uint8Array payload so this variable
+ * is used to construct those.
+ */
+const dummyUint8Array = Uint8Array.from([0]);
+
+/**
+ * An interface to group different bits needed by the tests for each adapter
+ * factory
+ */
+interface AdapterTestInfo<T> {
+  adapterFactory: MessageAdapter<T>;
+  nonUint8ArrayMessage: T;
+  testSuiteName: string;
+}
+
+const eventDataAdapterTestInfo: AdapterTestInfo<EventData> = {
+  adapterFactory: createEventDataAdapter(),
+  nonUint8ArrayMessage: {
+    body: "",
+    contentType: "",
+  },
+  testSuiteName: createEventDataAdapter.name,
+};
 
 describe("Message Adapters", function () {
-  describe("createEventDataAdapter", function () {
-    const adapter: MessageAdapter<EventData> = createEventDataAdapter();
-    it("Adapter implements MessageAdapter", async () => {
-      assert.isTrue(
-        isMessageAdapter<EventData>(adapter),
-        `createEventDataAdapter should create a valid MessageAdapter`
-      );
-    });
-    it("consumeMessage rejects non-Uint8Array body", async () => {
-      assert.throws(
-        () =>
-          adapter.consumeMessage({
-            body: "",
-            contentType: "",
-          }),
-        /Expected the body field to defined and have a Uint8Array/
-      );
-    });
-    it("consumeMessage rejects messages with no contentType", async () => {
-      assert.throws(
-        () =>
-          adapter.consumeMessage({
-            body: Uint8Array.from([0]),
-          }),
-        /Expected the contentType field to be defined/
-      );
-    });
-  });
-  describe("createCloudEventAdapter", function () {
-    const adapter: MessageAdapter<CloudEvent> = createCloudEventAdapter({
-      source: "",
-      type: "",
-    });
-    it("Adapter implements MessageAdapter", async () => {
-      assert.isTrue(
-        isMessageAdapter<CloudEvent>(adapter),
-        `createCloudEventAdapter should create a valid MessageAdapter`
-      );
-    });
-    it("consumeMessage rejects non-Uint8Array body", async () => {
-      assert.throws(
-        () =>
-          adapter.consumeMessage({
-            data: "" as any,
-            datacontenttype: "",
-            source: "",
-            type: "",
-          }),
-        /Expected the data field to defined and have a Uint8Array/
-      );
-    });
-    it("consumeMessage rejects messages with no contentType", async () => {
-      assert.throws(
-        () =>
-          adapter.consumeMessage({
-            data: Uint8Array.from([0]),
-            source: "",
-            type: "",
-          }),
-        /Expected the datacontenttype field to be defined/
-      );
+  matrix([[eventDataAdapterTestInfo]] as const, async (adapterTestInfo: AdapterTestInfo<any>) => {
+    describe(adapterTestInfo.testSuiteName, function () {
+      const adapter: MessageAdapter<EventData> = adapterTestInfo.adapterFactory;
+      it("Adapter implements MessageAdapter", async () => {
+        assert.isTrue(
+          isMessageAdapter<EventData>(adapter),
+          `createEventDataAdapter should create a valid MessageAdapter`
+        );
+      });
+      it("consumeMessage rejects non-Uint8Array body", async () => {
+        assert.throws(
+          () => adapter.consumeMessage(adapterTestInfo.nonUint8ArrayMessage),
+          /Expected the body field to defined and have a Uint8Array/
+        );
+      });
+      it("consumeMessage rejects messages with no contentType", async () => {
+        assert.throws(
+          () =>
+            adapter.consumeMessage({
+              body: dummyUint8Array,
+            }),
+          /Expected the contentType field to be defined/
+        );
+      });
     });
   });
 });
