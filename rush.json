@@ -1554,6 +1554,11 @@
       "packageName": "@azure/arm-vmwarecloudsimple",
       "projectFolder": "sdk/vmwarecloudsimple/arm-vmwarecloudsimple",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-kusto",
+      "projectFolder": "sdk/kusto/arm-kusto",
+      "versionPolicyName": "management"
     }
   ]
 }
