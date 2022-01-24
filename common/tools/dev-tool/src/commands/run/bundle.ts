@@ -99,8 +99,8 @@ export default leafCommand(commandInfo, async (options) => {
     log.debug("Computed PNPM store relative path:", pnpmStore);
 
     // Get a glob for a package name in the PNPM store
-    const globFromStore = (name: string): string =>
-      [pnpmStore, name.split("/").join("+"), "@*", "**/*.js"].join("/");
+    //const globFromStore = (name: string): string =>
+    //  [pnpmStore, name.split("/").join("+"), "@*", "**/*.js"].join("/");
 
     const browserTestConfig = {
       input: {
