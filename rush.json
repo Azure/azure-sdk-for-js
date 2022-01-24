@@ -1554,6 +1554,11 @@
       "packageName": "@azure/arm-vmwarecloudsimple",
       "projectFolder": "sdk/vmwarecloudsimple/arm-vmwarecloudsimple",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicefabricmesh",
+      "projectFolder": "sdk/servicefabricmesh/arm-servicefabricmesh",
+      "versionPolicyName": "management"
     }
   ]
 }
