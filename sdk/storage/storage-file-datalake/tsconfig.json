@@ -1,15 +1,18 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "declarationDir": "./typings/latest",
+    "declarationDir": "./types/latest",
     "outDir": "./dist-esm",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"]
+    "lib": ["dom", "es5", "es6", "es7", "esnext"],
+
+    "paths": {
+      "@azure/storage-file-datalake": ["./src/index"]
+    }
   },
-  "exclude": [
-    "node_modules",
-    "./typings/**/*.d.ts",
-    "./samples/**",
-    "../storage-common/node_modules"
-  ],
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "../storage-common/**/*.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.ts",
+    "./samples-dev/**/*.ts",
+    "../storage-common/**/*.ts"
+  ]
 }

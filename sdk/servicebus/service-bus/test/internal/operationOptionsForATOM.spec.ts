@@ -264,7 +264,7 @@ describe("Operation Options", () => {
                     children: [
                       {
                         children: [],
-                        name: "/$namespaceinfo",
+                        name: "HTTP GET",
                       },
                     ],
                     name: "Azure.ServiceBus.ServiceBusAdministrationClient-getResource",

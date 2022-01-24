@@ -44,8 +44,7 @@ describe("Can handle user event", function () {
   });
 
   it("Should not handle the request if request is not cloud events", async function () {
-    const endSpy = sinon.spy(res.end);
-
+    const endSpy = sinon.spy(res, "end");
     const dispatcher = new CloudEventsDispatcher("hub1");
     const result = await dispatcher.handleRequest(req, res);
     assert.isFalse(result);
@@ -53,13 +52,96 @@ describe("Can handle user event", function () {
   });
 
   it("Should not handle the request if hub does not match", async function () {
-    const endSpy = sinon.spy(res.end);
+    const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub1");
     const result = await dispatcher.handleRequest(req, res);
     assert.isFalse(result);
     assert.isTrue(endSpy.notCalled);
+  });
+
+  it("Should handle number requests", async function () {
+    const endSpy = sinon.spy(res, "end");
+    buildRequest(req, "hub", "conn1");
+
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (request, response) => {
+        assert.equal(request.dataType, "json");
+        assert.equal(typeof request.data, "number");
+        assert.strictEqual(1, request.data);
+        response.success();
+      },
+    });
+    const process = dispatcher.handleRequest(req, res);
+    mockBody(req, JSON.stringify(1));
+    const result = await process;
+
+    assert.isTrue(result);
+    assert.equal(200, res.statusCode, "should be 200");
+    assert.isTrue(endSpy.calledOnce);
+  });
+
+  it("Should handle boolean requests", async function () {
+    const endSpy = sinon.spy(res, "end");
+    buildRequest(req, "hub", "conn1");
+
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (request, response) => {
+        assert.equal(request.dataType, "json");
+        assert.equal(typeof request.data, "boolean");
+        assert.strictEqual(true, request.data);
+        response.success();
+      },
+    });
+    const process = dispatcher.handleRequest(req, res);
+    mockBody(req, JSON.stringify(true));
+    const result = await process;
+
+    assert.isTrue(result);
+    assert.equal(200, res.statusCode, "should be 200");
+    assert.isTrue(endSpy.calledOnce);
+  });
+
+  it("Should handle complex object requests", async function () {
+    const endSpy = sinon.spy(res, "end");
+    buildRequest(req, "hub", "conn1");
+
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (request, response) => {
+        assert.equal(request.dataType, "json");
+        assert.equal(typeof request.data, "object");
+        assert.equal((<{ a: number }>request.data).a, 1);
+        response.success();
+      },
+    });
+    const process = dispatcher.handleRequest(req, res);
+    mockBody(req, JSON.stringify({ a: 1 }));
+    const result = await process;
+
+    assert.isTrue(result);
+    assert.isTrue(endSpy.calledOnce);
+  });
+
+  it("Should handle complex array requests", async function () {
+    const endSpy = sinon.spy(res, "end");
+    buildRequest(req, "hub", "conn1");
+
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (request, response) => {
+        assert.equal(request.dataType, "json");
+        assert.equal(typeof request.data, "object");
+        assert.isTrue(Array.isArray(request.data));
+        assert.deepEqual(request.data, [1, 2, 3]);
+        response.success();
+      },
+    });
+    const process = dispatcher.handleRequest(req, res);
+    mockBody(req, JSON.stringify([1, 2, 3]));
+    const result = await process;
+
+    assert.isTrue(result);
+    assert.isTrue(endSpy.calledOnce);
   });
 
   it("Should response with 200 when option is not specified", async function () {

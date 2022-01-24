@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ConfigurationSetting, GeneratedClient } from "./generated";
 import {
+  InternalPipelineOptions,
+  OperationOptions,
   PipelineOptions,
   TokenCredential,
-  OperationOptions,
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
-  InternalPipelineOptions,
 } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
-
 import { SDK_VERSION } from "./constants";
-import { logger } from "./logger";
-import { ConfigurationSetting, GeneratedClient } from "./generated";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./tracing";
+import { logger } from "./logger";
 import { quoteETag } from "./util";
 
 // re-export generated types that are used as public interfaces.

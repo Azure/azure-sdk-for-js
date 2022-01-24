@@ -4,33 +4,33 @@ let argv = require("yargs")
       type: "string",
       describe:
         "name of the artifact to be incremented (e.g. azure-keyvault-secrets), will be translated to @azure/(package) format",
-      demandOption: true
+      demandOption: true,
     },
     "repo-root": {
       type: "string",
       default: "../../../",
       describe: "root of the repository (e.g. ../../../)",
-      demandOption: true
+      demandOption: true,
     },
     "version-type": {
       type: "string",
       describe: "whether you want to test max or min or same version of dependencies",
-      demandOption: true
+      demandOption: true,
     },
     "source-dir": {
       type: "string",
       describe: "complete local path of the directory of the repo",
-      demandOption: true
+      demandOption: true,
     },
     "test-folder": {
       type: "string",
       default: "test",
       describe: "whether to point at test or test/public",
-      demandOption: false
+      demandOption: false,
     },
     "dry-run": {
-      type: "boolean"
-    }
+      type: "boolean",
+    },
   })
   .help().argv;
 
@@ -64,9 +64,8 @@ function outputTestPath(projectFolderPath, sourceDir, testFolder) {
  */
 async function usePackageTestTimeout(testPackageJson, packageJsonContents) {
   if (packageJsonContents.scripts["integration-test:node"]) {
-    let replaceWithTimeout = packageJsonContents.scripts["integration-test:node"].match(
-      /--timeout [0-9]+/
-    );
+    let replaceWithTimeout =
+      packageJsonContents.scripts["integration-test:node"].match(/--timeout [0-9]+/);
     if (replaceWithTimeout !== null) {
       testPackageJson.scripts["integration-test:node"] = testPackageJson.scripts[
         "integration-test:node"
@@ -311,7 +310,7 @@ async function replaceSourceReferences(targetPackagePath, packageName, testFolde
 async function getVersions(packageName) {
   const promise = new Promise(async (res, rej) => {
     let npmProcess = crossSpawn("npm", ["view", packageName, "versions", "--json"], {
-      stdout: "inherit"
+      stdout: "inherit",
     });
     let stdOut = "";
     let stdErr = "";
@@ -350,7 +349,7 @@ async function updateRushConfig(repoRoot, targetPackage, testFolder) {
   const testPackageEntry = {
     packageName: testPackageJson.name,
     projectFolder: testProjectFolder,
-    versionPolicyName: "client"
+    versionPolicyName: "client",
   };
   rushSpec.projects.push(testPackageEntry);
   rushSpec.projectFolderMaxDepth = 5;

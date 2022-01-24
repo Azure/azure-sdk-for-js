@@ -6,6 +6,7 @@
     "@azure/azure-sdk/ts-apiextractor-json-types": "off",
     "@azure/azure-sdk/ts-package-json-types": "off",
     "@azure/azure-sdk/ts-package-json-module": "off",
-    "@azure/azure-sdk/ts-package-json-files-required": "off"
+    "@azure/azure-sdk/ts-package-json-files-required": "off",
+    "sort-imports": "error"
   }
 }

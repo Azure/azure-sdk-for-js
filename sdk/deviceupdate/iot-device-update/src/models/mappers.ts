@@ -17,12 +17,12 @@ export const ImportUpdateInput: coreHttp.CompositeMapper = {
         serializedName: "importManifest",
         type: {
           name: "Composite",
-          className: "ImportManifestMetadata"
-        }
+          className: "ImportManifestMetadata",
+        },
       },
       files: {
         constraints: {
-          MinItems: 1
+          MinItems: 1,
         },
         serializedName: "files",
         required: true,
@@ -31,13 +31,13 @@ export const ImportUpdateInput: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "FileImportMetadata"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "FileImportMetadata",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ImportManifestMetadata: coreHttp.CompositeMapper = {
@@ -49,26 +49,26 @@ export const ImportManifestMetadata: coreHttp.CompositeMapper = {
         serializedName: "url",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sizeInBytes: {
         serializedName: "sizeInBytes",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       hashes: {
         serializedName: "hashes",
         required: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const FileImportMetadata: coreHttp.CompositeMapper = {
@@ -80,18 +80,18 @@ export const FileImportMetadata: coreHttp.CompositeMapper = {
         serializedName: "filename",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       url: {
         serializedName: "url",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Update: coreHttp.CompositeMapper = {
@@ -103,26 +103,26 @@ export const Update: coreHttp.CompositeMapper = {
         serializedName: "updateId",
         type: {
           name: "Composite",
-          className: "UpdateId"
-        }
+          className: "UpdateId",
+        },
       },
       updateType: {
         serializedName: "updateType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       installedCriteria: {
         serializedName: "installedCriteria",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       compatibility: {
         constraints: {
-          MinItems: 1
+          MinItems: 1,
         },
         serializedName: "compatibility",
         required: true,
@@ -131,40 +131,40 @@ export const Update: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Compatibility"
-            }
-          }
-        }
+              className: "Compatibility",
+            },
+          },
+        },
       },
       manifestVersion: {
         serializedName: "manifestVersion",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       importedDateTime: {
         serializedName: "importedDateTime",
         required: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       createdDateTime: {
         serializedName: "createdDateTime",
         required: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       etag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UpdateId: coreHttp.CompositeMapper = {
@@ -176,25 +176,25 @@ export const UpdateId: coreHttp.CompositeMapper = {
         serializedName: "provider",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       version: {
         serializedName: "version",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Compatibility: coreHttp.CompositeMapper = {
@@ -206,18 +206,18 @@ export const Compatibility: coreHttp.CompositeMapper = {
         serializedName: "deviceManufacturer",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deviceModel: {
         serializedName: "deviceModel",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PageableListOfStrings: coreHttp.CompositeMapper = {
@@ -231,19 +231,19 @@ export const PageableListOfStrings: coreHttp.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const File: coreHttp.CompositeMapper = {
@@ -255,45 +255,45 @@ export const File: coreHttp.CompositeMapper = {
         serializedName: "fileId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       fileName: {
         serializedName: "fileName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sizeInBytes: {
         serializedName: "sizeInBytes",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       hashes: {
         serializedName: "hashes",
         required: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       mimeType: {
         serializedName: "mimeType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       etag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PageableListOfOperations: coreHttp.CompositeMapper = {
@@ -308,19 +308,19 @@ export const PageableListOfOperations: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
+              className: "Operation",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Operation: coreHttp.CompositeMapper = {
@@ -332,64 +332,64 @@ export const Operation: coreHttp.CompositeMapper = {
         serializedName: "operationId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       status: {
         serializedName: "status",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       updateId: {
         serializedName: "updateId",
         type: {
           name: "Composite",
-          className: "UpdateId"
-        }
+          className: "UpdateId",
+        },
       },
       resourceLocation: {
         serializedName: "resourceLocation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorModel"
-        }
+          className: "ErrorModel",
+        },
       },
       traceId: {
         serializedName: "traceId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastActionDateTime: {
         serializedName: "lastActionDateTime",
         required: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       createdDateTime: {
         serializedName: "createdDateTime",
         required: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       etag: {
         serializedName: "etag",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorModel: coreHttp.CompositeMapper = {
@@ -401,21 +401,21 @@ export const ErrorModel: coreHttp.CompositeMapper = {
         serializedName: "code",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -424,26 +424,26 @@ export const ErrorModel: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorModel"
-            }
-          }
-        }
+              className: "ErrorModel",
+            },
+          },
+        },
       },
       innererror: {
         serializedName: "innererror",
         type: {
           name: "Composite",
-          className: "InnerError"
-        }
+          className: "InnerError",
+        },
       },
       occurredDateTime: {
         serializedName: "occurredDateTime",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const InnerError: coreHttp.CompositeMapper = {
@@ -455,30 +455,30 @@ export const InnerError: coreHttp.CompositeMapper = {
         serializedName: "code",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errorDetail: {
         serializedName: "errorDetail",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       innerError: {
         serializedName: "innerError",
         type: {
           name: "Composite",
-          className: "InnerError"
-        }
-      }
-    }
-  }
+          className: "InnerError",
+        },
+      },
+    },
+  },
 };
 
 export const PageableListOfDeviceClasses: coreHttp.CompositeMapper = {
@@ -493,19 +493,19 @@ export const PageableListOfDeviceClasses: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DeviceClass"
-            }
-          }
-        }
+              className: "DeviceClass",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeviceClass: coreHttp.CompositeMapper = {
@@ -517,32 +517,32 @@ export const DeviceClass: coreHttp.CompositeMapper = {
         serializedName: "deviceClassId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       manufacturer: {
         serializedName: "manufacturer",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       model: {
         serializedName: "model",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       bestCompatibleUpdateId: {
         serializedName: "bestCompatibleUpdateId",
         type: {
           name: "Composite",
-          className: "UpdateId"
-        }
-      }
-    }
-  }
+          className: "UpdateId",
+        },
+      },
+    },
+  },
 };
 
 export const PageableListOfUpdateIds: coreHttp.CompositeMapper = {
@@ -557,19 +557,19 @@ export const PageableListOfUpdateIds: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "UpdateId"
-            }
-          }
-        }
+              className: "UpdateId",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PageableListOfDevices: coreHttp.CompositeMapper = {
@@ -584,19 +584,19 @@ export const PageableListOfDevices: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Device"
-            }
-          }
-        }
+              className: "Device",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Device: coreHttp.CompositeMapper = {
@@ -608,71 +608,71 @@ export const Device: coreHttp.CompositeMapper = {
         serializedName: "deviceId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deviceClassId: {
         serializedName: "deviceClassId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       manufacturer: {
         serializedName: "manufacturer",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       model: {
         serializedName: "model",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       groupId: {
         serializedName: "groupId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       lastAttemptedUpdateId: {
         serializedName: "lastAttemptedUpdateId",
         type: {
           name: "Composite",
-          className: "UpdateId"
-        }
+          className: "UpdateId",
+        },
       },
       deploymentStatus: {
         serializedName: "deploymentStatus",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       installedUpdateId: {
         serializedName: "installedUpdateId",
         type: {
           name: "Composite",
-          className: "UpdateId"
-        }
+          className: "UpdateId",
+        },
       },
       onLatestUpdate: {
         serializedName: "onLatestUpdate",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       lastDeploymentId: {
         serializedName: "lastDeploymentId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UpdateCompliance: coreHttp.CompositeMapper = {
@@ -684,32 +684,32 @@ export const UpdateCompliance: coreHttp.CompositeMapper = {
         serializedName: "totalDeviceCount",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       onLatestUpdateDeviceCount: {
         serializedName: "onLatestUpdateDeviceCount",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       newUpdatesAvailableDeviceCount: {
         serializedName: "newUpdatesAvailableDeviceCount",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       updatesInProgressDeviceCount: {
         serializedName: "updatesInProgressDeviceCount",
         required: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const PageableListOfDeviceTags: coreHttp.CompositeMapper = {
@@ -724,19 +724,19 @@ export const PageableListOfDeviceTags: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DeviceTag"
-            }
-          }
-        }
+              className: "DeviceTag",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeviceTag: coreHttp.CompositeMapper = {
@@ -748,18 +748,18 @@ export const DeviceTag: coreHttp.CompositeMapper = {
         serializedName: "tagName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deviceCount: {
         serializedName: "deviceCount",
         required: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const PageableListOfGroups: coreHttp.CompositeMapper = {
@@ -774,19 +774,19 @@ export const PageableListOfGroups: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Group"
-            }
-          }
-        }
+              className: "Group",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Group: coreHttp.CompositeMapper = {
@@ -798,15 +798,15 @@ export const Group: coreHttp.CompositeMapper = {
         serializedName: "groupId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       groupType: {
         serializedName: "groupType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tags: {
         serializedName: "tags",
@@ -815,26 +815,26 @@ export const Group: coreHttp.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       createdDateTime: {
         serializedName: "createdDateTime",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deviceCount: {
         serializedName: "deviceCount",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const PageableListOfUpdatableDevices: coreHttp.CompositeMapper = {
@@ -849,19 +849,19 @@ export const PageableListOfUpdatableDevices: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "UpdatableDevices"
-            }
-          }
-        }
+              className: "UpdatableDevices",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UpdatableDevices: coreHttp.CompositeMapper = {
@@ -873,18 +873,18 @@ export const UpdatableDevices: coreHttp.CompositeMapper = {
         serializedName: "updateId",
         type: {
           name: "Composite",
-          className: "UpdateId"
-        }
+          className: "UpdateId",
+        },
       },
       deviceCount: {
         serializedName: "deviceCount",
         required: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const PageableListOfDeployments: coreHttp.CompositeMapper = {
@@ -899,19 +899,19 @@ export const PageableListOfDeployments: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Deployment"
-            }
-          }
-        }
+              className: "Deployment",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Deployment: coreHttp.CompositeMapper = {
@@ -923,35 +923,35 @@ export const Deployment: coreHttp.CompositeMapper = {
         serializedName: "deploymentId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deploymentType: {
         serializedName: "deploymentType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deviceClassId: {
         serializedName: "deviceClassId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       startDateTime: {
         serializedName: "startDateTime",
         required: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       deviceGroupType: {
         serializedName: "deviceGroupType",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deviceGroupDefinition: {
         serializedName: "deviceGroupDefinition",
@@ -960,38 +960,38 @@ export const Deployment: coreHttp.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       updateId: {
         serializedName: "updateId",
         type: {
           name: "Composite",
-          className: "UpdateId"
-        }
+          className: "UpdateId",
+        },
       },
       isCanceled: {
         serializedName: "isCanceled",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       isRetried: {
         serializedName: "isRetried",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       isCompleted: {
         serializedName: "isCompleted",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentStatus: coreHttp.CompositeMapper = {
@@ -1003,47 +1003,47 @@ export const DeploymentStatus: coreHttp.CompositeMapper = {
         serializedName: "deploymentState",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       totalDevices: {
         serializedName: "totalDevices",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       devicesIncompatibleCount: {
         serializedName: "devicesIncompatibleCount",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       devicesInProgressCount: {
         serializedName: "devicesInProgressCount",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       devicesCompletedFailedCount: {
         serializedName: "devicesCompletedFailedCount",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       devicesCompletedSucceededCount: {
         serializedName: "devicesCompletedSucceededCount",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       devicesCanceledCount: {
         serializedName: "devicesCanceledCount",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const PageableListOfDeploymentDeviceStates: coreHttp.CompositeMapper = {
@@ -1058,19 +1058,19 @@ export const PageableListOfDeploymentDeviceStates: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DeploymentDeviceState"
-            }
-          }
-        }
+              className: "DeploymentDeviceState",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentDeviceState: coreHttp.CompositeMapper = {
@@ -1082,32 +1082,32 @@ export const DeploymentDeviceState: coreHttp.CompositeMapper = {
         serializedName: "deviceId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       retryCount: {
         serializedName: "retryCount",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       movedOnToNewDeployment: {
         serializedName: "movedOnToNewDeployment",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       deviceState: {
         serializedName: "deviceState",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeviceFilter: coreHttp.CompositeMapper = {
@@ -1118,11 +1118,11 @@ export const DeviceFilter: coreHttp.CompositeMapper = {
       groupId: {
         serializedName: "groupId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationFilter: coreHttp.CompositeMapper = {
@@ -1133,11 +1133,11 @@ export const OperationFilter: coreHttp.CompositeMapper = {
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentFilter: coreHttp.CompositeMapper = {
@@ -1148,23 +1148,23 @@ export const DeploymentFilter: coreHttp.CompositeMapper = {
       provider: {
         serializedName: "provider",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       version: {
         serializedName: "version",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const GroupBestUpdatesFilter: coreHttp.CompositeMapper = {
@@ -1175,23 +1175,23 @@ export const GroupBestUpdatesFilter: coreHttp.CompositeMapper = {
       provider: {
         serializedName: "provider",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       version: {
         serializedName: "version",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DeploymentDeviceStatesFilter: coreHttp.CompositeMapper = {
@@ -1202,17 +1202,17 @@ export const DeploymentDeviceStatesFilter: coreHttp.CompositeMapper = {
       deviceId: {
         serializedName: "deviceId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       deviceState: {
         serializedName: "deviceState",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UpdatesImportUpdateHeaders: coreHttp.CompositeMapper = {
@@ -1223,17 +1223,17 @@ export const UpdatesImportUpdateHeaders: coreHttp.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operationLocation: {
         serializedName: "operation-location",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UpdatesDeleteUpdateHeaders: coreHttp.CompositeMapper = {
@@ -1244,17 +1244,17 @@ export const UpdatesDeleteUpdateHeaders: coreHttp.CompositeMapper = {
       location: {
         serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operationLocation: {
         serializedName: "operation-location",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const UpdatesGetOperationHeaders: coreHttp.CompositeMapper = {
@@ -1265,9 +1265,9 @@ export const UpdatesGetOperationHeaders: coreHttp.CompositeMapper = {
       retryAfter: {
         serializedName: "retry-after",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };

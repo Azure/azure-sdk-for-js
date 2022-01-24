@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Vaults } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { KeyVaultManagementClientContext } from "../keyVaultManagementClientContext";
+import { KeyVaultManagementClient } from "../keyVaultManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -57,15 +56,15 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a Vaults. */
+/** Class containing Vaults operations. */
 export class VaultsImpl implements Vaults {
-  private readonly client: KeyVaultManagementClientContext;
+  private readonly client: KeyVaultManagementClient;
 
   /**
    * Initialize a new instance of the class Vaults class.
    * @param client Reference to the service client
    */
-  constructor(client: KeyVaultManagementClientContext) {
+  constructor(client: KeyVaultManagementClient) {
     this.client = client;
   }
 
@@ -752,10 +751,6 @@ const updateAccessPolicyOperationSpec: coreClient.OperationSpec = {
     201: {
       bodyMapper: Mappers.VaultAccessPolicyParameters
     },
-    404: {
-      bodyMapper: Mappers.CloudError,
-      isError: true
-    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -858,10 +853,6 @@ const purgeDeletedOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
-    404: {
-      bodyMapper: Mappers.CloudError,
-      isError: true
-    },
     default: {
       bodyMapper: Mappers.CloudError
     }

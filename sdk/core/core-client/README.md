@@ -37,11 +37,11 @@ The method `createSerializer` creates a `Serializer` that is used to do the bulk
 
 ## Examples
 
-Examples can be found in the `samples` folder.
+Examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-client/samples) folder.
 
 ## Next steps
 
-You can build and run the tests locally by executing `rushx test`. Explore the `test` folder to see advanced usage and behavior of the public classes.
+You can build and run the tests locally by executing `rushx test`. Explore the [test](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-client/test) folder to see advanced usage and behavior of the public classes.
 
 Learn more about [AutoRest](https://github.com/Azure/autorest) and the [autorest.typescript extension](https://github.com/Azure/autorest.typescript) for generating a compatible client on top of this package.
 

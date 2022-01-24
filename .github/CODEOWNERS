@@ -21,7 +21,7 @@
 /sdk/core/core-client-rest/ @xirzec @joheredi @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-tracing/ @xirzec @jeremymeng @maorleger
+/sdk/core/core-tracing/ @xirzec @jeremymeng @maorleger @joheredi
 
 # Service teams
 # PRLabel: %App Configuration
@@ -51,6 +51,9 @@
 # ServiceLabel: %Cosmos %Service Attention
 #/<NotInRepo>/ @sajeetharan @simorenoh
 
+# ServiceLabel: %Device Update for IoT Hub %Service Attention
+/sdk/deviceupdate/ @dpokluda
+
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @johngallardo
 
@@ -68,6 +71,9 @@
 
 # PRLabel: %KeyVault
 /sdk/keyvault/ @maorleger @sadasant 
+
+# PRLabel: %OpenTelemetryInstrumentation
+/sdk/instrumentation/ @maorleger @joheredi
 
 # PRLabel: %Service Bus
 /sdk/servicebus/ @deyaaeldeen @jeremymeng @HarshaNalluru @ramya-rao-a @richardpark-msft 
@@ -126,7 +132,7 @@
 /sdk/mixedreality/ @craigktreasure 
 
 # PRLabel: %Remote Rendering
-/sdk/remoterendering/ @MalcolmTyrrell
+/sdk/remoterendering/ @FlorianBorn71
 
 # PRLabel: %VideoAnalyzer
 /sdk/videoanalyzer/video-analyzer-edge @hivyas @bterlson
@@ -642,6 +648,15 @@ sdk/loadtestservice/arm-loadtestservice @qiaozha @dw511214992
 
 # PRLabel: %Mgmt
 sdk/purview/arm-purview @qiaozha @dw511214992
+
+# PRLabel: %Mgmt
+sdk/imagebuilder/arm-imagebuilder @qiaozha @dw511214992
+
+# PRLabel: %Mgmt
+sdk/securityinsights/arm-securityinsights @qiaozha @dw511214992
+
+# PRLabel: %Mgmt
+sdk/oep/arm-oep @qiaozha @dw511214992
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners

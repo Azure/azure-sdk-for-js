@@ -24,7 +24,7 @@
     "node": ">=12.0.0"
   },
   "main": "./dist/index.js",
-  "module": "./dist-esm/src/index.js",
+  "module": "./dist-esm/index.js",
   "types": "./types/synapse-monitoring.d.ts",
   "devDependencies": {
     "typescript": "~4.2.0",
@@ -47,10 +47,10 @@
     "dist/**/*.js.map",
     "dist/**/*.d.ts",
     "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
+    "dist-esm/**/*.js",
+    "dist-esm/**/*.js.map",
+    "dist-esm/**/*.d.ts",
+    "dist-esm/**/*.d.ts.map",
     "types/synapse-monitoring.d.ts",
     "README.md",
     "rollup.config.js",
