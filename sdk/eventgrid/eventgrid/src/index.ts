@@ -211,5 +211,3 @@ export {
   ResourceHttpRequest,
   ContainerRegistryEventConnectedRegistry,
 } from "./generated/models";
-
-export * from "./cloudEventAdapter";

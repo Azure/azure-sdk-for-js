@@ -345,17 +345,6 @@ export interface CloudEvent<T> {
 }
 
 // @public
-export interface CloudEventAdapterParameters {
-    dataschema?: string;
-    extensionAttributes?: Record<string, unknown>;
-    id?: string;
-    source: string;
-    subject?: string;
-    time?: Date;
-    type: string;
-}
-
-// @public
 export type CommunicationCloudEnvironmentModel = string;
 
 // @public
@@ -460,12 +449,6 @@ export interface ContainerServiceNewKubernetesVersionAvailableEventData {
     latestSupportedKubernetesVersion: string;
     lowestMinorKubernetesVersion: string;
 }
-
-// Warning: (ae-forgotten-export) The symbol "MessageAdapter" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "EncodedCloudEvent" needs to be exported by the entry point index.d.ts
-//
-// @public
-export function createCloudEventAdapter(params: CloudEventAdapterParameters): MessageAdapter<EncodedCloudEvent>;
 
 // @public
 export interface DeviceConnectionStateEvent {
