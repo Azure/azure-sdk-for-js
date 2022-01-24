@@ -95,7 +95,7 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
   duration: {
     description: "When to stop calling tests at all",
     shortName: "d",
-    defaultValue: 1,
+    defaultValue: 10,
   },
   warmup: {
     description: "Duration of warmup in seconds",
