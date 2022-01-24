@@ -1,6 +1,6 @@
 ## Azure KustoManagementClient SDK for JavaScript
 
-This package contains an isomorphic SDK for KustoManagementClient.
+This package contains an isomorphic SDK for KustoManagementClient. 
 
 ### Currently supported environments
 
