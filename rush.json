@@ -1556,8 +1556,23 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-kusto",
-      "projectFolder": "sdk/kusto/arm-kusto",
+      "packageName": "@azure/arm-servicefabricmesh",
+      "projectFolder": "sdk/servicefabricmesh/arm-servicefabricmesh",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storageimportexport",
+      "projectFolder": "sdk/storageimportexport/arm-storageimportexport",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-privatedns",
+      "projectFolder": "sdk/privatedns/arm-privatedns",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-policyinsights",
+      "projectFolder": "sdk/policyinsights/arm-policyinsights",
       "versionPolicyName": "management"
     }
   ]
