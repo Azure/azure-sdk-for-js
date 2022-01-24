@@ -7,7 +7,7 @@ import {
   Recorder,
   RecorderStartOptions,
   assertEnvironmentVariable,
-} from "@azure-tools/test-recorder-new";
+} from "@azure-tools/test-recorder";
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {

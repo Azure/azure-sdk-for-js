@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-const { relativeRecordingsPath } = require("@azure-tools/test-recorder-new");
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
