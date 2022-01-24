@@ -1574,6 +1574,11 @@
       "packageName": "@azure/arm-policyinsights",
       "projectFolder": "sdk/policyinsights/arm-policyinsights",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-kusto",
+      "projectFolder": "sdk/kusto/arm-kusto",
+      "versionPolicyName": "management"
     }
   ]
 }
