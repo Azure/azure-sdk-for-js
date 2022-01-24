@@ -179,7 +179,7 @@ export const Constants = {
   CurrentVersion: "2018-12-31",
 
   SDKName: "azure-cosmos-js",
-  SDKVersion: "3.15.1",
+  SDKVersion: "3.15.2",
 
   Quota: {
     CollectionSize: "collectionSize",
