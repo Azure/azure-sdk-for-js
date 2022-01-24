@@ -146,7 +146,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.sharingUpdate,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

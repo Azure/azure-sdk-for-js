@@ -619,6 +619,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-compute/17.1.0:
+    resolution: {integrity: sha512-zLc/bgbNAIZlSgePz9SmGkmqs3VU7U0hO6vQfau03Ni9aOYeoWRiStIv/xCxxvflnJFVcwj5fPm5AeyGjTTNow==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.4.0
+      '@azure/core-lro': 2.2.3
+      '@azure/core-paging': 1.2.1
+      '@azure/core-rest-pipeline': 1.4.0
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-common/1.1.0:
     resolution: {integrity: sha512-vqTtzDtb4NG3LWoWoqlOOJApZRRIIImNUKlGyTa6c1YC+v5A7UEOL9TX8NRDxvFVUF2wDHsSnkhLBVBgkcAhIQ==}
     engines: {node: '>=12.0.0'}
@@ -9225,7 +9240,7 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-gN6VdLPNFLxYG9Q/S//Ru95Im4dd2dhhBU9HrtSa3nLDVk0UPJKzE81RmUaTXyj2O5oZh524mAlC+lJWR2boTg==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-mblVe8cn6tBhnRxgFfkaueG3l8Ir9YhqNJC3pDAzvGELAtb9Awcnqta2Iu9nBtTln2oGqqlV1rWPhYnvkR0zww==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
@@ -10099,11 +10114,12 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-/aJpNGWOV825XGXVuaOPrTSIOCo5u/7rL9DHpikVBKl1ELqMbqOmdTbF7hAwVc2IIIwv1/XUHYkXsohPu9I/dQ==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-WQtkHWHZBlaxdgMhISbg8GroEYhf0Ul/uWayUMjkBLYBtMcIEUkJwj76ZbdZ/0U58z5Lsx5gr93VXXQcmLhqyA==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/arm-compute': 17.1.0
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1

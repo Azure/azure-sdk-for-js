@@ -81,6 +81,116 @@ export const ComputeOperationValue: coreClient.CompositeMapper = {
   }
 };
 
+export const CloudError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudError",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ApiError"
+        }
+      }
+    }
+  }
+};
+
+export const ApiError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiError",
+    modelProperties: {
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApiErrorBase"
+            }
+          }
+        }
+      },
+      innererror: {
+        serializedName: "innererror",
+        type: {
+          name: "Composite",
+          className: "InnerError"
+        }
+      },
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiErrorBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiErrorBase",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const InnerError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InnerError",
+    modelProperties: {
+      exceptiontype: {
+        serializedName: "exceptiontype",
+        type: {
+          name: "String"
+        }
+      },
+      errordetail: {
+        serializedName: "errordetail",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SubResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -781,116 +891,6 @@ export const ExtendedLocation: coreClient.CompositeMapper = {
   }
 };
 
-export const CloudError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudError",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ApiError"
-        }
-      }
-    }
-  }
-};
-
-export const ApiError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ApiError",
-    modelProperties: {
-      details: {
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ApiErrorBase"
-            }
-          }
-        }
-      },
-      innererror: {
-        serializedName: "innererror",
-        type: {
-          name: "Composite",
-          className: "InnerError"
-        }
-      },
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ApiErrorBase: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ApiErrorBase",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const InnerError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "InnerError",
-    modelProperties: {
-      exceptiontype: {
-        serializedName: "exceptiontype",
-        type: {
-          name: "String"
-        }
-      },
-      errordetail: {
-        serializedName: "errordetail",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ListUsagesResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1311,6 +1311,28 @@ export const DiffDiskSettings: coreClient.CompositeMapper = {
         serializedName: "placement",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VMDiskSecurityProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VMDiskSecurityProfile",
+    modelProperties: {
+      securityEncryptionType: {
+        serializedName: "securityEncryptionType",
+        type: {
+          name: "String"
+        }
+      },
+      diskEncryptionSet: {
+        serializedName: "diskEncryptionSet",
+        type: {
+          name: "Composite",
+          className: "DiskEncryptionSetParameters"
         }
       }
     }
@@ -3121,6 +3143,12 @@ export const AutomaticRepairsPolicy: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      repairAction: {
+        serializedName: "repairAction",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3224,6 +3252,13 @@ export const VirtualMachineScaleSetVMProfile: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ApplicationProfile"
         }
+      },
+      hardwareProfile: {
+        serializedName: "hardwareProfile",
+        type: {
+          name: "Composite",
+          className: "VirtualMachineScaleSetHardwareProfile"
+        }
       }
     }
   }
@@ -3282,6 +3317,12 @@ export const VirtualMachineScaleSetOSProfile: coreClient.CompositeMapper = {
               className: "VaultSecretGroup"
             }
           }
+        }
+      },
+      allowExtensionOperations: {
+        serializedName: "allowExtensionOperations",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -3419,6 +3460,13 @@ export const VirtualMachineScaleSetManagedDiskParameters: coreClient.CompositeMa
         type: {
           name: "Composite",
           className: "DiskEncryptionSetParameters"
+        }
+      },
+      securityProfile: {
+        serializedName: "securityProfile",
+        type: {
+          name: "Composite",
+          className: "VMDiskSecurityProfile"
         }
       }
     }
@@ -3687,6 +3735,22 @@ export const VirtualMachineScaleSetExtensionProfile: coreClient.CompositeMapper 
         serializedName: "extensionsTimeBudget",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineScaleSetHardwareProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachineScaleSetHardwareProfile",
+    modelProperties: {
+      vmSizeProperties: {
+        serializedName: "vmSizeProperties",
+        type: {
+          name: "Composite",
+          className: "VMSizeProperties"
         }
       }
     }
@@ -4167,6 +4231,61 @@ export const RestorePointSourceVMDataDisk: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ApiEntityReference"
+        }
+      }
+    }
+  }
+};
+
+export const RestorePointInstanceView: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestorePointInstanceView",
+    modelProperties: {
+      diskRestorePoints: {
+        serializedName: "diskRestorePoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DiskRestorePointInstanceView"
+            }
+          }
+        }
+      },
+      statuses: {
+        serializedName: "statuses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InstanceViewStatus"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DiskRestorePointInstanceView: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DiskRestorePointInstanceView",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      replicationStatus: {
+        serializedName: "replicationStatus",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -5107,6 +5226,13 @@ export const VirtualMachineScaleSetUpdatePublicIPAddressConfiguration: coreClien
           name: "Composite",
           className:
             "VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings"
+        }
+      },
+      publicIPPrefix: {
+        serializedName: "properties.publicIPPrefix",
+        type: {
+          name: "Composite",
+          className: "SubResource"
         }
       },
       deleteOption: {
@@ -10224,6 +10350,22 @@ export const OSFamilyListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const DiskRestorePointReplicationStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DiskRestorePointReplicationStatus",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
 export const GalleryArtifactSource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -10353,6 +10495,12 @@ export const ImageReference: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      communityGalleryImageId: {
+        serializedName: "communityGalleryImageId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -10385,6 +10533,13 @@ export const ManagedDiskParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DiskEncryptionSetParameters"
+        }
+      },
+      securityProfile: {
+        serializedName: "securityProfile",
+        type: {
+          name: "Composite",
+          className: "VMDiskSecurityProfile"
         }
       }
     }
@@ -11042,6 +11197,13 @@ export const DedicatedHost: coreClient.CompositeMapper = {
           name: "Composite",
           className: "DedicatedHostInstanceView"
         }
+      },
+      timeCreated: {
+        serializedName: "properties.timeCreated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -11177,6 +11339,13 @@ export const VirtualMachineExtension: coreClient.CompositeMapper = {
         serializedName: "properties.suppressFailures",
         type: {
           name: "Boolean"
+        }
+      },
+      protectedSettingsFromKeyVault: {
+        serializedName: "properties.protectedSettingsFromKeyVault",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -11402,6 +11571,13 @@ export const VirtualMachine: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ApplicationProfile"
         }
+      },
+      timeCreated: {
+        serializedName: "properties.timeCreated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -11556,6 +11732,13 @@ export const VirtualMachineScaleSet: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SpotRestorePolicy"
+        }
+      },
+      timeCreated: {
+        serializedName: "properties.timeCreated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -11767,6 +11950,13 @@ export const CapacityReservation: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CapacityReservationInstanceView"
+        }
+      },
+      timeCreated: {
+        serializedName: "properties.timeCreated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -13061,6 +13251,13 @@ export const DedicatedHostUpdate: coreClient.CompositeMapper = {
           name: "Composite",
           className: "DedicatedHostInstanceView"
         }
+      },
+      timeCreated: {
+        serializedName: "properties.timeCreated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -13142,6 +13339,13 @@ export const VirtualMachineExtensionUpdate: coreClient.CompositeMapper = {
         serializedName: "properties.suppressFailures",
         type: {
           name: "Boolean"
+        }
+      },
+      protectedSettingsFromKeyVault: {
+        serializedName: "properties.protectedSettingsFromKeyVault",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -13384,6 +13588,13 @@ export const VirtualMachineUpdate: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ApplicationProfile"
         }
+      },
+      timeCreated: {
+        serializedName: "properties.timeCreated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -13528,6 +13739,13 @@ export const CapacityReservationUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CapacityReservationInstanceView"
+        }
+      },
+      timeCreated: {
+        serializedName: "properties.timeCreated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -13809,6 +14027,13 @@ export const VirtualMachineScaleSetExtension: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      protectedSettingsFromKeyVault: {
+        serializedName: "properties.protectedSettingsFromKeyVault",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
       }
     }
   }
@@ -13907,6 +14132,13 @@ export const VirtualMachineScaleSetExtensionUpdate: coreClient.CompositeMapper =
         type: {
           name: "Boolean"
         }
+      },
+      protectedSettingsFromKeyVault: {
+        serializedName: "properties.protectedSettingsFromKeyVault",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
       }
     }
   }
@@ -14001,6 +14233,13 @@ export const VirtualMachineScaleSetVMExtension: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      protectedSettingsFromKeyVault: {
+        serializedName: "properties.protectedSettingsFromKeyVault",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
       }
     }
   }
@@ -14080,6 +14319,13 @@ export const VirtualMachineScaleSetVMExtensionUpdate: coreClient.CompositeMapper
         serializedName: "properties.suppressFailures",
         type: {
           name: "Boolean"
+        }
+      },
+      protectedSettingsFromKeyVault: {
+        serializedName: "properties.protectedSettingsFromKeyVault",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -14189,6 +14435,20 @@ export const RestorePoint: coreClient.CompositeMapper = {
         serializedName: "properties.timeCreated",
         type: {
           name: "DateTime"
+        }
+      },
+      sourceRestorePoint: {
+        serializedName: "properties.sourceRestorePoint",
+        type: {
+          name: "Composite",
+          className: "ApiEntityReference"
+        }
+      },
+      instanceView: {
+        serializedName: "properties.instanceView",
+        type: {
+          name: "Composite",
+          className: "RestorePointInstanceView"
         }
       }
     }

@@ -79,6 +79,7 @@ export interface AutomaticOSUpgradeProperties {
 export interface AutomaticRepairsPolicy {
     enabled?: boolean;
     gracePeriod?: string;
+    repairAction?: RepairAction;
 }
 
 // @public
@@ -225,6 +226,7 @@ export type CapacityReservation = Resource & {
     readonly provisioningTime?: Date;
     readonly provisioningState?: string;
     readonly instanceView?: CapacityReservationInstanceView;
+    readonly timeCreated?: Date;
 };
 
 // @public
@@ -415,6 +417,7 @@ export type CapacityReservationUpdate = UpdateResource & {
     readonly provisioningTime?: Date;
     readonly provisioningState?: string;
     readonly instanceView?: CapacityReservationInstanceView;
+    readonly timeCreated?: Date;
 };
 
 // @public
@@ -1143,6 +1146,7 @@ export type DedicatedHost = Resource & {
     readonly provisioningTime?: Date;
     readonly provisioningState?: string;
     readonly instanceView?: DedicatedHostInstanceView;
+    readonly timeCreated?: Date;
 };
 
 // @public
@@ -1276,6 +1280,8 @@ export interface DedicatedHosts {
     beginCreateOrUpdateAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHost, options?: DedicatedHostsCreateOrUpdateOptionalParams): Promise<DedicatedHostsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsDeleteOptionalParams): Promise<void>;
+    beginRestart(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRestartAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams): Promise<PollerLike<PollOperationState<DedicatedHostsUpdateResponse>, DedicatedHostsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams): Promise<DedicatedHostsUpdateResponse>;
     get(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsGetOptionalParams): Promise<DedicatedHostsGetResponse>;
@@ -1320,6 +1326,12 @@ export interface DedicatedHostsListByHostGroupOptionalParams extends coreClient.
 export type DedicatedHostsListByHostGroupResponse = DedicatedHostListResult;
 
 // @public
+export interface DedicatedHostsRestartOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface DedicatedHostsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1338,6 +1350,7 @@ export type DedicatedHostUpdate = UpdateResource & {
     readonly provisioningTime?: Date;
     readonly provisioningState?: string;
     readonly instanceView?: DedicatedHostInstanceView;
+    readonly timeCreated?: Date;
 };
 
 // @public
@@ -1749,6 +1762,12 @@ export interface DiskRestorePointGrantAccessOptionalParams extends coreClient.Op
 export type DiskRestorePointGrantAccessResponse = AccessUri;
 
 // @public
+export interface DiskRestorePointInstanceView {
+    id?: string;
+    replicationStatus?: Record<string, unknown>;
+}
+
+// @public
 export interface DiskRestorePointList {
     nextLink?: string;
     value: DiskRestorePoint[];
@@ -1776,6 +1795,11 @@ export interface DiskRestorePointOperations {
     beginRevokeAccessAndWait(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointRevokeAccessOptionalParams): Promise<void>;
     get(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointGetOptionalParams): Promise<DiskRestorePointGetResponse>;
     listByRestorePoint(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, options?: DiskRestorePointListByRestorePointOptionalParams): PagedAsyncIterableIterator<DiskRestorePoint>;
+}
+
+// @public
+export interface DiskRestorePointReplicationStatus {
+    status?: Record<string, unknown>;
 }
 
 // @public
@@ -2608,6 +2632,7 @@ export type ImageReference = SubResource & {
     version?: string;
     readonly exactVersion?: string;
     sharedGalleryImageId?: string;
+    communityGalleryImageId?: string;
 };
 
 // @public
@@ -3266,6 +3291,16 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
+export enum KnownRepairAction {
+    // (undocumented)
+    Reimage = "Reimage",
+    // (undocumented)
+    Replace = "Replace",
+    // (undocumented)
+    Restart = "Restart"
+}
+
+// @public
 export enum KnownReplicationMode {
     // (undocumented)
     Full = "Full",
@@ -3298,7 +3333,23 @@ export enum KnownRestorePointCollectionExpandOptions {
 }
 
 // @public
+export enum KnownRestorePointExpandOptions {
+    // (undocumented)
+    InstanceView = "instanceView"
+}
+
+// @public
+export enum KnownSecurityEncryptionTypes {
+    // (undocumented)
+    DiskWithVMGuestState = "DiskWithVMGuestState",
+    // (undocumented)
+    VMGuestStateOnly = "VMGuestStateOnly"
+}
+
+// @public
 export enum KnownSecurityTypes {
+    // (undocumented)
+    ConfidentialVM = "ConfidentialVM",
     // (undocumented)
     TrustedLaunch = "TrustedLaunch"
 }
@@ -3969,6 +4020,7 @@ export interface ManagedArtifact {
 export type ManagedDiskParameters = SubResource & {
     storageAccountType?: StorageAccountTypes;
     diskEncryptionSet?: DiskEncryptionSetParameters;
+    securityProfile?: VMDiskSecurityProfile;
 };
 
 // @public
@@ -4394,6 +4446,9 @@ export interface RegionalReplicationStatus {
 }
 
 // @public
+export type RepairAction = string;
+
+// @public
 export type ReplicationMode = string;
 
 // @public
@@ -4560,6 +4615,8 @@ export type RestorePoint = ProxyResource & {
     readonly provisioningState?: string;
     readonly consistencyMode?: ConsistencyModeTypes;
     timeCreated?: Date;
+    sourceRestorePoint?: ApiEntityReference;
+    readonly instanceView?: RestorePointInstanceView;
 };
 
 // @public
@@ -4661,6 +4718,15 @@ export type RestorePointCollectionUpdate = UpdateResource & {
 };
 
 // @public
+export type RestorePointExpandOptions = string;
+
+// @public
+export interface RestorePointInstanceView {
+    diskRestorePoints?: DiskRestorePointInstanceView[];
+    statuses?: InstanceViewStatus[];
+}
+
+// @public
 export interface RestorePoints {
     beginCreate(resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, parameters: RestorePoint, options?: RestorePointsCreateOptionalParams): Promise<PollerLike<PollOperationState<RestorePointsCreateResponse>, RestorePointsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, restorePointCollectionName: string, restorePointName: string, parameters: RestorePoint, options?: RestorePointsCreateOptionalParams): Promise<RestorePointsCreateResponse>;
@@ -4686,6 +4752,7 @@ export interface RestorePointsDeleteOptionalParams extends coreClient.OperationO
 
 // @public
 export interface RestorePointsGetOptionalParams extends coreClient.OperationOptions {
+    expand?: RestorePointExpandOptions;
 }
 
 // @public
@@ -4887,6 +4954,9 @@ export interface ScaleInPolicy {
 export interface ScheduledEventsProfile {
     terminateNotificationProfile?: TerminateNotificationProfile;
 }
+
+// @public
+export type SecurityEncryptionTypes = string;
 
 // @public
 export interface SecurityProfile {
@@ -5578,6 +5648,7 @@ export type VirtualMachine = Resource & {
     userData?: string;
     capacityReservation?: CapacityReservationProfile;
     applicationProfile?: ApplicationProfile;
+    readonly timeCreated?: Date;
 };
 
 // @public
@@ -5630,6 +5701,7 @@ export type VirtualMachineExtension = Resource & {
     readonly provisioningState?: string;
     instanceView?: VirtualMachineExtensionInstanceView;
     suppressFailures?: boolean;
+    protectedSettingsFromKeyVault?: Record<string, unknown>;
 };
 
 // @public
@@ -5758,6 +5830,7 @@ export type VirtualMachineExtensionUpdate = UpdateResource & {
     settings?: Record<string, unknown>;
     protectedSettings?: Record<string, unknown>;
     suppressFailures?: boolean;
+    protectedSettingsFromKeyVault?: Record<string, unknown>;
 };
 
 // @public
@@ -6234,6 +6307,7 @@ export type VirtualMachineScaleSet = Resource & {
     scaleInPolicy?: ScaleInPolicy;
     orchestrationMode?: OrchestrationMode;
     spotRestorePolicy?: SpotRestorePolicy;
+    readonly timeCreated?: Date;
 };
 
 // @public
@@ -6264,6 +6338,7 @@ export type VirtualMachineScaleSetExtension = SubResourceReadOnly & {
     readonly provisioningState?: string;
     provisionAfterExtensions?: string[];
     suppressFailures?: boolean;
+    protectedSettingsFromKeyVault?: Record<string, unknown>;
 };
 
 // @public
@@ -6351,7 +6426,13 @@ export type VirtualMachineScaleSetExtensionUpdate = SubResourceReadOnly & {
     readonly provisioningState?: string;
     provisionAfterExtensions?: string[];
     suppressFailures?: boolean;
+    protectedSettingsFromKeyVault?: Record<string, unknown>;
 };
+
+// @public
+export interface VirtualMachineScaleSetHardwareProfile {
+    vmSizeProperties?: VMSizeProperties;
+}
 
 // @public
 export interface VirtualMachineScaleSetIdentity {
@@ -6428,6 +6509,7 @@ export interface VirtualMachineScaleSetListWithLinkResult {
 // @public
 export interface VirtualMachineScaleSetManagedDiskParameters {
     diskEncryptionSet?: DiskEncryptionSetParameters;
+    securityProfile?: VMDiskSecurityProfile;
     storageAccountType?: StorageAccountTypes;
 }
 
@@ -6474,6 +6556,7 @@ export interface VirtualMachineScaleSetOSDisk {
 export interface VirtualMachineScaleSetOSProfile {
     adminPassword?: string;
     adminUsername?: string;
+    allowExtensionOperations?: boolean;
     computerNamePrefix?: string;
     customData?: string;
     linuxConfiguration?: LinuxConfiguration;
@@ -6619,6 +6702,8 @@ export interface VirtualMachineScaleSetsDeleteOptionalParams extends coreClient.
 
 // @public
 export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams extends coreClient.OperationOptions {
+    placementGroupId?: string;
+    zone?: string;
 }
 
 // @public
@@ -6878,6 +6963,7 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
     dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
     idleTimeoutInMinutes?: number;
     name?: string;
+    publicIPPrefix?: SubResource;
 }
 
 // @public
@@ -6942,6 +7028,7 @@ export type VirtualMachineScaleSetVMExtension = SubResourceReadOnly & {
     readonly provisioningState?: string;
     instanceView?: VirtualMachineExtensionInstanceView;
     suppressFailures?: boolean;
+    protectedSettingsFromKeyVault?: Record<string, unknown>;
 };
 
 // @public
@@ -7020,6 +7107,7 @@ export type VirtualMachineScaleSetVMExtensionUpdate = SubResourceReadOnly & {
     settings?: Record<string, unknown>;
     protectedSettings?: Record<string, unknown>;
     suppressFailures?: boolean;
+    protectedSettingsFromKeyVault?: Record<string, unknown>;
 };
 
 // @public
@@ -7067,6 +7155,7 @@ export interface VirtualMachineScaleSetVMProfile {
     diagnosticsProfile?: DiagnosticsProfile;
     evictionPolicy?: VirtualMachineEvictionPolicyTypes;
     extensionProfile?: VirtualMachineScaleSetExtensionProfile;
+    hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
     licenseType?: string;
     networkProfile?: VirtualMachineScaleSetNetworkProfile;
     osProfile?: VirtualMachineScaleSetOSProfile;
@@ -7397,6 +7486,7 @@ export type VirtualMachineSizeTypes = string;
 
 // @public
 export interface VirtualMachinesListAllNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
     statusOnly?: string;
 }
 
@@ -7405,6 +7495,7 @@ export type VirtualMachinesListAllNextResponse = VirtualMachineListResult;
 
 // @public
 export interface VirtualMachinesListAllOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
     statusOnly?: string;
 }
 
@@ -7434,6 +7525,7 @@ export type VirtualMachinesListByLocationResponse = VirtualMachineListResult;
 
 // @public
 export interface VirtualMachinesListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
 }
 
 // @public
@@ -7441,6 +7533,7 @@ export type VirtualMachinesListNextResponse = VirtualMachineListResult;
 
 // @public
 export interface VirtualMachinesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
 }
 
 // @public
@@ -7570,7 +7663,14 @@ export type VirtualMachineUpdate = UpdateResource & {
     userData?: string;
     capacityReservation?: CapacityReservationProfile;
     applicationProfile?: ApplicationProfile;
+    readonly timeCreated?: Date;
 };
+
+// @public
+export interface VMDiskSecurityProfile {
+    diskEncryptionSet?: DiskEncryptionSetParameters;
+    securityEncryptionType?: SecurityEncryptionTypes;
+}
 
 // @public
 export type VmDiskTypes = string;
