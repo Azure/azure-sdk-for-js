@@ -12,16 +12,16 @@ import {
   RecorderEnvironmentSetup,
   Recorder
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
 import { Cluster, KustoManagementClient } from "../src";
-import { DefaultAzureCredential } from "@azure/identity";
+import { ClientSecretCredential } from "@azure/identity";
+import * as assert from "assert";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
-    AZURE_CLIENT_ID: "5910ab76-9a08-40f9-88d4-48d5f01393a8",
-    AZURE_CLIENT_SECRET: "n2~7Q~LcqY3OOf3r6j~f6MqQDq2Yu3csQBiwx",
-    AZURE_TENANT_ID: "72f988bf-86f1-41af-91ab-2d7cd011db47",
-    SUBSCRIPTION_ID: "92f95d8f-3c67-4124-91c7-8cf07cdbf241"
+    AZURE_CLIENT_ID: "azure_client_id",
+    AZURE_CLIENT_SECRET: "azure_client_secret",
+    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+    SUBSCRIPTION_ID: "azure_subscription_id"
   },
   customizationsOnRecordings: [
     (recording: any): any =>
@@ -33,25 +33,28 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-describe("My test", () => {
+describe("KustoManagementClient test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
-  let credential: DefaultAzureCredential;
+  let client: KustoManagementClient;
 
-  before(async function () {
-    subscriptionId = process.env.AZURE_SUBSCRIPTION_ID || '';
-    credential = new DefaultAzureCredential();
-  });
   beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
+    subscriptionId = env.SUBSCRIPTION_ID;
+    // This is an example of how the environment variables are used
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
+    client = new KustoManagementClient(credential, subscriptionId);
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it("init kusto client and test #beginCreateOrUpdateAndWait", async function () {
-    const kustoClient = new KustoManagementClient(credential, subscriptionId);
+  it("#beginCreateOrUpdateAndWait - create clusters", async function () {
     const clusterName = "MyClusterNameXarqRnd";
     const BODY: Cluster = {
       "location": "eastus",
@@ -63,8 +66,7 @@ describe("My test", () => {
         "type": "SystemAssigned"
       },
     };
-    console.log("debugging", kustoClient, kustoClient.clusters);
-    const get_result = await kustoClient.clusters.beginCreateOrUpdateAndWait("marytest", clusterName, BODY);
-    console.log("create kusto resource", get_result);
+    const res = await client.clusters.beginCreateOrUpdateAndWait("marytest", clusterName, BODY);
+    assert.equal(res.location, "East US");
   });
 });
