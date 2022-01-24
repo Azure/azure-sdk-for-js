@@ -99,6 +99,7 @@ specifiers:
   '@rush-temp/arm-orbital': file:./projects/arm-orbital.tgz
   '@rush-temp/arm-peering': file:./projects/arm-peering.tgz
   '@rush-temp/arm-policy': file:./projects/arm-policy.tgz
+  '@rush-temp/arm-policyinsights': file:./projects/arm-policyinsights.tgz
   '@rush-temp/arm-portal': file:./projects/arm-portal.tgz
   '@rush-temp/arm-postgresql': file:./projects/arm-postgresql.tgz
   '@rush-temp/arm-postgresql-flexible': file:./projects/arm-postgresql-flexible.tgz
@@ -351,6 +352,7 @@ dependencies:
   '@rush-temp/arm-orbital': file:projects/arm-orbital.tgz
   '@rush-temp/arm-peering': file:projects/arm-peering.tgz
   '@rush-temp/arm-policy': file:projects/arm-policy.tgz
+  '@rush-temp/arm-policyinsights': file:projects/arm-policyinsights.tgz
   '@rush-temp/arm-portal': file:projects/arm-portal.tgz
   '@rush-temp/arm-postgresql': file:projects/arm-postgresql.tgz
   '@rush-temp/arm-postgresql-flexible': file:projects/arm-postgresql-flexible.tgz
@@ -10933,6 +10935,31 @@ packages:
   file:projects/arm-policy.tgz:
     resolution: {integrity: sha512-a/9y5aQmt81i9+TUD4TEXZvhih78ohaVG8NbUC2MrRjwR7d5C16dUQualEY/4ziZppqS21SOFV8ZcdG7vlPtkg==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.14.5
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-policyinsights.tgz:
+    resolution: {integrity: sha512-LwAgMcbRhRTXBggxcBiJj7roMSzWNHdWnt+oT0LEGLlvlH/1pWI+WcxN5SeyAxi1lUO2/XrXuXcynvOOHU8DMg==, tarball: file:projects/arm-policyinsights.tgz}
+    name: '@rush-temp/arm-policyinsights'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
