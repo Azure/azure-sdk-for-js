@@ -112,8 +112,8 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
     Parameters.filter,
+    Parameters.apiVersion1,
     Parameters.includeExtendedLocations
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
@@ -129,8 +129,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
     Parameters.filter,
+    Parameters.apiVersion1,
     Parameters.includeExtendedLocations
   ],
   urlParameters: [

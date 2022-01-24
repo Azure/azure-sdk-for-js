@@ -1,5 +1,55 @@
 # Release History
     
+## 17.2.0 (2022-01-24)
+    
+**Features**
+
+  - Added operation DedicatedHosts.beginRestart
+  - Added operation DedicatedHosts.beginRestartAndWait
+  - Added Interface DedicatedHostsRestartOptionalParams
+  - Added Interface DiskRestorePointInstanceView
+  - Added Interface DiskRestorePointReplicationStatus
+  - Added Interface RestorePointInstanceView
+  - Added Interface VirtualMachineScaleSetHardwareProfile
+  - Added Interface VMDiskSecurityProfile
+  - Added Type Alias RepairAction
+  - Added Type Alias RestorePointExpandOptions
+  - Added Type Alias SecurityEncryptionTypes
+  - Interface AutomaticRepairsPolicy has a new optional parameter repairAction
+  - Interface RestorePointsGetOptionalParams has a new optional parameter expand
+  - Interface VirtualMachineScaleSetManagedDiskParameters has a new optional parameter securityProfile
+  - Interface VirtualMachineScaleSetOSProfile has a new optional parameter allowExtensionOperations
+  - Interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams has a new optional parameter placementGroupId
+  - Interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams has a new optional parameter zone
+  - Interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration has a new optional parameter publicIPPrefix
+  - Interface VirtualMachineScaleSetVMProfile has a new optional parameter hardwareProfile
+  - Interface VirtualMachinesListAllNextOptionalParams has a new optional parameter filter
+  - Interface VirtualMachinesListAllOptionalParams has a new optional parameter filter
+  - Interface VirtualMachinesListNextOptionalParams has a new optional parameter filter
+  - Interface VirtualMachinesListOptionalParams has a new optional parameter filter
+  - Type Alias CapacityReservation has a new parameter timeCreated
+  - Type Alias CapacityReservationUpdate has a new parameter timeCreated
+  - Type Alias DedicatedHost has a new parameter timeCreated
+  - Type Alias DedicatedHostUpdate has a new parameter timeCreated
+  - Type Alias ImageReference has a new parameter communityGalleryImageId
+  - Type Alias ManagedDiskParameters has a new parameter securityProfile
+  - Type Alias RestorePoint has a new parameter sourceRestorePoint
+  - Type Alias RestorePoint has a new parameter instanceView
+  - Type Alias VirtualMachine has a new parameter timeCreated
+  - Type Alias VirtualMachineExtension has a new parameter protectedSettingsFromKeyVault
+  - Type Alias VirtualMachineExtensionUpdate has a new parameter protectedSettingsFromKeyVault
+  - Type Alias VirtualMachineScaleSet has a new parameter timeCreated
+  - Type Alias VirtualMachineScaleSetExtension has a new parameter protectedSettingsFromKeyVault
+  - Type Alias VirtualMachineScaleSetExtensionUpdate has a new parameter protectedSettingsFromKeyVault
+  - Type Alias VirtualMachineScaleSetVMExtension has a new parameter protectedSettingsFromKeyVault
+  - Type Alias VirtualMachineScaleSetVMExtensionUpdate has a new parameter protectedSettingsFromKeyVault
+  - Type Alias VirtualMachineUpdate has a new parameter timeCreated
+  - Added Enum KnownRepairAction
+  - Added Enum KnownRestorePointExpandOptions
+  - Added Enum KnownSecurityEncryptionTypes
+  - Enum KnownSecurityTypes has a new value ConfidentialVM
+    
+    
 ## 17.1.0 (2022-01-06)
     
 **Features**
