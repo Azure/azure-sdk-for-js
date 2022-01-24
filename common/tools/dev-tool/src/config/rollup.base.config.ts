@@ -68,22 +68,22 @@ export type WarningInhibitor = (warning: RollupWarning) => boolean;
 function ignoreNiseSinonEval(warning: RollupWarning): boolean {
   return (
     warning.code === "EVAL" &&
-    (warning.id?.includes("node_modules/nise") || warning.id?.includes("node_modules/sinon")) ===
-      true
+    (warning.id?.includes(["node_modules", "nise"].join(path.sep)) ||
+      warning.id?.includes(["node_modules", "sinon"].join(path.sep))) === true
   );
 }
 
 function ignoreChaiCircularDependency(warning: RollupWarning): boolean {
   return (
     warning.code === "CIRCULAR_DEPENDENCY" &&
-    warning.importer?.includes("node_modules/chai") === true
+    warning.importer?.includes(["node_modules", "chai"].join(path.sep)) === true
   );
 }
 
 function ignoreOpenTelemetryThisIsUndefined(warning: RollupWarning): boolean {
   return (
     warning.code === "THIS_IS_UNDEFINED" &&
-    warning.id?.includes("node_modules/@opentelemetry/api") === true
+    warning.id?.includes(["node_modules", "@opentelemetry", "api"].join(path.sep)) === true
   );
 }
 
