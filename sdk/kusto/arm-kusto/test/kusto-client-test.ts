@@ -10,9 +10,10 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder
+  Recorder,
+  isPlaybackMode
 } from "@azure-tools/test-recorder";
-import { Cluster, ClustersListOptionalParams, ClusterUpdate, KustoManagementClient } from "../src";
+import { Cluster, ClustersGetOptionalParams, ClustersListOptionalParams, ClusterUpdate, KustoManagementClient } from "../src";
 import { ClientSecretCredential } from "@azure/identity";
 import * as assert from "assert";
 
@@ -31,6 +32,10 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
       )
   ],
   queryParametersToSkip: []
+};
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 describe("KustoManagementClient", () => {
@@ -73,15 +78,15 @@ describe("KustoManagementClient", () => {
 
   //kusto_client.clusters.beginCreateOrUpdateAndWait
   it("could create clusters", async function () {
-    let res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName_1, clusterParameters);
+    let res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName_1, clusterParameters, testPollingOptions);
     assert.strictEqual(res.name, clusterName_1);
-    res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName_2, clusterParameters);
+    res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName_2, clusterParameters, testPollingOptions);
     assert.strictEqual(res.name, clusterName_2);
   });
 
   //kusto_client.clusters.get
   it("could get cluster", async () => {
-    const res = await client.clusters.get(resourceGroup, clusterName_1);
+    const res = await client.clusters.get(resourceGroup, clusterName_1, testPollingOptions as ClustersGetOptionalParams);
     assert.strictEqual(res.name, clusterName_1);
   });
 
@@ -102,16 +107,16 @@ describe("KustoManagementClient", () => {
         key2: "value2",
       }
     };
-    const res = await client.clusters.beginUpdateAndWait(resourceGroup, clusterName_2, updateParams);
+    const res = await client.clusters.beginUpdateAndWait(resourceGroup, clusterName_2, updateParams, testPollingOptions);
     assert.strictEqual(res.name, clusterName_2);
     assert.ok(res.tags);
   });
 
   //kusto_client.clusters.beginDeleteAndWait
   it("could delete clusters", async () => {
-    let res: any = await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_1);
+    let res: any = await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_1, testPollingOptions);
     assert.strictEqual(res?.body?.status, "Succeeded");
-    res = await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_2);
+    res = await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_2, testPollingOptions);
     assert.strictEqual(res?.body?.status, "Succeeded");
   });
 });
