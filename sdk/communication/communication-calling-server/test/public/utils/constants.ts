@@ -16,11 +16,10 @@ export const App_Base_Url = "https://endpoint";
 export const Audio_File_Name = "sample-message.wav";
 export const Incoming_Request_Secret = "helloworld";
 export const IncomingCallContext = "2sfssfs2ffef";
-export const ParticipantGuid = "0000000e-f45b-ea62-69f0-553a0d000139";
+export const ParticipantGuid = "0000000f-31de-3672-570c-113a0d00233c";
 export const ParticipantGuidAudioGroup = "0000000e-f7ec-e8f2-fa5d-573a0d003d42";
 export const PlayAudioOptionsLoop = true;
-export const Audio_File_Url =
-  "https://acsfunctionappstorage.blob.core.windows.net/acs-audio-files/sample-message.wav";
+export const Audio_File_Url = `${App_Base_Url}/audio/${Audio_File_Name}`;
 export const App_Callback_Url = `${App_Base_Url}/api/incident/callback?SecretKey=${base64encode(
   Incoming_Request_Secret
 )}`;

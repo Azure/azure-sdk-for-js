@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import {
-  Recorder,
-  RecorderEnvironmentSetup,
   env,
   isPlaybackMode,
-  record
+  record,
+  Recorder,
+  RecorderEnvironmentSetup
 } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 import { CallingServerClient } from "../../src";
 import { Context } from "mocha";
 import { RestError } from "@azure/core-http";
-import { assert } from "chai";
 
 const replaceableVariables: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana"
@@ -44,16 +44,6 @@ describe("Delete Live Tests", function() {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }
-  });
-
-  it("delete", async function(this: Context) {
-    if (!isPlaybackMode()) {
-      // tslint:disable-next-line:no-invalid-this
-      this.skip();
-    }
-
-    const result = await callingServerServiceClient.deleteRecording(url);
-    assert.equal(200, result._response.status);
   });
 
   it("unauthorized delete", async function(this: Context) {
