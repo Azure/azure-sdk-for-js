@@ -156,6 +156,7 @@ export function makeBrowserTestConfig(pkg: PackageJson): RollupOptions {
       multiEntry({ exports: false }),
       nodeResolve({
         mainFields: ["module", "browser"],
+        preferBuiltins: false,
       }),
       cjs(),
       json(),

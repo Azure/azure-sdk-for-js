@@ -11,11 +11,11 @@
   "types": "types/schema-registry-avro.shims.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:browser": "tsc -p . && dev-tool run bundle",
-    "build:node": "tsc -p . && dev-tool run bundle",
+    "build:browser": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build:node": "tsc -p . && dev-tool run bundle --browser-test=false",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false  && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp \"types/!(schema-registry-avro.shims.d.ts)\" *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -73,7 +73,6 @@
   "dependencies": {
     "@azure/schema-registry": "1.0.2",
     "avsc": "^5.5.1",
-    "buffer": "^6.0.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
@@ -89,6 +88,7 @@
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
+    "buffer": "^6.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
