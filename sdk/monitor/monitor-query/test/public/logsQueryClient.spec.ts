@@ -12,6 +12,7 @@ import { Durations, LogsQueryClient, LogsQueryResultStatus, QueryBatch } from ".
 import { assertQueryTable, getMonitorWorkspaceId, loggerForTest } from "./shared/testShared";
 import { ErrorInfo } from "../../src/generated/logquery/src";
 import { RestError } from "@azure/core-rest-pipeline";
+import { setLogLevel } from "@azure/logger";
 
 describe("LogsQueryClient live tests", function () {
   let monitorWorkspaceId: string;
@@ -459,6 +460,7 @@ describe("LogsQueryClient live tests - server timeout", function () {
   let recorder: Recorder;
 
   beforeEach(function (this: Context) {
+    setLogLevel("verbose");
     loggerForTest.verbose(`Recorder: starting...`);
     const recordedClient: RecorderAndLogsClient = createRecorderAndLogsClient(this, {
       maxRetries: 0,
@@ -478,7 +480,6 @@ describe("LogsQueryClient live tests - server timeout", function () {
   // disabling http retries otherwise we'll waste retries to realize that the
   // query has timed out on purpose.
   it("serverTimeoutInSeconds", async function (this: Context) {
-    process.env.AZURE_LOG_LEVEL = "verbose";
     try {
       await logsClient.queryWorkspace(
         monitorWorkspaceId,
@@ -497,7 +498,6 @@ describe("LogsQueryClient live tests - server timeout", function () {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
       const { request: _request, response: _response, ...stringizableError }: any = err;
       const innermostError = getInnermostErrorDetails(err);
-
       assert.deepNestedInclude(
         err as RestError,
         {
