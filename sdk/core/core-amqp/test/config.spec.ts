@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as chai from "chai";
+import { assert } from "chai";
 import { ConnectionConfig } from "../src";
 import { isSharedAccessSignature } from "../src/connectionConfig/connectionConfig";
-
-const should = chai.should();
 
 describe("ConnectionConfig", function () {
   describe("Base", function () {
@@ -13,10 +11,11 @@ describe("ConnectionConfig", function () {
       const config = ConnectionConfig.create(
         "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep"
       );
-      config.should.have.property("host").that.equals("hostname.servicebus.windows.net");
-      config.should.have.property("sharedAccessKeyName").that.equals("sakName");
-      config.should.have.property("sharedAccessKey").that.equals("sak");
-      config.should.have.property("entityPath").that.equals("ep");
+
+      assert.equal(config.host, "hostname.servicebus.windows.net");
+      assert.equal(config.sharedAccessKeyName, "sakName");
+      assert.equal(config.sharedAccessKey, "sak");
+      assert.equal(config.entityPath, "ep");
       done();
     });
 
@@ -25,7 +24,7 @@ describe("ConnectionConfig", function () {
         "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak",
         "abc"
       );
-      config.should.have.property("entityPath").that.equals("abc");
+      assert.equal(config.entityPath, "abc");
       done();
     });
 
@@ -33,7 +32,7 @@ describe("ConnectionConfig", function () {
       const connectionString =
         "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak";
       const config = ConnectionConfig.create(connectionString);
-      should.not.exist(config.entityPath);
+      assert.isUndefined(config.entityPath);
       done();
     });
 
@@ -45,10 +44,10 @@ describe("ConnectionConfig", function () {
         EntityPath = ep;
       `;
       const config = ConnectionConfig.create(connectionString);
-      config.should.have.property("host").that.equals("hostname.servicebus.windows.net");
-      config.should.have.property("sharedAccessKeyName").that.equals("sakName");
-      config.should.have.property("sharedAccessKey").that.equals("sak");
-      config.should.have.property("entityPath").that.equals("ep");
+      assert.equal(config.host, "hostname.servicebus.windows.net");
+      assert.equal(config.sharedAccessKeyName, "sakName");
+      assert.equal(config.sharedAccessKey, "sak");
+      assert.equal(config.entityPath, "ep");
       done();
     });
 
@@ -57,7 +56,7 @@ describe("ConnectionConfig", function () {
         = something;
       `;
 
-      should.throw(() => {
+      assert.throws(() => {
         ConnectionConfig.create(connectionString);
       }, /Connection string malformed/);
 
@@ -70,8 +69,8 @@ describe("ConnectionConfig", function () {
         SharedAccessKey=;
       `;
       const config = ConnectionConfig.create(connectionString);
-      config.should.have.property("host").that.equals("hostname.servicebus.windows.net");
-      config.should.have.property("sharedAccessKey").that.equals("");
+      assert.equal(config.host, "hostname.servicebus.windows.net");
+      assert.equal(config.sharedAccessKey, "");
       done();
     });
 
@@ -80,7 +79,7 @@ describe("ConnectionConfig", function () {
         EntityPath;
       `;
 
-      should.throw(() => {
+      assert.throws(() => {
         ConnectionConfig.create(connectionString);
       }, /Connection string malformed/);
       done();
@@ -91,7 +90,7 @@ describe("ConnectionConfig", function () {
         EntityPath=ep;
       `;
 
-      should.throw(() => {
+      assert.throws(() => {
         ConnectionConfig.create(connectionString);
       }, /Missing Endpoint/);
 
@@ -107,7 +106,7 @@ describe("ConnectionConfig", function () {
       `;
 
       it("requires that connection config be present", (done) => {
-        should.throw(() => {
+        assert.throws(() => {
           ConnectionConfig.validate(undefined as any);
         }, /Missing configuration/);
 
@@ -123,7 +122,7 @@ describe("ConnectionConfig", function () {
           sharedAccessKey: "sak",
         };
 
-        should.throw(() => {
+        assert.throws(() => {
           ConnectionConfig.validate(config);
         }, /Missing 'endpoint'/);
 
@@ -139,7 +138,7 @@ describe("ConnectionConfig", function () {
           sharedAccessKey: "sak",
         };
 
-        should.throw(() => {
+        assert.throws(() => {
           ConnectionConfig.validate(config);
         }, /Missing 'host'/);
 
@@ -156,7 +155,7 @@ describe("ConnectionConfig", function () {
           entityPath: "",
         };
 
-        should.throw(() => {
+        assert.throws(() => {
           ConnectionConfig.validate(config, { isEntityPathRequired: true });
         }, /Missing 'entityPath'/);
 
@@ -172,7 +171,7 @@ describe("ConnectionConfig", function () {
           sharedAccessKey: "sak",
         };
 
-        should.throw(() => {
+        assert.throws(() => {
           ConnectionConfig.validate(config);
         }, /Missing 'sharedAccessKeyName'/);
 
@@ -188,7 +187,7 @@ describe("ConnectionConfig", function () {
           sharedAccessKey: "",
         };
 
-        should.throw(() => {
+        assert.throws(() => {
           ConnectionConfig.validate(config);
         }, /Missing 'sharedAccessKey'/);
 
@@ -214,25 +213,25 @@ describe("ConnectionConfig", function () {
       it("undefined is not stringified", () => {
         config.entityPath = undefined;
         ConnectionConfig.validate(config);
-        should.equal(config.entityPath, undefined, `EntityPath is not undefined`);
+        assert.isUndefined(config.entityPath);
       });
 
       it("null is not stringified", () => {
         config.entityPath = null as any;
         ConnectionConfig.validate(config);
-        should.equal(config.entityPath, null, `EntityPath is not null`);
+        assert.isNull(config.entityPath);
       });
 
       it("number is stringified", () => {
         config.entityPath = 3 as any;
         ConnectionConfig.validate(config);
-        should.equal(config.entityPath, "3", `EntityPath is not stringified`);
+        assert.equal(config.entityPath, "3", `EntityPath is not stringified`);
       });
 
       it("string is unchanged", () => {
         config.entityPath = "entityPath";
         ConnectionConfig.validate(config);
-        should.equal(config.entityPath, "entityPath", `EntityPath is not a string`);
+        assert.equal(config.entityPath, "entityPath", `EntityPath is not a string`);
       });
     });
   });
@@ -243,7 +242,7 @@ describe("ConnectionConfig", function () {
       "SharedAccessSignature=SharedAccessSignature sr=<resource>&sig=someb64=&se=<expiry>&skn=<keyname>",
     ].forEach((validCs, i) => {
       it(`Valid shared access signatures[${i}]`, () => {
-        should.equal(isSharedAccessSignature(validCs), true);
+        assert.equal(isSharedAccessSignature(validCs), true);
       });
     });
 
@@ -252,7 +251,7 @@ describe("ConnectionConfig", function () {
       "SharedAccessSignature=haredAccessSignature sr=<resource>&sig=someb64=&se=<expiry>&skn=<keyname>;Endpoint=asdfasdf",
     ].forEach((invalidCs, i) => {
       it(`Invalid shared access signature[${i}]`, () => {
-        should.equal(isSharedAccessSignature(invalidCs), false);
+        assert.equal(isSharedAccessSignature(invalidCs), false);
       });
     });
 
