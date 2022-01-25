@@ -16,7 +16,6 @@ const replaceableVariables: Record<string, string> = {
   AZURE_TENANT_ID: "98123456-7614-3456-5678-789980112547",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_LOG_LEVEL: "verbose",
 };
 export interface RecorderAndLogsClient {
   client: LogsQueryClient;
