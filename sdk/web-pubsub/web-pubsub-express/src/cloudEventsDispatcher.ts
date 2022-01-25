@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as utils from "./utils";
 import { IncomingMessage, ServerResponse } from "http";
 import { URL } from "url";
 import { logger } from "./logger";
-import * as utils from "./utils";
 
 import {
   ConnectRequest,
   ConnectResponse,
-  UserEventRequest,
-  DisconnectedRequest,
   ConnectedRequest,
   ConnectionContext,
   ConnectResponseHandler,
+  DisconnectedRequest,
+  UserEventRequest,
   UserEventResponseHandler,
   WebPubSubEventHandlerOptions,
 } from "./cloudEventsProtocols";
@@ -38,7 +38,7 @@ function getDataType(request: IncomingMessage): DataType {
     return DataType.None;
   }
 
-  var contentType = contentTypeheader.split(";")[0].trim();
+  const contentType = contentTypeheader.split(";")[0].trim();
   if (contentType === "application/json") {
     return DataType.Json;
   }
