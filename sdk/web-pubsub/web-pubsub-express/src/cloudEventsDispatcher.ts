@@ -39,7 +39,6 @@ function getDataType(request: IncomingMessage): DataType {
   }
 
   var contentType = contentTypeheader.split(";")[0].trim();
-  console.log(contentType);
   if (contentType === "application/json") {
     return DataType.Json;
   }
