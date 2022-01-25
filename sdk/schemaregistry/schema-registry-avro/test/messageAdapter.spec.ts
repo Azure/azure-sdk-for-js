@@ -50,11 +50,11 @@ describe("Message Adapters", function () {
     it("EventDataAdapterParameters", function () {
       const areEqual: AssertEqualKeys<
         EventDataAdapterParameters,
-        Omit<Omit<EventData, "body">, "contentType">
+        Omit<EventData, "body" | "contentType">
       > = true;
       assert.isTrue(
         areEqual,
-        'EventDataAdapterParameters should have the same shape as Omit<Omit<EventData, "body">, "contentType">'
+        'EventDataAdapterParameters should have the same shape as Omit<EventData, "body" | "contentType">.'
       );
     });
   });
