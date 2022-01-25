@@ -35,7 +35,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/",
+    "types/communication-chat.d.ts",
     "README.md",
     "LICENSE"
   ],
