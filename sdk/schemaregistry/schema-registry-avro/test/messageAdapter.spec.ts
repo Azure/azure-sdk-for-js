@@ -23,7 +23,7 @@ const dummyUint8Array = Uint8Array.from([0]);
 interface AdapterTestInfo<T> {
   adapterFactory: MessageAdapter<T>;
   nonUint8ArrayMessage: T;
-  testSuiteName: string;
+  adapterFactoryName: string;
 }
 
 const eventDataAdapterTestInfo: AdapterTestInfo<EventData> = {
@@ -32,18 +32,15 @@ const eventDataAdapterTestInfo: AdapterTestInfo<EventData> = {
     body: "",
     contentType: "",
   },
-  testSuiteName: createEventDataAdapter.name,
+  adapterFactoryName: createEventDataAdapter.name,
 };
 
 describe("Message Adapters", function () {
   matrix([[eventDataAdapterTestInfo]] as const, async (adapterTestInfo: AdapterTestInfo<any>) => {
-    describe(adapterTestInfo.testSuiteName, function () {
-      const adapter: MessageAdapter<EventData> = adapterTestInfo.adapterFactory;
-      it("Adapter implements MessageAdapter", async () => {
-        assert.isTrue(
-          isMessageAdapter<EventData>(adapter),
-          `createEventDataAdapter should create a valid MessageAdapter`
-        );
+    describe(adapterTestInfo.adapterFactoryName, function () {
+      const adapter = adapterTestInfo.adapterFactory;
+      it("implements MessageAdapter", async () => {
+        assert.isTrue(isMessageAdapter(adapter), `should create a valid MessageAdapter`);
       });
       it("consumeMessage rejects non-Uint8Array body", async () => {
         assert.throws(
