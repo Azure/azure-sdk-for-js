@@ -136,8 +136,8 @@ describe("SchemaRegistryAvroEncoder", function () {
   });
 
   it("decodes from a compatible reader schema", async () => {
-    let encoder = await createTestEncoder();
-    let message = await encoder.encodeMessageData(testValue, testSchema);
+    const encoder = await createTestEncoder();
+    const message = await encoder.encodeMessageData(testValue, testSchema);
     const decodedValue: any = await encoder.decodeMessageData(message, {
       /**
        * This schema is missing the favoriteNumber field that exists in the writer schema
@@ -166,8 +166,8 @@ describe("SchemaRegistryAvroEncoder", function () {
   });
 
   it("fails to decode from an incompatible reader schema", async () => {
-    let encoder = await createTestEncoder();
-    let message = await encoder.encodeMessageData(testValue, testSchema);
+    const encoder = await createTestEncoder();
+    const message = await encoder.encodeMessageData(testValue, testSchema);
     assert.isRejected(
       encoder.decodeMessageData(message, {
         schema: JSON.stringify({
