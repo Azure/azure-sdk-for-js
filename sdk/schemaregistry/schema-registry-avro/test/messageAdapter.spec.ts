@@ -45,7 +45,7 @@ describe("Message Adapters", function () {
       it("consumeMessage rejects non-Uint8Array body", async () => {
         assert.throws(
           () => adapter.consumeMessage(adapterTestInfo.nonUint8ArrayMessage),
-          /Expected the body field to defined and have a Uint8Array/
+          /Expected the body field to be defined and have a Uint8Array/
         );
       });
       it("consumeMessage rejects messages with no contentType", async () => {
