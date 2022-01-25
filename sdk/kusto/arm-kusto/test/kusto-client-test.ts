@@ -12,7 +12,7 @@ import {
   RecorderEnvironmentSetup,
   Recorder
 } from "@azure-tools/test-recorder";
-import { Cluster, KustoManagementClient } from "../src";
+import { Cluster, ClustersListOptionalParams, ClusterUpdate, KustoManagementClient } from "../src";
 import { ClientSecretCredential } from "@azure/identity";
 import * as assert from "assert";
 
@@ -33,10 +33,14 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-describe("KustoManagementClient test", () => {
+describe("KustoManagementClient", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: KustoManagementClient;
+  let resourceGroup: string;
+  let clusterName_1: string;
+  let clusterName_2: string;
+  let clusterParameters: Cluster;
 
   beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
@@ -48,16 +52,11 @@ describe("KustoManagementClient test", () => {
       env.AZURE_CLIENT_SECRET
     );
     client = new KustoManagementClient(credential, subscriptionId);
-  });
-
-  afterEach(async function () {
-    await recorder.stop();
-  });
-
-  it("#beginCreateOrUpdateAndWait - create clusters", async function () {
-    const clusterName = "MyClusterNameXarqRnd";
-    const BODY: Cluster = {
-      "location": "eastus",
+    resourceGroup = "marytest";
+    clusterName_1 = "mytestclustername5";
+    clusterName_2 = "mytestclustername6";
+    clusterParameters = {
+      "location": "westeurope",
       "sku": {
         "name": "Standard_L8s_v2",
         "tier": "Standard"
@@ -66,7 +65,53 @@ describe("KustoManagementClient test", () => {
         "type": "SystemAssigned"
       },
     };
-    const res = await client.clusters.beginCreateOrUpdateAndWait("marytest", clusterName, BODY);
-    assert.equal(res.location, "East US");
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  //kusto_client.clusters.beginCreateOrUpdateAndWait
+  it("could create clusters", async function () {
+    let res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName_1, clusterParameters);
+    assert.strictEqual(res.name, clusterName_1);
+    res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName_2, clusterParameters);
+    assert.strictEqual(res.name, clusterName_2);
+  });
+
+  //kusto_client.clusters.get
+  it("could get cluster", async () => {
+    const res = await client.clusters.get(resourceGroup, clusterName_1);
+    assert.strictEqual(res.name, clusterName_1);
+  });
+
+  //kusto_client.clusters.list
+  it("could list cluster filtered by resource group", async () => {
+    const resArray = new Array();
+    for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.ok(resArray.length >= 2);
+  });
+
+  //kusto_client.clusters.beginUpdateAndWait
+  it("could update tags in cluster", async () => {
+    const updateParams: ClusterUpdate = {
+      tags: {
+        key1: "value1",
+        key2: "value2",
+      }
+    };
+    const res = await client.clusters.beginUpdateAndWait(resourceGroup, clusterName_2, updateParams);
+    assert.strictEqual(res.name, clusterName_2);
+    assert.ok(res.tags);
+  });
+
+  //kusto_client.clusters.beginDeleteAndWait
+  it("could delete clusters", async () => {
+    let res: any = await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_1);
+    assert.strictEqual(res?.body?.status, "Succeeded");
+    res = await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_2);
+    assert.strictEqual(res?.body?.status, "Succeeded");
   });
 });
