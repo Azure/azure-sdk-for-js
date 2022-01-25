@@ -239,7 +239,11 @@ describe("ManagedIdentityCredential", function () {
   it("IMDS MSI skips verification if the AZURE_POD_IDENTITY_AUTHORITY_HOST environment variable is available", async function () {
     process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST = "token URL";
 
-    assert.ok(await imdsMsi.isAvailable("https://endpoint/.default"));
+    assert.ok(
+      await imdsMsi.isAvailable({
+        scopes: "https://endpoint/.default",
+      })
+    );
   });
 
   it("IMDS MSI works even if the AZURE_POD_IDENTITY_AUTHORITY_HOST ends with a slash", async function () {

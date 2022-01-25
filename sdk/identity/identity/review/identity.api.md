@@ -247,8 +247,9 @@ export const logger: AzureLogger;
 
 // @public
 export class ManagedIdentityCredential implements TokenCredential {
-    constructor(clientId: string, options?: TokenCredentialOptions);
-    constructor(options?: TokenCredentialOptions);
+    // Warning: (ae-forgotten-export) The symbol "ManagedIdentityCredentialOptions" needs to be exported by the entry point index.d.ts
+    constructor(clientId: string, options?: ManagedIdentityCredentialOptions);
+    constructor(options?: ManagedIdentityCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 

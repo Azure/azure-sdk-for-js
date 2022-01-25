@@ -19,7 +19,8 @@ const logger = credentialLogger(msiName);
  */
 function prepareRequestOptions(
   scopes: string | string[],
-  clientId?: string
+  clientId?: string,
+  resourceId?: string
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -32,6 +33,9 @@ function prepareRequestOptions(
 
   if (clientId) {
     body.client_id = clientId;
+  }
+  if (resourceId) {
+    body.resource_id = resourceId;
   }
 
   // This error should not bubble up, since we verify that this environment variable is defined in the isAvailable() method defined below.
@@ -55,7 +59,7 @@ function prepareRequestOptions(
  * Defines how to determine whether the Azure Cloud Shell MSI is available, and also how to retrieve a token from the Azure Cloud Shell MSI.
  */
 export const cloudShellMsi: MSI = {
-  async isAvailable(scopes): Promise<boolean> {
+  async isAvailable({ scopes }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
@@ -71,7 +75,7 @@ export const cloudShellMsi: MSI = {
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    const { identityClient, scopes, clientId } = configuration;
+    const { identityClient, scopes, clientId, resourceId } = configuration;
 
     logger.info(
       `${msiName}: Using the endpoint coming form the environment variable MSI_ENDPOINT = ${process.env.MSI_ENDPOINT}.`
@@ -79,7 +83,7 @@ export const cloudShellMsi: MSI = {
 
     const request = createPipelineRequest({
       abortSignal: getTokenOptions.abortSignal,
-      ...prepareRequestOptions(scopes, clientId),
+      ...prepareRequestOptions(scopes, clientId, resourceId),
       // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
       allowInsecureConnection: true,
     });

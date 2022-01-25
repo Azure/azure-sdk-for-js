@@ -24,7 +24,8 @@ const readFileAsync = promisify(fs.readFile);
 function prepareRequestOptions(
   scopes: string | string[],
   clientAssertion: string,
-  clientId: string
+  clientId: string,
+  resourceId?: string
 ): PipelineRequestOptions {
   const bodyParams: Record<string, string> = {
     scope: Array.isArray(scopes) ? scopes.join(" ") : scopes,
@@ -33,6 +34,10 @@ function prepareRequestOptions(
     client_id: clientId,
     grant_type: "client_credentials",
   };
+
+  if (resourceId) {
+    bodyParams.resource_id = resourceId;
+  }
 
   const urlParams = new URLSearchParams(bodyParams);
   const url = new URL(
@@ -80,7 +85,7 @@ export function tokenExchangeMsi(): MSI {
   }
 
   return {
-    async isAvailable(_scopes, _identityClient, clientId): Promise<boolean> {
+    async isAvailable({ clientId }): Promise<boolean> {
       const env = process.env;
       const result = Boolean(
         (clientId || env.AZURE_CLIENT_ID) && env.AZURE_TENANT_ID && azureFederatedTokenFilePath
@@ -96,7 +101,7 @@ export function tokenExchangeMsi(): MSI {
       configuration: MSIConfiguration,
       getTokenOptions: GetTokenOptions = {}
     ): Promise<AccessToken | null> {
-      const { identityClient, scopes, clientId } = configuration;
+      const { identityClient, scopes, clientId, resourceId } = configuration;
       logger.info(`${msiName}: Using the client assertion coming from environment variables.`);
 
       let assertion: string;
@@ -111,7 +116,12 @@ export function tokenExchangeMsi(): MSI {
 
       const request = createPipelineRequest({
         abortSignal: getTokenOptions.abortSignal,
-        ...prepareRequestOptions(scopes, assertion, clientId || process.env.AZURE_CLIENT_ID!),
+        ...prepareRequestOptions(
+          scopes,
+          assertion,
+          clientId || process.env.AZURE_CLIENT_ID!,
+          resourceId
+        ),
         // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
         allowInsecureConnection: true,
       });

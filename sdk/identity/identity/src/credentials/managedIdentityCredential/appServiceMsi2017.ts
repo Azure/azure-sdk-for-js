@@ -28,7 +28,8 @@ function expiresOnParser(requestBody: TokenResponseParsedBody): number {
  */
 function prepareRequestOptions(
   scopes: string | string[],
-  clientId?: string
+  clientId?: string,
+  resourceId?: string
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -42,6 +43,9 @@ function prepareRequestOptions(
 
   if (clientId) {
     queryParameters.clientid = clientId;
+  }
+  if (resourceId) {
+    queryParameters.resourceid = resourceId;
   }
 
   const query = new URLSearchParams(queryParameters);
@@ -68,7 +72,7 @@ function prepareRequestOptions(
  * Defines how to determine whether the Azure App Service MSI is available, and also how to retrieve a token from the Azure App Service MSI.
  */
 export const appServiceMsi2017: MSI = {
-  async isAvailable(scopes): Promise<boolean> {
+  async isAvailable({ scopes }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
@@ -87,7 +91,7 @@ export const appServiceMsi2017: MSI = {
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    const { identityClient, scopes, clientId } = configuration;
+    const { identityClient, scopes, clientId, resourceId } = configuration;
 
     logger.info(
       `${msiName}: Using the endpoint and the secret coming form the environment variables: MSI_ENDPOINT=${process.env.MSI_ENDPOINT} and MSI_SECRET=[REDACTED].`
@@ -95,7 +99,7 @@ export const appServiceMsi2017: MSI = {
 
     const request = createPipelineRequest({
       abortSignal: getTokenOptions.abortSignal,
-      ...prepareRequestOptions(scopes, clientId),
+      ...prepareRequestOptions(scopes, clientId, resourceId),
       // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
       allowInsecureConnection: true,
     });

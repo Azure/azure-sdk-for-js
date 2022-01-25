@@ -10,7 +10,7 @@ import {
   RestError,
 } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { IdentityClient, TokenResponseParsedBody } from "../../client/identityClient";
+import { TokenResponseParsedBody } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { AuthenticationError } from "../../errors";
 import { createSpan } from "../../util/tracing";
@@ -48,6 +48,7 @@ function expiresOnParser(requestBody: TokenResponseParsedBody): number {
 function prepareRequestOptions(
   scopes: string | string[],
   clientId?: string,
+  resourceId?: string,
   options?: {
     skipQuery?: boolean;
     skipMetadataHeader?: boolean;
@@ -70,6 +71,9 @@ function prepareRequestOptions(
     };
     if (clientId) {
       queryParameters.client_id = clientId;
+    }
+    if (resourceId) {
+      queryParameters.resource_id = resourceId;
     }
     const params = new URLSearchParams(queryParameters);
     query = `?${params.toString()}`;
@@ -106,12 +110,17 @@ export const imdsMsiRetryConfig = {
  * Defines how to determine whether the Azure IMDS MSI is available, and also how to retrieve a token from the Azure IMDS MSI.
  */
 export const imdsMsi: MSI = {
-  async isAvailable(
-    scopes: string | string[],
-    identityClient: IdentityClient,
-    clientId?: string,
-    getTokenOptions?: GetTokenOptions
-  ): Promise<boolean> {
+  async isAvailable({
+    scopes,
+    identityClient,
+    clientId,
+    resourceId,
+    getTokenOptions,
+  }): Promise<boolean> {
+    if (!identityClient) {
+      throw new Error("Missing IdentityClient");
+    }
+
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
@@ -127,7 +136,7 @@ export const imdsMsi: MSI = {
       return true;
     }
 
-    const requestOptions = prepareRequestOptions(resource, clientId, {
+    const requestOptions = prepareRequestOptions(resource, clientId, resourceId, {
       skipMetadataHeader: true,
       skipQuery: true,
     });
@@ -188,7 +197,7 @@ export const imdsMsi: MSI = {
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    const { identityClient, scopes, clientId } = configuration;
+    const { identityClient, scopes, clientId, resourceId } = configuration;
 
     logger.info(
       `${msiName}: Using the Azure IMDS endpoint coming from the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
@@ -199,7 +208,7 @@ export const imdsMsi: MSI = {
       try {
         const request = createPipelineRequest({
           abortSignal: getTokenOptions.abortSignal,
-          ...prepareRequestOptions(scopes, clientId),
+          ...prepareRequestOptions(scopes, clientId, resourceId),
           allowInsecureConnection: true,
         });
         const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);

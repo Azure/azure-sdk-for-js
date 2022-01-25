@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support to specify a custom resource Id on the `ManagedIdentityCredential`.
+
 ### Breaking Changes
 
 ### Bugs Fixed
