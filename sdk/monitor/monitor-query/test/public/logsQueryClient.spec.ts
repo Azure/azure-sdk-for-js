@@ -528,7 +528,7 @@ function getInnermostErrorDetails(thrownError: any): undefined | ErrorInfo {
     typeof thrownError.details !== "object" ||
     typeof thrownError.details.error !== "object"
   ) {
-    loggerForTest.verbose(`Thrown error was incorrect: `, thrownError);
+    loggerForTest.error(`Thrown error was incorrect: `, thrownError);
     throw new Error("Error does not contain expected `details` property");
   }
 
