@@ -183,6 +183,5 @@ describe("Call Connection Live Test", function() {
         await callConnection.hangUp();
       }
     });
-
   });
 });

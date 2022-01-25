@@ -256,9 +256,7 @@ describe("Server Call Live Test", function() {
       connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
       try {
         const callLocator: GroupCallLocator = { groupCallId: groupId };
-        const added_participant_id = TestUtils.getFixedUserId(
-           Constants.ParticipantGuid
-        );
+        const added_participant_id = TestUtils.getFixedUserId(Constants.ParticipantGuid);
         const participant: CommunicationUserIdentifier = {
           communicationUserId: added_participant_id
         };
@@ -283,4 +281,4 @@ describe("Server Call Live Test", function() {
       }
     });
   });
-}); 
+});
