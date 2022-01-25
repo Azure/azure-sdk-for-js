@@ -117,10 +117,6 @@ export const imdsMsi: MSI = {
     resourceId,
     getTokenOptions,
   }): Promise<boolean> {
-    if (!identityClient) {
-      throw new Error("Missing IdentityClient");
-    }
-
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
@@ -134,6 +130,10 @@ export const imdsMsi: MSI = {
     // if the PodIdentityEndpoint environment variable was set no need to probe the endpoint, it can be assumed to exist
     if (process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST) {
       return true;
+    }
+
+    if (!identityClient) {
+      throw new Error("Missing IdentityClient");
     }
 
     const requestOptions = prepareRequestOptions(resource, clientId, resourceId, {
