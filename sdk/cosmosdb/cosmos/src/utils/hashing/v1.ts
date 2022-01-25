@@ -15,9 +15,7 @@ export function hashV1PartitionKey(partitionKey: v1Key): string {
   const hash = MurmurHash.x86.hash32(toHash);
   const encodedJSBI = writeNumberForBinaryEncodingJSBI(hash);
   const encodedValue = encodeByType(partitionKey);
-  return Buffer.concat([encodedJSBI, encodedValue])
-    .toString("hex")
-    .toUpperCase();
+  return Buffer.concat([encodedJSBI, encodedValue]).toString("hex").toUpperCase();
 }
 
 function prefixKeyByType(key: v1Key): Buffer {
@@ -28,7 +26,7 @@ function prefixKeyByType(key: v1Key): Buffer {
       bytes = Buffer.concat([
         Buffer.from(BytePrefix.String, "hex"),
         Buffer.from(truncated),
-        Buffer.from(BytePrefix.Undefined, "hex")
+        Buffer.from(BytePrefix.Undefined, "hex"),
       ]);
       return bytes;
     }

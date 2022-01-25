@@ -17,30 +17,28 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
     "number-of-messages": {
       required: true,
       description: "Total number of messages to send",
-      shortName: "max",
-      longName: "maximum",
-      defaultValue: 10000
+      shortName: "send",
+      defaultValue: 10000,
     },
     "message-body-size-in-bytes": {
       required: true,
       description: "Size of each message body in bytes",
       shortName: "size",
       longName: "size-in-bytes",
-      defaultValue: 2000
+      defaultValue: 2000,
     },
     "max-message-count": {
       required: true,
       description: "Max number of messages to receive",
-      shortName: "max",
-      longName: "maximum",
-      defaultValue: 50
-    }
+      shortName: "max-receive",
+      defaultValue: 50,
+    },
   };
 
   constructor() {
     super();
     this.receiver = ServiceBusTest.sbClient.createReceiver(BatchReceiveTest.queueName, {
-      receiveMode: "receiveAndDelete"
+      receiveMode: "receiveAndDelete",
     });
   }
 
@@ -53,7 +51,7 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
 
     const {
       "number-of-messages": { value: numberOfMessages },
-      "message-body-size-in-bytes": { value: messageBodySize }
+      "message-body-size-in-bytes": { value: messageBodySize },
     } = this.parsedOptions;
 
     await sendMessages(sender, numberOfMessages, messageBodySize);

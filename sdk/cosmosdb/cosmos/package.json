@@ -19,16 +19,16 @@
   "module": "./dist-esm/src/index.js",
   "react-native": "./dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/request/defaultAgent.js": "./dist-esm/request/defaultAgent.browser.js",
-    "./dist-esm/utils/atob.js": "./dist-esm/utils/atob.browser.js",
-    "./dist-esm/utils/digest.js": "./dist-esm/utils/digest.browser.js",
-    "./dist-esm/utils/hmac.js": "./dist-esm/utils/hmac.browser.js",
-    "./dist-esm/utils/url.js": "./dist-esm/utils/url.browser.js"
+    "./dist-esm/src/request/defaultAgent.js": "./dist-esm/src/request/defaultAgent.browser.js",
+    "./dist-esm/src/utils/atob.js": "./dist-esm/src/utils/atob.browser.js",
+    "./dist-esm/src/utils/digest.js": "./dist-esm/src/utils/digest.browser.js",
+    "./dist-esm/src/utils/hmac.js": "./dist-esm/src/utils/hmac.browser.js",
+    "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js"
   },
   "files": [
     "changelog.md",
     "dist/",
-    "dist-esm/",
+    "dist-esm/src/",
     "README.md",
     "LICENSE"
   ],
@@ -122,13 +122,13 @@
     "@types/uuid": "^8.0.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "downlevel-dts": "~0.4.0",
+    "downlevel-dts": "^0.8.0",
     "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "execa": "^5.0.0",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^2.0.0",
-    "prettier": "^1.16.4",
+    "prettier": "^2.5.1",
     "requirejs": "^2.3.5",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",

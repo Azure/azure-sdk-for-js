@@ -18,7 +18,7 @@ export function getRuntimeInfo(): string {
   const navigator = self.navigator as NavigatorEx;
   const osInfo = {
     key: "OS",
-    value: (navigator.oscpu || navigator.platform).replace(" ", "")
+    value: (navigator.oscpu || navigator.platform).replace(" ", ""),
   };
 
   return `${osInfo.key}/${osInfo.value}`;

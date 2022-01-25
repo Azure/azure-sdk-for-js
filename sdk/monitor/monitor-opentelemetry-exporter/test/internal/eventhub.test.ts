@@ -9,7 +9,7 @@ import { ENQUEUED_TIME, TIME_SINCE_ENQUEUED } from "../../src/utils/constants/ap
 import {
   AzNamespace,
   MessageBusDestination,
-  MicrosoftEventHub
+  MicrosoftEventHub,
 } from "../../src/utils/constants/span/azAttributes";
 import { parseEventHubSpan } from "../../src/utils/eventhub";
 import { RemoteDependencyData, TelemetryItem as Envelope } from "../../src/generated";
@@ -22,7 +22,7 @@ describe("#parseEventHubSpan(...)", () => {
   const attributes: SpanAttributes = {
     [AzNamespace]: MicrosoftEventHub,
     ["peer.address"]: peerAddress,
-    [MessageBusDestination]: destination
+    [MessageBusDestination]: destination,
   };
 
   it("should correctly parse SpanKind.CLIENT", () => {
@@ -79,17 +79,17 @@ describe("#parseEventHubSpan(...)", () => {
       undefined,
       [
         {
-          context: (null as unknown) as SpanContext,
-          attributes: { [ENQUEUED_TIME]: startTime - 111 }
+          context: null as unknown as SpanContext,
+          attributes: { [ENQUEUED_TIME]: startTime - 111 },
         },
         {
-          context: (null as unknown) as SpanContext,
-          attributes: { [ENQUEUED_TIME]: startTime - 222 }
+          context: null as unknown as SpanContext,
+          attributes: { [ENQUEUED_TIME]: startTime - 222 },
         },
         {
-          context: (null as unknown) as SpanContext,
-          attributes: { [ENQUEUED_TIME]: startTime - 111 }
-        }
+          context: null as unknown as SpanContext,
+          attributes: { [ENQUEUED_TIME]: startTime - 111 },
+        },
       ]
     );
 
@@ -102,7 +102,7 @@ describe("#parseEventHubSpan(...)", () => {
     assert.strictEqual(baseData.type, `Queue Message | ${attributes[AzNamespace]}`);
     assert.strictEqual((baseData as any).source, `${peerAddress}/${destination}`);
     assert.deepStrictEqual(baseData.measurements, {
-      [TIME_SINCE_ENQUEUED]: 148
+      [TIME_SINCE_ENQUEUED]: 148,
     });
 
     assert.strictEqual(baseData.target, undefined);

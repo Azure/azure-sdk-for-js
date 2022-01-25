@@ -6,7 +6,7 @@ import {
   getResourceIdFromPath,
   HTTPMethod,
   ResourceType,
-  trimSlashFromLeftAndRight
+  trimSlashFromLeftAndRight,
 } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { CosmosHeaders } from "./queryExecutionContext";
@@ -120,10 +120,7 @@ export function getAuthorizationTokenUsingResourceTokens(
     // Item path
     if (pathSegments.length === 6) {
       // Look for a container token matching the item path
-      const containerPath = pathSegments
-        .slice(0, 4)
-        .map(decodeURIComponent)
-        .join("/");
+      const containerPath = pathSegments.slice(0, 4).map(decodeURIComponent).join("/");
       if (resourceTokens[containerPath]) {
         return resourceTokens[containerPath];
       }

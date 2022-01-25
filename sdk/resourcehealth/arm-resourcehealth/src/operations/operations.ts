@@ -10,7 +10,7 @@ import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MicrosoftResourceHealthContext } from "../microsoftResourceHealthContext";
+import { MicrosoftResourceHealth } from "../microsoftResourceHealth";
 import {
   OperationsListOptionalParams,
   OperationsListResponse
@@ -18,13 +18,13 @@ import {
 
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
-  private readonly client: MicrosoftResourceHealthContext;
+  private readonly client: MicrosoftResourceHealth;
 
   /**
    * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
-  constructor(client: MicrosoftResourceHealthContext) {
+  constructor(client: MicrosoftResourceHealth) {
     this.client = client;
   }
 

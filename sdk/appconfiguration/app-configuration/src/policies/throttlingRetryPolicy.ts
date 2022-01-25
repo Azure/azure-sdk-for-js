@@ -10,7 +10,7 @@ import {
   WebResource,
   HttpOperationResponse,
   Constants,
-  RestError
+  RestError,
 } from "@azure/core-http";
 import { delay } from "@azure/core-http";
 import { RetryOptions } from "../models";
@@ -22,7 +22,7 @@ export function throttlingRetryPolicy(retryOptions?: RetryOptions): RequestPolic
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new ThrottlingRetryPolicy(nextPolicy, options, retryOptions);
-    }
+    },
   };
 }
 
@@ -67,7 +67,7 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
         this.numberOfRetries += 1;
         await delay(delayInMs, undefined, {
           abortSignal: httpRequest.abortSignal,
-          abortErrorMsg: StandardAbortMessage
+          abortErrorMsg: StandardAbortMessage,
         });
         if (httpRequest.abortSignal?.aborted) {
           throw new AbortError(StandardAbortMessage);

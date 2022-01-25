@@ -58,7 +58,7 @@ export function cleanState<TState extends KeyVaultAdminPollOperationState<TResul
     isCancelled: state.isCancelled,
     isCompleted: state.isCompleted,
     error: state.error,
-    result: state.result
+    result: state.result,
   };
 }
 
@@ -125,7 +125,7 @@ export class KeyVaultAdminPollOperation<TState, TResult> implements PollOperatio
    */
   public toString(): string {
     return JSON.stringify({
-      state: cleanState(this.state)
+      state: cleanState(this.state),
     });
   }
 }

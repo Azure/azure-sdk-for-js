@@ -53,6 +53,6 @@ export function parseKeyVaultSecretIdentifier(id: string): KeyVaultSecretIdentif
 
   return {
     sourceId: id,
-    ...parseKeyvaultIdentifier(collection, id)
+    ...parseKeyvaultIdentifier(collection, id),
   };
 }

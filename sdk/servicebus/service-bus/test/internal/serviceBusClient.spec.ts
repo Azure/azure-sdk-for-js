@@ -13,7 +13,7 @@ import {
   ServiceBusClient,
   ServiceBusError,
   ServiceBusSessionReceiver,
-  ServiceBusSender
+  ServiceBusSender,
 } from "../../src";
 import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors";
@@ -25,7 +25,7 @@ import {
   ServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
-  getRandomTestClientTypeWithNoSessions
+  getRandomTestClientTypeWithNoSessions,
 } from "../public/utils/testutils2";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 
@@ -38,8 +38,8 @@ const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
 describe("ServiceBusClient live tests", () => {
-  describe("Create ServiceBusClient", function(): void {
-    it("hostname gets populated from the connection string", function(): void {
+  describe("Create ServiceBusClient", function (): void {
+    it("hostname gets populated from the connection string", function (): void {
       const sbClient = new ServiceBusClient(
         "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
       );
@@ -52,8 +52,8 @@ describe("ServiceBusClient live tests", () => {
     });
   });
 
-  describe("Random scheme in the endpoint from connection string", function(): void {
-    it(noSessionTestClientType + ": send and receive message", async function(): Promise<void> {
+  describe("Random scheme in the endpoint from connection string", function (): void {
+    it(noSessionTestClientType + ": send and receive message", async function (): Promise<void> {
       // Create a test client to get the entity types
       const sbClient = createServiceBusClientForTests();
       const entities = await sbClient.test.createTestEntities(noSessionTestClientType);
@@ -98,7 +98,7 @@ describe("ServiceBusClient live tests", () => {
     });
   });
 
-  describe("Errors with non existing Namespace", function(): void {
+  describe("Errors with non existing Namespace", function (): void {
     let sbClient: ServiceBusClient;
     let errorWasThrown: boolean;
     beforeEach(() => {
@@ -133,9 +133,7 @@ describe("ServiceBusClient live tests", () => {
       }
     };
 
-    it("throws error when receiving batch data to a non existing namespace", async function(): Promise<
-      void
-    > {
+    it("throws error when receiving batch data to a non existing namespace", async function (): Promise<void> {
       const receiver = sbClient.createReceiver("some-queue");
 
       await receiver.receiveMessages(10).catch(testError);
@@ -143,9 +141,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     });
 
-    it("throws error when receiving streaming data from a non existing namespace", async function(): Promise<
-      void
-    > {
+    it("throws error when receiving streaming data from a non existing namespace", async function (): Promise<void> {
       const receiver = sbClient.createReceiver("some-queue");
       reduceRetries(receiver);
 
@@ -158,17 +154,17 @@ describe("ServiceBusClient live tests", () => {
             const actual: Omit<ProcessErrorArgs, "error"> = {
               errorSource: args.errorSource,
               entityPath: args.entityPath,
-              fullyQualifiedNamespace: args.fullyQualifiedNamespace
+              fullyQualifiedNamespace: args.fullyQualifiedNamespace,
             };
 
             actual.should.deep.equal({
               errorSource: "receive",
               entityPath: receiver.entityPath,
-              fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+              fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace,
             } as Omit<ProcessErrorArgs, "error">);
 
             testError(args.error);
-          }
+          },
         });
 
         should.equal(
@@ -182,7 +178,7 @@ describe("ServiceBusClient live tests", () => {
     });
   });
 
-  describe("Errors with non existing Queue/Topic/Subscription", async function(): Promise<void> {
+  describe("Errors with non existing Queue/Topic/Subscription", async function (): Promise<void> {
     let sbClient: ServiceBusClientForTests;
     let errorWasThrown: boolean;
     beforeEach(() => {
@@ -212,18 +208,14 @@ describe("ServiceBusClient live tests", () => {
       }
     };
 
-    it("throws error when receiving batch data from a non existing queue", async function(): Promise<
-      void
-    > {
+    it("throws error when receiving batch data from a non existing queue", async function (): Promise<void> {
       const receiver = sbClient.createReceiver("some-name");
       await receiver.receiveMessages(1).catch((err) => testError(err, "some-name"));
 
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     });
 
-    it("throws error when receiving batch data from a non existing topic", async function(): Promise<
-      void
-    > {
+    it("throws error when receiving batch data from a non existing topic", async function (): Promise<void> {
       const receiver = sbClient.createReceiver("some-topic-name", "some-subscription-name");
       await receiver
         .receiveMessages(1)
@@ -232,9 +224,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     });
 
-    it("throws error when receiving batch data from a non existing subscription", async function(): Promise<
-      void
-    > {
+    it("throws error when receiving batch data from a non existing subscription", async function (): Promise<void> {
       const entityNames = await sbClient.test.createTestEntities(TestClientType.PartitionedTopic);
       if (!entityNames.topic) {
         throw new Error("Expecting valid topic name");
@@ -255,9 +245,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     });
 
-    it("throws error when receiving streaming data from a non existing queue", async function(): Promise<
-      void
-    > {
+    it("throws error when receiving streaming data from a non existing queue", async function (): Promise<void> {
       const receiver = sbClient.createReceiver("some-name");
       reduceRetries(receiver);
 
@@ -269,30 +257,28 @@ describe("ServiceBusClient live tests", () => {
           const actual: Omit<ProcessErrorArgs, "error"> = {
             errorSource: args.errorSource,
             entityPath: args.entityPath,
-            fullyQualifiedNamespace: args.fullyQualifiedNamespace
+            fullyQualifiedNamespace: args.fullyQualifiedNamespace,
           };
 
           actual.should.deep.equal({
             errorSource: "receive",
             entityPath: receiver.entityPath,
-            fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+            fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace,
           } as Omit<ProcessErrorArgs, "error">);
 
           testError(args.error, "some-name");
-        }
+        },
       });
 
       should.equal(
-        await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
+        await checkWithTimeout(() => errorWasThrown === true, 10, 5000),
         true,
         "Error thrown flag must be true"
       );
       await receiver.close();
     });
 
-    it("throws error when receiving streaming data from a non existing topic", async function(): Promise<
-      void
-    > {
+    it("throws error when receiving streaming data from a non existing topic", async function (): Promise<void> {
       const receiver = sbClient.createReceiver(
         "some-topic-name",
         "some-subscription-name"
@@ -307,17 +293,17 @@ describe("ServiceBusClient live tests", () => {
           const expected: Omit<ProcessErrorArgs, "error"> = {
             errorSource: args.errorSource,
             entityPath: args.entityPath,
-            fullyQualifiedNamespace: args.fullyQualifiedNamespace
+            fullyQualifiedNamespace: args.fullyQualifiedNamespace,
           };
 
           expected.should.deep.equal({
             errorSource: "receive",
             entityPath: receiver.entityPath,
-            fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+            fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace,
           } as Omit<ProcessErrorArgs, "error">);
 
           testError(args.error, "some-topic-name/Subscriptions/some-subscription-name");
-        }
+        },
       });
 
       should.equal(
@@ -333,9 +319,7 @@ describe("ServiceBusClient live tests", () => {
       await receiver.close();
     });
 
-    it("throws error when receiving streaming data from a non existing subscription", async function(): Promise<
-      void
-    > {
+    it("throws error when receiving streaming data from a non existing subscription", async function (): Promise<void> {
       const entityNames = await sbClient.test.createTestEntities(TestClientType.PartitionedTopic);
       if (!entityNames.topic) {
         throw new Error("Expecting valid topic name");
@@ -354,13 +338,13 @@ describe("ServiceBusClient live tests", () => {
           const expected: Omit<ProcessErrorArgs, "error"> = {
             errorSource: args.errorSource,
             entityPath: args.entityPath,
-            fullyQualifiedNamespace: args.fullyQualifiedNamespace
+            fullyQualifiedNamespace: args.fullyQualifiedNamespace,
           };
 
           expected.should.deep.equal({
             errorSource: "receive",
             entityPath: receiver.entityPath,
-            fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace
+            fullyQualifiedNamespace: sbClient.fullyQualifiedNamespace,
           } as Omit<ProcessErrorArgs, "error">);
 
           testError(args.error);
@@ -371,7 +355,7 @@ describe("ServiceBusClient live tests", () => {
             true,
             `Expect error message to contain pattern "${entityPattern}" but got ${args.error.message}`
           );
-        }
+        },
       });
 
       should.equal(
@@ -388,7 +372,7 @@ describe("ServiceBusClient live tests", () => {
     });
   });
 
-  describe("Test ServiceBusClient with TokenCredentials", function(): void {
+  describe("Test ServiceBusClient with TokenCredentials", function (): void {
     let errorWasThrown: boolean = false;
 
     const env = getEnvVars();
@@ -419,7 +403,7 @@ describe("ServiceBusClient live tests", () => {
       return new EnvironmentCredential();
     }
 
-    it("throws error for invalid tokenCredentials", async function(): Promise<void> {
+    it("throws error for invalid tokenCredentials", async function (): Promise<void> {
       try {
         new ServiceBusClient(serviceBusEndpoint, [] as any);
       } catch (err) {
@@ -434,7 +418,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     });
 
-    it("throws error for undefined tokenCredentials", async function(): Promise<void> {
+    it("throws error for undefined tokenCredentials", async function (): Promise<void> {
       try {
         new ServiceBusClient(serviceBusEndpoint, undefined as any);
       } catch (err) {
@@ -450,7 +434,7 @@ describe("ServiceBusClient live tests", () => {
     });
 
     if (isNode) {
-      it("throws error for invalid host name", async function(): Promise<void> {
+      it("throws error for invalid host name", async function (): Promise<void> {
         try {
           new ServiceBusClient(123 as any, getDefaultTokenCredential());
         } catch (error) {
@@ -466,7 +450,7 @@ describe("ServiceBusClient live tests", () => {
 
       it(
         noSessionTestClientType + ": sends a message to the ServiceBus entity",
-        async function(): Promise<void> {
+        async function (): Promise<void> {
           const tokenCreds = getDefaultTokenCredential();
 
           const serviceBusClient = createServiceBusClientForTests();
@@ -496,7 +480,7 @@ describe("ServiceBusClient live tests", () => {
     }
   });
 
-  describe("Errors after close()", function(): void {
+  describe("Errors after close()", function (): void {
     let sbClient: ServiceBusClientForTests;
     let sender: ServiceBusSender;
     let receiver: ServiceBusReceiver;
@@ -679,7 +663,7 @@ describe("ServiceBusClient live tests", () => {
           },
           async processError(e) {
             console.log(e);
-          }
+          },
         });
       } catch (err) {
         errorReceiveStream = err.message;
@@ -776,24 +760,25 @@ describe("ServiceBusClient live tests", () => {
       );
     }
 
-    describe("Errors after close() on namespace", function(): void {
+    describe("Errors after close() on namespace", function (): void {
       const entityToClose = "namespace";
       const expectedErrorMsg = "The underlying AMQP connection is closed.";
 
-      it(noSessionTestClientType + ": errors after close() on namespace", async function(): Promise<
-        void
-      > {
-        await beforeEachTest(noSessionTestClientType, entityToClose);
+      it(
+        noSessionTestClientType + ": errors after close() on namespace",
+        async function (): Promise<void> {
+          await beforeEachTest(noSessionTestClientType, entityToClose);
 
-        await testSender(expectedErrorMsg);
-        await testCreateSender(expectedErrorMsg);
-        await testReceiver(expectedErrorMsg);
-        await testCreateReceiver(expectedErrorMsg);
-      });
+          await testSender(expectedErrorMsg);
+          await testCreateSender(expectedErrorMsg);
+          await testReceiver(expectedErrorMsg);
+          await testCreateReceiver(expectedErrorMsg);
+        }
+      );
 
       it(
         withSessionTestClientType + ": errors after close() on namespace",
-        async function(): Promise<void> {
+        async function (): Promise<void> {
           await beforeEachTest(withSessionTestClientType, entityToClose);
 
           await testSender(expectedErrorMsg);
@@ -804,22 +789,23 @@ describe("ServiceBusClient live tests", () => {
       );
     });
 
-    describe("Errors after close() on receiver", function(): void {
+    describe("Errors after close() on receiver", function (): void {
       const entityToClose = "receiver";
 
-      it(noSessionTestClientType + ": errors after close() on receiver", async function(): Promise<
-        void
-      > {
-        await beforeEachTest(noSessionTestClientType, entityToClose);
+      it(
+        noSessionTestClientType + ": errors after close() on receiver",
+        async function (): Promise<void> {
+          await beforeEachTest(noSessionTestClientType, entityToClose);
 
-        await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath));
+          await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath));
 
-        await testAllDispositions();
-      });
+          await testAllDispositions();
+        }
+      );
 
       it(
         withSessionTestClientType + ": errors after close() on receiver",
-        async function(): Promise<void> {
+        async function (): Promise<void> {
           await beforeEachTest(withSessionTestClientType, entityToClose);
 
           await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, TestMessage.sessionId));
@@ -829,15 +815,16 @@ describe("ServiceBusClient live tests", () => {
       );
     });
 
-    describe("Errors after close() on sender", function(): void {
+    describe("Errors after close() on sender", function (): void {
       const entityToClose = "sender";
 
-      it(noSessionTestClientType + ": errors after close() on sender", async function(): Promise<
-        void
-      > {
-        await beforeEachTest(noSessionTestClientType, entityToClose);
-        await testSender(getSenderClosedErrorMsg(sender.entityPath));
-      });
+      it(
+        noSessionTestClientType + ": errors after close() on sender",
+        async function (): Promise<void> {
+          await beforeEachTest(noSessionTestClientType, entityToClose);
+          await testSender(getSenderClosedErrorMsg(sender.entityPath));
+        }
+      );
     });
   });
 
@@ -900,7 +887,7 @@ describe("ServiceBusClient live tests", () => {
       const dummyTopicName = "dummyTopicName";
       const dummySubscriptionName = "dummySubscriptionName";
       const receiver = sbClient.createReceiver(dummyTopicName, dummySubscriptionName, {
-        subQueueType: "deadLetter"
+        subQueueType: "deadLetter",
       });
       should.equal(
         receiver.entityPath,
@@ -935,6 +922,6 @@ function reduceRetries(receiver: ServiceBusReceiver): void {
     maxRetries: 0,
     timeoutInMs: 0,
     maxRetryDelayInMs: 0,
-    retryDelayInMs: 0
+    retryDelayInMs: 0,
   };
 }

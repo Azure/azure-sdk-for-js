@@ -6,534 +6,157 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
-
-/**
- * Data POST-ed to the nameAvailability action
- */
-export interface NameAvailabilityParameters {
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
   /**
-   * The resource type. Should be always "Microsoft.Communication/CommunicationServices".
+   * List of operations supported by the resource provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  type: string;
-  /**
-   * The CommunicationService name to validate. e.g."my-CommunicationService-name-here"
-   */
-  name: string;
-}
-
-/**
- * Result of the request to check name availability. It contains a flag and possible reason of
- * failure.
- */
-export interface NameAvailability {
-  /**
-   * Indicates whether the name is available or not.
-   */
-  nameAvailable?: boolean;
-  /**
-   * The reason of the availability. Required if name is not available.
-   */
-  reason?: string;
-  /**
-   * The message of the operation.
-   */
-  message?: string;
-}
-
-/**
- * Description of an Azure Notification Hub to link to the communication service
- */
-export interface LinkNotificationHubParameters {
-  /**
-   * The resource ID of the notification hub
-   */
-  resourceId: string;
-  /**
-   * Connection string for the notification hub
-   */
-  connectionString: string;
-}
-
-/**
- * A notification hub that has been linked to the communication service
- */
-export interface LinkedNotificationHub {
-  /**
-   * The resource ID of the notification hub
-   */
-  resourceId?: string;
-}
-
-/**
- * The resource management error additional info.
- */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly info?: any;
-}
-
-/**
- * The error detail.
- */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/**
- * Common error response for all Azure Resource Manager APIs to return error details for failed
- * operations. (This also follows the OData error response format.).
- * @summary Error response
- */
-export interface ErrorResponse {
-  /**
-   * The error object.
-   */
-  error?: ErrorDetail;
-}
-
-/**
- * The current status of an async operation
- */
-export interface OperationStatus {
-  /**
-   * Fully qualified ID for the operation status.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Provisioning state of the resource. Possible values include: 'Succeeded', 'Failed',
-   * 'Canceled', 'Creating', 'Deleting', 'Moving'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: Status;
-  /**
-   * The start time of the operation
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly startTime?: Date;
-  /**
-   * The end time of the operation
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endTime?: Date;
-  /**
-   * Percent of the operation that is complete
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly percentComplete?: number;
-  /**
-   * The error object.
-   */
-  error?: ErrorDetail;
-}
-
-/**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
-  lastModifiedAt?: Date;
-}
-
-/**
- * A class representing a CommunicationService resource.
- */
-export interface CommunicationServiceResource {
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The Azure location where the CommunicationService is running.
-   */
-  location?: string;
-  /**
-   * Tags of the service which is a list of key value pairs that describe the resource.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Provisioning state of the resource. Possible values include: 'Unknown', 'Succeeded', 'Failed',
-   * 'Canceled', 'Running', 'Creating', 'Updating', 'Deleting', 'Moving'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * FQDN of the CommunicationService instance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly hostName?: string;
-  /**
-   * The location where the communication service stores its data at rest.
-   */
-  dataLocation: string;
-  /**
-   * Resource ID of an Azure Notification Hub linked to this resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly notificationHubId?: string;
-  /**
-   * Version of the CommunicationService resource. Probably you need the same or higher version of
-   * client SDKs.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly version?: string;
-  /**
-   * The immutable resource Id of the communication service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly immutableResourceId?: string;
-  systemData?: SystemData;
-}
-
-/**
- * An ARM resource with its own location (not a global or an inherited location).
- */
-export interface LocationResource {
-  /**
-   * The Azure location where the CommunicationService is running.
-   */
-  location?: string;
-}
-
-/**
- * An ARM resource with that can accept tags
- */
-export interface TaggedResource {
-  /**
-   * Tags of the service which is a list of key value pairs that describe the resource.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * A class representing the access keys of a CommunicationService.
- */
-export interface CommunicationServiceKeys {
-  /**
-   * The primary access key.
-   */
-  primaryKey?: string;
-  /**
-   * The secondary access key.
-   */
-  secondaryKey?: string;
-  /**
-   * CommunicationService connection string constructed via the primaryKey
-   */
-  primaryConnectionString?: string;
-  /**
-   * CommunicationService connection string constructed via the secondaryKey
-   */
-  secondaryConnectionString?: string;
-}
-
-/**
- * Parameters describes the request to regenerate access keys
- */
-export interface RegenerateKeyParameters {
-  /**
-   * The keyType to regenerate. Must be either 'primary' or 'secondary'(case-insensitive). Possible
-   * values include: 'Primary', 'Secondary'
-   */
-  keyType?: KeyType;
-}
-
-/**
- * Common fields that are returned in the response for all Azure Resource Manager resources
- * @summary Resource
- */
-export interface Resource extends BaseResource {
-  /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
- * and a location
- * @summary Proxy Resource
- */
-export interface ProxyResource extends Resource {
-}
-
-/**
- * The resource model definition for an Azure Resource Manager tracked top level resource which has
- * 'tags' and a 'location'
- * @summary Tracked Resource
- */
-export interface TrackedResource extends Resource {
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location: string;
-}
-
-/**
- * The resource model definition for an Azure Resource Manager resource with an etag.
- * @summary Entity Resource
- */
-export interface AzureEntityResource extends Resource {
-  /**
-   * Resource Etag.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
- * Localized display information for this particular operation.
- */
-export interface OperationDisplay {
-  /**
-   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring
-   * Insights" or "Microsoft Compute".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provider?: string;
-  /**
-   * The localized friendly name of the resource type related to this operation. E.g. "Virtual
-   * Machines" or "Job Schedule Collections".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resource?: string;
-  /**
-   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create
-   * or Update Virtual Machine", "Restart Virtual Machine".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operation?: string;
-  /**
-   * The short, localized friendly description of the operation; suitable for tool tips and
-   * detailed views.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-}
-
-/**
- * Details of a REST API operation, returned from the Resource Provider Operations API
- * @summary REST API Operation
- */
-export interface Operation {
-  /**
-   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
-   * "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Whether the operation applies to data-plane. This is "true" for data-plane operations and
-   * "false" for ARM/control-plane operations.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isDataAction?: boolean;
-  /**
-   * Localized display information for this particular operation.
-   */
-  display?: OperationDisplay;
-  /**
-   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
-   * logs UX. Default value is "user,system". Possible values include: 'user', 'system',
-   * 'user,system'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly origin?: Origin;
-  /**
-   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
-   * Possible values include: 'Internal'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly actionType?: ActionType;
-}
-
-/**
- * Optional Parameters.
- */
-export interface CommunicationServiceCheckNameAvailabilityOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters supplied to the operation.
-   */
-  nameAvailabilityParameters?: NameAvailabilityParameters;
-}
-
-/**
- * Optional Parameters.
- */
-export interface CommunicationServiceLinkNotificationHubOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters supplied to the operation.
-   */
-  linkNotificationHubParameters?: LinkNotificationHubParameters;
-}
-
-/**
- * Optional Parameters.
- */
-export interface CommunicationServiceUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters for the update operation
-   */
-  parameters?: CommunicationServiceResource;
-}
-
-/**
- * Optional Parameters.
- */
-export interface CommunicationServiceCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters for the create or update operation
-   */
-  parameters?: CommunicationServiceResource;
-}
-
-/**
- * Optional Parameters.
- */
-export interface CommunicationServiceBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameters for the create or update operation
-   */
-  parameters?: CommunicationServiceResource;
-}
-
-/**
- * An interface representing CommunicationServiceManagementClientOptions.
- */
-export interface CommunicationServiceManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
-}
-
-/**
- * Defines headers for CreateOrUpdate operation.
- */
-export interface CommunicationServiceCreateOrUpdateHeaders {
-  /**
-   * URL to query for status of the operation.
-   */
-  azureAsyncOperation: string;
-}
-
-/**
- * Defines headers for Delete operation.
- */
-export interface CommunicationServiceDeleteHeaders {
-  /**
-   * URL to query for status of the operation.
-   */
-  location: string;
-}
-
-/**
- * @interface
- * A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
- * to get the next set of results.
- * @extends Array<Operation>
- */
-export interface OperationListResult extends Array<Operation> {
+  readonly value?: Operation[];
   /**
    * URL to get the next set of operation list results (if there are any).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/**
- * @interface
- * Object that includes an array of CommunicationServices and a possible link for next set.
- * @extends Array<CommunicationServiceResource>
- */
-export interface CommunicationServiceResourceList extends Array<CommunicationServiceResource> {
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Data POST-ed to the nameAvailability action */
+export interface NameAvailabilityParameters {
+  /** The resource type. Should be always "Microsoft.Communication/CommunicationServices". */
+  type: string;
+  /** The CommunicationService name to validate. e.g."my-CommunicationService-name-here" */
+  name: string;
+}
+
+/** Result of the request to check name availability. It contains a flag and possible reason of failure. */
+export interface NameAvailability {
+  /** Indicates whether the name is available or not. */
+  nameAvailable?: boolean;
+  /** The reason of the availability. Required if name is not available. */
+  reason?: string;
+  /** The message of the operation. */
+  message?: string;
+}
+
+/** Description of an Azure Notification Hub to link to the communication service */
+export interface LinkNotificationHubParameters {
+  /** The resource ID of the notification hub */
+  resourceId: string;
+  /** Connection string for the notification hub */
+  connectionString: string;
+}
+
+/** A notification hub that has been linked to the communication service */
+export interface LinkedNotificationHub {
+  /** The resource ID of the notification hub */
+  resourceId?: string;
+}
+
+/** Object that includes an array of CommunicationServices and a possible link for next set. */
+export interface CommunicationServiceResourceList {
+  /** List of CommunicationService */
+  value?: CommunicationServiceResource[];
   /**
    * The URL the client should use to fetch the next page (per server side paging).
    * It's null for now, added for future use.
@@ -541,351 +164,328 @@ export interface CommunicationServiceResourceList extends Array<CommunicationSer
   nextLink?: string;
 }
 
-/**
- * Defines values for Status.
- * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'Creating', 'Deleting', 'Moving'
- * @readonly
- * @enum {string}
- */
-export type Status = 'Succeeded' | 'Failed' | 'Canceled' | 'Creating' | 'Deleting' | 'Moving';
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
 
-/**
- * Defines values for ProvisioningState.
- * Possible values include: 'Unknown', 'Succeeded', 'Failed', 'Canceled', 'Running', 'Creating',
- * 'Updating', 'Deleting', 'Moving'
- * @readonly
- * @enum {string}
- */
-export type ProvisioningState = 'Unknown' | 'Succeeded' | 'Failed' | 'Canceled' | 'Running' | 'Creating' | 'Updating' | 'Deleting' | 'Moving';
-
-/**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
-
-/**
- * Defines values for KeyType.
- * Possible values include: 'Primary', 'Secondary'
- * @readonly
- * @enum {string}
- */
-export type KeyType = 'Primary' | 'Secondary';
-
-/**
- * Defines values for Origin.
- * Possible values include: 'user', 'system', 'user,system'
- * @readonly
- * @enum {string}
- */
-export type Origin = 'user' | 'system' | 'user,system';
-
-/**
- * Defines values for ActionType.
- * Possible values include: 'Internal'
- * @readonly
- * @enum {string}
- */
-export type ActionType = 'Internal';
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = OperationListResult & {
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
   /**
-   * The underlying HTTP response.
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
+/** An ARM resource with its own location (not a global or an inherited location). */
+export interface LocationResource {
+  /** The Azure location where the CommunicationService is running. */
+  location?: string;
+}
+
+/** An ARM resource with that can accept tags */
+export interface TaggedResource {
+  /** Tags of the service which is a list of key value pairs that describe the resource. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** A class representing the access keys of a CommunicationService. */
+export interface CommunicationServiceKeys {
+  /** The primary access key. */
+  primaryKey?: string;
+  /** The secondary access key. */
+  secondaryKey?: string;
+  /** CommunicationService connection string constructed via the primaryKey */
+  primaryConnectionString?: string;
+  /** CommunicationService connection string constructed via the secondaryKey */
+  secondaryConnectionString?: string;
+}
+
+/** Parameters describes the request to regenerate access keys */
+export interface RegenerateKeyParameters {
+  /** The keyType to regenerate. Must be either 'primary' or 'secondary'(case-insensitive). */
+  keyType?: KeyType;
+}
+
+/** A class representing a CommunicationService resource. */
+export type CommunicationServiceResource = Resource &
+  LocationResource &
+  TaggedResource & {
+    /**
+     * Metadata pertaining to creation and last modification of the resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly systemData?: SystemData;
+    /**
+     * Provisioning state of the resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly provisioningState?: ProvisioningState;
+    /**
+     * FQDN of the CommunicationService instance.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly hostName?: string;
+    /** The location where the communication service stores its data at rest. */
+    dataLocation?: string;
+    /**
+     * Resource ID of an Azure Notification Hub linked to this resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly notificationHubId?: string;
+    /**
+     * Version of the CommunicationService resource. Probably you need the same or higher version of client SDKs.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly version?: string;
+    /**
+     * The immutable resource Id of the communication service.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly immutableResourceId?: string;
+  };
+
+/** Defines headers for CommunicationService_createOrUpdate operation. */
+export interface CommunicationServiceCreateOrUpdateHeaders {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for CommunicationService_delete operation. */
+export interface CommunicationServiceDeleteHeaders {
+  /** URL to query for status of the operation. */
+  location?: string;
+}
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  User = "user",
+  System = "system",
+  UserSystem = "user,system"
+}
 
 /**
- * Contains response data for the listNext operation.
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
  */
-export type OperationsListNextResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+export type Origin = string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  Internal = "Internal"
+}
 
 /**
- * Contains response data for the checkNameAvailability operation.
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
  */
-export type CommunicationServiceCheckNameAvailabilityResponse = NameAvailability & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+export type ActionType = string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NameAvailability;
-    };
-};
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  Unknown = "Unknown",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled",
+  Running = "Running",
+  Creating = "Creating",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Moving = "Moving"
+}
 
 /**
- * Contains response data for the linkNotificationHub operation.
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Running** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Moving**
  */
-export type CommunicationServiceLinkNotificationHubResponse = LinkedNotificationHub & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+export type ProvisioningState = string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LinkedNotificationHub;
-    };
-};
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
 
 /**
- * Contains response data for the listBySubscription operation.
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
  */
-export type CommunicationServiceListBySubscriptionResponse = CommunicationServiceResourceList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+export type CreatedByType = string;
+/** Defines values for KeyType. */
+export type KeyType = "Primary" | "Secondary";
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommunicationServiceResourceList;
-    };
-};
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type CommunicationServiceListByResourceGroupResponse = CommunicationServiceResourceList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommunicationServiceResourceList;
-    };
-};
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the update operation.
- */
-export type CommunicationServiceUpdateResponse = CommunicationServiceResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommunicationServiceResource;
-    };
-};
+/** Optional parameters. */
+export interface CommunicationServiceCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters supplied to the operation. */
+  nameAvailabilityParameters?: NameAvailabilityParameters;
+}
 
-/**
- * Contains response data for the get operation.
- */
-export type CommunicationServiceGetResponse = CommunicationServiceResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the checkNameAvailability operation. */
+export type CommunicationServiceCheckNameAvailabilityResponse = NameAvailability;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommunicationServiceResource;
-    };
-};
+/** Optional parameters. */
+export interface CommunicationServiceLinkNotificationHubOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters supplied to the operation. */
+  linkNotificationHubParameters?: LinkNotificationHubParameters;
+}
 
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type CommunicationServiceCreateOrUpdateResponse = CommunicationServiceResource & CommunicationServiceCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CommunicationServiceCreateOrUpdateHeaders;
+/** Contains response data for the linkNotificationHub operation. */
+export type CommunicationServiceLinkNotificationHubResponse = LinkedNotificationHub;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface CommunicationServiceListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommunicationServiceResource;
-    };
-};
+/** Contains response data for the listBySubscription operation. */
+export type CommunicationServiceListBySubscriptionResponse = CommunicationServiceResourceList;
 
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type CommunicationServiceDeleteResponse = CommunicationServiceDeleteHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CommunicationServiceDeleteHeaders;
-    };
-};
+/** Optional parameters. */
+export interface CommunicationServiceListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listKeys operation.
- */
-export type CommunicationServiceListKeysResponse = CommunicationServiceKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the listByResourceGroup operation. */
+export type CommunicationServiceListByResourceGroupResponse = CommunicationServiceResourceList;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommunicationServiceKeys;
-    };
-};
+/** Optional parameters. */
+export interface CommunicationServiceUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters for the update operation */
+  parameters?: CommunicationServiceResource;
+}
 
-/**
- * Contains response data for the regenerateKey operation.
- */
-export type CommunicationServiceRegenerateKeyResponse = CommunicationServiceKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the update operation. */
+export type CommunicationServiceUpdateResponse = CommunicationServiceResource;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommunicationServiceKeys;
-    };
-};
+/** Optional parameters. */
+export interface CommunicationServiceGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type CommunicationServiceListBySubscriptionNextResponse = CommunicationServiceResourceList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the get operation. */
+export type CommunicationServiceGetResponse = CommunicationServiceResource;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommunicationServiceResourceList;
-    };
-};
+/** Optional parameters. */
+export interface CommunicationServiceCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters for the create or update operation */
+  parameters?: CommunicationServiceResource;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type CommunicationServiceListByResourceGroupNextResponse = CommunicationServiceResourceList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the createOrUpdate operation. */
+export type CommunicationServiceCreateOrUpdateResponse = CommunicationServiceResource;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CommunicationServiceResourceList;
-    };
-};
+/** Optional parameters. */
+export interface CommunicationServiceDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the get operation.
- */
-export type OperationStatusesGetResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface CommunicationServiceListKeysOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
+/** Contains response data for the listKeys operation. */
+export type CommunicationServiceListKeysResponse = CommunicationServiceKeys;
+
+/** Optional parameters. */
+export interface CommunicationServiceRegenerateKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the regenerateKey operation. */
+export type CommunicationServiceRegenerateKeyResponse = CommunicationServiceKeys;
+
+/** Optional parameters. */
+export interface CommunicationServiceListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type CommunicationServiceListBySubscriptionNextResponse = CommunicationServiceResourceList;
+
+/** Optional parameters. */
+export interface CommunicationServiceListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type CommunicationServiceListByResourceGroupNextResponse = CommunicationServiceResourceList;
+
+/** Optional parameters. */
+export interface CommunicationServiceManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
+}

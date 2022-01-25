@@ -9,7 +9,7 @@ import {
   SendRequest,
   PipelineResponse,
   createHttpHeaders,
-  RestError
+  RestError,
 } from "../src";
 import {
   SpanContext,
@@ -21,18 +21,19 @@ import {
   SpanStatusCode,
   SpanAttributes,
   SpanAttributeValue,
-  SpanOptions
+  SpanOptions,
 } from "@azure/core-tracing";
 import { TracerProvider, Tracer, Span, trace } from "@opentelemetry/api";
 
 export class MockSpan implements Span {
   private _endCalled = false;
   private _status: SpanStatus = {
-    code: SpanStatusCode.UNSET
+    code: SpanStatusCode.UNSET,
   };
   private _attributes: SpanAttributes = {};
 
   constructor(
+    private name: string,
     private traceId: string,
     private spanId: string,
     private flags: TraceFlags,
@@ -87,6 +88,10 @@ export class MockSpan implements Span {
     return this;
   }
 
+  getName(): string {
+    return this.name;
+  }
+
   getAttribute(key: string): SpanAttributeValue | undefined {
     return this._attributes[key];
   }
@@ -108,14 +113,14 @@ export class MockSpan implements Span {
       },
       serialize() {
         return state;
-      }
+      },
     };
 
     return {
       traceId: this.traceId,
       spanId: this.spanId,
       traceFlags: this.flags,
-      traceState
+      traceState,
     };
   }
 }
@@ -143,9 +148,9 @@ export class MockTracer implements Tracer {
     return this._startSpanCalled;
   }
 
-  startSpan(_name: string, options?: SpanOptions): MockSpan {
+  startSpan(name: string, options?: SpanOptions): MockSpan {
     this._startSpanCalled = true;
-    const span = new MockSpan(this.traceId, this.spanId, this.flags, this.state, options);
+    const span = new MockSpan(name, this.traceId, this.spanId, this.flags, this.state, options);
     this.spans.push(span);
     return span;
   }
@@ -171,9 +176,9 @@ export class MockTracerProvider implements TracerProvider {
   }
 }
 
-const ROOT_SPAN = new MockSpan("root", "root", TraceFlags.SAMPLED, "");
+const ROOT_SPAN = new MockSpan("name", "root", "root", TraceFlags.SAMPLED, "");
 
-describe("tracingPolicy", function() {
+describe("tracingPolicy", function () {
   const TRACE_VERSION = "00";
   const mockTracerProvider = new MockTracerProvider();
 
@@ -188,12 +193,12 @@ describe("tracingPolicy", function() {
   it("will not create a span if tracingContext is missing", async () => {
     const mockTracer = new MockTracer();
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const response: PipelineResponse = {
       headers: createHttpHeaders(),
       request: request,
-      status: 200
+      status: 200,
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -201,6 +206,43 @@ describe("tracingPolicy", function() {
     await policy.sendRequest(request, next);
 
     assert.isFalse(mockTracer.startSpanCalled());
+  });
+
+  it("will create a span with the correct data", async () => {
+    const mockTraceId = "11111111111111111111111111111111";
+    const mockSpanId = "2222222222222222";
+    const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
+    mockTracerProvider.setTracer(mockTracer);
+
+    const request = createPipelineRequest({
+      url: "https://bing.com",
+      method: "POST",
+      tracingOptions: {
+        tracingContext: setSpan(context.active(), ROOT_SPAN).setValue(
+          Symbol.for("az.namespace"),
+          "test"
+        ),
+      },
+    });
+
+    const response: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request: request,
+      status: 200,
+    };
+    const policy = tracingPolicy();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.resolves(response);
+    await policy.sendRequest(request, next);
+
+    assert.lengthOf(mockTracer.getStartedSpans(), 1);
+    const span = mockTracer.getStartedSpans()[0];
+    assert.equal(span.getName(), "HTTP POST");
+    assert.equal(span.getAttribute("az.namespace"), "test");
+    assert.equal(span.getAttribute("http.method"), "POST");
+    assert.equal(span.getAttribute("http.url"), request.url);
+    assert.equal(span.getAttribute("requestId"), request.requestId);
+    assert.equal(span.getAttribute("http.status_code"), response.status);
   });
 
   it("will create a span and correctly set trace headers if tracingContext is available", async () => {
@@ -212,13 +254,13 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
-      }
+        tracingContext: setSpan(context.active(), ROOT_SPAN),
+      },
     });
     const response: PipelineResponse = {
       headers: createHttpHeaders(),
       request: request,
-      status: 200
+      status: 200,
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -251,13 +293,13 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
-      }
+        tracingContext: setSpan(context.active(), ROOT_SPAN),
+      },
     });
     const response: PipelineResponse = {
       headers: createHttpHeaders(),
       request: request,
-      status: 200
+      status: 200,
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -289,14 +331,15 @@ describe("tracingPolicy", function() {
 
     const request = createPipelineRequest({
       url: "https://bing.com",
+      method: "PUT",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
-      }
+        tracingContext: setSpan(context.active(), ROOT_SPAN),
+      },
     });
     const response: PipelineResponse = {
       headers: createHttpHeaders(),
       request: request,
-      status: 200
+      status: 200,
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -328,8 +371,8 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
-      }
+        tracingContext: setSpan(context.active(), ROOT_SPAN),
+      },
     });
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -346,7 +389,7 @@ describe("tracingPolicy", function() {
       assert.isTrue(span.didEnd());
       assert.deepEqual(span.getStatus(), {
         code: SpanStatusCode.ERROR,
-        message: "Bad Request."
+        message: "Bad Request.",
       });
       assert.equal(span.getAttribute("http.status_code"), 400);
 
@@ -366,13 +409,13 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
-      }
+        tracingContext: setSpan(context.active(), ROOT_SPAN),
+      },
     });
     const response: PipelineResponse = {
       headers: createHttpHeaders(),
       request: request,
-      status: 200
+      status: 200,
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -391,13 +434,13 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
-      }
+        tracingContext: setSpan(context.active(), ROOT_SPAN),
+      },
     });
     const response: PipelineResponse = {
       headers: createHttpHeaders(),
       request: request,
-      status: 200
+      status: 200,
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -416,13 +459,13 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
-      }
+        tracingContext: setSpan(context.active(), ROOT_SPAN),
+      },
     });
     const response: PipelineResponse = {
       headers: createHttpHeaders(),
       request: request,
-      status: 200
+      status: 200,
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -436,20 +479,20 @@ describe("tracingPolicy", function() {
   it("will not fail the request if response processing fails", async () => {
     const errorTracer = new MockTracer("", "", TraceFlags.SAMPLED, "");
     mockTracerProvider.setTracer(errorTracer);
-    const errorSpan = new MockSpan("", "", TraceFlags.SAMPLED, "");
+    const errorSpan = new MockSpan("", "", "", TraceFlags.SAMPLED, "");
     sinon.stub(errorSpan, "end").throws(new Error("Test Error"));
     sinon.stub(errorTracer, "startSpan").returns(errorSpan);
 
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
-      }
+        tracingContext: setSpan(context.active(), ROOT_SPAN),
+      },
     });
     const response: PipelineResponse = {
       headers: createHttpHeaders(),
       request: request,
-      status: 200
+      status: 200,
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -472,16 +515,16 @@ describe("tracingPolicy", function() {
         tracingContext: setSpan(context.active(), ROOT_SPAN).setValue(
           Symbol.for("az.namespace"),
           "value_from_context"
-        )
-      }
+        ),
+      },
     });
     Object.assign(request.tracingOptions, {
-      spanOptions: { attributes: { "az.namespace": "value_from_span_options" } }
+      spanOptions: { attributes: { "az.namespace": "value_from_span_options" } },
     });
     const response: PipelineResponse = {
       headers: createHttpHeaders(),
       request: request,
-      status: 200
+      status: 200,
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -503,16 +546,16 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
-      }
+        tracingContext: setSpan(context.active(), ROOT_SPAN),
+      },
     });
     Object.assign(request.tracingOptions, {
-      spanOptions: { attributes: { "az.namespace": "value_from_span_options" } }
+      spanOptions: { attributes: { "az.namespace": "value_from_span_options" } },
     });
     const response: PipelineResponse = {
       headers: createHttpHeaders(),
       request: request,
-      status: 200
+      status: 200,
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -534,13 +577,13 @@ describe("tracingPolicy", function() {
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN)
-      }
+        tracingContext: setSpan(context.active(), ROOT_SPAN),
+      },
     });
     const response: PipelineResponse = {
       headers: createHttpHeaders(),
       request: request,
-      status: 200
+      status: 200,
     };
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();

@@ -27,5 +27,5 @@ export enum DependencyTypes {
   QueueMessage = "Queue Message",
   Sql = "SQL",
   Http = "Http",
-  Grpc = "GRPC"
+  Grpc = "GRPC",
 }

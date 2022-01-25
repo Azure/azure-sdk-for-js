@@ -5,9 +5,7 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {
-    "./dist-esm/src/utils/global.js": "./dist-esm/src/utils/global.browser.js"
-  },
+  "browser": {},
   "react-native": {
     "./dist/index.js": "./dist-esm/src/index.js"
   },
@@ -59,7 +57,6 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@opentelemetry/api": "^1.0.1",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
@@ -67,7 +64,6 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.18.11",
-    "@opentelemetry/tracing": "^0.22.0",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
@@ -88,12 +84,19 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^2.0.0",
-    "prettier": "^1.16.4",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "typescript": "~4.2.0",
     "util": "^0.12.1",
     "sinon": "^9.0.2",
     "@types/sinon": "^9.0.4"
+  },
+  "//sampleConfiguration": {
+    "disableDocsMs": true,
+    "productName": "Azure SDK Core",
+    "productSlugs": [
+      "azure"
+    ]
   }
 }

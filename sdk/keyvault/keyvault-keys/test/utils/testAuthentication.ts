@@ -16,7 +16,7 @@ const replaceableVariables = {
   KEYVAULT_NAME: "keyvault_name",
   KEYVAULT_URI: "https://keyvault_name.vault.azure.net/",
   AZURE_MANAGEDHSM_URI: "https://azure_managedhsm.managedhsm.azure.net/",
-  AZURE_KEYVAULT_ATTESTATION_URI: "https://skr_attestation.azure.net/"
+  AZURE_KEYVAULT_ATTESTATION_URI: "https://skr_attestation.azure.net/",
 };
 
 export async function authenticate(that: Context, version: string): Promise<any> {
@@ -40,9 +40,9 @@ export async function authenticate(that: Context, version: string): Promise<any>
 
             return `"data":"${toBase64url(decoded)}"`;
           }
-        )
+        ),
     ],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
   };
   const recorder = record(that, recorderEnvSetup);
   const credential = new ClientSecretCredential(
@@ -50,7 +50,7 @@ export async function authenticate(that: Context, version: string): Promise<any>
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET,
     {
-      authorityHost: env.AZURE_AUTHORITY_HOST
+      authorityHost: env.AZURE_AUTHORITY_HOST,
     }
   );
 
@@ -60,7 +60,7 @@ export async function authenticate(that: Context, version: string): Promise<any>
   }
 
   const client = new KeyClient(keyVaultUrl, credential, {
-    serviceVersion: version
+    serviceVersion: version,
   });
   const testClient = new TestClient(client);
 

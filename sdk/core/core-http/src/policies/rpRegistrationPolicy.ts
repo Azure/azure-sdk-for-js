@@ -6,7 +6,7 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResourceLike } from "../webResource";
@@ -16,7 +16,7 @@ export function rpRegistrationPolicy(retryTimeout = 30): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new RPRegistrationPolicy(nextPolicy, options, retryTimeout);
-    }
+    },
   };
 }
 

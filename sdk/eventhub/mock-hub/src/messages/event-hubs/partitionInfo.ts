@@ -66,7 +66,7 @@ export function generatePartitionInfoResponse({
   lastEnqueuedOffset,
   lastEnqueuedTimeUtc,
   isPartitionEmpty,
-  partitionId
+  partitionId,
 }: GeneratePartitionInfoResponseOptions): Message {
   return {
     to: targetLinkName,
@@ -80,8 +80,8 @@ export function generatePartitionInfoResponse({
       last_enqueued_offset: lastEnqueuedOffset,
       last_enqueued_time_utc: lastEnqueuedTimeUtc,
       is_partition_empty: isPartitionEmpty,
-      partition: partitionId
-    }
+      partition: partitionId,
+    },
   };
 }
 
@@ -92,7 +92,7 @@ export interface GenerateBadPartitionInfoResponseOptions {
 
 export function generateBadPartitionInfoResponse({
   correlationId,
-  targetLinkName
+  targetLinkName,
 }: GenerateBadPartitionInfoResponseOptions): Message {
   return {
     to: targetLinkName,
@@ -102,8 +102,8 @@ export function generateBadPartitionInfoResponse({
       "status-code": 400,
       "error-condition": "com.microsoft:argument-out-of-range",
       "status-description":
-        "The specified partition is invalid for an EventHub partition sender or receiver."
+        "The specified partition is invalid for an EventHub partition sender or receiver.",
     },
-    body: undefined
+    body: undefined,
   };
 }

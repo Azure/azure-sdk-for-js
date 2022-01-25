@@ -39,7 +39,7 @@ export async function execute({
   retryContext = { retryCount: 0 },
   retryPolicies,
   requestContext,
-  executeRequest
+  executeRequest,
 }: ExecuteArgs): Promise<Response<any>> {
   // TODO: any response
   if (!retryPolicies) {
@@ -59,7 +59,7 @@ export async function execute({
         requestContext.operationType,
         requestContext.connectionPolicy
       ),
-      defaultRetryPolicy: new DefaultRetryPolicy(requestContext.operationType)
+      defaultRetryPolicy: new DefaultRetryPolicy(requestContext.operationType),
     };
   }
   if (retryContext && retryContext.clearSessionTokenNotAvailable) {
@@ -118,7 +118,7 @@ export async function execute({
         executeRequest,
         requestContext,
         retryContext,
-        retryPolicies
+        retryPolicies,
       });
     }
   }

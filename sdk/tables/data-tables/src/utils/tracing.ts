@@ -9,5 +9,5 @@ import { createSpanFunction } from "@azure/core-tracing";
  */
 export const createSpan = createSpanFunction({
   packagePrefix: "Azure.Data.Tables",
-  namespace: "Microsoft.Data.Tables"
+  namespace: "Microsoft.Data.Tables",
 });

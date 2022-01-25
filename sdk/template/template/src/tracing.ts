@@ -13,5 +13,5 @@ import { createSpanFunction } from "@azure/core-tracing";
  */
 export const createSpan = createSpanFunction({
   namespace: "Microsoft.Learn",
-  packagePrefix: "Azure.Learn.ApiLearn"
+  packagePrefix: "Azure.Learn.ApiLearn",
 });

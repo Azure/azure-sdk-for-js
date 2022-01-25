@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import rule from "../../src/rules/ts-package-json-homepage";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-package-json-homepage";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -80,7 +80,7 @@ const examplePackageGood = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -193,7 +193,7 @@ const examplePackageBad = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -247,62 +247,57 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 
 ruleTester.run("ts-package-json-homepage", rule, {
   valid: [
     {
       // only the fields we care about
-      code:
-        '{"homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/README.md"}',
-      filename: "package.json"
+      code: '{"homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/README.md"}',
+      filename: "package.json",
     },
     {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // incorrect format but in a file we don't care about
-      code:
-        '{"homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus"}',
-      filename: "not_package.json"
-    }
+      code: '{"homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus"}',
+      filename: "not_package.json",
+    },
   ],
   invalid: [
     {
-      code:
-        '{"notHomepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/README.md"}',
+      code: '{"notHomepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/README.md"}',
       filename: "package.json",
       errors: [
         {
-          message: "homepage does not exist at the outermost level"
-        }
-      ]
+          message: "homepage does not exist at the outermost level",
+        },
+      ],
     },
     {
       // homepage is in a nested object
-      code:
-        '{"outer": {"homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/README.md"}}',
+      code: '{"outer": {"homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/README.md"}}',
       filename: "package.json",
       errors: [
         {
-          message: "homepage does not exist at the outermost level"
-        }
-      ]
+          message: "homepage does not exist at the outermost level",
+        },
+      ],
     },
     {
       // not pointing to README
-      code:
-        '{"homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus"}',
+      code: '{"homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus"}',
       filename: "package.json",
       errors: [
         {
-          message: "homepage is not a URL pointing to your library's readme inside the git repo"
-        }
-      ]
+          message: "homepage is not a URL pointing to your library's readme inside the git repo",
+        },
+      ],
     },
     {
       // some other website
@@ -310,9 +305,9 @@ ruleTester.run("ts-package-json-homepage", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "homepage is not a URL pointing to your library's readme inside the git repo"
-        }
-      ]
+          message: "homepage is not a URL pointing to your library's readme inside the git repo",
+        },
+      ],
     },
     {
       // example file not pointing to the readme
@@ -320,9 +315,9 @@ ruleTester.run("ts-package-json-homepage", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "homepage is not a URL pointing to your library's readme inside the git repo"
-        }
-      ]
-    }
-  ]
+          message: "homepage is not a URL pointing to your library's readme inside the git repo",
+        },
+      ],
+    },
+  ],
 });

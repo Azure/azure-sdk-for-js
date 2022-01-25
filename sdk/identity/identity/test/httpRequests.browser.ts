@@ -4,14 +4,9 @@
 import * as sinon from "sinon";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
 import { RestError } from "@azure/core-rest-pipeline";
-import { AccessToken } from "@azure/core-auth";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { getError } from "./authTestUtils";
-import {
-  IdentityTestContext,
-  SendCredentialRequests,
-  RawTestResponse,
-  TestResponse
-} from "./httpRequestsCommon";
+import { IdentityTestContextInterface, RawTestResponse, TestResponse } from "./httpRequestsCommon";
 
 /**
  * Helps specify a different number of responses for Node and for the browser.
@@ -40,42 +35,53 @@ export function prepareMSALResponses(): RawTestResponse[] {
  * that may expect more than one response (or error) from more than one endpoint.
  * @internal
  */
-export async function prepareIdentityTests({
-  replaceLogger,
-  logLevel
-}: {
-  replaceLogger?: boolean;
-  logLevel?: AzureLogLevel;
-}): Promise<IdentityTestContext> {
-  const sandbox = sinon.createSandbox();
-  const clock = sandbox.useFakeTimers();
-  const oldLogLevel = getLogLevel();
-  const oldLogger = AzureLogger.log;
-  const logMessages: string[] = [];
+export class IdentityTestContext implements IdentityTestContextInterface {
+  public sandbox: sinon.SinonSandbox;
+  public clock: sinon.SinonFakeTimers;
+  public oldLogLevel: AzureLogLevel | undefined;
+  public oldLogger: any;
+  public logMessages: string[];
+  public server: sinon.SinonFakeServer;
+  public requests: sinon.SinonFakeXMLHttpRequest[];
+  public responses: RawTestResponse[];
 
-  if (logLevel) {
-    setLogLevel(logLevel);
+  constructor({ replaceLogger, logLevel }: { replaceLogger?: boolean; logLevel?: AzureLogLevel }) {
+    this.sandbox = sinon.createSandbox();
+    this.clock = this.sandbox.useFakeTimers();
+    this.oldLogLevel = getLogLevel();
+    this.oldLogger = AzureLogger.log;
+    this.logMessages = [];
+
+    /**
+     * Browser specific code.
+     * Sets up a fake server that will be used to answer any outgoing request.
+     */
+    this.server = this.sandbox.useFakeServer();
+    this.requests = [];
+    this.responses = [];
+
+    if (logLevel) {
+      setLogLevel(logLevel);
+    }
+
+    if (replaceLogger) {
+      AzureLogger.log = (args) => {
+        this.logMessages.push(args);
+      };
+    }
   }
 
-  if (replaceLogger) {
-    AzureLogger.log = (args) => {
-      logMessages.push(args);
-    };
+  async restore(): Promise<void> {
+    this.sandbox.restore();
+    AzureLogger.log = this.oldLogger;
+    setLogLevel(this.oldLogLevel);
   }
-
-  /**
-   * Browser specific code.
-   * Sets up a fake server that will be used to answer any outgoing request.
-   */
-  const server = sandbox.useFakeServer();
-  const requests: sinon.SinonFakeXMLHttpRequest[] = [];
-  const responses: RawTestResponse[] = [];
 
   /**
    * Wraps a credential's getToken in a mocked environment, then returns the results from the request,
    * including potentially an AccessToken, an error and the list of outgoing requests in a simplified format.
    */
-  async function sendIndividualRequest<T>(
+  async sendIndividualRequest<T>(
     sendPromise: () => Promise<T | null>,
     { response }: { response: TestResponse }
   ): Promise<T | null> {
@@ -83,43 +89,58 @@ export async function prepareIdentityTests({
      * Both keeps track of the outgoing requests,
      * and ensures each request answers with each received response, in order.
      */
-    server.respondWith((xhr) => {
-      requests.push(xhr);
+    this.server.respondWith((xhr) => {
+      this.requests.push(xhr);
       xhr.respond(response.statusCode, response.headers, response.body);
     });
     const promise = sendPromise();
-    server.respond();
-    await clock.runAllAsync();
+    this.server.respond();
+    await this.clock.runAllAsync();
     return promise;
   }
 
   /**
    * Wraps the outgoing request in a mocked environment, then returns the error that results from the request.
    */
-  async function sendIndividualRequestAndGetError<T>(
+  async sendIndividualRequestAndGetError<T>(
     sendPromise: () => Promise<T | null>,
     response: { response: TestResponse }
   ): Promise<Error> {
-    return getError(sendIndividualRequest(sendPromise, response));
+    return getError(this.sendIndividualRequest(sendPromise, response));
   }
 
   /**
    * Wraps a credential's getToken in a mocked environment, then returns the results from the request.
    */
-  const sendCredentialRequests: SendCredentialRequests = async ({
+  async sendCredentialRequests({
     scopes,
     getTokenOptions,
     credential,
     insecureResponses = [],
-    secureResponses = []
-  }) => {
-    responses.push(...[...insecureResponses, ...secureResponses]);
-    server.respondWith((xhr) => {
-      requests.push(xhr);
-      if (!responses.length) {
+    secureResponses = [],
+  }: {
+    scopes: string | string[];
+    getTokenOptions?: GetTokenOptions;
+    credential: TokenCredential;
+    insecureResponses?: RawTestResponse[];
+    secureResponses?: RawTestResponse[];
+  }): Promise<{
+    result: AccessToken | null;
+    error?: RestError;
+    requests: {
+      url: string;
+      body: string;
+      method: string;
+      headers: Record<string, string>;
+    }[];
+  }> {
+    this.responses.push(...[...insecureResponses, ...secureResponses]);
+    this.server.respondWith((xhr) => {
+      this.requests.push(xhr);
+      if (!this.responses.length) {
         throw new Error("No responses to send");
       }
-      const { response, error } = responses.shift()!;
+      const { response, error } = this.responses.shift()!;
       if (response) {
         xhr.respond(response.statusCode, response.headers, response.body);
       } else if (error) {
@@ -137,8 +158,8 @@ export async function prepareIdentityTests({
       // We need the promises to begin triggering, so the server has something to respond to,
       // and only then we can wait for all of the async processes to finish.
       const promise = credential.getToken(scopes, getTokenOptions);
-      server.respond();
-      await clock.runAllAsync();
+      this.server.respond();
+      await this.clock.runAllAsync();
       result = await promise;
     } catch (e) {
       error = e;
@@ -147,30 +168,14 @@ export async function prepareIdentityTests({
     return {
       result,
       error,
-      requests: requests.map((request) => {
+      requests: this.requests.map((request) => {
         return {
           url: request.url,
           body: request.requestBody,
           method: request.method,
-          headers: request.requestHeaders
+          headers: request.requestHeaders,
         };
-      })
+      }),
     };
-  };
-
-  return {
-    clock,
-    logMessages,
-    oldLogLevel,
-    sandbox,
-    oldLogger,
-    async restore() {
-      sandbox.restore();
-      AzureLogger.log = oldLogger;
-      setLogLevel(oldLogLevel);
-    },
-    sendIndividualRequest,
-    sendIndividualRequestAndGetError,
-    sendCredentialRequests
-  };
+  }
 }

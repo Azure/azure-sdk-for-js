@@ -28,12 +28,12 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 - An [Azure subscription][azure_sub].
 - An existing [Cognitive Services][cognitive_resource] or Metrics Advisor resource. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
 
-If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
+If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names. You can also provide the  pricing tier (or sku) `<sku level>` and an Azure location `<location>`
 
 ```bash
 az cognitiveservices account create --kind MetricsAdvisor --resource-group <your-resource-group-name> --name <your-resource-name> --sku <sku level> --location <location>
 ```
-
+- Existing data sources and [set up datafeeds to onboard data][onboard_data_feed]
 ### Install the `@azure/ai-metrics-advisor` package
 
 Install the Azure Metrics Advisor client library for JavaScript with `npm`:
@@ -57,7 +57,7 @@ az cognitiveservices account show --name <your-resource-name> --resource-group <
 You will need two keys to authenticate the client:
 
 - The subscription key to your Metrics Advisor resource. You can find this in the **Keys and Endpoint** section of your resource in the [Azure Portal][azure_portal].
-- The API key for your Metrics Advisor instance. You can find this in the web portal for Metrics Advisor, in **API keys** on the left navigation menu. The url of your web portal can be found in the **Overview** section of your resource in the [Azure Portal][azure_portal].
+- The API key for your Metrics Advisor instance. Get the web portal url for Metrics Advisor from the **Overview** section of your resource in the [Azure Portal][azure_portal]. After logging into the web portal for Metrics Advisor, click on **API keys** on the left navigation menu to find the API key.
 
 Use the [Azure Portal][azure_portal] to browse to your Metrics Advisor resource and retrieve an subscription key or use the [Azure CLI][azure_cli] snippet below:
 
@@ -512,3 +512,4 @@ the code.
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [metrics_advisor_glossary]: https://docs.microsoft.com/azure/cognitive-services/metrics-advisor/glossary
+[onboard_data_feed]: https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/how-tos/onboard-your-data

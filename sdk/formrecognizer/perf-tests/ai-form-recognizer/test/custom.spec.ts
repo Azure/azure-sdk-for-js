@@ -7,7 +7,7 @@ import {
   BeginRecognizeCustomFormsOptions,
   CustomFormModel,
   FormRecognizerClient,
-  FormTrainingClient
+  FormTrainingClient,
 } from "@azure/ai-form-recognizer";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 
@@ -22,8 +22,8 @@ export class CustomModelRecognitionTest extends PerfTest<BeginRecognizeCustomFor
       description: "Polling interval in milliseconds",
       shortName: "u",
       longName: "update-interval",
-      defaultValue: 5000
-    }
+      defaultValue: 5000,
+    },
   };
 
   /**
@@ -89,7 +89,7 @@ export class CustomModelRecognitionTest extends PerfTest<BeginRecognizeCustomFor
       modelId,
       this.documentUrl,
       {
-        updateIntervalInMs: this.parsedOptions.updateIntervalInMs?.value
+        updateIntervalInMs: this.parsedOptions.updateIntervalInMs?.value,
       }
     );
 

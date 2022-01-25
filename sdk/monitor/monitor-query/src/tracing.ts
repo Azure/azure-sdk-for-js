@@ -13,5 +13,5 @@ import { createSpanFunction } from "@azure/core-tracing";
  */
 export const createSpan = createSpanFunction({
   namespace: "Microsoft.Monitor",
-  packagePrefix: "Azure.Monitor.Query"
+  packagePrefix: "Azure.Monitor.Query",
 });

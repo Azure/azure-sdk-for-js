@@ -269,7 +269,7 @@ export class EventProcessor {
       fullyQualifiedNamespace: this._fullyQualifiedNamespace,
       consumerGroup: this._consumerGroup,
       eventHubName: this._eventHubName,
-      etag: previousPartitionOwnership ? previousPartitionOwnership.etag : undefined
+      etag: previousPartitionOwnership ? previousPartitionOwnership.etag : undefined,
     };
 
     return partitionOwnership;
@@ -341,7 +341,7 @@ export class EventProcessor {
         eventHubName: this._eventHubName,
         consumerGroup: this._consumerGroup,
         partitionId: partitionId,
-        eventProcessorId: this.id
+        eventProcessorId: this.id,
       }
     );
 
@@ -434,7 +434,7 @@ export class EventProcessor {
       const iterationStartTimeInMs = Date.now();
       try {
         const { partitionIds } = await this._context.managementSession!.getEventHubProperties({
-          abortSignal: abortSignal
+          abortSignal: abortSignal,
         });
         await this._performLoadBalancing(loadBalancingStrategy, partitionIds, abortSignal);
       } catch (err) {
@@ -540,7 +540,7 @@ export class EventProcessor {
           partitionId: "",
           updateCheckpoint: async () => {
             /* no-op */
-          }
+          },
         });
       } catch (errorFromUser) {
         logger.verbose(

@@ -26,13 +26,13 @@ describe("autoLockRenewer unit tests", () => {
   const limits = {
     maxAdditionalTimeToRenewLock: 7,
     nextLockExpirationTime: 10,
-    msToNextRenewal: 5
+    msToNextRenewal: 5,
   };
 
   const testLinkEntity = {
     name: "linkName",
     logPrefix: "this is my log prefix",
-    entityPath: "entity path"
+    entityPath: "entity path",
   };
 
   let stopTimerPromise: Promise<void>;
@@ -47,7 +47,7 @@ describe("autoLockRenewer unit tests", () => {
     const managementClient = {
       async renewLock(_lockToken: string, _options?: SendManagementRequestOptions): Promise<Date> {
         return new Date(Date.now() + limits.nextLockExpirationTime);
-      }
+      },
     } as ManagementClient;
 
     renewLockSpy = sinon.spy(managementClient, "renewLock");
@@ -60,7 +60,7 @@ describe("autoLockRenewer unit tests", () => {
         getManagementClient: (entityPath) => {
           assert.equal(entityPath, "entity path");
           return managementClient;
-        }
+        },
       },
       limits.maxAdditionalTimeToRenewLock,
       "peekLock"
@@ -112,7 +112,7 @@ describe("autoLockRenewer unit tests", () => {
       {
         lockToken: "lock token",
         lockedUntilUtc: new Date(),
-        messageId: "message id"
+        messageId: "message id",
       },
       onErrorFake
     );
@@ -143,7 +143,7 @@ describe("autoLockRenewer unit tests", () => {
   it("delete multiple times", () => {
     // no lock renewal for this message
     autoLockRenewer.stop(testLinkEntity, {
-      messageId: "hello"
+      messageId: "hello",
     });
 
     // no locks have been setup
@@ -159,7 +159,7 @@ describe("autoLockRenewer unit tests", () => {
         lockToken: "lock token",
         // this date exceeds the max time we would renew for so we don't need to do anything.
         lockedUntilUtc: new Date(Date.now() + limits.maxAdditionalTimeToRenewLock + 1),
-        messageId: "message id"
+        messageId: "message id",
       },
       onErrorFake
     );
@@ -178,7 +178,7 @@ describe("autoLockRenewer unit tests", () => {
       {
         lockToken: "lock token",
         lockedUntilUtc: new Date(),
-        messageId: "message id"
+        messageId: "message id",
       },
       onErrorFake
     );
@@ -208,7 +208,7 @@ describe("autoLockRenewer unit tests", () => {
     autoLockRenewer.start(
       testLinkEntity,
       {
-        messageId: "my message id"
+        messageId: "my message id",
       },
       onErrorFake
     );
@@ -226,7 +226,7 @@ describe("autoLockRenewer unit tests", () => {
     const unusedMgmtClient = {
       getManagementClient: () => {
         throw new Error("Not used for this test");
-      }
+      },
     };
 
     it("doesn't support receiveAndDelete mode", () => {

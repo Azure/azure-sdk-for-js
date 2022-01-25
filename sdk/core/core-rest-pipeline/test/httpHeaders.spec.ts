@@ -9,12 +9,12 @@ describe("HttpHeaders", () => {
     const rawHeaders = {
       lowercase: "lower case value",
       camelCase: "camel case value",
-      ALLUPPERCASE: "all upper case value"
+      ALLUPPERCASE: "all upper case value",
     };
     const normalizedHeaders = {
       lowercase: "lower case value",
       camelcase: "camel case value",
-      alluppercase: "all upper case value"
+      alluppercase: "all upper case value",
     };
     const headers = createHttpHeaders(rawHeaders);
 
@@ -25,7 +25,7 @@ describe("HttpHeaders", () => {
     const rawHeaders = {
       lowercase: "lower case value",
       camelCase: "camel case value",
-      ALLUPPERCASE: "all upper case value"
+      ALLUPPERCASE: "all upper case value",
     };
     const headers = createHttpHeaders(rawHeaders);
 
@@ -36,7 +36,7 @@ describe("HttpHeaders", () => {
     const rawHeaders = {
       lowercase: "lower case value",
       camelCase: "camel case value",
-      ALLUPPERCASE: "all upper case value"
+      ALLUPPERCASE: "all upper case value",
     };
     const headers = createHttpHeaders(rawHeaders);
 

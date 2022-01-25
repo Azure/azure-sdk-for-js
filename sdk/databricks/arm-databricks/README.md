@@ -6,7 +6,7 @@ The Microsoft Azure management APIs allow end users to operate on Azure Databric
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databricks/arm-databricks) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-databricks) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-databricks) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-databricks?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

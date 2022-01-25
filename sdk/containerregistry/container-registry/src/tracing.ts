@@ -13,5 +13,5 @@ import { createSpanFunction } from "@azure/core-tracing";
  */
 export const createSpan = createSpanFunction({
   namespace: "Azure.Containers",
-  packagePrefix: "Azure.Containers.ContainerRegistry"
+  packagePrefix: "Azure.Containers.ContainerRegistry",
 });

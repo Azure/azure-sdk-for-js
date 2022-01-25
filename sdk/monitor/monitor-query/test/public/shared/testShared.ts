@@ -15,7 +15,7 @@ const replaceableVariables: Record<string, string> = {
   MQ_APPLICATIONINSIGHTS_CONNECTION_STRING: "mq_applicationinsights_connection",
   AZURE_TENANT_ID: "98123456-7614-3456-5678-789980112547",
   AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret"
+  AZURE_CLIENT_SECRET: "azure_client_secret",
 };
 export interface RecorderAndLogsClient {
   client: LogsQueryClient;
@@ -30,7 +30,7 @@ export interface RecorderAndMetricsClient {
 export const testEnv = new Proxy(replaceableVariables, {
   get: (target, key: string) => {
     return env[key] || target[key];
-  }
+  },
 });
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -49,15 +49,15 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   // replacements within recordings.
   customizationsOnRecordings: [
     (recording: string): any =>
-      recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
-  ]
+      recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
+  ],
 };
 
 export function createRecorderAndMetricsClient(context: Context): RecorderAndMetricsClient {
   const recorder = record(context, environmentSetup);
   return {
     client: new MetricsQueryClient(createTestClientSecretCredential()),
-    recorder
+    recorder,
   };
 }
 
@@ -68,9 +68,9 @@ export function createRecorderAndLogsClient(
   const recorder = record(context, environmentSetup);
   return {
     client: new LogsQueryClient(createTestClientSecretCredential(), {
-      retryOptions
+      retryOptions,
     }),
-    recorder
+    recorder,
   };
 }
 
@@ -92,13 +92,11 @@ export function getMonitorWorkspaceId(mochaContext: Pick<Context, "skip">): stri
   return getRequiredEnvVar(mochaContext, "MONITOR_WORKSPACE_ID");
 }
 
-export function getMetricsArmResourceId(
-  mochaContext: Pick<Context, "skip">
-): {
+export function getMetricsArmResourceId(mochaContext: Pick<Context, "skip">): {
   resourceId: string;
 } {
   return {
-    resourceId: getRequiredEnvVar(mochaContext, "METRICS_RESOURCE_ID")
+    resourceId: getRequiredEnvVar(mochaContext, "METRICS_RESOURCE_ID"),
   };
 }
 
@@ -160,7 +158,7 @@ export function assertQueryTable(
     {
       name: table.name,
       rows: table.rows,
-      columns: table.columnDescriptors.map((c) => c.name)
+      columns: table.columnDescriptors.map((c) => c.name),
     },
     expectedTable,
     `${message}: tables weren't equal`

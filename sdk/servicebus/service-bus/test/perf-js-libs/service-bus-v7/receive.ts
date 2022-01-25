@@ -72,7 +72,7 @@ async function RunTest(
     { processMessage, processError },
     {
       autoCompleteMessages: false,
-      maxConcurrentCalls
+      maxConcurrentCalls,
     }
   );
 }

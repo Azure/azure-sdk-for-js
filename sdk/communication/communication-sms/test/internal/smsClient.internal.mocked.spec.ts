@@ -26,7 +26,7 @@ describe("[mocked] SmsClient Internal", async () => {
   const testSendRequest: SmsSendRequest = {
     from: TEST_NUMBER,
     to: [TEST_NUMBER],
-    message: "message"
+    message: "message",
   };
 
   describe("when sending an SMS", () => {

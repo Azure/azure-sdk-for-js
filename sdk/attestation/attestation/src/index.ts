@@ -7,7 +7,7 @@ export {
   AttestOpenEnclaveOptions,
   AttestSgxEnclaveOptions,
   AttestTpmOptions,
-  AttestationClientOperationOptions
+  AttestationClientOperationOptions,
 } from "./attestationClient";
 
 export {
@@ -15,5 +15,5 @@ export {
   AttestationAdministrationClientOptions,
   AttestationAdministrationClientOperationOptions,
   AttestationAdministrationClientPolicyOperationOptions,
-  AttestationAdministrationClientPolicyCertificateOperationOptions
+  AttestationAdministrationClientPolicyCertificateOperationOptions,
 } from "./attestationAdministrationClient";

@@ -4,7 +4,7 @@
 import {
   BasicPartitionProperties,
   PartitionContext,
-  SubscriptionEventHandlers
+  SubscriptionEventHandlers,
 } from "./eventHubConsumerClientModels";
 import { CheckpointStore } from "./eventProcessor";
 import { CloseReason } from "./models/public";
@@ -192,7 +192,7 @@ export class PartitionProcessor implements PartitionContext {
       consumerGroup: this._context.consumerGroup,
       partitionId: this._context.partitionId,
       sequenceNumber: eventData.sequenceNumber,
-      offset: eventData.offset
+      offset: eventData.offset,
     };
 
     await this._checkpointStore!.updateCheckpoint(checkpoint);

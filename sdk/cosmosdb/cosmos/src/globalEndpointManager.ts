@@ -116,7 +116,7 @@ export class GlobalEndpointManager {
 
     if (this.readableLocations.length === 0 || this.writeableLocations.length === 0) {
       const { resource: databaseAccount } = await this.readDatabaseAccount({
-        urlConnection: this.defaultEndpoint
+        urlConnection: this.defaultEndpoint,
       });
       this.writeableLocations = databaseAccount.writableLocations;
       this.readableLocations = databaseAccount.readableLocations;
@@ -236,10 +236,7 @@ export class GlobalEndpointManager {
 
     // hostname attribute in endpointUrl will return 'contoso.documents.azure.com'
     if (endpointUrl.hostname) {
-      const hostnameParts = endpointUrl.hostname
-        .toString()
-        .toLowerCase()
-        .split(".");
+      const hostnameParts = endpointUrl.hostname.toString().toLowerCase().split(".");
       if (hostnameParts) {
         // globalDatabaseAccountName will return 'contoso'
         const globalDatabaseAccountName = hostnameParts[0];
@@ -262,8 +259,5 @@ export class GlobalEndpointManager {
 }
 
 function normalizeEndpoint(endpoint: string): string {
-  return endpoint
-    .split(" ")
-    .join("")
-    .toLowerCase();
+  return endpoint.split(" ").join("").toLowerCase();
 }

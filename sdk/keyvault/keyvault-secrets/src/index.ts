@@ -8,7 +8,7 @@ import {
   isTokenCredential,
   signingPolicy,
   PipelineOptions,
-  createPipelineFromOptions
+  createPipelineFromOptions,
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -21,7 +21,7 @@ import {
   KnownDeletionRecoveryLevel,
   KeyVaultClientGetSecretsOptionalParams,
   SecretBundle,
-  DeletedSecretBundle
+  DeletedSecretBundle,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
@@ -48,7 +48,7 @@ import {
   ListDeletedSecretsOptions,
   SecretProperties,
   SecretClientOptions,
-  LATEST_API_VERSION
+  LATEST_API_VERSION,
 } from "./secretsModels";
 import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./identifier";
 import { getSecretFromSecretBundle } from "./transformations";
@@ -81,7 +81,7 @@ export {
   BeginRecoverDeletedSecretOptions,
   SetSecretOptions,
   UpdateSecretPropertiesOptions,
-  logger
+  logger,
 };
 
 const withTrace = createTraceFunction("Azure.KeyVault.Secrets.SecretClient");
@@ -100,8 +100,6 @@ export class SecretClient {
   public readonly vaultUrl: string;
 
   /**
-   * @internal
-   * @hidden
    * A reference to the auto-generated KeyVault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -139,7 +137,7 @@ export class SecretClient {
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
-          : libInfo
+          : libInfo,
     };
 
     const authPolicy = isTokenCredential(credential)
@@ -153,9 +151,9 @@ export class SecretClient {
         allowedHeaderNames: [
           "x-ms-keyvault-region",
           "x-ms-keyvault-network-info",
-          "x-ms-keyvault-service-version"
-        ]
-      }
+          "x-ms-keyvault-service-version",
+        ],
+      },
     };
 
     this.client = new KeyVaultClient(
@@ -193,8 +191,8 @@ export class SecretClient {
         secretAttributes: {
           enabled,
           notBefore,
-          expires
-        }
+          expires,
+        },
       };
     }
     return withTrace("setSecret", unflattenedOptions, async (updatedOptions) => {
@@ -244,7 +242,7 @@ export class SecretClient {
       client: this.client,
       vaultUrl: this.vaultUrl,
       ...options,
-      operationOptions: options
+      operationOptions: options,
     });
     // This will initialize the poller's operation (the deletion of the secret).
     await poller.poll();
@@ -281,8 +279,8 @@ export class SecretClient {
         secretAttributes: {
           enabled,
           notBefore,
-          expires
-        }
+          expires,
+        },
       };
     }
 
@@ -413,7 +411,7 @@ export class SecretClient {
       client: this.client,
       vaultUrl: this.vaultUrl,
       ...options,
-      operationOptions: options
+      operationOptions: options,
     });
 
     // This will initialize the poller's operation (the recovery of the deleted secret).
@@ -475,8 +473,6 @@ export class SecretClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the pagination of {@link listPropertiesOfSecretVersions}.
    * @param name - The name of the KeyVault Secret.
    * @param continuationState - An object that indicates the position of the paginated request.
@@ -490,7 +486,7 @@ export class SecretClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...options
+        ...options,
       };
       const currentSetResponse = await withTrace(
         "listPropertiesOfSecretVersions",
@@ -529,8 +525,6 @@ export class SecretClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link listPropertiesOfSecretVersions}.
    * @param name - The name of the KeyVault Secret.
    * @param options - Optional parameters for the underlying HTTP request.
@@ -577,13 +571,11 @@ export class SecretClient {
         return this;
       },
       byPage: (settings: PageSettings = {}) =>
-        this.listPropertiesOfSecretVersionsPage(secretName, settings, options)
+        this.listPropertiesOfSecretVersionsPage(secretName, settings, options),
     };
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the pagination of {@link listPropertiesOfSecrets}.
    * @param continuationState - An object that indicates the position of the paginated request.
    * @param options - Optional parameters for the underlying HTTP request.
@@ -595,7 +587,7 @@ export class SecretClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...options
+        ...options,
       };
       const currentSetResponse = await withTrace(
         "listPropertiesOfSecrets",
@@ -630,8 +622,6 @@ export class SecretClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link listPropertiesOfSecrets}.
    * @param options - Optional parameters for the underlying HTTP request.
    */
@@ -674,13 +664,11 @@ export class SecretClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listPropertiesOfSecretsPage(settings, options)
+      byPage: (settings: PageSettings = {}) => this.listPropertiesOfSecretsPage(settings, options),
     };
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the pagination of {@link listDeletedSecrets}.
    * @param continuationState - An object that indicates the position of the paginated request.
    * @param options - Optional parameters for the underlying HTTP request.
@@ -692,7 +680,7 @@ export class SecretClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: KeyVaultClientGetSecretsOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...options
+        ...options,
       };
       const currentSetResponse = await withTrace(
         "listDeletedSecrets",
@@ -722,8 +710,6 @@ export class SecretClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * Deals with the iteration of all the available results of {@link listDeletedSecrets}.
    * @param options - Optional parameters for the underlying HTTP request.
    */
@@ -765,7 +751,7 @@ export class SecretClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listDeletedSecretsPage(settings, options)
+      byPage: (settings: PageSettings = {}) => this.listDeletedSecretsPage(settings, options),
     };
   }
 }

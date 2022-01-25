@@ -10,7 +10,7 @@ import { createConnectionContextForTests } from "./unittestUtils";
 import {
   errorInvalidMessageTypeSingleOrArray,
   errorInvalidMessageTypeSingle,
-  PartitionKeySessionIdMismatchError
+  PartitionKeySessionIdMismatchError,
 } from "../../../src/util/errors";
 
 const assert = chai.assert;
@@ -22,8 +22,8 @@ describe("Sender helper unit tests", () => {
     );
 
     assert.isFalse(isServiceBusMessageBatch(undefined));
-    assert.isFalse(isServiceBusMessageBatch((4 as any) as ServiceBusMessage));
-    assert.isFalse(isServiceBusMessageBatch(({} as any) as ServiceBusMessage));
+    assert.isFalse(isServiceBusMessageBatch(4 as any as ServiceBusMessage));
+    assert.isFalse(isServiceBusMessageBatch({} as any as ServiceBusMessage));
   });
 });
 
@@ -37,7 +37,7 @@ describe("sender unit tests", () => {
   const partitionKeySessionIdMismatchMsg = {
     body: "boooo",
     sessionId: "my-sessionId",
-    partitionKey: "my-partitionKey"
+    partitionKey: "my-partitionKey",
   };
   const badMessages = [
     "hello",
@@ -46,7 +46,7 @@ describe("sender unit tests", () => {
     null,
     undefined,
     ["hello"],
-    partitionKeySessionIdMismatchMsg
+    partitionKeySessionIdMismatchMsg,
   ];
 
   badMessages.forEach((invalidValue) => {

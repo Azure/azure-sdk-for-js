@@ -73,7 +73,7 @@ export async function getYearsPaths(
     for await (const item of containerClient.listBlobsByHierarchy("/", {
       abortSignal: options.abortSignal,
       tracingOptions: updatedOptions.tracingOptions,
-      prefix: CHANGE_FEED_SEGMENT_PREFIX
+      prefix: CHANGE_FEED_SEGMENT_PREFIX,
     })) {
       if (item.kind === "prefix" && !item.name.includes(CHANGE_FEED_INITIALIZATION_SEGMENT)) {
         const yearStr = item.name.slice(CHANGE_FEED_SEGMENT_PREFIX.length, -1);
@@ -84,7 +84,7 @@ export async function getYearsPaths(
   } catch (e) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: e.message
+      message: e.message,
     });
     throw e;
   } finally {
@@ -123,7 +123,7 @@ export async function getSegmentsInYear(
     for await (const item of containerClient.listBlobsFlat({
       prefix,
       abortSignal: options.abortSignal,
-      tracingOptions: updatedOptions.tracingOptions
+      tracingOptions: updatedOptions.tracingOptions,
     })) {
       const segmentTime = parseDateFromSegmentPath(item.name);
       if ((startTime && segmentTime < startTime) || (endTime && segmentTime >= endTime)) {
@@ -135,7 +135,7 @@ export async function getSegmentsInYear(
   } catch (e) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: e.message
+      message: e.message,
     });
     throw e;
   } finally {

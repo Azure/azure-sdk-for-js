@@ -22,6 +22,6 @@ export = {
       messages[0].filter(
         (message: Linter.LintMessage): boolean => message.ruleId !== "no-unused-expressions"
       ),
-    supportsAutofix: true
-  }
+    supportsAutofix: true,
+  },
 };

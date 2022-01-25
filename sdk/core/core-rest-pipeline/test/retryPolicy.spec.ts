@@ -11,23 +11,23 @@ import {
   PipelineResponse,
   createHttpHeaders,
   RestError,
-  retryPolicy
+  retryPolicy,
 } from "../src";
 
-describe("retryPolicy", function() {
-  afterEach(function() {
+describe("retryPolicy", function () {
+  afterEach(function () {
     sinon.restore();
   });
 
   it("It should allow passing custom retry strategies", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
 
     const policy = retryPolicy([
@@ -38,10 +38,10 @@ describe("retryPolicy", function() {
             return { skipStrategy: true };
           }
           return {
-            retryAfterInMs: 100
+            retryAfterInMs: 100,
           };
-        }
-      }
+        },
+      },
     ]);
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.onFirstCall().rejects(testError);
@@ -64,7 +64,7 @@ describe("retryPolicy", function() {
 
   it("It should give up after the default maxRetries is reached", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
 
@@ -76,10 +76,10 @@ describe("retryPolicy", function() {
             return { skipStrategy: true };
           }
           return {
-            retryAfterInMs: 100
+            retryAfterInMs: 100,
           };
-        }
-      }
+        },
+      },
     ]);
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
@@ -100,7 +100,7 @@ describe("retryPolicy", function() {
 
   it("It should give up after maxRetries is changed", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
 
@@ -113,13 +113,13 @@ describe("retryPolicy", function() {
               return { skipStrategy: true };
             }
             return {
-              retryAfterInMs: 100
+              retryAfterInMs: 100,
             };
-          }
-        }
+          },
+        },
       ],
       {
-        maxRetries: 10
+        maxRetries: 10,
       }
     );
 
@@ -142,7 +142,7 @@ describe("retryPolicy", function() {
 
   it("It should allow redirecting on the next retry", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
 
@@ -154,10 +154,10 @@ describe("retryPolicy", function() {
             return { skipStrategy: true };
           }
           return {
-            redirectTo: "https://not-bing.com"
+            redirectTo: "https://not-bing.com",
           };
-        }
-      }
+        },
+      },
     ]);
 
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -180,7 +180,7 @@ describe("retryPolicy", function() {
 
   it("It should allow throwing new errors", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
     const retryError = new RestError("Test Retry Error!");
@@ -193,10 +193,10 @@ describe("retryPolicy", function() {
             return { skipStrategy: true };
           }
           return {
-            errorToThrow: retryError
+            errorToThrow: retryError,
           };
-        }
-      }
+        },
+      },
     ]);
 
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -222,7 +222,7 @@ describe("retryPolicy", function() {
       error: string[];
     } = {
       info: [],
-      error: []
+      error: [],
     };
 
     const logger: AzureLogger = {
@@ -231,18 +231,18 @@ describe("retryPolicy", function() {
       },
       error(...params) {
         logParams.error.push(params.join(" "));
-      }
+      },
     } as AzureLogger;
 
     return {
       logger,
-      params: logParams
+      params: logParams,
     };
   }
 
   it("It should log consistent messages", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
     const policyLogger = makeTestLogger();
@@ -258,13 +258,13 @@ describe("retryPolicy", function() {
               return { skipStrategy: true };
             }
             return {
-              retryAfterInMs: 100
+              retryAfterInMs: 100,
             };
-          }
-        }
+          },
+        },
       ],
       {
-        logger: policyLogger.logger
+        logger: policyLogger.logger,
       }
     );
 
@@ -308,7 +308,7 @@ describe("retryPolicy", function() {
         "Retry 9: Attempting to send request [Request Id]",
         "Retry 9: Processing 1 retry strategies.",
         "Retry 10: Attempting to send request [Request Id]",
-        "Retry 10: Maximum retries reached. Returning the last received response, or throwing the last received error."
+        "Retry 10: Maximum retries reached. Returning the last received response, or throwing the last received error.",
       ]
     );
 
@@ -325,7 +325,7 @@ describe("retryPolicy", function() {
         "Retry 7: Received an error from request [Request Id]",
         "Retry 8: Received an error from request [Request Id]",
         "Retry 9: Received an error from request [Request Id]",
-        "Retry 10: Received an error from request [Request Id]"
+        "Retry 10: Received an error from request [Request Id]",
       ]
     );
 
@@ -350,15 +350,15 @@ describe("retryPolicy", function() {
         "Retry 8: Processing retry strategy testRetryStrategy.",
         "Retry 8: Retry strategy testRetryStrategy retries after 100",
         "Retry 9: Processing retry strategy testRetryStrategy.",
-        "Retry 9: Retry strategy testRetryStrategy retries after 100"
+        "Retry 9: Retry strategy testRetryStrategy retries after 100",
       ],
-      error: []
+      error: [],
     });
   });
 
   it("It should log when the policy requirements are unmet", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const testError = new RestError("Test Error!", { code: "NOT-ENOENT" });
     const policyLogger = makeTestLogger();
@@ -374,13 +374,13 @@ describe("retryPolicy", function() {
               return { skipStrategy: true };
             }
             return {
-              retryAfterInMs: 100
+              retryAfterInMs: 100,
             };
-          }
-        }
+          },
+        },
       ],
       {
-        logger: policyLogger.logger
+        logger: policyLogger.logger,
       }
     );
 
@@ -424,7 +424,7 @@ describe("retryPolicy", function() {
         "Retry 9: Attempting to send request [Request Id]",
         "Retry 9: Processing 1 retry strategies.",
         "Retry 10: Attempting to send request [Request Id]",
-        "Retry 10: Maximum retries reached. Returning the last received response, or throwing the last received error."
+        "Retry 10: Maximum retries reached. Returning the last received response, or throwing the last received error.",
       ]
     );
 
@@ -441,7 +441,7 @@ describe("retryPolicy", function() {
         "Retry 7: Received an error from request [Request Id]",
         "Retry 8: Received an error from request [Request Id]",
         "Retry 9: Received an error from request [Request Id]",
-        "Retry 10: Received an error from request [Request Id]"
+        "Retry 10: Received an error from request [Request Id]",
       ]
     );
 
@@ -466,15 +466,15 @@ describe("retryPolicy", function() {
         "Retry 8: Processing retry strategy testRetryStrategy.",
         "Retry 8: Skipped.",
         "Retry 9: Processing retry strategy testRetryStrategy.",
-        "Retry 9: Skipped."
+        "Retry 9: Skipped.",
       ],
-      error: []
+      error: [],
     });
   });
 
   it("It should log when the abort controller aborts", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const abortController = new AbortController();
     request.abortSignal = abortController.signal;
@@ -490,13 +490,13 @@ describe("retryPolicy", function() {
           logger: strategyLogger.logger,
           retry() {
             return {
-              retryAfterInMs: 100
+              retryAfterInMs: 100,
             };
-          }
-        }
+          },
+        },
       ],
       {
-        logger: policyLogger.logger
+        logger: policyLogger.logger,
       }
     );
 
@@ -528,13 +528,13 @@ describe("retryPolicy", function() {
 
     assert.deepEqual(strategyLogger.params, {
       info: [],
-      error: []
+      error: [],
     });
   });
 
   it("It should log when the retry strategy throws with an error", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
     const retryError = new RestError("Test Retry Error!");
@@ -551,13 +551,13 @@ describe("retryPolicy", function() {
               return { skipStrategy: true };
             }
             return {
-              errorToThrow: retryError
+              errorToThrow: retryError,
             };
-          }
-        }
+          },
+        },
       ],
       {
-        logger: policyLogger.logger
+        logger: policyLogger.logger,
       }
     );
 
@@ -583,7 +583,7 @@ describe("retryPolicy", function() {
       policyLogger.params.info.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
       [
         "Retry 0: Attempting to send request [Request Id]",
-        "Retry 0: Processing 1 retry strategies."
+        "Retry 0: Processing 1 retry strategies.",
       ]
     );
 
@@ -595,14 +595,14 @@ describe("retryPolicy", function() {
     assert.deepEqual(strategyLogger.params, {
       info: ["Retry 0: Processing retry strategy testRetryStrategy."],
       error: [
-        "Retry 0: Retry strategy testRetryStrategy throws error: RestError: Test Retry Error!"
-      ]
+        "Retry 0: Retry strategy testRetryStrategy throws error: RestError: Test Retry Error!",
+      ],
     });
   });
 
   it("It should log when the retry strategy redirects to another URL", async () => {
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
     const testError = new RestError("Test Error!", { code: "ENOENT" });
     const policyLogger = makeTestLogger();
@@ -618,13 +618,13 @@ describe("retryPolicy", function() {
               return { skipStrategy: true };
             }
             return {
-              redirectTo: "https://not-bing.com"
+              redirectTo: "https://not-bing.com",
             };
-          }
-        }
+          },
+        },
       ],
       {
-        logger: policyLogger.logger
+        logger: policyLogger.logger,
       }
     );
 
@@ -671,7 +671,7 @@ describe("retryPolicy", function() {
         "Retry 9: Attempting to send request [Request Id]",
         "Retry 9: Processing 1 retry strategies.",
         "Retry 10: Attempting to send request [Request Id]",
-        "Retry 10: Maximum retries reached. Returning the last received response, or throwing the last received error."
+        "Retry 10: Maximum retries reached. Returning the last received response, or throwing the last received error.",
       ]
     );
 
@@ -688,7 +688,7 @@ describe("retryPolicy", function() {
         "Retry 7: Received an error from request [Request Id]",
         "Retry 8: Received an error from request [Request Id]",
         "Retry 9: Received an error from request [Request Id]",
-        "Retry 10: Received an error from request [Request Id]"
+        "Retry 10: Received an error from request [Request Id]",
       ]
     );
 
@@ -713,9 +713,9 @@ describe("retryPolicy", function() {
         "Retry 8: Processing retry strategy testRetryStrategy.",
         "Retry 8: Retry strategy testRetryStrategy redirects to https://not-bing.com",
         "Retry 9: Processing retry strategy testRetryStrategy.",
-        "Retry 9: Retry strategy testRetryStrategy redirects to https://not-bing.com"
+        "Retry 9: Retry strategy testRetryStrategy redirects to https://not-bing.com",
       ],
-      error: []
+      error: [],
     });
   });
 });

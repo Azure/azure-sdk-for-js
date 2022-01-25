@@ -6,7 +6,7 @@ The Azure Analysis Services Web API provides a RESTful set of web services that 
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/analysisservices/arm-analysisservices) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-analysisservices) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-analysisservices?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-analysisservices) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

@@ -6,7 +6,7 @@ import {
   Recorder,
   RecorderEnvironmentSetup,
   TestContextInterface,
-  pluginForIdentitySDK
+  pluginForIdentitySDK,
 } from "@azure-tools/test-recorder";
 import Sinon, { createSandbox } from "sinon";
 import { assert } from "chai";
@@ -40,7 +40,7 @@ export const openIdConfigurationResponse: Record<string, string | string[] | boo
   token_endpoint_auth_methods_supported: [
     "client_secret_post",
     "private_key_jwt",
-    "client_secret_basic"
+    "client_secret_basic",
   ],
   jwks_uri: `https://login.microsoftonline.com/${PlaybackTenantId}/discovery/v2.0/keys`,
   response_modes_supported: ["query", "fragment", "form_post"],
@@ -76,20 +76,20 @@ export const openIdConfigurationResponse: Record<string, string | string[] | boo
     "ver",
     "at_hash",
     "c_hash",
-    "email"
+    "email",
   ],
   tenant_region_scope: "NA",
   cloud_instance_name: "microsoftonline.com",
   cloud_graph_host_name: "graph.windows.net",
   msgraph_host: "graph.microsoft.com",
-  rbac_url: "https://pas.windows.net"
+  rbac_url: "https://pas.windows.net",
 };
 
 export function msalNodeTestSetup(
   testContext: TestContextInterface | Mocha.Context
 ): MsalTestSetupResponse {
   const playbackValues = {
-    correlationId: "client-request-id"
+    correlationId: "client-request-id",
   };
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
@@ -97,7 +97,7 @@ export function msalNodeTestSetup(
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_USERNAME: "azure_username",
-      AZURE_PASSWORD: "azure_password"
+      AZURE_PASSWORD: "azure_password",
     },
     customizationsOnRecordings: [
       (recording: string): string =>
@@ -144,10 +144,10 @@ export function msalNodeTestSetup(
         recording.replace(
           /client_info":"[^"]*/g,
           'client_info":"eyJ1aWQiOiIxMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkwMTIiLCJ1dGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIn0K'
-        )
+        ),
     ],
     queryParametersToSkip: [],
-    onLoadCallbackForPlayback: pluginForIdentitySDK
+    onLoadCallbackForPlayback: pluginForIdentitySDK,
   };
   const recorder = record(testContext, recorderEnvSetup);
   const sandbox = createSandbox();
@@ -161,7 +161,7 @@ export function msalNodeTestSetup(
     async cleanup() {
       await recorder.stop();
       sandbox.restore();
-    }
+    },
   };
 }
 
@@ -171,7 +171,7 @@ export interface TestTracingOptions {
 }
 
 export function testTracing(options: TestTracingOptions): () => Promise<void> {
-  return async function() {
+  return async function () {
     const { test, children } = options;
     const tracer = setTracer();
     const rootSpan = tracer.startSpan("root");
@@ -179,7 +179,7 @@ export function testTracing(options: TestTracingOptions): () => Promise<void> {
     const tracingContext = setSpan(otContext.active(), rootSpan);
 
     await test({
-      tracingContext
+      tracingContext,
     });
 
     rootSpan.end();
@@ -192,9 +192,9 @@ export function testTracing(options: TestTracingOptions): () => Promise<void> {
       roots: [
         {
           name: rootSpan.name,
-          children
-        }
-      ]
+          children,
+        },
+      ],
     };
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);

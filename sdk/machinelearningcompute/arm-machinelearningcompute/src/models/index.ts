@@ -6,994 +6,712 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
-
-/**
- * Azure resource
- */
-export interface Resource extends BaseResource {
-  /**
-   * Specifies the resource ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Specifies the name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Specifies the location of the resource.
-   */
-  location: string;
-  /**
-   * Specifies the type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Contains resource tags defined as key/value pairs.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * Error detail information.
- */
-export interface ErrorDetail {
-  /**
-   * Error code.
-   */
-  code: string;
-  /**
-   * Error message.
-   */
-  message: string;
-}
-
-/**
- * Error response information.
- */
-export interface ErrorResponse {
-  /**
-   * Error code.
-   */
-  code: string;
-  /**
-   * Error message.
-   */
-  message: string;
-  /**
-   * An array of error detail objects.
-   */
-  details?: ErrorDetail[];
-}
-
-/**
- * Wrapper for error response to follow ARM guidelines.
- */
+/** Wrapper for error response to follow ARM guidelines. */
 export interface ErrorResponseWrapper {
-  /**
-   * The error response.
-   */
+  /** The error response. */
   error?: ErrorResponse;
 }
 
-/**
- * Properties of Storage Account.
- */
+/** Error response information. */
+export interface ErrorResponse {
+  /** Error code. */
+  code: string;
+  /** Error message. */
+  message: string;
+  /** An array of error detail objects. */
+  details?: ErrorDetail[];
+}
+
+/** Error detail information. */
+export interface ErrorDetail {
+  /** Error code. */
+  code: string;
+  /** Error message. */
+  message: string;
+}
+
+/** Properties of Storage Account. */
 export interface StorageAccountProperties {
-  /**
-   * ARM resource ID of the Azure Storage Account to store CLI specific files. If not provided one
-   * will be created. This cannot be changed once the cluster is created.
-   */
+  /** ARM resource ID of the Azure Storage Account to store CLI specific files. If not provided one will be created. This cannot be changed once the cluster is created. */
   resourceId?: string;
 }
 
-/**
- * Properties of Azure Container Registry.
- */
+/** Properties of Azure Container Registry. */
 export interface ContainerRegistryProperties {
-  /**
-   * ARM resource ID of the Azure Container Registry used to store Docker images for web services
-   * in the cluster. If not provided one will be created. This cannot be changed once the cluster
-   * is created.
-   */
+  /** ARM resource ID of the Azure Container Registry used to store Docker images for web services in the cluster. If not provided one will be created. This cannot be changed once the cluster is created. */
   resourceId?: string;
 }
 
-/**
- * The Azure service principal used by Kubernetes for configuring load balancers
- */
-export interface ServicePrincipalProperties {
+/** Information about the container service backing the cluster */
+export interface AcsClusterProperties {
   /**
-   * The service principal client ID
+   * The FQDN of the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  clientId: string;
-  /**
-   * The service principal secret. This is not returned in response of GET/PUT on the resource. To
-   * see this please call listKeys.
-   */
-  secret: string;
+  readonly clusterFqdn?: string;
+  /** Type of orchestrator. It cannot be changed once the cluster is created. */
+  orchestratorType: OrchestratorType;
+  /** Orchestrator specific properties */
+  orchestratorProperties?: KubernetesClusterProperties;
+  /** The system services deployed to the cluster */
+  systemServices?: SystemService[];
+  /** The number of master nodes in the container service. */
+  masterCount?: number;
+  /** The number of agent nodes in the Container Service. This can be changed to scale the cluster. */
+  agentCount?: number;
+  /** The Azure VM size of the agent VM nodes. This cannot be changed once the cluster is created. This list is non exhaustive; refer to https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes for the possible VM sizes. */
+  agentVmSize?: AgentVMSizeTypes;
 }
 
-/**
- * Kubernetes cluster specific properties
- */
+/** Kubernetes cluster specific properties */
 export interface KubernetesClusterProperties {
-  /**
-   * The Azure Service Principal used by Kubernetes
-   */
+  /** The Azure Service Principal used by Kubernetes */
   servicePrincipal?: ServicePrincipalProperties;
 }
 
-/**
- * Information about a system service deployed in the cluster
- */
+/** The Azure service principal used by Kubernetes for configuring load balancers */
+export interface ServicePrincipalProperties {
+  /** The service principal client ID */
+  clientId: string;
+  /** The service principal secret. This is not returned in response of GET/PUT on the resource. To see this please call listKeys. */
+  secret: string;
+}
+
+/** Information about a system service deployed in the cluster */
 export interface SystemService {
-  /**
-   * The system service type. Possible values include: 'None', 'ScoringFrontEnd', 'BatchFrontEnd'
-   */
+  /** The system service type */
   systemServiceType: SystemServiceType;
   /**
    * The public IP address of the system service
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly publicIpAddress?: string;
   /**
    * The state of the system service
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly version?: string;
 }
 
-/**
- * Information about the container service backing the cluster
- */
-export interface AcsClusterProperties {
-  /**
-   * The FQDN of the cluster.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly clusterFqdn?: string;
-  /**
-   * Type of orchestrator. It cannot be changed once the cluster is created. Possible values
-   * include: 'Kubernetes', 'None'
-   */
-  orchestratorType: OrchestratorType;
-  /**
-   * Orchestrator specific properties
-   */
-  orchestratorProperties?: KubernetesClusterProperties;
-  /**
-   * The system services deployed to the cluster
-   */
-  systemServices?: SystemService[];
-  /**
-   * The number of master nodes in the container service. Default value: 1.
-   */
-  masterCount?: number;
-  /**
-   * The number of agent nodes in the Container Service. This can be changed to scale the cluster.
-   * Default value: 2.
-   */
-  agentCount?: number;
-  /**
-   * The Azure VM size of the agent VM nodes. This cannot be changed once the cluster is created.
-   * This list is non exhaustive; refer to
-   * https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes for the possible VM
-   * sizes. Possible values include: 'Standard_A0', 'Standard_A1', 'Standard_A2', 'Standard_A3',
-   * 'Standard_A4', 'Standard_A5', 'Standard_A6', 'Standard_A7', 'Standard_A8', 'Standard_A9',
-   * 'Standard_A10', 'Standard_A11', 'Standard_D1', 'Standard_D2', 'Standard_D3', 'Standard_D4',
-   * 'Standard_D11', 'Standard_D12', 'Standard_D13', 'Standard_D14', 'Standard_D1_v2',
-   * 'Standard_D2_v2', 'Standard_D3_v2', 'Standard_D4_v2', 'Standard_D5_v2', 'Standard_D11_v2',
-   * 'Standard_D12_v2', 'Standard_D13_v2', 'Standard_D14_v2', 'Standard_G1', 'Standard_G2',
-   * 'Standard_G3', 'Standard_G4', 'Standard_G5', 'Standard_DS1', 'Standard_DS2', 'Standard_DS3',
-   * 'Standard_DS4', 'Standard_DS11', 'Standard_DS12', 'Standard_DS13', 'Standard_DS14',
-   * 'Standard_GS1', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5'. Default value:
-   * 'Standard_D3_v2'.
-   */
-  agentVmSize?: AgentVMSizeTypes;
-}
-
-/**
- * Properties of App Insights.
- */
+/** Properties of App Insights. */
 export interface AppInsightsProperties {
-  /**
-   * ARM resource ID of the App Insights.
-   */
+  /** ARM resource ID of the App Insights. */
   resourceId?: string;
 }
 
-/**
- * SSL configuration. If configured data-plane calls to user services will be exposed over SSL
- * only.
- */
+/** Global configuration for services in the cluster. */
+export interface GlobalServiceConfiguration {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** The configuration ETag for updates. */
+  etag?: string;
+  /** The SSL configuration properties */
+  ssl?: SslConfiguration;
+  /** Optional global authorization keys for all user services deployed in cluster. These are used if the service does not have auth keys. */
+  serviceAuth?: ServiceAuthConfiguration;
+  /** The auto-scale configuration */
+  autoScale?: AutoScaleConfiguration;
+}
+
+/** SSL configuration. If configured data-plane calls to user services will be exposed over SSL only. */
 export interface SslConfiguration {
-  /**
-   * SSL status. Allowed values are Enabled and Disabled. Possible values include: 'Enabled',
-   * 'Disabled'. Default value: 'Enabled'.
-   */
+  /** SSL status. Allowed values are Enabled and Disabled. */
   status?: Status;
-  /**
-   * The SSL cert data in PEM format.
-   */
+  /** The SSL cert data in PEM format. */
   cert?: string;
-  /**
-   * The SSL key data in PEM format. This is not returned in response of GET/PUT on the resource.
-   * To see this please call listKeys API.
-   */
+  /** The SSL key data in PEM format. This is not returned in response of GET/PUT on the resource. To see this please call listKeys API. */
   key?: string;
-  /**
-   * The CName of the certificate.
-   */
+  /** The CName of the certificate. */
   cname?: string;
 }
 
-/**
- * Global service auth configuration properties. These are the data-plane authorization keys and
- * are used if a service doesn't define it's own.
- */
+/** Global service auth configuration properties. These are the data-plane authorization keys and are used if a service doesn't define it's own. */
 export interface ServiceAuthConfiguration {
-  /**
-   * The primary auth key hash. This is not returned in response of GET/PUT on the resource.. To
-   * see this please call listKeys API.
-   */
+  /** The primary auth key hash. This is not returned in response of GET/PUT on the resource.. To see this please call listKeys API. */
   primaryAuthKeyHash: string;
-  /**
-   * The secondary auth key hash. This is not returned in response of GET/PUT on the resource.. To
-   * see this please call listKeys API.
-   */
+  /** The secondary auth key hash. This is not returned in response of GET/PUT on the resource.. To see this please call listKeys API. */
   secondaryAuthKeyHash: string;
 }
 
-/**
- * AutoScale configuration properties.
- */
+/** AutoScale configuration properties. */
 export interface AutoScaleConfiguration {
-  /**
-   * If auto-scale is enabled for all services. Each service can turn it off individually. Possible
-   * values include: 'Enabled', 'Disabled'. Default value: 'Disabled'.
-   */
+  /** If auto-scale is enabled for all services. Each service can turn it off individually. */
   status?: Status;
-  /**
-   * The minimum number of replicas for each service. Default value: 1.
-   */
+  /** The minimum number of replicas for each service. */
   minReplicas?: number;
-  /**
-   * The maximum number of replicas for each service. Default value: 100.
-   */
+  /** The maximum number of replicas for each service. */
   maxReplicas?: number;
-  /**
-   * The target utilization.
-   */
+  /** The target utilization. */
   targetUtilization?: number;
-  /**
-   * Refresh period in seconds.
-   */
+  /** Refresh period in seconds. */
   refreshPeriodInSeconds?: number;
 }
 
-/**
- * Global configuration for services in the cluster.
- */
-export interface GlobalServiceConfiguration {
+/** Azure resource */
+export interface Resource {
   /**
-   * The configuration ETag for updates.
+   * Specifies the resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  etag?: string;
+  readonly id?: string;
   /**
-   * The SSL configuration properties
+   * Specifies the name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  ssl?: SslConfiguration;
+  readonly name?: string;
+  /** Specifies the location of the resource. */
+  location: string;
   /**
-   * Optional global authorization keys for all user services deployed in cluster. These are used
-   * if the service does not have auth keys.
+   * Specifies the type of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  serviceAuth?: ServiceAuthConfiguration;
-  /**
-   * The auto-scale configuration
-   */
-  autoScale?: AutoScaleConfiguration;
-  /**
-   * Describes unknown properties. The value of an unknown property can be of "any" type.
-   */
-  [property: string]: any;
-}
-
-/**
- * Instance of an Azure ML Operationalization Cluster resource.
- */
-export interface OperationalizationCluster extends Resource {
-  /**
-   * The description of the cluster.
-   */
-  description?: string;
-  /**
-   * The date and time when the cluster was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the cluster was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
-   * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning,
-   * Succeeded, and Failed. Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
-   * 'Succeeded', 'Failed', 'Canceled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: OperationStatus;
-  /**
-   * List of provisioning errors reported by the resource provider.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningErrors?: ErrorResponseWrapper[];
-  /**
-   * The cluster type. Possible values include: 'ACS', 'Local'
-   */
-  clusterType: ClusterType;
-  /**
-   * Storage Account properties.
-   */
-  storageAccount?: StorageAccountProperties;
-  /**
-   * Container Registry properties.
-   */
-  containerRegistry?: ContainerRegistryProperties;
-  /**
-   * Parameters for the Azure Container Service cluster.
-   */
-  containerService?: AcsClusterProperties;
-  /**
-   * AppInsights configuration.
-   */
-  appInsights?: AppInsightsProperties;
-  /**
-   * Contains global configuration for the web services in the cluster.
-   */
-  globalServiceConfiguration?: GlobalServiceConfiguration;
-}
-
-/**
- * Parameters for PATCH operation on an operationalization cluster
- */
-export interface OperationalizationClusterUpdateParameters {
-  /**
-   * Gets or sets a list of key value pairs that describe the resource. These tags can be used in
-   * viewing and grouping this resource (across resource groups). A maximum of 15 tags can be
-   * provided for a resource. Each tag must have a key no greater in length than 128 characters and
-   * a value no greater in length than 256 characters.
-   */
+  readonly type?: string;
+  /** Contains resource tags defined as key/value pairs. */
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * Access information for the storage account.
- */
+/** Parameters for PATCH operation on an operationalization cluster */
+export interface OperationalizationClusterUpdateParameters {
+  /** Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Credentials to resources in the cluster. */
+export interface OperationalizationClusterCredentials {
+  /** Credentials for the Storage Account. */
+  storageAccount?: StorageAccountCredentials;
+  /** Credentials for Azure Container Registry. */
+  containerRegistry?: ContainerRegistryCredentials;
+  /** Credentials for Azure Container Service. */
+  containerService?: ContainerServiceCredentials;
+  /** Credentials for Azure AppInsights. */
+  appInsights?: AppInsightsCredentials;
+  /** Global authorization keys for all user services deployed in cluster. These are used if the service does not have auth keys. */
+  serviceAuthConfiguration?: ServiceAuthConfiguration;
+  /** The SSL configuration for the services. */
+  sslConfiguration?: SslConfiguration;
+}
+
+/** Access information for the storage account. */
 export interface StorageAccountCredentials {
   /**
    * The ARM resource ID of the storage account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceId?: string;
   /**
    * The primary key of the storage account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly primaryKey?: string;
   /**
    * The secondary key of the storage account.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly secondaryKey?: string;
 }
 
-/**
- * Information about the Azure Container Registry which contains the images deployed to the
- * cluster.
- */
+/** Information about the Azure Container Registry which contains the images deployed to the cluster. */
 export interface ContainerRegistryCredentials {
   /**
    * The ACR login server name. User name is the first part of the FQDN.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly loginServer?: string;
   /**
    * The ACR primary password.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly password?: string;
   /**
    * The ACR secondary password.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly password2?: string;
   /**
    * The ACR login username.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly username?: string;
 }
 
-/**
- * Information about the Azure Container Registry which contains the images deployed to the
- * cluster.
- */
+/** Information about the Azure Container Registry which contains the images deployed to the cluster. */
 export interface ContainerServiceCredentials {
   /**
    * The ACS kube config file.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly acsKubeConfig?: string;
   /**
    * Service principal configuration used by Kubernetes.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly servicePrincipalConfiguration?: ServicePrincipalProperties;
   /**
    * The ACR image pull secret name which was created in Kubernetes.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly imagePullSecretName?: string;
 }
 
-/**
- * AppInsights credentials.
- */
+/** AppInsights credentials. */
 export interface AppInsightsCredentials {
-  /**
-   * The AppInsights application ID.
-   */
+  /** The AppInsights application ID. */
   appId?: string;
-  /**
-   * The AppInsights instrumentation key. This is not returned in response of GET/PUT on the
-   * resource. To see this please call listKeys API.
-   */
+  /** The AppInsights instrumentation key. This is not returned in response of GET/PUT on the resource. To see this please call listKeys API. */
   instrumentationKey?: string;
 }
 
-/**
- * Credentials to resources in the cluster.
- */
-export interface OperationalizationClusterCredentials {
-  /**
-   * Credentials for the Storage Account.
-   */
-  storageAccount?: StorageAccountCredentials;
-  /**
-   * Credentials for Azure Container Registry.
-   */
-  containerRegistry?: ContainerRegistryCredentials;
-  /**
-   * Credentials for Azure Container Service.
-   */
-  containerService?: ContainerServiceCredentials;
-  /**
-   * Credentials for Azure AppInsights.
-   */
-  appInsights?: AppInsightsCredentials;
-  /**
-   * Global authorization keys for all user services deployed in cluster. These are used if the
-   * service does not have auth keys.
-   */
-  serviceAuthConfiguration?: ServiceAuthConfiguration;
-  /**
-   * The SSL configuration for the services.
-   */
-  sslConfiguration?: SslConfiguration;
-}
-
-/**
- * Information about updates available for system services in a cluster.
- */
+/** Information about updates available for system services in a cluster. */
 export interface CheckSystemServicesUpdatesAvailableResponse {
   /**
-   * Yes if updates are available for the system services, No if not. Possible values include:
-   * 'Yes', 'No'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Yes if updates are available for the system services, No if not.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly updatesAvailable?: UpdatesAvailable;
 }
 
-/**
- * Response of the update system services API
- */
+/** Response of the update system services API */
 export interface UpdateSystemServicesResponse {
   /**
-   * Update status. Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
-   * 'Succeeded', 'Failed', 'Canceled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Update status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly updateStatus?: OperationStatus;
   /**
    * The date and time when the last system services update was started.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly updateStartedOn?: Date;
   /**
    * The date and time when the last system services update completed.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly updateCompletedOn?: Date;
 }
 
-/**
- * Display of the operation.
- */
-export interface ResourceOperationDisplay {
-  /**
-   * The resource provider name.
-   */
-  provider?: string;
-  /**
-   * The resource name.
-   */
-  resource?: string;
-  /**
-   * The operation.
-   */
-  operation?: string;
-  /**
-   * The description of the operation.
-   */
-  description?: string;
-}
-
-/**
- * Resource operation.
- */
-export interface ResourceOperation {
-  /**
-   * Name of this operation.
-   */
-  name?: string;
-  /**
-   * Display of the operation.
-   */
-  display?: ResourceOperationDisplay;
-  /**
-   * The operation origin.
-   */
-  origin?: string;
-}
-
-/**
- * Available operation list.
- */
-export interface AvailableOperations {
-  /**
-   * An array of available operations.
-   */
-  value?: ResourceOperation[];
-}
-
-/**
- * Optional Parameters.
- */
-export interface OperationalizationClustersDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * If true, deletes all resources associated with this cluster.
-   */
-  deleteAll?: boolean;
-}
-
-/**
- * Optional Parameters.
- */
-export interface OperationalizationClustersListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Continuation token for pagination.
-   */
-  skiptoken?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface OperationalizationClustersListBySubscriptionIdOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Continuation token for pagination.
-   */
-  skiptoken?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface OperationalizationClustersBeginDeleteMethodOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * If true, deletes all resources associated with this cluster.
-   */
-  deleteAll?: boolean;
-}
-
-/**
- * Optional Parameters.
- */
-export interface OperationalizationClustersListByResourceGroupNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Continuation token for pagination.
-   */
-  skiptoken?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface OperationalizationClustersListBySubscriptionIdNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Continuation token for pagination.
-   */
-  skiptoken?: string;
-}
-
-/**
- * An interface representing MachineLearningComputeManagementClientOptions.
- */
-export interface MachineLearningComputeManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
-}
-
-/**
- * Defines headers for Delete operation.
- */
-export interface OperationalizationClustersDeleteHeaders {
-  /**
-   * URI of the async operation.
-   */
-  location: string;
-}
-
-/**
- * Defines headers for UpdateSystemServices operation.
- */
-export interface OperationalizationClustersUpdateSystemServicesHeaders {
-  /**
-   * URI of the async operation.
-   */
-  location: string;
-}
-
-/**
- * @interface
- * Paginated list of operationalization clusters.
- * @extends Array<OperationalizationCluster>
- */
-export interface PaginatedOperationalizationClustersList extends Array<OperationalizationCluster> {
-  /**
-   * A continuation link (absolute URI) to the next page of results in the list.
-   */
+/** Paginated list of operationalization clusters. */
+export interface PaginatedOperationalizationClustersList {
+  /** An array of cluster objects. */
+  value?: OperationalizationCluster[];
+  /** A continuation link (absolute URI) to the next page of results in the list. */
   nextLink?: string;
 }
 
-/**
- * Defines values for OperationStatus.
- * Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting', 'Succeeded', 'Failed',
- * 'Canceled'
- * @readonly
- * @enum {string}
- */
-export type OperationStatus = 'Unknown' | 'Updating' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+/** Available operation list. */
+export interface AvailableOperations {
+  /** An array of available operations. */
+  value?: ResourceOperation[];
+}
 
-/**
- * Defines values for ClusterType.
- * Possible values include: 'ACS', 'Local'
- * @readonly
- * @enum {string}
- */
-export type ClusterType = 'ACS' | 'Local';
+/** Resource operation. */
+export interface ResourceOperation {
+  /** Name of this operation. */
+  name?: string;
+  /** Display of the operation. */
+  display?: ResourceOperationDisplay;
+  /** The operation origin. */
+  origin?: string;
+}
 
-/**
- * Defines values for OrchestratorType.
- * Possible values include: 'Kubernetes', 'None'
- * @readonly
- * @enum {string}
- */
-export type OrchestratorType = 'Kubernetes' | 'None';
+/** Display of the operation. */
+export interface ResourceOperationDisplay {
+  /** The resource provider name. */
+  provider?: string;
+  /** The resource name. */
+  resource?: string;
+  /** The operation. */
+  operation?: string;
+  /** The description of the operation. */
+  description?: string;
+}
 
-/**
- * Defines values for SystemServiceType.
- * Possible values include: 'None', 'ScoringFrontEnd', 'BatchFrontEnd'
- * @readonly
- * @enum {string}
- */
-export type SystemServiceType = 'None' | 'ScoringFrontEnd' | 'BatchFrontEnd';
-
-/**
- * Defines values for AgentVMSizeTypes.
- * Possible values include: 'Standard_A0', 'Standard_A1', 'Standard_A2', 'Standard_A3',
- * 'Standard_A4', 'Standard_A5', 'Standard_A6', 'Standard_A7', 'Standard_A8', 'Standard_A9',
- * 'Standard_A10', 'Standard_A11', 'Standard_D1', 'Standard_D2', 'Standard_D3', 'Standard_D4',
- * 'Standard_D11', 'Standard_D12', 'Standard_D13', 'Standard_D14', 'Standard_D1_v2',
- * 'Standard_D2_v2', 'Standard_D3_v2', 'Standard_D4_v2', 'Standard_D5_v2', 'Standard_D11_v2',
- * 'Standard_D12_v2', 'Standard_D13_v2', 'Standard_D14_v2', 'Standard_G1', 'Standard_G2',
- * 'Standard_G3', 'Standard_G4', 'Standard_G5', 'Standard_DS1', 'Standard_DS2', 'Standard_DS3',
- * 'Standard_DS4', 'Standard_DS11', 'Standard_DS12', 'Standard_DS13', 'Standard_DS14',
- * 'Standard_GS1', 'Standard_GS2', 'Standard_GS3', 'Standard_GS4', 'Standard_GS5'
- * @readonly
- * @enum {string}
- */
-export type AgentVMSizeTypes = 'Standard_A0' | 'Standard_A1' | 'Standard_A2' | 'Standard_A3' | 'Standard_A4' | 'Standard_A5' | 'Standard_A6' | 'Standard_A7' | 'Standard_A8' | 'Standard_A9' | 'Standard_A10' | 'Standard_A11' | 'Standard_D1' | 'Standard_D2' | 'Standard_D3' | 'Standard_D4' | 'Standard_D11' | 'Standard_D12' | 'Standard_D13' | 'Standard_D14' | 'Standard_D1_v2' | 'Standard_D2_v2' | 'Standard_D3_v2' | 'Standard_D4_v2' | 'Standard_D5_v2' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_G1' | 'Standard_G2' | 'Standard_G3' | 'Standard_G4' | 'Standard_G5' | 'Standard_DS1' | 'Standard_DS2' | 'Standard_DS3' | 'Standard_DS4' | 'Standard_DS11' | 'Standard_DS12' | 'Standard_DS13' | 'Standard_DS14' | 'Standard_GS1' | 'Standard_GS2' | 'Standard_GS3' | 'Standard_GS4' | 'Standard_GS5';
-
-/**
- * Defines values for Status.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type Status = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for UpdatesAvailable.
- * Possible values include: 'Yes', 'No'
- * @readonly
- * @enum {string}
- */
-export type UpdatesAvailable = 'Yes' | 'No';
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type OperationalizationClustersCreateOrUpdateResponse = OperationalizationCluster & {
+/** Instance of an Azure ML Operationalization Cluster resource. */
+export type OperationalizationCluster = Resource & {
+  /** The description of the cluster. */
+  description?: string;
   /**
-   * The underlying HTTP response.
+   * The date and time when the cluster was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationalizationCluster;
-    };
+  readonly createdOn?: Date;
+  /**
+   * The date and time when the cluster was last modified.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modifiedOn?: Date;
+  /**
+   * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: OperationStatus;
+  /**
+   * List of provisioning errors reported by the resource provider.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningErrors?: ErrorResponseWrapper[];
+  /** The cluster type. */
+  clusterType?: ClusterType;
+  /** Storage Account properties. */
+  storageAccount?: StorageAccountProperties;
+  /** Container Registry properties. */
+  containerRegistry?: ContainerRegistryProperties;
+  /** Parameters for the Azure Container Service cluster. */
+  containerService?: AcsClusterProperties;
+  /** AppInsights configuration. */
+  appInsights?: AppInsightsProperties;
+  /** Contains global configuration for the web services in the cluster. */
+  globalServiceConfiguration?: GlobalServiceConfiguration;
 };
 
-/**
- * Contains response data for the get operation.
- */
-export type OperationalizationClustersGetResponse = OperationalizationCluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Defines headers for OperationalizationClusters_delete operation. */
+export interface OperationalizationClustersDeleteHeaders {
+  /** URI of the async operation. */
+  location?: string;
+}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationalizationCluster;
-    };
-};
+/** Defines headers for OperationalizationClusters_updateSystemServices operation. */
+export interface OperationalizationClustersUpdateSystemServicesHeaders {
+  /** URI of the async operation. */
+  location?: string;
+}
 
-/**
- * Contains response data for the update operation.
- */
-export type OperationalizationClustersUpdateResponse = OperationalizationCluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationalizationCluster;
-    };
-};
+/** Known values of {@link OperationStatus} that the service accepts. */
+export enum KnownOperationStatus {
+  Unknown = "Unknown",
+  Updating = "Updating",
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled"
+}
 
 /**
- * Contains response data for the deleteMethod operation.
+ * Defines values for OperationStatus. \
+ * {@link KnownOperationStatus} can be used interchangeably with OperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Updating** \
+ * **Creating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
  */
-export type OperationalizationClustersDeleteResponse = OperationalizationClustersDeleteHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: OperationalizationClustersDeleteHeaders;
-    };
-};
+export type OperationStatus = string;
+
+/** Known values of {@link ClusterType} that the service accepts. */
+export enum KnownClusterType {
+  ACS = "ACS",
+  Local = "Local"
+}
 
 /**
- * Contains response data for the listKeys operation.
+ * Defines values for ClusterType. \
+ * {@link KnownClusterType} can be used interchangeably with ClusterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ACS** \
+ * **Local**
  */
-export type OperationalizationClustersListKeysResponse = OperationalizationClusterCredentials & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+export type ClusterType = string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationalizationClusterCredentials;
-    };
-};
+/** Known values of {@link OrchestratorType} that the service accepts. */
+export enum KnownOrchestratorType {
+  Kubernetes = "Kubernetes",
+  None = "None"
+}
 
 /**
- * Contains response data for the checkSystemServicesUpdatesAvailable operation.
+ * Defines values for OrchestratorType. \
+ * {@link KnownOrchestratorType} can be used interchangeably with OrchestratorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Kubernetes** \
+ * **None**
  */
-export type OperationalizationClustersCheckSystemServicesUpdatesAvailableResponse = CheckSystemServicesUpdatesAvailableResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+export type OrchestratorType = string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckSystemServicesUpdatesAvailableResponse;
-    };
-};
+/** Known values of {@link SystemServiceType} that the service accepts. */
+export enum KnownSystemServiceType {
+  None = "None",
+  ScoringFrontEnd = "ScoringFrontEnd",
+  BatchFrontEnd = "BatchFrontEnd"
+}
 
 /**
- * Contains response data for the updateSystemServices operation.
+ * Defines values for SystemServiceType. \
+ * {@link KnownSystemServiceType} can be used interchangeably with SystemServiceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **ScoringFrontEnd** \
+ * **BatchFrontEnd**
  */
-export type OperationalizationClustersUpdateSystemServicesResponse = UpdateSystemServicesResponse & OperationalizationClustersUpdateSystemServicesHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: OperationalizationClustersUpdateSystemServicesHeaders;
+export type SystemServiceType = string;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UpdateSystemServicesResponse;
-    };
-};
+/** Known values of {@link AgentVMSizeTypes} that the service accepts. */
+export enum KnownAgentVMSizeTypes {
+  StandardA0 = "Standard_A0",
+  StandardA1 = "Standard_A1",
+  StandardA2 = "Standard_A2",
+  StandardA3 = "Standard_A3",
+  StandardA4 = "Standard_A4",
+  StandardA5 = "Standard_A5",
+  StandardA6 = "Standard_A6",
+  StandardA7 = "Standard_A7",
+  StandardA8 = "Standard_A8",
+  StandardA9 = "Standard_A9",
+  StandardA10 = "Standard_A10",
+  StandardA11 = "Standard_A11",
+  StandardD1 = "Standard_D1",
+  StandardD2 = "Standard_D2",
+  StandardD3 = "Standard_D3",
+  StandardD4 = "Standard_D4",
+  StandardD11 = "Standard_D11",
+  StandardD12 = "Standard_D12",
+  StandardD13 = "Standard_D13",
+  StandardD14 = "Standard_D14",
+  StandardD1V2 = "Standard_D1_v2",
+  StandardD2V2 = "Standard_D2_v2",
+  StandardD3V2 = "Standard_D3_v2",
+  StandardD4V2 = "Standard_D4_v2",
+  StandardD5V2 = "Standard_D5_v2",
+  StandardD11V2 = "Standard_D11_v2",
+  StandardD12V2 = "Standard_D12_v2",
+  StandardD13V2 = "Standard_D13_v2",
+  StandardD14V2 = "Standard_D14_v2",
+  StandardG1 = "Standard_G1",
+  StandardG2 = "Standard_G2",
+  StandardG3 = "Standard_G3",
+  StandardG4 = "Standard_G4",
+  StandardG5 = "Standard_G5",
+  StandardDS1 = "Standard_DS1",
+  StandardDS2 = "Standard_DS2",
+  StandardDS3 = "Standard_DS3",
+  StandardDS4 = "Standard_DS4",
+  StandardDS11 = "Standard_DS11",
+  StandardDS12 = "Standard_DS12",
+  StandardDS13 = "Standard_DS13",
+  StandardDS14 = "Standard_DS14",
+  StandardGS1 = "Standard_GS1",
+  StandardGS2 = "Standard_GS2",
+  StandardGS3 = "Standard_GS3",
+  StandardGS4 = "Standard_GS4",
+  StandardGS5 = "Standard_GS5"
+}
 
 /**
- * Contains response data for the listByResourceGroup operation.
+ * Defines values for AgentVMSizeTypes. \
+ * {@link KnownAgentVMSizeTypes} can be used interchangeably with AgentVMSizeTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard_A0** \
+ * **Standard_A1** \
+ * **Standard_A2** \
+ * **Standard_A3** \
+ * **Standard_A4** \
+ * **Standard_A5** \
+ * **Standard_A6** \
+ * **Standard_A7** \
+ * **Standard_A8** \
+ * **Standard_A9** \
+ * **Standard_A10** \
+ * **Standard_A11** \
+ * **Standard_D1** \
+ * **Standard_D2** \
+ * **Standard_D3** \
+ * **Standard_D4** \
+ * **Standard_D11** \
+ * **Standard_D12** \
+ * **Standard_D13** \
+ * **Standard_D14** \
+ * **Standard_D1_v2** \
+ * **Standard_D2_v2** \
+ * **Standard_D3_v2** \
+ * **Standard_D4_v2** \
+ * **Standard_D5_v2** \
+ * **Standard_D11_v2** \
+ * **Standard_D12_v2** \
+ * **Standard_D13_v2** \
+ * **Standard_D14_v2** \
+ * **Standard_G1** \
+ * **Standard_G2** \
+ * **Standard_G3** \
+ * **Standard_G4** \
+ * **Standard_G5** \
+ * **Standard_DS1** \
+ * **Standard_DS2** \
+ * **Standard_DS3** \
+ * **Standard_DS4** \
+ * **Standard_DS11** \
+ * **Standard_DS12** \
+ * **Standard_DS13** \
+ * **Standard_DS14** \
+ * **Standard_GS1** \
+ * **Standard_GS2** \
+ * **Standard_GS3** \
+ * **Standard_GS4** \
+ * **Standard_GS5**
  */
-export type OperationalizationClustersListByResourceGroupResponse = PaginatedOperationalizationClustersList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+export type AgentVMSizeTypes = string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedOperationalizationClustersList;
-    };
-};
+/** Known values of {@link Status} that the service accepts. */
+export enum KnownStatus {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
 
 /**
- * Contains response data for the listBySubscriptionId operation.
+ * Defines values for Status. \
+ * {@link KnownStatus} can be used interchangeably with Status,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
  */
-export type OperationalizationClustersListBySubscriptionIdResponse = PaginatedOperationalizationClustersList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+export type Status = string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedOperationalizationClustersList;
-    };
-};
+/** Known values of {@link UpdatesAvailable} that the service accepts. */
+export enum KnownUpdatesAvailable {
+  Yes = "Yes",
+  No = "No"
+}
 
 /**
- * Contains response data for the beginCreateOrUpdate operation.
+ * Defines values for UpdatesAvailable. \
+ * {@link KnownUpdatesAvailable} can be used interchangeably with UpdatesAvailable,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Yes** \
+ * **No**
  */
-export type OperationalizationClustersBeginCreateOrUpdateResponse = OperationalizationCluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+export type UpdatesAvailable = string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationalizationCluster;
-    };
-};
+/** Optional parameters. */
+export interface OperationalizationClustersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type OperationalizationClustersListByResourceGroupNextResponse = PaginatedOperationalizationClustersList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the createOrUpdate operation. */
+export type OperationalizationClustersCreateOrUpdateResponse = OperationalizationCluster;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedOperationalizationClustersList;
-    };
-};
+/** Optional parameters. */
+export interface OperationalizationClustersGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listBySubscriptionIdNext operation.
- */
-export type OperationalizationClustersListBySubscriptionIdNextResponse = PaginatedOperationalizationClustersList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the get operation. */
+export type OperationalizationClustersGetResponse = OperationalizationCluster;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedOperationalizationClustersList;
-    };
-};
+/** Optional parameters. */
+export interface OperationalizationClustersUpdateOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listAvailableOperations operation.
- */
-export type MachineLearningComputeListAvailableOperationsResponse = AvailableOperations & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the update operation. */
+export type OperationalizationClustersUpdateResponse = OperationalizationCluster;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableOperations;
-    };
-};
+/** Optional parameters. */
+export interface OperationalizationClustersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** If true, deletes all resources associated with this cluster. */
+  deleteAll?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type OperationalizationClustersDeleteResponse = OperationalizationClustersDeleteHeaders;
+
+/** Optional parameters. */
+export interface OperationalizationClustersListKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKeys operation. */
+export type OperationalizationClustersListKeysResponse = OperationalizationClusterCredentials;
+
+/** Optional parameters. */
+export interface OperationalizationClustersCheckSystemServicesUpdatesAvailableOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkSystemServicesUpdatesAvailable operation. */
+export type OperationalizationClustersCheckSystemServicesUpdatesAvailableResponse = CheckSystemServicesUpdatesAvailableResponse;
+
+/** Optional parameters. */
+export interface OperationalizationClustersUpdateSystemServicesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the updateSystemServices operation. */
+export type OperationalizationClustersUpdateSystemServicesResponse = UpdateSystemServicesResponse;
+
+/** Optional parameters. */
+export interface OperationalizationClustersListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skiptoken?: string;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type OperationalizationClustersListByResourceGroupResponse = PaginatedOperationalizationClustersList;
+
+/** Optional parameters. */
+export interface OperationalizationClustersListBySubscriptionIdOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skiptoken?: string;
+}
+
+/** Contains response data for the listBySubscriptionId operation. */
+export type OperationalizationClustersListBySubscriptionIdResponse = PaginatedOperationalizationClustersList;
+
+/** Optional parameters. */
+export interface OperationalizationClustersListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skiptoken?: string;
+}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type OperationalizationClustersListByResourceGroupNextResponse = PaginatedOperationalizationClustersList;
+
+/** Optional parameters. */
+export interface OperationalizationClustersListBySubscriptionIdNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skiptoken?: string;
+}
+
+/** Contains response data for the listBySubscriptionIdNext operation. */
+export type OperationalizationClustersListBySubscriptionIdNextResponse = PaginatedOperationalizationClustersList;
+
+/** Optional parameters. */
+export interface MachineLearningComputeListAvailableOperationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAvailableOperations operation. */
+export type MachineLearningComputeListAvailableOperationsResponse = AvailableOperations;
+
+/** Optional parameters. */
+export interface MachineLearningComputeManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
+}

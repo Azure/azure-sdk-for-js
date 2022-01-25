@@ -5,7 +5,7 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import { getDefaultUserAgentKey, getPlatformSpecificData } from "./msRestUserAgentPolicy";
 import { Constants } from "../util/constants";
@@ -32,7 +32,7 @@ export interface UserAgentOptions {
 function getRuntimeInfo(): TelemetryInfo[] {
   const msRestRuntime = {
     key: "core-http",
-    value: Constants.coreHttpVersion
+    value: Constants.coreHttpVersion,
   };
 
   return [msRestRuntime];
@@ -82,7 +82,7 @@ export function userAgentPolicy(userAgentData?: TelemetryInfo): RequestPolicyFac
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new UserAgentPolicy(nextPolicy, options, key, value);
-    }
+    },
   };
 }
 

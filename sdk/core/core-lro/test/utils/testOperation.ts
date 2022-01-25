@@ -79,7 +79,7 @@ async function cancel(
   if (abortSignal && abortSignal.aborted) {
     // Simulating a try catch of an HTTP request that's given an aborted abortSignal.
     return this.update({
-      abortSignal
+      abortSignal,
     }); // This will throw
   }
 
@@ -89,29 +89,29 @@ async function cancel(
 
   // Simulating the response of an HTTP Request
   const response = {
-    status: 205
+    status: 205,
   } as HttpOperationResponse;
 
   return makeOperation({
     ...this.state,
     isCancelled: true,
-    previousResponse: response
+    previousResponse: response,
   });
 }
 
 function toString(this: TestOperation): string {
   return JSON.stringify({
-    state: this.state
+    state: this.state,
   });
 }
 
 export function makeOperation(state: TestOperationState): TestOperation {
   return {
     state: {
-      ...state
+      ...state,
     },
     update,
     cancel,
-    toString
+    toString,
   };
 }

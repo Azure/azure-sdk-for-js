@@ -25,6 +25,6 @@ export function setClientRequestIdPolicy(
         request.headers.set(requestIdHeaderName, request.requestId);
       }
       return next(request);
-    }
+    },
   };
 }

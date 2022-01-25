@@ -3,12 +3,12 @@
 
 import {
   RecoverDeletedCertificatePollOperation,
-  RecoverDeletedCertificateState
+  RecoverDeletedCertificateState,
 } from "./operation";
 import { KeyVaultCertificateWithPolicy } from "../../certificatesModels";
 import {
   KeyVaultCertificatePoller,
-  KeyVaultCertificatePollerOptions
+  KeyVaultCertificatePollerOptions,
 } from "../keyVaultCertificatePoller";
 
 export interface RecoverDeletedCertificatePollerOptions extends KeyVaultCertificatePollerOptions {}
@@ -27,7 +27,7 @@ export class RecoverDeletedCertificatePoller extends KeyVaultCertificatePoller<
       certificateName,
       operationOptions,
       intervalInMs = 2000,
-      resumeFrom
+      resumeFrom,
     } = options;
 
     let state: RecoverDeletedCertificateState | undefined;
@@ -39,7 +39,7 @@ export class RecoverDeletedCertificatePoller extends KeyVaultCertificatePoller<
     const operation = new RecoverDeletedCertificatePollOperation(
       {
         ...state,
-        certificateName
+        certificateName,
       },
       vaultUrl,
       client,

@@ -5,7 +5,7 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import {
   DEFAULT_CLIENT_MAX_RETRY_INTERVAL,
@@ -15,7 +15,7 @@ import {
   RetryError,
   isNumber,
   shouldRetry,
-  updateRetryData
+  updateRetryData,
 } from "../util/exponentialBackoffStrategy";
 import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
@@ -44,7 +44,7 @@ export function exponentialRetryPolicy(
         retryInterval,
         maxRetryInterval
       );
-    }
+    },
   };
 }
 
@@ -56,7 +56,7 @@ export enum RetryMode {
    * Currently supported retry mode.
    * Each time a retry happens, it will take exponentially more time than the last time.
    */
-  Exponential
+  Exponential,
 }
 
 /**
@@ -90,7 +90,7 @@ export interface RetryOptions {
 export const DefaultRetryOptions: RetryOptions = {
   maxRetries: DEFAULT_CLIENT_RETRY_COUNT,
   retryDelayInMs: DEFAULT_CLIENT_RETRY_INTERVAL,
-  maxRetryDelayInMs: DEFAULT_CLIENT_MAX_RETRY_INTERVAL
+  maxRetryDelayInMs: DEFAULT_CLIENT_MAX_RETRY_INTERVAL,
 };
 
 /**
@@ -169,7 +169,7 @@ async function retry(
     {
       retryInterval: policy.retryInterval,
       minRetryInterval: 0,
-      maxRetryInterval: policy.maxRetryInterval
+      maxRetryInterval: policy.maxRetryInterval,
     },
     retryData,
     requestError

@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import rule from "../../src/rules/ts-naming-options";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-naming-options";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -17,46 +17,45 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 
 ruleTester.run("ts-naming-options", rule, {
   valid: [
     // single method
     {
-      code: "class ExampleClient { createExample(options: CreateExampleOptions) {}; };"
+      code: "class ExampleClient { createExample(options: CreateExampleOptions) {}; };",
     },
     // multiple methods
     {
-      code:
-        "class ExampleClient { createExample(options: CreateExampleOptions) {}; upsertExample(options: UpsertExampleOptions) {}; };"
+      code: "class ExampleClient { createExample(options: CreateExampleOptions) {}; upsertExample(options: UpsertExampleOptions) {}; };",
     },
     // class constructor
     {
-      code: "class ExampleClient { constructor(options: ExampleClientOptions) {}; };"
+      code: "class ExampleClient { constructor(options: ExampleClientOptions) {}; };",
     },
     // not a client
     {
-      code: "class Example { createExample(options: Options) {}; };"
-    }
+      code: "class Example { createExample(options: Options) {}; };",
+    },
   ],
   invalid: [
     {
       code: "class ExampleClient { createExample(options: Options) {}; };",
       errors: [
         {
-          message: "options parameter type is not prefixed with the method name"
-        }
-      ]
+          message: "options parameter type is not prefixed with the method name",
+        },
+      ],
     },
     {
       code: "class ExampleClient { constructor(options: Options) {}; };",
       errors: [
         {
-          message: "options parameter type is not prefixed with the class name"
-        }
-      ]
-    }
-  ]
+          message: "options parameter type is not prefixed with the class name",
+        },
+      ],
+    },
+  ],
 });

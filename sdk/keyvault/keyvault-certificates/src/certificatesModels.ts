@@ -6,7 +6,7 @@ import {
   DeletionRecoveryLevel,
   KeyUsageType,
   JsonWebKeyType as CertificateKeyType,
-  JsonWebKeyCurveName as CertificateKeyCurveName
+  JsonWebKeyCurveName as CertificateKeyCurveName,
 } from "./generated/models";
 
 /**
@@ -192,7 +192,7 @@ export enum WellKnownIssuerNames {
   /**
    * For certificates whose issuer will be defined later
    */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -382,7 +382,7 @@ export type ImportCertificatePolicy = CertificatePolicyProperties &
  */
 export const DefaultCertificatePolicy = {
   issuerName: "Self",
-  subject: "cn=MyCert"
+  subject: "cn=MyCert",
 };
 
 /**
@@ -832,7 +832,7 @@ export enum KnownCertificateKeyCurveNames {
   /**
    * P-256K Key Curve.
    */
-  P256K = "P-256K"
+  P256K = "P-256K",
 }
 
 /** Known values of {@link CertificateKeyType} that the service accepts. */
@@ -860,7 +860,7 @@ export enum KnownCertificateKeyTypes {
   /**
    * oct-HSM Key Type
    */
-  OctHSM = "oct-HSM"
+  OctHSM = "oct-HSM",
 }
 
 /** Known values of {@link KeyUsageType} that the service accepts. */
@@ -900,5 +900,5 @@ export const enum KnownKeyUsageTypes {
   /**
    * DecipherOnly Usage Type.
    */
-  DecipherOnly = "decipherOnly"
+  DecipherOnly = "decipherOnly",
 }

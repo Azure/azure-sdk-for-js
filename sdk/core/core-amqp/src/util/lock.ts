@@ -3,7 +3,7 @@
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { OperationTimeoutError } from "rhea-promise";
-import { StandardAbortMessage } from "../errors";
+import { StandardAbortMessage } from "./constants";
 import { logger } from "../log";
 
 /**
@@ -114,7 +114,7 @@ export class CancellableAsyncLockImpl {
     const taskDetails: TaskDetails = {
       reject: rejecter,
       resolve: resolver,
-      task
+      task,
     };
 
     // Handle timeouts by removing the task from the queue when hit.
@@ -238,7 +238,7 @@ function getPromiseParts(): {
   return {
     promise,
     resolver: resolver!,
-    rejecter: rejecter!
+    rejecter: rejecter!,
   };
 }
 

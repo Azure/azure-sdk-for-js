@@ -72,7 +72,7 @@ export type SendCredentialRequests = (options: {
  * This is the returned value of the `prepareIdentityTests` function that is both available in Node.js and in the browser.
  * @internal
  */
-export interface IdentityTestContext {
+export interface IdentityTestContextInterface {
   sandbox: sinon.SinonSandbox;
   clock: sinon.SinonFakeTimers;
   logMessages: string[];
@@ -97,7 +97,7 @@ export function createResponse(
     response: {
       statusCode,
       body: JSON.stringify(body),
-      headers
-    }
+      headers,
+    },
   };
 }
