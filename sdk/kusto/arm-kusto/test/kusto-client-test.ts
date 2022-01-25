@@ -86,7 +86,7 @@ describe("KustoManagementClient", () => {
 
   //kusto_client.clusters.get
   it("could get cluster", async () => {
-    const res = await client.clusters.get(resourceGroup, clusterName_1, testPollingOptions as ClustersGetOptionalParams);
+    const res = await client.clusters.get(resourceGroup, clusterName_1);
     assert.strictEqual(res.name, clusterName_1);
   });
 
