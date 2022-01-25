@@ -40,6 +40,7 @@ export interface MessageAdapter<MessageT> {
   consumeMessage: (message: MessageT) => MessageWithMetadata;
 }
 
+// This type should always be equivalent to Omit<Omit<EventData, "body">, "contentType">
 /**
  * Parameters to the `createEventDataAdapter` function that creates an event data adapter.
  */

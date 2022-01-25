@@ -40,11 +40,11 @@ to get schema IDs from schema definition or vice versa. The provided API has int
 
 ### Messages
 
-By default, the encoder will create structured as follows:
+By default, the encoder will create messages structured as follows:
 
-- `body`: a byte array containing the Avro Binary Encoding. Note that it is NOT
-  Avro Object Container File. The latter includes the schema and creating it
-  defeats the purpose of using this encoder to move the schema out of the
+- `body`: a byte array containing data in the Avro Binary Encoding. Note that it
+  is NOT Avro Object Container File. The latter includes the schema and creating
+  it defeats the purpose of using this encoder to move the schema out of the
   message payload and into the schema registry.
 
 - `contentType`: a string of the following format `avro/binary+<Schema ID>` where
