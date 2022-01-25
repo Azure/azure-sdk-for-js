@@ -54,7 +54,6 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
    *
    * @param value - The value to encodeMessageData.
    * @param schema - The Avro schema to use.
-   * @param options - Encoding options.
    * @returns A new message with the encoded value. The structure of message is
    * constrolled by the message factory option.
    */
@@ -98,12 +97,14 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
     const { schema: readerSchema } = options;
     const { body, contentType } = getPayloadAndContent(message, this.messageAdapter);
     const buffer = Buffer.from(body);
+    const writerSchemaId = getSchemaId(contentType);
+    const writerSchema = await this.getSchema(writerSchemaId);
     if (readerSchema) {
-      return this.getAvroTypeForSchema(readerSchema).fromBuffer(buffer);
+      const avscReaderSchema = this.getAvroTypeForSchema(readerSchema);
+      const resolver = avscReaderSchema.createResolver(writerSchema.type);
+      return avscReaderSchema.fromBuffer(buffer, resolver, true);
     } else {
-      const schemaId = getSchemaId(contentType);
-      const schema = await this.getSchema(schemaId);
-      return schema.type.fromBuffer(buffer);
+      return writerSchema.type.fromBuffer(buffer);
     }
   }
 

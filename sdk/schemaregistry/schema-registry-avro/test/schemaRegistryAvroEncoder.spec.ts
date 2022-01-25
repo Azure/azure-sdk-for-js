@@ -134,4 +134,59 @@ describe("SchemaRegistryAvroEncoder", function () {
 
     assert.deepStrictEqual(decodedValue, value);
   });
+
+  it("decodes from a compatible reader schema", async () => {
+    let encoder = await createTestEncoder();
+    let message = await encoder.encodeMessageData(testValue, testSchema);
+    const decodedValue: any = await encoder.decodeMessageData(message, {
+      /**
+       * This schema is missing the favoriteNumber field that exists in the writer schema
+       * and adds an "age" field with a default value.
+       */
+      schema: JSON.stringify({
+        type: "record",
+        name: "AvroUser",
+        namespace: "com.azure.schemaregistry.samples",
+        fields: [
+          {
+            name: "name",
+            type: "string",
+          },
+          {
+            name: "age",
+            type: "int",
+            default: 30,
+          },
+        ],
+      }),
+    });
+    assert.isUndefined(decodedValue.favoriteNumber);
+    assert.equal(decodedValue.name, testValue.name);
+    assert.equal(decodedValue.age, 30);
+  });
+
+  it("fails to decode from an incompatible reader schema", async () => {
+    let encoder = await createTestEncoder();
+    let message = await encoder.encodeMessageData(testValue, testSchema);
+    assert.isRejected(
+      encoder.decodeMessageData(message, {
+        schema: JSON.stringify({
+          type: "record",
+          name: "AvroUser",
+          namespace: "com.azure.schemaregistry.samples",
+          fields: [
+            {
+              name: "name",
+              type: "string",
+            },
+            {
+              name: "age",
+              type: "int",
+            },
+          ],
+        }),
+      }),
+      /no matching field for default-less com.azure.schemaregistry.samples.AvroUser.age/
+    );
+  });
 });

@@ -88,7 +88,7 @@ export function createEventDataAdapter(
     consumeMessage: (message: EventData): MessageWithMetadata => {
       const { body, contentType } = message;
       if (body === undefined || !(body instanceof Uint8Array)) {
-        throw new Error("Expected the body field to defined and have a Uint8Array");
+        throw new Error("Expected the body field to be defined and have a Uint8Array");
       }
       if (contentType === undefined) {
         throw new Error("Expected the contentType field to be defined");
