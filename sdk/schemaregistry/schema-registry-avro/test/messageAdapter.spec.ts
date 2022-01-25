@@ -9,7 +9,7 @@ import { assert } from "chai";
 /**
  * A type predicate to check whether two record types have the same keys
  */
-type AssertEqualKeys<T1 extends object, T2 extends object> = [
+type AssertEqualKeys<T1 extends Record<string, any>, T2 extends Record<string, any>> = [
   keyof T1 extends keyof T2 ? 1 : 0,
   keyof T2 extends keyof T1 ? 1 : 0
 ] extends [1, 1]
