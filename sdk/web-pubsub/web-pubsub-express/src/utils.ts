@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { IncomingMessage } from "http";
-import { CloudEvent, HTTP, Message } from "cloudevents";
 
 function isJsonObject(obj: any): boolean {
   return obj && typeof obj === "object" && !Array.isArray(obj);
@@ -12,7 +11,7 @@ export function toBase64JsonString(obj: Record<string, any>): string {
   return Buffer.from(JSON.stringify(obj)).toString("base64");
 }
 
-export function fromBase64JsonString(base64String: string): Record<string, any> {
+export function fromBase64JsonString(base64String: string | undefined): Record<string, any> {
   if (base64String === undefined) {
     return {};
   }
@@ -28,51 +27,30 @@ export function fromBase64JsonString(base64String: string): Record<string, any> 
 }
 
 export function getHttpHeader(req: IncomingMessage, key: string): string | undefined {
-  const value = req.headers[key];
-  if (value === undefined) {
-    return undefined;
-  }
+  if (!key) return undefined;
+  for (const header in req.headers) {
+    if (Object.prototype.hasOwnProperty.call(req.headers, header)) {
+      // ignore case
+      if (header.toUpperCase() === key.toUpperCase()) {
+        const value = req.headers[header];
 
-  if (typeof value === "string") {
-    return value;
-  }
-
-  return value[0];
-}
-
-export async function convertHttpToEvent(request: IncomingMessage): Promise<CloudEvent> {
-  const normalized: Message = {
-    headers: {},
-    body: "",
-  };
-  if (request.headers) {
-    for (const key in request.headers) {
-      if (Object.prototype.hasOwnProperty.call(request.headers, key)) {
-        const element = request.headers[key];
-        if (element !== undefined) {
-          normalized.headers[key.toLowerCase()] = element;
+        if (value === undefined) {
+          return undefined;
         }
+
+        if (typeof value === "string") {
+          return value;
+        }
+
+        return value[0];
       }
     }
   }
 
-  const body = (normalized.body = await readRequestBody(request));
-  const receivedEvent = HTTP.toEvent(normalized);
-  if (isJsonData(receivedEvent)) {
-    // CloudEvent JSONParser wrap string with quotes however it is not the case for numbers or booleans
-    // https://github.com/cloudevents/sdk-javascript/blob/main/src/parsers.ts#L29
-    // We workaround it here by rewrite the parsed data property
-    receivedEvent.data = JSON.parse(body);
-  }
-
-  return receivedEvent;
+  return undefined;
 }
 
-export function isJsonData(event: CloudEvent): boolean {
-  return Boolean(event.datacontenttype?.startsWith("application/json;"));
-}
-
-export function readRequestBody(req: IncomingMessage): Promise<string> {
+export function readRequestBody(req: IncomingMessage): Promise<Buffer> {
   return new Promise(function (resolve, reject) {
     const chunks: any = [];
     req.on("data", function (chunk) {
@@ -80,7 +58,7 @@ export function readRequestBody(req: IncomingMessage): Promise<string> {
     });
     req.on("end", function () {
       const buffer = Buffer.concat(chunks);
-      resolve(buffer.toString());
+      resolve(buffer);
     });
     // reject on request error
     req.on("error", function (err) {

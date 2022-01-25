@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CloudEvent } from "cloudevents";
 import { IncomingMessage, ServerResponse } from "http";
 import { URL } from "url";
 import { logger } from "./logger";
@@ -19,11 +18,39 @@ import {
   WebPubSubEventHandlerOptions,
 } from "./cloudEventsProtocols";
 
+enum DataType {
+  None,
+  Binary,
+  Json,
+  Text,
+}
+
 enum EventType {
   Connect,
   Connected,
   Disconnected,
   UserEvent,
+}
+
+function getDataType(request: IncomingMessage): DataType {
+  const contentTypeheader = utils.getHttpHeader(request, "content-type");
+  if (contentTypeheader === undefined) {
+    return DataType.None;
+  }
+
+  var contentType = contentTypeheader.split(";")[0].trim();
+  console.log(contentType);
+  if (contentType === "application/json") {
+    return DataType.Json;
+  }
+  if (contentType === "application/octet-stream") {
+    return DataType.Binary;
+  }
+  if (contentType === "text/plain") {
+    return DataType.Text;
+  }
+
+  return DataType.None;
 }
 
 function getConnectResponseHandler(
@@ -96,15 +123,15 @@ function getUserEventResponseHandler(
   return handler;
 }
 
-function getContext(ce: CloudEvent, origin: string): ConnectionContext {
+function getContext(request: IncomingMessage, origin: string): ConnectionContext {
   const context = {
-    signature: ce["signature"] as string,
-    userId: ce["userid"] as string,
-    hub: ce["hub"] as string,
-    connectionId: ce["connectionid"] as string,
-    eventName: ce["eventname"] as string,
+    signature: utils.getHttpHeader(request, "ce-signature"),
+    userId: utils.getHttpHeader(request, "ce-userid"),
+    hub: utils.getHttpHeader(request, "ce-hub")!,
+    connectionId: utils.getHttpHeader(request, "ce-connectionid")!,
+    eventName: utils.getHttpHeader(request, "ce-eventname")!,
     origin: origin,
-    states: utils.fromBase64JsonString(ce["connectionstate"] as string),
+    states: utils.fromBase64JsonString(utils.getHttpHeader(request, "ce-connectionstate")),
   };
 
   // TODO: validation
@@ -232,13 +259,13 @@ export class CloudEventsDispatcher {
         return false;
     }
 
-    const receivedEvent = await utils.convertHttpToEvent(request);
-    logger.verbose(receivedEvent);
-
     switch (eventType) {
       case EventType.Connect: {
-        const connectRequest = receivedEvent.data as ConnectRequest;
-        connectRequest.context = getContext(receivedEvent, origin);
+        const body = (await utils.readRequestBody(request)).toString();
+        const connectRequest = JSON.parse(body) as ConnectRequest;
+        connectRequest.context = getContext(request, origin);
+        logger.verbose(connectRequest);
+
         this.eventHandler.handleConnect!(
           connectRequest,
           getConnectResponseHandler(connectRequest, response)
@@ -248,37 +275,56 @@ export class CloudEventsDispatcher {
       case EventType.Connected: {
         // for unblocking events, we responds to the service as early as possible
         response.end();
-        const connectedRequest = receivedEvent.data as ConnectedRequest;
-        connectedRequest.context = getContext(receivedEvent, origin);
+        const body = (await utils.readRequestBody(request)).toString();
+        const connectedRequest = JSON.parse(body) as ConnectedRequest;
+        connectedRequest.context = getContext(request, origin);
+        logger.verbose(connectedRequest);
         this.eventHandler.onConnected!(connectedRequest);
         return true;
       }
       case EventType.Disconnected: {
         // for unblocking events, we responds to the service as early as possible
         response.end();
-        const disconnectedRequest = receivedEvent.data as DisconnectedRequest;
-        disconnectedRequest.context = getContext(receivedEvent, origin);
+        const body = (await utils.readRequestBody(request)).toString();
+        const disconnectedRequest = JSON.parse(body) as DisconnectedRequest;
+        disconnectedRequest.context = getContext(request, origin);
+        logger.verbose(disconnectedRequest);
         this.eventHandler.onDisconnected!(disconnectedRequest);
         return true;
       }
       case EventType.UserEvent: {
         let userRequest: UserEventRequest;
-        if (receivedEvent.data_base64 !== undefined) {
-          userRequest = {
-            context: getContext(receivedEvent, origin),
-            data: Buffer.from(receivedEvent.data_base64, "base64"),
-            dataType: "binary",
-          };
-        } else if (receivedEvent.data !== undefined) {
-          userRequest = {
-            context: getContext(receivedEvent, origin),
-            data: receivedEvent.data as string,
-            dataType: utils.isJsonData(receivedEvent) ? "json" : "text",
-          };
-        } else {
-          throw new Error("Unexpected data.");
-        }
+        const dataType = getDataType(request);
 
+        switch (dataType) {
+          case DataType.Binary:
+            userRequest = {
+              context: getContext(request, origin),
+              data: await utils.readRequestBody(request),
+              dataType: "binary",
+            };
+            break;
+          case DataType.Json:
+            userRequest = {
+              context: getContext(request, origin),
+              data: JSON.parse((await utils.readRequestBody(request)).toString()),
+              dataType: "json",
+            };
+            break;
+          case DataType.Text:
+            userRequest = {
+              context: getContext(request, origin),
+              data: (await utils.readRequestBody(request)).toString(),
+              dataType: "text",
+            };
+            break;
+          default:
+            logger.warning(
+              `Unsupported content type ${utils.getHttpHeader(request, "content-type")}`
+            );
+            return false;
+        }
+        logger.verbose(userRequest);
         this.eventHandler.handleUserEvent!(
           userRequest,
           getUserEventResponseHandler(userRequest, response)

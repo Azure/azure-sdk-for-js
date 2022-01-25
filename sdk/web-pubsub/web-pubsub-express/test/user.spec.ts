@@ -11,10 +11,11 @@ function buildRequest(
   req: IncomingMessage,
   hub: string,
   connectionId: string,
-  userId?: string
+  userId?: string,
+  contentType?: string
 ): void {
   req.headers["webhook-request-origin"] = "xxx.webpubsub.azure.com";
-  req.headers["Content-Type"] = "application/json; charset=utf-8";
+  req.headers["Content-Type"] = contentType ?? "application/json; charset=utf-8";
   req.headers["ce-awpsversion"] = "1.0";
   req.headers["ce-specversion"] = "1.0";
   req.headers["ce-type"] = "azure.webpubsub.user.connect";
@@ -29,9 +30,13 @@ function buildRequest(
   req.headers["ce-event"] = "connect";
 }
 
-function mockBody(req: IncomingMessage, body: string): void {
-  req.emit("data", Buffer.from(body, "utf-8"));
+function mockBinaryBody(req: IncomingMessage, body: ArrayBuffer): void {
+  req.emit("data", body);
   req.emit("end");
+}
+
+function mockBody(req: IncomingMessage, body: string): void {
+  return mockBinaryBody(req, Buffer.from(body, "utf-8"));
 }
 
 describe("Can handle user event", function () {
@@ -142,6 +147,73 @@ describe("Can handle user event", function () {
 
     assert.isTrue(result);
     assert.isTrue(endSpy.calledOnce);
+  });
+
+  it("Should handle binary requests", async function () {
+    const endSpy = sinon.spy(res, "end");
+    buildRequest(req, "hub", "conn1", "user1", "application/octet-stream");
+
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (request, response) => {
+        assert.equal(request.dataType, "binary");
+        assert.equal(typeof request.data, "object");
+        assert.deepEqual(
+          request.data,
+          new Uint8Array([1, 2, 3, 4, 5, 6, 7]),
+          "buffer data matches"
+        );
+        response.success();
+      },
+    });
+    const process = dispatcher.handleRequest(req, res);
+    const body = new Uint8Array([1, 2, 3, 4, 5, 6, 7]);
+    mockBinaryBody(req, body);
+    const result = await process;
+
+    assert.isTrue(result, "should be able to process");
+    assert.isTrue(endSpy.calledOnce, "should be called once");
+  });
+
+  it("Should handle text requests", async function () {
+    const endSpy = sinon.spy(res, "end");
+    buildRequest(req, "hub", "conn1", "user1", "text/plain");
+
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (request, response) => {
+        assert.equal(request.dataType, "text");
+        assert.equal(typeof request.data, "string");
+        console.log(request);
+        assert.equal(request.data, "Hello", "string data matches");
+        response.success();
+      },
+    });
+    const process = dispatcher.handleRequest(req, res);
+    mockBody(req, "Hello");
+    const result = await process;
+
+    assert.isTrue(result, "should be able to process");
+    assert.isTrue(endSpy.calledOnce, "should be called once");
+  });
+
+  it("Should handle text requests with charset", async function () {
+    const endSpy = sinon.spy(res, "end");
+    buildRequest(req, "hub", "conn1", "user1", "text/plain; charset=UTF-8;");
+
+    const dispatcher = new CloudEventsDispatcher("hub", {
+      handleUserEvent: async (request, response) => {
+        assert.equal(request.dataType, "text");
+        assert.equal(typeof request.data, "string");
+        console.log(request);
+        assert.equal(request.data, "Hello", "string data matches");
+        response.success();
+      },
+    });
+    const process = dispatcher.handleRequest(req, res);
+    mockBody(req, "Hello");
+    const result = await process;
+
+    assert.isTrue(result, "should be able to process");
+    assert.isTrue(endSpy.calledOnce, "should be called once");
   });
 
   it("Should response with 200 when option is not specified", async function () {
