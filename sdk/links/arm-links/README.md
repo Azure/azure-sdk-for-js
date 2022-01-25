@@ -6,7 +6,7 @@ Azure resources can be linked together to form logical relationships. You can es
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/links/arm-links) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-links) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-links) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-links?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
