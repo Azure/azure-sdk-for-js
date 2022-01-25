@@ -345,6 +345,17 @@ export interface CloudEvent<T> {
 }
 
 // @public
+export interface CloudEventAdapterParameters {
+    dataschema?: string;
+    extensionAttributes?: Record<string, unknown>;
+    id?: string;
+    source: string;
+    subject?: string;
+    time?: Date;
+    type: string;
+}
+
+// @public
 export type CommunicationCloudEnvironmentModel = string;
 
 // @public
@@ -449,6 +460,9 @@ export interface ContainerServiceNewKubernetesVersionAvailableEventData {
     latestSupportedKubernetesVersion: string;
     lowestMinorKubernetesVersion: string;
 }
+
+// @public
+export function createCloudEventAdapter(params: CloudEventAdapterParameters): MessageAdapter<SendCloudEventInput<Uint8Array>>;
 
 // @public
 export interface DeviceConnectionStateEvent {
@@ -1037,6 +1051,18 @@ export interface MediaLiveEventTrackDiscontinuityDetectedEventData {
     readonly timescale: string;
     readonly trackName: string;
     readonly trackType: string;
+}
+
+// @public
+export interface MessageAdapter<MessageT> {
+    consumeMessage: (message: MessageT) => MessageWithMetadata;
+    produceMessage: (messageWithMetadata: MessageWithMetadata) => MessageT;
+}
+
+// @public
+export interface MessageWithMetadata {
+    body: Uint8Array;
+    contentType: string;
 }
 
 // @public
