@@ -3,7 +3,14 @@
 
 import { EventData } from "./eventData";
 
-interface MessageWithMetadata {
+/**
+ * A message with payload and content type fields
+ *
+ * This interface is hidden because it is already exported by `@azure/schema-registry-avro`
+ *
+ * @hidden
+ */
+export interface MessageWithMetadata {
   /**
    * The message's binary data
    */
@@ -14,7 +21,15 @@ interface MessageWithMetadata {
   contentType: string;
 }
 
-interface MessageAdapter<MessageT> {
+/**
+ * A message adapter interface that specifies methods for producing and consuming
+ * messages with payloads and content type fields.
+ *
+ * This interface is hidden because it is already exported by `@azure/schema-registry-avro`
+ *
+ * @hidden
+ */
+export interface MessageAdapter<MessageT> {
   /**
    * defines how to create a message from a payload and a content type
    */

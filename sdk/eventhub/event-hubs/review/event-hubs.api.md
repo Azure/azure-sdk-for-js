@@ -61,8 +61,6 @@ export interface CreateBatchOptions extends OperationOptions {
     partitionKey?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "MessageAdapter" needs to be exported by the entry point index.d.ts
-//
 // @public
 export function createEventDataAdapter(params?: EventDataAdapterParameters): MessageAdapter<EventData>;
 
@@ -238,6 +236,18 @@ export interface LoadBalancingOptions {
 
 // @public
 export const logger: AzureLogger;
+
+// @public
+export interface MessageAdapter<MessageT> {
+    consumeMessage: (message: MessageT) => MessageWithMetadata;
+    produceMessage: (messageWithMetadata: MessageWithMetadata) => MessageT;
+}
+
+// @public
+export interface MessageWithMetadata {
+    body: Uint8Array;
+    contentType: string;
+}
 
 export { MessagingError }
 
