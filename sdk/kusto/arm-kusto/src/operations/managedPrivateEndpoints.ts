@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Scripts } from "../operationsInterfaces";
+import { ManagedPrivateEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,28 +15,28 @@ import { KustoManagementClient } from "../kustoManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  Script,
-  ScriptsListByDatabaseOptionalParams,
-  ScriptsListByDatabaseResponse,
-  ScriptsGetOptionalParams,
-  ScriptsGetResponse,
-  ScriptsCreateOrUpdateOptionalParams,
-  ScriptsCreateOrUpdateResponse,
-  ScriptsUpdateOptionalParams,
-  ScriptsUpdateResponse,
-  ScriptsDeleteOptionalParams,
-  ScriptCheckNameRequest,
-  ScriptsCheckNameAvailabilityOptionalParams,
-  ScriptsCheckNameAvailabilityResponse
+  ManagedPrivateEndpoint,
+  ManagedPrivateEndpointsListOptionalParams,
+  ManagedPrivateEndpointsCheckNameRequest,
+  ManagedPrivateEndpointsCheckNameAvailabilityOptionalParams,
+  ManagedPrivateEndpointsCheckNameAvailabilityResponse,
+  ManagedPrivateEndpointsListResponse,
+  ManagedPrivateEndpointsGetOptionalParams,
+  ManagedPrivateEndpointsGetResponse,
+  ManagedPrivateEndpointsCreateOrUpdateOptionalParams,
+  ManagedPrivateEndpointsCreateOrUpdateResponse,
+  ManagedPrivateEndpointsUpdateOptionalParams,
+  ManagedPrivateEndpointsUpdateResponse,
+  ManagedPrivateEndpointsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Scripts operations. */
-export class ScriptsImpl implements Scripts {
+/** Class containing ManagedPrivateEndpoints operations. */
+export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   private readonly client: KustoManagementClient;
 
   /**
-   * Initialize a new instance of the class Scripts class.
+   * Initialize a new instance of the class ManagedPrivateEndpoints class.
    * @param client Reference to the service client
    */
   constructor(client: KustoManagementClient) {
@@ -44,24 +44,17 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Returns the list of database scripts for given database.
+   * Returns the list of managed private endpoints.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
    * @param options The options parameters.
    */
-  public listByDatabase(
+  public list(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    options?: ScriptsListByDatabaseOptionalParams
-  ): PagedAsyncIterableIterator<Script> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      options
-    );
+    options?: ManagedPrivateEndpointsListOptionalParams
+  ): PagedAsyncIterableIterator<ManagedPrivateEndpoint> {
+    const iter = this.listPagingAll(resourceGroupName, clusterName, options);
     return {
       next() {
         return iter.next();
@@ -70,41 +63,28 @@ export class ScriptsImpl implements Scripts {
         return this;
       },
       byPage: () => {
-        return this.listByDatabasePagingPage(
-          resourceGroupName,
-          clusterName,
-          databaseName,
-          options
-        );
+        return this.listPagingPage(resourceGroupName, clusterName, options);
       }
     };
   }
 
-  private async *listByDatabasePagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    options?: ScriptsListByDatabaseOptionalParams
-  ): AsyncIterableIterator<Script[]> {
-    let result = await this._listByDatabase(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      options
-    );
+    options?: ManagedPrivateEndpointsListOptionalParams
+  ): AsyncIterableIterator<ManagedPrivateEndpoint[]> {
+    let result = await this._list(resourceGroupName, clusterName, options);
     yield result.value || [];
   }
 
-  private async *listByDatabasePagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    options?: ScriptsListByDatabaseOptionalParams
-  ): AsyncIterableIterator<Script> {
-    for await (const page of this.listByDatabasePagingPage(
+    options?: ManagedPrivateEndpointsListOptionalParams
+  ): AsyncIterableIterator<ManagedPrivateEndpoint> {
+    for await (const page of this.listPagingPage(
       resourceGroupName,
       clusterName,
-      databaseName,
       options
     )) {
       yield* page;
@@ -112,71 +92,84 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Returns the list of database scripts for given database.
+   * Checks that the managed private endpoints resource name is valid and is not already in use.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
-  private _listByDatabase(
+  checkNameAvailability(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    options?: ScriptsListByDatabaseOptionalParams
-  ): Promise<ScriptsListByDatabaseResponse> {
+    resourceName: ManagedPrivateEndpointsCheckNameRequest,
+    options?: ManagedPrivateEndpointsCheckNameAvailabilityOptionalParams
+  ): Promise<ManagedPrivateEndpointsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, databaseName, options },
-      listByDatabaseOperationSpec
+      { resourceGroupName, clusterName, resourceName, options },
+      checkNameAvailabilityOperationSpec
     );
   }
 
   /**
-   * Gets a Kusto cluster database script.
+   * Returns the list of managed private endpoints.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the Kusto database script.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ManagedPrivateEndpointsListOptionalParams
+  ): Promise<ManagedPrivateEndpointsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, options },
+      listOperationSpec
+    );
+  }
+
+  /**
+   * Gets a managed private endpoint.
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: string,
-    options?: ScriptsGetOptionalParams
-  ): Promise<ScriptsGetResponse> {
+    managedPrivateEndpointName: string,
+    options?: ManagedPrivateEndpointsGetOptionalParams
+  ): Promise<ManagedPrivateEndpointsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, databaseName, scriptName, options },
+      { resourceGroupName, clusterName, managedPrivateEndpointName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates a Kusto database script.
+   * Creates a managed private endpoint.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the Kusto database script.
-   * @param parameters The Kusto Script parameters contains the KQL to run.
+   * @param managedPrivateEndpointName The name of the managed private endpoint.
+   * @param parameters The managed private endpoint parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: string,
-    parameters: Script,
-    options?: ScriptsCreateOrUpdateOptionalParams
+    managedPrivateEndpointName: string,
+    parameters: ManagedPrivateEndpoint,
+    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<ScriptsCreateOrUpdateResponse>,
-      ScriptsCreateOrUpdateResponse
+      PollOperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>,
+      ManagedPrivateEndpointsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ScriptsCreateOrUpdateResponse> => {
+    ): Promise<ManagedPrivateEndpointsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -217,8 +210,7 @@ export class ScriptsImpl implements Scripts {
       {
         resourceGroupName,
         clusterName,
-        databaseName,
-        scriptName,
+        managedPrivateEndpointName,
         parameters,
         options
       },
@@ -231,27 +223,24 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Creates a Kusto database script.
+   * Creates a managed private endpoint.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the Kusto database script.
-   * @param parameters The Kusto Script parameters contains the KQL to run.
+   * @param managedPrivateEndpointName The name of the managed private endpoint.
+   * @param parameters The managed private endpoint parameters.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: string,
-    parameters: Script,
-    options?: ScriptsCreateOrUpdateOptionalParams
-  ): Promise<ScriptsCreateOrUpdateResponse> {
+    managedPrivateEndpointName: string,
+    parameters: ManagedPrivateEndpoint,
+    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams
+  ): Promise<ManagedPrivateEndpointsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
-      databaseName,
-      scriptName,
+      managedPrivateEndpointName,
       parameters,
       options
     );
@@ -259,28 +248,29 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Updates a database script.
+   * Updates a managed private endpoint.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the Kusto database script.
-   * @param parameters The Kusto Script parameters contains to the KQL to run.
+   * @param managedPrivateEndpointName The name of the managed private endpoint.
+   * @param parameters The managed private endpoint parameters.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: string,
-    parameters: Script,
-    options?: ScriptsUpdateOptionalParams
+    managedPrivateEndpointName: string,
+    parameters: ManagedPrivateEndpoint,
+    options?: ManagedPrivateEndpointsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<ScriptsUpdateResponse>, ScriptsUpdateResponse>
+    PollerLike<
+      PollOperationState<ManagedPrivateEndpointsUpdateResponse>,
+      ManagedPrivateEndpointsUpdateResponse
+    >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ScriptsUpdateResponse> => {
+    ): Promise<ManagedPrivateEndpointsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -321,8 +311,7 @@ export class ScriptsImpl implements Scripts {
       {
         resourceGroupName,
         clusterName,
-        databaseName,
-        scriptName,
+        managedPrivateEndpointName,
         parameters,
         options
       },
@@ -335,27 +324,24 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Updates a database script.
+   * Updates a managed private endpoint.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the Kusto database script.
-   * @param parameters The Kusto Script parameters contains to the KQL to run.
+   * @param managedPrivateEndpointName The name of the managed private endpoint.
+   * @param parameters The managed private endpoint parameters.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: string,
-    parameters: Script,
-    options?: ScriptsUpdateOptionalParams
-  ): Promise<ScriptsUpdateResponse> {
+    managedPrivateEndpointName: string,
+    parameters: ManagedPrivateEndpoint,
+    options?: ManagedPrivateEndpointsUpdateOptionalParams
+  ): Promise<ManagedPrivateEndpointsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       clusterName,
-      databaseName,
-      scriptName,
+      managedPrivateEndpointName,
       parameters,
       options
     );
@@ -363,19 +349,17 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Deletes a Kusto principalAssignment.
+   * Deletes a managed private endpoint.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the Kusto database script.
+   * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: string,
-    options?: ScriptsDeleteOptionalParams
+    managedPrivateEndpointName: string,
+    options?: ManagedPrivateEndpointsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -418,7 +402,7 @@ export class ScriptsImpl implements Scripts {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, clusterName, databaseName, scriptName, options },
+      { resourceGroupName, clusterName, managedPrivateEndpointName, options },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -428,61 +412,61 @@ export class ScriptsImpl implements Scripts {
   }
 
   /**
-   * Deletes a Kusto principalAssignment.
+   * Deletes a managed private endpoint.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the Kusto database script.
+   * @param managedPrivateEndpointName The name of the managed private endpoint.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    databaseName: string,
-    scriptName: string,
-    options?: ScriptsDeleteOptionalParams
+    managedPrivateEndpointName: string,
+    options?: ManagedPrivateEndpointsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
-      databaseName,
-      scriptName,
+      managedPrivateEndpointName,
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Checks that the script name is valid and is not already in use.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
-   * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param scriptName The name of the script.
-   * @param options The options parameters.
-   */
-  checkNameAvailability(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    scriptName: ScriptCheckNameRequest,
-    options?: ScriptsCheckNameAvailabilityOptionalParams
-  ): Promise<ScriptsCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, databaseName, scriptName, options },
-      checkNameAvailabilityOperationSpec
-    );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpointsCheckNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckNameResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.resourceName2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptListResult
+      bodyMapper: Mappers.ManagedPrivateEndpointListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -493,19 +477,18 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId,
-    Parameters.databaseName
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.ManagedPrivateEndpoint
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -517,42 +500,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.databaseName,
-    Parameters.scriptName
+    Parameters.managedPrivateEndpointName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.ManagedPrivateEndpoint
     },
     201: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.ManagedPrivateEndpoint
     },
     202: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.ManagedPrivateEndpoint
     },
     204: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.ManagedPrivateEndpoint
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.databaseName,
-    Parameters.scriptName
+    Parameters.managedPrivateEndpointName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -560,34 +541,33 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.ManagedPrivateEndpoint
     },
     201: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.ManagedPrivateEndpoint
     },
     202: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.ManagedPrivateEndpoint
     },
     204: {
-      bodyMapper: Mappers.Script
+      bodyMapper: Mappers.ManagedPrivateEndpoint
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.databaseName,
-    Parameters.scriptName
+    Parameters.managedPrivateEndpointName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -595,7 +575,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -612,34 +592,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.databaseName,
-    Parameters.scriptName
+    Parameters.managedPrivateEndpointName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scriptsCheckNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CheckNameResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.scriptName1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId,
-    Parameters.databaseName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };

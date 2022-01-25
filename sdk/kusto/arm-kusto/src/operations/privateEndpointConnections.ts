@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { AttachedDatabaseConfigurations } from "../operationsInterfaces";
+import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,27 +15,24 @@ import { KustoManagementClient } from "../kustoManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  AttachedDatabaseConfiguration,
-  AttachedDatabaseConfigurationsListByClusterOptionalParams,
-  AttachedDatabaseConfigurationsCheckNameRequest,
-  AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalParams,
-  AttachedDatabaseConfigurationsCheckNameAvailabilityResponse,
-  AttachedDatabaseConfigurationsListByClusterResponse,
-  AttachedDatabaseConfigurationsGetOptionalParams,
-  AttachedDatabaseConfigurationsGetResponse,
-  AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams,
-  AttachedDatabaseConfigurationsCreateOrUpdateResponse,
-  AttachedDatabaseConfigurationsDeleteOptionalParams
+  PrivateEndpointConnection,
+  PrivateEndpointConnectionsListOptionalParams,
+  PrivateEndpointConnectionsListResponse,
+  PrivateEndpointConnectionsGetOptionalParams,
+  PrivateEndpointConnectionsGetResponse,
+  PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
+  PrivateEndpointConnectionsCreateOrUpdateResponse,
+  PrivateEndpointConnectionsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AttachedDatabaseConfigurations operations. */
-export class AttachedDatabaseConfigurationsImpl
-  implements AttachedDatabaseConfigurations {
+/** Class containing PrivateEndpointConnections operations. */
+export class PrivateEndpointConnectionsImpl
+  implements PrivateEndpointConnections {
   private readonly client: KustoManagementClient;
 
   /**
-   * Initialize a new instance of the class AttachedDatabaseConfigurations class.
+   * Initialize a new instance of the class PrivateEndpointConnections class.
    * @param client Reference to the service client
    */
   constructor(client: KustoManagementClient) {
@@ -43,21 +40,17 @@ export class AttachedDatabaseConfigurationsImpl
   }
 
   /**
-   * Returns the list of attached database configurations of the given Kusto cluster.
+   * Returns the list of private endpoint connections.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
-  public listByCluster(
+  public list(
     resourceGroupName: string,
     clusterName: string,
-    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams
-  ): PagedAsyncIterableIterator<AttachedDatabaseConfiguration> {
-    const iter = this.listByClusterPagingAll(
-      resourceGroupName,
-      clusterName,
-      options
-    );
+    options?: PrivateEndpointConnectionsListOptionalParams
+  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
+    const iter = this.listPagingAll(resourceGroupName, clusterName, options);
     return {
       next() {
         return iter.next();
@@ -66,34 +59,26 @@ export class AttachedDatabaseConfigurationsImpl
         return this;
       },
       byPage: () => {
-        return this.listByClusterPagingPage(
-          resourceGroupName,
-          clusterName,
-          options
-        );
+        return this.listPagingPage(resourceGroupName, clusterName, options);
       }
     };
   }
 
-  private async *listByClusterPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams
-  ): AsyncIterableIterator<AttachedDatabaseConfiguration[]> {
-    let result = await this._listByCluster(
-      resourceGroupName,
-      clusterName,
-      options
-    );
+    options?: PrivateEndpointConnectionsListOptionalParams
+  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
+    let result = await this._list(resourceGroupName, clusterName, options);
     yield result.value || [];
   }
 
-  private async *listByClusterPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams
-  ): AsyncIterableIterator<AttachedDatabaseConfiguration> {
-    for await (const page of this.listByClusterPagingPage(
+    options?: PrivateEndpointConnectionsListOptionalParams
+  ): AsyncIterableIterator<PrivateEndpointConnection> {
+    for await (const page of this.listPagingPage(
       resourceGroupName,
       clusterName,
       options
@@ -103,59 +88,40 @@ export class AttachedDatabaseConfigurationsImpl
   }
 
   /**
-   * Checks that the attached database configuration resource name is valid and is not already in use.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
-   * @param clusterName The name of the Kusto cluster.
-   * @param resourceName The name of the resource.
-   * @param options The options parameters.
-   */
-  checkNameAvailability(
-    resourceGroupName: string,
-    clusterName: string,
-    resourceName: AttachedDatabaseConfigurationsCheckNameRequest,
-    options?: AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalParams
-  ): Promise<AttachedDatabaseConfigurationsCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, resourceName, options },
-      checkNameAvailabilityOperationSpec
-    );
-  }
-
-  /**
-   * Returns the list of attached database configurations of the given Kusto cluster.
+   * Returns the list of private endpoint connections.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param options The options parameters.
    */
-  private _listByCluster(
+  private _list(
     resourceGroupName: string,
     clusterName: string,
-    options?: AttachedDatabaseConfigurationsListByClusterOptionalParams
-  ): Promise<AttachedDatabaseConfigurationsListByClusterResponse> {
+    options?: PrivateEndpointConnectionsListOptionalParams
+  ): Promise<PrivateEndpointConnectionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByClusterOperationSpec
+      listOperationSpec
     );
   }
 
   /**
-   * Returns an attached database configuration.
+   * Gets a private endpoint connection.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param attachedDatabaseConfigurationName The name of the attached database configuration.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     clusterName: string,
-    attachedDatabaseConfigurationName: string,
-    options?: AttachedDatabaseConfigurationsGetOptionalParams
-  ): Promise<AttachedDatabaseConfigurationsGetResponse> {
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsGetOptionalParams
+  ): Promise<PrivateEndpointConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
-        attachedDatabaseConfigurationName,
+        privateEndpointConnectionName,
         options
       },
       getOperationSpec
@@ -163,29 +129,29 @@ export class AttachedDatabaseConfigurationsImpl
   }
 
   /**
-   * Creates or updates an attached database configuration.
+   * Approve or reject a private endpoint connection with a given name.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param attachedDatabaseConfigurationName The name of the attached database configuration.
-   * @param parameters The database parameters supplied to the CreateOrUpdate operation.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param parameters A private endpoint connection
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     clusterName: string,
-    attachedDatabaseConfigurationName: string,
-    parameters: AttachedDatabaseConfiguration,
-    options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
+    privateEndpointConnectionName: string,
+    parameters: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AttachedDatabaseConfigurationsCreateOrUpdateResponse>,
-      AttachedDatabaseConfigurationsCreateOrUpdateResponse
+      PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
+      PrivateEndpointConnectionsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AttachedDatabaseConfigurationsCreateOrUpdateResponse> => {
+    ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -226,7 +192,7 @@ export class AttachedDatabaseConfigurationsImpl
       {
         resourceGroupName,
         clusterName,
-        attachedDatabaseConfigurationName,
+        privateEndpointConnectionName,
         parameters,
         options
       },
@@ -239,24 +205,24 @@ export class AttachedDatabaseConfigurationsImpl
   }
 
   /**
-   * Creates or updates an attached database configuration.
+   * Approve or reject a private endpoint connection with a given name.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param attachedDatabaseConfigurationName The name of the attached database configuration.
-   * @param parameters The database parameters supplied to the CreateOrUpdate operation.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param parameters A private endpoint connection
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
-    attachedDatabaseConfigurationName: string,
-    parameters: AttachedDatabaseConfiguration,
-    options?: AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
-  ): Promise<AttachedDatabaseConfigurationsCreateOrUpdateResponse> {
+    privateEndpointConnectionName: string,
+    parameters: PrivateEndpointConnection,
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
-      attachedDatabaseConfigurationName,
+      privateEndpointConnectionName,
       parameters,
       options
     );
@@ -264,17 +230,17 @@ export class AttachedDatabaseConfigurationsImpl
   }
 
   /**
-   * Deletes the attached database configuration with the given name.
+   * Deletes a private endpoint connection with a given name.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param attachedDatabaseConfigurationName The name of the attached database configuration.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    attachedDatabaseConfigurationName: string,
-    options?: AttachedDatabaseConfigurationsDeleteOptionalParams
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -320,7 +286,7 @@ export class AttachedDatabaseConfigurationsImpl
       {
         resourceGroupName,
         clusterName,
-        attachedDatabaseConfigurationName,
+        privateEndpointConnectionName,
         options
       },
       deleteOperationSpec
@@ -332,22 +298,22 @@ export class AttachedDatabaseConfigurationsImpl
   }
 
   /**
-   * Deletes the attached database configuration with the given name.
+   * Deletes a private endpoint connection with a given name.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
-   * @param attachedDatabaseConfigurationName The name of the attached database configuration.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    attachedDatabaseConfigurationName: string,
-    options?: AttachedDatabaseConfigurationsDeleteOptionalParams
+    privateEndpointConnectionName: string,
+    options?: PrivateEndpointConnectionsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
-      attachedDatabaseConfigurationName,
+      privateEndpointConnectionName,
       options
     );
     return poller.pollUntilDone();
@@ -356,37 +322,13 @@ export class AttachedDatabaseConfigurationsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurationCheckNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CheckNameResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.resourceName1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listByClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDatabaseConfigurationListResult
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -404,11 +346,11 @@ const listByClusterOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -420,40 +362,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.attachedDatabaseConfigurationName
+    Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     201: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     202: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     204: {
-      bodyMapper: Mappers.AttachedDatabaseConfiguration
+      bodyMapper: Mappers.PrivateEndpointConnection
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.attachedDatabaseConfigurationName
+    Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -461,7 +403,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -478,7 +420,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.attachedDatabaseConfigurationName
+    Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept],
   serializer
