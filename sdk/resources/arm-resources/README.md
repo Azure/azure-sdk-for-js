@@ -6,7 +6,7 @@ Provides operations for working with resources and resource groups.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources/arm-resources) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-resources) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-resources) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-resources?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
