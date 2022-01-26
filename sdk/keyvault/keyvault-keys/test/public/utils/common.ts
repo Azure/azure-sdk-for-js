@@ -5,11 +5,6 @@ import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-ut
 import { env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
-/**
- * The latest supported Key Vault service API version
- */
-export const LATEST_API_VERSION = "7.3-preview";
-
 export function getKeyvaultName(): string {
   const keyVaultEnvVarName = "KEYVAULT_NAME";
   const keyVaultName: string | undefined = env[keyVaultEnvVarName];
@@ -42,7 +37,7 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
  * @returns - The service version to test
  */
 export function getServiceVersion(): string {
-  return env.SERVICE_VERSION || LATEST_API_VERSION;
+  return env.SERVICE_VERSION || serviceVersions[serviceVersions.length - 1];
 }
 
 /**

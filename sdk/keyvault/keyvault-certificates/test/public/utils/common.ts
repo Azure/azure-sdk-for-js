@@ -6,11 +6,6 @@ import { assert } from "chai";
 import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
 import { CertificateClientOptions } from "../../../src";
 
-/**
- * The latest supported KeyVault service API version
- */
-export const LATEST_API_VERSION = "7.3-preview";
-
 export function getKeyvaultName(): string {
   const keyVaultEnvVarName = "KEYVAULT_NAME";
   const keyVaultName: string | undefined = env[keyVaultEnvVarName];
@@ -48,7 +43,7 @@ export const serviceVersions = ["7.0", "7.1", "7.2", "7.3-preview"] as const;
  * @returns - The service version to test
  */
 export function getServiceVersion(): NonNullable<CertificateClientOptions["serviceVersion"]> {
-  return env.SERVICE_VERSION || LATEST_API_VERSION;
+  return env.SERVICE_VERSION || serviceVersions[serviceVersions.length - 1];
 }
 
 /**
