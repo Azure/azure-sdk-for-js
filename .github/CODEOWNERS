@@ -119,6 +119,9 @@
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @jeremymeng @KarishmaGhiya
 
+# PRLabel: %Cognitive - Anomaly Detector
+/sdk/anomalydetector/ @conhua @mengaims @juaduan @moreOver0
+
 # PRLabel: %Search
 /sdk/search/ @xirzec @sarangan12
 
