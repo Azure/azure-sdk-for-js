@@ -2,6 +2,10 @@
 
 ## 12.0.0-preview.3 (Unreleased)
 
+### Bugs Fixed
+
+- Always returns continuation token in `BlobChangeFeedClient.listChanges` no matter whether it's the end of the current change feed.
+- Fixed an bug that there's chance `ChangeFeedFactory.create` cannot parse continution token correctly.
 
 ## 12.0.0-preview.2 (2020-09-08)
 

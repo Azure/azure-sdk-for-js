@@ -228,6 +228,12 @@ describe("Change Feed", async () => {
     const event = await changeFeed.getChange();
     assert.equal(event, 3 as unknown as BlobChangeFeedEvent | undefined);
 
+    const changeFeed3 = await changeFeedFactory.create(
+      serviceClientStub as any,
+      JSON.stringify(changeFeed2.getCursor())
+    );
+    assert.ok(changeFeed3.hasNext());
+
     // lastConsumable changed
     blobClientStub.download.callsFake(() => {
       return new Promise((resolve) => {
@@ -236,9 +242,9 @@ describe("Change Feed", async () => {
     });
     segmentStubs[3].hasNext.returns(false);
     segmentStubs[3].getChange.resolves(undefined);
-    const changeFeed3 = await changeFeedFactory.create(serviceClientStub as any, continuation);
-    assert.ok(changeFeed3.hasNext());
-    const event2 = await changeFeed3.getChange();
+    const changeFeed4 = await changeFeedFactory.create(serviceClientStub as any, continuation);
+    assert.ok(changeFeed4.hasNext());
+    const event2 = await changeFeed4.getChange();
     assert.equal(event2, 4 as unknown as BlobChangeFeedEvent | undefined);
   });
 });

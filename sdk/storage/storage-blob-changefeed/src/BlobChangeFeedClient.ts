@@ -228,9 +228,9 @@ export class BlobChangeFeedClient {
           eventPage.events.push(event);
         }
       }
-      if (changeFeed.hasNext()) {
-        eventPage.continuationToken = JSON.stringify(changeFeed.getCursor());
-      }
+
+      eventPage.continuationToken = JSON.stringify(changeFeed.getCursor());
+
       if (eventPage.events.length > 0) {
         yield eventPage;
       } else {
