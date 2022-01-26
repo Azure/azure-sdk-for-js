@@ -11,7 +11,11 @@
  */
 
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { EventData, EventHubBufferedProducerClient, OnSendEventsErrorContext } from "@azure/event-hubs";
+import {
+  EventData,
+  EventHubBufferedProducerClient,
+  OnSendEventsErrorContext,
+} from "@azure/event-hubs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -20,10 +24,14 @@ dotenv.config();
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 
 async function handleError(ctx: OnSendEventsErrorContext): Promise<void> {
-  console.log(`The following error occurred:`)
+  console.log(`The following error occurred:`);
   console.log(JSON.stringify(ctx.error), undefined, "  ");
-  console.log(`And the following events were not sent as a result to the partition with ID ${ctx.partitionId}:`);
-  console.log(ctx.events.map((event: EventData | AmqpAnnotatedMessage) => JSON.stringify(event)).join("\n\n"));
+  console.log(
+    `And the following events were not sent as a result to the partition with ID ${ctx.partitionId}:`
+  );
+  console.log(
+    ctx.events.map((event: EventData | AmqpAnnotatedMessage) => JSON.stringify(event)).join("\n\n")
+  );
 }
 
 export async function main(): Promise<void> {
@@ -37,7 +45,7 @@ export async function main(): Promise<void> {
     maxWaitTimeInMs: 750,
 
     /** buffer up to 1000 events per partition before sending */
-    maxEventBufferLengthPerPartition: 1000
+    maxEventBufferLengthPerPartition: 1000,
   });
 
   console.log("Creating and sending a batch of events...");
@@ -49,7 +57,7 @@ export async function main(): Promise<void> {
   }
 
   for (const item of createData(2000)) {
-    client.enqueueEvent({ body:item });
+    client.enqueueEvent({ body: item });
   }
 
   /**
