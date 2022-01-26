@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { AzureNamedKeyCredential, generateTableSas } from "../../../src";
+import { assert } from "chai";
 
 // This file is empty as sas generation is not supported in browsers
 describe("generateSas Browser", () => {

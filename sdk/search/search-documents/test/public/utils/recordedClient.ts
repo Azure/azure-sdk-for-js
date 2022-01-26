@@ -61,20 +61,7 @@ export function createClients<IndexModel>(
   indexName: string,
   serviceVersion: string
 ): Clients<IndexModel> {
-  let endPoint: string = "https://endpoint";
-
-  switch (testEnv.AZURE_AUTHORITY_HOST) {
-    case "https://login.microsoftonline.us":
-      endPoint = process.env.USENDPOINT ?? "https://endpoint";
-      break;
-    case "https://login.chinacloudapi.cn":
-      endPoint = process.env.CHINAENDPOINT ?? "https://endpoint";
-      break;
-    default:
-      endPoint = process.env.ENDPOINT ?? "https://endpoint";
-      break;
-  }
-
+  const endPoint: string = process.env.ENDPOINT ?? "https://endpoint";
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
   const searchClient = new SearchClient<IndexModel>(endPoint, indexName, credential, {
     serviceVersion,

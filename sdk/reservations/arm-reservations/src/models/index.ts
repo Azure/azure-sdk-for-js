@@ -6,887 +6,558 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
+/** Available scope */
+export interface AvailableScopeRequest {
+  /** Available scope request properties */
+  properties?: AvailableScopeRequestProperties;
+}
 
-/**
- * Available scope request properties
- */
+/** Available scope request properties */
 export interface AvailableScopeRequestProperties {
   scopes?: string[];
 }
 
-/**
- * Available scope
- */
-export interface AvailableScopeRequest {
-  properties?: AvailableScopeRequestProperties;
+export interface AvailableScopeProperties {
+  properties?: SubscriptionScopeProperties;
 }
 
-/**
- * An interface representing SkuName.
- */
-export interface SkuName {
-  name?: string;
+export interface SubscriptionScopeProperties {
+  scopes?: ScopeProperties[];
 }
 
-/**
- * Properties specific to each reserved resource type. Not required if not applicable.
- */
-export interface PurchaseRequestPropertiesReservedResourceProperties {
-  /**
-   * Possible values include: 'On', 'Off'
-   */
-  instanceFlexibility?: InstanceFlexibility;
+export interface ScopeProperties {
+  scope?: string;
+  valid?: boolean;
 }
 
-/**
- * An interface representing PurchaseRequest.
- */
-export interface PurchaseRequest {
-  sku?: SkuName;
-  /**
-   * The Azure Region where the reserved resource lives.
-   */
-  location?: string;
-  /**
-   * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb', 'RedHat',
-   * 'SqlDataWarehouse', 'VMwareCloudSimple', 'RedHatOsa', 'Databricks', 'AppService',
-   * 'ManagedDisk', 'BlockBlob', 'RedisCache', 'AzureDataExplorer', 'MySql', 'MariaDb',
-   * 'PostgreSql', 'DedicatedHost', 'SapHana', 'SqlAzureHybridBenefit'
-   */
-  reservedResourceType?: ReservedResourceType;
-  billingScopeId?: string;
-  /**
-   * Possible values include: 'P1Y', 'P3Y'
-   */
-  term?: ReservationTerm;
-  /**
-   * Possible values include: 'Upfront', 'Monthly'
-   */
-  billingPlan?: ReservationBillingPlan;
-  quantity?: number;
-  /**
-   * Friendly name of the Reservation
-   */
-  displayName?: string;
-  /**
-   * Possible values include: 'Single', 'Shared'
-   */
-  appliedScopeType?: AppliedScopeType;
-  appliedScopes?: string[];
-  renew?: boolean;
-  /**
-   * Properties specific to each reserved resource type. Not required if not applicable.
-   */
-  reservedResourceProperties?: PurchaseRequestPropertiesReservedResourceProperties;
-}
-
-/**
- * Reservation to return
- */
-export interface ReservationToReturn {
-  /**
-   * Fully qualified identifier of the Reservation being returned
-   */
-  reservationId?: string;
-  /**
-   * Quantity to be returned. Must be greater than zero.
-   */
-  quantity?: number;
-}
-
-/**
- * Calculate exchange request properties
- */
-export interface CalculateExchangeRequestProperties {
-  /**
-   * List of reservations that are being purchased in this exchange.
-   */
-  reservationsToPurchase?: PurchaseRequest[];
-  /**
-   * List of reservations that are being returned in this exchange.
-   */
-  reservationsToExchange?: ReservationToReturn[];
-}
-
-/**
- * Calculate exchange request
- */
-export interface CalculateExchangeRequest {
-  properties?: CalculateExchangeRequestProperties;
-}
-
-/**
- * Exchange request properties
- */
-export interface ExchangeRequestProperties {
-  /**
-   * SessionId that was returned by CalculateExchange API.
-   */
-  sessionId?: string;
-}
-
-/**
- * Exchange request
- */
-export interface ExchangeRequest {
-  properties?: ExchangeRequestProperties;
-}
-
-/**
- * An interface representing Price.
- */
-export interface Price {
-  /**
-   * The ISO 4217 3-letter currency code for the currency used by this purchase record.
-   */
-  currencyCode?: string;
-  amount?: number;
-}
-
-/**
- * Reservation purchase details
- */
-export interface ReservationToPurchaseCalculateExchange {
-  properties?: PurchaseRequest;
-  billingCurrencyTotal?: Price;
-}
-
-/**
- * billing information
- */
-export interface BillingInformation {
-  billingCurrencyTotalPaidAmount?: Price;
-  billingCurrencyProratedAmount?: Price;
-  billingCurrencyRemainingCommitmentAmount?: Price;
-}
-
-/**
- * Reservation refund details
- */
-export interface ReservationToExchange {
-  /**
-   * Fully qualified id of the Reservation being returned.
-   */
-  reservationId?: string;
-  /**
-   * Quantity to be returned
-   */
-  quantity?: number;
-  billingRefundAmount?: Price;
-  billingInformation?: BillingInformation;
-}
-
-/**
- * error details
- */
-export interface ExchangePolicyError {
-  code?: string;
-  message?: string;
-}
-
-/**
- * Exchange policy errors
- */
-export interface ExchangePolicyErrors {
-  /**
-   * Exchange Policy errors
-   */
-  policyErrors?: ExchangePolicyError[];
-}
-
-/**
- * CalculateExchange response properties
- */
-export interface CalculateExchangeResponseProperties {
-  /**
-   * Exchange session identifier
-   */
-  sessionId?: string;
-  netPayable?: Price;
-  refundsTotal?: Price;
-  purchasesTotal?: Price;
-  /**
-   * Details of the reservations being purchased
-   */
-  reservationsToPurchase?: ReservationToPurchaseCalculateExchange[];
-  /**
-   * Details of the reservations being returned
-   */
-  reservationsToExchange?: ReservationToExchange[];
-  policyResult?: ExchangePolicyErrors;
-}
-
-/**
- * Required if status == failed or status == canceled.
- */
-export interface OperationResultError {
-  /**
-   * Required if status == failed or status == cancelled. If status == failed, provide an invariant
-   * error code used for error troubleshooting, aggregation, and analysis.
-   */
-  code?: string;
-  /**
-   * Required if status == failed. Localized. If status == failed, provide an actionable error
-   * message indicating what error occurred, and what the user can do to address the issue.
-   */
-  message?: string;
-}
-
-/**
- * CalculateExchange operation result
- */
-export interface CalculateExchangeOperationResultResponse {
-  /**
-   * It should match what is used to GET the operation result.
-   */
-  id?: string;
-  /**
-   * It must match the last segment of the id field, and will typically be a GUID / system
-   * generated value.
-   */
-  name?: string;
-  /**
-   * Status of the operation. Possible values include: 'Succeeded', 'Failed', 'Cancelled',
-   * 'Pending'
-   */
-  status?: CalculateExchangeOperationResultStatus;
-  properties?: CalculateExchangeResponseProperties;
-  error?: OperationResultError;
-}
-
-/**
- * Reservation purchase details
- */
-export interface ReservationToPurchaseExchange {
-  /**
-   * Fully qualified id of the ReservationOrder being purchased
-   */
-  reservationOrderId?: string;
-  /**
-   * Fully qualified id of the Reservation being purchased. This value is only guaranteed to be
-   * non-null if the purchase is successful.
-   */
-  reservationId?: string;
-  properties?: PurchaseRequest;
-  billingCurrencyTotal?: Price;
-  /**
-   * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Pending'
-   */
-  status?: OperationStatus;
-}
-
-/**
- * Reservation refund details
- */
-export interface ReservationToReturnForExchange {
-  /**
-   * Fully qualified id of the Reservation being returned.
-   */
-  reservationId?: string;
-  /**
-   * Quantity to be returned
-   */
-  quantity?: number;
-  billingRefundAmount?: Price;
-  billingInformation?: BillingInformation;
-  /**
-   * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Pending'
-   */
-  status?: OperationStatus;
-}
-
-/**
- * Exchange response properties
- */
-export interface ExchangeResponseProperties {
-  /**
-   * Exchange session identifier
-   */
-  sessionId?: string;
-  netPayable?: Price;
-  refundsTotal?: Price;
-  purchasesTotal?: Price;
-  /**
-   * Details of the reservations being purchased
-   */
-  reservationsToPurchase?: ReservationToPurchaseExchange[];
-  /**
-   * Details of the reservations being returned
-   */
-  reservationsToExchange?: ReservationToReturnForExchange[];
-  policyResult?: ExchangePolicyErrors;
-}
-
-/**
- * Exchange operation result
- */
-export interface ExchangeOperationResultResponse {
-  /**
-   * It should match what is used to GET the operation result.
-   */
-  id?: string;
-  /**
-   * It must match the last segment of the id field, and will typically be a GUID / system
-   * generated value.
-   */
-  name?: string;
-  /**
-   * Status of the operation. Possible values include: 'Succeeded', 'Failed', 'Cancelled',
-   * 'PendingRefunds', 'PendingPurchases'
-   */
-  status?: ExchangeOperationResultStatus;
-  properties?: ExchangeResponseProperties;
-  error?: OperationResultError;
-}
-
-/**
- * An interface representing SkuProperty.
- */
-export interface SkuProperty {
-  /**
-   * An invariant to describe the feature.
-   */
-  name?: string;
-  /**
-   * An invariant if the feature is measured by quantity.
-   */
-  value?: string;
-}
-
-/**
- * An interface representing SkuRestriction.
- */
-export interface SkuRestriction {
-  /**
-   * The type of restrictions.
-   */
-  type?: string;
-  /**
-   * The value of restrictions. If the restriction type is set to location. This would be different
-   * locations where the SKU is restricted.
-   */
-  values?: string[];
-  /**
-   * The reason for restriction.
-   */
-  reasonCode?: string;
-}
-
-/**
- * An interface representing Catalog.
- */
-export interface Catalog {
-  /**
-   * The type of resource the SKU applies to.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceType?: string;
-  /**
-   * The name of SKU
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The billing plan options available for this SKU.
-   */
-  billingPlans?: { [propertyName: string]: ReservationBillingPlan[] };
-  /**
-   * Available reservation terms for this resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly terms?: ReservationTerm[];
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly locations?: string[];
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly skuProperties?: SkuProperty[];
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly restrictions?: SkuRestriction[];
-}
-
-/**
- * An interface representing ExtendedStatusInfo.
- */
-export interface ExtendedStatusInfo {
-  /**
-   * Possible values include: 'None', 'Pending', 'Active', 'PurchaseError',
-   * 'PaymentInstrumentError', 'Split', 'Merged', 'Expired', 'Succeeded'
-   */
-  statusCode?: ReservationStatusCode;
-  /**
-   * The message giving detailed information about the status code.
-   */
-  message?: string;
-}
-
-/**
- * Information about payment related to a reservation order.
- */
-export interface PaymentDetail {
-  /**
-   * Date when the payment needs to be done.
-   */
-  dueDate?: Date;
-  /**
-   * Date when the transaction is completed. Is null when it is scheduled.
-   */
-  paymentDate?: Date;
-  /**
-   * Amount in pricing currency. Tax not included.
-   */
-  pricingCurrencyTotal?: Price;
-  /**
-   * Amount charged in Billing currency. Tax not included. Is null for future payments
-   */
-  billingCurrencyTotal?: Price;
-  /**
-   * Shows the Account that is charged for this payment.
-   */
-  billingAccount?: string;
-  /**
-   * Possible values include: 'Succeeded', 'Failed', 'Scheduled', 'Cancelled'
-   */
-  status?: PaymentStatus;
-  extendedStatusInfo?: ExtendedStatusInfo;
-}
-
-/**
- * Information describing the type of billing plan for this reservation.
- */
-export interface ReservationOrderBillingPlanInformation {
-  /**
-   * Amount of money to be paid for the Order. Tax is not included.
-   */
-  pricingCurrencyTotal?: Price;
-  /**
-   * Date when the billing plan has started.
-   */
-  startDate?: Date;
-  /**
-   * For recurring billing plans, indicates the date when next payment will be processed. Null when
-   * total is paid off.
-   */
-  nextPaymentDueDate?: Date;
-  transactions?: PaymentDetail[];
-}
-
-/**
- * An interface representing ReservationSplitProperties.
- */
-export interface ReservationSplitProperties {
-  /**
-   * List of destination Resource Id that are created due to split. Format of the resource Id is
-   * /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
-   */
-  splitDestinations?: string[];
-  /**
-   * Resource Id of the Reservation from which this is split. Format of the resource Id is
-   * /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
-   */
-  splitSource?: string;
-}
-
-/**
- * An interface representing ReservationMergeProperties.
- */
-export interface ReservationMergeProperties {
-  /**
-   * Reservation Resource Id Created due to the merge. Format of the resource Id is
-   * /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
-   */
-  mergeDestination?: string;
-  /**
-   * Resource Ids of the Source Reservation's merged to form this Reservation. Format of the
-   * resource Id is
-   * /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
-   */
-  mergeSources?: string[];
-}
-
-/**
- * Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is
- * not included. This is locked price 30 days before expiry.
- */
-export interface RenewPropertiesResponsePricingCurrencyTotal {
-  currencyCode?: string;
-  amount?: number;
-}
-
-/**
- * Currency and amount that customer will be charged in customer's local currency for renewal
- * purchase. Tax is not included.
- */
-export interface RenewPropertiesResponseBillingCurrencyTotal {
-  currencyCode?: string;
-  amount?: number;
-}
-
-/**
- * An interface representing RenewPropertiesResponse.
- */
-export interface RenewPropertiesResponse {
-  purchaseProperties?: PurchaseRequest;
-  /**
-   * Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is
-   * not included. This is locked price 30 days before expiry.
-   */
-  pricingCurrencyTotal?: RenewPropertiesResponsePricingCurrencyTotal;
-  /**
-   * Currency and amount that customer will be charged in customer's local currency for renewal
-   * purchase. Tax is not included.
-   */
-  billingCurrencyTotal?: RenewPropertiesResponseBillingCurrencyTotal;
-}
-
-/**
- * An interface representing ReservationProperties.
- */
-export interface ReservationProperties {
-  /**
-   * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb', 'RedHat',
-   * 'SqlDataWarehouse', 'VMwareCloudSimple', 'RedHatOsa', 'Databricks', 'AppService',
-   * 'ManagedDisk', 'BlockBlob', 'RedisCache', 'AzureDataExplorer', 'MySql', 'MariaDb',
-   * 'PostgreSql', 'DedicatedHost', 'SapHana', 'SqlAzureHybridBenefit'
-   */
-  reservedResourceType?: ReservedResourceType;
-  /**
-   * Possible values include: 'On', 'Off'
-   */
-  instanceFlexibility?: InstanceFlexibility;
-  /**
-   * Friendly name for user to easily identify the reservation
-   */
-  displayName?: string;
-  appliedScopes?: string[];
-  /**
-   * Possible values include: 'Single', 'Shared'
-   */
-  appliedScopeType?: AppliedScopeType;
-  quantity?: number;
-  /**
-   * Current state of the reservation.
-   */
-  provisioningState?: string;
-  /**
-   * DateTime of the Reservation starting when this version is effective from.
-   */
-  effectiveDateTime?: Date;
-  /**
-   * DateTime of the last time the Reservation was updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastUpdatedDateTime?: Date;
-  /**
-   * This is the date when the Reservation will expire.
-   */
-  expiryDate?: Date;
-  /**
-   * Description of the SKU in english.
-   */
-  skuDescription?: string;
-  extendedStatusInfo?: ExtendedStatusInfo;
-  /**
-   * Possible values include: 'Upfront', 'Monthly'
-   */
-  billingPlan?: ReservationBillingPlan;
-  splitProperties?: ReservationSplitProperties;
-  mergeProperties?: ReservationMergeProperties;
-  billingScopeId?: string;
-  renew?: boolean;
-  /**
-   * Reservation Id of the reservation from which this reservation is renewed. Format of the
-   * resource Id is
-   * /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}.
-   */
-  renewSource?: string;
-  /**
-   * Reservation Id of the reservation which is purchased because of renew. Format of the resource
-   * Id is
-   * /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}.
-   */
-  renewDestination?: string;
-  renewProperties?: RenewPropertiesResponse;
-  /**
-   * Possible values include: 'P1Y', 'P3Y'
-   */
-  term?: ReservationTerm;
-}
-
-/**
- * An interface representing ReservationResponse.
- */
-export interface ReservationResponse extends BaseResource {
-  /**
-   * The Azure Region where the reserved resource lives.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly location?: string;
-  etag?: number;
-  /**
-   * Identifier of the reservation
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Name of the reservation
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  sku?: SkuName;
-  properties?: ReservationProperties;
-  /**
-   * Type of resource. "Microsoft.Capacity/reservationOrders/reservations"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * An interface representing ReservationOrderResponse.
- */
-export interface ReservationOrderResponse extends BaseResource {
-  etag?: number;
-  /**
-   * Identifier of the reservation
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Name of the reservation
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Friendly name for user to easily identified the reservation.
-   */
-  displayName?: string;
-  /**
-   * This is the DateTime when the reservation was initially requested for purchase.
-   */
-  requestDateTime?: Date;
-  /**
-   * This is the DateTime when the reservation was created.
-   */
-  createdDateTime?: Date;
-  /**
-   * This is the date when the Reservation will expire.
-   */
-  expiryDate?: Date;
-  originalQuantity?: number;
-  /**
-   * Possible values include: 'P1Y', 'P3Y'
-   */
-  term?: ReservationTerm;
-  /**
-   * Current state of the reservation.
-   */
-  provisioningState?: string;
-  /**
-   * Possible values include: 'Upfront', 'Monthly'
-   */
-  billingPlan?: ReservationBillingPlan;
-  planInformation?: ReservationOrderBillingPlanInformation;
-  reservations?: ReservationResponse[];
-  /**
-   * Type of resource. "Microsoft.Capacity/reservations"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * Currency and amount that customer will be charged in customer's local currency. Tax is not
- * included.
- */
-export interface CalculatePriceResponsePropertiesBillingCurrencyTotal {
-  currencyCode?: string;
-  amount?: number;
-}
-
-/**
- * Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is
- * not included.
- */
-export interface CalculatePriceResponsePropertiesPricingCurrencyTotal {
-  currencyCode?: string;
-  amount?: number;
-}
-
-/**
- * An interface representing CalculatePriceResponseProperties.
- */
-export interface CalculatePriceResponseProperties {
-  /**
-   * Currency and amount that customer will be charged in customer's local currency. Tax is not
-   * included.
-   */
-  billingCurrencyTotal?: CalculatePriceResponsePropertiesBillingCurrencyTotal;
-  /**
-   * True if billing is managed by Microsoft Partner. Used only for CSP accounts.
-   */
-  isBillingPartnerManaged?: boolean;
-  /**
-   * GUID that represents reservation order that can be placed after calculating price.
-   */
-  reservationOrderId?: string;
-  /**
-   * Title of SKU that is being purchased.
-   */
-  skuTitle?: string;
-  /**
-   * Description of SKU that is being purchased.
-   */
-  skuDescription?: string;
-  /**
-   * Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is
-   * not included.
-   */
-  pricingCurrencyTotal?: CalculatePriceResponsePropertiesPricingCurrencyTotal;
-  paymentSchedule?: PaymentDetail[];
-}
-
-/**
- * An interface representing CalculatePriceResponse.
- */
-export interface CalculatePriceResponse {
-  properties?: CalculatePriceResponseProperties;
-}
-
-/**
- * An interface representing PatchPropertiesRenewProperties.
- */
-export interface PatchPropertiesRenewProperties {
-  purchaseProperties?: PurchaseRequest;
-}
-
-/**
- * An interface representing MergeRequest.
- */
-export interface MergeRequest {
-  /**
-   * Format of the resource id should be
-   * /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
-   */
-  sources?: string[];
-}
-
-/**
- * An interface representing Patch.
- */
-export interface Patch {
-  /**
-   * Possible values include: 'Single', 'Shared'
-   */
-  appliedScopeType?: AppliedScopeType;
-  appliedScopes?: string[];
-  /**
-   * Possible values include: 'On', 'Off'
-   */
-  instanceFlexibility?: InstanceFlexibility;
-  /**
-   * Name of the Reservation
-   */
-  name?: string;
-  renew?: boolean;
-  renewProperties?: PatchPropertiesRenewProperties;
-}
-
-/**
- * An interface representing SplitRequest.
- */
-export interface SplitRequest {
-  /**
-   * List of the quantities in the new reservations to create.
-   */
-  quantities?: number[];
-  /**
-   * Resource id of the reservation to be split. Format of the resource id should be
-   * /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}
-   */
-  reservationId?: string;
-}
-
-/**
- * An interface representing ExtendedErrorInfo.
- */
-export interface ExtendedErrorInfo {
-  /**
-   * Possible values include: 'NotSpecified', 'InternalServerError', 'ServerTimeout',
-   * 'AuthorizationFailed', 'BadRequest', 'ClientCertificateThumbprintNotSet',
-   * 'InvalidRequestContent', 'OperationFailed', 'HttpMethodNotSupported', 'InvalidRequestUri',
-   * 'MissingTenantId', 'InvalidTenantId', 'InvalidReservationOrderId', 'InvalidReservationId',
-   * 'ReservationIdNotInReservationOrder', 'ReservationOrderNotFound', 'InvalidSubscriptionId',
-   * 'InvalidAccessToken', 'InvalidLocationId', 'UnauthenticatedRequestsThrottled',
-   * 'InvalidHealthCheckType', 'Forbidden', 'BillingScopeIdCannotBeChanged',
-   * 'AppliedScopesNotAssociatedWithCommerceAccount', 'PatchValuesSameAsExisting',
-   * 'RoleAssignmentCreationFailed', 'ReservationOrderCreationFailed',
-   * 'ReservationOrderNotEnabled', 'CapacityUpdateScopesFailed', 'UnsupportedReservationTerm',
-   * 'ReservationOrderIdAlreadyExists', 'RiskCheckFailed', 'CreateQuoteFailed',
-   * 'ActivateQuoteFailed', 'NonsupportedAccountId', 'PaymentInstrumentNotFound',
-   * 'MissingAppliedScopesForSingle', 'NoValidReservationsToReRate', 'ReRateOnlyAllowedForEA',
-   * 'OperationCannotBePerformedInCurrentState', 'InvalidSingleAppliedScopesCount',
-   * 'InvalidFulfillmentRequestParameters', 'NotSupportedCountry', 'InvalidRefundQuantity',
-   * 'PurchaseError', 'BillingCustomerInputError', 'BillingPaymentInstrumentSoftError',
-   * 'BillingPaymentInstrumentHardError', 'BillingTransientError', 'BillingError',
-   * 'FulfillmentConfigurationError', 'FulfillmentOutOfStockError', 'FulfillmentTransientError',
-   * 'FulfillmentError', 'CalculatePriceFailed'
-   */
-  code?: ErrorResponseCode;
-  message?: string;
-}
-
-/**
- * An interface representing ErrorModel.
- */
 export interface ErrorModel {
   error?: ExtendedErrorInfo;
 }
 
-/**
- * An interface representing AppliedReservationList.
- */
-export interface AppliedReservationList {
-  value?: string[];
-  /**
-   * Url to get the next page of reservations
-   */
-  nextLink?: string;
+export interface ExtendedErrorInfo {
+  code?: ErrorResponseCode;
+  message?: string;
 }
 
-/**
- * An interface representing AppliedReservations.
- */
+export interface Catalog {
+  /**
+   * The type of resource the SKU applies to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**
+   * The name of SKU
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** The billing plan options available for this SKU. */
+  billingPlans?: { [propertyName: string]: ReservationBillingPlan[] };
+  /**
+   * Available reservation terms for this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly terms?: ReservationTerm[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly locations?: string[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly skuProperties?: SkuProperty[];
+  /**
+   * Pricing information about the SKU
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly msrp?: CatalogMsrp;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly restrictions?: SkuRestriction[];
+  /**
+   * The tier of this SKU
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tier?: string;
+  /**
+   * The size of this SKU
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly size?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly capabilities?: SkuCapability[];
+}
+
+export interface SkuProperty {
+  /** An invariant to describe the feature. */
+  name?: string;
+  /** An invariant if the feature is measured by quantity. */
+  value?: string;
+}
+
+/** Pricing information about the SKU */
+export interface CatalogMsrp {
+  /** Amount in pricing currency. Tax not included. */
+  p1Y?: Price;
+}
+
+export interface Price {
+  /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
+  currencyCode?: string;
+  amount?: number;
+}
+
+export interface SkuRestriction {
+  /** The type of restrictions. */
+  type?: string;
+  /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
+  values?: string[];
+  /** The reason for restriction. */
+  reasonCode?: string;
+}
+
+export interface SkuCapability {
+  /** An invariant to describe the feature. */
+  name?: string;
+  /** An invariant if the feature is measured by quantity. */
+  value?: string;
+}
+
 export interface AppliedReservations {
   /**
    * Identifier of the applied reservations
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * Name of resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
    * Type of resource. "Microsoft.Capacity/AppliedReservations"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
   reservationOrderIds?: AppliedReservationList;
 }
 
-/**
- * An interface representing OperationDisplay.
- */
+export interface AppliedReservationList {
+  value?: string[];
+  /** Url to get the next page of reservations */
+  nextLink?: string;
+}
+
+export interface PurchaseRequest {
+  sku?: SkuName;
+  /** The Azure Region where the reserved resource lives. */
+  location?: string;
+  /** The type of the resource that is being reserved. */
+  reservedResourceType?: ReservedResourceType;
+  /** Subscription that will be charged for purchasing Reservation */
+  billingScopeId?: string;
+  /** Represent the term of Reservation. */
+  term?: ReservationTerm;
+  /** Represent the billing plans. */
+  billingPlan?: ReservationBillingPlan;
+  /** Quantity of the SKUs that are part of the Reservation. */
+  quantity?: number;
+  /** Friendly name of the Reservation */
+  displayName?: string;
+  /** Type of the Applied Scope. */
+  appliedScopeType?: AppliedScopeType;
+  /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. */
+  appliedScopes?: string[];
+  /** Setting this to true will automatically purchase a new reservation on the expiration date time. */
+  renew?: boolean;
+  /** Properties specific to each reserved resource type. Not required if not applicable. */
+  reservedResourceProperties?: PurchaseRequestPropertiesReservedResourceProperties;
+}
+
+export interface SkuName {
+  name?: string;
+}
+
+/** Properties specific to each reserved resource type. Not required if not applicable. */
+export interface PurchaseRequestPropertiesReservedResourceProperties {
+  /** Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type. */
+  instanceFlexibility?: InstanceFlexibility;
+}
+
+export interface CalculatePriceResponse {
+  properties?: CalculatePriceResponseProperties;
+}
+
+export interface CalculatePriceResponseProperties {
+  /** Currency and amount that customer will be charged in customer's local currency. Tax is not included. */
+  billingCurrencyTotal?: CalculatePriceResponsePropertiesBillingCurrencyTotal;
+  /** Net total amount in pricing currency. */
+  netTotal?: number;
+  /** Tax amount in pricing currency. */
+  taxTotal?: number;
+  /** Total amount in pricing currency. */
+  grandTotal?: number;
+  /** Whether or not tax is included in grand total */
+  isTaxIncluded?: boolean;
+  /** True if billing is managed by Microsoft Partner. Used only for CSP accounts. */
+  isBillingPartnerManaged?: boolean;
+  /** GUID that represents reservation order that can be placed after calculating price. */
+  reservationOrderId?: string;
+  /** Title of SKU that is being purchased. */
+  skuTitle?: string;
+  /** Description of SKU that is being purchased. */
+  skuDescription?: string;
+  /** Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is not included. */
+  pricingCurrencyTotal?: CalculatePriceResponsePropertiesPricingCurrencyTotal;
+  paymentSchedule?: PaymentDetail[];
+}
+
+/** Currency and amount that customer will be charged in customer's local currency. Tax is not included. */
+export interface CalculatePriceResponsePropertiesBillingCurrencyTotal {
+  /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
+  currencyCode?: string;
+  /** Amount in pricing currency. Tax is not included. */
+  amount?: number;
+}
+
+/** Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is not included. */
+export interface CalculatePriceResponsePropertiesPricingCurrencyTotal {
+  /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
+  currencyCode?: string;
+  amount?: number;
+}
+
+/** Information about payment related to a reservation order. */
+export interface PaymentDetail {
+  /** Date when the payment needs to be done. */
+  dueDate?: Date;
+  /** Date when the transaction is completed. Is null when it is scheduled. */
+  paymentDate?: Date;
+  /** Amount in pricing currency. Tax not included. */
+  pricingCurrencyTotal?: Price;
+  /** Amount charged in Billing currency. Tax not included. Is null for future payments */
+  billingCurrencyTotal?: Price;
+  /** Shows the Account that is charged for this payment. */
+  billingAccount?: string;
+  /** Describes whether the payment is completed, failed, cancelled or scheduled in the future. */
+  status?: PaymentStatus;
+  extendedStatusInfo?: ExtendedStatusInfo;
+}
+
+export interface ExtendedStatusInfo {
+  statusCode?: ReservationStatusCode;
+  /** The message giving detailed information about the status code. */
+  message?: string;
+}
+
+export interface ReservationOrderList {
+  value?: ReservationOrderResponse[];
+  /** Url to get the next page of reservationOrders. */
+  nextLink?: string;
+}
+
+export interface ReservationOrderResponse {
+  etag?: number;
+  /**
+   * Identifier of the reservation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Name of the reservation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Type of resource. "Microsoft.Capacity/reservations"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Friendly name for user to easily identified the reservation. */
+  displayName?: string;
+  /** This is the DateTime when the reservation was initially requested for purchase. */
+  requestDateTime?: Date;
+  /** This is the DateTime when the reservation was created. */
+  createdDateTime?: Date;
+  /** This is the date when the Reservation will expire. */
+  expiryDate?: Date;
+  /** Total Quantity of the SKUs purchased in the Reservation. */
+  originalQuantity?: number;
+  /** Represent the term of Reservation. */
+  term?: ReservationTerm;
+  /** Current state of the reservation. */
+  provisioningState?: ProvisioningState;
+  /** Represent the billing plans. */
+  billingPlan?: ReservationBillingPlan;
+  /** Information describing the type of billing plan for this reservation. */
+  planInformation?: ReservationOrderBillingPlanInformation;
+  reservations?: ReservationResponse[];
+}
+
+/** Information describing the type of billing plan for this reservation. */
+export interface ReservationOrderBillingPlanInformation {
+  /** Amount of money to be paid for the Order. Tax is not included. */
+  pricingCurrencyTotal?: Price;
+  /** Date when the billing plan has started. */
+  startDate?: Date;
+  /** For recurring billing plans, indicates the date when next payment will be processed. Null when total is paid off. */
+  nextPaymentDueDate?: Date;
+  transactions?: PaymentDetail[];
+}
+
+/** The definition of the reservation. */
+export interface ReservationResponse {
+  /** The Azure Region where the reserved resource lives. */
+  location?: string;
+  etag?: number;
+  /**
+   * Identifier of the reservation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Name of the reservation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** The sku information associated to this reservation */
+  sku?: SkuName;
+  /** The properties associated to this reservation */
+  properties?: ReservationsProperties;
+  /**
+   * Type of resource. "Microsoft.Capacity/reservationOrders/reservations"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Resource Provider type to be reserved. */
+  kind?: "Microsoft.Compute";
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** The properties of the reservations */
+export interface ReservationsProperties {
+  /** The type of the resource that is being reserved. */
+  reservedResourceType?: ReservedResourceType;
+  /** Allows reservation discount to be applied across skus within the same Autofit group. Not all skus support instance size flexibility. */
+  instanceFlexibility?: InstanceFlexibility;
+  /** Friendly name for user to easily identify the reservation */
+  displayName?: string;
+  /** The list of applied scopes */
+  appliedScopes?: string[];
+  /** The applied scope type */
+  appliedScopeType?: AppliedScopeType;
+  /** Indicates if the reservation is archived */
+  archived?: boolean;
+  /** Capabilities of the reservation */
+  capabilities?: string;
+  /** Quantity of the SKUs that are part of the Reservation. */
+  quantity?: number;
+  /** Current state of the reservation. */
+  provisioningState?: ProvisioningState;
+  /** DateTime of the Reservation starting when this version is effective from. */
+  effectiveDateTime?: Date;
+  /**
+   * DateTime of the last time the Reservation was updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedDateTime?: Date;
+  /** This is the date when the Reservation will expire. */
+  expiryDate?: Date;
+  /** Description of the SKU in english. */
+  skuDescription?: string;
+  /** The message giving detailed information about the status code. */
+  extendedStatusInfo?: ExtendedStatusInfo;
+  /** The billing plan options available for this SKU. */
+  billingPlan?: ReservationBillingPlan;
+  /**
+   * The provisioning state of the reservation for display, e.g. Succeeded
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayProvisioningState?: string;
+  /**
+   * The provisioning state of the reservation, e.g. Succeeded
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningSubState?: string;
+  /** This is the date when the Reservation was purchased. */
+  purchaseDate?: Date;
+  splitProperties?: ReservationSplitProperties;
+  mergeProperties?: ReservationMergeProperties;
+  /** Subscription that will be charged for purchasing Reservation */
+  billingScopeId?: string;
+  /** Setting this to true will automatically purchase a new reservation on the expiration date time. */
+  renew?: boolean;
+  /** Reservation Id of the reservation from which this reservation is renewed. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}. */
+  renewSource?: string;
+  /** Reservation Id of the reservation which is purchased because of renew. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}. */
+  renewDestination?: string;
+  renewProperties?: RenewPropertiesResponse;
+  /** Represent the term of Reservation. */
+  term?: ReservationTerm;
+  /**
+   * The applied scope type of the reservation for display, e.g. Shared
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly userFriendlyAppliedScopeType?: string;
+  /**
+   * The renew state of the reservation for display, e.g. On
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly userFriendlyRenewState?: string;
+  /**
+   * Reservation utilization
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly utilization?: ReservationsPropertiesUtilization;
+}
+
+export interface ReservationSplitProperties {
+  /** List of destination Resource Id that are created due to split. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  splitDestinations?: string[];
+  /** Resource Id of the Reservation from which this is split. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  splitSource?: string;
+}
+
+export interface ReservationMergeProperties {
+  /** Reservation Resource Id Created due to the merge. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  mergeDestination?: string;
+  /** Resource Ids of the Source Reservation's merged to form this Reservation. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  mergeSources?: string[];
+}
+
+export interface RenewPropertiesResponse {
+  purchaseProperties?: PurchaseRequest;
+  /** Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is not included. This is locked price 30 days before expiry. */
+  pricingCurrencyTotal?: RenewPropertiesResponsePricingCurrencyTotal;
+  /** Currency and amount that customer will be charged in customer's local currency for renewal purchase. Tax is not included. */
+  billingCurrencyTotal?: RenewPropertiesResponseBillingCurrencyTotal;
+}
+
+/** Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is not included. This is locked price 30 days before expiry. */
+export interface RenewPropertiesResponsePricingCurrencyTotal {
+  /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
+  currencyCode?: string;
+  amount?: number;
+}
+
+/** Currency and amount that customer will be charged in customer's local currency for renewal purchase. Tax is not included. */
+export interface RenewPropertiesResponseBillingCurrencyTotal {
+  /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
+  currencyCode?: string;
+  amount?: number;
+}
+
+/** Reservation utilization */
+export interface ReservationsPropertiesUtilization {
+  /**
+   * The number of days trend for a reservation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trend?: string;
+  /** The array of aggregates of a reservation's utilization */
+  aggregates?: ReservationUtilizationAggregates[];
+}
+
+/** The aggregate values of reservation utilization */
+export interface ReservationUtilizationAggregates {
+  /**
+   * The grain of the aggregate
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly grain?: number;
+  /**
+   * The grain unit of the aggregate
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly grainUnit?: string;
+  /**
+   * The aggregate value
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: number;
+  /**
+   * The aggregate value unit
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly valueUnit?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export interface SplitRequest {
+  /** List of the quantities in the new reservations to create. */
+  quantities?: number[];
+  /** Resource id of the reservation to be split. Format of the resource id should be /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  reservationId?: string;
+}
+
+export interface MergeRequest {
+  /** Format of the resource id should be /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  sources?: string[];
+}
+
+export interface ReservationList {
+  value?: ReservationResponse[];
+  /** Url to get the next page of reservations. */
+  nextLink?: string;
+}
+
+export interface Patch {
+  /** Type of the Applied Scope. */
+  appliedScopeType?: AppliedScopeType;
+  /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. */
+  appliedScopes?: string[];
+  /** Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type. */
+  instanceFlexibility?: InstanceFlexibility;
+  /** Name of the Reservation */
+  name?: string;
+  /** Setting this to true will automatically purchase a new reservation on the expiration date time. */
+  renew?: boolean;
+  renewProperties?: PatchPropertiesRenewProperties;
+}
+
+export interface PatchPropertiesRenewProperties {
+  purchaseProperties?: PurchaseRequest;
+}
+
+export interface OperationList {
+  value?: OperationResponse[];
+  /** Url to get the next page of items. */
+  nextLink?: string;
+}
+
+export interface OperationResponse {
+  /** Name of the operation */
+  name?: string;
+  /** Indicates whether the operation is a data action */
+  isDataAction?: boolean;
+  /** Display of the operation */
+  display?: OperationDisplay;
+  /** Origin of the operation */
+  origin?: string;
+  /** Properties of the operation */
+  properties?: Record<string, unknown>;
+}
+
 export interface OperationDisplay {
   provider?: string;
   resource?: string;
@@ -894,1425 +565,1511 @@ export interface OperationDisplay {
   description?: string;
 }
 
-/**
- * An interface representing OperationResponse.
- */
-export interface OperationResponse {
+/** Calculate exchange request */
+export interface CalculateExchangeRequest {
+  /** Calculate exchange request properties */
+  properties?: CalculateExchangeRequestProperties;
+}
+
+/** Calculate exchange request properties */
+export interface CalculateExchangeRequestProperties {
+  /** List of reservations that are being purchased in this exchange. */
+  reservationsToPurchase?: PurchaseRequest[];
+  /** List of reservations that are being returned in this exchange. */
+  reservationsToExchange?: ReservationToReturn[];
+}
+
+/** Reservation to return */
+export interface ReservationToReturn {
+  /** Fully qualified identifier of the Reservation being returned */
+  reservationId?: string;
+  /** Quantity to be returned. Must be greater than zero. */
+  quantity?: number;
+}
+
+/** CalculateExchange operation result */
+export interface CalculateExchangeOperationResultResponse {
+  /** It should match what is used to GET the operation result. */
+  id?: string;
+  /** It must match the last segment of the id field, and will typically be a GUID / system generated value. */
   name?: string;
-  display?: OperationDisplay;
-  origin?: string;
+  /** Status of the operation. */
+  status?: CalculateExchangeOperationResultStatus;
+  /** CalculateExchange response properties */
+  properties?: CalculateExchangeResponseProperties;
+  /** Required if status == failed or status == canceled. */
+  error?: OperationResultError;
 }
 
-/**
- * An interface representing ScopeProperties.
- */
-export interface ScopeProperties {
-  scope?: string;
-  valid?: boolean;
+/** CalculateExchange response properties */
+export interface CalculateExchangeResponseProperties {
+  /** Exchange session identifier */
+  sessionId?: string;
+  netPayable?: Price;
+  refundsTotal?: Price;
+  purchasesTotal?: Price;
+  /** Details of the reservations being purchased */
+  reservationsToPurchase?: ReservationToPurchaseCalculateExchange[];
+  /** Details of the reservations being returned */
+  reservationsToExchange?: ReservationToExchange[];
+  /** Exchange policy errors */
+  policyResult?: ExchangePolicyErrors;
 }
 
-/**
- * An interface representing SubscriptionScopeProperties.
- */
-export interface SubscriptionScopeProperties {
-  scopes?: ScopeProperties[];
+/** Reservation purchase details */
+export interface ReservationToPurchaseCalculateExchange {
+  properties?: PurchaseRequest;
+  billingCurrencyTotal?: Price;
 }
 
-/**
- * An interface representing AvailableScopeProperties.
- */
-export interface AvailableScopeProperties {
-  properties?: SubscriptionScopeProperties;
+/** Reservation refund details */
+export interface ReservationToExchange {
+  /** Fully qualified id of the Reservation being returned. */
+  reservationId?: string;
+  /** Quantity to be returned */
+  quantity?: number;
+  billingRefundAmount?: Price;
+  /** billing information */
+  billingInformation?: BillingInformation;
 }
 
-/**
- * Resource name provided by the resource provider. Use this property for quotaRequest parameter.
- */
-export interface ResourceName {
+/** billing information */
+export interface BillingInformation {
+  billingCurrencyTotalPaidAmount?: Price;
+  billingCurrencyProratedAmount?: Price;
+  billingCurrencyRemainingCommitmentAmount?: Price;
+}
+
+/** Exchange policy errors */
+export interface ExchangePolicyErrors {
+  /** Exchange Policy errors */
+  policyErrors?: ExchangePolicyError[];
+}
+
+/** error details */
+export interface ExchangePolicyError {
+  code?: string;
+  message?: string;
+}
+
+/** Required if status == failed or status == canceled. */
+export interface OperationResultError {
+  /** Required if status == failed or status == cancelled. If status == failed, provide an invariant error code used for error troubleshooting, aggregation, and analysis. */
+  code?: string;
+  /** Required if status == failed. Localized. If status == failed, provide an actionable error message indicating what error occurred, and what the user can do to address the issue. */
+  message?: string;
+}
+
+/** Exchange request */
+export interface ExchangeRequest {
+  /** Exchange request properties */
+  properties?: ExchangeRequestProperties;
+}
+
+/** Exchange request properties */
+export interface ExchangeRequestProperties {
+  /** SessionId that was returned by CalculateExchange API. */
+  sessionId?: string;
+}
+
+/** Exchange operation result */
+export interface ExchangeOperationResultResponse {
+  /** It should match what is used to GET the operation result. */
+  id?: string;
+  /** It must match the last segment of the id field, and will typically be a GUID / system generated value. */
+  name?: string;
+  /** Status of the operation. */
+  status?: ExchangeOperationResultStatus;
+  /** Exchange response properties */
+  properties?: ExchangeResponseProperties;
+  /** Required if status == failed or status == canceled. */
+  error?: OperationResultError;
+}
+
+/** Exchange response properties */
+export interface ExchangeResponseProperties {
+  /** Exchange session identifier */
+  sessionId?: string;
+  netPayable?: Price;
+  refundsTotal?: Price;
+  purchasesTotal?: Price;
+  /** Details of the reservations being purchased */
+  reservationsToPurchase?: ReservationToPurchaseExchange[];
+  /** Details of the reservations being returned */
+  reservationsToExchange?: ReservationToReturnForExchange[];
+  /** Exchange policy errors */
+  policyResult?: ExchangePolicyErrors;
+}
+
+/** Reservation purchase details */
+export interface ReservationToPurchaseExchange {
+  /** Fully qualified id of the ReservationOrder being purchased */
+  reservationOrderId?: string;
+  /** Fully qualified id of the Reservation being purchased. This value is only guaranteed to be non-null if the purchase is successful. */
+  reservationId?: string;
+  properties?: PurchaseRequest;
+  billingCurrencyTotal?: Price;
+  /** Status of the individual operation. */
+  status?: OperationStatus;
+}
+
+/** Reservation refund details */
+export interface ReservationToReturnForExchange {
+  /** Fully qualified id of the Reservation being returned. */
+  reservationId?: string;
+  /** Quantity to be returned */
+  quantity?: number;
+  billingRefundAmount?: Price;
+  /** billing information */
+  billingInformation?: BillingInformation;
+  /** Status of the individual operation. */
+  status?: OperationStatus;
+}
+
+/** The list of reservations and summary of roll out count of reservations in each state. */
+export interface ReservationsListResult {
   /**
-   * Resource name.
+   * The list of reservations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
+  readonly value?: ReservationResponse[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** The roll out count summary of the reservations */
+  summary?: ReservationSummary;
+}
+
+/** The roll up count summary of reservations in each state */
+export interface ReservationSummary {
+  /**
+   * The number of reservation in Succeeded state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly succeededCount?: number;
+  /**
+   * The number of reservation in Failed state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedCount?: number;
+  /**
+   * The number of reservation in Expiring state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expiringCount?: number;
+  /**
+   * The number of reservation in Expired state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expiredCount?: number;
+  /**
+   * The number of reservation in Pending state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pendingCount?: number;
+  /**
+   * The number of reservation in Cancelled state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cancelledCount?: number;
+}
+
+/** Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. */
+export interface ErrorResponse {
+  /** The details of the error. */
+  error?: ErrorDetails;
+}
+
+/** The details of the error. */
+export interface ErrorDetails {
+  /**
+   * Error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Error message indicating why the operation failed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The target of the particular error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+}
+
+export interface ChangeDirectoryRequest {
+  /** Tenant id GUID that reservation order is to be transferred to */
+  destinationTenantId?: string;
+}
+
+/** Change directory response */
+export interface ChangeDirectoryResponse {
+  /** Change directory result for reservation order or reservation */
+  reservationOrder?: ChangeDirectoryResult;
+  reservations?: ChangeDirectoryResult[];
+}
+
+/** Change directory result for reservation order or reservation */
+export interface ChangeDirectoryResult {
+  /** Identifier of the reservation order or reservation */
+  id?: string;
+  /** Name of the reservation order or reservation */
+  name?: string;
+  /** True if change directory operation succeeded on this reservation order or reservation */
+  isSucceeded?: boolean;
+  /** Error reason if operation failed. Null otherwise */
+  error?: string;
+}
+
+/** Quota properties. */
+export interface CurrentQuotaLimitBase {
+  /** Quota properties for the resource. */
+  properties?: QuotaProperties;
+}
+
+/** Quota properties for the resource. */
+export interface QuotaProperties {
+  /** Quota properties. */
+  limit?: number;
+  /**
+   * Current usage value for the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentValue?: number;
+  /**  The limit units, such as **count** and **bytes**. Use the unit field provided in the response of the GET quota operation. */
+  unit?: string;
+  /** Name of the resource provide by the resource provider. Use this property for quotaRequests resource operations. */
+  name?: ResourceName;
+  /** The name of the resource type. */
+  resourceType?: ResourceType;
+  /**
+   * The time period over which the quota usage values are summarized. For example, P1D (per one day), PT1M (per one minute), and PT1S (per one second). This parameter is optional because, for some resources such as compute, the time period is irrelevant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly quotaPeriod?: string;
+  /** Additional properties for the specified resource provider. */
+  properties?: Record<string, unknown>;
+}
+
+/** Resource name provided by the resource provider. Use this property for quotaRequest parameter. */
+export interface ResourceName {
+  /** Resource name. */
   value?: string;
   /**
    * Resource display localized name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly localizedValue?: string;
 }
 
-/**
- * Quota properties for the resource.
- */
-export interface QuotaProperties {
-  /**
-   * Quota properties.
-   */
-  limit?: number;
-  /**
-   * Current usage value for the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly currentValue?: number;
-  /**
-   * The limit units, such as **count** and **bytes**. Use the unit field provided in the response
-   * of the GET quota operation.
-   */
-  unit?: string;
-  /**
-   * Name of the resource provide by the resource provider. Use this property for quotaRequests
-   * resource operations.
-   */
-  name?: ResourceName;
-  /**
-   * The name of the resource type.
-   */
-  resourceType?: any;
-  /**
-   * The time period over which the quota usage values are summarized. For example, P1D (per one
-   * day), PT1M (per one minute), and PT1S (per one second). This parameter is optional because,
-   * for some resources such as compute, the time period is irrelevant.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly quotaPeriod?: string;
-  /**
-   * Additional properties for the specified resource provider.
-   */
-  properties?: any;
+/** The API error. */
+export interface ExceptionResponse {
+  /** The API error details. */
+  error?: ServiceError;
 }
 
-/**
- * Quota properties.
- */
-export interface CurrentQuotaLimitBase extends BaseResource {
-  /**
-   * Quota properties for the resource.
-   */
-  properties?: QuotaProperties;
-}
-
-/**
- * Current quota limits.
- */
-export interface CurrentQuotaLimit extends BaseResource {
-  /**
-   * Quota properties for the resource.
-   */
-  properties?: QuotaProperties;
-  /**
-   * The details of the quota request status.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: any;
-  /**
-   * A user friendly message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-}
-
-/**
- * Quotas (service limits) in the request response.
- */
-export interface QuotaLimitsResponse {
-  /**
-   * List of quotas with the quota request status.
-   */
-  value?: CurrentQuotaLimit[];
-  /**
-   * The URI for fetching the next page of quota limits. When no more pages exist, the value is
-   * null.
-   */
-  nextLink?: string;
-}
-
-/**
- * Quota change requests information.
- */
-export interface CreateGenericQuotaRequestParameters {
-  /**
-   * Quota change requests.
-   */
-  value?: CurrentQuotaLimitBase[];
-}
-
-/**
- * The sub-request submitted with the quota request.
- */
-export interface SubRequest {
-  /**
-   * Quota (resource limit).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly limit?: number;
-  /**
-   * The resource name.
-   */
-  name?: ResourceName;
-  /**
-   * Resource type for which the quota check was made.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceType?: string;
-  /**
-   * The limit units, such as **count** and **bytes**. Use the unit field provided in the response
-   * of the GET quota operation.
-   */
-  unit?: string;
-  /**
-   * The quota request status.
-   */
-  provisioningState?: any;
-  /**
-   * User-friendly status message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * Sub request ID for individual request.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly subRequestId?: string;
-}
-
-/**
- * Response for the quota submission request.
- */
-export interface QuotaRequestOneResourceSubmitResponse extends BaseResource {
-  /**
-   * The quota request ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the quota request.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Type of resource. "Microsoft.Capacity/ServiceLimits"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The quota request status.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: any;
-  /**
-   * User friendly status message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified
-   * by the ISO 8601 standard.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requestSubmitTime?: Date;
-  /**
-   * Quota properties for the resource.
-   */
-  properties?: QuotaProperties;
-}
-
-/**
- * The details of quota request.
- */
-export interface QuotaRequestProperties {
-  /**
-   * The quota request status.
-   */
-  provisioningState?: any;
-  /**
-   * User friendly status message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified
-   * by the ISO 8601 standard.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requestSubmitTime?: Date;
-  /**
-   * The quotaRequests.
-   */
-  value?: SubRequest[];
-}
-
-/**
- * Response for the quota submission request.
- */
-export interface QuotaRequestSubmitResponse extends BaseResource {
-  /**
-   * The quota request ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the quota request.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The quota request details.
-   */
-  properties?: QuotaRequestProperties;
-  /**
-   * Type of resource. "Microsoft.Capacity/serviceLimits"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * Response with request ID that the quota request was accepted.
- */
-export interface QuotaRequestSubmitResponse201 {
-  /**
-   * The quota request ID. Use the requestId parameter to check the request status.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Operation ID
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The details of the quota request status.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: any;
-  /**
-   * A user friendly message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-}
-
-/**
- * Quota request details.
- */
-export interface QuotaRequestDetails extends BaseResource {
-  /**
-   * Quota request ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Quota request name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The quota request status.
-   */
-  provisioningState?: any;
-  /**
-   * User friendly status message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified
-   * by the ISO 8601 standard.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requestSubmitTime?: Date;
-  /**
-   * The quotaRequests.
-   */
-  value?: SubRequest[];
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-}
-
-/**
- * The error details.
- */
-export interface ServiceErrorDetail {
-  /**
-   * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-}
-
-/**
- * The API error details.
- */
+/** The API error details. */
 export interface ServiceError {
-  /**
-   * The error code.
-   */
+  /** The error code. */
   code?: string;
-  /**
-   * The error message text.
-   */
+  /** The error message text. */
   message?: string;
   /**
    * The list of error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly details?: ServiceErrorDetail[];
 }
 
-/**
- * The API error.
- */
-export interface ExceptionResponse {
+/** The error details. */
+export interface ServiceErrorDetail {
   /**
-   * The API error details.
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  error?: ServiceError;
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** Response for the quota submission request. */
+export interface QuotaRequestOneResourceSubmitResponse {
+  /**
+   * The quota request ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the quota request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Type of resource. "Microsoft.Capacity/ServiceLimits"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The quota request status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: QuotaRequestState;
+  /**
+   * User friendly status message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requestSubmitTime?: Date;
+  /** Quota properties for the resource. */
+  properties?: QuotaProperties;
+}
+
+/** Response with request ID that the quota request was accepted. */
+export interface QuotaRequestSubmitResponse201 {
+  /**
+   * The quota request ID. Use the requestId parameter to check the request status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Operation ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The details of the quota request status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: QuotaRequestState;
+  /**
+   * A user friendly message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** Quota limits. */
+export interface QuotaLimits {
+  /** List of quotas (service limits). */
+  value?: CurrentQuotaLimitBase[];
+  /** The URI for fetching the next page of quotas (service limits). When no more pages exist, the value is null. */
+  nextLink?: string;
+}
+
+/** Quota request details. */
+export interface QuotaRequestDetails {
+  /**
+   * Quota request ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Quota request name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The quota request status. */
+  provisioningState?: QuotaRequestState;
+  /**
+   * User friendly status message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requestSubmitTime?: Date;
+  /** The quotaRequests. */
+  value?: SubRequest[];
+}
+
+/** The details of quota request. */
+export interface QuotaRequestProperties {
+  /** The quota request status. */
+  provisioningState?: QuotaRequestState;
+  /**
+   * User friendly status message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requestSubmitTime?: Date;
+  /** The quotaRequests. */
+  value?: SubRequest[];
+}
+
+/** The sub-request submitted with the quota request. */
+export interface SubRequest {
+  /**
+   * Quota (resource limit).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly limit?: number;
+  /** The resource name. */
+  name?: ResourceName;
+  /**
+   * Resource type for which the quota check was made.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**  The limit units, such as **count** and **bytes**. Use the unit field provided in the response of the GET quota operation. */
+  unit?: string;
+  /** The quota request status. */
+  provisioningState?: QuotaRequestState;
+  /**
+   * User-friendly status message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Sub request ID for individual request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subRequestId?: string;
+}
+
+/** Quota request details. */
+export interface QuotaRequestDetailsList {
+  /** The quota requests. */
+  value?: QuotaRequestDetails[];
+  /** The URI to fetch the next page of quota limits. When there are no more pages, this is null. */
+  nextLink?: string;
+}
+
+/** Current quota limits. */
+export interface CurrentQuotaLimit {
+  /**
+   * The details of the quota request status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: QuotaRequestState;
+  /**
+   * A user friendly message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /** Quota properties for the resource. */
+  properties?: QuotaProperties;
+}
+
+/** Quotas (service limits) in the request response. */
+export interface QuotaLimitsResponse {
+  /** List of quotas with the quota request status. */
+  value?: CurrentQuotaLimit[];
+  /** The URI for fetching the next page of quota limits. When no more pages exist, the value is null. */
+  nextLink?: string;
+}
+
+/** Quota change requests information. */
+export interface CreateGenericQuotaRequestParameters {
+  /** Quota change requests. */
+  value?: CurrentQuotaLimitBase[];
+}
+
+/** Response for the quota submission request. */
+export interface QuotaRequestSubmitResponse {
+  /**
+   * The quota request ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the quota request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** The quota request details. */
+  properties?: QuotaRequestProperties;
+  /**
+   * Type of resource. "Microsoft.Capacity/serviceLimits"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** Defines headers for CalculateExchange_post operation. */
+export interface CalculateExchangePostHeaders {
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** URL for determining when an operation has completed. Only use this value only when Azure-AsyncOperation isn't returned. */
+  location?: string;
+  /** Clients should wait for the Retry-After interval before polling again */
+  retryAfter?: number;
+}
+
+/** Defines headers for Exchange_post operation. */
+export interface ExchangePostHeaders {
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** URL for determining when an operation has completed. Only use this value only when Azure-AsyncOperation isn't returned. */
+  location?: string;
+  /** Clients should wait for the Retry-After interval before polling again */
+  retryAfter?: number;
+}
+
+/** Defines headers for Quota_get operation. */
+export interface QuotaGetHeaders {
+  /** Current entity state version. It should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for Quota_list operation. */
+export interface QuotaListHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for Quota_listNext operation. */
+export interface QuotaListNextHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Known values of {@link ErrorResponseCode} that the service accepts. */
+export enum KnownErrorResponseCode {
+  NotSpecified = "NotSpecified",
+  InternalServerError = "InternalServerError",
+  ServerTimeout = "ServerTimeout",
+  AuthorizationFailed = "AuthorizationFailed",
+  BadRequest = "BadRequest",
+  ClientCertificateThumbprintNotSet = "ClientCertificateThumbprintNotSet",
+  InvalidRequestContent = "InvalidRequestContent",
+  OperationFailed = "OperationFailed",
+  HttpMethodNotSupported = "HttpMethodNotSupported",
+  InvalidRequestUri = "InvalidRequestUri",
+  MissingTenantId = "MissingTenantId",
+  InvalidTenantId = "InvalidTenantId",
+  InvalidReservationOrderId = "InvalidReservationOrderId",
+  InvalidReservationId = "InvalidReservationId",
+  ReservationIdNotInReservationOrder = "ReservationIdNotInReservationOrder",
+  ReservationOrderNotFound = "ReservationOrderNotFound",
+  InvalidSubscriptionId = "InvalidSubscriptionId",
+  InvalidAccessToken = "InvalidAccessToken",
+  InvalidLocationId = "InvalidLocationId",
+  UnauthenticatedRequestsThrottled = "UnauthenticatedRequestsThrottled",
+  InvalidHealthCheckType = "InvalidHealthCheckType",
+  Forbidden = "Forbidden",
+  BillingScopeIdCannotBeChanged = "BillingScopeIdCannotBeChanged",
+  AppliedScopesNotAssociatedWithCommerceAccount = "AppliedScopesNotAssociatedWithCommerceAccount",
+  PatchValuesSameAsExisting = "PatchValuesSameAsExisting",
+  RoleAssignmentCreationFailed = "RoleAssignmentCreationFailed",
+  ReservationOrderCreationFailed = "ReservationOrderCreationFailed",
+  ReservationOrderNotEnabled = "ReservationOrderNotEnabled",
+  CapacityUpdateScopesFailed = "CapacityUpdateScopesFailed",
+  UnsupportedReservationTerm = "UnsupportedReservationTerm",
+  ReservationOrderIdAlreadyExists = "ReservationOrderIdAlreadyExists",
+  RiskCheckFailed = "RiskCheckFailed",
+  CreateQuoteFailed = "CreateQuoteFailed",
+  ActivateQuoteFailed = "ActivateQuoteFailed",
+  NonsupportedAccountId = "NonsupportedAccountId",
+  PaymentInstrumentNotFound = "PaymentInstrumentNotFound",
+  MissingAppliedScopesForSingle = "MissingAppliedScopesForSingle",
+  NoValidReservationsToReRate = "NoValidReservationsToReRate",
+  ReRateOnlyAllowedForEA = "ReRateOnlyAllowedForEA",
+  OperationCannotBePerformedInCurrentState = "OperationCannotBePerformedInCurrentState",
+  InvalidSingleAppliedScopesCount = "InvalidSingleAppliedScopesCount",
+  InvalidFulfillmentRequestParameters = "InvalidFulfillmentRequestParameters",
+  NotSupportedCountry = "NotSupportedCountry",
+  InvalidRefundQuantity = "InvalidRefundQuantity",
+  PurchaseError = "PurchaseError",
+  BillingCustomerInputError = "BillingCustomerInputError",
+  BillingPaymentInstrumentSoftError = "BillingPaymentInstrumentSoftError",
+  BillingPaymentInstrumentHardError = "BillingPaymentInstrumentHardError",
+  BillingTransientError = "BillingTransientError",
+  BillingError = "BillingError",
+  FulfillmentConfigurationError = "FulfillmentConfigurationError",
+  FulfillmentOutOfStockError = "FulfillmentOutOfStockError",
+  FulfillmentTransientError = "FulfillmentTransientError",
+  FulfillmentError = "FulfillmentError",
+  CalculatePriceFailed = "CalculatePriceFailed",
+  AppliedScopesSameAsExisting = "AppliedScopesSameAsExisting"
 }
 
 /**
- * Optional Parameters.
+ * Defines values for ErrorResponseCode. \
+ * {@link KnownErrorResponseCode} can be used interchangeably with ErrorResponseCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **InternalServerError** \
+ * **ServerTimeout** \
+ * **AuthorizationFailed** \
+ * **BadRequest** \
+ * **ClientCertificateThumbprintNotSet** \
+ * **InvalidRequestContent** \
+ * **OperationFailed** \
+ * **HttpMethodNotSupported** \
+ * **InvalidRequestUri** \
+ * **MissingTenantId** \
+ * **InvalidTenantId** \
+ * **InvalidReservationOrderId** \
+ * **InvalidReservationId** \
+ * **ReservationIdNotInReservationOrder** \
+ * **ReservationOrderNotFound** \
+ * **InvalidSubscriptionId** \
+ * **InvalidAccessToken** \
+ * **InvalidLocationId** \
+ * **UnauthenticatedRequestsThrottled** \
+ * **InvalidHealthCheckType** \
+ * **Forbidden** \
+ * **BillingScopeIdCannotBeChanged** \
+ * **AppliedScopesNotAssociatedWithCommerceAccount** \
+ * **PatchValuesSameAsExisting** \
+ * **RoleAssignmentCreationFailed** \
+ * **ReservationOrderCreationFailed** \
+ * **ReservationOrderNotEnabled** \
+ * **CapacityUpdateScopesFailed** \
+ * **UnsupportedReservationTerm** \
+ * **ReservationOrderIdAlreadyExists** \
+ * **RiskCheckFailed** \
+ * **CreateQuoteFailed** \
+ * **ActivateQuoteFailed** \
+ * **NonsupportedAccountId** \
+ * **PaymentInstrumentNotFound** \
+ * **MissingAppliedScopesForSingle** \
+ * **NoValidReservationsToReRate** \
+ * **ReRateOnlyAllowedForEA** \
+ * **OperationCannotBePerformedInCurrentState** \
+ * **InvalidSingleAppliedScopesCount** \
+ * **InvalidFulfillmentRequestParameters** \
+ * **NotSupportedCountry** \
+ * **InvalidRefundQuantity** \
+ * **PurchaseError** \
+ * **BillingCustomerInputError** \
+ * **BillingPaymentInstrumentSoftError** \
+ * **BillingPaymentInstrumentHardError** \
+ * **BillingTransientError** \
+ * **BillingError** \
+ * **FulfillmentConfigurationError** \
+ * **FulfillmentOutOfStockError** \
+ * **FulfillmentTransientError** \
+ * **FulfillmentError** \
+ * **CalculatePriceFailed** \
+ * **AppliedScopesSameAsExisting**
  */
-export interface ReservationGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Supported value of this query is renewProperties
-   */
+export type ErrorResponseCode = string;
+
+/** Known values of {@link ReservationBillingPlan} that the service accepts. */
+export enum KnownReservationBillingPlan {
+  Upfront = "Upfront",
+  Monthly = "Monthly"
+}
+
+/**
+ * Defines values for ReservationBillingPlan. \
+ * {@link KnownReservationBillingPlan} can be used interchangeably with ReservationBillingPlan,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Upfront** \
+ * **Monthly**
+ */
+export type ReservationBillingPlan = string;
+
+/** Known values of {@link ReservationTerm} that the service accepts. */
+export enum KnownReservationTerm {
+  P1Y = "P1Y",
+  P3Y = "P3Y",
+  P5Y = "P5Y"
+}
+
+/**
+ * Defines values for ReservationTerm. \
+ * {@link KnownReservationTerm} can be used interchangeably with ReservationTerm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **P1Y** \
+ * **P3Y** \
+ * **P5Y**
+ */
+export type ReservationTerm = string;
+
+/** Known values of {@link ReservedResourceType} that the service accepts. */
+export enum KnownReservedResourceType {
+  VirtualMachines = "VirtualMachines",
+  SqlDatabases = "SqlDatabases",
+  SuseLinux = "SuseLinux",
+  CosmosDb = "CosmosDb",
+  RedHat = "RedHat",
+  SqlDataWarehouse = "SqlDataWarehouse",
+  VMwareCloudSimple = "VMwareCloudSimple",
+  RedHatOsa = "RedHatOsa",
+  Databricks = "Databricks",
+  AppService = "AppService",
+  ManagedDisk = "ManagedDisk",
+  BlockBlob = "BlockBlob",
+  RedisCache = "RedisCache",
+  AzureDataExplorer = "AzureDataExplorer",
+  MySql = "MySql",
+  MariaDb = "MariaDb",
+  PostgreSql = "PostgreSql",
+  DedicatedHost = "DedicatedHost",
+  SapHana = "SapHana",
+  SqlAzureHybridBenefit = "SqlAzureHybridBenefit",
+  AVS = "AVS",
+  DataFactory = "DataFactory",
+  NetAppStorage = "NetAppStorage",
+  AzureFiles = "AzureFiles",
+  SqlEdge = "SqlEdge"
+}
+
+/**
+ * Defines values for ReservedResourceType. \
+ * {@link KnownReservedResourceType} can be used interchangeably with ReservedResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **VirtualMachines** \
+ * **SqlDatabases** \
+ * **SuseLinux** \
+ * **CosmosDb** \
+ * **RedHat** \
+ * **SqlDataWarehouse** \
+ * **VMwareCloudSimple** \
+ * **RedHatOsa** \
+ * **Databricks** \
+ * **AppService** \
+ * **ManagedDisk** \
+ * **BlockBlob** \
+ * **RedisCache** \
+ * **AzureDataExplorer** \
+ * **MySql** \
+ * **MariaDb** \
+ * **PostgreSql** \
+ * **DedicatedHost** \
+ * **SapHana** \
+ * **SqlAzureHybridBenefit** \
+ * **AVS** \
+ * **DataFactory** \
+ * **NetAppStorage** \
+ * **AzureFiles** \
+ * **SqlEdge**
+ */
+export type ReservedResourceType = string;
+
+/** Known values of {@link AppliedScopeType} that the service accepts. */
+export enum KnownAppliedScopeType {
+  Single = "Single",
+  Shared = "Shared"
+}
+
+/**
+ * Defines values for AppliedScopeType. \
+ * {@link KnownAppliedScopeType} can be used interchangeably with AppliedScopeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Single** \
+ * **Shared**
+ */
+export type AppliedScopeType = string;
+
+/** Known values of {@link InstanceFlexibility} that the service accepts. */
+export enum KnownInstanceFlexibility {
+  On = "On",
+  Off = "Off"
+}
+
+/**
+ * Defines values for InstanceFlexibility. \
+ * {@link KnownInstanceFlexibility} can be used interchangeably with InstanceFlexibility,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **On** \
+ * **Off**
+ */
+export type InstanceFlexibility = string;
+
+/** Known values of {@link PaymentStatus} that the service accepts. */
+export enum KnownPaymentStatus {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Scheduled = "Scheduled",
+  Cancelled = "Cancelled"
+}
+
+/**
+ * Defines values for PaymentStatus. \
+ * {@link KnownPaymentStatus} can be used interchangeably with PaymentStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Scheduled** \
+ * **Cancelled**
+ */
+export type PaymentStatus = string;
+
+/** Known values of {@link ReservationStatusCode} that the service accepts. */
+export enum KnownReservationStatusCode {
+  None = "None",
+  Pending = "Pending",
+  Active = "Active",
+  PurchaseError = "PurchaseError",
+  PaymentInstrumentError = "PaymentInstrumentError",
+  Split = "Split",
+  Merged = "Merged",
+  Expired = "Expired",
+  Succeeded = "Succeeded"
+}
+
+/**
+ * Defines values for ReservationStatusCode. \
+ * {@link KnownReservationStatusCode} can be used interchangeably with ReservationStatusCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Pending** \
+ * **Active** \
+ * **PurchaseError** \
+ * **PaymentInstrumentError** \
+ * **Split** \
+ * **Merged** \
+ * **Expired** \
+ * **Succeeded**
+ */
+export type ReservationStatusCode = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  Creating = "Creating",
+  PendingResourceHold = "PendingResourceHold",
+  ConfirmedResourceHold = "ConfirmedResourceHold",
+  PendingBilling = "PendingBilling",
+  ConfirmedBilling = "ConfirmedBilling",
+  Created = "Created",
+  Succeeded = "Succeeded",
+  Cancelled = "Cancelled",
+  Expired = "Expired",
+  BillingFailed = "BillingFailed",
+  Failed = "Failed",
+  Split = "Split",
+  Merged = "Merged"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **PendingResourceHold** \
+ * **ConfirmedResourceHold** \
+ * **PendingBilling** \
+ * **ConfirmedBilling** \
+ * **Created** \
+ * **Succeeded** \
+ * **Cancelled** \
+ * **Expired** \
+ * **BillingFailed** \
+ * **Failed** \
+ * **Split** \
+ * **Merged**
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link CalculateExchangeOperationResultStatus} that the service accepts. */
+export enum KnownCalculateExchangeOperationResultStatus {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Cancelled = "Cancelled",
+  Pending = "Pending"
+}
+
+/**
+ * Defines values for CalculateExchangeOperationResultStatus. \
+ * {@link KnownCalculateExchangeOperationResultStatus} can be used interchangeably with CalculateExchangeOperationResultStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Cancelled** \
+ * **Pending**
+ */
+export type CalculateExchangeOperationResultStatus = string;
+
+/** Known values of {@link ExchangeOperationResultStatus} that the service accepts. */
+export enum KnownExchangeOperationResultStatus {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Cancelled = "Cancelled",
+  PendingRefunds = "PendingRefunds",
+  PendingPurchases = "PendingPurchases"
+}
+
+/**
+ * Defines values for ExchangeOperationResultStatus. \
+ * {@link KnownExchangeOperationResultStatus} can be used interchangeably with ExchangeOperationResultStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Cancelled** \
+ * **PendingRefunds** \
+ * **PendingPurchases**
+ */
+export type ExchangeOperationResultStatus = string;
+
+/** Known values of {@link OperationStatus} that the service accepts. */
+export enum KnownOperationStatus {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Cancelled = "Cancelled",
+  Pending = "Pending"
+}
+
+/**
+ * Defines values for OperationStatus. \
+ * {@link KnownOperationStatus} can be used interchangeably with OperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Cancelled** \
+ * **Pending**
+ */
+export type OperationStatus = string;
+
+/** Known values of {@link ResourceType} that the service accepts. */
+export enum KnownResourceType {
+  Standard = "standard",
+  Dedicated = "dedicated",
+  LowPriority = "lowPriority",
+  Shared = "shared",
+  ServiceSpecific = "serviceSpecific"
+}
+
+/**
+ * Defines values for ResourceType. \
+ * {@link KnownResourceType} can be used interchangeably with ResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **standard** \
+ * **dedicated** \
+ * **lowPriority** \
+ * **shared** \
+ * **serviceSpecific**
+ */
+export type ResourceType = string;
+
+/** Known values of {@link QuotaRequestState} that the service accepts. */
+export enum KnownQuotaRequestState {
+  Accepted = "Accepted",
+  Invalid = "Invalid",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  InProgress = "InProgress"
+}
+
+/**
+ * Defines values for QuotaRequestState. \
+ * {@link KnownQuotaRequestState} can be used interchangeably with QuotaRequestState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted** \
+ * **Invalid** \
+ * **Succeeded** \
+ * **Failed** \
+ * **InProgress**
+ */
+export type QuotaRequestState = string;
+
+/** Known values of {@link Location} that the service accepts. */
+export enum KnownLocation {
+  Westus = "westus",
+  Eastus = "eastus",
+  Eastus2 = "eastus2",
+  Northcentralus = "northcentralus",
+  Westus2 = "westus2",
+  Southcentralus = "southcentralus",
+  Centralus = "centralus",
+  Westeurope = "westeurope",
+  Northeurope = "northeurope",
+  Eastasia = "eastasia",
+  Southeastasia = "southeastasia",
+  Japaneast = "japaneast",
+  Japanwest = "japanwest",
+  Brazilsouth = "brazilsouth",
+  Australiaeast = "australiaeast",
+  Australiasoutheast = "australiasoutheast",
+  Southindia = "southindia",
+  Westindia = "westindia",
+  Centralindia = "centralindia",
+  Canadacentral = "canadacentral",
+  Canadaeast = "canadaeast",
+  Uksouth = "uksouth",
+  Westcentralus = "westcentralus",
+  Ukwest = "ukwest"
+}
+
+/**
+ * Defines values for Location. \
+ * {@link KnownLocation} can be used interchangeably with Location,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **westus** \
+ * **eastus** \
+ * **eastus2** \
+ * **northcentralus** \
+ * **westus2** \
+ * **southcentralus** \
+ * **centralus** \
+ * **westeurope** \
+ * **northeurope** \
+ * **eastasia** \
+ * **southeastasia** \
+ * **japaneast** \
+ * **japanwest** \
+ * **brazilsouth** \
+ * **australiaeast** \
+ * **australiasoutheast** \
+ * **southindia** \
+ * **westindia** \
+ * **centralindia** \
+ * **canadacentral** \
+ * **canadaeast** \
+ * **uksouth** \
+ * **westcentralus** \
+ * **ukwest**
+ */
+export type Location = string;
+
+/** Known values of {@link DisplayProvisioningState} that the service accepts. */
+export enum KnownDisplayProvisioningState {
+  Succeeded = "Succeeded",
+  Expiring = "Expiring",
+  Expired = "Expired",
+  Pending = "Pending",
+  Cancelled = "Cancelled",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for DisplayProvisioningState. \
+ * {@link KnownDisplayProvisioningState} can be used interchangeably with DisplayProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Expiring** \
+ * **Expired** \
+ * **Pending** \
+ * **Cancelled** \
+ * **Failed**
+ */
+export type DisplayProvisioningState = string;
+
+/** Known values of {@link UserFriendlyAppliedScopeType} that the service accepts. */
+export enum KnownUserFriendlyAppliedScopeType {
+  None = "None",
+  Shared = "Shared",
+  Single = "Single",
+  ResourceGroup = "ResourceGroup",
+  ManagementGroup = "ManagementGroup"
+}
+
+/**
+ * Defines values for UserFriendlyAppliedScopeType. \
+ * {@link KnownUserFriendlyAppliedScopeType} can be used interchangeably with UserFriendlyAppliedScopeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Shared** \
+ * **Single** \
+ * **ResourceGroup** \
+ * **ManagementGroup**
+ */
+export type UserFriendlyAppliedScopeType = string;
+
+/** Known values of {@link UserFriendlyRenewState} that the service accepts. */
+export enum KnownUserFriendlyRenewState {
+  On = "On",
+  Off = "Off",
+  Renewed = "Renewed",
+  NotRenewed = "NotRenewed",
+  NotApplicable = "NotApplicable"
+}
+
+/**
+ * Defines values for UserFriendlyRenewState. \
+ * {@link KnownUserFriendlyRenewState} can be used interchangeably with UserFriendlyRenewState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **On** \
+ * **Off** \
+ * **Renewed** \
+ * **NotRenewed** \
+ * **NotApplicable**
+ */
+export type UserFriendlyRenewState = string;
+
+/** Optional parameters. */
+export interface ReservationAvailableScopesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the availableScopes operation. */
+export type ReservationAvailableScopesResponse = AvailableScopeProperties;
+
+/** Optional parameters. */
+export interface ReservationSplitOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the split operation. */
+export type ReservationSplitResponse = ReservationResponse[];
+
+/** Optional parameters. */
+export interface ReservationMergeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the merge operation. */
+export type ReservationMergeResponse = ReservationResponse[];
+
+/** Optional parameters. */
+export interface ReservationListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ReservationListResponse = ReservationList;
+
+/** Optional parameters. */
+export interface ReservationGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Supported value of this query is renewProperties */
   expand?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface AzureReservationAPIGetCatalogOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Filters the skus based on the location specified in this parameter. This can be an azure
-   * region or global
-   */
+/** Contains response data for the get operation. */
+export type ReservationGetResponse = ReservationResponse;
+
+/** Optional parameters. */
+export interface ReservationUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ReservationUpdateResponse = ReservationResponse;
+
+/** Optional parameters. */
+export interface ReservationListRevisionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listRevisions operation. */
+export type ReservationListRevisionsResponse = ReservationList;
+
+/** Optional parameters. */
+export interface ReservationListAllOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. Reservation properties include sku/name, properties/{appliedScopeType, archived, displayName, displayProvisioningState, effectiveDateTime, expiryDate, provisioningState, quantity, renew, reservedResourceType, term, userFriendlyAppliedScopeType, userFriendlyRenewState} */
+  filter?: string;
+  /** May be used to sort order by reservation properties. */
+  orderby?: string;
+  /** To indicate whether to refresh the roll up counts of the reservations group by provisioning states */
+  refreshSummary?: string;
+  /** The number of reservations to skip from the list before returning results */
+  skiptoken?: number;
+  /** The selected provisioning state */
+  selectedState?: string;
+  /** To number of reservations to return */
+  take?: number;
+}
+
+/** Contains response data for the listAll operation. */
+export type ReservationListAllResponse = ReservationsListResult;
+
+/** Optional parameters. */
+export interface ReservationListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ReservationListNextResponse = ReservationList;
+
+/** Optional parameters. */
+export interface ReservationListRevisionsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listRevisionsNext operation. */
+export type ReservationListRevisionsNextResponse = ReservationList;
+
+/** Optional parameters. */
+export interface ReservationListAllNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. Reservation properties include sku/name, properties/{appliedScopeType, archived, displayName, displayProvisioningState, effectiveDateTime, expiryDate, provisioningState, quantity, renew, reservedResourceType, term, userFriendlyAppliedScopeType, userFriendlyRenewState} */
+  filter?: string;
+  /** May be used to sort order by reservation properties. */
+  orderby?: string;
+  /** To indicate whether to refresh the roll up counts of the reservations group by provisioning states */
+  refreshSummary?: string;
+  /** The number of reservations to skip from the list before returning results */
+  skiptoken?: number;
+  /** The selected provisioning state */
+  selectedState?: string;
+  /** To number of reservations to return */
+  take?: number;
+}
+
+/** Contains response data for the listAllNext operation. */
+export type ReservationListAllNextResponse = ReservationsListResult;
+
+/** Optional parameters. */
+export interface GetCatalogOptionalParams extends coreClient.OperationOptions {
+  /** The type of the resource for which the skus should be provided. */
+  reservedResourceType?: string;
+  /** Filters the skus based on the location specified in this parameter. This can be an azure region or global */
   location?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface ReservationOrderGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * May be used to expand the planInformation.
-   */
+/** Contains response data for the getCatalog operation. */
+export type GetCatalogResponse = Catalog[];
+
+/** Optional parameters. */
+export interface GetAppliedReservationListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAppliedReservationList operation. */
+export type GetAppliedReservationListResponse = AppliedReservations;
+
+/** Optional parameters. */
+export interface ReservationOrderCalculateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the calculate operation. */
+export type ReservationOrderCalculateResponse = CalculatePriceResponse;
+
+/** Optional parameters. */
+export interface ReservationOrderListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ReservationOrderListResponse = ReservationOrderList;
+
+/** Optional parameters. */
+export interface ReservationOrderPurchaseOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the purchase operation. */
+export type ReservationOrderPurchaseResponse = ReservationOrderResponse;
+
+/** Optional parameters. */
+export interface ReservationOrderGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to expand the planInformation. */
   expand?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface QuotaRequestStatusListOptionalParams extends msRest.RequestOptionsBase {
+/** Contains response data for the get operation. */
+export type ReservationOrderGetResponse = ReservationOrderResponse;
+
+/** Optional parameters. */
+export interface ReservationOrderChangeDirectoryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the changeDirectory operation. */
+export type ReservationOrderChangeDirectoryResponse = ChangeDirectoryResponse;
+
+/** Optional parameters. */
+export interface ReservationOrderListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ReservationOrderListNextResponse = ReservationOrderList;
+
+/** Optional parameters. */
+export interface OperationListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationListResponse = OperationList;
+
+/** Optional parameters. */
+export interface OperationListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationListNextResponse = OperationList;
+
+/** Optional parameters. */
+export interface CalculateExchangePostOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the post operation. */
+export type CalculateExchangePostResponse = CalculateExchangeOperationResultResponse;
+
+/** Optional parameters. */
+export interface ExchangePostOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the post operation. */
+export type ExchangePostResponse = ExchangeOperationResultResponse;
+
+/** Optional parameters. */
+export interface QuotaGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type QuotaGetResponse = QuotaGetHeaders & CurrentQuotaLimitBase;
+
+/** Optional parameters. */
+export interface QuotaCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type QuotaCreateOrUpdateResponse = QuotaRequestOneResourceSubmitResponse;
+
+/** Optional parameters. */
+export interface QuotaUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type QuotaUpdateResponse = QuotaRequestOneResourceSubmitResponse;
+
+/** Optional parameters. */
+export interface QuotaListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type QuotaListResponse = QuotaListHeaders & QuotaLimits;
+
+/** Optional parameters. */
+export interface QuotaListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type QuotaListNextResponse = QuotaListNextHeaders & QuotaLimits;
+
+/** Optional parameters. */
+export interface QuotaRequestStatusGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type QuotaRequestStatusGetResponse = QuotaRequestDetails;
+
+/** Optional parameters. */
+export interface QuotaRequestStatusListOptionalParams
+  extends coreClient.OperationOptions {
   /**
    * | Field                    | Supported operators
    * |---------------------|------------------------
    *
    * |requestSubmitTime | ge, le, eq, gt, lt
+   *
    */
   filter?: string;
-  /**
-   * Number of records to return.
-   */
+  /** Number of records to return. */
   top?: number;
-  /**
-   * Skiptoken is only used if a previous operation returned a partial result. If a previous
-   * response contains a nextLink element, the value of the nextLink element includes a skiptoken
-   * parameter that specifies a starting point to use for subsequent calls.
-   */
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element includes a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   skiptoken?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface QuotaRequestStatusListNextOptionalParams extends msRest.RequestOptionsBase {
+/** Contains response data for the list operation. */
+export type QuotaRequestStatusListResponse = QuotaRequestDetailsList;
+
+/** Optional parameters. */
+export interface QuotaRequestStatusListNextOptionalParams
+  extends coreClient.OperationOptions {
   /**
    * | Field                    | Supported operators
    * |---------------------|------------------------
    *
    * |requestSubmitTime | ge, le, eq, gt, lt
+   *
    */
   filter?: string;
-  /**
-   * Number of records to return.
-   */
+  /** Number of records to return. */
   top?: number;
-  /**
-   * Skiptoken is only used if a previous operation returned a partial result. If a previous
-   * response contains a nextLink element, the value of the nextLink element includes a skiptoken
-   * parameter that specifies a starting point to use for subsequent calls.
-   */
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element includes a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   skiptoken?: string;
 }
 
-/**
- * An interface representing AzureReservationAPIOptions.
- */
-export interface AzureReservationAPIOptions extends AzureServiceClientOptions {
-  baseUri?: string;
+/** Contains response data for the listNext operation. */
+export type QuotaRequestStatusListNextResponse = QuotaRequestDetailsList;
+
+/** Optional parameters. */
+export interface AzureReservationAPIOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
 }
-
-/**
- * Defines headers for Post operation.
- */
-export interface CalculateExchangePostHeaders {
-  /**
-   * URL for checking the ongoing status of the operation.
-   */
-  azureAsyncOperation: string;
-  /**
-   * URL for determining when an operation has completed. Only use this value only when
-   * Azure-AsyncOperation isn't returned.
-   */
-  location: string;
-  /**
-   * Clients should wait for the Retry-After interval before polling again
-   */
-  retryAfter: number;
-}
-
-/**
- * Defines headers for Post operation.
- */
-export interface ExchangePostHeaders {
-  /**
-   * URL for checking the ongoing status of the operation.
-   */
-  azureAsyncOperation: string;
-  /**
-   * URL for determining when an operation has completed. Only use this value only when
-   * Azure-AsyncOperation isn't returned.
-   */
-  location: string;
-  /**
-   * Clients should wait for the Retry-After interval before polling again
-   */
-  retryAfter: number;
-}
-
-/**
- * Defines headers for Get operation.
- */
-export interface QuotaGetHeaders {
-  /**
-   * Current entity state version. It should be treated as opaque and used to make conditional HTTP
-   * requests.
-   */
-  eTag: string;
-}
-
-/**
- * Defines headers for List operation.
- */
-export interface QuotaListHeaders {
-  /**
-   * Current entity state version. Should be treated as opaque and used to make conditional HTTP
-   * requests.
-   */
-  eTag: string;
-}
-
-/**
- * @interface
- * An interface representing the ReservationList.
- * @extends Array<ReservationResponse>
- */
-export interface ReservationList extends Array<ReservationResponse> {
-  /**
-   * Url to get the next page of reservations.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the ReservationOrderList.
- * @extends Array<ReservationOrderResponse>
- */
-export interface ReservationOrderList extends Array<ReservationOrderResponse> {
-  /**
-   * Url to get the next page of reservationOrders.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the OperationList.
- * @extends Array<OperationResponse>
- */
-export interface OperationList extends Array<OperationResponse> {
-  /**
-   * Url to get the next page of items.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Quota limits.
- * @extends Array<CurrentQuotaLimitBase>
- */
-export interface QuotaLimits extends Array<CurrentQuotaLimitBase> {
-  /**
-   * The URI for fetching the next page of quotas (service limits). When no more pages exist, the
-   * value is null.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Quota request details.
- * @extends Array<QuotaRequestDetails>
- */
-export interface QuotaRequestDetailsList extends Array<QuotaRequestDetails> {
-  /**
-   * The URI to fetch the next page of quota limits. When there are no more pages, this is null.
-   */
-  nextLink?: string;
-}
-
-/**
- * Defines values for ReservedResourceType.
- * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb', 'RedHat',
- * 'SqlDataWarehouse', 'VMwareCloudSimple', 'RedHatOsa', 'Databricks', 'AppService', 'ManagedDisk',
- * 'BlockBlob', 'RedisCache', 'AzureDataExplorer', 'MySql', 'MariaDb', 'PostgreSql',
- * 'DedicatedHost', 'SapHana', 'SqlAzureHybridBenefit'
- * @readonly
- * @enum {string}
- */
-export type ReservedResourceType = 'VirtualMachines' | 'SqlDatabases' | 'SuseLinux' | 'CosmosDb' | 'RedHat' | 'SqlDataWarehouse' | 'VMwareCloudSimple' | 'RedHatOsa' | 'Databricks' | 'AppService' | 'ManagedDisk' | 'BlockBlob' | 'RedisCache' | 'AzureDataExplorer' | 'MySql' | 'MariaDb' | 'PostgreSql' | 'DedicatedHost' | 'SapHana' | 'SqlAzureHybridBenefit';
-
-/**
- * Defines values for ReservationTerm.
- * Possible values include: 'P1Y', 'P3Y'
- * @readonly
- * @enum {string}
- */
-export type ReservationTerm = 'P1Y' | 'P3Y';
-
-/**
- * Defines values for ReservationBillingPlan.
- * Possible values include: 'Upfront', 'Monthly'
- * @readonly
- * @enum {string}
- */
-export type ReservationBillingPlan = 'Upfront' | 'Monthly';
-
-/**
- * Defines values for AppliedScopeType.
- * Possible values include: 'Single', 'Shared'
- * @readonly
- * @enum {string}
- */
-export type AppliedScopeType = 'Single' | 'Shared';
-
-/**
- * Defines values for InstanceFlexibility.
- * Possible values include: 'On', 'Off'
- * @readonly
- * @enum {string}
- */
-export type InstanceFlexibility = 'On' | 'Off';
-
-/**
- * Defines values for ReservationStatusCode.
- * Possible values include: 'None', 'Pending', 'Active', 'PurchaseError', 'PaymentInstrumentError',
- * 'Split', 'Merged', 'Expired', 'Succeeded'
- * @readonly
- * @enum {string}
- */
-export type ReservationStatusCode = 'None' | 'Pending' | 'Active' | 'PurchaseError' | 'PaymentInstrumentError' | 'Split' | 'Merged' | 'Expired' | 'Succeeded';
-
-/**
- * Defines values for ErrorResponseCode.
- * Possible values include: 'NotSpecified', 'InternalServerError', 'ServerTimeout',
- * 'AuthorizationFailed', 'BadRequest', 'ClientCertificateThumbprintNotSet',
- * 'InvalidRequestContent', 'OperationFailed', 'HttpMethodNotSupported', 'InvalidRequestUri',
- * 'MissingTenantId', 'InvalidTenantId', 'InvalidReservationOrderId', 'InvalidReservationId',
- * 'ReservationIdNotInReservationOrder', 'ReservationOrderNotFound', 'InvalidSubscriptionId',
- * 'InvalidAccessToken', 'InvalidLocationId', 'UnauthenticatedRequestsThrottled',
- * 'InvalidHealthCheckType', 'Forbidden', 'BillingScopeIdCannotBeChanged',
- * 'AppliedScopesNotAssociatedWithCommerceAccount', 'PatchValuesSameAsExisting',
- * 'RoleAssignmentCreationFailed', 'ReservationOrderCreationFailed', 'ReservationOrderNotEnabled',
- * 'CapacityUpdateScopesFailed', 'UnsupportedReservationTerm', 'ReservationOrderIdAlreadyExists',
- * 'RiskCheckFailed', 'CreateQuoteFailed', 'ActivateQuoteFailed', 'NonsupportedAccountId',
- * 'PaymentInstrumentNotFound', 'MissingAppliedScopesForSingle', 'NoValidReservationsToReRate',
- * 'ReRateOnlyAllowedForEA', 'OperationCannotBePerformedInCurrentState',
- * 'InvalidSingleAppliedScopesCount', 'InvalidFulfillmentRequestParameters', 'NotSupportedCountry',
- * 'InvalidRefundQuantity', 'PurchaseError', 'BillingCustomerInputError',
- * 'BillingPaymentInstrumentSoftError', 'BillingPaymentInstrumentHardError',
- * 'BillingTransientError', 'BillingError', 'FulfillmentConfigurationError',
- * 'FulfillmentOutOfStockError', 'FulfillmentTransientError', 'FulfillmentError',
- * 'CalculatePriceFailed'
- * @readonly
- * @enum {string}
- */
-export type ErrorResponseCode = 'NotSpecified' | 'InternalServerError' | 'ServerTimeout' | 'AuthorizationFailed' | 'BadRequest' | 'ClientCertificateThumbprintNotSet' | 'InvalidRequestContent' | 'OperationFailed' | 'HttpMethodNotSupported' | 'InvalidRequestUri' | 'MissingTenantId' | 'InvalidTenantId' | 'InvalidReservationOrderId' | 'InvalidReservationId' | 'ReservationIdNotInReservationOrder' | 'ReservationOrderNotFound' | 'InvalidSubscriptionId' | 'InvalidAccessToken' | 'InvalidLocationId' | 'UnauthenticatedRequestsThrottled' | 'InvalidHealthCheckType' | 'Forbidden' | 'BillingScopeIdCannotBeChanged' | 'AppliedScopesNotAssociatedWithCommerceAccount' | 'PatchValuesSameAsExisting' | 'RoleAssignmentCreationFailed' | 'ReservationOrderCreationFailed' | 'ReservationOrderNotEnabled' | 'CapacityUpdateScopesFailed' | 'UnsupportedReservationTerm' | 'ReservationOrderIdAlreadyExists' | 'RiskCheckFailed' | 'CreateQuoteFailed' | 'ActivateQuoteFailed' | 'NonsupportedAccountId' | 'PaymentInstrumentNotFound' | 'MissingAppliedScopesForSingle' | 'NoValidReservationsToReRate' | 'ReRateOnlyAllowedForEA' | 'OperationCannotBePerformedInCurrentState' | 'InvalidSingleAppliedScopesCount' | 'InvalidFulfillmentRequestParameters' | 'NotSupportedCountry' | 'InvalidRefundQuantity' | 'PurchaseError' | 'BillingCustomerInputError' | 'BillingPaymentInstrumentSoftError' | 'BillingPaymentInstrumentHardError' | 'BillingTransientError' | 'BillingError' | 'FulfillmentConfigurationError' | 'FulfillmentOutOfStockError' | 'FulfillmentTransientError' | 'FulfillmentError' | 'CalculatePriceFailed';
-
-/**
- * Defines values for CalculateExchangeOperationResultStatus.
- * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Pending'
- * @readonly
- * @enum {string}
- */
-export type CalculateExchangeOperationResultStatus = 'Succeeded' | 'Failed' | 'Cancelled' | 'Pending';
-
-/**
- * Defines values for ExchangeOperationResultStatus.
- * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'PendingRefunds',
- * 'PendingPurchases'
- * @readonly
- * @enum {string}
- */
-export type ExchangeOperationResultStatus = 'Succeeded' | 'Failed' | 'Cancelled' | 'PendingRefunds' | 'PendingPurchases';
-
-/**
- * Defines values for OperationStatus.
- * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Pending'
- * @readonly
- * @enum {string}
- */
-export type OperationStatus = 'Succeeded' | 'Failed' | 'Cancelled' | 'Pending';
-
-/**
- * Defines values for PaymentStatus.
- * Possible values include: 'Succeeded', 'Failed', 'Scheduled', 'Cancelled'
- * @readonly
- * @enum {string}
- */
-export type PaymentStatus = 'Succeeded' | 'Failed' | 'Scheduled' | 'Cancelled';
-
-/**
- * Contains response data for the availableScopes operation.
- */
-export type ReservationAvailableScopesResponse = AvailableScopeProperties & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AvailableScopeProperties;
-  };
-};
-
-/**
- * Contains response data for the split operation.
- */
-export type ReservationSplitResponse = Array<ReservationResponse> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationResponse[];
-  };
-};
-
-/**
- * Contains response data for the merge operation.
- */
-export type ReservationMergeResponse = Array<ReservationResponse> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationResponse[];
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ReservationListResponse = ReservationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationList;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ReservationGetResponse = ReservationResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationResponse;
-  };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type ReservationUpdateResponse = ReservationResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationResponse;
-  };
-};
-
-/**
- * Contains response data for the listRevisions operation.
- */
-export type ReservationListRevisionsResponse = ReservationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationList;
-  };
-};
-
-/**
- * Contains response data for the beginAvailableScopes operation.
- */
-export type ReservationBeginAvailableScopesResponse = AvailableScopeProperties & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AvailableScopeProperties;
-  };
-};
-
-/**
- * Contains response data for the beginSplit operation.
- */
-export type ReservationBeginSplitResponse = Array<ReservationResponse> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationResponse[];
-  };
-};
-
-/**
- * Contains response data for the beginMerge operation.
- */
-export type ReservationBeginMergeResponse = Array<ReservationResponse> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationResponse[];
-  };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type ReservationBeginUpdateResponse = ReservationResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationResponse;
-  };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ReservationListNextResponse = ReservationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationList;
-  };
-};
-
-/**
- * Contains response data for the listRevisionsNext operation.
- */
-export type ReservationListRevisionsNextResponse = ReservationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationList;
-  };
-};
-
-/**
- * Contains response data for the getCatalog operation.
- */
-export type GetCatalogResponse = Array<Catalog> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Catalog[];
-  };
-};
-
-/**
- * Contains response data for the getAppliedReservationList operation.
- */
-export type GetAppliedReservationListResponse = AppliedReservations & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AppliedReservations;
-  };
-};
-
-/**
- * Contains response data for the calculate operation.
- */
-export type ReservationOrderCalculateResponse = CalculatePriceResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CalculatePriceResponse;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ReservationOrderListResponse = ReservationOrderList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationOrderList;
-  };
-};
-
-/**
- * Contains response data for the purchase operation.
- */
-export type ReservationOrderPurchaseResponse = ReservationOrderResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationOrderResponse;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ReservationOrderGetResponse = ReservationOrderResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationOrderResponse;
-  };
-};
-
-/**
- * Contains response data for the beginPurchase operation.
- */
-export type ReservationOrderBeginPurchaseResponse = ReservationOrderResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationOrderResponse;
-  };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ReservationOrderListNextResponse = ReservationOrderList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ReservationOrderList;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationListResponse = OperationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationList;
-  };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationListNextResponse = OperationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationList;
-  };
-};
-
-/**
- * Contains response data for the post operation.
- */
-export type CalculateExchangePostResponse = CalculateExchangeOperationResultResponse & CalculateExchangePostHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: CalculateExchangePostHeaders;
-
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CalculateExchangeOperationResultResponse;
-  };
-};
-
-/**
- * Contains response data for the post operation.
- */
-export type ExchangePostResponse = ExchangeOperationResultResponse & ExchangePostHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: ExchangePostHeaders;
-
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ExchangeOperationResultResponse;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type QuotaGetResponse = CurrentQuotaLimitBase & QuotaGetHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: QuotaGetHeaders;
-
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CurrentQuotaLimitBase;
-  };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type QuotaCreateOrUpdateResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type QuotaUpdateResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type QuotaListResponse = QuotaLimits & QuotaListHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: QuotaListHeaders;
-
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: QuotaLimits;
-  };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type QuotaBeginCreateOrUpdateResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type QuotaBeginUpdateResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type QuotaRequestStatusGetResponse = QuotaRequestDetails & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: QuotaRequestDetails;
-  };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type QuotaRequestStatusListResponse = QuotaRequestDetailsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: QuotaRequestDetailsList;
-  };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type QuotaRequestStatusListNextResponse = QuotaRequestDetailsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: QuotaRequestDetailsList;
-  };
-};

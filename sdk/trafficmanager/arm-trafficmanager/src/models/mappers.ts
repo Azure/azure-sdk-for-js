@@ -6,31 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export const CloudError = CloudErrorMapper;
-export const BaseResource = BaseResourceMapper;
-
-export const DeleteOperationResult: msRest.CompositeMapper = {
-  serializedName: "DeleteOperationResult",
-  type: {
-    name: "Composite",
-    className: "DeleteOperationResult",
-    modelProperties: {
-      operationResult: {
-        readOnly: true,
-        serializedName: "boolean",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const EndpointPropertiesSubnetsItem: msRest.CompositeMapper = {
-  serializedName: "EndpointProperties_subnetsItem",
+export const EndpointPropertiesSubnetsItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EndpointPropertiesSubnetsItem",
@@ -57,8 +35,7 @@ export const EndpointPropertiesSubnetsItem: msRest.CompositeMapper = {
   }
 };
 
-export const EndpointPropertiesCustomHeadersItem: msRest.CompositeMapper = {
-  serializedName: "EndpointProperties_customHeadersItem",
+export const EndpointPropertiesCustomHeadersItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EndpointPropertiesCustomHeadersItem",
@@ -79,8 +56,364 @@ export const EndpointPropertiesCustomHeadersItem: msRest.CompositeMapper = {
   }
 };
 
-export const HeatMapEndpoint: msRest.CompositeMapper = {
-  serializedName: "HeatMapEndpoint",
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CloudError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudError",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudErrorBody"
+        }
+      }
+    }
+  }
+};
+
+export const CloudErrorBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudErrorBody",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CloudErrorBody"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeleteOperationResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteOperationResult",
+    modelProperties: {
+      operationResult: {
+        serializedName: "boolean",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const CheckTrafficManagerRelativeDnsNameAvailabilityParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CheckTrafficManagerRelativeDnsNameAvailabilityParameters",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TrafficManagerNameAvailability: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrafficManagerNameAvailability",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      nameAvailable: {
+        serializedName: "nameAvailable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reason: {
+        serializedName: "reason",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProfileListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProfileListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Profile"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DnsConfig: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DnsConfig",
+    modelProperties: {
+      relativeName: {
+        serializedName: "relativeName",
+        type: {
+          name: "String"
+        }
+      },
+      fqdn: {
+        serializedName: "fqdn",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      ttl: {
+        serializedName: "ttl",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const MonitorConfig: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitorConfig",
+    modelProperties: {
+      profileMonitorStatus: {
+        serializedName: "profileMonitorStatus",
+        type: {
+          name: "String"
+        }
+      },
+      protocol: {
+        serializedName: "protocol",
+        type: {
+          name: "String"
+        }
+      },
+      port: {
+        serializedName: "port",
+        type: {
+          name: "Number"
+        }
+      },
+      path: {
+        serializedName: "path",
+        type: {
+          name: "String"
+        }
+      },
+      intervalInSeconds: {
+        serializedName: "intervalInSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      timeoutInSeconds: {
+        serializedName: "timeoutInSeconds",
+        type: {
+          name: "Number"
+        }
+      },
+      toleratedNumberOfFailures: {
+        serializedName: "toleratedNumberOfFailures",
+        type: {
+          name: "Number"
+        }
+      },
+      customHeaders: {
+        serializedName: "customHeaders",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MonitorConfigCustomHeadersItem"
+            }
+          }
+        }
+      },
+      expectedStatusCodeRanges: {
+        serializedName: "expectedStatusCodeRanges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MonitorConfigExpectedStatusCodeRangesItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MonitorConfigCustomHeadersItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitorConfigCustomHeadersItem",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MonitorConfigExpectedStatusCodeRangesItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitorConfigExpectedStatusCodeRangesItem",
+    modelProperties: {
+      min: {
+        serializedName: "min",
+        type: {
+          name: "Number"
+        }
+      },
+      max: {
+        serializedName: "max",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const Region: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Region",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      regions: {
+        serializedName: "regions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Region"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const HeatMapEndpoint: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "HeatMapEndpoint",
@@ -101,38 +434,7 @@ export const HeatMapEndpoint: msRest.CompositeMapper = {
   }
 };
 
-export const QueryExperience: msRest.CompositeMapper = {
-  serializedName: "QueryExperience",
-  type: {
-    name: "Composite",
-    className: "QueryExperience",
-    modelProperties: {
-      endpointId: {
-        required: true,
-        serializedName: "endpointId",
-        type: {
-          name: "Number"
-        }
-      },
-      queryCount: {
-        required: true,
-        serializedName: "queryCount",
-        type: {
-          name: "Number"
-        }
-      },
-      latency: {
-        serializedName: "latency",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const TrafficFlow: msRest.CompositeMapper = {
-  serializedName: "TrafficFlow",
+export const TrafficFlow: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TrafficFlow",
@@ -171,36 +473,36 @@ export const TrafficFlow: msRest.CompositeMapper = {
   }
 };
 
-export const Resource: msRest.CompositeMapper = {
-  serializedName: "Resource",
+export const QueryExperience: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Resource",
+    className: "QueryExperience",
     modelProperties: {
-      id: {
-        serializedName: "id",
+      endpointId: {
+        serializedName: "endpointId",
+        required: true,
         type: {
-          name: "String"
+          name: "Number"
         }
       },
-      name: {
-        serializedName: "name",
+      queryCount: {
+        serializedName: "queryCount",
+        required: true,
         type: {
-          name: "String"
+          name: "Number"
         }
       },
-      type: {
-        serializedName: "type",
+      latency: {
+        serializedName: "latency",
         type: {
-          name: "String"
+          name: "Number"
         }
       }
     }
   }
 };
 
-export const ProxyResource: msRest.CompositeMapper = {
-  serializedName: "ProxyResource",
+export const ProxyResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ProxyResource",
@@ -210,62 +512,21 @@ export const ProxyResource: msRest.CompositeMapper = {
   }
 };
 
-export const HeatMapModel: msRest.CompositeMapper = {
-  serializedName: "HeatMapModel",
+export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "HeatMapModel",
+    className: "TrackedResource",
     modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      startTime: {
-        serializedName: "properties.startTime",
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
         type: {
-          name: "DateTime"
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
-      endTime: {
-        serializedName: "properties.endTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      endpoints: {
-        serializedName: "properties.endpoints",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "HeatMapEndpoint"
-            }
-          }
-        }
-      },
-      trafficFlows: {
-        serializedName: "properties.trafficFlows",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TrafficFlow"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const UserMetricsModel: msRest.CompositeMapper = {
-  serializedName: "UserMetricsModel",
-  type: {
-    name: "Composite",
-    className: "UserMetricsModel",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      key: {
-        serializedName: "properties.key",
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }
@@ -274,8 +535,7 @@ export const UserMetricsModel: msRest.CompositeMapper = {
   }
 };
 
-export const Endpoint: msRest.CompositeMapper = {
-  serializedName: "Endpoint",
+export const Endpoint: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Endpoint",
@@ -380,169 +640,61 @@ export const Endpoint: msRest.CompositeMapper = {
   }
 };
 
-export const CheckTrafficManagerRelativeDnsNameAvailabilityParameters: msRest.CompositeMapper = {
-  serializedName: "CheckTrafficManagerRelativeDnsNameAvailabilityParameters",
+export const TrafficManagerGeographicHierarchy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CheckTrafficManagerRelativeDnsNameAvailabilityParameters",
+    className: "TrafficManagerGeographicHierarchy",
     modelProperties: {
-      name: {
-        serializedName: "name",
+      ...ProxyResource.type.modelProperties,
+      geographicHierarchy: {
+        serializedName: "properties.geographicHierarchy",
         type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
+          name: "Composite",
+          className: "Region"
         }
       }
     }
   }
 };
 
-export const DnsConfig: msRest.CompositeMapper = {
-  serializedName: "DnsConfig",
+export const HeatMapModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DnsConfig",
+    className: "HeatMapModel",
     modelProperties: {
-      relativeName: {
-        serializedName: "relativeName",
+      ...ProxyResource.type.modelProperties,
+      startTime: {
+        serializedName: "properties.startTime",
         type: {
-          name: "String"
+          name: "DateTime"
         }
       },
-      fqdn: {
-        readOnly: true,
-        serializedName: "fqdn",
+      endTime: {
+        serializedName: "properties.endTime",
         type: {
-          name: "String"
+          name: "DateTime"
         }
       },
-      ttl: {
-        serializedName: "ttl",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const MonitorConfigCustomHeadersItem: msRest.CompositeMapper = {
-  serializedName: "MonitorConfig_customHeadersItem",
-  type: {
-    name: "Composite",
-    className: "MonitorConfigCustomHeadersItem",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MonitorConfigExpectedStatusCodeRangesItem: msRest.CompositeMapper = {
-  serializedName: "MonitorConfig_expectedStatusCodeRangesItem",
-  type: {
-    name: "Composite",
-    className: "MonitorConfigExpectedStatusCodeRangesItem",
-    modelProperties: {
-      min: {
-        serializedName: "min",
-        type: {
-          name: "Number"
-        }
-      },
-      max: {
-        serializedName: "max",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const MonitorConfig: msRest.CompositeMapper = {
-  serializedName: "MonitorConfig",
-  type: {
-    name: "Composite",
-    className: "MonitorConfig",
-    modelProperties: {
-      profileMonitorStatus: {
-        serializedName: "profileMonitorStatus",
-        type: {
-          name: "String"
-        }
-      },
-      protocol: {
-        serializedName: "protocol",
-        type: {
-          name: "String"
-        }
-      },
-      port: {
-        serializedName: "port",
-        type: {
-          name: "Number"
-        }
-      },
-      path: {
-        serializedName: "path",
-        type: {
-          name: "String"
-        }
-      },
-      intervalInSeconds: {
-        serializedName: "intervalInSeconds",
-        type: {
-          name: "Number"
-        }
-      },
-      timeoutInSeconds: {
-        serializedName: "timeoutInSeconds",
-        type: {
-          name: "Number"
-        }
-      },
-      toleratedNumberOfFailures: {
-        serializedName: "toleratedNumberOfFailures",
-        type: {
-          name: "Number"
-        }
-      },
-      customHeaders: {
-        serializedName: "customHeaders",
+      endpoints: {
+        serializedName: "properties.endpoints",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "MonitorConfigCustomHeadersItem"
+              className: "HeatMapEndpoint"
             }
           }
         }
       },
-      expectedStatusCodeRanges: {
-        serializedName: "expectedStatusCodeRanges",
+      trafficFlows: {
+        serializedName: "properties.trafficFlows",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "MonitorConfigExpectedStatusCodeRangesItem"
+              className: "TrafficFlow"
             }
           }
         }
@@ -551,26 +703,14 @@ export const MonitorConfig: msRest.CompositeMapper = {
   }
 };
 
-export const TrackedResource: msRest.CompositeMapper = {
-  serializedName: "TrackedResource",
+export const UserMetricsModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TrackedResource",
+    className: "UserMetricsModel",
     modelProperties: {
-      ...Resource.type.modelProperties,
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      location: {
-        serializedName: "location",
+      ...ProxyResource.type.modelProperties,
+      key: {
+        serializedName: "properties.key",
         type: {
           name: "String"
         }
@@ -579,8 +719,7 @@ export const TrackedResource: msRest.CompositeMapper = {
   }
 };
 
-export const Profile: msRest.CompositeMapper = {
-  serializedName: "Profile",
+export const Profile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Profile",
@@ -645,120 +784,6 @@ export const Profile: msRest.CompositeMapper = {
         serializedName: "properties.maxReturn",
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const TrafficManagerNameAvailability: msRest.CompositeMapper = {
-  serializedName: "TrafficManagerNameAvailability",
-  type: {
-    name: "Composite",
-    className: "TrafficManagerNameAvailability",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      nameAvailable: {
-        serializedName: "nameAvailable",
-        type: {
-          name: "Boolean"
-        }
-      },
-      reason: {
-        serializedName: "reason",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Region: msRest.CompositeMapper = {
-  serializedName: "Region",
-  type: {
-    name: "Composite",
-    className: "Region",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      regions: {
-        serializedName: "regions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Region"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const TrafficManagerGeographicHierarchy: msRest.CompositeMapper = {
-  serializedName: "TrafficManagerGeographicHierarchy",
-  type: {
-    name: "Composite",
-    className: "TrafficManagerGeographicHierarchy",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      geographicHierarchy: {
-        serializedName: "properties.geographicHierarchy",
-        type: {
-          name: "Composite",
-          className: "Region"
-        }
-      }
-    }
-  }
-};
-
-export const ProfileListResult: msRest.CompositeMapper = {
-  serializedName: "ProfileListResult",
-  type: {
-    name: "Composite",
-    className: "ProfileListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Profile"
-            }
-          }
         }
       }
     }
