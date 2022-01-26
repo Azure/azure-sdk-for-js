@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of SchemaRegistryAvroEncoder to create messages with avro-encoded payload using schema from Schema Registry.
+ * @summary Demonstrates the use of SchemaRegistryAvroEncoder to create messages with avro-encoded payload using schema from Schema Registry and send them to an Event Hub using the EventHub Buffered Producer Client.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
 import { SchemaRegistryAvroEncoder } from "@azure/schema-registry-avro";
+import { EventHubBufferedProducerClient, createEventDataAdapter } from "@azure/event-hubs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -19,6 +20,9 @@ const schemaRegistryFullyQualifiedNamespace =
 
 // The schema group to use for schema registeration or lookup
 const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
+
+// The connection string for Event Hubs
+const eventHubsConnectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 
 // Sample Avro Schema for user with first and last names
 const schemaObject = {
@@ -53,9 +57,13 @@ const schemaDescription: SchemaDescription = {
   definition: schema,
 };
 
+async function handleError(): Promise<void> {
+  console.log("An error occured when sending a message");
+}
+
 export async function main() {
   // Create a new client
-  const client = new SchemaRegistryClient(
+  const schemaRegistryClient = new SchemaRegistryClient(
     schemaRegistryFullyQualifiedNamespace,
     new DefaultAzureCredential()
   );
@@ -63,21 +71,35 @@ export async function main() {
   // Register the schema. This would generally have been done somewhere else.
   // You can also skip this step and let `encodeMessageData` automatically register
   // schemas using autoRegisterSchemas=true, but that is NOT recommended in production.
-  await client.registerSchema(schemaDescription);
+  await schemaRegistryClient.registerSchema(schemaDescription);
 
   // Create a new encoder backed by the client
-  const encoder = new SchemaRegistryAvroEncoder(client, { groupName });
+  const encoder = new SchemaRegistryAvroEncoder(schemaRegistryClient, {
+    groupName,
+    messageAdapter: createEventDataAdapter(),
+  });
 
-  // encode an object that matches the schema and put it in a message
+  const eventHubsBufferedProducerClient = new EventHubBufferedProducerClient(
+    eventHubsConnectionString,
+    {
+      onSendEventsErrorHandler: handleError,
+    }
+  );
+
+  // encode an object that matches the schema
   const value: User = { firstName: "Jane", lastName: "Doe" };
   const message = await encoder.encodeMessageData(value, schema);
   console.log("Created message:");
-  console.log(JSON.stringify(message));
+  console.log(message);
 
-  // decode the message back to an object
-  const decodedObject = await encoder.decodeMessageData(message);
-  console.log("Decoded object:");
-  console.log(JSON.stringify(decodedObject as User));
+  await eventHubsBufferedProducerClient.enqueueEvent(message);
+  console.log(`Message was added to the queue and is about to be sent`);
+
+  // Wait for a bit before cleaning up the sample
+  setTimeout(async () => {
+    await eventHubsBufferedProducerClient.close({ flush: true });
+    console.log(`Exiting sample`);
+  }, 30 * 1000);
 }
 
 main().catch((err) => {
