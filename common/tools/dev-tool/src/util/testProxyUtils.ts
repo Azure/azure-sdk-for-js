@@ -5,6 +5,7 @@ import { spawn } from "child_process";
 import path from "path";
 import { IncomingMessage, request, RequestOptions } from "http";
 import fs from "fs-extra";
+import os from "os";
 import { createPrinter } from "./printer";
 import { resolveRoot } from "./resolveProject";
 
@@ -25,6 +26,25 @@ export async function startProxyTool(): Promise<void> {
   subprocess.stderr.pipe(out);
 
   log.info(`Check the output file "${outFileName}" for test-proxy logs.`);
+
+  await new Promise<void>((resolve, reject) => {
+    subprocess.on("exit", (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        fs.readFile(`./${outFileName}`, (_err, data) => {
+          const lines = data.toString().split(os.EOL);
+          reject(
+            new Error(
+              `Could not start test proxy. Below is the last 10 lines of output. See ${outFileName} for the full output.\n${lines
+                .slice(-10)
+                .join("\n")}`
+            )
+          );
+        });
+      }
+    });
+  });
 }
 
 export async function stopProxyTool(): Promise<void> {

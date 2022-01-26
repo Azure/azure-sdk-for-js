@@ -16,8 +16,8 @@ import {
   Session,
   generate_uuid,
 } from "rhea-promise";
-import { logErrorStackTrace, logger } from "./log";
 import { Constants, StandardAbortMessage } from "./util/constants";
+import { logErrorStackTrace, logger } from "./log";
 import { isDefined } from "./util/typeGuards";
 
 /**

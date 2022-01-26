@@ -285,7 +285,7 @@ describe("TestProxyClient functions", () => {
       );
       expect(returnedRequest.url).to.equal(initialRequest.url);
       expect(returnedRequest.method).to.equal("POST");
-      expect(returnedRequest.headers.get("x-recording-file")).not.to.be.undefined;
+      expect(returnedRequest.body).not.to.be.undefined;
       expect(returnedRequest.headers.get("x-recording-id")).to.equal(client.recordingId);
       expect(returnedRequest.url).to.equal(initialRequest.url);
     });

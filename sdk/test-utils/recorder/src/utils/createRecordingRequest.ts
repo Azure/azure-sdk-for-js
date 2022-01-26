@@ -16,7 +16,7 @@ export function createRecordingRequest(
   const req = createPipelineRequest({ url: url, method });
 
   if (sessionFile !== undefined) {
-    req.headers.set("x-recording-file", sessionFile);
+    req.body = JSON.stringify({ "x-recording-file": sessionFile });
   }
 
   if (recordingId !== undefined) {

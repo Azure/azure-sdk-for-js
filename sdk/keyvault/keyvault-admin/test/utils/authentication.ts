@@ -5,12 +5,16 @@ import { ClientSecretCredential } from "@azure/identity";
 import { env, isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuidv4 } from "uuid";
+import { Context } from "mocha";
 
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
 import { uniqueString } from "./recorder";
-import { getEnvironmentVariable } from "./common";
+import { getEnvironmentVariable, getServiceVersion } from "./common";
 
-export async function authenticate(that: any): Promise<any> {
+export async function authenticate(
+  that: Context,
+  serviceVersion: ReturnType<typeof getServiceVersion>
+): Promise<any> {
   const generatedUUIDs: string[] = [];
   function generateFakeUUID(): string {
     if (isPlaybackMode()) {
@@ -69,9 +73,11 @@ export async function authenticate(that: any): Promise<any> {
 
   const keyVaultHsmUrl = getEnvironmentVariable("AZURE_MANAGEDHSM_URI");
 
-  const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential);
-  const keyClient = new KeyClient(keyVaultHsmUrl, credential);
-  const backupClient = new KeyVaultBackupClient(keyVaultHsmUrl, credential);
+  const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential, {
+    serviceVersion,
+  });
+  const keyClient = new KeyClient(keyVaultHsmUrl, credential, { serviceVersion });
+  const backupClient = new KeyVaultBackupClient(keyVaultHsmUrl, credential, { serviceVersion });
 
   return { recorder, accessControlClient, backupClient, keyClient, suffix, generateFakeUUID };
 }

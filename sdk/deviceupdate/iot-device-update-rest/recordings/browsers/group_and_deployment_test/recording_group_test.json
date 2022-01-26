@@ -1,0 +1,308 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/groups?api-version=2021-06-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "15405d0d-28e6-4c8e-aef3-f68c1bfe5181",
+        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "1076",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 20 Jan 2022 11:49:01 GMT",
+        "traceparent": "00-5a1a4cba1311f491ab650a00ca67a01e-5dac523af5d8973e-00"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "deploymentId": "test20211117112017",
+            "groupId": "testgroup",
+            "tags": [
+              "testgroup"
+            ],
+            "createdDateTime": "2021-11-16T00:49:25.141\u002B00:00",
+            "groupType": "DeviceClassIdAndIoTHubTag",
+            "deviceCount": 1,
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1"
+          },
+          {
+            "deploymentId": "test1118014304",
+            "groupId": "dpokluda-edgevm",
+            "tags": [
+              "dpokluda-edgevm"
+            ],
+            "createdDateTime": "2021-11-17T22:57:28.78\u002B00:00",
+            "groupType": "DeviceClassIdAndIoTHubTag",
+            "deviceCount": 0,
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1"
+          },
+          {
+            "deploymentId": "dpokluda-test-2022-113-1741-7-0114014318",
+            "groupId": "dpokluda-test",
+            "tags": [
+              "dpokluda-test"
+            ],
+            "createdDateTime": "2022-01-12T01:10:50.868\u002B00:00",
+            "groupType": "DeviceClassIdAndIoTHubTag",
+            "deviceCount": 1,
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1"
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/groups/joegroup?api-version=2021-06-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "195",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "01874daa-ac05-4801-8b01-13debeb6e841",
+        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "groupId": "joegroup",
+        "tags": [
+          "joegroup"
+        ],
+        "createdDateTime": "2021-11-17T16:29:56.5770502\u002B00:00",
+        "groupType": "DeviceClassIdAndIoTHubTag",
+        "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "253",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 20 Jan 2022 11:49:01 GMT",
+        "traceparent": "00-e7c960366a883d09179ff671eafb701a-04fa741d865eb8bf-00"
+      },
+      "ResponseBody": {
+        "groupId": "joegroup",
+        "tags": [
+          "joegroup"
+        ],
+        "createdDateTime": "2021-11-17T16:29:56.5770502\u002B00:00",
+        "groupType": "DeviceClassIdAndIoTHubTag",
+        "deviceCount": 1,
+        "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/groups/joegroup?api-version=2021-06-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "d38ddd08-47fe-4a8b-bf07-db247fdea91d",
+        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "253",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 20 Jan 2022 11:49:02 GMT",
+        "traceparent": "00-d21d53d544e6b390e592a4cc697e8a40-ea7d55642b2550f0-00"
+      },
+      "ResponseBody": {
+        "groupId": "joegroup",
+        "tags": [
+          "joegroup"
+        ],
+        "createdDateTime": "2021-11-17T16:29:56.5770502\u002B00:00",
+        "groupType": "DeviceClassIdAndIoTHubTag",
+        "deviceCount": 1,
+        "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/groups/joegroup/deployments/testdeployment1?api-version=2021-06-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "181",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "f24fb572-c8e7-470a-bb94-424dfbe896ba",
+        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "deploymentId": "testdeployment1",
+        "startDateTime": "2021-09-02T16:29:56.5770502Z",
+        "groupId": "joegroup",
+        "updateId": {
+          "provider": "fabrikam",
+          "name": "vacuum",
+          "version": "2022.113.1741.7"
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "278",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 20 Jan 2022 11:49:02 GMT",
+        "traceparent": "00-0845c6d3adf7bdd84cfe4ff680a5ab27-424933c4abdcf2fd-00"
+      },
+      "ResponseBody": {
+        "deploymentId": "testdeployment1",
+        "startDateTime": "2021-09-02T16:29:56.5770502\u002B00:00",
+        "updateId": {
+          "provider": "fabrikam",
+          "name": "vacuum",
+          "version": "2022.113.1741.7"
+        },
+        "isCanceled": false,
+        "isRetry": false,
+        "groupId": "joegroup"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/groups/joegroup/deployments/testdeployment1?api-version=2021-06-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "db539b41-2ef5-4b87-ba66-9631cbc86cf5",
+        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "278",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 20 Jan 2022 11:49:02 GMT",
+        "traceparent": "00-41c50bfa8c00d172c437e69cfa25124f-6d7fb6189baac47b-00"
+      },
+      "ResponseBody": {
+        "deploymentId": "testdeployment1",
+        "startDateTime": "2021-09-02T16:29:56.5770502\u002B00:00",
+        "updateId": {
+          "provider": "fabrikam",
+          "name": "vacuum",
+          "version": "2022.113.1741.7"
+        },
+        "isCanceled": false,
+        "isRetry": false,
+        "groupId": "joegroup"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/groups/joegroup/deployments/testdeployment1?api-version=2021-06-01-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "b91d7daf-c851-4cc6-98db-70fb662a6a99",
+        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Date": "Thu, 20 Jan 2022 11:49:03 GMT",
+        "traceparent": "00-8121e831e08523bfd863b58289421cad-7f5e8112266e7304-00"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/groups/joegroup?api-version=2021-06-01-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "4e1ffbc0-2310-44b2-98a2-e407ef0b0862",
+        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Date": "Thu, 20 Jan 2022 11:49:03 GMT",
+        "traceparent": "00-8966f7228366cad0df81d91bdb827da5-82c9970c3c099838-00"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

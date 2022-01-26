@@ -4,6 +4,7 @@
 
 ### Other Changes
 
+- Fix root version node handling difference with fxp v3. [#20035](https://github.com/Azure/azure-sdk-for-js/pull/20035)
 - Upgrade to `fast-xml-parser` to v4 [PR# 19898](https://github.com/Azure/azure-sdk-for-js/pull/19898)
 
 ## 1.1.0 (2022-01-06)

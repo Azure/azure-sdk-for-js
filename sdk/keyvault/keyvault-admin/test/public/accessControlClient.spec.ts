@@ -15,6 +15,7 @@ import {
 } from "../../src";
 import { authenticate } from "../utils/authentication";
 import { supportsTracing } from "../utils/supportsTracing";
+import { getServiceVersion } from "../utils/common";
 
 describe("KeyVaultAccessControlClient", () => {
   let client: KeyVaultAccessControlClient;
@@ -23,7 +24,7 @@ describe("KeyVaultAccessControlClient", () => {
   const globalScope = "/";
 
   beforeEach(async function () {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     client = authentication.accessControlClient;
     recorder = authentication.recorder;
     generateFakeUUID = authentication.generateFakeUUID;

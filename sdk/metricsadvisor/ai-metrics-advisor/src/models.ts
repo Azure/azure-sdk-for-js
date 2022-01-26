@@ -13,7 +13,7 @@ import {
   IngestionStatusType,
   EntityStatus as DataFeedDetailStatus,
 } from "./generated/models";
-
+import { FullOperationResponse } from "@azure/core-client";
 export {
   Severity,
   SeverityCondition,
@@ -185,6 +185,19 @@ export type DataFeedGranularity =
       granularityType: "Custom";
       customGranularityValue: number;
     };
+/**
+ * The flattened response to a REST call.
+ * Contains the underlying HttpOperationResponse as well as
+ * the merged properties of the parsedBody, parsedHeaders, etc.
+ */
+export interface RestResponse {
+  /**
+   * The underlying HTTP response containing both raw and deserialized response data.
+   */
+  _response: FullOperationResponse;
+
+  [key: string]: any;
+}
 
 /** DataFeed Status */
 export type DataFeedStatus = "Paused" | "Active";
