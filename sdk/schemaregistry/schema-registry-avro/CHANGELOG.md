@@ -4,7 +4,13 @@
 
 ### Features Added
 
+- The serializer APIs have been revamped to work on messages instead of buffers where the payload is the pure encoded-data. The schema ID became part of the content type of that message. This change will improve the experience of using this encoder with the other messaging clients (e.g. Event Hubs, Service Bus, and Event Grid clients).
+- `decodeMessageData` now supports decoding using a different but compatible schema
+
 ### Breaking Changes
+- The `SchemaRegistryAvroSerializer` class has been renamed to `SchemaRegistryAvroEncoder`
+- The `serialize` method has been renamed to `encodeMessageData` and it now returns a message
+- The `deserialize` method has been renamed to `decodeMessageData` and it now takes a message as input
 
 ### Bugs Fixed
 

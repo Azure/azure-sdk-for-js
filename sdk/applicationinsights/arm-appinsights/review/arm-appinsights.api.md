@@ -150,8 +150,10 @@ export type APIKeysListResponse = ApplicationInsightsComponentAPIKeyListResult;
 // @public
 export type ApplicationInsightsComponent = ComponentsResource & {
     kind: string;
+    etag?: string;
     readonly applicationId?: string;
     readonly appId?: string;
+    readonly namePropertiesName?: string;
     applicationType?: ApplicationType;
     flowType?: FlowType;
     requestSource?: RequestSource;
@@ -166,10 +168,14 @@ export type ApplicationInsightsComponent = ComponentsResource & {
     retentionInDays?: number;
     disableIpMasking?: boolean;
     immediatePurgeDataOn30Days?: boolean;
+    workspaceResourceId?: string;
+    readonly laMigrationDate?: Date;
     readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
     publicNetworkAccessForIngestion?: PublicNetworkAccessType;
     publicNetworkAccessForQuery?: PublicNetworkAccessType;
     ingestionMode?: IngestionMode;
+    disableLocalAuth?: boolean;
+    forceCustomerStorageForProfiler?: boolean;
 };
 
 // @public
@@ -392,8 +398,6 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
     liveToken: LiveToken;
     // (undocumented)
     myWorkbooks: MyWorkbooks;
-    // (undocumented)
-    operations: Operations;
     // (undocumented)
     proactiveDetectionConfigurations: ProactiveDetectionConfigurations;
     // (undocumented)
@@ -654,6 +658,17 @@ export interface ErrorDefinition {
 export interface ErrorResponse {
     code?: string;
     message?: string;
+}
+
+// @public (undocumented)
+export interface ErrorResponseComponents {
+    error?: ErrorResponseComponentsError;
+}
+
+// @public
+export interface ErrorResponseComponentsError {
+    readonly code?: string;
+    readonly message?: string;
 }
 
 // @public (undocumented)
@@ -1158,29 +1173,11 @@ export interface OperationListResult {
 // @public
 export interface OperationLive {
     display?: OperationInfo;
+    isDataAction?: boolean;
     name?: string;
     origin?: string;
     properties?: Record<string, unknown>;
 }
-
-// @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationLive>;
-}
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationsListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationsListResult;
 
 // @public
 export interface OperationsListResult {

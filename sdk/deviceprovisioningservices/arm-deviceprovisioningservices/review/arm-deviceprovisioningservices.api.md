@@ -53,8 +53,12 @@ export interface CertificateResponse {
     readonly id?: string;
     readonly name?: string;
     properties?: CertificateProperties;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface DpsCertificate {
@@ -190,6 +194,7 @@ export interface IotDpsPropertiesDescription {
     allocationPolicy?: AllocationPolicy;
     authorizationPolicies?: SharedAccessSignatureAuthorizationRuleAccessRightsDescription[];
     readonly deviceProvisioningHostName?: string;
+    enableDataResidency?: boolean;
     readonly idScope?: string;
     iotHubs?: IotHubDefinitionDescription[];
     ipFilterRules?: IpFilterRule[];
@@ -459,6 +464,18 @@ export enum KnownCertificatePurpose {
 }
 
 // @public
+export enum KnownCreatedByType {
+    // (undocumented)
+    Application = "Application",
+    // (undocumented)
+    Key = "Key",
+    // (undocumented)
+    ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
+    User = "User"
+}
+
+// @public
 export enum KnownIotDpsSku {
     // (undocumented)
     S1 = "S1"
@@ -583,6 +600,7 @@ export interface PrivateEndpointConnection {
     readonly id?: string;
     readonly name?: string;
     properties: PrivateEndpointConnectionProperties;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -612,6 +630,7 @@ export type ProvisioningServiceDescription = Resource & {
     etag?: string;
     properties: IotDpsPropertiesDescription;
     sku: IotDpsSkuInfo;
+    readonly systemData?: SystemData;
 };
 
 // @public
@@ -650,6 +669,16 @@ export interface SharedAccessSignatureAuthorizationRuleListResult {
 
 // @public
 export type State = string;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export interface TagsResource {
