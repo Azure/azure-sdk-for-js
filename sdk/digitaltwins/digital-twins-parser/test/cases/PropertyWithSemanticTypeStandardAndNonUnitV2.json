@@ -1,0 +1,28 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:aProperty;1",
+      "@type": [
+        "Property",
+        "Velocity"
+      ],
+      "name": "expectedSpeed",
+      "schema": "double",
+      "unit": "double"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:badType",
+        "PrimaryID": "dtmi:test:aProperty;1",
+        "SecondaryID": "dtmi:dtdl:instance:Schema:double;2",
+        "Property": "dtmi:dtdl:property:unit;2",
+        "Value": "VelocityUnit"
+      }
+    ]
+  }
+}

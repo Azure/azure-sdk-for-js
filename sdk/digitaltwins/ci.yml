@@ -29,3 +29,5 @@ extends:
         safeName: azuredigitaltwinscore
       - name: azure-arm-digitaltwins
         safeName: azurearmdigitaltwins
+      - name: azure-digital-twins-parser
+        safeName: azuredigitaltwinsparser

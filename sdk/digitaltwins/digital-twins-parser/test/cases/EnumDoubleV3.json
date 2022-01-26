@@ -1,0 +1,42 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:doubleEnum;1",
+      "@type": "Enum",
+      "valueSchema": "double",
+      "enumValues": [
+        {
+          "name": "near",
+          "enumValue": 1
+        },
+        {
+          "name": "far",
+          "enumValue": 2
+        }
+      ],
+      "displayName": {
+        "en": "Distance",
+        "es": "Distancia"
+      },
+      "description": {
+        "en": "how close",
+        "es": "lo cerca que"
+      },
+      "comment": "How close is it?"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:incorrectPropertyValue",
+        "PrimaryID": "dtmi:test:doubleEnum;1",
+        "SecondaryID": null,
+        "Property": "valueSchema",
+        "Value": "double"
+      }
+    ]
+  }
+}

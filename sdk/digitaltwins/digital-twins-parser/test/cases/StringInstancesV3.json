@@ -1,0 +1,75 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:stringArray;1",
+      "@type": "Array",
+      "elementSchema": "string"
+    }
+  ],
+  "expect": {},
+  "instances": [
+    {
+      "subject": "dtmi:dtdl:instance:Schema:string;3",
+      "conforms": true,
+      "submit": "\"hello\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:string;3",
+      "conforms": true,
+      "submit": "\"\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:string;3",
+      "conforms": false,
+      "submit": ""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:string;3",
+      "conforms": false,
+      "submit": "true"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:string;3",
+      "conforms": false,
+      "submit": "1"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:string;3",
+      "conforms": false,
+      "submit": "null"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:string;3",
+      "conforms": false,
+      "submit": "[ \"hello\" ]"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:string;3",
+      "conforms": false,
+      "submit": "{ \"value\": \"hello\" }"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:string;3",
+      "conforms": false,
+      "submit": "$$"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:string;3",
+      "conforms": false,
+      "submit": "[ \"hi\": \"there\" ]"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:string;3",
+      "conforms": false,
+      "submit": "{ \"hello\" }"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:string;3",
+      "conforms": false,
+      "submit": "{ 23 ]"
+    }
+  ]
+}

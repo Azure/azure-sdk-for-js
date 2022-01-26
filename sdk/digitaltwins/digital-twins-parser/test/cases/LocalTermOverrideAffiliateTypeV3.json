@@ -1,0 +1,31 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;3",
+        "dtmi:iotcentral:context;3",
+        {
+          "Location": "dtmi:standard:class:Area;3"
+        }
+      ],
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": [ "Telemetry", "Location" ],
+      "name": "place",
+      "schema": "double",
+      "unit": "squareFoot"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:disallowedLocalContext",
+        "PrimaryID": null,
+        "SecondaryID": null,
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}
