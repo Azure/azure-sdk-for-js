@@ -18,38 +18,11 @@ import {
   WebPubSubEventHandlerOptions,
 } from "./cloudEventsProtocols";
 
-enum DataType {
-  None,
-  Binary,
-  Json,
-  Text,
-}
-
 enum EventType {
   Connect,
   Connected,
   Disconnected,
   UserEvent,
-}
-
-function getDataType(request: IncomingMessage): DataType {
-  const contentTypeheader = utils.getHttpHeader(request, "content-type");
-  if (contentTypeheader === undefined) {
-    return DataType.None;
-  }
-
-  const contentType = contentTypeheader.split(";")[0].trim();
-  if (contentType === "application/json") {
-    return DataType.Json;
-  }
-  if (contentType === "application/octet-stream") {
-    return DataType.Binary;
-  }
-  if (contentType === "text/plain") {
-    return DataType.Text;
-  }
-
-  return DataType.None;
 }
 
 function getConnectResponseHandler(
@@ -167,6 +140,51 @@ function isWebPubSubRequest(req: IncomingMessage): boolean {
   return utils.getHttpHeader(req, "ce-awpsversion") !== undefined;
 }
 
+async function readUserEventRequest(
+  request: IncomingMessage,
+  origin: string
+): Promise<UserEventRequest | undefined> {
+  const contentTypeheader = utils.getHttpHeader(request, "content-type");
+  if (contentTypeheader === undefined) {
+    return undefined;
+  }
+
+  const contentType = contentTypeheader.split(";")[0].trim();
+
+  switch (contentType) {
+    case "application/octet-stream":
+      return {
+        context: getContext(request, origin),
+        data: await utils.readRequestBody(request),
+        dataType: "binary",
+      };
+    case "application/json":
+      return {
+        context: getContext(request, origin),
+        data: JSON.parse((await utils.readRequestBody(request)).toString()),
+        dataType: "json",
+      };
+    case "text/plain":
+      return {
+        context: getContext(request, origin),
+        data: (await utils.readRequestBody(request)).toString(),
+        dataType: "text",
+      };
+    default:
+      return undefined;
+  }
+}
+
+async function readSystemEventRequest<T extends { context: ConnectionContext }>(
+  request: IncomingMessage,
+  origin: string
+): Promise<T> {
+  const body = (await utils.readRequestBody(request)).toString();
+  const parsedRequest = JSON.parse(body) as T;
+  parsedRequest.context = getContext(request, origin);
+  return parsedRequest;
+}
+
 /**
  * @internal
  */
@@ -260,9 +278,7 @@ export class CloudEventsDispatcher {
 
     switch (eventType) {
       case EventType.Connect: {
-        const body = (await utils.readRequestBody(request)).toString();
-        const connectRequest = JSON.parse(body) as ConnectRequest;
-        connectRequest.context = getContext(request, origin);
+        const connectRequest = await readSystemEventRequest<ConnectRequest>(request, origin);
         logger.verbose(connectRequest);
 
         this.eventHandler.handleConnect!(
@@ -274,9 +290,7 @@ export class CloudEventsDispatcher {
       case EventType.Connected: {
         // for unblocking events, we responds to the service as early as possible
         response.end();
-        const body = (await utils.readRequestBody(request)).toString();
-        const connectedRequest = JSON.parse(body) as ConnectedRequest;
-        connectedRequest.context = getContext(request, origin);
+        const connectedRequest = await readSystemEventRequest<ConnectedRequest>(request, origin);
         logger.verbose(connectedRequest);
         this.eventHandler.onConnected!(connectedRequest);
         return true;
@@ -284,44 +298,18 @@ export class CloudEventsDispatcher {
       case EventType.Disconnected: {
         // for unblocking events, we responds to the service as early as possible
         response.end();
-        const body = (await utils.readRequestBody(request)).toString();
-        const disconnectedRequest = JSON.parse(body) as DisconnectedRequest;
-        disconnectedRequest.context = getContext(request, origin);
+        const disconnectedRequest = await readSystemEventRequest<DisconnectedRequest>(request, origin);
         logger.verbose(disconnectedRequest);
         this.eventHandler.onDisconnected!(disconnectedRequest);
         return true;
       }
       case EventType.UserEvent: {
-        let userRequest: UserEventRequest;
-        const dataType = getDataType(request);
-
-        switch (dataType) {
-          case DataType.Binary:
-            userRequest = {
-              context: getContext(request, origin),
-              data: await utils.readRequestBody(request),
-              dataType: "binary",
-            };
-            break;
-          case DataType.Json:
-            userRequest = {
-              context: getContext(request, origin),
-              data: JSON.parse((await utils.readRequestBody(request)).toString()),
-              dataType: "json",
-            };
-            break;
-          case DataType.Text:
-            userRequest = {
-              context: getContext(request, origin),
-              data: (await utils.readRequestBody(request)).toString(),
-              dataType: "text",
-            };
-            break;
-          default:
-            logger.warning(
-              `Unsupported content type ${utils.getHttpHeader(request, "content-type")}`
-            );
-            return false;
+        const userRequest = await readUserEventRequest(request, origin);
+        if (userRequest === undefined) {
+          logger.warning(
+            `Unsupported content type ${utils.getHttpHeader(request, "content-type")}`
+          );
+          return false;
         }
         logger.verbose(userRequest);
         this.eventHandler.handleUserEvent!(

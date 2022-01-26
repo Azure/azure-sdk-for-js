@@ -15,7 +15,7 @@ function buildRequest(
   contentType?: string
 ): void {
   req.headers["webhook-request-origin"] = "xxx.webpubsub.azure.com";
-  req.headers["Content-Type"] = contentType ?? "application/json; charset=utf-8";
+  req.headers["content-type"] = contentType ?? "application/json; charset=utf-8";
   req.headers["ce-awpsversion"] = "1.0";
   req.headers["ce-specversion"] = "1.0";
   req.headers["ce-type"] = "azure.webpubsub.user.connect";

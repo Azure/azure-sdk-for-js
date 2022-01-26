@@ -28,26 +28,18 @@ export function fromBase64JsonString(base64String: string | undefined): Record<s
 
 export function getHttpHeader(req: IncomingMessage, key: string): string | undefined {
   if (!key) return undefined;
-  for (const header in req.headers) {
-    if (Object.prototype.hasOwnProperty.call(req.headers, header)) {
-      // ignore case
-      if (header.toUpperCase() === key.toUpperCase()) {
-        const value = req.headers[header];
 
-        if (value === undefined) {
-          return undefined;
-        }
+  // According to https://nodejs.org/api/http.html#http_class_http_incomingmessage, header names are always lower-cased
+  const value = req.headers[key.toLowerCase()];
 
-        if (typeof value === "string") {
-          return value;
-        }
-
-        return value[0];
-      }
-    }
+  if (value === undefined) {
+    return undefined;
+  }
+  if (typeof value === "string") {
+    return value;
   }
 
-  return undefined;
+  return value[0];
 }
 
 export function readRequestBody(req: IncomingMessage): Promise<Buffer> {
