@@ -5,6 +5,7 @@ import { spawn } from "child_process";
 import path from "path";
 import { IncomingMessage, request, RequestOptions } from "http";
 import fs from "fs-extra";
+import os from "os";
 import { createPrinter } from "./printer";
 import { resolveRoot } from "./resolveProject";
 
@@ -13,25 +14,34 @@ const log = createPrinter("test-proxy");
 const CONTAINER_NAME = "js-azsdk-test-proxy";
 
 export async function startProxyTool(): Promise<void> {
-  return new Promise(async (resolve, reject) => {
-    log.info(`Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`);
+  log.info(`Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`);
 
-    const subprocess = spawn(await getDockerRunCommand(), [], {
-      shell: true,
-    });
+  const subprocess = spawn(await getDockerRunCommand(), [], {
+    shell: true,
+  });
 
-    const outFileName = "test-proxy-output.log";
-    const out = fs.createWriteStream(`./${outFileName}`, { flags: "a" });
-    subprocess.stdout.pipe(out);
-    subprocess.stderr.pipe(out);
+  const outFileName = "test-proxy-output.log";
+  const out = fs.createWriteStream(`./${outFileName}`, { flags: "a" });
+  subprocess.stdout.pipe(out);
+  subprocess.stderr.pipe(out);
 
-    log.info(`Check the output file "${outFileName}" for test-proxy logs.`);
+  log.info(`Check the output file "${outFileName}" for test-proxy logs.`);
 
+  await new Promise<void>((resolve, reject) => {
     subprocess.on("exit", (code) => {
       if (code === 0) {
         resolve();
       } else {
-        reject(new Error(`Could not start test proxy. See ${outFileName} for details.`));
+        fs.readFile(`./${outFileName}`, (_err, data) => {
+          const lines = data.toString().split(os.EOL);
+          reject(
+            new Error(
+              `Could not start test proxy. Below is the last 10 lines of output. See ${outFileName} for the full output.\n${lines
+                .slice(-10)
+                .join("\n")}`
+            )
+          );
+        });
       }
     });
   });
