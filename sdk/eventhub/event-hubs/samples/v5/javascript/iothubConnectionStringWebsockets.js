@@ -57,9 +57,8 @@ function generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
  * `"Endpoint=sb://<hostname>;EntityPath=<your-iot-hub>;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>"`
  */
 async function convertIotHubToEventHubsConnectionString(connectionString) {
-  const { HostName, SharedAccessKeyName, SharedAccessKey } = parseConnectionString(
-    connectionString
-  );
+  const { HostName, SharedAccessKeyName, SharedAccessKey } =
+    parseConnectionString(connectionString);
 
   // Verify that the required info is in the connection string.
   if (!HostName || !SharedAccessKey || !SharedAccessKeyName) {
@@ -93,14 +92,14 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
     webSocketOptions: {
       webSocket: WebSocket,
       protocol: ["AMQPWSB10"],
-      url: `wss://${HostName}:${443}/$servicebus/websocket`
-    }
+      url: `wss://${HostName}:${443}/$servicebus/websocket`,
+    },
   });
   await connection.open();
 
   // Create the receiver that will trigger a redirect error.
   const receiver = await connection.createReceiver({
-    source: { address: `amqps://${HostName}/messages/events/$management` }
+    source: { address: `amqps://${HostName}/messages/events/$management` },
   });
 
   return new Promise((resolve, reject) => {
@@ -146,7 +145,7 @@ async function main() {
       },
       processError: async (err, context) => {
         console.log(`Error on partition "${context.partitionId}" : ${err}`);
-      }
+      },
     },
     { startPosition: earliestEventPosition }
   );
