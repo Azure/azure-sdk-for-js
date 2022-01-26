@@ -149,12 +149,14 @@ type BodyKeySanitizer = {
  * 2) To do a simple regex replace operation, define arguments "key", "value", and "regex"
  * 3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"
  */
-type HeaderSanitizer = FindReplaceSanitizer & {
-  /**
-   * The name of the header we're operating against.
-   */
+export interface HeaderSanitizer {
   key: string;
-};
+
+  regex?: boolean;
+  target?: string;
+  value?: string;
+  groupForReplace?: string;
+}
 
 /**
  * Internally,

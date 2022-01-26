@@ -248,17 +248,17 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         );
       });
 
-      it.skip("HeaderRegexSanitizer", async () => {
-        // const sanitizedValue = "Sanitized";
+      it("HeaderRegexSanitizer", async () => {
+        const sanitizedValue = "Sanitized";
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
-            // headerRegexSanitizers: [
-            //   {
-            //     key: "your_uuid",
-            //     value: sanitizedValue,
-            //   },
-            // ],
+            headerSanitizers: [
+              {
+                key: "your_uuid",
+                value: sanitizedValue,
+              },
+            ],
           },
         });
 

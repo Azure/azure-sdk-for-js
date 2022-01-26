@@ -7,6 +7,7 @@ import {
   ContinuationSanitizer,
   FindReplaceSanitizer,
   getTestMode,
+  HeaderSanitizer,
   isRecordMode,
   isStringSanitizer,
   ProxyToolSanitizers,
@@ -170,6 +171,34 @@ async function addRemoveHeaderSanitizer(
   });
 }
 
+async function addHeaderSanitizer(
+  httpClient: HttpClient,
+  url: string,
+  recordingId: string,
+  sanitizer: HeaderSanitizer
+) {
+  if (sanitizer.regex || !sanitizer.target) {
+    await addSanitizer(httpClient, url, recordingId, {
+      sanitizer: "HeaderRegexSanitizer",
+      body: {
+        key: sanitizer.key,
+        value: sanitizer.value,
+        regex: sanitizer.target,
+        groupForReplace: sanitizer.groupForReplace,
+      },
+    });
+  } else {
+    await addSanitizer(httpClient, url, recordingId, {
+      sanitizer: "HeaderStringSanitizer",
+      body: {
+        key: sanitizer.key,
+        target: sanitizer.target,
+        value: sanitizer.value,
+      },
+    });
+  }
+}
+
 const addSanitizersActions: {
   [K in keyof SanitizerOptions]: AddSanitizer<Exclude<SanitizerOptions[K], undefined>>;
 } = {
@@ -179,9 +208,7 @@ const addSanitizersActions: {
   bodySanitizers: pluralize(
     makeAddFindReplaceSanitizer("BodyRegexSanitizer", "BodyStringSanitizer")
   ),
-  headerSanitizers: pluralize(
-    makeAddFindReplaceSanitizer("HeaderRegexSanitizer", "HeaderStringSanitizer")
-  ),
+  headerSanitizers: pluralize(addHeaderSanitizer),
   uriSanitizers: pluralize(makeAddFindReplaceSanitizer("UriRegexSanitizer", "UriStringSanitizer")),
   connectionStringSanitizers: pluralize(addConnectionStringSanitizer),
   bodyKeySanitizers: pluralize(makeAddSanitizer("BodyKeySanitizer")),
