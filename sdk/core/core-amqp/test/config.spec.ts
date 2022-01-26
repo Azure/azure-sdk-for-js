@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { ConnectionConfig } from "../src";
+import { assert } from "chai";
 import { isSharedAccessSignature } from "../src/connectionConfig/connectionConfig";
 
 describe("ConnectionConfig", function () {
