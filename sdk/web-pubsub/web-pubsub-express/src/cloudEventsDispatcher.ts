@@ -298,7 +298,10 @@ export class CloudEventsDispatcher {
       case EventType.Disconnected: {
         // for unblocking events, we responds to the service as early as possible
         response.end();
-        const disconnectedRequest = await readSystemEventRequest<DisconnectedRequest>(request, origin);
+        const disconnectedRequest = await readSystemEventRequest<DisconnectedRequest>(
+          request,
+          origin
+        );
         logger.verbose(disconnectedRequest);
         this.eventHandler.onDisconnected!(disconnectedRequest);
         return true;

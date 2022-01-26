@@ -29,7 +29,7 @@ function buildRequest(
   req.headers["ce-connectionId"] = connectionId;
   req.headers["ce-hub"] = hub;
   req.headers["ce-event"] = "connect";
-  req.headers["ce-connectionState"] = states;
+  req.headers["ce-connectionstate"] = states;
 }
 
 function mockBody(req: IncomingMessage, body: string): void {
