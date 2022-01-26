@@ -96,7 +96,7 @@ export function createCloudEventAdapter(
     consumeMessage: (message: SendCloudEventInput<Uint8Array>): MessageWithMetadata => {
       const { data: body, datacontenttype: contentType } = message;
       if (body === undefined || !(body instanceof Uint8Array)) {
-        throw new Error("Expected the data field to defined and have a Uint8Array");
+        throw new Error("Expected the data field to be defined and have a Uint8Array");
       }
       if (contentType === undefined) {
         throw new Error("Expected the datacontenttype field to be defined");

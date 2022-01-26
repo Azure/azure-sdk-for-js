@@ -70,6 +70,7 @@ specifiers:
   '@rush-temp/arm-iothub': file:./projects/arm-iothub.tgz
   '@rush-temp/arm-keyvault': file:./projects/arm-keyvault.tgz
   '@rush-temp/arm-kubernetesconfiguration': file:./projects/arm-kubernetesconfiguration.tgz
+  '@rush-temp/arm-kusto': file:./projects/arm-kusto.tgz
   '@rush-temp/arm-labservices': file:./projects/arm-labservices.tgz
   '@rush-temp/arm-links': file:./projects/arm-links.tgz
   '@rush-temp/arm-loadtestservice': file:./projects/arm-loadtestservice.tgz
@@ -944,6 +945,21 @@ packages:
       rhea-promise: 2.1.0
       tslib: 2.3.1
       uuid: 8.3.2
+    dev: false
+
+  /@azure/eventgrid/4.6.0:
+    resolution: {integrity: sha512-CKBZdkqtTLKNsrX9AYbjG+8v4b5B4SZr/+1mVjDYzHV3Q6gvYSSMJrQdskvOnXKtaTx872gWH0hKjwWIxyiV6A==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.4.0
+      '@azure/core-rest-pipeline': 1.4.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.3
+      tslib: 2.3.1
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@azure/identity/1.2.5_debug@4.3.3:
@@ -13125,7 +13141,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-dr/zKAzLJeqdjfjldg208kPRFEMAH6gtQCxlOVWj3j6aBWvXZLWYoH6DirE5GNgn3uQc6sWDfI58qL4w6hqmNQ==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-hNWQdd9zZmCEndn+4Bl3G0/90xrJnP8QjWHnB7gbiAJTfQHSW1rePvYICZi2X3IW+mtuqsJod+5kD2DF3F92vg==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -15388,11 +15404,12 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-nYoV4QCq4gGBjhk2hz9opui4CbCRNv3bcVGgDVCIqiso9PbCyWb6CqNqsSZyT7F2NIpVfGSNtElbrVDgx/2i/g==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-ieXf+ZODk3wmknFfJhDarqy3YmObKfG/QKdJeUA9tknRKku/+Z43sPLBTjeO5X9mYsTBVNXTg1rDlH7H/PJmhQ==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/eventgrid': 4.6.0
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-inject': 4.0.4_rollup@1.32.1
@@ -15441,7 +15458,7 @@ packages:
     dev: false
 
   file:projects/schema-registry.tgz:
-    resolution: {integrity: sha512-fucVewqXE8TZV5enQSHpfLRsx8+I+1w1Cec81+x0xHbAcEs0ykoXa7NCNYQMAPi+V0Pu99w+Hqmjsrbn1SK6yg==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-bC/6TQwVav+spG+JqNxPVKgzAgTI2cYjiU/y2+r3RXlD8Wv/w2p99jyDQGcB+nALLOPMDPUAszhc8iUgFUEwSw==, tarball: file:projects/schema-registry.tgz}
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
@@ -15482,7 +15499,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
