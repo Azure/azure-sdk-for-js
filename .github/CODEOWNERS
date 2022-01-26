@@ -55,7 +55,7 @@
 /sdk/deviceupdate/ @dpokluda
 
 # PRLabel: %Digital Twins
-/sdk/digitaltwins/ @johngallardo
+/sdk/digitaltwins/ @johngallardo @YoDaMa @olivakar
 
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @xirzec @ellismg
