@@ -18,9 +18,9 @@
     },
     "searchEndpointSuffix": {
       "type": "string",
-      "defaultValue": "search.azure.net",
+      "defaultValue": "search.windows.net",
       "metadata": {
-        "description": "Endpoint suffix for the search resource. Defaults to 'search.azure.net'"
+        "description": "Endpoint suffix for the search resource. Defaults to 'search.windows.net'"
       }
     }
   },
