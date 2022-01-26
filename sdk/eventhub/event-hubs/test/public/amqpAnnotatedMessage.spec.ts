@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import chaiExclude from "chai-exclude";
-import { Buffer } from "buffer";
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { v4 } from "uuid";
 import { EnvVarKeys, getEnvVars, getStartingPositionsForTests } from "./utils/testUtils";
 import {
   EventHubConsumerClient,
   EventHubProducerClient,
   EventPosition,
   ReceivedEventData,
-  Subscription
+  Subscription,
 } from "../../src";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { BodyTypes } from "../../src/dataTransformer";
-import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+import { Buffer } from "buffer";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import chaiExclude from "chai-exclude";
 import { createMockServer } from "./utils/mockService";
+import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+import { v4 } from "uuid";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -37,15 +37,15 @@ testWithServiceTypes((serviceVersion) => {
       return service?.stop();
     });
   }
-  describe("AmqpAnnotatedMessage", function(): void {
+  describe("AmqpAnnotatedMessage", function (): void {
     let producerClient: EventHubProducerClient;
     let consumerClient: EventHubConsumerClient;
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]
+      path: env[EnvVarKeys.EVENTHUB_NAME],
     };
 
-    before("validate environment", function(): void {
+    before("validate environment", function (): void {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -65,7 +65,7 @@ testWithServiceTypes((serviceVersion) => {
       );
     });
 
-    afterEach("close the connection", async function(): Promise<void> {
+    afterEach("close the connection", async function (): Promise<void> {
       await producerClient.close();
       await consumerClient.close();
     });
@@ -80,17 +80,17 @@ testWithServiceTypes((serviceVersion) => {
           propOne: 1,
           propTwo: "two",
           propThree: true,
-          propFour: Date()
+          propFour: Date(),
         },
         footer: {
-          propFooter: "foot"
+          propFooter: "foot",
         },
         messageAnnotations: { propMsgAnnotate: "annotation" },
         properties: {
           contentEncoding: "application/json; charset=utf-8",
           correlationId: randomTag,
-          messageId: v4()
-        }
+          messageId: v4(),
+        },
       } as AmqpAnnotatedMessage;
     }
 
@@ -115,10 +115,10 @@ testWithServiceTypes((serviceVersion) => {
                 resolve(events[0]);
                 return subscription.close();
               }
-            }
+            },
           },
           {
-            startPosition: startingPositions
+            startPosition: startingPositions,
           }
         );
       });
@@ -187,8 +187,8 @@ testWithServiceTypes((serviceVersion) => {
               [
                 {
                   body: valueType,
-                  bodyType: "value"
-                }
+                  bodyType: "value",
+                },
               ],
               { useBatch }
             );
@@ -211,7 +211,7 @@ testWithServiceTypes((serviceVersion) => {
         it(`sequences (useBatch: ${useBatch})`, async () => {
           const sequenceTypes = [
             [[1], [2], [3]],
-            [1, 2, 3]
+            [1, 2, 3],
           ];
 
           for (const sequenceType of sequenceTypes) {
@@ -220,8 +220,8 @@ testWithServiceTypes((serviceVersion) => {
               [
                 {
                   body: sequenceType,
-                  bodyType: "sequence"
-                }
+                  bodyType: "sequence",
+                },
               ],
               { useBatch }
             );
@@ -252,8 +252,8 @@ testWithServiceTypes((serviceVersion) => {
               [
                 {
                   body: dataType,
-                  bodyType: "data"
-                }
+                  bodyType: "data",
+                },
               ],
               { useBatch }
             );
@@ -273,11 +273,13 @@ testWithServiceTypes((serviceVersion) => {
           }
         });
 
-        ([
-          ["sequence", [1, 2, 3]],
-          ["value", "hello"],
-          ["data", "hello"]
-        ] as [BodyTypes, any][]).forEach(([expectedBodyType, expectedBody]) => {
+        (
+          [
+            ["sequence", [1, 2, 3]],
+            ["value", "hello"],
+            ["data", "hello"],
+          ] as [BodyTypes, any][]
+        ).forEach(([expectedBodyType, expectedBody]) => {
           it(`receive ${expectedBodyType} EventData and resend (useBatch: ${useBatch})`, async () => {
             let startingPositions = await getStartingPositionsForTests(consumerClient);
             // if we receive an event that was encoded to a non-data section
@@ -287,8 +289,8 @@ testWithServiceTypes((serviceVersion) => {
               [
                 {
                   body: expectedBody,
-                  bodyType: expectedBodyType
-                }
+                  bodyType: expectedBodyType,
+                },
               ],
               { useBatch }
             );

@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Defines the Hotel Interface.
+ * Defines the Hotel Interface.
+ *
+ * @azsdk-skip-javascript
+ * @azsdk-util
  */
 
 import { GeographyPoint } from "@azure/search-documents";

@@ -7,8 +7,12 @@ import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorde
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 import { Context } from "mocha";
+import { getServiceVersion } from "./utils.common";
 
-export async function authenticate(that: Context): Promise<any> {
+export async function authenticate(
+  that: Context,
+  serviceVersion: ReturnType<typeof getServiceVersion>
+): Promise<any> {
   const secretSuffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
@@ -16,15 +20,15 @@ export async function authenticate(that: Context): Promise<any> {
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
       KEYVAULT_NAME: "keyvault_name",
-      KEYVAULT_URI: "https://keyvault_name.vault.azure.net/"
+      KEYVAULT_URI: "https://keyvault_name.vault.azure.net/",
     },
     customizationsOnRecordings: [
       (recording: any): any =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
       (recording: any): any =>
-        secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), "")
+        secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), ""),
     ],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
   };
   const recorder = record(that, recorderEnvSetup);
   const credential = new ClientSecretCredential(
@@ -32,7 +36,7 @@ export async function authenticate(that: Context): Promise<any> {
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET,
     {
-      authorityHost: env.AZURE_AUTHORITY_HOST
+      authorityHost: env.AZURE_AUTHORITY_HOST,
     }
   );
 
@@ -41,7 +45,7 @@ export async function authenticate(that: Context): Promise<any> {
     throw new Error("Missing KEYVAULT_URI environment variable.");
   }
 
-  const client = new SecretClient(keyVaultUrl, credential);
+  const client = new SecretClient(keyVaultUrl, credential, { serviceVersion });
   const testClient = new TestClient(client);
 
   return { recorder, client, testClient, secretSuffix, credential };

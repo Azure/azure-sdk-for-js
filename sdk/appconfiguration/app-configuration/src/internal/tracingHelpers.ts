@@ -10,7 +10,7 @@ import { AppConfigurationClient } from "../appConfigurationClient";
 /** @internal */
 export const createSpan = createSpanFunction({
   namespace: "Microsoft.AppConfiguration",
-  packagePrefix: "Azure.Data.AppConfiguration"
+  packagePrefix: "Azure.Data.AppConfiguration",
 });
 
 /**
@@ -36,13 +36,13 @@ export async function trace<ReturnT>(
     const result = await fn(updatedOptions, span);
 
     span.setStatus({
-      code: SpanStatusCode.OK
+      code: SpanStatusCode.OK,
     });
     return result;
   } catch (err) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: err.message
+      message: err.message,
     });
     throw err;
   } finally {

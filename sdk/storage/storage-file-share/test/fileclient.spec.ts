@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
-import * as dotenv from "dotenv";
+import { assert } from "chai";
 
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
@@ -19,8 +18,6 @@ import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 import { setSpan, context } from "@azure/core-tracing";
 import { Context } from "mocha";
-
-dotenv.config();
 
 describe("FileClient", () => {
   let shareName: string;
@@ -46,7 +43,7 @@ describe("FileClient", () => {
   fullFileAttributes.notContentIndexed = true;
   fullFileAttributes.noScrubData = true;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -62,7 +59,7 @@ describe("FileClient", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await shareClient.delete({ deleteSnapshots: "include" });
       await recorder.stop();
@@ -96,16 +93,16 @@ describe("FileClient", () => {
         fileContentDisposition: "fileContentDisposition",
         fileContentEncoding: "fileContentEncoding",
         fileContentLanguage: "fileContentLanguage",
-        fileContentType: "fileContentType"
+        fileContentType: "fileContentType",
       },
       metadata: {
         key1: "vala",
-        key2: "valb"
+        key2: "valb",
       },
       creationTime: now,
       lastWriteTime: now,
       filePermissionKey: defaultDirCreateResp.filePermissionKey,
-      fileAttributes: fullFileAttributes
+      fileAttributes: fullFileAttributes,
     };
     await fileClient.create(512, options);
 
@@ -153,7 +150,7 @@ describe("FileClient", () => {
     assert.ok(properties.fileParentId!);
   });
 
-  it("create largest file", async function() {
+  it("create largest file", async function () {
     const fileSize = FILE_MAX_SIZE_BYTES;
     const cResp = await fileClient.create(fileSize);
     assert.equal(cResp.errorCode, undefined);
@@ -165,7 +162,7 @@ describe("FileClient", () => {
     await fileClient.uploadRange(content, fileSize - content.length, content.length);
   });
 
-  it("setProperties with default parameters", async function() {
+  it("setProperties with default parameters", async function () {
     await fileClient.create(content.length);
     await fileClient.setProperties();
 
@@ -201,16 +198,16 @@ describe("FileClient", () => {
         fileContentDisposition: "fileContentDisposition",
         fileContentEncoding: "fileContentEncoding",
         fileContentLanguage: "fileContentLanguage",
-        fileContentType: "fileContentType"
+        fileContentType: "fileContentType",
       },
       metadata: {
         key1: "vala",
-        key2: "valb"
+        key2: "valb",
       },
       creationTime: now,
       lastWriteTime: now,
       filePermission: getPermissionResp.permission,
-      fileAttributes: fullFileAttributes
+      fileAttributes: fullFileAttributes,
     };
 
     await fileClient.create(content.length);
@@ -239,7 +236,7 @@ describe("FileClient", () => {
     await fileClient.create(content.length);
     const metadata = {
       a: "a",
-      b: "b"
+      b: "b",
     };
     await fileClient.setMetadata(metadata);
     const result = await fileClient.getProperties();
@@ -250,7 +247,7 @@ describe("FileClient", () => {
     await fileClient.create(content.length);
     const metadata = {
       a: "a",
-      b: "b"
+      b: "b",
     };
     await fileClient.setMetadata(metadata);
     const result = await fileClient.getProperties();
@@ -284,7 +281,7 @@ describe("FileClient", () => {
       fileContentEncoding: "fileContentEncoding",
       fileContentLanguage: "fileContentLanguage",
       fileContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
-      fileContentType: "fileContentType"
+      fileContentType: "fileContentType",
     };
     await fileClient.setHttpHeaders(headers);
     const result = await fileClient.getProperties();
@@ -379,8 +376,8 @@ describe("FileClient", () => {
         fileAttributes,
         fileCreationTime,
         fileLastWriteTime: "source",
-        setArchiveAttribute: false
-      }
+        setArchiveAttribute: false,
+      },
     };
 
     const result = await newFileClient.startCopyFromURL(fileClient.url, options);
@@ -416,8 +413,8 @@ describe("FileClient", () => {
         fileAttributes,
         fileCreationTime,
         fileLastWriteTime: "source",
-        setArchiveAttribute: true
-      }
+        setArchiveAttribute: true,
+      },
     };
 
     const result = await newFileClient.startCopyFromURL(fileClient.url, options);
@@ -508,23 +505,9 @@ describe("FileClient", () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5, {
       contentMD5: new Uint8Array([
-        0x8b,
-        0x1a,
-        0x99,
-        0x53,
-        0xc4,
-        0x61,
-        0x12,
-        0x96,
-        0xa8,
-        0x27,
-        0xab,
-        0xf8,
-        0xc4,
-        0x78,
-        0x04,
-        0xd7
-      ])
+        0x8b, 0x1a, 0x99, 0x53, 0xc4, 0x61, 0x12, 0x96, 0xa8, 0x27, 0xab, 0xf8, 0xc4, 0x78, 0x04,
+        0xd7,
+      ]),
     });
     await fileClient.uploadRange("World", 5, 5);
     const response = await fileClient.download(0, 8);
@@ -541,7 +524,7 @@ describe("FileClient", () => {
     await fileClient.uploadRange("HelloWorld", 0, 10, {
       onProgress: () => {
         progressUpdated = true;
-      }
+      },
     });
     assert.equal(progressUpdated, true);
 
@@ -588,7 +571,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
   });
 
-  it("getRangeListDiff", async function(this: Context) {
+  it("getRangeListDiff", async function (this: Context) {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
       this.skip();
@@ -612,7 +595,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
-  it("getRangeListDiff with share snapshot", async function(this: Context) {
+  it("getRangeListDiff with share snapshot", async function (this: Context) {
     if (isLiveMode()) {
       // Skipped for now as the result is not stable.
       this.skip();
@@ -667,7 +650,7 @@ describe("FileClient", () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);
     const result = await fileClient.download(0, 1, {
-      rangeGetContentMD5: true
+      rangeGetContentMD5: true,
     });
     assert.deepStrictEqual(await bodyToString(result, 1), content[0]);
   });
@@ -678,7 +661,7 @@ describe("FileClient", () => {
     const result = await fileClient.download(0, undefined, {
       onProgress: () => {
         /* empty */
-      }
+      },
     });
     assert.deepStrictEqual(await bodyToString(result), content);
   });
@@ -706,7 +689,7 @@ describe("FileClient", () => {
         onProgress: () => {
           eventTriggered = true;
           aborter.abort();
-        }
+        },
       });
 
       await new Promise((resolve, reject) => {
@@ -734,20 +717,15 @@ describe("FileClient", () => {
   it("listHandles should work", async () => {
     await fileClient.create(10);
 
-    const result = (
-      await fileClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileClient.listHandles().byPage().next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
-      assert.notDeepStrictEqual(handle.handleId, undefined);
-      assert.notDeepStrictEqual(handle.path, undefined);
-      assert.notDeepStrictEqual(handle.fileId, undefined);
-      assert.notDeepStrictEqual(handle.sessionId, undefined);
-      assert.notDeepStrictEqual(handle.clientIp, undefined);
-      assert.notDeepStrictEqual(handle.openTime, undefined);
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
     }
   });
 
@@ -768,12 +746,7 @@ describe("FileClient", () => {
 
     // TODO: Open or create a handle
 
-    const result = (
-      await fileClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileClient.listHandles().byPage().next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       await dirClient.forceCloseHandle(handle.handleId);
@@ -784,12 +757,7 @@ describe("FileClient", () => {
     await fileClient.create(10);
 
     // TODO: Open or create a handle, currently have to do this manually
-    const result = (
-      await fileClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileClient.listHandles().byPage().next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
       const factories = (fileClient as any).pipeline.factories.slice(); // clone factories array
@@ -811,12 +779,7 @@ describe("FileClient", () => {
     await fileClient.create(10);
 
     // TODO: Open or create a handle; currently have to do this manually
-    const result = (
-      await fileClient
-        .listHandles()
-        .byPage()
-        .next()
-    ).value;
+    const result = (await fileClient.listHandles().byPage().next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const mockPolicyFactory = new MockPolicyFactory({ numberOfHandlesFailedToClose: 1 });
       const factories = (fileClient as any).pipeline.factories.slice(); // clone factories array
@@ -844,16 +807,14 @@ describe("FileClient", () => {
     const rootSpan = tracer.startSpan("root");
     await fileClient.create(content.length, {
       tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan)
-      }
+        tracingContext: setSpan(context.active(), rootSpan),
+      },
     });
     rootSpan.end();
 
     const rootSpans = tracer.getRootSpans();
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-    const urlPath = URLBuilder.parse(fileClient.url).getPath() || "";
 
     const expectedGraph: SpanGraph = {
       roots: [
@@ -864,14 +825,14 @@ describe("FileClient", () => {
               name: "Azure.Storage.File.ShareFileClient-create",
               children: [
                 {
-                  name: urlPath,
-                  children: []
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  name: "HTTP PUT",
+                  children: [],
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);

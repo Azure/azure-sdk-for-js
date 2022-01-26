@@ -25,4 +25,4 @@ export interface CommandModule<Options extends CommandOptions> {
 /**
  * A map from command name to an async function that loads its module
  */
-export type CommandLoader = { [k: string]: () => Promise<CommandModule<{}>> };
+export type CommandLoader = { [k: string]: () => Promise<CommandModule<CommandOptions>> };

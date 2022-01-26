@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "12.9.0-beta.2";
-export const SERVICE_VERSION: string = "2020-12-06";
+export const SDK_VERSION: string = "12.9.0-beta.3";
+export const SERVICE_VERSION: string = "2021-02-12";
 
 export const BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES: number = 256 * 1024 * 1024; // 256MB
 export const BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES: number = 4000 * 1024 * 1024; // 4000MB
@@ -21,8 +21,8 @@ export const URLConstants = {
     SIGNATURE: "sig",
     SNAPSHOT: "snapshot",
     VERSIONID: "versionid",
-    TIMEOUT: "timeout"
-  }
+    TIMEOUT: "timeout",
+  },
 };
 
 export const HTTPURLConnection = {
@@ -30,7 +30,7 @@ export const HTTPURLConnection = {
   HTTP_CONFLICT: 409,
   HTTP_NOT_FOUND: 404,
   HTTP_PRECON_FAILED: 412,
-  HTTP_RANGE_NOT_SATISFIABLE: 416
+  HTTP_RANGE_NOT_SATISFIABLE: 416,
 };
 
 export const HeaderConstants = {
@@ -56,7 +56,7 @@ export const HeaderConstants = {
   X_MS_COPY_SOURCE: "x-ms-copy-source",
   X_MS_DATE: "x-ms-date",
   X_MS_ERROR_CODE: "x-ms-error-code",
-  X_MS_VERSION: "x-ms-version"
+  X_MS_VERSION: "x-ms-version",
 };
 
 export const ETagNone = "";
@@ -166,7 +166,7 @@ export const StorageBlobLoggingAllowedHeaderNames = [
   "x-ms-tag-count",
   "x-ms-encryption-key-sha256",
   "x-ms-if-tags",
-  "x-ms-source-if-tags"
+  "x-ms-source-if-tags",
 ];
 
 export const StorageBlobLoggingAllowedQueryParameters = [
@@ -202,5 +202,5 @@ export const StorageBlobLoggingAllowedQueryParameters = [
   "skt",
   "sktid",
   "skv",
-  "snapshot"
+  "snapshot",
 ];

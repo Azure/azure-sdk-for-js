@@ -6,10 +6,10 @@ export default {
   parserOptions: {
     project: [
       "./tsconfig.json",
-      "../../../common/tools/eslint-plugin-azure-sdk/tsconfig.lintjson.json"
+      "../../../common/tools/eslint-plugin-azure-sdk/tsconfig.lintjson.json",
     ],
     sourceType: "module",
-    extraFileExtensions: [".json"]
+    extraFileExtensions: [".json"],
   },
   plugins: ["@typescript-eslint", "no-only-tests", "promise", "eslint-plugin-tsdoc", "import"],
   extends: [
@@ -19,10 +19,10 @@ export default {
     "plugin:@typescript-eslint/eslint-recommended",
     "prettier",
     "prettier/@typescript-eslint",
-    "plugin:@azure/azure-sdk/recommended"
+    "plugin:@azure/azure-sdk/recommended",
   ],
   env: {
-    mocha: true
+    mocha: true,
   },
   ignorePatterns: ["**/generated/**"],
   rules: {
@@ -34,8 +34,8 @@ export default {
       {
         devDependencies: ["test/**/*.ts", "samples/**", "**/karma.conf.js", "**/.eslintrc.js"],
         optionalDependencies: false,
-        peerDependencies: false
-      }
+        peerDependencies: false,
+      },
     ],
     "no-console": "off",
     "no-dupe-class-members": "off",
@@ -56,6 +56,7 @@ export default {
     "no-var": "error",
     "one-var-declaration-per-line": "error",
     "prefer-const": "error",
+    "sort-imports": "warn",
     "spaced-comment": ["error", "always", { markers: ["/"] }],
     "space-infix-ops": ["error", { int32Hint: false }],
     "use-isnan": "error",
@@ -73,22 +74,22 @@ export default {
         format: ["PascalCase"],
         custom: {
           regex: "^I[A-Z]",
-          match: false
-        }
-      }
+          match: false,
+        },
+      },
     ],
     "@typescript-eslint/no-angle-bracket-type-assertion": "off",
     "@typescript-eslint/no-array-constructor": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-function-return-type": [
       "warn",
-      { allowExpressions: true, allowTypedFunctionExpressions: true }
+      { allowExpressions: true, allowTypedFunctionExpressions: true },
     ],
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/no-inferrable-types": "off",
     // We use empty extends and empty interface for shimming and renaming extensively
     "@typescript-eslint/no-empty-interface": "off",
-    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-namespace": "error",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/no-useless-constructor": "error",
@@ -115,13 +116,12 @@ export default {
     //     ]
     //   }
     // ],
-    "@azure/azure-sdk/ts-config-lib": "warn",
     // https://github.com/Azure/azure-sdk-for-js/issues/7605
     "@azure/azure-sdk/ts-apisurface-supportcancellation": "off",
     // https://github.com/Azure/azure-sdk-for-js/issues/7609
     "@azure/azure-sdk/ts-pagination-list": "off",
     // https://github.com/Azure/azure-sdk-for-js/issues/7610
     "@azure/azure-sdk/ts-doc-internal": "off",
-    "tsdoc/syntax": "error"
-  }
+    "tsdoc/syntax": "error",
+  },
 };

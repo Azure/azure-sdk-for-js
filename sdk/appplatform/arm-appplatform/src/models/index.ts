@@ -17,25 +17,6 @@ export type CertificatePropertiesUnion =
   | KeyVaultCertificateProperties
   | ContentCertificateProperties;
 
-/** The core properties of ARM resources. */
-export interface Resource {
-  /**
-   * Fully qualified resource Id for the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** Service properties payload */
 export interface ClusterResourceProperties {
   /**
@@ -132,6 +113,25 @@ export interface Sku {
   tier?: string;
   /** Current capacity of the target resource */
   capacity?: number;
+}
+
+/** The core properties of ARM resources. */
+export interface Resource {
+  /**
+   * Fully qualified resource Id for the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
 }
 
 /** An error response from the service. */
@@ -367,8 +367,8 @@ export interface CustomPersistentDiskProperties {
   type: "AzureFileVolume";
   /** The mount path of the persistent disk. */
   mountPath: string;
-  /** Indicates whether the persistent disk is a readonly one. */
-  readonly?: boolean;
+  /** Indicates whether the persistent disk is a readOnly one. */
+  readOnly?: boolean;
   /** These are the mount options for a persistent disk. */
   mountOptions?: string[];
 }
@@ -681,6 +681,8 @@ export interface DeploymentSettings {
   environmentVariables?: { [propertyName: string]: string };
   /** Runtime version */
   runtimeVersion?: RuntimeVersion;
+  /** Container liveness and readiness probe settings */
+  containerProbeSettings?: DeploymentSettingsContainerProbeSettings;
 }
 
 /** Deployment resource request payload */
@@ -689,6 +691,12 @@ export interface ResourceRequests {
   cpu?: string;
   /** Required memory. 1 GB can be represented by 1Gi or 1024Mi. This should be {512Mi, 1Gi, 2Gi} for Basic tier, and {512Mi, 1Gi, 2Gi, ..., 8Gi} for Standard tier. */
   memory?: string;
+}
+
+/** Container liveness and readiness probe settings */
+export interface DeploymentSettingsContainerProbeSettings {
+  /** Indicates whether disable the liveness and readiness probe */
+  disableProbe?: boolean;
 }
 
 /** Deployment instance payload */

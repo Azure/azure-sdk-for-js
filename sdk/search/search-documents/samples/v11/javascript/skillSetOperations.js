@@ -6,6 +6,7 @@
  */
 
 const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search-documents");
+
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -25,29 +26,29 @@ async function createSkillset(skillsetName, client) {
         inputs: [
           {
             name: "text",
-            source: "/document/merged_content"
+            source: "/document/merged_content",
           },
           {
             name: "languageCode",
-            source: "/document/language"
-          }
+            source: "/document/language",
+          },
         ],
         outputs: [
           {
             name: "persons",
-            targetName: "people"
+            targetName: "people",
           },
           {
             name: "organizations",
-            targetName: "organizations"
+            targetName: "organizations",
           },
           {
             name: "locations",
-            targetName: "locations"
-          }
-        ]
-      }
-    ]
+            targetName: "locations",
+          },
+        ],
+      },
+    ],
   };
   await client.createSkillset(skillset);
 }
@@ -59,12 +60,12 @@ async function getAndUpdateSkillset(skillsetName, client) {
   skillset.skills[0].outputs = [
     {
       name: "persons",
-      targetName: "people"
+      targetName: "people",
     },
     {
       name: "organizations",
-      targetName: "organizations"
-    }
+      targetName: "organizations",
+    },
   ];
 
   await client.createOrUpdateSkillset(skillset);

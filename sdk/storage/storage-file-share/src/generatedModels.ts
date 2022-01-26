@@ -76,7 +76,6 @@ export {
   FileStartCopyHeaders,
   FileUploadRangeFromURLHeaders,
   FileUploadRangeHeaders,
-  FileType,
   ServiceGetPropertiesHeaders,
   ListSharesResponse as ListSharesResponseModel,
   RetentionPolicy,
@@ -108,7 +107,7 @@ export {
   ShareFileRangeList,
   ClearRange,
   ShareAccessTier,
-  ShareRootSquash
+  ShareRootSquash,
 } from "./generated/src/models";
 
 import { ShareSetPropertiesResponse, ShareSetPropertiesHeaders } from "./generated/src/models";

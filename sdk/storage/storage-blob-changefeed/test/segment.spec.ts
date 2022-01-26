@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import * as fs from "fs";
 import * as path from "path";
 import * as sinon from "sinon";
@@ -9,6 +9,7 @@ import { ContainerClient, BlobClient } from "@azure/storage-blob";
 import { Shard } from "../src/Shard";
 import { SegmentFactory } from "../src/SegmentFactory";
 import { ShardFactory } from "../src/ShardFactory";
+import { BlobChangeFeedEvent } from "../src";
 
 describe("Segment", async () => {
   const manifestPath = "idx/segments/2020/03/25/0200/meta.json";
@@ -25,7 +26,7 @@ describe("Segment", async () => {
     containerClientStub.getBlobClient.returns(blobClientStub);
     // TODO: rewrite for browser
     blobClientStub.download.resolves({
-      readableStreamBody: fs.createReadStream(segmentManifestFilePath)
+      readableStreamBody: fs.createReadStream(segmentManifestFilePath),
     } as any);
 
     shardFactoryStub = sinon.createStubInstance(ShardFactory);
@@ -54,22 +55,25 @@ describe("Segment", async () => {
     for (let i = 0; i < shardCount * 2 + 1; i++) {
       const event = await segment.getChange();
       assert.equal(shardStubs[i % shardCount].getChange.callCount, Math.floor(i / shardCount) + 1);
-      assert.equal(event, i % shardCount);
+      assert.equal(event, (i % shardCount) as unknown as BlobChangeFeedEvent | undefined);
     }
 
     // skip finished shard
     shardStubs[1].hasNext.returns(false);
     shardStubs[1].getChange(undefined);
     const event = await segment.getChange();
-    assert.equal(event, 1);
+    assert.equal(event, 1 as unknown as BlobChangeFeedEvent | undefined);
 
     const shardRemainingCount = shardCount - 1;
     for (let i = 0; i < shardRemainingCount; i++) {
       const changedEvent = await segment.getChange();
-      assert.equal(changedEvent, (i + 2) % shardCount);
+      assert.equal(
+        changedEvent,
+        ((i + 2) % shardCount) as unknown as BlobChangeFeedEvent | undefined
+      );
     }
     const event2 = await segment.getChange();
-    assert.equal(event2, 2);
+    assert.equal(event2, 2 as unknown as BlobChangeFeedEvent | undefined);
 
     // all shards done, return undefined
     for (let i = 0; i < shardCount; i++) {
@@ -87,7 +91,7 @@ describe("Segment", async () => {
     const segment = await segmentFactory.create(containerClientStub, manifestPath, {
       CurrentShardPath,
       SegmentPath: "idx/segments/2020/03/25/0200/meta.json",
-      ShardCursors: []
+      ShardCursors: [],
     } as any);
     assert.ok(segment.hasNext());
     assert.equal(segment.dateTime.getTime(), dateTime.getTime());
@@ -95,6 +99,6 @@ describe("Segment", async () => {
     assert.equal(segmentCursor.CurrentShardPath, CurrentShardPath);
 
     const event = await segment.getChange();
-    assert.equal(event, shardIndex);
+    assert.equal(event, shardIndex as unknown as BlobChangeFeedEvent | undefined);
   });
 });

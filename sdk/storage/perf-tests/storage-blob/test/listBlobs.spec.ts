@@ -14,8 +14,8 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
       required: true,
       description: "Number of blobs to be listed",
       longName: "count",
-      defaultValue: 10
-    }
+      defaultValue: 10,
+    },
   };
 
   public async globalSetup() {

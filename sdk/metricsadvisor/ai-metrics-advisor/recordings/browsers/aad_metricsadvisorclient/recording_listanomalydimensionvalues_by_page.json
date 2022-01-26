@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:43:56 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:35 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12197.4 - WUS2 ProdSlices",
-    "x-ms-request-id": "12888e90-b00b-4945-a1ac-e4ee2152a300"
+    "x-ms-ests-server": "2.1.12261.22 - NCUS ProdSlices",
+    "x-ms-request-id": "da0ac1af-daa9-4276-a13f-e740447ccc00"
    }
   },
   {
@@ -34,14 +34,14 @@
    "status": 200,
    "response": "{\"value\":[\"__SUM__\",\"Shoes Handbags & Sunglasses\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$maxpagesize=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "5902e478-626b-4026-a0de-fe1e2391b9dc",
+    "apim-request-id": "8038dff0-d300-410f-b735-a413813faeef",
     "content-length": "273",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:43:57 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:35 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "173",
-    "x-request-id": "5902e478-626b-4026-a0de-fe1e2391b9dc"
+    "x-envoy-upstream-service-time": "187",
+    "x-request-id": "8038dff0-d300-410f-b735-a413813faeef"
    }
   },
   {
@@ -55,14 +55,14 @@
    "status": 200,
    "response": "{\"value\":[\"Handmade\",\"Office Products\"],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/26ece682-80a6-4415-89a2-05903dd9a640/anomalies/dimension/query?$maxpagesize=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "0b10a67f-1ab5-46a9-937e-0b9b8a84e0f7",
+    "apim-request-id": "618433c9-44bc-4dc8-828f-beaa081fa096",
     "content-length": "262",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:43:57 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:35 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "163",
-    "x-request-id": "0b10a67f-1ab5-46a9-937e-0b9b8a84e0f7"
+    "x-envoy-upstream-service-time": "171",
+    "x-request-id": "618433c9-44bc-4dc8-828f-beaa081fa096"
    }
   }
  ],

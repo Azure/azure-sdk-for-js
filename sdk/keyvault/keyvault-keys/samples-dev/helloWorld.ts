@@ -22,6 +22,7 @@ export async function main(): Promise<void> {
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new KeyClient(url, credential);
 
+  // Create unique names for keys we will use in this sample
   const uniqueString = Date.now();
   const keyName = `sample-key-${uniqueString}`;
   const ecKeyName = `sample-ec-key-${uniqueString}`;
@@ -49,7 +50,7 @@ export async function main(): Promise<void> {
 
   // Update the key
   const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
-    enabled: false
+    enabled: false,
   });
   console.log("updated key: ", updatedKey);
 
@@ -57,6 +58,7 @@ export async function main(): Promise<void> {
   const deletePoller = await client.beginDeleteKey(keyName);
   await deletePoller.pollUntilDone();
 
+  // The `getDeletedKey` method can be used to retrieve any soft-deleted key
   const deletedKey = await client.getDeletedKey(keyName);
   console.log("deleted key: ", deletedKey);
 

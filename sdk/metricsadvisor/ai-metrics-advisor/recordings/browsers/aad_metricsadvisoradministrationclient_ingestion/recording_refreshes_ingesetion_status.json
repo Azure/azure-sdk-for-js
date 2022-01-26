@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:43:36 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:14 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
@@ -20,8 +20,8 @@
     "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12197.4 - SCUS ProdSlices",
-    "x-ms-request-id": "5109f666-238e-4ec6-90af-389f81d9be00"
+    "x-ms-ests-server": "2.1.12261.22 - EUS ProdSlices",
+    "x-ms-request-id": "5642887f-803c-4a6e-bde7-9753bc6dd500"
    }
   },
   {
@@ -32,14 +32,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2020-10-31T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"},{\"timestamp\":\"2020-10-30T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"}]}",
    "responseHeaders": {
-    "apim-request-id": "9ae8c068-3f3c-4cd5-a6ad-d39f651f7d17",
+    "apim-request-id": "7f1791a2-7660-45bc-9a32-0573a15560d5",
     "content-length": "153",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:43:37 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:15 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "321",
-    "x-request-id": "9ae8c068-3f3c-4cd5-a6ad-d39f651f7d17"
+    "x-envoy-upstream-service-time": "320",
+    "x-request-id": "7f1791a2-7660-45bc-9a32-0573a15560d5"
    }
   },
   {
@@ -50,13 +50,13 @@
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "a8ce8744-cd0d-40c7-9c32-21ff9a0924be",
+    "apim-request-id": "318a1e35-6a7c-4f41-ab55-5cf633b0cbbb",
     "content-length": "0",
-    "date": "Mon, 08 Nov 2021 09:43:38 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:16 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "303",
-    "x-request-id": "a8ce8744-cd0d-40c7-9c32-21ff9a0924be"
+    "x-envoy-upstream-service-time": "377",
+    "x-request-id": "318a1e35-6a7c-4f41-ab55-5cf633b0cbbb"
    }
   },
   {
@@ -67,14 +67,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2020-10-31T00:00:00Z\",\"status\":\"NotStarted\",\"message\":\"\"},{\"timestamp\":\"2020-10-30T00:00:00Z\",\"status\":\"NotStarted\",\"message\":\"\"}]}",
    "responseHeaders": {
-    "apim-request-id": "15c415e6-8cdd-4ebd-83da-6621ef768c5f",
+    "apim-request-id": "8a20bfaf-11ce-4750-9d25-120f422ebbe8",
     "content-length": "155",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:43:38 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:16 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "323",
-    "x-request-id": "15c415e6-8cdd-4ebd-83da-6621ef768c5f"
+    "x-envoy-upstream-service-time": "244",
+    "x-request-id": "8a20bfaf-11ce-4750-9d25-120f422ebbe8"
    }
   }
  ],
@@ -82,5 +82,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "0b10ce50869d5977916fc7709b138bb3"
+ "hash": "1156dbeced81e6f9212c40fb3159209e"
 }

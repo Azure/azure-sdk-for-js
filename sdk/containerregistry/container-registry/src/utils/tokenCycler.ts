@@ -50,7 +50,7 @@ export interface TokenCyclerOptions {
 export const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
   forcedRefreshWindowInMs: 1000, // Force waiting for a refresh 1s before the token expires
   retryIntervalInMs: 3000, // Allow refresh attempts every 3s
-  refreshWindowInMs: 1000 * 60 * 2 // Start refreshing 2m before expiry
+  refreshWindowInMs: 1000 * 60 * 2, // Start refreshing 2m before expiry
 };
 
 /**
@@ -123,7 +123,7 @@ export function createTokenCycler<T extends GetTokenOptions>(
 
   const options = {
     ...DEFAULT_CYCLER_OPTIONS,
-    ...tokenCyclerOptions
+    ...tokenCyclerOptions,
   };
 
   /**
@@ -155,7 +155,7 @@ export function createTokenCycler<T extends GetTokenOptions>(
       return (
         token === null || token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
       );
-    }
+    },
   };
 
   /**
@@ -215,6 +215,6 @@ export function createTokenCycler<T extends GetTokenOptions>(
       }
 
       return token as AccessToken;
-    }
+    },
   };
 }

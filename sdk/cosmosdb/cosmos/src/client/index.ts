@@ -11,3 +11,4 @@ export * from "./Trigger";
 export * from "./User";
 export * from "./UserDefinedFunction";
 export * from "./Resource";
+export * from "./SasToken/SasTokenProperties";

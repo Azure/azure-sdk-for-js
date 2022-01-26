@@ -10,10 +10,11 @@ import {
   AzureKeyCredential,
   SearchClient,
   GeographyPoint,
-  SearchIndexClient
+  SearchIndexClient,
 } from "@azure/search-documents";
 import { createIndex, documentKeyRetriever, WAIT_TIME, delay } from "./setup";
 import { Hotel } from "./interfaces";
+
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -49,7 +50,7 @@ export async function main() {
     searchClient,
     documentKeyRetriever,
     {
-      autoFlush: false
+      autoFlush: false,
     }
   );
 
@@ -91,9 +92,9 @@ export async function main() {
       rating: 5,
       location: new GeographyPoint({
         longitude: -122.131577,
-        latitude: 47.678581
-      })
-    }
+        latitude: 47.678581,
+      }),
+    },
   ]);
 
   await bufferedClient.flush();

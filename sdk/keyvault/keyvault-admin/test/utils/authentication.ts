@@ -5,12 +5,16 @@ import { ClientSecretCredential } from "@azure/identity";
 import { env, isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuidv4 } from "uuid";
+import { Context } from "mocha";
 
 import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
 import { uniqueString } from "./recorder";
-import { getEnvironmentVariable } from "./common";
+import { getEnvironmentVariable, getServiceVersion } from "./common";
 
-export async function authenticate(that: any): Promise<any> {
+export async function authenticate(
+  that: Context,
+  serviceVersion: ReturnType<typeof getServiceVersion>
+): Promise<any> {
   const generatedUUIDs: string[] = [];
   function generateFakeUUID(): string {
     if (isPlaybackMode()) {
@@ -32,7 +36,7 @@ export async function authenticate(that: any): Promise<any> {
       BLOB_STORAGE_ACCOUNT_NAME: "blob_storage_account_name",
       BLOB_STORAGE_SAS_TOKEN: "blob_storage_sas_token",
       BLOB_STORAGE_URI: "https://uri.blob.core.windows.net/",
-      CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6"
+      CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6",
     },
     customizationsOnRecordings: [
       (recording: any): any =>
@@ -52,9 +56,9 @@ export async function authenticate(that: any): Promise<any> {
           );
         }
         return recording;
-      }
+      },
     ],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
   };
   const recorder = record(that, recorderEnvSetup);
 
@@ -63,15 +67,17 @@ export async function authenticate(that: any): Promise<any> {
     getEnvironmentVariable("AZURE_CLIENT_ID"),
     getEnvironmentVariable("AZURE_CLIENT_SECRET"),
     {
-      authorityHost: env.AZURE_AUTHORITY_HOST // undefined by default is expected
+      authorityHost: env.AZURE_AUTHORITY_HOST, // undefined by default is expected
     }
   );
 
   const keyVaultHsmUrl = getEnvironmentVariable("AZURE_MANAGEDHSM_URI");
 
-  const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential);
-  const keyClient = new KeyClient(keyVaultHsmUrl, credential);
-  const backupClient = new KeyVaultBackupClient(keyVaultHsmUrl, credential);
+  const accessControlClient = new KeyVaultAccessControlClient(keyVaultHsmUrl, credential, {
+    serviceVersion,
+  });
+  const keyClient = new KeyClient(keyVaultHsmUrl, credential, { serviceVersion });
+  const backupClient = new KeyVaultBackupClient(keyVaultHsmUrl, credential, { serviceVersion });
 
   return { recorder, accessControlClient, backupClient, keyClient, suffix, generateFakeUUID };
 }

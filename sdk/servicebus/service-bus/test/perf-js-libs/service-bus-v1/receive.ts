@@ -16,7 +16,7 @@ import {
   ReceiveMode,
   OnError,
   OnMessage,
-  ServiceBusMessage
+  ServiceBusMessage,
 } from "@azure/service-bus";
 import moment from "moment";
 
@@ -79,7 +79,7 @@ async function RunTest(
 
   receiver.registerMessageHandler(onMessageHandler, onErrorHandler, {
     autoComplete: false,
-    maxConcurrentCalls: maxConcurrentCalls
+    maxConcurrentCalls: maxConcurrentCalls,
   });
 }
 

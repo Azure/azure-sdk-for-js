@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2021-10-31T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"},{\"timestamp\":\"2021-10-30T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query?$maxpagesize=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "125313ce-7ebe-48d2-ab3c-e0360bcdb5e8",
+    "apim-request-id": "f98ee5b1-c8d2-473b-be75-57d529ba1c5a",
     "content-length": "338",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:43:46 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:26 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "352",
-    "x-request-id": "125313ce-7ebe-48d2-ab3c-e0360bcdb5e8"
+    "x-envoy-upstream-service-time": "228",
+    "x-request-id": "f98ee5b1-c8d2-473b-be75-57d529ba1c5a"
    }
   },
   {
@@ -31,14 +31,14 @@
    "status": 200,
    "response": "{\"value\":[{\"timestamp\":\"2021-10-29T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"},{\"timestamp\":\"2021-10-28T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/dataFeeds/52b0c20c-cb7c-43f0-9507-2a33170342db/ingestionStatus/query?$maxpagesize=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "6a442a51-72b8-4bda-ad12-a56b9730b896",
+    "apim-request-id": "804ec25d-1616-4b0a-a846-6e5206be327e",
     "content-length": "338",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 08 Nov 2021 09:43:47 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:26 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "264",
-    "x-request-id": "6a442a51-72b8-4bda-ad12-a56b9730b896"
+    "x-envoy-upstream-service-time": "202",
+    "x-request-id": "804ec25d-1616-4b0a-a846-6e5206be327e"
    }
   }
  ],

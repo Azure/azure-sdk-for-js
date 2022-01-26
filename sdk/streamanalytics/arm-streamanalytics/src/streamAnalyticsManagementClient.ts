@@ -6,33 +6,37 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
-  FunctionsImpl,
+  OperationsImpl,
+  StreamingJobsImpl,
   InputsImpl,
   OutputsImpl,
-  StreamingJobsImpl,
-  SubscriptionsImpl,
   TransformationsImpl,
-  OperationsImpl,
+  FunctionsImpl,
+  SubscriptionsImpl,
   ClustersImpl,
   PrivateEndpointsImpl
 } from "./operations";
 import {
-  Functions,
+  Operations,
+  StreamingJobs,
   Inputs,
   Outputs,
-  StreamingJobs,
-  Subscriptions,
   Transformations,
-  Operations,
+  Functions,
+  Subscriptions,
   Clusters,
   PrivateEndpoints
 } from "./operationsInterfaces";
-import { StreamAnalyticsManagementClientContext } from "./streamAnalyticsManagementClientContext";
 import { StreamAnalyticsManagementClientOptionalParams } from "./models";
 
-export class StreamAnalyticsManagementClient extends StreamAnalyticsManagementClientContext {
+export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  apiVersion: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the StreamAnalyticsManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -44,25 +48,64 @@ export class StreamAnalyticsManagementClient extends StreamAnalyticsManagementCl
     subscriptionId: string,
     options?: StreamAnalyticsManagementClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
-    this.functions = new FunctionsImpl(this);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: StreamAnalyticsManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-streamanalytics/4.0.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2020-03-01";
+    this.operations = new OperationsImpl(this);
+    this.streamingJobs = new StreamingJobsImpl(this);
     this.inputs = new InputsImpl(this);
     this.outputs = new OutputsImpl(this);
-    this.streamingJobs = new StreamingJobsImpl(this);
-    this.subscriptions = new SubscriptionsImpl(this);
     this.transformations = new TransformationsImpl(this);
-    this.operations = new OperationsImpl(this);
+    this.functions = new FunctionsImpl(this);
+    this.subscriptions = new SubscriptionsImpl(this);
     this.clusters = new ClustersImpl(this);
     this.privateEndpoints = new PrivateEndpointsImpl(this);
   }
 
-  functions: Functions;
+  operations: Operations;
+  streamingJobs: StreamingJobs;
   inputs: Inputs;
   outputs: Outputs;
-  streamingJobs: StreamingJobs;
-  subscriptions: Subscriptions;
   transformations: Transformations;
-  operations: Operations;
+  functions: Functions;
+  subscriptions: Subscriptions;
   clusters: Clusters;
   privateEndpoints: PrivateEndpoints;
 }

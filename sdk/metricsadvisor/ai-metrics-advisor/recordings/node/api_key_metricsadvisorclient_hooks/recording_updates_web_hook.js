@@ -1,26 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "05858e63ce7f83f298e3aadaccd98c0a";
+module.exports.hash = "c31cfc64ad16634fe6c8bace4d7a4481";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/hooks/5dfb93fa-fc9a-4725-af2b-c604e303336b', {"hookType":"Webhook","hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"SecretPlaceholder"}})
-  .reply(200, {"hookId":"5dfb93fa-fc9a-4725-af2b-c604e303336b","hookName":"js-test-webHook-163636435782604310","hookType":"Webhook","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"SecretPlaceholder"}}, [
+  .patch('/metricsadvisor/v1.0/hooks/5f15ae02-3249-4f9e-ae4d-2854ba9dc0c1', {"hookType":"Webhook","hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"SecretPlaceholder"}})
+  .reply(200, {"hookId":"5f15ae02-3249-4f9e-ae4d-2854ba9dc0c1","hookName":"js-test-webHook-164264038100303372","hookType":"Webhook","externalLink":"","description":"description","admins":["kaghiya@microsoft.com"],"hookParameter":{"endpoint":"https://httpbin.org/post","username":"user1","password":"SecretPlaceholder"}}, [
   'Content-Length',
   '305',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '569d4bf4-8462-45d6-ae0a-fa29fc0ee329',
+  'a6386678-fbef-44a3-838c-aba9e09bd40a',
   'x-envoy-upstream-service-time',
-  '1092',
+  '518',
   'apim-request-id',
-  '569d4bf4-8462-45d6-ae0a-fa29fc0ee329',
+  'a6386678-fbef-44a3-838c-aba9e09bd40a',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:20 GMT'
+  'Thu, 20 Jan 2022 00:59:43 GMT'
 ]);

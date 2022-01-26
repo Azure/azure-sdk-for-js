@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { getQSU, getConnectionStringFromEnvironment } from "../utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { newPipeline, QueueClient, StorageSharedKeyCredential } from "../../src";
@@ -16,7 +16,7 @@ describe("QueueClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
@@ -24,7 +24,7 @@ describe("QueueClient Node.js only", () => {
     await queueClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await queueClient.delete();
     await recorder.stop();
   });
@@ -43,10 +43,10 @@ describe("QueueClient Node.js only", () => {
         accessPolicy: {
           expiresOn: new Date("2018-12-31T11:22:33.4567890Z"),
           permissions: "raup",
-          startsOn: new Date("2017-12-31T11:22:33.4567890Z")
+          startsOn: new Date("2017-12-31T11:22:33.4567890Z"),
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
-      }
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+      },
     ];
 
     await queueClient.setAccessPolicy(queueAcl);
@@ -58,10 +58,10 @@ describe("QueueClient Node.js only", () => {
     const queueAcl = [
       {
         accessPolicy: {
-          permissions: "raup"
+          permissions: "raup",
         },
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
-      }
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+      },
     ];
     await queueClient.setAccessPolicy(queueAcl);
     const result = await queueClient.getAccessPolicy();
@@ -70,8 +70,8 @@ describe("QueueClient Node.js only", () => {
     const queueAclEmpty = [
       {
         accessPolicy: {},
-        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI="
-      }
+        id: "MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=",
+      },
     ];
     await queueClient.setAccessPolicy(queueAclEmpty);
     const resultEmpty = await queueClient.getAccessPolicy();
@@ -96,8 +96,8 @@ describe("QueueClient Node.js only", () => {
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new QueueClient(queueClient.url, credential, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const result = await newClient.getProperties();
@@ -135,8 +135,8 @@ describe("QueueClient Node.js only", () => {
   it("can be created with a connection string and a queue name and an option bag", async () => {
     const newClient = new QueueClient(getConnectionStringFromEnvironment(), queueName, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const result = await newClient.getProperties();
@@ -151,8 +151,8 @@ describe("QueueClient Node.js only", () => {
       getToken: () =>
         Promise.resolve({
           token: "token",
-          expiresOnTimestamp: 12345
-        })
+          expiresOnTimestamp: 12345,
+        }),
     };
     const newClient = new QueueClient(
       `https://myaccount.queue.core.windows.net/` + queueName,

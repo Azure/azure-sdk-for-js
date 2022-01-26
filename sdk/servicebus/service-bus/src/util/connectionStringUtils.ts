@@ -80,7 +80,7 @@ export function parseServiceBusConnectionString(
 
   const output: ServiceBusConnectionStringProperties = {
     fullyQualifiedNamespace: (parsedResult.Endpoint.match(".*://([^/]*)") || [])[1],
-    endpoint: parsedResult.Endpoint
+    endpoint: parsedResult.Endpoint,
   };
   if (parsedResult.EntityPath) {
     output.entityPath = parsedResult.EntityPath;

@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import { Context } from "mocha";
-import * as assert from "assert";
+import { assert } from "chai";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 import { isNode } from "@azure/core-http";
 
@@ -11,6 +11,7 @@ import { CertificateClient } from "../../src";
 import { assertThrowsAbortError } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
+import { getServiceVersion } from "../utils/utils.common";
 import TestClient from "../utils/testClient";
 
 const { expect } = chai;
@@ -24,18 +25,18 @@ describe("Certificates client - list certificates in various ways", () => {
 
   const basicCertificatePolicy = {
     issuerName: "Self",
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   };
 
-  beforeEach(async function(this: Context) {
-    const authentication = await authenticate(this);
+  beforeEach(async function (this: Context) {
+    const authentication = await authenticate(this, getServiceVersion());
     suffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -44,13 +45,13 @@ describe("Certificates client - list certificates in various ways", () => {
   // Use this while recording to make sure the target keyvault is clean.
   // The next tests will produce a more consistent output.
   // This test is only useful while developing locally.
-  it("can purge all certificates", async function(this: Context): Promise<void> {
+  it("can purge all certificates", async function (this: Context): Promise<void> {
     // WARNING: When TEST_MODE equals "record", all of the certificates in the indicated KEYVAULT_NAME will be deleted as part of this test.
     if (!isRecordMode()) {
       return this.skip();
     }
     for await (const certificate of client.listPropertiesOfCertificates({
-      includePending: true
+      includePending: true,
     })) {
       try {
         await testClient.flushCertificate(certificate.name!);
@@ -67,7 +68,7 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  it("can list certificates", async function(this: Context) {
+  it("can list certificates", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
@@ -89,7 +90,7 @@ describe("Certificates client - list certificates in various ways", () => {
     assert.equal(found, 2, "Unexpected number of certificates found by listCertificates.");
   });
 
-  it("can list deleted certificates", async function(this: Context) {
+  it("can list deleted certificates", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
@@ -119,7 +120,7 @@ describe("Certificates client - list certificates in various ways", () => {
     }
   });
 
-  it("can list certificates by page", async function(this: Context) {
+  it("can list certificates by page", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
@@ -145,7 +146,7 @@ describe("Certificates client - list certificates in various ways", () => {
 
   if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
-    it("can get several inserted certificates with requestOptions timeout", async function() {
+    it("can get several inserted certificates with requestOptions timeout", async function () {
       const iter = client.listPropertiesOfCertificates({ requestOptions: { timeout: 1 } });
       await assertThrowsAbortError(async () => {
         await iter.next();
@@ -153,7 +154,7 @@ describe("Certificates client - list certificates in various ways", () => {
     });
   }
 
-  it("can list deleted certificates by page", async function(this: Context) {
+  it("can list deleted certificates by page", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
@@ -184,7 +185,7 @@ describe("Certificates client - list certificates in various ways", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work - in browsers only
-  it("list deleted certificates with requestOptions timeout", async function() {
+  it("list deleted certificates with requestOptions timeout", async function () {
     recorder.skip("browser", "Timeout tests don't work on playback mode.");
     const iter = client.listDeletedCertificates({ requestOptions: { timeout: 1 } });
     await assertThrowsAbortError(async () => {
@@ -192,7 +193,7 @@ describe("Certificates client - list certificates in various ways", () => {
     });
   });
 
-  it("can retrieve all versions of a certificate", async function(this: Context) {
+  it("can retrieve all versions of a certificate", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     const certificateTags = ["tag01", "tag02", "tag03"];
@@ -212,7 +213,7 @@ describe("Certificates client - list certificates in various ways", () => {
         {
           ...testPollerProperties,
           tags: { tag },
-          enabled: true
+          enabled: true,
         }
       );
       const response = await createPoller.pollUntilDone();
@@ -238,17 +239,17 @@ describe("Certificates client - list certificates in various ways", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work - in browsers only
-  it("can get the versions of a certificate with requestOptions timeout", async function() {
+  it("can get the versions of a certificate with requestOptions timeout", async function () {
     recorder.skip("browser", "Timeout tests don't work on playback mode.");
     const iter = client.listPropertiesOfCertificateVersions("doesn't matter", {
-      requestOptions: { timeout: 1 }
+      requestOptions: { timeout: 1 },
     });
     await assertThrowsAbortError(async () => {
       await iter.next();
     });
   });
 
-  it("can list certificate versions (non existing)", async function(this: Context) {
+  it("can list certificate versions (non existing)", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let totalVersions = 0;
     for await (const page of client.listPropertiesOfCertificateVersions(certificateName).byPage()) {

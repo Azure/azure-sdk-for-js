@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import chaiString from "chai-string";
-chai.use(chaiString);
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
 import { EnvironmentCredential, TokenCredential } from "@azure/identity";
-import { EventHubProducerClient, EventHubConsumerClient } from "../../../src";
-import { TestTracer, setTracer, resetTracer } from "@azure/test-utils";
-import { testWithServiceTypes } from "../utils/testWithServiceTypes";
+import { EventHubConsumerClient, EventHubProducerClient } from "../../../src";
+import { TestTracer, resetTracer, setTracer } from "@azure/test-utils";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import chaiString from "chai-string";
 import { createMockServer } from "../utils/mockService";
+import { testWithServiceTypes } from "../utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
+chai.use(chaiString);
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
@@ -28,10 +29,10 @@ testWithServiceTypes((serviceVersion) => {
     });
   }
 
-  describe("Create clients using Azure Identity", function(): void {
+  describe("Create clients using Azure Identity", function (): void {
     let endpoint: string;
     let credential: TokenCredential;
-    before("validate environment", function() {
+    before("validate environment", function () {
       should.exist(
         env[EnvVarKeys.AZURE_CLIENT_ID],
         "define AZURE_CLIENT_ID in your environment before running integration tests."
@@ -55,16 +56,14 @@ testWithServiceTypes((serviceVersion) => {
         credential = {
           getToken(_args) {
             return Promise.resolve({ token: "token", expiresOnTimestamp: Date.now() + 360000 });
-          }
+          },
         };
       } else {
         credential = new EnvironmentCredential();
       }
     });
 
-    it("creates an EventHubProducerClient from an Azure.Identity credential", async function(): Promise<
-      void
-    > {
+    it("creates an EventHubProducerClient from an Azure.Identity credential", async function (): Promise<void> {
       const client = new EventHubProducerClient(endpoint, env.EVENTHUB_NAME, credential);
       should.equal(client.fullyQualifiedNamespace, endpoint);
 
@@ -75,9 +74,7 @@ testWithServiceTypes((serviceVersion) => {
       await client.close();
     });
 
-    it("creates an EventHubConsumerClient from an Azure.Identity credential", async function(): Promise<
-      void
-    > {
+    it("creates an EventHubConsumerClient from an Azure.Identity credential", async function (): Promise<void> {
       const client = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         endpoint,
@@ -126,7 +123,7 @@ testWithServiceTypes((serviceVersion) => {
         spans[0].attributes.should.deep.equal({
           "az.namespace": "Microsoft.EventHub",
           "message_bus.destination": client.eventHubName,
-          "peer.address": client.fullyQualifiedNamespace
+          "peer.address": client.fullyQualifiedNamespace,
         });
       });
     });

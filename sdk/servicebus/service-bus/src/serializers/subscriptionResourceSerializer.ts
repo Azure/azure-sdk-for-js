@@ -6,7 +6,7 @@ import { CorrelationRuleFilter } from "..";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
-  serializeToAtomXmlRequest
+  serializeToAtomXmlRequest,
 } from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
 import {
@@ -17,13 +17,13 @@ import {
   getInteger,
   getString,
   getStringOrUndefined,
-  getDate
+  getDate,
 } from "../util/utils";
 import {
   buildInternalRuleResource,
   InternalRuleOptions,
   SqlRuleAction,
-  SqlRuleFilter
+  SqlRuleFilter,
 } from "./ruleResourceSerializer";
 
 /**
@@ -61,7 +61,7 @@ export function buildSubscriptionOptions(
     UserMetadata: getStringOrUndefined(subscription.userMetadata),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(subscription.forwardDeadLetteredMessagesTo),
     AutoDeleteOnIdle: getStringOrUndefined(subscription.autoDeleteOnIdle),
-    EntityAvailabilityStatus: getStringOrUndefined(subscription.availabilityStatus)
+    EntityAvailabilityStatus: getStringOrUndefined(subscription.availabilityStatus),
   };
 }
 
@@ -110,7 +110,7 @@ export function buildSubscription(rawSubscription: Record<string, any>): Subscri
     availabilityStatus: getString(
       rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
       "availabilityStatus"
-    ) as EntityAvailabilityStatus
+    ) as EntityAvailabilityStatus,
   };
 }
 
@@ -133,7 +133,7 @@ export function buildSubscriptionRuntimeProperties(
     transferMessageCount: messageCountDetails.transferMessageCount,
     createdAt: getDate(rawSubscription[Constants.CREATED_AT], "createdAt"),
     modifiedAt: getDate(rawSubscription[Constants.UPDATED_AT], "modifiedAt"),
-    accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt")
+    accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt"),
   };
 }
 
@@ -560,7 +560,7 @@ export interface SubscriptionRuntimeProperties {
  * SubscriptionResourceSerializer for serializing / deserializing Subscription entities
  */
 export class SubscriptionResourceSerializer implements AtomXmlSerializer {
-  serialize(resource: InternalSubscriptionOptions): object {
+  serialize(resource: InternalSubscriptionOptions): Record<string, unknown> {
     return serializeToAtomXmlRequest("SubscriptionDescription", resource);
   }
 

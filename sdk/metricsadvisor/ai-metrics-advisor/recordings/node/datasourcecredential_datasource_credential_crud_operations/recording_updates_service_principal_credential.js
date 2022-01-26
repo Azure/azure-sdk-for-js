@@ -1,26 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "c93d3a58b35e0b0f5fb77bac6758413a";
+module.exports.hash = "f192d3f68b63ab57b2ed0ca99ba41afe";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/credentials/fb5f6aa0-4915-43d5-a006-bc9c6a4c3a5c', {"dataSourceCredentialType":"ServicePrincipal","dataSourceCredentialName":"js-test-servicePrincipalCred-163636434695309101","dataSourceCredentialDescription":"updated description","parameters":{"clientId":"updated-client","clientSecret":"updated-secret","tenantId":"updated-tenant"}})
-  .reply(200, {"dataSourceCredentialId":"fb5f6aa0-4915-43d5-a006-bc9c6a4c3a5c","dataSourceCredentialName":"js-test-servicePrincipalCred-163636434695309101","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"ServicePrincipal","parameters":{"clientId":"updated-client","tenantId":"updated-tenant"}}, [
+  .patch('/metricsadvisor/v1.0/credentials/60cae6ef-62d5-4dcf-9491-c0a0884b64e4', {"dataSourceCredentialType":"ServicePrincipal","dataSourceCredentialName":"js-test-servicePrincipalCred-164264036985605505","dataSourceCredentialDescription":"updated description","parameters":{"clientId":"updated-client","clientSecret":"updated-secret","tenantId":"updated-tenant"}})
+  .reply(200, {"dataSourceCredentialId":"60cae6ef-62d5-4dcf-9491-c0a0884b64e4","dataSourceCredentialName":"js-test-servicePrincipalCred-164264036985605505","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"ServicePrincipal","parameters":{"clientId":"updated-client","tenantId":"updated-tenant"}}, [
   'Content-Length',
   '315',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '9517d056-6d9c-4253-ad9a-d8684e41fa8c',
+  'c9e1233b-940d-4713-b69e-76da6c8b0311',
   'x-envoy-upstream-service-time',
-  '403',
+  '323',
   'apim-request-id',
-  '9517d056-6d9c-4253-ad9a-d8684e41fa8c',
+  'c9e1233b-940d-4713-b69e-76da6c8b0311',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:09 GMT'
+  'Thu, 20 Jan 2022 00:59:32 GMT'
 ]);

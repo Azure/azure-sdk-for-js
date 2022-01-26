@@ -30,11 +30,11 @@ export async function main(): Promise<void> {
   // Creating two self-signed certificates. They will appear as pending initially.
   await client.beginCreateCertificate(certificateName1, {
     issuerName: "Self",
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   });
   await client.beginCreateCertificate(certificateName2, {
     issuerName: "Self",
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   });
 
   // Listing all the available certificates in a single call.
@@ -55,8 +55,8 @@ export async function main(): Promise<void> {
   // Updating one of the certificates to retrieve the certificate versions afterwards
   const updatedCertificate = await client.updateCertificateProperties(certificateName1, "", {
     tags: {
-      customTag: "value"
-    }
+      customTag: "value",
+    },
   });
   console.log("Updated certificate:", updatedCertificate);
 

@@ -12,9 +12,9 @@ import {
   GeographyPoint,
   SearchIndexClient
 } from "@azure/search-documents";
-import { createIndex, documentKeyRetriever, WAIT_TIME } from "./setup";
+import { createIndex, documentKeyRetriever, WAIT_TIME, delay } from "./setup";
 import { Hotel } from "./interfaces";
-import { delay } from "@azure/core-http";
+
 import * as dotenv from "dotenv";
 dotenv.config();
 

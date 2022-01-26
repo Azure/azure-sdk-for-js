@@ -21,8 +21,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [dataSourceConnectionOperations.js][datasourceconnectionoperations] | Demonstrates the DataSource Connection Operations.                           |
 | [indexOperations.js][indexoperations]                               | Demonstrates the Index Operations.                                           |
 | [indexerOperations.js][indexeroperations]                           | Demonstrates the Indexer Operations.                                         |
-| [interfaces.js][interfaces]                                         | Defines the Hotel Interface.                                                 |
-| [setup.js][setup]                                                   | Defines the utility methods.                                                 |
 | [skillSetOperations.js][skillsetoperations]                         | Demonstrates the Skillset Operations.                                        |
 | [synonymMapOperations.js][synonymmapoperations]                     | Demonstrates the SynonymMap Operations.                                      |
 
@@ -72,8 +70,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [datasourceconnectionoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/javascript/dataSourceConnectionOperations.js
 [indexoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/javascript/indexOperations.js
 [indexeroperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/javascript/indexerOperations.js
-[interfaces]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/javascript/interfaces.js
-[setup]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/javascript/setup.js
 [skillsetoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/javascript/skillSetOperations.js
 [synonymmapoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/samples/v11/javascript/synonymMapOperations.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/search-documents

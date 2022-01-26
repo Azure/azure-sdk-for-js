@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Domains } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { WebSiteManagementClientContext } from "../webSiteManagementClientContext";
+import { WebSiteManagementClient } from "../webSiteManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -52,6 +51,8 @@ import {
   DomainsUpdateOwnershipIdentifierOptionalParams,
   DomainsUpdateOwnershipIdentifierResponse,
   DomainsRenewOptionalParams,
+  DomainsTransferOutOptionalParams,
+  DomainsTransferOutResponse,
   DomainsListNextResponse,
   DomainsListRecommendationsNextResponse,
   DomainsListByResourceGroupNextResponse,
@@ -59,15 +60,15 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a Domains. */
+/** Class containing Domains operations. */
 export class DomainsImpl implements Domains {
-  private readonly client: WebSiteManagementClientContext;
+  private readonly client: WebSiteManagementClient;
 
   /**
    * Initialize a new instance of the class Domains class.
    * @param client Reference to the service client
    */
-  constructor(client: WebSiteManagementClientContext) {
+  constructor(client: WebSiteManagementClient) {
     this.client = client;
   }
 
@@ -630,6 +631,23 @@ export class DomainsImpl implements Domains {
   }
 
   /**
+   * Transfer out domain to another registrar
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param domainName Name of domain.
+   * @param options The options parameters.
+   */
+  transferOut(
+    resourceGroupName: string,
+    domainName: string,
+    options?: DomainsTransferOutOptionalParams
+  ): Promise<DomainsTransferOutResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, domainName, options },
+      transferOutOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -1022,6 +1040,31 @@ const renewOperationSpec: coreClient.OperationSpec = {
     200: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.domainName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const transferOutOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/transferOut",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Domain
+    },
+    400: {
+      isError: true
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }

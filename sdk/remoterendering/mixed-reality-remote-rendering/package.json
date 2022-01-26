@@ -1,6 +1,6 @@
 {
   "name": "@azure/mixed-reality-remote-rendering",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Example project for learning how to build a client library",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -18,6 +18,10 @@
       {
         "path": "src/generated/generatedClientContext.ts",
         "prefix": "packageDetails"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
       }
     ]
   },
@@ -29,7 +33,6 @@
     "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* test-dist temp types *.tgz *.log",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
     "build:samples": "echo Obsolete.",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
@@ -79,7 +82,7 @@
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
-    "@azure/mixed-reality-authentication": "1.0.0-beta.1",
+    "@azure/mixed-reality-authentication": "1.0.0-beta.2",
     "@azure/core-lro": "^2.2.0",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-paging": "^1.1.1",
@@ -88,7 +91,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^1.1.0",
+    "@azure/identity": "^2.0.1",
     "@azure-tools/test-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",
     "@types/chai": "^4.1.6",
@@ -114,12 +117,11 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^1.18.0",
-    "nyc": "^14.0.0",
-    "prettier": "^1.16.4",
+    "mocha-junit-reporter": "^2.0.0",
+    "nyc": "^15.0.0",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
-    "typedoc": "0.15.2",
     "typescript": "~4.2.0",
     "util": "^0.12.1",
     "@types/uuid": "^8.0.0",

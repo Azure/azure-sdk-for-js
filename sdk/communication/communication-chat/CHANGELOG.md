@@ -1,8 +1,20 @@
 # Release History
 
+## 1.1.2 (Unreleased)
+
+### Breaking Changes
+
+- Prohibit sending the typing notification request within 8 seconds of the previous request.
+
+### Features Added
+
+- Updated to @azure/communication-signaling@1.0.0-beta.12.
+- Added two new events realTimeNotificationConnected and realTimeNotificationDisconnected that allow the developer to know when the connection to the call server is active
+
 ## 1.1.1 (2021-10-19)
 
 ### Features Added
+
 - Updated to @azure/communication-signaling@1.0.0-beta.11.
 - Added `signalingClientOptions` in `ClientOptions`.
 

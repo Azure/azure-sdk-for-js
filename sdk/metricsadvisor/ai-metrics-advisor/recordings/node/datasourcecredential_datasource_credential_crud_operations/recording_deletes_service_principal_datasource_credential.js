@@ -5,41 +5,41 @@ module.exports.hash = "d98981d9bf602515a1154516d3524da1";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/metricsadvisor/v1.0/credentials/fb5f6aa0-4915-43d5-a006-bc9c6a4c3a5c')
+  .delete('/metricsadvisor/v1.0/credentials/60cae6ef-62d5-4dcf-9491-c0a0884b64e4')
   .reply(204, "", [
   'Content-Length',
   '0',
   'x-request-id',
-  'ef5d5951-fbd0-4557-a7a8-8cb1ffe2ffc0',
+  '872f85e3-fc07-4f52-99ef-8888dd9f6bea',
   'x-envoy-upstream-service-time',
-  '115',
+  '109',
   'apim-request-id',
-  'ef5d5951-fbd0-4557-a7a8-8cb1ffe2ffc0',
+  '872f85e3-fc07-4f52-99ef-8888dd9f6bea',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:11 GMT'
+  'Thu, 20 Jan 2022 00:59:33 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/metricsadvisor/v1.0/credentials/fb5f6aa0-4915-43d5-a006-bc9c6a4c3a5c')
+  .get('/metricsadvisor/v1.0/credentials/60cae6ef-62d5-4dcf-9491-c0a0884b64e4')
   .reply(404, {"code":"404 NOT_FOUND","message":"credentialId is invalid."}, [
   'Content-Length',
   '61',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'a61e3717-0d17-46b8-b8e1-e1a6d73fd842',
+  '701db66f-7c72-45b5-9561-c9bdfe10078c',
   'x-envoy-upstream-service-time',
-  '58',
+  '62',
   'apim-request-id',
-  'a61e3717-0d17-46b8-b8e1-e1a6d73fd842',
+  '701db66f-7c72-45b5-9561-c9bdfe10078c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:11 GMT'
+  'Thu, 20 Jan 2022 00:59:33 GMT'
 ]);

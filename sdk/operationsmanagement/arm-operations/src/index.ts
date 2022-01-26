@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { OperationsManagementClient } from "./operationsManagementClient";
-export { OperationsManagementClientContext } from "./operationsManagementClientContext";
 export * from "./operationsInterfaces";

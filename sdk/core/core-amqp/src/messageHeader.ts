@@ -89,5 +89,5 @@ export const AmqpMessageHeader = {
     }
     logger.verbose("From RheaMessageHeader: %O", msgHeader);
     return msgHeader;
-  }
+  },
 };

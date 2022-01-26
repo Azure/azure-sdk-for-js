@@ -1,6 +1,6 @@
 # Release History
 
-## 10.0.0-beta.2 (Unreleased)
+## 11.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,17 +10,118 @@
 
 ### Other Changes
 
-## 10.0.0-beta.1 (2021-10-09)
+## 11.0.0 (2022-01-10)
+    
+**Features**
 
-This is the first preview for the new version of the `@azure/arm-appservice` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
+  - Added operation group ContainerApps
+  - Added operation group ContainerAppsRevisions
+  - Added operation Domains.transferOut
+  - Added operation WebApps.getAuthSettingsV2WithoutSecrets
+  - Added Interface Configuration
+  - Added Interface Container
+  - Added Interface ContainerAppCollection
+  - Added Interface ContainerAppsConfiguration
+  - Added Interface ContainerAppsCreateOrUpdateOptionalParams
+  - Added Interface ContainerAppsDeleteOptionalParams
+  - Added Interface ContainerAppSecret
+  - Added Interface ContainerAppsGetOptionalParams
+  - Added Interface ContainerAppsListByResourceGroupNextOptionalParams
+  - Added Interface ContainerAppsListByResourceGroupOptionalParams
+  - Added Interface ContainerAppsListBySubscriptionNextOptionalParams
+  - Added Interface ContainerAppsListBySubscriptionOptionalParams
+  - Added Interface ContainerAppsListSecretsOptionalParams
+  - Added Interface ContainerAppsRevisionsActivateRevisionOptionalParams
+  - Added Interface ContainerAppsRevisionsDeactivateRevisionOptionalParams
+  - Added Interface ContainerAppsRevisionsGetRevisionOptionalParams
+  - Added Interface ContainerAppsRevisionsListRevisionsNextOptionalParams
+  - Added Interface ContainerAppsRevisionsListRevisionsOptionalParams
+  - Added Interface ContainerAppsRevisionsRestartRevisionOptionalParams
+  - Added Interface ContainerResources
+  - Added Interface CustomHostnameSitesCollection
+  - Added Interface CustomScaleRule
+  - Added Interface Dapr
+  - Added Interface DaprComponent
+  - Added Interface DaprMetadata
+  - Added Interface DomainsTransferOutOptionalParams
+  - Added Interface EnvironmentVar
+  - Added Interface HttpScaleRule
+  - Added Interface Ingress
+  - Added Interface ListCustomHostNameSitesNextOptionalParams
+  - Added Interface ListCustomHostNameSitesOptionalParams
+  - Added Interface QueueScaleRule
+  - Added Interface RegistryCredentials
+  - Added Interface RevisionCollection
+  - Added Interface Scale
+  - Added Interface ScaleRule
+  - Added Interface ScaleRuleAuth
+  - Added Interface Secret
+  - Added Interface SecretsCollection
+  - Added Interface Template
+  - Added Interface TrafficWeight
+  - Added Interface WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams
+  - Added Type Alias ActiveRevisionsMode
+  - Added Type Alias ContainerApp
+  - Added Type Alias ContainerAppProvisioningState
+  - Added Type Alias ContainerAppsCreateOrUpdateResponse
+  - Added Type Alias ContainerAppsGetResponse
+  - Added Type Alias ContainerAppsListByResourceGroupNextResponse
+  - Added Type Alias ContainerAppsListByResourceGroupResponse
+  - Added Type Alias ContainerAppsListBySubscriptionNextResponse
+  - Added Type Alias ContainerAppsListBySubscriptionResponse
+  - Added Type Alias ContainerAppsListSecretsResponse
+  - Added Type Alias ContainerAppsRevisionsGetRevisionResponse
+  - Added Type Alias ContainerAppsRevisionsListRevisionsNextResponse
+  - Added Type Alias ContainerAppsRevisionsListRevisionsResponse
+  - Added Type Alias CustomHostnameSites
+  - Added Type Alias DomainsTransferOutResponse
+  - Added Type Alias EnterpriseGradeCdnStatus
+  - Added Type Alias Enum16
+  - Added Type Alias Enum17
+  - Added Type Alias Enum18
+  - Added Type Alias Enum19
+  - Added Type Alias Enum20
+  - Added Type Alias IngressTransportMethod
+  - Added Type Alias ListCustomHostNameSitesNextResponse
+  - Added Type Alias ListCustomHostNameSitesResponse
+  - Added Type Alias Revision
+  - Added Type Alias RevisionHealthState
+  - Added Type Alias RevisionProvisioningState
+  - Added Type Alias WebAppsGetAuthSettingsV2WithoutSecretsResponse
+  - Class WebSiteManagementClient has a new parameter containerApps
+  - Class WebSiteManagementClient has a new parameter containerAppsRevisions
+  - Type Alias KubeEnvironment has a new parameter environmentType
+  - Type Alias KubeEnvironment has a new parameter containerAppsConfiguration
+  - Type Alias KubeEnvironmentPatchResource has a new parameter containerAppsConfiguration
+  - Type Alias StaticSiteARMResource has a new parameter enterpriseGradeCdnStatus
+  - Type Alias StaticSitePatchResource has a new parameter enterpriseGradeCdnStatus
+  - Added Enum KnownActiveRevisionsMode
+  - Added Enum KnownContainerAppProvisioningState
+  - Added Enum KnownEnterpriseGradeCdnStatus
+  - Added Enum KnownEnum16
+  - Added Enum KnownEnum17
+  - Added Enum KnownEnum18
+  - Added Enum KnownEnum19
+  - Added Enum KnownEnum20
+  - Added Enum KnownIngressTransportMethod
+  - Added Enum KnownRevisionHealthState
+  - Added Enum KnownRevisionProvisioningState
 
-While this package remains auto generated, the SDK generator itself has undergone changes to comply with the above guidelines in order to generate packages that are idiomatic to the JavaScript/TypeScript ecosystem and consistent with other packages for Azure services. For more on this, please see [State of the Azure SDK 2021](https://devblogs.microsoft.com/azure-sdk/state-of-the-azure-sdk-2021/).
+**Breaking Changes**
 
-Please note that this version has breaking changes, all of which were made after careful consideration during the authoring of the guidelines and user studies.
+  - Removed Enum KnownEnum10
+  - Removed Enum KnownEnum11
+  - Removed Enum KnownEnum12
+  - Removed Enum KnownEnum13
+  - Removed Enum KnownEnum14
+    
+    
+## 10.0.0 (2021-12-13)
 
-**Noteworthy changes and features**
-- Authentication: The packages `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` are no longer supported. Use package [@azure/identity](https://www.npmjs.com/package/@azure/identity) instead. Select a credential from Azure Identity examples based on the authentication method of your choice.
-- Callbacks: Method overloads that used callbacks have been removed and the use of promises is encouraged instead.
-- List operations now return an iterable result that follows the `PagedAsyncIterableIterator` interface as opposed to the previous model where you had to make a new request using the link to the next page.
-- Long running operations i.e. the Lro related object returned by methods whose names started with `begin`, now uses `pollUntilDone` to check whether the request is finished, instead of `pollUntilFinished`. To get the final result, use the corresponding method that will have the suffix `AndWait`.
-- The SDK only supports ECMAScript 2015 (ES6) and beyond, all projects that referenced this SDK should be upgraded to use ES6.
+The package of @azure/arm-appservice is using our next generation design principles since version 10.0.0, which contains breaking changes.
+
+To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
+
+To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
+
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

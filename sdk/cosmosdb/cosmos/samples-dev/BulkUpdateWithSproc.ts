@@ -5,23 +5,20 @@
  * @summary Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { CosmosClient } from "../dist";
+import { CosmosClient } from "@azure/cosmos";
 import { v4 } from "uuid";
 const uuid = v4;
 
-const {
-  COSMOS_DATABASE: databaseId,
-  COSMOS_CONTAINER: containerId,
-  COSMOS_ENDPOINT: endpoint,
-  COSMOS_KEY: key
-} = process.env;
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 logSampleHeader("Bulk Update Using Stored Procedures");
 // Only to make TypeScript happy
@@ -37,7 +34,7 @@ function body(continuation: string): void {
     collection.getSelfLink(),
     "SELECT * FROM root r",
     { pageSize: 2, continuation }, // Setting this low to show how continuation tokens work
-    function(err: any, feed: any, options: any) {
+    function (err: any, feed: any, options: any) {
       if (err) throw err;
       // Set continuation token on response if we get one
       responseBody.continuation = options.continuation;
@@ -54,7 +51,7 @@ function body(continuation: string): void {
       // Grab the next document to update
       const document = documents.pop();
       document.state = "open";
-      collection.replaceDocument(document._self, document, {}, function(err: any) {
+      collection.replaceDocument(document._self, document, {}, function (err: any) {
         if (err) throw err;
         // If we have successfully updated the document, include it in the returned document ids
         responseBodyParam.updatedDocumentIds.push(document.id);
@@ -84,11 +81,11 @@ async function run(): Promise<void> {
   logStep("Created stored procedure");
   const { storedProcedure } = await container.scripts.storedProcedures.create({
     id: "queryAndBulkUpdate",
-    body
+    body,
   });
 
   logStep("Execute stored procedure and follow continuation tokens");
-  let continuation: string = undefined;
+  let continuation: string | undefined = undefined;
   let totalUpdatedDocuments = 0;
   for (;;) {
     const response = await storedProcedure.execute(undefined, [continuation]);

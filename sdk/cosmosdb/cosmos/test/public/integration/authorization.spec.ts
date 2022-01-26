@@ -7,7 +7,7 @@ import { Database } from "../../../src";
 import { endpoint } from "../common/_testConfig";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
-describe("Authorization", function(this: Suite) {
+describe("Authorization", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
   // TODO: should have types for all these things
@@ -18,15 +18,15 @@ describe("Authorization", function(this: Suite) {
   let userAllDefinition: any = { id: "User With All Permission" };
   let collReadPermission: any = {
     id: "container Read Permission",
-    permissionMode: PermissionMode.Read
+    permissionMode: PermissionMode.Read,
   };
   let collAllPermission: any = {
     id: "container All Permission",
-    permissionMode: PermissionMode.All
+    permissionMode: PermissionMode.All,
   };
   /** ************ TEST **************/
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     await removeAllDatabases();
 
     // create a database & container
@@ -66,18 +66,18 @@ describe("Authorization", function(this: Suite) {
     collAllPermission = allPermission;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await removeAllDatabases();
   });
 
-  it("Accessing container by resourceTokens", async function() {
+  it("Accessing container by resourceTokens", async function () {
     const rTokens: any = {};
     rTokens[container.id] = collReadPermission._token;
 
     const clientReadPermission = new CosmosClient({
       endpoint,
       resourceTokens: rTokens,
-      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false },
     });
 
     const { resource: coll } = await clientReadPermission
@@ -87,11 +87,11 @@ describe("Authorization", function(this: Suite) {
     assert.equal(coll.id, container.id, "invalid container");
   });
 
-  it("Accessing container by permissionFeed", async function() {
+  it("Accessing container by permissionFeed", async function () {
     const clientReadPermission = new CosmosClient({
       endpoint,
       permissionFeed: [collReadPermission],
-      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false },
     });
 
     // self link must be used to access a resource using permissionFeed
@@ -102,14 +102,11 @@ describe("Authorization", function(this: Suite) {
     assert.equal(coll.id, container.id, "invalid container");
   });
 
-  it("Accessing container without permission fails", async function() {
+  it("Accessing container without permission fails", async function () {
     const clientNoPermission = new CosmosClient({ endpoint });
 
     try {
-      await clientNoPermission
-        .database(database.id)
-        .container(container.id)
-        .read();
+      await clientNoPermission.database(database.id).container(container.id).read();
       assert.fail("accessing container did not throw");
     } catch (err) {
       assert(err !== undefined); // TODO: should check that we get the right error message
@@ -117,14 +114,14 @@ describe("Authorization", function(this: Suite) {
     clientNoPermission.dispose();
   });
 
-  it("Accessing document by permissionFeed of parent container", async function() {
+  it("Accessing document by permissionFeed of parent container", async function () {
     const { resource: createdDoc } = await container.items.create({
-      id: "document1"
+      id: "document1",
     });
     const clientReadPermission = new CosmosClient({
       endpoint,
       permissionFeed: [collReadPermission],
-      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false },
     });
     assert.equal("document1", createdDoc.id, "invalid documnet create");
 
@@ -136,34 +133,28 @@ describe("Authorization", function(this: Suite) {
     assert.equal(readDoc.id, createdDoc.id, "invalid document read");
   });
 
-  it("Modifying container by resourceTokens", async function() {
+  it("Modifying container by resourceTokens", async function () {
     const rTokens: any = {};
     rTokens[container.id] = collAllPermission._token;
     const clientAllPermission = new CosmosClient({
       endpoint,
       resourceTokens: rTokens,
-      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false },
     });
 
     // delete container
-    return clientAllPermission
-      .database(database.id)
-      .container(container.id)
-      .delete();
+    return clientAllPermission.database(database.id).container(container.id).delete();
   });
 
-  it("Modifying container by permissionFeed", async function() {
+  it("Modifying container by permissionFeed", async function () {
     const clientAllPermission = new CosmosClient({
       endpoint,
       permissionFeed: [collAllPermission],
-      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false },
     });
 
     // self link must be used to access a resource using permissionFeed
     // delete container
-    return clientAllPermission
-      .database(database.id)
-      .container(container.id)
-      .delete();
+    return clientAllPermission.database(database.id).container(container.id).delete();
   });
 });

@@ -43,6 +43,12 @@ steps:
     displayName: "Test libraries"
     condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
+  - ${{ if eq(parameters.TestProxy, true) }}:
+    - pwsh: |
+        cat $(Build.SourcesDirectory)/test-proxy.log
+      displayName: 'Dump Test Proxy logs'
+      condition: succeededOrFailed()
+      
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
   # Retry for 30 seconds, since this command may fail with error "Another rush command is already

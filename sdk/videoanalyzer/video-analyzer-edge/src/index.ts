@@ -7,7 +7,7 @@ import {
   LivePipeline,
   RemoteDeviceAdapter,
   UnsecuredEndpoint,
-  OnvifDevice
+  OnvifDevice,
 } from "./generated/models";
 import { MethodRequest } from "./generated/models/mappers";
 
@@ -198,7 +198,7 @@ export function createRequest<
     methodName: request,
     payload: {
       ...finalPayload,
-      "@apiVersion": apiVersion
-    }
+      "@apiVersion": apiVersion,
+    },
   };
 }

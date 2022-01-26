@@ -8,8 +8,8 @@
 
 "use strict";
 
-import rule from "../../src/rules/ts-package-json-engine-is-present";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-package-json-engine-is-present";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -82,7 +82,7 @@ const examplePackageGood = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -195,7 +195,7 @@ const examplePackageBad = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -317,8 +317,7 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message:
-            "engines.node is set to >=8.0.0 when it should be set to >=12.0.0",
+          message: "engines.node is set to >=8.0.0 when it should be set to >=12.0.0",
         },
       ],
       output: '{"engines": { "node": ">=12.0.0" }}',
@@ -329,8 +328,7 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message:
-            "engines.node is set to >=8.0.0 when it should be set to >=12.0.0",
+          message: "engines.node is set to >=8.0.0 when it should be set to >=12.0.0",
         },
       ],
       output: examplePackageGood,
@@ -341,8 +339,7 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message:
-            "engines.node is set to >=15.0.0 when it should be set to >=14.0.0",
+          message: "engines.node is set to >=15.0.0 when it should be set to >=14.0.0",
         },
       ],
       options: [

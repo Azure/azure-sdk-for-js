@@ -22,7 +22,7 @@ export async function getConversionInternal(
 ): Promise<AssetConversion> {
   const { span, updatedOptions } = createSpan(tracingSpanName, {
     conversionId: conversionId,
-    ...options
+    ...options,
   });
 
   try {
@@ -31,7 +31,7 @@ export async function getConversionInternal(
   } catch (e) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: e.message
+      message: e.message,
     });
     throw e;
   } finally {
@@ -53,7 +53,7 @@ export async function getSessionInternal(
 ): Promise<RenderingSession> {
   const { span, updatedOptions } = createSpan(tracingSpanName, {
     sessionId,
-    ...options
+    ...options,
   });
 
   try {
@@ -62,7 +62,7 @@ export async function getSessionInternal(
   } catch (e) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: e.message
+      message: e.message,
     });
     throw e;
   } finally {
@@ -84,7 +84,7 @@ export async function endSessionInternal(
 ): Promise<void> {
   const { span, updatedOptions } = createSpan(tracingSpanName, {
     conversionId: sessionId,
-    ...options
+    ...options,
   });
 
   try {
@@ -92,7 +92,7 @@ export async function endSessionInternal(
   } catch (e) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: e.message
+      message: e.message,
     });
     throw e;
   } finally {

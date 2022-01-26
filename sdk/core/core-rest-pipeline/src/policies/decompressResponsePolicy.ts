@@ -22,6 +22,6 @@ export function decompressResponsePolicy(): PipelinePolicy {
         request.headers.set("Accept-Encoding", "gzip,deflate");
       }
       return next(request);
-    }
+    },
   };
 }

@@ -83,7 +83,7 @@ export class ChangeFeedResponse<T> {
 export class ClientContext {
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager);
     // (undocumented)
-    batch<T>({ body, path, partitionKey, resourceId, options }: {
+    batch<T>({ body, path, partitionKey, resourceId, options, }: {
         body: T;
         path: string;
         partitionKey: string;
@@ -91,7 +91,7 @@ export class ClientContext {
         options?: RequestOptions;
     }): Promise<Response_2<any>>;
     // (undocumented)
-    bulk<T>({ body, path, partitionKeyRangeId, resourceId, bulkOptions, options }: {
+    bulk<T>({ body, path, partitionKeyRangeId, resourceId, bulkOptions, options, }: {
         body: T;
         path: string;
         partitionKeyRangeId: string;
@@ -102,7 +102,7 @@ export class ClientContext {
     // (undocumented)
     clearSessionToken(path: string): void;
     // (undocumented)
-    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
         body: T;
         path: string;
         resourceType: ResourceType;
@@ -111,7 +111,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response_2<T & U & Resource>>;
     // (undocumented)
-    delete<T>({ path, resourceType, resourceId, options, partitionKey }: {
+    delete<T>({ path, resourceType, resourceId, options, partitionKey, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -119,7 +119,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    execute<T>({ sprocLink, params, options, partitionKey }: {
+    execute<T>({ sprocLink, params, options, partitionKey, }: {
         sprocLink: string;
         params?: any[];
         options?: RequestOptions;
@@ -141,7 +141,7 @@ export class ClientContext {
         [containerUrl: string]: any;
     };
     // (undocumented)
-    patch<T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+    patch<T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
         body: any;
         path: string;
         resourceType: ResourceType;
@@ -150,7 +150,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey }: {
+    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -165,7 +165,7 @@ export class ClientContext {
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
     // (undocumented)
-    read<T>({ path, resourceType, resourceId, options, partitionKey }: {
+    read<T>({ path, resourceType, resourceId, options, partitionKey, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -173,7 +173,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    replace<T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+    replace<T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
         body: any;
         path: string;
         resourceType: ResourceType;
@@ -182,7 +182,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
         body: T;
         path: string;
         resourceType: ResourceType;
@@ -559,6 +559,9 @@ export interface CosmosHeaders {
     // (undocumented)
     [key: string]: any;
 }
+
+// @public
+export function createAuthorizationSasToken(masterKey: string, sasTokenProperties: SasTokenProperties): Promise<string>;
 
 // @public (undocumented)
 export type CreateOperation = OperationWithItem & {
@@ -1568,6 +1571,130 @@ export class RuntimeExecutionTimes {
     readonly userDefinedFunctionExecutionTime: TimeSpan;
     // (undocumented)
     static readonly zero: RuntimeExecutionTimes;
+}
+
+// @public (undocumented)
+export enum SasTokenPermissionKind {
+    // (undocumented)
+    ContainerCreateItems = 1,
+    // (undocumented)
+    ContainerCreateStoreProcedure = 16,
+    // (undocumented)
+    ContainerCreateTriggers = 256,
+    // (undocumented)
+    ContainerCreateUserDefinedFunctions = 2048,
+    // (undocumented)
+    ContainerDeleteConflicts = 16384,
+    // (undocumented)
+    ContainerDeleteItems = 128,
+    // (undocumented)
+    ContainerDeleteStoreProcedure = 64,
+    // (undocumented)
+    ContainerDeleteTriggers = 1024,
+    // (undocumented)
+    ContainerDeleteUserDefinedFunctions = 8192,
+    // (undocumented)
+    ContainerExecuteQueries = 1,
+    // (undocumented)
+    ContainerExecuteStoredProcedure = 128,
+    // (undocumented)
+    ContainerFullAccess = 4294967295,
+    // (undocumented)
+    ContainerReadAny = 64,
+    // (undocumented)
+    ContainerReadConflicts = 32,
+    // (undocumented)
+    ContainerReadFeeds = 2,
+    // (undocumented)
+    ContainerReadStoreProcedure = 4,
+    // (undocumented)
+    ContainerReadTriggers = 16,
+    // (undocumented)
+    ContainerReadUserDefinedFunctions = 8,
+    // (undocumented)
+    ContainerReplaceItems = 2,
+    // (undocumented)
+    ContainerReplaceStoreProcedure = 32,
+    // (undocumented)
+    ContainerReplaceTriggers = 512,
+    // (undocumented)
+    ContainerReplaceUserDefinedFunctions = 4096,
+    // (undocumented)
+    ContainerUpsertItems = 4,
+    // (undocumented)
+    ItemDelete = 262144,
+    // (undocumented)
+    ItemFullAccess = 65,
+    // (undocumented)
+    ItemRead = 64,
+    // (undocumented)
+    ItemReadAny = 65536,
+    // (undocumented)
+    ItemReplace = 65536,
+    // (undocumented)
+    ItemUpsert = 131072,
+    // (undocumented)
+    StoreProcedureDelete = 2097152,
+    // (undocumented)
+    StoreProcedureExecute = 4194304,
+    // (undocumented)
+    StoreProcedureRead = 128,
+    // (undocumented)
+    StoreProcedureReplace = 1048576,
+    // (undocumented)
+    TriggerDelete = 67108864,
+    // (undocumented)
+    TriggerRead = 512,
+    // (undocumented)
+    TriggerReplace = 33554432,
+    // (undocumented)
+    UserDefinedFuntionDelete = 16777216,
+    // (undocumented)
+    UserDefinedFuntionRead = 256,
+    // (undocumented)
+    UserDefinedFuntionReplace = 8388608
+}
+
+// @public (undocumented)
+export class SasTokenProperties {
+    // (undocumented)
+    containerName: string;
+    // (undocumented)
+    controlPlaneReaderScope: number;
+    // (undocumented)
+    controlPlaneWriterScope: number;
+    // (undocumented)
+    cosmosContainerChildResourceKind: CosmosContainerChildResourceKind;
+    // (undocumented)
+    cosmosKeyType: CosmosKeyType;
+    // (undocumented)
+    databaseName: string;
+    // (undocumented)
+    dataPlaneReaderScope: number;
+    // (undocumented)
+    dataPlaneWriterScope: number;
+    // (undocumented)
+    expiryTime: Date;
+    // Warning: (ae-forgotten-export) The symbol "CosmosKeyType" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    keyType: CosmosKeyType | number;
+    // (undocumented)
+    partitionKeyValueRanges: string[];
+    // Warning: (ae-forgotten-export) The symbol "CosmosContainerChildResourceKind" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    resourceKind: CosmosContainerChildResourceKind;
+    // (undocumented)
+    resourceName: string;
+    // (undocumented)
+    resourcePath: string;
+    // (undocumented)
+    startTime: Date;
+    // (undocumented)
+    user: string;
+    // (undocumented)
+    userTag: string;
 }
 
 // @public (undocumented)

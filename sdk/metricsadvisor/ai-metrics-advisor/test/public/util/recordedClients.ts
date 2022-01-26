@@ -9,10 +9,18 @@ import { TokenCredential } from "@azure/core-auth";
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorClient,
-  MetricsAdvisorAdministrationClient
+  MetricsAdvisorAdministrationClient,
 } from "../../../src";
 import * as dotenv from "dotenv";
-import { isNode } from "@azure/core-http";
+
+/**
+ * A constant that indicates whether the environment is node.js or browser based.
+ */
+export const isNode =
+  typeof process !== "undefined" &&
+  !!process.version &&
+  !!process.versions &&
+  !!process.versions.node;
 
 if (isNode) {
   dotenv.config();
@@ -33,10 +41,10 @@ const blobTemplate = "blob_template";
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "azure_tenant_id",
+  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
   METRICS_ADVISOR_SUBSCRIPTION_KEY: "sub_key",
   METRICS_ADVISOR_API_KEY: "api_key",
-  METRICS_ADVISOR_ENDPOINT: "https://endpoint/",
+  METRICS_ADVISOR_ENDPOINT: "https://endpoint",
   METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING: blobConnectionString,
   METRICS_ADVISOR_AZURE_BLOB_TEMPLATE: blobTemplate,
   METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID: "appInsights_application",
@@ -52,13 +60,13 @@ const replaceableVariables: { [k: string]: string } = {
     "045f03a31628d5938cd75cfdecfff045-17465dcc000",
   METRICS_ADVISOR_AZURE_SQLSERVER_INCIDENT_ID: "045f03a31628d5938cd75cfdecfff045-17465dcc000",
   METRICS_EVENTHUB_CONNECTION_STRING: "eventhub-connection-string",
-  METRICS_EVENTHUB_CONSUMER_GROUP: "consumer-group"
+  METRICS_EVENTHUB_CONSUMER_GROUP: "consumer-group",
 };
 
 export const testEnv = new Proxy(replaceableVariables, {
   get: (target, key: string) => {
     return env[key] || target[key];
-  }
+  },
 });
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -75,9 +83,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string => {
       const match = testEnv.METRICS_ADVISOR_ENDPOINT.replace(/^https:\/\//, "").replace(/\/$/, "");
       return recording.replace(match, "endpoint");
-    }
+    },
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export function createRecordedAdminClient(
@@ -87,7 +95,7 @@ export function createRecordedAdminClient(
   const recorder = record(context, environmentSetup);
   return {
     client: new MetricsAdvisorAdministrationClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey),
-    recorder
+    recorder,
   };
 }
 
@@ -98,7 +106,7 @@ export function createRecordedAdvisorClient(
   const recorder = record(context, environmentSetup);
   return {
     client: new MetricsAdvisorClient(testEnv.METRICS_ADVISOR_ENDPOINT, apiKey),
-    recorder
+    recorder,
   };
 }
 

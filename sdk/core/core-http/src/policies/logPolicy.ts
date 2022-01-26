@@ -1,24 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import { Debugger } from "@azure/logger";
-import { logger as coreLogger } from "../log";
+import { HttpOperationResponse } from "../httpOperationResponse";
 import { Sanitizer } from "../util/sanitizer";
+import { WebResourceLike } from "../webResource";
+import { logger as coreLogger } from "../log";
 
+/**
+ * Options to pass to the {@link logPolicy}.
+ * By default only a set list of headers are logged, though this can be configured. Request and response bodies are never logged.
+ */
 export interface LogPolicyOptions {
   /**
-   * Header names whose values will be logged when logging is enabled. Defaults to
-   * Date, traceparent, x-ms-client-request-id, and x-ms-request id.  Any headers
-   * specified in this field will be added to that list.  Any other values will
-   * be written to logs as "REDACTED".
+   * Header names whose values will be logged when logging is enabled. Defaults to:
+   * x-ms-client-request-id, x-ms-return-client-request-id, x-ms-useragent, x-ms-correlation-request-id,
+   * x-ms-request-id, client-request-id, ms-cv, return-client-request-id, traceparent, Access-Control-Allow-Credentials,
+   * Access-Control-Allow-Headers, Access-Control-Allow-Methods, Access-Control-Allow-Origin, Access-Control-Expose-Headers,
+   * Access-Control-Max-Age, Access-Control-Request-Headers, Access-Control-Request-Method, Origin, Accept, Accept-Encoding,
+   * Cache-Control, Connection, Content-Length, Content-Type, Date, ETag, Expires, If-Match, If-Modified-Since, If-None-Match,
+   * If-Unmodified-Since, Last-Modified, Pragma, Request-Id, Retry-After, Server, Transfer-Encoding, and User-Agent.
+   *
+   * Any headers specified in this field will be added to that list.
+   * Any other values will be written to logs as "REDACTED".
    */
   allowedHeaderNames?: string[];
 
@@ -34,14 +44,22 @@ export interface LogPolicyOptions {
   logger?: Debugger;
 }
 
+/**
+ * Creates a policy that logs information about the outgoing request and the incoming responses.
+ * @param loggingOptions - Logging options.
+ * @returns An instance of the {@link LogPolicy}
+ */
 export function logPolicy(loggingOptions: LogPolicyOptions = {}): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new LogPolicy(nextPolicy, options, loggingOptions);
-    }
+    },
   };
 }
 
+/**
+ * A policy that logs information about the outgoing request and the incoming responses.
+ */
 export class LogPolicy extends BaseRequestPolicy {
   logger: Debugger;
   sanitizer: Sanitizer;
@@ -92,7 +110,7 @@ export class LogPolicy extends BaseRequestPolicy {
     {
       logger = coreLogger.info,
       allowedHeaderNames = [],
-      allowedQueryParameters = []
+      allowedQueryParameters = [],
     }: LogPolicyOptions = {}
   ) {
     super(nextPolicy, options);

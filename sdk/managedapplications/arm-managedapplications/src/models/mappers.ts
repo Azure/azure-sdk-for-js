@@ -84,43 +84,43 @@ export const OperationDisplay: coreClient.CompositeMapper = {
   }
 };
 
-export const Resource: coreClient.CompositeMapper = {
+export const Plan: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Resource",
+    className: "Plan",
     modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
       name: {
         serializedName: "name",
-        readOnly: true,
+        required: true,
         type: {
           name: "String"
         }
       },
-      type: {
-        serializedName: "type",
-        readOnly: true,
+      publisher: {
+        serializedName: "publisher",
+        required: true,
         type: {
           name: "String"
         }
       },
-      location: {
-        serializedName: "location",
+      product: {
+        serializedName: "product",
+        required: true,
         type: {
           name: "String"
         }
       },
-      tags: {
-        serializedName: "tags",
+      promotionCode: {
+        serializedName: "promotionCode",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -204,43 +204,43 @@ export const Identity: coreClient.CompositeMapper = {
   }
 };
 
-export const Plan: coreClient.CompositeMapper = {
+export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Plan",
+    className: "Resource",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       name: {
         serializedName: "name",
-        required: true,
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      publisher: {
-        serializedName: "publisher",
-        required: true,
+      type: {
+        serializedName: "type",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      product: {
-        serializedName: "product",
-        required: true,
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }
       },
-      promotionCode: {
-        serializedName: "promotionCode",
+      tags: {
+        serializedName: "tags",
         type: {
-          name: "String"
-        }
-      },
-      version: {
-        serializedName: "version",
-        required: true,
-        type: {
-          name: "String"
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }

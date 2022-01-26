@@ -50,14 +50,15 @@ export class ContainerRegistryTokenService {
     service: string,
     options: GetTokenOptions
   ): Promise<AccessToken> {
-    const acrRefreshToken = await this.authClient.authentication.exchangeAadAccessTokenForAcrRefreshToken(
-      "access_token",
-      service,
-      {
-        ...options,
-        accessToken: aadAccessToken
-      }
-    );
+    const acrRefreshToken =
+      await this.authClient.authentication.exchangeAadAccessTokenForAcrRefreshToken(
+        "access_token",
+        service,
+        {
+          ...options,
+          accessToken: aadAccessToken,
+        }
+      );
     if (!acrRefreshToken.refreshToken) {
       throw new Error("Failed to exchange AAD access token for an ACR refresh token.");
     }
@@ -80,7 +81,7 @@ export class ContainerRegistryTokenService {
     const expiry = Number.parseInt(jwtPayload.exp) * 1000;
     return {
       token: acrRefreshToken.refreshToken,
-      expiresOnTimestamp: expiry
+      expiresOnTimestamp: expiry,
     };
   }
 
@@ -91,13 +92,14 @@ export class ContainerRegistryTokenService {
     grantType: "refresh_token" | "password",
     options: GetTokenOptions
   ): Promise<string> {
-    const acrAccessToken = await this.authClient.authentication.exchangeAcrRefreshTokenForAcrAccessToken(
-      service,
-      scope,
-      acrRefreshToken,
-      grantType,
-      options
-    );
+    const acrAccessToken =
+      await this.authClient.authentication.exchangeAcrRefreshTokenForAcrAccessToken(
+        service,
+        scope,
+        acrRefreshToken,
+        grantType,
+        options
+      );
 
     if (!acrAccessToken.accessToken) {
       throw new Error("Failed to exchange ACR refresh token for an ACR access token");

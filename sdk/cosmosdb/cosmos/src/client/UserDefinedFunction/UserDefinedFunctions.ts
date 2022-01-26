@@ -47,7 +47,7 @@ export class UserDefinedFunctions {
         resourceId: id,
         resultFn: (result) => result.UserDefinedFunctions,
         query,
-        options: innerOptions
+        options: innerOptions,
       });
     });
   }
@@ -92,7 +92,7 @@ export class UserDefinedFunctions {
       path,
       resourceType: ResourceType.udf,
       resourceId: id,
-      options
+      options,
     });
     const ref = new UserDefinedFunction(this.container, response.result.id, this.clientContext);
     return new UserDefinedFunctionResponse(response.result, response.headers, response.code, ref);

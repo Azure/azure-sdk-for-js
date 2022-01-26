@@ -15,13 +15,13 @@ import {
   AssetConversionOutputSettings,
   AssetConversionSettings,
   AssetConversionPollerLike,
-  AssetConversion
+  AssetConversion,
 } from "@azure/mixed-reality-remote-rendering";
 import {
   DeviceCodeCredential,
   DeviceCodeInfo,
   ClientSecretCredential,
-  DefaultAzureCredential
+  DefaultAzureCredential,
 } from "@azure/identity";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -58,26 +58,29 @@ export function getClientWithAccountKey() {
 
 export function getClientWithAAD() {
   const credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
-    authorityHost: "https://login.microsoftonline.com/" + tenantId
+    authorityHost: "https://login.microsoftonline.com/" + tenantId,
   });
 
   return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential, {
-    authenticationEndpointUrl: "https://sts.mixedreality.azure.com"
+    authenticationEndpointUrl: "https://sts.mixedreality.azure.com",
   });
 }
 
 export function getClientWithDeviceCode() {
-  const deviceCodeCallback = (deviceCodeInfo: DeviceCodeInfo) => {
+  const userPromptCallback = (deviceCodeInfo: DeviceCodeInfo) => {
     console.debug(deviceCodeInfo.message);
     console.log(deviceCodeInfo.message);
   };
 
-  const credential = new DeviceCodeCredential(tenantId, clientId, deviceCodeCallback, {
-    authorityHost: "https://login.microsoftonline.com/" + tenantId
+  const credential = new DeviceCodeCredential({
+    tenantId: tenantId,
+    clientId: clientId,
+    userPromptCallback: userPromptCallback,
+    authorityHost: "https://login.microsoftonline.com/" + tenantId,
   });
 
   return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential, {
-    authenticationEndpointUrl: "https://sts.mixedreality.azure.com/mixedreality.signin"
+    authenticationEndpointUrl: "https://sts.mixedreality.azure.com/mixedreality.signin",
   });
 }
 
@@ -85,7 +88,7 @@ export function getClientWithDefaultAzureCredential() {
   const credential = new DefaultAzureCredential();
 
   return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential, {
-    authenticationEndpointUrl: "https://sts.mixedreality.azure.com"
+    authenticationEndpointUrl: "https://sts.mixedreality.azure.com",
   });
 }
 
@@ -104,11 +107,11 @@ export async function main() {
   const inputSettings: AssetConversionInputSettings = {
     storageContainerUrl: inputStorageUrl,
     blobPrefix: "Bicycle",
-    relativeInputAssetPath: "bicycle.gltf"
+    relativeInputAssetPath: "bicycle.gltf",
   };
   const outputSettings: AssetConversionOutputSettings = {
     storageContainerUrl: outputStorageUrl,
-    blobPrefix: "ConvertedBicycle"
+    blobPrefix: "ConvertedBicycle",
   };
   const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
 

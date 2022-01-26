@@ -5,21 +5,16 @@
  * @summary Demonstrates using stored procedures for server side run functions
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { logSampleHeader, logStep, finish, handleError } from "./Shared/handleError";
-import { CosmosClient, ErrorResponse } from "../dist-esm";
-import { FeedOptions, Item, Resource } from "../dist-esm";
-
+import { CosmosClient, ErrorResponse, FeedOptions, Item, Resource } from "@azure/cosmos";
 logSampleHeader("Server Side Scripts");
-const {
-  COSMOS_DATABASE: databaseId,
-  COSMOS_CONTAINER: containerId,
-  COSMOS_ENDPOINT: endpoint,
-  COSMOS_KEY: key
-} = process.env;
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const containerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
+const databaseId = process.env.COSMOS_DATABASE || "<cosmos database>";
 
 // Establish a new instance of the DocumentDBClient to be used throughout this demo
 const client = new CosmosClient({ endpoint, key });
@@ -28,8 +23,8 @@ const client = new CosmosClient({ endpoint, key });
 const sprocParams = [
   {
     id: "myDocument",
-    foo: "bar"
-  }
+    foo: "bar",
+  },
 ];
 
 /**
@@ -45,7 +40,7 @@ const sprocParams = [
 let getContext: any;
 const sprocDefinition = {
   id: "upsert",
-  body: function(document: Item) {
+  body: function (document: Item) {
     const context = getContext();
     const collection = context.getCollection();
     const collectionLink = collection.getSelfLink();
@@ -65,35 +60,36 @@ const sprocDefinition = {
 
     // To replace the document, first issue a query to find it and then call replace.
     function tryReplace(doc: Item, cback: any) {
-      retrieveDoc(doc, null, function(retrievedDocs: Resource[]) {
+      retrieveDoc(doc, function (retrievedDocs: Resource[]) {
         const isAccepted = collection.replaceDocument(retrievedDocs[0]._self, doc, cback);
         if (!isAccepted) throw new Error("Unable to schedule replace document");
         response.setBody({ op: "replaced" });
       });
     }
 
-    function retrieveDoc(doc: Item, continuation: string, cback: any) {
+    function retrieveDoc(doc: Item, cback: any, continuation?: string) {
       const query = {
         query: "select * from root r where r.id = @id",
-        parameters: [{ name: "@id", value: doc.id }]
+        parameters: [{ name: "@id", value: doc.id }],
       };
       const requestOptions = { continuation: continuation };
-      const isAccepted = collection.queryDocuments(collectionLink, query, requestOptions, function(
-        err: Error,
-        retrievedDocs: Resource[],
-        responseOptions: FeedOptions
-      ) {
-        if (err) throw err;
+      const isAccepted = collection.queryDocuments(
+        collectionLink,
+        query,
+        requestOptions,
+        function (err: Error, retrievedDocs: Resource[], responseOptions: FeedOptions) {
+          if (err) throw err;
 
-        if (retrievedDocs.length > 0) {
-          cback(retrievedDocs);
-        } else if (responseOptions.continuation) {
-          // Conservative check for continuation. Not expected to hit in practice for the "id query"
-          retrieveDoc(doc, responseOptions.continuation, cback);
-        } else {
-          throw new Error("Error in retrieving document: " + doc.id);
+          if (retrievedDocs.length > 0) {
+            cback(retrievedDocs);
+          } else if (responseOptions.continuation) {
+            // Conservative check for continuation. Not expected to hit in practice for the "id query"
+            retrieveDoc(doc, responseOptions.continuation, cback);
+          } else {
+            throw new Error("Error in retrieving document: " + doc.id);
+          }
         }
-      });
+      );
       if (!isAccepted) throw new Error("Unable to query documents");
     }
 
@@ -109,7 +105,7 @@ const sprocDefinition = {
         }
       }
     }
-  }
+  },
 };
 
 async function run(): Promise<void> {

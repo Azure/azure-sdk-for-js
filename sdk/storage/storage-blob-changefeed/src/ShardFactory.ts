@@ -43,7 +43,7 @@ export class ShardFactory {
       for await (const blobItem of containerClient.listBlobsFlat({
         prefix: shardPath,
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       })) {
         chunks.push(blobItem.name);
       }
@@ -80,7 +80,7 @@ export class ShardFactory {
           eventIndex,
           {
             abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions
+            tracingOptions: updatedOptions.tracingOptions,
           }
         );
       }
@@ -89,7 +89,7 @@ export class ShardFactory {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

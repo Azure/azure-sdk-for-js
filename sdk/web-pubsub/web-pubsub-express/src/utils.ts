@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { IncomingMessage } from "http";
-import { Message } from "cloudevents";
+import { CloudEvent, HTTP, Message } from "cloudevents";
 
 function isJsonObject(obj: any): boolean {
   return obj && typeof obj === "object" && !Array.isArray(obj);
@@ -40,10 +40,10 @@ export function getHttpHeader(req: IncomingMessage, key: string): string | undef
   return value[0];
 }
 
-export async function convertHttpToEvent(request: IncomingMessage): Promise<Message> {
+export async function convertHttpToEvent(request: IncomingMessage): Promise<CloudEvent> {
   const normalized: Message = {
     headers: {},
-    body: ""
+    body: "",
   };
   if (request.headers) {
     for (const key in request.headers) {
@@ -56,22 +56,34 @@ export async function convertHttpToEvent(request: IncomingMessage): Promise<Mess
     }
   }
 
-  normalized.body = await readRequestBody(request);
-  return normalized;
+  const body = (normalized.body = await readRequestBody(request));
+  const receivedEvent = HTTP.toEvent(normalized);
+  if (isJsonData(receivedEvent)) {
+    // CloudEvent JSONParser wrap string with quotes however it is not the case for numbers or booleans
+    // https://github.com/cloudevents/sdk-javascript/blob/main/src/parsers.ts#L29
+    // We workaround it here by rewrite the parsed data property
+    receivedEvent.data = JSON.parse(body);
+  }
+
+  return receivedEvent;
+}
+
+export function isJsonData(event: CloudEvent): boolean {
+  return Boolean(event.datacontenttype?.startsWith("application/json;"));
 }
 
 export function readRequestBody(req: IncomingMessage): Promise<string> {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     const chunks: any = [];
-    req.on("data", function(chunk) {
+    req.on("data", function (chunk) {
       chunks.push(chunk);
     });
-    req.on("end", function() {
+    req.on("end", function () {
       const buffer = Buffer.concat(chunks);
       resolve(buffer.toString());
     });
     // reject on request error
-    req.on("error", function(err) {
+    req.on("error", function (err) {
       // This is not a "Second reject", just a different sort of failure
       reject(err);
     });

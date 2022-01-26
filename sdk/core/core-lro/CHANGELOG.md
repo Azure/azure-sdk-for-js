@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.2 (Unreleased)
+## 2.2.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,18 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.2.3 (2022-01-06)
+
+### Bugs Fixed
+
+- Fix an issue where we treat Retry-After value as milliseconds. It is actually in seconds. [PR #19479](https://github.com/Azure/azure-sdk-for-js/pull/19479)
+
+## 2.2.2 (2021-12-02)
+
+### Bugs Fixed
+
+- Fix LRO PATCH operations when their results are located in a different URL. [PR #18820](https://github.com/Azure/azure-sdk-for-js/pull/18820)
 
 ## 2.2.1 (2021-09-30)
 

@@ -11,7 +11,7 @@ import { PolicyAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { PolicyClientContext } from "../policyClientContext";
+import { PolicyClient } from "../policyClient";
 import {
   PolicyAssignment,
   PolicyAssignmentsListForResourceGroupNextOptionalParams,
@@ -52,13 +52,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PolicyAssignments operations. */
 export class PolicyAssignmentsImpl implements PolicyAssignments {
-  private readonly client: PolicyClientContext;
+  private readonly client: PolicyClient;
 
   /**
    * Initialize a new instance of the class PolicyAssignments class.
    * @param client Reference to the service client
    */
-  constructor(client: PolicyClientContext) {
+  constructor(client: PolicyClient) {
     this.client = client;
   }
 

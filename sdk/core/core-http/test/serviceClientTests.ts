@@ -1,45 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { HttpClient } from "../src/httpClient";
-import { QueryCollectionFormat } from "../src/queryCollectionFormat";
+import * as Mappers from "./testMappers";
 import {
+  CompositeMapper,
   DictionaryMapper,
+  Mapper,
   MapperType,
   Serializer,
-  Mapper,
-  CompositeMapper
 } from "../src/serializer";
 import {
-  serializeRequestBody,
-  ServiceClient,
-  getOperationArgumentValueFromParameterPath
-} from "../src/serviceClient";
-import { WebResource } from "../src/webResource";
-import {
-  OperationArguments,
   HttpHeaders,
-  deserializationPolicy,
-  RestResponse,
-  isNode,
+  OperationArguments,
   OperationSpec,
-  TokenCredential,
+  RestResponse,
   ServiceClientCredentials,
-  ServiceClientOptions
+  ServiceClientOptions,
+  TokenCredential,
+  deserializationPolicy,
+  isNode,
 } from "../src/coreHttp";
+import {
+  ServiceClient,
+  getOperationArgumentValueFromParameterPath,
+  serializeRequestBody,
+} from "../src/serviceClient";
+import { HttpClient } from "../src/httpClient";
 import { ParameterPath } from "../src/operationParameter";
-import * as Mappers from "./testMappers";
+import { QueryCollectionFormat } from "../src/queryCollectionFormat";
+import { WebResource } from "../src/webResource";
+import { assert } from "chai";
 import { getCachedDefaultHttpClient } from "../src/httpClientCache";
 
-describe("ServiceClient", function() {
+describe("ServiceClient", function () {
   describe("Auth scopes", () => {
     const testArgs = {
       metadata: {
         alpha: "hello",
-        beta: "world"
+        beta: "world",
       },
-      unrelated: 42
+      unrelated: 42,
     };
 
     const testOperationSpec: OperationSpec = {
@@ -55,33 +55,33 @@ describe("ServiceClient", function() {
               name: "Dictionary",
               value: {
                 type: {
-                  name: "String"
-                }
-              }
+                  name: "String",
+                },
+              },
             },
-            headerCollectionPrefix: "foo-bar-"
-          } as DictionaryMapper
+            headerCollectionPrefix: "foo-bar-",
+          } as DictionaryMapper,
         },
         {
           parameterPath: "unrelated",
           mapper: {
             serializedName: "unrelated",
             type: {
-              name: "Number"
-            }
-          }
-        }
+              name: "Number",
+            },
+          },
+        },
       ],
       responses: {
-        200: {}
-      }
+        200: {},
+      },
     };
 
     it("should throw when there is a non fqdm as credentialScopes", async () => {
       const cred: TokenCredential = {
         getToken: async (_scopes) => {
           return { token: "testToken", expiresOnTimestamp: 11111 };
-        }
+        },
       };
       let request: WebResource;
       try {
@@ -90,9 +90,9 @@ describe("ServiceClient", function() {
             sendRequest: (req) => {
               request = req;
               return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-            }
+            },
           },
-          credentialScopes: ["/lalala//", "https://microsoft.com"]
+          credentialScopes: ["/lalala//", "https://microsoft.com"],
         });
         await client.sendOperationRequest(testArgs, testOperationSpec);
         assert.fail("Expected to throw");
@@ -105,7 +105,7 @@ describe("ServiceClient", function() {
       const cred: TokenCredential = {
         getToken: async (_scopes) => {
           return { token: "testToken", expiresOnTimestamp: 11111 };
-        }
+        },
       };
       let request: WebResource;
       try {
@@ -114,8 +114,8 @@ describe("ServiceClient", function() {
             sendRequest: (req) => {
               request = req;
               return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-            }
-          }
+            },
+          },
         });
         await client.sendOperationRequest(testArgs, testOperationSpec);
         assert.fail("Expected to throw");
@@ -133,7 +133,7 @@ describe("ServiceClient", function() {
         getToken: async (scopes) => {
           assert.equal(scopes, scope);
           return { token: "testToken", expiresOnTimestamp: 11111 };
-        }
+        },
       };
       let request: WebResource;
       const client = new ServiceClient(cred, {
@@ -141,9 +141,9 @@ describe("ServiceClient", function() {
           sendRequest: (req) => {
             request = req;
             return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-          }
+          },
         },
-        credentialScopes: scope
+        credentialScopes: scope,
       });
 
       await client.sendOperationRequest(testArgs, testOperationSpec);
@@ -169,7 +169,7 @@ describe("ServiceClient", function() {
         getToken: async (scopes) => {
           assert.equal(scopes, `${scope}/.default`);
           return { token: "testToken", expiresOnTimestamp: 11111 };
-        }
+        },
       };
 
       let request: WebResource;
@@ -178,8 +178,8 @@ describe("ServiceClient", function() {
           sendRequest: (req) => {
             request = req;
             return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-          }
-        }
+          },
+        },
       });
 
       await client.sendOperationRequest(testArgs, testOperationSpec);
@@ -189,11 +189,11 @@ describe("ServiceClient", function() {
     });
   });
 
-  it("should serialize headerCollectionPrefix", async function() {
+  it("should serialize headerCollectionPrefix", async function () {
     const expected = {
       "foo-bar-alpha": "hello",
       "foo-bar-beta": "world",
-      unrelated: "42"
+      unrelated: "42",
     };
 
     let request: WebResource;
@@ -202,18 +202,18 @@ describe("ServiceClient", function() {
         sendRequest: (req) => {
           request = req;
           return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-        }
+        },
       },
-      requestPolicyFactories: []
+      requestPolicyFactories: [],
     });
 
     await client.sendOperationRequest(
       {
         metadata: {
           alpha: "hello",
-          beta: "world"
+          beta: "world",
         },
-        unrelated: 42
+        unrelated: 42,
       },
       {
         httpMethod: "GET",
@@ -228,26 +228,26 @@ describe("ServiceClient", function() {
                 name: "Dictionary",
                 value: {
                   type: {
-                    name: "String"
-                  }
-                }
+                    name: "String",
+                  },
+                },
               },
-              headerCollectionPrefix: "foo-bar-"
-            } as DictionaryMapper
+              headerCollectionPrefix: "foo-bar-",
+            } as DictionaryMapper,
           },
           {
             parameterPath: "unrelated",
             mapper: {
               serializedName: "unrelated",
               type: {
-                name: "Number"
-              }
-            }
-          }
+                name: "Number",
+              },
+            },
+          },
         ],
         responses: {
-          200: {}
-        }
+          200: {},
+        },
       }
     );
 
@@ -255,16 +255,16 @@ describe("ServiceClient", function() {
     assert.deepEqual(request!.headers.toJson(), expected);
   });
 
-  it("responses should not show the _response property when serializing", async function() {
+  it("responses should not show the _response property when serializing", async function () {
     let request: WebResource;
     const client = new ServiceClient(undefined, {
       httpClient: {
         sendRequest: (req) => {
           request = req;
           return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-        }
+        },
       },
-      requestPolicyFactories: []
+      requestPolicyFactories: [],
     });
 
     const response = await client.sendOperationRequest(
@@ -275,8 +275,8 @@ describe("ServiceClient", function() {
         serializer: new Serializer(),
         headerParameters: [],
         responses: {
-          200: {}
-        }
+          200: {},
+        },
       }
     );
 
@@ -284,11 +284,11 @@ describe("ServiceClient", function() {
     assert.strictEqual(JSON.stringify(response), "{}");
   });
 
-  it("should serialize collection:csv query parameters", async function() {
+  it("should serialize collection:csv query parameters", async function () {
     await testSendOperationRequest(["1", "2", "3"], QueryCollectionFormat.Csv, false, "?q=1,2,3");
   });
 
-  it("should serialize collection:csv query parameters with commas & skipEncoding true", async function() {
+  it("should serialize collection:csv query parameters with commas & skipEncoding true", async function () {
     await testSendOperationRequest(
       ["1,2", "3,4", "5"],
       QueryCollectionFormat.Csv,
@@ -297,7 +297,7 @@ describe("ServiceClient", function() {
     );
   });
 
-  it("should serialize collection:csv query parameters with commas", async function() {
+  it("should serialize collection:csv query parameters with commas", async function () {
     await testSendOperationRequest(
       ["1,2", "3,4", "5"],
       QueryCollectionFormat.Csv,
@@ -306,7 +306,7 @@ describe("ServiceClient", function() {
     );
   });
 
-  it("should serialize collection:csv query parameters with undefined and null", async function() {
+  it("should serialize collection:csv query parameters with undefined and null", async function () {
     await testSendOperationRequest(
       ["1,2", undefined, "5"],
       QueryCollectionFormat.Csv,
@@ -321,7 +321,7 @@ describe("ServiceClient", function() {
     );
   });
 
-  it("should serialize collection:tsv query parameters with undefined and null", async function() {
+  it("should serialize collection:tsv query parameters with undefined and null", async function () {
     await testSendOperationRequest(
       ["1,2", undefined, "5"],
       QueryCollectionFormat.Tsv,
@@ -342,7 +342,7 @@ describe("ServiceClient", function() {
     );
   });
 
-  it("should serialize collection:ssv query parameters with undefined and null", async function() {
+  it("should serialize collection:ssv query parameters with undefined and null", async function () {
     await testSendOperationRequest(
       ["1,2", undefined, "5"],
       QueryCollectionFormat.Ssv,
@@ -363,7 +363,7 @@ describe("ServiceClient", function() {
     );
   });
 
-  it("should serialize collection:multi query parameters", async function() {
+  it("should serialize collection:multi query parameters", async function () {
     await testSendOperationRequest(
       ["1", "2", "3"],
       QueryCollectionFormat.Multi,
@@ -384,22 +384,22 @@ describe("ServiceClient", function() {
     );
   });
 
-  it("should serialize collection with empty multi query parameter", async function() {
+  it("should serialize collection with empty multi query parameter", async function () {
     await testSendOperationRequest([], QueryCollectionFormat.Multi, true, "https://bin.org");
   });
 
-  it("should apply withCredentials to requests", async function() {
+  it("should apply withCredentials to requests", async function () {
     let request: WebResource;
     const httpClient: HttpClient = {
       sendRequest: (req) => {
         request = req;
         return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-      }
+      },
     };
 
     const client1 = new ServiceClient(undefined, {
       httpClient,
-      requestPolicyFactories: () => []
+      requestPolicyFactories: () => [],
     });
     await client1.sendOperationRequest(
       {},
@@ -407,7 +407,7 @@ describe("ServiceClient", function() {
         serializer: new Serializer(),
         httpMethod: "GET",
         baseUrl: "https://bin.org",
-        responses: { 200: {} }
+        responses: { 200: {} },
       }
     );
 
@@ -416,7 +416,7 @@ describe("ServiceClient", function() {
     const client2 = new ServiceClient(undefined, {
       httpClient,
       requestPolicyFactories: [],
-      withCredentials: true
+      withCredentials: true,
     });
     await client2.sendOperationRequest(
       {},
@@ -424,13 +424,13 @@ describe("ServiceClient", function() {
         serializer: new Serializer(),
         httpMethod: "GET",
         baseUrl: "https://bin.org",
-        responses: { 200: {} }
+        responses: { 200: {} },
       }
     );
     assert.strictEqual(request!.withCredentials, true);
   });
 
-  it("should deserialize response bodies", async function() {
+  it("should deserialize response bodies", async function () {
     let request: WebResource;
     const httpClient: HttpClient = {
       sendRequest: (req) => {
@@ -439,14 +439,14 @@ describe("ServiceClient", function() {
           request,
           status: 200,
           headers: new HttpHeaders(),
-          bodyAsText: "[1,2,3]"
+          bodyAsText: "[1,2,3]",
         });
-      }
+      },
     };
 
     const client1 = new ServiceClient(undefined, {
       httpClient,
-      requestPolicyFactories: [deserializationPolicy()]
+      requestPolicyFactories: [deserializationPolicy()],
     });
 
     const res = await client1.sendOperationRequest(
@@ -462,13 +462,13 @@ describe("ServiceClient", function() {
                 name: "Sequence",
                 element: {
                   type: {
-                    name: "Number"
-                  }
-                }
-              }
-            }
-          }
-        }
+                    name: "Number",
+                  },
+                },
+              },
+            },
+          },
+        },
       }
     );
 
@@ -476,17 +476,17 @@ describe("ServiceClient", function() {
     assert.deepStrictEqual(res.slice(), [1, 2, 3]);
   });
 
-  it("should use userAgent header name value from options", async function() {
+  it("should use userAgent header name value from options", async function () {
     const httpClient: HttpClient = {
       sendRequest: (request: WebResource) => {
         return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-      }
+      },
     };
 
     const client1 = new ServiceClient(undefined, {
       httpClient,
       userAgentHeaderName: "my-user-agent-key",
-      userAgent: "blah blah"
+      userAgent: "blah blah",
     });
 
     const response: RestResponse = await client1.sendOperationRequest(
@@ -495,7 +495,7 @@ describe("ServiceClient", function() {
         serializer: new Serializer(),
         httpMethod: "GET",
         baseUrl: "https://bin.org",
-        responses: {}
+        responses: {},
       }
     );
 
@@ -503,17 +503,17 @@ describe("ServiceClient", function() {
     assert.strictEqual(response._response.request.headers.get("my-user-agent-key"), "blah blah");
   });
 
-  it("should use userAgent header name function from options", async function() {
+  it("should use userAgent header name function from options", async function () {
     const httpClient: HttpClient = {
       sendRequest: (request: WebResource) => {
         return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-      }
+      },
     };
 
     const client1 = new ServiceClient(undefined, {
       httpClient,
       userAgentHeaderName: () => "my-user-agent-key-2",
-      userAgent: "blah blah"
+      userAgent: "blah blah",
     });
 
     const response: RestResponse = await client1.sendOperationRequest(
@@ -522,7 +522,7 @@ describe("ServiceClient", function() {
         serializer: new Serializer(),
         httpMethod: "GET",
         baseUrl: "https://bin.org",
-        responses: {}
+        responses: {},
       }
     );
 
@@ -530,16 +530,16 @@ describe("ServiceClient", function() {
     assert.strictEqual(response._response.request.headers.get("my-user-agent-key-2"), "blah blah");
   });
 
-  it("should use userAgent string from options", async function() {
+  it("should use userAgent string from options", async function () {
     const httpClient: HttpClient = {
       sendRequest: (request: WebResource) => {
         return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-      }
+      },
     };
 
     const client1 = new ServiceClient(undefined, {
       httpClient,
-      userAgent: "blah blah"
+      userAgent: "blah blah",
     });
 
     const response: RestResponse = await client1.sendOperationRequest(
@@ -548,7 +548,7 @@ describe("ServiceClient", function() {
         serializer: new Serializer(),
         httpMethod: "GET",
         baseUrl: "https://bin.org",
-        responses: {}
+        responses: {},
       }
     );
 
@@ -559,16 +559,16 @@ describe("ServiceClient", function() {
     );
   });
 
-  it("should use userAgent function from options that appends to defaultUserAgent", async function() {
+  it("should use userAgent function from options that appends to defaultUserAgent", async function () {
     const httpClient: HttpClient = {
       sendRequest: (request: WebResource) => {
         return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-      }
+      },
     };
 
     const client1 = new ServiceClient(undefined, {
       httpClient,
-      userAgent: (defaultUserAgent: string) => `${defaultUserAgent}/blah blah`
+      userAgent: (defaultUserAgent: string) => `${defaultUserAgent}/blah blah`,
     });
 
     const response: RestResponse = await client1.sendOperationRequest(
@@ -577,7 +577,7 @@ describe("ServiceClient", function() {
         serializer: new Serializer(),
         httpMethod: "GET",
         baseUrl: "https://bin.org",
-        responses: {}
+        responses: {},
       }
     );
 
@@ -590,16 +590,16 @@ describe("ServiceClient", function() {
     assert(userAgentHeaderValue!.endsWith("/blah blah"));
   });
 
-  it("should use userAgent function from options that ignores defaultUserAgent", async function() {
+  it("should use userAgent function from options that ignores defaultUserAgent", async function () {
     const httpClient: HttpClient = {
       sendRequest: (request: WebResource) => {
         return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-      }
+      },
     };
 
     const client1 = new ServiceClient(undefined, {
       httpClient,
-      userAgent: () => `blah blah 2`
+      userAgent: () => `blah blah 2`,
     });
 
     const response: RestResponse = await client1.sendOperationRequest(
@@ -608,7 +608,7 @@ describe("ServiceClient", function() {
         serializer: new Serializer(),
         httpMethod: "GET",
         baseUrl: "https://bin.org",
-        responses: {}
+        responses: {},
       }
     );
 
@@ -626,7 +626,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -636,12 +636,12 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.String
-              }
-            }
+                name: MapperType.String,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: new Serializer()
+          serializer: new Serializer(),
         }
       );
       assert.strictEqual(httpRequest.body, `"body value"`);
@@ -657,23 +657,23 @@ describe("ServiceClient", function() {
           data: {
             baseData: {
               test: "Hello!",
-              extraProp: "FooBar"
-            }
-          }
-        }
+              extraProp: "FooBar",
+            },
+          },
+        },
       ];
 
       serializeRequestBody(
         new ServiceClient(),
         httpRequest,
         {
-          body
+          body,
         },
         {
           httpMethod: "POST",
           requestBody: Mappers.body,
           responses: { 200: {} },
-          serializer: new Serializer(Mappers)
+          serializer: new Serializer(Mappers),
         }
       );
       assert.strictEqual(
@@ -688,7 +688,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -700,12 +700,12 @@ describe("ServiceClient", function() {
               xmlNamespacePrefix: "foo",
               serializedName: "bodyArg",
               type: {
-                name: MapperType.String
-              }
-            }
+                name: MapperType.String,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: new Serializer()
+          serializer: new Serializer(),
         }
       );
       assert.strictEqual(httpRequest.body, `"body value"`);
@@ -717,7 +717,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: stringToByteArray("Javascript")
+          bodyArg: stringToByteArray("Javascript"),
         },
         {
           httpMethod: "POST",
@@ -727,12 +727,12 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.ByteArray
-              }
-            }
+                name: MapperType.ByteArray,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: new Serializer()
+          serializer: new Serializer(),
         }
       );
       assert.strictEqual(httpRequest.body, `"SmF2YXNjcmlwdA=="`);
@@ -744,7 +744,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: stringToByteArray("Javascript")
+          bodyArg: stringToByteArray("Javascript"),
         },
         {
           httpMethod: "POST",
@@ -754,12 +754,12 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.ByteArray
-              }
-            }
+                name: MapperType.ByteArray,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: new Serializer(undefined, false /** isXML */)
+          serializer: new Serializer(undefined, false /** isXML */),
         }
       );
       assert.strictEqual(httpRequest.body, `"SmF2YXNjcmlwdA=="`);
@@ -771,7 +771,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -781,12 +781,12 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.Stream
-              }
-            }
+                name: MapperType.Stream,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: new Serializer()
+          serializer: new Serializer(),
         }
       );
       assert.strictEqual(httpRequest.body, "body value");
@@ -798,7 +798,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -809,12 +809,12 @@ describe("ServiceClient", function() {
               xmlNamespace: "http://microsoft.com",
               serializedName: "bodyArg",
               type: {
-                name: MapperType.Stream
-              }
-            }
+                name: MapperType.Stream,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: new Serializer()
+          serializer: new Serializer(),
         }
       );
       assert.strictEqual(httpRequest.body, "body value");
@@ -826,7 +826,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -836,13 +836,13 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.String
-              }
-            }
+                name: MapperType.String,
+              },
+            },
           },
           responses: { 200: {} },
           serializer: new Serializer(),
-          isXML: true
+          isXML: true,
         }
       );
       assert.strictEqual(
@@ -857,7 +857,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -868,13 +868,13 @@ describe("ServiceClient", function() {
               serializedName: "bodyArg",
               xmlNamespace: "https://microsoft.com",
               type: {
-                name: MapperType.String
-              }
-            }
+                name: MapperType.String,
+              },
+            },
           },
           responses: { 200: {} },
           serializer: new Serializer(undefined, true /** isXML*/),
-          isXML: true
+          isXML: true,
         }
       );
       assert.strictEqual(
@@ -889,7 +889,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: stringToByteArray("Javascript")
+          bodyArg: stringToByteArray("Javascript"),
         },
         {
           httpMethod: "POST",
@@ -899,13 +899,13 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.ByteArray
-              }
-            }
+                name: MapperType.ByteArray,
+              },
+            },
           },
           responses: { 200: {} },
           serializer: new Serializer(undefined, true /** isXml */),
-          isXML: true
+          isXML: true,
         }
       );
       assert.strictEqual(
@@ -922,8 +922,8 @@ describe("ServiceClient", function() {
         {
           metadata: {
             alpha: "hello",
-            beta: "world"
-          }
+            beta: "world",
+          },
         },
         {
           httpMethod: "POST",
@@ -935,16 +935,16 @@ describe("ServiceClient", function() {
                 name: "Dictionary",
                 value: {
                   type: {
-                    name: "String"
-                  }
-                }
+                    name: "String",
+                  },
+                },
               },
-              headerCollectionPrefix: "foo-bar-"
-            }
+              headerCollectionPrefix: "foo-bar-",
+            },
           },
           responses: { 200: {} },
           serializer: new Serializer(undefined, true /** isXml */),
-          isXML: true
+          isXML: true,
         }
       );
       assert.strictEqual(
@@ -961,8 +961,8 @@ describe("ServiceClient", function() {
         {
           metadata: {
             alpha: "hello",
-            beta: "world"
-          }
+            beta: "world",
+          },
         },
         {
           httpMethod: "POST",
@@ -978,16 +978,16 @@ describe("ServiceClient", function() {
                   xmlNamespacePrefix: "el",
                   xmlNamespace: "https://microsoft.com/element",
                   type: {
-                    name: "String"
-                  }
-                }
+                    name: "String",
+                  },
+                },
               },
-              headerCollectionPrefix: "foo-bar-"
-            }
+              headerCollectionPrefix: "foo-bar-",
+            },
           },
           responses: { 200: {} },
           serializer: new Serializer(undefined, true /** isXml */),
-          isXML: true
+          isXML: true,
         }
       );
       assert.strictEqual(
@@ -1004,8 +1004,8 @@ describe("ServiceClient", function() {
         {
           metadata: {
             alpha: "hello",
-            beta: "world"
-          }
+            beta: "world",
+          },
         },
         {
           httpMethod: "POST",
@@ -1021,15 +1021,15 @@ describe("ServiceClient", function() {
                   xmlNamespacePrefix: "el",
                   xmlNamespace: "https://microsoft.com/element",
                   type: {
-                    name: "String"
-                  }
-                }
+                    name: "String",
+                  },
+                },
               },
-              headerCollectionPrefix: "foo-bar-"
-            }
+              headerCollectionPrefix: "foo-bar-",
+            },
           },
           responses: { 200: {} },
-          serializer: new Serializer()
+          serializer: new Serializer(),
         }
       );
       assert.deepEqual(httpRequest.body, `{"alpha":"hello","beta":"world"}`);
@@ -1041,7 +1041,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: stringToByteArray("Javascript")
+          bodyArg: stringToByteArray("Javascript"),
         },
         {
           httpMethod: "POST",
@@ -1052,12 +1052,12 @@ describe("ServiceClient", function() {
               xmlNamespace: "https://google.com",
               serializedName: "bodyArg",
               type: {
-                name: MapperType.ByteArray
-              }
-            }
+                name: MapperType.ByteArray,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: new Serializer(undefined, false /** isXML */)
+          serializer: new Serializer(undefined, false /** isXML */),
         }
       );
       assert.strictEqual(httpRequest.body, `"SmF2YXNjcmlwdA=="`);
@@ -1069,7 +1069,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: stringToByteArray("Javascript")
+          bodyArg: stringToByteArray("Javascript"),
         },
         {
           httpMethod: "POST",
@@ -1080,13 +1080,13 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.ByteArray
-              }
-            }
+                name: MapperType.ByteArray,
+              },
+            },
           },
           responses: { 200: {} },
           serializer: new Serializer(undefined, true),
-          isXML: true
+          isXML: true,
         }
       );
       assert.strictEqual(
@@ -1101,7 +1101,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: stringToByteArray("Javascript")
+          bodyArg: stringToByteArray("Javascript"),
         },
         {
           httpMethod: "POST",
@@ -1113,13 +1113,13 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.ByteArray
-              }
-            }
+                name: MapperType.ByteArray,
+              },
+            },
           },
           responses: { 200: {} },
           serializer: new Serializer(undefined, true),
-          isXML: true
+          isXML: true,
         }
       );
       assert.strictEqual(
@@ -1138,16 +1138,16 @@ describe("ServiceClient", function() {
             updated: new Date("2020-08-12T23:36:18.308Z"),
             content: {
               type: "application/xml",
-              queueDescription: { maxDeliveryCount: 15 }
-            }
-          }
+              queueDescription: { maxDeliveryCount: 15 },
+            },
+          },
         },
         {
           httpMethod: "POST",
           requestBody: Mappers.requestBody1,
           responses: { 200: {} },
           serializer: new Serializer(undefined, true /** isXML */),
-          isXML: true
+          isXML: true,
         }
       );
       assert.strictEqual(
@@ -1166,15 +1166,15 @@ describe("ServiceClient", function() {
             updated: new Date("2020-08-12T23:36:18.308Z"),
             content: {
               type: "application/xml",
-              queueDescription: { maxDeliveryCount: 15 }
-            }
-          }
+              queueDescription: { maxDeliveryCount: 15 },
+            },
+          },
         },
         {
           httpMethod: "POST",
           requestBody: Mappers.requestBody1,
           responses: { 200: {} },
-          serializer: new Serializer()
+          serializer: new Serializer(),
         }
       );
 
@@ -1190,7 +1190,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: ["Foo", "Bar"]
+          bodyArg: ["Foo", "Bar"],
         },
         {
           httpMethod: "POST",
@@ -1205,14 +1205,14 @@ describe("ServiceClient", function() {
                 name: MapperType.Sequence,
                 element: {
                   xmlNamespace: "https://microsoft.com/element",
-                  type: { name: "String" }
-                }
-              }
-            }
+                  type: { name: "String" },
+                },
+              },
+            },
           },
           responses: { 200: {} },
           serializer: new Serializer(undefined, true),
-          isXML: true
+          isXML: true,
         }
       );
       assert.strictEqual(
@@ -1227,7 +1227,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: ["Foo", "Bar"]
+          bodyArg: ["Foo", "Bar"],
         },
         {
           httpMethod: "POST",
@@ -1242,13 +1242,13 @@ describe("ServiceClient", function() {
                 name: MapperType.Sequence,
                 element: {
                   xmlNamespace: "https://microsoft.com/element",
-                  type: { name: "String" }
-                }
-              }
-            }
+                  type: { name: "String" },
+                },
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: new Serializer()
+          serializer: new Serializer(),
         }
       );
       assert.deepEqual(httpRequest.body, JSON.stringify(["Foo", "Bar"]));
@@ -1263,8 +1263,8 @@ describe("ServiceClient", function() {
           bodyArg: [
             { foo: "Foo1", bar: "Bar1" },
             { foo: "Foo2", bar: "Bar2" },
-            { foo: "Foo3", bar: "Bar3" }
-          ]
+            { foo: "Foo3", bar: "Bar3" },
+          ],
         },
         {
           httpMethod: "POST",
@@ -1287,8 +1287,8 @@ describe("ServiceClient", function() {
                         xmlNamespace: "https://microsoft.com/foo",
                         xmlName: "Foo",
                         type: {
-                          name: "String"
-                        }
+                          name: "String",
+                        },
                       },
                       bar: {
                         xmlNamespacePrefix: "bar",
@@ -1296,18 +1296,18 @@ describe("ServiceClient", function() {
                         xmlName: "Bar",
                         serializedName: "bar",
                         type: {
-                          name: "String"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+                          name: "String",
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
           responses: { 200: {} },
           serializer: new Serializer(undefined, true),
-          isXML: true
+          isXML: true,
         }
       );
       assert.strictEqual(
@@ -1322,7 +1322,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: { foo: "Foo", bar: "Bar" }
+          bodyArg: { foo: "Foo", bar: "Bar" },
         },
         {
           httpMethod: "POST",
@@ -1340,8 +1340,8 @@ describe("ServiceClient", function() {
                     xmlNamespace: "https://microsoft.com/foo",
                     xmlName: "Foo",
                     type: {
-                      name: "String"
-                    }
+                      name: "String",
+                    },
                   },
                   bar: {
                     xmlNamespacePrefix: "bar",
@@ -1349,16 +1349,16 @@ describe("ServiceClient", function() {
                     xmlName: "Bar",
                     serializedName: "bar",
                     type: {
-                      name: "String"
-                    }
-                  }
-                }
-              }
-            }
+                      name: "String",
+                    },
+                  },
+                },
+              },
+            },
           },
           responses: { 200: {} },
           serializer: new Serializer(undefined, true),
-          isXML: true
+          isXML: true,
         }
       );
       assert.strictEqual(
@@ -1373,7 +1373,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -1383,13 +1383,13 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.Stream
-              }
-            }
+                name: MapperType.Stream,
+              },
+            },
           },
           responses: { 200: {} },
           serializer: new Serializer(),
-          isXML: true
+          isXML: true,
         }
       );
       assert.strictEqual(httpRequest.body, "body value");
@@ -1401,7 +1401,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -1411,13 +1411,13 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.Stream
-              }
-            }
+                name: MapperType.Stream,
+              },
+            },
           },
           responses: { 200: {} },
           serializer: new Serializer(),
-          isXML: true
+          isXML: true,
         }
       );
       assert.strictEqual(httpRequest.body, "body value");
@@ -1430,13 +1430,13 @@ describe("ServiceClient", function() {
         httpRequest,
         {
           requestBody: {
-            "#": "pound value"
+            "#": "pound value",
           },
           options: {
             serializerOptions: {
-              xmlCharKey: "#"
-            }
-          }
+              xmlCharKey: "#",
+            },
+          },
         },
         {
           httpMethod: "POST",
@@ -1452,15 +1452,15 @@ describe("ServiceClient", function() {
                   "#": {
                     serializedName: "#",
                     xmlName: "#",
-                    type: { name: "String" }
-                  }
-                }
-              }
-            }
+                    type: { name: "String" },
+                  },
+                },
+              },
+            },
           },
           responses: { 200: {} },
           serializer: new Serializer(undefined, true /** isXML */),
-          isXML: true
+          isXML: true,
         }
       );
       assert.strictEqual(
@@ -1475,7 +1475,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -1486,12 +1486,12 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.String
-              }
-            }
+                name: MapperType.String,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: new Serializer()
+          serializer: new Serializer(),
         }
       );
       assert.strictEqual(httpRequest.body, "body value");
@@ -1503,7 +1503,7 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: "body value"
+          bodyArg: "body value",
         },
         {
           httpMethod: "POST",
@@ -1514,12 +1514,12 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.String
-              }
-            }
+                name: MapperType.String,
+              },
+            },
           },
           responses: { 200: {} },
-          serializer: new Serializer()
+          serializer: new Serializer(),
         }
       );
       assert.strictEqual(httpRequest.body, "body value");
@@ -1534,8 +1534,8 @@ describe("ServiceClient", function() {
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1550,14 +1550,14 @@ describe("ServiceClient", function() {
     it("should return undefined when the parameter path is found in the operation arguments but is undefined and doesn't have a default value", () => {
       const serviceClient = new ServiceClient();
       const operationArguments: OperationArguments = {
-        myParameter: undefined
+        myParameter: undefined,
       };
       const parameterPath: ParameterPath = "myParameter";
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1573,14 +1573,14 @@ describe("ServiceClient", function() {
       const serviceClient = new ServiceClient();
       const operationArguments: OperationArguments = {
         // tslint:disable-next-line:no-null-keyword
-        myParameter: null
+        myParameter: null,
       };
       const parameterPath: ParameterPath = "myParameter";
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1596,14 +1596,14 @@ describe("ServiceClient", function() {
     it("should return the operation argument value when the parameter path is found in the operation arguments", () => {
       const serviceClient = new ServiceClient();
       const operationArguments: OperationArguments = {
-        myParameter: 20
+        myParameter: 20,
       };
       const parameterPath: ParameterPath = "myParameter";
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1619,15 +1619,15 @@ describe("ServiceClient", function() {
       const serviceClient = new ServiceClient();
       const operationArguments: OperationArguments = {
         options: {
-          myParameter: 1
-        }
+          myParameter: 1,
+        },
       };
       const parameterPath: ParameterPath = ["options", "myParameter"];
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1647,8 +1647,8 @@ describe("ServiceClient", function() {
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1664,14 +1664,14 @@ describe("ServiceClient", function() {
       const serviceClient = new ServiceClient();
       (serviceClient as any)["myParameter"] = 21;
       const operationArguments: OperationArguments = {
-        myParameter: 22
+        myParameter: 22,
       };
       const parameterPath: ParameterPath = "myParameter";
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1692,8 +1692,8 @@ describe("ServiceClient", function() {
         isConstant: true,
         defaultValue: 1,
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1711,8 +1711,8 @@ describe("ServiceClient", function() {
       const operationArguments: OperationArguments = {
         myParameter: 2,
         options: {
-          myParameter: 3
-        }
+          myParameter: 3,
+        },
       };
       const parameterPath: ParameterPath = "myParameter";
       const parameterMapper: Mapper = {
@@ -1720,8 +1720,8 @@ describe("ServiceClient", function() {
         isConstant: true,
         defaultValue: 4,
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1741,8 +1741,8 @@ describe("ServiceClient", function() {
         serializedName: "my-parameter",
         defaultValue: 21,
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1763,8 +1763,8 @@ describe("ServiceClient", function() {
         defaultValue: 21,
         required: true,
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1780,8 +1780,8 @@ describe("ServiceClient", function() {
       const serviceClient = new ServiceClient();
       const operationArguments: OperationArguments = {
         myParameter: {
-          differentProperty: "hello"
-        }
+          differentProperty: "hello",
+        },
       };
       const parameterPath: ParameterPath = ["myParameter", "myProperty"];
       const parameterMapper: Mapper = {
@@ -1789,8 +1789,8 @@ describe("ServiceClient", function() {
         defaultValue: 21,
         required: true,
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1806,16 +1806,16 @@ describe("ServiceClient", function() {
       const serviceClient = new ServiceClient();
       const operationArguments: OperationArguments = {
         myParameter: {
-          differentProperty: "hello"
-        }
+          differentProperty: "hello",
+        },
       };
       const parameterPath: ParameterPath = ["myParameter", "myProperty"];
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         defaultValue: 21,
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1835,8 +1835,8 @@ describe("ServiceClient", function() {
         serializedName: "my-parameter",
         defaultValue: 21,
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1856,8 +1856,8 @@ describe("ServiceClient", function() {
         serializedName: "my-parameter",
         defaultValue: 21,
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1873,15 +1873,15 @@ describe("ServiceClient", function() {
       const serviceClient = new ServiceClient();
       const operationArguments: OperationArguments = {
         // tslint:disable-next-line:no-null-keyword
-        myParameter: null
+        myParameter: null,
       };
       const parameterPath: ParameterPath = "myParameter";
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         defaultValue: 2,
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1903,8 +1903,8 @@ describe("ServiceClient", function() {
         serializedName: "my-parameter",
         defaultValue: 2,
         type: {
-          name: MapperType.Number
-        }
+          name: MapperType.Number,
+        },
       };
       const parameterValue: any = getOperationArgumentValueFromParameterPath(
         serviceClient,
@@ -1918,7 +1918,7 @@ describe("ServiceClient", function() {
     });
   });
 
-  it("should deserialize error response headers", async function() {
+  it("should deserialize error response headers", async function () {
     const BodyMapper: CompositeMapper = {
       serializedName: "getproperties-body",
       type: {
@@ -1927,11 +1927,11 @@ describe("ServiceClient", function() {
         modelProperties: {
           message: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
+              name: "String",
+            },
+          },
+        },
+      },
     };
 
     const HeadersMapper: CompositeMapper = {
@@ -1943,11 +1943,11 @@ describe("ServiceClient", function() {
           errorCode: {
             serializedName: "x-ms-error-code",
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
+              name: "String",
+            },
+          },
+        },
+      },
     };
 
     const serializer = new Serializer(HeadersMapper, true);
@@ -1957,11 +1957,11 @@ describe("ServiceClient", function() {
       responses: {
         default: {
           headersMapper: HeadersMapper,
-          bodyMapper: BodyMapper
-        }
+          bodyMapper: BodyMapper,
+        },
       },
       baseUrl: "https://bin.org",
-      serializer
+      serializer,
     };
 
     let request = new WebResource();
@@ -1974,16 +1974,16 @@ describe("ServiceClient", function() {
           request,
           status: 500,
           headers: new HttpHeaders({
-            "x-ms-error-code": "InvalidResourceNameHeader"
+            "x-ms-error-code": "InvalidResourceNameHeader",
           }),
-          bodyAsText: '{"message": "InvalidResourceNameBody"}'
+          bodyAsText: '{"message": "InvalidResourceNameBody"}',
         });
-      }
+      },
     };
 
     const client = new ServiceClient(undefined, {
       httpClient,
-      requestPolicyFactories: [deserializationPolicy()]
+      requestPolicyFactories: [deserializationPolicy()],
     });
 
     try {
@@ -1995,7 +1995,7 @@ describe("ServiceClient", function() {
     }
   });
 
-  it("should re-use the common instance of DefaultHttpClient", function() {
+  it("should re-use the common instance of DefaultHttpClient", function () {
     const client = new ServiceClient();
     assert.strictEqual((client as any)._httpClient, getCachedDefaultHttpClient());
   });
@@ -2021,14 +2021,14 @@ async function testSendOperationRequest(
       sendRequest: (req) => {
         request = req;
         return Promise.resolve({ request, status: 200, headers: new HttpHeaders() });
-      }
+      },
     },
-    requestPolicyFactories: () => []
+    requestPolicyFactories: () => [],
   });
 
   await client.sendOperationRequest(
     {
-      q: queryValue
+      q: queryValue,
     },
     {
       httpMethod: "GET",
@@ -2045,17 +2045,17 @@ async function testSendOperationRequest(
               name: "Sequence",
               element: {
                 type: {
-                  name: "String"
+                  name: "String",
                 },
-                serializedName: "q"
-              }
-            }
-          }
-        }
+                serializedName: "q",
+              },
+            },
+          },
+        },
       ],
       responses: {
-        200: {}
-      }
+        200: {},
+      },
     }
   );
 

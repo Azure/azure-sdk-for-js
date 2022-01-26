@@ -4,14 +4,15 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import { AbortController } from "@azure/abort-controller";
-import { createDefaultHttpClient, createPipelineRequest } from "../../src";
+import { createXhrHttpClient } from "../../src/xhrHttpClient";
+import { createPipelineRequest } from "../../src/pipelineRequest";
 
-describe("XhrHttpClient", function() {
+describe("XhrHttpClient", function () {
   let xhrMock: sinon.SinonFakeXMLHttpRequestStatic;
   let requests: Array<sinon.SinonFakeXMLHttpRequest>;
   let clock: sinon.SinonFakeTimers;
 
-  beforeEach(function() {
+  beforeEach(function () {
     requests = [];
     xhrMock = sinon.useFakeXMLHttpRequest();
     xhrMock.onCreate = (xhr) => {
@@ -20,14 +21,14 @@ describe("XhrHttpClient", function() {
     clock = sinon.useFakeTimers();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     xhrMock.restore();
     clock.restore();
     sinon.restore();
   });
 
-  it("shouldn't throw on 404", async function() {
-    const client = createDefaultHttpClient();
+  it("shouldn't throw on 404", async function () {
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({ url: "https://example.com" });
     const promise = client.sendRequest(request);
     assert.equal(requests.length, 1);
@@ -36,12 +37,12 @@ describe("XhrHttpClient", function() {
     assert.strictEqual(response.status, 404);
   });
 
-  it("should allow canceling of requests", async function() {
-    const client = createDefaultHttpClient();
+  it("should allow canceling of requests", async function () {
+    const client = createXhrHttpClient();
     const controller = new AbortController();
     const request = createPipelineRequest({
       url: "https://example.com",
-      abortSignal: controller.signal
+      abortSignal: controller.signal,
     });
     const promise = client.sendRequest(request);
     controller.abort();
@@ -53,13 +54,13 @@ describe("XhrHttpClient", function() {
     }
   });
 
-  it("should allow canceling of requests before the request is made", async function() {
-    const client = createDefaultHttpClient();
+  it("should allow canceling of requests before the request is made", async function () {
+    const client = createXhrHttpClient();
     const controller = new AbortController();
     controller.abort();
     const request = createPipelineRequest({
       url: "https://example.com",
-      abortSignal: controller.signal
+      abortSignal: controller.signal,
     });
     const promise = client.sendRequest(request);
     try {
@@ -70,8 +71,8 @@ describe("XhrHttpClient", function() {
     }
   });
 
-  it("should report upload and download progress", async function() {
-    const client = createDefaultHttpClient();
+  it("should report upload and download progress", async function () {
+    const client = createXhrHttpClient();
     let downloadCalled = false;
     let uploadCalled = false;
     const request = createPipelineRequest({
@@ -84,7 +85,7 @@ describe("XhrHttpClient", function() {
       onUploadProgress: (ev) => {
         assert.isNumber(ev.loadedBytes);
         uploadCalled = true;
-      }
+      },
     });
     const promise = client.sendRequest(request);
     assert.equal(requests.length, 1);
@@ -96,13 +97,13 @@ describe("XhrHttpClient", function() {
     assert.isTrue(uploadCalled, "no upload progress");
   });
 
-  it("should honor timeout", async function() {
-    const client = createDefaultHttpClient();
+  it("should honor timeout", async function () {
+    const client = createXhrHttpClient();
 
     const timeoutLength = 2000;
     const request = createPipelineRequest({
       url: "https://example.com",
-      timeout: timeoutLength
+      timeout: timeoutLength,
     });
     const promise = client.sendRequest(request);
     clock.tick(timeoutLength);
@@ -114,8 +115,8 @@ describe("XhrHttpClient", function() {
     }
   });
 
-  it("parses headers", async function() {
-    const client = createDefaultHttpClient();
+  it("parses headers", async function () {
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({ url: "https://example.com" });
     const promise = client.sendRequest(request);
     assert.equal(requests.length, 1);
@@ -126,8 +127,8 @@ describe("XhrHttpClient", function() {
     assert.strictEqual(headers.get("value"), "hello");
   });
 
-  it("parses empty string headers", async function() {
-    const client = createDefaultHttpClient();
+  it("parses empty string headers", async function () {
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({ url: "https://example.com" });
     const promise = client.sendRequest(request);
     assert.equal(requests.length, 1);
@@ -138,11 +139,11 @@ describe("XhrHttpClient", function() {
     assert.strictEqual(headers.get("value"), "");
   });
 
-  it("should stream response body on matching status code", async function() {
-    const client = createDefaultHttpClient();
+  it("should stream response body on matching status code", async function () {
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({
       url: "https://example.com",
-      streamResponseStatusCodes: new Set([200])
+      streamResponseStatusCodes: new Set([200]),
     });
     const promise = client.sendRequest(request);
     assert.equal(requests.length, 1);
@@ -153,11 +154,11 @@ describe("XhrHttpClient", function() {
     assert.ok(response.blobBody, "Expect streaming body");
   });
 
-  it("should stream response body on any status code", async function() {
-    const client = createDefaultHttpClient();
+  it("should stream response body on any status code", async function () {
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({
       url: "https://example.com",
-      streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY])
+      streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
     });
     const promise = client.sendRequest(request);
     assert.equal(requests.length, 1);
@@ -168,11 +169,11 @@ describe("XhrHttpClient", function() {
     assert.ok(response.blobBody, "Expect streaming body");
   });
 
-  it("should not stream response body on non-matching status code", async function() {
-    const client = createDefaultHttpClient();
+  it("should not stream response body on non-matching status code", async function () {
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({
       url: "https://example.com",
-      streamResponseStatusCodes: new Set([200])
+      streamResponseStatusCodes: new Set([200]),
     });
     const promise = client.sendRequest(request);
     assert.equal(requests.length, 1);
@@ -183,10 +184,10 @@ describe("XhrHttpClient", function() {
     assert.equal(response.bodyAsText, "body");
   });
 
-  it("should throw when accessing HTTP and allowInsecureConnection is false", async function() {
-    const client = createDefaultHttpClient();
+  it("should throw when accessing HTTP and allowInsecureConnection is false", async function () {
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({
-      url: "http://example.com"
+      url: "http://example.com",
     });
     const promise = client.sendRequest(request);
     try {
@@ -197,11 +198,11 @@ describe("XhrHttpClient", function() {
     }
   });
 
-  it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function() {
-    const client = createDefaultHttpClient();
+  it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function () {
+    const client = createXhrHttpClient();
     const request = createPipelineRequest({
       allowInsecureConnection: true,
-      url: "http://example.com"
+      url: "http://example.com",
     });
     const promise = client.sendRequest(request);
     assert.equal(requests.length, 1);

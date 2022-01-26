@@ -23,7 +23,7 @@ export interface Activity {
     dependsOn?: ActivityDependency[];
     description?: string;
     name: string;
-    type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow";
+    type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow";
     userProperties?: UserProperty[];
 }
 
@@ -392,6 +392,8 @@ export type AzureBlobFSLinkedService = LinkedService & {
     azureCloudType?: Record<string, unknown>;
     encryptedCredential?: Record<string, unknown>;
     credential?: CredentialReference;
+    servicePrincipalCredentialType?: Record<string, unknown>;
+    servicePrincipalCredential?: SecretBaseUnion;
 };
 
 // @public
@@ -507,6 +509,8 @@ export type AzureDatabricksDeltaLakeLinkedService = LinkedService & {
     accessToken?: SecretBaseUnion;
     clusterId?: Record<string, unknown>;
     encryptedCredential?: Record<string, unknown>;
+    credential?: CredentialReference;
+    workspaceResourceId?: Record<string, unknown>;
 };
 
 // @public
@@ -1267,11 +1271,11 @@ export interface ConnectionStateProperties {
 
 // @public
 export type ControlActivity = Activity & {
-    type: "Container" | "ExecutePipeline" | "IfCondition" | "Switch" | "ForEach" | "Wait" | "Until" | "Validation" | "Filter" | "SetVariable" | "AppendVariable" | "WebHook";
+    type: "Container" | "ExecutePipeline" | "IfCondition" | "Switch" | "ForEach" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "SetVariable" | "AppendVariable" | "WebHook";
 };
 
 // @public (undocumented)
-export type ControlActivityUnion = ControlActivity | ExecutePipelineActivity | IfConditionActivity | SwitchActivity | ForEachActivity | WaitActivity | UntilActivity | ValidationActivity | FilterActivity | SetVariableActivity | AppendVariableActivity | WebHookActivity;
+export type ControlActivityUnion = ControlActivity | ExecutePipelineActivity | IfConditionActivity | SwitchActivity | ForEachActivity | WaitActivity | FailActivity | UntilActivity | ValidationActivity | FilterActivity | SetVariableActivity | AppendVariableActivity | WebHookActivity;
 
 // @public
 export type CopyActivity = ExecutionActivity & {
@@ -1358,6 +1362,7 @@ export type CosmosDbLinkedService = LinkedService & {
     azureCloudType?: Record<string, unknown>;
     connectionMode?: CosmosDbConnectionMode;
     encryptedCredential?: Record<string, unknown>;
+    credential?: CredentialReference;
 };
 
 // @public
@@ -1568,10 +1573,14 @@ export type DatabricksSparkPythonActivity = ExecutionActivity & {
 };
 
 // @public (undocumented)
-export class DataFactoryManagementClient extends DataFactoryManagementClientContext {
+export class DataFactoryManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DataFactoryManagementClientOptionalParams);
     // (undocumented)
     activityRuns: ActivityRuns;
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     dataFlowDebugSession: DataFlowDebugSession;
     // (undocumented)
@@ -1607,20 +1616,11 @@ export class DataFactoryManagementClient extends DataFactoryManagementClientCont
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     triggerRuns: TriggerRuns;
     // (undocumented)
     triggers: Triggers;
-}
-
-// @public (undocumented)
-export class DataFactoryManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DataFactoryManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public
@@ -1784,6 +1784,9 @@ export interface DataFlowListResponse {
 export interface DataFlowReference {
     [property: string]: any;
     datasetParameters?: Record<string, unknown>;
+    parameters?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
     referenceName: string;
     type: "DataFlowReference";
 }
@@ -1823,8 +1826,6 @@ export type DataFlowsGetResponse = DataFlowResource;
 
 // @public
 export type DataFlowSink = Transformation & {
-    dataset?: DatasetReference;
-    linkedService?: LinkedServiceReference;
     schemaLinkedService?: LinkedServiceReference;
 };
 
@@ -1844,8 +1845,6 @@ export type DataFlowsListByFactoryResponse = DataFlowListResponse;
 
 // @public
 export type DataFlowSource = Transformation & {
-    dataset?: DatasetReference;
-    linkedService?: LinkedServiceReference;
     schemaLinkedService?: LinkedServiceReference;
 };
 
@@ -2278,6 +2277,7 @@ export type DynamicsLinkedService = LinkedService & {
     servicePrincipalCredentialType?: Record<string, unknown>;
     servicePrincipalCredential?: SecretBaseUnion;
     encryptedCredential?: Record<string, unknown>;
+    credential?: CredentialReference;
 };
 
 // @public
@@ -2702,6 +2702,13 @@ export type FactoryVstsConfiguration = FactoryRepoConfiguration & {
 };
 
 // @public
+export type FailActivity = ControlActivity & {
+    type: "Fail";
+    message: Record<string, unknown>;
+    errorCode: Record<string, unknown>;
+};
+
+// @public
 export type FileServerLinkedService = LinkedService & {
     type: "FileServer";
     host: Record<string, unknown>;
@@ -2770,13 +2777,11 @@ export type FilterActivity = ControlActivity & {
 // @public
 export type Flowlet = DataFlow & {
     type: "Flowlet";
-    [property: string]: any;
     sources?: DataFlowSource[];
     sinks?: DataFlowSink[];
     transformations?: Transformation[];
     script?: string;
     scriptLines?: string[];
-    additionalProperties?: Record<string, unknown>;
 };
 
 // @public
@@ -2820,6 +2825,7 @@ export type FtpReadSettings = StoreReadSettings & {
     deleteFilesAfterCompletion?: Record<string, unknown>;
     fileListPath?: Record<string, unknown>;
     useBinaryTransfer?: boolean;
+    disableChunking?: Record<string, unknown>;
 };
 
 // @public
@@ -2894,9 +2900,10 @@ export type GoogleAdWordsAuthenticationType = string;
 // @public
 export type GoogleAdWordsLinkedService = LinkedService & {
     type: "GoogleAdWords";
-    clientCustomerID: Record<string, unknown>;
-    developerToken: SecretBaseUnion;
-    authenticationType: GoogleAdWordsAuthenticationType;
+    connectionProperties?: Record<string, unknown>;
+    clientCustomerID?: Record<string, unknown>;
+    developerToken?: SecretBaseUnion;
+    authenticationType?: GoogleAdWordsAuthenticationType;
     refreshToken?: SecretBaseUnion;
     clientId?: Record<string, unknown>;
     clientSecret?: SecretBaseUnion;
@@ -4937,6 +4944,7 @@ export type LinkedIntegrationRuntimeKeyAuthorization = LinkedIntegrationRuntimeT
 export type LinkedIntegrationRuntimeRbacAuthorization = LinkedIntegrationRuntimeType & {
     authorizationType: "RBAC";
     resourceId: string;
+    credential?: CredentialReference;
 };
 
 // @public
@@ -6986,6 +6994,7 @@ export type SftpReadSettings = StoreReadSettings & {
     deleteFilesAfterCompletion?: Record<string, unknown>;
     modifiedDatetimeStart?: Record<string, unknown>;
     modifiedDatetimeEnd?: Record<string, unknown>;
+    disableChunking?: Record<string, unknown>;
 };
 
 // @public
@@ -7697,8 +7706,10 @@ export type TextFormat = DatasetStorageFormat & {
 
 // @public
 export interface Transformation {
+    dataset?: DatasetReference;
     description?: string;
     flowlet?: DataFlowReference;
+    linkedService?: LinkedServiceReference;
     name: string;
 }
 

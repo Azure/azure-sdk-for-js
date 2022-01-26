@@ -1,43 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GeneratedClient } from "./generated/generatedClient";
-import { Service, Table } from "./generated";
+import "@azure/core-paging";
+import {
+  GetPropertiesResponse,
+  GetStatisticsResponse,
+  ServiceProperties,
+  SetPropertiesOptions,
+  SetPropertiesResponse,
+} from "./generatedModels";
+import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
 import {
   ListTableItemsOptions,
-  TableServiceClientOptions,
+  TableItem,
   TableQueryOptions,
-  TableItem
+  TableServiceClientOptions,
 } from "./models";
 import {
-  GetStatisticsResponse,
-  GetPropertiesResponse,
-  SetPropertiesOptions,
-  ServiceProperties,
-  SetPropertiesResponse
-} from "./generatedModels";
-import { getClientParamsFromConnectionString } from "./utils/connectionString";
-import {
-  isNamedKeyCredential,
   NamedKeyCredential,
   SASCredential,
-  isSASCredential,
   TokenCredential,
-  isTokenCredential
+  isNamedKeyCredential,
+  isSASCredential,
+  isTokenCredential,
 } from "@azure/core-auth";
-import "@azure/core-paging";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { logger } from "./logger";
-import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./utils/tracing";
-import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
+import { Service, Table } from "./generated";
 import { parseXML, stringifyXML } from "@azure/core-xml";
+import { GeneratedClient } from "./generated/generatedClient";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { isCredential } from "./utils/isCredential";
-import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { TableItemResultPage } from "./models";
+import { createSpan } from "./utils/tracing";
+import { getClientParamsFromConnectionString } from "./utils/connectionString";
+import { handleTableAlreadyExists } from "./utils/errorHelpers";
+import { isCredential } from "./utils/isCredential";
+import { logger } from "./logger";
+import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
+import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -160,16 +161,16 @@ export class TableServiceClient {
       ...{
         loggingOptions: {
           logger: logger.info,
-          additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+          additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames],
         },
         deserializationOptions: {
-          parseXML
+          parseXML,
         },
         serializationOptions: {
-          stringifyXML
-        }
+          stringifyXML,
+        },
       },
-      ...(isTokenCredential(credential) && { credential, credentialScopes: STORAGE_SCOPE })
+      ...(isTokenCredential(credential) && { credential, credentialScopes: STORAGE_SCOPE }),
     };
     const client = new GeneratedClient(this.url, internalPipelineOptions);
     if (isNamedKeyCredential(credential)) {
@@ -246,17 +247,9 @@ export class TableServiceClient {
   public async createTable(name: string, options: OperationOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("TableServiceClient-createTable", options);
     try {
-      await this.table.create(
-        { name },
-        { ...updatedOptions, responsePreference: "return-content" }
-      );
+      await this.table.create({ name }, { ...updatedOptions });
     } catch (e) {
-      if (e.statusCode === 409) {
-        logger.info("TableServiceClient-createTable: Table Already Exists");
-      } else {
-        span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-        throw e;
-      }
+      handleTableAlreadyExists(e, { ...updatedOptions, span, logger, tableName: name });
     } finally {
       span.end();
     }
@@ -303,7 +296,7 @@ export class TableServiceClient {
       byPage: (settings) => {
         const pageOptions: InternalListTablesOptions = {
           ...options,
-          queryOptions: { top: settings?.maxPageSize }
+          queryOptions: { top: settings?.maxPageSize },
         };
 
         if (settings?.continuationToken) {
@@ -311,7 +304,7 @@ export class TableServiceClient {
         }
 
         return this.listTablesPage(pageOptions);
-      }
+      },
     };
   }
 
@@ -324,7 +317,7 @@ export class TableServiceClient {
     if (continuationToken) {
       const optionsWithContinuation: InternalListTablesOptions = {
         ...options,
-        continuationToken
+        continuationToken,
       };
       for await (const page of this.listTablesPage(optionsWithContinuation)) {
         yield* page;
@@ -345,7 +338,7 @@ export class TableServiceClient {
       while (result.continuationToken) {
         const optionsWithContinuation: InternalListTablesOptions = {
           ...updatedOptions,
-          continuationToken: result.continuationToken
+          continuationToken: result.continuationToken,
         };
         result = await this._listTables(optionsWithContinuation);
         yield result;
@@ -362,7 +355,7 @@ export class TableServiceClient {
     const { continuationToken: nextTableName, ...listOptions } = options;
     const { xMsContinuationNextTableName: continuationToken, value = [] } = await this.table.query({
       ...listOptions,
-      nextTableName
+      nextTableName,
     });
     return Object.assign([...value], { continuationToken });
   }
@@ -385,10 +378,11 @@ export class TableServiceClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableServiceClientOptions
   ): TableServiceClient {
-    const { url, options: clientOptions, credential } = getClientParamsFromConnectionString(
-      connectionString,
-      options
-    );
+    const {
+      url,
+      options: clientOptions,
+      credential,
+    } = getClientParamsFromConnectionString(connectionString, options);
 
     if (credential) {
       return new TableServiceClient(url, credential, clientOptions);

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { XML_ATTRKEY, XML_CHARKEY, SerializerOptions } from "./serializer.common";
+import { SerializerOptions, XML_ATTRKEY, XML_CHARKEY } from "./serializer.common";
 
 if (!self.document || !self.DOMParser || !self.Node || !self.XMLSerializer) {
   throw new Error(
@@ -16,7 +16,7 @@ export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any
     const updatedOptions: Required<SerializerOptions> = {
       rootName: opts.rootName ?? "",
       includeRoot: opts.includeRoot ?? false,
-      xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY
+      xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY,
     };
     const dom = parser.parseFromString(str, "application/xml");
     throwIfError(dom);
@@ -130,7 +130,7 @@ export function stringifyXML(content: unknown, opts: SerializerOptions = {}): st
   const updatedOptions: Required<SerializerOptions> = {
     rootName: opts.rootName ?? "root",
     includeRoot: opts.includeRoot ?? false,
-    xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY
+    xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY,
   };
   const dom = buildNode(content, updatedOptions.rootName, updatedOptions)[0];
   return (

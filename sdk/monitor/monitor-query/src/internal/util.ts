@@ -36,7 +36,7 @@ export function formatPreferHeader(
 
   if (pairs.length > 0) {
     return {
-      Prefer: pairs.join(",")
+      Prefer: pairs.join(","),
     };
   }
 

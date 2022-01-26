@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { message } from "rhea-promise";
-import isBuffer from "is-buffer";
-import { Buffer } from "buffer";
 import { logErrorStackTrace, logger } from "./log";
+import { Buffer } from "buffer";
+import isBuffer from "is-buffer";
+import { message } from "rhea-promise";
 
 /**
  * The allowed AMQP message body types.
@@ -88,7 +88,7 @@ export const defaultDataTransformer = {
           case dataSectionTypeCode:
             return {
               body: skipParsingBodyAsJson ? body.content : tryToJsonDecode(body.content),
-              bodyType: "data"
+              bodyType: "data",
             };
           case sequenceSectionTypeCode:
             return { body: body.content, bodyType: "sequence" };
@@ -109,7 +109,7 @@ export const defaultDataTransformer = {
       );
       throw err;
     }
-  }
+  },
 };
 
 /**

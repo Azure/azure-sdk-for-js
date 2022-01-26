@@ -1,26 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "7f61a3ca73f444984086d5c92c386135";
+module.exports.hash = "97bf2734cfbe6d9d016b809733fcc9a8";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/credentials/d404535c-1efb-4feb-b535-83e246f31c0c', {"dataSourceCredentialType":"DataLakeGen2SharedKey","dataSourceCredentialName":"js-test-datalakeCred-163636434695302037","dataSourceCredentialDescription":"updated description","parameters":{"accountKey":"updated account key"}})
-  .reply(200, {"dataSourceCredentialId":"d404535c-1efb-4feb-b535-83e246f31c0c","dataSourceCredentialName":"js-test-datalakeCred-163636434695302037","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"DataLakeGen2SharedKey","parameters":{}}, [
+  .patch('/metricsadvisor/v1.0/credentials/d4348883-7f69-4f3e-9523-bde85ae79abb', {"dataSourceCredentialType":"DataLakeGen2SharedKey","dataSourceCredentialName":"js-test-datalakeCred-164264036985603664","dataSourceCredentialDescription":"updated description","parameters":{"accountKey":"updated account key"}})
+  .reply(200, {"dataSourceCredentialId":"d4348883-7f69-4f3e-9523-bde85ae79abb","dataSourceCredentialName":"js-test-datalakeCred-164264036985603664","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"DataLakeGen2SharedKey","parameters":{}}, [
   'Content-Length',
   '257',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '28881fdc-2266-40bf-9bf4-8ebaece0f37e',
+  '16592eaa-508e-47ee-be96-29e18e831071',
   'x-envoy-upstream-service-time',
-  '368',
+  '318',
   'apim-request-id',
-  '28881fdc-2266-40bf-9bf4-8ebaece0f37e',
+  '16592eaa-508e-47ee-be96-29e18e831071',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 08 Nov 2021 09:39:08 GMT'
+  'Thu, 20 Jan 2022 00:59:31 GMT'
 ]);

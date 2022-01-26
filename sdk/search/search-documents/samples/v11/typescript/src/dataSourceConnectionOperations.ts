@@ -10,6 +10,7 @@ import {
   AzureKeyCredential,
   SearchIndexerDataSourceConnection
 } from "@azure/search-documents";
+
 import * as dotenv from "dotenv";
 dotenv.config();
 

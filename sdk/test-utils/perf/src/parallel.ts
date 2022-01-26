@@ -48,7 +48,7 @@ export async function executeParallel(
     }
   }
 
-  var completed = { count: 0 };
+  const completed = { count: 0 };
   const tasks = [];
   for (let i = 0; i < parallel; i++) {
     tasks.push(executeParallelHelper(func, count, i, completed));

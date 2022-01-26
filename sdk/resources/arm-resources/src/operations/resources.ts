@@ -6,24 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Resources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ResourceManagementClientContext } from "../resourceManagementClientContext";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { LroEngine } from "../lro";
-import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
+import { ResourceManagementClient } from "../resourceManagementClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   GenericResourceExpanded,
   ResourcesListByResourceGroupNextOptionalParams,
   ResourcesListByResourceGroupOptionalParams,
   ResourcesListNextOptionalParams,
   ResourcesListOptionalParams,
-  ResourcesListByResourceGroupNextNextOptionalParams,
-  ResourcesListNextNextOptionalParams,
   ResourcesListByResourceGroupResponse,
   ResourcesMoveInfo,
   ResourcesMoveResourcesOptionalParams,
@@ -49,21 +45,19 @@ import {
   ResourcesGetByIdOptionalParams,
   ResourcesGetByIdResponse,
   ResourcesListByResourceGroupNextResponse,
-  ResourcesListNextResponse,
-  ResourcesListByResourceGroupNextNextResponse,
-  ResourcesListNextNextResponse
+  ResourcesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a Resources. */
+/** Class containing Resources operations. */
 export class ResourcesImpl implements Resources {
-  private readonly client: ResourceManagementClientContext;
+  private readonly client: ResourceManagementClient;
 
   /**
    * Initialize a new instance of the class Resources class.
    * @param client Reference to the service client
    */
-  constructor(client: ResourceManagementClientContext) {
+  constructor(client: ResourceManagementClient) {
     this.client = client;
   }
 
@@ -163,122 +157,6 @@ export class ResourcesImpl implements Resources {
   }
 
   /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The resource group with the resources to get.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  public listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ResourcesListByResourceGroupNextOptionalParams
-  ): PagedAsyncIterableIterator<GenericResourceExpanded> {
-    const iter = this.listByResourceGroupNextPagingAll(
-      resourceGroupName,
-      nextLink,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listByResourceGroupNextPagingPage(
-          resourceGroupName,
-          nextLink,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listByResourceGroupNextPagingPage(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ResourcesListByResourceGroupNextOptionalParams
-  ): AsyncIterableIterator<GenericResourceExpanded[]> {
-    let result = await this._listByResourceGroupNext(
-      resourceGroupName,
-      nextLink,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listByResourceGroupNextNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listByResourceGroupNextPagingAll(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ResourcesListByResourceGroupNextOptionalParams
-  ): AsyncIterableIterator<GenericResourceExpanded> {
-    for await (const page of this.listByResourceGroupNextPagingPage(
-      resourceGroupName,
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  public listNext(
-    nextLink: string,
-    options?: ResourcesListNextOptionalParams
-  ): PagedAsyncIterableIterator<GenericResourceExpanded> {
-    const iter = this.listNextPagingAll(nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listNextPagingPage(nextLink, options);
-      }
-    };
-  }
-
-  private async *listNextPagingPage(
-    nextLink: string,
-    options?: ResourcesListNextOptionalParams
-  ): AsyncIterableIterator<GenericResourceExpanded[]> {
-    let result = await this._listNext(nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNextNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listNextPagingAll(
-    nextLink: string,
-    options?: ResourcesListNextOptionalParams
-  ): AsyncIterableIterator<GenericResourceExpanded> {
-    for await (const page of this.listNextPagingPage(nextLink, options)) {
-      yield* page;
-    }
-  }
-
-  /**
    * Get all the resources for a resource group.
    * @param resourceGroupName The resource group with the resources to get.
    * @param options The options parameters.
@@ -347,12 +225,15 @@ export class ResourcesImpl implements Resources {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { sourceResourceGroupName, parameters, options },
       moveResourcesOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -434,12 +315,15 @@ export class ResourcesImpl implements Resources {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { sourceResourceGroupName, parameters, options },
       validateMoveResourcesOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -570,7 +454,7 @@ export class ResourcesImpl implements Resources {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -583,7 +467,10 @@ export class ResourcesImpl implements Resources {
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -684,7 +571,7 @@ export class ResourcesImpl implements Resources {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -698,7 +585,10 @@ export class ResourcesImpl implements Resources {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -802,7 +692,7 @@ export class ResourcesImpl implements Resources {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       {
         resourceGroupName,
@@ -816,7 +706,10 @@ export class ResourcesImpl implements Resources {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -959,12 +852,15 @@ export class ResourcesImpl implements Resources {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceId, apiVersion, options },
       deleteByIdOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -1043,12 +939,15 @@ export class ResourcesImpl implements Resources {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceId, apiVersion, parameters, options },
       createOrUpdateByIdOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -1134,12 +1033,15 @@ export class ResourcesImpl implements Resources {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceId, apiVersion, parameters, options },
       updateByIdOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -1214,39 +1116,6 @@ export class ResourcesImpl implements Resources {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
-    );
-  }
-
-  /**
-   * ListByResourceGroupNextNext
-   * @param resourceGroupName The resource group with the resources to get.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroupNext
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNextNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ResourcesListByResourceGroupNextNextOptionalParams
-  ): Promise<ResourcesListByResourceGroupNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListNextNext
-   * @param nextLink The nextLink from the previous successful call to the ListNext method.
-   * @param options The options parameters.
-   */
-  private _listNextNext(
-    nextLink: string,
-    options?: ResourcesListNextNextOptionalParams
-  ): Promise<ResourcesListNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextNextOperationSpec
     );
   }
 }
@@ -1624,57 +1493,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.expand
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.expand
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

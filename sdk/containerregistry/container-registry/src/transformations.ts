@@ -5,9 +5,9 @@ import {
   ArtifactTagOrderBy as ServiceTagOrderBy,
   ArtifactManifestOrderBy as ServiceManifestOrderBy,
   ManifestWriteableProperties as ServiceManifestWritableProperties,
-  ArtifactManifestProperties as ServiceArtifactManifestProperties
+  ArtifactManifestProperties as ServiceArtifactManifestProperties,
 } from "./generated/models";
-import { ArtifactManifestProperties, TagOrderBy, ManifestOrderBy } from "./models";
+import { ArtifactManifestProperties, ArtifactTagOrder, ArtifactManifestOrder } from "./models";
 
 /** Changeable attributes. Filter out `quarantineState` and `quarantineDetails` returned by service */
 interface ManifestWriteableProperties {
@@ -30,7 +30,7 @@ export function toManifestWritableProperties(
         canDelete: from.canDelete,
         canList: from.canList,
         canRead: from.canRead,
-        canWrite: from.canWrite
+        canWrite: from.canWrite,
       }
     : undefined;
 }
@@ -44,18 +44,18 @@ export function toArtifactManifestProperties(
     registryLoginServer,
     repositoryName,
     digest: from.digest,
-    size: from.size,
+    sizeInBytes: from.size,
     createdOn: from.createdOn,
     lastUpdatedOn: from.lastUpdatedOn,
     architecture: from.architecture ?? undefined,
     operatingSystem: from.operatingSystem ?? undefined,
     relatedArtifacts: from.relatedArtifacts ?? [],
     tags: from.tags ?? [],
-    ...toManifestWritableProperties(from)
+    ...toManifestWritableProperties(from),
   };
 }
 
-export function toServiceTagOrderBy(orderBy?: TagOrderBy): ServiceTagOrderBy | undefined {
+export function toServiceTagOrderBy(orderBy?: ArtifactTagOrder): ServiceTagOrderBy | undefined {
   return orderBy === "LastUpdatedOnAscending"
     ? "timeasc"
     : orderBy === "LastUpdatedOnDescending"
@@ -64,7 +64,7 @@ export function toServiceTagOrderBy(orderBy?: TagOrderBy): ServiceTagOrderBy | u
 }
 
 export function toServiceManifestOrderBy(
-  orderBy?: ManifestOrderBy
+  orderBy?: ArtifactManifestOrder
 ): ServiceManifestOrderBy | undefined {
   return orderBy === "LastUpdatedOnAscending"
     ? "timeasc"

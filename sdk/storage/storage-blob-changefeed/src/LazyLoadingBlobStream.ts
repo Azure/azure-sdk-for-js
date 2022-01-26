@@ -75,7 +75,7 @@ export class LazyLoadingBlobStream extends Readable {
     try {
       const properties = await this.blobClient.getProperties({
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
       this.blobLength = properties.contentLength!;
 
@@ -90,14 +90,14 @@ export class LazyLoadingBlobStream extends Readable {
         this.lastDownloadBytes,
         {
           abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions
+          tracingOptions: updatedOptions.tracingOptions,
         }
       );
       this.offset += this.lastDownloadBytes;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -124,7 +124,7 @@ export class LazyLoadingBlobStream extends Readable {
         if (this.lastDownloadData === undefined || this.lastDownloadData?.byteLength === 0) {
           await this.downloadBlock({
             abortSignal: this.options?.abortSignal,
-            tracingOptions: updatedOptions?.tracingOptions
+            tracingOptions: updatedOptions?.tracingOptions,
           });
         }
         if (this.lastDownloadData?.byteLength) {
@@ -145,7 +145,7 @@ export class LazyLoadingBlobStream extends Readable {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       this.emit("error", e);
     } finally {

@@ -11,7 +11,7 @@ export enum EnvVarNames {
   SERVICEBUS_CONNECTION_STRING = "SERVICEBUS_CONNECTION_STRING",
   AZURE_CLIENT_ID = "AZURE_CLIENT_ID",
   AZURE_CLIENT_SECRET = "AZURE_CLIENT_SECRET",
-  AZURE_TENANT_ID = "AZURE_TENANT_ID"
+  AZURE_TENANT_ID = "AZURE_TENANT_ID",
 }
 
 /**
@@ -21,8 +21,7 @@ export function getEnvVarValue(name: string): string | undefined {
   if (isNode) {
     return process.env[name];
   } else {
-    // @ts-ignore
-    return self.__env__[name];
+    return (self as any).__env__[name];
   }
 }
 
@@ -43,8 +42,8 @@ export function getEnvVars(): { [key in EnvVarNames]: string } {
     EnvVarNames.SERVICEBUS_CONNECTION_STRING,
     EnvVarNames.AZURE_CLIENT_ID,
     EnvVarNames.AZURE_CLIENT_SECRET,
-    EnvVarNames.AZURE_TENANT_ID
-  ].forEach(function(name: string) {
+    EnvVarNames.AZURE_TENANT_ID,
+  ].forEach(function (name: string) {
     if (!getEnvVarValue(name)) {
       throw new Error(`Define ${name} in your environment before running integration tests.`);
     }
@@ -56,7 +55,7 @@ export function getEnvVars(): { [key in EnvVarNames]: string } {
     ),
     [EnvVarNames.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarNames.AZURE_CLIENT_ID),
     [EnvVarNames.AZURE_CLIENT_SECRET]: getEnvVarValue(EnvVarNames.AZURE_CLIENT_SECRET),
-    [EnvVarNames.AZURE_TENANT_ID]: getEnvVarValue(EnvVarNames.AZURE_TENANT_ID)
+    [EnvVarNames.AZURE_TENANT_ID]: getEnvVarValue(EnvVarNames.AZURE_TENANT_ID),
   };
 
   return envVars;

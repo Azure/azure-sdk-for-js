@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
   DataExportsImpl,
@@ -24,6 +25,7 @@ import {
   SchemaImpl,
   WorkspacePurgeImpl,
   OperationsImpl,
+  TablesImpl,
   ClustersImpl,
   WorkspacesImpl,
   DeletedWorkspacesImpl
@@ -45,14 +47,17 @@ import {
   Schema,
   WorkspacePurge,
   Operations,
+  Tables,
   Clusters,
   Workspaces,
   DeletedWorkspaces
 } from "./operationsInterfaces";
-import { OperationalInsightsManagementClientContext } from "./operationalInsightsManagementClientContext";
 import { OperationalInsightsManagementClientOptionalParams } from "./models";
 
-export class OperationalInsightsManagementClient extends OperationalInsightsManagementClientContext {
+export class OperationalInsightsManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the OperationalInsightsManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -64,7 +69,45 @@ export class OperationalInsightsManagementClient extends OperationalInsightsMana
     subscriptionId: string,
     options?: OperationalInsightsManagementClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: OperationalInsightsManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-operationalinsights/8.0.0`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
     this.dataExports = new DataExportsImpl(this);
     this.dataSources = new DataSourcesImpl(this);
     this.intelligencePacks = new IntelligencePacksImpl(this);
@@ -81,6 +124,7 @@ export class OperationalInsightsManagementClient extends OperationalInsightsMana
     this.schema = new SchemaImpl(this);
     this.workspacePurge = new WorkspacePurgeImpl(this);
     this.operations = new OperationsImpl(this);
+    this.tables = new TablesImpl(this);
     this.clusters = new ClustersImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.deletedWorkspaces = new DeletedWorkspacesImpl(this);
@@ -102,6 +146,7 @@ export class OperationalInsightsManagementClient extends OperationalInsightsMana
   schema: Schema;
   workspacePurge: WorkspacePurge;
   operations: Operations;
+  tables: Tables;
   clusters: Clusters;
   workspaces: Workspaces;
   deletedWorkspaces: DeletedWorkspaces;

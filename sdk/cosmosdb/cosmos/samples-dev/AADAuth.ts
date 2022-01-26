@@ -5,19 +5,18 @@
  * @summary Uses AAD credentials to authenticate with the CosmosClient.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { UsernamePasswordCredential } from "@azure/identity";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { CosmosClient } from "../dist";
+import { CosmosClient } from "@azure/cosmos";
 import { handleError, finish, logStep } from "./Shared/handleError";
 
-const endpoint = "your-endpoint";
-const masterKey = "your-master-key";
-const existingContainerId = "your-container-id";
+const key = process.env.COSMOS_KEY || "<cosmos key>";
+const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
+const existingContainerId = process.env.COSMOS_CONTAINER || "<cosmos container>";
 
 async function run() {
   logStep("Create credential object from @azure/identity");
@@ -30,12 +29,12 @@ async function run() {
   logStep("Pass credentials to client object with key aadCredentials");
   const aadClient = new CosmosClient({
     endpoint,
-    aadCredentials: credentials
+    aadCredentials: credentials,
   });
 
   const genericClient = new CosmosClient({
     endpoint,
-    key: masterKey
+    key: key,
   });
 
   logStep(
@@ -48,15 +47,9 @@ async function run() {
   await genericClient.databases.readAll({}).fetchAll();
 
   // succeeds
-  await aadClient
-    .database("example")
-    .container(existingContainerId)
-    .items.readAll();
+  await aadClient.database("example").container(existingContainerId).items.readAll();
   // succeeds
-  await genericClient
-    .database("example")
-    .container(existingContainerId)
-    .items.readAll();
+  await genericClient.database("example").container(existingContainerId).items.readAll();
 
   await finish();
 }

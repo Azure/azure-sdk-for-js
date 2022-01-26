@@ -8,36 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const Resource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ClusterResourceProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -239,6 +209,36 @@ export const Sku: coreClient.CompositeMapper = {
         serializedName: "capacity",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -927,8 +927,8 @@ export const CustomPersistentDiskProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      readonly: {
-        serializedName: "readonly",
+      readOnly: {
+        serializedName: "readOnly",
         type: {
           name: "Boolean"
         }
@@ -1709,6 +1709,13 @@ export const DeploymentSettings: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      containerProbeSettings: {
+        serializedName: "containerProbeSettings",
+        type: {
+          name: "Composite",
+          className: "DeploymentSettingsContainerProbeSettings"
+        }
       }
     }
   }
@@ -1729,6 +1736,21 @@ export const ResourceRequests: coreClient.CompositeMapper = {
         serializedName: "memory",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeploymentSettingsContainerProbeSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentSettingsContainerProbeSettings",
+    modelProperties: {
+      disableProbe: {
+        serializedName: "disableProbe",
+        type: {
+          name: "Boolean"
         }
       }
     }

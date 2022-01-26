@@ -6,16 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Deployments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ResourceManagementClientContext } from "../resourceManagementClientContext";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { LroEngine } from "../lro";
-import { CoreClientLro, shouldDeserializeLro } from "../coreClientLro";
+import { ResourceManagementClient } from "../resourceManagementClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   DeploymentExtended,
   DeploymentsListAtScopeNextOptionalParams,
@@ -28,11 +26,6 @@ import {
   DeploymentsListAtSubscriptionScopeOptionalParams,
   DeploymentsListByResourceGroupNextOptionalParams,
   DeploymentsListByResourceGroupOptionalParams,
-  DeploymentsListAtScopeNextNextOptionalParams,
-  DeploymentsListAtTenantScopeNextNextOptionalParams,
-  DeploymentsListAtManagementGroupScopeNextNextOptionalParams,
-  DeploymentsListAtSubscriptionScopeNextNextOptionalParams,
-  DeploymentsListByResourceGroupNextNextOptionalParams,
   DeploymentsDeleteAtScopeOptionalParams,
   DeploymentsCheckExistenceAtScopeOptionalParams,
   DeploymentsCheckExistenceAtScopeResponse,
@@ -116,24 +109,19 @@ import {
   DeploymentsListAtTenantScopeNextResponse,
   DeploymentsListAtManagementGroupScopeNextResponse,
   DeploymentsListAtSubscriptionScopeNextResponse,
-  DeploymentsListByResourceGroupNextResponse,
-  DeploymentsListAtScopeNextNextResponse,
-  DeploymentsListAtTenantScopeNextNextResponse,
-  DeploymentsListAtManagementGroupScopeNextNextResponse,
-  DeploymentsListAtSubscriptionScopeNextNextResponse,
-  DeploymentsListByResourceGroupNextNextResponse
+  DeploymentsListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a Deployments. */
+/** Class containing Deployments operations. */
 export class DeploymentsImpl implements Deployments {
-  private readonly client: ResourceManagementClientContext;
+  private readonly client: ResourceManagementClient;
 
   /**
    * Initialize a new instance of the class Deployments class.
    * @param client Reference to the service client
    */
-  constructor(client: ResourceManagementClientContext) {
+  constructor(client: ResourceManagementClient) {
     this.client = client;
   }
 
@@ -378,311 +366,6 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * ListAtScopeNext
-   * @param scope The resource scope.
-   * @param nextLink The nextLink from the previous successful call to the ListAtScope method.
-   * @param options The options parameters.
-   */
-  public listAtScopeNext(
-    scope: string,
-    nextLink: string,
-    options?: DeploymentsListAtScopeNextOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentExtended> {
-    const iter = this.listAtScopeNextPagingAll(scope, nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listAtScopeNextPagingPage(scope, nextLink, options);
-      }
-    };
-  }
-
-  private async *listAtScopeNextPagingPage(
-    scope: string,
-    nextLink: string,
-    options?: DeploymentsListAtScopeNextOptionalParams
-  ): AsyncIterableIterator<DeploymentExtended[]> {
-    let result = await this._listAtScopeNext(scope, nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listAtScopeNextNext(
-        scope,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listAtScopeNextPagingAll(
-    scope: string,
-    nextLink: string,
-    options?: DeploymentsListAtScopeNextOptionalParams
-  ): AsyncIterableIterator<DeploymentExtended> {
-    for await (const page of this.listAtScopeNextPagingPage(
-      scope,
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListAtTenantScopeNext
-   * @param nextLink The nextLink from the previous successful call to the ListAtTenantScope method.
-   * @param options The options parameters.
-   */
-  public listAtTenantScopeNext(
-    nextLink: string,
-    options?: DeploymentsListAtTenantScopeNextOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentExtended> {
-    const iter = this.listAtTenantScopeNextPagingAll(nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listAtTenantScopeNextPagingPage(nextLink, options);
-      }
-    };
-  }
-
-  private async *listAtTenantScopeNextPagingPage(
-    nextLink: string,
-    options?: DeploymentsListAtTenantScopeNextOptionalParams
-  ): AsyncIterableIterator<DeploymentExtended[]> {
-    let result = await this._listAtTenantScopeNext(nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listAtTenantScopeNextNext(
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listAtTenantScopeNextPagingAll(
-    nextLink: string,
-    options?: DeploymentsListAtTenantScopeNextOptionalParams
-  ): AsyncIterableIterator<DeploymentExtended> {
-    for await (const page of this.listAtTenantScopeNextPagingPage(
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListAtManagementGroupScopeNext
-   * @param groupId The management group ID.
-   * @param nextLink The nextLink from the previous successful call to the ListAtManagementGroupScope
-   *                 method.
-   * @param options The options parameters.
-   */
-  public listAtManagementGroupScopeNext(
-    groupId: string,
-    nextLink: string,
-    options?: DeploymentsListAtManagementGroupScopeNextOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentExtended> {
-    const iter = this.listAtManagementGroupScopeNextPagingAll(
-      groupId,
-      nextLink,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listAtManagementGroupScopeNextPagingPage(
-          groupId,
-          nextLink,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listAtManagementGroupScopeNextPagingPage(
-    groupId: string,
-    nextLink: string,
-    options?: DeploymentsListAtManagementGroupScopeNextOptionalParams
-  ): AsyncIterableIterator<DeploymentExtended[]> {
-    let result = await this._listAtManagementGroupScopeNext(
-      groupId,
-      nextLink,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listAtManagementGroupScopeNextNext(
-        groupId,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listAtManagementGroupScopeNextPagingAll(
-    groupId: string,
-    nextLink: string,
-    options?: DeploymentsListAtManagementGroupScopeNextOptionalParams
-  ): AsyncIterableIterator<DeploymentExtended> {
-    for await (const page of this.listAtManagementGroupScopeNextPagingPage(
-      groupId,
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListAtSubscriptionScopeNext
-   * @param nextLink The nextLink from the previous successful call to the ListAtSubscriptionScope
-   *                 method.
-   * @param options The options parameters.
-   */
-  public listAtSubscriptionScopeNext(
-    nextLink: string,
-    options?: DeploymentsListAtSubscriptionScopeNextOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentExtended> {
-    const iter = this.listAtSubscriptionScopeNextPagingAll(nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listAtSubscriptionScopeNextPagingPage(nextLink, options);
-      }
-    };
-  }
-
-  private async *listAtSubscriptionScopeNextPagingPage(
-    nextLink: string,
-    options?: DeploymentsListAtSubscriptionScopeNextOptionalParams
-  ): AsyncIterableIterator<DeploymentExtended[]> {
-    let result = await this._listAtSubscriptionScopeNext(nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listAtSubscriptionScopeNextNext(
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listAtSubscriptionScopeNextPagingAll(
-    nextLink: string,
-    options?: DeploymentsListAtSubscriptionScopeNextOptionalParams
-  ): AsyncIterableIterator<DeploymentExtended> {
-    for await (const page of this.listAtSubscriptionScopeNextPagingPage(
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group with the deployments to get. The name is
-   *                          case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  public listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: DeploymentsListByResourceGroupNextOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentExtended> {
-    const iter = this.listByResourceGroupNextPagingAll(
-      resourceGroupName,
-      nextLink,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listByResourceGroupNextPagingPage(
-          resourceGroupName,
-          nextLink,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listByResourceGroupNextPagingPage(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: DeploymentsListByResourceGroupNextOptionalParams
-  ): AsyncIterableIterator<DeploymentExtended[]> {
-    let result = await this._listByResourceGroupNext(
-      resourceGroupName,
-      nextLink,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listByResourceGroupNextNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listByResourceGroupNextPagingAll(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: DeploymentsListByResourceGroupNextOptionalParams
-  ): AsyncIterableIterator<DeploymentExtended> {
-    for await (const page of this.listByResourceGroupNextPagingPage(
-      resourceGroupName,
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment
    * removes the associated deployment operations. This is an asynchronous operation that returns a
    * status of 202 until the template deployment is successfully deleted. The Location response header
@@ -738,12 +421,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { scope, deploymentName, options },
       deleteAtScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -845,12 +531,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { scope, deploymentName, parameters, options },
       createOrUpdateAtScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -969,12 +658,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { scope, deploymentName, parameters, options },
       validateAtScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -1086,12 +778,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { deploymentName, options },
       deleteAtTenantScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -1183,12 +878,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { deploymentName, parameters, options },
       createOrUpdateAtTenantScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -1298,12 +996,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { deploymentName, parameters, options },
       validateAtTenantScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -1381,13 +1082,16 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { deploymentName, parameters, options },
-      whatIfAtTenantScopeOperationSpec,
-      "location"
+      whatIfAtTenantScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -1493,12 +1197,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { groupId, deploymentName, options },
       deleteAtManagementGroupScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -1602,12 +1309,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { groupId, deploymentName, parameters, options },
       createOrUpdateAtManagementGroupScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -1726,12 +1436,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { groupId, deploymentName, parameters, options },
       validateAtManagementGroupScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -1815,13 +1528,16 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { groupId, deploymentName, parameters, options },
-      whatIfAtManagementGroupScopeOperationSpec,
-      "location"
+      whatIfAtManagementGroupScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -1933,12 +1649,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { deploymentName, options },
       deleteAtSubscriptionScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -2033,12 +1752,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { deploymentName, parameters, options },
       createOrUpdateAtSubscriptionScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -2148,12 +1870,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { deploymentName, parameters, options },
       validateAtSubscriptionScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -2231,13 +1956,16 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { deploymentName, parameters, options },
-      whatIfAtSubscriptionScopeOperationSpec,
-      "location"
+      whatIfAtSubscriptionScopeOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -2345,12 +2073,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, deploymentName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -2456,12 +2187,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, deploymentName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -2582,12 +2316,15 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, deploymentName, parameters, options },
       validateOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
   }
 
   /**
@@ -2672,13 +2409,16 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new CoreClientLro(
+    const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, deploymentName, parameters, options },
-      whatIfOperationSpec,
-      "location"
+      whatIfOperationSpec
     );
-    return new LroEngine(lro, { intervalInMs: options?.updateIntervalInMs });
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
   }
 
   /**
@@ -2833,91 +2573,6 @@ export class DeploymentsImpl implements Deployments {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
-    );
-  }
-
-  /**
-   * ListAtScopeNextNext
-   * @param scope The resource scope.
-   * @param nextLink The nextLink from the previous successful call to the ListAtScopeNext method.
-   * @param options The options parameters.
-   */
-  private _listAtScopeNextNext(
-    scope: string,
-    nextLink: string,
-    options?: DeploymentsListAtScopeNextNextOptionalParams
-  ): Promise<DeploymentsListAtScopeNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listAtScopeNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListAtTenantScopeNextNext
-   * @param nextLink The nextLink from the previous successful call to the ListAtTenantScopeNext method.
-   * @param options The options parameters.
-   */
-  private _listAtTenantScopeNextNext(
-    nextLink: string,
-    options?: DeploymentsListAtTenantScopeNextNextOptionalParams
-  ): Promise<DeploymentsListAtTenantScopeNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAtTenantScopeNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListAtManagementGroupScopeNextNext
-   * @param groupId The management group ID.
-   * @param nextLink The nextLink from the previous successful call to the ListAtManagementGroupScopeNext
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listAtManagementGroupScopeNextNext(
-    groupId: string,
-    nextLink: string,
-    options?: DeploymentsListAtManagementGroupScopeNextNextOptionalParams
-  ): Promise<DeploymentsListAtManagementGroupScopeNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { groupId, nextLink, options },
-      listAtManagementGroupScopeNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListAtSubscriptionScopeNextNext
-   * @param nextLink The nextLink from the previous successful call to the ListAtSubscriptionScopeNext
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listAtSubscriptionScopeNextNext(
-    nextLink: string,
-    options?: DeploymentsListAtSubscriptionScopeNextNextOptionalParams
-  ): Promise<DeploymentsListAtSubscriptionScopeNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAtSubscriptionScopeNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListByResourceGroupNextNext
-   * @param resourceGroupName The name of the resource group with the deployments to get. The name is
-   *                          case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroupNext
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNextNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: DeploymentsListByResourceGroupNextNextOptionalParams
-  ): Promise<DeploymentsListByResourceGroupNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextNextOperationSpec
     );
   }
 }
@@ -4026,95 +3681,6 @@ const listAtSubscriptionScopeNextOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAtScopeNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAtTenantScopeNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [Parameters.$host, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAtManagementGroupScopeNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.groupId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAtSubscriptionScopeNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupNextNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
