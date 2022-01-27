@@ -6,11 +6,11 @@
  * @author Hamsa Shankar
  */
 
+import { Modifier, SyntaxKind } from "typescript";
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { Node } from "estree";
 import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
 import { Rule } from "eslint";
-import { Node } from "estree";
-import { Modifier, SyntaxKind } from "typescript";
 import { getRuleMetaData } from "../utils";
 
 //------------------------------------------------------------------------------
