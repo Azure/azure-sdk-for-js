@@ -57,7 +57,7 @@ const makeAddSanitizer =
 
 /**
  * Makes an AddSanitizer<boolean> function that adds the sanitizer if the value is set to true,
- * and otherwise makes no request to the server.
+ * and otherwise makes no request to the server. Used for ResetSanitizer and OAuthResponseSanitizer.
  */
 const makeAddBodilessSanitizer =
   (sanitizerName: ProxyToolSanitizers): AddSanitizer<boolean> =>
@@ -110,7 +110,7 @@ const makeAddFindReplaceSanitizer =
  *  Internally,
  * - connection strings are parsed and
  * - each part of the connection string is mapped with its corresponding fake value
- * - generalRegexSanitizer is applied for each of the parts with the real and fake values that are parsed
+ * - GeneralStringSanitizer is applied for each of the parts with the real and fake values that are parsed
  */
 async function addConnectionStringSanitizer(
   httpClient: HttpClient,
