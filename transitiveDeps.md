@@ -14,8 +14,9 @@ The outputs below assume you're using `npm v8.1.2` with a lockfile, but we will 
 
 First, let's see how `node-fetch` is pulled into our dependency tree.
 
-```bash
-keyvault main % npm ls node-fetch
+```
+> npm ls node-fetch
+
 keyvault@1.0.0 /home/user/my-app
 └─┬ @azure/keyvault-keys@4.3.0
   └─┬ @azure/core-http@2.2.3
@@ -32,8 +33,8 @@ Because I use a lockfile, running `npm install` again will not help me here. But
 
 First, it's possible that you were alerted to a security vulnerability thanks to `npm audit`. In this case, the simplest solution might be to run `npm audit fix`. Let's see what that looks like:
 
-```bash
-keyvault main % npm audit fix
+```
+> npm audit fix
 
 changed 1 package, and audited 51 packages in 421ms
 
@@ -58,8 +59,8 @@ For more information on `npm audit` please refer to the [npm-audit documentation
 
 Not all updates are due to security vulnerabilities. Sometimes you just want to update a transitive dependency without deleting your lockfile. In that case, `npm update node-fetch` can help. Let's see what that looks like:
 
-```bash
-keyvault main % npm update node-fetch
+```
+> npm update node-fetch
 
 changed 1 package, and audited 51 packages in 320ms
 
