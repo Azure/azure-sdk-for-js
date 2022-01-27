@@ -158,7 +158,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         );
       });
 
-      it.skip("UriRegexSanitizer", async () => {
+      it("UriSanitizer", async () => {
         const secretEndpoint = "host.docker.internal";
         const fakeEndpoint = "fake_endpoint";
         await recorder.start({
