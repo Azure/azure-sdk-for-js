@@ -73,13 +73,9 @@ export = {
     const converter = parserServices.esTreeNodeToTSNodeMap;
 
     return {
-      ":matches(ClassDeclaration)": (
+      ":matches(ClassProperty, MethodDefinition, TSMethodSignature, TSPropertySignature, TSIndexSignature, TSParameterProperty)": (
         node: Node
-      ): void => reportInternal(node, context, converter),
-
-      ":function": (node: Node): void => {
-        reportInternal(node, context, converter);
-      }
+      ): void => reportInternal(node, context, converter)
     };
   }
 };

@@ -10,51 +10,66 @@ Internal objects are defined as classes, interfaces, or standalone functions tha
 
 ```ts
 /**
- * Other documentation
- * @internal
+ * Class documentation
  */
-class ExampleClass {}
+class ExampleClass {
+  private x = 0;
+  private y: number;
+
+  private [s: string]: boolean | ((s: string) => boolean);
+
+  /**
+   * Method documentation
+   */
+  private testMethod(private x: number, private y: number) {}
+}
 ```
+
 
 ```ts
 /**
- * Other documentation
- * @internal
+ * Class documentation
  */
-interface ExampleInterface {}
-```
+class ExampleClass {
+  @internal
+  x = 0;
 
-```ts
-/**
- * Other documentation
- */
-private function exampleFunction(): void {}
+  @internal
+  y: number;
+
+  @internal
+  [s: string]: boolean | ((s: string) => boolean);
+
+  /**
+   * Method documentation
+   * @internal
+   */
+  testMethod(private x: number, private y: number) {}
+}
 ```
 
 ### Bad
 
 ```ts
 /**
- * Other documentation
- * @internal
+ * Class documentation
  */
-private class ExampleClass {}
-```
+class ExampleClass {
+  @internal
+  private x = 0;
 
-```ts
-/**
- * Other documentation
- * @internal
- */
-private interface ExampleInterface {}
-```
+  @internal
+  private y: number;
 
-```ts
-/**
- * Other documentation
- * @internal
- */
-private function exampleFunction(): void {}
+  @internal
+  private [s: string]: boolean | ((s: string) => boolean);
+
+  /**
+   * Method documentation
+   * @internal
+   */
+  private testMethod(private x: number, private y: number) {}
+}
 ```
 
 ## When to turn off
