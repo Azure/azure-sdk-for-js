@@ -609,5 +609,43 @@ describe("Keys client - create, read, update and delete operations", () => {
         /exportable/i
       );
     });
+
+    it.only("errors when updating an immutable release policy", async () => {
+      const keyName = recorder.getUniqueName("immutablerelease");
+      const createdKey = await client.createRsaKey(keyName, {
+        exportable: true,
+        hsm: true,
+        releasePolicy: {
+          encodedPolicy: encodedReleasePolicy,
+          immutable: true,
+        },
+        keyOps: ["encrypt", "decrypt"],
+      });
+
+      const newReleasePolicy = {
+        anyOf: [
+          {
+            anyOf: [
+              {
+                claim: "sdk-test",
+                equals: "false",
+              },
+            ],
+            authority: env.AZURE_KEYVAULT_ATTESTATION_URI,
+          },
+        ],
+        version: "1.0",
+      };
+
+      await assert.isRejected(
+        client.updateKeyProperties(createdKey.name, {
+          releasePolicy: {
+            encodedPolicy: stringToUint8Array(JSON.stringify(newReleasePolicy)),
+            immutable: true,
+          },
+        }),
+        /Immutable Key Release/
+      );
+    });
   });
 });

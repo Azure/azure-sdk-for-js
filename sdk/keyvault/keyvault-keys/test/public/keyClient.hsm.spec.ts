@@ -182,44 +182,6 @@ onVersions({ minVer: "7.2" }).describe(
         );
       });
 
-      it.only("errors when updating an immutable release policy", async () => {
-        const keyName = recorder.getUniqueName("immutablerelease");
-        const createdKey = await hsmClient.createKey(keyName, "RSA", {
-          exportable: true,
-          releasePolicy: { encodedPolicy: encodedReleasePolicy, immutable: true },
-          keyOps: ["encrypt", "decrypt"],
-        });
-
-        const newReleasePolicy = {
-          anyOf: [
-            {
-              anyOf: [
-                {
-                  claim: "sdk-test",
-                  equals: "false",
-                },
-              ],
-              authority: env.AZURE_KEYVAULT_ATTESTATION_URI,
-            },
-          ],
-          version: "1.0",
-        };
-
-        const updatedKey = await hsmClient.updateKeyProperties(createdKey.name, {
-          releasePolicy: {
-            encodedPolicy: stringToUint8Array(JSON.stringify(newReleasePolicy)),
-            immutable: true,
-          },
-        });
-
-        assert.exists(updatedKey.properties.releasePolicy?.encodedPolicy);
-        const decodedReleasePolicy = JSON.parse(
-          uint8ArrayToString(updatedKey.properties.releasePolicy!.encodedPolicy!)
-        );
-
-        assert.equal(decodedReleasePolicy.anyOf[0].anyOf[0].equals, "false");
-      });
-
       it("errors when a key has a release policy but is not exportable", async () => {
         const keyName = recorder.getUniqueName("policynonexportable");
         await assert.isRejected(
