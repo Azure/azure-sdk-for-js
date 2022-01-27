@@ -2,12 +2,23 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { delay } from "@azure/core-amqp";
+import {
+  EventData,
+  EventHubBufferedProducerClient,
+  OnSendEventsErrorContext,
+  OnSendEventsSuccessContext,
+} from "../../src/index";
+import { AmqpAnnotatedMessage, delay } from "@azure/core-amqp";
 import chai from "chai";
 const should = chai.should();
 
-import { EventData, EventHubBufferedProducerClient } from "../../src/index";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+
+type ResultError = { type: "error"; context: OnSendEventsErrorContext };
+type ResultSuccess = { type: "success"; context: OnSendEventsSuccessContext };
+type ResultEnqueue = { type: "enqueue"; event: EventData | AmqpAnnotatedMessage };
+type ResultFlush = { type: "flush" };
+type Result = ResultEnqueue | ResultError | ResultSuccess | ResultFlush;
 
 describe("EventHubProducerClient", function() {
   const env = getEnvVars();
@@ -58,7 +69,11 @@ describe("EventHubProducerClient", function() {
     });
 
     it("retrieves partition publishing properties (enableIdempotentPartitions)", async function() {
+      const results: Result[] = [];
       producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
+        async onSendEventsErrorHandler(context) {
+          results.push({ type: "error", context });
+        },
         enableIdempotentPartitions: true
       });
 
