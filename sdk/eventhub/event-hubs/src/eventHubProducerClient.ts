@@ -189,7 +189,7 @@ export class EventHubProducerClient {
 
     let sender = this._sendersMap.get("");
     if (!sender) {
-      sender = EventHubSender.create(this._context);
+      sender = EventHubSender.create(this._context, { enableIdempotentProducer: false });
       this._sendersMap.set("", sender);
     }
 
@@ -337,7 +337,7 @@ export class EventHubProducerClient {
 
     let sender = this._sendersMap.get(partitionId || "");
     if (!sender) {
-      sender = EventHubSender.create(this._context, partitionId);
+      sender = EventHubSender.create(this._context, { enableIdempotentProducer: false, partitionId } );
       this._sendersMap.set(partitionId || "", sender);
     }
 
