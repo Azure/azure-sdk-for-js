@@ -30,6 +30,8 @@ recorder.addSanitizers({
 });
 ```
 
+[#19954](https://github.com/Azure/azure-sdk-for-js/pull/19954)
+
 ## 2022-01-06
 
 - Renaming the package `@azure-tools/test-recorder-new@1.0.0` as `@azure-tools/test-recorder@2.0.0`.
