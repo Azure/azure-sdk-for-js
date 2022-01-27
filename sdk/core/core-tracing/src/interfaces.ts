@@ -5,8 +5,7 @@
  * A narrower version of TypeScript 4.5's Awaited type which Recursively
  * unwraps the "awaited type", emulating the behavior of `await`.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types -- I want to stay consistent with TypeScript 4.5's Awaited type
-export type AwaitedLike<T> = T extends object & { then(onfulfilled: infer F): any } // `await` only unwraps object types with a callable `then`. Non-object types are not unwrapped
+export type AwaitedLike<T> = T extends { then(onfulfilled: infer F): any } // `await` only unwraps object types with a callable `then`. Non-object types are not unwrapped
   ? F extends (value: infer V) => any // if the argument to `then` is callable, extracts the first argument
     ? AwaitedLike<V> // recursively unwrap the value
     : never // the argument to `then` was not callable

@@ -5,7 +5,7 @@
 ```ts
 
 // @public
-export type AwaitedLike<T> = T extends object & {
+export type AwaitedLike<T> = T extends {
     then(onfulfilled: infer F): any;
 } ? F extends (value: infer V) => any ? AwaitedLike<V> : never : T;
 
