@@ -9,6 +9,6 @@ import { createXhrHttpClient } from "./xhrHttpClient";
  * Create the correct HttpClient for the current environment.
  */
 export function createDefaultHttpClient(): HttpClient {
-  const isFetch = typeof window.fetch !== "undefined";
+  const isFetch = typeof self.fetch !== "undefined";
   return isFetch ? createFetchHttpClient() : createXhrHttpClient();
 }
