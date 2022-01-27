@@ -74,7 +74,7 @@ matrix([[true, false]], async function(useAad) {
           );
         } finally {
           // Hangup call
-          await TestUtils.delayIfLive();
+          await TestUtils.waitForOperationCompletion();
           await TestUtils.cleanCallConnections(connections);
         }
       });
@@ -129,17 +129,17 @@ describe("Server Call Live Test", function() {
           Constants.CALLBACK_URL
         );
         recordingId = startCallRecordingResult.recordingId!;
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         let recordingState = await callingServerClient.getRecordingProperties(recordingId!);
         assert.strictEqual(recordingState.recordingState, "active");
 
         await callingServerClient.pauseRecording(recordingId!);
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         recordingState = await callingServerClient.getRecordingProperties(recordingId!);
         assert.strictEqual(recordingState.recordingState, "inactive");
 
         await callingServerClient.resumeRecording(recordingId!);
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         recordingState = await callingServerClient.getRecordingProperties(recordingId!);
         assert.strictEqual(recordingState.recordingState, "active");
       } finally {
@@ -227,15 +227,15 @@ describe("Server Call Live Test", function() {
         };
 
         // Play Audio
-        await TestUtils.delayIfLive();
-        await callingServer.playAudio(callLocator, Constants.Audio_File_Url, playAudioOptions);
+        await TestUtils.waitForOperationCompletion();
+        await callingServer.playAudio(callLocator, env.AUDIO_FILE_URI, playAudioOptions);
 
         // Cancel Prompt Audio
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await TestUtils.cancelAllMediaOperationsForGroupCall(connections);
       } finally {
         // Hangup call
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await TestUtils.cleanCallConnections(connections);
       }
     });
@@ -256,12 +256,14 @@ describe("Server Call Live Test", function() {
       connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
       try {
         const callLocator: GroupCallLocator = { groupCallId: groupId };
-        const added_participant_id = TestUtils.getFixedUserId(Constants.ParticipantGuid);
+        const added_participant_id = TestUtils.getFixedUserId(
+          "0000000f-3adc-c3b2-290c-113a0d00ad92"
+        );
         const participant: CommunicationUserIdentifier = {
           communicationUserId: added_participant_id
         };
         // Add Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         const addParticipantResult = await callingServer.addParticipant(
           callLocator,
           participant,
@@ -272,11 +274,11 @@ describe("Server Call Live Test", function() {
         assert.isNotNull(addParticipantResult.resultDetails);
 
         // Remove Participant
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await callingServer.removeParticipant(callLocator, participant);
       } finally {
         // Hangup call
-        await TestUtils.delayIfLive();
+        await TestUtils.waitForOperationCompletion();
         await TestUtils.cleanCallConnections(connections);
       }
     });

@@ -79,7 +79,7 @@ export class TestUtils {
     }
   }
 
-  public static async delayIfLive(): Promise<void> {
+  public static async waitForOperationCompletion(): Promise<void> {
     if (isLiveMode() || isRecordMode()) {
       await this.delay(15000);
     }
