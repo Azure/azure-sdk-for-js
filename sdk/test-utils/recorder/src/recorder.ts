@@ -155,8 +155,6 @@ export class Recorder {
           this.variables = rsp.bodyAsText ? JSON.parse(rsp.bodyAsText) : {};
         }
 
-        // Setting the recordingId in the sanitizer,
-        // the sanitizers added will take the recording id and only be part of the current test
         await handleEnvSetup(
           this.httpClient,
           this.url,
