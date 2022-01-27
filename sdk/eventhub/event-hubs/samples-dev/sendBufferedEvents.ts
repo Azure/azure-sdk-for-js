@@ -44,7 +44,7 @@ export async function main(): Promise<void> {
     /** An error handler must be provided */
     onSendEventsErrorHandler: handleError,
 
-    /** wait for 750 milliseconds before sending a batch */
+    /** wait for up to 750 milliseconds before sending a batch */
     maxWaitTimeInMs: 750,
 
     /** buffer up to 1000 events per partition before sending */
