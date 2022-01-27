@@ -62,6 +62,9 @@ export interface CreateBatchOptions extends OperationOptions {
 }
 
 // @public
+export function createEventDataAdapter(params?: EventDataAdapterParameters): MessageAdapter<EventData>;
+
+// @public
 export const earliestEventPosition: EventPosition;
 
 // @public
@@ -72,6 +75,15 @@ export interface EnqueueEventOptions extends SendBatchOptions {
 export interface EventData {
     body: any;
     contentType?: string;
+    correlationId?: string | number | Buffer;
+    messageId?: string | number | Buffer;
+    properties?: {
+        [key: string]: any;
+    };
+}
+
+// @public
+export interface EventDataAdapterParameters {
     correlationId?: string | number | Buffer;
     messageId?: string | number | Buffer;
     properties?: {
@@ -224,6 +236,18 @@ export interface LoadBalancingOptions {
 
 // @public
 export const logger: AzureLogger;
+
+// @public
+export interface MessageAdapter<MessageT> {
+    consumeMessage: (message: MessageT) => MessageWithMetadata;
+    produceMessage: (messageWithMetadata: MessageWithMetadata) => MessageT;
+}
+
+// @public
+export interface MessageWithMetadata {
+    body: Uint8Array;
+    contentType: string;
+}
 
 export { MessagingError }
 

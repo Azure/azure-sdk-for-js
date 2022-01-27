@@ -34,6 +34,6 @@
     "no-redeclare": "error",
     "no-useless-escape": "off",
     "prefer-template": "error",
-    "sort-imports": "warn"
+    "sort-imports": "error"
   }
 }

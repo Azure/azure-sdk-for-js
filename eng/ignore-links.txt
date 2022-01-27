@@ -15,10 +15,7 @@ https://docs.microsoft.com/javascript/api/@azure/arm-communication
 https://docs.microsoft.com/javascript/api/@azure/arm-databoxedge
 https://docs.microsoft.com/javascript/api/@azure/arm-datadog
 https://docs.microsoft.com/javascript/api/@azure/arm-healthbot
-https://docs.microsoft.com/javascript/api/@azure/arm-deploymentmanager?view=azure-node-preview
-https://docs.microsoft.com/javascript/api/@azure/arm-hanaonazure?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-kubernetesconfiguration?view=azure-node-preview
-https://docs.microsoft.com/en-us/azure/azure-resource-manager/deployment-manager-overview
 https://docs.microsoft.com/javascript/api/@azure/arm-datamigration?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-healthcareapis?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-hybridkubernetes?view=azure-node-preview
@@ -26,3 +23,12 @@ https://docs.microsoft.com/javascript/api/@azure/arm-healthcareapis
 https://docs.microsoft.com/javascript/api/@azure/arm-hybridkubernetes
 https://docs.microsoft.com/javascript/api/@azure/arm-oep?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-securityinsight?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-netapp
+https://docs.microsoft.com/javascript/api/@azure/arm-peering
+https://docs.microsoft.com/javascript/api/@azure/arm-peering?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-postgresql-flexible
+https://docs.microsoft.com/javascript/api/@azure/arm-postgresql-flexible?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-serialconsole
+https://docs.microsoft.com/javascript/api/@azure-rest/iot-device-update
+https://docs.microsoft.com/javascript/api/@azure/arm-vmwarecloudsimple
+https://docs.microsoft.com/en-us/rest/api/index

@@ -5,6 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { createSandbox } from "sinon";
 import { env, Recorder } from "@azure-tools/test-recorder";
+import { getServiceVersion } from "../utils/utils.common";
 
 import {
   AuthenticationChallengeCache,
@@ -37,7 +38,7 @@ describe("Challenge based authentication tests", () => {
   };
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     certificateSuffix = authentication.suffix;
     client = authentication.client;
     testClient = authentication.testClient;
