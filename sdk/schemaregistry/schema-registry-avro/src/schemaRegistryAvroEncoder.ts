@@ -204,8 +204,8 @@ function getSchemaId(contentType: string): string {
 /**
  * Tries to decode a body in the preamble format. If that does not succeed, it
  * returns it as is.
- * @param body The message body
- * @param contentType The message content type
+ * @param body - The message body
+ * @param contentType - The message content type
  * @returns a message with metadata
  */
 function convertPayload(body: Uint8Array, contentType: string): MessageWithMetadata {
@@ -239,7 +239,7 @@ function convertMessage<MessageT>(
 /**
  * Maintains backward compatability by supporting the encoded value format created
  * by earlier beta serializers
- * @param buffer The input buffer
+ * @param buffer - The input buffer
  * @returns a message that contains the body and content type with the schema ID
  */
 function tryReadingPreambleFormat(buffer: Buffer): MessageWithMetadata {
