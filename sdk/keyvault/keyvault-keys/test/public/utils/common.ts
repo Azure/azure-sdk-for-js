@@ -32,6 +32,11 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
 }
 
 /**
+ * The known API versions that we support.
+ */
+export const serviceVersions = ["7.0", "7.1", "7.2", "7.3-preview"] as const;
+
+/**
  * Fetches the service version to test against. This version could be configured as part of CI
  * and then passed through the environment in order to support testing prior service versions.
  * @returns - The service version to test
@@ -39,11 +44,6 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
 export function getServiceVersion(): string {
   return env.SERVICE_VERSION || serviceVersions[serviceVersions.length - 1];
 }
-
-/**
- * The known API versions that we support.
- */
-export const serviceVersions = ["7.0", "7.1", "7.2", "7.3-preview"] as const;
 
 /**
  * A convenience wrapper allowing us to limit service versions without using the `versionsToTest` wrapper.
