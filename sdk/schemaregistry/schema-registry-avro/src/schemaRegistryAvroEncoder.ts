@@ -95,7 +95,7 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
     options: DecodeMessageDataOptions = {}
   ): Promise<unknown> {
     const { schema: readerSchema } = options;
-    const { body, contentType } = getPayloadAndContent(message, this.messageAdapter);
+    const { body, contentType } = convertMessage(message, this.messageAdapter);
     const buffer = Buffer.from(body);
     const writerSchemaId = getSchemaId(contentType);
     const writerSchema = await this.getSchema(writerSchemaId);
@@ -201,18 +201,63 @@ function getSchemaId(contentType: string): string {
   return contentTypeParts[1];
 }
 
-function getPayloadAndContent<MessageT>(
+/**
+ * Tries to decode a body in the preamble format. If that does not succeed, it
+ * returns it as is.
+ * @param body - The message body
+ * @param contentType - The message content type
+ * @returns a message with metadata
+ */
+function convertPayload(body: Uint8Array, contentType: string): MessageWithMetadata {
+  try {
+    return tryReadingPreambleFormat(Buffer.from(body));
+  } catch (_e: unknown) {
+    return {
+      body,
+      contentType,
+    };
+  }
+}
+
+function convertMessage<MessageT>(
   message: MessageT,
-  messageAdapter?: MessageAdapter<MessageT>
+  adapter?: MessageAdapter<MessageT>
 ): MessageWithMetadata {
-  const messageConsumer = messageAdapter?.consumeMessage;
+  const messageConsumer = adapter?.consumeMessage;
   if (messageConsumer) {
-    return messageConsumer(message);
+    const { body, contentType } = messageConsumer(message);
+    return convertPayload(body, contentType);
   } else if (isMessageWithMetadata(message)) {
-    return message;
+    return convertPayload(message.body, message.contentType);
   } else {
     throw new Error(
-      `Either the messageConsumer option should be defined or the message should have body and contentType fields`
+      `Expected either a message adapter to be provided to the encoder or the input message to have body and contentType fields`
     );
   }
+}
+
+/**
+ * Maintains backward compatability by supporting the encoded value format created
+ * by earlier beta serializers
+ * @param buffer - The input buffer
+ * @returns a message that contains the body and content type with the schema ID
+ */
+function tryReadingPreambleFormat(buffer: Buffer): MessageWithMetadata {
+  const FORMAT_INDICATOR = 0;
+  const SCHEMA_ID_OFFSET = 4;
+  const PAYLOAD_OFFSET = 36;
+  if (buffer.length < PAYLOAD_OFFSET) {
+    throw new RangeError("Buffer is too small to have the correct format.");
+  }
+  const format = buffer.readUInt32BE(0);
+  if (format !== FORMAT_INDICATOR) {
+    throw new TypeError(`Buffer has unknown format indicator.`);
+  }
+  const schemaIdBuffer = buffer.slice(SCHEMA_ID_OFFSET, PAYLOAD_OFFSET);
+  const schemaId = schemaIdBuffer.toString("utf-8");
+  const payloadBuffer = buffer.slice(PAYLOAD_OFFSET);
+  return {
+    body: payloadBuffer,
+    contentType: `${avroMimeType}+${schemaId}`,
+  };
 }

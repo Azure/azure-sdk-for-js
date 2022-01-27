@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- The serializer APIs have been revamped to work on messages instead of buffers where the payload is the pure encoded-data. The schema ID became part of the content type of that message. This change will improve the experience of using this encoder with the other messaging clients (e.g. Event Hubs, Service Bus, and Event Grid clients).
+- The encoder APIs have been revamped to work on messages instead of buffers where the payload is the pure encoded-data. The schema ID became part of the content type of that message. This change will improve the experience of using this encoder with the other messaging clients (e.g. Event Hubs, Service Bus, and Event Grid clients). The encoder also supports decoding messages with payloads that follow the old format where the schema ID was part of the payload.
 - `decodeMessageData` now supports decoding using a different but compatible schema
 
 ### Breaking Changes

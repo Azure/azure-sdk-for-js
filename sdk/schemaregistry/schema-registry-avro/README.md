@@ -58,6 +58,16 @@ by setting the `messageAdapter` option in the constructor with a corresponding
 message producer and consumer. Azure messaging client libraries export default
 adapters for their message types.
 
+### Backward Compatibility
+
+The encoder v1.0.0-beta.5 and under encodes data into binary arrays. Starting from
+v1.0.0-beta.6, the encoder returns messages instead that contain the encoded payload.
+For a smooth transition to using the newer versions, the encoder also supports
+decoding messages with payloads that follow the old format where the schema ID
+is part of the payload.
+
+This backward compatibility is temporary and will be removed in v1.0.0.
+
 ## Examples
 
 ### Encode and decode an `@azure/event-hubs`'s `EventData`
