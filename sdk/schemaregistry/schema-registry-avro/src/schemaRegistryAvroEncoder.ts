@@ -11,12 +11,14 @@ import {
 import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import { isMessageWithMetadata } from "./utility";
 
+type AVSCEncoder = avro.Type;
+
 interface CacheEntry {
   /** Schema ID */
   id: string;
 
   /** avsc-specific representation for schema */
-  type: avro.Type;
+  encoder: AVSCEncoder;
 }
 
 const avroMimeType = "avro/binary";
@@ -44,10 +46,6 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
   private readonly autoRegisterSchemas: boolean;
   private readonly messageAdapter?: MessageAdapter<MessageT>;
 
-  // REVIEW: signature.
-  //
-  // - Should we wrap all errors thrown by avsc to avoid having our exception //
-  //   contract being tied to its implementation details?
   /**
    * encodes the value parameter according to the input schema and creates a message
    * with the encoded data.
@@ -59,7 +57,7 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
    */
   async encodeMessageData(value: unknown, schema: string): Promise<MessageT> {
     const entry = await this.getSchemaByDefinition(schema);
-    const buffer = entry.type.toBuffer(value);
+    const buffer = entry.encoder.toBuffer(value);
     const payload = new Uint8Array(
       buffer.buffer,
       buffer.byteOffset,
@@ -98,20 +96,20 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
     const { body, contentType } = convertMessage(message, this.messageAdapter);
     const buffer = Buffer.from(body);
     const writerSchemaId = getSchemaId(contentType);
-    const writerSchema = await this.getSchema(writerSchemaId);
+    const writerSchemaEncoder = await this.getSchemaById(writerSchemaId);
     if (readerSchema) {
-      const avscReaderSchema = getAvroTypeForSchema(readerSchema);
-      const resolver = avscReaderSchema.createResolver(writerSchema.type);
-      return avscReaderSchema.fromBuffer(buffer, resolver, true);
+      const readerSchemaEncoder = getEncoderForSchema(readerSchema);
+      const resolver = readerSchemaEncoder.createResolver(writerSchemaEncoder);
+      return readerSchemaEncoder.fromBuffer(buffer, resolver, true);
     } else {
-      return writerSchema.type.fromBuffer(buffer);
+      return writerSchemaEncoder.fromBuffer(buffer);
     }
   }
 
   private readonly cacheBySchemaDefinition = new Map<string, CacheEntry>();
-  private readonly cacheById = new Map<string, CacheEntry>();
+  private readonly cacheById = new Map<string, AVSCEncoder>();
 
-  private async getSchema(schemaId: string): Promise<CacheEntry> {
+  private async getSchemaById(schemaId: string): Promise<AVSCEncoder> {
     const cached = this.cacheById.get(schemaId);
     if (cached) {
       return cached;
@@ -128,8 +126,8 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
       );
     }
 
-    const avroType = getAvroTypeForSchema(schemaResponse.definition);
-    return this.cache(schemaId, schemaResponse.definition, avroType);
+    const avroType = getEncoderForSchema(schemaResponse.definition);
+    return this.cache(schemaId, schemaResponse.definition, avroType).encoder;
   }
 
   private async getSchemaByDefinition(schema: string): Promise<CacheEntry> {
@@ -138,7 +136,7 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
       return cached;
     }
 
-    const avroType = getAvroTypeForSchema(schema);
+    const avroType = getEncoderForSchema(schema);
     if (!avroType.name) {
       throw new Error("Schema must have a name.");
     }
@@ -176,10 +174,10 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
     return this.cache(id, schema, avroType);
   }
 
-  private cache(id: string, schema: string, type: avro.Type): CacheEntry {
-    const entry = { id, type };
+  private cache(id: string, schema: string, encoder: AVSCEncoder): CacheEntry {
+    const entry = { id, encoder };
     this.cacheBySchemaDefinition.set(schema, entry);
-    this.cacheById.set(id, entry);
+    this.cacheById.set(id, encoder);
     return entry;
   }
 }
@@ -258,6 +256,6 @@ function tryReadingPreambleFormat(buffer: Buffer): MessageWithMetadata {
   };
 }
 
-function getAvroTypeForSchema(schema: string): avro.Type {
+function getEncoderForSchema(schema: string): AVSCEncoder {
   return avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true });
 }
