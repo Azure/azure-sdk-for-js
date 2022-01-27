@@ -173,7 +173,9 @@ await recorder.addSanitizers({
 });
 ```
 
-This example has two sanitizers: the first sanitizer replaces all instances of "find" in the recording with "replace". The second example demonstrates the use of a regular expression for replacement, where anything matching the .NET regular expression `[Rr]egex` (i.e. "Regex" and "regex") would be replaced with "replace".
+This example has two sanitizers: 
+- The first sanitizer replaces all instances of "find" in the recording with "replace". 
+- The second example demonstrates the use of a regular expression for replacement, where anything matching the .NET regular expression `[Rr]egex` (i.e. "Regex" and "regex") would be replaced with "replace".
 
 ### ConnectionStringSanitizer
 
