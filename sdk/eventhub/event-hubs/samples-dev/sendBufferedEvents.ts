@@ -48,7 +48,7 @@ export async function main(): Promise<void> {
   });
 
   function createData(count: number): number[] {
-    return [...Array(count).keys()]
+    return [...Array(count).keys()];
   }
 
   console.log("Enqueuing events...");
