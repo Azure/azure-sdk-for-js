@@ -229,7 +229,7 @@ export class Recorder {
   private _createRecordingRequest(url: string, method: HttpMethods = "POST") {
     const req = createPipelineRequest({ url, method });
     if (ensureExistence(this.sessionFile, "sessionFile")) {
-      req.headers.set("x-recording-file", this.sessionFile);
+      req.body = JSON.stringify({ "x-recording-file": this.sessionFile });
     }
     if (this.recordingId !== undefined) {
       req.headers.set("x-recording-id", this.recordingId);

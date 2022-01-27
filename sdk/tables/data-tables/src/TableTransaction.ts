@@ -4,12 +4,12 @@
 import {
   DeleteTableEntityOptions,
   TableEntity,
+  TableServiceClientOptions,
   TableTransactionEntityResponse,
   TableTransactionResponse,
   TransactionAction,
   UpdateMode,
   UpdateTableEntityOptions,
-  TableServiceClientOptions,
 } from "./models";
 import {
   NamedKeyCredential,
@@ -22,9 +22,9 @@ import {
 import {
   OperationOptions,
   ServiceClient,
+  ServiceClientOptions,
   serializationPolicy,
   serializationPolicyName,
-  ServiceClientOptions,
 } from "@azure/core-client";
 import {
   Pipeline,
@@ -44,6 +44,7 @@ import {
   transactionRequestAssemblePolicy,
   transactionRequestAssemblePolicyName,
 } from "./TablePolicies";
+import { STORAGE_SCOPE } from "./utils/constants";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TableClientLike } from "./utils/internalModels";
 import { TableServiceErrorOdataError } from "./generated";
@@ -53,7 +54,6 @@ import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 import { signURLWithSAS } from "./tablesSASTokenPolicy";
-import { STORAGE_SCOPE } from "./utils/constants";
 
 /**
  * Helper to build a list of transaction actions

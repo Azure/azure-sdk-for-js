@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRecordedClient } from "./utils/recordedClient";
-import { Context } from "mocha";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import { createRecordedClient, recorderOptions } from "./utils/recordedClient";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 import { ClientSecretCredential } from "@azure/identity";
 
-import { SchemaRegistryClient, SchemaDescription, SchemaProperties, Schema } from "../../src";
+import { Schema, SchemaDescription, SchemaProperties, SchemaRegistryClient } from "../../src";
+import { Context } from "mocha";
 
 const options = {
   onResponse: (rawResponse: { status: number }) => {
@@ -64,11 +64,13 @@ describe("SchemaRegistryClient", function () {
   let client: SchemaRegistryClient;
   let schema: SchemaDescription;
 
-  beforeEach(function (this: Context) {
-    ({ client, recorder } = createRecordedClient(this));
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    client = createRecordedClient(recorder);
     schema = {
       name: "azsdk_js_test",
-      groupName: env.SCHEMA_REGISTRY_GROUP,
+      groupName: assertEnvironmentVariable("SCHEMA_REGISTRY_GROUP"),
       format: "Avro",
       definition: JSON.stringify({
         type: "record",
@@ -174,7 +176,7 @@ describe("SchemaRegistryClient", function () {
   it("schema with whitespace", async () => {
     const schema2: SchemaDescription = {
       name: "azsdk_js_test2",
-      groupName: env.SCHEMA_REGISTRY_GROUP,
+      groupName: assertEnvironmentVariable("SCHEMA_REGISTRY_GROUP"),
       format: "Avro",
       definition:
         "{\n" +
