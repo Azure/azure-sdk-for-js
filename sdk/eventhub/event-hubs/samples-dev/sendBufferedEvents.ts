@@ -29,7 +29,9 @@ async function handleError(ctx: OnSendEventsErrorContext): Promise<void> {
     `The following events were not sent as a result to the partition with ID ${ctx.partitionId}:`
   );
   console.log(
-    ctx.events.map((event: EventData | AmqpAnnotatedMessage) => JSON.stringify(event, undefined, "  ")).join("\n\n")
+    ctx.events
+      .map((event: EventData | AmqpAnnotatedMessage) => JSON.stringify(event, undefined, "  "))
+      .join("\n\n")
   );
 }
 
