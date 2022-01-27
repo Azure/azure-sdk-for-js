@@ -6,7 +6,7 @@ There are times when a dependency needs to be updated, such as when a security v
 
 ## Example scenario
 
-Let's assume that a vulnerability has been found in [node-fetch][node-fetch] version 2.6.5 and that you use @azure/keyvault-keys directly. Your security scan identified this vulnerability and asks to upgrade to 2.6.6 or higher.
+Let's assume that a vulnerability has been found in [node-fetch][node-fetch] version 2.6.6 and that you use @azure/keyvault-keys directly. Your security scan identified this vulnerability and asks to upgrade to 2.6.7 or higher.
 
 The outputs below assume npm v8.1.2 using a lockfile, but we will provide instructions for Yarn as well.
 
