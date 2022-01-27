@@ -41,7 +41,6 @@ import {
 } from "./models/public";
 import { LinkEntity } from "./linkEntity";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { defaultDataTransformer } from "./dataTransformer";
 import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL
@@ -812,8 +811,6 @@ export function transformEventsForSend(
         properties: { ...originalEvent.properties, ...tracingProperty }
       };
       const rheaMessage = toRheaMessage(event, options.partitionKey);
-      // TODO (jeremymeng) confirm and remove
-      rheaMessage.body = defaultDataTransformer.encode(event.body);
 
       // populate idempotent message annotations
       const { lastPublishedSequenceNumber = 0 } = publishingProps;
