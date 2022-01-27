@@ -342,6 +342,8 @@ export interface ComposeDocumentModelRequest {
   description?: string;
   /** List of component models to compose. */
   componentModels: ComponentModelInfo[];
+  /** List of key-value tag attributes associated with the model. */
+  tags?: { [propertyName: string]: string };
 }
 
 /** A component of a composed model. */
@@ -356,6 +358,8 @@ export interface AuthorizeCopyRequest {
   modelId: string;
   /** Model description. */
   description?: string;
+  /** List of key-value tag attributes associated with the model. */
+  tags?: { [propertyName: string]: string };
 }
 
 /** Authorization to copy a model to the specified target resource and modelId. */

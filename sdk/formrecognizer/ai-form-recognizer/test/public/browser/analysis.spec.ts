@@ -8,7 +8,7 @@ import { AzureKeyCredential, PrebuiltModels, DocumentAnalysisClient } from "../.
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient, testEnv, testPollingOptions } from "../../utils/recordedClients";
 
-describe("FormRecognizerClient browser only", () => {
+describe("analysis (browser)", () => {
   let client: DocumentAnalysisClient;
   let recorder: Recorder;
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);

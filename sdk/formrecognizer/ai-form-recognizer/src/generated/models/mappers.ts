@@ -1318,6 +1318,13 @@ export const ComposeDocumentModelRequest: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -1364,6 +1371,13 @@ export const AuthorizeCopyRequest: coreClient.CompositeMapper = {
         serializedName: "description",
         type: {
           name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }

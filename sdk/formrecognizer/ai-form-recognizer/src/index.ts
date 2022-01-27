@@ -27,6 +27,7 @@ export {
   DocumentSelectionMark,
   DocumentSignatureType,
   DocumentSpan,
+  DocumentLanguage,
   DocumentStyle,
   DocumentTable,
   DocumentTableCell,

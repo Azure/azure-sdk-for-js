@@ -20,6 +20,7 @@ import {
   DocumentTable,
   DocumentWord,
   LengthUnit,
+  DocumentLanguage,
 } from "../generated";
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
 import { FormRecognizerApiVersion, PollerOptions } from "../options";
@@ -121,6 +122,11 @@ export interface AnalyzeResult<Document = AnalyzedDocument> {
    * Extracted entities.
    */
   entities: DocumentEntity[];
+
+  /**
+   * Extracted text languages.
+   */
+  languages: DocumentLanguage[];
 
   /**
    * Extracted font styles.
@@ -427,6 +433,7 @@ export function toAnalyzeResultFromGenerated<
     tables: result.tables ?? [],
     keyValuePairs: result.keyValuePairs ?? [],
     entities: result.entities ?? [],
+    languages: result.languages ?? [],
     styles: result.styles ?? [],
     documents: (result.documents?.map((doc) => mapDocuments(doc)) as Document[]) ?? [],
   };

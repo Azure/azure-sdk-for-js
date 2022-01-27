@@ -41,6 +41,7 @@ export interface AnalyzeResult<Document = AnalyzedDocument> {
     documents: Document[];
     entities: DocumentEntity[];
     keyValuePairs: DocumentKeyValuePair[];
+    languages: DocumentLanguage[];
     modelId: string;
     pages: DocumentPage[];
     styles: DocumentStyle[];
@@ -342,6 +343,13 @@ export interface DocumentKeyValuePair {
     confidence: number;
     key: DocumentKeyValueElement;
     value?: DocumentKeyValueElement;
+}
+
+// @public
+export interface DocumentLanguage {
+    confidence: number;
+    languageCode: string;
+    spans: DocumentSpan[];
 }
 
 // @public
@@ -969,7 +977,7 @@ export type OperationKind = string;
 export type OperationStatus = "notStarted" | "running" | "failed" | "succeeded" | "canceled";
 
 // @public
-export interface PollerOptions<TState extends PollOperationState<unknown>> {
+export interface PollerOptions<TState extends PollOperationState<unknown>> extends OperationOptions {
     onProgress?: (state: TState) => void;
     resumeFrom?: string;
     updateIntervalInMs?: number;

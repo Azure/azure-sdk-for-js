@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { createTracingClient } from "@azure/core-tracing";
+import { TracingClient } from "../../../test-utils/test-utils/node_modules/@azure/core-tracing/types/core-tracing";
+import { SDK_VERSION } from "./constants";
 import {
   AnalyzeDocumentRequest,
   AnalyzeResultOperation,
@@ -59,6 +62,7 @@ import { identity, makeServiceClient, Mappers, SERIALIZER } from "./util";
  */
 export class DocumentAnalysisClient {
   private _restClient: GeneratedClient;
+  private _tracing: TracingClient;
 
   /**
    * Create a `DocumentAnalysisClient` instance from a resource endpoint and a an Azure Identity `TokenCredential`.
@@ -124,6 +128,11 @@ export class DocumentAnalysisClient {
     options: DocumentAnalysisClientOptions = {}
   ) {
     this._restClient = makeServiceClient(endpoint, credential, options);
+    this._tracing = createTracingClient({
+      packageName: "@azure/ai-form-recognizer",
+      packageVersion: SDK_VERSION,
+      namespace: "Microsoft.CognitiveServices",
+    });
   }
 
   // #region Analysis
@@ -503,26 +512,31 @@ export class DocumentAnalysisClient {
     // TODO: what should we do if resumeFrom.modelId is different from initialModelId?
     // And what do we do with the redundant input??
 
-    const getAnalyzeResult = (operationLocation: string): Promise<AnalyzeResultOperation> =>
-      this._restClient.sendOperationRequest(
-        {
-          options: definition.options,
-        },
-        {
-          path: operationLocation,
-          httpMethod: "GET",
-          responses: {
-            200: {
-              bodyMapper: Mappers.AnalyzeResultOperation,
+    const getAnalyzeResult = async (operationLocation: string): Promise<AnalyzeResultOperation> =>
+      this._tracing.withSpan(
+        "DocumentAnalysisClient.createAnalysisPoller-toInit",
+        definition.options,
+        (updatedOptions) =>
+          this._restClient.sendOperationRequest<AnalyzeResultOperation>(
+            {
+              options: updatedOptions,
             },
-            default: {
-              bodyMapper: Mappers.ErrorResponse,
-            },
-          },
-          // URL is fully-formed, so we don't need any query parameters
-          headerParameters: [accept1],
-          serializer: SERIALIZER,
-        }
+            {
+              path: operationLocation,
+              httpMethod: "GET",
+              responses: {
+                200: {
+                  bodyMapper: Mappers.AnalyzeResultOperation,
+                },
+                default: {
+                  bodyMapper: Mappers.ErrorResponse,
+                },
+              },
+              // URL is fully-formed, so we don't need any query parameters
+              headerParameters: [accept1],
+              serializer: SERIALIZER,
+            }
+          )
       );
 
     const toInit =
