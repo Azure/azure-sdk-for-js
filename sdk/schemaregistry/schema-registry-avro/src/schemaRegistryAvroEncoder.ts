@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import * as avro from "avsc";
+import LRUCache from "lru-cache";
+import LRUCacheOptions = LRUCache.Options;
 import {
   DecodeMessageDataOptions,
   MessageAdapter,
@@ -22,6 +24,9 @@ interface CacheEntry {
 }
 
 const avroMimeType = "avro/binary";
+const cacheOptions: LRUCacheOptions<string, any> = {
+  max: 128,
+};
 
 /**
  * Avro encoder that obtains schemas from a schema registry and does not
@@ -45,6 +50,8 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
   private readonly registry: SchemaRegistry;
   private readonly autoRegisterSchemas: boolean;
   private readonly messageAdapter?: MessageAdapter<MessageT>;
+  private readonly cacheBySchemaDefinition = new LRUCache<string, CacheEntry>(cacheOptions);
+  private readonly cacheById = new LRUCache<string, AVSCEncoder>(cacheOptions);
 
   /**
    * encodes the value parameter according to the input schema and creates a message
@@ -105,9 +112,6 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
       return writerSchemaEncoder.fromBuffer(buffer);
     }
   }
-
-  private readonly cacheBySchemaDefinition = new Map<string, CacheEntry>();
-  private readonly cacheById = new Map<string, AVSCEncoder>();
 
   private async getSchemaById(schemaId: string): Promise<AVSCEncoder> {
     const cached = this.cacheById.get(schemaId);
