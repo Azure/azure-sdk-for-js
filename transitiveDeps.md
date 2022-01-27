@@ -2,7 +2,9 @@
 
 The Azure SDK for JS client libraries include a host of dependencies, both internal and external. In general, our policy allows for some flexibility in dependencies and we generally pin to a [caret] version - allowing for patches, security fixes, and any non-breaking changes in our dependency ranges.
 
-There are times when a dependency needs to be updated, such as when a security vulnerability has been found and patched in the dependency's codebase. While we will address security vulnerabilities in dependencies by updating our minimum version to the latest patched version, our semver policy allows customers to update to the latest version of a transitive dependency without waiting for our next releases and without requiring a hotfix. In this document we'll outline a few options available to you when a transitive dependency must be updated.
+There are times when a dependency needs to be updated, such as when a security vulnerability has been found and patched in the dependency's codebase. While we will address security vulnerabilities in dependencies by updating our minimum version to the latest patched version, our SemVer policy allows customers to update to the latest version of a transitive dependency without waiting for our next releases and without requiring a hotfix.
+
+In this document we'll outline a few options available to you when a transitive dependency must be updated.
 
 ## Example scenario
 
@@ -53,7 +55,7 @@ As you can see node-fetch has been updated to 2.6.7, without having to wait for 
 
 For more information on `npm audit` please refer to the [npm-audit documentation][npm-audit].
 
-> If you are using Yarn you can use [yarn npm audit][yarn-npm-audit] with similar results.
+> If you are using Yarn you can use `yarn npm audit` with similar results.
 
 ### Using `npm update`
 
@@ -81,15 +83,14 @@ Awesome!
 
 > Note: In some previous versions of `npm`, `npm update` would only update _top-level_ dependencies. If you're using npm 6.x for example you can provide the `--depth` argument to achieve similar results.
 
-
 For more information on `npm update` please refer to the [npm-update documentation][npm-update].
-
 
 ### I read this guide and still have no idea what to do
 
-Feel free to file an issue and start a discussion, we're here to help and will try to do so to the best of our abilities!
+Feel free to [file an issue][file-an-issue] and start a discussion, we're here to help and will try to do so to the best of our abilities!
 
 [caret]: https://docs.npmjs.com/cli/v6/using-npm/semver#caret-ranges-123-025-004
 [node-fetch]: https://www.npmjs.com/package/node-fetch
 [npm-audit]: https://docs.npmjs.com/cli/v8/commands/npm-audit
 [npm-update]: https://docs.npmjs.com/cli/v8/commands/npm-update
+[file-an-issue]: https://github.com/Azure/azure-sdk-for-js/issues/new/choose
