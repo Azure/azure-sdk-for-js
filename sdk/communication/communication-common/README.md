@@ -84,7 +84,7 @@ const tokenCredential = new AzureCommunicationTokenCredential({
 
 ## Troubleshooting
 
-- **Invalid token specified**: Make sure the token you are passing to the `AzureCommunicationTokenCredential` constructor or to the `tokenRefresher` callback is a bare JWT token string. E.g. if you're using the [Azure Communication Identity library](invalid_token_sdk) or [REST API](invalid_token_rest) to obtain the token, make sure you're passing just the `token` part of the response object.
+- **Invalid token specified**: Make sure the token you are passing to the `AzureCommunicationTokenCredential` constructor or to the `tokenRefresher` callback is a bare JWT token string. E.g. if you're using the [Azure Communication Identity library][invalid_token_sdk] or [REST API][invalid_token_rest] to obtain the token, make sure you're passing just the `token` part of the response object.
 
 ## Next steps
 
