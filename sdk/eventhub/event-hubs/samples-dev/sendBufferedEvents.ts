@@ -36,6 +36,10 @@ async function handleError(ctx: OnSendEventsErrorContext): Promise<void> {
 export async function main(): Promise<void> {
   console.log(`Running sendBufferedEvents sample`);
 
+  /**
+   * Create a buffered client that batches the enqueued events and sends it either
+   * after 750ms or after batching 1000 events, whichever occurs first.
+   */
   const client = new EventHubBufferedProducerClient(connectionString, {
     /** An error handler must be provided */
     onSendEventsErrorHandler: handleError,
