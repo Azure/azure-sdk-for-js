@@ -2,10 +2,9 @@
 // Licensed under the MIT Licence.
 
 /**
- * @summary Demonstrates how to send events to an Event Hub from a buffered producer. This
- * sample is different from the `sendEvent` one in that it uses the buffered producer
- * client which buffers events before sending them right away. See the client constructor
- * options for more information on how to configure the buffering behavior.
+ @summary Demonstrates how to send events to an Event Hub using the `EventHubBufferedProducerClient`.
+ * This sample is different from the one in `sendEvent.ts` in that the client manages batching of events and sending
+ * after a given amount of time or after a given amount of events are in a batch instead of you managing the same explicitly.
  *
  * @azsdk-weight 60
  */
@@ -27,7 +26,7 @@ async function handleError(ctx: OnSendEventsErrorContext): Promise<void> {
   console.log(`The following error occurred:`);
   console.log(JSON.stringify(ctx.error), undefined, "  ");
   console.log(
-    `And the following events were not sent as a result to the partition with ID ${ctx.partitionId}:`
+    `The following events were not sent as a result to the partition with ID ${ctx.partitionId}:`
   );
   console.log(
     ctx.events.map((event: EventData | AmqpAnnotatedMessage) => JSON.stringify(event)).join("\n\n")
@@ -48,13 +47,11 @@ export async function main(): Promise<void> {
     maxEventBufferLengthPerPartition: 1000,
   });
 
-  console.log("Creating and sending a batch of events...");
-
-  function* createData(count: number): Generator<number> {
-    for (let i = 0; i < count; ++i) {
-      yield i;
-    }
+  function createData(count: number): number[] {
+    return [...Array(count).keys()]
   }
+
+  console.log("Enqueuing events...");
 
   for (const item of createData(2000)) {
     client.enqueueEvent({ body: item });
