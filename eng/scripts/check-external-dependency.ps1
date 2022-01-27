@@ -15,7 +15,6 @@ param (
 $dependencyUpgradeLabel = "dependency-upgrade-required"
 $deprecatedDependency = "Deprecated-Dependency"
 $dependencyRegex = "^\+\s(?<pkg>[\S]*)\s(?<version>[\S]*)\s\((?<newVersion>[0-9\.a-b]*).*\)\s?(?<deprecated>deprecated)?"
-
 $RepoRoot = Resolve-Path -Path "${PSScriptRoot}/../.."
 Write-Host "Repo root: $RepoRoot"
 $rushFile = join-Path -Path $RepoRoot "rush.json"
@@ -41,8 +40,7 @@ function Get-GithubIssue($IssueTitle) {
 function Set-GitHubIssue($Package) {
   $pkgName = $Package.Name
   $issueTitle = "Dependency package $pkgName has a new version available"
-  $issueDesc = "We have identified a dependency on version $($Package.OldVersion) of $pkgName. "
-  
+  $issueDesc = "We have identified a dependency on version $($Package.OldVersion) of $pkgName. "  
   $labels = $dependencyUpgradeLabel
   if ($Package.IsDeprecated) {
     $issueDesc += "Version $($Package.OldVersion) of $pkgName has been deprecated.`n"
@@ -56,8 +54,6 @@ function Set-GitHubIssue($Package) {
   5. Make relevant changes to absorb the breaking changes.`n
   6. Repeat steps 3 to 5 for each of the packages that have a dependency on this package"
 
-
-  Write-Host $issueDesc
   $issue = Get-GithubIssue -IssueTitle $issueTitle
   if ($issue) {
     if ($issue.body -ne $issueDesc) {
