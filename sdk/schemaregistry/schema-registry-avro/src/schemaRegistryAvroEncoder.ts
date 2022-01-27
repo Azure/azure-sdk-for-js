@@ -251,7 +251,7 @@ function tryReadingPreambleFormat(buffer: Buffer): MessageWithMetadata {
   }
   const format = buffer.readUInt32BE(0);
   if (format !== FORMAT_INDICATOR) {
-    throw new TypeError(`Buffer has unknown format indicator: 0x${format.toString(16)}.`);
+    throw new TypeError(`Buffer has unknown format indicator.`);
   }
   const schemaIdBuffer = buffer.slice(SCHEMA_ID_OFFSET, PAYLOAD_OFFSET);
   const schemaId = schemaIdBuffer.toString("utf-8");
