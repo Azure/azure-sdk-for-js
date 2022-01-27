@@ -6,7 +6,7 @@ import { delay } from "@azure/core-amqp";
 import chai from "chai";
 const should = chai.should();
 
-import { EventData, EventHubProducerClient } from "../../src/index";
+import { EventData, EventHubBufferedProducerClient } from "../../src/index";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 
 describe("EventHubProducerClient", function() {
@@ -28,7 +28,7 @@ describe("EventHubProducerClient", function() {
     );
   });
 
-  let producerClient: EventHubProducerClient | undefined;
+  let producerClient: EventHubBufferedProducerClient | undefined;
 
   afterEach("close existing producerClient", function() {
     return producerClient?.close();
@@ -36,7 +36,7 @@ describe("EventHubProducerClient", function() {
 
   describe("getPartitionPublishingProperties", function() {
     it("retrieves partition publishing properties", async function() {
-      producerClient = new EventHubProducerClient(service.connectionString, service.path);
+      producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path);
 
       const partitionIds = await producerClient.getPartitionIds();
 
@@ -58,7 +58,7 @@ describe("EventHubProducerClient", function() {
     });
 
     it("retrieves partition publishing properties (enableIdempotentPartitions)", async function() {
-      producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+      producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
         enableIdempotentPartitions: true
       });
 
@@ -82,7 +82,7 @@ describe("EventHubProducerClient", function() {
     });
 
     it("throws an error if no partitionId is provided", async function() {
-      producerClient = new EventHubProducerClient(service.connectionString, service.path);
+      producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path);
 
       try {
         await producerClient.getPartitionPublishingProperties(undefined as any);
@@ -100,7 +100,7 @@ describe("EventHubProducerClient", function() {
   describe("idempotent producer", function() {
     describe("does not allow partitionKey to be set", function() {
       it("createBatch", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -110,13 +110,13 @@ describe("EventHubProducerClient", function() {
         } catch (err) {
           should.equal(
             err.message,
-            `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+            `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubBufferedProducerClient has "enableIdempotentPartitions" set to true.`
           );
         }
       });
 
       it("sendBatch", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -126,7 +126,7 @@ describe("EventHubProducerClient", function() {
         } catch (err) {
           should.equal(
             err.message,
-            `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+            `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubBufferedProducerClient has "enableIdempotentPartitions" set to true.`
           );
         }
       });
@@ -134,7 +134,7 @@ describe("EventHubProducerClient", function() {
 
     describe("only allows sending directly to partitions", function() {
       it("supports partitionId set by createBatch", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -147,7 +147,7 @@ describe("EventHubProducerClient", function() {
       });
 
       it("supports partitionId set by sendBatch", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -156,7 +156,7 @@ describe("EventHubProducerClient", function() {
       });
 
       it("throws an error if partitionId not set by createBatch", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -167,13 +167,13 @@ describe("EventHubProducerClient", function() {
         } catch (err) {
           should.equal(
             err.message,
-            `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+            `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubBufferedProducerClient has "enableIdempotentPartitions" set to true.`
           );
         }
       });
 
       it("throws an error if partitionId not set by sendBatch when passing EventData[]", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -184,7 +184,7 @@ describe("EventHubProducerClient", function() {
         } catch (err) {
           should.equal(
             err.message,
-            `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
+            `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubBufferedProducerClient has "enableIdempotentPartitions" set to true.`
           );
         }
       });
@@ -192,7 +192,7 @@ describe("EventHubProducerClient", function() {
 
     describe("concurrent sends", function() {
       it("are limited to one per partition", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -220,7 +220,7 @@ describe("EventHubProducerClient", function() {
       });
 
       it("has no impact on serial sends", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -232,7 +232,7 @@ describe("EventHubProducerClient", function() {
       });
 
       it("are isolated per partition", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -245,7 +245,7 @@ describe("EventHubProducerClient", function() {
 
     describe("with user-provided partitionOptions", function() {
       it("can use state from previous producerClient", async function() {
-        const producerClient1 = new EventHubProducerClient(service.connectionString, service.path, {
+        const producerClient1 = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -256,7 +256,7 @@ describe("EventHubProducerClient", function() {
         );
 
         // Create the 2nd producer
-        const producerClient2 = new EventHubProducerClient(service.connectionString, service.path, {
+        const producerClient2 = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true,
           partitionOptions: {
             "0": {
@@ -292,7 +292,7 @@ describe("EventHubProducerClient", function() {
       });
 
       it("can use partial state", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true,
           partitionOptions: {
             "0": {
@@ -307,7 +307,7 @@ describe("EventHubProducerClient", function() {
         should.equal(
           partitionPublishingProps.ownerLevel,
           1,
-          "ownerLevel should match what the EventHubProducerClient was configured with."
+          "ownerLevel should match what the EventHubBufferedProducerClient was configured with."
         );
         should.exist(
           partitionPublishingProps.lastPublishedSequenceNumber,
@@ -316,7 +316,7 @@ describe("EventHubProducerClient", function() {
       });
 
       it("can use ownerLevel to kick off other producers", async function() {
-        const producerClient1 = new EventHubProducerClient(service.connectionString, service.path, {
+        const producerClient1 = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -327,7 +327,7 @@ describe("EventHubProducerClient", function() {
         );
 
         // Create the 2nd producer
-        const producerClient2 = new EventHubProducerClient(service.connectionString, service.path, {
+        const producerClient2 = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true,
           partitionOptions: {
             "0": {
@@ -354,7 +354,7 @@ describe("EventHubProducerClient", function() {
       });
 
       it("fails with invalid state", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true,
           partitionOptions: {
             "0": {
@@ -375,7 +375,7 @@ describe("EventHubProducerClient", function() {
       });
 
       it("fails with invalid sequence number", async function() {
-        const producerClient1 = new EventHubProducerClient(service.connectionString, service.path, {
+        const producerClient1 = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -393,7 +393,7 @@ describe("EventHubProducerClient", function() {
         should.equal(partitionPublishingProps1.lastPublishedSequenceNumber, 5);
 
         // Create the 2nd producer
-        const producerClient2 = new EventHubProducerClient(service.connectionString, service.path, {
+        const producerClient2 = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true,
           partitionOptions: {
             "0": {
@@ -419,7 +419,7 @@ describe("EventHubProducerClient", function() {
     });
 
     it("recovers from disconnects", async function() {
-      producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+      producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
         enableIdempotentPartitions: true,
         retryOptions: {
           timeoutInMs: 5000,
@@ -463,7 +463,7 @@ describe("EventHubProducerClient", function() {
 
     describe("sendBatch", function() {
       it("commits published sequence number on sent EventDataBatch", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -486,7 +486,7 @@ describe("EventHubProducerClient", function() {
       });
 
       it("does not commit published sequence number on failed EventDataBatch send", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -523,7 +523,7 @@ describe("EventHubProducerClient", function() {
       });
 
       it("commits published sequence number on sent EventData", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -554,7 +554,7 @@ describe("EventHubProducerClient", function() {
       });
 
       it("does not commit published sequence number on failed EventData send", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -601,7 +601,7 @@ describe("EventHubProducerClient", function() {
       });
 
       it("does not allow sending already published EventData", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
@@ -621,7 +621,7 @@ describe("EventHubProducerClient", function() {
       });
 
       it("does not allow sending already published EventDataBatch", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
+        producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
           enableIdempotentPartitions: true
         });
 
