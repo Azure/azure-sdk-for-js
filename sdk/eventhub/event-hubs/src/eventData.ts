@@ -548,7 +548,7 @@ export function populateIdempotentMessageAnnotations(
  * @internal
  */
 export function commitIdempotentSequenceNumbers(
-  events: EventDataInternal[] | EventDataBatch
+  events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch
 ): void {
   if (isEventDataBatch(events)) {
     events._commitPublish();
@@ -567,7 +567,7 @@ export function commitIdempotentSequenceNumbers(
  * @internal
  */
 export function rollbackIdempotentSequenceNumbers(
-  events: EventDataInternal[] | EventDataBatch
+  events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch
 ): void {
   if (isEventDataBatch(events)) {
     /* No action required. */
