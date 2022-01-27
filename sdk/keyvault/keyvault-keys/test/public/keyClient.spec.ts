@@ -610,7 +610,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       );
     });
 
-    it.only("errors when updating an immutable release policy", async () => {
+    it("errors when updating an immutable release policy", async () => {
       const keyName = recorder.getUniqueName("immutablerelease");
       const createdKey = await client.createRsaKey(keyName, {
         exportable: true,
