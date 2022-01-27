@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 export {
+  AwaitedLike,
   Instrumenter,
   InstrumenterSpanOptions,
   OperationTracingOptions,
