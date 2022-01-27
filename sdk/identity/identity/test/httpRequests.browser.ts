@@ -2,11 +2,13 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
-import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
-import { RestError } from "@azure/core-rest-pipeline";
+
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { getError } from "./authTestUtils";
+import { AzureLogLevel, AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
 import { IdentityTestContextInterface, RawTestResponse, TestResponse } from "./httpRequestsCommon";
+
+import { RestError } from "@azure/core-rest-pipeline";
+import { getError } from "./authTestUtils";
 
 /**
  * Helps specify a different number of responses for Node and for the browser.
@@ -35,6 +37,14 @@ export function prepareMSALResponses(): RawTestResponse[] {
  * that may expect more than one response (or error) from more than one endpoint.
  * @internal
  */
+
+type TrackedRequest = {
+  url: string;
+  body: string;
+  method: string;
+  headers: Record<string, string>;
+};
+
 export class IdentityTestContext implements IdentityTestContextInterface {
   public sandbox: sinon.SinonSandbox;
   public clock: sinon.SinonFakeTimers;
@@ -42,7 +52,11 @@ export class IdentityTestContext implements IdentityTestContextInterface {
   public oldLogger: any;
   public logMessages: string[];
   public server: sinon.SinonFakeServer;
-  public requests: sinon.SinonFakeXMLHttpRequest[];
+  public requests: TrackedRequest[];
+  public fetch: sinon.SinonStub<
+    [input: RequestInfo, init?: RequestInit | undefined],
+    Promise<Response>
+  >;
   public responses: RawTestResponse[];
 
   constructor({ replaceLogger, logLevel }: { replaceLogger?: boolean; logLevel?: AzureLogLevel }) {
@@ -51,6 +65,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     this.oldLogLevel = getLogLevel();
     this.oldLogger = AzureLogger.log;
     this.logMessages = [];
+    this.fetch = this.sandbox.stub(self, "fetch");
 
     /**
      * Browser specific code.
@@ -71,6 +86,22 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     }
   }
 
+  private trackRequest(url: RequestInfo, request?: RequestInit) {
+    const headers = new Headers(request?.headers);
+    const rawHeaders: Record<string, string> = {};
+
+    headers.forEach((key, value) => {
+      rawHeaders[key] = value;
+    });
+
+    this.requests.push({
+      url: url.toString(),
+      body: request?.body?.toString() ?? "",
+      method: request?.method ?? "GET",
+      headers: rawHeaders,
+    });
+  }
+
   async restore(): Promise<void> {
     this.sandbox.restore();
     AzureLogger.log = this.oldLogger;
@@ -89,9 +120,13 @@ export class IdentityTestContext implements IdentityTestContextInterface {
      * Both keeps track of the outgoing requests,
      * and ensures each request answers with each received response, in order.
      */
-    this.server.respondWith((xhr) => {
-      this.requests.push(xhr);
-      xhr.respond(response.statusCode, response.headers, response.body);
+    this.fetch.callsFake(async (url, request) => {
+      this.trackRequest(url, request);
+
+      return new Response(response.body, {
+        headers: response.headers,
+        status: response.statusCode,
+      });
     });
     const promise = sendPromise();
     this.server.respond();
@@ -135,16 +170,22 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     }[];
   }> {
     this.responses.push(...[...insecureResponses, ...secureResponses]);
-    this.server.respondWith((xhr) => {
-      this.requests.push(xhr);
+    this.fetch.callsFake(async (url, request) => {
+      this.trackRequest(url, request);
       if (!this.responses.length) {
         throw new Error("No responses to send");
       }
       const { response, error } = this.responses.shift()!;
       if (response) {
-        xhr.respond(response.statusCode, response.headers, response.body);
+        return new Response(response.body, {
+          headers: response.headers,
+          status: response.statusCode,
+        });
       } else if (error) {
-        xhr.respond(error.statusCode!, {}, error.message);
+        return new Response(error.message, {
+          headers: {},
+          status: error.statusCode,
+        });
       } else {
         throw new Error("No response or error to send");
       }
@@ -168,14 +209,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     return {
       result,
       error,
-      requests: this.requests.map((request) => {
-        return {
-          url: request.url,
-          body: request.requestBody,
-          method: request.method,
-          headers: request.requestHeaders,
-        };
-      }),
+      requests: this.requests,
     };
   }
 }
