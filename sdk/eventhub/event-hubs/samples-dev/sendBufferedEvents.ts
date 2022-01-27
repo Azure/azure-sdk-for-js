@@ -24,12 +24,12 @@ const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 
 async function handleError(ctx: OnSendEventsErrorContext): Promise<void> {
   console.log(`The following error occurred:`);
-  console.log(JSON.stringify(ctx.error), undefined, "  ");
+  console.log(JSON.stringify(ctx.error, undefined, "  "));
   console.log(
     `The following events were not sent as a result to the partition with ID ${ctx.partitionId}:`
   );
   console.log(
-    ctx.events.map((event: EventData | AmqpAnnotatedMessage) => JSON.stringify(event)).join("\n\n")
+    ctx.events.map((event: EventData | AmqpAnnotatedMessage) => JSON.stringify(event, undefined, "  ")).join("\n\n")
   );
 }
 
