@@ -100,7 +100,7 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
     const writerSchemaId = getSchemaId(contentType);
     const writerSchema = await this.getSchema(writerSchemaId);
     if (readerSchema) {
-      const avscReaderSchema = this.getAvroTypeForSchema(readerSchema);
+      const avscReaderSchema = getAvroTypeForSchema(readerSchema);
       const resolver = avscReaderSchema.createResolver(writerSchema.type);
       return avscReaderSchema.fromBuffer(buffer, resolver, true);
     } else {
@@ -128,7 +128,7 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
       );
     }
 
-    const avroType = this.getAvroTypeForSchema(schemaResponse.definition);
+    const avroType = getAvroTypeForSchema(schemaResponse.definition);
     return this.cache(schemaId, schemaResponse.definition, avroType);
   }
 
@@ -138,7 +138,7 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
       return cached;
     }
 
-    const avroType = this.getAvroTypeForSchema(schema);
+    const avroType = getAvroTypeForSchema(schema);
     if (!avroType.name) {
       throw new Error("Schema must have a name.");
     }
@@ -181,10 +181,6 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
     this.cacheBySchemaDefinition.set(schema, entry);
     this.cacheById.set(id, entry);
     return entry;
-  }
-
-  private getAvroTypeForSchema(schema: string): avro.Type {
-    return avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true });
   }
 }
 
@@ -260,4 +256,8 @@ function tryReadingPreambleFormat(buffer: Buffer): MessageWithMetadata {
     body: payloadBuffer,
     contentType: `${avroMimeType}+${schemaId}`,
   };
+}
+
+function getAvroTypeForSchema(schema: string): avro.Type {
+  return avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true });
 }
