@@ -212,6 +212,7 @@ export class EventHubProducerClient {
     return new EventDataBatchImpl(
       this._context,
       maxMessageSize,
+      false,
       options.partitionKey,
       options.partitionId
     );
