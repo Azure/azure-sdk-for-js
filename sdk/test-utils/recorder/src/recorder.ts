@@ -180,7 +180,7 @@ export class Recorder {
     this.stateManager.state = "stopped";
     if (this.recordingId !== undefined) {
       const stopUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${paths.stop}`;
-      const req = createRecordingRequest(stopUri, this.sessionFile, this.recordingId);
+      const req = createRecordingRequest(stopUri, undefined, this.recordingId);
       req.headers.set("x-recording-save", "true");
 
       if (isRecordMode()) {
