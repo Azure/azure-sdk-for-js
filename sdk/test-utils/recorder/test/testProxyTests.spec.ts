@@ -74,12 +74,12 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         await makeRequestAndVerifyResponse(
           client,
           {
-            path: `/sample_response`,
+            path: `/post_sample_response`,
             body,
-            method: "GET",
+            method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { val: "abc" }
+          { val: "post_abc" }
         );
       });
 
@@ -95,12 +95,12 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         await makeRequestAndVerifyResponse(
           client,
           {
-            path: `/sample_response`,
+            path: `/post_sample_response`,
             body: "body",
-            method: "GET",
+            method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }, testHeader],
           },
-          { val: "abc" }
+          { val: "post_abc" }
         );
       });
     });
