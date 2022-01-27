@@ -20,7 +20,7 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
-  KeyVaultClientGetKeysOptionalParams,
+  GetKeysOptionalParams,
   KnownJsonWebKeyType,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
@@ -909,7 +909,7 @@ export class KeyClient {
     options?: ListPropertiesOfKeyVersionsOptions
   ): AsyncIterableIterator<KeyProperties[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+      const optionsComplete: GetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...options,
       };
@@ -1001,7 +1001,7 @@ export class KeyClient {
     options?: ListPropertiesOfKeysOptions
   ): AsyncIterableIterator<KeyProperties[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+      const optionsComplete: GetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...options,
       };
@@ -1089,7 +1089,7 @@ export class KeyClient {
     options?: ListDeletedKeysOptions
   ): AsyncIterableIterator<DeletedKey[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: KeyVaultClientGetKeysOptionalParams = {
+      const optionsComplete: GetKeysOptionalParams = {
         maxresults: continuationState.maxPageSize,
         ...options,
       };
