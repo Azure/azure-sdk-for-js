@@ -77,7 +77,7 @@ keyvault@1.0.0 /home/user/my-app
 
 Awesome!
 
-> If you are using Yarn you can use `yarn upgrade node-fetch` with similar results.
+> If you are using Yarn you can use `yarn up node-fetch` with similar results.
 
 > Note: In some previous versions of `npm`, `npm update` would only update _top-level_ dependencies. If you're using npm 6.x for example you can provide the `--depth` argument to achieve similar results.
 
