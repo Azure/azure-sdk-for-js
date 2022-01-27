@@ -3,50 +3,24 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
-import { isNode, operationOptionsToRequestOptionsBase } from "@azure/core-http";
-import { KeyClient, KeyVaultKey, PollerLike, PollOperationState } from "../../src";
+import { isNode } from "@azure/core-http";
+import { KeyClient } from "../../src";
 import { assertThrowsAbortError, getServiceVersion } from "../public/utils/common";
 import { testPollerProperties } from "../public/utils/recorderUtils";
 import { env, Recorder, isRecordMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { authenticate } from "../public/utils/testAuthentication";
 import TestClient from "../public/utils/testClient";
-import { BeginRestoreKeyBackupOptions } from "../public/utils/lro/restore/operation";
 import { RestoreKeyBackupPoller } from "../public/utils/lro/restore/poller";
-
-class InternalTestClient extends TestClient {
-  public async beginRestoreKeyBackup(
-    backup: Uint8Array,
-    options: BeginRestoreKeyBackupOptions = {}
-  ): Promise<PollerLike<PollOperationState<KeyVaultKey>, KeyVaultKey>> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const poller = new RestoreKeyBackupPoller({
-      backup,
-      client: this.client,
-      intervalInMs: options.intervalInMs,
-      resumeFrom: options.resumeFrom,
-      requestOptions,
-    });
-
-    // This will initialize the poller's operation (the recovery of the backup).
-    await poller.poll();
-
-    return poller;
-  }
-}
 
 describe("Keys client - restore keys and recover backups", () => {
   const keyPrefix = `backupRestore${env.KEY_NAME || "KeyName"}`;
   let keySuffix: string;
   let client: KeyClient;
-  let testClient: InternalTestClient;
+  let testClient: TestClient;
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(
-      this,
-      getServiceVersion(),
-      (keyClient) => new InternalTestClient(keyClient)
-    );
+    const authentication = await authenticate(this, getServiceVersion());
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -145,10 +119,12 @@ describe("Keys client - restore keys and recover backups", () => {
       // This test implementation of a restore poller only applies for backups that have been recently deleted.
       // Backups might not be ready to be restored in an unknown amount of time.
       // If this is useful to you, please open an issue at: https://github.com/Azure/azure-sdk-for-js/issues
-      const restorePoller = await testClient.beginRestoreKeyBackup(
-        backup as Uint8Array,
-        testPollerProperties
-      );
+      const restorePoller = new RestoreKeyBackupPoller({
+        backup: backup!,
+        client,
+        intervalInMs: testPollerProperties.intervalInMs,
+      });
+
       const restoredKey = await restorePoller.pollUntilDone();
 
       assert.equal(restoredKey.name, keyName);
