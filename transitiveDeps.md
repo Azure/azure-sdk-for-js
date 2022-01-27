@@ -6,9 +6,9 @@ There are times when a dependency needs to be updated, such as when a security v
 
 ## Example scenario
 
-Let's assume that a vulnerability has been found in [node-fetch][node-fetch] version 2.6.6 and that you use @azure/keyvault-keys directly. Your security scan identified this vulnerability and asks to upgrade to 2.6.7 or higher.
+Let's assume that a vulnerability has been found in [node-fetch][node-fetch] version 2.6.6 and that you use `@azure/keyvault-keys` directly. Your security scan identified this vulnerability and asks to upgrade to 2.6.7 or higher.
 
-The outputs below assume npm v8.1.2 using a lockfile, but we will provide instructions for Yarn as well.
+The outputs below assume you're using `npm v8.1.2` with a lockfile, but we will provide instructions for Yarn as well.
 
 ### Identifying the dependency tree
 
@@ -16,7 +16,7 @@ First, let's see how `node-fetch` is pulled into our dependency tree.
 
 ```bash
 keyvault main % npm ls node-fetch
-keyvault@1.0.0 /home/mleger/workspace/azure-sdk-experiments/keyvault
+keyvault@1.0.0 /home/user/my-app
 └─┬ @azure/keyvault-keys@4.3.0
   └─┬ @azure/core-http@2.2.3
     └── node-fetch@2.6.6
@@ -42,7 +42,7 @@ changed 1 package, and audited 51 packages in 421ms
 
 found 0 vulnerabilities
 keyvault main % npm ls node-fetch
-keyvault@1.0.0 /home/mleger/workspace/azure-sdk-experiments/keyvault
+keyvault@1.0.0 /home/user/my-app
 └─┬ @azure/keyvault-keys@4.3.0
   └─┬ @azure/core-http@2.2.3
     └── node-fetch@2.6.7
@@ -68,7 +68,7 @@ changed 1 package, and audited 51 packages in 320ms
 
 found 0 vulnerabilities
 keyvault main % npm ls node-fetch
-keyvault@1.0.0 /home/mleger/workspace/azure-sdk-experiments/keyvault
+keyvault@1.0.0 /home/user/my-app
 └─┬ @azure/keyvault-keys@4.3.0
   └─┬ @azure/core-http@2.2.3
     └── node-fetch@2.6.7
