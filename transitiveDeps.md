@@ -1,12 +1,12 @@
 # Dependency Management
 
-The Azure SDK for JS client libraries include a host of dependencies, both internal and external. In general, our policy allows for some flexibility in dependencies and we generally pin to a [caret][caret] version - allowing for patches, security fixes, and any non-breaking changes in our dependency ranges.
+The Azure SDK for JS client libraries include a host of dependencies, both internal and external. In general, our policy allows for some flexibility in dependencies and we generally pin to a [caret] version - allowing for patches, security fixes, and any non-breaking changes in our dependency ranges.
 
-There are times when a dependency needs to be updated, such as when a security vulnerability has been found and patched in the depdendent codebase. While we will address security vulnerabilities in dependencies by updating our minimum version to the latest patched version, our semver policy allows customers to update to the latest version of a transitive dependency without waiting for our next releases and without requiring a hotfix. In this document we'll outline a few options available to you when a transitive dependency must be updated.
+There are times when a dependency needs to be updated, such as when a security vulnerability has been found and patched in the dependency's codebase. While we will address security vulnerabilities in dependencies by updating our minimum version to the latest patched version, our semver policy allows customers to update to the latest version of a transitive dependency without waiting for our next releases and without requiring a hotfix. In this document we'll outline a few options available to you when a transitive dependency must be updated.
 
 ## Example scenario
 
-Let's assume that a vulnerability has been found in [node-fetch][node-fetch] version 2.6.6 and that you use `@azure/keyvault-keys` directly. Your security scan identified this vulnerability and asks to upgrade to 2.6.7 or higher.
+Let's assume that a vulnerability has been found in [node-fetch] version 2.6.6 and that you use `@azure/keyvault-keys` directly. Your security scan identified this vulnerability and asks to upgrade to 2.6.7 or higher.
 
 The outputs below assume you're using `npm v8.1.2` with a lockfile, but we will provide instructions for Yarn as well.
 
