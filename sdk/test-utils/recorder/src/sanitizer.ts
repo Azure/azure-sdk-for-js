@@ -171,6 +171,13 @@ async function addRemoveHeaderSanitizer(
   });
 }
 
+/**
+ * Adds a HeaderRegexSanitizer or HeaderStringSanitizer.
+ *
+ * HeaderSanitizer is a special case of FindReplaceSanitizer where a header name ('key') must be provided.
+ * Additionally, the 'target' option is not required. If target is unspecified, the header's value will always
+ * be replaced.
+ */
 async function addHeaderSanitizer(
   httpClient: HttpClient,
   url: string,
