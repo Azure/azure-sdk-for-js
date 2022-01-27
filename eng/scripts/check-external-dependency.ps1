@@ -16,9 +16,6 @@ $dependencyUpgradeLabel = "dependency-upgrade-required"
 $deprecatedDependency = "Deprecated-Dependency"
 $dependencyRegex = "^\+\s(?<pkg>[\S]*)\s(?<version>[\S]*)\s\((?<newVersion>[0-9\.a-b]*).*\)\s?(?<deprecated>deprecated)?"
 
-$descNotes = "Following are the steps to upgrade package dependency.`n1. Understand the breaking changes between the version being used and the version you want to upgrade to.`n2. Identify all packages that take a dependency on this package.`n3. Go to the root folder for each such package (/sdk/service-name/package-name) and run rush add <packageName>`n4. Run rush update to ensure the new version is pulled in.`n5. Make relevant changes to absorb the breaking changes.`n6. Repeat steps 3 to 5 for each of the packages that have a dependency on this package"
-
-
 $RepoRoot = Resolve-Path -Path "${PSScriptRoot}/../.."
 Write-Host "Repo root: $RepoRoot"
 $rushFile = join-Path -Path $RepoRoot "rush.json"
@@ -51,8 +48,14 @@ function Set-GitHubIssue($Package) {
     $issueDesc += "Version $($Package.OldVersion) of $pkgName has been deprecated.`n"
     $labels += ",$deprecatedDependency"
   }
-  $issueDesc += "A new version ($($Package.NewVersion)) is available for upgrade..`n`n"
-  $issueDesc += $descNotes.Replace("<packageName>", $pkgName)
+  $issueDesc += "A new version ($($Package.NewVersion)) is available for upgrade.`n`nFollowing are the steps to upgrade package dependency.`n
+  1. Understand the breaking changes between the version being used and the version you want to upgrade to.`n
+  2. Identify all packages that take a dependency on this package.`n
+  3. Go to the root folder for each such package (/sdk/service-name/package-name) and run rush add $pkgName@$($Package.NewVersion)`n
+  4. Run rush update to ensure the new version is pulled in.`n
+  5. Make relevant changes to absorb the breaking changes.`n
+  6. Repeat steps 3 to 5 for each of the packages that have a dependency on this package"
+
 
   Write-Host $issueDesc
   $issue = Get-GithubIssue -IssueTitle $issueTitle
@@ -104,10 +107,8 @@ foreach ($line in $rushUpdateOutput) {
     }
 
     if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion) {
-      Write-Host $p
       Set-GitHubIssue -Package $p
-      exit
-      #Start-Sleep -s 5
+      Start-Sleep -s 5
     }    
   }
 }
