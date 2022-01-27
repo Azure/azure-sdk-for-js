@@ -74,15 +74,15 @@ keyvault@1.0.0 /home/user/my-app
     └── node-fetch@2.6.7
 ```
 
-> If you are using Yarn you can use `yarn upgrade node-fetch` with similar results.
-
-#### Note about npm 6.x
-
-In some previous versions, `npm update` would only update _top-level_ dependencies. If you're using npm 6.x for example you can provide the `--depth` argument to achieve similar results.
-
 Awesome!
 
+> If you are using Yarn you can use `yarn upgrade node-fetch` with similar results.
+
+> Note: In some previous versions of `npm`, `npm update` would only update _top-level_ dependencies. If you're using npm 6.x for example you can provide the `--depth` argument to achieve similar results.
+
+
 For more information on `npm update` please refer to the [npm-update documentation][npm-update].
+
 
 ### I read this guide and still have no idea what to do
 
