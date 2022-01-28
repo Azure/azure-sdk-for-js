@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `KeyReleasePolicy#immutable` flag to support immutable release policies. Once a release policy is marked as immutable, it can no longer be modified.
+
 ### Breaking Changes
 
 ### Bugs Fixed

@@ -189,4 +189,22 @@ describe("SchemaRegistryAvroEncoder", function () {
       /no matching field for default-less com.azure.schemaregistry.samples.AvroUser.age/
     );
   });
+
+  it("decodes from the old format", async () => {
+    const registry = createTestRegistry();
+    const schemaId = await registerTestSchema(registry);
+    const encoder = await createTestEncoder(false, registry);
+    const payload = testAvroType.toBuffer(testValue);
+    const buffer = Buffer.alloc(36 + payload.length);
+
+    buffer.write(schemaId, 4, 32, "utf-8");
+    payload.copy(buffer, 36);
+    assert.deepStrictEqual(
+      await encoder.decodeMessageData({
+        body: buffer,
+        contentType: "avro/binary+000",
+      }),
+      testValue
+    );
+  });
 });

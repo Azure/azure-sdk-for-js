@@ -31,13 +31,19 @@ class ExampleClass {
  * Class documentation
  */
 class ExampleClass {
-  @internal
+  /**
+   * @internal
+   */
   x = 0;
 
-  @internal
+  /**
+   * @internal
+   */
   y: number;
 
-  @internal
+  /**
+   * @internal
+   */
   [s: string]: boolean | ((s: string) => boolean);
 
   /**
@@ -55,13 +61,19 @@ class ExampleClass {
  * Class documentation
  */
 class ExampleClass {
-  @internal
+  /**
+   * @internal
+   */
   private x = 0;
 
-  @internal
+  /**
+   * @internal
+   */
   private y: number;
 
-  @internal
+  /**
+   * @internal
+   */
   private [s: string]: boolean | ((s: string) => boolean);
 
   /**
