@@ -4,7 +4,6 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { env, Recorder } from "@azure-tools/test-recorder";
-import { PollerStoppedError } from "@azure/core-lro";
 
 import { KeyClient, DeletedKey } from "../../src";
 import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
@@ -66,7 +65,7 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
     assert.ok(poller.getOperationState().isStarted);
 
     poller.pollUntilDone().catch((e) => {
-      assert.ok(e instanceof PollerStoppedError);
+      assert.ok(e.name === "PollerStoppedError");
       assert.equal(e.name, "PollerStoppedError");
       assert.equal(e.message, "This poller is already stopped");
     });

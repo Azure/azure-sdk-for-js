@@ -7,7 +7,6 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiExclude);
 chai.use(chaiAsPromised);
 import { Context } from "mocha";
-import { RestError } from "@azure/core-http";
 import { AbortController } from "@azure/abort-controller";
 import { env, isPlaybackMode, isRecordMode, Recorder } from "@azure-tools/test-recorder";
 
@@ -287,7 +286,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       await client.getKey(keyName);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
-      if (e instanceof RestError) {
+      if (e.name === "RestError") {
         assert.equal(e.code, "KeyNotFound");
         assert.equal(e.statusCode, 404);
       } else {
@@ -318,7 +317,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       await client.getKey(keyName);
       throw Error("Expecting an error but not catching one.");
     } catch (e) {
-      if (e instanceof RestError) {
+      if (e.name === "RestError") {
         assert.equal(e.code, "KeyNotFound");
         assert.equal(e.statusCode, 404);
       } else {
