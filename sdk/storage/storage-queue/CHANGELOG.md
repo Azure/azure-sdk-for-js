@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `QueueServiceClient` or `QueueClient` with connection string.
+
 ### Other Changes
 
 ## 12.8.0-beta.1 (2021-11-09)
@@ -167,13 +169,13 @@
   Before this change the option is specified as
   ```js
   queueServiceClient.listShares({
-    include: "metadata"
+    include: "metadata",
   });
   ```
   After this change:
   ```js
   queueServiceClient.listShares({
-    includeMetadata: true
+    includeMetadata: true,
   });
   ```
 

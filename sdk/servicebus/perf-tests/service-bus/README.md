@@ -17,7 +17,7 @@ To test sending messages in batches
 
 To test `receiveMessages` - receiving messages in batches
 
-> `npm run perf-test:node -- BatchReceiveTest --duration 5 --size 2000`
+> `npm run perf-test:node -- BatchReceiveTest --duration 5 --size 2000 --number-of-messages 10000 --size-in-bytes 2000 --max-message-count 50`
 
 To test `subscribe` - receiving a stream of messages
 
