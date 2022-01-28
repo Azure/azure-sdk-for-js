@@ -254,8 +254,10 @@ describe("SchemaRegistryAvroEncoder", function () {
       );
       if (i < entriesMaxCount) {
         assert.equal(encoder["cacheById"].length, i + 1);
+        assert.equal(encoder["cacheBySchemaDefinition"].length, i + 1);
       } else {
         assert.equal(encoder["cacheById"].length, entriesMaxCount);
+        assert.equal(encoder["cacheBySchemaDefinition"].length, entriesMaxCount);
       }
     }
   });
