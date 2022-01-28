@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Suite } from "mocha";
-import { isPlaybackMode, Recorder, } from "@azure-tools/test-recorder";
+import { Recorder, } from "@azure-tools/test-recorder";
 
 import { createClients, recorderOptions } from "../utils/recordedClient";
 import {
@@ -40,18 +40,14 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       recorder.configureClient(searchClient["client"]);
       recorder.configureClient(indexClient["client"]);
 
-      if (!isPlaybackMode()) {
-        await createIndex(indexClient, TEST_INDEX_NAME);
-        await delay(WAIT_TIME);
-        await populateIndex(searchClient);
-      }
+      await createIndex(indexClient, TEST_INDEX_NAME);
+      await delay(WAIT_TIME);
+      await populateIndex(searchClient);
     });
 
     afterEach(async function () {
-      if (!isPlaybackMode()) {
-        await indexClient.deleteIndex(TEST_INDEX_NAME);
-        await delay(WAIT_TIME);
-      }
+      await indexClient.deleteIndex(TEST_INDEX_NAME);
+      await delay(WAIT_TIME);
       if (recorder) {
         await recorder.stop();
       }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isPlaybackMode, Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { Suite } from "mocha";
 import { assert } from "chai";
@@ -36,19 +36,15 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME, serviceVersion));
       recorder.configureClient(indexClient["client"]);
 
-      if (!isPlaybackMode()) {
-        await createSynonymMaps(indexClient);
-        await createSimpleIndex(indexClient, TEST_INDEX_NAME);
-        await delay(WAIT_TIME);
-      }
+      await createSynonymMaps(indexClient);
+      await createSimpleIndex(indexClient, TEST_INDEX_NAME);
+      await delay(WAIT_TIME);
     });
 
     afterEach(async function () {
-      if (!isPlaybackMode()) {
-        await indexClient.deleteIndex(TEST_INDEX_NAME);
-        await delay(WAIT_TIME);
-        await deleteSynonymMaps(indexClient);
-      }
+      await indexClient.deleteIndex(TEST_INDEX_NAME);
+      await delay(WAIT_TIME);
+      await deleteSynonymMaps(indexClient);
       if (recorder) {
         await recorder.stop();
       }
