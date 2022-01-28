@@ -3,18 +3,18 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
+  HttpClient,
+  PipelineResponse,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
-  HttpClient,
-  PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import { assert } from "chai";
 import {
   authorizeRequestOnClaimChallenge,
   parseCAEChallenge,
 } from "../src/authorizeRequestOnClaimChallenge";
+import { assert } from "chai";
 import { encodeString } from "../src/base64";
 
 describe("authorizeRequestOnClaimChallenge", function () {
