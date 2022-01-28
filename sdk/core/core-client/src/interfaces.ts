@@ -11,7 +11,6 @@ import {
   PipelineOptions,
   HttpClient,
   PipelinePolicy,
-  PipelinePhase,
 } from "@azure/core-rest-pipeline";
 
 /**
@@ -735,13 +734,13 @@ export interface AdditionalPolicyConfig {
    */
   policy: PipelinePolicy;
   /**
-   * The phase that this policy must come after.
+   * Determines if this policy be applied before or after retry logic.
+   * Only use `perRetry` if you need to modify the request again
+   * each time the operation is retried due to retryable service
+   * issues.
+   * Defaults to `perCall`
    */
-  afterPhase?: PipelinePhase;
-  /**
-   * The phase this policy belongs to.
-   */
-  phase?: PipelinePhase;
+  position?: "perCall" | "perRetry";
 }
 
 /**

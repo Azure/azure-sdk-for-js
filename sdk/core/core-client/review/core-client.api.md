@@ -12,7 +12,6 @@ import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
-import { PipelinePhase } from '@azure/core-rest-pipeline';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { PipelineResponse } from '@azure/core-rest-pipeline';
@@ -21,9 +20,8 @@ import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 
 // @public
 export interface AdditionalPolicyConfig {
-    afterPhase?: PipelinePhase;
-    phase?: PipelinePhase;
     policy: PipelinePolicy;
+    position?: "perCall" | "perRetry";
 }
 
 // @public

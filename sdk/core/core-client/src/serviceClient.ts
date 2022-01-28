@@ -100,9 +100,9 @@ export class ServiceClient {
         if (isPolicy(entry)) {
           this.pipeline.addPolicy(entry);
         } else {
+          const afterPhase = entry.position === "perRetry" ? "Retry" : undefined;
           this.pipeline.addPolicy(entry.policy, {
-            afterPhase: entry.afterPhase,
-            phase: entry.phase,
+            afterPhase,
           });
         }
       }
