@@ -78,6 +78,13 @@ describe("SchemaRegistryAvroEncoder", function () {
     const buffer = Buffer.from(message.body);
     assert.strictEqual(`avro/binary+${schemaId}`, message.contentType);
     assert.deepStrictEqual(testAvroType.fromBuffer(buffer), testValue);
+    assert.equal(encoder["cacheById"].length, 1);
+    assert.equal(
+      encoder["cacheById"].peek(schemaId)?.name,
+      "com.azure.schemaregistry.samples.AvroUser"
+    );
+    assert.equal(encoder["cacheBySchemaDefinition"].length, 1);
+    assert.equal(encoder["cacheBySchemaDefinition"].peek(testSchema)?.id, schemaId);
   });
 
   it("decodes from the expected format", async () => {
@@ -206,5 +213,50 @@ describe("SchemaRegistryAvroEncoder", function () {
       }),
       testValue
     );
+  });
+
+  it("cache size growth is bounded", async () => {
+    function makeRndStr(length: number): string {
+      let result = "";
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      return result;
+    }
+    const registry = createTestRegistry();
+    const encoder = await createTestEncoder(true, registry);
+    const entriesMaxCount = encoder["cacheById"].max;
+    let i = 0;
+    const itersCount = 2 * entriesMaxCount;
+    assert.isAtLeast(itersCount, entriesMaxCount);
+    for (; i < itersCount; ++i) {
+      const field1 = makeRndStr(10);
+      const field2 = makeRndStr(10);
+      const objStr = `{ "${field1}": "Nick", "${field2}": 42 }`;
+      await encoder.encodeMessageData(
+        JSON.parse(objStr),
+        JSON.stringify({
+          type: "record",
+          name: makeRndStr(8),
+          namespace: "com.azure.schemaregistry.samples",
+          fields: [
+            {
+              name: field1,
+              type: "string",
+            },
+            {
+              name: field2,
+              type: "int",
+            },
+          ],
+        })
+      );
+      if (i < entriesMaxCount) {
+        assert.equal(encoder["cacheById"].length, i + 1);
+      } else {
+        assert.equal(encoder["cacheById"].length, entriesMaxCount);
+      }
+    }
   });
 });
