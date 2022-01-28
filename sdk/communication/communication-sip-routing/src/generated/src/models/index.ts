@@ -63,16 +63,6 @@ export interface TrunkRoute {
 /**
  * The Communication Services error.
  */
-export interface CommunicationErrorResponse {
-  /**
-   * The Communication Services error.
-   */
-  error: CommunicationError;
-}
-
-/**
- * The Communication Services error.
- */
 export interface CommunicationError {
   /**
    * The error code.

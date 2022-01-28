@@ -5,7 +5,6 @@ export {
   TrunkPatch,
   TrunkRoute,
   CommunicationError,
-  CommunicationErrorResponse,
   GetSipConfigurationResponse,
   PatchSipConfigurationOptionalParams,
   PatchSipConfigurationResponse,

@@ -20,11 +20,6 @@ export interface CommunicationError {
 }
 
 // @public
-export interface CommunicationErrorResponse {
-    error: CommunicationError;
-}
-
-// @public
 export type GetSipConfigurationResponse = SipConfiguration & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
