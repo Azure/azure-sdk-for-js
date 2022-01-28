@@ -6,7 +6,7 @@ import { Context } from "mocha";
 import { Suite } from "mocha";
 import { Recorder, } from "@azure-tools/test-recorder";
 
-import { createClients, recorderOptions } from "../utils/recordedClient";
+import { createClients } from "../utils/recordedClient";
 import {
   SearchClient,
   SearchIndexClient,
@@ -17,7 +17,7 @@ import {
   AzureKeyCredential,
 } from "../../../src";
 import { Hotel } from "../utils/interfaces";
-import { createIndex, populateIndex, WAIT_TIME, createRandomIndexName } from "../utils/setup";
+import { createIndex, populateIndex, WAIT_TIME } from "../utils/setup";
 import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { versionsToTest } from "@azure/test-utils";
 
@@ -33,13 +33,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
 
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
-      await recorder.start(recorderOptions);
-      TEST_INDEX_NAME = recorder.variable("TEST_INDEX_NAME", createRandomIndexName());
-
-      ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME, serviceVersion));
-      recorder.configureClient(searchClient["client"]);
-      recorder.configureClient(indexClient["client"]);
-
+      ({ searchClient, indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(serviceVersion, recorder));
       await createIndex(indexClient, TEST_INDEX_NAME);
       await delay(WAIT_TIME);
       await populateIndex(searchClient);

@@ -7,7 +7,7 @@ import { Suite } from "mocha";
 import { assert } from "chai";
 import { SearchIndexClient, SynonymMap, SearchIndex } from "../../../src";
 import { Hotel } from "../utils/interfaces";
-import { createClients, recorderOptions } from "../utils/recordedClient";
+import { createClients } from "../utils/recordedClient";
 import {
   createSimpleIndex,
   createSynonymMaps,
@@ -29,12 +29,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
 
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
-      await recorder.start(recorderOptions);
 
-      TEST_INDEX_NAME = recorder.variable("TEST_INDEX_NAME", createRandomIndexName());
-
-      ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME, serviceVersion));
-      recorder.configureClient(indexClient["client"]);
+      ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(serviceVersion, recorder));
 
       await createSynonymMaps(indexClient);
       await createSimpleIndex(indexClient, TEST_INDEX_NAME);

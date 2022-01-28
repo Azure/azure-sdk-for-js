@@ -3,7 +3,7 @@
 
 import * as dotenv from "dotenv";
 
-import { env, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 
 import {
   AzureKeyCredential,
@@ -11,6 +11,7 @@ import {
   SearchIndexerClient,
   SearchIndexClient,
 } from "../../../src";
+import { createRandomIndexName } from "./setup";
 
 const isNode =
   typeof process !== "undefined" &&
@@ -26,6 +27,7 @@ export interface Clients<IndexModel> {
   searchClient: SearchClient<IndexModel>;
   indexClient: SearchIndexClient;
   indexerClient: SearchIndexerClient;
+  indexName: string
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
@@ -40,14 +42,17 @@ export const testEnv = new Proxy(envSetupForPlayback, {
   },
 });
 
-export const recorderOptions: RecorderStartOptions = {
+const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback
 };
 
-export function createClients<IndexModel>(
-  indexName: string,
-  serviceVersion: string
-): Clients<IndexModel> {
+export async function createClients<IndexModel>(
+  serviceVersion: string,
+  recorder: Recorder
+): Promise<Clients<IndexModel>> {
+  await recorder.start(recorderOptions);
+
+  const indexName = recorder.variable("TEST_INDEX_NAME", createRandomIndexName());
   const endPoint: string = process.env.ENDPOINT ?? "https://endpoint";
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
   const searchClient = new SearchClient<IndexModel>(endPoint, indexName, credential, {
@@ -60,9 +65,14 @@ export function createClients<IndexModel>(
     serviceVersion,
   });
 
+  recorder.configureClient(searchClient["client"]);
+  recorder.configureClient(indexClient["client"]);
+  recorder.configureClient(indexerClient["client"]);
+
   return {
     searchClient,
     indexClient,
     indexerClient,
+    indexName
   };
 }
