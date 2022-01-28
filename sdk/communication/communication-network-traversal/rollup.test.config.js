@@ -11,7 +11,7 @@ import multiEntry from "@rollup/plugin-multi-entry";
 import replace from "@rollup/plugin-replace";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
-import { makeBrowserTestConfig, openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
+import { makeBrowserTestConfig } from "@azure/dev-tool/shared-config/rollup";
 
 function makeBrowserTestConfigPatch() {
   const config = { ...makeBrowserTestConfig(require("./package.json")) };
@@ -34,13 +34,7 @@ function makeBrowserTestConfigPatch() {
       preferBuiltins: false,
     }),
     json(),
-    cjs({
-      namedExports: {
-        chai: ["assert"],
-        events: ["EventEmitter"],
-        ...openTelemetryCommonJs(),
-      },
-    }),
+    cjs(),
   ];
 
   return config;

@@ -649,6 +649,10 @@ export const expectedEntireResult: DetectEntireResponse = {
     false,
     false,
   ],
+  severity: [
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.2906614447614368,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  ],
 };
 
 export const changeExpectedResult = {

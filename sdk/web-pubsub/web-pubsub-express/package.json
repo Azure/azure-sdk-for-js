@@ -1,6 +1,6 @@
 {
   "name": "@azure/web-pubsub-express",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Azure Web PubSub CloudEvents handlers",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -9,10 +9,10 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "echo \"Browser is not supported.\" && exit 0",
-    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:node": "tsc -p . && dev-tool run bundle --browser-test=false",
     "build:samples": "echo Obsolete.",
-    "build:test": "tsc -p . && rollup -c 2>&1",
-    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "build:test": "tsc -p . && dev-tool run bundle --browser-test=false",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist temp types *.tgz *.log",
@@ -95,7 +95,6 @@
     "prettier": "^2.5.1",
     "puppeteer": "^10.2.0",
     "rimraf": "^3.0.0",
-    "rollup": "^1.16.3",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
     "typescript": "~4.2.0"

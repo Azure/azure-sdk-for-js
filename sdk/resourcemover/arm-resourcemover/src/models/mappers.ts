@@ -6,14 +6,80 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export const CloudError = CloudErrorMapper;
-export const BaseResource = BaseResourceMapper;
+export const MoveCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveCollection",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "Identity"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "MoveCollectionProperties"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
 
-export const Identity: msRest.CompositeMapper = {
-  serializedName: "Identity",
+export const Identity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Identity",
@@ -40,75 +106,44 @@ export const Identity: msRest.CompositeMapper = {
   }
 };
 
-export const JobStatus: msRest.CompositeMapper = {
-  serializedName: "JobStatus",
+export const MoveCollectionProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "JobStatus",
+    className: "MoveCollectionProperties",
     modelProperties: {
-      jobName: {
-        serializedName: "jobName",
+      sourceRegion: {
+        serializedName: "sourceRegion",
+        required: true,
         type: {
           name: "String"
         }
       },
-      jobProgress: {
-        readOnly: true,
-        serializedName: "jobProgress",
+      targetRegion: {
+        serializedName: "targetRegion",
+        required: true,
         type: {
           name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      errors: {
+        serializedName: "errors",
+        type: {
+          name: "Composite",
+          className: "MoveCollectionPropertiesErrors"
         }
       }
     }
   }
 };
 
-export const MoveResourceErrorBody: msRest.CompositeMapper = {
-  serializedName: "MoveResourceErrorBody",
-  type: {
-    name: "Composite",
-    className: "MoveResourceErrorBody",
-    modelProperties: {
-      code: {
-        readOnly: true,
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        readOnly: true,
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        readOnly: true,
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MoveResourceErrorBody"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const MoveResourceError: msRest.CompositeMapper = {
-  serializedName: "MoveResourceError",
+export const MoveResourceError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MoveResourceError",
@@ -124,14 +159,710 @@ export const MoveResourceError: msRest.CompositeMapper = {
   }
 };
 
-export const MoveResourceStatus: msRest.CompositeMapper = {
-  serializedName: "MoveResourceStatus",
+export const MoveResourceErrorBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveResourceErrorBody",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MoveResourceErrorBody"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const CloudError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudError",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudErrorBody"
+        }
+      }
+    }
+  }
+};
+
+export const CloudErrorBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudErrorBody",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CloudErrorBody"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UpdateMoveCollectionRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpdateMoveCollectionRequest",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "Identity"
+        }
+      }
+    }
+  }
+};
+
+export const OperationStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationStatus",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "OperationStatusError"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const OperationStatusError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationStatusError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OperationStatusError"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OperationErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const OperationErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        type: {
+          name: "Composite",
+          className: "MoveErrorInfo"
+        }
+      }
+    }
+  }
+};
+
+export const MoveErrorInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveErrorInfo",
+    modelProperties: {
+      moveResources: {
+        serializedName: "moveResources",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AffectedMoveResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AffectedMoveResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AffectedMoveResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      sourceId: {
+        serializedName: "sourceId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      moveResources: {
+        serializedName: "moveResources",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AffectedMoveResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PrepareRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrepareRequest",
+    modelProperties: {
+      validateOnly: {
+        serializedName: "validateOnly",
+        type: {
+          name: "Boolean"
+        }
+      },
+      moveResources: {
+        serializedName: "moveResources",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      moveResourceInputType: {
+        serializedName: "moveResourceInputType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceMoveRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceMoveRequest",
+    modelProperties: {
+      validateOnly: {
+        serializedName: "validateOnly",
+        type: {
+          name: "Boolean"
+        }
+      },
+      moveResources: {
+        serializedName: "moveResources",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      moveResourceInputType: {
+        serializedName: "moveResourceInputType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CommitRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommitRequest",
+    modelProperties: {
+      validateOnly: {
+        serializedName: "validateOnly",
+        type: {
+          name: "Boolean"
+        }
+      },
+      moveResources: {
+        serializedName: "moveResources",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      moveResourceInputType: {
+        serializedName: "moveResourceInputType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DiscardRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DiscardRequest",
+    modelProperties: {
+      validateOnly: {
+        serializedName: "validateOnly",
+        type: {
+          name: "Boolean"
+        }
+      },
+      moveResources: {
+        serializedName: "moveResources",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      moveResourceInputType: {
+        serializedName: "moveResourceInputType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MoveResourceCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveResourceCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MoveResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      summaryCollection: {
+        serializedName: "summaryCollection",
+        type: {
+          name: "Composite",
+          className: "SummaryCollection"
+        }
+      },
+      totalCount: {
+        serializedName: "totalCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const MoveResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "MoveResourceProperties"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const MoveResourceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveResourceProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      sourceId: {
+        serializedName: "sourceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      targetId: {
+        serializedName: "targetId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      existingTargetId: {
+        serializedName: "existingTargetId",
+        type: {
+          name: "String"
+        }
+      },
+      resourceSettings: {
+        serializedName: "resourceSettings",
+        type: {
+          name: "Composite",
+          className: "ResourceSettings"
+        }
+      },
+      sourceResourceSettings: {
+        serializedName: "sourceResourceSettings",
+        type: {
+          name: "Composite",
+          className: "ResourceSettings"
+        }
+      },
+      moveStatus: {
+        serializedName: "moveStatus",
+        type: {
+          name: "Composite",
+          className: "MoveResourcePropertiesMoveStatus"
+        }
+      },
+      dependsOn: {
+        serializedName: "dependsOn",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MoveResourceDependency"
+            }
+          }
+        }
+      },
+      dependsOnOverrides: {
+        serializedName: "dependsOnOverrides",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MoveResourceDependencyOverride"
+            }
+          }
+        }
+      },
+      isResolveRequired: {
+        serializedName: "isResolveRequired",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      errors: {
+        serializedName: "errors",
+        type: {
+          name: "Composite",
+          className: "MoveResourcePropertiesErrors"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceSettings",
+    uberParent: "ResourceSettings",
+    polymorphicDiscriminator: {
+      serializedName: "resourceType",
+      clientName: "resourceType"
+    },
+    modelProperties: {
+      resourceType: {
+        serializedName: "resourceType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      targetResourceName: {
+        serializedName: "targetResourceName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MoveResourceStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MoveResourceStatus",
     modelProperties: {
       moveState: {
         serializedName: "moveState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -154,14 +885,21 @@ export const MoveResourceStatus: msRest.CompositeMapper = {
   }
 };
 
-export const ManualResolutionProperties: msRest.CompositeMapper = {
-  serializedName: "ManualResolutionProperties",
+export const JobStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ManualResolutionProperties",
+    className: "JobStatus",
     modelProperties: {
-      targetId: {
-        serializedName: "targetId",
+      jobName: {
+        serializedName: "jobName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      jobProgress: {
+        serializedName: "jobProgress",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -170,24 +908,7 @@ export const ManualResolutionProperties: msRest.CompositeMapper = {
   }
 };
 
-export const AutomaticResolutionProperties: msRest.CompositeMapper = {
-  serializedName: "AutomaticResolutionProperties",
-  type: {
-    name: "Composite",
-    className: "AutomaticResolutionProperties",
-    modelProperties: {
-      moveResourceId: {
-        serializedName: "moveResourceId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MoveResourceDependency: msRest.CompositeMapper = {
-  serializedName: "MoveResourceDependency",
+export const MoveResourceDependency: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MoveResourceDependency",
@@ -240,8 +961,37 @@ export const MoveResourceDependency: msRest.CompositeMapper = {
   }
 };
 
-export const MoveResourceDependencyOverride: msRest.CompositeMapper = {
-  serializedName: "MoveResourceDependencyOverride",
+export const ManualResolutionProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManualResolutionProperties",
+    modelProperties: {
+      targetId: {
+        serializedName: "targetId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AutomaticResolutionProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutomaticResolutionProperties",
+    modelProperties: {
+      moveResourceId: {
+        serializedName: "moveResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MoveResourceDependencyOverride: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MoveResourceDependencyOverride",
@@ -262,218 +1012,7 @@ export const MoveResourceDependencyOverride: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceSettings: msRest.CompositeMapper = {
-  serializedName: "ResourceSettings",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "resourceType",
-      clientName: "resourceType"
-    },
-    uberParent: "ResourceSettings",
-    className: "ResourceSettings",
-    modelProperties: {
-      targetResourceName: {
-        required: true,
-        serializedName: "targetResourceName",
-        type: {
-          name: "String"
-        }
-      },
-      resourceType: {
-        required: true,
-        serializedName: "resourceType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MoveResourcePropertiesMoveStatus: msRest.CompositeMapper = {
-  serializedName: "MoveResourceProperties_moveStatus",
-  type: {
-    name: "Composite",
-    className: "MoveResourcePropertiesMoveStatus",
-    modelProperties: {
-      ...MoveResourceStatus.type.modelProperties
-    }
-  }
-};
-
-export const MoveResourcePropertiesErrors: msRest.CompositeMapper = {
-  serializedName: "MoveResourceProperties_errors",
-  type: {
-    name: "Composite",
-    className: "MoveResourcePropertiesErrors",
-    modelProperties: {
-      ...MoveResourceError.type.modelProperties
-    }
-  }
-};
-
-export const MoveResourceProperties: msRest.CompositeMapper = {
-  serializedName: "MoveResourceProperties",
-  type: {
-    name: "Composite",
-    className: "MoveResourceProperties",
-    modelProperties: {
-      provisioningState: {
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      sourceId: {
-        required: true,
-        serializedName: "sourceId",
-        type: {
-          name: "String"
-        }
-      },
-      targetId: {
-        readOnly: true,
-        serializedName: "targetId",
-        type: {
-          name: "String"
-        }
-      },
-      existingTargetId: {
-        serializedName: "existingTargetId",
-        type: {
-          name: "String"
-        }
-      },
-      resourceSettings: {
-        serializedName: "resourceSettings",
-        type: {
-          name: "Composite",
-          className: "ResourceSettings"
-        }
-      },
-      sourceResourceSettings: {
-        readOnly: true,
-        serializedName: "sourceResourceSettings",
-        type: {
-          name: "Composite",
-          className: "ResourceSettings"
-        }
-      },
-      moveStatus: {
-        readOnly: true,
-        serializedName: "moveStatus",
-        type: {
-          name: "Composite",
-          className: "MoveResourcePropertiesMoveStatus"
-        }
-      },
-      dependsOn: {
-        readOnly: true,
-        serializedName: "dependsOn",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MoveResourceDependency"
-            }
-          }
-        }
-      },
-      dependsOnOverrides: {
-        serializedName: "dependsOnOverrides",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MoveResourceDependencyOverride"
-            }
-          }
-        }
-      },
-      isResolveRequired: {
-        readOnly: true,
-        serializedName: "isResolveRequired",
-        type: {
-          name: "Boolean"
-        }
-      },
-      errors: {
-        readOnly: true,
-        serializedName: "errors",
-        type: {
-          name: "Composite",
-          className: "MoveResourcePropertiesErrors"
-        }
-      }
-    }
-  }
-};
-
-export const MoveResource: msRest.CompositeMapper = {
-  serializedName: "MoveResource",
-  type: {
-    name: "Composite",
-    className: "MoveResource",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "MoveResourceProperties"
-        }
-      }
-    }
-  }
-};
-
-export const Summary: msRest.CompositeMapper = {
-  serializedName: "Summary",
-  type: {
-    name: "Composite",
-    className: "Summary",
-    modelProperties: {
-      count: {
-        serializedName: "count",
-        type: {
-          name: "Number"
-        }
-      },
-      item: {
-        serializedName: "item",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SummaryCollection: msRest.CompositeMapper = {
-  serializedName: "SummaryCollection",
+export const SummaryCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SummaryCollection",
@@ -500,290 +1039,90 @@ export const SummaryCollection: msRest.CompositeMapper = {
   }
 };
 
-export const MoveCollectionPropertiesErrors: msRest.CompositeMapper = {
-  serializedName: "MoveCollectionProperties_errors",
+export const Summary: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MoveCollectionPropertiesErrors",
+    className: "Summary",
     modelProperties: {
-      ...MoveResourceError.type.modelProperties
-    }
-  }
-};
-
-export const MoveCollectionProperties: msRest.CompositeMapper = {
-  serializedName: "MoveCollectionProperties",
-  type: {
-    name: "Composite",
-    className: "MoveCollectionProperties",
-    modelProperties: {
-      sourceRegion: {
-        required: true,
-        serializedName: "sourceRegion",
+      count: {
+        serializedName: "count",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
-      targetRegion: {
-        required: true,
-        serializedName: "targetRegion",
+      item: {
+        serializedName: "item",
         type: {
           name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      errors: {
-        readOnly: true,
-        serializedName: "errors",
-        type: {
-          name: "Composite",
-          className: "MoveCollectionPropertiesErrors"
         }
       }
     }
   }
 };
 
-export const MoveCollection: msRest.CompositeMapper = {
-  serializedName: "MoveCollection",
+export const UnresolvedDependencyCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MoveCollection",
+    className: "UnresolvedDependencyCollection",
     modelProperties: {
-      id: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UnresolvedDependency"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      summaryCollection: {
+        serializedName: "summaryCollection",
+        type: {
+          name: "Composite",
+          className: "SummaryCollection"
+        }
+      },
+      totalCount: {
+        serializedName: "totalCount",
         readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const UnresolvedDependency: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UnresolvedDependency",
+    modelProperties: {
+      count: {
+        serializedName: "count",
+        type: {
+          name: "Number"
+        }
+      },
+      id: {
         serializedName: "id",
         type: {
           name: "String"
         }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      etag: {
-        readOnly: true,
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "Identity"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "MoveCollectionProperties"
-        }
       }
     }
   }
 };
 
-export const UpdateMoveCollectionRequest: msRest.CompositeMapper = {
-  serializedName: "UpdateMoveCollectionRequest",
-  type: {
-    name: "Composite",
-    className: "UpdateMoveCollectionRequest",
-    modelProperties: {
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "Identity"
-        }
-      }
-    }
-  }
-};
-
-export const PrepareRequest: msRest.CompositeMapper = {
-  serializedName: "PrepareRequest",
-  type: {
-    name: "Composite",
-    className: "PrepareRequest",
-    modelProperties: {
-      validateOnly: {
-        serializedName: "validateOnly",
-        type: {
-          name: "Boolean"
-        }
-      },
-      moveResources: {
-        required: true,
-        serializedName: "moveResources",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      moveResourceInputType: {
-        serializedName: "moveResourceInputType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ResourceMoveRequest: msRest.CompositeMapper = {
-  serializedName: "ResourceMoveRequest",
-  type: {
-    name: "Composite",
-    className: "ResourceMoveRequest",
-    modelProperties: {
-      validateOnly: {
-        serializedName: "validateOnly",
-        type: {
-          name: "Boolean"
-        }
-      },
-      moveResources: {
-        required: true,
-        serializedName: "moveResources",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      moveResourceInputType: {
-        serializedName: "moveResourceInputType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CommitRequest: msRest.CompositeMapper = {
-  serializedName: "CommitRequest",
-  type: {
-    name: "Composite",
-    className: "CommitRequest",
-    modelProperties: {
-      validateOnly: {
-        serializedName: "validateOnly",
-        type: {
-          name: "Boolean"
-        }
-      },
-      moveResources: {
-        required: true,
-        serializedName: "moveResources",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      moveResourceInputType: {
-        serializedName: "moveResourceInputType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DiscardRequest: msRest.CompositeMapper = {
-  serializedName: "DiscardRequest",
-  type: {
-    name: "Composite",
-    className: "DiscardRequest",
-    modelProperties: {
-      validateOnly: {
-        serializedName: "validateOnly",
-        type: {
-          name: "Boolean"
-        }
-      },
-      moveResources: {
-        required: true,
-        serializedName: "moveResources",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      moveResourceInputType: {
-        serializedName: "moveResourceInputType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BulkRemoveRequest: msRest.CompositeMapper = {
-  serializedName: "BulkRemoveRequest",
+export const BulkRemoveRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "BulkRemoveRequest",
@@ -815,141 +1154,25 @@ export const BulkRemoveRequest: msRest.CompositeMapper = {
   }
 };
 
-export const MoveResourceFilterProperties: msRest.CompositeMapper = {
-  serializedName: "MoveResourceFilterProperties",
+export const OperationsDiscoveryCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MoveResourceFilterProperties",
+    className: "OperationsDiscoveryCollection",
     modelProperties: {
-      provisioningState: {
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MoveResourceFilter: msRest.CompositeMapper = {
-  serializedName: "MoveResourceFilter",
-  type: {
-    name: "Composite",
-    className: "MoveResourceFilter",
-    modelProperties: {
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "MoveResourceFilterProperties"
-        }
-      }
-    }
-  }
-};
-
-export const UnresolvedDependenciesFilterProperties: msRest.CompositeMapper = {
-  serializedName: "UnresolvedDependenciesFilterProperties",
-  type: {
-    name: "Composite",
-    className: "UnresolvedDependenciesFilterProperties",
-    modelProperties: {
-      count: {
-        serializedName: "count",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const UnresolvedDependenciesFilter: msRest.CompositeMapper = {
-  serializedName: "UnresolvedDependenciesFilter",
-  type: {
-    name: "Composite",
-    className: "UnresolvedDependenciesFilter",
-    modelProperties: {
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "UnresolvedDependenciesFilterProperties"
-        }
-      }
-    }
-  }
-};
-
-export const UnresolvedDependency: msRest.CompositeMapper = {
-  serializedName: "UnresolvedDependency",
-  type: {
-    name: "Composite",
-    className: "UnresolvedDependency",
-    modelProperties: {
-      count: {
-        serializedName: "count",
-        type: {
-          name: "Number"
-        }
-      },
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RequiredForResourcesCollection: msRest.CompositeMapper = {
-  serializedName: "RequiredForResourcesCollection",
-  type: {
-    name: "Composite",
-    className: "RequiredForResourcesCollection",
-    modelProperties: {
-      sourceIds: {
-        serializedName: "sourceIds",
+      value: {
+        serializedName: "value",
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "Composite",
+              className: "OperationsDiscovery"
             }
           }
         }
-      }
-    }
-  }
-};
-
-export const Display: msRest.CompositeMapper = {
-  serializedName: "Display",
-  type: {
-    name: "Composite",
-    className: "Display",
-    modelProperties: {
-      provider: {
-        serializedName: "provider",
-        type: {
-          name: "String"
-        }
       },
-      resource: {
-        serializedName: "resource",
-        type: {
-          name: "String"
-        }
-      },
-      operation: {
-        serializedName: "operation",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }
@@ -958,8 +1181,7 @@ export const Display: msRest.CompositeMapper = {
   }
 };
 
-export const OperationsDiscovery: msRest.CompositeMapper = {
-  serializedName: "OperationsDiscovery",
+export const OperationsDiscovery: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OperationsDiscovery",
@@ -992,18 +1214,51 @@ export const OperationsDiscovery: msRest.CompositeMapper = {
       properties: {
         serializedName: "properties",
         type: {
-          name: "Object"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
   }
 };
 
-export const OperationsDiscoveryCollection: msRest.CompositeMapper = {
-  serializedName: "OperationsDiscoveryCollection",
+export const Display: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationsDiscoveryCollection",
+    className: "Display",
+    modelProperties: {
+      provider: {
+        serializedName: "provider",
+        type: {
+          name: "String"
+        }
+      },
+      resource: {
+        serializedName: "resource",
+        type: {
+          name: "String"
+        }
+      },
+      operation: {
+        serializedName: "operation",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MoveCollectionResultList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveCollectionResultList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1012,7 +1267,7 @@ export const OperationsDiscoveryCollection: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "OperationsDiscovery"
+              className: "MoveCollection"
             }
           }
         }
@@ -1027,29 +1282,49 @@ export const OperationsDiscoveryCollection: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualMachineResourceSettings: msRest.CompositeMapper = {
-  serializedName: "Microsoft.Compute/virtualMachines",
+export const RequiredForResourcesCollection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
-    uberParent: "ResourceSettings",
-    className: "VirtualMachineResourceSettings",
+    className: "RequiredForResourcesCollection",
     modelProperties: {
-      ...ResourceSettings.type.modelProperties,
-      targetAvailabilityZone: {
-        serializedName: "targetAvailabilityZone",
+      sourceIds: {
+        serializedName: "sourceIds",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
-      },
-      targetVmSize: {
-        serializedName: "targetVmSize",
+      }
+    }
+  }
+};
+
+export const MoveResourceFilter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveResourceFilter",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "MoveResourceFilterProperties"
         }
-      },
-      targetAvailabilitySetId: {
-        serializedName: "targetAvailabilitySetId",
+      }
+    }
+  }
+};
+
+export const MoveResourceFilterProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveResourceFilterProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
         type: {
           name: "String"
         }
@@ -1058,70 +1333,38 @@ export const VirtualMachineResourceSettings: msRest.CompositeMapper = {
   }
 };
 
-export const AvailabilitySetResourceSettings: msRest.CompositeMapper = {
-  serializedName: "Microsoft.Compute/availabilitySets",
+export const UnresolvedDependenciesFilter: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
-    uberParent: "ResourceSettings",
-    className: "AvailabilitySetResourceSettings",
+    className: "UnresolvedDependenciesFilter",
     modelProperties: {
-      ...ResourceSettings.type.modelProperties,
-      faultDomain: {
-        nullable: true,
-        serializedName: "faultDomain",
-        constraints: {
-          InclusiveMinimum: 1
-        },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "UnresolvedDependenciesFilterProperties"
+        }
+      }
+    }
+  }
+};
+
+export const UnresolvedDependenciesFilterProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UnresolvedDependenciesFilterProperties",
+    modelProperties: {
+      count: {
+        serializedName: "count",
         type: {
           name: "Number"
         }
-      },
-      updateDomain: {
-        nullable: true,
-        serializedName: "updateDomain",
-        constraints: {
-          InclusiveMaximum: 20,
-          InclusiveMinimum: 1
-        },
-        type: {
-          name: "Number"
-        }
       }
     }
   }
 };
 
-export const AzureResourceReference: msRest.CompositeMapper = {
-  serializedName: "AzureResourceReference",
-  type: {
-    name: "Composite",
-    className: "AzureResourceReference",
-    modelProperties: {
-      sourceArmResourceId: {
-        required: true,
-        serializedName: "sourceArmResourceId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NsgReference: msRest.CompositeMapper = {
-  serializedName: "NsgReference",
-  type: {
-    name: "Composite",
-    className: "NsgReference",
-    modelProperties: {
-      ...AzureResourceReference.type.modelProperties
-    }
-  }
-};
-
-export const SubnetResourceSettings: msRest.CompositeMapper = {
-  serializedName: "SubnetResourceSettings",
+export const SubnetResourceSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SubnetResourceSettings",
@@ -1149,69 +1392,14 @@ export const SubnetResourceSettings: msRest.CompositeMapper = {
   }
 };
 
-export const VirtualNetworkResourceSettings: msRest.CompositeMapper = {
-  serializedName: "Microsoft.Network/virtualNetworks",
+export const AzureResourceReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
-    uberParent: "ResourceSettings",
-    className: "VirtualNetworkResourceSettings",
+    className: "AzureResourceReference",
     modelProperties: {
-      ...ResourceSettings.type.modelProperties,
-      enableDdosProtection: {
-        nullable: true,
-        serializedName: "enableDdosProtection",
-        type: {
-          name: "Boolean"
-        }
-      },
-      addressSpace: {
-        serializedName: "addressSpace",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      dnsServers: {
-        serializedName: "dnsServers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      subnets: {
-        serializedName: "subnets",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubnetResourceSettings"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ProxyResourceReference: msRest.CompositeMapper = {
-  serializedName: "ProxyResourceReference",
-  type: {
-    name: "Composite",
-    className: "ProxyResourceReference",
-    modelProperties: {
-      ...AzureResourceReference.type.modelProperties,
-      name: {
-        serializedName: "name",
+      sourceArmResourceId: {
+        serializedName: "sourceArmResourceId",
+        required: true,
         type: {
           name: "String"
         }
@@ -1220,52 +1408,7 @@ export const ProxyResourceReference: msRest.CompositeMapper = {
   }
 };
 
-export const SubnetReference: msRest.CompositeMapper = {
-  serializedName: "SubnetReference",
-  type: {
-    name: "Composite",
-    className: "SubnetReference",
-    modelProperties: {
-      ...ProxyResourceReference.type.modelProperties
-    }
-  }
-};
-
-export const LoadBalancerBackendAddressPoolReference: msRest.CompositeMapper = {
-  serializedName: "LoadBalancerBackendAddressPoolReference",
-  type: {
-    name: "Composite",
-    className: "LoadBalancerBackendAddressPoolReference",
-    modelProperties: {
-      ...ProxyResourceReference.type.modelProperties
-    }
-  }
-};
-
-export const LoadBalancerNatRuleReference: msRest.CompositeMapper = {
-  serializedName: "LoadBalancerNatRuleReference",
-  type: {
-    name: "Composite",
-    className: "LoadBalancerNatRuleReference",
-    modelProperties: {
-      ...ProxyResourceReference.type.modelProperties
-    }
-  }
-};
-
-export const PublicIpReference: msRest.CompositeMapper = {
-  serializedName: "PublicIpReference",
-  type: {
-    name: "Composite",
-    className: "PublicIpReference",
-    modelProperties: {
-      ...AzureResourceReference.type.modelProperties
-    }
-  }
-};
-
-export const NicIpConfigurationResourceSettings: msRest.CompositeMapper = {
-  serializedName: "NicIpConfigurationResourceSettings",
+export const NicIpConfigurationResourceSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NicIpConfigurationResourceSettings",
@@ -1336,40 +1479,7 @@ export const NicIpConfigurationResourceSettings: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkInterfaceResourceSettings: msRest.CompositeMapper = {
-  serializedName: "Microsoft.Network/networkInterfaces",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
-    uberParent: "ResourceSettings",
-    className: "NetworkInterfaceResourceSettings",
-    modelProperties: {
-      ...ResourceSettings.type.modelProperties,
-      ipConfigurations: {
-        serializedName: "ipConfigurations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NicIpConfigurationResourceSettings"
-            }
-          }
-        }
-      },
-      enableAcceleratedNetworking: {
-        nullable: true,
-        serializedName: "enableAcceleratedNetworking",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const NsgSecurityRule: msRest.CompositeMapper = {
-  serializedName: "NsgSecurityRule",
+export const NsgSecurityRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NsgSecurityRule",
@@ -1438,33 +1548,7 @@ export const NsgSecurityRule: msRest.CompositeMapper = {
   }
 };
 
-export const NetworkSecurityGroupResourceSettings: msRest.CompositeMapper = {
-  serializedName: "Microsoft.Network/networkSecurityGroups",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
-    uberParent: "ResourceSettings",
-    className: "NetworkSecurityGroupResourceSettings",
-    modelProperties: {
-      ...ResourceSettings.type.modelProperties,
-      securityRules: {
-        serializedName: "securityRules",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "NsgSecurityRule"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const LBFrontendIPConfigurationResourceSettings: msRest.CompositeMapper = {
-  serializedName: "LBFrontendIPConfigurationResourceSettings",
+export const LBFrontendIPConfigurationResourceSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LBFrontendIPConfigurationResourceSettings",
@@ -1504,8 +1588,7 @@ export const LBFrontendIPConfigurationResourceSettings: msRest.CompositeMapper =
   }
 };
 
-export const LBBackendAddressPoolResourceSettings: msRest.CompositeMapper = {
-  serializedName: "LBBackendAddressPoolResourceSettings",
+export const LBBackendAddressPoolResourceSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LBBackendAddressPoolResourceSettings",
@@ -1520,15 +1603,264 @@ export const LBBackendAddressPoolResourceSettings: msRest.CompositeMapper = {
   }
 };
 
-export const LoadBalancerResourceSettings: msRest.CompositeMapper = {
+export const MoveCollectionPropertiesErrors: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveCollectionPropertiesErrors",
+    modelProperties: {
+      ...MoveResourceError.type.modelProperties
+    }
+  }
+};
+
+export const MoveResourcePropertiesErrors: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveResourcePropertiesErrors",
+    modelProperties: {
+      ...MoveResourceError.type.modelProperties
+    }
+  }
+};
+
+export const VirtualMachineResourceSettings: coreClient.CompositeMapper = {
+  serializedName: "Microsoft.Compute/virtualMachines",
+  type: {
+    name: "Composite",
+    className: "VirtualMachineResourceSettings",
+    uberParent: "ResourceSettings",
+    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ResourceSettings.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      userManagedIdentities: {
+        serializedName: "userManagedIdentities",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      targetAvailabilityZone: {
+        serializedName: "targetAvailabilityZone",
+        type: {
+          name: "String"
+        }
+      },
+      targetVmSize: {
+        serializedName: "targetVmSize",
+        type: {
+          name: "String"
+        }
+      },
+      targetAvailabilitySetId: {
+        serializedName: "targetAvailabilitySetId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AvailabilitySetResourceSettings: coreClient.CompositeMapper = {
+  serializedName: "Microsoft.Compute/availabilitySets",
+  type: {
+    name: "Composite",
+    className: "AvailabilitySetResourceSettings",
+    uberParent: "ResourceSettings",
+    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ResourceSettings.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      faultDomain: {
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        serializedName: "faultDomain",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      },
+      updateDomain: {
+        constraints: {
+          InclusiveMaximum: 20,
+          InclusiveMinimum: 1
+        },
+        serializedName: "updateDomain",
+        nullable: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualNetworkResourceSettings: coreClient.CompositeMapper = {
+  serializedName: "Microsoft.Network/virtualNetworks",
+  type: {
+    name: "Composite",
+    className: "VirtualNetworkResourceSettings",
+    uberParent: "ResourceSettings",
+    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ResourceSettings.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      enableDdosProtection: {
+        serializedName: "enableDdosProtection",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      addressSpace: {
+        serializedName: "addressSpace",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      dnsServers: {
+        serializedName: "dnsServers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      subnets: {
+        serializedName: "subnets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubnetResourceSettings"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const NetworkInterfaceResourceSettings: coreClient.CompositeMapper = {
+  serializedName: "Microsoft.Network/networkInterfaces",
+  type: {
+    name: "Composite",
+    className: "NetworkInterfaceResourceSettings",
+    uberParent: "ResourceSettings",
+    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ResourceSettings.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      ipConfigurations: {
+        serializedName: "ipConfigurations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NicIpConfigurationResourceSettings"
+            }
+          }
+        }
+      },
+      enableAcceleratedNetworking: {
+        serializedName: "enableAcceleratedNetworking",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkSecurityGroupResourceSettings: coreClient.CompositeMapper = {
+  serializedName: "Microsoft.Network/networkSecurityGroups",
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityGroupResourceSettings",
+    uberParent: "ResourceSettings",
+    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ResourceSettings.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      securityRules: {
+        serializedName: "securityRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NsgSecurityRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LoadBalancerResourceSettings: coreClient.CompositeMapper = {
   serializedName: "Microsoft.Network/loadBalancers",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
-    uberParent: "ResourceSettings",
     className: "LoadBalancerResourceSettings",
+    uberParent: "ResourceSettings",
+    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
     modelProperties: {
       ...ResourceSettings.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
       sku: {
         serializedName: "sku",
         type: {
@@ -1569,28 +1901,35 @@ export const LoadBalancerResourceSettings: msRest.CompositeMapper = {
   }
 };
 
-export const SqlServerResourceSettings: msRest.CompositeMapper = {
+export const SqlServerResourceSettings: coreClient.CompositeMapper = {
   serializedName: "Microsoft.Sql/servers",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
-    uberParent: "ResourceSettings",
     className: "SqlServerResourceSettings",
+    uberParent: "ResourceSettings",
+    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
     modelProperties: {
       ...ResourceSettings.type.modelProperties
     }
   }
 };
 
-export const SqlElasticPoolResourceSettings: msRest.CompositeMapper = {
+export const SqlElasticPoolResourceSettings: coreClient.CompositeMapper = {
   serializedName: "Microsoft.Sql/servers/elasticPools",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
-    uberParent: "ResourceSettings",
     className: "SqlElasticPoolResourceSettings",
+    uberParent: "ResourceSettings",
+    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
     modelProperties: {
       ...ResourceSettings.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
       zoneRedundant: {
         serializedName: "zoneRedundant",
         type: {
@@ -1601,15 +1940,22 @@ export const SqlElasticPoolResourceSettings: msRest.CompositeMapper = {
   }
 };
 
-export const SqlDatabaseResourceSettings: msRest.CompositeMapper = {
+export const SqlDatabaseResourceSettings: coreClient.CompositeMapper = {
   serializedName: "Microsoft.Sql/servers/databases",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
-    uberParent: "ResourceSettings",
     className: "SqlDatabaseResourceSettings",
+    uberParent: "ResourceSettings",
+    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
     modelProperties: {
       ...ResourceSettings.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
       zoneRedundant: {
         serializedName: "zoneRedundant",
         type: {
@@ -1620,28 +1966,35 @@ export const SqlDatabaseResourceSettings: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceGroupResourceSettings: msRest.CompositeMapper = {
+export const ResourceGroupResourceSettings: coreClient.CompositeMapper = {
   serializedName: "resourceGroups",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
-    uberParent: "ResourceSettings",
     className: "ResourceGroupResourceSettings",
+    uberParent: "ResourceSettings",
+    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
     modelProperties: {
       ...ResourceSettings.type.modelProperties
     }
   }
 };
 
-export const PublicIPAddressResourceSettings: msRest.CompositeMapper = {
+export const PublicIPAddressResourceSettings: coreClient.CompositeMapper = {
   serializedName: "Microsoft.Network/publicIPAddresses",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
-    uberParent: "ResourceSettings",
     className: "PublicIPAddressResourceSettings",
+    uberParent: "ResourceSettings",
+    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
     modelProperties: {
       ...ResourceSettings.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
       domainNameLabel: {
         serializedName: "domainNameLabel",
         type: {
@@ -1676,354 +2029,121 @@ export const PublicIPAddressResourceSettings: msRest.CompositeMapper = {
   }
 };
 
-export const KeyVaultResourceSettings: msRest.CompositeMapper = {
+export const KeyVaultResourceSettings: coreClient.CompositeMapper = {
   serializedName: "Microsoft.KeyVault/vaults",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
-    uberParent: "ResourceSettings",
     className: "KeyVaultResourceSettings",
+    uberParent: "ResourceSettings",
+    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
     modelProperties: {
       ...ResourceSettings.type.modelProperties
     }
   }
 };
 
-export const DiskEncryptionSetResourceSettings: msRest.CompositeMapper = {
+export const DiskEncryptionSetResourceSettings: coreClient.CompositeMapper = {
   serializedName: "Microsoft.Compute/diskEncryptionSets",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
-    uberParent: "ResourceSettings",
     className: "DiskEncryptionSetResourceSettings",
+    uberParent: "ResourceSettings",
+    polymorphicDiscriminator: ResourceSettings.type.polymorphicDiscriminator,
     modelProperties: {
       ...ResourceSettings.type.modelProperties
     }
   }
 };
 
-export const AffectedMoveResource: msRest.CompositeMapper = {
-  serializedName: "AffectedMoveResource",
+export const MoveResourcePropertiesMoveStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AffectedMoveResource",
+    className: "MoveResourcePropertiesMoveStatus",
     modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      sourceId: {
-        readOnly: true,
-        serializedName: "sourceId",
-        type: {
-          name: "String"
-        }
-      },
-      moveResources: {
-        readOnly: true,
-        serializedName: "moveResources",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AffectedMoveResource"
-            }
-          }
-        }
-      }
+      ...MoveResourceStatus.type.modelProperties
     }
   }
 };
 
-export const MoveErrorInfo: msRest.CompositeMapper = {
-  serializedName: "MoveErrorInfo",
+export const NsgReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MoveErrorInfo",
+    className: "NsgReference",
     modelProperties: {
-      moveResources: {
-        readOnly: true,
-        serializedName: "moveResources",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AffectedMoveResource"
-            }
-          }
-        }
-      }
+      ...AzureResourceReference.type.modelProperties
     }
   }
 };
 
-export const OperationErrorAdditionalInfo: msRest.CompositeMapper = {
-  serializedName: "OperationErrorAdditionalInfo",
+export const ProxyResourceReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationErrorAdditionalInfo",
+    className: "ProxyResourceReference",
     modelProperties: {
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      info: {
-        readOnly: true,
-        serializedName: "info",
-        type: {
-          name: "Composite",
-          className: "MoveErrorInfo"
-        }
-      }
-    }
-  }
-};
-
-export const OperationStatusError: msRest.CompositeMapper = {
-  serializedName: "OperationStatusError",
-  type: {
-    name: "Composite",
-    className: "OperationStatusError",
-    modelProperties: {
-      code: {
-        readOnly: true,
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        readOnly: true,
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OperationStatusError"
-            }
-          }
-        }
-      },
-      additionalInfo: {
-        readOnly: true,
-        serializedName: "additionalInfo",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OperationErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const OperationStatus: msRest.CompositeMapper = {
-  serializedName: "OperationStatus",
-  type: {
-    name: "Composite",
-    className: "OperationStatus",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
+      ...AzureResourceReference.type.modelProperties,
       name: {
-        readOnly: true,
         serializedName: "name",
         type: {
           name: "String"
         }
-      },
-      status: {
-        readOnly: true,
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      startTime: {
-        readOnly: true,
-        serializedName: "startTime",
-        type: {
-          name: "String"
-        }
-      },
-      endTime: {
-        readOnly: true,
-        serializedName: "endTime",
-        type: {
-          name: "String"
-        }
-      },
-      error: {
-        readOnly: true,
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "OperationStatusError"
-        }
-      },
-      properties: {
-        readOnly: true,
-        serializedName: "properties",
-        type: {
-          name: "Object"
-        }
       }
     }
   }
 };
 
-export const MoveCollectionResultList: msRest.CompositeMapper = {
-  serializedName: "MoveCollectionResultList",
+export const PublicIpReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MoveCollectionResultList",
+    className: "PublicIpReference",
     modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MoveCollection"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
+      ...AzureResourceReference.type.modelProperties
     }
   }
 };
 
-export const MoveResourceCollection: msRest.CompositeMapper = {
-  serializedName: "MoveResourceCollection",
+export const SubnetReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MoveResourceCollection",
+    className: "SubnetReference",
     modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MoveResource"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      },
-      summaryCollection: {
-        serializedName: "summaryCollection",
-        type: {
-          name: "Composite",
-          className: "SummaryCollection"
-        }
-      },
-      totalCount: {
-        readOnly: true,
-        serializedName: "totalCount",
-        type: {
-          name: "Number"
-        }
-      }
+      ...ProxyResourceReference.type.modelProperties
     }
   }
 };
 
-export const UnresolvedDependencyCollection: msRest.CompositeMapper = {
-  serializedName: "UnresolvedDependencyCollection",
+export const LoadBalancerBackendAddressPoolReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "UnresolvedDependencyCollection",
+    className: "LoadBalancerBackendAddressPoolReference",
     modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "UnresolvedDependency"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      },
-      summaryCollection: {
-        readOnly: true,
-        serializedName: "summaryCollection",
-        type: {
-          name: "Composite",
-          className: "SummaryCollection"
-        }
-      },
-      totalCount: {
-        readOnly: true,
-        serializedName: "totalCount",
-        type: {
-          name: "Number"
-        }
-      }
+      ...ProxyResourceReference.type.modelProperties
     }
   }
 };
 
-export const discriminators = {
-  'ResourceSettings' : ResourceSettings,
-  'ResourceSettings.Microsoft.Compute/virtualMachines' : VirtualMachineResourceSettings,
-  'ResourceSettings.Microsoft.Compute/availabilitySets' : AvailabilitySetResourceSettings,
-  'ResourceSettings.Microsoft.Network/virtualNetworks' : VirtualNetworkResourceSettings,
-  'ResourceSettings.Microsoft.Network/networkInterfaces' : NetworkInterfaceResourceSettings,
-  'ResourceSettings.Microsoft.Network/networkSecurityGroups' : NetworkSecurityGroupResourceSettings,
-  'ResourceSettings.Microsoft.Network/loadBalancers' : LoadBalancerResourceSettings,
-  'ResourceSettings.Microsoft.Sql/servers' : SqlServerResourceSettings,
-  'ResourceSettings.Microsoft.Sql/servers/elasticPools' : SqlElasticPoolResourceSettings,
-  'ResourceSettings.Microsoft.Sql/servers/databases' : SqlDatabaseResourceSettings,
-  'ResourceSettings.resourceGroups' : ResourceGroupResourceSettings,
-  'ResourceSettings.Microsoft.Network/publicIPAddresses' : PublicIPAddressResourceSettings,
-  'ResourceSettings.Microsoft.KeyVault/vaults' : KeyVaultResourceSettings,
-  'ResourceSettings.Microsoft.Compute/diskEncryptionSets' : DiskEncryptionSetResourceSettings
+export const LoadBalancerNatRuleReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LoadBalancerNatRuleReference",
+    modelProperties: {
+      ...ProxyResourceReference.type.modelProperties
+    }
+  }
+};
 
+export let discriminators = {
+  ResourceSettings: ResourceSettings,
+  "ResourceSettings.Microsoft.Compute/virtualMachines": VirtualMachineResourceSettings,
+  "ResourceSettings.Microsoft.Compute/availabilitySets": AvailabilitySetResourceSettings,
+  "ResourceSettings.Microsoft.Network/virtualNetworks": VirtualNetworkResourceSettings,
+  "ResourceSettings.Microsoft.Network/networkInterfaces": NetworkInterfaceResourceSettings,
+  "ResourceSettings.Microsoft.Network/networkSecurityGroups": NetworkSecurityGroupResourceSettings,
+  "ResourceSettings.Microsoft.Network/loadBalancers": LoadBalancerResourceSettings,
+  "ResourceSettings.Microsoft.Sql/servers": SqlServerResourceSettings,
+  "ResourceSettings.Microsoft.Sql/servers/elasticPools": SqlElasticPoolResourceSettings,
+  "ResourceSettings.Microsoft.Sql/servers/databases": SqlDatabaseResourceSettings,
+  "ResourceSettings.resourceGroups": ResourceGroupResourceSettings,
+  "ResourceSettings.Microsoft.Network/publicIPAddresses": PublicIPAddressResourceSettings,
+  "ResourceSettings.Microsoft.KeyVault/vaults": KeyVaultResourceSettings,
+  "ResourceSettings.Microsoft.Compute/diskEncryptionSets": DiskEncryptionSetResourceSettings
 };

@@ -566,7 +566,11 @@ export class QueueClient extends StorageClient {
             extractedCreds.accountKey
           );
           url = appendToURLPath(extractedCreds.url, queueName);
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+
+          if (!options.proxyOptions) {
+            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          }
+
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
