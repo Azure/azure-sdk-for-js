@@ -1,0 +1,42 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/libraries/testLibraryName.jar?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 Node/v14.17.4 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "49813155-51f4-44a1-ba8d-a5e1e97a5370"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "565",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 28 Jan 2022 20:21:44 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "b10a11f2-a587-47e1-9cb2-5fedc6be7680"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/joheredi-test/providers/Microsoft.Synapse/workspaces/joheredisyn/libraries/testLibraryName.jar",
+        "name": "testLibraryName.jar",
+        "type": "Microsoft.Synapse/workspaces/libraries",
+        "properties": {
+          "name": "testLibraryName.jar",
+          "path": "joheredisyn/libraries/testLibraryName.jar",
+          "containerName": "prep",
+          "uploadedTimestamp": "2022-01-28T20:21:32.9763168\u002B00:00",
+          "type": "jar",
+          "provisioningStatus": "Incomplete",
+          "creatorId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd"
+        },
+        "etag": "350047f0-0000-0200-0000-61f4504f0000"
+      }
+    }
+  ],
+  "Variables": {}
+}
