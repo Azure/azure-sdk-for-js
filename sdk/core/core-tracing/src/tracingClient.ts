@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  AwaitedLike,
+  Resolved,
   OperationTracingOptions,
   TracingClient,
   TracingClientOptions,
@@ -65,7 +65,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     operationOptions: Options,
     callback: Callback,
     spanOptions?: TracingSpanOptions
-  ): Promise<AwaitedLike<ReturnType<Callback>>> {
+  ): Promise<Resolved<ReturnType<Callback>>> {
     const { span, updatedOptions } = startSpan(name, operationOptions, spanOptions);
     try {
       const result = await withContext(updatedOptions.tracingOptions!.tracingContext!, () =>

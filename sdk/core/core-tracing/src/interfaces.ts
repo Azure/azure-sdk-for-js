@@ -5,9 +5,9 @@
  * A narrower version of TypeScript 4.5's Awaited type which Recursively
  * unwraps the "awaited type", emulating the behavior of `await`.
  */
-export type AwaitedLike<T> = T extends { then(onfulfilled: infer F): any } // `await` only unwraps object types with a callable `then`. Non-object types are not unwrapped
+export type Resolved<T> = T extends { then(onfulfilled: infer F): any } // `await` only unwraps object types with a callable `then`. Non-object types are not unwrapped
   ? F extends (value: infer V) => any // if the argument to `then` is callable, extracts the first argument
-    ? AwaitedLike<V> // recursively unwrap the value
+    ? Resolved<V> // recursively unwrap the value
     : never // the argument to `then` was not callable
   : T; // non-object or non-thenable
 
@@ -44,7 +44,7 @@ export interface TracingClient {
     operationOptions: Options,
     callback: Callback,
     spanOptions?: TracingSpanOptions
-  ): Promise<AwaitedLike<ReturnType<Callback>>>;
+  ): Promise<Resolved<ReturnType<Callback>>>;
   /**
    * Starts a given span but does not set it as the active span.
    *

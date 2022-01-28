@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 export {
-  AwaitedLike,
   Instrumenter,
   InstrumenterSpanOptions,
   OperationTracingOptions,
+  Resolved,
   SpanStatus,
   SpanStatusError,
   SpanStatusSuccess,
