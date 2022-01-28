@@ -6,7 +6,7 @@ import chai from "chai";
 import {
   EventData,
   EventDataBatch,
-  EventHubBufferedProducerClient,
+  EventHubProducerClient,
   PartitionPublishingProperties
 } from "../../src";
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
@@ -47,7 +47,7 @@ describe("transformEventsForSend", function() {
     let batch: EventDataBatch;
 
     beforeEach("Populate EventDataBatch", async () => {
-      const producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path);
+      const producerClient = new EventHubProducerClient(service.connectionString, service.path);
       batch = await producerClient.createBatch();
 
       for (let i = 1; i <= 10; i++) {
@@ -95,7 +95,7 @@ describe("transformEventsForSend", function() {
     let batch: EventDataBatch;
 
     beforeEach("Populate EventDataBatch", async () => {
-      const producerClient = new EventHubBufferedProducerClient(service.connectionString, service.path, {
+      const producerClient = new EventHubProducerClient(service.connectionString, service.path, {
         enableIdempotentPartitions: true
       });
       batch = await producerClient.createBatch({ partitionId: "0" });
