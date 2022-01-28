@@ -14,7 +14,7 @@
     "build:node": "tsc -p . && ",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && npm run bundle",
-    "bundle": "dev-tool run bundle --browser-test=false",
+    "bundle": "dev-tool run bundle",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
