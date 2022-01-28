@@ -1515,7 +1515,7 @@ describe("ServiceClient", function () {
   });
 
   it("should insert policies in the correct pipeline position with perRetry", async function () {
-    let pipeline = createEmptyPipeline();
+    const pipeline = createEmptyPipeline();
     const sendRequest = (request: PipelineRequest, next: SendRequest) => next(request);
     const retryPolicy: PipelinePolicy = {
       name: "retry",
@@ -1534,7 +1534,7 @@ describe("ServiceClient", function () {
       name: "policy3",
       sendRequest,
     };
-    let client = new ServiceClient({
+    const client = new ServiceClient({
       pipeline,
       additionalPolicies: [
         { policy: policy1, position: "perRetry" },
