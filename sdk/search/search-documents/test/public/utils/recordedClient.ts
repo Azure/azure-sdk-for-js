@@ -27,7 +27,7 @@ export interface Clients<IndexModel> {
   searchClient: SearchClient<IndexModel>;
   indexClient: SearchIndexClient;
   indexerClient: SearchIndexerClient;
-  indexName: string
+  indexName: string;
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
@@ -43,7 +43,7 @@ export const testEnv = new Proxy(envSetupForPlayback, {
 });
 
 const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback
+  envSetupForPlayback,
 };
 
 export async function createClients<IndexModel>(
@@ -73,6 +73,6 @@ export async function createClients<IndexModel>(
     searchClient,
     indexClient,
     indexerClient,
-    indexName
+    indexName,
   };
 }

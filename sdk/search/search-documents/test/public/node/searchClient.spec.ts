@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Suite } from "mocha";
-import { Recorder, } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
 import { createClients } from "../utils/recordedClient";
 import {
@@ -21,7 +21,6 @@ import { createIndex, populateIndex, WAIT_TIME } from "../utils/setup";
 import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { versionsToTest } from "@azure/test-utils";
 
-
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
   onVersions({ minVer: "2020-06-30" }).describe("SearchClient tests", function (this: Suite) {
     let recorder: Recorder;
@@ -33,7 +32,11 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
 
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
-      ({ searchClient, indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(serviceVersion, recorder));
+      ({
+        searchClient,
+        indexClient,
+        indexName: TEST_INDEX_NAME,
+      } = await createClients<Hotel>(serviceVersion, recorder));
       await createIndex(indexClient, TEST_INDEX_NAME);
       await delay(WAIT_TIME);
       await populateIndex(searchClient);

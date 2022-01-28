@@ -18,7 +18,6 @@ import {
 import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { versionsToTest } from "@azure/test-utils";
 
-
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
   onVersions({ minVer: "2020-06-30" }).describe("SearchIndexClient", function (this: Suite) {
     let recorder: Recorder;
@@ -30,7 +29,10 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
 
-      ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(serviceVersion, recorder));
+      ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
+        serviceVersion,
+        recorder
+      ));
 
       await createSynonymMaps(indexClient);
       await createSimpleIndex(indexClient, TEST_INDEX_NAME);
