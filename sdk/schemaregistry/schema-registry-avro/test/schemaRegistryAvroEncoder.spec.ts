@@ -224,34 +224,33 @@ describe("SchemaRegistryAvroEncoder", function () {
       }
       return result;
     }
+
     const registry = createTestRegistry();
     const encoder = await createTestEncoder(true, registry);
     const entriesMaxCount = encoder["cacheById"].max;
-    let i = 0;
     const itersCount = 2 * entriesMaxCount;
-    assert.isAtLeast(itersCount, entriesMaxCount);
+    assert.isAtLeast(itersCount, entriesMaxCount + 1);
+    let i = 0;
     for (; i < itersCount; ++i) {
       const field1 = makeRndStr(10);
       const field2 = makeRndStr(10);
-      const objStr = `{ "${field1}": "Nick", "${field2}": 42 }`;
-      await encoder.encodeMessageData(
-        JSON.parse(objStr),
-        JSON.stringify({
-          type: "record",
-          name: makeRndStr(8),
-          namespace: "com.azure.schemaregistry.samples",
-          fields: [
-            {
-              name: field1,
-              type: "string",
-            },
-            {
-              name: field2,
-              type: "int",
-            },
-          ],
-        })
-      );
+      const valueToBeEncoded = JSON.parse(`{ "${field1}": "Nick", "${field2}": 42 }`);
+      const schemaToEncodeWith = JSON.stringify({
+        type: "record",
+        name: makeRndStr(8),
+        namespace: "com.azure.schemaregistry.samples",
+        fields: [
+          {
+            name: field1,
+            type: "string",
+          },
+          {
+            name: field2,
+            type: "int",
+          },
+        ],
+      });
+      await encoder.encodeMessageData(valueToBeEncoded, schemaToEncodeWith);
       if (i < entriesMaxCount) {
         assert.equal(encoder["cacheById"].length, i + 1);
         assert.equal(encoder["cacheBySchemaDefinition"].length, i + 1);
