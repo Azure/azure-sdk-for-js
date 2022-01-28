@@ -4,7 +4,7 @@ The Azure SDK for JS client libraries include a host of dependencies, both inter
 
 There are times when a dependency needs to be updated, such as when a security vulnerability has been found and patched in the dependency's codebase. While we will address security vulnerabilities in dependencies by updating our minimum version to the latest patched version, our SemVer policy allows customers to update to the latest version of a transitive dependency without waiting for our next releases and without requiring a hotfix.
 
-In this document we'll outline a few options available to you when a transitive dependency must be updated.
+In this document, we'll outline a few options available to you when a transitive dependency must be updated.
 
 ## Example scenario
 
