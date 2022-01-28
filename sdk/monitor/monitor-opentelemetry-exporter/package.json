@@ -11,7 +11,7 @@
     "clean": "rimraf dist-esm types dist",
     "build:browser": "echo skipped",
     "build:test": "echo skipped",
-    "build:node": "tsc -p . && rollup -c 2>&1",
+    "build:node": "tsc -p . && dev-tool run bundle --browser-test=false",
     "build": "npm run build:node && npm run build:browser && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "extract-api": "tsc -p . && api-extractor run --local",
@@ -100,7 +100,6 @@
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "rollup": "^1.16.3",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
     "typescript": "~4.2.0"

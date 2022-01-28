@@ -43,8 +43,8 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete.",
-    "build:test": "tsc -p . && rollup -c 2>&1",
-    "build": "npm run clean && npm run extract-api && tsc -p . && rollup -c 2>&1",
+    "build:test": "tsc -p . && dev-tool run bundle",
+    "build": "npm run clean && npm run extract-api && tsc -p . && dev-tool run bundle",
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
@@ -151,7 +151,6 @@
     "prettier": "^2.5.1",
     "puppeteer": "^10.2.0",
     "rimraf": "^3.0.0",
-    "rollup": "^1.16.3",
     "typescript": "~4.2.0",
     "util": "^0.12.1",
     "sinon": "^9.0.2",
