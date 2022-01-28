@@ -9,12 +9,7 @@
  * @azsdk-weight 60
  */
 
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import {
-  EventData,
-  EventHubBufferedProducerClient,
-  OnSendEventsErrorContext,
-} from "@azure/event-hubs";
+import { EventHubBufferedProducerClient, OnSendEventsErrorContext } from "@azure/event-hubs";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
