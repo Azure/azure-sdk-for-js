@@ -36,7 +36,6 @@
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require esm --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/{,!(browser)/**/}/*.spec.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "temp-unit-test": "mocha -r ts-node/register --timeout 1200000 test/node/*.spec.ts"
   },
   "files": [
     "dist/",
@@ -52,7 +51,10 @@
   "keywords": [
     "azure",
     "cloud",
-    "typescript"
+    "typescript",
+    "DTDL",
+    "IoT",
+    "Digital Twins"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
