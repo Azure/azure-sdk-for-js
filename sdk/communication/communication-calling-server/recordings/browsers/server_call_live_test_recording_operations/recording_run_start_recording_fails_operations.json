@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/calling/recordings",
+   "query": {
+    "api-version": "2021-11-15-preview"
+   },
+   "requestBody": "{\"callLocator\":{\"serverCallId\":\"6ba7b812-9dad-11d1-80b4-00c04fd430c8\",\"kind\":\"serverCallLocator\"},\"recordingStateCallbackUri\":\"https://endpoint/callback\"}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"8527\",\"message\":\"Invalid join identity, cannot join call.\"}}",
+   "responseHeaders": {
+    "content-length": "78",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 28 Jan 2022 11:42:18 GMT",
+    "x-azure-ref": "0mdbzYQAAAABdFstcPiweSYaahGAmx8YdREVMMDFFREdFMDUwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-microsoft-skype-chain-id": "4aa234e0-f1e7-4a91-b643-c0fc25e5c655",
+    "x-ms-client-request-id": "a53d6c2d-d375-4a33-b75a-53e5f8789d62"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "aa2093f8a41218b7603ec4b1a1dae5bd"
+}

@@ -3,11 +3,13 @@
 
 import { isLiveMode, env, record, Recorder } from "@azure-tools/test-recorder";
 import {
+  AddToDefaultAudioGroupOptions,
   CallingServerClient,
   CreateAudioGroupOptions,
   CreateCallConnectionOptions,
   GetAudioGroupsOptions,
-  PlayAudioOptions
+  PlayAudioOptions,
+  RemoveFromDefaultAudioGroupOptions
 } from "../../src";
 import { TestUtils } from "./utils/testUtils";
 import { environmentSetup } from "./utils/recordedClient";
@@ -39,26 +41,7 @@ describe("Call Connection Live Test", function() {
 
     it("Run create_play_cancel_hangup scenario", async function(this: Context) {
       this.timeout(0);
-      const to_phone_number = env.AZURE_PHONE_NUMBER;
-      const callingServer = new CallingServerClient(connectionString);
-      const identityClient = new CommunicationIdentityClient(connectionString);
-      const from_user = await identityClient.createUser();
-      const to_user: PhoneNumberIdentifier = {
-        phoneNumber: to_phone_number
-      };
-      const from_phone_number = env.ALTERNATE_CALLERID;
-      // create call option
-      const createCallOptions: CreateCallConnectionOptions = {
-        callbackUrl: Constants.CALLBACK_URL,
-        requestedMediaTypes: ["audio"],
-        requestedCallEvents: ["participantsUpdated", "toneReceived"],
-        alternateCallerId: { phoneNumber: from_phone_number }
-      };
-      const callConnection = await callingServer.createCallConnection(
-        from_user,
-        [to_user],
-        createCallOptions
-      );
+      const callConnection = await SetupCall();
       try {
         // create PlayAudio option
         const playAudioOptions: PlayAudioOptions = {
@@ -86,30 +69,9 @@ describe("Call Connection Live Test", function() {
 
     it("Run create_add_remove_hangup scenario", async function(this: Context) {
       this.timeout(0);
-      const to_phone_number = env.AZURE_PHONE_NUMBER;
-      const callingServer = new CallingServerClient(connectionString);
-      const identityClient = new CommunicationIdentityClient(connectionString);
-      const from_user = await identityClient.createUser();
-      const to_user: PhoneNumberIdentifier = {
-        phoneNumber: to_phone_number
-      };
-      const from_phone_number = env.ALTERNATE_CALLERID;
-      // create call option
-      const createCallOptions: CreateCallConnectionOptions = {
-        callbackUrl: Constants.CALLBACK_URL,
-        requestedMediaTypes: ["audio"],
-        requestedCallEvents: ["participantsUpdated", "toneReceived"],
-        alternateCallerId: { phoneNumber: from_phone_number }
-      };
-      const callConnection = await callingServer.createCallConnection(
-        from_user,
-        [to_user],
-        createCallOptions
-      );
+      const callConnection = await SetupCall();
       try {
-        const added_participant_id = TestUtils.getFixedUserId(
-          "0000000f-3adc-c3b2-290c-113a0d00ad92"
-        );
+        const added_participant_id = TestUtils.getFixedUserId(env.PARTICIPANT_GUID);
         const participant: CommunicationUserIdentifier = {
           communicationUserId: added_participant_id
         };
@@ -132,30 +94,9 @@ describe("Call Connection Live Test", function() {
 
     it("Run mute_unmute_get_participant scenario", async function(this: Context) {
       this.timeout(0);
-      const to_phone_number = env.AZURE_PHONE_NUMBER;
-      const callingServer = new CallingServerClient(connectionString);
-      const identityClient = new CommunicationIdentityClient(connectionString);
-      const from_user = await identityClient.createUser();
-      const to_user: PhoneNumberIdentifier = {
-        phoneNumber: to_phone_number
-      };
-      const from_phone_number = env.ALTERNATE_CALLERID;
-      // create call option
-      const createCallOptions: CreateCallConnectionOptions = {
-        callbackUrl: Constants.CALLBACK_URL,
-        requestedMediaTypes: ["audio"],
-        requestedCallEvents: ["participantsUpdated", "toneReceived"],
-        alternateCallerId: { phoneNumber: from_phone_number }
-      };
-      const callConnection = await callingServer.createCallConnection(
-        from_user,
-        [to_user],
-        createCallOptions
-      );
+      const callConnection = await SetupCall();
       try {
-        const added_participant_id = TestUtils.getFixedUserId(
-          "0000000f-31de-3672-570c-113a0d00233c"
-        );
+        const added_participant_id = TestUtils.getFixedUserId(env.PARTICIPANT_GUID);
         const participant: CommunicationUserIdentifier = {
           communicationUserId: added_participant_id
         };
@@ -217,9 +158,8 @@ describe("Call Connection Live Test", function() {
         createCallOptions
       );
       try {
-        const added_participant_id = TestUtils.getFixedUserId(
-          "0000000f-3adc-c3b2-290c-113a0d00ad92"
-        );
+        const participantId = env.PARTICIPANT_GUID;
+        const added_participant_id = TestUtils.getFixedUserId(participantId);
         const participant: CommunicationUserIdentifier = {
           communicationUserId: added_participant_id
         };
@@ -266,26 +206,7 @@ describe("Call Connection Live Test", function() {
 
     it("Run test_remove_add_from_default_audio_group_request scenario", async function(this: Context) {
       this.timeout(0);
-      const to_phone_number = env.AZURE_PHONE_NUMBER;
-      const callingServer = new CallingServerClient(connectionString);
-      const identityClient = new CommunicationIdentityClient(connectionString);
-      const from_user = await identityClient.createUser();
-      const to_user: PhoneNumberIdentifier = {
-        phoneNumber: to_phone_number
-      };
-      const from_phone_number = env.ALTERNATE_CALLERID;
-      // create call option
-      const createCallOptions: CreateCallConnectionOptions = {
-        callbackUrl: Constants.CALLBACK_URL,
-        requestedMediaTypes: ["audio"],
-        requestedCallEvents: ["participantsUpdated", "toneReceived"],
-        alternateCallerId: { phoneNumber: from_phone_number }
-      };
-      const callConnection = await callingServer.createCallConnection(
-        from_user,
-        [to_user],
-        createCallOptions
-      );
+      const callConnection = await SetupCall();
       try {
         const added_participant_id = TestUtils.getFixedUserId(
           "0000000f-3adc-c3b2-290c-113a0d00ad92"
@@ -362,6 +283,82 @@ describe("Call Connection Live Test", function() {
 
     it("Run test_transfer_to_participant scenario", async function(this: Context) {
       this.timeout(0);
+      const callConnection = await SetupCall();
+      try {
+        const target_participant_id = TestUtils.getFixedUserId(
+          "0000000f-3adc-c3b2-290c-113a0d00ad92"
+        );
+        const participant: CommunicationUserIdentifier = {
+          communicationUserId: target_participant_id
+        };
+        // Transfer to Participant
+        await TestUtils.waitForOperationCompletion();
+        const transferParticipantResult = await callConnection.transferToParticipant(participant);
+        assert.isTrue(transferParticipantResult.status === "running");
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
+    it("Run test_keep_alive_delete_call scenario", async function(this: Context) {
+      this.timeout(0);
+      const callConnection = await SetupCall();
+      try {
+        await callConnection.keepAlive();
+
+        await TestUtils.waitForOperationCompletion();
+        callConnection.delete();
+
+        await TestUtils.waitForOperationCompletion();
+        try {
+          await callConnection.keepAlive();
+        } catch (e) {
+          console.log(e);
+          assert.isTrue(e && e.code === "8522");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
+    it("Run add_remove_audio scenario", async function(this: Context) {
+      this.timeout(0);
+      const callConnection = await SetupCall();
+      try {
+        const added_participant_id = TestUtils.getFixedUserId(env.PARTICIPANT_GUID);
+        const participant: CommunicationUserIdentifier = {
+          communicationUserId: added_participant_id
+        };
+        // Add Participant
+        await TestUtils.waitForOperationCompletion();
+        const addParticipantResult = await callConnection.addParticipant(participant);
+        assert.isNotNull(addParticipantResult.operationContext);
+        assert.equal(addParticipantResult.status, "running");
+        assert.isNotNull(addParticipantResult.resultDetails);
+
+        // Hold/Remove audio
+        await TestUtils.waitForOperationCompletion();
+        const removeOption: RemoveFromDefaultAudioGroupOptions = {};
+        await callConnection.removeFromDefaultAudioGroup(participant, removeOption);
+
+        // Resume/ audio
+        await TestUtils.waitForOperationCompletion();
+        const resumeOption: AddToDefaultAudioGroupOptions = {};
+        await callConnection.addToDefaultAudioGroup(participant, resumeOption);
+
+        // Remove Participant
+        await TestUtils.waitForOperationCompletion();
+        await callConnection.removeParticipant(participant);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        // Hangup call
+        await TestUtils.waitForOperationCompletion();
+        await callConnection.hangUp();
+      }
+    });
+
+    async function SetupCall() {
       const to_phone_number = env.AZURE_PHONE_NUMBER;
       const callingServer = new CallingServerClient(connectionString);
       const identityClient = new CommunicationIdentityClient(connectionString);
@@ -382,20 +379,7 @@ describe("Call Connection Live Test", function() {
         [to_user],
         createCallOptions
       );
-      try {
-        const target_participant_id = TestUtils.getFixedUserId(
-          "0000000f-3adc-c3b2-290c-113a0d00ad92"
-        );
-        const participant: CommunicationUserIdentifier = {
-          communicationUserId: target_participant_id
-        };
-        // Transfer to Participant
-        await TestUtils.waitForOperationCompletion();
-        const transferParticipantResult = await callConnection.transferToParticipant(participant);
-        assert.isTrue(transferParticipantResult.status === "running");
-      } catch (e) {
-        console.log(e);
-      }
-    });
+      return callConnection;
+    }
   });
 });
