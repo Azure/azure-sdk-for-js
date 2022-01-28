@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Suite } from "mocha";
-import { isLiveMode, isPlaybackMode, Recorder, } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder, } from "@azure-tools/test-recorder";
 
 import { createClients, recorderOptions } from "../utils/recordedClient";
 import {
@@ -21,39 +21,39 @@ import { createIndex, populateIndex, WAIT_TIME, createRandomIndexName } from "..
 import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { versionsToTest } from "@azure/test-utils";
 
-const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test1";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
   onVersions({ minVer: "2020-06-30" }).describe("SearchClient tests", function (this: Suite) {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
+    let TEST_INDEX_NAME: string;
 
     this.timeout(99999);
 
     beforeEach(async function (this: Context) {
+      recorder = new Recorder(this.currentTest);
+      await recorder.start(recorderOptions);
+      TEST_INDEX_NAME = recorder.variable("TEST_INDEX_NAME", createRandomIndexName());
+
       ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME, serviceVersion));
+      recorder.configureClient(searchClient["client"]);
+      recorder.configureClient(indexClient["client"]);
+
       if (!isPlaybackMode()) {
         await createIndex(indexClient, TEST_INDEX_NAME);
         await delay(WAIT_TIME);
         await populateIndex(searchClient);
       }
-      recorder = new Recorder(this.currentTest);
-      // create the clients again, but hooked up to the recorder
-      ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME, serviceVersion));
-      recorder.configureClient(searchClient["client"]);
-      recorder.configureClient(indexClient["client"]);
-
-      await recorder.start(recorderOptions);
     });
 
     afterEach(async function () {
-      if (recorder) {
-        await recorder.stop();
-      }
       if (!isPlaybackMode()) {
         await indexClient.deleteIndex(TEST_INDEX_NAME);
         await delay(WAIT_TIME);
+      }
+      if (recorder) {
+        await recorder.stop();
       }
     });
 

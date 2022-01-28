@@ -18,38 +18,39 @@ import {
 import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { versionsToTest } from "@azure/test-utils";
 
-const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test3";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
   onVersions({ minVer: "2020-06-30" }).describe("SearchIndexClient", function (this: Suite) {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
+    let TEST_INDEX_NAME: string;
 
     this.timeout(99999);
 
     beforeEach(async function (this: Context) {
+      recorder = new Recorder(this.currentTest);
+      await recorder.start(recorderOptions);
+
+      TEST_INDEX_NAME = recorder.variable("TEST_INDEX_NAME", createRandomIndexName());
+
       ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME, serviceVersion));
+      recorder.configureClient(indexClient["client"]);
+
       if (!isPlaybackMode()) {
         await createSynonymMaps(indexClient);
         await createSimpleIndex(indexClient, TEST_INDEX_NAME);
         await delay(WAIT_TIME);
       }
-      recorder = new Recorder(this.currentTest);
-      // create the clients again, but hooked up to the recorder
-      ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME, serviceVersion));
-      recorder.configureClient(indexClient["client"]);
-
-      await recorder.start(recorderOptions);
     });
 
     afterEach(async function () {
-      if (recorder) {
-        await recorder.stop();
-      }
       if (!isPlaybackMode()) {
         await indexClient.deleteIndex(TEST_INDEX_NAME);
         await delay(WAIT_TIME);
         await deleteSynonymMaps(indexClient);
+      }
+      if (recorder) {
+        await recorder.stop();
       }
     });
 

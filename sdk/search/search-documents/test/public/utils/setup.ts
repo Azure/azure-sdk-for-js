@@ -624,5 +624,5 @@ export async function createSimpleIndex(client: SearchIndexClient, name: string)
 }
 
 export function createRandomIndexName(): string {
-  return `hotel-live-test${Math.floor(Math.random() * 1000) + 1}`;
+  return `hotel-live-test${Math.floor(Math.random() * 100000) + 10000}`;
 }
