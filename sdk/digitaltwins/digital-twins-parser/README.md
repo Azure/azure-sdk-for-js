@@ -4,7 +4,7 @@ Use this library to parse your DTDL models and validate their structure conforms
 
 The Digital Twin Definition Language (DTDL) defines a JSON-LD based schema for creating Digital Twin models. As the DTDL specification evolves, this parser will be updated accordingly. A key characteristic of Azure Digital Twins is the ability to define your own vocabulary and build your twin graph in the self-defined terms of your business. This capability is provided through user-provided models. You can think of models as the nouns in a description of your world.
 
-Learn more about DTDL [here](https://docs.microsoft.com/en-us/azure/digital-twins/concepts-models).
+Learn more about DTDL [here](https://docs.microsoft.com/azure/digital-twins/concepts-models).
 
 ## Getting started
 
