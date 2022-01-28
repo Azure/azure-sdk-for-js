@@ -9,7 +9,7 @@ import {
 } from "@azure/core-tracing";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { OperationOptions } from "../util/operationOptions";
-import { SpanContext } from "@azure/core-tracing";
+import { Span, SpanContext } from "@azure/core-tracing";
 import { createMessageSpan } from "./tracing";
 
 /**
@@ -84,7 +84,7 @@ export function generateEventTraceProperty(
   }
 
   const properties: EventData["properties"] = {};
-  const traceParent = getTraceParentHeader(span.context());
+  const traceParent = getTraceParentHeader(span.spanContext());
   if (traceParent) {
     properties[TRACEPARENT_PROPERTY] = traceParent;
   }

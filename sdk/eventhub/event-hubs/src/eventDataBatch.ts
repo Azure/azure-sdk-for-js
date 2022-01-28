@@ -5,7 +5,7 @@ import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { EventData, populateIdempotentMessageAnnotations, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
-import { Span, SpanContext } from "@opentelemetry/api";
+import { Span, SpanContext } from "@azure/core-tracing";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { convertTryAddOptionsForCompatibility } from "./diagnostics/tracing";
