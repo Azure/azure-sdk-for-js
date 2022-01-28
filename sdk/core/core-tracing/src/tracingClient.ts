@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  Resolved,
   OperationTracingOptions,
+  Resolved,
   TracingClient,
   TracingClientOptions,
   TracingContext,
