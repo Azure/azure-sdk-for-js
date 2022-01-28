@@ -73,18 +73,18 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
     const contentType = `${avroMimeType}+${entry.id}`;
     return this.messageAdapter
       ? this.messageAdapter.produceMessage({
-        contentType,
-        body: payload,
-      })
+          contentType,
+          body: payload,
+        })
       : /**
          * If no message consumer was provided, then a MessageWithMetadata will be
          * returned. This should work because the MessageT type parameter defaults
          * to MessageWithMetadata.
          */
-      ({
-        body: payload,
-        contentType: contentType,
-      } as unknown as MessageT);
+        ({
+          body: payload,
+          contentType: contentType,
+        } as unknown as MessageT);
   }
 
   /**
