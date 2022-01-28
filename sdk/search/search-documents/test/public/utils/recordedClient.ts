@@ -3,7 +3,7 @@
 
 import * as dotenv from "dotenv";
 
-import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { env, RecorderStartOptions } from "@azure-tools/test-recorder";
 
 import {
   AzureKeyCredential,
@@ -28,33 +28,20 @@ export interface Clients<IndexModel> {
   indexerClient: SearchIndexerClient;
 }
 
-const replaceableVariables: { [k: string]: string } = {
+const envSetupForPlayback: { [k: string]: string } = {
   SEARCH_API_ADMIN_KEY: "admin_key",
   SEARCH_API_ADMIN_KEY_ALT: "admin_key_alt",
   ENDPOINT: "https://endpoint",
 };
 
-export const testEnv = new Proxy(replaceableVariables, {
+export const testEnv = new Proxy(envSetupForPlayback, {
   get: (target, key: string) => {
     return env[key] || target[key];
   },
 });
 
-export const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string =>
-      recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`),
-    // If we put ENDPOINT in replaceableVariables above, it will not capture
-    // the endpoint string used with nock, which will be expanded to
-    // https://<endpoint>:443/ and therefore will not match, so we have to do
-    // this instead.
-    (recording: string): string => {
-      const match = testEnv.ENDPOINT.replace(/^https:\/\//, "").replace(/\/$/, "");
-      return recording.replace(match, "endpoint");
-    },
-  ],
-  queryParametersToSkip: [],
+export const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback
 };
 
 export function createClients<IndexModel>(

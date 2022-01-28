@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isPlaybackMode, record, Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { Suite } from "mocha";
 import { assert } from "chai";
 import { SearchIndexClient, SynonymMap, SearchIndex } from "../../../src";
 import { Hotel } from "../utils/interfaces";
-import { createClients, environmentSetup } from "../utils/recordedClient";
+import { createClients, recorderOptions } from "../utils/recordedClient";
 import {
   createSimpleIndex,
   createSynonymMaps,
@@ -34,9 +34,12 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         await createSimpleIndex(indexClient, TEST_INDEX_NAME);
         await delay(WAIT_TIME);
       }
-      recorder = record(this, environmentSetup);
+      recorder = new Recorder(this.currentTest);
       // create the clients again, but hooked up to the recorder
       ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME, serviceVersion));
+      recorder.configureClient(indexClient["client"]);
+
+      await recorder.start(recorderOptions);
     });
 
     afterEach(async function () {

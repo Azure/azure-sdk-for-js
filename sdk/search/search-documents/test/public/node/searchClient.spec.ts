@@ -4,9 +4,9 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Suite } from "mocha";
-import { Recorder, record, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
+import { isLiveMode, isPlaybackMode, Recorder, } from "@azure-tools/test-recorder";
 
-import { createClients, environmentSetup } from "../utils/recordedClient";
+import { createClients, recorderOptions } from "../utils/recordedClient";
 import {
   SearchClient,
   SearchIndexClient,
@@ -38,9 +38,13 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         await delay(WAIT_TIME);
         await populateIndex(searchClient);
       }
-      recorder = record(this, environmentSetup);
+      recorder = new Recorder(this.currentTest);
       // create the clients again, but hooked up to the recorder
       ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME, serviceVersion));
+      recorder.configureClient(searchClient["client"]);
+      recorder.configureClient(indexClient["client"]);
+
+      await recorder.start(recorderOptions);
     });
 
     afterEach(async function () {
