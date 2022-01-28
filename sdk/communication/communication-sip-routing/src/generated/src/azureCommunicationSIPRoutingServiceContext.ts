@@ -7,7 +7,7 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { AzureCommunicationSIPRoutingServiceOptionalParams } from "./models";
+import { OptionalParams } from "./models";
 
 const packageName = "azure-communication-sip";
 const packageVersion = "1.0.0";
@@ -23,7 +23,7 @@ export class AzureCommunicationSIPRoutingServiceContext extends coreHttp.Service
    */
   constructor(
     endpoint: string,
-    options?: AzureCommunicationSIPRoutingServiceOptionalParams
+    options?: OptionalParams
   ) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");

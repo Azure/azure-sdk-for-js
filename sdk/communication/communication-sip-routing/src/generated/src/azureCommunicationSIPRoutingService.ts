@@ -12,10 +12,10 @@ import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import { AzureCommunicationSIPRoutingServiceContext } from "./azureCommunicationSIPRoutingServiceContext";
 import {
-  AzureCommunicationSIPRoutingServiceOptionalParams,
-  AzureCommunicationSIPRoutingServiceGetSipConfigurationResponse,
-  AzureCommunicationSIPRoutingServicePatchSipConfigurationOptionalParams,
-  AzureCommunicationSIPRoutingServicePatchSipConfigurationResponse
+  OptionalParams,
+  GetSipConfigurationResponse,
+  PatchSipConfigurationOptionalParams,
+  PatchSipConfigurationResponse
 } from "./models";
 
 class AzureCommunicationSIPRoutingService extends AzureCommunicationSIPRoutingServiceContext {
@@ -26,7 +26,7 @@ class AzureCommunicationSIPRoutingService extends AzureCommunicationSIPRoutingSe
    */
   constructor(
     endpoint: string,
-    options?: AzureCommunicationSIPRoutingServiceOptionalParams
+    options?: OptionalParams
   ) {
     super(endpoint, options);
   }
@@ -37,7 +37,7 @@ class AzureCommunicationSIPRoutingService extends AzureCommunicationSIPRoutingSe
    */
   getSipConfiguration(
     options?: coreHttp.OperationOptions
-  ): Promise<AzureCommunicationSIPRoutingServiceGetSipConfigurationResponse> {
+  ): Promise<GetSipConfigurationResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
@@ -45,7 +45,7 @@ class AzureCommunicationSIPRoutingService extends AzureCommunicationSIPRoutingSe
       { options: operationOptions },
       getSipConfigurationOperationSpec
     ) as Promise<
-      AzureCommunicationSIPRoutingServiceGetSipConfigurationResponse
+      GetSipConfigurationResponse
     >;
   }
 
@@ -54,8 +54,8 @@ class AzureCommunicationSIPRoutingService extends AzureCommunicationSIPRoutingSe
    * @param options The options parameters.
    */
   patchSipConfiguration(
-    options?: AzureCommunicationSIPRoutingServicePatchSipConfigurationOptionalParams
-  ): Promise<AzureCommunicationSIPRoutingServicePatchSipConfigurationResponse> {
+    options?: PatchSipConfigurationOptionalParams
+  ): Promise<PatchSipConfigurationResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
@@ -63,7 +63,7 @@ class AzureCommunicationSIPRoutingService extends AzureCommunicationSIPRoutingSe
       { options: operationOptions },
       patchSipConfigurationOperationSpec
     ) as Promise<
-      AzureCommunicationSIPRoutingServicePatchSipConfigurationResponse
+      PatchSipConfigurationResponse
     >;
   }
 }

@@ -6,8 +6,8 @@ export {
   TrunkRoute,
   CommunicationError,
   CommunicationErrorResponse,
-  AzureCommunicationSIPRoutingServiceGetSipConfigurationResponse as GetSipConfigurationResponse,
-  AzureCommunicationSIPRoutingServicePatchSipConfigurationOptionalParams as PatchSipConfigurationOptionalParams,
-  AzureCommunicationSIPRoutingServicePatchSipConfigurationResponse as PatchSipConfigurationResponse,
-  AzureCommunicationSIPRoutingServiceOptionalParams as OptionalParams
+  GetSipConfigurationResponse,
+  PatchSipConfigurationOptionalParams,
+  PatchSipConfigurationResponse,
+  OptionalParams
 } from "./generated/src/models";

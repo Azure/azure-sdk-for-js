@@ -124,7 +124,7 @@ export interface TrunkPatch {
 /**
  * Contains response data for the getSipConfiguration operation.
  */
-export type AzureCommunicationSIPRoutingServiceGetSipConfigurationResponse = SipConfiguration & {
+export type GetSipConfigurationResponse = SipConfiguration & {
   /**
    * The underlying HTTP response.
    */
@@ -144,7 +144,7 @@ export type AzureCommunicationSIPRoutingServiceGetSipConfigurationResponse = Sip
 /**
  * Optional parameters.
  */
-export interface AzureCommunicationSIPRoutingServicePatchSipConfigurationOptionalParams
+export interface PatchSipConfigurationOptionalParams
   extends coreHttp.OperationOptions {
   /**
    * Configuration patch.
@@ -155,7 +155,7 @@ export interface AzureCommunicationSIPRoutingServicePatchSipConfigurationOptiona
 /**
  * Contains response data for the patchSipConfiguration operation.
  */
-export type AzureCommunicationSIPRoutingServicePatchSipConfigurationResponse = SipConfiguration & {
+export type PatchSipConfigurationResponse = SipConfiguration & {
   /**
    * The underlying HTTP response.
    */
@@ -175,7 +175,7 @@ export type AzureCommunicationSIPRoutingServicePatchSipConfigurationResponse = S
 /**
  * Optional parameters.
  */
-export interface AzureCommunicationSIPRoutingServiceOptionalParams
+export interface OptionalParams
   extends coreHttp.ServiceClientOptions {
   /**
    * Api Version
