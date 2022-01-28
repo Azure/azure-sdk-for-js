@@ -35,7 +35,7 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require esm --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/{,!(browser)/**/}/*.spec.js\"",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
     "dist/",
