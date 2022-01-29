@@ -4,7 +4,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { OperationOptions } from "@azure/core-http";
-import { SecretPollerOptions, SecretProperties } from "../../../../src/secretsModels";
+import { SecretPollerOptions, SecretProperties } from "../../../../../src";
 
 /**
  * Options sent to the beginRestoreSecretBackup method.

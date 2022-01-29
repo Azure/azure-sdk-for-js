@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import { ClientSecretCredential } from "@azure/identity";
-import { SecretClient } from "../../src";
-import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { CertificateClient } from "../../../src";
 import { uniqueString } from "./recorderUtils";
+import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { getServiceVersion } from "./common";
 import TestClient from "./testClient";
 import { Context } from "mocha";
-import { getServiceVersion } from "./utils.common";
 
 export async function authenticate(
   that: Context,
   serviceVersion: ReturnType<typeof getServiceVersion>
 ): Promise<any> {
-  const secretSuffix = uniqueString();
+  const suffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
       AZURE_CLIENT_ID: "azure_client_id",
@@ -23,10 +23,14 @@ export async function authenticate(
       KEYVAULT_URI: "https://keyvault_name.vault.azure.net/",
     },
     customizationsOnRecordings: [
-      (recording: any): any =>
+      (recording: string): string =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
-      (recording: any): any =>
-        secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), ""),
+      (recording: string): string =>
+        suffix === "" ? recording : recording.replace(new RegExp(suffix, "g"), ""),
+      (recording: string): string => {
+        // replace pkcs12 certificate value with base64 encoding of "base64_placeholder"
+        return recording.replace(/"value":"MII[^"]+"/g, `"value":"YmFzZTY0X3BsYWNlaG9sZGVy"`);
+      },
     ],
     queryParametersToSkip: [],
   };
@@ -45,8 +49,8 @@ export async function authenticate(
     throw new Error("Missing KEYVAULT_URI environment variable.");
   }
 
-  const client = new SecretClient(keyVaultUrl, credential, { serviceVersion });
+  const client = new CertificateClient(keyVaultUrl, credential, { serviceVersion });
   const testClient = new TestClient(client);
 
-  return { recorder, client, testClient, secretSuffix, credential };
+  return { recorder, client, credential, testClient, suffix, keyVaultUrl };
 }

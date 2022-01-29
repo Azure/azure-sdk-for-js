@@ -7,7 +7,7 @@ import { KeyClient } from "@azure/keyvault-keys";
 import { v4 as uuidv4 } from "uuid";
 import { Context } from "mocha";
 
-import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../src";
+import { KeyVaultAccessControlClient, KeyVaultBackupClient } from "../../../src";
 import { uniqueString } from "./recorder";
 import { getEnvironmentVariable, getServiceVersion } from "./common";
 

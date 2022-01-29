@@ -8,7 +8,7 @@ import {
   makeRestoreKeyBackupPollOperation,
   TestKeyClientInterface,
 } from "./operation";
-import { KeyVaultKey } from "../../../../src/keysModels";
+import { KeyVaultKey } from "../../../../../src";
 
 export interface RestoreKeyBackupPollerOptions {
   client: TestKeyClientInterface;

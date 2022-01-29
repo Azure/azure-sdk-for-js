@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
 import { env } from "@azure-tools/test-recorder";
-import { LATEST_API_VERSION, SecretClientOptions } from "../../src/secretsModels";
+import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
+import { LATEST_API_VERSION, SUPPORTED_API_VERSIONS } from "../../../src/constants";
 
 export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<void> {
   let passed = false;
@@ -21,17 +21,55 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
     throw new Error("Expected cb to throw an AbortError");
   }
 }
+
+export function formatName(name: string): string {
+  return name.replace(/[^0-9a-zA-Z-]/g, "");
+}
+
+// Receives:
+//   https://uri.blob.core.windows.net/backup/<id>
+// Splits into:
+//   ["https:", "", "uri.blob.core.windows.net", "backup", "<id>"]
+// Returns:
+//   "<id>"
+export function getFolderName(uri: string): string {
+  return uri.split("/")[4];
+}
+
+/**
+ * Safely get an environment variable by name, throwing an error if it doesn't exist.
+ * @param envVarName The name of the environment variable to return
+ */
+export function getEnvironmentVariable(envVarName: string) {
+  const envVar = env[envVarName];
+  if (!envVar) {
+    throw new Error(`Missing required environment variable ${envVarName}`);
+  }
+  return envVar;
+}
+
+/**
+ * Get a predefined SAS token and Storage URI to use when backing up a KeyVault
+ */
+export function getSasToken() {
+  const baseStorageUri = getEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "");
+  const blobStorageUri = `${baseStorageUri}/${getEnvironmentVariable("BLOB_CONTAINER_NAME")}`;
+  const blobSasToken = getEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN");
+
+  return { blobStorageUri, blobSasToken };
+}
+
 /**
  * The known API versions that we support.
  */
-export const serviceVersions = ["7.0", "7.1", "7.2", "7.3-preview"] as const;
+export const serviceVersions = ["7.2"] as const;
 
 /**
  * Fetches the service version to test against. This version could be configured as part of CI
  * and then passed through the environment in order to support testing prior service versions.
  * @returns - The service version to test
  */
-export function getServiceVersion(): NonNullable<SecretClientOptions["serviceVersion"]> {
+export function getServiceVersion(): SUPPORTED_API_VERSIONS {
   return env.SERVICE_VERSION || LATEST_API_VERSION;
 }
 
@@ -44,7 +82,7 @@ export function getServiceVersion(): NonNullable<SecretClientOptions["serviceVer
  */
 export function onVersions(
   supportedVersions: SupportedVersions,
-  serviceVersion?: SecretClientOptions["serviceVersion"]
+  serviceVersion?: SUPPORTED_API_VERSIONS
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
 }

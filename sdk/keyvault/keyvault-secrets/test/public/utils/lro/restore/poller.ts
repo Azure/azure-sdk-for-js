@@ -4,14 +4,14 @@
 import { delay, OperationOptions } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
 import {
-  RestoreCertificateBackupPollOperationState,
-  makeRestoreCertificateBackupPollOperation,
-  TestCertificateClientInterface,
+  RestoreSecretBackupPollOperationState,
+  makeRestoreSecretBackupPollOperation,
+  TestSecretClientInterface,
 } from "./operation";
-import { KeyVaultCertificate } from "../../../../src/certificatesModels";
+import { SecretProperties } from "../../../../../src";
 
-export interface RestoreCertificateBackupPollerOptions {
-  client: TestCertificateClientInterface;
+export interface RestoreSecretBackupPollerOptions {
+  client: TestSecretClientInterface;
   backup: Uint8Array;
   operationOptions?: OperationOptions;
   intervalInMs?: number;
@@ -19,27 +19,27 @@ export interface RestoreCertificateBackupPollerOptions {
 }
 
 /**
- * Class that creates a poller that waits until a certificate finishes being restored
+ * Class that creates a poller that waits until a secret finishes being restored
  */
-export class RestoreCertificateBackupPoller extends Poller<
-  RestoreCertificateBackupPollOperationState,
-  KeyVaultCertificate
+export class RestoreSecretBackupPoller extends Poller<
+  RestoreSecretBackupPollOperationState,
+  SecretProperties
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
   public intervalInMs: number;
 
-  constructor(options: RestoreCertificateBackupPollerOptions) {
+  constructor(options: RestoreSecretBackupPollerOptions) {
     const { client, backup, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
-    let state: RestoreCertificateBackupPollOperationState | undefined;
+    let state: RestoreSecretBackupPollOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeRestoreCertificateBackupPollOperation({
+    const operation = makeRestoreSecretBackupPollOperation({
       ...state,
       backup,
       operationOptions,

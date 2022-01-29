@@ -4,14 +4,14 @@
 import { delay, OperationOptions } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
 import {
-  RestoreSecretBackupPollOperationState,
-  makeRestoreSecretBackupPollOperation,
-  TestSecretClientInterface,
+  RestoreCertificateBackupPollOperationState,
+  makeRestoreCertificateBackupPollOperation,
+  TestCertificateClientInterface,
 } from "./operation";
-import { SecretProperties } from "../../../../src/secretsModels";
+import { KeyVaultCertificate } from "../../../../../src";
 
-export interface RestoreSecretBackupPollerOptions {
-  client: TestSecretClientInterface;
+export interface RestoreCertificateBackupPollerOptions {
+  client: TestCertificateClientInterface;
   backup: Uint8Array;
   operationOptions?: OperationOptions;
   intervalInMs?: number;
@@ -19,27 +19,27 @@ export interface RestoreSecretBackupPollerOptions {
 }
 
 /**
- * Class that creates a poller that waits until a secret finishes being restored
+ * Class that creates a poller that waits until a certificate finishes being restored
  */
-export class RestoreSecretBackupPoller extends Poller<
-  RestoreSecretBackupPollOperationState,
-  SecretProperties
+export class RestoreCertificateBackupPoller extends Poller<
+  RestoreCertificateBackupPollOperationState,
+  KeyVaultCertificate
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
   public intervalInMs: number;
 
-  constructor(options: RestoreSecretBackupPollerOptions) {
+  constructor(options: RestoreCertificateBackupPollerOptions) {
     const { client, backup, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
-    let state: RestoreSecretBackupPollOperationState | undefined;
+    let state: RestoreCertificateBackupPollOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
 
-    const operation = makeRestoreSecretBackupPollOperation({
+    const operation = makeRestoreCertificateBackupPollOperation({
       ...state,
       backup,
       operationOptions,
