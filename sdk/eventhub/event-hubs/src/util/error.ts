@@ -59,7 +59,7 @@ enum ConditionErrorNameMapper {
    * Error is thrown when two or more instances connect to the same partition
    * with different epoch values.
    */
-  "com.microsoft:producer-epoch-stolen" = "ProducerDisconnectedError"
+  "com.microsoft:producer-epoch-stolen" = "ProducerDisconnectedError",
 }
 
 /**
@@ -67,7 +67,7 @@ enum ConditionErrorNameMapper {
  */
 const nonRetryableErrors: Set<string> = new Set([
   "ProducerDisconnectedError",
-  "SequenceOutOfOrderError"
+  "SequenceOutOfOrderError",
 ]);
 
 /**
@@ -117,7 +117,7 @@ export const idempotentSomeAlreadyPublished =
 export function validateProducerPartitionSettings({
   enableIdempotentPartitions,
   partitionId,
-  partitionKey
+  partitionKey,
 }: {
   enableIdempotentPartitions?: boolean;
   partitionId?: string;

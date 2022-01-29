@@ -18,7 +18,7 @@ export {
   GetPartitionPropertiesOptions,
   GetEventHubPropertiesOptions,
   PartitionPublishingOptions,
-  PartitionPublishingProperties
+  PartitionPublishingProperties,
 } from "./models/public";
 export { EventHubConsumerClient } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";

@@ -9,7 +9,7 @@ import {
   OnAmqpEvent,
   Message as RheaMessage,
   message,
-  types
+  types,
 } from "rhea-promise";
 import {
   ErrorNameConditionMapper,
@@ -27,7 +27,7 @@ import {
   EventDataInternal,
   populateIdempotentMessageAnnotations,
   rollbackIdempotentSequenceNumbers,
-  toRheaMessage
+  toRheaMessage,
 } from "./eventData";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 import { logErrorStackTrace, logger } from "./log";
@@ -37,13 +37,13 @@ import { EventHubProducerOptions, IdempotentLinkProperties } from "./models/priv
 import {
   PartitionPublishingOptions,
   PartitionPublishingProperties,
-  SendOptions
+  SendOptions,
 } from "./models/public";
 import { LinkEntity } from "./linkEntity";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import {
   idempotentProducerAmqpPropertyNames,
-  PENDING_PUBLISH_SEQ_NUM_SYMBOL
+  PENDING_PUBLISH_SEQ_NUM_SYMBOL,
 } from "./util/constants";
 import { isDefined } from "./util/typeGuards";
 import { translateError } from "./util/error";
@@ -295,7 +295,7 @@ export class EventHubSender extends LinkEntity {
 
     const properties: PartitionPublishingProperties = {
       isIdempotentPublishingEnabled: this._isIdempotentProducer,
-      partitionId: this.partitionId ?? ""
+      partitionId: this.partitionId ?? "",
     };
 
     if (this._isIdempotentProducer) {
@@ -312,7 +312,7 @@ export class EventHubSender extends LinkEntity {
       const {
         [idempotentProducerAmqpPropertyNames.epoch]: ownerLevel,
         [idempotentProducerAmqpPropertyNames.producerId]: producerGroupId,
-        [idempotentProducerAmqpPropertyNames.producerSequenceNumber]: lastPublishedSequenceNumber
+        [idempotentProducerAmqpPropertyNames.producerSequenceNumber]: lastPublishedSequenceNumber,
       } = this._sender.properties ?? {};
 
       properties.ownerLevel = parseInt(ownerLevel, 10);
@@ -397,7 +397,7 @@ export class EventHubSender extends LinkEntity {
     const {
       [idempotentProducerAmqpPropertyNames.epoch]: ownerLevel,
       [idempotentProducerAmqpPropertyNames.producerId]: producerGroupId,
-      [idempotentProducerAmqpPropertyNames.producerSequenceNumber]: lastPublishedSequenceNumber
+      [idempotentProducerAmqpPropertyNames.producerSequenceNumber]: lastPublishedSequenceNumber,
     } = sender.properties ?? {};
 
     this._localPublishingProperties = {
@@ -405,7 +405,7 @@ export class EventHubSender extends LinkEntity {
       partitionId: this.partitionId ?? "",
       lastPublishedSequenceNumber,
       ownerLevel,
-      producerGroupId
+      producerGroupId,
     };
   }
 
@@ -767,7 +767,7 @@ export function generateIdempotentLinkProperties(
       : null,
     [idempotentProducerAmqpPropertyNames.producerSequenceNumber]: isDefined(sequenceNumber)
       ? types.wrap_int(sequenceNumber)
-      : null
+      : null,
   };
 
   return idempotentLinkProperties;
@@ -808,7 +808,7 @@ export function transformEventsForSend(
       // Create a copy of the user's event so we can add the tracing property.
       const event: EventData = {
         ...originalEvent,
-        properties: { ...originalEvent.properties, ...tracingProperty }
+        properties: { ...originalEvent.properties, ...tracingProperty },
       };
       const rheaMessage = toRheaMessage(event, options.partitionKey);
 
@@ -818,14 +818,13 @@ export function transformEventsForSend(
       const pendingPublishSequenceNumber = startingSequenceNumber + i;
       populateIdempotentMessageAnnotations(rheaMessage, {
         ...publishingProps,
-        publishSequenceNumber: pendingPublishSequenceNumber
+        publishSequenceNumber: pendingPublishSequenceNumber,
       });
 
       if (publishingProps.isIdempotentPublishingEnabled) {
         // Set pending seq number on user's event.
-        (originalEvent as EventDataInternal)[
-          PENDING_PUBLISH_SEQ_NUM_SYMBOL
-        ] = pendingPublishSequenceNumber;
+        (originalEvent as EventDataInternal)[PENDING_PUBLISH_SEQ_NUM_SYMBOL] =
+          pendingPublishSequenceNumber;
       }
 
       rheaMessages.push(rheaMessage);
@@ -833,7 +832,7 @@ export function transformEventsForSend(
 
     // Encode every amqp message and then convert every encoded message to amqp data section
     const batchMessage: RheaMessage = {
-      body: message.data_sections(rheaMessages.map(message.encode))
+      body: message.data_sections(rheaMessages.map(message.encode)),
     };
 
     // Set message_annotations of the first message as

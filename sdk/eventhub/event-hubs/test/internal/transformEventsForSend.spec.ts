@@ -7,21 +7,21 @@ import {
   EventData,
   EventDataBatch,
   EventHubProducerClient,
-  PartitionPublishingProperties
+  PartitionPublishingProperties,
 } from "../../src";
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { transformEventsForSend } from "../../src/eventHubSender";
 import { EventDataInternal } from "../../src/eventData";
 import {
   idempotentProducerAmqpPropertyNames,
-  PENDING_PUBLISH_SEQ_NUM_SYMBOL
+  PENDING_PUBLISH_SEQ_NUM_SYMBOL,
 } from "../../src/util/constants";
 import { message, Message } from "rhea-promise";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
 
 const should = chai.should();
 
-describe("transformEventsForSend", function() {
+describe("transformEventsForSend", function () {
   function decodeEncodedMessage(encodedMessage: Buffer): Message[] {
     const batchMessage = message.decode(encodedMessage);
     return batchMessage.body.content.map(message.decode);
@@ -30,9 +30,9 @@ describe("transformEventsForSend", function() {
   const env = getEnvVars();
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-    path: env[EnvVarKeys.EVENTHUB_NAME]
+    path: env[EnvVarKeys.EVENTHUB_NAME],
   };
-  before("validate environment", function(): void {
+  before("validate environment", function (): void {
     should.exist(
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -43,7 +43,7 @@ describe("transformEventsForSend", function() {
     );
   });
 
-  describe("with (not idempotent) EventDataBatch", function() {
+  describe("with (not idempotent) EventDataBatch", function () {
     let batch: EventDataBatch;
 
     beforeEach("Populate EventDataBatch", async () => {
@@ -58,10 +58,10 @@ describe("transformEventsForSend", function() {
       return producerClient.close();
     });
 
-    it("doesn't annotate events in batch when isIdempotentPublishingEnabled is false", function() {
+    it("doesn't annotate events in batch when isIdempotentPublishingEnabled is false", function () {
       const publishingProps: PartitionPublishingProperties = {
         isIdempotentPublishingEnabled: false,
-        partitionId: ""
+        partitionId: "",
       };
       const encodedMessage = transformEventsForSend(batch, publishingProps);
       should.equal(
@@ -91,13 +91,12 @@ describe("transformEventsForSend", function() {
     });
   });
 
-  describe("with idempotent EventDataBatch", function() {
+  describe("with idempotent EventDataBatch", function () {
     let batch: EventDataBatch;
 
     beforeEach("Populate EventDataBatch", async () => {
-      const producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-        enableIdempotentPartitions: true
-      });
+      const producerClient = new EventHubProducerClient(service.connectionString, service.path);
+      (producerClient as any)._enableIdempotentPartitions = true;
       batch = await producerClient.createBatch({ partitionId: "0" });
 
       for (let i = 1; i <= 10; i++) {
@@ -108,13 +107,13 @@ describe("transformEventsForSend", function() {
       return producerClient.close();
     });
 
-    it("annotates events in batch when isIdempotentPublishingEnabled is true", function() {
+    it("annotates events in batch when isIdempotentPublishingEnabled is true", function () {
       const publishingProps: PartitionPublishingProperties = {
         isIdempotentPublishingEnabled: true,
         partitionId: "0",
         lastPublishedSequenceNumber: 0,
         ownerLevel: 1,
-        producerGroupId: 3
+        producerGroupId: 3,
       };
       const startingSequenceNumber = publishingProps.lastPublishedSequenceNumber! + 1;
 
@@ -150,7 +149,7 @@ describe("transformEventsForSend", function() {
     });
   });
 
-  describe("with EventData[]", function() {
+  describe("with EventData[]", function () {
     let events: EventData[];
 
     beforeEach("Populate EventData", () => {
@@ -161,10 +160,10 @@ describe("transformEventsForSend", function() {
       }
     });
 
-    it("doesn't annotate events when isIdempotentPublishingEnabled is false", function() {
+    it("doesn't annotate events when isIdempotentPublishingEnabled is false", function () {
       const publishingProps: PartitionPublishingProperties = {
         isIdempotentPublishingEnabled: false,
-        partitionId: ""
+        partitionId: "",
       };
       should.equal(Boolean(events.length), true, "Expected there to be events to test with.");
 
@@ -205,13 +204,13 @@ describe("transformEventsForSend", function() {
       }
     });
 
-    it("annotates events when isIdempotentPublishingEnabled is true", function() {
+    it("annotates events when isIdempotentPublishingEnabled is true", function () {
       const publishingProps: PartitionPublishingProperties = {
         isIdempotentPublishingEnabled: true,
         partitionId: "0",
         lastPublishedSequenceNumber: 0,
         ownerLevel: 1,
-        producerGroupId: 3
+        producerGroupId: 3,
       };
       const startingSequenceNumber = publishingProps.lastPublishedSequenceNumber! + 1;
 
@@ -260,15 +259,15 @@ describe("transformEventsForSend", function() {
       }
     });
 
-    it("adds trace property if tracingProperties are provided", function() {
+    it("adds trace property if tracingProperties are provided", function () {
       const publishingProps: PartitionPublishingProperties = {
         isIdempotentPublishingEnabled: false,
-        partitionId: ""
+        partitionId: "",
       };
       const tracingProperties: Array<EventData["properties"]> = [];
       for (let i = 0; i < events.length; i++) {
         tracingProperties.push({
-          [TRACEPARENT_PROPERTY]: `some-span-probably-#${i}`
+          [TRACEPARENT_PROPERTY]: `some-span-probably-#${i}`,
         });
       }
 

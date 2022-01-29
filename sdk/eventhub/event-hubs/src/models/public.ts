@@ -208,8 +208,7 @@ export interface EventHubConsumerClientOptions extends EventHubClientOptions {
  * }
  * ```
  */
-export interface EventHubProducerClientOptions extends EventHubClientOptions {
-}
+export interface EventHubProducerClientOptions extends EventHubClientOptions {}
 
 /**
  * The set of options that can be specified for an `EventHubProducerClient`

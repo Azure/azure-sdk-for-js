@@ -3,11 +3,16 @@
 
 import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
 import { BodyTypes, defaultDataTransformer } from "./dataTransformer";
-import { DeliveryAnnotations, MessageAnnotations, Message as RheaMessage, types } from "rhea-promise";
+import {
+  DeliveryAnnotations,
+  MessageAnnotations,
+  Message as RheaMessage,
+  types,
+} from "rhea-promise";
 import { isDefined, isObjectWithProperties, objectHasProperty } from "./util/typeGuards";
 import {
   idempotentProducerAmqpPropertyNames,
-  PENDING_PUBLISH_SEQ_NUM_SYMBOL
+  PENDING_PUBLISH_SEQ_NUM_SYMBOL,
 } from "./util/constants";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 
@@ -514,7 +519,7 @@ export function populateIdempotentMessageAnnotations(
     isIdempotentPublishingEnabled,
     ownerLevel,
     producerGroupId,
-    publishSequenceNumber
+    publishSequenceNumber,
   }: PopulateIdempotentMessageAnnotationsParameters
 ): void {
   if (!isIdempotentPublishingEnabled) {
@@ -530,14 +535,12 @@ export function populateIdempotentMessageAnnotations(
     messageAnnotations[idempotentProducerAmqpPropertyNames.epoch] = types.wrap_short(ownerLevel);
   }
   if (isDefined(producerGroupId)) {
-    messageAnnotations[idempotentProducerAmqpPropertyNames.producerId] = types.wrap_long(
-      producerGroupId
-    );
+    messageAnnotations[idempotentProducerAmqpPropertyNames.producerId] =
+      types.wrap_long(producerGroupId);
   }
   if (isDefined(publishSequenceNumber)) {
-    messageAnnotations[idempotentProducerAmqpPropertyNames.producerSequenceNumber] = types.wrap_int(
-      publishSequenceNumber
-    );
+    messageAnnotations[idempotentProducerAmqpPropertyNames.producerSequenceNumber] =
+      types.wrap_int(publishSequenceNumber);
   }
 }
 

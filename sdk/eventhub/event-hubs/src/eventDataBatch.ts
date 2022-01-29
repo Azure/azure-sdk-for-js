@@ -307,7 +307,7 @@ export class EventDataBatchImpl implements EventDataBatch {
       // byte length of anything not in `event.body`.
       // Events can't be decorated ahead of time because the publishing properties aren't known
       // until the events are being sent to the service.
-      const decodedEvents = (encodedEvents.map(message.decode) as unknown) as RheaMessage[];
+      const decodedEvents = encodedEvents.map(message.decode) as unknown as RheaMessage[];
       const decoratedEvents = this._decorateRheaMessagesWithPublishingProps(
         decodedEvents,
         publishingProps
@@ -343,7 +343,7 @@ export class EventDataBatchImpl implements EventDataBatch {
         isIdempotentPublishingEnabled: this._isIdempotent,
         ownerLevel,
         producerGroupId,
-        publishSequenceNumber: startingSequenceNumber + i
+        publishSequenceNumber: startingSequenceNumber + i,
       });
     }
 
@@ -370,7 +370,7 @@ export class EventDataBatchImpl implements EventDataBatch {
       isIdempotentPublishingEnabled: this._isIdempotent,
       ownerLevel: 0,
       publishSequenceNumber: 0,
-      producerGroupId: 0
+      producerGroupId: 0,
     });
 
     return event;
@@ -420,7 +420,7 @@ export class EventDataBatchImpl implements EventDataBatch {
     // Convert EventData to RheaMessage.
     const amqpMessage = toRheaMessage(instrumentedEvent, this._partitionKey);
     const originalAnnotations = amqpMessage.message_annotations && {
-      ...amqpMessage.message_annotations
+      ...amqpMessage.message_annotations,
     };
     this._decorateRheaMessageWithPlaceholderIdempotencyProps(amqpMessage);
     const encodedMessage = message.encode(amqpMessage);
