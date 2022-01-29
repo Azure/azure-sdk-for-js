@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, expect, use as chaiUse } from "chai";
+import { assert, use as chaiUse, expect } from "chai";
 import { Context } from "mocha";
 import chaiAsPromised from "chai-as-promised";
 chaiUse(chaiAsPromised);
+/* eslint-disable @typescript-eslint/no-invalid-this */
 
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 
 import {
   createRecordedAdminClient,
@@ -94,7 +95,7 @@ describe("PolicyManagementTests ", function () {
   });
 
   it("setPolicyCertificates", async function () {
-    !isLiveMode() && this.skip(); // "setPolicyCertificate APIs require keys and certificates from the environment, which are not available in playback"
+    if (!isLiveMode()) this.skip(); // "setPolicyCertificate APIs require keys and certificates from the environment, which are not available in playback"
 
     const client = createRecordedAdminClient(recorder, "Isolated");
 

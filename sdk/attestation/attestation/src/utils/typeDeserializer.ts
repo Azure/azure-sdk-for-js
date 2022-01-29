@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createSerializer, Mapper } from "@azure/core-client";
+import { Mapper, createSerializer } from "@azure/core-client";
 
 /**
  * The TypeDeserializer class enables easy access to the Attestation Model serialization

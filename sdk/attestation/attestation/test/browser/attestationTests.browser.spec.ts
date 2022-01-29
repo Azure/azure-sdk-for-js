@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, expect, use as chaiUse } from "chai";
+import { assert, use as chaiUse, expect } from "chai";
 import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
@@ -9,9 +9,9 @@ chaiUse(chaiPromises);
 import { Recorder } from "@azure-tools/test-recorder";
 
 import {
+  EndpointType,
   createRecordedAdminClient,
   createRecordedClient,
-  EndpointType,
   recorderOptions,
 } from "../utils/recordedClient";
 import * as base64url from "../utils/base64url";

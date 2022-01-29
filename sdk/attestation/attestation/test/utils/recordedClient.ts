@@ -2,17 +2,17 @@
 // Licensed under the MIT license.
 
 import {
+  Recorder,
+  RecorderStartOptions,
+  assertEnvironmentVariable,
   env,
   isPlaybackMode,
-  assertEnvironmentVariable,
-  RecorderStartOptions,
-  Recorder,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import {
+  AttestationAdministrationClient,
   AttestationClient,
   AttestationClientOptions,
-  AttestationAdministrationClient,
 } from "../../src/";
 import "./env";
 import { pemFromBase64 } from "../utils/helpers";
