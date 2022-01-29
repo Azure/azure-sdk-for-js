@@ -2,33 +2,22 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import {
-  EventData,
-  EventHubProducerClient,
-  OnSendEventsErrorContext,
-  OnSendEventsSuccessContext,
-} from "../../src/index";
-import { AmqpAnnotatedMessage, delay } from "@azure/core-amqp";
+import { EventData, EventHubProducerClient } from "../../src/index";
+import { delay } from "@azure/core-amqp";
 import chai from "chai";
 const should = chai.should();
 
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 
-type ResultError = { type: "error"; context: OnSendEventsErrorContext };
-type ResultSuccess = { type: "success"; context: OnSendEventsSuccessContext };
-type ResultEnqueue = { type: "enqueue"; event: EventData | AmqpAnnotatedMessage };
-type ResultFlush = { type: "flush" };
-type Result = ResultEnqueue | ResultError | ResultSuccess | ResultFlush;
-
-describe("EventHubProducerClient", function() {
+describe("EventHubProducerClient internal idempotent publishing", function () {
   const env = getEnvVars();
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-    path: env[EnvVarKeys.EVENTHUB_NAME]
+    path: env[EnvVarKeys.EVENTHUB_NAME],
   };
   const TEST_FAILURE = "test failure";
 
-  before("validate environment", function(): void {
+  before("validate environment", function (): void {
     should.exist(
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -41,18 +30,18 @@ describe("EventHubProducerClient", function() {
 
   let producerClient: EventHubProducerClient | undefined;
 
-  afterEach("close existing producerClient", function() {
+  afterEach("close existing producerClient", function () {
     return producerClient?.close();
   });
 
-  describe("getPartitionPublishingProperties", function() {
-    it("retrieves partition publishing properties", async function() {
+  describe("getPartitionPublishingProperties", function () {
+    it("retrieves partition publishing properties", async function () {
       producerClient = new EventHubProducerClient(service.connectionString, service.path);
 
       const partitionIds = await producerClient.getPartitionIds();
 
       for (const partitionId of partitionIds) {
-        const props = await producerClient.getPartitionPublishingProperties(partitionId);
+        const props = await (producerClient as any).getPartitionPublishingProperties(partitionId);
         should.equal(
           props.isIdempotentPublishingEnabled,
           false,
@@ -68,19 +57,14 @@ describe("EventHubProducerClient", function() {
       }
     });
 
-    it("retrieves partition publishing properties (enableIdempotentPartitions)", async function() {
-      const results: Result[] = [];
-      producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-        async onSendEventsErrorHandler(context) {
-          results.push({ type: "error", context });
-        },
-        enableIdempotentPartitions: true
-      });
+    it("retrieves partition publishing properties (enableIdempotentPartitions)", async function () {
+      producerClient = new EventHubProducerClient(service.connectionString, service.path);
+      (producerClient as any)._enableIdempotentPartitions = true;
 
       const partitionIds = await producerClient.getPartitionIds();
 
       for (const partitionId of partitionIds) {
-        const props = await producerClient.getPartitionPublishingProperties(partitionId);
+        const props = await (producerClient as any).getPartitionPublishingProperties(partitionId);
         should.equal(
           props.isIdempotentPublishingEnabled,
           true,
@@ -96,11 +80,11 @@ describe("EventHubProducerClient", function() {
       }
     });
 
-    it("throws an error if no partitionId is provided", async function() {
+    it("throws an error if no partitionId is provided", async function () {
       producerClient = new EventHubProducerClient(service.connectionString, service.path);
 
       try {
-        await producerClient.getPartitionPublishingProperties(undefined as any);
+        await (producerClient as any).getPartitionPublishingProperties(undefined as any);
         throw new Error(TEST_FAILURE);
       } catch (err) {
         should.equal(err.name, "TypeError");
@@ -112,12 +96,11 @@ describe("EventHubProducerClient", function() {
     });
   });
 
-  describe("idempotent producer", function() {
-    describe("does not allow partitionKey to be set", function() {
-      it("createBatch", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+  describe("idempotent producer", function () {
+    describe("does not allow partitionKey to be set", function () {
+      it("createBatch", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         try {
           await producerClient.createBatch({ partitionKey: "foo" });
@@ -130,10 +113,9 @@ describe("EventHubProducerClient", function() {
         }
       });
 
-      it("sendBatch", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+      it("sendBatch", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         try {
           await producerClient.sendBatch([{ body: "test" }], { partitionKey: "foo" });
@@ -147,11 +129,10 @@ describe("EventHubProducerClient", function() {
       });
     });
 
-    describe("only allows sending directly to partitions", function() {
-      it("supports partitionId set by createBatch", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+    describe("only allows sending directly to partitions", function () {
+      it("supports partitionId set by createBatch", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         // Setting partitionId on the batch to send.
         const batch = await producerClient.createBatch({ partitionId: "0" });
@@ -161,19 +142,17 @@ describe("EventHubProducerClient", function() {
         await producerClient.sendBatch(batch);
       });
 
-      it("supports partitionId set by sendBatch", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+      it("supports partitionId set by sendBatch", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         // Setting partitionId on the sendBatch call.
         await producerClient.sendBatch([{ body: "test" }], { partitionId: "0" });
       });
 
-      it("throws an error if partitionId not set by createBatch", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+      it("throws an error if partitionId not set by createBatch", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         try {
           // Don't set partitionId, this should trigger the error.
@@ -187,10 +166,9 @@ describe("EventHubProducerClient", function() {
         }
       });
 
-      it("throws an error if partitionId not set by sendBatch when passing EventData[]", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+      it("throws an error if partitionId not set by sendBatch when passing EventData[]", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         try {
           // Don't set partitionId on the sendBatch call.
@@ -205,21 +183,20 @@ describe("EventHubProducerClient", function() {
       });
     });
 
-    describe("concurrent sends", function() {
-      it("are limited to one per partition", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+    describe("concurrent sends", function () {
+      it("are limited to one per partition", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         try {
           const batch1 = await producerClient.createBatch({ partitionId: "0" });
           batch1.tryAdd({
-            body: "one"
+            body: "one",
           });
 
           await Promise.all([
             producerClient.sendBatch(batch1),
-            producerClient.sendBatch([{ body: "two" }], { partitionId: "0" })
+            producerClient.sendBatch([{ body: "two" }], { partitionId: "0" }),
           ]);
           throw new Error(TEST_FAILURE);
         } catch (err) {
@@ -234,10 +211,9 @@ describe("EventHubProducerClient", function() {
         await delay(1000);
       });
 
-      it("has no impact on serial sends", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+      it("has no impact on serial sends", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         const batch1 = await producerClient.createBatch({ partitionId: "0" });
         batch1.tryAdd({ body: "one" });
@@ -246,46 +222,43 @@ describe("EventHubProducerClient", function() {
         await producerClient.sendBatch([{ body: "two" }], { partitionId: "0" });
       });
 
-      it("are isolated per partition", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+      it("are isolated per partition", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         await Promise.all([
           producerClient.sendBatch([{ body: "one" }], { partitionId: "0" }),
-          producerClient.sendBatch([{ body: "two" }], { partitionId: "1" })
+          producerClient.sendBatch([{ body: "two" }], { partitionId: "1" }),
         ]);
       });
     });
 
-    describe("with user-provided partitionOptions", function() {
-      it("can use state from previous producerClient", async function() {
-        const producerClient1 = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+    describe("with user-provided partitionOptions", function () {
+      it("can use state from previous producerClient", async function () {
+        const producerClient1 = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         // Send an item so we have some state to carry over to the next producerClient
         await producerClient1.sendBatch([{ body: "one" }], { partitionId: "0" });
-        const partitionPublishingProps1 = await producerClient1.getPartitionPublishingProperties(
-          "0"
-        );
+        const partitionPublishingProps1 = await (
+          producerClient1 as any
+        ).getPartitionPublishingProperties("0");
 
         // Create the 2nd producer
-        const producerClient2 = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true,
-          partitionOptions: {
-            "0": {
-              ownerLevel: partitionPublishingProps1.ownerLevel! + 1,
-              producerGroupId: partitionPublishingProps1.producerGroupId,
-              startingSequenceNumber: partitionPublishingProps1.lastPublishedSequenceNumber
-            }
-          }
-        });
+        const producerClient2 = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
+        (producerClient as any)._partitionOptions = {
+          "0": {
+            ownerLevel: partitionPublishingProps1.ownerLevel! + 1,
+            producerGroupId: partitionPublishingProps1.producerGroupId,
+            startingSequenceNumber: partitionPublishingProps1.lastPublishedSequenceNumber,
+          },
+        };
 
         await producerClient2.sendBatch([{ body: "two" }], { partitionId: "0" });
-        const partitionPublishingProps2 = await producerClient2.getPartitionPublishingProperties(
-          "0"
-        );
+        const partitionPublishingProps2 = await (
+          producerClient2 as any
+        ).getPartitionPublishingProperties("0");
 
         should.equal(
           partitionPublishingProps2.producerGroupId,
@@ -306,17 +279,18 @@ describe("EventHubProducerClient", function() {
         return Promise.all([producerClient1.close(), producerClient2.close()]);
       });
 
-      it("can use partial state", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true,
-          partitionOptions: {
-            "0": {
-              ownerLevel: 1
-            }
-          }
-        });
+      it("can use partial state", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
+        (producerClient as any)._partitionOptions = {
+          "0": {
+            ownerLevel: 1,
+          },
+        };
 
-        const partitionPublishingProps = await producerClient.getPartitionPublishingProperties("0");
+        const partitionPublishingProps = await (
+          producerClient as any
+        ).getPartitionPublishingProperties("0");
 
         should.exist(partitionPublishingProps.producerGroupId, "ProducerGroupId should exist.");
         should.equal(
@@ -330,28 +304,26 @@ describe("EventHubProducerClient", function() {
         );
       });
 
-      it("can use ownerLevel to kick off other producers", async function() {
-        const producerClient1 = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+      it("can use ownerLevel to kick off other producers", async function () {
+        const producerClient1 = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         // Send an item so we have some state to carry over to the next producerClient
         await producerClient1.sendBatch([{ body: "one" }], { partitionId: "0" });
-        const partitionPublishingProps1 = await producerClient1.getPartitionPublishingProperties(
-          "0"
-        );
+        const partitionPublishingProps1 = await (
+          producerClient1 as any
+        ).getPartitionPublishingProperties("0");
 
         // Create the 2nd producer
-        const producerClient2 = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true,
-          partitionOptions: {
-            "0": {
-              ownerLevel: partitionPublishingProps1.ownerLevel! + 1,
-              producerGroupId: partitionPublishingProps1.producerGroupId,
-              startingSequenceNumber: partitionPublishingProps1.lastPublishedSequenceNumber
-            }
-          }
-        });
+        const producerClient2 = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
+        (producerClient as any)._partitionOptions = {
+          "0": {
+            ownerLevel: partitionPublishingProps1.ownerLevel! + 1,
+            producerGroupId: partitionPublishingProps1.producerGroupId,
+            startingSequenceNumber: partitionPublishingProps1.lastPublishedSequenceNumber,
+          },
+        };
 
         // Send an event!
         await producerClient2.sendBatch([{ body: "two" }], { partitionId: "0" });
@@ -368,15 +340,14 @@ describe("EventHubProducerClient", function() {
         return Promise.all([producerClient1.close(), producerClient2.close()]);
       });
 
-      it("fails with invalid state", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true,
-          partitionOptions: {
-            "0": {
-              ownerLevel: -1
-            }
-          }
-        });
+      it("fails with invalid state", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
+        (producerClient as any)._partitionOptions = {
+          "0": {
+            ownerLevel: -1,
+          },
+        };
 
         // Trigger an error by calling sendBatch.
         try {
@@ -389,34 +360,32 @@ describe("EventHubProducerClient", function() {
         }
       });
 
-      it("fails with invalid sequence number", async function() {
-        const producerClient1 = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+      it("fails with invalid sequence number", async function () {
+        const producerClient1 = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         // Send an item so we have some state to carry over to the next producerClient
         await producerClient1.sendBatch(
           [{ body: "one" }, { body: "two" }, { body: "three" }, { body: "four" }, { body: "five" }],
           {
-            partitionId: "0"
+            partitionId: "0",
           }
         );
-        const partitionPublishingProps1 = await producerClient1.getPartitionPublishingProperties(
-          "0"
-        );
+        const partitionPublishingProps1 = await (
+          producerClient1 as any
+        ).getPartitionPublishingProperties("0");
 
         should.equal(partitionPublishingProps1.lastPublishedSequenceNumber, 5);
 
         // Create the 2nd producer
-        const producerClient2 = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true,
-          partitionOptions: {
-            "0": {
-              producerGroupId: partitionPublishingProps1.producerGroupId,
-              startingSequenceNumber: partitionPublishingProps1.lastPublishedSequenceNumber! - 4
-            }
-          }
-        });
+        const producerClient2 = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
+        (producerClient as any)._partitionOptions = {
+          "0": {
+            producerGroupId: partitionPublishingProps1.producerGroupId,
+            startingSequenceNumber: partitionPublishingProps1.lastPublishedSequenceNumber! - 4,
+          },
+        };
 
         // Send an event! This should end up using an invalid sequence number.
         try {
@@ -433,16 +402,18 @@ describe("EventHubProducerClient", function() {
       });
     });
 
-    it("recovers from disconnects", async function() {
+    it("recovers from disconnects", async function () {
       producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-        enableIdempotentPartitions: true,
         retryOptions: {
           timeoutInMs: 5000,
-          retryDelayInMs: 100
-        }
+          retryDelayInMs: 100,
+        },
       });
+      (producerClient as any)._enableIdempotentPartitions = true;
 
-      const beforePublishingProps = await producerClient.getPartitionPublishingProperties("0");
+      const beforePublishingProps = await (producerClient as any).getPartitionPublishingProperties(
+        "0"
+      );
       const clientConnectionContext = producerClient["_context"];
       const originalConnectionId = clientConnectionContext.connectionId;
 
@@ -457,7 +428,9 @@ describe("EventHubProducerClient", function() {
       const newConnectionId = clientConnectionContext.connectionId;
       should.not.equal(originalConnectionId, newConnectionId);
 
-      const afterPublishingProps = await producerClient.getPartitionPublishingProperties("0");
+      const afterPublishingProps = await (producerClient as any).getPartitionPublishingProperties(
+        "0"
+      );
 
       should.equal(
         afterPublishingProps.ownerLevel,
@@ -476,11 +449,10 @@ describe("EventHubProducerClient", function() {
       );
     });
 
-    describe("sendBatch", function() {
-      it("commits published sequence number on sent EventDataBatch", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+    describe("sendBatch", function () {
+      it("commits published sequence number on sent EventDataBatch", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         const batch = await producerClient.createBatch({ partitionId: "0" });
         batch.tryAdd({ body: 1 });
@@ -490,7 +462,7 @@ describe("EventHubProducerClient", function() {
           "startingPublishedSequenceNumber should not exist before batch is successfully sent."
         );
 
-        const publishingProps = await producerClient.getPartitionPublishingProperties("0");
+        const publishingProps = await (producerClient as any).getPartitionPublishingProperties("0");
 
         await producerClient.sendBatch(batch);
         should.equal(
@@ -500,19 +472,18 @@ describe("EventHubProducerClient", function() {
         );
       });
 
-      it("does not commit published sequence number on failed EventDataBatch send", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+      it("does not commit published sequence number on failed EventDataBatch send", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         const batch = await producerClient.createBatch({
-          partitionId: "0"
+          partitionId: "0",
         });
         batch.tryAdd({
-          body: 1
+          body: 1,
         });
         batch.tryAdd({
-          body: 2
+          body: 2,
         });
         should.not.exist(
           batch.startingPublishedSequenceNumber,
@@ -537,10 +508,9 @@ describe("EventHubProducerClient", function() {
         }
       });
 
-      it("commits published sequence number on sent EventData", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+      it("commits published sequence number on sent EventData", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         const events: EventData[] = [{ body: 1 }, { body: 2 }];
         for (const event of events) {
@@ -550,7 +520,7 @@ describe("EventHubProducerClient", function() {
           );
         }
 
-        const publishingProps = await producerClient.getPartitionPublishingProperties("0");
+        const publishingProps = await (producerClient as any).getPartitionPublishingProperties("0");
 
         await producerClient.sendBatch(events, { partitionId: "0" });
 
@@ -568,18 +538,17 @@ describe("EventHubProducerClient", function() {
         }
       });
 
-      it("does not commit published sequence number on failed EventData send", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+      it("does not commit published sequence number on failed EventData send", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         const events: EventData[] = [
           {
-            body: 1
+            body: 1,
           },
           {
-            body: 2
-          }
+            body: 2,
+          },
         ];
         for (const event of events) {
           should.not.exist(
@@ -597,7 +566,7 @@ describe("EventHubProducerClient", function() {
         try {
           await producerClient.sendBatch(events, {
             partitionId: "0",
-            abortSignal: abortController.signal
+            abortSignal: abortController.signal,
           });
           throw new Error(TEST_FAILURE);
         } catch (err) {
@@ -615,10 +584,9 @@ describe("EventHubProducerClient", function() {
         await delay(1000);
       });
 
-      it("does not allow sending already published EventData", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+      it("does not allow sending already published EventData", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         const events: EventData[] = [{ body: 1 }, { body: 2 }];
         // Send the events. Afterwards they should be considered 'published.'
@@ -635,10 +603,9 @@ describe("EventHubProducerClient", function() {
         }
       });
 
-      it("does not allow sending already published EventDataBatch", async function() {
-        producerClient = new EventHubProducerClient(service.connectionString, service.path, {
-          enableIdempotentPartitions: true
-        });
+      it("does not allow sending already published EventDataBatch", async function () {
+        producerClient = new EventHubProducerClient(service.connectionString, service.path);
+        (producerClient as any)._enableIdempotentPartitions = true;
 
         const batch = await producerClient.createBatch({ partitionId: "0" });
         batch.tryAdd({ body: 1 });
