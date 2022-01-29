@@ -1,0 +1,93 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test?api-version=2021-10",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "160",
+        "Content-Type": "application/json; serialization=Avro",
+        "User-Agent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "a7ac5f86-4d7d-48c2-959d-42b0510335b9"
+      },
+      "RequestBody": {
+        "type": "record",
+        "name": "User",
+        "namespace": "com.azure.schemaregistry.samples",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "favoriteNumber",
+            "type": "int"
+          }
+        ]
+      },
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Wed, 05 Jan 2022 18:00:58 GMT",
+        "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2021-10",
+        "Schema-Group-Name": "group-1",
+        "Schema-Id": "e086b25cd8344fad9fc9e1dc3d8363f9",
+        "Schema-Id-Location": "https://endpoint:443/$schemagroups/$schemas/e086b25cd8344fad9fc9e1dc3d8363f9?api-version=2021-10",
+        "Schema-Name": "azsdk_js_test",
+        "Schema-Version": "1",
+        "Schema-Versions-Location": "https://endpoint:443/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2021-10",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/$schemaGroups/group-1/schemas/azsdk_js_test:get-id?api-version=2021-10",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "160",
+        "Content-Type": "application/json; serialization=Avro",
+        "User-Agent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "835a70be-c937-4786-b461-accb22553654"
+      },
+      "RequestBody": {
+        "type": "record",
+        "name": "User",
+        "namespace": "com.azure.schemaregistry.samples",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "favoriteNumber",
+            "type": "int"
+          }
+        ]
+      },
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Wed, 05 Jan 2022 18:00:59 GMT",
+        "Location": "https://endpoint/$schemagroups/group-1/schemas/azsdk_js_test/versions/1?api-version=2021-10",
+        "Schema-Group-Name": "group-1",
+        "Schema-Id": "e086b25cd8344fad9fc9e1dc3d8363f9",
+        "Schema-Id-Location": "https://endpoint:443/$schemagroups/$schemas/e086b25cd8344fad9fc9e1dc3d8363f9?api-version=2021-10",
+        "Schema-Name": "azsdk_js_test",
+        "Schema-Version": "1",
+        "Schema-Versions-Location": "https://endpoint:443/$schemagroups/group-1/schemas/azsdk_js_test/versions?api-version=2021-10",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

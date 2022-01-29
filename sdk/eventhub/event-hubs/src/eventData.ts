@@ -150,7 +150,7 @@ const messagePropertiesMap = {
   creation_time: "creationTime",
   group_id: "groupId",
   group_sequence: "groupSequence",
-  reply_to_group_id: "replyToGroupId"
+  reply_to_group_id: "replyToGroupId",
 } as const;
 
 /**
@@ -171,7 +171,7 @@ export function fromRheaMessage(
     body,
     getRawAmqpMessage() {
       return rawMessage;
-    }
+    },
   };
 
   if (msg.message_annotations) {
@@ -253,7 +253,7 @@ export function toRheaMessage(
   if (isAmqpAnnotatedMessage(data)) {
     rheaMessage = {
       ...AmqpAnnotatedMessage.toRheaMessage(data),
-      body: defaultDataTransformer.encode(data.body, data.bodyType ?? "data")
+      body: defaultDataTransformer.encode(data.body, data.bodyType ?? "data"),
     };
   } else {
     let bodyType: BodyTypes = "data";
@@ -266,7 +266,7 @@ export function toRheaMessage(
     }
 
     rheaMessage = {
-      body: defaultDataTransformer.encode(data.body, bodyType)
+      body: defaultDataTransformer.encode(data.body, bodyType),
     };
     // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
     // it is equivalent to a message-annotations section containing anempty map of annotations.
@@ -457,7 +457,7 @@ function convertDatesToNumbers<T = unknown>(thing: T): T {
     [0, 'foo', new Date(), { nested: new Date()}]
   */
   if (Array.isArray(thing)) {
-    return (thing.map(convertDatesToNumbers) as unknown) as T;
+    return thing.map(convertDatesToNumbers) as unknown as T;
   }
 
   /*

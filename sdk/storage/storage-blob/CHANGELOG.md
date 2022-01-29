@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `BlobServiceClient`, `BlobClient`, `AppendBlobClient`, `BlockBlobClient`, `PageBlobClient` or `ContainerClient` with connection string.
+
 ### Other Changes
 
 ## 12.9.0-beta.2 (2021-12-03)
@@ -266,20 +268,20 @@
     Before this change the option is specified as
     ```js
     blobServiceClient.listContainers({
-      include: "metadata"
+      include: "metadata",
     });
     ```
     After this change:
     ```js
     blobServiceClient.listContainers({
-      includeMetadata: true
+      includeMetadata: true,
     });
     ```
   - For listing blobs
     Before this change the option is specified as
     ```js
     containerClient.listBlobsFlat({
-      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"]
+      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
     });
     ```
     After this change:
@@ -289,7 +291,7 @@
       includeDeleted: true,
       includeMetadata: true,
       includeSnapshots: true,
-      includeUncommitedBlobs: true
+      includeUncommitedBlobs: true,
     });
     ```
 - [Breaking] `BlobClient.setTier()` is renamed to `BlobClient.setAccessTier()`.
@@ -414,7 +416,7 @@
   - Connection string method is supported only in Node.js (not browsers).
 - Creation/Deletion of child resources are duplicated to parent client type.
 - HTTP proxy support is added (Node.js only).
-  - Please refer to the `proxyAuth.ts` sample in the `samples/typescript` folder.
+  - Please refer to the `proxyAuth.ts` sample in the `samples/v12/typescript` folder.
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 - `downloadToFile()` is added to `BlobClient`.
 - Exported `HttpRequestBody` type to allow implementation of a customized HTTP client.

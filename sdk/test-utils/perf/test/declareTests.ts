@@ -29,12 +29,12 @@ const tests: TestDefinition[] = [
   NodeFetchTest,
   {
     testClass: OptionsTest,
-    options: "--req some-string"
+    options: "--req some-string",
   },
   {
     testClass: PerfPolicyTest,
-    options: "--url http://bing.com/"
-  }
+    options: "--url http://bing.com/",
+  },
 ];
 
 // Normalize everything in the array above for export.

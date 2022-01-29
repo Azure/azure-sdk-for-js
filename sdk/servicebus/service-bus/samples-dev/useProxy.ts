@@ -37,8 +37,8 @@ export async function main() {
       // No need to pass the `WebSocket` from "ws" package if you're in the browser
       // in which case the `window.WebSocket` is used by the library.
       webSocket: WebSocket,
-      webSocketConstructorOptions: { agent: proxyAgent }
-    }
+      webSocketConstructorOptions: { agent: proxyAgent },
+    },
   });
 
   const sender = sbClient.createSender(queueName);
@@ -46,7 +46,7 @@ export async function main() {
   console.log(`Sending message using proxy server ${proxyInfo}`);
 
   await sender.sendMessages({
-    body: "sample message"
+    body: "sample message",
   });
 
   await sbClient.close();

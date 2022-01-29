@@ -19,7 +19,7 @@ function globAsync(pattern: string): Promise<string[]> {
 
 // Since `npm run build:samples` now update the typescript samples to make them debuggable,
 // we now have the below tests to ensure such updates dont get checked in.
-describe("Ensure typescript samples use published package", function(): void {
+describe("Ensure typescript samples use published package", function (): void {
   function testSamples(files: string[], regex: RegExp): void {
     console.log("I have", files.length, "files");
     const failingFiles = files.filter((file) => {

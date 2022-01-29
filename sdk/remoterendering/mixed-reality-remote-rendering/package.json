@@ -1,6 +1,6 @@
 {
   "name": "@azure/mixed-reality-remote-rendering",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Example project for learning how to build a client library",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -18,15 +18,19 @@
       {
         "path": "src/generated/generatedClientContext.ts",
         "prefix": "packageDetails"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
       }
     ]
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
-    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:test": "tsc -p . && rollup -c 2>&1",
-    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "build:browser": "tsc -p . && dev-tool run bundle",
+    "build:node": "tsc -p . && dev-tool run bundle",
+    "build:test": "tsc -p . && dev-tool run bundle",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* test-dist temp types *.tgz *.log",
     "build:samples": "echo Obsolete.",
@@ -78,7 +82,7 @@
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
-    "@azure/mixed-reality-authentication": "1.0.0-beta.1",
+    "@azure/mixed-reality-authentication": "1.0.0-beta.2",
     "@azure/core-lro": "^2.2.0",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-paging": "^1.1.1",
@@ -115,9 +119,8 @@
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^2.0.0",
     "nyc": "^15.0.0",
-    "prettier": "^1.16.4",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "rollup": "^1.16.3",
     "typescript": "~4.2.0",
     "util": "^0.12.1",
     "@types/uuid": "^8.0.0",

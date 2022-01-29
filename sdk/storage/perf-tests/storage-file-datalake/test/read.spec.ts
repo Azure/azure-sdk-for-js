@@ -16,8 +16,8 @@ export class StorageDFSReadTest extends StorageDFSTest<StorageDFSReadTestOptions
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 1024
-    }
+      defaultValue: 1024,
+    },
   };
   static fileName = generateUuid();
   fileClient: DataLakeFileClient;

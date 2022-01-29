@@ -22,7 +22,7 @@ const perfProgram = new PerfProgram(
     StorageBlobDownloadWithSASTest,
     CoreHTTPDownloadWithSASTest,
     CoreHTTPSDownloadWithSASTest,
-    NodeFetchDownloadWithSASTest
+    NodeFetchDownloadWithSASTest,
   ])
 );
 

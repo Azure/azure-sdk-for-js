@@ -8,6 +8,7 @@
 
 export * from "./kqlScripts";
 export * from "./kqlScriptOperations";
+export * from "./metastore";
 export * from "./sparkConfigurationOperations";
 export * from "./bigDataPools";
 export * from "./dataFlowOperations";

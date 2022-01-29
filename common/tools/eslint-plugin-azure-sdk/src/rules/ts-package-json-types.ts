@@ -6,9 +6,9 @@
  * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
-import { Property } from "estree";
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { Property } from "estree";
+import { Rule } from "eslint";
 import { stripFileName } from "../utils/verifiers";
 
 //------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ export = {
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
       outer: "types",
-      expected: false
+      expected: false,
     });
     const fileName = context.getFilename();
     return stripPath(fileName) === "package.json"
@@ -40,7 +40,7 @@ export = {
             if (value.type !== "Literal" || typeof value.value !== "string") {
               context.report({
                 node: node.value,
-                message: "types is not set to a string"
+                message: "types is not set to a string",
               });
               return;
             }
@@ -53,16 +53,16 @@ export = {
             if (!/\.d\.ts$/.test(baseName as string)) {
               context.report({
                 node: value,
-                message: "provided types path is not a TypeScript declaration file"
+                message: "provided types path is not a TypeScript declaration file",
               });
             } else if (typesOutputName !== packageDirectory) {
               context.report({
                 node: value,
-                message: `provided types file should be named '${packageDirectory}.d.ts' after the package directory`
+                message: `provided types file should be named '${packageDirectory}.d.ts' after the package directory`,
               });
             }
-          }
+          },
         } as Rule.RuleListener)
       : {};
-  }
+  },
 };

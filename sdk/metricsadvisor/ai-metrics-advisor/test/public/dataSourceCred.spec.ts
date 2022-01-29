@@ -16,6 +16,7 @@ import {
 } from "../../src";
 import { createRecordedAdminClient, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
+import { getYieldedValue } from "@azure/test-utils";
 
 describe("DataSourceCredential", () => {
   let client: MetricsAdvisorAdministrationClient;
@@ -240,11 +241,11 @@ describe("DataSourceCredential", () => {
 
     it("lists dataSource credentials one by one and by pages", async function () {
       const iterator = client.listDataSourceCredential();
-      let result = await iterator.next();
+      let result = getYieldedValue(await iterator.next());
 
-      assert.ok(result.value.id, "Expecting first dataSource credential");
-      result = await iterator.next();
-      assert.ok(result.value.id, "Expecting second dataSource credential");
+      assert.ok(result.id, "Expecting first dataSource credential");
+      result = getYieldedValue(await iterator.next());
+      assert.ok(result.id, "Expecting second dataSource credential");
 
       const pageIterator = client.listDataSourceCredential().byPage({ maxPageSize: 2 });
       let pageResult = await pageIterator.next();

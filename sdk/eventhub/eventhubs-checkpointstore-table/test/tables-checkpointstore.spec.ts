@@ -23,7 +23,7 @@ describe("TableCheckpointStore", () => {
 
 const service = {
   storageAccountName: env[EnvVarKeys.STORAGE_ACCOUNT_NAME],
-  storageAccountKey: env[EnvVarKeys.STORAGE_ACCOUNT_KEY]
+  storageAccountKey: env[EnvVarKeys.STORAGE_ACCOUNT_KEY],
 };
 
 const credential = new AzureNamedKeyCredential(
@@ -35,7 +35,7 @@ const serviceClient = new TableServiceClient(
   credential
 );
 
-describe("TableCheckpointStore", function(): void {
+describe("TableCheckpointStore", function (): void {
   let client: TableClient;
   let tableName: string;
   beforeEach("creating table", async () => {
@@ -51,9 +51,9 @@ describe("TableCheckpointStore", function(): void {
     await serviceClient.deleteTable(tableName);
   });
 
-  describe("Runs tests on table with no entities", function() {
-    describe("listOwnership", function() {
-      it("listOwnership should return an empty array", async function(): Promise<void> {
+  describe("Runs tests on table with no entities", function () {
+    describe("listOwnership", function () {
+      it("listOwnership should return an empty array", async function (): Promise<void> {
         const checkpointStore = new TableCheckpointStore(client);
         const listOwnership = await checkpointStore.listOwnership(
           "test.servicebus.windows.net",
@@ -64,8 +64,8 @@ describe("TableCheckpointStore", function(): void {
       });
     });
 
-    describe("listCheckpoints", function() {
-      it("listCheckpoint should return an empty array", async function(): Promise<void> {
+    describe("listCheckpoints", function () {
+      it("listCheckpoint should return an empty array", async function (): Promise<void> {
         const checkpointStore = new TableCheckpointStore(client);
         const checkpoints = await checkpointStore.listCheckpoints(
           "test.servicebus.windows.net",
@@ -75,13 +75,13 @@ describe("TableCheckpointStore", function(): void {
         should.equal(checkpoints.length, 0);
       });
     });
-    describe("updateCheckpoint", function() {
+    describe("updateCheckpoint", function () {
       it("creates a checkpoint where one doesn't already exist", async () => {
         const checkpointStore = new TableCheckpointStore(client);
         const eventHubProperties = {
           fullyQualifiedNamespace: "pink.servicebus.windows.net",
           eventHubName: "pinkHub",
-          consumerGroup: "testConsumerGroup"
+          consumerGroup: "testConsumerGroup",
         };
         // Ensure that there aren't any checkpoints.
         let checkpoints = await checkpointStore.listCheckpoints(
@@ -97,7 +97,7 @@ describe("TableCheckpointStore", function(): void {
           fullyQualifiedNamespace: eventHubProperties.fullyQualifiedNamespace,
           offset: 0,
           partitionId: "0",
-          sequenceNumber: 1
+          sequenceNumber: 1,
         };
 
         await checkpointStore.updateCheckpoint(checkpoint);
@@ -116,7 +116,7 @@ describe("TableCheckpointStore", function(): void {
         const eventHubProperties = {
           fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
           eventHubName: "testEventHub",
-          consumerGroup: "testConsumerGroup"
+          consumerGroup: "testConsumerGroup",
         };
 
         // now let's induce a bad failure (removing the table)
@@ -129,7 +129,7 @@ describe("TableCheckpointStore", function(): void {
           fullyQualifiedNamespace: eventHubProperties.fullyQualifiedNamespace,
           offset: 0,
           partitionId: "0",
-          sequenceNumber: 1
+          sequenceNumber: 1,
         };
 
         try {
@@ -141,10 +141,8 @@ describe("TableCheckpointStore", function(): void {
       });
     });
 
-    describe("claimOwnership", function() {
-      it("claimOwnership call should succeed, if it has been called for the first time", async function(): Promise<
-        void
-      > {
+    describe("claimOwnership", function () {
+      it("claimOwnership call should succeed, if it has been called for the first time", async function (): Promise<void> {
         const checkpointStore = new TableCheckpointStore(client);
         const listOwnership = await checkpointStore.listOwnership(
           "testNamespace.servicebus.windows.net",
@@ -158,7 +156,7 @@ describe("TableCheckpointStore", function(): void {
           partitionId: "0",
           fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
           consumerGroup: "testConsumerGroup",
-          eventHubName: "testEventHub"
+          eventHubName: "testEventHub",
         };
         const partitionOwnershipArray = await checkpointStore.claimOwnership([partitionOwnership]);
         should.equal(partitionOwnershipArray.length, 1);
@@ -206,7 +204,7 @@ describe("TableCheckpointStore", function(): void {
     });
   });
 
-  describe("Runs tests on a populated table", function() {
+  describe("Runs tests on a populated table", function () {
     const namespace = "blue.servicebus.windows.net";
     const eventHubName = "blueHub";
     const consumerGroup = "$default";
@@ -216,7 +214,7 @@ describe("TableCheckpointStore", function(): void {
         partitionKey: `${namespace} ${eventHubName} ${consumerGroup} Checkpoint`,
         rowKey: "0",
         sequencenumber: "100",
-        offset: "1023"
+        offset: "1023",
       };
       await client.createEntity(checkpoint_entity);
 
@@ -224,13 +222,13 @@ describe("TableCheckpointStore", function(): void {
       const ownership_entity: PartitionOwnershipEntity = {
         partitionKey: `${namespace} ${eventHubName} ${consumerGroup} Ownership`,
         rowKey: "0",
-        ownerid: "Id0"
+        ownerid: "Id0",
       };
       await client.createEntity(ownership_entity);
     });
 
-    describe("listOwnership", function() {
-      it("listOwnership should print an array of ownerships", async function() {
+    describe("listOwnership", function () {
+      it("listOwnership should print an array of ownerships", async function () {
         const checkpointStore = new TableCheckpointStore(client);
         const listOwnership = await checkpointStore.listOwnership(
           "blue.servicebus.windows.net",
@@ -240,8 +238,8 @@ describe("TableCheckpointStore", function(): void {
         should.equal(listOwnership.length, 1);
       });
 
-      describe("listCheckpoints", function() {
-        it("listCheckpoints should print out an array of checkpoints", async function() {
+      describe("listCheckpoints", function () {
+        it("listCheckpoints should print out an array of checkpoints", async function () {
           const checkpointStore = new TableCheckpointStore(client);
           const listCheckpoint = await checkpointStore.listCheckpoints(
             "blue.servicebus.windows.net",
@@ -252,7 +250,7 @@ describe("TableCheckpointStore", function(): void {
         });
       });
 
-      describe("claimOwnership", function() {
+      describe("claimOwnership", function () {
         // these errors happen when we have multiple consumers starting up
         // at the same time and load balancing amongst themselves. This is a
         // normal thing and shouldn't be reported to the user.
@@ -266,7 +264,7 @@ describe("TableCheckpointStore", function(): void {
           );
 
           const originalClaimedOwnerships = await checkpointStore.claimOwnership([
-            listOwnership[0]
+            listOwnership[0],
           ]);
 
           const originalETag = originalClaimedOwnerships[0].etag;
@@ -288,16 +286,14 @@ describe("TableCheckpointStore", function(): void {
               fullyQualifiedNamespace: "blue.servicebus.windows.net",
               eventHubName: "blueHub",
               ownerId: "Id0",
-              etag: originalETag
-            }
+              etag: originalETag,
+            },
           ]);
 
           shouldNotThrowButNothingWillClaim.length.should.equal(0);
         });
 
-        it("After multiple claimOwnership calls for a single partition, listOwnership should return an array with a single PartitionOwnership for that partition.", async function(): Promise<
-          void
-        > {
+        it("After multiple claimOwnership calls for a single partition, listOwnership should return an array with a single PartitionOwnership for that partition.", async function (): Promise<void> {
           const checkpointStore = new TableCheckpointStore(client);
           const listOwnership = await checkpointStore.listOwnership(
             "testNamespace.servicebus.windows.net",
@@ -313,7 +309,7 @@ describe("TableCheckpointStore", function(): void {
               partitionId: `${index}`,
               fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
               consumerGroup: "testConsumerGroup",
-              eventHubName: "testEventHub"
+              eventHubName: "testEventHub",
             };
             partitionOwnershipArray.push(partitionOwnership);
           }
@@ -362,9 +358,7 @@ describe("TableCheckpointStore", function(): void {
           );
         });
 
-        it("After multiple claimOwnership calls for multiple partition, listOwnership should return an array with a single PartitionOwnership for each partition.", async function(): Promise<
-          void
-        > {
+        it("After multiple claimOwnership calls for multiple partition, listOwnership should return an array with a single PartitionOwnership for each partition.", async function (): Promise<void> {
           const checkpointStore = new TableCheckpointStore(client);
           const listOwnership = await checkpointStore.listOwnership(
             "testNamespace.servicebus.windows.net",
@@ -381,7 +375,7 @@ describe("TableCheckpointStore", function(): void {
               partitionId: `${index}`,
               fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
               consumerGroup: "testConsumerGroup",
-              eventHubName: "testEventHub"
+              eventHubName: "testEventHub",
             };
             partitionOwnershipArray.push(partitionOwnership);
           }
@@ -449,13 +443,13 @@ describe("TableCheckpointStore", function(): void {
       });
     });
 
-    describe("updateCheckpoint", function() {
+    describe("updateCheckpoint", function () {
       it("updates checkpoints successfully", async () => {
         const checkpointStore = new TableCheckpointStore(client);
         const eventHubProperties = {
           fullyQualifiedNamespace: "testNamespace.servicebus.windows.net",
           eventHubName: "testEventHub",
-          consumerGroup: "testConsumerGroup"
+          consumerGroup: "testConsumerGroup",
         };
         let i = 0;
         while (i < 3) {
@@ -463,7 +457,7 @@ describe("TableCheckpointStore", function(): void {
             ...eventHubProperties,
             partitionId: i.toString(),
             sequenceNumber: 100 + i,
-            offset: 1023 + i
+            offset: 1023 + i,
           };
           await checkpointStore.updateCheckpoint(checkpoint);
           i++;

@@ -8442,6 +8442,13 @@ export const CosmosDbLinkedService: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "any" } }
         }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference"
+        }
       }
     }
   }
@@ -8541,6 +8548,13 @@ export const DynamicsLinkedService: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference"
         }
       }
     }
@@ -10332,6 +10346,20 @@ export const AzureBlobFSLinkedService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CredentialReference"
+        }
+      },
+      servicePrincipalCredentialType: {
+        serializedName: "typeProperties.servicePrincipalCredentialType",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      servicePrincipalCredential: {
+        serializedName: "typeProperties.servicePrincipalCredential",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
         }
       }
     }
@@ -13913,6 +13941,20 @@ export const AzureDatabricksDeltaLakeLinkedService: coreClient.CompositeMapper =
           name: "Dictionary",
           value: { type: { name: "any" } }
         }
+      },
+      credential: {
+        serializedName: "typeProperties.credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference"
+        }
+      },
+      workspaceResourceId: {
+        serializedName: "typeProperties.workspaceResourceId",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
       }
     }
   }
@@ -14118,9 +14160,15 @@ export const GoogleAdWordsLinkedService: coreClient.CompositeMapper = {
     polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      connectionProperties: {
+        serializedName: "typeProperties.connectionProperties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
       clientCustomerID: {
         serializedName: "typeProperties.clientCustomerID",
-        required: true,
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
@@ -14135,7 +14183,6 @@ export const GoogleAdWordsLinkedService: coreClient.CompositeMapper = {
       },
       authenticationType: {
         serializedName: "typeProperties.authenticationType",
-        required: true,
         type: {
           name: "String"
         }
@@ -18597,6 +18644,13 @@ export const LinkedIntegrationRuntimeRbacAuthorization: coreClient.CompositeMapp
         required: true,
         type: {
           name: "String"
+        }
+      },
+      credential: {
+        serializedName: "credential",
+        type: {
+          name: "Composite",
+          className: "CredentialReference"
         }
       }
     }
@@ -23281,6 +23335,36 @@ export const WaitActivity: coreClient.CompositeMapper = {
   }
 };
 
+export const FailActivity: coreClient.CompositeMapper = {
+  serializedName: "Fail",
+  type: {
+    name: "Composite",
+    className: "FailActivity",
+    uberParent: "Activity",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ControlActivity.type.modelProperties,
+      message: {
+        serializedName: "typeProperties.message",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      errorCode: {
+        serializedName: "typeProperties.errorCode",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
 export const UntilActivity: coreClient.CompositeMapper = {
   serializedName: "Until",
   type: {
@@ -27284,6 +27368,7 @@ export let discriminators = {
   "Activity.Switch": SwitchActivity,
   "Activity.ForEach": ForEachActivity,
   "Activity.Wait": WaitActivity,
+  "Activity.Fail": FailActivity,
   "Activity.Until": UntilActivity,
   "Activity.Validation": ValidationActivity,
   "Activity.Filter": FilterActivity,

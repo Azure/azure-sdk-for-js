@@ -37,7 +37,7 @@ export async function main() {
   const sessionId: string = uuid();
   await client.beginSession(sessionId, {
     maxLeaseTimeInMinutes: 5,
-    size: "Standard"
+    size: "Standard",
   });
   await delay(10000);
 

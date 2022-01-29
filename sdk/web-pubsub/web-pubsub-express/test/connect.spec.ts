@@ -37,16 +37,16 @@ function mockBody(req: IncomingMessage, body: string): void {
   req.emit("end");
 }
 
-describe("Can handle connect event", function() {
+describe("Can handle connect event", function () {
   let req: IncomingMessage;
   let res: ServerResponse;
 
-  beforeEach(function() {
+  beforeEach(function () {
     req = new IncomingMessage(new Socket());
     res = new ServerResponse(req);
   });
 
-  it("Should not handle the request if request is not cloud events", async function() {
+  it("Should not handle the request if request is not cloud events", async function () {
     const endSpy = sinon.spy(res.end);
 
     const dispatcher = new CloudEventsDispatcher("hub1");
@@ -55,7 +55,7 @@ describe("Can handle connect event", function() {
     assert.isTrue(endSpy.notCalled);
   });
 
-  it("Should not handle the request if hub does not match", async function() {
+  it("Should not handle the request if hub does not match", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -65,7 +65,7 @@ describe("Can handle connect event", function() {
     assert.isTrue(endSpy.notCalled);
   });
 
-  it("Should response with 200 when option is not specified", async function() {
+  it("Should response with 200 when option is not specified", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -76,7 +76,7 @@ describe("Can handle connect event", function() {
     assert.equal(200, res.statusCode, "should be 200");
   });
 
-  it("Should response with 200 when handler is not specified", async function() {
+  it("Should response with 200 when handler is not specified", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -87,14 +87,14 @@ describe("Can handle connect event", function() {
     assert.equal(200, res.statusCode, "should be 200");
   });
 
-  it("Should response with error when handler returns error", async function() {
+  it("Should response with error when handler returns error", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
       handleConnect: async (_, response) => {
         response.fail(400);
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
@@ -104,14 +104,14 @@ describe("Can handle connect event", function() {
     assert.equal(400, res.statusCode, "should be error");
   });
 
-  it("Should response with success when handler returns success", async function() {
+  it("Should response with success when handler returns success", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
       handleConnect: async (_, response) => {
         response.success();
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
@@ -121,14 +121,14 @@ describe("Can handle connect event", function() {
     assert.equal(200, res.statusCode, "should be success");
   });
 
-  it("Should response with success when handler returns success value", async function() {
+  it("Should response with success when handler returns success value", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
     const dispatcher = new CloudEventsDispatcher("hub", {
       handleConnect: async (_, response) => {
         response.success({ userId: "vic" });
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
@@ -138,7 +138,7 @@ describe("Can handle connect event", function() {
     assert.equal(200, res.statusCode, "should be success");
   });
 
-  it("Should be able to set connection state", async function() {
+  it("Should be able to set connection state", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -149,7 +149,7 @@ describe("Can handle connect event", function() {
         response.setState("key1", ["val3"]);
         response.setState("key3", "");
         response.success({ userId: "vic" });
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
@@ -160,19 +160,19 @@ describe("Can handle connect event", function() {
       toBase64JsonString({
         key1: ["val3"],
         key2: "val2",
-        key3: ""
+        key3: "",
       }),
       res.getHeader("ce-connectionState"),
       "should contain multiple state headers"
     );
   });
 
-  it("Should be able to get the connection states if it exists in the header", async function() {
+  it("Should be able to get the connection states if it exists in the header", async function () {
     const endSpy = sinon.spy(res, "end");
     const states = toBase64JsonString({
       key1: ["val3"],
       key2: "val2",
-      key3: ""
+      key3: "",
     });
     buildRequest(req, "hub1", "conn1", undefined, states);
     const dispatcher = new CloudEventsDispatcher("hub1", {
@@ -181,7 +181,7 @@ describe("Can handle connect event", function() {
         assert.equal("val2", request.context.states["key2"]);
         assert.equal("", request.context.states["key3"]);
         response.success();
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));
@@ -191,14 +191,14 @@ describe("Can handle connect event", function() {
     assert.equal(200, res.statusCode, "should be success");
   });
 
-  it("Invalid state header gets ignored", async function() {
+  it("Invalid state header gets ignored", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub1", "conn1", undefined, "");
     const dispatcher = new CloudEventsDispatcher("hub1", {
       handleConnect: (request, response) => {
         assert.deepEqual({}, request.context.states);
         response.success();
-      }
+      },
     });
     const process = dispatcher.handleRequest(req, res);
     mockBody(req, JSON.stringify({}));

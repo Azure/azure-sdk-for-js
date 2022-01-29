@@ -12,24 +12,18 @@ import { resetTracer, setTracer } from "@azure/test-utils";
 
 import { AzureKeyCredential, EventGridPublisherClient } from "../../src";
 
-import { FullOperationResponse } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { setSpan, context } from "@azure/core-tracing";
 
-describe("EventGridPublisherClient", function(this: Suite) {
+describe("EventGridPublisherClient", function (this: Suite) {
   let recorder: Recorder;
-  let res: FullOperationResponse | undefined;
 
   this.timeout(10000);
 
-  beforeEach(function() {
-    res = undefined;
-  });
-
-  describe("#send (EventGrid schema)", function() {
+  describe("#send (EventGrid schema)", function () {
     let client: EventGridPublisherClient<"EventGrid">;
 
-    beforeEach(function(this: Context) {
+    beforeEach(function (this: Context) {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT,
@@ -38,11 +32,13 @@ describe("EventGridPublisherClient", function(this: Suite) {
       ));
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await recorder.stop();
     });
 
     it("sends a single event", async () => {
+      let status: number | undefined;
+
       await client.send(
         [
           {
@@ -52,17 +48,19 @@ describe("EventGridPublisherClient", function(this: Suite) {
             subject: "Single 1",
             dataVersion: "1.0",
             data: {
-              hello: "world"
-            }
-          }
+              hello: "world",
+            },
+          },
         ],
-        { onResponse: (response) => (res = response) }
+        { onResponse: (response) => (status = response.status) }
       );
 
-      assert.equal(res?.status, 200);
+      assert.strictEqual(status, 200);
     });
 
     it("sends multiple events", async () => {
+      let status: number | undefined;
+
       await client.send(
         [
           {
@@ -72,8 +70,8 @@ describe("EventGridPublisherClient", function(this: Suite) {
             subject: "Multiple 1",
             dataVersion: "1.0",
             data: {
-              hello: "world"
-            }
+              hello: "world",
+            },
           },
           {
             eventTime: recorder.newDate("multiEventDate2"),
@@ -82,21 +80,21 @@ describe("EventGridPublisherClient", function(this: Suite) {
             subject: "Multiple 2",
             dataVersion: "1.0",
             data: {
-              hello: "world"
-            }
-          }
+              hello: "world",
+            },
+          },
         ],
-        { onResponse: (response) => (res = response) }
+        { onResponse: (response) => (status = response.status) }
       );
 
-      assert.equal(res?.status, 200);
+      assert.strictEqual(status, 200);
     });
   });
 
-  describe("#send error cases (EventGrid schema)", function() {
+  describe("#send error cases (EventGrid schema)", function () {
     let client: EventGridPublisherClient<"EventGrid">;
 
-    beforeEach(function(this: Context) {
+    beforeEach(function (this: Context) {
       ({ client, recorder } = createRecordedClient(
         this,
         removeApiEventsSuffix(testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT),
@@ -105,7 +103,7 @@ describe("EventGridPublisherClient", function(this: Suite) {
       ));
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await recorder.stop();
     });
 
@@ -121,9 +119,9 @@ describe("EventGridPublisherClient", function(this: Suite) {
             subject: "Single 1",
             dataVersion: "1.0",
             data: {
-              hello: "world"
-            }
-          }
+              hello: "world",
+            },
+          },
         ]);
 
         rejected = false;
@@ -135,10 +133,10 @@ describe("EventGridPublisherClient", function(this: Suite) {
     });
   });
 
-  describe("#send (CloudEvent schema)", function() {
+  describe("#send (CloudEvent schema)", function () {
     let client: EventGridPublisherClient<"CloudEvent">;
 
-    beforeEach(function(this: Context) {
+    beforeEach(function (this: Context) {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT,
@@ -147,11 +145,13 @@ describe("EventGridPublisherClient", function(this: Suite) {
       ));
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await recorder.stop();
     });
 
     it("sends a single event", async () => {
+      let status: number | undefined;
+
       await client.send(
         [
           {
@@ -160,17 +160,19 @@ describe("EventGridPublisherClient", function(this: Suite) {
             time: recorder.newDate("cloudSingleEventDate"),
             source: "/earth/unitedstates/washington/kirkland/finnhill",
             data: {
-              hello: "world"
-            }
-          }
+              hello: "world",
+            },
+          },
         ],
-        { onResponse: (response) => (res = response) }
+        { onResponse: (response) => (status = response.status) }
       );
 
-      assert.equal(res?.status, 200);
+      assert.strictEqual(status, 200);
     });
 
     it("sends multiple events", async () => {
+      let status: number | undefined;
+
       await client.send(
         [
           {
@@ -180,8 +182,8 @@ describe("EventGridPublisherClient", function(this: Suite) {
             source: "/earth/unitedstates/washington/kirkland/finnhill",
             subject: "Multiple 1",
             data: {
-              hello: "world"
-            }
+              hello: "world",
+            },
           },
           {
             type: "Azure.Sdk.TestEvent1",
@@ -190,17 +192,19 @@ describe("EventGridPublisherClient", function(this: Suite) {
             source: "/earth/unitedstates/washington/kirkland/finnhill",
             subject: "Multiple 2",
             data: {
-              hello: "world"
-            }
-          }
+              hello: "world",
+            },
+          },
         ],
-        { onResponse: (response) => (res = response) }
+        { onResponse: (response) => (status = response.status) }
       );
 
-      assert.equal(res?.status, 200);
+      assert.strictEqual(status, 200);
     });
 
     it("enriches events with distributed tracing information", async () => {
+      let requestBody: string | undefined;
+
       const tracer = setTracer();
       const rootSpan = tracer.startSpan("root");
       await client.send(
@@ -212,21 +216,21 @@ describe("EventGridPublisherClient", function(this: Suite) {
             source: "/earth/unitedstates/washington/kirkland/finnhill",
             subject: "Single with Trace Parent",
             data: {
-              hello: "world"
-            }
-          }
+              hello: "world",
+            },
+          },
         ],
         {
           tracingOptions: {
-            tracingContext: setSpan(context.active(), rootSpan)
+            tracingContext: setSpan(context.active(), rootSpan),
           },
-          onResponse: (response) => (res = response)
+          onResponse: (response) => (requestBody = response.request.body as string),
         }
       );
 
       rootSpan.end();
 
-      const parsedBody = JSON.parse(res?.request.body as string);
+      const parsedBody = JSON.parse(requestBody || "");
 
       assert.isArray(parsedBody);
       assert.equal(
@@ -239,16 +243,15 @@ describe("EventGridPublisherClient", function(this: Suite) {
       assert.equal(spans.length, 3);
       assert.equal(spans[0].name, "root");
       assert.equal(spans[1].name, "Azure.Data.EventGrid.EventGridPublisherClient-send");
-      assert.equal(spans[2].name, "/api/events");
 
       resetTracer();
     });
   });
 
-  describe("#send error cases (CloudEvent schema)", function() {
+  describe("#send error cases (CloudEvent schema)", function () {
     let client: EventGridPublisherClient<"CloudEvent">;
 
-    beforeEach(function(this: Context) {
+    beforeEach(function (this: Context) {
       ({ client, recorder } = createRecordedClient(
         this,
         removeApiEventsSuffix(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT),
@@ -257,7 +260,7 @@ describe("EventGridPublisherClient", function(this: Suite) {
       ));
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await recorder.stop();
     });
 
@@ -272,9 +275,9 @@ describe("EventGridPublisherClient", function(this: Suite) {
             time: recorder.newDate("cloudSingleEventDate"),
             source: "/earth/unitedstates/washington/kirkland/finnhill",
             data: {
-              hello: "world"
-            }
-          }
+              hello: "world",
+            },
+          },
         ]);
         rejected = false;
       } catch (error) {
@@ -285,10 +288,10 @@ describe("EventGridPublisherClient", function(this: Suite) {
     });
   });
 
-  describe("#send (Custom Event Schema)", function() {
+  describe("#send (Custom Event Schema)", function () {
     let client: EventGridPublisherClient<"Custom">;
 
-    beforeEach(function(this: Context) {
+    beforeEach(function (this: Context) {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT,
@@ -297,11 +300,13 @@ describe("EventGridPublisherClient", function(this: Suite) {
       ));
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await recorder.stop();
     });
 
     it("sends a single event", async () => {
+      let status: number | undefined;
+
       await client.send(
         [
           {
@@ -309,17 +314,19 @@ describe("EventGridPublisherClient", function(this: Suite) {
             typ: "Azure.Sdk.TestEvent1",
             sub: "Single",
             payload: {
-              hello: "world"
-            }
-          }
+              hello: "world",
+            },
+          },
         ],
-        { onResponse: (response) => (res = response) }
+        { onResponse: (response) => (status = response.status) }
       );
 
-      assert.equal(res?.status, 200);
+      assert.strictEqual(status, 200);
     });
 
     it("sends multiple events", async () => {
+      let status: number | undefined;
+
       await client.send(
         [
           {
@@ -327,29 +334,29 @@ describe("EventGridPublisherClient", function(this: Suite) {
             typ: "Azure.Sdk.TestEvent1",
             sub: "Multiple 1",
             payload: {
-              hello: "world"
-            }
+              hello: "world",
+            },
           },
           {
             ver: "1.0",
             typ: "Azure.Sdk.TestEvent1",
             sub: "Multiple 2",
             payload: {
-              hello: "world"
-            }
-          }
+              hello: "world",
+            },
+          },
         ],
-        { onResponse: (response) => (res = response) }
+        { onResponse: (response) => (status = response.status) }
       );
 
-      assert.equal(res?.status, 200);
+      assert.strictEqual(status, 200);
     });
   });
 
-  describe("#send error cases (Custom Event Schema)", function() {
+  describe("#send error cases (Custom Event Schema)", function () {
     let client: EventGridPublisherClient<"Custom">;
 
-    beforeEach(function(this: Context) {
+    beforeEach(function (this: Context) {
       ({ client, recorder } = createRecordedClient(
         this,
         removeApiEventsSuffix(testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT),
@@ -358,7 +365,7 @@ describe("EventGridPublisherClient", function(this: Suite) {
       ));
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await recorder.stop();
     });
 
@@ -372,9 +379,9 @@ describe("EventGridPublisherClient", function(this: Suite) {
             typ: "Azure.Sdk.TestEvent1",
             sub: "Single",
             payload: {
-              hello: "world"
-            }
-          }
+              hello: "world",
+            },
+          },
         ]);
 
         rejected = false;

@@ -67,7 +67,7 @@ export class Shard {
             undefined,
             {
               abortSignal: options.abortSignal,
-              tracingOptions: updatedOptions.tracingOptions
+              tracingOptions: updatedOptions.tracingOptions,
             }
           );
         }
@@ -76,7 +76,7 @@ export class Shard {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -90,7 +90,7 @@ export class Shard {
       : {
           CurrentChunkPath: this.currentChunk.chunkPath,
           BlockOffset: this.currentChunk.blockOffset,
-          EventIndex: this.currentChunk.eventIndex
+          EventIndex: this.currentChunk.eventIndex,
         };
   }
 }

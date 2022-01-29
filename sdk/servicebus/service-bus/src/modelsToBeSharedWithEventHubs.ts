@@ -43,7 +43,7 @@ export async function trace<T>(fn: () => Promise<T>, span: Span): Promise<T> {
   } catch (err) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: err.message
+      message: err.message,
     });
     throw err;
   } finally {

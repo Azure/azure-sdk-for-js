@@ -7,14 +7,14 @@ import {
   GetStatisticsResponse,
   ServiceProperties,
   SetPropertiesOptions,
-  SetPropertiesResponse
+  SetPropertiesResponse,
 } from "./generatedModels";
 import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
 import {
   ListTableItemsOptions,
   TableItem,
   TableQueryOptions,
-  TableServiceClientOptions
+  TableServiceClientOptions,
 } from "./models";
 import {
   NamedKeyCredential,
@@ -22,7 +22,7 @@ import {
   TokenCredential,
   isNamedKeyCredential,
   isSASCredential,
-  isTokenCredential
+  isTokenCredential,
 } from "@azure/core-auth";
 import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { Service, Table } from "./generated";
@@ -161,16 +161,16 @@ export class TableServiceClient {
       ...{
         loggingOptions: {
           logger: logger.info,
-          additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+          additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames],
         },
         deserializationOptions: {
-          parseXML
+          parseXML,
         },
         serializationOptions: {
-          stringifyXML
-        }
+          stringifyXML,
+        },
       },
-      ...(isTokenCredential(credential) && { credential, credentialScopes: STORAGE_SCOPE })
+      ...(isTokenCredential(credential) && { credential, credentialScopes: STORAGE_SCOPE }),
     };
     const client = new GeneratedClient(this.url, internalPipelineOptions);
     if (isNamedKeyCredential(credential)) {
@@ -296,7 +296,7 @@ export class TableServiceClient {
       byPage: (settings) => {
         const pageOptions: InternalListTablesOptions = {
           ...options,
-          queryOptions: { top: settings?.maxPageSize }
+          queryOptions: { top: settings?.maxPageSize },
         };
 
         if (settings?.continuationToken) {
@@ -304,7 +304,7 @@ export class TableServiceClient {
         }
 
         return this.listTablesPage(pageOptions);
-      }
+      },
     };
   }
 
@@ -317,7 +317,7 @@ export class TableServiceClient {
     if (continuationToken) {
       const optionsWithContinuation: InternalListTablesOptions = {
         ...options,
-        continuationToken
+        continuationToken,
       };
       for await (const page of this.listTablesPage(optionsWithContinuation)) {
         yield* page;
@@ -338,7 +338,7 @@ export class TableServiceClient {
       while (result.continuationToken) {
         const optionsWithContinuation: InternalListTablesOptions = {
           ...updatedOptions,
-          continuationToken: result.continuationToken
+          continuationToken: result.continuationToken,
         };
         result = await this._listTables(optionsWithContinuation);
         yield result;
@@ -355,7 +355,7 @@ export class TableServiceClient {
     const { continuationToken: nextTableName, ...listOptions } = options;
     const { xMsContinuationNextTableName: continuationToken, value = [] } = await this.table.query({
       ...listOptions,
-      nextTableName
+      nextTableName,
     });
     return Object.assign([...value], { continuationToken });
   }
@@ -378,10 +378,11 @@ export class TableServiceClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableServiceClientOptions
   ): TableServiceClient {
-    const { url, options: clientOptions, credential } = getClientParamsFromConnectionString(
-      connectionString,
-      options
-    );
+    const {
+      url,
+      options: clientOptions,
+      credential,
+    } = getClientParamsFromConnectionString(connectionString, options);
 
     if (credential) {
       return new TableServiceClient(url, credential, clientOptions);

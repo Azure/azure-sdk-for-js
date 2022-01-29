@@ -8,7 +8,7 @@ import { ReceiveMode } from "../models";
 import {
   isAmqpAnnotatedMessage,
   isServiceBusMessage,
-  ServiceBusReceivedMessage
+  ServiceBusReceivedMessage,
 } from "../serviceBusMessage";
 import { isDefined } from "./typeGuards";
 

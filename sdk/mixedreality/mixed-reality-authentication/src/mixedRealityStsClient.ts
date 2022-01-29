@@ -1,21 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
-import { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
-import {
-  InternalPipelineOptions,
-  TokenCredential,
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions
-} from "@azure/core-http";
+import { InternalClientPipelineOptions } from "@azure/core-client";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { TokenCredential, AccessToken, AzureKeyCredential } from "@azure/core-auth";
 import {
   MixedRealityStsRestClient,
-  MixedRealityStsRestClientGetTokenOptionalParams,
-  MixedRealityStsRestClientOptionalParams
+  MixedRealityStsRestClientOptionalParams,
+  GetTokenOptionalParams,
 } from "./generated";
+import { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
 import { MixedRealityAccountKeyCredential } from "./models/auth";
-import { SDK_VERSION } from "./constants";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint";
 import { createSpan } from "./tracing";
@@ -92,30 +87,16 @@ export class MixedRealityStsClient {
     this.endpointUrl =
       options.customEndpointUrl || constructAuthenticationEndpointFromDomain(accountDomain);
 
-    // The below code helps us set a proper User-Agent header on all requests
-    const libInfo = `azsdk-js-mixed-reality-authentication/${SDK_VERSION}`;
-
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-
-    const userAgentOptions = { ...options.userAgentOptions };
-    if (options.userAgentOptions.userAgentPrefix) {
-      userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      userAgentOptions.userAgentPrefix = libInfo;
-    }
-
-    const internalPipelineOptions: InternalPipelineOptions = {
-      ...{ ...options, userAgentOptions },
+    const internalClientPipelineOptions: InternalClientPipelineOptions = {
+      ...options,
       ...{
         loggingOptions: {
           logger: logger.info,
           // This array contains header names we want to log that are not already
           // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-          allowedHeaderNames: ["X-MRC-CV", "MS-CV"]
-        }
-      }
+          additionalAllowedHeaderNames: ["X-MRC-CV", "MS-CV"],
+        },
+      },
     };
 
     let tokenCredential: TokenCredential;
@@ -126,19 +107,19 @@ export class MixedRealityStsClient {
       tokenCredential = credential;
     }
 
-    const authPolicy = bearerTokenAuthenticationPolicy(
-      tokenCredential,
-      `${this.endpointUrl}/.default`
-    );
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-
     const clientOptions: MixedRealityStsRestClientOptionalParams = {
-      ...internalPipelineOptions,
-      ...pipeline,
-      endpoint: this.endpointUrl
+      ...internalClientPipelineOptions,
+      endpoint: this.endpointUrl,
     };
 
     this.restClient = new MixedRealityStsRestClient(clientOptions);
+
+    const authPolicy = bearerTokenAuthenticationPolicy({
+      credential: tokenCredential,
+      scopes: `${this.endpointUrl}/.default`,
+    });
+
+    this.restClient.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -146,11 +127,11 @@ export class MixedRealityStsClient {
    * @param options - Operation options.
    */
   public async getToken(options: GetTokenOptions = {}): Promise<AccessToken> {
-    const internalOptions: MixedRealityStsRestClientGetTokenOptionalParams = {
+    const internalOptions: GetTokenOptionalParams = {
       ...options,
       tokenRequestOptions: {
-        clientRequestId: generateCvBase()
-      }
+        clientRequestId: generateCvBase(),
+      },
     };
 
     const { span, updatedOptions } = createSpan("MixedRealityStsClient-GetToken", internalOptions);
@@ -164,7 +145,7 @@ export class MixedRealityStsClient {
       // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
 
       throw e;

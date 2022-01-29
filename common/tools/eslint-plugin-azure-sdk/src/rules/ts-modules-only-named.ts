@@ -6,9 +6,9 @@
  * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
-import { ExportDefaultDeclaration } from "estree";
 import { normalize, relative } from "path";
+import { ExportDefaultDeclaration } from "estree";
+import { Rule } from "eslint";
 import { getRuleMetaData } from "../utils";
 
 //------------------------------------------------------------------------------
@@ -29,8 +29,8 @@ export = {
           ExportDefaultDeclaration: (node: ExportDefaultDeclaration): void =>
             context.report({
               node: node,
-              message: "default exports exist at top level"
-            })
+              message: "default exports exist at top level",
+            }),
         } as Rule.RuleListener)
-      : {}
+      : {},
 };

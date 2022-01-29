@@ -9,13 +9,13 @@ const endpoint = "https://localhost:8081";
 const masterKey =
   "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
 
-describe("Validate SSL verification check for emulator #nosignoff", function() {
-  it("should throw exception", async function() {
+describe("Validate SSL verification check for emulator #nosignoff", function () {
+  it("should throw exception", async function () {
     try {
       const client = new CosmosClient({
         endpoint,
         key: masterKey,
-        connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+        connectionPolicy: { enableBackgroundEndpointRefreshing: false },
       });
       // create database
       await getTestDatabase("ssl verification", client);
@@ -25,14 +25,14 @@ describe("Validate SSL verification check for emulator #nosignoff", function() {
     }
   });
 
-  it("disable ssl check via agent", async function() {
+  it("disable ssl check via agent", async function () {
     const client = new CosmosClient({
       endpoint,
       key: masterKey,
       agent: new https.Agent({
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
       }),
-      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false },
     });
 
     // create database

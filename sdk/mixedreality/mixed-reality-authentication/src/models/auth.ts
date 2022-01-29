@@ -1,8 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
-import { AzureKeyCredential } from "@azure/core-auth";
+import {
+  AzureKeyCredential,
+  AccessToken,
+  GetTokenOptions,
+  TokenCredential,
+} from "@azure/core-auth";
 
 const maxTimestampMs = 8640000000000000;
 
@@ -39,7 +43,7 @@ export class MixedRealityAccountKeyCredential implements TokenCredential {
   getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
     const result: AccessToken = {
       expiresOnTimestamp: maxTimestampMs,
-      token: `${this.accountId}:${this.accountKey.key}`
+      token: `${this.accountId}:${this.accountKey.key}`,
     };
 
     return Promise.resolve(result);

@@ -9,7 +9,7 @@ import { Message, message as rheaMessage } from "rhea";
 export function convertBufferToMessages(buf: Buffer): Message[] {
   const amqpMessage = rheaMessage.decode(buf);
   if (!amqpMessage.body?.content) {
-    return [(amqpMessage as unknown) as Message];
+    return [amqpMessage as unknown as Message];
   }
 
   if (Array.isArray(amqpMessage.body.content)) {
@@ -18,5 +18,5 @@ export function convertBufferToMessages(buf: Buffer): Message[] {
     });
   }
 
-  return [(rheaMessage.decode(amqpMessage.body.content) as unknown) as Message];
+  return [rheaMessage.decode(amqpMessage.body.content) as unknown as Message];
 }

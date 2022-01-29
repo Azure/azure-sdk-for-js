@@ -11,7 +11,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export async function main() {
+async function main() {
   // endpoint should be in the form of "https://myregistryname.azurecr.io"
   // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";

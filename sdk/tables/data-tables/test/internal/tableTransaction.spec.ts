@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import {
+  HttpClient,
   PipelineResponse,
   createHttpHeaders,
   createPipelineRequest,
-  HttpClient
 } from "@azure/core-rest-pipeline";
-import { assert } from "chai";
+import { TableTransaction, parseTransactionResponse } from "../../src/TableTransaction";
 import { TableClient } from "../../src/TableClient";
-import { parseTransactionResponse, TableTransaction } from "../../src/TableTransaction";
+import { assert } from "chai";
 
 describe("TableTransaction", () => {
   describe("parseTransactionResponse", () => {
@@ -17,7 +17,7 @@ describe("TableTransaction", () => {
       const testResponse: PipelineResponse = {
         headers: createHttpHeaders(),
         request: createPipelineRequest({ url: "https://example.org" }),
-        status: 400
+        status: 400,
       };
 
       try {
@@ -36,9 +36,9 @@ describe("TableTransaction", () => {
         bodyAsText: JSON.stringify({
           "odata.error": {
             code: "123",
-            message: { value: "Test message" }
-          }
-        })
+            message: { value: "Test message" },
+          },
+        }),
       };
 
       try {
@@ -56,10 +56,10 @@ describe("TableTransaction", () => {
         sendRequest: async (request) => {
           isProxy = true;
           return { status: 200, headers: createHttpHeaders(), request };
-        }
+        },
       };
       const client = new TableClient("https://example.org", "TestTable", {
-        httpClient: proxyHttpClient
+        httpClient: proxyHttpClient,
       });
       const transaction = new TableTransaction();
       transaction.createEntity({ partitionKey: "helper", rowKey: "1", value: "t1" });

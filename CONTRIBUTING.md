@@ -53,6 +53,10 @@ Rush provides many benefits:
 
 Not every library in the repository is managed by Rush yet, only those listed in the `projects` property in [rush.json](https://github.com/Azure/azure-sdk-for-js/blob/main/rush.json). Packages not managed by Rush can still be managed using `npm`.
 
+Check out our [wiki page on using rush](https://github.com/Azure/azure-sdk-for-js/wiki/Rush) for more information on
+- running `rush update` command
+- How to update to a newer version of Rush or PNPM.
+
 ## Setting up your environment
 
 Want to get started hacking on the code? Great! Keep reading.
@@ -298,6 +302,10 @@ nodeResolve({
 ### Package Versioning
 
 For information about packages are versioned and tagged see [Javascript Releases](https://azure.github.io/azure-sdk/policies_releases.html#javascript)
+
+### Core Client libraries
+
+Our packages depends on a set of [Azure Core Client libraries](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core), which provide common functionality for interacting with Azure services.
 
 ### Dev Packages
 

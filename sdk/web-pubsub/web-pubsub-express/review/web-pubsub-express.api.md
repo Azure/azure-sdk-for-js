@@ -62,7 +62,11 @@ export interface DisconnectedRequest {
 export type UserEventRequest = {
     context: ConnectionContext;
     data: string;
-    dataType: "text" | "json";
+    dataType: "text";
+} | {
+    context: ConnectionContext;
+    data: unknown;
+    dataType: "json";
 } | {
     context: ConnectionContext;
     data: ArrayBuffer;

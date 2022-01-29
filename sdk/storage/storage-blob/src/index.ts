@@ -35,7 +35,7 @@ export {
   ObjectReplicationStatus,
   BlobQueryArrowField,
   BlobQueryArrowFieldType,
-  HttpAuthorization
+  HttpAuthorization,
 } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
@@ -54,16 +54,16 @@ export {
   ContainerRequestConditions,
   ModificationConditions,
   MatchConditions,
-  ModifiedAccessConditions
+  ModifiedAccessConditions,
 } from "./models";
 export { RestError };
 export {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
-  PageList
+  PageList,
 } from "./PageBlobRangeResponse";
 export { logger } from "./log";
 export {
   BlobBeginCopyFromUrlPollState,
-  CopyPollerBlobClient
+  CopyPollerBlobClient,
 } from "./pollers/BlobStartCopyFromUrlPoller";

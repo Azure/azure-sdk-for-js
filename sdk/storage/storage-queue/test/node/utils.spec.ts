@@ -2,12 +2,10 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "../utils/index.browser";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Utility Helpers Node.js only", () => {
   let recorder: Recorder;
@@ -36,11 +34,11 @@ describe("Utility Helpers Node.js only", () => {
     );
   }
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 

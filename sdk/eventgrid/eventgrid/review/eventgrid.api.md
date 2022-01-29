@@ -158,6 +158,7 @@ export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBase & {
 // @public
 export interface AcsRecordingChunkInfo {
     contentLocation: string;
+    deleteLocation: string;
     documentId: string;
     endReason: string;
     index: number;
@@ -166,7 +167,10 @@ export interface AcsRecordingChunkInfo {
 
 // @public
 export interface AcsRecordingFileStatusUpdatedEventData {
+    recordingChannelType: RecordingChannelType;
+    recordingContentType: RecordingContentType;
     recordingDurationMs: number;
+    recordingFormatType: RecordingFormatType;
     recordingStartTime: string;
     recordingStorageInfo: AcsRecordingStorageInfo;
     sessionEndReason: string;
@@ -359,7 +363,9 @@ export interface CommunicationUserIdentifierModel {
 // @public
 export interface ContainerRegistryArtifactEventData {
     action: string;
+    connectedRegistry: ContainerRegistryEventConnectedRegistry;
     id: string;
+    location: string;
     target: ContainerRegistryArtifactEventTarget;
     timestamp: string;
 }
@@ -387,10 +393,17 @@ export interface ContainerRegistryEventActor {
 }
 
 // @public
+export interface ContainerRegistryEventConnectedRegistry {
+    name: string;
+}
+
+// @public
 export interface ContainerRegistryEventData {
     action: string;
     actor: ContainerRegistryEventActor;
+    connectedRegistry: ContainerRegistryEventConnectedRegistry;
     id: string;
+    location: string;
     request: ContainerRegistryEventRequest;
     source: ContainerRegistryEventSource;
     target: ContainerRegistryEventTarget;
@@ -1072,11 +1085,22 @@ export interface PolicyInsightsPolicyStateDeletedEventData {
 }
 
 // @public
+export type RecordingChannelType = string;
+
+// @public
+export type RecordingContentType = string;
+
+// @public
+export type RecordingFormatType = string;
+
+// @public
 export interface ResourceActionCancelEventData {
-    authorization: string;
-    claims: string;
+    authorization: ResourceAuthorization;
+    claims: {
+        [propertyName: string]: string;
+    };
     correlationId: string;
-    httpRequest: string;
+    httpRequest: ResourceHttpRequest;
     operationName: string;
     resourceGroup: string;
     resourceProvider: string;
@@ -1088,10 +1112,12 @@ export interface ResourceActionCancelEventData {
 
 // @public
 export interface ResourceActionFailureEventData {
-    authorization: string;
-    claims: string;
+    authorization: ResourceAuthorization;
+    claims: {
+        [propertyName: string]: string;
+    };
     correlationId: string;
-    httpRequest: string;
+    httpRequest: ResourceHttpRequest;
     operationName: string;
     resourceGroup: string;
     resourceProvider: string;
@@ -1103,10 +1129,12 @@ export interface ResourceActionFailureEventData {
 
 // @public
 export interface ResourceActionSuccessEventData {
-    authorization: string;
-    claims: string;
+    authorization: ResourceAuthorization;
+    claims: {
+        [propertyName: string]: string;
+    };
     correlationId: string;
-    httpRequest: string;
+    httpRequest: ResourceHttpRequest;
     operationName: string;
     resourceGroup: string;
     resourceProvider: string;
@@ -1117,11 +1145,22 @@ export interface ResourceActionSuccessEventData {
 }
 
 // @public
+export interface ResourceAuthorization {
+    action: string;
+    evidence: {
+        [propertyName: string]: string;
+    };
+    scope: string;
+}
+
+// @public
 export interface ResourceDeleteCancelEventData {
-    authorization: string;
-    claims: string;
+    authorization: ResourceAuthorization;
+    claims: {
+        [propertyName: string]: string;
+    };
     correlationId: string;
-    httpRequest: string;
+    httpRequest: ResourceHttpRequest;
     operationName: string;
     resourceGroup: string;
     resourceProvider: string;
@@ -1133,10 +1172,12 @@ export interface ResourceDeleteCancelEventData {
 
 // @public
 export interface ResourceDeleteFailureEventData {
-    authorization: string;
-    claims: string;
+    authorization: ResourceAuthorization;
+    claims: {
+        [propertyName: string]: string;
+    };
     correlationId: string;
-    httpRequest: string;
+    httpRequest: ResourceHttpRequest;
     operationName: string;
     resourceGroup: string;
     resourceProvider: string;
@@ -1148,10 +1189,12 @@ export interface ResourceDeleteFailureEventData {
 
 // @public
 export interface ResourceDeleteSuccessEventData {
-    authorization: string;
-    claims: string;
+    authorization: ResourceAuthorization;
+    claims: {
+        [propertyName: string]: string;
+    };
     correlationId: string;
-    httpRequest: string;
+    httpRequest: ResourceHttpRequest;
     operationName: string;
     resourceGroup: string;
     resourceProvider: string;
@@ -1162,11 +1205,21 @@ export interface ResourceDeleteSuccessEventData {
 }
 
 // @public
+export interface ResourceHttpRequest {
+    clientIpAddress: string;
+    clientRequestId: string;
+    method: string;
+    url: string;
+}
+
+// @public
 export interface ResourceWriteCancelEventData {
-    authorization: string;
-    claims: string;
+    authorization: ResourceAuthorization;
+    claims: {
+        [propertyName: string]: string;
+    };
     correlationId: string;
-    httpRequest: string;
+    httpRequest: ResourceHttpRequest;
     operationName: string;
     resourceGroup: string;
     resourceProvider: string;
@@ -1178,10 +1231,12 @@ export interface ResourceWriteCancelEventData {
 
 // @public
 export interface ResourceWriteFailureEventData {
-    authorization: string;
-    claims: string;
+    authorization: ResourceAuthorization;
+    claims: {
+        [propertyName: string]: string;
+    };
     correlationId: string;
-    httpRequest: string;
+    httpRequest: ResourceHttpRequest;
     operationName: string;
     resourceGroup: string;
     resourceProvider: string;
@@ -1193,10 +1248,12 @@ export interface ResourceWriteFailureEventData {
 
 // @public
 export interface ResourceWriteSuccessEventData {
-    authorization: string;
-    claims: string;
+    authorization: ResourceAuthorization;
+    claims: {
+        [propertyName: string]: string;
+    };
     correlationId: string;
-    httpRequest: string;
+    httpRequest: ResourceHttpRequest;
     operationName: string;
     resourceGroup: string;
     resourceProvider: string;
@@ -1681,7 +1738,6 @@ export interface WebSlotSwapWithPreviewStartedEventData {
     requestId: string;
     verb: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

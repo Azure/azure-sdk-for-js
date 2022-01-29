@@ -11,7 +11,7 @@ import { HostPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { DesktopVirtualizationAPIClientContext } from "../desktopVirtualizationAPIClientContext";
+import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient";
 import {
   HostPool,
   HostPoolsListByResourceGroupNextOptionalParams,
@@ -36,13 +36,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing HostPools operations. */
 export class HostPoolsImpl implements HostPools {
-  private readonly client: DesktopVirtualizationAPIClientContext;
+  private readonly client: DesktopVirtualizationAPIClient;
 
   /**
    * Initialize a new instance of the class HostPools class.
    * @param client Reference to the service client
    */
-  constructor(client: DesktopVirtualizationAPIClientContext) {
+  constructor(client: DesktopVirtualizationAPIClient) {
     this.client = client;
   }
 

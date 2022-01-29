@@ -4,12 +4,12 @@
 import {
   DeleteTableEntityOptions,
   TableEntity,
+  TableServiceClientOptions,
   TableTransactionEntityResponse,
   TableTransactionResponse,
   TransactionAction,
   UpdateMode,
   UpdateTableEntityOptions,
-  TableServiceClientOptions
 } from "./models";
 import {
   NamedKeyCredential,
@@ -17,14 +17,14 @@ import {
   TokenCredential,
   isNamedKeyCredential,
   isSASCredential,
-  isTokenCredential
+  isTokenCredential,
 } from "@azure/core-auth";
 import {
   OperationOptions,
   ServiceClient,
+  ServiceClientOptions,
   serializationPolicy,
   serializationPolicyName,
-  ServiceClientOptions
 } from "@azure/core-client";
 import {
   Pipeline,
@@ -32,18 +32,19 @@ import {
   PipelineResponse,
   RestError,
   createHttpHeaders,
-  createPipelineRequest
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import {
   getInitialTransactionBody,
-  getTransactionHttpRequestBody
+  getTransactionHttpRequestBody,
 } from "./utils/transactionHelpers";
 import {
   transactionHeaderFilterPolicy,
   transactionHeaderFilterPolicyName,
   transactionRequestAssemblePolicy,
-  transactionRequestAssemblePolicyName
+  transactionRequestAssemblePolicyName,
 } from "./TablePolicies";
+import { STORAGE_SCOPE } from "./utils/constants";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TableClientLike } from "./utils/internalModels";
 import { TableServiceErrorOdataError } from "./generated";
@@ -53,7 +54,6 @@ import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 import { signURLWithSAS } from "./tablesSASTokenPolicy";
-import { STORAGE_SCOPE } from "./utils/constants";
 
 /**
  * Helper to build a list of transaction actions
@@ -191,7 +191,7 @@ export class InternalTableTransaction {
       changesetId,
       partitionKey,
       pendingOperations,
-      bodyParts
+      bodyParts,
     };
   }
 
@@ -300,7 +300,7 @@ export class InternalTableTransaction {
       body,
       headers: createHttpHeaders(headers),
       tracingOptions: updatedOptions.tracingOptions,
-      allowInsecureConnection: this.allowInsecureConnection
+      allowInsecureConnection: this.allowInsecureConnection,
     });
 
     if (isNamedKeyCredential(this.credential)) {
@@ -316,7 +316,7 @@ export class InternalTableTransaction {
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: error.message
+        message: error.message,
       });
       throw error;
     } finally {
@@ -378,14 +378,14 @@ export function parseTransactionResponse(
     return {
       status: subResponseStatus,
       ...(rowKeyMatch?.length === 2 && { rowKey: rowKeyMatch[1] }),
-      ...(etagMatch?.length === 2 && { etag: etagMatch[1] })
+      ...(etagMatch?.length === 2 && { etag: etagMatch[1] }),
     };
   });
 
   return {
     status,
     subResponses: responses,
-    getResponseForEntity: (rowKey: string) => responses.find((r) => r.rowKey === rowKey)
+    getResponseForEntity: (rowKey: string) => responses.find((r) => r.rowKey === rowKey),
   };
 }
 
@@ -416,7 +416,7 @@ function handleBodyError(
     code,
     statusCode,
     request,
-    response
+    response,
   });
 }
 
@@ -435,7 +435,7 @@ export function prepateTransactionPipeline(
   const policies = pipeline.getOrderedPolicies();
   for (const policy of policies) {
     pipeline.removePolicy({
-      name: policy.name
+      name: policy.name,
     });
   }
 
@@ -448,7 +448,7 @@ export function prepateTransactionPipeline(
   if (isCosmos) {
     pipeline.addPolicy(cosmosPatchPolicy(), {
       afterPolicies: [transactionHeaderFilterPolicyName],
-      beforePolicies: [serializationPolicyName, transactionRequestAssemblePolicyName]
+      beforePolicies: [serializationPolicyName, transactionRequestAssemblePolicyName],
     });
   }
 }

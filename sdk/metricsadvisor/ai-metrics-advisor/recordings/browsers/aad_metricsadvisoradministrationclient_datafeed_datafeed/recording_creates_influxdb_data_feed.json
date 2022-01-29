@@ -11,53 +11,53 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:01:45 GMT",
+    "date": "Thu, 20 Jan 2022 01:05:16 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12231.7 - WUS2 ProdSlices",
-    "x-ms-request-id": "beefc82d-64d1-4712-ba7f-ed2e77d18300"
+    "x-ms-ests-server": "2.1.12261.22 - SCUS ProdSlices",
+    "x-ms-request-id": "710688f1-0dcd-456f-84e6-26e78a64dc00"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds",
    "query": {},
-   "requestBody": "{\"dataSourceType\":\"InfluxDB\",\"dataFeedName\":\"js-test-influxdbFeed-163702809312308848\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"authenticationType\":\"Basic\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-influxdb\",\"database\":\"data-feed-database\",\"userName\":\"user\",\"password\":\"SecretPlaceholder\",\"query\":\"partition-key eq @start-time\"}}",
+   "requestBody": "{\"dataSourceType\":\"InfluxDB\",\"dataFeedName\":\"js-test-influxdbFeed-164264070379704509\",\"dataFeedDescription\":\"Data feed description\",\"granularityName\":\"Daily\",\"metrics\":[{\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00.000Z\",\"startOffsetInSeconds\":0,\"maxConcurrency\":-1,\"minRetryIntervalInSeconds\":-1,\"stopRetryAfterInSeconds\":-1,\"needRollup\":\"NeedRollup\",\"rollUpMethod\":\"Sum\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555,\"viewMode\":\"Private\",\"authenticationType\":\"Basic\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-influxdb\",\"database\":\"data-feed-database\",\"userName\":\"user\",\"password\":\"SecretPlaceholder\",\"query\":\"partition-key eq @start-time\"}}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "000e2a9d-ee3e-467a-8ca9-940d3dbdc61a",
+    "apim-request-id": "3b8fcd87-da3d-4503-adb3-312532c3160b",
     "content-length": "0",
-    "date": "Tue, 16 Nov 2021 02:01:45 GMT",
-    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/831ef73f-2539-4bdd-bc4d-d20e81f7ed31",
+    "date": "Thu, 20 Jan 2022 01:05:16 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/7bc306f0-bbac-43da-803b-f870fcfb450e",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "490",
-    "x-request-id": "000e2a9d-ee3e-467a-8ca9-940d3dbdc61a"
+    "x-envoy-upstream-service-time": "408",
+    "x-request-id": "3b8fcd87-da3d-4503-adb3-312532c3160b"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/831ef73f-2539-4bdd-bc4d-d20e81f7ed31",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/7bc306f0-bbac-43da-803b-f870fcfb450e",
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"dataFeedId\":\"831ef73f-2539-4bdd-bc4d-d20e81f7ed31\",\"dataFeedName\":\"js-test-influxdbFeed-163702809312308848\",\"metrics\":[{\"metricId\":\"c8468e09-2cff-4fcc-b4df-f02472d914a8\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"cc2562dd-9942-42b9-98c5-cf37e42dcf81\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"InfluxDB\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"azure_client_id\"],\"viewers\":[],\"creator\":\"azure_client_id\",\"status\":\"Active\",\"createdTime\":\"2021-11-16T02:01:45Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-influxdb\",\"database\":\"data-feed-database\",\"query\":\"partition-key eq @start-time\",\"userName\":\"user\"},\"authenticationType\":\"Basic\"}",
+   "response": "{\"dataFeedId\":\"7bc306f0-bbac-43da-803b-f870fcfb450e\",\"dataFeedName\":\"js-test-influxdbFeed-164264070379704509\",\"metrics\":[{\"metricId\":\"2127bf25-ba35-4823-98c9-7ae924c4f825\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"0390e69b-5ad1-4f72-9522-c67ca7ea0de2\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-21T00:00:00Z\",\"dataSourceType\":\"InfluxDB\",\"timestampColumn\":\"\",\"startOffsetInSeconds\":0,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"allUpIdentification\":\"__CUSTOM_SUM__\",\"needRollup\":\"NeedRollup\",\"fillMissingPointType\":\"CustomValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"dataFeedDescription\":\"Data feed description\",\"stopRetryAfterInSeconds\":-1,\"minRetryIntervalInSeconds\":-1,\"maxConcurrency\":-1,\"viewMode\":\"Private\",\"admins\":[\"azure_client_id\"],\"viewers\":[],\"creator\":\"azure_client_id\",\"status\":\"Active\",\"createdTime\":\"2022-01-20T01:05:16Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"\",\"dataSourceParameter\":{\"connectionString\":\"https://connect-to-influxdb\",\"database\":\"data-feed-database\",\"query\":\"partition-key eq @start-time\",\"userName\":\"user\"},\"authenticationType\":\"Basic\"}",
    "responseHeaders": {
-    "apim-request-id": "4b043f7c-a55c-4881-99a4-c69277fb405d",
+    "apim-request-id": "ac26cd4d-55f0-4d41-9bdc-33e981a0b097",
     "content-length": "1365",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:01:45 GMT",
+    "date": "Thu, 20 Jan 2022 01:05:16 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "125",
-    "x-request-id": "4b043f7c-a55c-4881-99a4-c69277fb405d"
+    "x-envoy-upstream-service-time": "115",
+    "x-request-id": "ac26cd4d-55f0-4d41-9bdc-33e981a0b097"
    }
   }
  ],
@@ -65,5 +65,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "d99051b426b77e277a229c57491163b8"
+ "hash": "8766e2962501381a2be0df037abd8e6c"
 }

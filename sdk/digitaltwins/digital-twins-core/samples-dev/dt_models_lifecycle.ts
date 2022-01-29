@@ -21,12 +21,8 @@ import { v4 } from "uuid";
 // For the purpose of this example we will create temporary model and a temporary component model using random Ids.
 // We have to make sure these model Ids are unique within the DT instance so we use generated UUIDs.
 async function main() {
-  const modelId = `dtmi:model_${v4()
-    .split("-")
-    .join("")};1`;
-  const componentId = `dtmi:component_${v4()
-    .split("-")
-    .join("")};1`;
+  const modelId = `dtmi:model_${v4().split("-").join("")};1`;
+  const componentId = `dtmi:component_${v4().split("-").join("")};1`;
 
   const temporaryComponent = {
     "@id": componentId,
@@ -37,14 +33,14 @@ async function main() {
       {
         "@type": "Property",
         name: "ComponentProp1",
-        schema: "string"
+        schema: "string",
       },
       {
         "@type": "Telemetry",
         name: "ComponentTelemetry1",
-        schema: "integer"
-      }
-    ]
+        schema: "integer",
+      },
+    ],
   };
 
   const temporaryModel = {
@@ -56,19 +52,19 @@ async function main() {
       {
         "@type": "Property",
         name: "Prop1",
-        schema: "string"
+        schema: "string",
       },
       {
         "@type": "Component",
         name: "Component1",
-        schema: componentId
+        schema: componentId,
       },
       {
         "@type": "Telemetry",
         name: "Telemetry1",
-        schema: "integer"
-      }
-    ]
+        schema: "integer",
+      },
+    ],
   };
 
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance

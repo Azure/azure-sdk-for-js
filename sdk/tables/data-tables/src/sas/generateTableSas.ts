@@ -4,7 +4,7 @@
 import { NamedKeyCredential, isNamedKeyCredential } from "@azure/core-auth";
 import {
   TableSasSignatureValues,
-  generateTableSasQueryParameters
+  generateTableSasQueryParameters,
 } from "./tableSasSignatureValues";
 import { tableSasPermissionsFromString } from "./tableSasPermisions";
 
@@ -46,7 +46,7 @@ export function generateTableSas(
   const sas = generateTableSasQueryParameters(tableName, credential, {
     ...options,
     expiresOn,
-    permissions
+    permissions,
   }).toString();
 
   return sas;

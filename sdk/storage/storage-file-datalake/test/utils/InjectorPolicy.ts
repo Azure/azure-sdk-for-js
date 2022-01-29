@@ -7,7 +7,7 @@ import {
   RequestPolicy,
   RequestPolicyOptions,
   WebResource,
-  RestError
+  RestError,
 } from "../../src";
 
 export interface NextInjectErrorHolder {

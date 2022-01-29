@@ -7,12 +7,12 @@ import { addEntropy, removeAllDatabases } from "../common/TestHelpers";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
 
-describe("Timeout", function() {
-  beforeEach(async function() {
+describe("Timeout", function () {
+  beforeEach(async function () {
     await removeAllDatabases();
   });
 
-  it("successfully exits queries after a timeout duration", async function() {
+  it("successfully exits queries after a timeout duration", async function () {
     const clientA = new CosmosClient({
       endpoint,
       key: masterKey,
@@ -22,8 +22,8 @@ describe("Timeout", function() {
         retryOptions: {
           maxRetryAttemptCount: 2,
           maxWaitTimeInSeconds: 5,
-          fixedRetryIntervalInMilliseconds: 0
-        }
+          fixedRetryIntervalInMilliseconds: 0,
+        },
       },
       plugins: [
         {
@@ -37,9 +37,9 @@ describe("Timeout", function() {
             });
             const response = await next(context);
             return response;
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     const dbId = addEntropy("timeouttest");
@@ -48,10 +48,10 @@ describe("Timeout", function() {
     // Create Database and Container
     try {
       const { database } = await clientA.databases.createIfNotExists({
-        id: dbId
+        id: dbId,
       });
       const { container } = await database.containers.createIfNotExists({
-        id: containerId
+        id: containerId,
       });
 
       // Create an item using client
@@ -64,9 +64,9 @@ describe("Timeout", function() {
 
 async function createItem(container: Container) {
   const {
-    resource: { id }
+    resource: { id },
   } = await container.items.create({
-    id: (Math.random() + 1).toString(36).substring(7)
+    id: (Math.random() + 1).toString(36).substring(7),
   });
   return id;
 }

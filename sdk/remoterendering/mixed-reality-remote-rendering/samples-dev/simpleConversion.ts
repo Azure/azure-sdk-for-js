@@ -15,7 +15,7 @@ import {
   AssetConversionOutputSettings,
   AssetConversionSettings,
   AssetConversionPollerLike,
-  AssetConversion
+  AssetConversion,
 } from "@azure/mixed-reality-remote-rendering";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -49,10 +49,10 @@ export async function main() {
 
   const inputSettings: AssetConversionInputSettings = {
     storageContainerUrl,
-    relativeInputAssetPath: "box.fbx"
+    relativeInputAssetPath: "box.fbx",
   };
   const outputSettings: AssetConversionOutputSettings = {
-    storageContainerUrl
+    storageContainerUrl,
   };
   const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
 

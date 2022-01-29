@@ -60,7 +60,7 @@ describe("StreamingReceiver unit tests", () => {
 
       await assertThrows(() => streamingReceiver.subscribe({} as any, {}), {
         name: "AbortError",
-        message: "Purposefully aborting function"
+        message: "Purposefully aborting function",
       });
 
       // we are no longer receiving messages if an exception escaped from subscribe()
@@ -74,7 +74,7 @@ describe("StreamingReceiver unit tests", () => {
       const streamingReceiver = createTestStreamingReceiver("entity path", {
         lockRenewer: undefined,
         receiveMode: "receiveAndDelete",
-        skipParsingBodyAsJson: false
+        skipParsingBodyAsJson: false,
       });
 
       try {
@@ -84,9 +84,9 @@ describe("StreamingReceiver unit tests", () => {
           delivery: {},
           message: {
             message_annotations: {
-              [Constants.enqueuedTime]: new Date()
-            }
-          }
+              [Constants.enqueuedTime]: new Date(),
+            },
+          },
         };
 
         await streamingReceiver.subscribe(
@@ -96,25 +96,25 @@ describe("StreamingReceiver unit tests", () => {
             },
             processError: async (_args) => {
               args = _args;
-            }
+            },
           },
           undefined
         );
 
-        await streamingReceiver["_onAmqpMessage"]((eventContext as any) as EventContext);
+        await streamingReceiver["_onAmqpMessage"](eventContext as any as EventContext);
 
         assert.deepEqual(
           {
             message: args?.error.message,
             errorSource: args?.errorSource,
             entityPath: args?.entityPath,
-            fullyQualifiedNamespace: args?.fullyQualifiedNamespace
+            fullyQualifiedNamespace: args?.fullyQualifiedNamespace,
           },
           {
             message: "Error thrown from the user's processMessage callback",
             errorSource: "processMessageCallback",
             entityPath: "entity path",
-            fullyQualifiedNamespace: "fakeHost"
+            fullyQualifiedNamespace: "fakeHost",
           }
         );
       } finally {
@@ -171,19 +171,19 @@ describe("StreamingReceiver unit tests", () => {
           processMessage: async () => {
             /* empty body */
           },
-          forwardInternalErrors: true
+          forwardInternalErrors: true,
         },
         {}
       );
 
       const closeLinkSpy = sinon.spy(
-        (streamingReceiver as any) as { closeLink(): Promise<void> },
+        streamingReceiver as any as { closeLink(): Promise<void> },
         "closeLink"
       );
 
       await assertThrows(() => subscribePromise, {
         name: "AbortError",
-        message: "Cannot request messages on the receiver since it is suspended."
+        message: "Cannot request messages on the receiver since it is suspended.",
       });
 
       // closeLink is called on cleanup when we fail to add credits (which we would because our receiver
@@ -210,19 +210,19 @@ describe("StreamingReceiver unit tests", () => {
           processMessage: async () => {
             /* empty body */
           },
-          forwardInternalErrors: true
+          forwardInternalErrors: true,
         },
         {}
       );
 
       const closeLinkSpy = sinon.spy(
-        (streamingReceiver as any) as { closeLink(): Promise<void> },
+        streamingReceiver as any as { closeLink(): Promise<void> },
         "closeLink"
       );
 
       await assertThrows(() => subscribePromise, {
         name: "AbortError",
-        message: "Receiver was suspended during initialization."
+        message: "Receiver was suspended during initialization.",
       });
 
       assert.isTrue(!closeLinkSpy.called, "closeLink should not be called if no link was created");
@@ -230,8 +230,8 @@ describe("StreamingReceiver unit tests", () => {
       assert.deepEqual(errors, [
         {
           message: "Receiver was suspended during initialization.",
-          errorSource: "receive"
-        }
+          errorSource: "receive",
+        },
       ]);
     });
   });
@@ -245,7 +245,7 @@ describe("StreamingReceiver unit tests", () => {
     const streamingReceiver = createTestStreamingReceiver("entitypath", {
       lockRenewer: undefined,
       receiveMode: "peekLock",
-      skipParsingBodyAsJson: false
+      skipParsingBodyAsJson: false,
     });
 
     let processErrorMessages: string[] = [];
@@ -265,7 +265,7 @@ describe("StreamingReceiver unit tests", () => {
         },
         postInitialize: async () => {
           throw new Error("processInitialize");
-        }
+        },
       },
       {}
     );
@@ -284,7 +284,7 @@ describe("StreamingReceiver unit tests", () => {
     await assertThrows(
       () => wrappedMessageHandlers.processMessage({} as ServiceBusReceivedMessage),
       {
-        message: "processMessage"
+        message: "processMessage",
       }
     );
 
@@ -295,7 +295,7 @@ describe("StreamingReceiver unit tests", () => {
       entityPath: "hello",
       error: new Error("hello"),
       errorSource: "receive",
-      fullyQualifiedNamespace: "fqns"
+      fullyQualifiedNamespace: "fqns",
     });
 
     assert.deepEqual(processErrorMessages, ["hello"]);

@@ -52,7 +52,7 @@ async function main() {
     processMessage,
     processError: async (err) => {
       console.error("Error while processing events:", err);
-    }
+    },
   });
 
   // Run for 10 seconds, allowing events to be processed.

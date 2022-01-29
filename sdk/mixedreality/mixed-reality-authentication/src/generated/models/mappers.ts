@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const StsTokenResponseMessage: coreHttp.CompositeMapper = {
+export const StsTokenResponseMessage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StsTokenResponseMessage",
@@ -24,7 +24,7 @@ export const StsTokenResponseMessage: coreHttp.CompositeMapper = {
   }
 };
 
-export const MixedRealityStsRestClientGetTokenHeaders: coreHttp.CompositeMapper = {
+export const MixedRealityStsRestClientGetTokenHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MixedRealityStsRestClientGetTokenHeaders",
@@ -39,7 +39,7 @@ export const MixedRealityStsRestClientGetTokenHeaders: coreHttp.CompositeMapper 
   }
 };
 
-export const MixedRealityStsRestClientGetTokenExceptionHeaders: coreHttp.CompositeMapper = {
+export const MixedRealityStsRestClientGetTokenExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MixedRealityStsRestClientGetTokenExceptionHeaders",

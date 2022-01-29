@@ -211,6 +211,8 @@ import {
   WebAppsUpdateAuthSettingsResponse,
   WebAppsGetAuthSettingsOptionalParams,
   WebAppsGetAuthSettingsResponse,
+  WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams,
+  WebAppsGetAuthSettingsV2WithoutSecretsResponse,
   SiteAuthSettingsV2,
   WebAppsUpdateAuthSettingsV2OptionalParams,
   WebAppsUpdateAuthSettingsV2Response,
@@ -6284,6 +6286,23 @@ export class WebAppsImpl implements WebApps {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
       getAuthSettingsOperationSpec
+    );
+  }
+
+  /**
+   * Description for Gets site's Authentication / Authorization settings for apps via the V2 format
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The options parameters.
+   */
+  getAuthSettingsV2WithoutSecrets(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams
+  ): Promise<WebAppsGetAuthSettingsV2WithoutSecretsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      getAuthSettingsV2WithoutSecretsOperationSpec
     );
   }
 
@@ -18141,6 +18160,28 @@ const getAuthSettingsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SiteAuthSettings
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getAuthSettingsV2WithoutSecretsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/authsettingsV2",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SiteAuthSettingsV2
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse

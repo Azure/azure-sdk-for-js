@@ -8,7 +8,7 @@ import {
   DefaultPerfOptions,
   defaultPerfOptions,
   validateOptions,
-  ParsedPerfOptions
+  ParsedPerfOptions,
 } from "./options";
 import { PerfParallel } from "./parallel";
 import { AbortController } from "@azure/abort-controller";
@@ -40,7 +40,7 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
     if (this.options) {
       validateOptions({
         ...this.options,
-        ...defaultPerfOptions
+        ...defaultPerfOptions,
       });
     }
 
@@ -54,7 +54,7 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
     //   ```
     return parsePerfOption({
       ...this.options,
-      ...defaultPerfOptions
+      ...defaultPerfOptions,
     } as PerfOptionDictionary<TOptions & DefaultPerfOptions>);
   }
 

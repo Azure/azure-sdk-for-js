@@ -5,10 +5,14 @@ import { spawn } from "child_process";
 import path from "path";
 import { IncomingMessage, request, RequestOptions } from "http";
 import fs from "fs-extra";
+import os from "os";
 import { createPrinter } from "./printer";
 import { resolveRoot } from "./resolveProject";
 
 const log = createPrinter("test-proxy");
+
+const CONTAINER_NAME = "js-azsdk-test-proxy";
+
 export async function startProxyTool(): Promise<void> {
   log.info(`Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`);
 
@@ -22,6 +26,32 @@ export async function startProxyTool(): Promise<void> {
   subprocess.stderr.pipe(out);
 
   log.info(`Check the output file "${outFileName}" for test-proxy logs.`);
+
+  await new Promise<void>((resolve, reject) => {
+    subprocess.on("exit", (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        fs.readFile(`./${outFileName}`, (_err, data) => {
+          const lines = data.toString().split(os.EOL);
+          reject(
+            new Error(
+              `Could not start test proxy. Below is the last 10 lines of output. See ${outFileName} for the full output.\n${lines
+                .slice(-10)
+                .join("\n")}`
+            )
+          );
+        });
+      }
+    });
+  });
+}
+
+export async function stopProxyTool(): Promise<void> {
+  log.info("Attempting to stop the test proxy if it is running");
+
+  const stopProcess = spawn(`docker stop ${CONTAINER_NAME}`, [], { shell: true });
+  return new Promise((resolve) => stopProcess.on("close", resolve));
 }
 
 async function getDockerRunCommand() {
@@ -29,7 +59,7 @@ async function getDockerRunCommand() {
   const testProxyRecordingsLocation = "/srv/testproxy";
   const allowLocalhostAccess = "--add-host host.docker.internal:host-gateway";
   const imageToLoad = `azsdkengsys.azurecr.io/engsys/testproxy-lin:${await getImageTag()}`;
-  return `docker run -v ${repoRoot}:${testProxyRecordingsLocation} -p 5001:5001 -p 5000:5000 ${allowLocalhostAccess} ${imageToLoad}`;
+  return `docker run --rm --name ${CONTAINER_NAME} -v ${repoRoot}:${testProxyRecordingsLocation} -p 5001:5001 -p 5000:5000 ${allowLocalhostAccess} ${imageToLoad}`;
 }
 
 export async function isProxyToolActive(): Promise<boolean> {
