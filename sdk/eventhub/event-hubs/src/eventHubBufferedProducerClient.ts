@@ -286,6 +286,11 @@ export class EventHubBufferedProducerClient {
       );
       this._clientOptions = { ...options4! };
     }
+
+    // setting internal idempotent publishing options on the standard producer.
+    (this._producer as any)._enableIdempotentPartitions =
+      this._clientOptions.enableIdempotentPartitions;
+    (this._producer as any)._partitionOptions = this._clientOptions.partitionOptions;
   }
 
   /**
