@@ -8,7 +8,7 @@ import {
   RecorderStartOptions,
   Recorder,
 } from "@azure-tools/test-recorder";
-import { createTestCredential } from "@azure-tools/test-credential"
+import { createTestCredential } from "@azure-tools/test-credential";
 import {
   AttestationClient,
   AttestationClientOptions,
@@ -32,9 +32,8 @@ const envSetupForPlayback: { [k: string]: string } = {
 };
 
 export const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback
+  envSetupForPlayback,
 };
-
 
 export type EndpointType = "AAD" | "Isolated" | "Shared";
 
@@ -94,7 +93,11 @@ export function createRecordedClient(
     };
   }
   if (authenticatedClient !== undefined && authenticatedClient) {
-    const attClient = new AttestationClient(getAttestationUri(endpointType), createTestCredential(), options);
+    const attClient = new AttestationClient(
+      getAttestationUri(endpointType),
+      createTestCredential(),
+      options
+    );
     recorder.configureClient(attClient["_client"]);
     return attClient;
   }
@@ -122,7 +125,11 @@ export function createRecordedAdminClient(
       },
     };
   }
-  const adminClient = new AttestationAdministrationClient(getAttestationUri(endpointType), createTestCredential(), options);
+  const adminClient = new AttestationAdministrationClient(
+    getAttestationUri(endpointType),
+    createTestCredential(),
+    options
+  );
   recorder.configureClient(adminClient["_client"]);
   return adminClient;
 }

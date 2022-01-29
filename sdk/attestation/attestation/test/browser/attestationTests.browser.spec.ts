@@ -23,7 +23,7 @@ describe("AttestationClient in Browser", function () {
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions)
+    await recorder.start(recorderOptions);
   });
 
   afterEach(async function () {
