@@ -35,7 +35,8 @@ If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resour
 az cognitiveservices account create --kind MetricsAdvisor --resource-group <your-resource-group-name> --name <your-resource-name> --sku <sku level> --location <location>
 ```
 
-- Existing data sources with time series metric data and [set up datafeeds to onboard data][onboard_data_feed]
+- Existing data sources with time series metric data with the [required data schema][data_schema_requirements]. You can find the settings and requirements for [connecting different types of data sources][connect_sources_metrics_advisor] to Azure Metrics Advisor.
+- After this,[set up datafeeds to onboard data][onboard_data_feed]
 
 ### Install the `@azure/ai-metrics-advisor` package
 
@@ -516,3 +517,5 @@ the code.
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [metrics_advisor_glossary]: https://docs.microsoft.com/azure/cognitive-services/metrics-advisor/glossary
 [onboard_data_feed]: https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/how-tos/onboard-your-data
+[data_schema_requirements]: https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/how-tos/onboard-your-data#data-schema-requirements-and-configuration
+[connect_sources_metrics_advisor]: https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/data-feeds-from-different-sources
