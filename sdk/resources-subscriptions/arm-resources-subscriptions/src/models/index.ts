@@ -449,14 +449,14 @@ export interface TenantsListNextOptionalParams
 export type TenantsListNextResponse = TenantListResult;
 
 /** Optional parameters. */
-export interface SubscriptionClientCheckResourceNameOptionalParams
+export interface CheckResourceNameOptionalParams
   extends coreClient.OperationOptions {
   /** Resource object with values for resource name and resource type */
   resourceNameDefinition?: ResourceName;
 }
 
 /** Contains response data for the checkResourceName operation. */
-export type SubscriptionClientCheckResourceNameResponse = CheckResourceNameResult;
+export type CheckResourceNameResponse = CheckResourceNameResult;
 
 /** Optional parameters. */
 export interface SubscriptionClientOptionalParams

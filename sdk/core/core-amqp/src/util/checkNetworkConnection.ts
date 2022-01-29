@@ -11,7 +11,7 @@ import { logger } from "../log";
 export function checkNetworkConnection(host: string): Promise<boolean> {
   return new Promise((resolve) => {
     logger.verbose("Calling dns.resolve to determine network connection status.");
-    dnsResolve(host, function(err: any): void {
+    dnsResolve(host, function (err: any): void {
       if (err) {
         logger.verbose(
           "Error thrown from dns.resolve in network connection check: '%s', %O",

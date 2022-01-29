@@ -7,13 +7,13 @@ import {
   PipelineRequest,
   PipelineResponse,
   Pipeline,
-  createPipelineRequest
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import {
   OperationArguments,
   OperationSpec,
   OperationRequest,
-  CommonClientOptions
+  CommonClientOptions,
 } from "./interfaces";
 import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
 import { getRequestUrl } from "./urlHelpers";
@@ -125,7 +125,7 @@ export class ServiceClient {
     const url = getRequestUrl(baseUri, operationSpec, operationArguments, this);
 
     const request: OperationRequest = createPipelineRequest({
-      url
+      url,
     });
     request.method = operationSpec.httpMethod;
     const operationInfo = getOperationRequestInfo(request);
@@ -190,12 +190,17 @@ export class ServiceClient {
         options.onResponse(rawResponse, flatResponse);
       }
       return flatResponse;
-    } catch (error) {
-      if (error.response) {
-        error.details = flattenResponse(
-          error.response,
+    } catch (error: any) {
+      if (typeof error === "object" && error?.response) {
+        const rawResponse = error.response;
+        const flatResponse = flattenResponse(
+          rawResponse,
           operationSpec.responses[error.statusCode] || operationSpec.responses["default"]
         );
+        error.details = flatResponse;
+        if (options?.onResponse) {
+          options.onResponse(rawResponse, flatResponse, error);
+        }
       }
       throw error;
     }
@@ -211,7 +216,7 @@ function createDefaultPipeline(options: ServiceClientOptions): Pipeline {
 
   return createClientPipeline({
     ...options,
-    credentialOptions
+    credentialOptions,
   });
 }
 

@@ -9,5 +9,5 @@ import { createSpanFunction } from "@azure/core-tracing";
  */
 export const createSpan = createSpanFunction({
   packagePrefix: "Azure.CognitiveServices.MetricsAdvisor",
-  namespace: "Microsoft.CognitiveServices"
+  namespace: "Microsoft.CognitiveServices",
 });

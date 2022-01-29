@@ -55,12 +55,12 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
-    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:browser": "tsc -p . && dev-tool run bundle",
+    "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete.",
-    "build:test": "tsc -p . && rollup -c 2>&1",
-    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && mkdirp ./review && api-extractor run --local",
-    "build:debug": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "build:test": "tsc -p . && dev-tool run bundle",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && mkdirp ./review && api-extractor run --local",
+    "build:debug": "tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -78,8 +78,7 @@
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "cross-env mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeExternals  --out ./dist/docs ./src"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -119,14 +118,12 @@
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
     "mkdirp": "^1.0.4",
-    "mocha-junit-reporter": "^1.18.0",
+    "mocha-junit-reporter": "^2.0.0",
     "mocha": "^7.1.1",
-    "nyc": "^14.0.0",
-    "prettier": "2.2.1",
+    "nyc": "^15.0.0",
+    "prettier": "2.5.1",
     "rimraf": "^3.0.0",
-    "rollup": "^1.16.3",
     "source-map-support": "^0.5.9",
-    "typedoc": "0.15.2",
     "typescript": "~4.2.0"
   }
 }

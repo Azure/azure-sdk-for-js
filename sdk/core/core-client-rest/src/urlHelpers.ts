@@ -24,6 +24,8 @@ export function buildRequestUrl(
     return path;
   }
 
+  baseUrl = buildBaseUrl(baseUrl, options);
+
   for (const pathParam of pathParameters) {
     let value = pathParam;
     if (!options.skipUrlEncoding) {
@@ -56,4 +58,40 @@ export function buildRequestUrl(
       // Remove double forward slashes
       .replace(/([^:]\/)\/+/g, "$1")
   );
+}
+
+export function buildBaseUrl(baseUrl: string, options: RequestParameters): string {
+  if (!options.pathParameters) {
+    return baseUrl;
+  }
+  const pathParams = options.pathParameters;
+  for (const [key, param] of Object.entries(pathParams)) {
+    if (param === undefined || param === null) {
+      throw new Error(`Path parameters ${key} must not be undefined or null`);
+    }
+    if (!param.toString || typeof param.toString !== "function") {
+      throw new Error(`Path parameters must be able to be represented as string, ${key} can't`);
+    }
+    let value = param.toISOString !== undefined ? param.toISOString() : String(param);
+    if (!options.skipUrlEncoding) {
+      value = encodeURIComponent(param);
+    }
+    baseUrl = replaceAll(baseUrl, `{${key}}`, value) ?? "";
+  }
+  return baseUrl;
+}
+
+/**
+ * Replace all of the instances of searchValue in value with the provided replaceValue.
+ * @param value - The value to search and replace in.
+ * @param searchValue - The value to search for in the value argument.
+ * @param replaceValue - The value to replace searchValue with in the value argument.
+ * @returns The value where each instance of searchValue was replaced with replacedValue.
+ */
+export function replaceAll(
+  value: string | undefined,
+  searchValue: string,
+  replaceValue: string
+): string | undefined {
+  return !value || !searchValue ? value : value.split(searchValue).join(replaceValue || "");
 }

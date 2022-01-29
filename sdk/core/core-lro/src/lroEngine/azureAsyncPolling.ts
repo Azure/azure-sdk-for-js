@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import {
-  failureStates,
-  LroResourceLocationConfig,
   LongRunningOperation,
   LroBody,
+  LroResourceLocationConfig,
   LroResponse,
   LroStatus,
+  RawResponse,
+  failureStates,
   successStates,
-  RawResponse
 } from "./models";
 import { isUnexpectedPollingResponse } from "./requestUtils";
 
@@ -66,15 +66,15 @@ export function processAzureAsyncOperationResult<TResult>(
             );
             return {
               ...(finalResponse ?? response),
-              done: true
+              done: true,
             };
-          }
+          },
         };
       }
     }
     return {
       ...response,
-      done: false
+      done: false,
     };
   };
 }

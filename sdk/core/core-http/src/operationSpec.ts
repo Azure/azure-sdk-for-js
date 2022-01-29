@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { MapperType, Serializer } from "./serializer";
 import {
   OperationParameter,
   OperationQueryParameter,
-  OperationURLParameter
+  OperationURLParameter,
 } from "./operationParameter";
-import { OperationResponse } from "./operationResponse";
-import { MapperType, Serializer } from "./serializer";
 import { HttpMethods } from "./webResource";
+import { OperationResponse } from "./operationResponse";
 
 /**
  * A specification that defines how to perform a particular service operation over HTTP, including how to properly serialize request information into and deserialize response information into an object payload returnable by the {@link ServiceClient}.

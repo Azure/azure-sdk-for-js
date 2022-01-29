@@ -57,7 +57,7 @@ The environment variable **TEST_MODE** controls how the tests are running.
 - Else If TEST_MODE = "playback" (or if the TEST_MODE is not set or set to an invalid value),
   - Existing recordings are played back as responses to the HTTP requests in the tests
 
-Please refer to the [guidelines on Record and Playback](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/GUIDELINES.md) for more details.
+Please refer to the [guidelines on Record and Playback](https://github.com/Azure/azure-sdk-for-js/blob/c06170fbaf39e81496f8009a0da93d470d8c9f88/sdk/test-utils/recorder/GUIDELINES.md) for more details.
 
 ### Emulator Tests
 
@@ -156,7 +156,7 @@ npm run test
 
 `npm run test` would run the the tests in both node and the browser.
 
-**Link** - [Guidelines for record and playback - `@azure-tools/test-recorder`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/GUIDELINES.md)
+**Link** - [Guidelines for record and playback - `@azure-tools/test-recorder`](https://github.com/Azure/azure-sdk-for-js/blob/c06170fbaf39e81496f8009a0da93d470d8c9f88/sdk/test-utils/recorder/GUIDELINES.md)
 
 ## Pull Requests
 

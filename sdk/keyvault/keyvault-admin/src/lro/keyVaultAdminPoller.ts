@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-client";
-import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
+import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
 import { KeyVaultClient } from "../generated/keyVaultClient";
+import { OperationOptions } from "@azure/core-client";
 
 /**
  * Common parameters to a Key Vault Admin Poller.
@@ -58,7 +58,7 @@ export function cleanState<TState extends KeyVaultAdminPollOperationState<TResul
     isCancelled: state.isCancelled,
     isCompleted: state.isCompleted,
     error: state.error,
-    result: state.result
+    result: state.result,
   };
 }
 
@@ -125,7 +125,7 @@ export class KeyVaultAdminPollOperation<TState, TResult> implements PollOperatio
    */
   public toString(): string {
     return JSON.stringify({
-      state: cleanState(this.state)
+      state: cleanState(this.state),
     });
   }
 }

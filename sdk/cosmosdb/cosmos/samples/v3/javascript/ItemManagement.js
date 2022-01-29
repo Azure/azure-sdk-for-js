@@ -5,8 +5,6 @@
  * @summary Demonstrates item creation, read, delete and reading all items belonging to a container.
  */
 
-const path = require("path");
-
 require("dotenv").config();
 
 const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");
@@ -134,7 +132,7 @@ async function run() {
     await item.replace(person, { accessCondition: { type: "IfMatch", condition: person._etag } });
     throw new Error("This should have failed!");
   } catch (err) {
-    if (err && err.code === 412) {
+    if (err) {
       console.log("As expected, the replace item failed with a pre-condition failure");
     } else {
       throw err;
@@ -166,7 +164,72 @@ async function run() {
       throw new Error("These two upserted records should have different resource IDs.");
     }
   }
+  logStep("Patching an item with single patch operation");
+  const patchSource = itemDefList.find((t) => t.id == "AndersenFamily");
+  console.log(JSON.stringify(patchSource));
+  const replaceOperation = [
+    {
+      op: "replace",
+      path: "/lastName",
+      value: "Martin",
+    },
+  ];
+  if (patchSource) {
+    const patchId = patchSource && patchSource.id;
+    if (typeof id === "undefined") {
+      throw new Error("ID for old offer is undefined");
+    }
+    const { resource: patchSource1 } = await container.item(patchId).patch(replaceOperation);
+    if (patchSource1)
+      console.log(`Patched ${patchSource.lastName} to new ${patchSource1.lastName}.`);
+    logStep("Patching an item with multiple patch operations");
+    const multipleOperations = [
+      {
+        op: "add",
+        path: "/aka",
+        value: "MeFamily",
+      },
+      {
+        op: "replace",
+        path: "/lastName",
+        value: "Jose",
+      },
+      {
+        op: "remove",
+        path: "/parents",
+      },
+      {
+        op: "set",
+        path: "/address/zip",
+        value: 90211,
+      },
+      {
+        op: "incr",
+        path: "/address/zip",
+        value: 5,
+      },
+    ];
+    const { resource: patchSource2 } = await container.item(patchId).patch(multipleOperations);
+    if (patchSource2) {
+      console.log(`Patched ${JSON.stringify(patchSource)} to new ${JSON.stringify(patchSource2)}.`);
+    }
 
+    logStep("Conditionally Patching an item using it's id");
+    const operations = [
+      {
+        op: "add",
+        path: "/newImproved",
+        value: "it works",
+      },
+    ];
+    const condition = "from c where NOT IS_DEFINED(c.newImproved)";
+    const { resource: patchSource3 } = await container
+      .item(patchId)
+      .patch({ condition, operations });
+    if (patchSource3) {
+      console.log(`Patched ${JSON.stringify(patchSource)} to new ${JSON.stringify(patchSource3)}.`);
+    }
+  }
   logStep("Delete item '" + item.id + "'");
   await item.delete();
 

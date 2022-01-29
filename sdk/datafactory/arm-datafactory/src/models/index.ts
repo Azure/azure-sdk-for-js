@@ -429,6 +429,7 @@ export type ControlActivityUnion =
   | SwitchActivity
   | ForEachActivity
   | WaitActivity
+  | FailActivity
   | UntilActivity
   | ValidationActivity
   | FilterActivity
@@ -1532,6 +1533,7 @@ export interface Activity {
     | "AzureMLExecutePipeline"
     | "DataLakeAnalyticsU-SQL"
     | "Wait"
+    | "Fail"
     | "Until"
     | "Validation"
     | "Filter"
@@ -4109,6 +4111,8 @@ export type CosmosDbLinkedService = LinkedService & {
   connectionMode?: CosmosDbConnectionMode;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: Record<string, unknown>;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 };
 
 /** Dynamics linked service. */
@@ -4139,6 +4143,8 @@ export type DynamicsLinkedService = LinkedService & {
   servicePrincipalCredential?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: Record<string, unknown>;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 };
 
 /** Dynamics CRM linked service. */
@@ -4705,6 +4711,10 @@ export type AzureBlobFSLinkedService = LinkedService & {
   encryptedCredential?: Record<string, unknown>;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
+  /** The service principal credential type to use in Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or Expression with resultType string). */
+  servicePrincipalCredentialType?: Record<string, unknown>;
+  /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
+  servicePrincipalCredential?: SecretBaseUnion;
 };
 
 /** Office365 linked service. */
@@ -5814,6 +5824,10 @@ export type AzureDatabricksDeltaLakeLinkedService = LinkedService & {
   clusterId?: Record<string, unknown>;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: Record<string, unknown>;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
+  /** Workspace resource id for databricks REST API. Type: string (or Expression with resultType string). */
+  workspaceResourceId?: Record<string, unknown>;
 };
 
 /** Responsys linked service. */
@@ -5878,12 +5892,14 @@ export type OracleServiceCloudLinkedService = LinkedService & {
 export type GoogleAdWordsLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleAdWords";
+  /** Properties used to connect to GoogleAds. It is mutually exclusive with any other properties in the linked service. Type: object. */
+  connectionProperties?: Record<string, unknown>;
   /** The Client customer ID of the AdWords account that you want to fetch report data for. */
-  clientCustomerID: Record<string, unknown>;
+  clientCustomerID?: Record<string, unknown>;
   /** The developer token associated with the manager account that you use to grant access to the AdWords API. */
-  developerToken: SecretBaseUnion;
+  developerToken?: SecretBaseUnion;
   /** The OAuth 2.0 authentication mechanism used for authentication. ServiceAuthentication can only be used on self-hosted IR. */
-  authenticationType: GoogleAdWordsAuthenticationType;
+  authenticationType?: GoogleAdWordsAuthenticationType;
   /** The refresh token obtained from Google for authorizing access to AdWords for UserAuthentication. */
   refreshToken?: SecretBaseUnion;
   /** The client id of the google application used to acquire the refresh token. Type: string (or Expression with resultType string). */
@@ -6993,6 +7009,7 @@ export type ControlActivity = Activity & {
     | "Switch"
     | "ForEach"
     | "Wait"
+    | "Fail"
     | "Until"
     | "Validation"
     | "Filter"
@@ -7456,6 +7473,8 @@ export type LinkedIntegrationRuntimeRbacAuthorization = LinkedIntegrationRuntime
   authorizationType: "RBAC";
   /** The resource identifier of the integration runtime to be shared. */
   resourceId: string;
+  /** The credential reference containing authentication information. */
+  credential?: CredentialReference;
 };
 
 /** A WebLinkedService that uses anonymous authentication to communicate with an HTTP endpoint. */
@@ -9089,6 +9108,16 @@ export type WaitActivity = ControlActivity & {
   type: "Wait";
   /** Duration in seconds. */
   waitTimeInSeconds: Record<string, unknown>;
+};
+
+/** This activity will fail within its own scope and output a custom error message and error code. The error message and code can provided either as a string literal or as an expression that can be evaluated to a string at runtime. The activity scope can be the whole pipeline or a control activity (e.g. foreach, switch, until), if the fail activity is contained in it. */
+export type FailActivity = ControlActivity & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Fail";
+  /** The error message that surfaced in the Fail activity. It can be dynamic content that's evaluated to a non empty/blank string at runtime. Type: string (or Expression with resultType string). */
+  message: Record<string, unknown>;
+  /** The error code that categorizes the error type of the Fail activity. It can be dynamic content that's evaluated to a non empty/blank string at runtime. Type: string (or Expression with resultType string). */
+  errorCode: Record<string, unknown>;
 };
 
 /** This activity executes inner activities until the specified boolean expression results to true or timeout is reached, whichever is earlier. */

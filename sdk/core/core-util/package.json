@@ -22,12 +22,11 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
-    "build:test": "tsc -p . && rollup -c 2>&1",
+    "build:test": "tsc -p . && dev-tool run bundle",
     "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "npm run clean && tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
-    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
@@ -39,7 +38,7 @@
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && tsc -p . && npm run unit-test:node && rollup -c 2>&1 && npm run unit-test:browser && npm run integration-test",
+    "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
@@ -80,7 +79,7 @@
     "@types/sinon": "^9.0.4",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "chai": "^4.2.0",
-    "downlevel-dts": "~0.4.0",
+    "downlevel-dts": "^0.8.0",
     "cross-env": "^7.0.2",
     "eslint": "^7.15.0",
     "inherits": "^2.0.3",
@@ -96,13 +95,11 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^1.18.0",
-    "prettier": "^1.16.4",
+    "mocha-junit-reporter": "^2.0.0",
+    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "rollup": "^1.16.3",
     "sinon": "^9.0.2",
     "typescript": "~4.2.0",
-    "util": "^0.12.1",
-    "typedoc": "0.15.2"
+    "util": "^0.12.1"
   }
 }

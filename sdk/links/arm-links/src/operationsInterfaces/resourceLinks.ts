@@ -6,13 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ResourceLink,
-  ResourceLinksListAtSubscriptionNextOptionalParams,
   ResourceLinksListAtSubscriptionOptionalParams,
-  ResourceLinksListAtSourceScopeNextOptionalParams,
   ResourceLinksListAtSourceScopeOptionalParams,
   ResourceLinksDeleteOptionalParams,
   ResourceLinksCreateOrUpdateOptionalParams,
@@ -41,28 +38,6 @@ export interface ResourceLinks {
   listAtSourceScope(
     scope: string,
     options?: ResourceLinksListAtSourceScopeOptionalParams
-  ): PagedAsyncIterableIterator<ResourceLink>;
-  /**
-   * ListAtSubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListAtSubscription method.
-   * @param options The options parameters.
-   */
-  listAtSubscriptionNext(
-    nextLink: string,
-    options?: ResourceLinksListAtSubscriptionNextOptionalParams
-  ): PagedAsyncIterableIterator<ResourceLink>;
-  /**
-   * ListAtSourceScopeNext
-   * @param scope The fully qualified ID of the scope for getting the resource links. For example, to
-   *              list resource links at and under a resource group, set the scope to
-   *              /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup.
-   * @param nextLink The nextLink from the previous successful call to the ListAtSourceScope method.
-   * @param options The options parameters.
-   */
-  listAtSourceScopeNext(
-    scope: string,
-    nextLink: string,
-    options?: ResourceLinksListAtSourceScopeNextOptionalParams
   ): PagedAsyncIterableIterator<ResourceLink>;
   /**
    * Deletes a resource link with the specified ID.

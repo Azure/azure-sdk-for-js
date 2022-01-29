@@ -2,27 +2,26 @@
 // Licensed under the MIT license.
 
 import {
-  getTraceParentHeader,
-  createSpanFunction,
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions,
+} from "./requestPolicy";
+import {
+  Span,
   SpanKind,
   SpanStatusCode,
+  createSpanFunction,
+  getTraceParentHeader,
   isSpanContextValid,
-  Span
 } from "@azure/core-tracing";
-import {
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  BaseRequestPolicy
-} from "./requestPolicy";
-import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
-import { URLBuilder } from "../url";
+import { WebResourceLike } from "../webResource";
 import { logger } from "../log";
 
 const createSpan = createSpanFunction({
   packagePrefix: "",
-  namespace: ""
+  namespace: "",
 });
 
 /**
@@ -44,7 +43,7 @@ export function tracingPolicy(tracingOptions: TracingPolicyOptions = {}): Reques
   return {
     create(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
       return new TracingPolicy(nextPolicy, options, tracingOptions);
-    }
+    },
   };
 }
 
@@ -86,18 +85,16 @@ export class TracingPolicy extends BaseRequestPolicy {
 
   tryCreateSpan(request: WebResourceLike): Span | undefined {
     try {
-      const path = URLBuilder.parse(request.url).getPath() || "/";
-
       // Passing spanOptions as part of tracingOptions to maintain compatibility @azure/core-tracing@preview.13 and earlier.
       // We can pass this as a separate parameter once we upgrade to the latest core-tracing.
-      const { span } = createSpan(path, {
+      const { span } = createSpan(`HTTP ${request.method}`, {
         tracingOptions: {
           spanOptions: {
             ...(request as any).spanOptions,
-            kind: SpanKind.CLIENT
+            kind: SpanKind.CLIENT,
           },
-          tracingContext: request.tracingContext
-        }
+          tracingContext: request.tracingContext,
+        },
       });
 
       // If the span is not recording, don't do any more work.
@@ -115,7 +112,7 @@ export class TracingPolicy extends BaseRequestPolicy {
       span.setAttributes({
         "http.method": request.method,
         "http.url": request.url,
-        requestId: request.requestId
+        requestId: request.requestId,
       });
 
       if (this.userAgent) {
@@ -144,7 +141,7 @@ export class TracingPolicy extends BaseRequestPolicy {
     try {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: err.message
+        message: err.message,
       });
 
       if (err.statusCode) {
@@ -164,7 +161,7 @@ export class TracingPolicy extends BaseRequestPolicy {
         span.setAttribute("serviceRequestId", serviceRequestId);
       }
       span.setStatus({
-        code: SpanStatusCode.OK
+        code: SpanStatusCode.OK,
       });
       span.end();
     } catch (error) {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, expect, use as chaiUse } from "chai";
+import { assert, use as chaiUse, expect } from "chai";
 import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
@@ -9,23 +9,24 @@ chaiUse(chaiPromises);
 import { Recorder } from "@azure-tools/test-recorder";
 
 import {
+  EndpointType,
   createRecordedAdminClient,
   createRecordedClient,
-  createRecorder,
-  EndpointType
+  recorderOptions,
 } from "../utils/recordedClient";
 import * as base64url from "../utils/base64url";
 
 import { KnownAttestationType } from "../../src";
 
-describe("[AAD] Attestation Client", function() {
+describe("[AAD] Attestation Client", function () {
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
-    recorder = createRecorder(this);
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -167,8 +168,8 @@ describe("[AAD] Attestation Client", function() {
   /* TPM Attestation can only be performed on an AAD or isolated mode client.
    */
   it("#attestTpm", async () => {
-    const client = createRecordedClient("AAD", true);
-    const adminClient = createRecordedAdminClient("AAD");
+    const client = createRecordedClient(recorder, "AAD", true);
+    const adminClient = createRecordedAdminClient(recorder, "AAD");
 
     // Set the policy on the instance to a known value.
     await adminClient.setPolicy(
@@ -194,14 +195,14 @@ describe("[AAD] Attestation Client", function() {
 
   async function testOpenEnclave(endpointType: EndpointType): Promise<void> {
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
-    const client = createRecordedClient(endpointType);
+    const client = createRecordedClient(recorder, endpointType);
 
     {
       // You can't specify both runtimeData and runtimeJson.
       await expect(
         client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
           runTimeData: binaryRuntimeData,
-          runTimeJson: binaryRuntimeData
+          runTimeJson: binaryRuntimeData,
         })
       ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
     }
@@ -210,7 +211,7 @@ describe("[AAD] Attestation Client", function() {
       const attestationResult = await client.attestOpenEnclave(
         base64url.decodeString(_openEnclaveReport),
         {
-          runTimeData: binaryRuntimeData
+          runTimeData: binaryRuntimeData,
         }
       );
 
@@ -226,7 +227,7 @@ describe("[AAD] Attestation Client", function() {
       const attestationResult = await client.attestOpenEnclave(
         base64url.decodeString(_openEnclaveReport),
         {
-          runTimeJson: binaryRuntimeData
+          runTimeJson: binaryRuntimeData,
         }
       );
 
@@ -246,7 +247,7 @@ describe("[AAD] Attestation Client", function() {
   }
 
   async function testSgxEnclave(endpointType: EndpointType): Promise<void> {
-    const client = createRecordedClient(endpointType);
+    const client = createRecordedClient(recorder, endpointType);
 
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
 
@@ -255,7 +256,7 @@ describe("[AAD] Attestation Client", function() {
       await expect(
         client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
           runTimeData: binaryRuntimeData,
-          runTimeJson: binaryRuntimeData
+          runTimeJson: binaryRuntimeData,
         })
       ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
     }
@@ -267,7 +268,7 @@ describe("[AAD] Attestation Client", function() {
       const attestationResult = await client.attestSgxEnclave(
         base64url.decodeString(_openEnclaveReport).subarray(0x10),
         {
-          runTimeData: binaryRuntimeData
+          runTimeData: binaryRuntimeData,
         }
       );
 
@@ -285,7 +286,7 @@ describe("[AAD] Attestation Client", function() {
       const attestationResult = await client.attestSgxEnclave(
         base64url.decodeString(_openEnclaveReport).subarray(0x10),
         {
-          runTimeJson: binaryRuntimeData
+          runTimeJson: binaryRuntimeData,
         }
       );
 

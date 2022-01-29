@@ -5,22 +5,16 @@ import * as path from "path";
 import { assert } from "chai";
 import { isNode } from "@azure/core-util";
 import { OnBehalfOfCredential } from "../../../src";
-import {
-  createResponse,
-  IdentityTestContext,
-  SendCredentialRequests
-} from "../../httpRequestsCommon";
-import { prepareIdentityTests, prepareMSALResponses } from "../../httpRequests";
+import { createResponse, IdentityTestContextInterface } from "../../httpRequestsCommon";
+import { IdentityTestContext, prepareMSALResponses } from "../../httpRequests";
 
-describe("OnBehalfOfCredential", function() {
-  let testContext: IdentityTestContext;
-  let sendCredentialRequests: SendCredentialRequests;
+describe("OnBehalfOfCredential", function () {
+  let testContext: IdentityTestContextInterface;
 
-  beforeEach(async function() {
-    testContext = await prepareIdentityTests({ replaceLogger: true, logLevel: "verbose" });
-    sendCredentialRequests = testContext.sendCredentialRequests;
+  beforeEach(async function () {
+    testContext = await new IdentityTestContext({ replaceLogger: true, logLevel: "verbose" });
   });
-  afterEach(async function() {
+  afterEach(async function () {
     if (isNode) {
       delete process.env.AZURE_AUTHORITY_HOST;
     }
@@ -32,7 +26,7 @@ describe("OnBehalfOfCredential", function() {
       tenantId: "adfs",
       clientId: "client",
       clientSecret: "secret",
-      userAssertionToken: "user-assertion"
+      userAssertionToken: "user-assertion",
     });
 
     const newMSALClientLogs = () =>
@@ -40,16 +34,16 @@ describe("OnBehalfOfCredential", function() {
         message.match("Initialized MSAL's On-Behalf-Of flow")
       ).length;
 
-    const authDetails = await sendCredentialRequests({
+    const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://test/.default"],
       credential,
       secureResponses: [
         ...prepareMSALResponses(),
         createResponse(200, {
           access_token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00"
-        })
-      ]
+          expires_on: "06/20/2019 02:57:58 +00:00",
+        }),
+      ],
     });
 
     assert.isNumber(authDetails.result?.expiresOnTimestamp);
@@ -65,7 +59,7 @@ describe("OnBehalfOfCredential", function() {
       tenantId: "adfs",
       clientId: "client",
       certificatePath,
-      userAssertionToken: "user-assertion"
+      userAssertionToken: "user-assertion",
     });
 
     const newMSALClientLogs = () =>
@@ -73,16 +67,16 @@ describe("OnBehalfOfCredential", function() {
         message.match("Initialized MSAL's On-Behalf-Of flow")
       ).length;
 
-    const authDetails = await sendCredentialRequests({
+    const authDetails = await testContext.sendCredentialRequests({
       scopes: ["https://test/.default"],
       credential,
       secureResponses: [
         ...prepareMSALResponses(),
         createResponse(200, {
           access_token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00"
-        })
-      ]
+          expires_on: "06/20/2019 02:57:58 +00:00",
+        }),
+      ],
     });
 
     assert.isNumber(authDetails.result?.expiresOnTimestamp);

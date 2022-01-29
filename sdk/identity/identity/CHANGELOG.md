@@ -11,8 +11,11 @@
 ### Bugs Fixed
 
 - Challenge claims now are properly being passed through to the outgoing token requests.
+- The `ManagedIdentityCredential` now properly parses expiration dates from token exchange requests.
 
 ### Other Changes
+
+- Moved the `@types/stoppable` dependency to the `devDependencies`.
 
 ## 2.0.1 (2021-10-28)
 

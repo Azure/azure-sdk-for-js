@@ -1,5 +1,17 @@
 # Release History
 
+## 4.4.0-beta.4 (Unreleased)
+
+### Features Added
+
+- Added `KeyReleasePolicy#immutable` flag to support immutable release policies. Once a release policy is marked as immutable, it can no longer be modified.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.4.0-beta.3 (2021-11-09)
 
 ### Features Added

@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "96a625fc9152780897db70e104daf3ae";
+module.exports.hash = "3846d9b464771fc2f475c20847a83b21";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'bf80b568-724d-4ed5-bdfa-5b1c045c0300',
+  '84e10da0-7734-4177-95ed-c343c4bc2000',
   'x-ms-ests-server',
-  '2.1.12171.14 - KRSLR2 ProdSlices',
+  '2.1.12261.14 - KRSLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=AtCb21qB2WVFlLSLyMoZ-B0; expires=Fri, 26-Nov-2021 02:03:51 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlHYvWTSInRIo_XYxhQRX4c; expires=Wed, 12-Jan-2022 05:57:04 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrFpgR1PkNyBvKyTdmZ0kK9ZrRD9J77MJU9GkY7yu_2HfILx-3vq0_tJPMlCkaKYHDjGzuokN3x05wCa0KznL7N5BznuJ0O6EvSVNqrMAlbwKprmM2fcWFGqlL20fRjHB-Pv_4mnmAJrcrbIxk8MCXqExstSXZz0lzHlROpGJ0BD0gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrIBDPQNMzyWmNJ8bRDjEI2UodkM7F3v7-GrFLENvaS48DCko4RFQMAO-4IvbC1FtATQQIbEOfhutBmv6tMIGuAuAzwjRVgtA_5qPgleNwff0saoLN9KEXWgcf5_2J6mb0MsugmfrGfW7f1B7DqXPU4-c2Y5CbrPLoHEhqB2iNR2IgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 27 Oct 2021 02:03:50 GMT',
+  'Mon, 13 Dec 2021 05:57:03 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '6b976584-20f0-4803-8579-93ba52782400',
+  'ce3fce6e-e1c9-4d21-a5ce-788a35142000',
   'x-ms-ests-server',
-  '2.1.12171.14 - SEASLR1 ProdSlices',
+  '2.1.12261.14 - KRSLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=AnFAoK45gahCnCEVEXHqfvs; expires=Fri, 26-Nov-2021 02:03:51 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Auhn9jF9v9hBjcXQuCTvkTk; expires=Wed, 12-Jan-2022 05:57:04 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrEEgtkw_BVN2cJfZaYZ4Qdh4rp1i315Yg_whitIUIqJCdkFkCSoNqTD1l27TmCTq4FTnzYy99y6YkQEkj6Lf_BvQTcRmVr3J09IQy-AEiM-tdtUKiA53xwT61hMRbLi2WwYvKiSzTmL9Q9ZWLaVLr77dwtW91IgmIOOQ89kQKtc4gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrI4Oo44E8U0F688gXsRg1I4pIELqZoF9Liy2Tcf1L_JuSGbZBKZ7coG0MsWi2oj89okxI0oW_K69Ll6Q6YA9xxGJLkhftxRPNmwAN2ytk-6BYp5MTKVwXwhPovl4L8O0Bau0B3utXdU5QzS3bFGWhRaKx3nmOIiAkncw6ZMOkZHcgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 27 Oct 2021 02:03:50 GMT',
+  'Mon, 13 Dec 2021 05:57:04 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=22436567-b364-46ef-885f-227c12e804a9&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.3&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=96e5ea2e-b8ab-4ba8-ac6b-96c08e0a43d3&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,21 +93,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'bf80b568-724d-4ed5-bdfa-5b1c065c0300',
+  'e407fa4b-b48e-461f-b002-2daf33df1f00',
   'x-ms-ests-server',
-  '2.1.12171.14 - KRSLR2 ProdSlices',
+  '2.1.12261.14 - KRSLR1 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AvZF_A2Tds1Ao7Ag6q4NDk4WPr5BAQAAAIeqCtkOAAAA; expires=Fri, 26-Nov-2021 02:03:52 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AunVdmYU7lBHmW8pcOIQScEWPr5BAQAAAK_XSNkOAAAA; expires=Wed, 12-Jan-2022 05:57:04 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 27 Oct 2021 02:03:51 GMT',
+  'Mon, 13 Dec 2021 05:57:04 GMT',
   'Content-Length',
-  '1351'
+  '1374'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
@@ -125,9 +125,9 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationResults/4faac10c-2b5b-4e7b-a69b-a21644ab0107/Spring/myappxxx?api-version=2021-09-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationResults/607464e3-cd52-4b1e-b7aa-572e35e33712/Spring/myappxxx?api-version=2021-09-01-preview',
   'x-ms-ratelimit-remaining-subscription-resource-requests',
-  '1198',
+  '1199',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -135,27 +135,27 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  '67730fb3-d6b2-4533-9d2e-33a1b013a190',
+  'ad251593-fd4c-402b-9c09-86d124983b79',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Azure-AsyncOperation',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107?api-version=2021-09-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712?api-version=2021-09-01-preview',
   'Server',
   'nginx/1.17.7',
   'x-ms-request-id',
-  '28249a42-db0e-460e-b0db-1a0174482c6d',
+  '4ce2ff39-c4fd-4d40-82bb-8e3b9f621c4d',
   'x-ms-correlation-request-id',
-  '28249a42-db0e-460e-b0db-1a0174482c6d',
+  '4ce2ff39-c4fd-4d40-82bb-8e3b9f621c4d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020352Z:28249a42-db0e-460e-b0db-1a0174482c6d',
+  'SOUTHEASTASIA:20211213T055705Z:4ce2ff39-c4fd-4d40-82bb-8e3b9f621c4d',
   'Date',
-  'Wed, 27 Oct 2021 02:03:52 GMT'
+  'Mon, 13 Dec 2021 05:57:04 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -169,13 +169,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  '7e30b6f4-8043-4598-94d3-50b47cc70ea4',
+  'b7ee2b6c-7333-4bc0-8789-f59c6a768630',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10881',
+  '10632',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -183,23 +183,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  '0edc6647-9dd3-4baa-ba7c-2ed3c8424258',
+  'b5aec4f3-1839-4301-86dc-a0bc6f8d4e77',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  '7e30b6f4-8043-4598-94d3-50b47cc70ea4',
+  'b7ee2b6c-7333-4bc0-8789-f59c6a768630',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020353Z:7e30b6f4-8043-4598-94d3-50b47cc70ea4',
+  'SOUTHEASTASIA:20211213T055705Z:b7ee2b6c-7333-4bc0-8789-f59c6a768630',
   'Date',
-  'Wed, 27 Oct 2021 02:03:52 GMT'
+  'Mon, 13 Dec 2021 05:57:05 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -213,13 +213,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  '17841bfa-c55b-4b6c-9389-3246056806cb',
+  '7c659251-135e-4866-91c9-fcca09df9a74',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10880',
+  '10631',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -227,23 +227,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  'fe623241-59af-47fb-a866-ed14f11985c2',
+  '5ab9034a-0f97-4fed-aa77-5740bbc846ea',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  '17841bfa-c55b-4b6c-9389-3246056806cb',
+  '7c659251-135e-4866-91c9-fcca09df9a74',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020353Z:17841bfa-c55b-4b6c-9389-3246056806cb',
+  'SOUTHEASTASIA:20211213T055706Z:7c659251-135e-4866-91c9-fcca09df9a74',
   'Date',
-  'Wed, 27 Oct 2021 02:03:53 GMT'
+  'Mon, 13 Dec 2021 05:57:05 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -257,13 +257,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  '604204e5-0d14-42c6-94b0-b1ec113c7bdf',
+  '38c17242-f07d-4f3e-a8b1-6ae70ebeaf1b',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10879',
+  '10630',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -271,23 +271,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  '9153f5c0-cee4-4338-a98b-c41735902f49',
+  'f26da8df-3799-4de8-b784-f1a07b9ebadb',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  '604204e5-0d14-42c6-94b0-b1ec113c7bdf',
+  '38c17242-f07d-4f3e-a8b1-6ae70ebeaf1b',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020353Z:604204e5-0d14-42c6-94b0-b1ec113c7bdf',
+  'SOUTHEASTASIA:20211213T055706Z:38c17242-f07d-4f3e-a8b1-6ae70ebeaf1b',
   'Date',
-  'Wed, 27 Oct 2021 02:03:53 GMT'
+  'Mon, 13 Dec 2021 05:57:05 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -301,13 +301,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  'db832a5a-fbb8-400e-8fb8-2769208132b6',
+  'ded078d5-8b56-4f5a-a226-7b4d166c518f',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10878',
+  '10629',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -315,23 +315,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  '2882c7ec-ed45-429d-8191-2c17b3f59763',
+  '10dd44ff-234a-45d3-9302-9103c245c0f9',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  'db832a5a-fbb8-400e-8fb8-2769208132b6',
+  'ded078d5-8b56-4f5a-a226-7b4d166c518f',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020354Z:db832a5a-fbb8-400e-8fb8-2769208132b6',
+  'SOUTHEASTASIA:20211213T055706Z:ded078d5-8b56-4f5a-a226-7b4d166c518f',
   'Date',
-  'Wed, 27 Oct 2021 02:03:53 GMT'
+  'Mon, 13 Dec 2021 05:57:06 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -345,13 +345,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  'e5f9f894-cf9d-4423-a17f-73cc1533b0d3',
+  '5bc7d4f8-5378-408a-a4e9-0624795f6723',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10877',
+  '10628',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -359,23 +359,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  '344f08c6-1f24-4df9-9656-c70bb7c57303',
+  '8ed781d0-ec3b-4fd9-b119-83cb77b98190',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  'e5f9f894-cf9d-4423-a17f-73cc1533b0d3',
+  '5bc7d4f8-5378-408a-a4e9-0624795f6723',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020354Z:e5f9f894-cf9d-4423-a17f-73cc1533b0d3',
+  'SOUTHEASTASIA:20211213T055707Z:5bc7d4f8-5378-408a-a4e9-0624795f6723',
   'Date',
-  'Wed, 27 Oct 2021 02:03:54 GMT'
+  'Mon, 13 Dec 2021 05:57:06 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -389,13 +389,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  '1e188deb-e12a-457e-ba75-c9e295cf5dec',
+  '16570cf3-5af9-4fe1-b8b0-fcb8c6de5379',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10876',
+  '10627',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -403,23 +403,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  '35ddfc33-7739-47a5-be99-08a23a282ba4',
+  'b8acea97-4838-411d-baeb-461dfd69b51e',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  '1e188deb-e12a-457e-ba75-c9e295cf5dec',
+  '16570cf3-5af9-4fe1-b8b0-fcb8c6de5379',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020354Z:1e188deb-e12a-457e-ba75-c9e295cf5dec',
+  'SOUTHEASTASIA:20211213T055707Z:16570cf3-5af9-4fe1-b8b0-fcb8c6de5379',
   'Date',
-  'Wed, 27 Oct 2021 02:03:54 GMT'
+  'Mon, 13 Dec 2021 05:57:06 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -433,13 +433,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  'bcac203a-1d06-4e5e-bbbf-1029ca319323',
+  '36d831ca-1360-4522-8e3c-875de6ac0577',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10875',
+  '10626',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -447,23 +447,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  '54c532aa-bfaa-454f-af91-34fb347cf3dd',
+  'e50f3d82-af86-4da1-99a9-ef348d641929',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  'bcac203a-1d06-4e5e-bbbf-1029ca319323',
+  '36d831ca-1360-4522-8e3c-875de6ac0577',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020355Z:bcac203a-1d06-4e5e-bbbf-1029ca319323',
+  'SOUTHEASTASIA:20211213T055707Z:36d831ca-1360-4522-8e3c-875de6ac0577',
   'Date',
-  'Wed, 27 Oct 2021 02:03:54 GMT'
+  'Mon, 13 Dec 2021 05:57:07 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -477,13 +477,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  '3106ab15-56a4-423b-9fcb-ea0dfe1b84ba',
+  'c943258a-d750-4422-98b0-39f2afea0ade',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10874',
+  '10625',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -491,23 +491,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  'b365e8bb-cd1c-473c-8729-bc9b1cff57f9',
+  '51f5cf80-96da-4f01-a72b-57250de90dd4',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  '3106ab15-56a4-423b-9fcb-ea0dfe1b84ba',
+  'c943258a-d750-4422-98b0-39f2afea0ade',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020355Z:3106ab15-56a4-423b-9fcb-ea0dfe1b84ba',
+  'SOUTHEASTASIA:20211213T055708Z:c943258a-d750-4422-98b0-39f2afea0ade',
   'Date',
-  'Wed, 27 Oct 2021 02:03:55 GMT'
+  'Mon, 13 Dec 2021 05:57:07 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -521,13 +521,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  'c534b703-9b81-458f-8d54-fbda08ec3b99',
+  '3614cc9d-cf12-4e23-83e6-46dc4a4cea4c',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10873',
+  '10624',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -535,23 +535,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  '972a2a30-6516-4b8c-bcec-4998ec45d66a',
+  'bb8ee3e1-1f92-4645-bf84-8c8accc34b8c',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  'c534b703-9b81-458f-8d54-fbda08ec3b99',
+  '3614cc9d-cf12-4e23-83e6-46dc4a4cea4c',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020355Z:c534b703-9b81-458f-8d54-fbda08ec3b99',
+  'SOUTHEASTASIA:20211213T055708Z:3614cc9d-cf12-4e23-83e6-46dc4a4cea4c',
   'Date',
-  'Wed, 27 Oct 2021 02:03:55 GMT'
+  'Mon, 13 Dec 2021 05:57:07 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -565,13 +565,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  '62d99ca5-9883-4a59-848c-f88188e9706a',
+  '988a5b55-53c4-4938-91ac-3d5f60fd63a2',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10872',
+  '10623',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -579,23 +579,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  '381893ce-74ba-48fd-a8fd-e65e1063a9b2',
+  'ca98150c-dc37-4c88-9af0-42f1c245d251',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  '62d99ca5-9883-4a59-848c-f88188e9706a',
+  '988a5b55-53c4-4938-91ac-3d5f60fd63a2',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020356Z:62d99ca5-9883-4a59-848c-f88188e9706a',
+  'SOUTHEASTASIA:20211213T055708Z:988a5b55-53c4-4938-91ac-3d5f60fd63a2',
   'Date',
-  'Wed, 27 Oct 2021 02:03:55 GMT'
+  'Mon, 13 Dec 2021 05:57:08 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -609,13 +609,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  '1568e448-2541-445b-9855-8dc9f1468d50',
+  '705c5e23-a142-4faf-9025-0b54e2265e2b',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10871',
+  '10622',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -623,23 +623,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  '13442e73-5235-4380-8c6b-2e7c3f4f247f',
+  '84802026-f213-422d-aded-1ef05fa0c599',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  '1568e448-2541-445b-9855-8dc9f1468d50',
+  '705c5e23-a142-4faf-9025-0b54e2265e2b',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020356Z:1568e448-2541-445b-9855-8dc9f1468d50',
+  'SOUTHEASTASIA:20211213T055709Z:705c5e23-a142-4faf-9025-0b54e2265e2b',
   'Date',
-  'Wed, 27 Oct 2021 02:03:56 GMT'
+  'Mon, 13 Dec 2021 05:57:08 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -653,13 +653,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  '8e92d083-34bb-479e-84d0-723c7efeb49b',
+  'e373b01e-6e36-4095-a3a0-5776be6a8474',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10870',
+  '10621',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -667,23 +667,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  'ce42ed87-8226-4a5c-9024-5fc8dff353e9',
+  'c1eb538a-5f36-4382-b59b-3c7270e84e70',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  '8e92d083-34bb-479e-84d0-723c7efeb49b',
+  'e373b01e-6e36-4095-a3a0-5776be6a8474',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020357Z:8e92d083-34bb-479e-84d0-723c7efeb49b',
+  'SOUTHEASTASIA:20211213T055709Z:e373b01e-6e36-4095-a3a0-5776be6a8474',
   'Date',
-  'Wed, 27 Oct 2021 02:03:56 GMT'
+  'Mon, 13 Dec 2021 05:57:08 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -697,13 +697,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  'a47df365-b324-4fcb-b339-22b610cbbfa7',
+  'c7001353-38d3-4be4-bda8-4775a690e7c7',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10869',
+  '10620',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -711,23 +711,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  'a7fa8630-df43-4727-9bea-6f5744de1f2b',
+  '26796f13-465a-4d94-b500-170cf3a7ce2a',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  'a47df365-b324-4fcb-b339-22b610cbbfa7',
+  'c7001353-38d3-4be4-bda8-4775a690e7c7',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020357Z:a47df365-b324-4fcb-b339-22b610cbbfa7',
+  'SOUTHEASTASIA:20211213T055709Z:c7001353-38d3-4be4-bda8-4775a690e7c7',
   'Date',
-  'Wed, 27 Oct 2021 02:03:56 GMT'
+  'Mon, 13 Dec 2021 05:57:09 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -741,13 +741,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  'eeaac27f-8bb8-4bee-ac74-8c26e562776f',
+  'a14ab09b-ec07-4ebe-b9a4-04633d2bf853',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10868',
+  '10619',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -755,23 +755,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  '580385a2-8b33-45bf-be6c-1233ed0df7ce',
+  '244c4b97-bb73-4d6b-940d-98a72773b88b',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  'eeaac27f-8bb8-4bee-ac74-8c26e562776f',
+  'a14ab09b-ec07-4ebe-b9a4-04633d2bf853',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020357Z:eeaac27f-8bb8-4bee-ac74-8c26e562776f',
+  'SOUTHEASTASIA:20211213T055710Z:a14ab09b-ec07-4ebe-b9a4-04633d2bf853',
   'Date',
-  'Wed, 27 Oct 2021 02:03:57 GMT'
+  'Mon, 13 Dec 2021 05:57:09 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -785,13 +785,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  '2b12e6ec-7c06-4d2a-aa9e-b8eb1097429a',
+  'd0840e36-d01b-48fb-9e14-6441a70e6467',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10867',
+  '10618',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -799,23 +799,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  'df7baba6-9f15-4da0-b8e3-f33bd5f0abbc',
+  '04986dbb-ddf2-4f2b-909d-1e8cc60c5a5e',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  '2b12e6ec-7c06-4d2a-aa9e-b8eb1097429a',
+  'd0840e36-d01b-48fb-9e14-6441a70e6467',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020358Z:2b12e6ec-7c06-4d2a-aa9e-b8eb1097429a',
+  'SOUTHEASTASIA:20211213T055710Z:d0840e36-d01b-48fb-9e14-6441a70e6467',
   'Date',
-  'Wed, 27 Oct 2021 02:03:57 GMT'
+  'Mon, 13 Dec 2021 05:57:09 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fb57ebe5b2585ec84775fba660287b3b7bbbdbbb3bdb7b0fdeecec3ddab9f7e8fedef8c1eec3bdfb9ffed447bf","e4ff01f6b8f77f39010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -829,13 +829,13 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Retry-After',
-  '10',
+  '0',
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  'cd8d7fbc-2576-4c48-9205-1d4a601a0420',
+  '1ebda774-05c2-4bde-9c49-c39370e25df8',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10866',
+  '10617',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -843,23 +843,67 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  '3e07091b-f3ec-425d-8a43-42f53d1c8c8c',
+  'df496055-aa5b-483f-82f8-8739f39c0aa0',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  'cd8d7fbc-2576-4c48-9205-1d4a601a0420',
+  '1ebda774-05c2-4bde-9c49-c39370e25df8',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020358Z:cd8d7fbc-2576-4c48-9205-1d4a601a0420',
+  'SOUTHEASTASIA:20211213T055710Z:1ebda774-05c2-4bde-9c49-c39370e25df8',
   'Date',
-  'Wed, 27 Oct 2021 02:03:58 GMT'
+  'Mon, 13 Dec 2021 05:57:10 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/4faac10c-2b5b-4e7b-a69b-a21644ab0107')
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bbfbe75936dddd996eef4dee4fb6f7f30793edecd387f4cfdeeea7fbfbd9646777e7c147a38f96d922a7e1dcb275c31d52fbd7ebe934cf67f94c3eacdb3705c3d9dbd9dbdddeddd9de7bf06667efd1cebd47f7f7c60f761feeddfff4a7a865be9c0db67b38deb9779f3a7bf8531f","fd92ff07d9c43ee064010000"], [
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd6cb65b1bc908feaf64dc150f676f676b777f7b677efbdd9b9ffe8fe83473bf7c77bfb3b0f3fddd9fba98f","7ec9ff03fcfbb4563a010000"], [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Content-Encoding',
+  'gzip',
+  'Expires',
+  '-1',
+  'Retry-After',
+  '0',
+  'Vary',
+  'Accept-Encoding,Accept-Encoding',
+  'x-ms-request-id',
+  'a5dbebde-eb5f-4507-a3ff-0de50113bc8f',
+  'x-ms-ratelimit-remaining-subscription-reads',
+  '10616',
+  'Request-Context',
+  'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'x-ms-client-request-id',
+  'b6de54ed-5836-49fc-9477-92ce96c8952c',
+  'x-rp-server-mvid',
+  'b829032d-0632-4334-ae08-487805157ce3',
+  'Server',
+  'nginx/1.17.7',
+  'x-ms-correlation-request-id',
+  'a5dbebde-eb5f-4507-a3ff-0de50113bc8f',
+  'x-ms-routing-request-id',
+  'SOUTHEASTASIA:20211213T055711Z:a5dbebde-eb5f-4507-a3ff-0de50113bc8f',
+  'Date',
+  'Mon, 13 Dec 2021 05:57:10 GMT'
+]);
+
+nock('https://management.azure.com:443', {"encodedQueryParams":true})
+  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/myappxxx/operationId/607464e3-cd52-4b1e-b7aa-572e35e33712')
+  .query(true)
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147c5eca3471f35eb4933ad8b555b54cbe6eec3bdf387f76707e7dbf7a69f3ed8dedfdddbdf7eb83b7db07d303ddf79309d4dcef7f677efd67953adeb69fe795dad57cdddc5f54f376ddeb47757757559ccf2bab9fb4531adaba63a6fc7c7abd5cb326bcfab7a71b7aca6997493674dbb6eee56abbce64f5eb719fe5e5c67abd5bb77efdc1767b3bb9fee3cd8ff743fbfb73d9ddddfdbde9fece6db930759b67dffc15e7eef7e7eefde83ddbd8f461f2db3454ec3b965eb863ba4f6afd7d3699ecff2997c58b76f0a86b3b7b3b7bbbdbbb7bd7befcdcefd47f71f3cdab93fdedbdf79f8e9cede4f51d37c391b6ab8bb3b26baededdcfba98f7e","c9ff03005e7bb364010000"], [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -875,9 +919,9 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding,Accept-Encoding',
   'x-ms-request-id',
-  '03c0396d-6457-41a9-90e6-6060b40416a2',
+  '990f00b0-70fb-4860-ab08-bc6da75e0241',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '10865',
+  '10615',
   'Request-Context',
   'appId=cid-v1:797d7e4e-8180-497e-a254-780fbd39ba4d',
   'Strict-Transport-Security',
@@ -885,15 +929,15 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-client-request-id',
-  '46d33b2f-f913-4400-abf4-8b5bda5f3808',
+  'e1b2daf1-890f-480e-b539-fc678f27760f',
   'x-rp-server-mvid',
-  'c98d556d-0be2-4fd7-8a47-2c7368eb00a4',
+  'b829032d-0632-4334-ae08-487805157ce3',
   'Server',
   'nginx/1.17.7',
   'x-ms-correlation-request-id',
-  '03c0396d-6457-41a9-90e6-6060b40416a2',
+  '990f00b0-70fb-4860-ab08-bc6da75e0241',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211027T020359Z:03c0396d-6457-41a9-90e6-6060b40416a2',
+  'SOUTHEASTASIA:20211213T055711Z:990f00b0-70fb-4860-ab08-bc6da75e0241',
   'Date',
-  'Wed, 27 Oct 2021 02:03:58 GMT'
+  'Mon, 13 Dec 2021 05:57:10 GMT'
 ]);

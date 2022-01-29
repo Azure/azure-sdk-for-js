@@ -274,6 +274,8 @@ export class ArtifactsClient extends ArtifactsClientContext {
     // (undocumented)
     linkedServiceOperations: LinkedServiceOperations;
     // (undocumented)
+    metastore: Metastore;
+    // (undocumented)
     notebookOperationResult: NotebookOperationResult;
     // (undocumented)
     notebookOperations: NotebookOperations;
@@ -404,6 +406,8 @@ export type AzureBlobFSLinkedService = LinkedService & {
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
     azureCloudType?: any;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
     encryptedCredential?: any;
 };
 
@@ -2604,6 +2608,7 @@ export type FtpReadSettings = StoreReadSettings & {
     deleteFilesAfterCompletion?: any;
     fileListPath?: any;
     useBinaryTransfer?: boolean;
+    disableChunking?: any;
 };
 
 // @public
@@ -2663,9 +2668,10 @@ export type GoogleAdWordsAuthenticationType = string;
 // @public
 export type GoogleAdWordsLinkedService = LinkedService & {
     type: "GoogleAdWords";
-    clientCustomerID: any;
-    developerToken: SecretBaseUnion;
-    authenticationType: GoogleAdWordsAuthenticationType;
+    connectionProperties?: any;
+    clientCustomerID?: any;
+    developerToken?: SecretBaseUnion;
+    authenticationType?: GoogleAdWordsAuthenticationType;
     refreshToken?: SecretBaseUnion;
     clientId?: any;
     clientSecret?: SecretBaseUnion;
@@ -3914,6 +3920,18 @@ export enum KnownNodeSizeFamily {
 }
 
 // @public
+export enum KnownNotebookParameterType {
+    // (undocumented)
+    Bool = "bool",
+    // (undocumented)
+    Float = "float",
+    // (undocumented)
+    Int = "int",
+    // (undocumented)
+    String = "string"
+}
+
+// @public
 export enum KnownNotebookReferenceType {
     // (undocumented)
     NotebookReference = "NotebookReference"
@@ -4059,6 +4077,26 @@ export enum KnownRecurrenceFrequency {
     Week = "Week",
     // (undocumented)
     Year = "Year"
+}
+
+// @public
+export enum KnownRequestStatus {
+    // (undocumented)
+    Completed = "Completed",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Running = "Running"
+}
+
+// @public
+export enum KnownResourceStatus {
+    // (undocumented)
+    Created = "Created",
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Failed = "Failed"
 }
 
 // @public
@@ -4956,6 +4994,64 @@ export type MarketoSource = TabularSource & {
 };
 
 // @public
+export interface Metastore {
+    delete(id: string, options?: MetastoreDeleteOptionalParams): Promise<void>;
+    getDatabaseOperations(id: string, options?: MetastoreGetDatabaseOperationsOptionalParams): Promise<MetastoreGetDatabaseOperationsResponse>;
+    register(id: string, registerBody: MetastoreRegisterObject, options?: MetastoreRegisterOptionalParams): Promise<MetastoreRegisterResponse>;
+    update(id: string, updateBody: MetastoreUpdateObject, options?: MetastoreUpdateOptionalParams): Promise<MetastoreUpdateResponse>;
+}
+
+// @public
+export interface MetastoreDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface MetastoreGetDatabaseOperationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MetastoreGetDatabaseOperationsResponse = MetastoreRequestSuccessResponse;
+
+// @public (undocumented)
+export interface MetastoreRegisterObject {
+    inputFolder: string;
+}
+
+// @public
+export interface MetastoreRegisterOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MetastoreRegisterResponse = MetastoreRegistrationResponse;
+
+// @public (undocumented)
+export interface MetastoreRegistrationResponse {
+    status?: RequestStatus;
+}
+
+// @public (undocumented)
+export interface MetastoreRequestSuccessResponse {
+    status?: ResourceStatus;
+}
+
+// @public (undocumented)
+export interface MetastoreUpdateObject {
+    inputFolder: string;
+}
+
+// @public
+export interface MetastoreUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MetastoreUpdateResponse = MetastoreUpdationResponse;
+
+// @public (undocumented)
+export interface MetastoreUpdationResponse {
+    status?: RequestStatus;
+}
+
+// @public
 export type MicrosoftAccessLinkedService = LinkedService & {
     type: "MicrosoftAccess";
     connectionString: any;
@@ -5278,6 +5374,15 @@ export interface NotebookOperations {
     listNotebooksByWorkspace(options?: NotebookGetNotebooksByWorkspaceOptionalParams): PagedAsyncIterableIterator<NotebookResource>;
     listNotebookSummaryByWorkSpace(options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams): PagedAsyncIterableIterator<NotebookResource>;
 }
+
+// @public
+export interface NotebookParameter {
+    type?: NotebookParameterType;
+    value?: any;
+}
+
+// @public
+export type NotebookParameterType = string;
 
 // @public
 export type NotebookReferenceType = string;
@@ -5971,6 +6076,9 @@ export type RelationalTableDataset = Dataset & {
 };
 
 // @public
+export type RequestStatus = string;
+
+// @public
 export interface RerunTriggerListResponse {
     readonly nextLink?: string;
     value: RerunTriggerResource[];
@@ -6006,6 +6114,9 @@ export interface Resource {
 
 // @public
 export type ResourceIdentityType = "None" | "SystemAssigned";
+
+// @public
+export type ResourceStatus = string;
 
 // @public
 export type ResponsysLinkedService = LinkedService & {
@@ -6529,6 +6640,7 @@ export type SftpReadSettings = StoreReadSettings & {
     deleteFilesAfterCompletion?: any;
     modifiedDatetimeStart?: any;
     modifiedDatetimeEnd?: any;
+    disableChunking?: any;
 };
 
 // @public
@@ -7550,7 +7662,7 @@ export type SynapseNotebookActivity = ExecutionActivity & {
     type: "SynapseNotebook";
     notebook: SynapseNotebookReference;
     parameters?: {
-        [propertyName: string]: any;
+        [propertyName: string]: NotebookParameter;
     };
 };
 

@@ -6,20 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   DeploymentExtended,
-  DeploymentsListAtScopeNextOptionalParams,
   DeploymentsListAtScopeOptionalParams,
-  DeploymentsListAtTenantScopeNextOptionalParams,
   DeploymentsListAtTenantScopeOptionalParams,
-  DeploymentsListAtManagementGroupScopeNextOptionalParams,
   DeploymentsListAtManagementGroupScopeOptionalParams,
-  DeploymentsListAtSubscriptionScopeNextOptionalParams,
   DeploymentsListAtSubscriptionScopeOptionalParams,
-  DeploymentsListByResourceGroupNextOptionalParams,
   DeploymentsListByResourceGroupOptionalParams,
   DeploymentsDeleteAtScopeOptionalParams,
   DeploymentsCheckExistenceAtScopeOptionalParams,
@@ -141,60 +135,6 @@ export interface Deployments {
   listByResourceGroup(
     resourceGroupName: string,
     options?: DeploymentsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentExtended>;
-  /**
-   * ListAtScopeNext
-   * @param scope The resource scope.
-   * @param nextLink The nextLink from the previous successful call to the ListAtScope method.
-   * @param options The options parameters.
-   */
-  listAtScopeNext(
-    scope: string,
-    nextLink: string,
-    options?: DeploymentsListAtScopeNextOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentExtended>;
-  /**
-   * ListAtTenantScopeNext
-   * @param nextLink The nextLink from the previous successful call to the ListAtTenantScope method.
-   * @param options The options parameters.
-   */
-  listAtTenantScopeNext(
-    nextLink: string,
-    options?: DeploymentsListAtTenantScopeNextOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentExtended>;
-  /**
-   * ListAtManagementGroupScopeNext
-   * @param groupId The management group ID.
-   * @param nextLink The nextLink from the previous successful call to the ListAtManagementGroupScope
-   *                 method.
-   * @param options The options parameters.
-   */
-  listAtManagementGroupScopeNext(
-    groupId: string,
-    nextLink: string,
-    options?: DeploymentsListAtManagementGroupScopeNextOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentExtended>;
-  /**
-   * ListAtSubscriptionScopeNext
-   * @param nextLink The nextLink from the previous successful call to the ListAtSubscriptionScope
-   *                 method.
-   * @param options The options parameters.
-   */
-  listAtSubscriptionScopeNext(
-    nextLink: string,
-    options?: DeploymentsListAtSubscriptionScopeNextOptionalParams
-  ): PagedAsyncIterableIterator<DeploymentExtended>;
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group with the deployments to get. The name is
-   *                          case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: DeploymentsListByResourceGroupNextOptionalParams
   ): PagedAsyncIterableIterator<DeploymentExtended>;
   /**
    * A template deployment that is currently running cannot be deleted. Deleting a template deployment

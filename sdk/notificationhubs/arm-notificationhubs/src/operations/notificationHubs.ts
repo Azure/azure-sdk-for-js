@@ -11,7 +11,7 @@ import { NotificationHubs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { NotificationHubsManagementClientContext } from "../notificationHubsManagementClientContext";
+import { NotificationHubsManagementClient } from "../notificationHubsManagementClient";
 import {
   NotificationHubResource,
   NotificationHubsListNextOptionalParams,
@@ -54,13 +54,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NotificationHubs operations. */
 export class NotificationHubsImpl implements NotificationHubs {
-  private readonly client: NotificationHubsManagementClientContext;
+  private readonly client: NotificationHubsManagementClient;
 
   /**
    * Initialize a new instance of the class NotificationHubs class.
    * @param client Reference to the service client
    */
-  constructor(client: NotificationHubsManagementClientContext) {
+  constructor(client: NotificationHubsManagementClient) {
     this.client = client;
   }
 

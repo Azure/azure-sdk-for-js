@@ -3,8 +3,10 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for SearchManagementClient.",
-  "version": "3.0.0-beta.1",
-  "engines": { "node": ">=12.0.0" },
+  "version": "3.0.1",
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "dependencies": {
     "@azure/core-lro": "^2.2.0",
     "@azure/abort-controller": "^1.0.0",
@@ -14,19 +16,25 @@
     "@azure/core-rest-pipeline": "^1.1.0",
     "tslib": "^2.2.0"
   },
-  "keywords": ["node", "azure", "typescript", "browser", "isomorphic"],
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-search.d.ts",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.18.11",
-    "@rollup/plugin-commonjs": "11.0.2",
+    "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "mkdirp": "^1.0.4",
-    "rollup": "^1.16.3",
+    "rollup": "^2.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "typescript": "~4.2.0",
     "uglify-js": "^3.4.9",
@@ -41,7 +49,9 @@
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"
   },
-  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
   "files": [
     "dist/**/*.js",
     "dist/**/*.js.map",

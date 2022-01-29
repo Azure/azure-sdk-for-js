@@ -9,7 +9,7 @@ import {
   record,
   Recorder,
   RecorderEnvironmentSetup,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 
 import { RemoteRenderingClient } from "../../src";
@@ -25,7 +25,7 @@ const replaceableVariables: Record<string, string> = {
   REMOTERENDERING_ARR_BLOB_CONTAINER_NAME: "test",
   REMOTERENDERING_ARR_SAS_TOKEN: "arr_sas_token",
   REMOTERENDERING_ARR_SERVICE_ENDPOINT: "https://remoterendering.eastus2.mixedreality.azure.com",
-  REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME: "sdktest"
+  REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME: "sdktest",
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -34,8 +34,8 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   customizationsOnRecordings: [
     // Replace the recorded AccessToken value with a fake one.
     (recording: string): string =>
-      recording.replace(/"AccessToken":"[^"]*"/g, `"AccessToken":"<access_token>"`)
-  ]
+      recording.replace(/"AccessToken":"[^"]*"/g, `"AccessToken":"<access_token>"`),
+  ],
 };
 
 export function getEnv(name: string): string {

@@ -8,17 +8,17 @@ import {
   CertificateOperation,
   GetCertificateOptions,
   GetPlainCertificateOperationOptions,
-  KeyVaultCertificateWithPolicy
+  KeyVaultCertificateWithPolicy,
 } from "../../certificatesModels";
 import {
   cleanState,
   KeyVaultCertificatePollOperation,
-  KeyVaultCertificatePollOperationState
+  KeyVaultCertificatePollOperationState,
 } from "../keyVaultCertificatePoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   getCertificateOperationFromCoreOperation,
-  getCertificateWithPolicyFromCertificateBundle
+  getCertificateWithPolicyFromCertificateBundle,
 } from "../../transformations";
 import { createTraceFunction } from "../../../../keyvault-common/src";
 
@@ -186,10 +186,10 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
   public toString(): string {
     const state: CertificateOperationState = {
       certificateOperation: this.state.certificateOperation,
-      ...cleanState(this.state)
+      ...cleanState(this.state),
     };
     return JSON.stringify({
-      state
+      state,
     });
   }
 }

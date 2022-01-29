@@ -5,7 +5,6 @@
  * @summary Shows various ways to manage indexing items or changing container index policies.
  */
 
-const path = require("path");
 require("dotenv").config();
 
 const { logSampleHeader, handleError, finish, logStep } = require("./Shared/handleError");

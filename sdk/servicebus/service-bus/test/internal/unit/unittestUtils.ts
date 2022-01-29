@@ -6,7 +6,7 @@ import {
   AwaitableSender,
   Receiver as RheaPromiseReceiver,
   ReceiverEvents,
-  ReceiverOptions
+  ReceiverOptions,
 } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
@@ -57,7 +57,7 @@ export function createConnectionContextForTests(
       endpoint: "my.service.bus",
       // used by tracing
       entityPath: options?.entityPath ?? "fakeEntityPath",
-      host: options?.host ?? "fakeHost"
+      host: options?.host ?? "fakeHost",
     },
     connectionId: "connection-id",
     connection: {
@@ -71,9 +71,9 @@ export function createConnectionContextForTests(
           options.onCreateAwaitableSenderCalled();
         }
 
-        const testAwaitableSender = ({
-          setMaxListeners: () => testAwaitableSender
-        } as any) as AwaitableSender;
+        const testAwaitableSender = {
+          setMaxListeners: () => testAwaitableSender,
+        } as any as AwaitableSender;
 
         mockLinkProperties(testAwaitableSender);
 
@@ -93,14 +93,14 @@ export function createConnectionContextForTests(
       },
       async close(): Promise<void> {
         /** Nothing to do here */
-      }
+      },
     },
     tokenCredential: {
       getToken() {
         return {
-          expiresOnTimestamp: Date.now() + 10 * 60 * 1000
+          expiresOnTimestamp: Date.now() + 10 * 60 * 1000,
         } as AccessToken;
-      }
+      },
     },
     cbsSession: {
       cbsLock: "cbs-lock",
@@ -115,12 +115,12 @@ export function createConnectionContextForTests(
       },
       isOpen() {
         return initWasCalled;
-      }
+      },
     },
-    initWasCalled
+    initWasCalled,
   };
 
-  return (fakeConnectionContext as any) as ReturnType<typeof createConnectionContextForTests>;
+  return fakeConnectionContext as any as ReturnType<typeof createConnectionContextForTests>;
 }
 
 /**
@@ -140,18 +140,18 @@ export function createConnectionContextForTestsWithSessionId(
     onCreateReceiverCalled: (receiver) => {
       (receiver as any).source = {
         filter: {
-          [Constants.sessionFilterName]: sessionId
-        }
+          [Constants.sessionFilterName]: sessionId,
+        },
       };
 
       (receiver as any).properties = {
-        ["com.microsoft:locked-until-utc"]: Date.now()
+        ["com.microsoft:locked-until-utc"]: Date.now(),
       };
 
       if (options?.onCreateReceiverCalled) {
         options?.onCreateReceiverCalled(receiver);
       }
-    }
+    },
   });
 
   return connectionContext;
@@ -171,7 +171,7 @@ export function createRheaReceiverForTests(options?: ReceiverOptions): RheaPromi
   (receiver as any).name = options?.name == null ? getUniqueName("entity") : options.name;
 
   (receiver as any).connection = {
-    id: "connection-id"
+    id: "connection-id",
   };
 
   const link = {
@@ -180,7 +180,7 @@ export function createRheaReceiverForTests(options?: ReceiverOptions): RheaPromi
       // simulate drain
       (receiver as any).credit = 0;
       receiver.emit(ReceiverEvents.receiverDrained, undefined);
-    }
+    },
   };
 
   (receiver as any)["_link"] = link;
@@ -235,7 +235,7 @@ export function getPromiseResolverForTest(): {
   return {
     promise,
     resolve: resolver!,
-    reject: rejecter!
+    reject: rejecter!,
   };
 }
 
@@ -255,7 +255,7 @@ export function defer<T>(): {
   return {
     promise,
     resolve: actualResolve!,
-    reject: actualReject!
+    reject: actualReject!,
   };
 }
 
@@ -286,7 +286,8 @@ export function addTestStreamingReceiver(): (
       options = {
         lockRenewer: undefined,
         receiveMode: <ReceiveMode>"peekLock",
-        maxConcurrentCalls: 101
+        maxConcurrentCalls: 101,
+        skipParsingBodyAsJson: false,
       };
     }
 

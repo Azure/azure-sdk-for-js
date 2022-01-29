@@ -67,7 +67,7 @@ export class StoredProcedures {
         resourceId: id,
         resultFn: (result) => result.StoredProcedures,
         query,
-        options: innerOptions
+        options: innerOptions,
       });
     });
   }
@@ -113,7 +113,7 @@ export class StoredProcedures {
       path,
       resourceType: ResourceType.sproc,
       resourceId: id,
-      options
+      options,
     });
     const ref = new StoredProcedure(this.container, response.result.id, this.clientContext);
     return new StoredProcedureResponse(response.result, response.headers, response.code, ref);

@@ -61,7 +61,7 @@ describe("MediaServices test", () => {
     location = "eastus";
     resourceGroup = "myjstest";
     mediaName = "mymediaxxx";
-    storageAccountName = "storageaccountzzzxxx";
+    storageAccountName = "mystorageaccountxxx";
   });
 
   afterEach(async function() {

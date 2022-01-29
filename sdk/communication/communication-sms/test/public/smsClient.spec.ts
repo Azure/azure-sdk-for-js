@@ -13,7 +13,7 @@ import * as dotenv from "dotenv";
 import {
   createSmsClient,
   createSmsClientWithToken,
-  recorderConfiguration
+  recorderConfiguration,
 } from "./utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "./suites/smsClient.send";
@@ -22,18 +22,18 @@ if (isNode) {
   dotenv.config();
 }
 
-matrix([[true, false]], async function(useAad) {
+matrix([[true, false]], async function (useAad) {
   describe(`SmsClient [Live]${useAad ? " [AAD]" : ""}`, async () => {
     let recorder: Recorder;
 
-    before(function(this: Context) {
+    before(function (this: Context) {
       const skipIntSMSTests = env.COMMUNICATION_SKIP_INT_SMS_TEST === "true";
       if (skipIntSMSTests) {
         this.skip();
       }
     });
 
-    beforeEach(async function(this: Context) {
+    beforeEach(async function (this: Context) {
       recorder = record(this, recorderConfiguration);
       recorder.skip(
         undefined,
@@ -47,7 +47,7 @@ matrix([[true, false]], async function(useAad) {
       }
     });
 
-    afterEach(async function(this: Context) {
+    afterEach(async function (this: Context) {
       await recorder.stop();
     });
 

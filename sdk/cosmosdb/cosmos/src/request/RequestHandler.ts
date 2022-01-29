@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import AbortController from "node-abort-controller";
+import { AbortController } from "node-abort-controller";
 import {
   createPipelineRequest,
   createHttpHeaders,
-  PipelineResponse
+  PipelineResponse,
 } from "@azure/core-rest-pipeline";
 import { trimSlashes } from "../common";
 import { Constants } from "../common/constants";
@@ -29,9 +29,7 @@ async function executeRequest(requestContext: RequestContext): Promise<CosmosRes
 /**
  * @hidden
  */
-async function httpRequest(
-  requestContext: RequestContext
-): Promise<{
+async function httpRequest(requestContext: RequestContext): Promise<{
   headers: any;
   result: any;
   code: number;
@@ -70,7 +68,7 @@ async function httpRequest(
     headers: reqHeaders,
     method: requestContext.method,
     abortSignal: signal,
-    body: requestContext.body
+    body: requestContext.body,
   });
   if (requestContext.requestAgent) {
     pipelineRequest.agent = requestContext.requestAgent;
@@ -138,7 +136,7 @@ async function httpRequest(
       Object.defineProperty(errorResponse, "retryAfterInMilliseconds", {
         get: () => {
           return errorResponse.retryAfterInMs;
-        }
+        },
       });
     }
 
@@ -148,7 +146,7 @@ async function httpRequest(
     headers,
     result,
     code: response.status,
-    substatus
+    substatus,
   };
 }
 
@@ -165,6 +163,6 @@ export async function request<T>(requestContext: RequestContext): Promise<Cosmos
 
   return RetryUtility.execute({
     requestContext,
-    executeRequest
+    executeRequest,
   });
 }

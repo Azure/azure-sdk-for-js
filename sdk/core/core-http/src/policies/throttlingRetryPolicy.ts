@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "@azure/abort-controller";
 import {
   BaseRequestPolicy,
   RequestPolicy,
+  RequestPolicyFactory,
   RequestPolicyOptions,
-  RequestPolicyFactory
 } from "./requestPolicy";
-import { WebResourceLike } from "../webResource";
-import { HttpOperationResponse } from "../httpOperationResponse";
+import { AbortError } from "@azure/abort-controller";
 import { Constants } from "../util/constants";
 import { DEFAULT_CLIENT_MAX_RETRY_COUNT } from "../util/throttlingRetryStrategy";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResourceLike } from "../webResource";
 import { delay } from "../util/delay";
 
 type ResponseHandler = (
@@ -34,7 +34,7 @@ export function throttlingRetryPolicy(): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new ThrottlingRetryPolicy(nextPolicy, options);
-    }
+    },
   };
 }
 
@@ -83,15 +83,14 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
     );
 
     if (retryAfterHeader) {
-      const delayInMs: number | undefined = ThrottlingRetryPolicy.parseRetryAfterHeader(
-        retryAfterHeader
-      );
+      const delayInMs: number | undefined =
+        ThrottlingRetryPolicy.parseRetryAfterHeader(retryAfterHeader);
       if (delayInMs) {
         this.numberOfRetries += 1;
 
         await delay(delayInMs, undefined, {
           abortSignal: httpRequest.abortSignal,
-          abortErrorMsg: StandardAbortMessage
+          abortErrorMsg: StandardAbortMessage,
         });
 
         if (httpRequest.abortSignal?.aborted) {

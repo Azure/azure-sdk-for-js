@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { resetTracer, setTracer } from "@azure/test-utils";
 import chai from "chai";
 import { createMessageSpan } from "../../../src/diagnostics/tracing";
-import { setTracer, resetTracer } from "@azure/test-utils";
 import { testWithServiceTypes } from "../../public/utils/testWithServiceTypes";
 
 const should = chai.should();
@@ -24,7 +24,7 @@ testWithServiceTypes(() => {
         {},
         {
           entityPath: "entity path",
-          host: "host"
+          host: "host",
         }
       );
 
@@ -36,7 +36,7 @@ testWithServiceTypes(() => {
       assert.deepStrictEqual((span as any).attributes, {
         "az.namespace": "Microsoft.EventHub",
         "message_bus.destination": "entity path",
-        "peer.address": "host"
+        "peer.address": "host",
       });
 
       span.end();

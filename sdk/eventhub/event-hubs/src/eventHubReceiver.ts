@@ -1,35 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logErrorStackTrace, logger } from "./log";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import {
+  Constants,
+  MessagingError,
+  RetryConfig,
+  RetryOperationType,
+  StandardAbortMessage,
+  delay,
+  retry,
+  translate,
+} from "@azure/core-amqp";
 import {
   EventContext,
   OnAmqpEvent,
   Receiver,
   ReceiverOptions as RheaReceiverOptions,
-  types
+  types,
 } from "rhea-promise";
-import {
-  Constants,
-  MessagingError,
-  delay,
-  translate,
-  RetryConfig,
-  RetryOperationType,
-  retry,
-  StandardAbortMessage
-} from "@azure/core-amqp";
 import { EventDataInternal, ReceivedEventData, fromRheaMessage } from "./eventData";
-import { EventHubConsumerOptions } from "./models/private";
-import { ConnectionContext } from "./connectionContext";
-import { LinkEntity } from "./linkEntity";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { logErrorStackTrace, logger } from "./log";
+import { ConnectionContext } from "./connectionContext";
+import { EventHubConsumerOptions } from "./models/private";
+import { LinkEntity } from "./linkEntity";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 
-/**
- * @hidden
- */
 interface CreateReceiverOptions {
   onMessage: OnAmqpEvent;
   onError: OnAmqpEvent;
@@ -190,7 +187,6 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Instantiates a receiver that can be used to receive events over an AMQP receiver link in
    * either batching or streaming mode.
-   * @hidden
    * @param context -        The connection context corresponding to the EventHubClient instance
    * @param consumerGroup -  The consumer group from which the receiver should receive events from.
    * @param partitionId -    The Partition ID from which to receive.
@@ -206,7 +202,7 @@ export class EventHubReceiver extends LinkEntity {
   ) {
     super(context, {
       partitionId: partitionId,
-      name: context.config.getReceiverAddress(partitionId, consumerGroup)
+      name: context.config.getReceiverAddress(partitionId, consumerGroup),
     });
     this.consumerGroup = consumerGroup;
     this.address = context.config.getReceiverAddress(partitionId, this.consumerGroup);
@@ -236,7 +232,7 @@ export class EventHubReceiver extends LinkEntity {
       systemProperties: data.systemProperties,
       getRawAmqpMessage() {
         return rawMessage;
-      }
+      },
     };
     if (data.correlationId != null) {
       receivedEventData.correlationId = data.correlationId;
@@ -373,7 +369,6 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Clears the user-provided handlers and updates the receiving messages flag.
-   * @hidden
    */
   clearHandlers(): void {
     if (this._abortSignal && this._onAbort) {
@@ -390,7 +385,6 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Closes the underlying AMQP receiver.
-   * @hidden
    */
   async close(): Promise<void> {
     try {
@@ -415,7 +409,6 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
-   * @hidden
    * @returns boolean
    */
   isOpen(): boolean {
@@ -433,7 +426,6 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Registers the user's onMessage and onError handlers.
    * Sends buffered events from the queue before adding additional credits to the AMQP link.
-   * @hidden
    */
   registerHandlers(
     onMessage: OnMessage,
@@ -467,7 +459,7 @@ export class EventHubReceiver extends LinkEntity {
           try {
             await this.initialize({
               abortSignal,
-              timeoutInMs: getRetryAttemptTimeoutInMs(this.options.retryOptions)
+              timeoutInMs: getRetryAttemptTimeoutInMs(this.options.retryOptions),
             });
           } catch (err) {
             if (this._onError === onError) {
@@ -552,11 +544,10 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
-   * @hidden
    */
   async initialize({
     abortSignal,
-    timeoutInMs
+    timeoutInMs,
   }: {
     abortSignal: AbortSignalLike | undefined;
     timeoutInMs: number;
@@ -574,7 +565,7 @@ export class EventHubReceiver extends LinkEntity {
           onError: (context: EventContext) => this._onAmqpError(context),
           onMessage: (context: EventContext) => this._onAmqpMessage(context),
           onSessionClose: (context: EventContext) => this._onAmqpSessionClose(context),
-          onSessionError: (context: EventContext) => this._onAmqpSessionError(context)
+          onSessionError: (context: EventContext) => this._onAmqpSessionError(context),
         };
         if (this.checkpoint > -1) {
           receiverOptions.eventPosition = { sequenceNumber: this.checkpoint };
@@ -626,26 +617,25 @@ export class EventHubReceiver extends LinkEntity {
 
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
-   * @hidden
    */
   private _createReceiverOptions(options: CreateReceiverOptions): RheaReceiverOptions {
     const rcvrOptions: RheaReceiverOptions = {
       name: this.name,
       autoaccept: true,
       source: {
-        address: this.address
+        address: this.address,
       },
       credit_window: 0,
       onMessage: options.onMessage,
       onError: options.onError,
       onClose: options.onClose,
       onSessionError: options.onSessionError,
-      onSessionClose: options.onSessionClose
+      onSessionClose: options.onSessionClose,
     };
 
     if (typeof this.ownerLevel === "number") {
       rcvrOptions.properties = {
-        [Constants.attachEpoch]: types.wrap_long(this.ownerLevel)
+        [Constants.attachEpoch]: types.wrap_long(this.ownerLevel),
       };
     }
 
@@ -659,7 +649,7 @@ export class EventHubReceiver extends LinkEntity {
       const filterClause = getEventPositionFilter(eventPosition);
       if (filterClause) {
         (rcvrOptions.source as any).filter = {
-          "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004)
+          "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004),
         };
       }
     }
@@ -816,21 +806,21 @@ export class EventHubReceiver extends LinkEntity {
         operation: retrieveEvents,
         operationType: RetryOperationType.receiveMessage,
         abortSignal: abortSignal,
-        retryOptions: retryOptions
+        retryOptions: retryOptions,
       },
       {
         connectionId: {
           enumerable: true,
           get: () => {
             return this._context.connectionId;
-          }
+          },
         },
         connectionHost: {
           enumerable: true,
           get: () => {
             return this._context.config.host;
-          }
-        }
+          },
+        },
       }
     );
     return retry<ReceivedEventData[]>(config);

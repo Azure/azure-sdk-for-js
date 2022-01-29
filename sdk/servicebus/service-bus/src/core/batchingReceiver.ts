@@ -9,7 +9,7 @@ import {
   ReceiverEvents,
   SessionEvents,
   Receiver as RheaPromiseReceiver,
-  Session
+  Session,
 } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
@@ -58,7 +58,7 @@ export class BatchingReceiver extends MessageReceiver {
           },
           onMessage: async () => {
             /** Nothing to do here -  we don't add credits initially so we don't need to worry about handling any messages.*/
-          }
+          },
         });
 
         await this._init(rcvrOptions, abortSignal);
@@ -69,7 +69,8 @@ export class BatchingReceiver extends MessageReceiver {
 
         return this.link;
       },
-      this.receiveMode
+      this.receiveMode,
+      options.skipParsingBodyAsJson ?? false
     );
   }
 
@@ -123,7 +124,7 @@ export class BatchingReceiver extends MessageReceiver {
         maxMessageCount,
         maxWaitTimeInMs,
         maxTimeAfterFirstMessageInMs,
-        ...options
+        ...options,
       });
 
       if (this._lockRenewer) {
@@ -248,7 +249,8 @@ export class BatchingReceiverLite {
     private _getCurrentReceiver: (
       abortSignal?: AbortSignalLike
     ) => Promise<MinimalReceiver | undefined>,
-    private _receiveMode: ReceiveMode
+    private _receiveMode: ReceiveMode,
+    _skipParsingBodyAsJson: boolean
   ) {
     this._createAndEndProcessingSpan = createAndEndProcessingSpan;
 
@@ -257,7 +259,8 @@ export class BatchingReceiverLite {
         context.message!,
         context.delivery!,
         true,
-        this._receiveMode
+        this._receiveMode,
+        _skipParsingBodyAsJson
       );
     };
 
@@ -451,9 +454,9 @@ export class BatchingReceiverLite {
         // silently dropped on the floor.
         if (brokeredMessages.length > args.maxMessageCount) {
           logger.warning(
-            `More messages arrived than were expected: ${
-              args.maxMessageCount
-            } vs ${brokeredMessages.length + 1}`
+            `More messages arrived than were expected: ${args.maxMessageCount} vs ${
+              brokeredMessages.length + 1
+            }`
           );
         }
       } catch (err) {

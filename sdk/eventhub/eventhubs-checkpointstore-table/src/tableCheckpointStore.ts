@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
-import { odata, TableClient, TableInsertEntityHeaders } from "@azure/data-tables";
-import { logger, logErrorStackTrace } from "./log";
+import { Checkpoint, CheckpointStore, PartitionOwnership } from "@azure/event-hubs";
+import { TableClient, TableInsertEntityHeaders, odata } from "@azure/data-tables";
+import { logErrorStackTrace, logger } from "./log";
 
 /**
  *
@@ -38,7 +38,6 @@ export interface CheckpointEntity {
 /**
  * An ownership entity of type PartitionOwnership to be stored in the table
  * @internal
- * @hidden
  */
 export interface PartitionOwnershipEntity {
   /**
@@ -86,7 +85,7 @@ export class TableCheckpointStore implements CheckpointStore {
     const partitionKey = `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Ownership`;
     const partitionOwnershipArray: PartitionOwnership[] = [];
     const entitiesIter = this._tableClient.listEntities<PartitionOwnershipEntity>({
-      queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
+      queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
     });
     try {
       for await (const entity of entitiesIter) {
@@ -103,7 +102,7 @@ export class TableCheckpointStore implements CheckpointStore {
           ownerId: entity.ownerid,
           partitionId: entity.rowKey,
           lastModifiedTimeInMs: new Date(entity.timestamp).getTime(),
-          etag: entity.etag
+          etag: entity.etag,
         };
         partitionOwnershipArray.push(partitionOwnership);
       }
@@ -136,7 +135,7 @@ export class TableCheckpointStore implements CheckpointStore {
       const ownershipEntity: PartitionOwnershipEntity = {
         partitionKey: partitionKey,
         rowKey: ownership.partitionId,
-        ownerid: ownership.ownerId
+        ownerid: ownership.ownerId,
       };
 
       // When we have an etag, we know the entity existed.
@@ -144,7 +143,7 @@ export class TableCheckpointStore implements CheckpointStore {
       try {
         if (ownership.etag) {
           const updatedMetadata = await this._tableClient.updateEntity(ownershipEntity, "Replace", {
-            etag: ownership.etag
+            etag: ownership.etag,
           });
           const entityRetrieved = await this._tableClient.getEntity(
             ownershipEntity.partitionKey,
@@ -166,9 +165,9 @@ export class TableCheckpointStore implements CheckpointStore {
           const newOwnershipMetadata = await this._tableClient.createEntity(ownershipEntity, {
             requestOptions: {
               customHeaders: {
-                Prefer: "return-content"
-              }
-            }
+                Prefer: "return-content",
+              },
+            },
           });
 
           if (!_hasTimestamp(newOwnershipMetadata)) {
@@ -222,7 +221,7 @@ export class TableCheckpointStore implements CheckpointStore {
     const partitionKey = `${fullyQualifiedNamespace} ${eventHubName} ${consumerGroup} Checkpoint`;
     const checkpoints: Checkpoint[] = [];
     const entitiesIter = this._tableClient.listEntities<CheckpointEntity>({
-      queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
+      queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
     });
     for await (const entity of entitiesIter) {
       checkpoints.push({
@@ -231,7 +230,7 @@ export class TableCheckpointStore implements CheckpointStore {
         fullyQualifiedNamespace,
         partitionId: entity.rowKey,
         offset: parseInt(entity.offset, 10),
-        sequenceNumber: parseInt(entity.sequencenumber, 10)
+        sequenceNumber: parseInt(entity.sequencenumber, 10),
       });
     }
     return checkpoints;
@@ -252,7 +251,7 @@ export class TableCheckpointStore implements CheckpointStore {
       partitionKey: partitionKey,
       rowKey: checkpoint.partitionId,
       sequencenumber: checkpoint.sequenceNumber.toString(),
-      offset: checkpoint.offset.toString()
+      offset: checkpoint.offset.toString(),
     };
     try {
       await this._tableClient.upsertEntity(checkpointEntity);

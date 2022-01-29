@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { EventData, isAmqpAnnotatedMessage } from "../eventData";
 import {
   extractSpanContextFromTraceParentHeader,
   getTraceParentHeader,
-  isSpanContextValid
+  isSpanContextValid,
 } from "@azure/core-tracing";
-import { SpanContext } from "@azure/core-tracing";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { EventData, isAmqpAnnotatedMessage } from "../eventData";
 import { OperationOptions } from "../util/operationOptions";
+import { SpanContext } from "@azure/core-tracing";
 import { createMessageSpan } from "./tracing";
 
 /**
- * @hidden
+ * @internal
  */
 export const TRACEPARENT_PROPERTY = "Diagnostic-Id";
 
@@ -46,7 +46,7 @@ export function instrumentEventData(
     if (!messageSpan.isRecording()) {
       return {
         event: eventData,
-        spanContext: undefined
+        spanContext: undefined,
       };
     }
 
@@ -65,7 +65,7 @@ export function instrumentEventData(
 
     return {
       event: eventData,
-      spanContext: messageSpan.spanContext()
+      spanContext: messageSpan.spanContext(),
     };
   } finally {
     messageSpan.end();

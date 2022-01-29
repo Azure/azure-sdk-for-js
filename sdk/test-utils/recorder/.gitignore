@@ -1,2 +1,2 @@
-recordings/**/*.js
-recordings/**/*.json
+# Ignore the recordings directory in this project since they get regenerated every test run
+recordings/

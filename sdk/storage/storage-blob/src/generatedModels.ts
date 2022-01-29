@@ -86,6 +86,7 @@ export {
   CorsRule,
   CpkInfo,
   DeleteSnapshotsOptionType,
+  EncryptionAlgorithmType,
   GeoReplication,
   GeoReplicationStatusType,
   LeaseAccessConditions,
@@ -141,6 +142,7 @@ export {
   ServiceSubmitBatchResponse as ServiceSubmitBatchResponseModel,
   ServiceSubmitBatchOptionalParams as ServiceSubmitBatchOptionalParamsModel,
   SignedIdentifier as SignedIdentifierModel,
+  SyncCopyStatusType,
   UserDelegationKey as UserDelegationKeyModel,
   ContainerEncryptionScope,
   BlobQueryHeaders,
@@ -150,7 +152,7 @@ export {
   BlockBlobPutBlobFromUrlResponse,
   BlockBlobPutBlobFromUrlHeaders,
   ContainerRenameResponse,
-  ContainerRenameHeaders
+  ContainerRenameHeaders,
 } from "./generated/src/models";
 
 // Following definitions are to avoid breaking change.

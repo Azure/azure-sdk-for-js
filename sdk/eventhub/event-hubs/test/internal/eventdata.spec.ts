@@ -1,53 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { EventData, ReceivedEventData, fromRheaMessage, toRheaMessage } from "../../src/eventData";
 import chai, { assert, should } from "chai";
-chai.should();
-
-import { EventData, fromRheaMessage, ReceivedEventData, toRheaMessage } from "../../src/eventData";
-import { Message } from "rhea-promise";
 import {
   dataSectionTypeCode,
   sequenceSectionTypeCode,
-  valueSectionTypeCode
+  valueSectionTypeCode,
 } from "../../src/dataTransformer";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { Message } from "rhea-promise";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+
+chai.should();
 
 const testAnnotations = {
   "x-opt-enqueued-time": Date.now(),
   "x-opt-offset": "42",
   "x-opt-sequence-number": 0,
-  "x-opt-partition-key": "key"
+  "x-opt-partition-key": "key",
 };
 
 const testBody = '{ "foo": "bar" }';
 
 const applicationProperties = {
-  propKey: "propValue"
+  propKey: "propValue",
 };
 
 const testMessage: Message = {
   body: testBody,
   message_annotations: testAnnotations,
-  application_properties: applicationProperties
+  application_properties: applicationProperties,
 };
 
 const properties = {
-  foo: "bar"
+  foo: "bar",
 };
 
 const testSourceEventData: EventData = {
   body: testBody,
-  properties: properties
+  properties: properties,
 };
 
 const messageFromED = toRheaMessage(testSourceEventData);
 
 testWithServiceTypes(() => {
-  describe("EventData", function(): void {
-    describe("fromRheaMessage", function(): void {
-      it("populates body with the message body", function(): void {
+  describe("EventData", function (): void {
+    describe("fromRheaMessage", function (): void {
+      it("populates body with the message body", function (): void {
         const testEventData = fromRheaMessage(testMessage, false);
         testEventData.body.should.equal(testBody);
       });
@@ -56,7 +56,7 @@ testWithServiceTypes(() => {
         const testEventData = fromRheaMessage(
           {
             ...testMessage,
-            ...{ content_type: "application/json", correlation_id: "cid", message_id: 1 }
+            ...{ content_type: "application/json", correlation_id: "cid", message_id: 1 },
           },
           false
         );
@@ -69,33 +69,33 @@ testWithServiceTypes(() => {
         should().equal(testEventData.correlationId, "cid", "Unexpected correlationId found.");
       });
 
-      describe("properties", function(): void {
-        it("enqueuedTimeUtc gets the enqueued time from system properties", function(): void {
+      describe("properties", function (): void {
+        it("enqueuedTimeUtc gets the enqueued time from system properties", function (): void {
           const testEventData = fromRheaMessage(testMessage, false);
           testEventData
             .enqueuedTimeUtc!.getTime()
             .should.equal(testAnnotations["x-opt-enqueued-time"]);
         });
 
-        it("offset gets the offset from system properties", function(): void {
+        it("offset gets the offset from system properties", function (): void {
           const testEventData = fromRheaMessage(testMessage, false);
           testEventData.offset!.should.equal(testAnnotations["x-opt-offset"]);
         });
 
-        it("sequenceNumber gets the sequence number from system properties", function(): void {
+        it("sequenceNumber gets the sequence number from system properties", function (): void {
           const testEventData = fromRheaMessage(testMessage, false);
           testEventData.sequenceNumber!.should.equal(testAnnotations["x-opt-sequence-number"]);
         });
 
-        it("partitionKey gets the sequence number from system properties", function(): void {
+        it("partitionKey gets the sequence number from system properties", function (): void {
           const testEventData = fromRheaMessage(testMessage, false);
           testEventData.partitionKey!.should.equal(testAnnotations["x-opt-partition-key"]);
         });
 
-        it("returns systemProperties for unknown message annotations", function(): void {
+        it("returns systemProperties for unknown message annotations", function (): void {
           const extraAnnotations = {
             "x-iot-foo-prop": "just-a-foo",
-            "x-iot-bar-prop": "bar-above-the-rest"
+            "x-iot-bar-prop": "bar-above-the-rest",
           };
           const testEventData = fromRheaMessage(
             {
@@ -103,8 +103,8 @@ testWithServiceTypes(() => {
               application_properties: applicationProperties,
               message_annotations: {
                 ...testAnnotations,
-                ...extraAnnotations
-              }
+                ...extraAnnotations,
+              },
             },
             false
           );
@@ -122,7 +122,7 @@ testWithServiceTypes(() => {
           );
         });
 
-        it("returns systemProperties for special known properties", function(): void {
+        it("returns systemProperties for special known properties", function (): void {
           const testEventData = fromRheaMessage(
             {
               body: testBody,
@@ -140,7 +140,7 @@ testWithServiceTypes(() => {
               absolute_expiry_time: new Date(0),
               creation_time: new Date(0),
               group_id: "groupId",
-              group_sequence: 1
+              group_sequence: 1,
             },
             false
           );
@@ -171,7 +171,7 @@ testWithServiceTypes(() => {
         const timestamp = new Date();
         const extraAnnotations = {
           "x-date": timestamp,
-          "x-number": timestamp.getTime()
+          "x-number": timestamp.getTime(),
         };
         const testEventData = fromRheaMessage(
           {
@@ -180,13 +180,13 @@ testWithServiceTypes(() => {
               topLevelDate: timestamp,
               child: {
                 nestedDate: timestamp,
-                children: [timestamp, { deepDate: timestamp }]
-              }
+                children: [timestamp, { deepDate: timestamp }],
+              },
             },
             message_annotations: {
               ...testAnnotations,
-              ...extraAnnotations
-            }
+              ...extraAnnotations,
+            },
           },
           false
         );
@@ -202,13 +202,13 @@ testWithServiceTypes(() => {
           topLevelDate: timestamp.getTime(),
           child: {
             nestedDate: timestamp.getTime(),
-            children: [timestamp.getTime(), { deepDate: timestamp.getTime() }]
-          }
+            children: [timestamp.getTime(), { deepDate: timestamp.getTime() }],
+          },
         });
       });
     });
-    describe("toAmqpMessage", function(): void {
-      it("populates body with the message body encoded", function(): void {
+    describe("toAmqpMessage", function (): void {
+      it("populates body with the message body encoded", function (): void {
         const expectedTestBodyContents = Buffer.from(JSON.stringify(testBody));
         should().equal(
           expectedTestBodyContents.equals(messageFromED.body.content),
@@ -225,21 +225,21 @@ testWithServiceTypes(() => {
       it("populates top-level fields", () => {
         const message = toRheaMessage({
           ...testSourceEventData,
-          ...{ contentType: "application/json", correlationId: "cid", messageId: 1 }
+          ...{ contentType: "application/json", correlationId: "cid", messageId: 1 },
         });
         should().equal(message.message_id, 1, "Unexpected message_id found.");
         should().equal(message.content_type, "application/json", "Unexpected content_type found.");
         should().equal(message.correlation_id, "cid", "Unexpected correlation_id found.");
       });
 
-      it("populates application_properties of the message", function(): void {
+      it("populates application_properties of the message", function (): void {
         messageFromED.application_properties!.should.equal(properties);
       });
 
       it("AmqpAnnotatedMessage (explicit type)", () => {
         const amqpAnnotatedMessage: AmqpAnnotatedMessage = {
           body: "hello",
-          bodyType: "value"
+          bodyType: "value",
         };
 
         const rheaMessage = toRheaMessage(amqpAnnotatedMessage);
@@ -250,7 +250,7 @@ testWithServiceTypes(() => {
       it("AmqpAnnotatedMessage (implicit type)", () => {
         const amqpAnnotatedMessage: AmqpAnnotatedMessage = {
           body: "hello",
-          bodyType: undefined
+          bodyType: undefined,
         };
 
         const rheaMessage = toRheaMessage(amqpAnnotatedMessage);
@@ -260,7 +260,7 @@ testWithServiceTypes(() => {
 
       it("EventData", () => {
         const event: EventData = {
-          body: "hello"
+          body: "hello",
         };
 
         const rheaMessage = toRheaMessage(event);
@@ -278,9 +278,9 @@ testWithServiceTypes(() => {
           getRawAmqpMessage() {
             return {
               body: this.body,
-              bodyType: "sequence"
+              bodyType: "sequence",
             };
-          }
+          },
         };
 
         const rheaMessage = toRheaMessage(event);
@@ -298,9 +298,9 @@ testWithServiceTypes(() => {
           getRawAmqpMessage() {
             return {
               body: this.body,
-              bodyType: "data"
+              bodyType: "data",
             };
-          }
+          },
         };
 
         const rheaMessage = toRheaMessage(event);
@@ -318,9 +318,9 @@ testWithServiceTypes(() => {
           getRawAmqpMessage() {
             return {
               body: this.body,
-              bodyType: "value"
+              bodyType: "value",
             };
-          }
+          },
         };
 
         const rheaMessage = toRheaMessage(event);

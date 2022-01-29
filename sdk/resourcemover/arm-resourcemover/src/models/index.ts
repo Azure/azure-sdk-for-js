@@ -6,110 +6,467 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
+export type ResourceSettingsUnion =
+  | ResourceSettings
+  | VirtualMachineResourceSettings
+  | AvailabilitySetResourceSettings
+  | VirtualNetworkResourceSettings
+  | NetworkInterfaceResourceSettings
+  | NetworkSecurityGroupResourceSettings
+  | LoadBalancerResourceSettings
+  | SqlServerResourceSettings
+  | SqlElasticPoolResourceSettings
+  | SqlDatabaseResourceSettings
+  | ResourceGroupResourceSettings
+  | PublicIPAddressResourceSettings
+  | KeyVaultResourceSettings
+  | DiskEncryptionSetResourceSettings;
 
-/**
- * Defines the MSI properties of the Move Collection.
- */
+/** Define the move collection. */
+export interface MoveCollection {
+  /**
+   * Fully qualified resource Id for the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The etag of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives. */
+  location?: string;
+  /** Defines the MSI properties of the Move Collection. */
+  identity?: Identity;
+  /** Defines the move collection properties. */
+  properties?: MoveCollectionProperties;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Defines the MSI properties of the Move Collection. */
 export interface Identity {
-  /**
-   * Possible values include: 'None', 'SystemAssigned', 'UserAssigned'
-   */
+  /** The type of identity used for the resource mover service. */
   type?: ResourceIdentityType;
-  /**
-   * Gets or sets the principal id.
-   */
+  /** Gets or sets the principal id. */
   principalId?: string;
-  /**
-   * Gets or sets the tenant id.
-   */
+  /** Gets or sets the tenant id. */
   tenantId?: string;
 }
 
-/**
- * Defines the job status.
- */
-export interface JobStatus {
+/** Defines the move collection properties. */
+export interface MoveCollectionProperties {
+  /** Gets or sets the source region. */
+  sourceRegion: string;
+  /** Gets or sets the target region. */
+  targetRegion: string;
   /**
-   * Possible values include: 'InitialSync'
+   * Defines the provisioning states.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  jobName?: JobName;
+  readonly provisioningState?: ProvisioningState;
   /**
-   * Gets or sets the monitoring job percentage.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Defines the move collection errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly jobProgress?: string;
+  readonly errors?: MoveCollectionPropertiesErrors;
 }
 
-/**
- * An error response from the Azure Migrate service.
- */
+/** An error response from the azure resource mover service. */
+export interface MoveResourceError {
+  /** The move resource error body. */
+  properties?: MoveResourceErrorBody;
+}
+
+/** An error response from the Azure Migrate service. */
 export interface MoveResourceErrorBody {
   /**
-   * An identifier for the error. Codes are invariant and are intended to be consumed
-   * programmatically.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly code?: string;
   /**
    * A message describing the error, intended to be suitable for display in a user interface.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
   /**
    * The target of the particular error. For example, the name of the property in error.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly target?: string;
   /**
    * A list of additional details about the error.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly details?: MoveResourceErrorBody[];
 }
 
-/**
- * An error response from the azure resource mover service.
- */
-export interface MoveResourceError {
-  /**
-   * The move resource error body.
-   */
-  properties?: MoveResourceErrorBody;
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
-/**
- * Defines the move resource status.
- */
+/** An error response from the service. */
+export interface CloudError {
+  /** Cloud error body. */
+  error?: CloudErrorBody;
+}
+
+/** An error response from the service. */
+export interface CloudErrorBody {
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
+  code?: string;
+  /** A message describing the error, intended to be suitable for display in a user interface. */
+  message?: string;
+  /** The target of the particular error. For example, the name of the property in error. */
+  target?: string;
+  /** A list of additional details about the error. */
+  details?: CloudErrorBody[];
+}
+
+/** Defines the request body for updating move collection. */
+export interface UpdateMoveCollectionRequest {
+  /** Gets or sets the Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Defines the MSI properties of the Move Collection. */
+  identity?: Identity;
+}
+
+/** Operation status REST resource. */
+export interface OperationStatus {
+  /**
+   * Resource Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Operation name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Status of the operation. ARM expects the terminal status to be one of Succeeded/ Failed/ Canceled. All other values imply that the operation is still running.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: string;
+  /**
+   * End time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: string;
+  /**
+   * Error stating all error details for the operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: OperationStatusError;
+  /**
+   * Custom data.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: Record<string, unknown>;
+}
+
+/** Class for operation status errors. */
+export interface OperationStatusError {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: OperationStatusError[];
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: OperationErrorAdditionalInfo[];
+}
+
+/** The operation error info. */
+export interface OperationErrorAdditionalInfo {
+  /**
+   * The error type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The operation error info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: MoveErrorInfo;
+}
+
+/** The move custom error info. */
+export interface MoveErrorInfo {
+  /**
+   * The affected move resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly moveResources?: AffectedMoveResource[];
+}
+
+/** The RP custom operation error info. */
+export interface AffectedMoveResource {
+  /**
+   * The affected move resource id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The affected move resource source id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceId?: string;
+  /**
+   * The affected move resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly moveResources?: AffectedMoveResource[];
+}
+
+/** Defines the request body for initiate prepare operation. */
+export interface PrepareRequest {
+  /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
+  validateOnly?: boolean;
+  /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
+  moveResources: string[];
+  /** Defines the move resource input type. */
+  moveResourceInputType?: MoveResourceInputType;
+}
+
+/** Defines the request body for resource move operation. */
+export interface ResourceMoveRequest {
+  /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
+  validateOnly?: boolean;
+  /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
+  moveResources: string[];
+  /** Defines the move resource input type. */
+  moveResourceInputType?: MoveResourceInputType;
+}
+
+/** Defines the request body for commit operation. */
+export interface CommitRequest {
+  /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
+  validateOnly?: boolean;
+  /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
+  moveResources: string[];
+  /** Defines the move resource input type. */
+  moveResourceInputType?: MoveResourceInputType;
+}
+
+/** Defines the request body for discard operation. */
+export interface DiscardRequest {
+  /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
+  validateOnly?: boolean;
+  /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
+  moveResources: string[];
+  /** Defines the move resource input type. */
+  moveResourceInputType?: MoveResourceInputType;
+}
+
+/** Defines the collection of move resources. */
+export interface MoveResourceCollection {
+  /** Gets the list of move resources. */
+  value?: MoveResource[];
+  /** Gets the value of  next link. */
+  nextLink?: string;
+  /** Gets or sets the list of summary items and the field on which summary is done. */
+  summaryCollection?: SummaryCollection;
+  /**
+   * Gets the total count.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalCount?: number;
+}
+
+/** Defines the move resource. */
+export interface MoveResource {
+  /**
+   * Fully qualified resource Id for the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Defines the move resource properties. */
+  properties?: MoveResourceProperties;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Defines the move resource properties. */
+export interface MoveResourceProperties {
+  /**
+   * Defines the provisioning states.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Gets or sets the Source ARM Id of the resource. */
+  sourceId: string;
+  /**
+   * Gets or sets the Target ARM Id of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetId?: string;
+  /** Gets or sets the existing target ARM Id of the resource. */
+  existingTargetId?: string;
+  /** Gets or sets the resource settings. */
+  resourceSettings?: ResourceSettingsUnion;
+  /**
+   * Gets or sets the source resource settings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceResourceSettings?: ResourceSettingsUnion;
+  /**
+   * Defines the move resource status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly moveStatus?: MoveResourcePropertiesMoveStatus;
+  /**
+   * Gets or sets the move resource dependencies.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dependsOn?: MoveResourceDependency[];
+  /** Gets or sets the move resource dependencies overrides. */
+  dependsOnOverrides?: MoveResourceDependencyOverride[];
+  /**
+   * Gets a value indicating whether the resolve action is required over the move collection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isResolveRequired?: boolean;
+  /**
+   * Defines the move resource errors.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: MoveResourcePropertiesErrors;
+}
+
+/** Gets or sets the resource settings. */
+export interface ResourceSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resourceType:
+    | "Microsoft.Compute/virtualMachines"
+    | "Microsoft.Compute/availabilitySets"
+    | "Microsoft.Network/virtualNetworks"
+    | "Microsoft.Network/networkInterfaces"
+    | "Microsoft.Network/networkSecurityGroups"
+    | "Microsoft.Network/loadBalancers"
+    | "Microsoft.Sql/servers"
+    | "Microsoft.Sql/servers/elasticPools"
+    | "Microsoft.Sql/servers/databases"
+    | "resourceGroups"
+    | "Microsoft.Network/publicIPAddresses"
+    | "Microsoft.KeyVault/vaults"
+    | "Microsoft.Compute/diskEncryptionSets";
+  /** Gets or sets the target Resource name. */
+  targetResourceName: string;
+}
+
+/** Defines the move resource status. */
 export interface MoveResourceStatus {
   /**
-   * Possible values include: 'AssignmentPending', 'PreparePending', 'PrepareInProgress',
-   * 'PrepareFailed', 'MovePending', 'MoveInProgress', 'MoveFailed', 'DiscardInProgress',
-   * 'DiscardFailed', 'CommitPending', 'CommitInProgress', 'CommitFailed', 'Committed',
-   * 'DeleteSourcePending', 'ResourceMoveCompleted'
+   * Defines the MoveResource states.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  moveState?: MoveState;
+  readonly moveState?: MoveState;
+  /** Defines the job status. */
   jobStatus?: JobStatus;
+  /** An error response from the azure resource mover service. */
   errors?: MoveResourceError;
 }
 
-/**
- * Defines the properties for manual resolution.
- */
-export interface ManualResolutionProperties {
+/** Defines the job status. */
+export interface JobStatus {
   /**
-   * Gets or sets the target resource ARM ID of the dependent resource if the resource type is
-   * Manual.
+   * Defines the job name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
+  readonly jobName?: JobName;
+  /**
+   * Gets or sets the monitoring job percentage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly jobProgress?: string;
+}
+
+/** Defines the dependency of the move resource. */
+export interface MoveResourceDependency {
+  /** Gets the source ARM ID of the dependent resource. */
+  id?: string;
+  /** Gets the dependency resolution status. */
+  resolutionStatus?: string;
+  /** Defines the resolution type. */
+  resolutionType?: ResolutionType;
+  /** Defines the dependency type. */
+  dependencyType?: DependencyType;
+  /** Defines the properties for manual resolution. */
+  manualResolution?: ManualResolutionProperties;
+  /** Defines the properties for automatic resolution. */
+  automaticResolution?: AutomaticResolutionProperties;
+  /** Gets or sets a value indicating whether the dependency is optional. */
+  isOptional?: string;
+}
+
+/** Defines the properties for manual resolution. */
+export interface ManualResolutionProperties {
+  /** Gets or sets the target resource ARM ID of the dependent resource if the resource type is Manual. */
   targetId?: string;
 }
 
-/**
- * Defines the properties for automatic resolution.
- */
+/** Defines the properties for automatic resolution. */
 export interface AutomaticResolutionProperties {
   /**
    * Gets the MoveResource ARM ID of
@@ -118,41 +475,9 @@ export interface AutomaticResolutionProperties {
   moveResourceId?: string;
 }
 
-/**
- * Defines the dependency of the move resource.
- */
-export interface MoveResourceDependency {
-  /**
-   * Gets the source ARM ID of the dependent resource.
-   */
-  id?: string;
-  /**
-   * Gets the dependency resolution status.
-   */
-  resolutionStatus?: string;
-  /**
-   * Possible values include: 'Manual', 'Automatic'
-   */
-  resolutionType?: ResolutionType;
-  /**
-   * Possible values include: 'RequiredForPrepare', 'RequiredForMove'
-   */
-  dependencyType?: DependencyType;
-  manualResolution?: ManualResolutionProperties;
-  automaticResolution?: AutomaticResolutionProperties;
-  /**
-   * Gets or sets a value indicating whether the dependency is optional.
-   */
-  isOptional?: string;
-}
-
-/**
- * Defines the dependency override of the move resource.
- */
+/** Defines the dependency override of the move resource. */
 export interface MoveResourceDependencyOverride {
-  /**
-   * Gets or sets the ARM ID of the dependent resource.
-   */
+  /** Gets or sets the ARM ID of the dependent resource. */
   id?: string;
   /**
    * Gets or sets the resource ARM id of either the MoveResource or the resource ARM ID of
@@ -161,370 +486,112 @@ export interface MoveResourceDependencyOverride {
   targetId?: string;
 }
 
-/**
- * Contains the possible cases for ResourceSettings.
- */
-export type ResourceSettingsUnion = ResourceSettings | VirtualMachineResourceSettings | AvailabilitySetResourceSettings | VirtualNetworkResourceSettings | NetworkInterfaceResourceSettings | NetworkSecurityGroupResourceSettings | LoadBalancerResourceSettings | SqlServerResourceSettings | SqlElasticPoolResourceSettings | SqlDatabaseResourceSettings | ResourceGroupResourceSettings | PublicIPAddressResourceSettings | KeyVaultResourceSettings | DiskEncryptionSetResourceSettings;
-
-/**
- * Gets or sets the resource settings.
- */
-export interface ResourceSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  resourceType: "ResourceSettings";
-  /**
-   * Gets or sets the target Resource name.
-   */
-  targetResourceName: string;
-}
-
-/**
- * Defines the move resource status.
- */
-export interface MoveResourcePropertiesMoveStatus extends MoveResourceStatus {
-}
-
-/**
- * Defines the move resource errors.
- */
-export interface MoveResourcePropertiesErrors extends MoveResourceError {
-}
-
-/**
- * Defines the move resource properties.
- */
-export interface MoveResourceProperties {
-  /**
-   * Possible values include: 'Succeeded', 'Updating', 'Creating', 'Failed'
-   */
-  provisioningState?: ProvisioningState;
-  /**
-   * Gets or sets the Source ARM Id of the resource.
-   */
-  sourceId: string;
-  /**
-   * Gets or sets the Target ARM Id of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly targetId?: string;
-  /**
-   * Gets or sets the existing target ARM Id of the resource.
-   */
-  existingTargetId?: string;
-  /**
-   * Gets or sets the resource settings.
-   */
-  resourceSettings?: ResourceSettingsUnion;
-  /**
-   * Gets or sets the source resource settings.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly sourceResourceSettings?: ResourceSettingsUnion;
-  /**
-   * Defines the move resource status.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly moveStatus?: MoveResourcePropertiesMoveStatus;
-  /**
-   * Gets or sets the move resource dependencies.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly dependsOn?: MoveResourceDependency[];
-  /**
-   * Gets or sets the move resource dependencies overrides.
-   */
-  dependsOnOverrides?: MoveResourceDependencyOverride[];
-  /**
-   * Gets a value indicating whether the resolve action is required over the move collection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isResolveRequired?: boolean;
-  /**
-   * Defines the move resource errors.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly errors?: MoveResourcePropertiesErrors;
-}
-
-/**
- * Defines the move resource.
- */
-export interface MoveResource extends BaseResource {
-  /**
-   * Fully qualified resource Id for the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  properties?: MoveResourceProperties;
-}
-
-/**
- * Summary item.
- */
-export interface Summary {
-  /**
-   * Gets the count.
-   */
-  count?: number;
-  /**
-   * Gets the item.
-   */
-  item?: string;
-}
-
-/**
- * Summary Collection.
- */
+/** Summary Collection. */
 export interface SummaryCollection {
-  /**
-   * Gets or sets the field name on which summary is done.
-   */
+  /** Gets or sets the field name on which summary is done. */
   fieldName?: string;
-  /**
-   * Gets or sets the list of summary items.
-   */
+  /** Gets or sets the list of summary items. */
   summary?: Summary[];
 }
 
-/**
- * Defines the move collection errors.
- */
-export interface MoveCollectionPropertiesErrors extends MoveResourceError {
-}
-
-/**
- * Defines the move collection properties.
- */
-export interface MoveCollectionProperties {
-  /**
-   * Gets or sets the source region.
-   */
-  sourceRegion: string;
-  /**
-   * Gets or sets the target region.
-   */
-  targetRegion: string;
-  /**
-   * Possible values include: 'Succeeded', 'Updating', 'Creating', 'Failed'
-   */
-  provisioningState?: ProvisioningState;
-  /**
-   * Defines the move collection errors.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly errors?: MoveCollectionPropertiesErrors;
-}
-
-/**
- * Define the move collection.
- */
-export interface MoveCollection extends BaseResource {
-  /**
-   * Fully qualified resource Id for the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The etag of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives.
-   */
-  location?: string;
-  identity?: Identity;
-  properties?: MoveCollectionProperties;
-}
-
-/**
- * Defines the request body for updating move collection.
- */
-export interface UpdateMoveCollectionRequest {
-  /**
-   * Gets or sets the Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  identity?: Identity;
-}
-
-/**
- * Defines the request body for initiate prepare operation.
- */
-export interface PrepareRequest {
-  /**
-   * Gets or sets a value indicating whether the operation needs to only run pre-requisite.
-   */
-  validateOnly?: boolean;
-  /**
-   * Gets or sets the list of resource Id's, by default it accepts move resource id's unless the
-   * input type is switched via moveResourceInputType property.
-   */
-  moveResources: string[];
-  /**
-   * Possible values include: 'MoveResourceId', 'MoveResourceSourceId'
-   */
-  moveResourceInputType?: MoveResourceInputType;
-}
-
-/**
- * Defines the request body for resource move operation.
- */
-export interface ResourceMoveRequest {
-  /**
-   * Gets or sets a value indicating whether the operation needs to only run pre-requisite.
-   */
-  validateOnly?: boolean;
-  /**
-   * Gets or sets the list of resource Id's, by default it accepts move resource id's unless the
-   * input type is switched via moveResourceInputType property.
-   */
-  moveResources: string[];
-  /**
-   * Possible values include: 'MoveResourceId', 'MoveResourceSourceId'
-   */
-  moveResourceInputType?: MoveResourceInputType;
-}
-
-/**
- * Defines the request body for commit operation.
- */
-export interface CommitRequest {
-  /**
-   * Gets or sets a value indicating whether the operation needs to only run pre-requisite.
-   */
-  validateOnly?: boolean;
-  /**
-   * Gets or sets the list of resource Id's, by default it accepts move resource id's unless the
-   * input type is switched via moveResourceInputType property.
-   */
-  moveResources: string[];
-  /**
-   * Possible values include: 'MoveResourceId', 'MoveResourceSourceId'
-   */
-  moveResourceInputType?: MoveResourceInputType;
-}
-
-/**
- * Defines the request body for discard operation.
- */
-export interface DiscardRequest {
-  /**
-   * Gets or sets a value indicating whether the operation needs to only run pre-requisite.
-   */
-  validateOnly?: boolean;
-  /**
-   * Gets or sets the list of resource Id's, by default it accepts move resource id's unless the
-   * input type is switched via moveResourceInputType property.
-   */
-  moveResources: string[];
-  /**
-   * Possible values include: 'MoveResourceId', 'MoveResourceSourceId'
-   */
-  moveResourceInputType?: MoveResourceInputType;
-}
-
-/**
- * Defines the request body for bulk remove of move resources operation.
- */
-export interface BulkRemoveRequest {
-  /**
-   * Gets or sets a value indicating whether the operation needs to only run pre-requisite.
-   */
-  validateOnly?: boolean;
-  /**
-   * Gets or sets the list of resource Id's, by default it accepts move resource id's unless the
-   * input type is switched via moveResourceInputType property.
-   */
-  moveResources?: string[];
-  /**
-   * Possible values include: 'MoveResourceId', 'MoveResourceSourceId'
-   */
-  moveResourceInputType?: MoveResourceInputType;
-}
-
-/**
- * An interface representing MoveResourceFilterProperties.
- */
-export interface MoveResourceFilterProperties {
-  /**
-   * The provisioning state.
-   */
-  provisioningState?: string;
-}
-
-/**
- * Move resource filter.
- */
-export interface MoveResourceFilter {
-  properties?: MoveResourceFilterProperties;
-}
-
-/**
- * An interface representing UnresolvedDependenciesFilterProperties.
- */
-export interface UnresolvedDependenciesFilterProperties {
-  /**
-   * The count of the resource.
-   */
+/** Summary item. */
+export interface Summary {
+  /** Gets the count. */
   count?: number;
+  /** Gets the item. */
+  item?: string;
 }
 
-/**
- * Unresolved dependencies contract.
- */
-export interface UnresolvedDependenciesFilter {
-  properties?: UnresolvedDependenciesFilterProperties;
+/** Unresolved dependency collection. */
+export interface UnresolvedDependencyCollection {
+  /** Gets or sets the list of unresolved dependencies. */
+  value?: UnresolvedDependency[];
+  /** Gets or sets the value of  next link. */
+  nextLink?: string;
+  /**
+   * Gets or sets the list of summary items and the field on which summary is done.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly summaryCollection?: SummaryCollection;
+  /**
+   * Gets the total count.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalCount?: number;
 }
 
-/**
- * Unresolved dependency.
- */
+/** Unresolved dependency. */
 export interface UnresolvedDependency {
-  /**
-   * Gets or sets the count.
-   */
+  /** Gets or sets the count. */
   count?: number;
-  /**
-   * Gets or sets the arm id of the dependency.
-   */
+  /** Gets or sets the arm id of the dependency. */
   id?: string;
 }
 
-/**
- * Required for resources collection.
- */
-export interface RequiredForResourcesCollection {
+/** Defines the request body for bulk remove of move resources operation. */
+export interface BulkRemoveRequest {
+  /** Gets or sets a value indicating whether the operation needs to only run pre-requisite. */
+  validateOnly?: boolean;
+  /** Gets or sets the list of resource Id's, by default it accepts move resource id's unless the input type is switched via moveResourceInputType property. */
+  moveResources?: string[];
+  /** Defines the move resource input type. */
+  moveResourceInputType?: MoveResourceInputType;
+}
+
+/** Collection of ClientDiscovery details. */
+export interface OperationsDiscoveryCollection {
+  /** Gets or sets the ClientDiscovery details. */
+  value?: OperationsDiscovery[];
+  /** Gets or sets the value of next link. */
+  nextLink?: string;
+}
+
+/** Operations discovery class. */
+export interface OperationsDiscovery {
   /**
-   * Gets or sets the list of source Ids for which the input resource is required.
+   * Gets or sets Name of the API.
+   * The name of the operation being performed on this particular object. It should
+   * match the action name that appears in RBAC / the event service.
+   * Examples of operations include:
+   * * Microsoft.Compute/virtualMachine/capture/action
+   * * Microsoft.Compute/virtualMachine/restart/action
+   * * Microsoft.Compute/virtualMachine/write
+   * * Microsoft.Compute/virtualMachine/read
+   * * Microsoft.Compute/virtualMachine/delete
+   * Each action should include, in order:
+   * (1) Resource Provider Namespace
+   * (2) Type hierarchy for which the action applies (e.g. server/databases for a SQL
+   * Azure database)
+   * (3) Read, Write, Action or Delete indicating which type applies. If it is a PUT/PATCH
+   * on a collection or named value, Write should be used.
+   * If it is a GET, Read should be used. If it is a DELETE, Delete should be used. If it
+   * is a POST, Action should be used.
+   * As a note: all resource providers would need to include the "{Resource Provider
+   * Namespace}/register/action" operation in their response.
+   * This API is used to register for their service, and should include details about the
+   * operation (e.g. a localized name for the resource provider + any special
+   * considerations like PII release).
    */
-  sourceIds?: string[];
+  name?: string;
+  /** Indicates whether the operation is a data action */
+  isDataAction?: boolean;
+  /**
+   * Contains the localized display information for this particular operation / action. These
+   * value will be used by several clients for
+   * (1) custom role definitions for RBAC;
+   * (2) complex query filters for the event service; and
+   * (3) audit history / records for management operations.
+   */
+  display?: Display;
+  /**
+   * Gets or sets Origin.
+   * The intended executor of the operation; governs the display of the operation in the
+   * RBAC UX and the audit logs UX.
+   * Default value is "user,system".
+   */
+  origin?: string;
+  /** Any object */
+  properties?: Record<string, unknown>;
 }
 
 /**
@@ -574,289 +641,95 @@ export interface Display {
    * Perform any other action on any  'display.provider'  resource
    * Prescriptive guidance for namespace:
    * Read any 'display.resource' Create or Update any  'display.resource' Delete any
-   * 'display.resource' 'ActionName' any 'display.resources'.
+   *  'display.resource' 'ActionName' any 'display.resources'.
    */
   description?: string;
 }
 
-/**
- * Operations discovery class.
- */
-export interface OperationsDiscovery {
-  /**
-   * Gets or sets Name of the API.
-   * The name of the operation being performed on this particular object. It should
-   * match the action name that appears in RBAC / the event service.
-   * Examples of operations include:
-   * * Microsoft.Compute/virtualMachine/capture/action
-   * * Microsoft.Compute/virtualMachine/restart/action
-   * * Microsoft.Compute/virtualMachine/write
-   * * Microsoft.Compute/virtualMachine/read
-   * * Microsoft.Compute/virtualMachine/delete
-   * Each action should include, in order:
-   * (1) Resource Provider Namespace
-   * (2) Type hierarchy for which the action applies (e.g. server/databases for a SQL
-   * Azure database)
-   * (3) Read, Write, Action or Delete indicating which type applies. If it is a PUT/PATCH
-   * on a collection or named value, Write should be used.
-   * If it is a GET, Read should be used. If it is a DELETE, Delete should be used. If it
-   * is a POST, Action should be used.
-   * As a note: all resource providers would need to include the "{Resource Provider
-   * Namespace}/register/action" operation in their response.
-   * This API is used to register for their service, and should include details about the
-   * operation (e.g. a localized name for the resource provider + any special
-   * considerations like PII release).
-   */
-  name?: string;
-  /**
-   * Indicates whether the operation is a data action
-   */
-  isDataAction?: boolean;
-  display?: Display;
-  /**
-   * Gets or sets Origin.
-   * The intended executor of the operation; governs the display of the operation in the
-   * RBAC UX and the audit logs UX.
-   * Default value is "user,system".
-   */
-  origin?: string;
-  properties?: any;
-}
-
-/**
- * Collection of ClientDiscovery details.
- */
-export interface OperationsDiscoveryCollection {
-  /**
-   * Gets or sets the ClientDiscovery details.
-   */
-  value?: OperationsDiscovery[];
-  /**
-   * Gets or sets the value of next link.
-   */
+/** Defines the collection of move collections. */
+export interface MoveCollectionResultList {
+  /** Gets the list of move collections. */
+  value?: MoveCollection[];
+  /** Gets the value of  next link. */
   nextLink?: string;
 }
 
-/**
- * Gets or sets the virtual machine resource settings.
- */
-export interface VirtualMachineResourceSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  resourceType: "Microsoft.Compute/virtualMachines";
-  /**
-   * Gets or sets the target Resource name.
-   */
-  targetResourceName: string;
-  /**
-   * Gets or sets the target availability zone. Possible values include: '1', '2', '3', 'NA'
-   */
-  targetAvailabilityZone?: TargetAvailabilityZone;
-  /**
-   * Gets or sets the target virtual machine size.
-   */
-  targetVmSize?: string;
-  /**
-   * Gets or sets the target availability set id for virtual machines not in an availability set at
-   * source.
-   */
-  targetAvailabilitySetId?: string;
+/** Required for resources collection. */
+export interface RequiredForResourcesCollection {
+  /** Gets or sets the list of source Ids for which the input resource is required. */
+  sourceIds?: string[];
 }
 
-/**
- * Gets or sets the availability set resource settings.
- */
-export interface AvailabilitySetResourceSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  resourceType: "Microsoft.Compute/availabilitySets";
-  /**
-   * Gets or sets the target Resource name.
-   */
-  targetResourceName: string;
-  /**
-   * Gets or sets the target fault domain.
-   */
-  faultDomain?: number;
-  /**
-   * Gets or sets the target update domain.
-   */
-  updateDomain?: number;
+/** Move resource filter. */
+export interface MoveResourceFilter {
+  properties?: MoveResourceFilterProperties;
 }
 
-/**
- * Defines reference to an Azure resource.
- */
-export interface AzureResourceReference {
-  /**
-   * Gets the ARM resource ID of the tracked resource being referenced.
-   */
-  sourceArmResourceId: string;
+export interface MoveResourceFilterProperties {
+  /** The provisioning state. */
+  provisioningState?: string;
 }
 
-/**
- * Defines reference to NSG.
- */
-export interface NsgReference extends AzureResourceReference {
+/** Unresolved dependencies contract. */
+export interface UnresolvedDependenciesFilter {
+  properties?: UnresolvedDependenciesFilterProperties;
 }
 
-/**
- * Defines the virtual network subnets resource settings.
- */
+export interface UnresolvedDependenciesFilterProperties {
+  /** The count of the resource. */
+  count?: number;
+}
+
+/** Defines the virtual network subnets resource settings. */
 export interface SubnetResourceSettings {
-  /**
-   * Gets or sets the Subnet name.
-   */
+  /** Gets or sets the Subnet name. */
   name?: string;
-  /**
-   * Gets or sets address prefix for the subnet.
-   */
+  /** Gets or sets address prefix for the subnet. */
   addressPrefix?: string;
+  /** Defines reference to NSG. */
   networkSecurityGroup?: NsgReference;
 }
 
-/**
- * Defines the virtual network resource settings.
- */
-export interface VirtualNetworkResourceSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  resourceType: "Microsoft.Network/virtualNetworks";
-  /**
-   * Gets or sets the target Resource name.
-   */
-  targetResourceName: string;
-  /**
-   * Gets or sets a value indicating whether gets or sets whether the
-   * DDOS protection should be switched on.
-   */
-  enableDdosProtection?: boolean;
-  /**
-   * Gets or sets the address prefixes for the virtual network.
-   */
-  addressSpace?: string[];
-  /**
-   * Gets or sets DHCPOptions that contains an array of DNS servers available to VMs
-   * deployed in the virtual network.
-   */
-  dnsServers?: string[];
-  /**
-   * Gets or sets List of subnets in a VirtualNetwork.
-   */
-  subnets?: SubnetResourceSettings[];
+/** Defines reference to an Azure resource. */
+export interface AzureResourceReference {
+  /** Gets the ARM resource ID of the tracked resource being referenced. */
+  sourceArmResourceId: string;
 }
 
-/**
- * Defines reference to a proxy resource.
- */
-export interface ProxyResourceReference extends AzureResourceReference {
-  /**
-   * Gets the name of the proxy resource on the target side.
-   */
-  name?: string;
-}
-
-/**
- * Defines reference to subnet.
- */
-export interface SubnetReference extends ProxyResourceReference {
-}
-
-/**
- * Defines reference to load balancer backend address pools.
- */
-export interface LoadBalancerBackendAddressPoolReference extends ProxyResourceReference {
-}
-
-/**
- * Defines reference to load balancer NAT rules.
- */
-export interface LoadBalancerNatRuleReference extends ProxyResourceReference {
-}
-
-/**
- * Defines reference to a public IP.
- */
-export interface PublicIpReference extends AzureResourceReference {
-}
-
-/**
- * Defines NIC IP configuration properties.
- */
+/** Defines NIC IP configuration properties. */
 export interface NicIpConfigurationResourceSettings {
-  /**
-   * Gets or sets the IP configuration name.
-   */
+  /** Gets or sets the IP configuration name. */
   name?: string;
-  /**
-   * Gets or sets the private IP address of the network interface IP Configuration.
-   */
+  /** Gets or sets the private IP address of the network interface IP Configuration. */
   privateIpAddress?: string;
-  /**
-   * Gets or sets the private IP address allocation method.
-   */
+  /** Gets or sets the private IP address allocation method. */
   privateIpAllocationMethod?: string;
+  /** Defines reference to subnet. */
   subnet?: SubnetReference;
-  /**
-   * Gets or sets a value indicating whether this IP configuration is the primary.
-   */
+  /** Gets or sets a value indicating whether this IP configuration is the primary. */
   primary?: boolean;
-  /**
-   * Gets or sets the references of the load balancer backend address pools.
-   */
+  /** Gets or sets the references of the load balancer backend address pools. */
   loadBalancerBackendAddressPools?: LoadBalancerBackendAddressPoolReference[];
-  /**
-   * Gets or sets the references of the load balancer NAT rules.
-   */
+  /** Gets or sets the references of the load balancer NAT rules. */
   loadBalancerNatRules?: LoadBalancerNatRuleReference[];
+  /** Defines reference to a public IP. */
   publicIp?: PublicIpReference;
 }
 
-/**
- * Defines the network interface resource settings.
- */
-export interface NetworkInterfaceResourceSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  resourceType: "Microsoft.Network/networkInterfaces";
-  /**
-   * Gets or sets the target Resource name.
-   */
-  targetResourceName: string;
-  /**
-   * Gets or sets the IP configurations of the NIC.
-   */
-  ipConfigurations?: NicIpConfigurationResourceSettings[];
-  /**
-   * Gets or sets a value indicating whether accelerated networking is enabled.
-   */
-  enableAcceleratedNetworking?: boolean;
-}
-
-/**
- * Security Rule data model for Network Security Groups.
- */
+/** Security Rule data model for Network Security Groups. */
 export interface NsgSecurityRule {
-  /**
-   * Gets or sets the Security rule name.
-   */
+  /** Gets or sets the Security rule name. */
   name?: string;
   /**
    * Gets or sets whether network traffic is allowed or denied.
    * Possible values are “Allow” and “Deny”.
    */
   access?: string;
-  /**
-   * Gets or sets a description for this rule. Restricted to 140 chars.
-   */
+  /** Gets or sets a description for this rule. Restricted to 140 chars. */
   description?: string;
   /**
    * Gets or sets destination address prefix. CIDR or source IP range.
-   * A “*” can also be used to match all source IPs. Default tags such
+   *  A “*” can also be used to match all source IPs. Default tags such
    * as ‘VirtualNetwork’, ‘AzureLoadBalancer’ and ‘Internet’ can also be used.
    */
   destinationAddressPrefix?: string;
@@ -876,9 +749,7 @@ export interface NsgSecurityRule {
    * The lower the priority number, the higher the priority of the rule.
    */
   priority?: number;
-  /**
-   * Gets or sets Network protocol this rule applies to. Can be Tcp, Udp or All(*).
-   */
+  /** Gets or sets Network protocol this rule applies to. Can be Tcp, Udp or All(*). */
   protocol?: string;
   /**
    * Gets or sets source address prefix. CIDR or source IP range. A
@@ -894,1269 +765,677 @@ export interface NsgSecurityRule {
   sourcePortRange?: string;
 }
 
-/**
- * Defines the NSG resource settings.
- */
-export interface NetworkSecurityGroupResourceSettings {
-  /**
-   * Polymorphic Discriminator
-   */
-  resourceType: "Microsoft.Network/networkSecurityGroups";
-  /**
-   * Gets or sets the target Resource name.
-   */
-  targetResourceName: string;
-  /**
-   * Gets or sets Security rules of network security group.
-   */
-  securityRules?: NsgSecurityRule[];
-}
-
-/**
- * Defines load balancer frontend IP configuration properties.
- */
+/** Defines load balancer frontend IP configuration properties. */
 export interface LBFrontendIPConfigurationResourceSettings {
-  /**
-   * Gets or sets the frontend IP configuration name.
-   */
+  /** Gets or sets the frontend IP configuration name. */
   name?: string;
   /**
    * Gets or sets the IP address of the Load Balancer.This is only specified if a specific
    * private IP address shall be allocated from the subnet specified in subnetRef.
    */
   privateIpAddress?: string;
-  /**
-   * Gets or sets PrivateIP allocation method (Static/Dynamic).
-   */
+  /** Gets or sets PrivateIP allocation method (Static/Dynamic). */
   privateIpAllocationMethod?: string;
+  /** Defines reference to subnet. */
   subnet?: SubnetReference;
-  /**
-   * Gets or sets the csv list of zones.
-   */
+  /** Gets or sets the csv list of zones. */
   zones?: string;
 }
 
-/**
- * Defines load balancer backend address pool properties.
- */
+/** Defines load balancer backend address pool properties. */
 export interface LBBackendAddressPoolResourceSettings {
-  /**
-   * Gets or sets the backend address pool name.
-   */
+  /** Gets or sets the backend address pool name. */
   name?: string;
 }
 
-/**
- * Defines the load balancer resource settings.
- */
-export interface LoadBalancerResourceSettings {
+/** Defines the move collection errors. */
+export type MoveCollectionPropertiesErrors = MoveResourceError & {};
+
+/** Defines the move resource errors. */
+export type MoveResourcePropertiesErrors = MoveResourceError & {};
+
+/** Gets or sets the virtual machine resource settings. */
+export type VirtualMachineResourceSettings = ResourceSettings & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resourceType: "Microsoft.Compute/virtualMachines";
+  /** Gets or sets the Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Gets or sets user-managed identities */
+  userManagedIdentities?: string[];
+  /** Gets or sets the target availability zone. */
+  targetAvailabilityZone?: TargetAvailabilityZone;
+  /** Gets or sets the target virtual machine size. */
+  targetVmSize?: string;
+  /** Gets or sets the target availability set id for virtual machines not in an availability set at source. */
+  targetAvailabilitySetId?: string;
+};
+
+/** Gets or sets the availability set resource settings. */
+export type AvailabilitySetResourceSettings = ResourceSettings & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resourceType: "Microsoft.Compute/availabilitySets";
+  /** Gets or sets the Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Gets or sets the target fault domain. */
+  faultDomain?: number;
+  /** Gets or sets the target update domain. */
+  updateDomain?: number;
+};
+
+/** Defines the virtual network resource settings. */
+export type VirtualNetworkResourceSettings = ResourceSettings & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resourceType: "Microsoft.Network/virtualNetworks";
+  /** Gets or sets the Resource tags. */
+  tags?: { [propertyName: string]: string };
   /**
-   * Polymorphic Discriminator
+   * Gets or sets a value indicating whether gets or sets whether the
+   * DDOS protection should be switched on.
    */
+  enableDdosProtection?: boolean;
+  /** Gets or sets the address prefixes for the virtual network. */
+  addressSpace?: string[];
+  /**
+   * Gets or sets DHCPOptions that contains an array of DNS servers available to VMs
+   * deployed in the virtual network.
+   */
+  dnsServers?: string[];
+  /** Gets or sets List of subnets in a VirtualNetwork. */
+  subnets?: SubnetResourceSettings[];
+};
+
+/** Defines the network interface resource settings. */
+export type NetworkInterfaceResourceSettings = ResourceSettings & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resourceType: "Microsoft.Network/networkInterfaces";
+  /** Gets or sets the Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Gets or sets the IP configurations of the NIC. */
+  ipConfigurations?: NicIpConfigurationResourceSettings[];
+  /** Gets or sets a value indicating whether accelerated networking is enabled. */
+  enableAcceleratedNetworking?: boolean;
+};
+
+/** Defines the NSG resource settings. */
+export type NetworkSecurityGroupResourceSettings = ResourceSettings & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  resourceType: "Microsoft.Network/networkSecurityGroups";
+  /** Gets or sets the Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Gets or sets Security rules of network security group. */
+  securityRules?: NsgSecurityRule[];
+};
+
+/** Defines the load balancer resource settings. */
+export type LoadBalancerResourceSettings = ResourceSettings & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Network/loadBalancers";
-  /**
-   * Gets or sets the target Resource name.
-   */
-  targetResourceName: string;
-  /**
-   * Gets or sets load balancer sku (Basic/Standard).
-   */
+  /** Gets or sets the Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Gets or sets load balancer sku (Basic/Standard). */
   sku?: string;
-  /**
-   * Gets or sets the frontend IP configurations of the load balancer.
-   */
+  /** Gets or sets the frontend IP configurations of the load balancer. */
   frontendIPConfigurations?: LBFrontendIPConfigurationResourceSettings[];
-  /**
-   * Gets or sets the backend address pools of the load balancer.
-   */
+  /** Gets or sets the backend address pools of the load balancer. */
   backendAddressPools?: LBBackendAddressPoolResourceSettings[];
   /**
-   * Gets or sets the csv list of zones common for all frontend IP configurations. Note this is
-   * given
-   * precedence only if frontend IP configurations settings are not present.
+   * Gets or sets the csv list of zones common for all frontend IP configurations. Note this is given
+   *  precedence only if frontend IP configurations settings are not present.
    */
   zones?: string;
-}
+};
 
-/**
- * Defines the SQL Server resource settings.
- */
-export interface SqlServerResourceSettings {
-  /**
-   * Polymorphic Discriminator
-   */
+/** Defines the SQL Server resource settings. */
+export type SqlServerResourceSettings = ResourceSettings & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Sql/servers";
-  /**
-   * Gets or sets the target Resource name.
-   */
-  targetResourceName: string;
-}
+};
 
-/**
- * Defines the Sql ElasticPool resource settings.
- */
-export interface SqlElasticPoolResourceSettings {
-  /**
-   * Polymorphic Discriminator
-   */
+/** Defines the Sql ElasticPool resource settings. */
+export type SqlElasticPoolResourceSettings = ResourceSettings & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Sql/servers/elasticPools";
-  /**
-   * Gets or sets the target Resource name.
-   */
-  targetResourceName: string;
-  /**
-   * Possible values include: 'Enable', 'Disable'
-   */
+  /** Gets or sets the Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Defines the zone redundant resource setting. */
   zoneRedundant?: ZoneRedundant;
-}
+};
 
-/**
- * Defines the Sql Database resource settings.
- */
-export interface SqlDatabaseResourceSettings {
-  /**
-   * Polymorphic Discriminator
-   */
+/** Defines the Sql Database resource settings. */
+export type SqlDatabaseResourceSettings = ResourceSettings & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Sql/servers/databases";
-  /**
-   * Gets or sets the target Resource name.
-   */
-  targetResourceName: string;
-  /**
-   * Possible values include: 'Enable', 'Disable'
-   */
+  /** Gets or sets the Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Defines the zone redundant resource setting. */
   zoneRedundant?: ZoneRedundant;
-}
+};
 
-/**
- * Defines the resource group resource settings.
- */
-export interface ResourceGroupResourceSettings {
-  /**
-   * Polymorphic Discriminator
-   */
+/** Defines the resource group resource settings. */
+export type ResourceGroupResourceSettings = ResourceSettings & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "resourceGroups";
-  /**
-   * Gets or sets the target Resource name.
-   */
-  targetResourceName: string;
-}
+};
 
-/**
- * Defines the public IP address resource settings.
- */
-export interface PublicIPAddressResourceSettings {
-  /**
-   * Polymorphic Discriminator
-   */
+/** Defines the public IP address resource settings. */
+export type PublicIPAddressResourceSettings = ResourceSettings & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Network/publicIPAddresses";
-  /**
-   * Gets or sets the target Resource name.
-   */
-  targetResourceName: string;
-  /**
-   * Gets or sets the domain name label.
-   */
+  /** Gets or sets the Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Gets or sets the domain name label. */
   domainNameLabel?: string;
-  /**
-   * Gets or sets the fully qualified domain name.
-   */
+  /** Gets or sets the fully qualified domain name. */
   fqdn?: string;
-  /**
-   * Gets or sets public IP allocation method.
-   */
+  /** Gets or sets public IP allocation method. */
   publicIpAllocationMethod?: string;
-  /**
-   * Gets or sets public IP sku.
-   */
+  /** Gets or sets public IP sku. */
   sku?: string;
-  /**
-   * Gets or sets public IP zones.
-   */
+  /** Gets or sets public IP zones. */
   zones?: string;
-}
+};
 
-/**
- * Defines the key vault resource settings.
- */
-export interface KeyVaultResourceSettings {
-  /**
-   * Polymorphic Discriminator
-   */
+/** Defines the key vault resource settings. */
+export type KeyVaultResourceSettings = ResourceSettings & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.KeyVault/vaults";
-  /**
-   * Gets or sets the target Resource name.
-   */
-  targetResourceName: string;
-}
+};
 
-/**
- * Defines the disk encryption set resource settings.
- */
-export interface DiskEncryptionSetResourceSettings {
-  /**
-   * Polymorphic Discriminator
-   */
+/** Defines the disk encryption set resource settings. */
+export type DiskEncryptionSetResourceSettings = ResourceSettings & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   resourceType: "Microsoft.Compute/diskEncryptionSets";
-  /**
-   * Gets or sets the target Resource name.
-   */
-  targetResourceName: string;
+};
+
+/** Defines the move resource status. */
+export type MoveResourcePropertiesMoveStatus = MoveResourceStatus & {};
+
+/** Defines reference to NSG. */
+export type NsgReference = AzureResourceReference & {};
+
+/** Defines reference to a proxy resource. */
+export type ProxyResourceReference = AzureResourceReference & {
+  /** Gets the name of the proxy resource on the target side. */
+  name?: string;
+};
+
+/** Defines reference to a public IP. */
+export type PublicIpReference = AzureResourceReference & {};
+
+/** Defines reference to subnet. */
+export type SubnetReference = ProxyResourceReference & {};
+
+/** Defines reference to load balancer backend address pools. */
+export type LoadBalancerBackendAddressPoolReference = ProxyResourceReference & {};
+
+/** Defines reference to load balancer NAT rules. */
+export type LoadBalancerNatRuleReference = ProxyResourceReference & {};
+
+/** Known values of {@link ResourceIdentityType} that the service accepts. */
+export enum KnownResourceIdentityType {
+  None = "None",
+  SystemAssigned = "SystemAssigned",
+  UserAssigned = "UserAssigned"
 }
 
 /**
- * The RP custom operation error info.
+ * Defines values for ResourceIdentityType. \
+ * {@link KnownResourceIdentityType} can be used interchangeably with ResourceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned**
  */
-export interface AffectedMoveResource {
-  /**
-   * The affected move resource id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The affected move resource source id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly sourceId?: string;
-  /**
-   * The affected move resources.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly moveResources?: AffectedMoveResource[];
+export type ResourceIdentityType = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  Succeeded = "Succeeded",
+  Updating = "Updating",
+  Creating = "Creating",
+  Failed = "Failed"
 }
 
 /**
- * The move custom error info.
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Updating** \
+ * **Creating** \
+ * **Failed**
  */
-export interface MoveErrorInfo {
-  /**
-   * The affected move resources.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly moveResources?: AffectedMoveResource[];
+export type ProvisioningState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
 }
 
 /**
- * The operation error info.
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
  */
-export interface OperationErrorAdditionalInfo {
-  /**
-   * The error type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The operation error info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly info?: MoveErrorInfo;
+export type CreatedByType = string;
+
+/** Known values of {@link MoveResourceInputType} that the service accepts. */
+export enum KnownMoveResourceInputType {
+  MoveResourceId = "MoveResourceId",
+  MoveResourceSourceId = "MoveResourceSourceId"
 }
 
 /**
- * Class for operation status errors.
+ * Defines values for MoveResourceInputType. \
+ * {@link KnownMoveResourceInputType} can be used interchangeably with MoveResourceInputType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MoveResourceId** \
+ * **MoveResourceSourceId**
  */
-export interface OperationStatusError {
-  /**
-   * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly details?: OperationStatusError[];
-  /**
-   * The additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly additionalInfo?: OperationErrorAdditionalInfo[];
+export type MoveResourceInputType = string;
+
+/** Known values of {@link MoveState} that the service accepts. */
+export enum KnownMoveState {
+  AssignmentPending = "AssignmentPending",
+  PreparePending = "PreparePending",
+  PrepareInProgress = "PrepareInProgress",
+  PrepareFailed = "PrepareFailed",
+  MovePending = "MovePending",
+  MoveInProgress = "MoveInProgress",
+  MoveFailed = "MoveFailed",
+  DiscardInProgress = "DiscardInProgress",
+  DiscardFailed = "DiscardFailed",
+  CommitPending = "CommitPending",
+  CommitInProgress = "CommitInProgress",
+  CommitFailed = "CommitFailed",
+  Committed = "Committed",
+  DeleteSourcePending = "DeleteSourcePending",
+  ResourceMoveCompleted = "ResourceMoveCompleted"
 }
 
 /**
- * Operation status REST resource.
+ * Defines values for MoveState. \
+ * {@link KnownMoveState} can be used interchangeably with MoveState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AssignmentPending** \
+ * **PreparePending** \
+ * **PrepareInProgress** \
+ * **PrepareFailed** \
+ * **MovePending** \
+ * **MoveInProgress** \
+ * **MoveFailed** \
+ * **DiscardInProgress** \
+ * **DiscardFailed** \
+ * **CommitPending** \
+ * **CommitInProgress** \
+ * **CommitFailed** \
+ * **Committed** \
+ * **DeleteSourcePending** \
+ * **ResourceMoveCompleted**
  */
-export interface OperationStatus {
-  /**
-   * Resource Id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Operation name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Status of the operation. ARM expects the terminal status to be one of Succeeded/ Failed/
-   * Canceled. All other values imply that the operation is still running.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: string;
-  /**
-   * Start time.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly startTime?: string;
-  /**
-   * End time.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endTime?: string;
-  /**
-   * Error stating all error details for the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly error?: OperationStatusError;
-  /**
-   * Custom data.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly properties?: any;
+export type MoveState = string;
+
+/** Known values of {@link JobName} that the service accepts. */
+export enum KnownJobName {
+  InitialSync = "InitialSync"
 }
 
 /**
- * Optional Parameters.
+ * Defines values for JobName. \
+ * {@link KnownJobName} can be used interchangeably with JobName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InitialSync**
  */
-export interface MoveCollectionsCreateOptionalParams extends msRest.RequestOptionsBase {
+export type JobName = string;
+
+/** Known values of {@link ResolutionType} that the service accepts. */
+export enum KnownResolutionType {
+  Manual = "Manual",
+  Automatic = "Automatic"
+}
+
+/**
+ * Defines values for ResolutionType. \
+ * {@link KnownResolutionType} can be used interchangeably with ResolutionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Manual** \
+ * **Automatic**
+ */
+export type ResolutionType = string;
+
+/** Known values of {@link DependencyType} that the service accepts. */
+export enum KnownDependencyType {
+  RequiredForPrepare = "RequiredForPrepare",
+  RequiredForMove = "RequiredForMove"
+}
+
+/**
+ * Defines values for DependencyType. \
+ * {@link KnownDependencyType} can be used interchangeably with DependencyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RequiredForPrepare** \
+ * **RequiredForMove**
+ */
+export type DependencyType = string;
+
+/** Known values of {@link DependencyLevel} that the service accepts. */
+export enum KnownDependencyLevel {
+  Direct = "Direct",
+  Descendant = "Descendant"
+}
+
+/**
+ * Defines values for DependencyLevel. \
+ * {@link KnownDependencyLevel} can be used interchangeably with DependencyLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Direct** \
+ * **Descendant**
+ */
+export type DependencyLevel = string;
+
+/** Known values of {@link TargetAvailabilityZone} that the service accepts. */
+export enum KnownTargetAvailabilityZone {
+  One = "1",
+  Two = "2",
+  Three = "3",
+  NA = "NA"
+}
+
+/**
+ * Defines values for TargetAvailabilityZone. \
+ * {@link KnownTargetAvailabilityZone} can be used interchangeably with TargetAvailabilityZone,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **1** \
+ * **2** \
+ * **3** \
+ * **NA**
+ */
+export type TargetAvailabilityZone = string;
+
+/** Known values of {@link ZoneRedundant} that the service accepts. */
+export enum KnownZoneRedundant {
+  Enable = "Enable",
+  Disable = "Disable"
+}
+
+/**
+ * Defines values for ZoneRedundant. \
+ * {@link KnownZoneRedundant} can be used interchangeably with ZoneRedundant,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enable** \
+ * **Disable**
+ */
+export type ZoneRedundant = string;
+
+/** Optional parameters. */
+export interface MoveCollectionsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Define the move collection. */
   body?: MoveCollection;
 }
 
-/**
- * Optional Parameters.
- */
-export interface MoveCollectionsUpdateOptionalParams extends msRest.RequestOptionsBase {
+/** Contains response data for the create operation. */
+export type MoveCollectionsCreateResponse = MoveCollection;
+
+/** Optional parameters. */
+export interface MoveCollectionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Defines the request body for updating move collection. */
   body?: UpdateMoveCollectionRequest;
 }
 
-/**
- * Optional Parameters.
- */
-export interface MoveCollectionsPrepareOptionalParams extends msRest.RequestOptionsBase {
+/** Contains response data for the update operation. */
+export type MoveCollectionsUpdateResponse = MoveCollection;
+
+/** Optional parameters. */
+export interface MoveCollectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type MoveCollectionsDeleteResponse = OperationStatus;
+
+/** Optional parameters. */
+export interface MoveCollectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MoveCollectionsGetResponse = MoveCollection;
+
+/** Optional parameters. */
+export interface MoveCollectionsPrepareOptionalParams
+  extends coreClient.OperationOptions {
+  /** Defines the request body for initiate prepare operation. */
   body?: PrepareRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface MoveCollectionsInitiateMoveOptionalParams extends msRest.RequestOptionsBase {
+/** Contains response data for the prepare operation. */
+export type MoveCollectionsPrepareResponse = OperationStatus;
+
+/** Optional parameters. */
+export interface MoveCollectionsInitiateMoveOptionalParams
+  extends coreClient.OperationOptions {
+  /** Defines the request body for resource move operation. */
   body?: ResourceMoveRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface MoveCollectionsCommitOptionalParams extends msRest.RequestOptionsBase {
+/** Contains response data for the initiateMove operation. */
+export type MoveCollectionsInitiateMoveResponse = OperationStatus;
+
+/** Optional parameters. */
+export interface MoveCollectionsCommitOptionalParams
+  extends coreClient.OperationOptions {
+  /** Defines the request body for commit operation. */
   body?: CommitRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface MoveCollectionsDiscardOptionalParams extends msRest.RequestOptionsBase {
+/** Contains response data for the commit operation. */
+export type MoveCollectionsCommitResponse = OperationStatus;
+
+/** Optional parameters. */
+export interface MoveCollectionsDiscardOptionalParams
+  extends coreClient.OperationOptions {
+  /** Defines the request body for discard operation. */
   body?: DiscardRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface MoveCollectionsBulkRemoveOptionalParams extends msRest.RequestOptionsBase {
+/** Contains response data for the discard operation. */
+export type MoveCollectionsDiscardResponse = OperationStatus;
+
+/** Optional parameters. */
+export interface MoveCollectionsResolveDependenciesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the resolveDependencies operation. */
+export type MoveCollectionsResolveDependenciesResponse = OperationStatus;
+
+/** Optional parameters. */
+export interface MoveCollectionsBulkRemoveOptionalParams
+  extends coreClient.OperationOptions {
+  /** Defines the request body for bulk remove of move resources operation. */
   body?: BulkRemoveRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface MoveCollectionsBeginPrepareOptionalParams extends msRest.RequestOptionsBase {
-  body?: PrepareRequest;
-}
+/** Contains response data for the bulkRemove operation. */
+export type MoveCollectionsBulkRemoveResponse = OperationStatus;
 
-/**
- * Optional Parameters.
- */
-export interface MoveCollectionsBeginInitiateMoveOptionalParams extends msRest.RequestOptionsBase {
-  body?: ResourceMoveRequest;
-}
+/** Optional parameters. */
+export interface MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Optional Parameters.
- */
-export interface MoveCollectionsBeginCommitOptionalParams extends msRest.RequestOptionsBase {
-  body?: CommitRequest;
-}
+/** Contains response data for the listMoveCollectionsBySubscription operation. */
+export type MoveCollectionsListMoveCollectionsBySubscriptionResponse = MoveCollectionResultList;
 
-/**
- * Optional Parameters.
- */
-export interface MoveCollectionsBeginDiscardOptionalParams extends msRest.RequestOptionsBase {
-  body?: DiscardRequest;
-}
+/** Optional parameters. */
+export interface MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Optional Parameters.
- */
-export interface MoveCollectionsBeginBulkRemoveOptionalParams extends msRest.RequestOptionsBase {
-  body?: BulkRemoveRequest;
-}
+/** Contains response data for the listMoveCollectionsByResourceGroup operation. */
+export type MoveCollectionsListMoveCollectionsByResourceGroupResponse = MoveCollectionResultList;
 
-/**
- * Optional Parameters.
- */
-export interface MoveResourcesListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The filter to apply on the operation. For example, you can use
-   * $filter=Properties/ProvisioningState eq 'Succeeded'.
-   */
+/** Optional parameters. */
+export interface MoveCollectionsListRequiredForOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listRequiredFor operation. */
+export type MoveCollectionsListRequiredForResponse = RequiredForResourcesCollection;
+
+/** Optional parameters. */
+export interface MoveCollectionsListMoveCollectionsBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMoveCollectionsBySubscriptionNext operation. */
+export type MoveCollectionsListMoveCollectionsBySubscriptionNextResponse = MoveCollectionResultList;
+
+/** Optional parameters. */
+export interface MoveCollectionsListMoveCollectionsByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMoveCollectionsByResourceGroupNext operation. */
+export type MoveCollectionsListMoveCollectionsByResourceGroupNextResponse = MoveCollectionResultList;
+
+/** Optional parameters. */
+export interface MoveResourcesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. For example, you can use $filter=Properties/ProvisioningState eq 'Succeeded'. */
   filter?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface MoveResourcesCreateOptionalParams extends msRest.RequestOptionsBase {
-  properties?: MoveResourceProperties;
+/** Contains response data for the list operation. */
+export type MoveResourcesListResponse = MoveResourceCollection;
+
+/** Optional parameters. */
+export interface MoveResourcesCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Defines the move resource. */
+  body?: MoveResource;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface MoveResourcesBeginCreateOptionalParams extends msRest.RequestOptionsBase {
-  properties?: MoveResourceProperties;
+/** Contains response data for the create operation. */
+export type MoveResourcesCreateResponse = MoveResource;
+
+/** Optional parameters. */
+export interface MoveResourcesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface MoveResourcesListNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The filter to apply on the operation. For example, you can use
-   * $filter=Properties/ProvisioningState eq 'Succeeded'.
-   */
+/** Contains response data for the delete operation. */
+export type MoveResourcesDeleteResponse = OperationStatus;
+
+/** Optional parameters. */
+export interface MoveResourcesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MoveResourcesGetResponse = MoveResource;
+
+/** Optional parameters. */
+export interface MoveResourcesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. For example, you can use $filter=Properties/ProvisioningState eq 'Succeeded'. */
   filter?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface UnresolvedDependenciesGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Defines the dependency level. Possible values include: 'Direct', 'Descendant'
-   */
+/** Contains response data for the listNext operation. */
+export type MoveResourcesListNextResponse = MoveResourceCollection;
+
+/** Optional parameters. */
+export interface UnresolvedDependenciesGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. For example, $apply=filter(count eq 2). */
+  filter?: string;
+  /** Defines the dependency level. */
   dependencyLevel?: DependencyLevel;
-  /**
-   * OData order by query option. For example, you can use $orderby=Count desc.
-   */
+  /** OData order by query option. For example, you can use $orderby=Count desc. */
   orderby?: string;
-  /**
-   * The filter to apply on the operation. For example, $apply=filter(count eq 2).
-   */
-  filter?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface UnresolvedDependenciesGetNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Defines the dependency level. Possible values include: 'Direct', 'Descendant'
-   */
+/** Contains response data for the get operation. */
+export type UnresolvedDependenciesGetResponse = UnresolvedDependencyCollection;
+
+/** Optional parameters. */
+export interface UnresolvedDependenciesGetNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. For example, $apply=filter(count eq 2). */
+  filter?: string;
+  /** Defines the dependency level. */
   dependencyLevel?: DependencyLevel;
-  /**
-   * OData order by query option. For example, you can use $orderby=Count desc.
-   */
+  /** OData order by query option. For example, you can use $orderby=Count desc. */
   orderby?: string;
-  /**
-   * The filter to apply on the operation. For example, $apply=filter(count eq 2).
-   */
-  filter?: string;
 }
 
-/**
- * An interface representing ResourceMoverServiceAPIOptions.
- */
-export interface ResourceMoverServiceAPIOptions extends AzureServiceClientOptions {
-  baseUri?: string;
+/** Contains response data for the getNext operation. */
+export type UnresolvedDependenciesGetNextResponse = UnresolvedDependencyCollection;
+
+/** Optional parameters. */
+export interface OperationsDiscoveryGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type OperationsDiscoveryGetResponse = OperationsDiscoveryCollection;
+
+/** Optional parameters. */
+export interface ResourceMoverServiceAPIOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
 }
-
-/**
- * @interface
- * Defines the collection of move collections.
- * @extends Array<MoveCollection>
- */
-export interface MoveCollectionResultList extends Array<MoveCollection> {
-  /**
-   * Gets the value of  next link.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Defines the collection of move resources.
- * @extends Array<MoveResource>
- */
-export interface MoveResourceCollection extends Array<MoveResource> {
-  /**
-   * Gets the value of  next link.
-   */
-  nextLink?: string;
-  /**
-   * Gets or sets the list of summary items and the field on which summary is done.
-   */
-  summaryCollection?: SummaryCollection;
-  /**
-   * Gets the total count.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly totalCount?: number;
-}
-
-/**
- * @interface
- * Unresolved dependency collection.
- * @extends Array<UnresolvedDependency>
- */
-export interface UnresolvedDependencyCollection extends Array<UnresolvedDependency> {
-  /**
-   * Gets or sets the value of  next link.
-   */
-  nextLink?: string;
-  /**
-   * Gets or sets the list of summary items and the field on which summary is done.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly summaryCollection?: SummaryCollection;
-  /**
-   * Gets the total count.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly totalCount?: number;
-}
-
-/**
- * Defines values for ResourceIdentityType.
- * Possible values include: 'None', 'SystemAssigned', 'UserAssigned'
- * @readonly
- * @enum {string}
- */
-export type ResourceIdentityType = 'None' | 'SystemAssigned' | 'UserAssigned';
-
-/**
- * Defines values for MoveState.
- * Possible values include: 'AssignmentPending', 'PreparePending', 'PrepareInProgress',
- * 'PrepareFailed', 'MovePending', 'MoveInProgress', 'MoveFailed', 'DiscardInProgress',
- * 'DiscardFailed', 'CommitPending', 'CommitInProgress', 'CommitFailed', 'Committed',
- * 'DeleteSourcePending', 'ResourceMoveCompleted'
- * @readonly
- * @enum {string}
- */
-export type MoveState = 'AssignmentPending' | 'PreparePending' | 'PrepareInProgress' | 'PrepareFailed' | 'MovePending' | 'MoveInProgress' | 'MoveFailed' | 'DiscardInProgress' | 'DiscardFailed' | 'CommitPending' | 'CommitInProgress' | 'CommitFailed' | 'Committed' | 'DeleteSourcePending' | 'ResourceMoveCompleted';
-
-/**
- * Defines values for MoveResourceInputType.
- * Possible values include: 'MoveResourceId', 'MoveResourceSourceId'
- * @readonly
- * @enum {string}
- */
-export type MoveResourceInputType = 'MoveResourceId' | 'MoveResourceSourceId';
-
-/**
- * Defines values for ProvisioningState.
- * Possible values include: 'Succeeded', 'Updating', 'Creating', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type ProvisioningState = 'Succeeded' | 'Updating' | 'Creating' | 'Failed';
-
-/**
- * Defines values for JobName.
- * Possible values include: 'InitialSync'
- * @readonly
- * @enum {string}
- */
-export type JobName = 'InitialSync';
-
-/**
- * Defines values for ResolutionType.
- * Possible values include: 'Manual', 'Automatic'
- * @readonly
- * @enum {string}
- */
-export type ResolutionType = 'Manual' | 'Automatic';
-
-/**
- * Defines values for DependencyType.
- * Possible values include: 'RequiredForPrepare', 'RequiredForMove'
- * @readonly
- * @enum {string}
- */
-export type DependencyType = 'RequiredForPrepare' | 'RequiredForMove';
-
-/**
- * Defines values for TargetAvailabilityZone.
- * Possible values include: '1', '2', '3', 'NA'
- * @readonly
- * @enum {string}
- */
-export type TargetAvailabilityZone = '1' | '2' | '3' | 'NA';
-
-/**
- * Defines values for ZoneRedundant.
- * Possible values include: 'Enable', 'Disable'
- * @readonly
- * @enum {string}
- */
-export type ZoneRedundant = 'Enable' | 'Disable';
-
-/**
- * Defines values for DependencyLevel.
- * Possible values include: 'Direct', 'Descendant'
- * @readonly
- * @enum {string}
- */
-export type DependencyLevel = 'Direct' | 'Descendant';
-
-/**
- * Contains response data for the create operation.
- */
-export type MoveCollectionsCreateResponse = MoveCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MoveCollection;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type MoveCollectionsUpdateResponse = MoveCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MoveCollection;
-    };
-};
-
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type MoveCollectionsDeleteMethodResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type MoveCollectionsGetResponse = MoveCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MoveCollection;
-    };
-};
-
-/**
- * Contains response data for the prepare operation.
- */
-export type MoveCollectionsPrepareResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the initiateMove operation.
- */
-export type MoveCollectionsInitiateMoveResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the commit operation.
- */
-export type MoveCollectionsCommitResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the discard operation.
- */
-export type MoveCollectionsDiscardResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the resolveDependencies operation.
- */
-export type MoveCollectionsResolveDependenciesResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the bulkRemove operation.
- */
-export type MoveCollectionsBulkRemoveResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the listMoveCollectionsBySubscription operation.
- */
-export type MoveCollectionsListMoveCollectionsBySubscriptionResponse = MoveCollectionResultList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MoveCollectionResultList;
-    };
-};
-
-/**
- * Contains response data for the listMoveCollectionsByResourceGroup operation.
- */
-export type MoveCollectionsListMoveCollectionsByResourceGroupResponse = MoveCollectionResultList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MoveCollectionResultList;
-    };
-};
-
-/**
- * Contains response data for the listRequiredFor operation.
- */
-export type MoveCollectionsListRequiredForResponse = RequiredForResourcesCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RequiredForResourcesCollection;
-    };
-};
-
-/**
- * Contains response data for the beginDeleteMethod operation.
- */
-export type MoveCollectionsBeginDeleteMethodResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the beginPrepare operation.
- */
-export type MoveCollectionsBeginPrepareResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the beginInitiateMove operation.
- */
-export type MoveCollectionsBeginInitiateMoveResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the beginCommit operation.
- */
-export type MoveCollectionsBeginCommitResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the beginDiscard operation.
- */
-export type MoveCollectionsBeginDiscardResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the beginResolveDependencies operation.
- */
-export type MoveCollectionsBeginResolveDependenciesResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the beginBulkRemove operation.
- */
-export type MoveCollectionsBeginBulkRemoveResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the listMoveCollectionsBySubscriptionNext operation.
- */
-export type MoveCollectionsListMoveCollectionsBySubscriptionNextResponse = MoveCollectionResultList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MoveCollectionResultList;
-    };
-};
-
-/**
- * Contains response data for the listMoveCollectionsByResourceGroupNext operation.
- */
-export type MoveCollectionsListMoveCollectionsByResourceGroupNextResponse = MoveCollectionResultList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MoveCollectionResultList;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type MoveResourcesListResponse = MoveResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MoveResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type MoveResourcesCreateResponse = MoveResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MoveResource;
-    };
-};
-
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type MoveResourcesDeleteMethodResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type MoveResourcesGetResponse = MoveResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MoveResource;
-    };
-};
-
-/**
- * Contains response data for the beginCreate operation.
- */
-export type MoveResourcesBeginCreateResponse = MoveResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MoveResource;
-    };
-};
-
-/**
- * Contains response data for the beginDeleteMethod operation.
- */
-export type MoveResourcesBeginDeleteMethodResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type MoveResourcesListNextResponse = MoveResourceCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: MoveResourceCollection;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type UnresolvedDependenciesGetResponse = UnresolvedDependencyCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UnresolvedDependencyCollection;
-    };
-};
-
-/**
- * Contains response data for the getNext operation.
- */
-export type UnresolvedDependenciesGetNextResponse = UnresolvedDependencyCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UnresolvedDependencyCollection;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type OperationsDiscoveryGetResponse = OperationsDiscoveryCollection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationsDiscoveryCollection;
-    };
-};

@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import * as buffer from "buffer";
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { AbortController } from "@azure/abort-controller";
@@ -13,7 +12,6 @@ import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Highlevel Node.js only", () => {
   let shareName: string;
@@ -31,7 +29,7 @@ describe("Highlevel Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -44,7 +42,7 @@ describe("Highlevel Node.js only", () => {
     fileClient = dirClient.getFileClient(fileName);
   });
 
-  afterEach(async function(this: Context) {
+  afterEach(async function (this: Context) {
     if (!this.currentTest?.isPending()) {
       await shareClient.delete();
       await recorder.stop();
@@ -70,7 +68,7 @@ describe("Highlevel Node.js only", () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileLarge, {
       concurrency: 20,
-      rangeSize: 4 * 1024 * 1024
+      rangeSize: 4 * 1024 * 1024,
     });
 
     const downloadResponse = await fileClient.download(0);
@@ -88,7 +86,7 @@ describe("Highlevel Node.js only", () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileSmall, {
       concurrency: 20,
-      rangeSize: 4 * 1024 * 1024
+      rangeSize: 4 * 1024 * 1024,
     });
 
     const downloadResponse = await fileClient.download(0);
@@ -110,7 +108,7 @@ describe("Highlevel Node.js only", () => {
       await fileClient.uploadFile(tempFileLarge, {
         abortSignal: aborter,
         concurrency: 20,
-        rangeSize: 4 * 1024 * 1024
+        rangeSize: 4 * 1024 * 1024,
       });
       assert.fail();
     } catch (err) {
@@ -126,7 +124,7 @@ describe("Highlevel Node.js only", () => {
       await fileClient.uploadFile(tempFileSmall, {
         abortSignal: aborter,
         concurrency: 20,
-        rangeSize: 4 * 1024 * 1024
+        rangeSize: 4 * 1024 * 1024,
       });
       assert.fail();
     } catch (err) {
@@ -148,7 +146,7 @@ describe("Highlevel Node.js only", () => {
           eventTriggered = true;
           aborter.abort();
         },
-        rangeSize: 4 * 1024 * 1024
+        rangeSize: 4 * 1024 * 1024,
       });
     } catch (err) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
@@ -170,7 +168,7 @@ describe("Highlevel Node.js only", () => {
           eventTriggered = true;
           aborter.abort();
         },
-        rangeSize: 4 * 1024 * 1024
+        rangeSize: 4 * 1024 * 1024,
       });
     } catch (err) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
@@ -202,7 +200,7 @@ describe("Highlevel Node.js only", () => {
 
     try {
       await fileClient.uploadStream(rs, tempFileLargeLength, 4 * 1024 * 1024, 20, {
-        abortSignal: aborter
+        abortSignal: aborter,
       });
       assert.fail();
     } catch (err) {
@@ -219,7 +217,7 @@ describe("Highlevel Node.js only", () => {
       onProgress: (ev) => {
         assert.ok(ev.loadedBytes);
         eventTriggered = true;
-      }
+      },
     });
     assert.ok(eventTriggered);
   }).timeout(timeoutForLargeFileUploadingTest);
@@ -260,7 +258,7 @@ describe("Highlevel Node.js only", () => {
     const buf = Buffer.alloc(tempFileLargeLength);
     await fileClient.downloadToBuffer(buf, undefined, undefined, {
       concurrency: 20,
-      rangeSize: 4 * 1024 * 1024
+      rangeSize: 4 * 1024 * 1024,
     });
 
     const localFileContent = fs.readFileSync(tempFileLarge);
@@ -274,7 +272,7 @@ describe("Highlevel Node.js only", () => {
 
     const buf = await fileClient.downloadToBuffer(0, undefined, {
       concurrency: 20,
-      rangeSize: 4 * 1024 * 1024
+      rangeSize: 4 * 1024 * 1024,
     });
 
     const localFileContent = fs.readFileSync(tempFileLarge);
@@ -304,35 +302,35 @@ describe("Highlevel Node.js only", () => {
     await fileClient.downloadToBuffer(buf, 4, 4, {
       rangeSize: 4,
       maxRetryRequestsPerRange: 5,
-      concurrency: 1
+      concurrency: 1,
     });
     assert.deepStrictEqual(buf.toString(), "bbbb");
 
     await fileClient.downloadToBuffer(buf, 3, 4, {
       rangeSize: 4,
       maxRetryRequestsPerRange: 5,
-      concurrency: 1
+      concurrency: 1,
     });
     assert.deepStrictEqual(buf.toString(), "abbb");
 
     await fileClient.downloadToBuffer(buf, 2, 4, {
       rangeSize: 4,
       maxRetryRequestsPerRange: 5,
-      concurrency: 1
+      concurrency: 1,
     });
     assert.deepStrictEqual(buf.toString(), "aabb");
 
     await fileClient.downloadToBuffer(buf, 1, 4, {
       rangeSize: 4,
       maxRetryRequestsPerRange: 5,
-      concurrency: 1
+      concurrency: 1,
     });
     assert.deepStrictEqual(buf.toString(), "aaab");
 
     await fileClient.downloadToBuffer(buf, 0, 4, {
       rangeSize: 4,
       maxRetryRequestsPerRange: 5,
-      concurrency: 1
+      concurrency: 1,
     });
     assert.deepStrictEqual(buf.toString(), "aaaa");
   });
@@ -347,7 +345,7 @@ describe("Highlevel Node.js only", () => {
       await fileClient.downloadToBuffer(buf, 0, undefined, {
         abortSignal: AbortController.timeout(1),
         concurrency: 20,
-        rangeSize: 4 * 1024 * 1024
+        rangeSize: 4 * 1024 * 1024,
       });
       assert.fail();
     } catch (err) {
@@ -371,7 +369,7 @@ describe("Highlevel Node.js only", () => {
           eventTriggered = true;
           aborter.abort();
         },
-        rangeSize: 1 * 1024
+        rangeSize: 1 * 1024,
       });
     } catch (err) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
@@ -383,7 +381,7 @@ describe("Highlevel Node.js only", () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
-      concurrency: 20
+      concurrency: 20,
     });
 
     /* eslint-disable-next-line prefer-const*/
@@ -394,7 +392,7 @@ describe("Highlevel Node.js only", () => {
         if (ev.loadedBytes >= tempFileSmallLength) {
           retriableReadableStreamOptions.doInjectErrorOnce = true;
         }
-      }
+      },
     });
 
     retriableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
@@ -413,7 +411,7 @@ describe("Highlevel Node.js only", () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
-      concurrency: 20
+      concurrency: 20,
     });
 
     /* eslint-disable-next-line prefer-const*/
@@ -425,7 +423,7 @@ describe("Highlevel Node.js only", () => {
         if (injectedErrors++ < 3) {
           retriableReadableStreamOptions.doInjectErrorOnce = true;
         }
-      }
+      },
     });
 
     retriableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
@@ -444,7 +442,7 @@ describe("Highlevel Node.js only", () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
-      concurrency: 20
+      concurrency: 20,
     });
 
     const partialSize = 10 * 1024;
@@ -458,7 +456,7 @@ describe("Highlevel Node.js only", () => {
         if (injectedErrors++ < 3) {
           retriableReadableStreamOptions.doInjectErrorOnce = true;
         }
-      }
+      },
     });
 
     retriableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
@@ -477,7 +475,7 @@ describe("Highlevel Node.js only", () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
-      concurrency: 20
+      concurrency: 20,
     });
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
@@ -493,7 +491,7 @@ describe("Highlevel Node.js only", () => {
           if (injectedErrors++ < 1) {
             retriableReadableStreamOptions.doInjectErrorOnce = true;
           }
-        }
+        },
       });
       retriableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
@@ -509,7 +507,7 @@ describe("Highlevel Node.js only", () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileSmall, {
       rangeSize: 4 * 1024 * 1024,
-      concurrency: 20
+      concurrency: 20,
     });
 
     const downloadedFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
@@ -530,7 +528,7 @@ describe("Highlevel Node.js only", () => {
             // Trigger aborter
             aborter.abort();
           }
-        }
+        },
       });
       retriableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);

@@ -5,7 +5,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { DeletedSecret, DeleteSecretOptions, GetDeletedSecretOptions } from "../../secretsModels";
 import {
   KeyVaultSecretPollOperation,
-  KeyVaultSecretPollOperationState
+  KeyVaultSecretPollOperationState,
 } from "../keyVaultSecretPoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getSecretFromSecretBundle } from "../../transformations";

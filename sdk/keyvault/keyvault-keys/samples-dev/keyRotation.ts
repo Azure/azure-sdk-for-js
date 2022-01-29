@@ -34,9 +34,9 @@ export async function main(): Promise<void> {
     lifetimeActions: [
       {
         action: "Rotate",
-        timeAfterCreate: "P30D"
-      }
-    ]
+        timeAfterCreate: "P30D",
+      },
+    ],
   });
   console.log("created policy", policy);
 
@@ -53,10 +53,10 @@ export async function main(): Promise<void> {
     lifetimeActions: [
       {
         action: "Notify",
-        timeBeforeExpiry: dayjs.duration({ days: 30 }).toISOString()
-      }
+        timeBeforeExpiry: dayjs.duration({ days: 30 }).toISOString(),
+      },
     ],
-    expiresIn: "P90D"
+    expiresIn: "P90D",
   });
   console.log("updated policy", updatedPolicy);
 

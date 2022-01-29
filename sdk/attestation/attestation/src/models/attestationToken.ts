@@ -12,7 +12,7 @@ import { AttestationSigner, _attestationSignerFromGenerated } from "./attestatio
 
 import * as Mappers from "../generated/models/mappers";
 import { TypeDeserializer } from "../utils/typeDeserializer";
-import { verifyAttestationSigningKey, hexToBase64 } from "../utils/helpers";
+import { hexToBase64, verifyAttestationSigningKey } from "../utils/helpers";
 
 /**
  * Options used to validate attestation tokens.
@@ -294,7 +294,7 @@ export class AttestationTokenImpl implements AttestationToken {
     options: AttestationTokenValidationOptions = {
       validateExpirationTime: true,
       validateToken: true,
-      validateNotBeforeTime: true
+      validateNotBeforeTime: true,
     }
   ): string[] {
     let problems = new Array<string>();

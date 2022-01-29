@@ -22,7 +22,7 @@ const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBas
 export enum ParallelQueryExecutionContextBaseStates {
   started = "started",
   inProgress = "inProgress",
-  ended = "ended"
+  ended = "ended",
 }
 
 /** @hidden */
@@ -328,7 +328,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           this.sem.leave();
           return resolve({
             result: undefined,
-            headers: this._getAndResetActiveResponseHeaders()
+            headers: this._getAndResetActiveResponseHeaders(),
           });
         }
 
@@ -372,7 +372,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               this.sem.leave();
               return resolve({
                 result: undefined,
-                headers: this._getAndResetActiveResponseHeaders()
+                headers: this._getAndResetActiveResponseHeaders(),
               });
             }
           } catch (err) {
@@ -426,7 +426,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // invoke the callback on the item
           return resolve({
             result: item,
-            headers: this._getAndResetActiveResponseHeaders()
+            headers: this._getAndResetActiveResponseHeaders(),
           });
         };
         this._repairExecutionContextIfNeeded(ifCallback, elseCallback).catch(reject);

@@ -12,18 +12,18 @@ import {
   AttestationCertificateManagementBody,
   GeneratedClientOptionalParams,
   JsonWebKey,
-  PolicyCertificatesResult
+  PolicyCertificatesResult,
 } from "./generated/models";
 
 import { bytesToString } from "./utils/utf8";
 
 import {
   AttestationResponse,
+  AttestationSigner,
   AttestationTokenValidationOptions,
   AttestationType,
+  PolicyCertificatesModificationResult,
   PolicyResult,
-  AttestationSigner,
-  PolicyCertificatesModificationResult
 } from "./models";
 import { StoredAttestationPolicy } from "./models/storedAttestationPolicy";
 
@@ -138,9 +138,9 @@ export class AttestationAdministrationClient {
         credentialScopes: ["https://attest.azure.net/.default"],
         loggingOptions: {
           logger: logger.info,
-          allowedHeaderNames: ["x-ms-request-id", "x-ms-maa-service-version"]
-        }
-      }
+          allowedHeaderNames: ["x-ms-request-id", "x-ms-maa-service-version"],
+        },
+      },
     };
 
     this._client = new GeneratedClient(endpoint, internalPipelineOptions);
@@ -254,7 +254,7 @@ export class AttestationAdministrationClient {
       const storedAttestationPolicy = new StoredAttestationPolicy(newPolicyDocument).serialize();
       const setPolicyToken = AttestationTokenImpl.create({
         body: storedAttestationPolicy,
-        ...options
+        ...options,
       });
 
       const setPolicyResult = await this._client.policy.set(
@@ -334,7 +334,7 @@ export class AttestationAdministrationClient {
 
       const resetPolicyToken = AttestationTokenImpl.create({
         privateKey: options.privateKey,
-        certificate: options.certificate
+        certificate: options.certificate,
       });
 
       const resetPolicyResult = await this._client.policy.reset(
@@ -405,7 +405,7 @@ export class AttestationAdministrationClient {
         {
           PolicyCertificatesResult: Mappers.PolicyCertificatesResult,
           JsonWebKeySet: Mappers.JsonWebKeySet,
-          JsonWebKey: Mappers.JsonWebKey
+          JsonWebKey: Mappers.JsonWebKey,
         },
         "PolicyCertificatesResult"
       ) as PolicyCertificatesResult;
@@ -469,11 +469,11 @@ export class AttestationAdministrationClient {
 
       const jwk: JsonWebKey = {
         x5C: [hexToBase64(cert.hex)],
-        kty: kty
+        kty: kty,
       };
 
       const addBody: AttestationCertificateManagementBody = {
-        policyCertificate: jwk
+        policyCertificate: jwk,
       };
 
       const addCertToken = AttestationTokenImpl.create({
@@ -481,12 +481,12 @@ export class AttestationAdministrationClient {
           addBody,
           {
             AttestationCertificateManagementBody: Mappers.AttestationCertificateManagementBody,
-            JsonWebKey: Mappers.JsonWebKey
+            JsonWebKey: Mappers.JsonWebKey,
           },
           Mappers.AttestationCertificateManagementBody
         ),
         privateKey: privateKey,
-        certificate: certificate
+        certificate: certificate,
       });
 
       const addCertificateResult = await this._client.policyCertificates.add(
@@ -510,7 +510,7 @@ export class AttestationAdministrationClient {
         {
           PolicyCertificatesModificationResult: Mappers.PolicyCertificatesModificationResult,
           JsonWebKeySet: Mappers.JsonWebKeySet,
-          JsonWebKey: Mappers.JsonWebKey
+          JsonWebKey: Mappers.JsonWebKey,
         },
         "PolicyCertificatesModificationResult"
       ) as PolicyCertificatesModificationResult;
@@ -587,11 +587,11 @@ export class AttestationAdministrationClient {
 
       const jwk: JsonWebKey = {
         x5C: [hexToBase64(cert.hex)],
-        kty: kty
+        kty: kty,
       };
 
       const addBody: AttestationCertificateManagementBody = {
-        policyCertificate: jwk
+        policyCertificate: jwk,
       };
 
       const removeCertToken = AttestationTokenImpl.create({
@@ -599,12 +599,12 @@ export class AttestationAdministrationClient {
           addBody,
           {
             AttestationCertificateManagementBody: Mappers.AttestationCertificateManagementBody,
-            JsonWebKey: Mappers.JsonWebKey
+            JsonWebKey: Mappers.JsonWebKey,
           },
           Mappers.AttestationCertificateManagementBody
         ),
         privateKey: privateKey,
-        certificate: certificate
+        certificate: certificate,
       });
 
       const removeCertificateResult = await this._client.policyCertificates.remove(
@@ -628,7 +628,7 @@ export class AttestationAdministrationClient {
         {
           PolicyCertificatesModificationResult: Mappers.PolicyCertificatesModificationResult,
           JsonWebKeySet: Mappers.JsonWebKeySet,
-          JsonWebKey: Mappers.JsonWebKey
+          JsonWebKey: Mappers.JsonWebKey,
         },
         "PolicyCertificatesModificationResult"
       ) as PolicyCertificatesModificationResult;

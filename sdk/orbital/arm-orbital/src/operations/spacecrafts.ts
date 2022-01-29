@@ -11,7 +11,7 @@ import { Spacecrafts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureOrbitalContext } from "../azureOrbitalContext";
+import { AzureOrbital } from "../azureOrbital";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -36,13 +36,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Spacecrafts operations. */
 export class SpacecraftsImpl implements Spacecrafts {
-  private readonly client: AzureOrbitalContext;
+  private readonly client: AzureOrbital;
 
   /**
    * Initialize a new instance of the class Spacecrafts class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureOrbitalContext) {
+  constructor(client: AzureOrbital) {
     this.client = client;
   }
 

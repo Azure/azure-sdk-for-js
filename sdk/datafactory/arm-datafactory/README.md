@@ -6,7 +6,7 @@ The Azure Data Factory V2 management API provides a RESTful set of web services 
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/datafactory/arm-datafactory) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-datafactory) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-datafactory?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-datafactory) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

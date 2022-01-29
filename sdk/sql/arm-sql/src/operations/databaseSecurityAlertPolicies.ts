@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DatabaseSecurityAlertPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SqlManagementClientContext } from "../sqlManagementClientContext";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
   DatabaseSecurityAlertPolicy,
   DatabaseSecurityAlertPoliciesListByDatabaseNextOptionalParams,
@@ -30,13 +29,13 @@ import {
 /** Class containing DatabaseSecurityAlertPolicies operations. */
 export class DatabaseSecurityAlertPoliciesImpl
   implements DatabaseSecurityAlertPolicies {
-  private readonly client: SqlManagementClientContext;
+  private readonly client: SqlManagementClient;
 
   /**
    * Initialize a new instance of the class DatabaseSecurityAlertPolicies class.
    * @param client Reference to the service client
    */
-  constructor(client: SqlManagementClientContext) {
+  constructor(client: SqlManagementClient) {
     this.client = client;
   }
 
@@ -260,7 +259,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters21,
+  requestBody: Parameters.parameters19,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,

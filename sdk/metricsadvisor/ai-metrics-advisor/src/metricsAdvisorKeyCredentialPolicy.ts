@@ -2,15 +2,11 @@
 // Licensed under the MIT license.
 
 import {
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  BaseRequestPolicy,
-  HttpOperationResponse,
-  RequestPolicyOptionsLike,
-  WebResourceLike
-} from "@azure/core-http";
-
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
 const X_API_KEY_HEADER_NAME = "x-api-key";
 
@@ -94,34 +90,16 @@ export class MetricsAdvisorKeyCredential {
  */
 export function createMetricsAdvisorKeyCredentialPolicy(
   credential: MetricsAdvisorKeyCredential
-): RequestPolicyFactory {
+): PipelinePolicy {
   return {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new MetricsAdvisorKeyCredentialPolicy(nextPolicy, options, credential);
-    }
+    name: "metricsAdvisorKeyCredentialPolicy",
+    sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      if (!request) {
+        throw new Error("webResource cannot be null or undefined");
+      }
+      request.headers.set(API_KEY_HEADER_NAME, credential.subscriptionKey);
+      request.headers.set(X_API_KEY_HEADER_NAME, credential.apiKey);
+      return next(request);
+    },
   };
-}
-
-/**
- * A concrete implementation of an MetricsAdvisorKeyCredential policy
- * using the appropriate header
- */
-class MetricsAdvisorKeyCredentialPolicy extends BaseRequestPolicy {
-  constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptionsLike,
-    private _credential: MetricsAdvisorKeyCredential
-  ) {
-    super(nextPolicy, options);
-  }
-
-  public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
-    if (!webResource) {
-      throw new Error("webResource cannot be null or undefined");
-    }
-
-    webResource.headers.set(API_KEY_HEADER_NAME, this._credential.subscriptionKey);
-    webResource.headers.set(X_API_KEY_HEADER_NAME, this._credential.apiKey);
-    return this._nextPolicy.sendRequest(webResource);
-  }
 }

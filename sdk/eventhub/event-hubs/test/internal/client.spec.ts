@@ -1,27 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import chaiString from "chai-string";
-chai.use(chaiString);
-import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:client-spec");
-import {
-  TokenCredential,
-  EventHubProducerClient,
-  EventHubConsumerClient,
-  Subscription
-} from "../../src";
-import { packageJsonInfo } from "../../src/util/constants";
 import { EnvVarKeys, getEnvVars, isNode } from "../public/utils/testUtils";
-import { MessagingError } from "@azure/core-amqp";
+import {
+  EventHubConsumerClient,
+  EventHubProducerClient,
+  Subscription,
+  TokenCredential,
+} from "../../src";
 import { ConnectionContext } from "../../src/connectionContext";
-import { getRuntimeInfo } from "../../src/util/runtimeInfo";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { MessagingError } from "@azure/core-amqp";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import chaiString from "chai-string";
 import { createMockServer } from "../public/utils/mockService";
+import debugModule from "debug";
+import { getRuntimeInfo } from "../../src/util/runtimeInfo";
+import { packageJsonInfo } from "../../src/util/constants";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
+chai.use(chaiString);
+const debug = debugModule("azure:event-hubs:client-spec");
 
 const testFailureMessage = "Test failure";
 function validateConnectionError<E extends Error & { code?: string }>(err: E): void {
@@ -46,10 +47,10 @@ testWithServiceTypes((serviceVersion) => {
     });
   }
 
-  describe("Create EventHubConsumerClient", function(): void {
-    it("throws when no EntityPath in connection string", function(): void {
+  describe("Create EventHubConsumerClient", function (): void {
+    it("throws when no EntityPath in connection string", function (): void {
       const connectionString = "Endpoint=sb://abc";
-      const test = function(): EventHubConsumerClient {
+      const test = function (): EventHubConsumerClient {
         return new EventHubConsumerClient("dummy", connectionString);
       };
       test.should.throw(
@@ -59,11 +60,11 @@ testWithServiceTypes((serviceVersion) => {
       );
     });
 
-    it("throws when EntityPath in connection string doesn't match with event hub name parameter", function(): void {
+    it("throws when EntityPath in connection string doesn't match with event hub name parameter", function (): void {
       const connectionString =
         "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c=;EntityPath=my-event-hub-name";
       const eventHubName = "event-hub-name";
-      const test = function(): EventHubConsumerClient {
+      const test = function (): EventHubConsumerClient {
         return new EventHubConsumerClient("dummy", connectionString, eventHubName);
       };
       test.should.throw(
@@ -73,7 +74,7 @@ testWithServiceTypes((serviceVersion) => {
       );
     });
 
-    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string", function(): void {
+    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string", function (): void {
       const client = new EventHubConsumerClient(
         "dummy",
         "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name"
@@ -83,7 +84,7 @@ testWithServiceTypes((serviceVersion) => {
       should.equal(client.fullyQualifiedNamespace, "test.servicebus.windows.net");
     });
 
-    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string and event hub name", function(): void {
+    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string and event hub name", function (): void {
       const client = new EventHubConsumerClient(
         "dummy",
         "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c",
@@ -94,14 +95,14 @@ testWithServiceTypes((serviceVersion) => {
       should.equal(client.fullyQualifiedNamespace, "test.servicebus.windows.net");
     });
 
-    it("sets eventHubName, fullyQualifiedNamespace properties when created from a token credential", function(): void {
+    it("sets eventHubName, fullyQualifiedNamespace properties when created from a token credential", function (): void {
       const dummyCredential: TokenCredential = {
         getToken: async () => {
           return {
             token: "boo",
-            expiresOnTimestamp: 12324
+            expiresOnTimestamp: 12324,
           };
-        }
+        },
       };
       const client = new EventHubConsumerClient(
         "dummy",
@@ -131,9 +132,9 @@ testWithServiceTypes((serviceVersion) => {
         getToken: async () => {
           return {
             token: "boo",
-            expiresOnTimestamp: 12324
+            expiresOnTimestamp: 12324,
           };
-        }
+        },
       };
       const client = new EventHubConsumerClient(
         "dummy",
@@ -149,10 +150,10 @@ testWithServiceTypes((serviceVersion) => {
     });
   });
 
-  describe("Create EventHubProducerClient", function(): void {
-    it("throws when no EntityPath in connection string ", function(): void {
+  describe("Create EventHubProducerClient", function (): void {
+    it("throws when no EntityPath in connection string ", function (): void {
       const connectionString = "Endpoint=sb://abc";
-      const test = function(): EventHubProducerClient {
+      const test = function (): EventHubProducerClient {
         return new EventHubProducerClient(connectionString);
       };
       test.should.throw(
@@ -162,11 +163,11 @@ testWithServiceTypes((serviceVersion) => {
       );
     });
 
-    it("throws when EntityPath in connection string doesn't match with event hub name parameter", function(): void {
+    it("throws when EntityPath in connection string doesn't match with event hub name parameter", function (): void {
       const connectionString =
         "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c=;EntityPath=my-event-hub-name";
       const eventHubName = "event-hub-name";
-      const test = function(): EventHubProducerClient {
+      const test = function (): EventHubProducerClient {
         return new EventHubProducerClient(connectionString, eventHubName);
       };
       test.should.throw(
@@ -176,7 +177,7 @@ testWithServiceTypes((serviceVersion) => {
       );
     });
 
-    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string", function(): void {
+    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string", function (): void {
       const client = new EventHubProducerClient(
         "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name"
       );
@@ -185,7 +186,7 @@ testWithServiceTypes((serviceVersion) => {
       should.equal(client.fullyQualifiedNamespace, "test.servicebus.windows.net");
     });
 
-    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string and event hub name", function(): void {
+    it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string and event hub name", function (): void {
       const client = new EventHubProducerClient(
         "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c",
         "my-event-hub-name"
@@ -195,14 +196,14 @@ testWithServiceTypes((serviceVersion) => {
       should.equal(client.fullyQualifiedNamespace, "test.servicebus.windows.net");
     });
 
-    it("sets eventHubName, fullyQualifiedNamespace properties when created from a token credential", function(): void {
+    it("sets eventHubName, fullyQualifiedNamespace properties when created from a token credential", function (): void {
       const dummyCredential: TokenCredential = {
         getToken: async () => {
           return {
             token: "boo",
-            expiresOnTimestamp: 12324
+            expiresOnTimestamp: 12324,
           };
-        }
+        },
       };
       const client = new EventHubProducerClient(
         "test.servicebus.windows.net",
@@ -230,9 +231,9 @@ testWithServiceTypes((serviceVersion) => {
         getToken: async () => {
           return {
             token: "boo",
-            expiresOnTimestamp: 12324
+            expiresOnTimestamp: 12324,
           };
-        }
+        },
       };
       const client = new EventHubProducerClient(
         "test.servicebus.windows.net",
@@ -247,7 +248,7 @@ testWithServiceTypes((serviceVersion) => {
     });
   });
 
-  describe("EventHubConsumerClient with non existent namespace", function(): void {
+  describe("EventHubConsumerClient with non existent namespace", function (): void {
     let client: EventHubConsumerClient;
     beforeEach(() => {
       client = new EventHubConsumerClient(
@@ -260,9 +261,7 @@ testWithServiceTypes((serviceVersion) => {
       return client.close();
     });
 
-    it("should throw ServiceCommunicationError for getEventHubProperties", async function(): Promise<
-      void
-    > {
+    it("should throw ServiceCommunicationError for getEventHubProperties", async function (): Promise<void> {
       try {
         await client.getEventHubProperties();
         throw new Error(testFailureMessage);
@@ -272,9 +271,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw ServiceCommunicationError for getPartitionProperties", async function(): Promise<
-      void
-    > {
+    it("should throw ServiceCommunicationError for getPartitionProperties", async function (): Promise<void> {
       try {
         await client.getPartitionProperties("0");
         throw new Error(testFailureMessage);
@@ -284,9 +281,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw ServiceCommunicationError for getPartitionIds", async function(): Promise<
-      void
-    > {
+    it("should throw ServiceCommunicationError for getPartitionIds", async function (): Promise<void> {
       try {
         await client.getPartitionIds();
         throw new Error(testFailureMessage);
@@ -296,7 +291,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw ServiceCommunicationError while subscribe()", async function(): Promise<void> {
+    it("should throw ServiceCommunicationError while subscribe()", async function (): Promise<void> {
       let subscription: Subscription | undefined;
       const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
         subscription = client.subscribe({
@@ -305,7 +300,7 @@ testWithServiceTypes((serviceVersion) => {
           },
           processError: async (err) => {
             resolve(err);
-          }
+          },
         });
       });
       if (subscription) {
@@ -317,7 +312,7 @@ testWithServiceTypes((serviceVersion) => {
     });
   });
 
-  describe("EventHubProducerClient with non existent namespace", function(): void {
+  describe("EventHubProducerClient with non existent namespace", function (): void {
     let client: EventHubProducerClient;
     beforeEach(() => {
       client = new EventHubProducerClient(
@@ -329,9 +324,7 @@ testWithServiceTypes((serviceVersion) => {
       return client.close();
     });
 
-    it("should throw ServiceCommunicationError for getEventHubProperties", async function(): Promise<
-      void
-    > {
+    it("should throw ServiceCommunicationError for getEventHubProperties", async function (): Promise<void> {
       try {
         await client.getEventHubProperties();
         throw new Error(testFailureMessage);
@@ -341,9 +334,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw ServiceCommunicationError for getPartitionProperties", async function(): Promise<
-      void
-    > {
+    it("should throw ServiceCommunicationError for getPartitionProperties", async function (): Promise<void> {
       try {
         await client.getPartitionProperties("0");
         throw new Error(testFailureMessage);
@@ -353,9 +344,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw ServiceCommunicationError for getPartitionIds", async function(): Promise<
-      void
-    > {
+    it("should throw ServiceCommunicationError for getPartitionIds", async function (): Promise<void> {
       try {
         await client.getPartitionIds();
         throw new Error(testFailureMessage);
@@ -365,7 +354,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw ServiceCommunicationError while sending", async function(): Promise<void> {
+    it("should throw ServiceCommunicationError while sending", async function (): Promise<void> {
       try {
         await client.sendBatch([{ body: "Hello World" }]);
         throw new Error(testFailureMessage);
@@ -375,9 +364,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw ServiceCommunicationError while creating a batch", async function(): Promise<
-      void
-    > {
+    it("should throw ServiceCommunicationError while creating a batch", async function (): Promise<void> {
       try {
         await client.createBatch();
         throw new Error(testFailureMessage);
@@ -388,7 +375,7 @@ testWithServiceTypes((serviceVersion) => {
     });
   });
 
-  describe("EventHubConsumerClient with non existent event hub", function(): void {
+  describe("EventHubConsumerClient with non existent event hub", function (): void {
     let client: EventHubConsumerClient;
     const expectedErrCode = "MessagingEntityNotFoundError";
 
@@ -409,9 +396,7 @@ testWithServiceTypes((serviceVersion) => {
       return client.close();
     });
 
-    it("should throw MessagingEntityNotFoundError for getEventHubProperties", async function(): Promise<
-      void
-    > {
+    it("should throw MessagingEntityNotFoundError for getEventHubProperties", async function (): Promise<void> {
       try {
         await client.getEventHubProperties();
         throw new Error(testFailureMessage);
@@ -421,9 +406,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw MessagingEntityNotFoundError for getPartitionProperties", async function(): Promise<
-      void
-    > {
+    it("should throw MessagingEntityNotFoundError for getPartitionProperties", async function (): Promise<void> {
       try {
         await client.getPartitionProperties("0");
         throw new Error(testFailureMessage);
@@ -433,9 +416,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw MessagingEntityNotFoundError for getPartitionIds", async function(): Promise<
-      void
-    > {
+    it("should throw MessagingEntityNotFoundError for getPartitionIds", async function (): Promise<void> {
       try {
         await client.getPartitionIds();
         throw new Error(testFailureMessage);
@@ -445,9 +426,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw MessagingEntityNotFoundError while subscribe()", async function(): Promise<
-      void
-    > {
+    it("should throw MessagingEntityNotFoundError while subscribe()", async function (): Promise<void> {
       let subscription: Subscription | undefined;
       const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
         subscription = client.subscribe({
@@ -456,7 +435,7 @@ testWithServiceTypes((serviceVersion) => {
           },
           processError: async (err) => {
             resolve(err);
-          }
+          },
         });
       });
       if (subscription) {
@@ -468,7 +447,7 @@ testWithServiceTypes((serviceVersion) => {
     });
   });
 
-  describe("EventHubProducerClient with non existent event hub", function(): void {
+  describe("EventHubProducerClient with non existent event hub", function (): void {
     let client: EventHubProducerClient;
     const expectedErrCode = "MessagingEntityNotFoundError";
 
@@ -484,9 +463,7 @@ testWithServiceTypes((serviceVersion) => {
       return client.close();
     });
 
-    it("should throw MessagingEntityNotFoundError for getEventHubProperties", async function(): Promise<
-      void
-    > {
+    it("should throw MessagingEntityNotFoundError for getEventHubProperties", async function (): Promise<void> {
       try {
         await client.getEventHubProperties();
         throw new Error(testFailureMessage);
@@ -496,9 +473,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw MessagingEntityNotFoundError for getPartitionProperties", async function(): Promise<
-      void
-    > {
+    it("should throw MessagingEntityNotFoundError for getPartitionProperties", async function (): Promise<void> {
       try {
         await client.getPartitionProperties("0");
         throw new Error(testFailureMessage);
@@ -508,9 +483,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw MessagingEntityNotFoundError for getPartitionIds", async function(): Promise<
-      void
-    > {
+    it("should throw MessagingEntityNotFoundError for getPartitionIds", async function (): Promise<void> {
       try {
         await client.getPartitionIds();
         throw new Error(testFailureMessage);
@@ -520,7 +493,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw MessagingEntityNotFoundError while sending", async function(): Promise<void> {
+    it("should throw MessagingEntityNotFoundError while sending", async function (): Promise<void> {
       try {
         await client.sendBatch([{ body: "Hello World" }]);
         throw new Error(testFailureMessage);
@@ -530,9 +503,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw MessagingEntityNotFoundError while creating a batch", async function(): Promise<
-      void
-    > {
+    it("should throw MessagingEntityNotFoundError while creating a batch", async function (): Promise<void> {
       try {
         await client.createBatch();
         throw new Error(testFailureMessage);
@@ -543,7 +514,7 @@ testWithServiceTypes((serviceVersion) => {
     });
   });
 
-  describe("EventHubConsumerClient User Agent String", function(): void {
+  describe("EventHubConsumerClient User Agent String", function (): void {
     beforeEach(() => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
@@ -556,7 +527,7 @@ testWithServiceTypes((serviceVersion) => {
       );
     });
 
-    it("should correctly populate the default user agent", async function(): Promise<void> {
+    it("should correctly populate the default user agent", async function (): Promise<void> {
       const consumerClient = new EventHubConsumerClient(
         "$Default",
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
@@ -566,7 +537,7 @@ testWithServiceTypes((serviceVersion) => {
       await consumerClient.close();
     });
 
-    it("should correctly populate the custom user agent", async function(): Promise<void> {
+    it("should correctly populate the custom user agent", async function (): Promise<void> {
       const customUserAgent = "boo";
       const consumerClient = new EventHubConsumerClient(
         "$Default",
@@ -579,7 +550,7 @@ testWithServiceTypes((serviceVersion) => {
     });
   });
 
-  describe("EventHubProducerClient User Agent String", function(): void {
+  describe("EventHubProducerClient User Agent String", function (): void {
     beforeEach(() => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
@@ -592,7 +563,7 @@ testWithServiceTypes((serviceVersion) => {
       );
     });
 
-    it("should correctly populate the default user agent", async function(): Promise<void> {
+    it("should correctly populate the default user agent", async function (): Promise<void> {
       const producerClient = new EventHubProducerClient(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         env[EnvVarKeys.EVENTHUB_NAME]
@@ -601,7 +572,7 @@ testWithServiceTypes((serviceVersion) => {
       await producerClient.close();
     });
 
-    it("should correctly populate the custom user agent", async function(): Promise<void> {
+    it("should correctly populate the custom user agent", async function (): Promise<void> {
       const customUserAgent = "boo";
       const producerClient = new EventHubProducerClient(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
@@ -632,7 +603,7 @@ testWithServiceTypes((serviceVersion) => {
     }
   }
 
-  describe("EventHubConsumerClient after close()", function(): void {
+  describe("EventHubConsumerClient after close()", function (): void {
     let client: EventHubConsumerClient;
     const expectedErrorMsg = "The underlying AMQP connection is closed.";
 
@@ -658,9 +629,7 @@ testWithServiceTypes((serviceVersion) => {
       await client.close();
     }
 
-    it("should throw connection closed error for getEventHubProperties", async function(): Promise<
-      void
-    > {
+    it("should throw connection closed error for getEventHubProperties", async function (): Promise<void> {
       await beforeEachTest();
       try {
         await client.getEventHubProperties();
@@ -671,9 +640,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw connection closed error for getPartitionProperties", async function(): Promise<
-      void
-    > {
+    it("should throw connection closed error for getPartitionProperties", async function (): Promise<void> {
       await beforeEachTest();
       try {
         await client.getPartitionProperties("0");
@@ -684,7 +651,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw connection closed error for getPartitionIds", async function(): Promise<void> {
+    it("should throw connection closed error for getPartitionIds", async function (): Promise<void> {
       await beforeEachTest();
       try {
         await client.getPartitionIds();
@@ -695,7 +662,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw connection closed error while subscribe()", async function(): Promise<void> {
+    it("should throw connection closed error while subscribe()", async function (): Promise<void> {
       await beforeEachTest();
       let subscription: Subscription | undefined;
       const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
@@ -705,7 +672,7 @@ testWithServiceTypes((serviceVersion) => {
           },
           processError: async (err) => {
             resolve(err);
-          }
+          },
         });
       });
       if (subscription) {
@@ -716,7 +683,7 @@ testWithServiceTypes((serviceVersion) => {
     });
   });
 
-  describe("EventHubProducerClient after close()", function(): void {
+  describe("EventHubProducerClient after close()", function (): void {
     let client: EventHubProducerClient;
     const expectedErrorMsg = "The underlying AMQP connection is closed.";
 
@@ -741,9 +708,7 @@ testWithServiceTypes((serviceVersion) => {
       await client.close();
     }
 
-    it("should throw connection closed error for getEventHubProperties", async function(): Promise<
-      void
-    > {
+    it("should throw connection closed error for getEventHubProperties", async function (): Promise<void> {
       await beforeEachTest();
       try {
         await client.getEventHubProperties();
@@ -754,9 +719,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw connection closed error for getPartitionProperties", async function(): Promise<
-      void
-    > {
+    it("should throw connection closed error for getPartitionProperties", async function (): Promise<void> {
       await beforeEachTest();
       try {
         await client.getPartitionProperties("0");
@@ -767,7 +730,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw connection closed error for getPartitionIds", async function(): Promise<void> {
+    it("should throw connection closed error for getPartitionIds", async function (): Promise<void> {
       await beforeEachTest();
       try {
         await client.getPartitionIds();
@@ -778,7 +741,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw connection closed error while sending", async function(): Promise<void> {
+    it("should throw connection closed error while sending", async function (): Promise<void> {
       await beforeEachTest();
       try {
         await client.sendBatch([{ body: "Hello World" }]);
@@ -789,9 +752,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should throw connection closed error while creating a batch", async function(): Promise<
-      void
-    > {
+    it("should throw connection closed error while creating a batch", async function (): Promise<void> {
       await beforeEachTest();
       try {
         await client.createBatch();

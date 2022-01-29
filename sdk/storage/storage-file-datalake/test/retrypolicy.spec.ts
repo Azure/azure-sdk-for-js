@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { URLBuilder } from "@azure/core-http";
-import * as assert from "assert";
-import * as dotenv from "dotenv";
+import { assert } from "chai";
 
 import { AbortController } from "@azure/abort-controller";
 import { DataLakeFileSystemClient, RestError, DataLakeServiceClient } from "../src";
@@ -13,24 +12,22 @@ import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
-dotenv.config();
-
 describe("RetryPolicy", () => {
   let fileSystemName: string;
   let dataLakeFileSystemClient: DataLakeFileSystemClient;
 
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("container");
     dataLakeFileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await dataLakeFileSystemClient.create();
+    await dataLakeFileSystemClient.createIfNotExists();
   });
 
-  afterEach(async function() {
-    await dataLakeFileSystemClient.delete();
+  afterEach(async function () {
+    await dataLakeFileSystemClient.deleteIfExists();
     await recorder.stop();
   });
 
@@ -54,7 +51,7 @@ describe("RetryPolicy", () => {
     const metadata = {
       key0: "val0",
       keya: "vala",
-      keyb: "valb"
+      keyb: "valb",
     };
     await injectContainerClient.setMetadata(metadata);
 
@@ -83,7 +80,7 @@ describe("RetryPolicy", () => {
     const metadata = {
       key0: "val0",
       keya: "vala",
-      keyb: "valb"
+      keyb: "valb",
     };
 
     let hasError = false;
@@ -91,7 +88,7 @@ describe("RetryPolicy", () => {
       // Default exponential retry delay is 4000ms. Wait for 2000ms to abort which makes sure the aborter
       // happens between 2 requests
       await injectContainerClient.setMetadata(metadata, {
-        abortSignal: AbortController.timeout(2 * 1000)
+        abortSignal: AbortController.timeout(2 * 1000),
       });
     } catch (err) {
       hasError = true;
@@ -108,7 +105,7 @@ describe("RetryPolicy", () => {
       (dataLakeFileSystemClient as any).pipeline.factories.length - 1
     ];
     const factories = newPipeline(credential, {
-      retryOptions: { maxTries: 3 }
+      retryOptions: { maxTries: 3 },
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);
@@ -122,7 +119,7 @@ describe("RetryPolicy", () => {
       const metadata = {
         key0: "val0",
         keya: "vala",
-        keyb: "valb"
+        keyb: "valb",
       };
       await injectContainerClient.setMetadata(metadata);
     } catch (err) {
@@ -153,7 +150,7 @@ describe("RetryPolicy", () => {
       (dataLakeFileSystemClient as any).pipeline.factories.length - 1
     ];
     const factories = newPipeline(credential, {
-      retryOptions: { maxTries: 2, secondaryHost }
+      retryOptions: { maxTries: 2, secondaryHost },
     }).factories;
     factories.push(injector);
     const pipeline = new Pipeline(factories);

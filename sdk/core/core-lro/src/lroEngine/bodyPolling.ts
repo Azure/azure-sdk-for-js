@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import {
-  failureStates,
   LroBody,
   LroResponse,
   LroStatus,
   RawResponse,
-  successStates
+  failureStates,
+  successStates,
 } from "./models";
 import { isUnexpectedPollingResponse } from "./requestUtils";
 
@@ -34,6 +34,6 @@ export function processBodyPollingOperationResult<TResult>(
 ): LroStatus<TResult> {
   return {
     ...response,
-    done: isBodyPollingDone(response.rawResponse)
+    done: isBodyPollingDone(response.rawResponse),
   };
 }

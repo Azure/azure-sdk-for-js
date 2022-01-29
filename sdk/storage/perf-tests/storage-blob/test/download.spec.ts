@@ -17,8 +17,8 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 10240
-    }
+      defaultValue: 10240,
+    },
   };
 
   static blobName = generateUuid();
@@ -36,8 +36,8 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
 
     // Create a blob
     await this.blockBlobClient.upload(
-      Buffer.alloc(this.parsedOptions.size.value!),
-      this.parsedOptions.size.value!
+      Buffer.alloc(this.parsedOptions.size.value),
+      this.parsedOptions.size.value
     );
   }
 

@@ -6,10 +6,10 @@
  * @author Arpan Laha
  */
 
-import { TSESTree } from "@typescript-eslint/experimental-utils";
-import { Rule } from "eslint";
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
 import { getPublicMethods, getRuleMetaData } from "../utils";
+import { Rule } from "eslint";
+import { TSESTree } from "@typescript-eslint/experimental-utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -49,12 +49,12 @@ export = {
               if (regex.test(methodName)) {
                 context.report({
                   node: method,
-                  message: `${className}'s method ${methodName} returns an instance of ${className} and shouldn't include ${serviceName} in its name`
+                  message: `${className}'s method ${methodName} returns an instance of ${className} and shouldn't include ${serviceName} in its name`,
                 });
               }
             }
           }
         });
-      }
-    } as Rule.RuleListener)
+      },
+    } as Rule.RuleListener),
 };

@@ -156,8 +156,18 @@ export interface RedisCreateParameters {
   sku: Sku;
   /** The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 */
   subnetId?: string;
-  /** Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network. */
+  /** Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. */
   staticIP?: string;
+}
+
+/** SKU parameters supplied to the create Redis operation. */
+export interface Sku {
+  /** The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium) */
+  name: SkuName;
+  /** The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium). */
+  family: SkuFamily;
+  /** The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3, 4). */
+  capacity: number;
 }
 
 /** Create/Update/Get common properties of the redis cache. */
@@ -211,35 +221,6 @@ export interface RedisCommonPropertiesRedisConfiguration {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly maxclients?: string;
-}
-
-/** SKU parameters supplied to the create Redis operation. */
-export interface Sku {
-  /** The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium) */
-  name: SkuName;
-  /** The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium). */
-  family: SkuFamily;
-  /** The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3, 4). */
-  capacity: number;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
 }
 
 /** Redis cache access keys. */
@@ -316,6 +297,25 @@ export interface PrivateLinkServiceConnectionState {
   description?: string;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
   actionsRequired?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
 }
 
 /** Parameters supplied to the Update Redis operation. */
@@ -479,7 +479,7 @@ export type RedisCreateProperties = RedisCommonProperties & {
   sku: Sku;
   /** The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 */
   subnetId?: string;
-  /** Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network. */
+  /** Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. */
   staticIP?: string;
 };
 
@@ -487,14 +487,6 @@ export type RedisCreateProperties = RedisCommonProperties & {
 export type RedisUpdateProperties = RedisCommonProperties & {
   /** The SKU of the Redis cache to deploy. */
   sku?: Sku;
-};
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
 };
 
 /** The Private Endpoint Connection resource. */
@@ -508,6 +500,14 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+};
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export type TrackedResource = Resource & {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
 };
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
@@ -608,7 +608,7 @@ export type RedisResource = TrackedResource & {
   sku: Sku;
   /** The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 */
   subnetId?: string;
-  /** Static IP address. Required when deploying a Redis cache inside an existing Azure Virtual Network. */
+  /** Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. */
   staticIP?: string;
   /**
    * Redis instance provisioning status.
@@ -684,40 +684,6 @@ export type RedisLinkedServerWithProperties = ProxyResource & {
 /** Parameters required for creating a firewall rule on redis cache. (Note, you can just use the FirewallRule type instead now.) */
 export type RedisFirewallRuleCreateParameters = RedisFirewallRule & {};
 
-/** Known values of {@link TlsVersion} that the service accepts. */
-export enum KnownTlsVersion {
-  One0 = "1.0",
-  One1 = "1.1",
-  One2 = "1.2"
-}
-
-/**
- * Defines values for TlsVersion. \
- * {@link KnownTlsVersion} can be used interchangeably with TlsVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **1.0** \
- * **1.1** \
- * **1.2**
- */
-export type TlsVersion = string;
-
-/** Known values of {@link PublicNetworkAccess} that the service accepts. */
-export enum KnownPublicNetworkAccess {
-  Enabled = "Enabled",
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for PublicNetworkAccess. \
- * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type PublicNetworkAccess = string;
-
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
   Basic = "Basic",
@@ -751,6 +717,40 @@ export enum KnownSkuFamily {
  * **P**
  */
 export type SkuFamily = string;
+
+/** Known values of {@link TlsVersion} that the service accepts. */
+export enum KnownTlsVersion {
+  One0 = "1.0",
+  One1 = "1.1",
+  One2 = "1.2"
+}
+
+/**
+ * Defines values for TlsVersion. \
+ * {@link KnownTlsVersion} can be used interchangeably with TlsVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **1.0** \
+ * **1.1** \
+ * **1.2**
+ */
+export type TlsVersion = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {

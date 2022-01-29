@@ -11,7 +11,7 @@ import { Functions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StreamAnalyticsManagementClientContext } from "../streamAnalyticsManagementClientContext";
+import { StreamAnalyticsManagementClient } from "../streamAnalyticsManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -36,13 +36,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Functions operations. */
 export class FunctionsImpl implements Functions {
-  private readonly client: StreamAnalyticsManagementClientContext;
+  private readonly client: StreamAnalyticsManagementClient;
 
   /**
    * Initialize a new instance of the class Functions class.
    * @param client Reference to the service client
    */
-  constructor(client: StreamAnalyticsManagementClientContext) {
+  constructor(client: StreamAnalyticsManagementClient) {
     this.client = client;
   }
 
@@ -379,8 +379,8 @@ const createOrReplaceOperationSpec: coreClient.OperationSpec = {
     Parameters.functionName
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
     Parameters.ifNoneMatch
   ],
@@ -410,8 +410,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.functionName
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch
   ],
   mediaType: "json",
@@ -515,7 +515,7 @@ const testOperationSpec: coreClient.OperationSpec = {
     Parameters.jobName,
     Parameters.functionName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -540,7 +540,7 @@ const retrieveDefaultDefinitionOperationSpec: coreClient.OperationSpec = {
     Parameters.jobName,
     Parameters.functionName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -558,10 +558,10 @@ const listByStreamingJobNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.select],
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.jobName,
-    Parameters.nextLink
+    Parameters.jobName
   ],
   headerParameters: [Parameters.accept],
   serializer

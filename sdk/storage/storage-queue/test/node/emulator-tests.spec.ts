@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { Context } from "mocha";
 import { QueueClient, QueueServiceClient } from "../../src";
 import { getConnectionStringFromEnvironment, getQSU } from "../utils";
@@ -14,7 +14,7 @@ describe("Emulator Tests", () => {
   let queueName: string;
   let queueClient: QueueClient;
   const env = isBrowser() ? (self as any).__env__ : process.env;
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     if (!env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
       this.skip();
     }

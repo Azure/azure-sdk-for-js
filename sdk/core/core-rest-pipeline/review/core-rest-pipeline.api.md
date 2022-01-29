@@ -90,6 +90,13 @@ export function decompressResponsePolicy(): PipelinePolicy;
 export const decompressResponsePolicyName = "decompressResponsePolicy";
 
 // @public
+export function defaultRetryPolicy(options?: DefaultRetryPolicyOptions): PipelinePolicy;
+
+// @public
+export interface DefaultRetryPolicyOptions extends PipelineRetryOptions {
+}
+
+// @public
 export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
 
 // @public
@@ -178,7 +185,7 @@ export interface Pipeline {
 export interface PipelineOptions {
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
-    retryOptions?: ExponentialRetryPolicyOptions;
+    retryOptions?: PipelineRetryOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 
@@ -198,6 +205,7 @@ export interface PipelineRequest {
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
+    enableBrowserStreams?: boolean;
     formData?: FormDataMap;
     headers: HttpHeaders;
     method: HttpMethods;
@@ -218,6 +226,7 @@ export interface PipelineRequestOptions {
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
+    enableBrowserStreams?: boolean;
     formData?: FormDataMap;
     headers?: HttpHeaders;
     method?: HttpMethods;
@@ -236,10 +245,18 @@ export interface PipelineRequestOptions {
 export interface PipelineResponse {
     blobBody?: Promise<Blob>;
     bodyAsText?: string | null;
+    browserStreamBody?: ReadableStream<Uint8Array>;
     headers: HttpHeaders;
     readableStreamBody?: NodeJS.ReadableStream;
     request: PipelineRequest;
     status: number;
+}
+
+// @public
+export interface PipelineRetryOptions {
+    maxRetries?: number;
+    maxRetryDelayInMs?: number;
+    retryDelayInMs?: number;
 }
 
 // @public
@@ -278,7 +295,7 @@ export interface RedirectPolicyOptions {
 }
 
 // @public
-export type RequestBodyType = NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+export type RequestBodyType = NodeJS.ReadableStream | ReadableStream<Uint8Array> | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
 // @public
 export class RestError extends Error {
@@ -298,6 +315,37 @@ export interface RestErrorOptions {
     request?: PipelineRequest;
     response?: PipelineResponse;
     statusCode?: number;
+}
+
+// @public
+export interface RetryInformation {
+    response?: PipelineResponse;
+    responseError?: RestError;
+    retryCount: number;
+}
+
+// @public
+export interface RetryModifiers {
+    errorToThrow?: RestError;
+    redirectTo?: string;
+    retryAfterInMs?: number;
+    skipStrategy?: boolean;
+}
+
+// @public
+export function retryPolicy(strategies: RetryStrategy[], options?: RetryPolicyOptions): PipelinePolicy;
+
+// @public
+export interface RetryPolicyOptions {
+    logger?: AzureLogger;
+    maxRetries?: number;
+}
+
+// @public
+export interface RetryStrategy {
+    logger?: AzureLogger;
+    name: string;
+    retry(state: RetryInformation): RetryModifiers;
 }
 
 // @public
@@ -323,10 +371,15 @@ export interface SystemErrorRetryPolicyOptions {
 }
 
 // @public
-export function throttlingRetryPolicy(): PipelinePolicy;
+export function throttlingRetryPolicy(options?: ThrottlingRetryPolicyOptions): PipelinePolicy;
 
 // @public
 export const throttlingRetryPolicyName = "throttlingRetryPolicy";
+
+// @public
+export interface ThrottlingRetryPolicyOptions {
+    maxRetries?: number;
+}
 
 // @public
 export function tracingPolicy(options?: TracingPolicyOptions): PipelinePolicy;
