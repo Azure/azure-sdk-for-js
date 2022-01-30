@@ -944,8 +944,6 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               text: "A recent report by the Government Accountability Office (GAO) found that the dramatic increase in oil and natural gas development on federal lands over the past six years has stretched the staff of the BLM to a point that it has been unable to meet its environmental protection responsibilities.",
             },
           ];
-          console.log("11111111111111", env.TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_PROJECT_NAME.toString());
-          console.log("22222222222222", env.TEXT_ANALYTICS_RECOGNIZE_CUSTOM_ENTITIES_DEPLOYMENT_NAME.toString());
 
           const poller = await client.beginAnalyzeActions(
             docs,
