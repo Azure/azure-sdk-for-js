@@ -5,7 +5,7 @@ stages:
     parameters:
       PackageName: "@azure/keyvault-certificates"
       ServiceDirectory: keyvault
-      TimeoutInMinutes: 90,
+      TimeoutInMinutes: 35,
       SupportedClouds: 'Public,UsGov,China'
       AdditionalMatrixConfigs:
          - Name: Keyvault_live_test_base

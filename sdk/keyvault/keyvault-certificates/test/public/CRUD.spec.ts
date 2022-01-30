@@ -356,7 +356,6 @@ describe("Certificates client - create, read, update and delete", () => {
       testPollerProperties
     );
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
-    await poller.pollUntilDone();
     const result = poller.getResult()!;
 
     assert.equal(typeof result.recoveryId, "string");
