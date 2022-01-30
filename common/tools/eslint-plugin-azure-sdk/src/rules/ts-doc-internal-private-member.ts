@@ -6,7 +6,7 @@
  * @author Hamsa Shankar
  */
 
-import { Modifier, SyntaxKind } from "typescript";
+import { SyntaxKind } from "typescript";
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 import { Node } from "estree";
 import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
@@ -30,28 +30,25 @@ const reportInternal = (
   context: Rule.RuleContext,
   converter: ParserWeakMapESTreeToTSNode,
 ): void => {
-  const tsNode = converter.get(node as TSESTree.Node) as any;
+  const tsNode = converter.get(node as TSESTree.Node);
+  const modifiers = tsNode.modifiers;
 
-  const modifiers = converter.get(node as TSESTree.Node).modifiers;
   // if type is internal and has a TSDoc and is a private member
-  if (tsNode.jsDoc !== undefined
-    && modifiers !== undefined && modifiers.some(
-      (modifier: Modifier): boolean => modifier.kind === SyntaxKind.PrivateKeyword)
-  ) {
+  if ((tsNode as any).jsDoc !== undefined
+    && modifiers?.some((modifier) => modifier.kind === SyntaxKind.PrivateKeyword)) {
     // fetch all tags
-    tsNode.jsDoc.forEach((TSDocComment: any): void => {
-      if (TSDocComment.tags !== undefined) {
-        TSDocComment.tags.forEach((TSDocTag: any): void => {
-          // check if any tags match internal
-          if (TSDocTag.tagName.escapedText.match(/internal/)) {
+    for (const comment of (tsNode as any).jsDoc) {
+      if (comment.tags !== undefined) {
+        for (const tag of comment.tags) {
+          if (tag.tagName.escapedText.match(/internal/)) {
             context.report({
-              node: node,
+              node,
               message: "private class members should not include an @internal tag"
             });
           }
-        });
+        }
       }
-    });
+    }
   }
 };
 
