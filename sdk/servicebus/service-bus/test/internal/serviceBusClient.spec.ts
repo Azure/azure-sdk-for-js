@@ -843,8 +843,8 @@ function reduceRetries(receiver: ServiceBusReceiver): void {
   // There are other tests that ensure that the retry cycle does work properly.
   (receiver as ServiceBusReceiverImpl)["_retryOptions"] = {
     ...(receiver as ServiceBusReceiverImpl)["_retryOptions"],
-    maxRetries: 3,
-    timeoutInMs: 100000,
+    maxRetries: 0,
+    timeoutInMs: 0,
     maxRetryDelayInMs: 0,
     retryDelayInMs: 0,
   };
