@@ -752,7 +752,7 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/digital-twins-parser",
+      "packageName": "@azure/dtdl-parser",
       "projectFolder": "sdk/digitaltwins/digital-twins-parser"
     },
     {

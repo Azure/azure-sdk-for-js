@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/digital-twins-parser",
   "dependencies": {
-    "@azure/digital-twins-parser": "next",
+    "@azure/dtdl-parser": "next",
     "dotenv": "latest"
   },
   "devDependencies": {

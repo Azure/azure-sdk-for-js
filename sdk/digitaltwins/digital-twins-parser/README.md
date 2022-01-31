@@ -19,12 +19,12 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 None.
 
-### Install the `@azure/digital-twins-parser` package
+### Install the `@azure/dtdl-parser` package
 
 Install the Digital Twins Model Parser client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/digital-twins-parser
+npm install @azure/dtdl-parser
 ```
 
 ### Access the Public DTDL Model Repository
@@ -57,7 +57,7 @@ To parse a sample DTDL model, either start with one you have already written or 
 
 ```javascript
 import * as fs from "fs";
-import { createParser, ModelParsingOption } from "@azure/digital-twins-parser";
+import { createParser, ModelParsingOption } from "@azure/dtdl-parser";
 
 async function main() {
   const rawDtdlDigest: string = fs.readFileSync(

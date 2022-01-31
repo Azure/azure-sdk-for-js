@@ -7,7 +7,7 @@
  */
 
 import * as fs from "fs";
-import { createParser, ModelParsingOption } from "@azure/digital-twins-parser";
+import { createParser, ModelParsingOption } from "@azure/dtdl-parser";
 
 async function main() {
   const rawDtdlDigest: string = fs.readFileSync(

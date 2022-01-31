@@ -9,7 +9,7 @@
  */
 
 import * as fs from 'fs';
-import {ModelParser, ModelParsingOption} from '@azure/digital-twins-parser';
+import {ModelParser, ModelParsingOption} from '@azure/dtdl-parser';
 
 async function main() {
   const rawDtdlDigest:string = fs.readFileSync('samples/typescript/parser/InterfaceContentsEmbeddedV2.json', 'utf-8');

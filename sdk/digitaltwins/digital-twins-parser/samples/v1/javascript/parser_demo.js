@@ -8,7 +8,7 @@
  */
 
 const fs = require("fs");
-const { ModelParser, ModelParsingOption } = require("@azure/digital-twins-parser");
+const { ModelParser, ModelParsingOption } = require("@azure/dtdl-parser");
 
 async function main() {
   const rawDtdlDigest = fs.readFileSync(
