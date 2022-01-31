@@ -50,7 +50,12 @@ module.exports = function (config) {
       // "dist-test/index.js": ["coverage"]
     },
 
-    envPreprocessor: ["TEST_MODE", "ENDPOINT", "DOCUMENT_TRANSLATOR_API_KEY", "RECORDINGS_RELATIVE_PATH"],
+    envPreprocessor: [
+      "TEST_MODE",
+      "ENDPOINT",
+      "DOCUMENT_TRANSLATOR_API_KEY",
+      "RECORDINGS_RELATIVE_PATH",
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
