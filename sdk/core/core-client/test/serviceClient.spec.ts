@@ -19,13 +19,13 @@ import {
 } from "../src";
 import {
   HttpClient,
+  PipelinePolicy,
   PipelineRequest,
   RestError,
+  SendRequest,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
-  PipelinePolicy,
-  SendRequest,
 } from "@azure/core-rest-pipeline";
 import {
   getOperationArgumentValueFromParameter,
