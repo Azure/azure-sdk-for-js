@@ -65,8 +65,8 @@ npx cross-env  node dist/parser_demo.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[parser_demo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-parser/samples/v1/typescript/src/parser_demo.ts
+[parser_demo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/dtdl-parser/samples/v1/typescript/src/parser_demo.ts
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/digital-twins-parser/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/dtdl-parser/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
