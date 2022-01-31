@@ -46,6 +46,16 @@ describe("Download Content", function() {
     }
   });
 
+  it("download", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      this.skip();
+    }
+
+    const downloadResponse = await callingServerServiceClient.download(url);
+    const metadata = await bodyToString(downloadResponse, downloadResponse.contentLength!);
+    assert.strictEqual(metadata.includes("0-eus-d15-af5689148b0afa252a57a0121b744dcd"), true);
+  });
+
   it("downloadToFile", async function(this: Context) {
     if (!isPlaybackMode() || !isNode) {
       // tslint:disable-next-line:no-invalid-this
