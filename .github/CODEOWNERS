@@ -55,7 +55,7 @@
 /sdk/deviceupdate/ @dpokluda
 
 # PRLabel: %Digital Twins
-/sdk/digitaltwins/ @johngallardo
+/sdk/digitaltwins/ @johngallardo @YoDaMa @olivakar
 
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @xirzec @ellismg
@@ -119,6 +119,9 @@
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @jeremymeng @KarishmaGhiya
 
+# PRLabel: %Cognitive - Anomaly Detector
+/sdk/anomalydetector/ @conhua @mengaims @juaduan @moreOver0
+
 # PRLabel: %Search
 /sdk/search/ @xirzec @sarangan12
 
@@ -146,517 +149,517 @@
 
 # Management Plane
 # PRLabel: %Mgmt
-/sdk/advisor/arm-advisor @qiaozha @dw511214992
+/sdk/advisor/arm-advisor @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/analysisservices/arm-analysisservices @qiaozha @dw511214992
+/sdk/analysisservices/arm-analysisservices @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/apimanagement/arm-apimanagement @qiaozha @dw511214992
+/sdk/apimanagement/arm-apimanagement @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/appconfiguration/arm-appconfiguration @qiaozha @dw511214992
+/sdk/appconfiguration/arm-appconfiguration @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/applicationinsights/arm-appinsights @qiaozha @dw511214992
+/sdk/applicationinsights/arm-appinsights @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/appplatform/arm-appplatform @qiaozha @dw511214992
+/sdk/appplatform/arm-appplatform @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/appservice/arm-appservice @qiaozha @dw511214992
+/sdk/appservice/arm-appservice @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/appservice/arm-appservice-profile-2019-03-01-hybrid @qiaozha @dw511214992
+/sdk/appservice/arm-appservice-profile-2019-03-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/appservice/arm-appservice-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/appservice/arm-appservice-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/attestation/arm-attestation @qiaozha @dw511214992
+/sdk/attestation/arm-attestation @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/authorization/arm-authorization @qiaozha @dw511214992
+/sdk/authorization/arm-authorization @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/authorization/arm-authorization-profile-2019-03-01-hybrid @qiaozha @dw511214992
+/sdk/authorization/arm-authorization-profile-2019-03-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/authorization/arm-authorization-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/authorization/arm-authorization-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/automation/arm-automation @qiaozha @dw511214992
+/sdk/automation/arm-automation @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/avs/arm-avs @qiaozha @dw511214992
+/sdk/avs/arm-avs @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/azurestack/arm-azurestack @qiaozha @dw511214992
+/sdk/azurestack/arm-azurestack @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/azurestackhci/arm-azurestackhci @qiaozha @dw511214992
+/sdk/azurestackhci/arm-azurestackhci @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/batch/arm-batch @qiaozha @dw511214992
+/sdk/batch/arm-batch @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/batchai/arm-batchai @qiaozha @dw511214992
+/sdk/batchai/arm-batchai @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/billing/arm-billing @qiaozha @dw511214992
+/sdk/billing/arm-billing @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/botservice/arm-botservice @qiaozha @dw511214992
+/sdk/botservice/arm-botservice @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/cdn/arm-cdn @qiaozha @dw511214992
+/sdk/cdn/arm-cdn @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/changeanalysis/arm-changeanalysis @qiaozha @dw511214992
+/sdk/changeanalysis/arm-changeanalysis @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/cognitiveservices/arm-cognitiveservices @qiaozha @dw511214992
+/sdk/cognitiveservices/arm-cognitiveservices @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/commerce/arm-commerce @qiaozha @dw511214992
+/sdk/commerce/arm-commerce @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/commerce/arm-commerce-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/commerce/arm-commerce-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/communication/arm-communication @qiaozha @dw511214992
+/sdk/communication/arm-communication @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/compute/arm-compute @qiaozha @dw511214992
+/sdk/compute/arm-compute @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/compute/arm-compute-profile-2019-03-01-hybrid @qiaozha @dw511214992
+/sdk/compute/arm-compute-profile-2019-03-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/compute/arm-compute-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/compute/arm-compute-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/confluent/arm-confluent @qiaozha @dw511214992
+/sdk/confluent/arm-confluent @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/consumption/arm-consumption @qiaozha @dw511214992
+/sdk/consumption/arm-consumption @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/containerinstance/arm-containerinstance @qiaozha @dw511214992
+/sdk/containerinstance/arm-containerinstance @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/containerregistry/arm-containerregistry @qiaozha @dw511214992
+/sdk/containerregistry/arm-containerregistry @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/containerservice/arm-containerservice @qiaozha @dw511214992
+/sdk/containerservice/arm-containerservice @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/cosmosdb/arm-cosmosdb @qiaozha @dw511214992
+/sdk/cosmosdb/arm-cosmosdb @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/customer-insights/arm-customerinsights @qiaozha @dw511214992
+/sdk/customer-insights/arm-customerinsights @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/databox/arm-databox @qiaozha @dw511214992
+/sdk/databox/arm-databox @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/databoxedge/arm-databoxedge @qiaozha @dw511214992
+/sdk/databoxedge/arm-databoxedge @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/databricks/arm-databricks @qiaozha @dw511214992
+/sdk/databricks/arm-databricks @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/datacatalog/arm-datacatalog @qiaozha @dw511214992
+/sdk/datacatalog/arm-datacatalog @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/datafactory/arm-datafactory @qiaozha @dw511214992
+/sdk/datafactory/arm-datafactory @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/datalake-analytics/arm-datalake-analytics @qiaozha @dw511214992
+/sdk/datalake-analytics/arm-datalake-analytics @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/datamigration/arm-datamigration @qiaozha @dw511214992
+/sdk/datamigration/arm-datamigration @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/deploymentmanager/arm-deploymentmanager @qiaozha @dw511214992
+/sdk/deploymentmanager/arm-deploymentmanager @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/deviceprovisioningservices/arm-deviceprovisioningservices @qiaozha @dw511214992
+/sdk/deviceprovisioningservices/arm-deviceprovisioningservices @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/devspaces/arm-devspaces @qiaozha @dw511214992
+/sdk/devspaces/arm-devspaces @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/devtestlabs/arm-devtestlabs @qiaozha @dw511214992
+/sdk/devtestlabs/arm-devtestlabs @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/digitaltwins/arm-digitaltwins @qiaozha @dw511214992
+/sdk/digitaltwins/arm-digitaltwins @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/dns/arm-dns @qiaozha @dw511214992
+/sdk/dns/arm-dns @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/dns/arm-dns-profile-2019-03-01-hybrid @qiaozha @dw511214992
+/sdk/dns/arm-dns-profile-2019-03-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/dns/arm-dns-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/dns/arm-dns-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/domainservices/arm-domainservices @qiaozha @dw511214992
+/sdk/domainservices/arm-domainservices @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/edgegateway/arm-edgegateway @qiaozha @dw511214992
+/sdk/edgegateway/arm-edgegateway @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/eventgrid/arm-eventgrid @qiaozha @dw511214992
+/sdk/eventgrid/arm-eventgrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/eventhub/arm-eventhub @qiaozha @dw511214992
+/sdk/eventhub/arm-eventhub @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/features/arm-features @qiaozha @dw511214992
+/sdk/features/arm-features @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/frontdoor/arm-frontdoor @qiaozha @dw511214992
+/sdk/frontdoor/arm-frontdoor @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/hanaonazure/arm-hanaonazure @qiaozha @dw511214992
+/sdk/hanaonazure/arm-hanaonazure @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/hdinsight/arm-hdinsight @qiaozha @dw511214992
+/sdk/hdinsight/arm-hdinsight @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/healthbot/arm-healthbot @qiaozha @dw511214992
+/sdk/healthbot/arm-healthbot @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/healthcareapis/arm-healthcareapis @qiaozha @dw511214992
+/sdk/healthcareapis/arm-healthcareapis @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/hybridcompute/arm-hybridcompute @qiaozha @dw511214992
+/sdk/hybridcompute/arm-hybridcompute @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/hybridkubernetes/arm-hybridkubernetes @qiaozha @dw511214992
+/sdk/hybridkubernetes/arm-hybridkubernetes @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/iotcentral/arm-iotcentral @qiaozha @dw511214992
+/sdk/iotcentral/arm-iotcentral @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/iothub/arm-iothub @qiaozha @dw511214992
+/sdk/iothub/arm-iothub @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/iotspaces/arm-iotspaces @qiaozha @dw511214992
+/sdk/iotspaces/arm-iotspaces @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/keyvault/arm-keyvault @qiaozha @dw511214992
+/sdk/keyvault/arm-keyvault @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/keyvault/arm-keyvault-profile-2019-03-01-hybrid @qiaozha @dw511214992
+/sdk/keyvault/arm-keyvault-profile-2019-03-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/kubernetesconfiguration/arm-kubernetesconfiguration @qiaozha @dw511214992
+/sdk/kubernetesconfiguration/arm-kubernetesconfiguration @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/kusto/arm-kusto @qiaozha @dw511214992
+/sdk/kusto/arm-kusto @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/labservices/arm-labservices @qiaozha @dw511214992
+/sdk/labservices/arm-labservices @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/links/arm-links @qiaozha @dw511214992
+/sdk/links/arm-links @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/locks/arm-locks @qiaozha @dw511214992
+/sdk/locks/arm-locks @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/locks/arm-locks-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/locks/arm-locks-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/locks/arm-locks-profile-hybrid-2019-03-01 @qiaozha @dw511214992
+/sdk/locks/arm-locks-profile-hybrid-2019-03-01 @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/logic/arm-logic @qiaozha @dw511214992
+/sdk/logic/arm-logic @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/machinelearning/arm-commitmentplans @qiaozha @dw511214992
+/sdk/machinelearning/arm-commitmentplans @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/machinelearning/arm-webservices @qiaozha @dw511214992
+/sdk/machinelearning/arm-webservices @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/machinelearning/arm-workspaces @qiaozha @dw511214992
+/sdk/machinelearning/arm-workspaces @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/machinelearningcompute/arm-machinelearningcompute @qiaozha @dw511214992
+/sdk/machinelearningcompute/arm-machinelearningcompute @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/machinelearningexperimentation/arm-machinelearningexperimentation @qiaozha @dw511214992
+/sdk/machinelearningexperimentation/arm-machinelearningexperimentation @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/machinelearningservices/arm-machinelearningservices @qiaozha @dw511214992
+/sdk/machinelearningservices/arm-machinelearningservices @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/managedapplications/arm-managedapplications @qiaozha @dw511214992
+/sdk/managedapplications/arm-managedapplications @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/managementgroups/arm-managementgroups @qiaozha @dw511214992
+/sdk/managementgroups/arm-managementgroups @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/managementpartner/arm-managementpartner @qiaozha @dw511214992
+/sdk/managementpartner/arm-managementpartner @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/maps/arm-maps @qiaozha @dw511214992
+/sdk/maps/arm-maps @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/mariadb/arm-mariadb @qiaozha @dw511214992
+/sdk/mariadb/arm-mariadb @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/marketplaceordering/arm-marketplaceordering @qiaozha @dw511214992
+/sdk/marketplaceordering/arm-marketplaceordering @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/mediaservices/arm-mediaservices @qiaozha @dw511214992
+/sdk/mediaservices/arm-mediaservices @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/migrate/arm-migrate @qiaozha @dw511214992
+/sdk/migrate/arm-migrate @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/mixedreality/arm-mixedreality @qiaozha @dw511214992
+/sdk/mixedreality/arm-mixedreality @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/monitor/arm-monitor @qiaozha @dw511214992
+/sdk/monitor/arm-monitor @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/monitor/arm-monitor-profile-2019-03-01-hybrid @qiaozha @dw511214992
+/sdk/monitor/arm-monitor-profile-2019-03-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/monitor/arm-monitor-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/monitor/arm-monitor-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/msi/arm-msi @qiaozha @dw511214992
+/sdk/msi/arm-msi @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/mysql/arm-mysql @qiaozha @dw511214992
+/sdk/mysql/arm-mysql @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/netapp/arm-netapp @qiaozha @dw511214992
+/sdk/netapp/arm-netapp @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/network/arm-network @qiaozha @dw511214992
+/sdk/network/arm-network @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/network/arm-network-profile-2019-03-01-hybrid @qiaozha @dw511214992
+/sdk/network/arm-network-profile-2019-03-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/network/arm-network-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/network/arm-network-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/notificationhubs/arm-notificationhubs @qiaozha @dw511214992
+/sdk/notificationhubs/arm-notificationhubs @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/operationalinsights/arm-operationalinsights @qiaozha @dw511214992
+/sdk/operationalinsights/arm-operationalinsights @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/operationsmanagement/arm-operations @qiaozha @dw511214992
+/sdk/operationsmanagement/arm-operations @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/peering/arm-peering @qiaozha @dw511214992
+/sdk/peering/arm-peering @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/policy/arm-policy @qiaozha @dw511214992
+/sdk/policy/arm-policy @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/policy/arm-policy-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/policy/arm-policy-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/policy/arm-policy-profile-hybrid-2019-03-01 @qiaozha @dw511214992
+/sdk/policy/arm-policy-profile-hybrid-2019-03-01 @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/policyinsights/arm-policyinsights @qiaozha @dw511214992
+/sdk/policyinsights/arm-policyinsights @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/postgresql/arm-postgresql @qiaozha @dw511214992
+/sdk/postgresql/arm-postgresql @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/postgresql/arm-postgresql-flexible @qiaozha @dw511214992
+/sdk/postgresql/arm-postgresql-flexible @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/powerbidedicated/arm-powerbidedicated @qiaozha @dw511214992
+/sdk/powerbidedicated/arm-powerbidedicated @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/powerbiembedded/arm-powerbiembedded @qiaozha @dw511214992
+/sdk/powerbiembedded/arm-powerbiembedded @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/privatedns/arm-privatedns @qiaozha @dw511214992
+/sdk/privatedns/arm-privatedns @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/recoveryservices/arm-recoveryservices @qiaozha @dw511214992
+/sdk/recoveryservices/arm-recoveryservices @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/recoveryservicesbackup/arm-recoveryservicesbackup @qiaozha @dw511214992
+/sdk/recoveryservicesbackup/arm-recoveryservicesbackup @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery @qiaozha @dw511214992
+/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/redis/arm-rediscache @qiaozha @dw511214992
+/sdk/redis/arm-rediscache @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/redisenterprise/arm-redisenterprisecache @qiaozha @dw511214992
+/sdk/redisenterprise/arm-redisenterprisecache @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/relay/arm-relay @qiaozha @dw511214992
+/sdk/relay/arm-relay @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/reservations/arm-reservations @qiaozha @dw511214992
+/sdk/reservations/arm-reservations @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/resourcegraph/arm-resourcegraph @qiaozha @dw511214992
+/sdk/resourcegraph/arm-resourcegraph @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/resourcehealth/arm-resourcehealth @qiaozha @dw511214992
+/sdk/resourcehealth/arm-resourcehealth @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/resourcemover/arm-resourcemover @qiaozha @dw511214992
+/sdk/resourcemover/arm-resourcemover @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/resources/arm-resources @qiaozha @dw511214992
+/sdk/resources/arm-resources @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/resources/arm-resources-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/resources/arm-resources-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/resources/arm-resources-profile-hybrid-2019-03-01 @qiaozha @dw511214992
+/sdk/resources/arm-resources-profile-hybrid-2019-03-01 @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/search/arm-search @qiaozha @dw511214992
+/sdk/search/arm-search @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/security/arm-security @qiaozha @dw511214992
+/sdk/security/arm-security @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/serialconsole/arm-serialconsole @qiaozha @dw511214992
+/sdk/serialconsole/arm-serialconsole @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/service-map/arm-servicemap @qiaozha @dw511214992
+/sdk/service-map/arm-servicemap @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/servicebus/arm-servicebus @qiaozha @dw511214992
+/sdk/servicebus/arm-servicebus @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/servicefabric/arm-servicefabric @qiaozha @dw511214992
+/sdk/servicefabric/arm-servicefabric @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/servicefabricmesh/arm-servicefabricmesh @qiaozha @dw511214992
+/sdk/servicefabricmesh/arm-servicefabricmesh @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/signalr/arm-signalr @qiaozha @dw511214992
+/sdk/signalr/arm-signalr @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/sql/arm-sql @qiaozha @dw511214992
+/sdk/sql/arm-sql @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/sqlvirtualmachine/arm-sqlvirtualmachine @qiaozha @dw511214992
+/sdk/sqlvirtualmachine/arm-sqlvirtualmachine @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/storage/arm-storage @qiaozha @dw511214992
+/sdk/storage/arm-storage @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/storage/arm-storage-profile-2019-03-01-hybrid @qiaozha @dw511214992
+/sdk/storage/arm-storage-profile-2019-03-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/storage/arm-storage-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/storage/arm-storage-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/storagecache/arm-storagecache @qiaozha @dw511214992
+/sdk/storagecache/arm-storagecache @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/storageimportexport/arm-storageimportexport @qiaozha @dw511214992
+/sdk/storageimportexport/arm-storageimportexport @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/storagesync/arm-storagesync @qiaozha @dw511214992
+/sdk/storagesync/arm-storagesync @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/storsimple1200series/arm-storsimple1200series @qiaozha @dw511214992
+/sdk/storsimple1200series/arm-storsimple1200series @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/storsimple8000series/arm-storsimple8000series @qiaozha @dw511214992
+/sdk/storsimple8000series/arm-storsimple8000series @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/streamanalytics/arm-streamanalytics @qiaozha @dw511214992
+/sdk/streamanalytics/arm-streamanalytics @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/subscription/arm-subscriptions @qiaozha @dw511214992
+/sdk/subscription/arm-subscriptions @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid @qiaozha @dw511214992
+/sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/subscription/arm-subscriptions-profile-hybrid-2019-03-01 @qiaozha @dw511214992
+/sdk/subscription/arm-subscriptions-profile-hybrid-2019-03-01 @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/support/arm-support @qiaozha @dw511214992
+/sdk/support/arm-support @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/synapse/arm-synapse @qiaozha @dw511214992
+/sdk/synapse/arm-synapse @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/timeseriesinsights/arm-timeseriesinsights @qiaozha @dw511214992
+/sdk/timeseriesinsights/arm-timeseriesinsights @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/trafficmanager/arm-trafficmanager @qiaozha @dw511214992
+/sdk/trafficmanager/arm-trafficmanager @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/visualstudio/arm-visualstudio @qiaozha @dw511214992
+/sdk/visualstudio/arm-visualstudio @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/vmwarecloudsimple/arm-vmwarecloudsimple @qiaozha @dw511214992
+/sdk/vmwarecloudsimple/arm-vmwarecloudsimple @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/resources-subscriptions/arm-resources-subscriptions @qiaozha @dw511214992
+/sdk/resources-subscriptions/arm-resources-subscriptions @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/videoanalyzer/arm-videoanalyzer @qiaozha @dw511214992
+/sdk/videoanalyzer/arm-videoanalyzer @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/templatespecs/arm-templatespecs @qiaozha @dw511214992
+/sdk/templatespecs/arm-templatespecs @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/quota/arm-quota @qiaozha @dw511214992
+/sdk/quota/arm-quota @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-sdk/desktopvirtualization/arm-desktopvirtualization @qiaozha @dw511214992
+sdk/desktopvirtualization/arm-desktopvirtualization @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-sdk/orbital/arm-orbital @qiaozha @dw511214992
+sdk/orbital/arm-orbital @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-sdk/portal/arm-portal @qiaozha @dw511214992
+sdk/portal/arm-portal @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-sdk/loadtestservice/arm-loadtestservice @qiaozha @dw511214992
+sdk/loadtestservice/arm-loadtestservice @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-sdk/purview/arm-purview @qiaozha @dw511214992
+sdk/purview/arm-purview @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-sdk/imagebuilder/arm-imagebuilder @qiaozha @dw511214992
+sdk/imagebuilder/arm-imagebuilder @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-sdk/securityinsights/arm-securityinsights @qiaozha @dw511214992
+sdk/securityinsights/arm-securityinsights @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-sdk/oep/arm-oep @qiaozha @dw511214992
+sdk/oep/arm-oep @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners

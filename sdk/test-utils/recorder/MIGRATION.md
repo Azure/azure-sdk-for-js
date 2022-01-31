@@ -15,7 +15,7 @@ The new recorder is version 2.0.0 of the `@azure-tools/test-recorder` package. U
   // ...
   "devDependencies": {
     // ...
-    "@azure-tools/test-recorder": "^2.0.0",
+    "@azure-tools/test-recorder": "^2.0.0"
   }
 }
 ```
@@ -152,15 +152,20 @@ In this example, the name of the queue used in the recording is randomized. Howe
 
 A powerful feature of the legacy recorder was its `customizationsOnRecordings` option, which allowed for arbitrary replacements to be made to recordings. The new recorder's analog to this is the sanitizer functionality.
 
-### GeneralRegexSanitizer
+### General sanitizers
 
-For a simple find/replace, a `GeneralRegexSanitizer` can be used. For example:
+For a simple find/replace, `generalSanitizers` can be used. For example:
 
 ```ts
 await recorder.addSanitizers({
-  generalRegexSanitizers: [
+  generalSanitizers: [
     {
-      regex: "find", // This should be a .NET regular expression as it is passed to the .NET proxy tool
+      target: "find", // With `regex` unspecified, this matches a plaintext string
+      value: "replace",
+    },
+    {
+      regex: true, // Enable regex matching
+      target: "[Rr]egex", // This is a .NET regular expression that will be compiled by the proxy tool.
       value: "replace",
     },
     // add additional sanitizers here as required
@@ -168,7 +173,9 @@ await recorder.addSanitizers({
 });
 ```
 
-This example would replace all instances of `find` in the recording with `replace`.
+This example has two sanitizers: 
+- The first sanitizer replaces all instances of "find" in the recording with "replace". 
+- The second example demonstrates the use of a regular expression for replacement, where anything matching the .NET regular expression `[Rr]egex` (i.e. "Regex" and "regex") would be replaced with "replace".
 
 ### ConnectionStringSanitizer
 

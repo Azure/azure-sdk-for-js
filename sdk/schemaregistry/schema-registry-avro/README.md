@@ -1,9 +1,9 @@
-# Azure Schema Registry Avro serializer client library for JavaScript
+# Azure Schema Registry Avro Encoder client library for JavaScript
 
 Azure Schema Registry is a schema repository service hosted by Azure Event Hubs,
 providing schema storage, versioning, and management. This package provides an
-Avro serializer capable of serializing and deserializing payloads containing
-Schema Registry schema identifiers and Avro-encoded data.
+Avro encoder capable of encoding and decoding payloads containing
+Avro-encoded data.
 
 Key links:
 
@@ -31,64 +31,78 @@ npm install @azure/schema-registry-avro
 
 ## Key concepts
 
-### SchemaRegistryAvroSerializer
+### SchemaRegistryAvroEncoder
 
-Provides API to serialize to and deserialize from Avro Binary Encoding plus a
-header with schema ID. Uses
+Provides API to encode to and decode from Avro Binary Encoding wrapped in a message
+with a content type field containing the schema ID. Uses
 `SchemaRegistryClient` from the [@azure/schema-registry](https://www.npmjs.com/package/@azure/schema-registry) package
 to get schema IDs from schema definition or vice versa. The provided API has internal cache to avoid calling the schema registry service when possible.
 
-### Message format
+### Messages
 
-The same format is used by schema registry serializers across Azure SDK languages.
+By default, the encoder will create messages structured as follows:
 
-Messages are encoded as follows:
+- `body`: a byte array containing data in the Avro Binary Encoding. Note that it
+  is NOT Avro Object Container File. The latter includes the schema and creating
+  it defeats the purpose of using this encoder to move the schema out of the
+  message payload and into the schema registry.
 
-- 4 bytes: Format Indicator
+- `contentType`: a string of the following format `avro/binary+<Schema ID>` where
+  the `avro/binary` part signals that this message has an Avro-encoded payload
+  and the `<Schema Id>` part is the Schema ID the Schema Registry service assigned
+  to the schema used to encode this payload.
 
-  - Currently always zero to indicate format below.
+Not all messaging services are supporting the same message structure. To enable
+integration with such services, the encoder can act on custom message structures
+by setting the `messageAdapter` option in the constructor with a corresponding
+message producer and consumer. Azure messaging client libraries export default
+adapters for their message types.
 
-- 32 bytes: Schema ID
+### Backward Compatibility
 
-  - UTF-8 hexadecimal representation of GUID.
-  - 32 hex digits, no hyphens.
-  - Same format and byte order as string from Schema Registry service.
+The encoder v1.0.0-beta.5 and under encodes data into binary arrays. Starting from
+v1.0.0-beta.6, the encoder returns messages instead that contain the encoded payload.
+For a smooth transition to using the newer versions, the encoder also supports
+decoding messages with payloads that follow the old format where the schema ID
+is part of the payload.
 
-- Remaining bytes: Avro payload (in general, format-specific payload)
-
-  - Avro Binary Encoding
-  - NOT Avro Object Container File, which includes the schema and defeats the
-    purpose of this serialzer to move the schema out of the message payload and
-    into the schema registry.
+This backward compatibility is temporary and will be removed in v1.0.0.
 
 ## Examples
 
-### Serialize and deserialize
+### Encode and decode an `@azure/event-hubs`'s `EventData`
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
+import { createEventDataAdapter } from "@azure/event-hubs";
 const { SchemaRegistryClient } = require("@azure/schema-registry");
-const { SchemaRegistryAvroSerializer } = require("@azure/schema-registry-avro");
+const { SchemaRegistryAvroEncoder } = require("@azure/schema-registry-avro");
 
-const client = new SchemaRegistryClient("<fully qualified namespace>", new DefaultAzureCredential());
-const serializer = new SchemaRegistryAvroSerializer(client, { groupName: "<group>" });
+const client = new SchemaRegistryClient(
+  "<fully qualified namespace>",
+  new DefaultAzureCredential()
+);
+const encoder = new SchemaRegistryAvroEncoder(client, {
+  groupName: "<group>",
+  messageAdapter: createEventDataAdapter(),
+});
 
 // Example Avro schema
 const schema = JSON.stringify({
   type: "record",
   name: "Rating",
   namespace: "my.example",
-  fields: [{ name: "score", type: "int" }]
+  fields: [{ name: "score", type: "int" }],
 });
 
 // Example value that matches the Avro schema above
 const value = { score: 42 };
 
-// Serialize value to buffer
-const buffer = await serializer.serialize(value, schema);
+// Encode value to a message
+const message = await encoder.encodeMessageData(value, schema);
 
-// Deserialize buffer to value
-const deserializedValue = await serializer.deserialize(buffer);
+// Decode a message to value
+const decodedValue = await encoder.decodeMessageData(message);
 ```
 
 ## Troubleshooting

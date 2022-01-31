@@ -51,3 +51,5 @@ export {
   parseEventHubConnectionString,
   EventHubConnectionStringProperties,
 } from "./util/connectionStringUtils";
+
+export * from "./eventDataAdapter";

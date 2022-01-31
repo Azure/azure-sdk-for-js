@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as coreAuth from "@azure/core-auth";
+import * as coreTracing from "../src";
 import { assert } from "chai";
 import { createTracingContext } from "../src/tracingContext";
-import * as coreTracing from "../src";
-import * as coreAuth from "@azure/core-auth";
 
 describe("Interface compatibility", () => {
   describe("OperationTracingOptions", () => {
