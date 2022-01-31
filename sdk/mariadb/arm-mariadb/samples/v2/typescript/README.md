@@ -1,0 +1,175 @@
+# client library samples for TypeScript
+
+These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+
+| **File Name**                                                                                                         | **Description**                                                                                                                                                                                                                                                |
+| --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [advisorsGet.ts][advisorsget]                                                                                         | Get a recommendation action advisor. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/AdvisorsGet.json                                                                                             |
+| [advisorsListByServer.ts][advisorslistbyserver]                                                                       | List recommendation action advisors. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/AdvisorsListByServer.json                                                                                    |
+| [approveOrRejectAPrivateEndpointConnectionWithAGivenName.ts][approveorrejectaprivateendpointconnectionwithagivenname] | Approve or reject a private endpoint connection with a given name. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/PrivateEndpointConnectionUpdate.json                                           |
+| [configurationCreateOrUpdate.ts][configurationcreateorupdate]                                                         | Updates a configuration of a server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ConfigurationCreateOrUpdate.json                                                                             |
+| [configurationGet.ts][configurationget]                                                                               | Gets information about a configuration of server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ConfigurationGet.json                                                                           |
+| [configurationList.ts][configurationlist]                                                                             | Update a list of configurations in a given server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ConfigurationsUpdateByServer.json                                                              |
+| [createADatabaseAsAPointInTimeRestore.ts][createadatabaseasapointintimerestore]                                       | Creates a new server or updates an existing server. The update action will overwrite the existing server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerCreatePointInTimeRestore.json     |
+| [createANewServer.ts][createanewserver]                                                                               | Creates a new server or updates an existing server. The update action will overwrite the existing server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerCreate.json                       |
+| [createAReplicaServer.ts][createareplicaserver]                                                                       | Creates a new server or updates an existing server. The update action will overwrite the existing server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerCreateReplicaMode.json            |
+| [createAServerAsAGeoRestore.ts][createaserverasageorestore]                                                           | Creates a new server or updates an existing server. The update action will overwrite the existing server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerCreateGeoRestoreMode.json         |
+| [createOrUpdateAVirtualNetworkRule.ts][createorupdateavirtualnetworkrule]                                             | Creates or updates an existing virtual network rule. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/VirtualNetworkRulesCreateOrUpdate.json                                                       |
+| [databaseCreate.ts][databasecreate]                                                                                   | Creates a new database or updates an existing database. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/DatabaseCreate.json                                                                       |
+| [databaseDelete.ts][databasedelete]                                                                                   | Deletes a database. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/DatabaseDelete.json                                                                                                           |
+| [databaseGet.ts][databaseget]                                                                                         | Gets information about a database. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/DatabaseGet.json                                                                                               |
+| [databaseList.ts][databaselist]                                                                                       | List all the databases in a given server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/DatabaseListByServer.json                                                                               |
+| [deleteAVirtualNetworkRule.ts][deleteavirtualnetworkrule]                                                             | Deletes the virtual network rule with the given name. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/VirtualNetworkRulesDelete.json                                                              |
+| [deletesAPrivateEndpointConnectionWithAGivenName.ts][deletesaprivateendpointconnectionwithagivenname]                 | Deletes a private endpoint connection with a given name. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/PrivateEndpointConnectionDelete.json                                                     |
+| [firewallRuleCreate.ts][firewallrulecreate]                                                                           | Creates a new firewall rule or updates an existing firewall rule. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/FirewallRuleCreate.json                                                         |
+| [firewallRuleDelete.ts][firewallruledelete]                                                                           | Deletes a server firewall rule. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/FirewallRuleDelete.json                                                                                           |
+| [firewallRuleGet.ts][firewallruleget]                                                                                 | Gets information about a server firewall rule. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/FirewallRuleGet.json                                                                               |
+| [firewallRuleList.ts][firewallrulelist]                                                                               | List all the firewall rules in a given server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/FirewallRuleListByServer.json                                                                      |
+| [getAServerThreatDetectionPolicy.ts][getaserverthreatdetectionpolicy]                                                 | Get a server's security alert policy. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerSecurityAlertsGet.json                                                                                |
+| [getsAPrivateLinkResourceForMariaDb.ts][getsaprivatelinkresourceformariadb]                                           | Gets a private link resource for MariaDB server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/PrivateLinkResourcesGet.json                                                                     |
+| [getsAVirtualNetworkRule.ts][getsavirtualnetworkrule]                                                                 | Gets a virtual network rule. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/VirtualNetworkRulesGet.json                                                                                          |
+| [getsListOfPrivateEndpointConnectionsOnAServer.ts][getslistofprivateendpointconnectionsonaserver]                     | Gets all private endpoint connections on a server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/PrivateEndpointConnectionList.json                                                             |
+| [getsPrivateEndpointConnection.ts][getsprivateendpointconnection]                                                     | Gets a private endpoint connection. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/PrivateEndpointConnectionGet.json                                                                             |
+| [getsPrivateLinkResourcesForMariaDb.ts][getsprivatelinkresourcesformariadb]                                           | Gets the private link resources for MariaDB server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/PrivateLinkResourcesList.json                                                                 |
+| [listTheServerThreatDetectionPolicies.ts][listtheserverthreatdetectionpolicies]                                       | Get the server's threat detection policies. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerSecurityAlertsListByServer.json                                                                 |
+| [listVirtualNetworkRules.ts][listvirtualnetworkrules]                                                                 | Gets a list of virtual network rules in a server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/VirtualNetworkRulesList.json                                                                    |
+| [logFileList.ts][logfilelist]                                                                                         | List all the log files in a given server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/LogFileListByServer.json                                                                                |
+| [nameAvailability.ts][nameavailability]                                                                               | Check the availability of name for resource x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/CheckNameAvailability.json                                                                            |
+| [operationList.ts][operationlist]                                                                                     | Lists all of the available REST API operations. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/OperationList.json                                                                                |
+| [performanceTiersList.ts][performancetierslist]                                                                       | List all the performance tiers at specified location in a given subscription. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/PerformanceTiersListByLocation.json                                 |
+| [queryPerformanceInsightResetData.ts][queryperformanceinsightresetdata]                                               | Reset data for Query Performance Insight. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/QueryPerformanceInsightResetData.json                                                                   |
+| [queryTextsGet.ts][querytextsget]                                                                                     | Retrieve the Query-Store query texts for the queryId. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/QueryTextsGet.json                                                                          |
+| [queryTextsListByServer.ts][querytextslistbyserver]                                                                   | Retrieve the Query-Store query texts for specified queryIds. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/QueryTextsListByServer.json                                                          |
+| [recommendedActionSessionCreate.ts][recommendedactionsessioncreate]                                                   | Create recommendation action session for the advisor. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/RecommendedActionSessionCreate.json                                                         |
+| [recommendedActionSessionOperationStatus.ts][recommendedactionsessionoperationstatus]                                 | Recommendation action session operation status. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/RecommendedActionSessionOperationStatus.json                                                      |
+| [recommendedActionSessionResult.ts][recommendedactionsessionresult]                                                   | Recommendation action session operation result. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/RecommendedActionSessionResult.json                                                               |
+| [recommendedActionsGet.ts][recommendedactionsget]                                                                     | Retrieve recommended actions from the advisor. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/RecommendedActionsGet.json                                                                         |
+| [recommendedActionsListByServer.ts][recommendedactionslistbyserver]                                                   | Retrieve recommended actions from the advisor. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/RecommendedActionsListByServer.json                                                                |
+| [replicasListByServer.ts][replicaslistbyserver]                                                                       | Gets a recoverable MariaDB Server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/RecoverableServersGet.json                                                                                     |
+| [serverDelete.ts][serverdelete]                                                                                       | Deletes a server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerDelete.json                                                                                                               |
+| [serverGet.ts][serverget]                                                                                             | Gets information about a server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerGet.json                                                                                                   |
+| [serverList.ts][serverlist]                                                                                           | List all the servers in a given subscription. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerList.json                                                                                     |
+| [serverListByResourceGroup.ts][serverlistbyresourcegroup]                                                             | List all the servers in a given resource group. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerListByResourceGroup.json                                                                    |
+| [serverRestart.ts][serverrestart]                                                                                     | Restarts a server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerRestart.json                                                                                                             |
+| [serverStart.ts][serverstart]                                                                                         | Starts a stopped server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2020-01-01/examples/ServerStart.json                                                                                                         |
+| [serverStop.ts][serverstop]                                                                                           | Stops a running server. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2020-01-01/examples/ServerStop.json                                                                                                           |
+| [serverUpdate.ts][serverupdate]                                                                                       | Updates an existing server. The request body can contain one to many of the properties present in the normal server definition. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerUpdate.json |
+| [topQueryStatisticsGet.ts][topquerystatisticsget]                                                                     | Retrieve the query statistic for specified identifier. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/TopQueryStatisticsGet.json                                                                 |
+| [topQueryStatisticsListByServer.ts][topquerystatisticslistbyserver]                                                   | Retrieve the Query-Store top queries for specified metric and aggregation. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/TopQueryStatisticsListByServer.json                                    |
+| [updateAServerThreatDetectionPolicyWithAllParameters.ts][updateaserverthreatdetectionpolicywithallparameters]         | Creates or updates a threat detection policy. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerSecurityAlertsCreateMax.json                                                                  |
+| [updateAServerThreatDetectionPolicyWithMinimalParameters.ts][updateaserverthreatdetectionpolicywithminimalparameters] | Creates or updates a threat detection policy. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/ServerSecurityAlertsCreateMin.json                                                                  |
+| [updatePrivateEndpointConnectionTags.ts][updateprivateendpointconnectiontags]                                         | Updates private endpoint connection with the specified tags. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/PrivateEndpointConnectionUpdateTags.json                                             |
+| [waitStatisticsGet.ts][waitstatisticsget]                                                                             | Retrieve wait statistics for specified identifier. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/WaitStatisticsGet.json                                                                         |
+| [waitStatisticsListByServer.ts][waitstatisticslistbyserver]                                                           | Retrieve wait statistics for specified aggregation window. x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/WaitStatisticsListByServer.json                                                        |
+
+## Prerequisites
+
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+
+Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
+
+```bash
+npm install -g typescript
+```
+
+You need [an Azure subscription][freesub] to run these sample programs.
+
+Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
+
+Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
+
+## Setup
+
+To run the samples using the published version of the package:
+
+1. Install the dependencies using `npm`:
+
+```bash
+npm install
+```
+
+2. Compile the samples:
+
+```bash
+npm run build
+```
+
+3. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
+
+4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+
+```bash
+node dist/advisorsGet.js
+```
+
+Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+
+```bash
+npx cross-env  node dist/advisorsGet.js
+```
+
+## Next Steps
+
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+
+[advisorsget]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/advisorsGet.ts
+[advisorslistbyserver]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/advisorsListByServer.ts
+[approveorrejectaprivateendpointconnectionwithagivenname]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/approveOrRejectAPrivateEndpointConnectionWithAGivenName.ts
+[configurationcreateorupdate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/configurationCreateOrUpdate.ts
+[configurationget]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/configurationGet.ts
+[configurationlist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/configurationList.ts
+[createadatabaseasapointintimerestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/createADatabaseAsAPointInTimeRestore.ts
+[createanewserver]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/createANewServer.ts
+[createareplicaserver]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/createAReplicaServer.ts
+[createaserverasageorestore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/createAServerAsAGeoRestore.ts
+[createorupdateavirtualnetworkrule]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/createOrUpdateAVirtualNetworkRule.ts
+[databasecreate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/databaseCreate.ts
+[databasedelete]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/databaseDelete.ts
+[databaseget]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/databaseGet.ts
+[databaselist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/databaseList.ts
+[deleteavirtualnetworkrule]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/deleteAVirtualNetworkRule.ts
+[deletesaprivateendpointconnectionwithagivenname]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/deletesAPrivateEndpointConnectionWithAGivenName.ts
+[firewallrulecreate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/firewallRuleCreate.ts
+[firewallruledelete]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/firewallRuleDelete.ts
+[firewallruleget]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/firewallRuleGet.ts
+[firewallrulelist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/firewallRuleList.ts
+[getaserverthreatdetectionpolicy]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/getAServerThreatDetectionPolicy.ts
+[getsaprivatelinkresourceformariadb]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/getsAPrivateLinkResourceForMariaDb.ts
+[getsavirtualnetworkrule]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/getsAVirtualNetworkRule.ts
+[getslistofprivateendpointconnectionsonaserver]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/getsListOfPrivateEndpointConnectionsOnAServer.ts
+[getsprivateendpointconnection]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/getsPrivateEndpointConnection.ts
+[getsprivatelinkresourcesformariadb]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/getsPrivateLinkResourcesForMariaDb.ts
+[listtheserverthreatdetectionpolicies]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/listTheServerThreatDetectionPolicies.ts
+[listvirtualnetworkrules]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/listVirtualNetworkRules.ts
+[logfilelist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/logFileList.ts
+[nameavailability]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/nameAvailability.ts
+[operationlist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/operationList.ts
+[performancetierslist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/performanceTiersList.ts
+[queryperformanceinsightresetdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/queryPerformanceInsightResetData.ts
+[querytextsget]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/queryTextsGet.ts
+[querytextslistbyserver]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/queryTextsListByServer.ts
+[recommendedactionsessioncreate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/recommendedActionSessionCreate.ts
+[recommendedactionsessionoperationstatus]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/recommendedActionSessionOperationStatus.ts
+[recommendedactionsessionresult]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/recommendedActionSessionResult.ts
+[recommendedactionsget]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/recommendedActionsGet.ts
+[recommendedactionslistbyserver]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/recommendedActionsListByServer.ts
+[replicaslistbyserver]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/replicasListByServer.ts
+[serverdelete]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/serverDelete.ts
+[serverget]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/serverGet.ts
+[serverlist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/serverList.ts
+[serverlistbyresourcegroup]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/serverListByResourceGroup.ts
+[serverrestart]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/serverRestart.ts
+[serverstart]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/serverStart.ts
+[serverstop]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/serverStop.ts
+[serverupdate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/serverUpdate.ts
+[topquerystatisticsget]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/topQueryStatisticsGet.ts
+[topquerystatisticslistbyserver]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/topQueryStatisticsListByServer.ts
+[updateaserverthreatdetectionpolicywithallparameters]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/updateAServerThreatDetectionPolicyWithAllParameters.ts
+[updateaserverthreatdetectionpolicywithminimalparameters]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/updateAServerThreatDetectionPolicyWithMinimalParameters.ts
+[updateprivateendpointconnectiontags]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/updatePrivateEndpointConnectionTags.ts
+[waitstatisticsget]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/waitStatisticsGet.ts
+[waitstatisticslistbyserver]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mariadb/arm-mariadb/samples/v2/typescript/src/waitStatisticsListByServer.ts
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-mariadb?view=azure-node-preview
+[freesub]: https://azure.microsoft.com/free/
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mariadb/arm-mariadb/README.md
+[typescript]: https://www.typescriptlang.org/docs/home.html

@@ -12,6 +12,7 @@ import { Durations, LogsQueryClient, LogsQueryResultStatus, QueryBatch } from ".
 import { assertQueryTable, getMonitorWorkspaceId, loggerForTest } from "./shared/testShared";
 import { ErrorInfo } from "../../src/generated/logquery/src";
 import { RestError } from "@azure/core-rest-pipeline";
+import { setLogLevel } from "@azure/logger";
 
 describe("LogsQueryClient live tests", function () {
   let monitorWorkspaceId: string;
@@ -228,7 +229,6 @@ describe("LogsQueryClient live tests", function () {
     }
     if (result[0].status === LogsQueryResultStatus.Success) {
       const table = result[0].tables[0];
-      console.log(JSON.stringify(result[0].tables));
 
       // check the column types all match what we expect.
       assert.deepEqual(
@@ -460,6 +460,7 @@ describe("LogsQueryClient live tests - server timeout", function () {
   let recorder: Recorder;
 
   beforeEach(function (this: Context) {
+    setLogLevel("verbose");
     loggerForTest.verbose(`Recorder: starting...`);
     const recordedClient: RecorderAndLogsClient = createRecorderAndLogsClient(this, {
       maxRetries: 0,

@@ -28,7 +28,13 @@ export function getRequestUrl(
 
   let requestUrl = replaceAll(baseUri, urlReplacements);
   if (operationSpec.path) {
-    const path = replaceAll(operationSpec.path, urlReplacements);
+    let path = replaceAll(operationSpec.path, urlReplacements);
+    // QUIRK: sometimes we get a path component like /{nextLink}
+    // which may be a fully formed URL with a leading /. In that case, we should
+    // remove the leading /
+    if (operationSpec.path === "/{nextLink}" && path.startsWith("/")) {
+      path = path.substring(1);
+    }
     // QUIRK: sometimes we get a path component like {nextLink}
     // which may be a fully formed URL. In that case, we should
     // ignore the baseUri.

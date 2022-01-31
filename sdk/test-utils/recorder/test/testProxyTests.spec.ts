@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { ServiceClient } from "@azure/core-client";
-import { isLiveMode, isPlaybackMode, Recorder } from "../src";
-import { TestMode } from "../src/utils/utils";
+import { isPlaybackMode, Recorder } from "../src";
+import { isLiveMode, TestMode } from "../src/utils/utils";
 import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
 
 // These tests require the following to be running in parallel
@@ -111,12 +111,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
       it("transformsInfo()", async () => {
         if (!isLiveMode()) {
           await recorder.start({ envSetupForPlayback: {} });
-
-          if (!recorder["sanitizer"]) {
-            throw new Error("expected recorder.sanitizer to be defined at this point");
-          }
-
-          await recorder["sanitizer"].transformsInfo();
+          await recorder.transformsInfo();
         }
       });
     });
