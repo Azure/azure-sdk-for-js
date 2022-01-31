@@ -180,7 +180,7 @@ specifiers:
   '@rush-temp/data-tables': file:./projects/data-tables.tgz
   '@rush-temp/dev-tool': file:./projects/dev-tool.tgz
   '@rush-temp/digital-twins-core': file:./projects/digital-twins-core.tgz
-  '@rush-temp/digital-twins-parser': file:./projects/digital-twins-parser.tgz
+  '@rush-temp/dtdl-parser': file:./projects/dtdl-parser.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:./projects/eslint-plugin-azure-sdk.tgz
   '@rush-temp/event-hubs': file:./projects/event-hubs.tgz
   '@rush-temp/eventgrid': file:./projects/eventgrid.tgz
@@ -435,7 +435,7 @@ dependencies:
   '@rush-temp/data-tables': file:projects/data-tables.tgz
   '@rush-temp/dev-tool': file:projects/dev-tool.tgz
   '@rush-temp/digital-twins-core': file:projects/digital-twins-core.tgz
-  '@rush-temp/digital-twins-parser': file:projects/digital-twins-parser.tgz
+  '@rush-temp/dtdl-parser': file:projects/dtdl-parser.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:projects/eslint-plugin-azure-sdk.tgz
   '@rush-temp/event-hubs': file:projects/event-hubs.tgz
   '@rush-temp/eventgrid': file:projects/eventgrid.tgz
@@ -6597,6 +6597,7 @@ packages:
   /puppeteer/10.4.0:
     resolution: {integrity: sha512-2cP8mBoqnu5gzAVpbZ0fRaobBWZM8GEUF4I1F6WbgHrKV/rz7SX8PG2wMymZgD0wo0UBlg2FBPNxlF/xlqW6+w==}
     engines: {node: '>=10.18.1'}
+    deprecated: Version no longer supported. Upgrade to @latest
     requiresBuild: true
     dependencies:
       debug: 4.3.1
@@ -13731,9 +13732,9 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/digital-twins-parser.tgz:
-    resolution: {integrity: sha512-KA9Cr+w1A+qqEwItVpnhn3n52q58xuml2paOjXt3Of9uVHf1cEWxA48MRUeWGS6yuu6AtrmVmA58k63oQS9oPA==, tarball: file:projects/digital-twins-parser.tgz}
-    name: '@rush-temp/digital-twins-parser'
+  file:projects/dtdl-parser.tgz:
+    resolution: {integrity: sha512-opCQvI+8GN8JT+M59lS/0PgGp2yg2N53jaxDiwVBv1Z6ABcY8ezQwas59YzXC5efoiBGy09GGDB4haGQmf6RWw==, tarball: file:projects/dtdl-parser.tgz}
+    name: '@rush-temp/dtdl-parser'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
@@ -15516,7 +15517,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-nYoV4QCq4gGBjhk2hz9opui4CbCRNv3bcVGgDVCIqiso9PbCyWb6CqNqsSZyT7F2NIpVfGSNtElbrVDgx/2i/g==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-5UtOuttINU0oudMsUZZu5Oe/UEj0uR1Y8R/rGnzNq8YPJCpscqQ2QjGXpT0LKv6Xf3vhNVhUdcg4eRaHTok/Rg==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:

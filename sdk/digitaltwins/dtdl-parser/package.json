@@ -10,7 +10,7 @@
     "./dist-esm/src/utils/getFilenames.js": "./dist-esm/src/utils/getFilenames.browser.js",
     "./dist-esm/src/utils/getTestcase.js": "./dist-esm/src/utils/getTestcase.browser.js"
   },
-  "types": "types/digital-twins-parser.d.ts",
+  "types": "types/dtdl-parser.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -40,7 +40,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/digital-twins-parser.d.ts",
+    "types/dtdl-parser.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -61,7 +61,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digital-twins/digital-twins-parser/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digital-twins/dtdl-parser/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {

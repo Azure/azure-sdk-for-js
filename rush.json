@@ -753,7 +753,7 @@
     },
     {
       "packageName": "@azure/dtdl-parser",
-      "projectFolder": "sdk/digitaltwins/digital-twins-parser"
+      "projectFolder": "sdk/digitaltwins/dtdl-parser"
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",
