@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import * as avro from "avsc";
+import LRUCache from "lru-cache";
+import LRUCacheOptions = LRUCache.Options;
 import {
   DecodeMessageDataOptions,
   MessageAdapter,
@@ -11,15 +13,20 @@ import {
 import { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import { isMessageWithMetadata } from "./utility";
 
+type AVSCEncoder = avro.Type;
+
 interface CacheEntry {
   /** Schema ID */
   id: string;
 
   /** avsc-specific representation for schema */
-  type: avro.Type;
+  encoder: AVSCEncoder;
 }
 
 const avroMimeType = "avro/binary";
+const cacheOptions: LRUCacheOptions<string, any> = {
+  max: 128,
+};
 
 /**
  * Avro encoder that obtains schemas from a schema registry and does not
@@ -43,11 +50,9 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
   private readonly registry: SchemaRegistry;
   private readonly autoRegisterSchemas: boolean;
   private readonly messageAdapter?: MessageAdapter<MessageT>;
+  private readonly cacheBySchemaDefinition = new LRUCache<string, CacheEntry>(cacheOptions);
+  private readonly cacheById = new LRUCache<string, AVSCEncoder>(cacheOptions);
 
-  // REVIEW: signature.
-  //
-  // - Should we wrap all errors thrown by avsc to avoid having our exception //
-  //   contract being tied to its implementation details?
   /**
    * encodes the value parameter according to the input schema and creates a message
    * with the encoded data.
@@ -59,7 +64,7 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
    */
   async encodeMessageData(value: unknown, schema: string): Promise<MessageT> {
     const entry = await this.getSchemaByDefinition(schema);
-    const buffer = entry.type.toBuffer(value);
+    const buffer = entry.encoder.toBuffer(value);
     const payload = new Uint8Array(
       buffer.buffer,
       buffer.byteOffset,
@@ -95,23 +100,20 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
     options: DecodeMessageDataOptions = {}
   ): Promise<unknown> {
     const { schema: readerSchema } = options;
-    const { body, contentType } = getPayloadAndContent(message, this.messageAdapter);
+    const { body, contentType } = convertMessage(message, this.messageAdapter);
     const buffer = Buffer.from(body);
     const writerSchemaId = getSchemaId(contentType);
-    const writerSchema = await this.getSchema(writerSchemaId);
+    const writerSchemaEncoder = await this.getSchemaById(writerSchemaId);
     if (readerSchema) {
-      const avscReaderSchema = this.getAvroTypeForSchema(readerSchema);
-      const resolver = avscReaderSchema.createResolver(writerSchema.type);
-      return avscReaderSchema.fromBuffer(buffer, resolver, true);
+      const readerSchemaEncoder = getEncoderForSchema(readerSchema);
+      const resolver = readerSchemaEncoder.createResolver(writerSchemaEncoder);
+      return readerSchemaEncoder.fromBuffer(buffer, resolver, true);
     } else {
-      return writerSchema.type.fromBuffer(buffer);
+      return writerSchemaEncoder.fromBuffer(buffer);
     }
   }
 
-  private readonly cacheBySchemaDefinition = new Map<string, CacheEntry>();
-  private readonly cacheById = new Map<string, CacheEntry>();
-
-  private async getSchema(schemaId: string): Promise<CacheEntry> {
+  private async getSchemaById(schemaId: string): Promise<AVSCEncoder> {
     const cached = this.cacheById.get(schemaId);
     if (cached) {
       return cached;
@@ -128,8 +130,8 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
       );
     }
 
-    const avroType = this.getAvroTypeForSchema(schemaResponse.definition);
-    return this.cache(schemaId, schemaResponse.definition, avroType);
+    const avroType = getEncoderForSchema(schemaResponse.definition);
+    return this.cache(schemaId, schemaResponse.definition, avroType).encoder;
   }
 
   private async getSchemaByDefinition(schema: string): Promise<CacheEntry> {
@@ -138,7 +140,7 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
       return cached;
     }
 
-    const avroType = this.getAvroTypeForSchema(schema);
+    const avroType = getEncoderForSchema(schema);
     if (!avroType.name) {
       throw new Error("Schema must have a name.");
     }
@@ -176,15 +178,11 @@ export class SchemaRegistryAvroEncoder<MessageT = MessageWithMetadata> {
     return this.cache(id, schema, avroType);
   }
 
-  private cache(id: string, schema: string, type: avro.Type): CacheEntry {
-    const entry = { id, type };
+  private cache(id: string, schema: string, encoder: AVSCEncoder): CacheEntry {
+    const entry = { id, encoder };
     this.cacheBySchemaDefinition.set(schema, entry);
-    this.cacheById.set(id, entry);
+    this.cacheById.set(id, encoder);
     return entry;
-  }
-
-  private getAvroTypeForSchema(schema: string): avro.Type {
-    return avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true });
   }
 }
 
@@ -201,18 +199,67 @@ function getSchemaId(contentType: string): string {
   return contentTypeParts[1];
 }
 
-function getPayloadAndContent<MessageT>(
+/**
+ * Tries to decode a body in the preamble format. If that does not succeed, it
+ * returns it as is.
+ * @param body - The message body
+ * @param contentType - The message content type
+ * @returns a message with metadata
+ */
+function convertPayload(body: Uint8Array, contentType: string): MessageWithMetadata {
+  try {
+    return tryReadingPreambleFormat(Buffer.from(body));
+  } catch (_e: unknown) {
+    return {
+      body,
+      contentType,
+    };
+  }
+}
+
+function convertMessage<MessageT>(
   message: MessageT,
-  messageAdapter?: MessageAdapter<MessageT>
+  adapter?: MessageAdapter<MessageT>
 ): MessageWithMetadata {
-  const messageConsumer = messageAdapter?.consumeMessage;
+  const messageConsumer = adapter?.consumeMessage;
   if (messageConsumer) {
-    return messageConsumer(message);
+    const { body, contentType } = messageConsumer(message);
+    return convertPayload(body, contentType);
   } else if (isMessageWithMetadata(message)) {
-    return message;
+    return convertPayload(message.body, message.contentType);
   } else {
     throw new Error(
-      `Either the messageConsumer option should be defined or the message should have body and contentType fields`
+      `Expected either a message adapter to be provided to the encoder or the input message to have body and contentType fields`
     );
   }
+}
+
+/**
+ * Maintains backward compatability by supporting the encoded value format created
+ * by earlier beta serializers
+ * @param buffer - The input buffer
+ * @returns a message that contains the body and content type with the schema ID
+ */
+function tryReadingPreambleFormat(buffer: Buffer): MessageWithMetadata {
+  const FORMAT_INDICATOR = 0;
+  const SCHEMA_ID_OFFSET = 4;
+  const PAYLOAD_OFFSET = 36;
+  if (buffer.length < PAYLOAD_OFFSET) {
+    throw new RangeError("Buffer is too small to have the correct format.");
+  }
+  const format = buffer.readUInt32BE(0);
+  if (format !== FORMAT_INDICATOR) {
+    throw new TypeError(`Buffer has unknown format indicator.`);
+  }
+  const schemaIdBuffer = buffer.slice(SCHEMA_ID_OFFSET, PAYLOAD_OFFSET);
+  const schemaId = schemaIdBuffer.toString("utf-8");
+  const payloadBuffer = buffer.slice(PAYLOAD_OFFSET);
+  return {
+    body: payloadBuffer,
+    contentType: `${avroMimeType}+${schemaId}`,
+  };
+}
+
+function getEncoderForSchema(schema: string): AVSCEncoder {
+  return avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true });
 }

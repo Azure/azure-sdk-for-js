@@ -54,54 +54,68 @@ export class RecordingStateManager {
  */
 export type ProxyToolSanitizers =
   | "GeneralRegexSanitizer"
+  | "GeneralStringSanitizer"
   | "RemoveHeaderSanitizer"
   | "BodyKeySanitizer"
   | "BodyRegexSanitizer"
+  | "BodyStringSanitizer"
   | "ContinuationSanitizer"
   | "HeaderRegexSanitizer"
+  | "HeaderStringSanitizer"
   | "OAuthResponseSanitizer"
   | "UriRegexSanitizer"
+  | "UriStringSanitizer"
   | "UriSubscriptionIdSanitizer"
   | "Reset";
-
-/**
- * Maps the sanitizer options to the header value expected by the proxy-tool
- *
- * Keys   = Keys of the SanitizerOptions(excluding `connectionStringSanitizers`)
- * Values = Keywords that should be passed as part of the headers to the proxy-tool to be able to leverage the sanitizer.
- */
-export const sanitizerKeywordMapping: Record<
-  Exclude<keyof SanitizerOptions, "connectionStringSanitizers">,
-  ProxyToolSanitizers
-> = {
-  bodyKeySanitizers: "BodyKeySanitizer",
-  bodyRegexSanitizers: "BodyRegexSanitizer",
-  continuationSanitizers: "ContinuationSanitizer",
-  generalRegexSanitizers: "GeneralRegexSanitizer",
-  headerRegexSanitizers: "HeaderRegexSanitizer",
-  oAuthResponseSanitizer: "OAuthResponseSanitizer",
-  removeHeaderSanitizer: "RemoveHeaderSanitizer",
-  resetSanitizer: "Reset",
-  uriRegexSanitizers: "UriRegexSanitizer",
-  uriSubscriptionIdSanitizer: "UriSubscriptionIdSanitizer",
-};
 
 /**
  * This sanitizer offers a general regex replace across request/response Body, Headers, and URI. For the body, this means regex applying to the raw JSON.
  */
 export interface RegexSanitizer {
   /**
+   * Set to true to show that regex replacement is to be used.
+   */
+  regex: true;
+
+  /**
    * The substitution value.
    */
   value: string;
+
   /**
    * A regex. Can be defined as a simple regex replace OR if groupForReplace is set, a substitution operation.
    */
-  regex?: string;
+  target: string;
   /**
    * The capture group that needs to be operated upon. Do not set if you're invoking a simple replacement operation.
    */
   groupForReplace?: string;
+}
+
+/**
+ * A sanitizer that performs a simple find/replace based on a plain string.
+ */
+export interface StringSanitizer {
+  /**
+   * If regex is set to false or is not specified, plain-text matching will be performed.
+   */
+  regex?: false;
+
+  /**
+   * The string to be replaced.
+   */
+  target: string;
+
+  /**
+   * The value that the string should be replaced with.
+   */
+  value: string;
+}
+
+export type FindReplaceSanitizer = RegexSanitizer | StringSanitizer;
+
+export function isStringSanitizer(sanitizer: FindReplaceSanitizer): sanitizer is StringSanitizer {
+  return !sanitizer.regex;
 }
 
 /**
@@ -115,12 +129,18 @@ export interface RegexSanitizer {
  *
  * If the body is NOT a JSON object, this sanitizer will NOT be applied.
  */
-interface BodyKeySanitizer extends RegexSanitizer {
+type BodyKeySanitizer = {
+  regex?: string;
+
+  value?: string;
+
+  groupForReplace?: string;
+
   /**
    * The SelectToken path (which could possibly match multiple entries) that will be used to select JTokens for value replacement.
    */
   jsonPath: string;
-}
+};
 
 /**
  * Can be used for multiple purposes:
@@ -129,19 +149,22 @@ interface BodyKeySanitizer extends RegexSanitizer {
  * 2) To do a simple regex replace operation, define arguments "key", "value", and "regex"
  * 3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"
  */
-interface HeaderRegexSanitizer extends RegexSanitizer {
-  /**
-   * The name of the header we're operating against.
-   */
+export interface HeaderSanitizer {
   key: string;
+
+  regex?: boolean;
+  target?: string;
+  value?: string;
+  groupForReplace?: string;
 }
+
 /**
  * Internally,
  * - connection strings are parsed and
  * - each part of the connection string is mapped with its corresponding fake value
  * - `generalRegexSanitizer` is applied for each of the parts with the real and fake values that are parsed
  */
-interface ConnectionStringSanitizer {
+export interface ConnectionStringSanitizer {
   /**
    * Real connection string with all the secrets
    */
@@ -152,6 +175,16 @@ interface ConnectionStringSanitizer {
   fakeConnString: string;
 }
 
+export interface ContinuationSanitizer {
+  key: string;
+  method?: string;
+  resetAfterFirst: boolean;
+}
+
+export interface RemoveHeaderSanitizer {
+  headersForRemoval: string[];
+}
+
 /**
  * Test-proxy tool supports "extensions" or "customizations" to the recording experience.
  * This means that non-default sanitizations such as the generalized regex find/replace on different parts of the recordings in various ways are possible.
@@ -160,14 +193,8 @@ export interface SanitizerOptions {
   /**
    * This sanitizer offers a general regex replace across request/response Body, Headers, and URI. For the body, this means regex applying to the raw JSON.
    */
-  generalRegexSanitizers?: RegexSanitizer[];
-  /**
-   * Internally,
-   * - connection strings are parsed and
-   * - each part of the connection string is mapped with its corresponding fake value
-   * - `generalRegexSanitizer` is applied for each of the parts with the real and fake values that are parsed
-   */
-  connectionStringSanitizers?: ConnectionStringSanitizer[];
+  generalSanitizers?: FindReplaceSanitizer[];
+
   /**
    * This sanitizer offers regex replace within a returned body.
    *
@@ -176,7 +203,27 @@ export interface SanitizerOptions {
    *
    * Regardless, there are examples present in `recorder-new/test/testProxyTests.spec.ts`.
    */
-  bodyRegexSanitizers?: RegexSanitizer[];
+  bodySanitizers?: FindReplaceSanitizer[];
+  /**
+   * Can be used for multiple purposes:
+   *
+   * 1) To replace a key with a specific value, do not set "regex" value.
+   * 2) To do a simple regex replace operation, define arguments "key", "value", and "regex"
+   * 3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"
+   */
+  headerSanitizers?: HeaderSanitizer[];
+  /**
+   * General use sanitizer for cleaning URIs via regex. Runs a regex replace on the member of your choice.
+   */
+  uriSanitizers?: FindReplaceSanitizer[];
+  /**
+   * Internally,
+   * - connection strings are parsed and
+   * - each part of the connection string is mapped with its corresponding fake value
+   * - `generalRegexSanitizer` is applied for each of the parts with the real and fake values that are parsed
+   */
+  connectionStringSanitizers?: ConnectionStringSanitizer[];
+
   /**
    * This sanitizer offers regex update of a specific JTokenPath.
    *
@@ -189,37 +236,24 @@ export interface SanitizerOptions {
    * If the body is NOT a JSON object, this sanitizer will NOT be applied.
    */
   bodyKeySanitizers?: BodyKeySanitizer[];
+
   /**
    * TODO
    * Has a bug, not implemented fully.
    */
-  continuationSanitizers?: Array<{ key: string; method?: string; resetAfterFirst: boolean }>;
-  /**
-   * Can be used for multiple purposes:
-   *
-   * 1) To replace a key with a specific value, do not set "regex" value.
-   * 2) To do a simple regex replace operation, define arguments "key", "value", and "regex"
-   * 3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"
-   */
-  headerRegexSanitizers?: HeaderRegexSanitizer[];
-  /**
-   * General use sanitizer for cleaning URIs via regex. Runs a regex replace on the member of your choice.
-   */
-  uriRegexSanitizers?: RegexSanitizer[];
+  continuationSanitizers?: ContinuationSanitizer[];
+
   /**
    * A simple sanitizer that should be used to clean out one or multiple headers by their key.
    * Removes headers from before saving a recording.
    */
-  removeHeaderSanitizer?: {
-    /**
-     * Array of header names.
-     */
-    headersForRemoval: string[];
-  };
+  removeHeaderSanitizer?: RemoveHeaderSanitizer;
+
   /**
    * TODO: To be tested with scenarios, not to be used yet.
    */
   oAuthResponseSanitizer?: boolean;
+
   /**
    * This sanitizer relies on UriRegexSanitizer to replace real subscriptionIds within a URI w/ a default or configured fake value.
    * This sanitizer is targeted using the regex "/subscriptions/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})". This is not a setting that can be changed for this sanitizer. For full regex support, take a look at UriRegexSanitizer. You CAN modify the value that the subscriptionId is replaced WITH however.
@@ -230,6 +264,7 @@ export interface SanitizerOptions {
      */
     value: string;
   };
+
   /**
    * This clears the sanitizers that are added.
    */

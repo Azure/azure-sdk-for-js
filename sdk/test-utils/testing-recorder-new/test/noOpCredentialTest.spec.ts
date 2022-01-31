@@ -16,9 +16,9 @@ const getRecorderStartOptions = (): RecorderStartOptions => {
       AZURE_TENANT_ID: "azuretenantid",
     },
     sanitizerOptions: {
-      bodyRegexSanitizers: [
+      bodySanitizers: [
         {
-          regex: env.TABLES_URL ? encodeURIComponent(env.TABLES_URL) : undefined,
+          target: encodeURIComponent(env.TABLES_URL ?? ""),
           value: encodeURIComponent(`https://fakeaccount.table.core.windows.net`),
         },
       ],

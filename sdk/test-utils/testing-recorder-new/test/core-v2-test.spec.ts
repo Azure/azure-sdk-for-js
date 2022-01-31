@@ -15,7 +15,7 @@ const sanitizerOptions: SanitizerOptions = {
     },
   ],
   removeHeaderSanitizer: { headersForRemoval: ["X-Content-Type-Options"] },
-  generalRegexSanitizers: [{ regex: "abc", value: "fake_abc" }],
+  generalSanitizers: [{ target: "abc", value: "fake_abc" }],
 };
 
 const recorderOptions: RecorderStartOptions = {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { XMLBuilder, XMLValidator, XMLParser } from "fast-xml-parser";
+import { XMLBuilder, XMLParser, XMLValidator } from "fast-xml-parser";
 import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./xml.common";
 
 function getCommonOptions(options: XmlOptions) {

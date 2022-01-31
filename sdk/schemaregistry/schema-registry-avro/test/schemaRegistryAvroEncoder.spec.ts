@@ -78,6 +78,13 @@ describe("SchemaRegistryAvroEncoder", function () {
     const buffer = Buffer.from(message.body);
     assert.strictEqual(`avro/binary+${schemaId}`, message.contentType);
     assert.deepStrictEqual(testAvroType.fromBuffer(buffer), testValue);
+    assert.equal(encoder["cacheById"].length, 1);
+    assert.equal(
+      encoder["cacheById"].peek(schemaId)?.name,
+      "com.azure.schemaregistry.samples.AvroUser"
+    );
+    assert.equal(encoder["cacheBySchemaDefinition"].length, 1);
+    assert.equal(encoder["cacheBySchemaDefinition"].peek(testSchema)?.id, schemaId);
   });
 
   it("decodes from the expected format", async () => {
@@ -188,5 +195,69 @@ describe("SchemaRegistryAvroEncoder", function () {
       }),
       /no matching field for default-less com.azure.schemaregistry.samples.AvroUser.age/
     );
+  });
+
+  it("decodes from the old format", async () => {
+    const registry = createTestRegistry();
+    const schemaId = await registerTestSchema(registry);
+    const encoder = await createTestEncoder(false, registry);
+    const payload = testAvroType.toBuffer(testValue);
+    const buffer = Buffer.alloc(36 + payload.length);
+
+    buffer.write(schemaId, 4, 32, "utf-8");
+    payload.copy(buffer, 36);
+    assert.deepStrictEqual(
+      await encoder.decodeMessageData({
+        body: buffer,
+        contentType: "avro/binary+000",
+      }),
+      testValue
+    );
+  });
+
+  it("cache size growth is bounded", async () => {
+    function makeRndStr(length: number): string {
+      let result = "";
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      return result;
+    }
+
+    const registry = createTestRegistry();
+    const encoder = await createTestEncoder(true, registry);
+    const entriesMaxCount = encoder["cacheById"].max;
+    const itersCount = 2 * entriesMaxCount;
+    assert.isAtLeast(itersCount, entriesMaxCount + 1);
+    let i = 0;
+    for (; i < itersCount; ++i) {
+      const field1 = makeRndStr(10);
+      const field2 = makeRndStr(10);
+      const valueToBeEncoded = JSON.parse(`{ "${field1}": "Nick", "${field2}": 42 }`);
+      const schemaToEncodeWith = JSON.stringify({
+        type: "record",
+        name: makeRndStr(8),
+        namespace: "com.azure.schemaregistry.samples",
+        fields: [
+          {
+            name: field1,
+            type: "string",
+          },
+          {
+            name: field2,
+            type: "int",
+          },
+        ],
+      });
+      await encoder.encodeMessageData(valueToBeEncoded, schemaToEncodeWith);
+      if (i < entriesMaxCount) {
+        assert.equal(encoder["cacheById"].length, i + 1);
+        assert.equal(encoder["cacheBySchemaDefinition"].length, i + 1);
+      } else {
+        assert.equal(encoder["cacheById"].length, entriesMaxCount);
+        assert.equal(encoder["cacheBySchemaDefinition"].length, entriesMaxCount);
+      }
+    }
   });
 });
