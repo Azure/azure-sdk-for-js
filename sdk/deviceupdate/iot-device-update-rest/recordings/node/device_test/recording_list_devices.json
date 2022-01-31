@@ -1,0 +1,111 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/devices?api-version=2021-06-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "12903ddc-88d8-448f-8e58-6cba9279e286"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "1697",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 20 Jan 2022 11:48:44 GMT",
+        "traceparent": "00-3bd67a6f2048217f66bcd4f2f69f43ca-ed10e59983fe8d1b-00"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "deviceId": "adu-sdk-test-device-1",
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1",
+            "manufacturer": "fabrikam",
+            "model": "vacuum",
+            "lastAttemptedUpdateId": null,
+            "installedUpdateId": null,
+            "onLatestUpdate": false,
+            "deploymentStatus": "Succeeded",
+            "groupId": "testgroup",
+            "lastDeploymentId": null,
+            "lastInstallResult": {
+              "updateInstallResult": {
+                "resultCode": 700,
+                "extendedResultCode": 0,
+                "resultDetails": ""
+              },
+              "resultCode": 700,
+              "extendedResultCode": 0,
+              "resultDetails": ""
+            }
+          },
+          {
+            "deviceId": "joseph-edgevm2",
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1",
+            "manufacturer": "fabrikam",
+            "model": "vacuum",
+            "lastAttemptedUpdateId": {
+              "provider": "fabrikam",
+              "name": "vacuum",
+              "version": "2022.106.1154.40"
+            },
+            "installedUpdateId": {
+              "provider": "fabrikam",
+              "name": "vacuum",
+              "version": "2022.106.1154.40"
+            },
+            "onLatestUpdate": false,
+            "deploymentStatus": "Succeeded",
+            "groupId": "joegroup",
+            "lastDeploymentId": "joegroup-2022-106-1154-40-0106075652",
+            "lastInstallResult": {
+              "updateInstallResult": {
+                "resultCode": 700,
+                "extendedResultCode": 0,
+                "resultDetails": ""
+              },
+              "resultCode": 700,
+              "extendedResultCode": 0,
+              "resultDetails": ""
+            }
+          },
+          {
+            "deviceId": "dpokluda-test",
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1",
+            "manufacturer": "fabrikam",
+            "model": "vacuum",
+            "lastAttemptedUpdateId": {
+              "provider": "fabrikam",
+              "name": "vacuum",
+              "version": "2022.113.1702.54"
+            },
+            "installedUpdateId": {
+              "provider": "fabrikam",
+              "name": "vacuum",
+              "version": "2022.113.1741.7"
+            },
+            "onLatestUpdate": true,
+            "deploymentStatus": "Succeeded",
+            "groupId": "dpokluda-test",
+            "lastDeploymentId": "dpokluda-test-2022-113-1702-54-0114010507",
+            "lastInstallResult": {
+              "updateInstallResult": {
+                "resultCode": 700,
+                "extendedResultCode": 0,
+                "resultDetails": ""
+              },
+              "resultCode": 700,
+              "extendedResultCode": 0,
+              "resultDetails": ""
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

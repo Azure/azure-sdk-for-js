@@ -1,15 +1,18 @@
 # Release History
+    
+## 4.1.0 (2022-01-24)
+    
+**Features**
 
-## 4.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface SystemData
+  - Added Type Alias CreatedByType
+  - Interface CertificateResponse has a new optional parameter systemData
+  - Interface IotDpsPropertiesDescription has a new optional parameter enableDataResidency
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Type Alias ProvisioningServiceDescription has a new parameter systemData
+  - Added Enum KnownCreatedByType
+    
+    
 ## 4.0.0 (2022-01-12)
 
 The package of @azure/arm-deviceprovisioningservices is using our next generation design principles since version 4.0.0, which contains breaking changes.

@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationTracingOptions } from "@azure/core-tracing";
 import {
+  HttpClient,
   HttpMethods,
+  PipelineOptions,
+  PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-  PipelineRequest,
-  PipelineOptions,
-  HttpClient,
-  PipelinePolicy,
 } from "@azure/core-rest-pipeline";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * Default key used to access the XML attributes.

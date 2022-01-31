@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { XMLBuilder, XMLValidator, XMLParser } from "fast-xml-parser";
+import { XMLBuilder, XMLParser, XMLValidator } from "fast-xml-parser";
 import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./xml.common";
 
 function getCommonOptions(options: XmlOptions) {
@@ -67,6 +67,12 @@ export async function parseXML(str: string, opts: XmlOptions = {}): Promise<any>
 
   const parser = new XMLParser(getParserOptions(opts));
   const parsedXml = parser.parse(unescapeHTML(str));
+
+  // Remove the <?xml version="..." ?> node.
+  // This is a change in behavior on fxp v4. Issue #424
+  if (parsedXml["?xml"]) {
+    delete parsedXml["?xml"];
+  }
 
   if (!opts.includeRoot) {
     for (const key of Object.keys(parsedXml)) {
