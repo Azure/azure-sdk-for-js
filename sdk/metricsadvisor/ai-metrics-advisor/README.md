@@ -36,7 +36,7 @@ az cognitiveservices account create --kind MetricsAdvisor --resource-group <your
 ```
 
 - Existing data sources with time series metric data with the [required data schema][data_schema_requirements]. You can find the settings and requirements for [connecting different types of data sources][connect_sources_metrics_advisor] to Azure Metrics Advisor.
-- After this,[set up datafeeds to onboard data][onboard_data_feed]
+- After this, [set up datafeeds to onboard data][onboard_data_feed]
 
 ### Install the `@azure/ai-metrics-advisor` package
 
