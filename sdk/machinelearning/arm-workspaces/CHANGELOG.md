@@ -1,5 +1,15 @@
 # Release History
     
+## 1.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0 (2022-01-19)
 
 The package of @azure/arm-workspaces is using our next generation design principles since version 1.0.0, which contains breaking changes.
