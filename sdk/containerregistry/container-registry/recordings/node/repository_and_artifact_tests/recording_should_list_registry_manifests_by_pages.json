@@ -1,0 +1,296 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://myregistry.azurecr.io/acr/v1/library%2Fhello-world/_manifests?n=1\u0026api-version=2021-07-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "7df590ce-49f6-4494-90e3-78cd8f52f33c"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Access-Control-Expose-Headers": [
+          "Docker-Content-Digest",
+          "WWW-Authenticate",
+          "Link",
+          "X-Ms-Correlation-Request-Id"
+        ],
+        "Connection": "keep-alive",
+        "Content-Length": "222",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Feb 2022 00:02:41 GMT",
+        "Docker-Distribution-Api-Version": "registry/2.0",
+        "Server": "openresty",
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains",
+          "max-age=31536000; includeSubDomains"
+        ],
+        "WWW-Authenticate": "Bearer realm=\u0022https://myregistry.azurecr.io/oauth2/token\u0022,service=\u0022myregistry.azurecr.io\u0022,scope=\u0022repository:library/hello-world:metadata_read\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "X-Ms-Correlation-Request-Id": "f0c0ee69-e995-4d32-98de-366995822b45"
+      },
+      "ResponseBody": {
+        "errors": [
+          {
+            "code": "UNAUTHORIZED",
+            "message": "authentication required, visit https://aka.ms/acr/authorization for more information.",
+            "detail": [
+              {
+                "Type": "repository",
+                "Name": "library/hello-world",
+                "Action": "metadata_read"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://myregistry.azurecr.io/oauth2/exchange?api-version=2021-07-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "84",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "99450702-e6dc-4d19-9cca-8feaa7738ac5"
+      },
+      "RequestBody": "grant_type=access_token\u0026service=myregistry.azurecr.io\u0026access_token=SecretPlaceholder",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Feb 2022 00:02:41 GMT",
+        "Server": "openresty",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Ms-Correlation-Request-Id": "e9271c79-85c0-4754-9d08-7afe68c25e5c"
+      },
+      "ResponseBody": {
+        "refresh_token": "sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized"
+      }
+    },
+    {
+      "RequestUri": "https://myregistry.azurecr.io/oauth2/token?api-version=2021-07-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "174",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "7f20e585-4acc-44cd-b25b-70dd7f7950de"
+      },
+      "RequestBody": "service=myregistry.azurecr.io\u0026scope=repository%3Alibrary%2Fhello-world%3Ametadata_read\u0026refresh_token=sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized\u0026grant_type=refresh_token",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Feb 2022 00:02:41 GMT",
+        "Server": "openresty",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Ms-Correlation-Request-Id": "0942e6b9-1c58-4598-a48a-39be3d0a70ef"
+      },
+      "ResponseBody": {
+        "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlVWVzc6T1JDQjozVkNIOjY2UEI6R1kyWjpOU01KOldIVVE6Qjc3WDpLWTdaOlRaU1A6UkZZWDpIVTdRIn0.eyJqdGkiOiJjNGE1NmFhZi1kMmFiLTQ5YmItOWUzNy1iODY5MDM3OGYyNGMiLCJzdWIiOiI3NmZiNmRhNS1lOGFlLTQ2MzMtOWM1MS00MGVhZGRiMmIxZTYiLCJuYmYiOjE2NDQ0NTA0NjEsImV4cCI6MTY0NDQ1NDk2MSwiaWF0IjoxNjQ0NDUwNDYxLCJpc3MiOiJBenVyZSBDb250YWluZXIgUmVnaXN0cnkiLCJhdWQiOiJ0aW1vdmFjci5henVyZWNyLmlvIiwidmVyc2lvbiI6IjIuMCIsInJpZCI6IjNiNWFkYjc4YmFkMTQ1NDY4OWE1ZTFhZTAxNDBkYmVjIiwiYWNjZXNzIjpbeyJUeXBlIjoicmVwb3NpdG9yeSIsIk5hbWUiOiJsaWJyYXJ5L2hlbGxvLXdvcmxkIiwiQWN0aW9ucyI6WyJtZXRhZGF0YV9yZWFkIl19XSwicm9sZXMiOltdLCJncmFudF90eXBlIjoiYWNjZXNzX3Rva2VuIiwiYXBwaWQiOiJlMDE2ZDM0Mi0zYWNjLTQ5NTEtYjc4ZC04MjFjMzQzOGYxYWQifQ.RW8e7w4UG09YXvQEDdGrnylSGelQWZtPp1JWNQB3fufeLUMWkBsOhARLBrqfCsekgittwODc61u8vgpIgLen0DmTQq7a4D0v8NabGSFzjVX_CjEDgrI70GZCL1MEa7e8Da1CjHvtHVqbj_b82-wuF1dSt6oY7X6H_PojF9Lga-GxaPLY9tKDmGCDX7jP9GPL7uZPLjih0mpgU-QhCJQeMByRQR0izpZY4njFUnkE1Bfrgo_uhWLDUKTG80If_bjQx2GmzBmX0_JbloJHhgrJMdgcLk004KC9I5xK4LoFvsI5vJu3423_OU7J5Pz0LLrg74uaZcGPhPWLK1yVySm2Bg"
+      }
+    },
+    {
+      "RequestUri": "https://myregistry.azurecr.io/acr/v1/library%2Fhello-world/_manifests?n=1\u0026api-version=2021-07-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "7df590ce-49f6-4494-90e3-78cd8f52f33c"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Expose-Headers": [
+          "Docker-Content-Digest",
+          "WWW-Authenticate",
+          "Link",
+          "X-Ms-Correlation-Request-Id"
+        ],
+        "Connection": "keep-alive",
+        "Content-Length": "487",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Feb 2022 00:02:41 GMT",
+        "Docker-Distribution-Api-Version": "registry/2.0",
+        "Link": "\u003C/acr/v1/library%2Fhello-world/_manifests?last=sha256%3A01433e86a06b752f228e3c17394169a5e21a0995f153268a9b36a16d4f2b2184\u0026n=1\u0026orderby=\u003E; rel=\u0022next\u0022",
+        "Server": "openresty",
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains",
+          "max-age=31536000; includeSubDomains"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Ms-Correlation-Request-Id": "1288ca56-1ca8-48a3-b840-503bd09aa274"
+      },
+      "ResponseBody": {
+        "registry": "myregistry.azurecr.io",
+        "imageName": "library/hello-world",
+        "manifests": [
+          {
+            "digest": "sha256:01433e86a06b752f228e3c17394169a5e21a0995f153268a9b36a16d4f2b2184",
+            "imageSize": 5216,
+            "createdTime": "2022-02-09T02:57:25.4662706Z",
+            "lastUpdateTime": "2022-02-09T02:57:25.4662706Z",
+            "architecture": "arm64",
+            "os": "linux",
+            "mediaType": "application/vnd.docker.distribution.manifest.v2\u002Bjson",
+            "changeableAttributes": {
+              "deleteEnabled": true,
+              "writeEnabled": true,
+              "readEnabled": true,
+              "listEnabled": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://myregistry.azurecr.io/acr/v1/library%2Fhello-world/_manifests?last=sha256%3A01433e86a06b752f228e3c17394169a5e21a0995f153268a9b36a16d4f2b2184\u0026n=1\u0026orderby=\u0026api-version=2021-07-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4c083b0a-1da9-437e-a755-5dbb788e714b"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Access-Control-Expose-Headers": [
+          "Docker-Content-Digest",
+          "WWW-Authenticate",
+          "Link",
+          "X-Ms-Correlation-Request-Id"
+        ],
+        "Connection": "keep-alive",
+        "Content-Length": "222",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Feb 2022 00:02:41 GMT",
+        "Docker-Distribution-Api-Version": "registry/2.0",
+        "Server": "openresty",
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains",
+          "max-age=31536000; includeSubDomains"
+        ],
+        "WWW-Authenticate": "Bearer realm=\u0022https://myregistry.azurecr.io/oauth2/token\u0022,service=\u0022myregistry.azurecr.io\u0022,scope=\u0022repository:library/hello-world:metadata_read\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "X-Ms-Correlation-Request-Id": "327c33c5-6fb0-4378-acf9-ea1e84d184b7"
+      },
+      "ResponseBody": {
+        "errors": [
+          {
+            "code": "UNAUTHORIZED",
+            "message": "authentication required, visit https://aka.ms/acr/authorization for more information.",
+            "detail": [
+              {
+                "Type": "repository",
+                "Name": "library/hello-world",
+                "Action": "metadata_read"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://myregistry.azurecr.io/oauth2/token?api-version=2021-07-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "174",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "662aa6e4-7c4c-4664-89e1-40e588674713"
+      },
+      "RequestBody": "service=myregistry.azurecr.io\u0026scope=repository%3Alibrary%2Fhello-world%3Ametadata_read\u0026refresh_token=sanitized.eyJleHAiOjg2NDAwMDAwMDAwMDB9.sanitized\u0026grant_type=refresh_token",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Feb 2022 00:02:41 GMT",
+        "Server": "openresty",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Ms-Correlation-Request-Id": "e7a1eb93-752d-4250-866a-c3fbe0533783"
+      },
+      "ResponseBody": {
+        "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlVWVzc6T1JDQjozVkNIOjY2UEI6R1kyWjpOU01KOldIVVE6Qjc3WDpLWTdaOlRaU1A6UkZZWDpIVTdRIn0.eyJqdGkiOiJiYmI5OTgwNS04ZjBkLTQ5YzQtOTU3Yi1kYzU0ZTU5MDliNDEiLCJzdWIiOiI3NmZiNmRhNS1lOGFlLTQ2MzMtOWM1MS00MGVhZGRiMmIxZTYiLCJuYmYiOjE2NDQ0NTA0NjEsImV4cCI6MTY0NDQ1NDk2MSwiaWF0IjoxNjQ0NDUwNDYxLCJpc3MiOiJBenVyZSBDb250YWluZXIgUmVnaXN0cnkiLCJhdWQiOiJ0aW1vdmFjci5henVyZWNyLmlvIiwidmVyc2lvbiI6IjIuMCIsInJpZCI6IjNiNWFkYjc4YmFkMTQ1NDY4OWE1ZTFhZTAxNDBkYmVjIiwiYWNjZXNzIjpbeyJUeXBlIjoicmVwb3NpdG9yeSIsIk5hbWUiOiJsaWJyYXJ5L2hlbGxvLXdvcmxkIiwiQWN0aW9ucyI6WyJtZXRhZGF0YV9yZWFkIl19XSwicm9sZXMiOltdLCJncmFudF90eXBlIjoiYWNjZXNzX3Rva2VuIiwiYXBwaWQiOiJlMDE2ZDM0Mi0zYWNjLTQ5NTEtYjc4ZC04MjFjMzQzOGYxYWQifQ.l9k92O0DUoHpo01_GQuy_tzK4Ny4j_KomkZgDSuBFrBjKeZnOwXzjoU9lE9vuO2tgWLnhfAr-CzoGdYQshLI30oFT5pZUUQ9VMP9xCbDGguehet6_Vm4v3go30fWJO9-AVbVFwgOhuflcBFqk6ms03t-UXP3WvYYAS4pQk1W5LELb9Ka_JDDfLel7EmaVZDU8dw-nSf6CeXPQc6YWyhgwwCGCmNaT2CyIOBx5r-ZboMX6sbM6hSnQk03jJdCb1w0N8mfJ-XBfQRjOcex1yZ2YPPLFrLFOx_euRJ1lFXV8pqgI7ez63gGppWHHFTjsEtb_jUizWmGA0l_c7N9zRtH8g"
+      }
+    },
+    {
+      "RequestUri": "https://myregistry.azurecr.io/acr/v1/library%2Fhello-world/_manifests?last=sha256%3A01433e86a06b752f228e3c17394169a5e21a0995f153268a9b36a16d4f2b2184\u0026n=1\u0026orderby=\u0026api-version=2021-07-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-container-registry/1.0.1 core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4c083b0a-1da9-437e-a755-5dbb788e714b"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Expose-Headers": [
+          "Docker-Content-Digest",
+          "WWW-Authenticate",
+          "Link",
+          "X-Ms-Correlation-Request-Id"
+        ],
+        "Connection": "keep-alive",
+        "Content-Length": "485",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Feb 2022 00:02:42 GMT",
+        "Docker-Distribution-Api-Version": "registry/2.0",
+        "Link": "\u003C/acr/v1/library%2Fhello-world/_manifests?last=sha256%3A251bb7a536c7cce3437758971aab3a31c6da52fb43ff0654cff5b167c4486409\u0026n=1\u0026orderby=\u003E; rel=\u0022next\u0022",
+        "Server": "openresty",
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains",
+          "max-age=31536000; includeSubDomains"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "X-Ms-Correlation-Request-Id": "a686f16f-baa2-429b-9938-c4af00f006a4"
+      },
+      "ResponseBody": {
+        "registry": "myregistry.azurecr.io",
+        "imageName": "library/hello-world",
+        "manifests": [
+          {
+            "digest": "sha256:251bb7a536c7cce3437758971aab3a31c6da52fb43ff0654cff5b167c4486409",
+            "imageSize": 4727,
+            "createdTime": "2022-02-09T02:57:25.5140986Z",
+            "lastUpdateTime": "2022-02-09T02:57:25.5140986Z",
+            "architecture": "386",
+            "os": "linux",
+            "mediaType": "application/vnd.docker.distribution.manifest.v2\u002Bjson",
+            "changeableAttributes": {
+              "deleteEnabled": true,
+              "writeEnabled": true,
+              "readEnabled": true,
+              "listEnabled": true
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
