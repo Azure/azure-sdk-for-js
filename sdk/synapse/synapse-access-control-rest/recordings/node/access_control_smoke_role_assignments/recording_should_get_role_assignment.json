@@ -1,0 +1,33 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/roleAssignments/63d7a4ea-5ee9-46de-acf4-76945d2760c9?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v14.17.4 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "89c3c9ba-6cfa-4e83-8a7e-ca19077ec153"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "189",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 17:36:51 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "8696ebe2-a2a8-431d-bcd3-aa5324fbbbd2"
+      },
+      "ResponseBody": {
+        "id": "63d7a4ea-5ee9-46de-acf4-76945d2760c9",
+        "roleDefinitionId": "2a385764-43e8-416c-9825-7b18d05a2c4b",
+        "principalId": "126a182d-42fe-444d-9855-dbec15594bfc",
+        "scope": "workspaces/joheredisyn"
+      }
+    }
+  ],
+  "Variables": {}
+}
