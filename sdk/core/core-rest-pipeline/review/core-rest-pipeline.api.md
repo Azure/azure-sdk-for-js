@@ -190,7 +190,7 @@ export interface PipelineOptions {
 }
 
 // @public
-export type PipelinePhase = "Deserialize" | "Serialize" | "Retry";
+export type PipelinePhase = "Deserialize" | "Serialize" | "Retry" | "Sign";
 
 // @public
 export interface PipelinePolicy {
