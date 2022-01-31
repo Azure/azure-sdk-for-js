@@ -24,7 +24,6 @@ export async function createClient(
   await recorder.start({ envSetupForPlayback: replaceableVariables });
 
   let credential: TokenCredential = createTestCredential();
-
   const client = AccessControlClient(env.ENDPOINT ?? "", credential, {...options, allowInsecureConnection: true});
   recorder.configureClient(client);
   return client;

@@ -8,19 +8,19 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "core-rest-pipeline/1.3.3 Node/v14.17.4 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "0d24de5e-2716-47cc-ab8c-e3521b857e69"
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "1a860e1b-d85d-4c21-915d-f0596f821654"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "2213",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 31 Jan 2022 17:36:53 GMT",
+        "Date": "Mon, 31 Jan 2022 22:40:56 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "x-ms-continuation": "",
-        "x-ms-request-id": "effa2563-f4f8-4f16-8fa3-ceede7f86363"
+        "x-ms-request-id": "8b36e6a6-85f9-4adf-ad6d-0867d3a29113"
       },
       "ResponseBody": {
         "count": 10,
@@ -89,9 +89,9 @@
             "principalType": "ServicePrincipal"
           },
           {
-            "id": "63d7a4ea-5ee9-46de-acf4-76945d2760c9",
+            "id": "cb9deb8e-6453-4145-9d82-14edf872ebe6",
             "roleDefinitionId": "2a385764-43e8-416c-9825-7b18d05a2c4b",
-            "principalId": "126a182d-42fe-444d-9855-dbec15594bfc",
+            "principalId": "cf28f607-5e8c-4d59-b341-f4e3422ec4b9",
             "scope": "workspaces/joheredisyn"
           }
         ]
