@@ -441,13 +441,6 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
-    ClientDiagnosticsConstants: {
-        Name: string;
-        Id: string;
-        Component: string;
-        StartTime: string;
-        DurationInMilliseconds: string;
-    };
 };
 
 // @public
@@ -1498,13 +1491,13 @@ export interface Resource {
 
 // @public (undocumented)
 export class ResourceResponse<TResource> {
-    constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode, exception?: string[]);
+    constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode, exception?: string);
     // (undocumented)
     get activityId(): string;
     // (undocumented)
     get etag(): string;
     // (undocumented)
-    readonly exception: string[];
+    readonly exception: string;
     // (undocumented)
     readonly headers: CosmosHeaders_2;
     // (undocumented)
