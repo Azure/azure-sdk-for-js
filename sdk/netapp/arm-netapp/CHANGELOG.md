@@ -1,5 +1,16 @@
 # Release History
     
+## 15.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+
 ## 15.0.0 (2022-01-20)
 
 The package of @azure/arm-netapp is using our next generation design principles since version 15.0.0, which contains breaking changes.
