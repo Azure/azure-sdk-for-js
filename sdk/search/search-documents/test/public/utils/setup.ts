@@ -16,6 +16,10 @@ import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 
+export function createRandomIndexName(): string {
+  return `hotel-live-test${Math.floor(Math.random() * 100000) + 10000}`;
+}
+
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
   const hotelIndex: SearchIndex = {
@@ -622,8 +626,4 @@ export async function createSimpleIndex(client: SearchIndexClient, name: string)
     ],
   };
   await client.createIndex(index);
-}
-
-export function createRandomIndexName(): string {
-  return `hotel-live-test${Math.floor(Math.random() * 100000) + 10000}`;
 }
