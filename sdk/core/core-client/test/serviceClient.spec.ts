@@ -1,40 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
-  ServiceClient,
-  OperationRequest,
-  createSerializer,
+  CompositeMapper,
   DictionaryMapper,
-  QueryCollectionFormat,
-  ParameterPath,
+  FullOperationResponse,
+  Mapper,
   MapperTypeNames,
   OperationArguments,
-  Mapper,
-  CompositeMapper,
-  OperationSpec,
-  serializationPolicy,
-  FullOperationResponse,
   OperationQueryParameter,
+  OperationRequest,
+  OperationSpec,
+  ParameterPath,
+  QueryCollectionFormat,
+  ServiceClient,
+  createSerializer,
+  serializationPolicy,
 } from "../src";
 import {
-  createHttpHeaders,
-  createEmptyPipeline,
   HttpClient,
-  createPipelineRequest,
   PipelineRequest,
   RestError,
+  createEmptyPipeline,
+  createHttpHeaders,
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-
 import {
   getOperationArgumentValueFromParameter,
   getOperationRequestInfo,
 } from "../src/operationHelpers";
-import { deserializationPolicy } from "../src/deserializationPolicy";
 import { TokenCredential } from "@azure/core-auth";
-import { getCachedDefaultHttpClient } from "../src/httpClientCache";
+import { assert } from "chai";
 import { assertServiceClientResponse } from "./utils/serviceClient";
+import { deserializationPolicy } from "../src/deserializationPolicy";
+import { getCachedDefaultHttpClient } from "../src/httpClientCache";
 
 describe("ServiceClient", function () {
   describe("Auth scopes", () => {
