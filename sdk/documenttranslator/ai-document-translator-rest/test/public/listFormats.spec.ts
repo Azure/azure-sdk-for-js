@@ -1,6 +1,7 @@
-import { Context } from "mocha";
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+import { Context } from "mocha";
 import { DocumentTranslatorClient } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
