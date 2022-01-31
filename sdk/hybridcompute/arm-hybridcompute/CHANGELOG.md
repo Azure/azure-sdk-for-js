@@ -1,5 +1,7 @@
 # Release History
     
+## 3.0.1 (Unreleased)
+
 ## 3.0.0 (2022-01-18)
 
 The package of @azure/arm-hybridcompute is using our next generation design principles since version 3.0.0, which contains breaking changes.
