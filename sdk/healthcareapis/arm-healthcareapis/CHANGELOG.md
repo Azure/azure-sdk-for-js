@@ -1,5 +1,7 @@
 # Release History
     
+## 2.0.0 (Unreleased)
+
 ## 2.0.0 (2022-01-18)
 
 The package of @azure/arm-healthcareapis is using our next generation design principles since version 2.0.0, which contains breaking changes.
