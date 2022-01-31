@@ -6683,6 +6683,7 @@ packages:
   /puppeteer/10.4.0:
     resolution: {integrity: sha512-2cP8mBoqnu5gzAVpbZ0fRaobBWZM8GEUF4I1F6WbgHrKV/rz7SX8PG2wMymZgD0wo0UBlg2FBPNxlF/xlqW6+w==}
     engines: {node: '>=10.18.1'}
+    deprecated: Version no longer supported. Upgrade to @latest
     requiresBuild: true
     dependencies:
       debug: 4.3.1
@@ -12508,7 +12509,7 @@ packages:
     dev: false
 
   file:projects/attestation.tgz:
-    resolution: {integrity: sha512-1j//b0n9eWzuJsPVA9mYS/nfzXtezd4fX97k9VevtOJoZDBTrboEar4PxqwmsfXqU5CEcdsKXNcWO+5jSrKivA==, tarball: file:projects/attestation.tgz}
+    resolution: {integrity: sha512-ErwPppmXbFEQ5iXOX90b0H+zpheEH6QZIlN/DOYbgI1KVpaqOzlEGiDuaWApf0dCrF7tyrVobT9656wn524JCA==, tarball: file:projects/attestation.tgz}
     name: '@rush-temp/attestation'
     version: 0.0.0
     dependencies:
@@ -12560,7 +12561,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -14835,7 +14835,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-BlLuBgRlatMe1sfK5OKf5wmWjCaqnXgaCyrCF1xBVMduBE94l3PLdhcCidCuoatgdemsR49I106bu/sa4D6zaA==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-5zy5TSSbMemy/2pGTDWuxNCqzOV1JosBXYTunijXKNOpjycTYnfoVCTAP0HLILD9aj2M9fA3KgtgUp3QTep9nw==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -14925,7 +14925,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-T4vvHOUadw2w76pAKYI0fFcjPqFv07v7WG4apy733vbFqo1ftoFQgjCvoy+haR363e7pJVpbuzX7XBTPztUH4w==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-Ql6Zj6oQc/mTv66926SKB0v2MkYIOawoDD1pPmxHH8VSs9iwmzaL+Z01G+CaXf0VcXFpnT1pDm7sr9oBFlqrYg==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -15739,7 +15739,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-ENpAvvdCwGkqJ4unWOWpywLDjQIYT2+T+YqE7QarLd7IMf+aWx6HLFlhlvUpgNM0Tw8oL3txyCOGvI6rFqtz+Q==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-v95+TnIgfPJtOulZuW73xOA/OgPCA72RP5aMD0ZAlp3qJNclhxBxULu3r7TUdQVfRrPqKuJaAGCiLUCLPqFRuQ==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -15785,7 +15785,6 @@ packages:
       - '@swc/wasm'
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
