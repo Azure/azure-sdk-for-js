@@ -1,0 +1,160 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/calling:join",
+   "query": {
+    "api-version": "2021-11-15-preview"
+   },
+   "requestBody": "{\"callLocator\":{\"groupCallId\":\"1212b187-3379-51fd-ac4f-89756d7fb74a\",\"kind\":\"groupCallLocator\"},\"source\":{\"communicationUser\":{\"id\":\"8:acs:016a7064-0581-40b9-be73-6dde64d69d72_6f8c191d-f701-58b7-a744-35bac2a8f074\"}},\"callbackUri\":\"https://endpoint/callback\",\"requestedMediaTypes\":[\"audio\"],\"requestedCallEvents\":[\"participantsUpdated\"]}",
+   "status": 202,
+   "response": "{\"callConnectionId\":\"2c201300-fc08-4aeb-89a4-7f5b95b58071\"}",
+   "responseHeaders": {
+    "content-length": "59",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 28 Jan 2022 11:25:08 GMT",
+    "x-azure-ref": "0k9LzYQAAAABPs6pj7KMXR7v06uqQdP3HREVMMDFFREdFMDUxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-microsoft-skype-chain-id": "623c354f-50d8-417b-80ab-d1603facc029",
+    "x-ms-client-request-id": "05918285-ced6-4de0-b981-468accb2e95a"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/calling:join",
+   "query": {
+    "api-version": "2021-11-15-preview"
+   },
+   "requestBody": "{\"callLocator\":{\"groupCallId\":\"1212b187-3379-51fd-ac4f-89756d7fb74a\",\"kind\":\"groupCallLocator\"},\"source\":{\"communicationUser\":{\"id\":\"8:acs:016a7064-0581-40b9-be73-6dde64d69d72_ff23b678-5b97-564d-b6c4-6bb53068c498\"}},\"callbackUri\":\"https://endpoint/callback\",\"requestedMediaTypes\":[\"audio\"],\"requestedCallEvents\":[\"participantsUpdated\"]}",
+   "status": 202,
+   "response": "{\"callConnectionId\":\"2c201300-5c2f-4881-95f7-b152ace850cb\"}",
+   "responseHeaders": {
+    "content-length": "59",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 28 Jan 2022 11:25:09 GMT",
+    "x-azure-ref": "0lNLzYQAAAAAc6beRH1R8Rpw9zKsXKYDsREVMMDFFREdFMDUxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-microsoft-skype-chain-id": "1b1e9f2a-52a7-4411-b098-18521e3e42b6",
+    "x-ms-client-request-id": "96594d6d-bf24-42a3-b797-a50a1ff7e6b0"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/calling/participants",
+   "query": {
+    "api-version": "2021-11-15-preview"
+   },
+   "requestBody": "{\"callLocator\":{\"groupCallId\":\"1212b187-3379-51fd-ac4f-89756d7fb74a\"},\"callbackUri\":\"https://endpoint/callback\",\"participant\":{\"communicationUser\":{\"id\":\"8:acs:016a7064-0581-40b9-be73-6dde64d69d72_0000000f-3adc-c3b2-290c-999a0d00ad99\"}}}",
+   "status": 202,
+   "response": "{\"operationId\":\"175b48f6-b811-4e78-9388-33d92f5c3b15\",\"status\":\"running\"}",
+   "responseHeaders": {
+    "content-length": "73",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 28 Jan 2022 11:25:22 GMT",
+    "x-azure-ref": "0otLzYQAAAABm56YyrQ/nRJoy2K/aaEz4REVMMDFFREdFMDUxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-microsoft-skype-chain-id": "9d465e84-c0d2-4927-8684-60175c60a04d",
+    "x-ms-client-request-id": "9275f82a-a5db-4fbd-9801-990782d7585a"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/calling/participants:playAudio",
+   "query": {
+    "api-version": "2021-11-15-preview"
+   },
+   "requestBody": "{\"identifier\":{\"communicationUser\":{\"id\":\"8:acs:016a7064-0581-40b9-be73-6dde64d69d72_0000000f-3adc-c3b2-290c-999a0d00ad99\"}},\"callLocator\":{\"groupCallId\":\"1212b187-3379-51fd-ac4f-89756d7fb74a\"},\"callbackUri\":\"https://endpoint/callback\",\"audioFileUri\":\"https://endpoint/acs-audio-files/sample-message.wav\",\"loop\":true,\"operationContext\":\"operationContext164336912304806675\",\"audioFileId\":\"audioFileId164336912304801216\"}",
+   "status": 202,
+   "response": "{\"operationId\":\"2c201300-fb76-4024-b827-950a9c4aa87d\",\"status\":\"running\",\"operationContext\":\"operationContext164336912304806675\"}",
+   "responseHeaders": {
+    "content-length": "129",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 28 Jan 2022 11:25:38 GMT",
+    "x-azure-ref": "0sNLzYQAAAABZRBb+sO5lTb5owBTauQ2eREVMMDFFREdFMDUxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-microsoft-skype-chain-id": "86a86b8b-7db8-41c3-adbc-40bbfbb65b79",
+    "x-ms-client-request-id": "de83828f-e54d-4ad5-8501-bc0f2b1d191a"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/calling/participants:cancelMediaOperation",
+   "query": {
+    "api-version": "2021-11-15-preview"
+   },
+   "requestBody": "{\"callLocator\":{\"groupCallId\":\"1212b187-3379-51fd-ac4f-89756d7fb74a\"},\"identifier\":{\"communicationUser\":{\"id\":\"8:acs:016a7064-0581-40b9-be73-6dde64d69d72_0000000f-3adc-c3b2-290c-999a0d00ad99\"}},\"mediaOperationId\":\"2c201300-fb76-4024-b827-950a9c4aa87d\"}",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Fri, 28 Jan 2022 11:25:52 GMT",
+    "x-azure-ref": "0v9LzYQAAAABVpOwafpKvTpfFJ6bHGQSHREVMMDFFREdFMDUxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-microsoft-skype-chain-id": "b932a8c7-c23b-464e-bd4e-c6aab2d90ed9",
+    "x-ms-client-request-id": "6e2535ba-91f2-4975-b79a-3d9c8bae26ab"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/calling/participants:remove",
+   "query": {
+    "api-version": "2021-11-15-preview"
+   },
+   "requestBody": "{\"callLocator\":{\"groupCallId\":\"1212b187-3379-51fd-ac4f-89756d7fb74a\"},\"identifier\":{\"communicationUser\":{\"id\":\"8:acs:016a7064-0581-40b9-be73-6dde64d69d72_0000000f-3adc-c3b2-290c-999a0d00ad99\"}}}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Fri, 28 Jan 2022 11:26:06 GMT",
+    "x-azure-ref": "0zdLzYQAAAABuis/rr+qPRpBmL7cjLgvxREVMMDFFREdFMDUxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-microsoft-skype-chain-id": "1e57ead1-c978-4e33-9066-0b7e01ad4c23",
+    "x-ms-client-request-id": "329ef446-faf3-4b78-9f53-0e0c365b631f"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/calling/callConnections/2c201300-fc08-4aeb-89a4-7f5b95b58071/:hangup",
+   "query": {
+    "api-version": "2021-11-15-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Fri, 28 Jan 2022 11:26:19 GMT",
+    "x-azure-ref": "029LzYQAAAACwG6Kqh+Z3TaGja9PG+gFfREVMMDFFREdFMDUxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-microsoft-skype-chain-id": "623c354f-50d8-417b-80ab-d1603facc029",
+    "x-ms-client-request-id": "092fb377-563f-4911-9bde-8eba464414e0"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/calling/callConnections/2c201300-5c2f-4881-95f7-b152ace850cb/:hangup",
+   "query": {
+    "api-version": "2021-11-15-preview"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Fri, 28 Jan 2022 11:26:20 GMT",
+    "x-azure-ref": "03NLzYQAAAADJ8hcdy6woRayW4GDIVkK4REVMMDFFREdFMDUxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-microsoft-skype-chain-id": "623c354f-50d8-417b-80ab-d1603facc029",
+    "x-ms-client-request-id": "5df21d2b-bdf7-478a-8b3b-4f037e7f21d6"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "audioFileId": "audioFileId164336912304801216",
+   "operationContext": "operationContext164336912304806675"
+  },
+  "newDate": {}
+ },
+ "hash": "79de58710fee8f20d9d0573469aa490e"
+}

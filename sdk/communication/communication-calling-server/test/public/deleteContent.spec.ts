@@ -46,6 +46,15 @@ describe("Delete Live Tests", function() {
     }
   });
 
+  it("delete", async function(this: Context) {
+    if (!isPlaybackMode()) {
+      this.skip();
+    }
+
+    const result = await callingServerServiceClient.deleteRecording(url);
+    assert.equal(200, result._response.status);
+  });
+
   it("unauthorized delete", async function(this: Context) {
     if (!isPlaybackMode()) {
       // tslint:disable-next-l ine:no-invalid-this

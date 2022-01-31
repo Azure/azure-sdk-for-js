@@ -1,0 +1,24 @@
+{
+ "recordings": [
+  {
+   "method": "DELETE",
+   "url": "https://endpoint/v1/objects/0-wus-d10-11111111111111111111111111111",
+   "query": {},
+   "requestBody": null,
+   "status": 400,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Mon, 31 Jan 2022 04:02:08 GMT",
+    "ms-cv": "8rGIui7t4k6Fh1gHOatUJg.0",
+    "server": "Kestrel",
+    "strict-transport-security": "max-age=2592000; includeSubDomains"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "6993f8361412784e48ee0effd4ebb35a"
+}
