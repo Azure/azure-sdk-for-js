@@ -1,5 +1,7 @@
 # Release History
     
+## 4.0.0-beta.2 (Unreleased)
+
 ## 4.0.0-beta.1 (2022-01-18)
 
 The package of @azure/arm-commerce is using our next generation design principles since version 4.0.0-beta.1, which contains breaking changes.
