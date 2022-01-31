@@ -21,8 +21,8 @@ const containerSasUrl = (): string => env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS
  */
 matrix(
   [
-    [/*true, */ false],
-    [DocumentModelBuildMode.Template /*, DocumentModelBuildMode.Neural*/],
+    [/* true, */ false],
+    [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/],
   ] as const,
   async (useAad, buildMode) => {
     describe(`[${useAad ? "AAD" : "API Key"}] model management`, () => {
