@@ -5,29 +5,20 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "01ee6f78-fa37-4b90-a477-56f6103918cd",
-        "x-ms-useragent": "core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+        "User-Agent": "core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "680c99a4-6fc4-42d6-bb52-d3fd60d255f8"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "1bab357e-2137-414e-82dd-a60153db6e29",
+        "apim-request-id": "3439a49e-7152-4930-83b6-808bd47cddaa",
         "Cache-Control": "public, max-age=1",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 31 Jan 2022 19:36:04 GMT",
+        "Date": "Mon, 31 Jan 2022 19:30:28 GMT",
         "ETag": "\u00225478C7120DE16FAA3EAAAF3E994A6412CC6958126140A354E1D1B5CD2114529D\u0022",
         "Retry-After": "1",
         "Set-Cookie": [
@@ -39,7 +30,7 @@
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
         "X-Powered-By": "ASP.NET",
-        "X-RequestId": "1bab357e-2137-414e-82dd-a60153db6e29"
+        "X-RequestId": "3439a49e-7152-4930-83b6-808bd47cddaa"
       },
       "ResponseBody": {
         "value": [
