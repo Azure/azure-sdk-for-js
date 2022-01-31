@@ -5,21 +5,30 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "0da84b36-6230-480d-874c-32c2b255c683"
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "12b788d4-fd45-40cc-99b5-9c17f1c644e0",
+        "x-ms-useragent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "577",
+        "Content-Length": "576",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 31 Jan 2022 22:59:36 GMT",
+        "Date": "Mon, 31 Jan 2022 23:00:57 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-request-id": "e6b1f3a7-fb33-4d4f-aa09-9460bad9a4ee"
+        "x-ms-request-id": "30202121-0a58-4c19-b0e7-97d7b3bfef4d"
       },
       "ResponseBody": {
         "value": [
@@ -27,12 +36,12 @@
             "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/joheredi-test/providers/Microsoft.Synapse/workspaces/joheredisyn/libraries/testLibraryName.jar",
             "name": "testLibraryName.jar",
             "type": "Microsoft.Synapse/workspaces/libraries",
-            "etag": "570069f2-0000-0200-0000-61f869d10000",
+            "etag": "5700cff6-0000-0200-0000-61f86a200000",
             "properties": {
               "name": "testLibraryName.jar",
               "path": "joheredisyn/libraries/testLibraryName.jar",
               "containerName": "prep",
-              "uploadedTimestamp": "2022-01-31T22:59:25.9167142\u002B00:00",
+              "uploadedTimestamp": "2022-01-31T23:00:47.460473\u002B00:00",
               "type": "jar",
               "provisioningStatus": "Incomplete",
               "creatorId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd"
