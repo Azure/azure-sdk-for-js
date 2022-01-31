@@ -6,7 +6,7 @@ import { AccountListPoolNodeCountsResponse, TaskGetResponse } from "../src/model
 import { assert } from "chai";
 import { BatchServiceClient, BatchServiceModels } from "../src/batchServiceClient";
 import moment from "moment";
-import { createClient } from "./utils/recordedClient";
+import { createClient} from "./utils/recordedClient";
 
 dotenv.config();
 const wait = (timeout = 1000) => new Promise((resolve) => setTimeout(() => resolve(null), timeout));
@@ -74,10 +74,12 @@ describe("Batch Service", () => {
     it("should list supported images successfully", async () => {
       const result = await client.account.listSupportedImages();
       assert.isAtLeast(result.length, 1);
+      assert.equal(result._response.status, 200)
+
       const supportedImage = result[0];
-      assert.equal(supportedImage.nodeAgentSKUId, "batch.node.centos 7");
-      assert.equal(supportedImage.osType, "linux");
-      assert.equal(result._response.status, 200);
+      assert.isNotNull(supportedImage.nodeAgentSKUId);
+      assert.isNotNull(supportedImage.osType);
+
     });
 
     it("should add new certificate successfully", async () => {
@@ -303,9 +305,9 @@ describe("Batch Service", () => {
           imageReference: {
             publisher: "Canonical",
             offer: "UbuntuServer",
-            sku: "16.04-LTS"
+            sku: "18.04-LTS"
           },
-          nodeAgentSKUId: "batch.node.ubuntu 16.04",
+          nodeAgentSKUId: "batch.node.ubuntu 18.04",
           dataDisks: [
             {
               lun: 1,
@@ -393,7 +395,8 @@ describe("Batch Service", () => {
 
     it("should get pool node counts successfully", async () => {
       let result: AccountListPoolNodeCountsResponse;
-      while (true) {
+      while (true) 
+      {
         result = await client.account.listPoolNodeCounts();
         if (result.length > 0 && result[0].dedicated!.idle > 0) {
           break;
@@ -401,11 +404,19 @@ describe("Batch Service", () => {
           await wait(POLLING_INTERVAL);
         }
       }
+
       assert.lengthOf(result, 2);
-      assert.equal(result[0].poolId, ENDPOINT_POOL);
-      assert.equal(result[0].dedicated!.idle, 1);
-      assert.equal(result[0].lowPriority!.total, 0);
       assert.equal(result._response.status, 200);
+
+      const endpointPoolObj = result.filter(pool => pool.poolId == ENDPOINT_POOL);
+      if (endpointPoolObj.length == 0)
+      {
+        assert.fail(`Pool with Pool Id ${ENDPOINT_POOL} not found`);
+      }
+
+      assert.equal(endpointPoolObj[0].dedicated!.idle, 1);
+      assert.equal(endpointPoolObj[0].lowPriority!.total, 0);
+
     }).timeout(LONG_TEST_TIMEOUT);
   });
 
@@ -673,10 +684,14 @@ describe("Batch Service", () => {
 
   describe("Job operations (basic)", async () => {
     it("should create a job successfully", async () => {
-      const options = { id: JOB_NAME, poolInfo: { poolId: BASIC_POOL } };
+      const options = { id: JOB_NAME, poolInfo: { poolId: BASIC_POOL }};
       const result = await client.job.add(options);
 
       assert.equal(result._response.status, 201);
+
+      const getResult = await client.job.get(JOB_NAME);
+      assert.equal(getResult.allowTaskPreemption, false);  
+
     });
 
     it("should update a job successfully", async () => {
@@ -722,6 +737,7 @@ describe("Batch Service", () => {
     });
 
     it("should create a task with exit conditions successfully", async () => {
+      
       const jobId = "JobWithAutoComplete";
       const taskId = "TaskWithAutoComplete";
       const job: BatchServiceModels.JobAddParameter = {
@@ -771,6 +787,7 @@ describe("Batch Service", () => {
       assert.equal(result3.exitConditions!.exitCodes![0].exitOptions.dependencyAction, "block");
 
       await client.job.deleteMethod(jobId);
+
     });
 
     it("should create a task successfully", async () => {
@@ -779,7 +796,6 @@ describe("Batch Service", () => {
         commandLine: "ping 127.0.0.1 -n 20"
       };
       const result = await client.task.add(JOB_NAME, task);
-
       assert.equal(result._response.status, 201);
     });
 
@@ -791,12 +807,12 @@ describe("Batch Service", () => {
 
     it("should create a second task with output files successfully", async () => {
       const container =
-        "https://teststorage.blob.core.windows.net/batch-sdk-test?se=2017-05-05T23%3A48%3A11Z&sv=2016-05-31&sig=fwsWniANVb/KSQQdok%2BbT7gR79iiZSG%2BGkw9Rsd5efY";
+      "https://teststorage.blob.core.windows.net/batch-sdk-test?se=2017-05-05T23%3A48%3A11Z&sv=2016-05-31&sig=fwsWniANVb/KSQQdok%2BbT7gR79iiZSG%2BGkw9Rsd5efY";
       const outputs = [
         {
           filePattern: "../stdout.txt",
           destination: {
-            container: { containerUrl: container, path: "taskLogs/output.txt" }
+            container: { containerUrl: container, path: "taskLogs/output.txt", uploadHeaders: [{name: "x-ms-blob-content-type", value: "text/plain"}, {name: "x-ms-blob-content-language", value: "en-US"}, ] }
           },
           uploadOptions: { uploadCondition: "taskCompletion" }
         },
@@ -813,9 +829,12 @@ describe("Batch Service", () => {
         commandLine: "cmd /c echo hello world",
         output_files: outputs
       };
+
       const result = await client.task.add(JOB_NAME, options);
 
       assert.equal(result._response.status, 201);
+    
+      
     });
 
     it("should reactivate a task successfully", async () => {
