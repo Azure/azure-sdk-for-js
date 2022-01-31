@@ -93,6 +93,16 @@ export class ServiceClient {
     this._httpClient = options.httpClient || getCachedDefaultHttpClient();
 
     this.pipeline = options.pipeline || createDefaultPipeline(options);
+    if (options.additionalPolicies?.length) {
+      for (const { policy, position } of options.additionalPolicies) {
+        // Sign happens after Retry and is commonly needed to occur
+        // before policies that intercept post-retry.
+        const afterPhase = position === "perRetry" ? "Sign" : undefined;
+        this.pipeline.addPolicy(policy, {
+          afterPhase,
+        });
+      }
+    }
   }
 
   /**
