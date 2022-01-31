@@ -1,0 +1,23 @@
+{
+ "recordings": [
+  {
+   "method": "DELETE",
+   "url": "https://endpoint/v1/objects/0-wus-d10-0000000000000000000000",
+   "query": {},
+   "requestBody": null,
+   "status": 404,
+   "response": "NOT FOUND",
+   "responseHeaders": {
+    "connection": "keep-alive",
+    "date": "Fri, 28 Jan 2022 11:59:54 GMT",
+    "keep-alive": "timeout=5",
+    "transfer-encoding": "chunked"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "41a73c1c79dabfd1c3b58df54cf27825"
+}

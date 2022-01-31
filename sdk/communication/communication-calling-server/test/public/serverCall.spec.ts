@@ -202,6 +202,41 @@ describe("Server Call Live Test", function() {
         assert.strictEqual((e as RestError).statusCode, 400);
       }
     }).timeout(0);
+
+    it("Delete recording file", async function(this: Context) {
+      this.timeout(0);
+      if (isLiveMode() || isPlaybackMode()) {
+        this.skip();
+      }
+      try {
+        await callingServerClient.deleteRecording(Constants.DeleteUrl);
+      } catch (e) {
+        console.log(e);
+      }
+    }).timeout(0);
+
+    it("Delete recordingContentNotExist", async function(this: Context) {
+      this.timeout(0);
+      try {
+        await callingServerClient.deleteRecording(env.INVALID_DELETE_URL);
+      } catch (e) {
+        assert.strictEqual(e.name, "RestError");
+      }
+    }).timeout(0);
+
+    it("Delete recordingContentUnauthorized", async function(this: Context) {
+      this.timeout(0);
+      try {
+        const unauthorizecallingServerClient = new CallingServerClient(
+          Constants.InvalidConnectionString
+        );
+        await unauthorizecallingServerClient.deleteRecording(env.DELETE_URL);
+      } catch (e) {
+        assert.strictEqual((e as RestError).statusCode, 401);
+      }
+    }).timeout(0);
+
+
   });
 
   describe("Call Automation Operations", function() {

@@ -59,7 +59,11 @@ module.exports = function(config) {
       "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING",
       "COMMUNICATION_LIVETEST_STATIC_RESOURCE_IDENTIFIER",
       "ALTERNATE_CALLERID",
-      "BASE_URL"
+      "BASE_URL",
+      "AUDIO_FILE_URI",
+      "PARTICIPANT_GUID",
+      "DELETE_URL",
+      "INVALID_DELETE_URL"
     ],
 
     // test results reporter to use
