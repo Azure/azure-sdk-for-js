@@ -14,12 +14,6 @@ export async function createClient(
 ): Promise<ArtifactsClient> {
   const credential = createTestCredential();
 
-  const client = new ArtifactsClient(credential, env.ENDPOINT ?? "", {
-    ...options,
-    allowInsecureConnection: true,
-  });
-  recorder.configureClient(client);
-
   await recorder.start({
     envSetupForPlayback: {
       AZURE_CLIENT_ID: "azure_client_id",
@@ -28,6 +22,13 @@ export async function createClient(
       ENDPOINT: "https://testaccount.dev.azuresynapse.net",
     },
   });
+
+  const client = new ArtifactsClient(credential, env.ENDPOINT ?? "", {
+    ...options,
+    allowInsecureConnection: true,
+  });
+  recorder.configureClient(client);
+
 
   return client;
 }
