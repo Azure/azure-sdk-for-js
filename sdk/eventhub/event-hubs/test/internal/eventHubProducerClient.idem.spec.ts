@@ -11,6 +11,11 @@ import { createMockServer } from "../public/utils/mockService";
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 
+// _enableIdempotentPartitions and _partitionOptions are private properties in
+// EventHubProducerClient. They are intended to used internally by
+// EventHubBufferedProducerClient. Thus, this test is kept as an internal one,
+// where we would set these two properties via cast-to-any workaround.
+
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
@@ -254,7 +259,7 @@ testWithServiceTypes((serviceVersion) => {
             service.connectionString,
             service.path
           );
-          (producerClient as any)._enableIdempotentPartitions = true;
+          (producerClient1 as any)._enableIdempotentPartitions = true;
 
           // Send an item so we have some state to carry over to the next producerClient
           await producerClient1.sendBatch([{ body: "one" }], { partitionId: "0" });
@@ -267,8 +272,8 @@ testWithServiceTypes((serviceVersion) => {
             service.connectionString,
             service.path
           );
-          (producerClient as any)._enableIdempotentPartitions = true;
-          (producerClient as any)._partitionOptions = {
+          (producerClient2 as any)._enableIdempotentPartitions = true;
+          (producerClient2 as any)._partitionOptions = {
             "0": {
               ownerLevel: partitionPublishingProps1.ownerLevel! + 1,
               producerGroupId: partitionPublishingProps1.producerGroupId,
@@ -330,7 +335,7 @@ testWithServiceTypes((serviceVersion) => {
             service.connectionString,
             service.path
           );
-          (producerClient as any)._enableIdempotentPartitions = true;
+          (producerClient1 as any)._enableIdempotentPartitions = true;
 
           // Send an item so we have some state to carry over to the next producerClient
           await producerClient1.sendBatch([{ body: "one" }], { partitionId: "0" });
@@ -343,8 +348,8 @@ testWithServiceTypes((serviceVersion) => {
             service.connectionString,
             service.path
           );
-          (producerClient as any)._enableIdempotentPartitions = true;
-          (producerClient as any)._partitionOptions = {
+          (producerClient2 as any)._enableIdempotentPartitions = true;
+          (producerClient2 as any)._partitionOptions = {
             "0": {
               ownerLevel: partitionPublishingProps1.ownerLevel! + 1,
               producerGroupId: partitionPublishingProps1.producerGroupId,
@@ -392,7 +397,7 @@ testWithServiceTypes((serviceVersion) => {
             service.connectionString,
             service.path
           );
-          (producerClient as any)._enableIdempotentPartitions = true;
+          (producerClient1 as any)._enableIdempotentPartitions = true;
 
           // Send an item so we have some state to carry over to the next producerClient
           await producerClient1.sendBatch(
@@ -418,8 +423,8 @@ testWithServiceTypes((serviceVersion) => {
             service.connectionString,
             service.path
           );
-          (producerClient as any)._enableIdempotentPartitions = true;
-          (producerClient as any)._partitionOptions = {
+          (producerClient2 as any)._enableIdempotentPartitions = true;
+          (producerClient2 as any)._partitionOptions = {
             "0": {
               producerGroupId: partitionPublishingProps1.producerGroupId,
               startingSequenceNumber: partitionPublishingProps1.lastPublishedSequenceNumber! - 4,
