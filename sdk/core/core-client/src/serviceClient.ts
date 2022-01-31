@@ -13,7 +13,6 @@ import {
   PipelineRequest,
   PipelineResponse,
   createPipelineRequest,
-  PipelinePolicy,
 } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 import { createClientPipeline } from "./pipeline";
@@ -95,15 +94,13 @@ export class ServiceClient {
 
     this.pipeline = options.pipeline || createDefaultPipeline(options);
     if (options.additionalPolicies?.length) {
-      for (const entry of options.additionalPolicies) {
-        if (isPolicy(entry)) {
-          this.pipeline.addPolicy(entry);
-        } else {
-          const afterPhase = entry.position === "perRetry" ? "Retry" : undefined;
-          this.pipeline.addPolicy(entry.policy, {
-            afterPhase,
-          });
-        }
+      for (const { policy, position } of options.additionalPolicies) {
+        // Sign happens after Retry and is commonly needed to occur
+        // before policies that intercept post-retry.
+        const afterPhase = position === "perRetry" ? "Sign" : undefined;
+        this.pipeline.addPolicy(policy, {
+          afterPhase,
+        });
       }
     }
   }
@@ -252,8 +249,4 @@ function getCredentialScopes(options: ServiceClientOptions): string | string[] |
   }
 
   return undefined;
-}
-
-function isPolicy(obj: PipelinePolicy | AdditionalPolicyConfig): obj is PipelinePolicy {
-  return obj && typeof (obj as any).name === "string";
 }

@@ -21,7 +21,7 @@ import { TransferProgressEvent } from '@azure/core-rest-pipeline';
 // @public
 export interface AdditionalPolicyConfig {
     policy: PipelinePolicy;
-    position?: "perCall" | "perRetry";
+    position: "perCall" | "perRetry";
 }
 
 // @public
@@ -47,7 +47,7 @@ export interface BaseMapper {
 
 // @public
 export interface CommonClientOptions extends PipelineOptions {
-    additionalPolicies?: Array<AdditionalPolicyConfig | PipelinePolicy>;
+    additionalPolicies?: AdditionalPolicyConfig[];
     allowInsecureConnection?: boolean;
     httpClient?: HttpClient;
 }

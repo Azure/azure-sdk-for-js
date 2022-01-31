@@ -24,6 +24,8 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
+  PipelinePolicy,
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import {
   getOperationArgumentValueFromParameter,
@@ -1503,46 +1505,15 @@ describe("ServiceClient", function () {
 
     const client = new ServiceClient({
       pipeline,
-      additionalPolicies: [policy1, policy2],
-    });
-
-    assert(client);
-    const policies = pipeline.getOrderedPolicies();
-    assert.deepStrictEqual(policies, [policy1, policy2, retryPolicy]);
-  });
-
-  it("should insert policies in the correct pipeline position with perRetry", async function () {
-    const pipeline = createEmptyPipeline();
-    const sendRequest = (request: PipelineRequest, next: SendRequest) => next(request);
-    const retryPolicy: PipelinePolicy = {
-      name: "retry",
-      sendRequest,
-    };
-    pipeline.addPolicy(retryPolicy, { phase: "Retry" });
-    const policy1: PipelinePolicy = {
-      name: "policy1",
-      sendRequest,
-    };
-    const policy2: PipelinePolicy = {
-      name: "policy2",
-      sendRequest,
-    };
-    const policy3: PipelinePolicy = {
-      name: "policy3",
-      sendRequest,
-    };
-    const client = new ServiceClient({
-      pipeline,
       additionalPolicies: [
         { policy: policy1, position: "perRetry" },
-        policy2,
-        { policy: policy3, position: "perCall" },
+        { policy: policy2, position: "perCall" },
       ],
     });
 
     assert(client);
     const policies = pipeline.getOrderedPolicies();
-    assert.deepStrictEqual(policies, [policy2, policy3, retryPolicy, policy1]);
+    assert.deepStrictEqual(policies, [policy2, retryPolicy, policy1]);
   });
 });
 

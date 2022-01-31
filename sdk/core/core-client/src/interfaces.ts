@@ -5,6 +5,7 @@ import {
   HttpClient,
   HttpMethods,
   PipelineOptions,
+  PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
@@ -737,9 +738,8 @@ export interface AdditionalPolicyConfig {
    * Only use `perRetry` if you need to modify the request again
    * each time the operation is retried due to retryable service
    * issues.
-   * Defaults to `perCall`
    */
-  position?: "perCall" | "perRetry";
+  position: "perCall" | "perRetry";
 }
 
 /**
@@ -757,5 +757,5 @@ export interface CommonClientOptions extends PipelineOptions {
   /**
    * Additional policies to include in the HTTP pipeline.
    */
-  additionalPolicies?: Array<AdditionalPolicyConfig | PipelinePolicy>;
+  additionalPolicies?: AdditionalPolicyConfig[];
 }
