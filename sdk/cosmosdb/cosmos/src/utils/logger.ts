@@ -1,30 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createClientLogger, AzureLogger, setLogLevel } from "@azure/logger";
-
 /**
 * Cosmos Diagnostics used for all clients within the Cosmos package
 */
-export const cosmosDiagnosticsLogger = createClientLogger("Cosmos Diagnostics");
+const cosmosDiagnostics = require('@azure/logger');
+export const cosmosDiagnosticsLogger = cosmosDiagnostics.createClientLogger("Cosmos Diagnostics");
 
 /**
  * The log levels supported by the Cosmos Diagnostics.
  * The log levels are:
  * - verbose
- * - QueryRuntimeStatistics
- * - PartitionKeyStatistics
- * - PartitionKeyRUConsumption
- * - ControlPlaneRequests
- * - error
+ * - DataPlaneRequests - not implemented
+ * - QueryRuntimeStatistics - not implementedv
+ * - PartitionKeyStatistics - not implemented
+ * - ControlPlaneRequests - not implemented
  */
-export type CosmosDiagnosticsLogLevel = "RuntimeStatistics" | "QueryRuntimeStatistics" | "PartitionKeyStatistics" | "PartitionKeyStatistics" | "ControlPlaneRequests";
+export function cosmosDiagnosticsToString(){
+  cosmosDiagnosticsLogger.verbose.bind(cosmosDiagnostics)
+  return String(cosmosDiagnosticsLogger.verbose.bind(cosmosDiagnostics));
+}
 
-export const cosmosDiagnosticsToString = String(cosmosDiagnosticsLogger.verbose.bind(AzureLogger.log));
+export function setCosmosDiagnosticsLogLevel(){
+  cosmosDiagnosticsLogger.verbose.bind(cosmosDiagnostics);
+  cosmosDiagnostics.setLogLevel("verbose");
+  cosmosDiagnostics.log = (...args: any) => { console.log(...args); };
+  cosmosDiagnosticsLogger.verbose("Cosmos log level set. /${level}");
 
-export function setCosmosDiagnosticsLogLevel(level?:CosmosDiagnosticsLogLevel){
-  if(level != "RuntimeStatistics" ){return}
-  cosmosDiagnosticsLogger.info("Cosmos log level set. /${level}")
-  cosmosDiagnosticsLogger.verbose("Cosmos /${level} started.");
-  setLogLevel("verbose");
 }

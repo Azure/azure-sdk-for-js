@@ -13,6 +13,7 @@ import { masterKey } from "../public/common/_fakeTestSecrets";
 import { addEntropy, getTestDatabase, removeAllDatabases } from "../public/common/TestHelpers";
 import { RequestContext } from "../../src";
 import { Response } from "../../src/request/Response";
+import { startCosmosDiagnostics } from "../../src/client/Diagnostics/Diagnostic";
 
 describe("New session token", function () {
   it("preserves tokens", async function () {
@@ -42,7 +43,7 @@ describe("New session token", function () {
       partitionKey: { paths: ["/id"] },
     };
     const containerOptions = { offerThroughput: 25100 };
-
+    startCosmosDiagnostics();
     const clientContext: ClientContext = (sessionClient as any).clientContext;
     const sessionContainer: SessionContainer = (clientContext as any).sessionContainer;
     const database = await getTestDatabase("session test", sessionClient);

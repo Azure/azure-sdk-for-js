@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CosmosClient } from "@azure/cosmos";
+import { CosmosClient, startCosmosDiagnostics, cosmosDiagnosticsLogger } from "@azure/cosmos";
 const key = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const dbId = process.env.COSMOS_DATABASE || "<cosmos database>";
@@ -30,12 +30,13 @@ export async function finish(): Promise<void> {
 let currentStep = 0;
 export function logStep(message: string): void {
   currentStep++;
-  console.log(`\n${currentStep}: ${message}`);
+  startCosmosDiagnostics();
+  cosmosDiagnosticsLogger.info(`\n${currentStep}: ${message}`)
 }
 
 export function logSampleHeader(sampleName: string): void {
-  console.log("Azure Cosmos DB Node.js Samples");
-  console.log("================================");
-  console.log(sampleName);
-  console.log("================================");
+ cosmosDiagnosticsLogger.info("Azure Cosmos DB Node.js Samples");
+  cosmosDiagnosticsLogger.info("================================");
+ cosmosDiagnosticsLogger.info(sampleName);
+  cosmosDiagnosticsLogger.info("================================");
 }

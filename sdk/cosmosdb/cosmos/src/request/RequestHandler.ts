@@ -18,9 +18,9 @@ import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
 import { URL } from "../utils/url";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
-import { AzureLogger, createClientLogger } from "@azure/logger";
+import { cosmosDiagnosticsLogger } from "../utils/logger";
 
-const logger: AzureLogger = createClientLogger("RequestHandler");
+const logger = cosmosDiagnosticsLogger;
 
 async function executeRequest(requestContext: RequestContext): Promise<CosmosResponse<any>> {
   return executePlugins(requestContext, httpRequest, PluginOn.request);

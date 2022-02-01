@@ -10,5 +10,4 @@ export interface Response<T> {
   result?: T;
   code?: number;
   substatus?: number;
-  cosmosException?: [string];
 }

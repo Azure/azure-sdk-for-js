@@ -15,7 +15,7 @@ import {
 import { AbortController } from "node-abort-controller";
 import { UsernamePasswordCredential } from "@azure/identity";
 import { defaultConnectionPolicy } from "../../../src/documents";
-
+import { startCosmosDiagnostics } from "../../../src/client/Diagnostics/Diagnostic"
 describe("Client Tests", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
@@ -30,6 +30,7 @@ describe("Client Tests", function (this: Suite) {
       });
       // create database
       try {
+        startCosmosDiagnostics();
         await getTestDatabase("request timeout", client);
         assert.fail("Must throw when trying to connect to database");
       } catch (err) {

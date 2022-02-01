@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { AzureLogger, createClientLogger } from "@azure/logger";
 import { Constants } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { FeedOptions, Response } from "../request";
+import { cosmosDiagnosticsLogger } from "../utils/logger";
 import { getInitialHeader } from "./headerUtils";
 import { ExecutionContext } from "./index";
 
-const logger: AzureLogger = createClientLogger("ClientContext");
+const logger = cosmosDiagnosticsLogger;
+logger.info("ClientContext");
+
 /** @hidden */
 export type FetchFunctionCallback = (options: FeedOptions) => Promise<Response<any>>;
 

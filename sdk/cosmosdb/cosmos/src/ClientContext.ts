@@ -29,10 +29,9 @@ import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
 import { BulkOptions } from "./utils/batch";
 import { sanitizeEndpoint } from "./utils/checkURL";
-import { AzureLogger, createClientLogger } from "@azure/logger";
+import { cosmosDiagnosticsLogger } from "./utils/logger";
 
-const logger: AzureLogger = createClientLogger("ClientContext");
-
+const logger = cosmosDiagnosticsLogger;
 const QueryJsonContentType = "application/query+json";
 
 /**

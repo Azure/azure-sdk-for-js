@@ -122,7 +122,6 @@
     "routing/index.ts",
     "utils/SasToken.ts",
     "utils/logger.ts",
-    "client/Diagnostics/Diagnostic.ts",
     "client/SasToken/SasTokenProperties.ts",
     "client/SasToken/PermissionScopeValues.ts",
     "client/Diagnostics/Diagnostic.ts"

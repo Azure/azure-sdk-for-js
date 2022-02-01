@@ -1491,13 +1491,15 @@ export interface Resource {
 
 // @public (undocumented)
 export class ResourceResponse<TResource> {
-    constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode, exception?: string);
+    constructor(resource: TResource | undefined, headers: CosmosHeaders_2, statusCode: StatusCode, substatus?: SubStatusCode, exception?: typeof cosmosDiagnosticsToString);
     // (undocumented)
     get activityId(): string;
     // (undocumented)
     get etag(): string;
+    // Warning: (ae-forgotten-export) The symbol "cosmosDiagnosticsToString" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    readonly exception: string;
+    readonly exception: typeof cosmosDiagnosticsToString;
     // (undocumented)
     readonly headers: CosmosHeaders_2;
     // (undocumented)
@@ -1542,8 +1544,6 @@ export enum ResourceType {
 interface Response_2<T> {
     // (undocumented)
     code?: number;
-    // (undocumented)
-    cosmosException?: [string];
     // (undocumented)
     headers: CosmosHeaders;
     // (undocumented)

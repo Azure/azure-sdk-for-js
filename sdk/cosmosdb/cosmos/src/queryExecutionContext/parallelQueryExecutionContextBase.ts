@@ -3,12 +3,12 @@
 import PriorityQueue from "priorityqueuejs";
 import semaphore from "semaphore";
 import { ClientContext } from "../ClientContext";
-import { AzureLogger, createClientLogger } from "@azure/logger";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
 import { FeedOptions, Response } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { QueryRange } from "../routing/QueryRange";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
+import { cosmosDiagnosticsLogger } from "../utils/logger";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { DocumentProducer } from "./documentProducer";
 import { ExecutionContext } from "./ExecutionContext";
@@ -16,7 +16,8 @@ import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 
 /** @hidden */
-const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
+const logger = cosmosDiagnosticsLogger;
+logger.info("parallelQueryExecutionContextBase");
 
 /** @hidden */
 export enum ParallelQueryExecutionContextBaseStates {

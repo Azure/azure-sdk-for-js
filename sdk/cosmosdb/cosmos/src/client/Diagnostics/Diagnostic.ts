@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { cosmosDiagnosticsLogger, CosmosDiagnosticsLogLevel, setCosmosDiagnosticsLogLevel } from "../../utils/logger";
+import { cosmosDiagnosticsLogger, setCosmosDiagnosticsLogLevel } from "../../utils/logger";
 
-export function startCosmosDiagnostics({ level, toConsole }: { level: CosmosDiagnosticsLogLevel; toConsole?: true; }): void{
-    if (toConsole) { logCosmosDiagnostics(); }
-  setCosmosDiagnosticsLogLevel(level);
+export function startCosmosDiagnostics(): void{
+  logCosmosDiagnostics();
+  setCosmosDiagnosticsLogLevel();
   cosmosDiagnosticsLogger.verbose.enabled = true;
   cosmosDiagnosticsLogger.verbose("Cosmos Diagnostics Started")
 }
@@ -16,5 +16,5 @@ export function endCosmosDiagnostics(): void{
 }
 
 export function logCosmosDiagnostics(): void{
-cosmosDiagnosticsLogger.verbose.log = (...args) => { console.log(...args); };
+cosmosDiagnosticsLogger.verbose.log = (...args: any) => { console.log(...args); };
 };
