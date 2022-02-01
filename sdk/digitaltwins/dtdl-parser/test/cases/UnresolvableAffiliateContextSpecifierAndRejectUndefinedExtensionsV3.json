@@ -1,0 +1,44 @@
+{
+  "valid": false,
+  "options": [
+    "PermitAnyTopLevelElement",
+    "RejectUndefinedExtensions"
+  ],
+  "input": [
+    {
+      "@context": [ "dtmi:dtdl:context;3", "dtmi:foo:bar;1" ],
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@id": "dtmi:test:aProperty;1",
+          "@type": "Property",
+          "name": "expectedDistance",
+          "schema": "double"
+        },
+        {
+          "@id": "dtmi:test:aTelemetry;1",
+          "@type": "Telemetry",
+          "name": "currentDistance",
+          "schema": "double"
+        },
+        {
+          "@id": "dtmi:test:aCommand;1",
+          "@type": "Command",
+          "name": "setDistance"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:unresolvableContextSpecifier",
+        "PrimaryID": null,
+        "SecondaryID": null,
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}

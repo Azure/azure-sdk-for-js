@@ -1,0 +1,97 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/dataflows/testdataflow2?api-version=2020-12-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "8bc0b94d-7d74-474a-b57f-cd17bacd02ac"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Headers": "Location",
+        "Access-Control-Expose-Headers": "Location",
+        "Content-Length": "354",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 22:59:14 GMT",
+        "Location": "https://testaccount.dev.azuresynapse.net/operationResults/2c11cab3-5677-4ccb-9cbb-9962e5666ef8?api-version=2020-12-01",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "ce3b987c-da5a-4086-b916-90ea018d9eb4"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/joheredi-test/providers/Microsoft.Synapse/workspaces/joheredisyn/dataflows/testdataflow2",
+        "recordId": 0,
+        "state": "Deleting",
+        "created": "0001-01-01T00:00:00",
+        "changed": "0001-01-01T00:00:00",
+        "type": "DataFlow",
+        "name": "testdataflow2",
+        "operationId": "2c11cab3-5677-4ccb-9cbb-9962e5666ef8"
+      }
+    },
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/operationResults/2c11cab3-5677-4ccb-9cbb-9962e5666ef8?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "01078cc0-6a3c-4292-9dc0-713fce8eb8ca"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Headers": [
+          "Location",
+          "Retry-After"
+        ],
+        "Access-Control-Expose-Headers": [
+          "Location",
+          "Retry-After"
+        ],
+        "Content-Length": "23",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 22:59:14 GMT",
+        "Location": "https://testaccount.dev.azuresynapse.net/operationResults/2c11cab3-5677-4ccb-9cbb-9962e5666ef8?api-version=2020-12-01",
+        "Retry-After": "10",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "e701d901-faa2-4916-9cdc-1c9c96af5101"
+      },
+      "ResponseBody": {
+        "status": "InProgress"
+      }
+    },
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/operationResults/2c11cab3-5677-4ccb-9cbb-9962e5666ef8?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "b13b8b64-37ea-4e59-a315-9cfef409d14e"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Mon, 31 Jan 2022 22:59:24 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "4d473933-0fb7-4261-b691-0297dec2eca8"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

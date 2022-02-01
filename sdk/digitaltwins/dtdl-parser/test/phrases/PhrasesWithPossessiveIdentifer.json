@@ -1,0 +1,62 @@
+[
+  {
+    "description": "blank node identifier",
+    "phrase": "{id:p} property 'foo' has an illegal value.",
+    "install": { "id": "_:b1" },
+    "expect": "_:b1's property 'foo' has an illegal value."
+  },
+  {
+    "description": "a non-DTMI IRI",
+    "phrase": "{id:p} property 'foo' has an illegal value.",
+    "install": { "id": "http://foo/bar" },
+    "expect": "http://foo/bar's property 'foo' has an illegal value."
+  },
+  {
+    "description": "an invalid DTMI",
+    "phrase": "{id:p} property 'foo' has an illegal value.",
+    "install": { "id": "dtmi:test:1notLegal:_foo;1" },
+    "expect": "dtmi:test:1notLegal:_foo;1's property 'foo' has an illegal value."
+  },
+  {
+    "description": "a user ID",
+    "phrase": "{id:p} property 'foo' has an illegal value.",
+    "install": { "id": "dtmi:test:mySelf;1" },
+    "expect": "dtmi:test:mySelf;1's property 'foo' has an illegal value."
+  },
+  {
+    "description": "one auto-genned singular ID",
+    "phrase": "{id:p} property 'foo' has an illegal value.",
+    "install": { "id": "dtmi:test:myParent:_schema;1" },
+    "expect": "dtmi:test:myParent;1 has 'schema' value whose property 'foo' has an illegal value."
+  },
+  {
+    "description": "one auto-genned plural ID",
+    "phrase": "{id:p} property 'foo' has an illegal value.",
+    "install": { "id": "dtmi:test:myParent:_contents:__child;1" },
+    "expect": "dtmi:test:myParent;1 has 'contents' value with name 'child' whose property 'foo' has an illegal value."
+  },
+  {
+    "description": "two auto-genned singular IDs",
+    "phrase": "{id:p} property 'foo' has an illegal value.",
+    "install": { "id": "dtmi:test:myGrandparent:_schema:_elementSchema;1" },
+    "expect": "dtmi:test:myGrandparent;1 has 'schema' value which has 'elementSchema' value whose property 'foo' has an illegal value."
+  },
+  {
+    "description": "two auto-genned plural IDs",
+    "phrase": "{id:p} property 'foo' has an illegal value.",
+    "install": { "id": "dtmi:test:myGrandparent:_contents:__child:_path:__grandchild;1" },
+    "expect": "dtmi:test:myGrandparent;1 has 'contents' value with name 'child' which has 'path' value with name 'grandchild' whose property 'foo' has an illegal value."
+  },
+  {
+    "description": "auto-genned singular then plural IDs",
+    "phrase": "{id:p} property 'foo' has an illegal value.",
+    "install": { "id": "dtmi:test:myGrandparent:_schema:_path:__grandchild;1" },
+    "expect": "dtmi:test:myGrandparent;1 has 'schema' value which has 'path' value with name 'grandchild' whose property 'foo' has an illegal value."
+  },
+  {
+    "description": "auto-genned plural then singular IDs",
+    "phrase": "{id:p} property 'foo' has an illegal value.",
+    "install": { "id": "dtmi:test:myGrandparent:_contents:__child:_elementSchema;1" },
+    "expect": "dtmi:test:myGrandparent;1 has 'contents' value with name 'child' which has 'elementSchema' value whose property 'foo' has an illegal value."
+  }
+]
