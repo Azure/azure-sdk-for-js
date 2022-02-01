@@ -28,7 +28,7 @@ async function main() {
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginAnalyzeDocuments(
+  const poller = await client.beginAnalyzeDocument(
     PrebuiltModels.IdentityDocument,
     // The form recognizer service will access the following URL to a driver license image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/identityDocument/license.jpg"
@@ -42,7 +42,7 @@ async function main() {
   if (result) {
     // The identity document model has multiple document types, so we need to know which document type was actually
     // extracted.
-    if (result.docType === "prebuilt:idDocument:driverLicense") {
+    if (result.docType === "idDocument.driverLicense") {
       const driverLicense = result.fields;
 
       // For the sake of the example, we'll only show a few of the fields that are produced.
@@ -51,7 +51,7 @@ async function main() {
       console.log("  License No.:", driverLicense.documentNumber?.value);
       console.log("  Date of Birth:", driverLicense.dateOfBirth?.value);
       console.log("  Expiration:", driverLicense.documentNumber?.value);
-    } else if (result.docType === "prebuilt:idDocument:passport") {
+    } else if (result.docType === "idDocument.passport") {
       const passport = result.fields;
 
       // The passport document type extracts and parses the Passport's machine-readable zone

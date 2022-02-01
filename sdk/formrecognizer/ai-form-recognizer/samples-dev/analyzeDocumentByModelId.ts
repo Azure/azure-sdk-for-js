@@ -20,7 +20,7 @@ async function main() {
 
   const modelId = process.env.FORM_RECOGNIZER_CUSTOM_MODEL_ID ?? "<custom model ID>";
 
-  const poller = await client.beginAnalyzeDocuments(
+  const poller = await client.beginAnalyzeDocument(
     modelId,
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png"
   );
