@@ -1,40 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
-  ServiceClient,
-  OperationRequest,
-  createSerializer,
+  CompositeMapper,
   DictionaryMapper,
-  QueryCollectionFormat,
-  ParameterPath,
+  FullOperationResponse,
+  Mapper,
   MapperTypeNames,
   OperationArguments,
-  Mapper,
-  CompositeMapper,
-  OperationSpec,
-  serializationPolicy,
-  FullOperationResponse,
   OperationQueryParameter,
+  OperationRequest,
+  OperationSpec,
+  ParameterPath,
+  QueryCollectionFormat,
+  ServiceClient,
+  createSerializer,
+  serializationPolicy,
 } from "../src";
 import {
-  createHttpHeaders,
-  createEmptyPipeline,
   HttpClient,
-  createPipelineRequest,
+  PipelinePolicy,
   PipelineRequest,
   RestError,
+  SendRequest,
+  createEmptyPipeline,
+  createHttpHeaders,
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-
 import {
   getOperationArgumentValueFromParameter,
   getOperationRequestInfo,
 } from "../src/operationHelpers";
-import { deserializationPolicy } from "../src/deserializationPolicy";
 import { TokenCredential } from "@azure/core-auth";
-import { getCachedDefaultHttpClient } from "../src/httpClientCache";
+import { assert } from "chai";
 import { assertServiceClientResponse } from "./utils/serviceClient";
+import { deserializationPolicy } from "../src/deserializationPolicy";
+import { getCachedDefaultHttpClient } from "../src/httpClientCache";
 
 describe("ServiceClient", function () {
   describe("Auth scopes", () => {
@@ -1483,6 +1484,36 @@ describe("ServiceClient", function () {
     });
     await client.sendOperationRequest<string>({ options: { top: 10 } as any }, operationSpec);
     assert.equal(request!.url, "https://example.com/path?$skip=10&$top=10");
+  });
+
+  it("should insert policies in the correct pipeline position", async function () {
+    const pipeline = createEmptyPipeline();
+    const sendRequest = (request: PipelineRequest, next: SendRequest) => next(request);
+    const retryPolicy: PipelinePolicy = {
+      name: "retry",
+      sendRequest,
+    };
+    pipeline.addPolicy(retryPolicy, { phase: "Retry" });
+    const policy1: PipelinePolicy = {
+      name: "policy1",
+      sendRequest,
+    };
+    const policy2: PipelinePolicy = {
+      name: "policy2",
+      sendRequest,
+    };
+
+    const client = new ServiceClient({
+      pipeline,
+      additionalPolicies: [
+        { policy: policy1, position: "perRetry" },
+        { policy: policy2, position: "perCall" },
+      ],
+    });
+
+    assert(client);
+    const policies = pipeline.getOrderedPolicies();
+    assert.deepStrictEqual(policies, [policy2, retryPolicy, policy1]);
   });
 });
 

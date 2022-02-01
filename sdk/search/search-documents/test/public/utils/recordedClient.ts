@@ -3,7 +3,7 @@
 
 import * as dotenv from "dotenv";
 
-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
 import {
   AzureKeyCredential,
@@ -11,7 +11,6 @@ import {
   SearchIndexerClient,
   SearchIndexClient,
 } from "../../../src";
-import { createRandomIndexName } from "./setup";
 
 const isNode =
   typeof process !== "undefined" &&
@@ -27,32 +26,41 @@ export interface Clients<IndexModel> {
   searchClient: SearchClient<IndexModel>;
   indexClient: SearchIndexClient;
   indexerClient: SearchIndexerClient;
-  indexName: string;
 }
 
-const envSetupForPlayback: { [k: string]: string } = {
+const replaceableVariables: { [k: string]: string } = {
   SEARCH_API_ADMIN_KEY: "admin_key",
   SEARCH_API_ADMIN_KEY_ALT: "admin_key_alt",
   ENDPOINT: "https://endpoint",
 };
 
-export const testEnv = new Proxy(envSetupForPlayback, {
+export const testEnv = new Proxy(replaceableVariables, {
   get: (target, key: string) => {
     return env[key] || target[key];
   },
 });
 
-const recorderOptions: RecorderStartOptions = {
-  envSetupForPlayback,
+export const environmentSetup: RecorderEnvironmentSetup = {
+  replaceableVariables,
+  customizationsOnRecordings: [
+    (recording: string): string =>
+      recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`),
+    // If we put ENDPOINT in replaceableVariables above, it will not capture
+    // the endpoint string used with nock, which will be expanded to
+    // https://<endpoint>:443/ and therefore will not match, so we have to do
+    // this instead.
+    (recording: string): string => {
+      const match = testEnv.ENDPOINT.replace(/^https:\/\//, "").replace(/\/$/, "");
+      return recording.replace(match, "endpoint");
+    },
+  ],
+  queryParametersToSkip: [],
 };
 
-export async function createClients<IndexModel>(
-  serviceVersion: string,
-  recorder: Recorder
-): Promise<Clients<IndexModel>> {
-  await recorder.start(recorderOptions);
-
-  const indexName = recorder.variable("TEST_INDEX_NAME", createRandomIndexName());
+export function createClients<IndexModel>(
+  indexName: string,
+  serviceVersion: string
+): Clients<IndexModel> {
   const endPoint: string = process.env.ENDPOINT ?? "https://endpoint";
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
   const searchClient = new SearchClient<IndexModel>(endPoint, indexName, credential, {
@@ -65,14 +73,9 @@ export async function createClients<IndexModel>(
     serviceVersion,
   });
 
-  recorder.configureClient(searchClient["client"]);
-  recorder.configureClient(indexClient["client"]);
-  recorder.configureClient(indexerClient["client"]);
-
   return {
     searchClient,
     indexClient,
     indexerClient,
-    indexName,
   };
 }

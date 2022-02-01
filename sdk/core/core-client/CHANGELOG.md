@@ -1,8 +1,10 @@
 # Release History
 
-## 1.4.1 (Unreleased)
+## 1.5.0 (Unreleased)
 
 ### Features Added
+
+- Added new `CommonClientOptions` member `additionalPolicies` to allow passing custom pipeline policies to client constructors. [PR #19920](https://github.com/Azure/azure-sdk-for-js/pull/19920)
 
 ### Breaking Changes
 
