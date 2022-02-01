@@ -40,6 +40,7 @@ export {
   SerializerOptions,
   RawResponseCallback,
   CommonClientOptions,
+  AdditionalPolicyConfig,
 } from "./interfaces";
 export {
   deserializationPolicy,
