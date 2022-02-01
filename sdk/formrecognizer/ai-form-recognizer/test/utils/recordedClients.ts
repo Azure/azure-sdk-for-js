@@ -17,7 +17,7 @@ import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { PollOperationState } from "@azure/core-lro";
 import { createClientLogger } from "@azure/logger";
 
-const logger = createClientLogger("ai-form-recognizer:test");
+export const logger = createClientLogger("ai-form-recognizer:test");
 
 export interface RecordedClient<T> {
   client: T;
@@ -48,7 +48,7 @@ export const testEnv = new Proxy(replaceableVariables, {
 
 export const testPollingOptions: PollerOptions<PollOperationState<unknown>> = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
-  onProgress: (state) => logger.info("Poll state progressed:", state),
+  onProgress: (state) => logger.verbose("Poll state progressed:", state),
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {

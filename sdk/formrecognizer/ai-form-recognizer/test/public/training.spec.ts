@@ -125,7 +125,7 @@ matrix(
               const urlParts = testingContainerUrl.split("?");
               const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
 
-              const poller = await recognizerClient.beginAnalyzeDocuments(
+              const poller = await recognizerClient.beginAnalyzeDocument(
                 model.modelId,
                 url,
                 testPollingOptions
