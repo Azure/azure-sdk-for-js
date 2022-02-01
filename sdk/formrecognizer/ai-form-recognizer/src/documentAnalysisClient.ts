@@ -4,7 +4,7 @@
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createTracingClient } from "@azure/core-tracing";
 import { ReadResult } from ".";
-import { TracingClient } from "../../../test-utils/test-utils/node_modules/@azure/core-tracing/types/core-tracing";
+import { TracingClient } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants";
 import {
   AnalyzeDocumentRequest,
