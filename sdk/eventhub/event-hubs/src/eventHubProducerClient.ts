@@ -262,8 +262,9 @@ export class EventHubProducerClient {
    * @returns Promise<void>
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
-  async getPartitionPublishingProperties(
-    // TODO: (jeremymeng) should this be exposed?
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore this is called in EventHubBufferedProducerClient via cast-to-any workaround
+  private async getPartitionPublishingProperties(
     partitionId: string,
     options: OperationOptions = {}
   ): Promise<PartitionPublishingProperties> {

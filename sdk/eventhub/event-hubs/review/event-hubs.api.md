@@ -125,6 +125,7 @@ export class EventHubBufferedProducerClient {
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
+    getPartitionPublishingProperties(partitionId: string, options?: OperationOptions): Promise<PartitionPublishingProperties>;
 }
 
 // @public
@@ -191,8 +192,6 @@ export class EventHubProducerClient {
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    getPartitionPublishingProperties(// TODO: (jeremymeng) should this be exposed?
-    partitionId: string, options?: OperationOptions): Promise<PartitionPublishingProperties>;
     sendBatch(batch: EventData[] | AmqpAnnotatedMessage[], options?: SendBatchOptions): Promise<void>;
     sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
 }

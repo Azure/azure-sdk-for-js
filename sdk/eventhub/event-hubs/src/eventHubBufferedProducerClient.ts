@@ -8,6 +8,7 @@ import {
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
   PartitionPublishingOptions,
+  PartitionPublishingProperties,
   SendBatchOptions,
 } from "./models/public";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
@@ -439,6 +440,24 @@ export class EventHubBufferedProducerClient {
     options: GetPartitionPropertiesOptions = {}
   ): Promise<PartitionProperties> {
     return this._producer.getPartitionProperties(partitionId, options);
+  }
+
+  /**
+   * Get the information about the state of publishing for a partition as observed by the `EventHubBufferedProducerClient`.
+   * This data can always be read, but will only be populated with information relevant to the active features
+   * for the producer client.
+   *
+   * @param partitionId - Id of the partition from which to retrieve publishing properties.
+   * @param options - The set of options to apply to the operation call.
+   * - `abortSignal`  : A signal the request to cancel the send operation.
+   * @returns Promise<void>
+   * @throws AbortError if the operation is cancelled via the abortSignal.
+   */
+  getPartitionPublishingProperties(
+    partitionId: string,
+    options: OperationOptions = {}
+  ): Promise<PartitionPublishingProperties> {
+    return (this._producer as any)._getPartitionPublishingProperties(partitionId, options);
   }
 
   /**
