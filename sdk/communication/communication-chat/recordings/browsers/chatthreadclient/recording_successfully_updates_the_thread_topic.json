@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PATCH",
-   "url": "https://endpoint/chat/threads/19%3AL8kLWi6oUCValrxQD_j6nwZ6CETkWIaXCcReS6JkiUg1%40thread.v2",
+   "url": "https://endpoint/chat/threads/19%3AcCLHo-V9uDiy0IzYBb21tiuMCwY-0ROnlxdAeeCaSgM1%40thread.v2",
    "query": {
     "api-version": "2021-09-07"
    },
@@ -13,13 +13,13 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3AL8kLWi6oUCValrxQD_j6nwZ6CETkWIaXCcReS6JkiUg1%40thread.v2",
+   "url": "https://endpoint/chat/threads/19%3AcCLHo-V9uDiy0IzYBb21tiuMCwY-0ROnlxdAeeCaSgM1%40thread.v2",
    "query": {
     "api-version": "2021-09-07"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"19:L8kLWi6oUCValrxQD_j6nwZ6CETkWIaXCcReS6JkiUg1@thread.v2\",\"topic\":\"new topic\",\"createdOn\":\"2022-02-01T18:57:46Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-5688-0d46-f6c7-593a0d00c715\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-5688-0d46-f6c7-593a0d00c715\"}}}",
+   "response": "{\"id\":\"19:cCLHo-V9uDiy0IzYBb21tiuMCwY-0ROnlxdAeeCaSgM1@thread.v2\",\"topic\":\"new topic\",\"createdOn\":\"2022-02-01T23:10:36Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-576f-86e8-0d8b-08482200c9d4\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-576f-86e8-0d8b-08482200c9d4\"}}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }

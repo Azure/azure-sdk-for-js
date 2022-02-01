@@ -8,9 +8,9 @@
    },
    "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
    "status": 201,
-   "response": "{\"identity\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-5688-08dd-f6c7-593a0d00c710\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2022-02-02T18:57:45.202343+00:00\"}}",
+   "response": "{\"identity\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-576f-8237-0d8b-08482200c9d2\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2022-02-02T23:10:35.0889665+00:00\"}}",
    "responseHeaders": {
-    "content-length": "919",
+    "content-length": "920",
     "content-type": "application/json; charset=utf-8"
    }
   },
@@ -22,7 +22,7 @@
    },
    "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
    "status": 201,
-   "response": "{\"identity\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-5688-093a-f6c7-593a0d00c711\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2022-02-02T18:57:45.3014631+00:00\"}}",
+   "response": "{\"identity\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-576f-829b-0d8b-08482200c9d3\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2022-02-02T23:10:35.1881906+00:00\"}}",
    "responseHeaders": {
     "content-length": "920",
     "content-type": "application/json; charset=utf-8"
@@ -34,12 +34,12 @@
    "query": {
     "api-version": "2021-09-07"
    },
-   "requestBody": "{\"topic\":\"test topic\",\"participants\":[{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-5688-08dd-f6c7-593a0d00c710\"}}},{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-5688-093a-f6c7-593a0d00c711\"}}}]}",
+   "requestBody": "{\"topic\":\"test topic\",\"participants\":[{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-576f-8237-0d8b-08482200c9d2\"}}},{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-576f-829b-0d8b-08482200c9d3\"}}}]}",
    "status": 201,
-   "response": "{\"chatThread\":{\"id\":\"19:JP4c0ZBN2wQUNozk-GoN9GWDb_rnFWRhjXnKCpEiVBQ1@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2022-02-01T18:57:45Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-5688-08dd-f6c7-593a0d00c710\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-5688-08dd-f6c7-593a0d00c710\"}}}}",
+   "response": "{\"chatThread\":{\"id\":\"19:OevYkcQesgSytx-zpyUeVJIQW4XDSydSaKieGoMRYHc1@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2022-02-01T23:10:35Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-576f-8237-0d8b-08482200c9d2\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-576f-8237-0d8b-08482200c9d2\"}}}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8",
-    "location": "https://endpoint/chat/threads/19%3AJP4c0ZBN2wQUNozk-GoN9GWDb_rnFWRhjXnKCpEiVBQ1@thread.v2"
+    "location": "https://endpoint/chat/threads/19%3AOevYkcQesgSytx-zpyUeVJIQW4XDSydSaKieGoMRYHc1@thread.v2"
    }
   }
  ],

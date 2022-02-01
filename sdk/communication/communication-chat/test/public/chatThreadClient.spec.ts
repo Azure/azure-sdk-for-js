@@ -95,32 +95,24 @@ describe("ChatThreadClient", function () {
   });
 
   it("successfully lists messages one by one and by page", async function () {
-    for (let i = 0; i < 3; ++i) {
-      await chatThreadClient.sendMessage({ content: `message ${i}` });
-    }
-
     const receivedItems: ChatMessage[] = [];
     for await (const message of chatThreadClient.listMessages()) {
       receivedItems.push(message);
     }
 
-    //let count = 0;
     let pagesCount = 0;
-    const maxPageSize = 2;
+    const maxPageSize = 3;
     const receivedPagedItems: ChatMessage[] = [];
-    for await (let page of chatThreadClient.listMessages({ maxPageSize: maxPageSize }).byPage()) {
+    for await (const page of chatThreadClient.listMessages({ maxPageSize: maxPageSize }).byPage()) {
       ++pagesCount;
       let pageSize = 0;
       for (const message of page) {
-        // ++count;
-        // console.log(`Page:${pagesCount}:${count}:${message.id}:${message.sequenceId}`); 
-        // console.log("message: ", message.content);
         ++pageSize;
         receivedPagedItems.push(message);
       }
       assert.isAtMost(pageSize, maxPageSize);
     }
-    
+
     assert.equal(pagesCount, Math.ceil(receivedItems.length / maxPageSize));
     assert.deepEqual(receivedPagedItems, receivedItems);
   });
