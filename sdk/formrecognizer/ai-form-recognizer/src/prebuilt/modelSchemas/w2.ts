@@ -41,7 +41,7 @@ export const TaxUsW2Schema = {
         Employee: {
           type: "object",
           properties: {
-            SSN: {
+            SocialSecurityNumber: {
               description:
                 "Employee social security number. IRS W2 form field a. eg: '123-45-6789'.",
               type: "string",
