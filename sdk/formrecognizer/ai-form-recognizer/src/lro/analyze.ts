@@ -24,7 +24,7 @@ import {
 } from "../generated";
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
 import { FormRecognizerApiVersion, PollerOptions } from "../options";
-import { AnalyzeDocumentsOptions } from "../options/AnalyzeDocumentsOptions";
+import { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentsOptions";
 
 /**
  * A request input that can be uploaded as binary data to the Form Recognizer service. Form Recognizer treats `string`
@@ -81,10 +81,9 @@ export function toAnalyzedDocumentFromGenerated(document: GeneratedDocument): An
 }
 
 /**
- * The result of an analysis operation. The type of the Document may be determined by the model used to perform the
- * analysis.
+ * The common fields of all AnalyzeResult-like types, such as LayoutResult, ReadResult, and GeneralDocumentResult.
  */
-export interface AnalyzeResult<Document = AnalyzedDocument> {
+export interface AnalyzeResultCommon {
   /**
    * The service API version used to produce this result.
    *
@@ -102,7 +101,13 @@ export interface AnalyzeResult<Document = AnalyzedDocument> {
    * in which the service "reads" or extracts the textual anc visual content from the document).
    */
   content: string;
+}
 
+/**
+ * The result of an analysis operation. The type of the Document may be determined by the model used to perform the
+ * analysis.
+ */
+export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResultCommon {
   /**
    * Extracted pages.
    */
@@ -449,7 +454,7 @@ export interface AnalysisOperationDefinition<Result = AnalyzeResult> {
   transformResult: (primitiveResult: GeneratedAnalyzeResult) => Result;
   initialModelId: string;
   options: PollerOptions<DocumentAnalysisPollOperationState<Result>> &
-    AnalyzeDocumentsOptions<Result>;
+    AnalyzeDocumentOptions<Result>;
 }
 
 /**

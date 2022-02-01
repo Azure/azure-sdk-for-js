@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AnalyzeDocumentsOptions } from "./AnalyzeDocumentsOptions";
+import { AnalyzeDocumentOptions } from "./AnalyzeDocumentsOptions";
 import { BuildModelOptions, DocumentModelBuildMode } from "./BuildModelOptions";
 import { CopyModelOptions } from "./CopyModelOptions";
 import { DeleteModelOptions } from "./DeleteModelOptions";
@@ -21,7 +21,7 @@ import { ListOperationsOptions } from "./ListOperationsOptions";
 import { PollerOptions } from "./PollerOptions";
 
 export {
-  AnalyzeDocumentsOptions,
+  AnalyzeDocumentOptions,
   BuildModelOptions,
   CopyModelOptions,
   DocumentModelBuildMode,

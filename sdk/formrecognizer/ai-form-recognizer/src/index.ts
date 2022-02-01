@@ -47,6 +47,7 @@ export {
 export {
   AnalysisPoller,
   AnalyzeResult,
+  AnalyzeResultCommon,
   DocumentPage,
   DocumentLine,
   DocumentAnalysisPollOperationState,
@@ -57,3 +58,4 @@ export { TrainingPoller, TrainingPollOperationState } from "./lro/training";
 export * from "./models";
 export * from "./options";
 export * from "./prebuilt";
+export { CapitalLetter, Acronymic } from "./util";

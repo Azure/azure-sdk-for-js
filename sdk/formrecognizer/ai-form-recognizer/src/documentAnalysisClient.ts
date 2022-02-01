@@ -3,6 +3,7 @@
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createTracingClient } from "@azure/core-tracing";
+import { ReadResult } from ".";
 import { TracingClient } from "../../../test-utils/test-utils/node_modules/@azure/core-tracing/types/core-tracing";
 import { SDK_VERSION } from "./constants";
 import {
@@ -25,7 +26,8 @@ import {
 import { lro } from "./lro/util/poller";
 import { GeneralDocumentResult, toGeneralDocumentResult } from "./models/GeneralDocumentResult";
 import { LayoutResult, toLayoutResult } from "./models/LayoutResult";
-import { AnalyzeDocumentsOptions } from "./options/AnalyzeDocumentsOptions";
+import { toReadResult } from "./models/ReadResult";
+import { AnalyzeDocumentOptions } from "./options/AnalyzeDocumentsOptions";
 import { DocumentAnalysisClientOptions } from "./options/FormRecognizerClientOptions";
 import { DocumentModel, getMapper } from "./prebuilt/models";
 import { identity, makeServiceClient, Mappers, SERIALIZER } from "./util";
@@ -226,11 +228,11 @@ export class DocumentAnalysisClient {
    * @param options - optional settings for the analysis operation and poller
    * @returns a long-running operation (poller) that will eventually produce an `AnalyzeResult`
    */
-  public async beginAnalyzeDocuments(
+  public async beginAnalyzeDocument(
     modelId: string,
     input: string | FormRecognizerRequestBody,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: AnalyzeDocumentsOptions
+    options?: AnalyzeDocumentOptions
   ): Promise<AnalysisPoller>;
   /**
    * Extract data from an input using a model that has a known, strongly-typed document schema (a `DocumentModel`). It
@@ -323,16 +325,16 @@ export class DocumentAnalysisClient {
    * @returns a long-running operation (poller) that will eventually produce an `AnalyzeResult` with documents that have
    *          the result type associated with the input model
    */
-  public async beginAnalyzeDocuments<Document>(
+  public async beginAnalyzeDocument<Document>(
     model: DocumentModel<Document>,
     input: string | FormRecognizerRequestBody,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: AnalyzeDocumentsOptions<AnalyzeResult<Document>>
+    options?: AnalyzeDocumentOptions<AnalyzeResult<Document>>
   ): Promise<AnalysisPoller<AnalyzeResult<Document>>>;
-  public async beginAnalyzeDocuments(
+  public async beginAnalyzeDocument(
     model: string | DocumentModel<unknown>,
     input: string | FormRecognizerRequestBody,
-    options: AnalyzeDocumentsOptions<unknown> = {}
+    options: AnalyzeDocumentOptions<unknown> = {}
   ): Promise<AnalysisPoller<unknown>> {
     const initialModelId = typeof model === "string" ? model : model.modelId;
 
@@ -406,7 +408,7 @@ export class DocumentAnalysisClient {
   public async beginExtractLayout(
     input: string | FormRecognizerRequestBody,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: AnalyzeDocumentsOptions<LayoutResult> = {}
+    options: AnalyzeDocumentOptions<LayoutResult> = {}
   ): Promise<AnalysisPoller<LayoutResult>> {
     return this.createAnalysisPoller(input, {
       initialModelId: "prebuilt-layout",
@@ -482,13 +484,78 @@ export class DocumentAnalysisClient {
   public async beginExtractGeneralDocument(
     input: string | FormRecognizerRequestBody,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: AnalyzeDocumentsOptions<GeneralDocumentResult> = {}
+    options: AnalyzeDocumentOptions<GeneralDocumentResult> = {}
   ): Promise<AnalysisPoller<GeneralDocumentResult>> {
     return this.createAnalysisPoller(input, {
       initialModelId: "prebuilt-document",
       options,
       transformResult: (res) =>
         toGeneralDocumentResult(toAnalyzeResultFromGenerated(res, identity)),
+    });
+  }
+
+  /**
+   * Extracts textual information from a document such as the text contents of pages and identified written languages.
+   *
+   * ### Examples
+   *
+   * This method supports both URLs (string) and streamable request bodies ({@link FormRecognizerRequestBody}) such as
+   * Node.JS `ReadableStream` objects, browser `Blob`s, and `ArrayBuffer`s.
+   *
+   * #### From URL
+   *
+   * The Form Recognizer service will attempt to download a file using the submitted URL, so the URL must be accessible
+   * from the public internet. For example, a SAS token can be used to grant read access to a blob in Azure Storage, and
+   * the service will use the SAS-encoded URL to request the file.
+   *
+   * ```javascript
+   * // the URL must be publicly accessible
+   * const url = "<document url>";
+   *
+   * const poller = await client.beginReadDocument(url);
+   *
+   * // The result is a long-running operation (poller), which must itself be polled until the operation completes
+   * const {
+   *   // This operation only produces `pages` and `languages`
+   *   pages, // pages extracted from the document, which contain lines and words
+   *   languages, // extracted spans identifying the written language of text in the document
+   * } = await poller.pollUntilDone();
+   * ```
+   *
+   * #### From Request Body
+   *
+   * Alternatively, if the file is local (or in memory in the browser), a binary object can be uploaded. The following
+   * example uses the Node.JS filesystem API.
+   *
+   * ```javascript
+   * import * as fs from "fs";
+   *
+   * const file = fs.createReadStream("path/to/file.pdf");
+   *
+   * const poller = await client.beginReadDocument(file);
+   *
+   * // The result is a long-running operation (poller), which must itself be polled until the operation completes
+   * const {
+   *   // This operation only produces `pages` and `languages`
+   *   pages, // pages extracted from the document, which contain lines and words
+   *   languages, // extracted spans identifying the written language of text in the document
+   * } = await poller.pollUntilDone();
+   * ```
+   *
+   * @param input - a URL (string) to an input document accessible from the public internet, or a
+   *                {@link FormRecognizerRequestBody} that will be uploaded with the request
+   * @param options - optional settings for the analysis operation and poller
+   * @returns a long-running operation (poller) that will eventually produce a read result or an error
+   */
+  public async beginReadDocument(
+    input: string | FormRecognizerRequestBody,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: AnalyzeDocumentOptions<ReadResult> = {}
+  ): Promise<AnalysisPoller<ReadResult>> {
+    return this.createAnalysisPoller(input, {
+      initialModelId: "prebuilt-read",
+      options,
+      transformResult: (res) => toReadResult(toAnalyzeResultFromGenerated(res, identity)),
     });
   }
 

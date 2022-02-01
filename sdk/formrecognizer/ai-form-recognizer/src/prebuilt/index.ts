@@ -16,8 +16,10 @@ export {
   NumberFieldSchema,
   DateFieldSchema,
   ArrayFieldSchema,
-  ImmediateObjectFieldSchema,
+  WellKnownObjectFieldSchema,
   ObjectFieldSchema,
 } from "./schema";
+
+export { Acronymic } from "../util";
 
 export { PrebuiltModels, DocumentModel } from "./models";

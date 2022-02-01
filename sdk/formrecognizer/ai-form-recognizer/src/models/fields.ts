@@ -163,6 +163,7 @@ export interface DocumentSignatureField extends DocumentFieldCommon {
    *
    * This value may be undefined, and other variants may be introduced in the future.
    */
+  value: "signed" | "unsigned";
 }
 
 /**

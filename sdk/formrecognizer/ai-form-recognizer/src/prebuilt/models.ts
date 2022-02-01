@@ -4,11 +4,12 @@
 import { ObjectFieldSchema } from ".";
 import { Document } from "../generated";
 import { DocumentField, toDocumentField } from "../models/fields";
-import { uncapitalize } from "../util";
+import { isAcronymic, uncapitalize } from "../util";
 import { BusinessCard, BusinessCardSchema } from "./modelSchemas/businessCard";
 import { IdentityDocument, IdentityDocumentSchema } from "./modelSchemas/idDocument";
 import { Invoice, InvoiceSchema } from "./modelSchemas/invoice";
 import { Receipt, ReceiptSchema } from "./modelSchemas/receipt";
+import { TaxUsW2, TaxUsW2Schema } from "./modelSchemas/w2";
 import { ArrayFieldSchema, FieldSchema, ModelSchema, ReifyPrebuiltSchema } from "./schema";
 
 // This symbol is used to index the transformation function. We might replace this with a normal string property key
@@ -62,11 +63,12 @@ function extractField<Schema extends FieldSchema>(
       (schema as ObjectFieldSchema).properties
     )) {
       if (field.properties[subFieldName] !== undefined && field.properties[subFieldName] !== null) {
-        result[uncapitalize(subFieldName)] = extractField(
-          fieldName + "." + subFieldName,
-          subFieldSchema,
-          field.properties[subFieldName]!
-        );
+        result[isAcronymic(subFieldName) ? subFieldName : uncapitalize(subFieldName)] =
+          extractField(
+            fieldName + "." + subFieldName,
+            subFieldSchema,
+            field.properties[subFieldName]!
+          );
       }
     }
 
@@ -107,7 +109,7 @@ function createModelFromSchema<Schema extends ModelSchema>(
       }
       for (const [fieldName, fieldSchema] of Object.entries(model.fieldSchema)) {
         if (document.fields[fieldName] !== undefined && document.fields[fieldName] !== null) {
-          result[uncapitalize(fieldName)] = extractField(
+          result[isAcronymic(fieldName) ? fieldName : uncapitalize(fieldName)] = extractField(
             fieldName,
             fieldSchema,
             toDocumentField(document.fields[fieldName])
@@ -168,6 +170,7 @@ export const PrebuiltModels = {
   ) as DocumentModel<IdentityDocument>,
   Invoice: createModelFromSchema(InvoiceSchema) as DocumentModel<Invoice>,
   Receipt: createModelFromSchema(ReceiptSchema) as DocumentModel<Receipt>,
+  TaxUsW2: createModelFromSchema(TaxUsW2Schema) as DocumentModel<TaxUsW2>,
 };
 
 // PrebuiltModels is defined `as const` so this assignment checks to make sure it has the appropriate type, and

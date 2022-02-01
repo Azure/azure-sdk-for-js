@@ -3,6 +3,7 @@
 
 export { GeneralDocumentResult } from "./GeneralDocumentResult";
 export { LayoutResult } from "./LayoutResult";
+export { ReadResult } from "./ReadResult";
 
 export {
   DocumentPhoneNumberField,

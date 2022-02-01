@@ -13,6 +13,7 @@ import {
   DocumentStringField,
   DocumentTimeField,
 } from "../models/fields";
+import { Acronymic } from "../util";
 
 /**
  * The type of a model schema, which has a model ID and a set of document types, each having a field schema.
@@ -43,7 +44,8 @@ export type FieldSchema =
   | DateFieldSchema
   | ArrayFieldSchema
   | ObjectFieldSchema
-  | StructuredStringFieldSchema;
+  | StructuredStringFieldSchema
+  | WellKnownObjectFieldSchema;
 
 /**
  * A field that is ultimately represented by a string.
@@ -107,7 +109,7 @@ export interface ArrayFieldSchema<Item extends Readonly<FieldSchema> = Readonly<
  * beneath a property named `properties` as in ordinary "object" fields).
  * @hidden
  */
-export interface ImmediateObjectFieldSchema<Type extends "currency" = "currency"> {
+export interface WellKnownObjectFieldSchema<Type extends "currency" = "currency"> {
   /** Field type: an immediate object such as "currency". */
   readonly type: Type;
 }
@@ -171,14 +173,14 @@ export type ReifyFieldSchema<Schema extends Readonly<FieldSchema>> =
     ? DocumentDateField
     : Schema extends ArrayFieldSchema<infer Item>
     ? DocumentArrayField<ReifyFieldSchema<Item>>
-    : Schema extends ImmediateObjectFieldSchema<infer Type>
+    : Schema extends WellKnownObjectFieldSchema<infer Type>
     ? {
         currency: DocumentCurrencyField;
       }[Type]
     : Schema extends ObjectFieldSchema<infer Properties>
     ? DocumentObjectField<{
-        [K in Extract<keyof Properties, string> as Uncapitalize<K>]?: ReifyFieldSchema<
-          Properties[K]
-        >;
+        [K in Extract<keyof Properties, string> as K extends Acronymic
+          ? K
+          : Uncapitalize<K>]?: ReifyFieldSchema<Properties[K]>;
       }>
     : never;
