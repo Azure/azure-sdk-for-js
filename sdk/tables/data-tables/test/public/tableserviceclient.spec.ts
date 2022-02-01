@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createTableServiceClient, recordedEnvironmentSetup } from "./utils/recordedClient";
-import { Recorder, isPlaybackMode, record } from "@azure-tools/test-recorder";
+import { createTableServiceClient } from "./utils/recordedClient";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { TableItem, TableItemResultPage, TableServiceClient } from "../../src";
 import { Context } from "mocha";
 import { FullOperationResponse } from "@azure/core-client";
@@ -14,9 +14,9 @@ describe(`TableServiceClient`, () => {
   let recorder: Recorder;
   const suffix = isNode ? `node` : `browser`;
 
-  beforeEach(function (this: Context) {
-    recorder = record(this, recordedEnvironmentSetup);
-    client = createTableServiceClient("SASConnectionString");
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    client = await createTableServiceClient("SASConnectionString", recorder);
   });
 
   afterEach(async function () {
@@ -49,13 +49,15 @@ describe(`TableServiceClient`, () => {
   describe("listTables", () => {
     const tableNames: string[] = [];
     const expectedTotalItems = 20;
+    let unRecordedClient: TableServiceClient;
     before(async function (this: Context) {
       // Create tables to be listed
       if (!isPlaybackMode()) {
+        unRecordedClient = await createTableServiceClient("SASConnectionString");
         this.timeout(10000);
         for (let i = 0; i < 20; i++) {
           const tableName = `ListTableTest${suffix}${i}`;
-          await client.createTable(tableName);
+          await unRecordedClient.createTable(tableName);
           tableNames.push(tableName);
         }
       }
@@ -67,7 +69,7 @@ describe(`TableServiceClient`, () => {
         this.timeout(10000);
         try {
           for (const table of tableNames) {
-            await client.deleteTable(table);
+            await unRecordedClient.deleteTable(table);
           }
         } catch (error) {
           console.warn(`Failed to delete a table during cleanup`);
