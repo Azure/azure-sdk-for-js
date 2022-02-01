@@ -47,7 +47,7 @@ async function main() {
       console.log("  Name:", employee.name?.value);
       console.log("  Address:", employee.address?.value);
       console.log("  ZIP Code:", employee.zipCode?.value);
-      console.log("  SSN/TIN:", employee.SSN?.value);
+      console.log("  SSN/TIN:", employee.socialSecurityNumber?.value);
     } else {
       console.log("No employee information extracted.");
     }

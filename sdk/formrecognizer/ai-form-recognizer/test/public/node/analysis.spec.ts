@@ -32,7 +32,7 @@ function assertDefined(value: unknown, message?: string): asserts value {
   return assert.ok(value, message);
 }
 
-matrix([[/* true ,*/ false]] as const, async (useAad) => {
+matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] analysis (Node)`, () => {
     const ASSET_PATH = path.resolve(path.join(process.cwd(), "assets"));
     let client: DocumentAnalysisClient;
@@ -757,6 +757,7 @@ matrix([[/* true ,*/ false]] as const, async (useAad) => {
           name: "BONNIE F HERNANDEZ",
           address: "96541 MOLLY HOLLOW STREET APT.124 KATHRYNMOUTH, NE",
           zipCode: "98631-5293",
+          socialSecurityNumber: "986-62-1002",
         },
         controlNumber: "000086242",
         employer: {

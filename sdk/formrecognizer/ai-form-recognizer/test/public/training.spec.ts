@@ -18,12 +18,12 @@ const containerSasUrl = (): string => env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS
 
 /*
  * Run the entire battery of tests using both AAD and API Key.
+ *
+ * Note: Neural builds are currently disabled, as they take prohibitively long to complete for the live testing
+ * environment.
  */
 matrix(
-  [
-    [/* true, */ false],
-    [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/],
-  ] as const,
+  [[true, false], [DocumentModelBuildMode.Template /* , DocumentModelBuildMode.Neural*/]] as const,
   async (useAad, buildMode) => {
     describe(`[${useAad ? "AAD" : "API Key"}] model management`, () => {
       let recorder: Recorder;

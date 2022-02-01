@@ -1093,7 +1093,7 @@ export const PrebuiltModels: {
             w2Copy?: DocumentStringField<string> | undefined;
             employee?: DocumentObjectField<    {
             address?: DocumentStringField<string> | undefined;
-            SSN?: DocumentStringField<string> | undefined;
+            socialSecurityNumber?: DocumentStringField<string> | undefined;
             name?: DocumentStringField<string> | undefined;
             zipCode?: DocumentStringField<string> | undefined;
             }> | undefined;
