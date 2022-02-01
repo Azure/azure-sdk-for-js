@@ -4,7 +4,6 @@
 import {
   DeleteTableEntityOptions,
   TableEntity,
-  TableServiceClientOptions,
   TableTransactionEntityResponse,
   TableTransactionResponse,
   TransactionAction,
@@ -17,12 +16,10 @@ import {
   TokenCredential,
   isNamedKeyCredential,
   isSASCredential,
-  isTokenCredential,
 } from "@azure/core-auth";
 import {
   OperationOptions,
   ServiceClient,
-  ServiceClientOptions,
   serializationPolicy,
   serializationPolicyName,
 } from "@azure/core-client";
@@ -44,7 +41,6 @@ import {
   transactionRequestAssemblePolicy,
   transactionRequestAssemblePolicyName,
 } from "./TablePolicies";
-import { STORAGE_SCOPE } from "./utils/constants";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TableClientLike } from "./utils/internalModels";
 import { TableServiceErrorOdataError } from "./generated";
@@ -131,10 +127,10 @@ export class InternalTableTransaction {
     bodyParts: string[];
     partitionKey: string;
   };
-  private clientOptions: TableServiceClientOptions;
   private interceptClient: TableClientLike;
   private credential?: NamedKeyCredential | SASCredential | TokenCredential;
   private allowInsecureConnection: boolean;
+  private client: ServiceClient;
 
   /**
    * @param url - Tables account url
@@ -146,12 +142,12 @@ export class InternalTableTransaction {
     partitionKey: string,
     transactionId: string,
     changesetId: string,
-    clientOptions: TableServiceClientOptions,
+    client: ServiceClient,
     interceptClient: TableClientLike,
     credential?: NamedKeyCredential | SASCredential | TokenCredential,
     allowInsecureConnection: boolean = false
   ) {
-    this.clientOptions = clientOptions;
+    this.client = client;
     this.credential = credential;
     this.url = url;
     this.interceptClient = interceptClient;
@@ -279,15 +275,6 @@ export class InternalTableTransaction {
       this.resetableState.changesetId
     );
 
-    const options: ServiceClientOptions = this.clientOptions;
-
-    if (isTokenCredential(this.credential)) {
-      options.credentialScopes = STORAGE_SCOPE;
-      options.credential = this.credential;
-    }
-
-    const client = new ServiceClient(options);
-
     const headers = getTransactionHeaders(this.resetableState.transactionId);
 
     const { span, updatedOptions } = createSpan(
@@ -311,7 +298,7 @@ export class InternalTableTransaction {
     }
 
     try {
-      const rawTransactionResponse = await client.sendRequest(request);
+      const rawTransactionResponse = await this.client.sendRequest(request);
       return parseTransactionResponse(rawTransactionResponse);
     } catch (error) {
       span.setStatus({

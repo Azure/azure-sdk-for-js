@@ -2,39 +2,32 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
-import { createTableClient, recordedEnvironmentSetup } from "./utils/recordedClient";
-import { Recorder, isPlaybackMode, record } from "@azure-tools/test-recorder";
+import { createTableClient } from "./utils/recordedClient";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { TableClient, TableTransaction, TransactionAction, odata } from "../../src";
 import { Context } from "mocha";
 import { Uuid } from "../../src/utils/uuid";
 import { assert } from "chai";
 import { isNode } from "@azure/test-utils";
 
+const partitionKey = "batchTest";
+const testEntities = [
+  { partitionKey, rowKey: "1", name: "first" },
+  { partitionKey, rowKey: "2", name: "second" },
+  { partitionKey, rowKey: "3", name: "third" },
+];
+
 describe(`batch operations`, () => {
   let client: TableClient;
+  let unRecordedClient: TableClient;
   let recorder: Recorder;
   const suffix = isNode ? "node" : "browser";
   const tableName = `batchTableTest${suffix}`;
 
-  const partitionKey = "batchTest";
-  const testEntities = [
-    { partitionKey, rowKey: "1", name: "first" },
-    { partitionKey, rowKey: "2", name: "second" },
-    { partitionKey, rowKey: "3", name: "third" },
-  ];
-
   beforeEach(async function (this: Context) {
     sinon.stub(Uuid, "generateUuid").returns("fakeId");
-    recorder = record(this, recordedEnvironmentSetup);
-    client = createTableClient(tableName, "SASConnectionString");
-
-    try {
-      if (!isPlaybackMode()) {
-        await client.createTable();
-      }
-    } catch {
-      console.warn("Table already exists");
-    }
+    recorder = new Recorder(this.currentTest);
+    client = await createTableClient(tableName, "SASConnectionString", recorder);
   });
 
   afterEach(async function () {
@@ -42,13 +35,16 @@ describe(`batch operations`, () => {
     await recorder.stop();
   });
 
+  before(async () => {
+    if (!isPlaybackMode()) {
+      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      await unRecordedClient.createTable();
+    }
+  });
+
   after(async () => {
-    try {
-      if (!isPlaybackMode()) {
-        await client.deleteTable();
-      }
-    } catch {
-      console.warn("Table was not deleted");
+    if (!isPlaybackMode()) {
+      await unRecordedClient.deleteTable();
     }
   });
 
@@ -155,24 +151,6 @@ describe(`batch operations`, () => {
     });
   });
 
-  it("should handle sub request error", async () => {
-    const testClient = createTableClient("noExistingTable", "SASConnectionString");
-    const actions: TransactionAction[] = [];
-
-    for (const entity of testEntities) {
-      actions.push(["create", entity]);
-    }
-
-    try {
-      await testClient.submitTransaction(actions);
-      assert.fail("Expected submitBatch to throw");
-    } catch (error) {
-      assert.equal(error.code, "TableNotFound");
-      assert.equal(error.statusCode, 404);
-      assert.isString(error.message);
-    }
-  });
-
   it("should send multiple transactions with the same partition key", async () => {
     const multiBatchPartitionKey = "multiBatch1";
     const actions1: TransactionAction[] = [
@@ -226,5 +204,39 @@ describe(`batch operations`, () => {
 
     entity = await client.getEntity("", "");
     assert.equal(entity.value, "upserted");
+  });
+});
+
+describe("Handle suberror", () => {
+  let client: TableClient;
+  let recorder: Recorder;
+  const tableName = "noExistingTableError";
+
+  beforeEach(async function (this: Context) {
+    sinon.stub(Uuid, "generateUuid").returns("fakeId");
+    recorder = new Recorder(this.currentTest);
+    client = await createTableClient(tableName, "SASConnectionString", recorder);
+  });
+
+  afterEach(async function () {
+    sinon.restore();
+    await recorder.stop();
+  });
+
+  it("should handle sub request error", async function () {
+    const actions: TransactionAction[] = [];
+
+    for (const entity of testEntities) {
+      actions.push(["create", entity]);
+    }
+
+    try {
+      await client.submitTransaction(actions);
+      assert.fail("Expected submitBatch to throw");
+    } catch (error) {
+      assert.equal(error.code, "TableNotFound");
+      assert.equal(error.statusCode, 404);
+      assert.isString(error.message);
+    }
   });
 });
