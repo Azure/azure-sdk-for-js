@@ -86,8 +86,6 @@ export function toAnalyzedDocumentFromGenerated(document: GeneratedDocument): An
 export interface AnalyzeResultCommon {
   /**
    * The service API version used to produce this result.
-   *
-   * Example: "2020-09-30-preview"
    */
   apiVersion: FormRecognizerApiVersion;
 
@@ -98,7 +96,7 @@ export interface AnalyzeResultCommon {
 
   /**
    * A string representation of all textual and visual elements in the input, concatenated by reading order (the order
-   * in which the service "reads" or extracts the textual anc visual content from the document).
+   * in which the service "reads" or extracts the textual and visual content from the document).
    */
   content: string;
 }

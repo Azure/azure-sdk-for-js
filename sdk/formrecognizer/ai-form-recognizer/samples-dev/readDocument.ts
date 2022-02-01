@@ -24,8 +24,8 @@ async function main() {
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf"
   );
 
-  // Layout extraction only produces basic elements such as pages, words, lines, etc. as well as information about the
-  // appearance (styles) of textual elements.
+  // The "prebuilt-read" model (`beginReadDocument` method) only extracts information about the textual content of the
+  // document, such as page text elements and information about the language of the text.
   const { content, pages, languages } = await poller.pollUntilDone();
 
   if (pages.length <= 0) {

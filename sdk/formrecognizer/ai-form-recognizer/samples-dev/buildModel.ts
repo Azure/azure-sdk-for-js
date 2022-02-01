@@ -34,7 +34,7 @@ async function main() {
   const poller = await client.beginBuildModel(
     modelId,
     trainingDataSasUrl,
-    DocumentModelBuildMode.Neural
+    DocumentModelBuildMode.Template
   );
   const model = await poller.pollUntilDone();
 

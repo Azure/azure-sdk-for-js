@@ -26,7 +26,7 @@ export function toReadResult(analyzeResult: AnalyzeResult<unknown>): ReadResult 
 }
 
 /**
- * The result of analysis using the prebuilt "read" model ("prebuilt-layout").
+ * The result of analysis using the prebuilt "read" model ("prebuilt-read").
  *
  * This model produces only textual information: pages and languages.
  */

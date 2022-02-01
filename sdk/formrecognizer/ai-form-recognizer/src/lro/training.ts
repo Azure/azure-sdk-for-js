@@ -48,7 +48,7 @@ export interface TrainingPollOperationState extends PollOperationState<ModelInfo
   lastUpdatedOn: Date;
 
   /**
-   * Additional, arbitrary key-value pairs associated with the model as metadata.
+   * Additional, user-defined key-value pairs associated with the model as metadata.
    */
   tags?: { [tag: string]: string };
 }
