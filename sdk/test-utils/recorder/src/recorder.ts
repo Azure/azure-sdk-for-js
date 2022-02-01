@@ -233,7 +233,7 @@ export class Recorder {
    * 
    * Note: Client Options must have "additionalPolicies" as part of the options.
    */
-  public configureClientOptions<T extends { additionalPolicies?: AdditionalPolicyConfig[] }>(options: T): T {
+  public configureClientOptions<T extends { additionalPolicies?: AdditionalPolicyConfig[] } & Record<string, unknown>>(options: T): T {
     if (isLiveMode()) return options;
     if (!options.additionalPolicies) options.additionalPolicies = [];
     options.additionalPolicies.push({
@@ -251,7 +251,7 @@ export class Recorder {
   public configureClientOptionsCoreV1<
     T extends {
       httpClient?: HttpClientCoreV1;
-    }
+    } & Record<string, unknown>
   >(options: T): T {
     if (isLiveMode()) return options;
     return { ...options, httpClient: once(() => this.createHttpClientCoreV1())() };
