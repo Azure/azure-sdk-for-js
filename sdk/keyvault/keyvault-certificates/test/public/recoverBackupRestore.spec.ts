@@ -7,11 +7,11 @@ import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-r
 import { isNode } from "@azure/core-http";
 
 import { CertificateClient } from "../../src";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { assertThrowsAbortError } from "../utils/utils.common";
-import { authenticate } from "../utils/testAuthentication";
-import { getServiceVersion } from "../utils/utils.common";
-import TestClient from "../utils/testClient";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { assertThrowsAbortError } from "./utils/common";
+import { authenticate } from "./utils/testAuthentication";
+import { getServiceVersion } from "./utils/common";
+import TestClient from "./utils/testClient";
 
 describe("Certificates client - restore certificates and recover backups", () => {
   const prefix = `backupRestore${env.CERTIFICATE_NAME || "CertificateName"}`;

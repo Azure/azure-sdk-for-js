@@ -11,10 +11,10 @@ import {
   DefaultCertificatePolicy,
   KeyVaultCertificateWithPolicy,
 } from "../../src";
-import { testPollerProperties } from "../utils/recorderUtils";
-import { authenticate } from "../utils/testAuthentication";
-import { getServiceVersion } from "../utils/utils.common";
-import TestClient from "../utils/testClient";
+import { testPollerProperties } from "./utils/recorderUtils";
+import { authenticate } from "./utils/testAuthentication";
+import { getServiceVersion } from "./utils/common";
+import TestClient from "./utils/testClient";
 
 describe("Certificates client - LRO - certificate operation", () => {
   const certificatePrefix = `lroOperation${env.CERTIFICATE_NAME || "CertificateName"}`;

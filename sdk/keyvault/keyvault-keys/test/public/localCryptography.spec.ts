@@ -8,12 +8,12 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { isNode } from "@azure/core-http";
 import { createHash } from "crypto";
-import { authenticate } from "../utils/testAuthentication";
-import TestClient from "../utils/testClient";
+import { authenticate } from "./utils/testAuthentication";
+import TestClient from "./utils/testClient";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
-import { getServiceVersion } from "../utils/utils.common";
+import { getServiceVersion } from "./utils/common";
 const { assert } = chai;
 
 describe("Local cryptography public tests", () => {

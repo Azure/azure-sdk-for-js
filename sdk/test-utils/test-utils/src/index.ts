@@ -9,7 +9,7 @@ export {
   TestFunctionWrapper,
 } from "./multiVersion";
 
-export { chaiAzureTrace } from "./tracing/chaiAzureTrace";
+export { chaiAzure } from "./chaiAzure";
 export { matrix } from "./matrix";
 export { isNode, isNode8 } from "./utils";
 export { getYieldedValue } from "./getYieldedValue";
