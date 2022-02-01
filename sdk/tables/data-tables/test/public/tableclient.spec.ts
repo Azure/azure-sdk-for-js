@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createTableClient } from "./utils/recordedClient";
 import { Edm, TableClient, TableEntity, TableEntityResult, odata } from "../../src";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { isNode, isNode8 } from "@azure/test-utils";
+
 import { Context } from "mocha";
 import { FullOperationResponse } from "@azure/core-client";
 import { assert } from "chai";
+import { createTableClient } from "./utils/recordedClient";
 
 describe("special characters", () => {
   const tableName = `SpecialChars`;
   let recorder: Recorder;
   let client: TableClient;
-  beforeEach(async function () {
+  beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     client = await createTableClient(tableName, "SASConnectionString", recorder);
   });

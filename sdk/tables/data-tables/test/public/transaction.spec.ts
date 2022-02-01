@@ -2,12 +2,14 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
-import { createTableClient } from "./utils/recordedClient";
+
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { TableClient, TableTransaction, TransactionAction, odata } from "../../src";
+
 import { Context } from "mocha";
 import { Uuid } from "../../src/utils/uuid";
 import { assert } from "chai";
+import { createTableClient } from "./utils/recordedClient";
 import { isNode } from "@azure/test-utils";
 
 const partitionKey = "batchTest";

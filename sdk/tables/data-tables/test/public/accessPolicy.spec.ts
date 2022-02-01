@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { createTableClient } from "./utils/recordedClient";
+
 import { Context } from "mocha";
 import { TableClient } from "../../src";
 import { assert } from "chai";
+import { createTableClient } from "./utils/recordedClient";
 import { isNode } from "@azure/test-utils";
 
 describe(`Access Policy operations`, () => {
@@ -23,7 +24,7 @@ describe(`Access Policy operations`, () => {
     await recorder.stop();
   });
 
-  before(async function () {
+  before(async function (this: Context) {
     if (!isNode) {
       this.skip();
     }

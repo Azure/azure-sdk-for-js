@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createTableServiceClient } from "./utils/recordedClient";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { TableItem, TableItemResultPage, TableServiceClient } from "../../src";
+
 import { Context } from "mocha";
 import { FullOperationResponse } from "@azure/core-client";
 import { assert } from "chai";
+import { createTableServiceClient } from "./utils/recordedClient";
 import { isNode } from "@azure/test-utils";
 
 describe(`TableServiceClient`, () => {
