@@ -409,10 +409,8 @@ describe("Batch Service", () => {
       assert.equal(result._response.status, 200);
 
       const endpointPoolObj = result.filter(pool => pool.poolId == ENDPOINT_POOL);
-      if (endpointPoolObj.length == 0)
-      {
-        assert.fail(`Pool with Pool Id ${ENDPOINT_POOL} not found`);
-      }
+
+      assert.isAbove(endpointPoolObj.length, 0, `Pool with Pool Id ${ENDPOINT_POOL} not found`);
 
       assert.equal(endpointPoolObj[0].dedicated!.idle, 1);
       assert.equal(endpointPoolObj[0].lowPriority!.total, 0);
