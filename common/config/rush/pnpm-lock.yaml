@@ -13979,16 +13979,16 @@ packages:
     dev: false
 
   file:projects/dtdl-parser.tgz:
-    resolution: {integrity: sha512-opCQvI+8GN8JT+M59lS/0PgGp2yg2N53jaxDiwVBv1Z6ABcY8ezQwas59YzXC5efoiBGy09GGDB4haGQmf6RWw==, tarball: file:projects/dtdl-parser.tgz}
+    resolution: {integrity: sha512-HkF/GM4awodeF184YdeRQvLU+4ZEtC14BZNKwc+K3Z08l9qb+MyNS5/M6OogfKRwL0V6T+bgYGNRciYVn4JO3Q==, tarball: file:projects/dtdl-parser.tgz}
     name: '@rush-temp/dtdl-parser'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@microsoft/api-extractor': 7.7.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.1_rollup@2.66.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.66.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.66.1
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.66.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.4
@@ -14017,10 +14017,10 @@ packages:
       nyc: 14.1.1
       prettier: 1.19.1
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
+      rollup: 2.66.1
+      rollup-plugin-sourcemaps: 0.6.3_659d6a17a324ff5112931e2d48319831
+      rollup-plugin-terser: 5.3.1_rollup@2.66.1
+      rollup-plugin-visualizer: 5.5.4_rollup@2.66.1
       sinon: 9.2.4
       ts-node: 9.1.1_typescript@4.2.4
       tslib: 2.3.1
