@@ -6,10 +6,10 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { OperationOptions } from '@azure/core-http';
+import { FullOperationResponse } from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
-import { RestResponse } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -1021,6 +1021,13 @@ export type PostgreSqlDataFeedSource = {
     query: string;
     authenticationType: "Basic";
 };
+
+// @public
+export interface RestResponse {
+    // (undocumented)
+    [key: string]: any;
+    _response: FullOperationResponse;
+}
 
 // @public
 export type Severity = "Low" | "Medium" | "High";

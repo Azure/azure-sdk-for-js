@@ -16,4 +16,4 @@ export {
   isTokenCredential,
 } from "./tokenCredential";
 
-export { Context } from "./tracing";
+export { TracingContext } from "./tracing";

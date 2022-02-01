@@ -15,6 +15,8 @@
 
 ### Other Changes
 
+- Moved the `@types/stoppable` dependency to the `devDependencies`.
+
 ## 2.0.1 (2021-10-28)
 
 ### Features Added

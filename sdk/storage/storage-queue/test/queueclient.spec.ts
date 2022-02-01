@@ -6,7 +6,7 @@ import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { QueueClient, QueueServiceClient } from "../src";
 import { setSpan, context } from "@azure/core-tracing";
 import { SpanGraph, setTracer } from "@azure/test-utils";
-import { URLBuilder, RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-http";
 import { Recorder, record } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common";
 import { Context } from "mocha";
@@ -209,8 +209,6 @@ describe("QueueClient", () => {
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
 
-    const urlPath = URLBuilder.parse(queueClient.url).getPath() || "";
-
     const expectedGraph: SpanGraph = {
       roots: [
         {
@@ -220,7 +218,7 @@ describe("QueueClient", () => {
               name: "Azure.Storage.Queue.QueueClient-getProperties",
               children: [
                 {
-                  name: urlPath,
+                  name: "HTTP GET",
                   children: [],
                 },
               ],

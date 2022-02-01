@@ -1,71 +1,111 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1322",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 21 Oct 2021 22:55:14 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12158.6 - EUS ProdSlices",
-    "x-ms-request-id": "70ff6093-012d-409a-88eb-aeaa7d325501"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/roleAssignments",
-   "query": {
-    "api-version": "2020-12-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"count\":120,\"value\":[{\"id\":\"b57b943c-e3a3-4147-af09-0f7a0d99aa69\",\"roleDefinitionId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"77d17c3a-4c6c-46dc-982b-7e9dc904d229\",\"scope\":\"workspaces/xysynapsetest\",\"principalType\":\"ServicePrincipal\"},{\"id\":\"d4eda14e-38fe-4ea4-911c-f3728aa4129c\",\"roleDefinitionId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"794b8347-c398-4fd8-b557-37b60946e830\",\"scope\":\"workspaces/xysynapsetest\",\"principalType\":\"User\"},{\"id\":\"2df027b7-429b-4041-ae63-649868b21cae\",\"roleDefinitionId\":\"7572bffe-f453-4b66-912a-46cc5ef38fda\",\"principalId\":\"794b8347-c398-4fd8-b557-37b60946e830\",\"scope\":\"workspaces/xysynapsetest\",\"principalType\":\"User\"},{\"id\":\"2f03a406-f9f7-4f59-9c09-e87b46072f45\",\"roleDefinitionId\":\"c3a6d2f1-a26f-4810-9b0f-591308d5cbf1\",\"principalId\":\"794b8347-c398-4fd8-b557-37b60946e830\",\"scope\":\"workspaces/xysynapsetest\",\"principalType\":\"User\"},{\"id\":\"fb12e920-542d-11eb-842b-a0481ca055a9\",\"roleDefinitionId\":\"7af0c69a-a548-47d6-aea3-d00e69bd83aa\",\"principalId\":\"30511c9d-ba1a-4c7b-b422-5b543da11b3f\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"14103e0e-86db-425b-a50d-bdb323ffaaa0\",\"roleDefinitionId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"35ac9d32-a8ca-4324-9393-d4000746f07c\",\"scope\":\"workspaces/xysynapsetest\",\"principalType\":\"User\"},{\"id\":\"7af0c69a-a548-47d6-aea3-d00e69bd83aa-30511c9d-ba1a-4c7b-b422-5b543da11b3f\",\"roleDefinitionId\":\"7af0c69a-a548-47d6-aea3-d00e69bd83aa\",\"principalId\":\"30511c9d-ba1a-4c7b-b422-5b543da11b3f\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"fbd86815-541e-4a10-82f9-55091ef4faf9\",\"roleDefinitionId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"c21a53bd-e8d7-412c-b60f-19e9f7fb0c7e\",\"scope\":\"workspaces/xysynapsetest\",\"principalType\":\"ServicePrincipal\"},{\"id\":\"378b9982-aa49-4b93-9f4e-db39fda4d115\",\"roleDefinitionId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"f8cfe8ca-1f83-4deb-814c-ee49336fdebd\",\"scope\":\"workspaces/xysynapsetest\",\"principalType\":\"ServicePrincipal\"},{\"id\":\"c0f8a8a4-5a16-4dc6-9d78-706b3d0e49ed\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"6e466ee4-5f74-4880-97a9-4eb11176961a\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"8faea990-7bf3-403e-a192-84551335db9c\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"e95b85d4-e5d1-4ba0-bb60-73c233ee8061\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"daf7c955-9afb-417b-938a-459128682473\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"5703759c-909d-4b6c-b2f9-af350de593ef\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"a48086cb-4013-4282-a983-e2529170313c\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"994ecf5e-be36-49a4-af62-72f5c55a5c3d\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"d82c3e91-a84d-41c6-ab25-044da6e4269a\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"1d21f3d0-dd7d-4296-b94b-86756b427be9\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"71b9db2d-b5d7-4862-a26d-fec9d88a448c\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"ebedf776-82ce-4109-91a2-70deea1e98ad\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"67189fad-04d1-47bb-98af-732a07ed1b51\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"a3d7a6b0-4933-4d92-8de1-4596c7009c84\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"9e6b1806-062f-469c-a31e-66892214198b\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"0b7cbb07-4a94-4266-8f48-9e7c3c3738be\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"f8dcf18b-2cea-4c35-9522-0f8968850045\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"e24f8802-2e9f-479a-b12d-1a0c382133dd\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"6c79e854-dadd-415e-aaee-7b8fbbeb0212\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"f624ed35-e335-439d-9b83-f1147c5e0660\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"96830cec-18dd-4c1f-958b-67ace55ee61b\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"cb294780-368e-4bff-b7f0-6ed4598c003e\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"c3dbd724-7926-414f-91f8-d51c96e5de7f\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"037960bf-5471-4206-b53b-494a73959a32\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"72d7c26a-fba1-48d7-9a09-bcb093595934\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"c50b63ba-eda9-447c-a569-6523fec66080\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"63a2fca9-751f-4161-b55d-6720b412d240\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"f9d57539-adfb-4d0e-a183-9b404b153821\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"61e09be1-d79f-4fe6-b967-c8b1ca9f217d\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"558027aa-e8d8-4ebe-82c4-044f168bbec4\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"8fc55ff1-5992-4118-9edb-c6c22e312678\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"99db6cb9-26d4-4ca3-805a-127e6035e660\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"dda30afe-5525-4b52-94fc-281c905d9678\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"ab5b9a00-d37d-4183-b5b8-33cf4b93d59f\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"4b14d923-c68e-4aba-a19e-e690f752fb30\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"6f1d0ae8-7aea-4de9-8a7f-7545d6b3edbd\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"baa17886-9d58-41a6-8d27-39b706492c21\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"d0683a42-08ff-4478-b317-2fe0fc3e5505\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"76371c9a-f2b7-4ac7-a437-5f35a48342a1\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"9add5516-9127-43ed-af93-77b311653b7e\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"c25822a0-10ed-4c6f-bea8-3d8221e1cb8d\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"333144f2-c428-4093-9011-64961ebfaac6\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"85dd2cc3-df6f-4c41-ab25-3e38313ddc9e\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"5d35ca41-567f-4b24-8317-f93cddf5d11a\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"9410074e-17e8-4f2e-bdec-e0700dbb2fb0\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"d3398e27-ab2b-4a73-8a63-195b84ed2c2e\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"ce69ea54-5ed6-47f7-91aa-dbce507224b0\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"18d45207-8a2a-49f4-8193-eb40daf8c85d\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"97f362b6-5519-403a-b9ea-a283a72dc729\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"4dd72483-276d-4cc2-9476-e9c3a8ee5a9d\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"bcd9dce4-38f0-4ad8-b0bc-5b41d3eea262\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"39b828c9-975f-489a-b721-c94bc9125c76\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"8213fff6-aef0-4da8-9f10-a1fa91a7b85c\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"986b3b36-e2c1-4341-9cd1-e8da906cfff3\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"96fdb9bb-d953-4921-8adc-a9a874bc88aa\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"c50142aa-7336-438d-910a-b0901c1d4b84\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"b7c8c900-2af3-4c61-9007-1b6b75948e67\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"291923bc-01ec-4121-a7fd-67e38c7f5f09\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"8c3392e8-7b05-4498-8de2-e7e0d0346497\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"1412e036-bcfc-4cb9-af47-0169968cb91c\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"79175ae9-b199-4881-b75f-a60e04bf38b6\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"a3f11d49-27ed-48ac-afbb-bf276f866549\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"9a45647d-f0a5-4559-a436-c8d20f29a83e\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"32c63cc3-08c1-46b6-ace0-acb49f8fb31a\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"59c22d98-c637-4a5b-a471-de0ea5c32040\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"5c78fad6-bb09-4740-a562-1b003531d022\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"d697a784-9feb-45d5-9c56-7baee31feb34\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"6a2d1baa-38f5-429b-a7de-ea9bd33a4c24\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"80d047f4-ef05-41f7-bdc4-210b64e32407\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"92ad8210-61cc-4395-a93f-725a2d29fb5a\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"42ca6cfe-86e6-49c5-b9e1-2de44cd99b0d\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"96237e65-6e89-46f9-bb0e-2b37ab49746f\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"9b8b3fe1-c53e-4b0a-9f1a-46ab2f89d0fd\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"4ff91250-aa1c-4ffa-bddb-a6b1daf47eca\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"da482b22-0c55-42c3-a40f-2967f1f7e421\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"3b09bc9e-8e30-49f8-a353-b02ab3539daf\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"e46486f5-892a-44d0-a237-bb5bb141f467\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"56e84c55-1622-4b51-8889-ed25bcb09ae7\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"9dcf9b9c-1196-469f-a16f-d1c10264c6dd\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"6db02304-2a1e-49f6-8c4a-9c4927ec0e44\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"cb07c827-939a-44d2-8fe4-3b6f783eba0e\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"6c00175a-8ec7-47d5-acb5-2a622f36602e\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"faa66402-a1cd-4c5e-a168-51caef753a9a\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"2ed4797b-9189-4077-8ecf-309c73d2a3d3\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"24d80849-f62e-4e66-bd34-4e6b71c935c0\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"38308e9f-865c-4bc5-a6c6-02bfbe59c7fe\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"33e00a2d-79a6-4307-8a12-12f288a731e5\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"8eaa0a1e-f437-4b8c-b91e-3e19d7ee2a12\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"d8b07e9f-e2f3-47e5-871b-67b9d70213e3\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"a99726da-c1dd-4162-923f-a99401bf874c\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"c64c028b-b4dd-4adc-8c33-7bda07f42546\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"4438464a-c9d8-4da2-be30-6f671ae05d0a\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"6613b0e8-8c51-4b5e-9070-f99393eb436e\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"0e76993d-4fc7-49aa-8bd8-28a1ef0d464f\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"5fddd0b1-5111-469a-bd49-8cef5a0eb079\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"4f3dee5e-5f55-4ab5-b1f4-09ad5a4b6d41\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"20d81a83-e7db-410e-8a6a-4b324fd86937\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"5a205728-f7b3-4879-a835-f87c23b81717\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"2fd7a6a0-33fa-468b-b757-27859cd5753f\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"01e8bee7-f8bd-44a8-b918-5b28f136a1c5\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"1380474d-88e3-4a66-83f5-6b619986a142\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"27ba47d4-fd43-4a90-8eaa-945facc18901\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"73367e96-e3de-468f-ad6a-9a18b034fd0f\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"d477f2f0-68a5-4773-9bc1-0bb021516097\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"d1481900-6034-488d-bd5f-6e8b82849a95\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"68753c3a-1acd-4430-aa35-92aedd5ce79b\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"4e79edcd-f209-46e9-8edb-948c38138062\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"f65fa093-38e0-45ab-9b33-b2a164e9da8a\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"4c304509-3f8e-4c8f-aab6-55c2b599a59e\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"13fa9c5a-6da3-4707-a1be-4da988ba9a54\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"00367d74-5290-4c35-bf4b-64b19066c7a9\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"334ffc73-b6fe-400c-b163-e1272fb8a97e\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"7d4a7570-5d51-47a9-bd97-14d8f8057b66\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"3dba171b-b5a3-420f-b948-550c4994ca2a\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"61c841a2-7e4e-49d9-90a3-d3696c3baabf\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"855eeaa6-6c88-494a-8b77-90186a1f5990\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"32add95c-e895-4f05-95c5-31f2848db5d3\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"788c608b-4153-4237-b1d4-8c1e479b9975\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"1f55874b-83ee-4ac2-be14-7642e9fe4a2b\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"6e676255-f352-4316-9cc4-ee69d8e95ad8\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"41b2abca-b9d5-4ceb-a945-1027b9632892\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"f2eb9a64-8df3-4d30-a05f-df53e33ee260\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"8ff10f64-4a22-4baa-bd2b-49ae63c4fc94\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"65385963-87ea-4c96-9670-d9be23eb7eca\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"d2e0a316-bc41-409d-9dba-4e67f57e33a6\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"39b10263-f941-4be9-a6ec-9e0cbd72735d\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"befd62fa-065f-48d5-9e88-ff1e1eb3efc4\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"ae4a5ee3-3a43-4f3d-9cf0-5615697fac98\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"d2b48095-74d1-4ecc-8ff2-30ea925e291c\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"694677c1-d01f-4b29-8c46-a7345ee21e48\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"b3b625a1-e8b1-413e-8d4b-edc072c69f8b\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"0d6bd949-8923-431f-9864-463a6e8b8ec6\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"c8f4f495-06f9-447e-a5b9-94370d131218\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"50f30cf8-18ff-4461-aba9-b9b85a6821e4\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"69c9cefc-91ab-427b-95d4-fe6ef7f34e90\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"fd906bcf-efcc-4390-97d6-14c9defec69e\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"a5e8a7e8-06bd-46cb-9fc1-f87b4549bf79\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"815e404d-dd5c-447d-afa8-d997b716faf7\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"51a9807a-0def-4249-b214-8a5032b84088\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"2281cb37-1b25-4d1f-836a-3175da3f0907\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"422fcbd7-6d51-4899-b55c-22332c4fc7d9\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"9574c795-aed3-479f-873f-3ce1e47896bb\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"642552a6-0f62-4675-a867-6f06e3bf78b2\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"248ef6de-5e93-42cd-8d6d-8eb334d3fe28\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"bced0505-0371-4bc4-afba-fdb11ac7eebd\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"b16982a0-d73b-47a6-b876-d3e9ee784015\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"e61cb74d-ee30-49d0-947b-3e7af3405087\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"4e338f12-2a72-4a2a-9764-3d0ae12f3033\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"010c3fc3-fd10-4d29-96d6-6cb511c369dd\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"5b19127d-6099-4c7a-8bd6-e4b31cf97c79\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"b1fac63f-f0a8-4a37-b0d3-bc0a47c8fae3\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"73c2eb40-12d8-4094-8d77-612da168002b\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"eee14060-02af-4b52-809e-eaecd9657c00\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"38dc64a0-a04f-49c8-9a11-035c1c60920c\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"6f72faf8-4335-46ee-9db2-9b6d611d306b\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"822dc6be-7f5f-478d-bea4-7463d6184343\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"f0076411-6083-4eeb-9d16-a7a7a78c66d8\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"e8798fe3-1676-4c9e-90af-6636624ba209\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"33db4b57-60d0-409b-803b-d4994f17533d\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"94985be3-c943-49d8-bcc6-b476d4a184b0\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"ea2e1562-1b76-4b15-8299-c88e27e79c80\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"648d490d-5f4a-4d61-94dc-5724ad814a61\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"2f70e547-f384-407b-810f-1188e3ad3be2\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"3a74cc42-36f2-4232-ae54-be445e1a0986\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"b887db50-3d94-4dd1-b026-edaba48a011d\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"b20af0d2-61b1-4284-b1a3-a126d8bffb4d\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"48820209-9d7c-4b59-a97e-8db0556fecfb\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"3422b8f0-c7b1-4082-ab99-c8eb4cea4ef1\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"b30cfefa-397f-45cb-a1ac-b9cf22c00f93\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"7f07dd04-9959-4a07-bcf0-1ad8d94505ce\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"d6b60f66-9a67-4d3b-afc6-00f7e4707d44\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"ecd4938e-4aeb-4b9c-b967-bff1da3ecf97\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"08582d60-9951-4c45-b725-eadc49d07e89\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"f131c427-4102-4951-9eb8-04712955e2b8\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"0c856b06-61ce-4819-9d35-613e1785825a\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"a731692a-f8f5-446a-bc51-63c7501836e1\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"5ecf9f51-12ac-41d4-b007-e09d19a270dc\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"f0753803-f39b-4351-a192-47bf88464b5f\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"53870578-f41e-4f0b-864a-897e71f954d6\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"ae22598f-2176-4c68-9574-1ac3818b261a\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"6b94414f-64d1-4389-8200-90c1f5a88b9f\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"4021c77b-00bd-43e3-a7c4-5ea0685958bb\",\"scope\":\"workspaces/xysynapsetest\"}]}",
-   "responseHeaders": {
-    "content-length": "19457",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 21 Oct 2021 22:55:14 GMT",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-continuation": "+RID:~4sdzAMvnPXerwgAAAAAABg==#RT:1#TRC:100#ISV:2#IEO:65551#QCF:4#FPC:AggDAAAAABgAABAAAAAAIAAAAwAAAAAYAAAIAKMCAPj/AQEAEAAAAAAgAAAMALOyYQkAGB+AkQGAAQ==",
-    "x-ms-request-id": "cebb46fb-2fb0-4371-8794-8e82cbdf8fe7"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/roleAssignments",
-   "query": {
-    "api-version": "2020-12-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"count\":120,\"value\":[{\"id\":\"0aaeea6d-9d72-47b0-88a0-4333d43d00bc\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"ae4c8302-ee09-43c3-a33e-e4c9d812c3d0\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"de792cba-d43a-4b9d-ba07-962d8cf9d8e9\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"191ea381-b5da-44ff-a5f2-6bfb39c6f8b9\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"b7382e9f-9d7c-46fb-954a-471ffd215bf2\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"0165a29c-3ae4-40a5-8e00-23a1991cc1dd\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"417a3b1e-f055-49dd-8362-fbdbe2e82e68\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"19cf1b36-03be-4cd2-bd72-adf99adde565\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"408988a6-caba-427b-987e-a44cca12eb80\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"fbe02142-95a5-47de-86e2-21f466255e77\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"651299b0-721a-4466-ae53-eebdc94be462\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"b3c4162d-472e-465e-b36b-ab56a704e1ab\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"cd5ec131-2796-40c5-9be1-6d8136ae1427\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"be6370b8-6e46-4193-aa03-cbf13baf60ff\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"a61384b8-665f-475c-9afa-da43dbeea317\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"3d95b2d4-c670-4860-bad1-47e6d9608c7f\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"aab5a5e5-1302-4133-a76e-01a61a68fbb6\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"00b252e7-7607-463d-a391-8a5c3d45a821\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"b02056ac-50da-4317-a8c8-75129945af50\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"f3834d89-9159-4c0f-b49e-b4ee6a0533e7\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"8d17bfb6-83b6-445b-a968-7841e9316781\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"02a7365b-266c-438c-9c7d-cbe9b950190c\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"a02121fd-5a23-4300-adca-e118ab86ae88\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"83d7360e-54f5-4dbd-9f43-d0cf95224676\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"b74029e8-4910-43c8-ba61-8e9f75324e85\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"82f33e89-d787-43dd-bb94-4a131a500ce7\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"fce80a60-785c-4e22-b341-57e3a5171ac0\",\"roleDefinitionId\":\"2a385764-43e8-416c-9825-7b18d05a2c4b\",\"principalId\":\"b895aef7-f11e-47bc-9329-bf6a89c59d8b\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78-eca6d4d4-89be-4b73-8699-6e70c9cbe6bf\",\"roleDefinitionId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"eca6d4d4-89be-4b73-8699-6e70c9cbe6bf\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78-e6a55cd1-b0db-4fc9-b3e3-88507ceda553\",\"roleDefinitionId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"e6a55cd1-b0db-4fc9-b3e3-88507ceda553\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78-8dd5e62d-9a80-43ce-8e9b-b3e7dc62cdb7\",\"roleDefinitionId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"8dd5e62d-9a80-43ce-8e9b-b3e7dc62cdb7\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"c3a6d2f1-a26f-4810-9b0f-591308d5cbf1-e6a55cd1-b0db-4fc9-b3e3-88507ceda553\",\"roleDefinitionId\":\"c3a6d2f1-a26f-4810-9b0f-591308d5cbf1\",\"principalId\":\"e6a55cd1-b0db-4fc9-b3e3-88507ceda553\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78-30511c9d-ba1a-4c7b-b422-5b543da11b3f\",\"roleDefinitionId\":\"6e4bf58a-b8e1-4cc3-bbf9-d73143322b78\",\"principalId\":\"30511c9d-ba1a-4c7b-b422-5b543da11b3f\",\"scope\":\"workspaces/xysynapsetest\"},{\"id\":\"c3a6d2f1-a26f-4810-9b0f-591308d5cbf1-30511c9d-ba1a-4c7b-b422-5b543da11b3f\",\"roleDefinitionId\":\"c3a6d2f1-a26f-4810-9b0f-591308d5cbf1\",\"principalId\":\"30511c9d-ba1a-4c7b-b422-5b543da11b3f\",\"scope\":\"workspaces/xysynapsetest\"}]}",
-   "responseHeaders": {
-    "content-length": "4085",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 21 Oct 2021 22:55:14 GMT",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-continuation": "",
-    "x-ms-request-id": "8e11b03c-72c1-461c-9623-b7a0e7f0d31a"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "5b1309f8408b2301b7b8365bbc86651c"
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/roleAssignments?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "447aa34b-a506-4c82-b603-9e1e5cfa0210",
+        "x-ms-useragent": "core-rest-pipeline/1.3.3 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "2213",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 22:41:11 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-continuation": "",
+        "x-ms-request-id": "5158beb4-54e7-441f-9ad9-9a67a48a0c4c"
+      },
+      "ResponseBody": {
+        "count": 10,
+        "value": [
+          {
+            "id": "d3454554-b137-4f10-820d-f66f048c0341",
+            "roleDefinitionId": "6e4bf58a-b8e1-4cc3-bbf9-d73143322b78",
+            "principalId": "35ac9d32-a8ca-4324-9393-d4000746f07c",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "User"
+          },
+          {
+            "id": "94af6da3-097d-4b32-9184-3db224a040df",
+            "roleDefinitionId": "6e4bf58a-b8e1-4cc3-bbf9-d73143322b78",
+            "principalId": "dc79720f-a14b-4abe-aa2c-6be62e7ca602",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "ServicePrincipal"
+          },
+          {
+            "id": "ed08acb4-43af-48d8-9cbb-2b40c5894b08",
+            "roleDefinitionId": "6e4bf58a-b8e1-4cc3-bbf9-d73143322b78",
+            "principalId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "ServicePrincipal"
+          },
+          {
+            "id": "27489262-aba1-4af1-99fd-f528d49ff8ae",
+            "roleDefinitionId": "7572bffe-f453-4b66-912a-46cc5ef38fda",
+            "principalId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "ServicePrincipal"
+          },
+          {
+            "id": "6fd186d4-1119-4b6e-8f1d-f4f81f17600b",
+            "roleDefinitionId": "05930f57-09a3-4c0d-9fa9-6d1eb91c178b",
+            "principalId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "ServicePrincipal"
+          },
+          {
+            "id": "c2606b47-3eff-4802-a107-ca22a21e6b16",
+            "roleDefinitionId": "c3a6d2f1-a26f-4810-9b0f-591308d5cbf1",
+            "principalId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "ServicePrincipal"
+          },
+          {
+            "id": "3c4d921a-3114-4e48-8cdd-baeb9344ccb6",
+            "roleDefinitionId": "e3844cc7-4670-42cb-9349-9bdac1ee7881",
+            "principalId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "ServicePrincipal"
+          },
+          {
+            "id": "e9108af2-3e00-4844-aa7e-4cac1ef811fa",
+            "roleDefinitionId": "e3844cc7-4670-42cb-9349-9bdac1ee7881",
+            "principalId": "35ac9d32-a8ca-4324-9393-d4000746f07c",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "User"
+          },
+          {
+            "id": "f8a28c90-2230-45d1-9b61-d33dae92e745",
+            "roleDefinitionId": "53faaa0e-40b6-40c8-a2ff-e38f2d388875",
+            "principalId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "ServicePrincipal"
+          },
+          {
+            "id": "cc33aa88-5aa7-40e5-b9f5-dd11c471c7e8",
+            "roleDefinitionId": "2a385764-43e8-416c-9825-7b18d05a2c4b",
+            "principalId": "6c74c432-9103-435f-83a0-5a6ee264439a",
+            "scope": "workspaces/joheredisyn"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
 }

@@ -1,6 +1,6 @@
 # Release History
 
-## 3.15.1 (Unreleased)
+## 3.15.1 (2022-01-24)
 
 ### Bugs Fixed
 

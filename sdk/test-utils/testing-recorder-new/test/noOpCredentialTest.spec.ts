@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RecorderStartOptions, Recorder, env } from "@azure-tools/test-recorder-new";
+import { RecorderStartOptions, Recorder, env } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { TokenCredential } from "@azure/core-auth";
 import { TableServiceClient } from "@azure/data-tables";
@@ -16,9 +16,9 @@ const getRecorderStartOptions = (): RecorderStartOptions => {
       AZURE_TENANT_ID: "azuretenantid",
     },
     sanitizerOptions: {
-      bodyRegexSanitizers: [
+      bodySanitizers: [
         {
-          regex: env.TABLES_URL ? encodeURIComponent(env.TABLES_URL) : undefined,
+          target: encodeURIComponent(env.TABLES_URL ?? ""),
           value: encodeURIComponent(`https://fakeaccount.table.core.windows.net`),
         },
       ],
