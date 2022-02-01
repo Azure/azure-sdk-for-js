@@ -1,17 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createTableClient, recordedEnvironmentSetup } from "./utils/recordedClient";
+import { createTableClient } from "./utils/recordedClient";
 import { Edm, TableClient, TableEntity, TableEntityResult, odata } from "../../src";
-import { Recorder, isPlaybackMode, record } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { isNode, isNode8 } from "@azure/test-utils";
 import { Context } from "mocha";
 import { FullOperationResponse } from "@azure/core-client";
 import { assert } from "chai";
 
 describe("special characters", () => {
+  const tableName = `SpecialChars`;
+  let recorder: Recorder;
+  let client: TableClient;
+  beforeEach(async function () {
+    recorder = new Recorder(this.currentTest);
+    client = await createTableClient(tableName, "SASConnectionString", recorder);
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
   it("should handle partition and row keys with special chars", async function (this: Context) {
-    const client = createTableClient(`SpecialChars`);
     await client.createTable();
 
     try {
@@ -37,20 +48,21 @@ describe("special characters", () => {
 // Run the test against each of the supported auth modes
 describe(`TableClient`, () => {
   let client: TableClient;
+  let unRecordedClient: TableClient;
   let recorder: Recorder;
   const suffix = isNode ? "node" : "browser";
   const tableName = `tableClientTest${suffix}`;
   const listPartitionKey = "listEntitiesTest";
 
-  beforeEach(function (this: Context) {
-    recorder = record(this, recordedEnvironmentSetup);
-    client = createTableClient(tableName, "SASConnectionString");
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    client = await createTableClient(tableName, "SASConnectionString", recorder);
   });
 
   before(async () => {
     if (!isPlaybackMode()) {
-      client = createTableClient(tableName, "SASConnectionString");
-      await client.createTable();
+      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      await unRecordedClient.createTable();
     }
   });
 
@@ -60,23 +72,25 @@ describe(`TableClient`, () => {
 
   after(async () => {
     if (!isPlaybackMode()) {
-      await client.deleteTable();
+      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
+      await unRecordedClient.deleteTable();
     }
   });
 
   describe("listEntities", () => {
     // Create required entities for testing list operations
     before(async function (this: Context) {
+      unRecordedClient = await createTableClient(tableName, "SASConnectionString");
       if (!isPlaybackMode()) {
         this.timeout(10000);
-        await client.createEntity({
+        await unRecordedClient.createEntity({
           partitionKey: listPartitionKey,
           rowKey: "binary1",
           foo: new Uint8Array([66, 97, 114]),
         });
 
         for (let i = 0; i < 20; i++) {
-          await client.createEntity({
+          await unRecordedClient.createEntity({
             partitionKey: listPartitionKey,
             rowKey: `${i}`,
             foo: "testEntity",
