@@ -35,7 +35,7 @@ describe(`Access Policy operations`, () => {
   });
 
   after(async () => {
-    if (!isPlaybackMode()) {
+    if (!isPlaybackMode() && isNode) {
       await unrecordedClient.deleteTable();
     }
   });

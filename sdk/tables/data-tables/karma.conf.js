@@ -1,12 +1,9 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
-const {
-  jsonRecordingFilterFunction,
-  isPlaybackMode,
-  isSoftRecordMode,
-  isRecordMode,
-} = require("@azure-tools/test-recorder");
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 module.exports = function (config) {
   config.set({
@@ -41,7 +38,7 @@ module.exports = function (config) {
         included: false,
         served: true,
       },
-    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
+    ],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -50,7 +47,6 @@ module.exports = function (config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       "**/*.js": ["sourcemap", "env"],
-      "recordings/browsers/**/*.json": ["json"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
       // [`dist-test/${testMode}.index.browser.js`]: ["coverage"]
@@ -70,12 +66,13 @@ module.exports = function (config) {
       "AZURE_TENANT_ID",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
+      "RECORDINGS_RELATIVE_PATH",
     ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "junit"],
 
     coverageReporter: {
       // specify a common output directory
@@ -96,11 +93,6 @@ module.exports = function (config) {
       nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
       classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
       properties: {}, // key value pair of properties to add to the <properties> section of the report
-    },
-
-    jsonToFileReporter: {
-      filter: jsonRecordingFilterFunction,
-      outputPath: ".",
     },
 
     // web server port
@@ -140,9 +132,6 @@ module.exports = function (config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
-    browserConsoleLogOptions: {
-      terminal: !isRecordMode(),
-    },
 
     client: {
       mocha: {
