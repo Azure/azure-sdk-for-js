@@ -49,10 +49,10 @@ function Set-GitHubIssue($Package) {
   $issueDesc += "A new version ($($Package.NewVersion)) is available for upgrade.`n`nFollowing are the steps to upgrade package dependency.`n
   1. Understand the breaking changes between the version being used and the version you want to upgrade to.`n
   2. Identify all packages that take a dependency on this package.`n
-  3. Go to the root folder for each such package (/sdk/service-name/package-name) and run rush add $pkgName@$($Package.NewVersion)`n
+  3. Go to the root folder for each such package (/sdk/service-name/package-name) and update package.json to have the new version.`n
   4. Run rush update to ensure the new version is pulled in.`n
   5. Make relevant changes to absorb the breaking changes.`n
-  6. Repeat steps 3 to 5 for each of the packages that have a dependency on this package"
+  6. Repeat steps 3 to 5 for each of the packages that have a dependency on this package."
 
   $issue = Get-GithubIssue -IssueTitle $issueTitle
   if ($issue) {
