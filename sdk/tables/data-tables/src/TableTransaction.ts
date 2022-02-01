@@ -10,13 +10,7 @@ import {
   UpdateMode,
   UpdateTableEntityOptions,
 } from "./models";
-import {
-  NamedKeyCredential,
-  SASCredential,
-  TokenCredential,
-  isNamedKeyCredential,
-  isSASCredential,
-} from "@azure/core-auth";
+import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import {
   OperationOptions,
   ServiceClient,
@@ -41,15 +35,14 @@ import {
   transactionRequestAssemblePolicy,
   transactionRequestAssemblePolicyName,
 } from "./TablePolicies";
+
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TableClientLike } from "./utils/internalModels";
 import { TableServiceErrorOdataError } from "./generated";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
 import { createSpan } from "./utils/tracing";
-import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
 import { getTransactionHeaders } from "./utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
-import { signURLWithSAS } from "./tablesSASTokenPolicy";
 
 /**
  * Helper to build a list of transaction actions
@@ -128,7 +121,6 @@ export class InternalTableTransaction {
     partitionKey: string;
   };
   private interceptClient: TableClientLike;
-  private credential?: NamedKeyCredential | SASCredential | TokenCredential;
   private allowInsecureConnection: boolean;
   private client: ServiceClient;
 
@@ -148,7 +140,6 @@ export class InternalTableTransaction {
     allowInsecureConnection: boolean = false
   ) {
     this.client = client;
-    this.credential = credential;
     this.url = url;
     this.interceptClient = interceptClient;
     this.allowInsecureConnection = allowInsecureConnection;
@@ -289,13 +280,6 @@ export class InternalTableTransaction {
       tracingOptions: updatedOptions.tracingOptions,
       allowInsecureConnection: this.allowInsecureConnection,
     });
-
-    if (isNamedKeyCredential(this.credential)) {
-      const authHeader = getAuthorizationHeader(request, this.credential);
-      request.headers.set("Authorization", authHeader);
-    } else if (isSASCredential(this.credential)) {
-      signURLWithSAS(request, this.credential);
-    }
 
     try {
       const rawTransactionResponse = await this.client.sendRequest(request);

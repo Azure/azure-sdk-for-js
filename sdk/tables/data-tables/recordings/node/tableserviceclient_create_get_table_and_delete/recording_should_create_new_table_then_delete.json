@@ -11,7 +11,7 @@
         "Content-Type": "application/json;odata=nometadata",
         "DataServiceVersion": "3.0",
         "User-Agent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "7de12266-620d-4dae-abee-876f324e1c28",
+        "x-ms-client-request-id": "f0f4dfd3-3574-4171-b138-601cf97458ed",
         "x-ms-version": "2019-02-02"
       },
       "RequestBody": {
@@ -21,7 +21,7 @@
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Type": "application/json; odata=minimalmetadata; streaming=true; charset=utf-8",
-        "Date": "Tue, 01 Feb 2022 18:38:54 GMT",
+        "Date": "Tue, 01 Feb 2022 20:52:40 GMT",
         "Location": "https://fakeaccountname.table.core.windows.net/Tables(\u0027testTablenode\u0027)",
         "Server": [
           "Windows-Azure-Table/1.0",
@@ -29,8 +29,8 @@
         ],
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "7de12266-620d-4dae-abee-876f324e1c28",
-        "x-ms-request-id": "69969b7a-5002-0080-1e9a-172215000000",
+        "x-ms-client-request-id": "f0f4dfd3-3574-4171-b138-601cf97458ed",
+        "x-ms-request-id": "a5ad766f-0002-0010-4bad-17b759000000",
         "x-ms-version": "2019-02-02"
       },
       "ResponseBody": {
@@ -47,7 +47,7 @@
         "Connection": "keep-alive",
         "DataServiceVersion": "3.0",
         "User-Agent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "29cdfba8-2b02-45c5-8bec-29f631bee7db",
+        "x-ms-client-request-id": "d26b77a6-af8d-4e22-bd4d-9e6861013c9d",
         "x-ms-version": "2019-02-02"
       },
       "RequestBody": null,
@@ -57,15 +57,15 @@
         "Access-Control-Expose-Headers": "x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,Content-Type,Content-Length,Date,Transfer-Encoding",
         "Cache-Control": "no-cache",
         "Content-Type": "application/json; odata=minimalmetadata; streaming=true; charset=utf-8",
-        "Date": "Tue, 01 Feb 2022 18:38:54 GMT",
+        "Date": "Tue, 01 Feb 2022 20:52:40 GMT",
         "Server": [
           "Windows-Azure-Table/1.0",
           "Microsoft-HTTPAPI/2.0"
         ],
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "29cdfba8-2b02-45c5-8bec-29f631bee7db",
-        "x-ms-request-id": "69969b9b-5002-0080-3a9a-172215000000",
+        "x-ms-client-request-id": "d26b77a6-af8d-4e22-bd4d-9e6861013c9d",
+        "x-ms-request-id": "a5ad768b-0002-0010-61ad-17b759000000",
         "x-ms-version": "2019-02-02"
       },
       "ResponseBody": {
@@ -141,6 +141,9 @@
             "TableName": "manualListByPage"
           },
           {
+            "TableName": "SpecialCharacterTestNode"
+          },
+          {
             "TableName": "TestChars"
           },
           {
@@ -169,7 +172,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "e3347338-e0a4-46de-ab20-7e4d15b1ce15",
+        "x-ms-client-request-id": "a25f6d0d-7a63-4b8c-8015-1940cefe1995",
         "x-ms-version": "2019-02-02"
       },
       "RequestBody": null,
@@ -177,14 +180,14 @@
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Length": "0",
-        "Date": "Tue, 01 Feb 2022 18:38:54 GMT",
+        "Date": "Tue, 01 Feb 2022 20:52:40 GMT",
         "Server": [
           "Windows-Azure-Table/1.0",
           "Microsoft-HTTPAPI/2.0"
         ],
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "e3347338-e0a4-46de-ab20-7e4d15b1ce15",
-        "x-ms-request-id": "69969bb0-5002-0080-4f9a-172215000000",
+        "x-ms-client-request-id": "a25f6d0d-7a63-4b8c-8015-1940cefe1995",
+        "x-ms-request-id": "a5ad7696-0002-0010-6cad-17b759000000",
         "x-ms-version": "2019-02-02"
       },
       "ResponseBody": null
