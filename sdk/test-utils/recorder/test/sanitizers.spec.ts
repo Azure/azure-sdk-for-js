@@ -20,8 +20,7 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
 
     beforeEach(async function () {
       recorder = new Recorder(this.currentTest);
-      client = new ServiceClient({ baseUri: getTestServerUrl() });
-      recorder.configureClient(client);
+      client = new ServiceClient(recorder.configureClientOptions({ baseUri: getTestServerUrl() }));
     });
 
     afterEach(async () => {
@@ -143,9 +142,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             ],
           },
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${
-          isPlaybackMode() ? fakeSecretValue : secretValue
-        }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
+          }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {
@@ -305,9 +303,8 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
             ],
           },
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${
-          isPlaybackMode() ? fakeSecretValue : secretValue
-        }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
+          }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {

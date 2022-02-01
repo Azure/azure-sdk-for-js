@@ -8,7 +8,6 @@ import {
   testProxyHttpPolicy,
 } from "./testProxyHttpClient";
 import { HttpClient } from "@azure/core-http";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { PerfTestBase } from "./perfTestBase";
 import { PerfParallel } from "./parallel";
 import { AdditionalPolicyConfig } from "@azure/core-client";
@@ -54,35 +53,10 @@ export abstract class BatchPerfTest<
   }
 
   /**
-   * configureClient
-   *
-   * For core-v2 - libraries depending on core-rest-pipeline
-   * Apply this method on the client to get the proxy tool support.
-   *
-   * Note: Client must expose the pipeline property which is required for the perf framework to add its policies correctly
-   */
-  public configureClient<T>(client: T & { pipeline: Pipeline }): T {
-    if (this.testProxy) {
-      this.testProxyHttpClient = new TestProxyHttpClient(
-        this.testProxy,
-        this.parsedOptions["insecure"].value ?? false
-      );
-      client.pipeline.addPolicy(
-        testProxyHttpPolicy(
-          this.testProxyHttpClient,
-          this.testProxy.startsWith("https"),
-          this.parsedOptions["insecure"].value ?? false
-        )
-      );
-    }
-    return client;
-  }
-
-  /**
    * configureClientOptions
    *
    * For core-v2 - libraries depending on core-rest-pipeline
-   * Apply this method on the client to get the proxy tool support.
+   * Apply this method on the client options to get the proxy tool support.
    *
    * Note: Client Options must have "additionalPolicies" as part of the options.
    */
