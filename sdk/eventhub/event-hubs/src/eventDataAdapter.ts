@@ -66,6 +66,11 @@ export interface EventDataAdapterParameters {
   properties?: {
     [key: string]: any;
   };
+  /**
+   * The sequence number the event was published with
+   * when idempotent partitions are enabled.
+   */
+  readonly publishedSequenceNumber?: number;
 }
 
 /**
