@@ -235,8 +235,6 @@ describe("Server Call Live Test", function() {
         assert.strictEqual((e as RestError).statusCode, 401);
       }
     }).timeout(0);
-
-
   });
 
   describe("Call Automation Operations", function() {
