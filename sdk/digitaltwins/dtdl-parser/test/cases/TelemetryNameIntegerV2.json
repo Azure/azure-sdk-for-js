@@ -1,0 +1,24 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": "Telemetry",
+      "name": 626,
+      "schema": "double"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:stringNotString",
+        "PrimaryID": "dtmi:test:aTelemetry;1",
+        "SecondaryID": null,
+        "Property": "name",
+        "Value": "626"
+      }
+    ]
+  }
+}
