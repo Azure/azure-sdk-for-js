@@ -8,8 +8,9 @@
    },
    "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
    "status": 201,
-   "response": "{\"identity\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-ef3e-9508-45482200108d\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-09-04T19:27:25.8157438+00:00\"}}",
+   "response": "{\"identity\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-5688-08dd-f6c7-593a0d00c710\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2022-02-02T18:57:45.202343+00:00\"}}",
    "responseHeaders": {
+    "content-length": "919",
     "content-type": "application/json; charset=utf-8"
    }
   },
@@ -21,8 +22,9 @@
    },
    "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
    "status": 201,
-   "response": "{\"identity\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-f0d5-9508-45482200108e\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-09-04T19:27:25.0653231+00:00\"}}",
+   "response": "{\"identity\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-5688-093a-f6c7-593a0d00c711\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2022-02-02T18:57:45.3014631+00:00\"}}",
    "responseHeaders": {
+    "content-length": "920",
     "content-type": "application/json; charset=utf-8"
    }
   },
@@ -32,12 +34,12 @@
    "query": {
     "api-version": "2021-09-07"
    },
-   "requestBody": "{\"topic\":\"test topic\",\"participants\":[{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-ef3e-9508-45482200108d\"}}},{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-f0d5-9508-45482200108e\"}}}]}",
+   "requestBody": "{\"topic\":\"test topic\",\"participants\":[{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-5688-08dd-f6c7-593a0d00c710\"}}},{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-5688-093a-f6c7-593a0d00c711\"}}}]}",
    "status": 201,
-   "response": "{\"chatThread\":{\"id\":\"19:DTm4_3zKgZIkPz5-9uSKD4_lntZxdxYcTy3bRXVTzug1@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2021-09-03T19:27:26Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-ef3e-9508-45482200108d\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000c-4d02-ef3e-9508-45482200108d\"}}}}",
+   "response": "{\"chatThread\":{\"id\":\"19:JP4c0ZBN2wQUNozk-GoN9GWDb_rnFWRhjXnKCpEiVBQ1@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2022-02-01T18:57:45Z\",\"createdByCommunicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-5688-08dd-f6c7-593a0d00c710\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-5688-08dd-f6c7-593a0d00c710\"}}}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8",
-    "location": "https://endpoint/chat/threads/19%3ADTm4_3zKgZIkPz5-9uSKD4_lntZxdxYcTy3bRXVTzug1@thread.v2"
+    "location": "https://endpoint/chat/threads/19%3AJP4c0ZBN2wQUNozk-GoN9GWDb_rnFWRhjXnKCpEiVBQ1@thread.v2"
    }
   }
  ],
@@ -45,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "75c58be21382fa1cd54bdb4d5ba6613f"
+ "hash": "14f8ceacacd0b77b89cd04ef5e0f0262"
 }
