@@ -4,16 +4,10 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure/dtdl-parser": [
-        "./src/index"
-      ]
+      "@azure/dtdl-parser": ["./src/index"]
     },
     "noUnusedLocals": false,
     "noUnusedParameters": false
   },
-  "include": [
-    "src/**/*.ts",
-    "test/**/*.ts",
-    "samples-dev/*.ts"
-  ]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/*.ts"]
 }
