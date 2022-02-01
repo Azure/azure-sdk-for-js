@@ -456,6 +456,7 @@ export interface DocumentSelectionMarkField extends DocumentFieldCommon {
 // @public
 export interface DocumentSignatureField extends DocumentFieldCommon {
     kind: "signature";
+    value: "signed" | "unsigned";
 }
 
 // @public
