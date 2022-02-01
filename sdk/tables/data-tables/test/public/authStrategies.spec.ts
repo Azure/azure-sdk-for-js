@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { createTableClient, createTableServiceClient } from "./utils/recordedClient";
 
 import { Context } from "mocha";
@@ -70,7 +73,7 @@ if (isLiveMode()) {
             queryOptions: { filter: odata`PartitionKey eq ${partitionKey}`, select: ["foo"] },
           });
 
-          let values: string[] = [];
+          const values: string[] = [];
 
           for await (const entity of entities) {
             values.push(entity.foo as string);
