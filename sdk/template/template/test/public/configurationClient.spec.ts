@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import chai, { assert } from "chai";
+import { chaiAzure } from "@azure/test-utils";
+chai.use(chaiAzure);
 import { Context } from "mocha";
 import { ConfigurationClient } from "../../src";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
@@ -67,17 +69,30 @@ describe("[AAD] ConfigurationClient functional tests", function () {
     await recorder.stop();
   });
 
-  it("predetermined setting has expected value", async () => {
-    const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
-    const expectedValue = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_EXPECTED_VALUE");
+  describe("#getConfigurationSetting", () => {
+    it("predetermined setting has expected value", async () => {
+      const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
+      const expectedValue = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_EXPECTED_VALUE");
 
-    const setting = await client.getConfigurationSetting(key);
+      const setting = await client.getConfigurationSetting(key);
 
-    // Make sure the key returned is the same as the key we asked for
-    assert.equal(key, setting.key);
+      // Make sure the key returned is the same as the key we asked for
+      assert.equal(key, setting.key);
 
-    // Make sure the value of the setting is the same as the value we entered
-    // on the environment
-    assert.equal(expectedValue, setting.value);
+      // Make sure the value of the setting is the same as the value we entered
+      // on the environment
+      assert.equal(expectedValue, setting.value);
+    });
+
+    // The supportsTracing assertion from chaiAzure can be used to verify that
+    // the `getConfigurationSetting` method is being traced correctly, that the
+    // tracing span is properly parented and closed.
+    it("supports tracing", async () => {
+      const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
+      await assert.supportsTracing(
+        (options) => client.getConfigurationSetting(key, options),
+        ["ConfigurationClient.getConfigurationSetting"]
+      );
+    });
   });
 });

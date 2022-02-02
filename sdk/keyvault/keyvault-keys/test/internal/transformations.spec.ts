@@ -21,7 +21,7 @@ import {
   getKeyPropertiesFromKeyItem,
   keyRotationTransformations,
 } from "../../src/transformations";
-import { stringToUint8Array } from "../utils/crypto";
+import { stringToUint8Array } from "../public/utils/crypto";
 
 describe("Transformations", () => {
   const releasePolicy = {

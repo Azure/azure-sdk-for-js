@@ -1,0 +1,79 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;2",
+        "dtmi:dtdl:extension:initialization;1"
+      ],
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@id": "dtmi:test:aProperty;1",
+          "@type": [ "Property", "Initialized" ],
+          "name": "someProp",
+          "schema": {
+            "@type": "Map",
+            "mapKey": {
+              "name": "myMapKey",
+              "schema": "string"
+            },
+            "mapValue": {
+              "name": "myMapValue",
+              "schema": "integer"
+            }
+          },
+          "initialValue": {
+            "x": 27,
+            "y": 44,
+            "z": 16
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aProperty;1",
+        "type": "Property",
+        "properties": {
+          "name": "someProp",
+          "schema": "dtmi:test:aProperty:_schema;1"
+        },
+        "supplementalTypes": [
+          "dtmi:dtdl:extension:initialization:v1:Initialized"
+        ],
+        "supplementalProperties": {
+          "dtmi:dtdl:extension:initialization:v1:Initialized:initialValue": {
+            "x": 27,
+            "y": 44,
+            "z": 16
+          }
+        }
+      },
+      {
+        "id": "dtmi:test:aProperty:_schema;1",
+        "type": "Map",
+        "properties": {
+          "mapKey": "dtmi:test:aProperty:_schema:_mapKey;1",
+          "mapValue": "dtmi:test:aProperty:_schema:_mapValue;1"
+        }
+      },
+      {
+        "id": "dtmi:test:aProperty:_schema:_mapKey;1",
+        "type": "MapKey",
+        "name": "myMapKey",
+        "schema": "dtmi:dtdl:instance:Schema:string;2"
+      },
+      {
+        "id": "dtmi:test:aProperty:_schema:_mapValue;1",
+        "type": "MapValue",
+        "name": "myMapValue",
+        "schema": "dtmi:dtdl:instance:Schema:integer;2"
+      }
+    ]
+  }
+}

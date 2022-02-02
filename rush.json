@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.55.1",
+  "rushVersion": "5.61.2",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -749,6 +749,11 @@
     {
       "packageName": "@azure/iot-modelsrepository",
       "projectFolder": "sdk/iot/iot-modelsrepository",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/dtdl-parser",
+      "projectFolder": "sdk/digitaltwins/dtdl-parser",
       "versionPolicyName": "client"
     },
     {
@@ -1553,6 +1558,31 @@
     {
       "packageName": "@azure/arm-vmwarecloudsimple",
       "projectFolder": "sdk/vmwarecloudsimple/arm-vmwarecloudsimple",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicefabricmesh",
+      "projectFolder": "sdk/servicefabricmesh/arm-servicefabricmesh",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storageimportexport",
+      "projectFolder": "sdk/storageimportexport/arm-storageimportexport",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-privatedns",
+      "projectFolder": "sdk/privatedns/arm-privatedns",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-policyinsights",
+      "projectFolder": "sdk/policyinsights/arm-policyinsights",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-kusto",
+      "projectFolder": "sdk/kusto/arm-kusto",
       "versionPolicyName": "management"
     }
   ]

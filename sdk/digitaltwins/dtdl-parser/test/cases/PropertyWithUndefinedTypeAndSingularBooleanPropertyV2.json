@@ -1,0 +1,37 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:aProperty;1",
+      "@type": [
+        "Property",
+        "UndefinedType"
+      ],
+      "name": "expectedDistance",
+      "schema": "double",
+      "foobar": true
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aProperty;1",
+        "type": "Property",
+        "properties": {
+          "name": "expectedDistance",
+          "schema": "dtmi:dtdl:instance:Schema:double;2",
+          "writable": false,
+          "definedIn": null
+        },
+        "undefinedTypes": [
+          "UndefinedType"
+        ],
+        "undefinedProperties": {
+          "foobar": true
+        }
+      }
+    ]
+  }
+}

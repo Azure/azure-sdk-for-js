@@ -1,230 +1,305 @@
 import { HttpClient } from "@azure/core-rest-pipeline";
-import { createPipelineRequest, HttpMethods } from "@azure/core-rest-pipeline";
 import { getRealAndFakePairs } from "./utils/connectionStringHelpers";
+import { createRecordingRequest } from "./utils/createRecordingRequest";
 import { paths } from "./utils/paths";
 import {
+  ConnectionStringSanitizer,
+  ContinuationSanitizer,
+  FindReplaceSanitizer,
   getTestMode,
+  HeaderSanitizer,
   isRecordMode,
+  isStringSanitizer,
   ProxyToolSanitizers,
   RecorderError,
-  RegexSanitizer,
-  sanitizerKeywordMapping,
+  RemoveHeaderSanitizer,
   SanitizerOptions,
 } from "./utils/utils";
 
 /**
- * Sanitizer class to handle communication with the proxy-tool relating to the sanitizers adding/resetting, etc.
+ * Signature of a function that adds a sanitizer of type T.
  */
-export class Sanitizer {
-  constructor(private url: string, private httpClient: HttpClient) {}
-  private recordingId: string | undefined;
+type AddSanitizer<T> = (
+  httpClient: HttpClient,
+  url: string,
+  recordingId: string,
+  sanitizer: T
+) => Promise<void>;
 
-  setRecordingId(recordingId: string): void {
-    this.recordingId = recordingId;
-  }
+/**
+ * Given an AddSanitizer<T> function, create an AddSanitizer function that operates on an array of T, adding
+ * each sanitizer in the array individually.
+ */
+const pluralize =
+  <T>(singular: AddSanitizer<T>): AddSanitizer<T[]> =>
+  async (httpClient: HttpClient, url: string, recordingId: string, sanitizers: T[]) => {
+    await Promise.all(
+      sanitizers.map((sanitizer) => singular(httpClient, url, recordingId, sanitizer))
+    );
+  };
 
-  /**
-   * Returns the html document of all the available transforms in the proxy-tool
-   */
-  async transformsInfo(): Promise<string | null | undefined> {
-    if (this.recordingId) {
-      const infoUri = `${this.url}${paths.info}${paths.available}`;
-      const req = this._createRecordingRequest(infoUri, "GET");
-      if (!this.httpClient) {
-        throw new RecorderError(
-          `Something went wrong, Sanitizer.httpClient should not have been undefined in ${getTestMode()} mode.`
-        );
-      }
-      const rsp = await this.httpClient.sendRequest({
-        ...req,
-        allowInsecureConnection: true,
+/**
+ * Makes an AddSanitizer<unknown> function that passes the sanitizer content directly to the test proxy request body.
+ */
+const makeAddSanitizer =
+  (sanitizerName: ProxyToolSanitizers): AddSanitizer<Record<string, unknown>> =>
+  async (
+    httpClient: HttpClient,
+    url: string,
+    recordingId: string,
+    sanitizer: Record<string, unknown>
+  ) => {
+    await addSanitizer(httpClient, url, recordingId, {
+      sanitizer: sanitizerName,
+      body: sanitizer,
+    });
+  };
+
+/**
+ * Makes an AddSanitizer<boolean> function that adds the sanitizer if the value is set to true,
+ * and otherwise makes no request to the server. Used for ResetSanitizer and OAuthResponseSanitizer.
+ */
+const makeAddBodilessSanitizer =
+  (sanitizerName: ProxyToolSanitizers): AddSanitizer<boolean> =>
+  async (httpClient: HttpClient, url: string, recordingId: string, enable: boolean) => {
+    if (enable) {
+      await addSanitizer(httpClient, url, recordingId, {
+        sanitizer: sanitizerName,
+        body: undefined,
       });
-      if (rsp.status !== 200) {
-        throw new RecorderError("Info request failed.");
-      }
-      return rsp.bodyAsText;
+    }
+  };
+
+/**
+ * Makes an AddSanitizer function for a FindReplaceSanitizer, for example a bodySanitizer.
+ * Depending on the input FindReplaceSanitizer options, either adds a sanitizer named `regexSanitizerName`
+ * or `stringSanitizerName`.
+ */
+const makeAddFindReplaceSanitizer =
+  (
+    regexSanitizerName: ProxyToolSanitizers,
+    stringSanitizerName: ProxyToolSanitizers
+  ): AddSanitizer<FindReplaceSanitizer> =>
+  async (
+    httpClient: HttpClient,
+    url: string,
+    recordingId: string,
+    sanitizer: FindReplaceSanitizer
+  ): Promise<void> => {
+    if (isStringSanitizer(sanitizer)) {
+      await addSanitizer(httpClient, url, recordingId, {
+        sanitizer: stringSanitizerName,
+        body: {
+          target: sanitizer.target,
+          value: sanitizer.value,
+        },
+      });
     } else {
-      throw new RecorderError(
-        "Bad state, recordingId is not defined when called transformsInfo()."
-      );
-    }
-  }
-
-  /**
-   * addSanitizers adds sanitizers to the current recording. Sanitizers will be applied before recordings are saved.
-   *
-   * Takes SanitizerOptions as the input, passes on to the proxy-tool.
-   */
-  async addSanitizers(options: SanitizerOptions): Promise<void> {
-    if (options.connectionStringSanitizers) {
-      await Promise.all(
-        options.connectionStringSanitizers.map((replacer) =>
-          this.addConnectionStringSanitizer(replacer.actualConnString, replacer.fakeConnString)
-        )
-      );
-    }
-
-    await Promise.all(
-      (
-        [
-          // The following sanitizers have similar request bodies and this abstraction avoids duplication
-          "generalRegexSanitizers",
-          "bodyKeySanitizers",
-          "bodyRegexSanitizers",
-          "headerRegexSanitizers",
-          "uriRegexSanitizers",
-        ] as const
-      ).map((prop) => {
-        const replacers = options[prop];
-        if (replacers) {
-          return Promise.all(
-            replacers.map((replacer: RegexSanitizer) => {
-              if (
-                // sanitizers where the "regex" is a required attribute
-                [
-                  "bodyKeySanitizers",
-                  "bodyRegexSanitizers",
-                  "generalRegexSanitizers",
-                  "uriRegexSanitizers",
-                ].includes(prop) &&
-                !replacer.regex
-              ) {
-                if (!isRecordMode()) return;
-                throw new RecorderError(
-                  `Attempted to add an invalid sanitizer - ${JSON.stringify(replacer)}`
-                );
-              }
-              return this.addSanitizer({
-                sanitizer: sanitizerKeywordMapping[prop],
-                body: JSON.stringify(replacer),
-              });
-            })
-          );
-        } else return;
-      })
-    );
-
-    await Promise.all(
-      (
-        [
-          // The following sanitizers have similar request bodies and this abstraction avoids duplication
-          "resetSanitizer",
-          "oAuthResponseSanitizer",
-        ] as const
-      ).map((prop) => {
-        // TODO: Test
-        if (options[prop]) {
-          return this.addSanitizer({
-            sanitizer: sanitizerKeywordMapping[prop],
-            body: undefined,
-          });
-        } else return;
-      })
-    );
-
-    if (options.removeHeaderSanitizer) {
-      this.addSanitizer({
-        sanitizer: "RemoveHeaderSanitizer",
-        body: JSON.stringify({
-          headersForRemoval: options.removeHeaderSanitizer.headersForRemoval.toString(),
-        }),
+      await addSanitizer(httpClient, url, recordingId, {
+        sanitizer: regexSanitizerName,
+        body: {
+          regex: sanitizer.target,
+          value: sanitizer.value,
+          groupForReplace: sanitizer.groupForReplace,
+        },
       });
     }
+  };
 
-    if (options.continuationSanitizers) {
-      // TODO: Test
-      await Promise.all(
-        options.continuationSanitizers.map((replacer) =>
-          this.addSanitizer({
-            sanitizer: "ContinuationSanitizer",
-            body: JSON.stringify({
-              ...replacer,
-              resetAfterFirst: replacer.resetAfterFirst.toString(),
-            }),
-          })
-        )
-      );
-    }
-
-    if (options.uriSubscriptionIdSanitizer) {
-      await this.addSanitizer({
-        sanitizer: "UriSubscriptionIdSanitizer",
-        body: JSON.stringify(options.uriSubscriptionIdSanitizer),
-      });
-    }
+/**
+ *  Internally,
+ * - connection strings are parsed and
+ * - each part of the connection string is mapped with its corresponding fake value
+ * - GeneralStringSanitizer is applied for each of the parts with the real and fake values that are parsed
+ */
+async function addConnectionStringSanitizer(
+  httpClient: HttpClient,
+  url: string,
+  recordingId: string,
+  { actualConnString, fakeConnString }: ConnectionStringSanitizer
+): Promise<void> {
+  if (!actualConnString) {
+    if (!isRecordMode()) return;
+    throw new RecorderError(
+      `Attempted to add an invalid sanitizer - ${JSON.stringify({
+        actualConnString: actualConnString,
+        fakeConnString: fakeConnString,
+      })}`
+    );
   }
+  // extract connection string parts and match call
+  const pairsMatched = getRealAndFakePairs(actualConnString, fakeConnString);
+  await addSanitizers(httpClient, url, recordingId, {
+    generalSanitizers: Object.entries(pairsMatched).map(([key, value]) => {
+      return { value, target: key };
+    }),
+  });
+}
 
-  /**
-   *  Internally,
-   * - connection strings are parsed and
-   * - each part of the connection string is mapped with its corresponding fake value
-   * - generalRegexSanitizer is applied for each of the parts with the real and fake values that are parsed
-   */
-  async addConnectionStringSanitizer(
-    actualConnString: string | undefined,
-    fakeConnString: string
-  ): Promise<void> {
-    if (!actualConnString) {
-      if (!isRecordMode()) return;
-      throw new RecorderError(
-        `Attempted to add an invalid sanitizer - ${JSON.stringify({
-          actualConnString: actualConnString,
-          fakeConnString: fakeConnString,
-        })}`
-      );
-    }
-    // extract connection string parts and match call
-    const pairsMatched = getRealAndFakePairs(actualConnString, fakeConnString);
-    await this.addSanitizers({
-      generalRegexSanitizers: Object.entries(pairsMatched).map(([key, value]) => {
-        return { value, regex: key };
-      }),
+/**
+ * Adds a ContinuationSanitizer with the given options.
+ */
+async function addContinuationSanitizer(
+  httpClient: HttpClient,
+  url: string,
+  recordingId: string,
+  sanitizer: ContinuationSanitizer
+) {
+  await addSanitizer(httpClient, url, recordingId, {
+    sanitizer: "ContinuationSanitizer",
+    body: {
+      ...sanitizer,
+      resetAfterFirst: sanitizer.resetAfterFirst.toString(),
+    },
+  });
+}
+
+/**
+ * Adds a RemoveHeaderSanitizer with the given options.
+ */
+async function addRemoveHeaderSanitizer(
+  httpClient: HttpClient,
+  url: string,
+  recordingId: string,
+  sanitizer: RemoveHeaderSanitizer
+) {
+  await addSanitizer(httpClient, url, recordingId, {
+    sanitizer: "RemoveHeaderSanitizer",
+    body: {
+      headersForRemoval: sanitizer.headersForRemoval.toString(),
+    },
+  });
+}
+
+/**
+ * Adds a HeaderRegexSanitizer or HeaderStringSanitizer.
+ *
+ * HeaderSanitizer is a special case of FindReplaceSanitizer where a header name ('key') must be provided.
+ * Additionally, the 'target' option is not required. If target is unspecified, the header's value will always
+ * be replaced.
+ */
+async function addHeaderSanitizer(
+  httpClient: HttpClient,
+  url: string,
+  recordingId: string,
+  sanitizer: HeaderSanitizer
+) {
+  if (sanitizer.regex || !sanitizer.target) {
+    await addSanitizer(httpClient, url, recordingId, {
+      sanitizer: "HeaderRegexSanitizer",
+      body: {
+        key: sanitizer.key,
+        value: sanitizer.value,
+        regex: sanitizer.target,
+        groupForReplace: sanitizer.groupForReplace,
+      },
+    });
+  } else {
+    await addSanitizer(httpClient, url, recordingId, {
+      sanitizer: "HeaderStringSanitizer",
+      body: {
+        key: sanitizer.key,
+        target: sanitizer.target,
+        value: sanitizer.value,
+      },
     });
   }
+}
 
-  /**
-   * Atomic method to add a simple sanitizer.
-   */
-  private async addSanitizer(options: {
+const addSanitizersActions: {
+  [K in keyof SanitizerOptions]: AddSanitizer<Exclude<SanitizerOptions[K], undefined>>;
+} = {
+  generalSanitizers: pluralize(
+    makeAddFindReplaceSanitizer("GeneralRegexSanitizer", "GeneralStringSanitizer")
+  ),
+  bodySanitizers: pluralize(
+    makeAddFindReplaceSanitizer("BodyRegexSanitizer", "BodyStringSanitizer")
+  ),
+  headerSanitizers: pluralize(addHeaderSanitizer),
+  uriSanitizers: pluralize(makeAddFindReplaceSanitizer("UriRegexSanitizer", "UriStringSanitizer")),
+  connectionStringSanitizers: pluralize(addConnectionStringSanitizer),
+  bodyKeySanitizers: pluralize(makeAddSanitizer("BodyKeySanitizer")),
+  continuationSanitizers: pluralize(addContinuationSanitizer),
+  removeHeaderSanitizer: addRemoveHeaderSanitizer,
+  oAuthResponseSanitizer: makeAddBodilessSanitizer("OAuthResponseSanitizer"),
+  uriSubscriptionIdSanitizer: makeAddSanitizer("UriSubscriptionIdSanitizer"),
+  resetSanitizer: makeAddBodilessSanitizer("Reset"),
+};
+
+export async function addSanitizers(
+  httpClient: HttpClient,
+  url: string,
+  recordingId: string,
+  options: SanitizerOptions
+): Promise<void> {
+  await Promise.all(
+    Object.entries(options).map(([key, sanitizer]) => {
+      const action = addSanitizersActions[key as keyof SanitizerOptions];
+      if (!action) {
+        throw new RecorderError(`Sanitizer ${key} not implemented`);
+      }
+
+      return action(httpClient, url, recordingId, sanitizer);
+    })
+  );
+}
+
+/**
+ * Atomic method to add a simple sanitizer.
+ */
+async function addSanitizer(
+  httpClient: HttpClient,
+  url: string,
+  recordingId: string,
+  options: {
     sanitizer: ProxyToolSanitizers;
-    body: string | undefined;
-  }): Promise<void> {
-    if (this.recordingId !== undefined) {
-      const uri = `${this.url}${paths.admin}${
-        options.sanitizer !== "Reset" ? paths.addSanitizer : paths.reset
-      }`;
-      const req = this._createRecordingRequest(uri);
-      if (options.sanitizer !== "Reset") {
-        req.headers.set("x-abstraction-identifier", options.sanitizer);
-      }
-      req.headers.set("Content-Type", "application/json");
-      req.body = options.body;
-      if (!this.httpClient) {
-        throw new RecorderError(
-          `Something went wrong, Recorder.httpClient should not have been undefined in ${getTestMode()} mode.`
-        );
-      }
-      const rsp = await this.httpClient.sendRequest({
-        ...req,
-        allowInsecureConnection: true,
-      });
-      if (rsp.status !== 200) {
-        throw new RecorderError("addSanitizer request failed.");
-      }
-    } else {
-      throw new RecorderError("Bad state, recordingId is not defined when called addSanitizer().");
-    }
+    body: Record<string, unknown> | undefined;
   }
+): Promise<void> {
+  const uri = `${url}${paths.admin}${
+    options.sanitizer !== "Reset" ? paths.addSanitizer : paths.reset
+  }`;
+  const req = createRecordingRequest(uri, recordingId);
+  if (options.sanitizer !== "Reset") {
+    req.headers.set("x-abstraction-identifier", options.sanitizer);
+  }
+  req.headers.set("Content-Type", "application/json");
+  req.body = options.body !== undefined ? JSON.stringify(options.body) : undefined;
 
-  /**
-   * Adds the recording id headers to the requests that are sent to the proxy tool.
-   * These are required to appropriately save the recordings in the record mode and picking them up in playback.
-   */
-  private _createRecordingRequest(url: string, method: HttpMethods = "POST") {
-    const req = createPipelineRequest({ url: url, method });
-    if (this.recordingId !== undefined) {
-      req.headers.set("x-recording-id", this.recordingId);
+  const rsp = await httpClient.sendRequest({
+    ...req,
+    allowInsecureConnection: true,
+  });
+  if (rsp.status !== 200) {
+    throw new RecorderError("addSanitizer request failed.");
+  }
+}
+
+/**
+ * Returns the html document of all the available transforms in the proxy-tool
+ */
+export async function transformsInfo(
+  httpClient: HttpClient,
+  url: string,
+  recordingId: string
+): Promise<string | null | undefined> {
+  if (recordingId) {
+    const infoUri = `${url}${paths.info}${paths.available}`;
+    const req = createRecordingRequest(infoUri, undefined, recordingId, "GET");
+    if (!httpClient) {
+      throw new RecorderError(
+        `Something went wrong, Sanitizer.httpClient should not have been undefined in ${getTestMode()} mode.`
+      );
     }
-    return req;
+    const rsp = await httpClient.sendRequest({
+      ...req,
+      allowInsecureConnection: true,
+    });
+    if (rsp.status !== 200) {
+      throw new RecorderError("Info request failed.");
+    }
+    return rsp.bodyAsText;
+  } else {
+    throw new RecorderError("Bad state, recordingId is not defined when called transformsInfo().");
   }
 }

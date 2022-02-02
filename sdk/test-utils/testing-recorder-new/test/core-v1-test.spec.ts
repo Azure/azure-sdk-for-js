@@ -16,13 +16,13 @@ const recorderOptions: RecorderStartOptions = {
 
 const getSanitizerOptions = () => {
   return {
-    generalRegexSanitizers: [
+    generalSanitizers: [
       {
-        regex: assertEnvironmentVariable("STORAGE_SAS_URL").split("/")[2],
+        target: assertEnvironmentVariable("STORAGE_SAS_URL").split("/")[2],
         value: fakeSASUrl.split("/")[2],
       },
       {
-        regex: assertEnvironmentVariable("STORAGE_SAS_URL").split("/")[3].split("?")[1],
+        target: assertEnvironmentVariable("STORAGE_SAS_URL").split("/")[3].split("?")[1],
         value: fakeSASUrl.split("/")[3].split("?")[1],
       },
     ],

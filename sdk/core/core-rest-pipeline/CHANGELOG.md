@@ -1,17 +1,16 @@
 # Release History
 
-## 1.4.1 (Unreleased)
+## 1.5.0 (2022-02-03)
 
 ### Features Added
 
-### Breaking Changes
+- Added new phase "Sign" for policies that sign the request for security purposes. [#20129](https://github.com/Azure/azure-sdk-for-js/pull/20129)
 
 ### Bugs Fixed
 
 - Updated the HTTP tracing span names to conform to the [OpenTelemetry Specification](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md#name). [#19838](https://github.com/Azure/azure-sdk-for-js/pull/19838)
-  - New HTTP spans will use the `HTTP <VERB>` convention instead of using the URL path.
-
-### Other Changes
+- New HTTP spans will use the `HTTP <VERB>` convention instead of using the URL path.
+- Addressed an issue where policy order might change in cases where there are no policies inside a phase specified by an "afterPhase" constraint. [#20129](https://github.com/Azure/azure-sdk-for-js/pull/20129)
 
 ## 1.4.0 (2022-01-06)
 

@@ -9,8 +9,8 @@ import {
 } from "@azure/core-client";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./tracing";
+import { TracingClient, createTracingClient } from "@azure/core-tracing";
+import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { quoteETag } from "./util";
 
@@ -44,6 +44,7 @@ export interface ConfigurationClientOptions extends CommonClientOptions {
  */
 export class ConfigurationClient {
   private client: GeneratedClient;
+  private tracingClient: TracingClient;
 
   /**
    * Creates an instance of a ConfigurationClient.
@@ -99,6 +100,14 @@ export class ConfigurationClient {
 
     this.client = new GeneratedClient(endpointUrl, internalClientPipelineOptions);
     this.client.pipeline.addPolicy(authPolicy);
+    this.tracingClient = createTracingClient({
+      // The name of the resource provider requests are made against, as described in
+      // https://github.com/Azure/azure-sdk/blob/main/docs/tracing/distributed-tracing-conventions.yml#L11-L15
+      namespace: "Microsoft.Learn",
+      // The package name and version
+      packageName: "@azure/template",
+      packageVersion: SDK_VERSION,
+    });
   }
 
   /**
@@ -131,41 +140,29 @@ export class ConfigurationClient {
     let key: string;
     let ifNoneMatch: string | undefined;
 
-    if (typeof keyOrSetting === "string") {
-      key = keyOrSetting;
-      if (options.onlyIfChanged) {
-        throw new RangeError(
-          "You must pass a ConfigurationSetting instead of a key to perform a conditional fetch."
-        );
-      }
-    } else {
-      key = keyOrSetting.key;
-      const etag = keyOrSetting.etag;
-      if (options.onlyIfChanged) {
-        ifNoneMatch = quoteETag(etag);
-      }
-    }
+    return this.tracingClient.withSpan(
+      // Span names should take the form "<className>.<methodName>".
+      "ConfigurationClient.getConfigurationSetting",
+      options,
+      (updatedOptions) => {
+        if (typeof keyOrSetting === "string") {
+          key = keyOrSetting;
+          if (options.onlyIfChanged) {
+            throw new RangeError(
+              "You must pass a ConfigurationSetting instead of a key to perform a conditional fetch."
+            );
+          }
+        } else {
+          key = keyOrSetting.key;
+          const etag = keyOrSetting.etag;
+          if (options.onlyIfChanged) {
+            ifNoneMatch = quoteETag(etag);
+          }
+        }
 
-    const { span, updatedOptions } = createSpan(
-      // Here you set the name of the span, usually clientName-operationName
-      "ConfigurationClient-getConfigurationSetting",
-      options
+        // You must pass updatedOptions to any calls you make within the callback.
+        return this.client.getKeyValue(key, { ...updatedOptions, ifNoneMatch });
+      }
     );
-
-    try {
-      const result = await this.client.getKeyValue(key, {
-        ...updatedOptions,
-        ifNoneMatch,
-      });
-      return result;
-    } catch (e) {
-      // There are different standard codes available for different errors:
-      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 }

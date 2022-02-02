@@ -5,9 +5,9 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
 import { KeyVaultBackupClient } from "../../src";
-import { authenticate } from "../utils/authentication";
-import { testPollerProperties } from "../utils/recorder";
-import { assertThrowsAbortError, getSasToken } from "../utils/common";
+import { authenticate } from "./utils/authentication";
+import { testPollerProperties } from "./utils/recorder";
+import { assertThrowsAbortError, getSasToken, getServiceVersion } from "./utils/common";
 
 describe("Aborting KeyVaultBackupClient's requests", () => {
   let client: KeyVaultBackupClient;
@@ -18,7 +18,7 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
   let generateFakeUUID: () => string;
 
   beforeEach(async function () {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     client = authentication.backupClient;
     recorder = authentication.recorder;
     generateFakeUUID = authentication.generateFakeUUID;
