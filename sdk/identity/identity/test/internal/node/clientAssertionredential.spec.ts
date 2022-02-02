@@ -11,7 +11,7 @@ import Sinon from "sinon";
 import { msalNodeTestSetup, MsalTestCleanup } from "../../msalTestUtils";
 import * as msalNode from "@azure/msal-node";
 
-describe.only("ClientAssertionCredential (internal)", function () {
+describe("ClientAssertionCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let spy: Sinon.SinonSpy;
 
