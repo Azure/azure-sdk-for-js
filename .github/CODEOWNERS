@@ -36,9 +36,9 @@
 # PRLabel: %Communication
 /sdk/communication/communication-identity/ @Azure/acs-identity-sdk 
 /sdk/communication/communication-chat/ @LuChen-Microsoft
-/sdk/communication/communication-phone-numbers/ @miguhern @danielav7 @whisper6284 @AlonsoMondal
+/sdk/communication/communication-phone-numbers/ @whisper6284 @miguhern @danielav7 @AlonsoMondal
 /sdk/communication/communication-network-traversal/ @AriZavala2
-/sdk/communication/communication-sms/ @RoyHerrod @arifibrahim4
+/sdk/communication/communication-sms/ @arifibrahim4 @RoyHerrod
 /sdk/communication/communication-short-codes/ @danielav7 @AlonsoMondal @ericasp16
 /sdk/communication/communication-common/ @Azure/acs-identity-sdk
 
@@ -58,10 +58,10 @@
 /sdk/digitaltwins/ @johngallardo @YoDaMa @olivakar
 
 # PRLabel: %Event Grid
-/sdk/eventgrid/ @xirzec @ellismg
+/sdk/eventgrid/ @ellismg @xirzec
 
 # PRLabel: %Event Hubs
-/sdk/eventhub/ @deyaaeldeen @jeremymeng @HarshaNalluru @ramya-rao-a
+/sdk/eventhub/ @jeremymeng @deyaaeldeen @HarshaNalluru @ramya-rao-a
 
 # PRLabel: %Azure.Identity
 /sdk/identity/ @sadasant @witemple-msft @schaabs
@@ -76,10 +76,10 @@
 /sdk/instrumentation/ @maorleger @joheredi
 
 # PRLabel: %Service Bus
-/sdk/servicebus/ @deyaaeldeen @jeremymeng @HarshaNalluru @ramya-rao-a @richardpark-msft 
+/sdk/servicebus/ @jeremymeng @deyaaeldeen @HarshaNalluru @ramya-rao-a
 
 # PRLabel: %Storage
-/sdk/storage/ @XiaoningLiu @jeremymeng @vinjiang @jiacfan @ljian3377 @EmmaZhu
+/sdk/storage/ @EmmaZhu @XiaoningLiu @jeremymeng @vinjiang @jiacfan @ljian3377
 
 # PRLabel: %Synapse
 /sdk/synapse/ @joheredi
@@ -100,7 +100,7 @@
 /sdk/documenttranslator/ @joheredi
 
 # PRLabel: %WebPubSub
-/sdk/web-pubsub/ @xirzec @bterlson @vicancy
+/sdk/web-pubsub/ @vicancy @xirzec @bterlson
 
 # PRLabel: %EngSys
 /sdk/template/ @praveenkuttappan @mikeharder @weshaggard @benbp
@@ -114,16 +114,16 @@
 /sdk/schemaregistry/ @deyaaeldeen @nguerrera
 
 # PRLabel: %Cognitive - Form Recognizer
-/sdk/formrecognizer/ @jeremymeng @witemple-msft
+/sdk/formrecognizer/ @witemple-msft @jeremymeng
 
 # PRLabel: %Cognitive - Metrics Advisor
-/sdk/metricsadvisor/ @jeremymeng @KarishmaGhiya
+/sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
 
 # PRLabel: %Cognitive - Anomaly Detector
 /sdk/anomalydetector/ @conhua @mengaims @juaduan @moreOver0
 
 # PRLabel: %Search
-/sdk/search/ @xirzec @sarangan12
+/sdk/search/ @sarangan12 @xirzec
 
 /sdk/applicationinsights/applicationinsights-query/ @divyajay @alongafni
 /sdk/operationalinsights/loganalytics/ @divyajay @alongafni

@@ -1,0 +1,29 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:motionObject;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": [ "Velocity" ],
+          "name": "velocity",
+          "schema": "double",
+          "unit": "metrePerSecond"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:badType",
+        "PrimaryID": "dtmi:test:motionObject;1",
+        "SecondaryID": "dtmi:test:motionObject:_fields:__velocity;1",
+        "Property": "fields"
+      }
+    ]
+  }
+}

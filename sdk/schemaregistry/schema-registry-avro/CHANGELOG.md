@@ -15,6 +15,7 @@
 ### Bugs Fixed
 
 ### Other Changes
+- The internal cache has been updated to be an LRU one with a max entries count of 128
 
 ## 1.0.0-beta.5 (2021-11-17)
 

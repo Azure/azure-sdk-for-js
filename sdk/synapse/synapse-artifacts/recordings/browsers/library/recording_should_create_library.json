@@ -1,121 +1,148 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1322",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:37 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.4 - SCUS ProdSlices",
-    "x-ms-request-id": "12ad2611-1b51-41dd-bc86-34759a6b2500"
-   }
-  },
-  {
-   "method": "PUT",
-   "url": "https://testaccount.dev.azuresynapse.net/libraries/testLibraryName.jar",
-   "query": {
-    "api-version": "2020-12-01"
-   },
-   "requestBody": null,
-   "status": 202,
-   "response": "{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/xysynapsetest/libraries/testLibraryName.jar\",\"recordId\":1884927,\"state\":\"Creating\",\"created\":\"2021-06-11T18:41:38.32Z\",\"changed\":\"2021-06-11T18:41:38.32Z\",\"type\":\"LibraryArtifact\",\"name\":\"testLibraryName.jar\",\"operationId\":\"606a995d-b95a-410a-95c6-8a929c5e3c72\",\"artifactId\":\"99CA48EC-0EDE-4E3C-A03A-1C474BBD00AE\"}",
-   "responseHeaders": {
-    "access-control-allow-headers": "Location, Retry-After",
-    "access-control-expose-headers": "Location, Retry-After",
-    "content-length": "436",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:37 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72?api-version=2020-12-01",
-    "retry-after": "10",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "status": "202",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "64fb81fd-85b5-40f7-a3cb-c80343d9abd6"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72",
-   "query": {
-    "api-version": "2020-12-01"
-   },
-   "requestBody": null,
-   "status": 202,
-   "response": "{\"status\":\"InProgress\"}",
-   "responseHeaders": {
-    "access-control-allow-headers": "Location, Retry-After",
-    "access-control-expose-headers": "Location, Retry-After",
-    "content-length": "23",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:37 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72?api-version=2020-12-01",
-    "retry-after": "10",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "status": "202",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "250a4812-d254-44b7-8cc5-f6c3f4e06d72"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72",
-   "query": {
-    "api-version": "2020-12-01"
-   },
-   "requestBody": null,
-   "status": 202,
-   "response": "{\"status\":\"InProgress\"}",
-   "responseHeaders": {
-    "access-control-allow-headers": "Location, Retry-After",
-    "access-control-expose-headers": "Location, Retry-After",
-    "content-length": "23",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:40 GMT",
-    "location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72?api-version=2020-12-01",
-    "retry-after": "10",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "status": "202",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "a61326e2-ca04-43ea-8cc7-bc5f9cc41925"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/606a995d-b95a-410a-95c6-8a929c5e3c72",
-   "query": {
-    "api-version": "2020-12-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/xysynapsetest/libraries/testLibraryName.jar\",\"name\":\"testLibraryName.jar\",\"type\":\"Microsoft.Synapse/workspaces/libraries\",\"properties\":{\"name\":\"testLibraryName.jar\",\"path\":\"xysynapsetest/libraries/testLibraryName.jar\",\"containerName\":\"prep\",\"uploadedTimestamp\":\"2021-06-11T18:41:38.3151754+00:00\",\"type\":\"jar\",\"provisioningStatus\":\"Incomplete\",\"creatorId\":\"30511c9d-ba1a-4c7b-b422-5b543da11b3f\"},\"etag\":\"4f007eea-0000-0800-0000-60c3ae650000\"}",
-   "responseHeaders": {
-    "content-length": "564",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:42 GMT",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "ec2007af-452f-4869-9194-b3701d8f1d40"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "d878684ca2ba8bb8db00360d4a70f8bb"
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/libraries/testLibraryName.jar?api-version=2020-12-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "b7094e1c-cca2-4c87-b4b7-da95885741f8",
+        "x-ms-useragent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Headers": [
+          "Location",
+          "Retry-After"
+        ],
+        "Access-Control-Expose-Headers": [
+          "Location",
+          "Retry-After"
+        ],
+        "Content-Length": "449",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 23:00:47 GMT",
+        "Location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/544a17af-9d7a-46c4-90c2-a3a127a8e89f?api-version=2020-12-01",
+        "Retry-After": "10",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "b4a49e35-758e-49c6-b6d7-e618cfdc4189"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/joheredi-test/providers/Microsoft.Synapse/workspaces/joheredisyn/libraries/testLibraryName.jar",
+        "recordId": 1850574,
+        "state": "Creating",
+        "created": "2022-01-31T23:00:47.4666667Z",
+        "changed": "2022-01-31T23:00:47.4666667Z",
+        "type": "LibraryArtifact",
+        "name": "testLibraryName.jar",
+        "operationId": "544a17af-9d7a-46c4-90c2-a3a127a8e89f",
+        "artifactId": "15A83422-DC87-44F9-BAC4-6C80DA155413"
+      }
+    },
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/544a17af-9d7a-46c4-90c2-a3a127a8e89f?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "9fce930c-697f-482f-9ad5-69dac8bc13ce",
+        "x-ms-useragent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Headers": [
+          "Location",
+          "Retry-After"
+        ],
+        "Access-Control-Expose-Headers": [
+          "Location",
+          "Retry-After"
+        ],
+        "Content-Length": "23",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 23:00:47 GMT",
+        "Location": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/544a17af-9d7a-46c4-90c2-a3a127a8e89f?api-version=2020-12-01",
+        "Retry-After": "10",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "5a9f2fa9-33d1-45e0-870c-3d0a99ad3893"
+      },
+      "ResponseBody": {
+        "status": "InProgress"
+      }
+    },
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/libraryOperationResults/544a17af-9d7a-46c4-90c2-a3a127a8e89f?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "cd5b4037-4a6a-4a85-8b11-5e6890f9a438",
+        "x-ms-useragent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "564",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 23:00:57 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "dc10fe55-0a45-428d-998c-08d7611b58de"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/joheredi-test/providers/Microsoft.Synapse/workspaces/joheredisyn/libraries/testLibraryName.jar",
+        "name": "testLibraryName.jar",
+        "type": "Microsoft.Synapse/workspaces/libraries",
+        "properties": {
+          "name": "testLibraryName.jar",
+          "path": "joheredisyn/libraries/testLibraryName.jar",
+          "containerName": "prep",
+          "uploadedTimestamp": "2022-01-31T23:00:47.460473\u002B00:00",
+          "type": "jar",
+          "provisioningStatus": "Incomplete",
+          "creatorId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd"
+        },
+        "etag": "5700cff6-0000-0200-0000-61f86a200000"
+      }
+    }
+  ],
+  "Variables": {}
 }

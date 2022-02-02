@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import {
+  CompositeMapper,
+  Mapper,
   OperationArguments,
   OperationParameter,
-  Mapper,
-  CompositeMapper,
-  ParameterPath,
-  OperationRequestInfo,
   OperationRequest,
+  OperationRequestInfo,
+  ParameterPath,
 } from "./interfaces";
 
 /**

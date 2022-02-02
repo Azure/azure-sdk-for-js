@@ -4,10 +4,10 @@
 import { createTracingClient, TracingClient, useInstrumenter } from "@azure/core-tracing";
 import { MockTracingSpan, MockInstrumenter } from "../../src";
 import chai, { assert, expect } from "chai";
-import { chaiAzureTrace } from "../../src/tracing/chaiAzureTrace";
+import { chaiAzure } from "../../src/";
 import { MockContext } from "../../src/tracing/mockContext";
 import { OperationTracingOptions } from "@azure/core-tracing";
-chai.use(chaiAzureTrace);
+chai.use(chaiAzure);
 
 describe("TestInstrumenter", function () {
   let instrumenter: MockInstrumenter;
