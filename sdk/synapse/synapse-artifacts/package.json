@@ -37,7 +37,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
-    "@azure-tools/test-recorder": "^1.0.0",
+    "@azure-tools/test-recorder": "^2.0.0",
     "@microsoft/api-extractor": "^7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
@@ -72,7 +72,8 @@
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~4.2.0"
+    "typescript": "~4.2.0",
+    "@azure-tools/test-credential": "^1.0.0"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -99,8 +100,8 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
-    "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test:browser": "dev-tool run test:browser",
+    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "extract-api": "api-extractor run --local",
     "clean": "rimraf dist dist-* temp types *.tgz *.log"

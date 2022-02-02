@@ -1,0 +1,54 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    [
+      {
+        "@context": "dtmi:dtdl:context;2",
+        "@id": "dtmi:test:parentInterface;1",
+        "@type": "Interface",
+        "contents": [
+          {
+            "@type": "Component",
+            "name": "child",
+            "schema": {
+              "@id": "dtmi:test:anInterface;1",
+              "@type": "Interface",
+              "contents": [
+                {
+                  "@id": "dtmi:test:aTelemetry;1",
+                  "@type": "Telemetry",
+                  "name": "distance",
+                  "schema": "dtmi:test:doubleArray;1"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "@context": "dtmi:dtdl:context;2",
+        "@id": "dtmi:test:anotherInterface;1",
+        "@type": "Interface",
+        "schemas": [
+          {
+            "@id": "dtmi:test:doubleArray;1",
+            "@type": "Array",
+            "elementSchema": "double"
+          }
+        ]
+      }
+    ]
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:crossPartitionReference",
+        "PrimaryID": "dtmi:test:aTelemetry;1",
+        "SecondaryID": "dtmi:test:doubleArray;1",
+        "Property": "schema",
+        "Value": null
+      }
+    ]
+  }
+}

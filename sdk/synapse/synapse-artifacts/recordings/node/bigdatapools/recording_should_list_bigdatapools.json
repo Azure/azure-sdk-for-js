@@ -1,0 +1,62 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/bigDataPools?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "d93bff99-efaa-4f08-b05d-8c8b30c63fbb"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "761",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 22:58:51 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "c03d6a11-cd82-4811-a014-7535c37fbf5a"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "properties": {
+              "creationDate": "2022-01-10T21:05:07.8733333Z",
+              "sparkVersion": "3.1",
+              "nodeCount": 10,
+              "nodeSize": "Medium",
+              "nodeSizeFamily": "MemoryOptimized",
+              "autoScale": {
+                "enabled": true,
+                "minNodeCount": 3,
+                "maxNodeCount": 10
+              },
+              "autoPause": {
+                "enabled": true,
+                "delayInMinutes": 15
+              },
+              "isComputeIsolationEnabled": false,
+              "sessionLevelPackagesEnabled": false,
+              "cacheSize": 0,
+              "dynamicExecutorAllocation": {
+                "enabled": false
+              },
+              "lastSucceededTimestamp": "2022-01-10T21:05:18.1Z",
+              "provisioningState": "Succeeded"
+            },
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/joheredi-test/providers/Microsoft.Synapse/workspaces/joheredisyn/bigDataPools/joheredispark",
+            "name": "joheredispark",
+            "type": "Microsoft.Synapse/workspaces/bigDataPools",
+            "location": "eastus2",
+            "tags": {}
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -1,0 +1,38 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;3",
+        "dtmi:dtdl:extension:historization;2"
+      ],
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@id": "dtmi:test:aCommand;1",
+          "@type": [ "Command", "Historized" ],
+          "name": "setDistance",
+          "request": {
+            "name": "desiredDistance",
+            "schema": "double"
+          },
+          "response": {
+            "name": "reportedDistance",
+            "schema": "double"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:invalidCotype",
+        "PrimaryID": "dtmi:test:aCommand;1",
+        "Value": "Historized"
+      }
+    ]
+  }
+}
