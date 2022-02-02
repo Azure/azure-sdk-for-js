@@ -16,7 +16,7 @@ import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 // EventHubBufferedProducerClient. Thus, this test is kept as an internal one,
 // where we would set these two properties via cast-to-any workaround.
 
-testWithServiceTypes((serviceVersion) => {
+testWithServiceTypes((serviceVersion, onVersions) => {
   const env = getEnvVars();
   if (serviceVersion === "mock") {
     let service: ReturnType<typeof createMockServer>;
@@ -30,7 +30,7 @@ testWithServiceTypes((serviceVersion) => {
     });
   }
 
-  describe("EventHubProducerClient internal idempotent publishing", function () {
+  onVersions(["live"]).describe("EventHubProducerClient internal idempotent publishing", function () {
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       path: env[EnvVarKeys.EVENTHUB_NAME],

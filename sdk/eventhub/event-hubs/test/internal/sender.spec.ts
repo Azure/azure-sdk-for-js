@@ -1047,7 +1047,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error("Test failure");
           } catch (error) {
             error.message.should.equal(
-              "The partitionId (0) and partitionKey (boo) cannot both be specified."
+              "The partitionId (1) and partitionKey (0) cannot both be specified."
             );
           }
         });
