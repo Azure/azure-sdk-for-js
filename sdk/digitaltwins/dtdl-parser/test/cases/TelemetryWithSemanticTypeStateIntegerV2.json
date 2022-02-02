@@ -1,0 +1,30 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;2",
+        "dtmi:iotcentral:context;2"
+      ],
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": [
+        "Telemetry",
+        "State"
+      ],
+      "name": "currentState",
+      "schema": "integer"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:badType",
+        "PrimaryID": "dtmi:test:aTelemetry;1",
+        "SecondaryID": "dtmi:dtdl:instance:Schema:integer;2",
+        "Property": "schema",
+        "Value": "Enum"
+      }
+    ]
+  }
+}

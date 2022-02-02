@@ -1,0 +1,55 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;3",
+        "dtmi:iotcentral:context;3",
+        {
+          "geopoint": "dtmi:standard:schema:geospatial:point;3"
+        }
+      ],
+      "@id": "dtmi:test:parentInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@id": "dtmi:test:aTelemetry;1",
+          "@type": [ "Telemetry", "Location" ],
+          "name": "place",
+          "schema": "geopoint"
+        },
+        {
+          "@type": "Component",
+          "name": "child",
+          "schema": {
+            "@context": {
+              "geopoint": null
+            },
+            "@id": "dtmi:test:childInterface;1",
+            "@type": "Interface",
+            "contents": [
+              {
+                "@id": "dtmi:test:anotherTelemetry;1",
+                "@type": [ "Telemetry", "Location" ],
+                "name": "place",
+                "schema": "geopoint"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:disallowedLocalContext",
+        "PrimaryID": null,
+        "SecondaryID": null,
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "description": "blank node identifiers",
+    "phrase": "{id0:p} property '{prop}' has element{id1:r} with value{id2:e} that is an object; however, {id3:n} specifies a literal.",
+    "install": {
+      "id0": "_:b0",
+      "id1": "_:b1",
+      "id2": "_:b2",
+      "id3": "_:b3",
+      "prop": "foo"
+    },
+    "expect": "_:b0's property 'foo' has element with value that is an object; however, _:b3 specifies a literal."
+  },
+  {
+    "description": "non-DTMI IRIs",
+    "phrase": "{id0:p} property '{prop}' has element{id1:r} with value{id2:e} that is an object; however, {id3:n} specifies a literal.",
+    "install": {
+      "id0": "http://foo/bar0",
+      "id1": "http://foo/bar1",
+      "id2": "http://foo/bar2",
+      "id3": "http://foo/bar3",
+      "prop": "foo"
+    },
+    "expect": "http://foo/bar0's property 'foo' has element 'http://foo/bar1' with value 'http://foo/bar2' that is an object; however, http://foo/bar3 specifies a literal."
+  },
+  {
+    "description": "invalid DTMIs",
+    "phrase": "{id0:p} property '{prop}' has element{id1:r} with value{id2:e} that is an object; however, {id3:n} specifies a literal.",
+    "install": {
+      "id0": "dtmi:test:0notLegal:_foo;1",
+      "id1": "dtmi:test:1notLegal:_foo;1",
+      "id2": "dtmi:test:2notLegal:_foo;1",
+      "id3": "dtmi:test:3notLegal:_foo;1",
+      "prop": "foo"
+    },
+    "expect": "dtmi:test:0notLegal:_foo;1's property 'foo' has element 'dtmi:test:1notLegal:_foo;1' with value 'dtmi:test:2notLegal:_foo;1' that is an object; however, dtmi:test:3notLegal:_foo;1 specifies a literal."
+  },
+  {
+    "description": "user IDs",
+    "phrase": "{id0:p} property '{prop}' has element{id1:r} with value{id2:e} that is an object; however, {id3:n} specifies a literal.",
+    "install": {
+      "id0": "dtmi:test:mySelf0;1",
+      "id1": "dtmi:test:mySelf1;1",
+      "id2": "dtmi:test:mySelf2;1",
+      "id3": "dtmi:test:mySelf3;1",
+      "prop": "foo"
+    },
+    "expect": "dtmi:test:mySelf0;1's property 'foo' has element dtmi:test:mySelf1;1 with value dtmi:test:mySelf2;1 that is an object; however, dtmi:test:mySelf3;1 specifies a literal."
+  },
+  {
+    "description": "auto-genned singular IDs",
+    "phrase": "{id0:p} property '{prop}' has element{id1:r} with value{id2:e} that is an object; however, {id3:n} specifies a literal.",
+    "install": {
+      "id0": "dtmi:test:myParent0:_schema;1",
+      "id1": "dtmi:test:myParent1:_schema;1",
+      "id2": "dtmi:test:myParent2:_schema;1",
+      "id3": "dtmi:test:myParent3:_schema;1",
+      "prop": "foo"
+    },
+    "expect": "dtmi:test:myParent0;1 has 'schema' value whose property 'foo' has element with value that is an object; however, dtmi:test:myParent3;1 has 'schema' value which specifies a literal."
+  },
+  {
+    "description": "auto-genned plural IDs",
+    "phrase": "{id0:p} property '{prop}' has element{id1:r} with value{id2:e} that is an object; however, {id3:n} specifies a literal.",
+    "install": {
+      "id0": "dtmi:test:myParent0:_contents:__child0;1",
+      "id1": "dtmi:test:myParent1:_contents:__child1;1",
+      "id2": "dtmi:test:myParent2:_contents:__child2;1",
+      "id3": "dtmi:test:myParent3:_contents:__child3;1",
+      "prop": "foo"
+    },
+    "expect": "dtmi:test:myParent0;1 has 'contents' value with name 'child0' whose property 'foo' has element with name 'child1' with value that is an object; however, dtmi:test:myParent3;1 has 'contents' value with name 'child3' which specifies a literal."
+  }
+]
