@@ -29,7 +29,7 @@ import {
   rollbackIdempotentSequenceNumbers,
   toRheaMessage,
 } from "./eventData";
-import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
+import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import { logErrorStackTrace, logger } from "./log";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ConnectionContext } from "./connectionContext";
@@ -793,7 +793,7 @@ export function transformEventsForSend(
   } = {}
 ): Buffer {
   if (isEventDataBatch(events)) {
-    return events._generateMessage(publishingProps);
+    return (events as EventDataBatchImpl)._generateMessage(publishingProps);
   } else {
     const eventCount = events.length;
     // convert events to rhea messages

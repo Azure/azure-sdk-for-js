@@ -113,21 +113,6 @@ export interface EventDataBatch {
   tryAdd(eventData: EventData | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
 
   /**
-   * The AMQP message containing encoded events that were added to the batch.
-   * Used internally by the `sendBatch()` method on the `EventHubProducerClient`.
-   * This is not meant for the user to use directly.
-   *
-   * @hidden
-   */
-  _generateMessage(publishingProps?: PartitionPublishingProperties): Buffer;
-
-  /**
-   * Sets internal _startingPublishSequenceNumber to the pending publish sequence number.
-   * @hidden
-   */
-  _commitPublish(): void;
-
-  /**
    * Gets the "message" span contexts that were created when adding events to the batch.
    * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
    * @hidden

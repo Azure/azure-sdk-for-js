@@ -93,10 +93,7 @@ export interface EventDataAdapterParameters {
 
 // @public
 export interface EventDataBatch {
-    _commitPublish(): void;
     readonly count: number;
-    // Warning: (ae-forgotten-export) The symbol "PartitionPublishingProperties" needs to be exported by the entry point index.d.ts
-    _generateMessage(publishingProps?: PartitionPublishingProperties): Buffer;
     readonly maxSizeInBytes: number;
     readonly _messageSpanContexts: SpanContext[];
     // @internal

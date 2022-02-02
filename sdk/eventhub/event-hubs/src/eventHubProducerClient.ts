@@ -365,7 +365,10 @@ export class EventHubProducerClient {
     const eventDataTracingProperties: Array<EventData["properties"]> = [];
 
     if (isEventDataBatch(batch)) {
-      if (this._enableIdempotentPartitions && isDefined((batch as EventDataBatchImpl).startingPublishedSequenceNumber)) {
+      if (
+        this._enableIdempotentPartitions &&
+        isDefined((batch as EventDataBatchImpl).startingPublishedSequenceNumber)
+      ) {
         throw new Error(idempotentAlreadyPublished);
       }
       const partitionAssignment = extractPartitionAssignmentFromBatch(batch, options);

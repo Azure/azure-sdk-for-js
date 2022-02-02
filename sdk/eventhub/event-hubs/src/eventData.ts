@@ -14,7 +14,7 @@ import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,
 } from "./util/constants";
-import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
+import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 
 /**
  * Describes the delivery annotations.
@@ -549,7 +549,7 @@ export function commitIdempotentSequenceNumbers(
   events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch
 ): void {
   if (isEventDataBatch(events)) {
-    events._commitPublish();
+    (events as EventDataBatchImpl)._commitPublish();
   } else {
     // For each event, set the `publishedSequenceNumber` equal to the sequence number
     // we set when we attempted to send the events to the service.
