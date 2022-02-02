@@ -7,9 +7,9 @@ import {
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  PartitionPublishingProperties,
   SendBatchOptions,
 } from "./models/public";
+import { PartitionPublishingProperties } from "./models/private";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isCredential, isDefined } from "./util/typeGuards";

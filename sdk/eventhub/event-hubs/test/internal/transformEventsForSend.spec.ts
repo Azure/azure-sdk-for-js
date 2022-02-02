@@ -3,12 +3,9 @@
 
 import { Buffer } from "buffer";
 import chai from "chai";
-import {
-  EventData,
-  EventDataBatch,
-  EventHubProducerClient,
-  PartitionPublishingProperties,
-} from "../../src";
+import { EventData, EventDataBatch, EventHubProducerClient } from "../../src";
+import { PartitionPublishingProperties } from "../../src/models/private";
+
 import { transformEventsForSend } from "../../src/eventHubSender";
 import { EventDataInternal } from "../../src/eventData";
 import {

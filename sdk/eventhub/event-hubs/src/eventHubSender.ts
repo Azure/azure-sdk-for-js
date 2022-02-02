@@ -34,11 +34,8 @@ import { logErrorStackTrace, logger } from "./log";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubProducerOptions, IdempotentLinkProperties } from "./models/private";
-import {
-  PartitionPublishingOptions,
-  PartitionPublishingProperties,
-  SendOptions,
-} from "./models/public";
+import { SendOptions } from "./models/public";
+import { PartitionPublishingOptions, PartitionPublishingProperties } from "./models/private";
 import { LinkEntity } from "./linkEntity";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import {

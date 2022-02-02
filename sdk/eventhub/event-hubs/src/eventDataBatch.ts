@@ -11,7 +11,7 @@ import { OperationTracingOptions } from "@azure/core-tracing";
 import { convertTryAddOptionsForCompatibility } from "./diagnostics/tracing";
 import { instrumentEventData } from "./diagnostics/instrumentEventData";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
-import { PartitionPublishingProperties } from "./models/public";
+import { PartitionPublishingProperties } from "./models/private";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.

@@ -97,6 +97,7 @@ export interface EventDataAdapterParameters {
 export interface EventDataBatch {
     _commitPublish(): void;
     readonly count: number;
+    // Warning: (ae-forgotten-export) The symbol "PartitionPublishingProperties" needs to be exported by the entry point index.d.ts
     _generateMessage(publishingProps?: PartitionPublishingProperties): Buffer;
     readonly maxSizeInBytes: number;
     readonly _messageSpanContexts: SpanContext[];
@@ -307,22 +308,6 @@ export interface PartitionProperties {
     lastEnqueuedOnUtc: Date;
     lastEnqueuedSequenceNumber: number;
     partitionId: string;
-}
-
-// @public
-export interface PartitionPublishingOptions {
-    ownerLevel?: number;
-    producerGroupId?: number;
-    startingSequenceNumber?: number;
-}
-
-// @public
-export interface PartitionPublishingProperties {
-    isIdempotentPublishingEnabled: boolean;
-    lastPublishedSequenceNumber?: number;
-    ownerLevel?: number;
-    partitionId: string;
-    producerGroupId?: number;
 }
 
 // @public

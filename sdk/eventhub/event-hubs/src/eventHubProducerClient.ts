@@ -8,10 +8,9 @@ import {
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  PartitionPublishingOptions,
-  PartitionPublishingProperties,
   SendBatchOptions,
 } from "./models/public";
+import { PartitionPublishingOptions, PartitionPublishingProperties } from "./models/private";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { Link, Span, SpanContext, SpanKind, SpanStatusCode } from "@azure/core-tracing";
