@@ -109,7 +109,7 @@ testWithServiceTypes((serviceVersion) => {
       });
     }
 
-    describe("round-tripping AMQP encoding/decoding", () => {
+    describe.only("round-tripping AMQP encoding/decoding", () => {
       it(`props`, async () => {
         const startingPositions = await getStartingPositionsForTests(consumerClient);
         const testEvent = getSampleEventData();
