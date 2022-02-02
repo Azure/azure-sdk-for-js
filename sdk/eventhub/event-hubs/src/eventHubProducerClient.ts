@@ -25,7 +25,7 @@ import {
   validateProducerPartitionSettings,
 } from "./util/error";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { EventData } from "./eventData";
+import { EventData, EventDataInternal } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
 import { OperationOptions } from "./util/operationOptions";
 import { createEventHubSpan } from "./diagnostics/tracing";
@@ -365,7 +365,7 @@ export class EventHubProducerClient {
     const eventDataTracingProperties: Array<EventData["properties"]> = [];
 
     if (isEventDataBatch(batch)) {
-      if (this._enableIdempotentPartitions && isDefined(batch.startingPublishedSequenceNumber)) {
+      if (this._enableIdempotentPartitions && isDefined((batch as EventDataBatchImpl).startingPublishedSequenceNumber)) {
         throw new Error(idempotentAlreadyPublished);
       }
       const partitionAssignment = extractPartitionAssignmentFromBatch(batch, options);
@@ -376,7 +376,7 @@ export class EventHubProducerClient {
       if (!Array.isArray(batch)) {
         batch = [batch];
       }
-      if (batch.some((event) => isDefined(event.publishedSequenceNumber))) {
+      if (batch.some((event) => isDefined((event as EventDataInternal)._publishedSequenceNumber))) {
         throw new Error(idempotentSomeAlreadyPublished);
       }
       const partitionAssignment = extractPartitionAssignmentFromOptions(options);

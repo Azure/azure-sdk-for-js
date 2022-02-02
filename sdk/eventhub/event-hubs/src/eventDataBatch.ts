@@ -103,14 +103,6 @@ export interface EventDataBatch {
   readonly maxSizeInBytes: number;
 
   /**
-   * The publishing sequence number assigned to the first event in the batch at the time
-   * the batch was successfully published.
-   * If the producer was not configured to apply sequence numbering or if the batch
-   * has not yet been successfully published, the value will be `undefined`.
-   */
-  readonly startingPublishedSequenceNumber?: number;
-
-  /**
    * Adds an event to the batch if permitted by the batch's size limit.
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
@@ -130,7 +122,7 @@ export interface EventDataBatch {
   _generateMessage(publishingProps?: PartitionPublishingProperties): Buffer;
 
   /**
-   * Sets startingPublishSequenceNumber to the pending publish sequence number.
+   * Sets internal _startingPublishSequenceNumber to the pending publish sequence number.
    * @hidden
    */
   _commitPublish(): void;

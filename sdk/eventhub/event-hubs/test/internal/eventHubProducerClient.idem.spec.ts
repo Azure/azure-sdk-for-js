@@ -10,6 +10,8 @@ const should = chai.should();
 import { createMockServer } from "../public/utils/mockService";
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { EventDataInternal } from "../../src/eventData";
+import { EventDataBatchImpl } from "../../src/eventDataBatch";
 
 // _enableIdempotentPartitions and _partitionOptions are private properties in
 // EventHubProducerClient. They are intended to used internally by
@@ -502,7 +504,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           batch.tryAdd({ body: 1 });
           batch.tryAdd({ body: 2 });
           should.not.exist(
-            batch.startingPublishedSequenceNumber,
+            (batch as EventDataBatchImpl).startingPublishedSequenceNumber,
             "startingPublishedSequenceNumber should not exist before batch is successfully sent."
           );
 
@@ -512,7 +514,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           await producerClient.sendBatch(batch);
           should.equal(
-            batch.startingPublishedSequenceNumber,
+            (batch as EventDataBatchImpl).startingPublishedSequenceNumber,
             publishingProps.lastPublishedSequenceNumber! + 1,
             "startingPublishedSequenceNumber should be 1 higher than the lastPublishedSequenceNumber."
           );
@@ -532,7 +534,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             body: 2,
           });
           should.not.exist(
-            batch.startingPublishedSequenceNumber,
+            (batch as EventDataBatchImpl).startingPublishedSequenceNumber,
             "startingPublishedSequenceNumber should not exist before batch is successfully sent."
           );
 
@@ -548,7 +550,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           } catch (err) {
             should.not.equal(err.message, TEST_FAILURE);
             should.not.exist(
-              batch.startingPublishedSequenceNumber,
+              (batch as EventDataBatchImpl).startingPublishedSequenceNumber,
               "startingPublishedSequenceNumber should not exist if batch failed to send."
             );
           }
@@ -561,7 +563,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           const events: EventData[] = [{ body: 1 }, { body: 2 }];
           for (const event of events) {
             should.not.exist(
-              event.publishedSequenceNumber,
+              (event as EventDataInternal)._publishedSequenceNumber,
               "publishedSequenceNumber should not exist before event is successfully sent."
             );
           }
@@ -575,11 +577,11 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           for (let i = 0; i < events.length; i++) {
             const event = events[i];
             should.exist(
-              event.publishedSequenceNumber,
+              (event as EventDataInternal)._publishedSequenceNumber,
               "publishedSequenceNumber should exist after event is successfully sent."
             );
             should.equal(
-              event.publishedSequenceNumber,
+              (event as EventDataInternal)._publishedSequenceNumber,
               publishingProps.lastPublishedSequenceNumber! + (i + 1),
               "publishedSequenceNumber was not the expected result."
             );
@@ -600,7 +602,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           ];
           for (const event of events) {
             should.not.exist(
-              event.publishedSequenceNumber,
+              (event as EventDataInternal)._publishedSequenceNumber,
               "publishedSequenceNumber should not exist before event is successfully sent."
             );
           }
@@ -621,7 +623,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             should.not.equal(err.message, TEST_FAILURE);
             for (const event of events) {
               should.not.exist(
-                event.publishedSequenceNumber,
+                (event as EventDataInternal)._publishedSequenceNumber,
                 "publishedSequenceNumber should not exist before event is successfully sent."
               );
             }

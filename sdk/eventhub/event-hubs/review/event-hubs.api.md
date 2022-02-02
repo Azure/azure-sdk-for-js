@@ -80,7 +80,6 @@ export interface EventData {
     properties?: {
         [key: string]: any;
     };
-    readonly publishedSequenceNumber?: number;
 }
 
 // @public
@@ -90,7 +89,6 @@ export interface EventDataAdapterParameters {
     properties?: {
         [key: string]: any;
     };
-    readonly publishedSequenceNumber?: number;
 }
 
 // @public
@@ -106,7 +104,6 @@ export interface EventDataBatch {
     // @internal
     readonly partitionKey?: string;
     readonly sizeInBytes: number;
-    readonly startingPublishedSequenceNumber?: number;
     tryAdd(eventData: EventData | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
 }
 

@@ -154,7 +154,7 @@ export interface EventDataInternal {
    * The sequence number the event was published with
    * when idempotent partitions are enabled.
    */
-  publishedSequenceNumber?: number;
+  _publishedSequenceNumber?: number;
 }
 
 const messagePropertiesMap = {
@@ -376,11 +376,6 @@ export interface EventData {
   properties?: {
     [key: string]: any;
   };
-  /**
-   * The sequence number the event was published with
-   * when idempotent partitions are enabled.
-   */
-  readonly publishedSequenceNumber?: number;
 }
 
 /**
@@ -559,7 +554,7 @@ export function commitIdempotentSequenceNumbers(
     // For each event, set the `publishedSequenceNumber` equal to the sequence number
     // we set when we attempted to send the events to the service.
     for (const event of events) {
-      event.publishedSequenceNumber = event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+      event._publishedSequenceNumber = event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
       delete event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
     }
   }
