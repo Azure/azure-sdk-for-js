@@ -96,7 +96,7 @@ describe("ChatThreadClient", function () {
   });
 
   it("successfully lists messages one by one and by page", async function () {
-    if (isPlaybackMode()){
+    if (isPlaybackMode()) {
       this.skip();
     }
 
