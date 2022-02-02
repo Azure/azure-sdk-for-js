@@ -4,21 +4,6 @@
 
 ### Features Added
 
-- Add support for enabling idempotent partitions using `EventHubBufferedProducerClient`.
-
-  - `EventHubBufferedProducerClientOptions` has been updated with two new fields: `enableIdempotentPartitions`, and `partitionOptions`.
-
-    __enableIdempotentPartitions__ is a boolean that can be used to turn on idempotent publishing. When using idempotent publishing, events must be sent to a specific partition.
-
-    __partitionOptions__ is a mapping of partitionIds to the idempotent publishing options to set when creating a sender. This is meant for advanced use-cases and is provided as a way to save idempotent state. For example, a user could take the output from `client.getPartitionPublishingProperties(partitionId)` and pass the necessary fields to `partitionOptions` in a new `EventHubBufferedProducerClient`. (Similar in concept to how we can create LRO pollers from serialized state.)
-
-  - `EventHubBufferedProducerClient.getPartitionPublishingProperties(partitionId)` is added to return information about the current state of publishing for a given partition.
-This method is available for advanced use-cases to get at the idempotent state for a partition.
-
-- Added `EventDataBatch.startingPublishedSequenceNumber`. It is the idempotent producer sequence number assigned to the 1st event in the `EventDataBatch`. This field is only populated after the `EventDataBatch` has been successfully sent.
-
-- Added `EventData.publishedSequenceNumber`. It is the idempotent producer sequence number assigned to the event after it has successfully been sent. Note that `EventData` added to an `EventDataBatch` do not have this field populated, only `EventData` passed directly to `sendBatch`.
-
 ### Breaking Changes
 
 ### Bugs Fixed
