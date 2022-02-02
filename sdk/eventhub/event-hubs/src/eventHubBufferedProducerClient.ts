@@ -7,7 +7,6 @@ import {
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  PartitionPublishingOptions,
   PartitionPublishingProperties,
   SendBatchOptions,
 } from "./models/public";
@@ -85,12 +84,6 @@ export interface EventHubBufferedProducerClientOptions extends EventHubClientOpt
    * Default: false
    */
   enableIdempotentPartitions?: boolean;
-  /**
-   * The set of options that can be specified to influence publishing behavior specific to the configured Event Hub partition.
-   * These options are not necessary in the majority of scenarios and are intended for use with specialized scenarios,
-   * such as when recovering the state used for idempotent publishing.
-   */
-  partitionOptions?: Record<string, PartitionPublishingOptions>;
 }
 
 /**
@@ -288,10 +281,9 @@ export class EventHubBufferedProducerClient {
       this._clientOptions = { ...options4! };
     }
 
-    // setting internal idempotent publishing options on the standard producer.
+    // setting internal idempotent publishing option on the standard producer.
     (this._producer as any)._enableIdempotentPartitions =
       this._clientOptions.enableIdempotentPartitions;
-    (this._producer as any)._partitionOptions = this._clientOptions.partitionOptions;
   }
 
   /**

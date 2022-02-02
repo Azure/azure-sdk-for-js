@@ -238,26 +238,16 @@ testWithServiceTypes((serviceVersion) => {
 
       it("passes idempotent publish options to internal producer", async () => {
         const results: Result[] = [];
-        const partitionOptions = {
-          "0": {
-            ownerLevel: 1,
-            producerGroupId: 2,
-            startingSequenceNumber: 3,
-          },
-        };
-
         client = new EventHubBufferedProducerClient(connectionString, eventHubName, {
           async onSendEventsErrorHandler(context) {
             results.push({ type: "error", context });
           },
           enableIdempotentPartitions: true,
-          partitionOptions,
         });
 
         const internalProducer = (client as any)._producer;
         assert.ok(internalProducer, "Expecting internal standard producer to be valid");
         assert.equal(internalProducer._enableIdempotentPartitions, true);
-        assert.deepStrictEqual(internalProducer._partitionOptions, partitionOptions);
       });
     });
   });

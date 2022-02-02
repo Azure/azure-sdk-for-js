@@ -90,17 +90,15 @@ export interface EventDataAdapterParameters {
     properties?: {
         [key: string]: any;
     };
+    readonly publishedSequenceNumber?: number;
 }
 
 // @public
 export interface EventDataBatch {
-    // @internal
     _commitPublish(): void;
     readonly count: number;
-    // @internal
     _generateMessage(publishingProps?: PartitionPublishingProperties): Buffer;
     readonly maxSizeInBytes: number;
-    // @internal
     readonly _messageSpanContexts: SpanContext[];
     // @internal
     readonly partitionId?: string;
@@ -135,7 +133,6 @@ export interface EventHubBufferedProducerClientOptions extends EventHubClientOpt
     maxWaitTimeInMs?: number;
     onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => Promise<void>;
     onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => Promise<void>;
-    partitionOptions?: Record<string, PartitionPublishingOptions>;
 }
 
 // @public
@@ -194,10 +191,6 @@ export class EventHubProducerClient {
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     sendBatch(batch: EventData[] | AmqpAnnotatedMessage[], options?: SendBatchOptions): Promise<void>;
     sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
-}
-
-// @public
-export interface EventHubProducerClientOptions extends EventHubClientOptions {
 }
 
 // @public
