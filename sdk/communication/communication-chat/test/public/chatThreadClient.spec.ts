@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/* eslint-disable @typescript-eslint/no-invalid-this */
 
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
