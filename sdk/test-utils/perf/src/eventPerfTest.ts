@@ -11,14 +11,14 @@ import { isDefined } from "./utils";
  */
 export abstract class EventPerfTest<
   TOptions = Record<string, unknown>
-> extends PerfTestBase<TOptions> {
-  start = process.hrtime();
+  > extends PerfTestBase<TOptions> {
+  start: [number, number]; // process.hrtime()
   private testDuration = 0;
   private abortController: AbortController | undefined;
 
   constructor() {
     super();
-    this.start = process.hrtime();
+    this.start = [0, 0];
     this.completedOperations = 0;
     this.lastMillisecondsElapsed = 0;
   }
