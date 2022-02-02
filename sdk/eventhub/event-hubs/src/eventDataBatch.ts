@@ -125,20 +125,20 @@ export interface EventDataBatch {
    * Used internally by the `sendBatch()` method on the `EventHubProducerClient`.
    * This is not meant for the user to use directly.
    *
-   * @internal
+   * @hidden
    */
   _generateMessage(publishingProps?: PartitionPublishingProperties): Buffer;
 
   /**
    * Sets startingPublishSequenceNumber to the pending publish sequence number.
-   * @internal
+   * @hidden
    */
   _commitPublish(): void;
 
   /**
    * Gets the "message" span contexts that were created when adding events to the batch.
    * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
-   * @internal
+   * @hidden
    */
   readonly _messageSpanContexts: SpanContext[];
 }
