@@ -121,7 +121,6 @@ export class EventHubBufferedProducerClient {
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
     getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
-    getPartitionPublishingProperties(partitionId: string, options?: OperationOptions): Promise<PartitionPublishingProperties>;
 }
 
 // @public
