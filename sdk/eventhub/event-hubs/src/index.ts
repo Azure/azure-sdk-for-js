@@ -10,7 +10,6 @@ export { OperationOptions } from "./util/operationOptions";
 export {
   EventHubClientOptions,
   EventHubConsumerClientOptions,
-  EventHubProducerClientOptions,
   LoadBalancingOptions,
   SendBatchOptions,
   CreateBatchOptions,
