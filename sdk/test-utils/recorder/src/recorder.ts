@@ -233,7 +233,7 @@ export class Recorder {
    * 
    * Note: Client Options must have "additionalPolicies" as part of the options.
    */
-  public configureClientOptions<T extends { additionalPolicies?: AdditionalPolicyConfig[] } & Record<string, unknown>>(options: T): T {
+  public configureClientOptions<T>(options: T & { additionalPolicies?: AdditionalPolicyConfig[] }): T & { additionalPolicies?: AdditionalPolicyConfig[] } {
     if (isLiveMode()) return options;
     if (!options.additionalPolicies) options.additionalPolicies = [];
     options.additionalPolicies.push({
@@ -249,10 +249,12 @@ export class Recorder {
    * Helps in redirecting the requests to the proxy tool instead of directly going to the service.
    */
   public configureClientOptionsCoreV1<
-    T extends {
-      httpClient?: HttpClientCoreV1;
-    } & Record<string, unknown>
-  >(options: T): T {
+    T
+  >(options: T & {
+    httpClient?: HttpClientCoreV1;
+  }): T & {
+    httpClient?: HttpClientCoreV1;
+  } {
     if (isLiveMode()) return options;
     return { ...options, httpClient: once(() => this.createHttpClientCoreV1())() };
   }

@@ -100,7 +100,10 @@ export function createRecordedClient(
     );
     return attClient;
   }
-  const attClient = new AttestationClient(getAttestationUri(endpointType), recorder.configureClientOptions(options));
+  const attClient = new AttestationClient(
+    getAttestationUri(endpointType),
+    recorder.configureClientOptions(options)
+  );
   return attClient;
 }
 
