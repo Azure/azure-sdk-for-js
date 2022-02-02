@@ -9,15 +9,18 @@ export interface Event {
 
 export interface SubscribeOptions {
   /**
-   * The maximum number of concurrent calls that the library
-   * can make to the user's event handler.
-   * - **Default**: `1`.
+   * The maximum number of partitions to receive from.
+   * - **Default**: `12`.
    */
-  maxConcurrentCalls?: number;
+  partitions?: number;
   /**
    * Raises the error after the specified time.
    */
   raiseErrorAfterInSeconds: number;
+  /**
+   * Max number of events a batch can have.
+   */
+  maxBatchSize: number
 }
 
 /**
@@ -27,25 +30,27 @@ export interface EventHandlers {
   /**
    * Handler that processes event.
    */
-  processEvent(event: Event): Promise<void>;
+  processEvents(event: Event[], context: { partitionId: number }): Promise<void>;
   /**
    * Handler that processes errors that occur during receiving.
    */
   processError(err: Error): Promise<void>;
 }
 
-export class MockEventReceiver {
+export class MockEventReceiver2 {
   private closeCalled: boolean;
-  private maxConcurrentCalls: number;
+  private partitions: number;
   private minDelay: number; // min delay between events in milliseconds
   private maxDelay: number;
   private timers: NodeJS.Timeout[];
+  private maxBatchSize: number;
 
   constructor() {
     this.closeCalled = false;
-    this.maxConcurrentCalls = 12;
+    this.partitions = 12;
     this.minDelay = 5;
     this.maxDelay = 10;
+    this.maxBatchSize = 10;
     this.timers = [];
   }
 
@@ -64,10 +69,10 @@ export class MockEventReceiver {
   }
 
   private async internalSubscribe(handlers: EventHandlers, options?: SubscribeOptions) {
-    this.maxConcurrentCalls = options?.maxConcurrentCalls || this.maxConcurrentCalls;
+    this.partitions = options?.partitions || this.partitions;
     const promises = [];
-    for (let i = 0; i < this.maxConcurrentCalls; i++) {
-      promises.push(this.concurrentCall(handlers.processEvent));
+    for (let i = 0; i < this.partitions; i++) {
+      promises.push(this.handlePartition(handlers.processEvents, i));
     }
     if (options?.raiseErrorAfterInSeconds) {
       promises.push(
@@ -80,10 +85,13 @@ export class MockEventReceiver {
     await Promise.all(promises);
   }
 
-  private async concurrentCall(processEvent: (event: Event) => Promise<void>) {
+  private async handlePartition(processEvents: (events: Event[], context: { partitionId: number }) => Promise<void>, partitionId: number) {
     while (this.closeCalled === false) {
+      let numberOfEvents = this.getRandomInteger(1, this.maxBatchSize);
+      const events: Event[] = [];
+      while (numberOfEvents--) events.push({ body: generateUuid() })
       await this.processFuncWithDelay(
-        async () => processEvent({ body: generateUuid() }),
+        async () => processEvents(events, { partitionId }),
         this.getRandomInteger(this.minDelay, this.maxDelay)
       );
     }
