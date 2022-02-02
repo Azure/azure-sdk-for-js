@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { matrix } from "@azure/test-utils";
-import { isLiveMode, isPlaybackMode, env, record, Recorder } from "@azure-tools/test-recorder";
+import { env, isLiveMode, isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 import {
   CallingServerClient,
   GroupCallLocator,
@@ -203,18 +203,6 @@ describe("Server Call Live Test", function() {
       }
     }).timeout(0);
 
-    it("Delete recording file", async function(this: Context) {
-      this.timeout(0);
-      if (isLiveMode() || isPlaybackMode()) {
-        this.skip();
-      }
-      try {
-        await callingServerClient.deleteRecording(Constants.DeleteUrl);
-      } catch (e) {
-        console.log(e);
-      }
-    }).timeout(0);
-
     it("Delete recordingContentNotExist", async function(this: Context) {
       this.timeout(0);
       try {
@@ -306,9 +294,7 @@ describe("Server Call Live Test", function() {
       connections = await TestUtils.createCallConnections(callingServer, groupId, fromUser, toUser);
       try {
         const callLocator: GroupCallLocator = { groupCallId: groupId };
-        const added_participant_id = TestUtils.getFixedUserId(
-          "0000000f-3adc-c3b2-290c-113a0d00ad92"
-        );
+        const added_participant_id = TestUtils.getFixedUserId(env.PARTICIPANT_GUID);
         const participant: CommunicationUserIdentifier = {
           communicationUserId: added_participant_id
         };

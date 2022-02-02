@@ -31,10 +31,11 @@ describe("Delete Live Tests", function() {
   const url = "https://endpoint/v1/objects/0-wus-d6-fdf8ff0fdcd668bca8c52c0b1ee79b05";
   const invalidUrl = "https://endpoint/v1/objects/0-wus-d4-ca4017a32f8514aa9f054f0917270000";
 
-  const callingServerServiceClient = new CallingServerClient(
-    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ||
-      "endpoint=https://endpoint/;accesskey=banana"
-  );
+  const connectionString =
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ||
+    "endpoint=https://endpoint/;accesskey=banana";
+
+  const callingServerServiceClient = new CallingServerClient(connectionString);
 
   beforeEach(async function(this: Context) {
     recorder = record(this, environmentSetup);
@@ -47,12 +48,21 @@ describe("Delete Live Tests", function() {
   });
 
   it("delete", async function(this: Context) {
-    if (!isPlaybackMode()) {
+    let domainName = "us-storage.asm.skype.com";
+    if (isPlaybackMode()) {
+      domainName = "endpoint";
+    } else {
       this.skip();
     }
+    try {
+      const deleteUrl =
+        "https://" + domainName + "/v1/objects/0-wus-d8-9c3c0c769f74d4bb8f8c6af86257dec2";
 
-    const result = await callingServerServiceClient.deleteRecording(url);
-    assert.equal(200, result._response.status);
+      const result = await callingServerServiceClient.deleteRecording(deleteUrl);
+      assert.equal(200, result._response.status);
+    } catch (e) {
+      console.log(e);
+    }
   });
 
   it("unauthorized delete", async function(this: Context) {

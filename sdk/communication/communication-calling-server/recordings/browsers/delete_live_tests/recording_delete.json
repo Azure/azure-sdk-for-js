@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://endpoint/v1/objects/0-wus-d6-fdf8ff0fdcd668bca8c52c0b1ee79b05",
+   "url": "https://endpoint/v1/objects/0-wus-d8-9c3c0c769f74d4bb8f8c6af86257dec2",
    "query": {},
    "requestBody": null,
    "status": 200,
