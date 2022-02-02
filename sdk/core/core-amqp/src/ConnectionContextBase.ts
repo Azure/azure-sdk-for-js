@@ -110,6 +110,8 @@ export interface CreateConnectionContextBaseParameters {
   operationTimeoutInMs?: number;
 }
 
+const maxListenerLimit = 1000;
+
 class CoreAmqpConnection extends Connection {
   /**
    * Creates an amqp sender link. Max listener limit on the sender is set to 1000 because the
@@ -119,7 +121,7 @@ class CoreAmqpConnection extends Connection {
    */
   async createSender(options?: CreateSenderOptions): Promise<Sender> {
     const sender = await super.createSender(options);
-    sender.setMaxListeners(1000);
+    sender.setMaxListeners(maxListenerLimit);
     return sender;
   }
 
@@ -138,7 +140,7 @@ class CoreAmqpConnection extends Connection {
    */
   async createAwaitableSender(options?: CreateAwaitableSenderOptions): Promise<AwaitableSender> {
     const sender = await super.createAwaitableSender(options);
-    sender.setMaxListeners(1000);
+    sender.setMaxListeners(maxListenerLimit);
     return sender;
   }
 
@@ -150,7 +152,7 @@ class CoreAmqpConnection extends Connection {
    */
   async createReceiver(options?: CreateReceiverOptions): Promise<Receiver> {
     const receiver = await super.createReceiver(options);
-    receiver.setMaxListeners(1000);
+    receiver.setMaxListeners(maxListenerLimit);
     return receiver;
   }
 }
