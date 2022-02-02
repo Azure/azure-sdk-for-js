@@ -3,10 +3,12 @@
 
 import { EnvVarKeys, getEnvVars, getStartingPositionsForTests } from "./utils/testUtils";
 import {
+  CloseReason,
   EventData,
   EventHubConsumerClient,
   EventHubProducerClient,
   EventPosition,
+  PartitionContext,
   ReceivedEventData,
   Subscription,
 } from "../../src";
@@ -91,6 +93,13 @@ testWithServiceTypes((serviceVersion) => {
       return new Promise<ReceivedEventData>((resolve, reject) => {
         const subscription: Subscription = consumerClient.subscribe(
           {
+            async processInitialize(ctx: PartitionContext) {
+              console.log(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX init : ${JSON.stringify(ctx)}`);
+            },
+            async processClose(reason: CloseReason, ctx: PartitionContext) {
+              console.log(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX close : ${JSON.stringify(reason)}`);
+              console.log(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX close : ${JSON.stringify(ctx)}`);
+            },
             async processError(err) {
               reject(err);
               return subscription.close();
@@ -112,7 +121,7 @@ testWithServiceTypes((serviceVersion) => {
     describe.only("round-tripping AMQP encoding/decoding", () => {
       it(`props`, async () => {
         const startingPositions = await getStartingPositionsForTests(consumerClient);
-        console.log(`XXXXXXXXXXXXXXXXXX: startingPositions=${startingPositions}`)
+        console.log(`XXXXXXXXXXXXXXXXXX: startingPositions=${JSON.stringify(startingPositions)}`)
         const testEvent = getSampleEventData();
         await producerClient.sendBatch([testEvent]);
 
