@@ -112,6 +112,7 @@ testWithServiceTypes((serviceVersion) => {
     describe.only("round-tripping AMQP encoding/decoding", () => {
       it(`props`, async () => {
         const startingPositions = await getStartingPositionsForTests(consumerClient);
+        console.log(`XXXXXXXXXXXXXXXXXX: startingPositions=${startingPositions}`)
         const testEvent = getSampleEventData();
         await producerClient.sendBatch([testEvent]);
 
