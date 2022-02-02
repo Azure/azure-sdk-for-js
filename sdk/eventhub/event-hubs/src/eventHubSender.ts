@@ -523,7 +523,6 @@ export class EventHubSender extends LinkEntity {
           this.name,
           options
         );
-        sender.setMaxListeners(1000);
 
         // It is possible for someone to close the sender and then start it again.
         // Thus make sure that the sender is present in the client cache.
