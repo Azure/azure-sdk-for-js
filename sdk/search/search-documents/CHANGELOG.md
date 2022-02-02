@@ -4,9 +4,7 @@
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Added new type of SearchIndexer skill - `AzureMachineLearningSkill`. Please refer [#20183](https://github.com/Azure/azure-sdk-for-js/pull/20183) for further details.
 
 ### Other Changes
 
