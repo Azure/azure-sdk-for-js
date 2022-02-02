@@ -2,13 +2,13 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3AcCLHo-V9uDiy0IzYBb21tiuMCwY-0ROnlxdAeeCaSgM1%40thread.v2/readReceipts",
+   "url": "https://endpoint/chat/threads/19%3AVtO5uCbcebTvbGm71-4-9IcOk7oHVE6U1kAdJqE6Hro1%40thread.v2/readReceipts",
    "query": {
     "api-version": "2021-09-07"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"senderCommunicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-576f-86e8-0d8b-08482200c9d4\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-576f-86e8-0d8b-08482200c9d4\"}},\"chatMessageId\":\"1643757037742\",\"readOn\":\"2022-02-01T23:10:38Z\"}]}",
+   "response": "{\"value\":[{\"senderCommunicationIdentifier\":{\"rawId\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-579c-4f86-99c6-593a0d00e543\",\"communicationUser\":{\"id\":\"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-579c-4f86-99c6-593a0d00e543\"}},\"chatMessageId\":\"1643759972768\",\"readOn\":\"2022-02-01T23:59:33Z\"}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }

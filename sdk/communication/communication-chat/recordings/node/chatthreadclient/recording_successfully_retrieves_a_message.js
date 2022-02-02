@@ -5,15 +5,15 @@ module.exports.hash = "3834d1c4cc3814113d869d38eaba2554";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/chat/threads/19%3AR3ghv0Je1o0E5kNDZCvq3gMbtXC5nKOabojL-zYubCI1%40thread.v2/messages/1643757023943')
+  .get('/chat/threads/19%3An_H9uIjLqmROnaakf1aaclqRHTM7sclYSTv4_q_g7E41%40thread.v2/messages/1643759961771')
   .query(true)
-  .reply(200, {"id":"1643757023943","type":"text","sequenceId":"4","version":"1643757023943","content":{"message":"content"},"senderDisplayName":"","createdOn":"2022-02-01T23:10:23Z","senderCommunicationIdentifier":{"rawId":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-576f-51c2-99c6-593a0d00e2ab","communicationUser":{"id":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-576f-51c2-99c6-593a0d00e2ab"}},"metadata":{"tags":"sometag"}}, [
+  .reply(200, {"id":"1643759961771","type":"text","sequenceId":"4","version":"1643759961771","content":{"message":"content"},"senderDisplayName":"","createdOn":"2022-02-01T23:59:21Z","senderCommunicationIdentifier":{"rawId":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-579c-253d-e3c7-593a0d00db92","communicationUser":{"id":"8:acs:fa5c4fc3-a269-43e2-9eb6-0ca17b388993_0000000f-579c-253d-e3c7-593a0d00db92"}},"metadata":{"tags":"sometag"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'MS-CV',
-  'spYTSCMWJ0uPDclia+lHqA.0',
+  'FjXZ7PMWc0WUdNpZw3vhzQ.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'api-supported-versions',
@@ -23,7 +23,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '04L35YQAAAABfmLjB2zDkRqi5XWCHflr8UERYMzFFREdFMDIxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0Wsn5YQAAAAAvhSZ77jEeQ5BL4Vln7WagUERYMzFFREdFMDIxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 01 Feb 2022 23:10:24 GMT'
+  'Tue, 01 Feb 2022 23:59:21 GMT'
 ]);

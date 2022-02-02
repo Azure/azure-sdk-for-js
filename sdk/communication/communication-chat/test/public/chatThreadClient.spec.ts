@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { ChatClient, ChatThreadClient, ChatMessage } from "../../src";
 import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
@@ -95,6 +95,10 @@ describe("ChatThreadClient", function () {
   });
 
   it("successfully lists messages one by one and by page", async function () {
+    if (isPlaybackMode()){
+      this.skip();
+    }
+
     const receivedItems: ChatMessage[] = [];
     for await (const message of chatThreadClient.listMessages()) {
       receivedItems.push(message);
