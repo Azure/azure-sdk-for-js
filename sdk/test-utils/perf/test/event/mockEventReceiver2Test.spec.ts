@@ -21,7 +21,7 @@ export class MockEventReceiver2Test extends EventPerfTest {
         processEvents: async (_events: Event[], _context: { partitionId: number }) => {
           for (const _event of _events) {
             await this.eventRaised();
-            console.log(_event.body, _context.partitionId)
+            console.log(_event.body, _context.partitionId);
           }
         },
         processError: async (error: Error) => {

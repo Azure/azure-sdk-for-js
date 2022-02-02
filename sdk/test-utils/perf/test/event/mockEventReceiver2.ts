@@ -20,7 +20,7 @@ export interface SubscribeOptions {
   /**
    * Max number of events a batch can have.
    */
-  maxBatchSize: number
+  maxBatchSize: number;
 }
 
 /**
@@ -85,11 +85,14 @@ export class MockEventReceiver2 {
     await Promise.all(promises);
   }
 
-  private async handlePartition(processEvents: (events: Event[], context: { partitionId: number }) => Promise<void>, partitionId: number) {
+  private async handlePartition(
+    processEvents: (events: Event[], context: { partitionId: number }) => Promise<void>,
+    partitionId: number
+  ) {
     while (this.closeCalled === false) {
       let numberOfEvents = this.getRandomInteger(1, this.maxBatchSize);
       const events: Event[] = [];
-      while (numberOfEvents--) events.push({ body: generateUuid() })
+      while (numberOfEvents--) events.push({ body: generateUuid() });
       await this.processFuncWithDelay(
         async () => processEvents(events, { partitionId }),
         this.getRandomInteger(this.minDelay, this.maxDelay)

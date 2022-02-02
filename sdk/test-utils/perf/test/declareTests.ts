@@ -37,7 +37,7 @@ const tests: TestDefinition[] = [
     options: "--url http://bing.com/",
   },
   MockEventReceiverTest,
-  MockEventReceiver2Test
+  MockEventReceiver2Test,
 ];
 
 // Normalize everything in the array above for export.
