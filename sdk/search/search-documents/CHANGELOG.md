@@ -1,6 +1,6 @@
 # Release History
 
-## 11.3.0-beta.6 (Unreleased)
+## 11.3.0-beta.6 (2022-02-08)
 
 ### Features Added
 
