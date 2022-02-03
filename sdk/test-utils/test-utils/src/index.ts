@@ -9,7 +9,6 @@ export {
   TestFunctionWrapper,
 } from "./multiVersion";
 
-export { chaiAzure } from "./chaiAzure";
 export { chai, assert, chaiAsPromised } from "./chai";
 export { matrix } from "./matrix";
 export { isNode, isNode8 } from "./utils";
