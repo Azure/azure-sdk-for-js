@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai, { assert } from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
+import { assert } from "@azure/test-utils";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure/test-utils";
 
